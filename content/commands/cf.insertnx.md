@@ -91,12 +91,6 @@ If specified, prevents automatic filter creation if the filter does not exist (I
 This option is mutually exclusive with `CAPACITY`.
 </details>
 
-### Complexity
-
-O(n + i), where n is the number of `sub-filters` and i is `maxIterations`.
-Adding items requires up to 2 memory accesses per `sub-filter`.
-But as the filter fills up, both locations for an item might be full. The filter attempts to `Cuckoo` swap items up to `maxIterations` times.
-
 ## Examples
 
 {{< highlight bash >}}
@@ -116,6 +110,14 @@ redis> CF.INSERTNX cf CAPACITY 1000 ITEMS item1 item2 item3
 redis> CF.INSERTNX cf_new CAPACITY 1000 NOCREATE ITEMS item1 item2 
 (error) ERR not found
 {{< / highlight >}}
+
+## Details
+
+### Complexity
+
+O(n + i), where n is the number of `sub-filters` and i is `maxIterations`.
+Adding items requires up to 2 memory accesses per `sub-filter`.
+But as the filter fills up, both locations for an item might be full. The filter attempts to `Cuckoo` swap items up to `maxIterations` times.
 
 ## Redis Software and Redis Cloud compatibility
 

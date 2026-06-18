@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/streaming/stackexchange.redis
 categories:
 - docs
 - develop

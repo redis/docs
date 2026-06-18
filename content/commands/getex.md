@@ -76,15 +76,47 @@ title: GETEX
 Get the value of `key` and optionally set its expiration.
 `GETEX` is similar to [`GET`]({{< relref "/commands/get" >}}), but is a write command with additional options.
 
-## Options
+## Required arguments
 
-The `GETEX` command supports a set of options that modify its behavior:
+<details open><summary><code>key</code></summary>
 
-* `EX` *seconds* -- Set the specified expire time, in seconds.
-* `PX` *milliseconds* -- Set the specified expire time, in milliseconds.
-* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds.
-* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds.
-* [`PERSIST`]({{< relref "/commands/persist" >}}) -- Remove the time to live associated with the key.
+The name of the key to retrieve.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. They are mutually exclusive.
+
+<details open><summary><code>EX seconds</code></summary>
+
+Set the specified expire time, in seconds.
+
+</details>
+
+<details open><summary><code>PX milliseconds</code></summary>
+
+Set the specified expire time, in milliseconds.
+
+</details>
+
+<details open><summary><code>EXAT unix-time-seconds</code></summary>
+
+Set the specified Unix time at which the key will expire, in seconds.
+
+</details>
+
+<details open><summary><code>PXAT unix-time-milliseconds</code></summary>
+
+Set the specified Unix time at which the key will expire, in milliseconds.
+
+</details>
+
+<details open><summary><code>PERSIST</code></summary>
+
+Remove the time to live associated with the key. See [`PERSIST`]({{< relref "/commands/persist" >}}).
+
+</details>
 
 ## Examples
 

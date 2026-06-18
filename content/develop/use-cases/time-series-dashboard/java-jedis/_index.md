@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/time-series-dashboard/java
+- /develop/use-cases/time-series-dashboard/jedis
 categories:
 - docs
 - develop

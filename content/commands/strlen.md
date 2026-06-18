@@ -48,6 +48,14 @@ title: STRLEN
 Returns the length of the string value stored at `key`.
 An error is returned when `key` holds a non-string value.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

@@ -16,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "https://api.redislabs.com/v1"
+      "url": "https://api.redislabs.com"
     }
   ],
   "security": [
@@ -79,7 +79,7 @@
     }
   ],
   "paths": {
-    "/users/{userId}": {
+    "/v1/users/{userId}": {
       "get": {
         "tags": [
           "Users"
@@ -271,7 +271,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}": {
+    "/v1/subscriptions/{subscriptionId}": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -463,7 +463,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/{TgwId}/attachment": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -694,7 +694,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -768,7 +768,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -842,7 +842,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resource-tags": {
+    "/v1/subscriptions/{subscriptionId}/resource-tags": {
       "put": {
         "tags": [
           "Subscriptions - Pro"
@@ -916,7 +916,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/{TgwId}/attachment": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1180,7 +1180,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1265,7 +1265,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1461,7 +1461,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/peerings/{peeringId}": {
+    "/v1/subscriptions/{subscriptionId}/regions/peerings/{peeringId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1623,7 +1623,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1799,7 +1799,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/peerings/{peeringId}": {
+    "/v1/subscriptions/{subscriptionId}/peerings/{peeringId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1961,7 +1961,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/maintenance-windows": {
+    "/v1/subscriptions/{subscriptionId}/maintenance-windows": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -2091,7 +2091,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -2332,7 +2332,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -2567,7 +2567,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
       "put": {
         "tags": [
           "Databases - Pro"
@@ -2742,7 +2742,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/regions": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/regions": {
       "put": {
         "tags": [
           "Databases - Pro"
@@ -2846,7 +2846,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/flush": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/flush": {
       "put": {
         "tags": [
           "Databases - Pro"
@@ -2930,7 +2930,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/cidr": {
+    "/v1/subscriptions/{subscriptionId}/cidr": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -3060,7 +3060,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -3145,7 +3145,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}": {
+    "/v1/fixed/subscriptions/{subscriptionId}": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -3336,7 +3336,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -3573,7 +3573,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -3808,7 +3808,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
       "put": {
         "tags": [
           "Databases - Essentials"
@@ -3983,7 +3983,7 @@
         }
       }
     },
-    "/cloud-accounts/{cloudAccountId}": {
+    "/v1/cloud-accounts/{cloudAccountId}": {
       "get": {
         "tags": [
           "Cloud Accounts"
@@ -4178,7 +4178,7 @@
         }
       }
     },
-    "/acl/users/{aclUserId}": {
+    "/v1/acl/users/{aclUserId}": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -4371,7 +4371,7 @@
         }
       }
     },
-    "/acl/roles/{aclRoleId}": {
+    "/v1/acl/roles/{aclRoleId}": {
       "put": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -4507,7 +4507,7 @@
         }
       }
     },
-    "/acl/redisRules/{aclRedisRuleId}": {
+    "/v1/acl/redisRules/{aclRedisRuleId}": {
       "put": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -4643,7 +4643,7 @@
         }
       }
     },
-    "/subscriptions": {
+    "/v1/subscriptions": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -4795,7 +4795,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions": {
+    "/v1/subscriptions/{subscriptionId}/regions": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -4997,7 +4997,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5212,7 +5212,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5385,7 +5385,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5613,7 +5613,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/principals": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link/principals": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5784,7 +5784,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/connections/disassociate": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link/connections/disassociate": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5869,7 +5869,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/peerings": {
+    "/v1/subscriptions/{subscriptionId}/regions/peerings": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6012,7 +6012,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6197,7 +6197,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6350,7 +6350,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link": {
+    "/v1/subscriptions/{subscriptionId}/private-link": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6545,7 +6545,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link/principals": {
+    "/v1/subscriptions/{subscriptionId}/private-link/principals": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6694,7 +6694,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link/connections/disassociate": {
+    "/v1/subscriptions/{subscriptionId}/private-link/connections/disassociate": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6768,7 +6768,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/peerings": {
+    "/v1/subscriptions/{subscriptionId}/peerings": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6912,7 +6912,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases": {
+    "/v1/subscriptions/{subscriptionId}/databases": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7086,7 +7086,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7236,7 +7236,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
       "post": {
         "tags": [
           "Databases - Pro"
@@ -7305,7 +7305,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7455,7 +7455,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7613,7 +7613,7 @@
         }
       }
     },
-    "/fixed/subscriptions": {
+    "/v1/fixed/subscriptions": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -7722,7 +7722,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -7891,7 +7891,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -8041,7 +8041,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
       "post": {
         "tags": [
           "Databases - Essentials"
@@ -8110,7 +8110,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -8260,7 +8260,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -8409,7 +8409,7 @@
         }
       }
     },
-    "/cost-report": {
+    "/v1/cost-report": {
       "post": {
         "tags": [
           "Account"
@@ -8474,7 +8474,7 @@
         }
       }
     },
-    "/cloud-accounts": {
+    "/v1/cloud-accounts": {
       "get": {
         "tags": [
           "Cloud Accounts"
@@ -8583,7 +8583,7 @@
         }
       }
     },
-    "/acl/users": {
+    "/v1/acl/users": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -8692,7 +8692,7 @@
         }
       }
     },
-    "/acl/roles": {
+    "/v1/acl/roles": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -8801,7 +8801,7 @@
         }
       }
     },
-    "/acl/redisRules": {
+    "/v1/acl/redisRules": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -8910,7 +8910,7 @@
         }
       }
     },
-    "/users": {
+    "/v1/users": {
       "get": {
         "tags": [
           "Users"
@@ -8956,7 +8956,7 @@
         }
       }
     },
-    "/tasks": {
+    "/v1/tasks": {
       "get": {
         "tags": [
           "Tasks"
@@ -9002,7 +9002,7 @@
         }
       }
     },
-    "/tasks/{taskId}": {
+    "/v1/tasks/{taskId}": {
       "get": {
         "tags": [
           "Tasks"
@@ -9059,7 +9059,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9117,7 +9117,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/invitations": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/invitations": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9175,7 +9175,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9244,7 +9244,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9313,7 +9313,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9401,7 +9401,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9489,7 +9489,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/endpoint-script": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link/endpoint-script": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9557,7 +9557,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9635,7 +9635,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9713,7 +9713,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link/endpoint-script": {
+    "/v1/subscriptions/{subscriptionId}/private-link/endpoint-script": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9771,7 +9771,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/pricing": {
+    "/v1/subscriptions/{subscriptionId}/pricing": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -9829,7 +9829,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -9899,7 +9899,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -9976,7 +9976,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/certificate": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/certificate": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -10046,7 +10046,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -10114,7 +10114,7 @@
         }
       }
     },
-    "/subscriptions/redis-versions": {
+    "/v1/subscriptions/redis-versions": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -10172,7 +10172,7 @@
         }
       }
     },
-    "/session-logs": {
+    "/v1/session-logs": {
       "get": {
         "tags": [
           "Account"
@@ -10264,7 +10264,7 @@
         }
       }
     },
-    "/regions": {
+    "/v1/regions": {
       "get": {
         "tags": [
           "Account"
@@ -10325,7 +10325,7 @@
         }
       }
     },
-    "/query-performance-factors": {
+    "/v1/query-performance-factors": {
       "get": {
         "tags": [
           "Account"
@@ -10371,7 +10371,7 @@
         }
       }
     },
-    "/payment-methods": {
+    "/v1/payment-methods": {
       "get": {
         "tags": [
           "Account"
@@ -10417,7 +10417,7 @@
         }
       }
     },
-    "/logs": {
+    "/v1/logs": {
       "get": {
         "tags": [
           "Account"
@@ -10520,7 +10520,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -10590,7 +10590,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -10658,7 +10658,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -10726,7 +10726,7 @@
         }
       }
     },
-    "/fixed/redis-versions": {
+    "/v1/fixed/redis-versions": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10784,7 +10784,7 @@
         }
       }
     },
-    "/fixed/plans": {
+    "/v1/fixed/plans": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10855,7 +10855,7 @@
         }
       }
     },
-    "/fixed/plans/{planId}": {
+    "/v1/fixed/plans/{planId}": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10913,7 +10913,7 @@
         }
       }
     },
-    "/fixed/plans/subscriptions/{subscriptionId}": {
+    "/v1/fixed/plans/subscriptions/{subscriptionId}": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10971,7 +10971,7 @@
         }
       }
     },
-    "/database-modules": {
+    "/v1/database-modules": {
       "get": {
         "tags": [
           "Account"
@@ -11017,7 +11017,7 @@
         }
       }
     },
-    "/data-persistence": {
+    "/v1/data-persistence": {
       "get": {
         "tags": [
           "Account"
@@ -11063,7 +11063,7 @@
         }
       }
     },
-    "/cost-report/{costReportId}": {
+    "/v1/cost-report/{costReportId}": {
       "get": {
         "tags": [
           "Account"
@@ -11117,7 +11117,7 @@
         }
       }
     },
-    "/": {
+    "/v1/": {
       "get": {
         "tags": [
           "Account"
@@ -18475,6 +18475,11 @@
             "type": "string",
             "description": "Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account.",
             "example": "sg-0125be68a4625884ad"
+          },
+          "multipleAvailabilityZones": {
+            "type": "boolean",
+            "description": "Optional. Support deployment on multiple availability zones within the selected region. When omitted, defaults to true unless the region is explicitly marked as not supporting multi-AZ.",
+            "example": false
           },
           "preferredAvailabilityZones": {
             "type": "array",

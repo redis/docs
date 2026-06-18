@@ -70,6 +70,14 @@ For more information refer to the [Latency Monitoring Framework page][lm].
 
 [lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
 
+## Optional arguments
+
+<details open><summary><code>event [event ...]</code></summary>
+
+One or more latency events to reset. If omitted, all events are reset.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

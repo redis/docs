@@ -147,6 +147,73 @@ instance or in the other instance, unless a timeout error occurs. In 3.2 and
 above, multiple keys can be pipelined in a single call to `MIGRATE` by passing
 the empty string ("") as key and adding the `KEYS` clause.
 
+
+## Required arguments
+
+<details open><summary><code>host</code></summary>
+
+The hostname or IP address of the destination Redis instance.
+
+</details>
+
+<details open><summary><code>port</code></summary>
+
+The port of the destination Redis instance.
+
+</details>
+
+<details open><summary><code>key | ""</code></summary>
+
+The key to migrate, or an empty string (`""`) when migrating multiple keys with the `KEYS` option.
+
+</details>
+
+<details open><summary><code>destination-db</code></summary>
+
+The database index to migrate the key into on the destination instance.
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum idle time for the transfer, in milliseconds.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COPY</code></summary>
+
+Do not remove the key from the local instance.
+
+</details>
+
+<details open><summary><code>REPLACE</code></summary>
+
+Replace an existing key on the destination instance.
+
+</details>
+
+<details open><summary><code>AUTH password</code></summary>
+
+Authenticate to the destination instance with the given password. `AUTH` and `AUTH2` are mutually exclusive.
+
+</details>
+
+<details open><summary><code>AUTH2 username password</code></summary>
+
+Authenticate to the destination instance with the given username and password (ACL-style auth, Redis 6 or later).
+
+</details>
+
+<details open><summary><code>KEYS key [key ...]</code></summary>
+
+Migrate all the listed keys. Use this when the key argument is an empty string (`""`).
+
+</details>
+
+## Details
+
 The command internally uses [`DUMP`]({{< relref "/commands/dump" >}}) to generate the serialized version of the key
 value, and [`RESTORE`]({{< relref "/commands/restore" >}}) in order to synthesize the key in the target instance.
 The source instance acts as a client for the target instance.
@@ -177,9 +244,10 @@ same name was also _already_ present on the target instance).
 
 If there are no keys to migrate in the source instance `NOKEY` is returned.
 Because missing keys are possible in normal conditions, from expiry for example,
-`NOKEY` isn't an error. 
+`NOKEY` isn't an error.
 
-## Migrating multiple keys with a single command call
+
+### Migrating multiple keys with a single command call
 
 Starting with Redis 3.0.6 `MIGRATE` supports a new bulk-migration mode that
 uses pipelining in order to migrate multiple keys between instances without
@@ -195,14 +263,6 @@ after the `KEYS` argument itself, like in the following example:
 When this form is used the `NOKEY` status code is only returned when none
 of the keys is present in the instance, otherwise the command is executed, even if
 just a single key exists.
-
-## Options
-
-* `COPY` -- Do not remove the key from the local instance.
-* `REPLACE` -- Replace existing key on the remote instance.
-* `KEYS` -- If the key argument is an empty string, the command will instead migrate all the keys that follow the `KEYS` option (see the above section for more info).
-* `AUTH` -- Authenticate with the given password to the remote instance.
-* `AUTH2` -- Authenticate with the given username and password pair (Redis 6 or greater ACL auth style).
 
 ## Redis Software and Redis Cloud compatibility
 

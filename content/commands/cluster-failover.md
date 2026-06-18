@@ -42,69 +42,75 @@ summary: Forces a replica to perform a manual failover of its master.
 syntax_fmt: CLUSTER FAILOVER [FORCE | TAKEOVER]
 title: CLUSTER FAILOVER
 ---
-This command, that can only be sent to a Redis Cluster replica node, forces
-the replica to start a manual failover of its master instance.
+This command, which can only be sent to a Redis Cluster replica node, forces
+the replica to start a manual failover of its primary instance.
 
-A manual failover is a special kind of failover that is usually executed when
-there are no actual failures, but we wish to swap the current master with one
-of its replicas (which is the node we send the command to), in a safe way,
-without any window for data loss. It works in the following way:
+Use a manual failover when you want to replace the current primary with one of its replicas, even though the primary has not failed. Send the command to the replica that you want to promote. Redis Cluster performs the failover safely and avoids data loss by making sure the replica has processed the primary’s full replication stream before it takes over.
 
-1. The replica tells the master to stop processing queries from clients.
-2. The master replies to the replica with the current *replication offset*.
-3. The replica waits for the replication offset to match on its side, to make sure it processed all the data from the master before it continues.
-4. The replica starts a failover, obtains a new configuration epoch from the majority of the masters, and broadcasts the new configuration.
-5. The old master receives the configuration update: unblocks its clients and starts replying with redirection messages so that they'll continue the chat with the new master.
+A manual failover works as follows:
 
-This way clients are moved away from the old master to the new master
-atomically and only when the replica that is turning into the new master
-has processed all of the replication stream from the old master.
+1. The replica tells the primary to stop processing client requests.1. The primary sends its current replication offset to the replica.
+1. The replica waits until it reaches the same replication offset, which confirms that it has processed all data from the primary.
+1. The replica starts the failover, gets a new configuration epoch from a majority of primary nodes, and broadcasts the new configuration.
+1. The old primary receives the configuration update, unblocks its clients, and starts returning redirection messages so clients connect to the new primary.
 
-## FORCE option: manual failover when the master is down
+This process moves clients from the old primary to the new primary only after the new primary has processed the full replication stream.
 
-The command behavior can be modified by two options: **FORCE** and **TAKEOVER**.
+## Optional arguments
 
-If the **FORCE** option is given, the replica does not perform any handshake
-with the master, that may be not reachable, but instead just starts a
-failover ASAP starting from point 4. This is useful when we want to start
-a manual failover while the master is no longer reachable.
+<details open><summary><code>FORCE | TAKEOVER</code></summary>
 
-However using **FORCE** we still need the majority of masters to be available
-in order to authorize the failover and generate a new configuration epoch
-for the replica that is going to become master.
+`FORCE` starts the failover without coordinating with the primary, for use when the primary is unreachable. `TAKEOVER` additionally bypasses the cluster consensus needed to authorize the failover.
 
-## TAKEOVER option: manual failover without cluster consensus
+</details>
 
-There are situations where this is not enough, and we want a replica to failover
+## Details
+
+### Manual failover when the primary is down
+
+The command behavior can be modified by two options: `FORCE` and `TAKEOVER`.
+
+If the `FORCE` option is given, the replica does not perform any handshake
+with the primary, that may be not reachable, but instead just starts a
+failover starting from point 4 above. This is useful when you want to start
+a manual failover while the primray is no longer reachable.
+
+However, using `FORCE` requires that the majority of primaries are available
+to authorize the failover and generate a new configuration epoch
+for the replica that is going to become primary.
+
+### Manual failover without cluster consensus
+
+There are situations where this is not enough, and you want a replica to failover
 without any agreement with the rest of the cluster. A real world use case
-for this is to mass promote replicas in a different data center to masters
-in order to perform a data center switch, while all the masters are down
+for this is to mass promote replicas in a different data center to primaries
+in order to perform a data center switch, while all the primaries are down
 or partitioned away.
 
-The **TAKEOVER** option implies everything **FORCE** implies, but also does
+The `TAKEOVER` option implies everything `FORCE` implies, but also does
 not use any cluster authorization in order to failover. A replica receiving
 `CLUSTER FAILOVER TAKEOVER` will instead:
 
 1. Generate a new `configEpoch` unilaterally, just taking the current greatest epoch available and incrementing it if its local configuration epoch is not already the greatest.
-2. Assign itself all the hash slots of its master, and propagate the new configuration to every node which is reachable ASAP, and eventually to every other node.
+2. Assign itself all the hash slots of its primary, and propagate the new configuration to every node which is reachable ASAP, and eventually to every other node.
 
-Note that **TAKEOVER violates the last-failover-wins principle** of Redis Cluster, since the configuration epoch generated by the replica violates the normal generation of configuration epochs in several ways:
+Note that `TAKEOVER` violates the last-failover-wins principle of Redis Cluster, since the configuration epoch generated by the replica violates the normal generation of configuration epochs in several ways:
 
-1. There is no guarantee that it is actually the higher configuration epoch, since, for example, we can use the **TAKEOVER** option within a minority, nor any message exchange is performed to generate the new configuration epoch.
+1. There is no guarantee that it is actually the higher configuration epoch, since, for example, we can use the `TAKEOVER` option within a minority, nor any message exchange is performed to generate the new configuration epoch.
 2. If we generate a configuration epoch which happens to collide with another instance, eventually our configuration epoch, or the one of another instance with our same epoch, will be moved away using the *configuration epoch collision resolution algorithm*.
 
-Because of this the **TAKEOVER** option should be used with care.
+Because of this the `TAKEOVER` option should be used with care.
 
-## Implementation details and notes
+### Implementation details and notes
 
-* `CLUSTER FAILOVER`, unless the **TAKEOVER** option is specified, does not execute a failover synchronously.
-  It only *schedules* a manual failover, bypassing the failure detection stage.
+* `CLUSTER FAILOVER`, unless the `TAKEOVER` option is specified, does not execute a failover synchronously.
+  It only schedules a manual failover, bypassing the failure detection stage.
 * An `OK` reply is no guarantee that the failover will succeed.
-* A replica can only be promoted to a master if it is known as a replica by a majority of the masters in the cluster.
-  If the replica is a new node that has just been added to the cluster (for example after upgrading it), it may not yet be known to all the masters in the cluster.
-  To check that the masters are aware of a new replica, you can send [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) or [`CLUSTER REPLICAS`]({{< relref "/commands/cluster-replicas" >}}) to each of the master nodes and check that it appears as a replica, before sending `CLUSTER FAILOVER` to the replica.
+* A replica can only be promoted to a primary if it is known as a replica by a majority of the primaries in the cluster.
+  If the replica is a new node that has just been added to the cluster (for example after upgrading it), it may not yet be known to all the primaries in the cluster.
+  To check that the primaries are aware of a new replica, you can send [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) or [`CLUSTER REPLICAS`]({{< relref "/commands/cluster-replicas" >}}) to each of the primary nodes and check that it appears as a replica, before sending `CLUSTER FAILOVER` to the replica.
 * To check that the failover has actually happened you can use [`ROLE`]({{< relref "/commands/role" >}}), `INFO REPLICATION` (which indicates "role:master" after successful failover), or [`CLUSTER NODES`]({{< relref "/commands/cluster-nodes" >}}) to verify that the state of the cluster has changed sometime after the command was sent.
-* To check if the failover has failed, check the replica's log for "Manual failover timed out", which is logged if the replica has given up after a few seconds.
+* To check if the failover has failed, check the replica's log for `Manual failover timed out`, which is logged if the replica has given up after a few seconds.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -118,10 +124,10 @@ Because of this the **TAKEOVER** option should be used with care.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was accepted and a manual failover is going to be attempted. An error if the operation cannot be executed, for example if the client is connected to a node that is already a master.
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was accepted and a manual failover is going to be attempted. An error if the operation cannot be executed, for example if the client is connected to a node that is already a primary.
 
 -tab-sep-
 
-[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was accepted and a manual failover is going to be attempted. An error if the operation cannot be executed, for example if the client is connected to a node that is already a master.
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was accepted and a manual failover is going to be attempted. An error if the operation cannot be executed, for example if the client is connected to a node that is already a primary.
 
 {{< /multitabs >}}

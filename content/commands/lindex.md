@@ -58,6 +58,20 @@ Here, `-1` means the last element, `-2` means the penultimate and so forth.
 
 When the value at `key` is not a list, an error is returned.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>index</code></summary>
+
+The zero-based index of the element to return. Negative indexes count from the tail (`-1` is the last element).
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

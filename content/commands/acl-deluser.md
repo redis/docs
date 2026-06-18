@@ -44,6 +44,14 @@ removed from the system, this is the default user that every new connection
 is authenticated with. The list of users may include usernames that do not
 exist, in such case no operation is performed for the non existing users.
 
+## Required arguments
+
+<details open><summary><code>username [username ...]</code></summary>
+
+One or more usernames to delete.
+
+</details>
+
 ## Examples
 
 ```

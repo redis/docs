@@ -37,15 +37,17 @@ title: SCRIPT EXISTS
 ---
 Returns information about the existence of the scripts in the script cache.
 
-This command accepts one or more SHA1 digests and returns a list of ones or
-zeros to signal if the scripts are already defined or not inside the script
-cache.
-This can be useful before a pipelining operation to ensure that scripts are
-loaded (and if not, to load them using [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}})) so that the pipelining
-operation can be performed solely using [`EVALSHA`]({{< relref "/commands/evalsha" >}}) instead of [`EVAL`]({{< relref "/commands/eval" >}}) to save
-bandwidth.
+This command accepts one or more SHA1 digests and returns a list of 1 and 0 values to indicate whether each script exists in the script cache. Before you run a pipeline, use this command to check whether Redis has loaded the scripts you need. For missing scripts, use [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}); then use [`EVALSHA`]({{< relref "/commands/evalsha" >}}) instead of [`EVAL`]({{< relref "/commands/eval" >}}) in the pipeline to save bandwidth.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts see [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+
+## Required arguments
+
+<details open><summary><code>sha1 [sha1 ...]</code></summary>
+
+One or more SHA1 digests to look up in the script cache.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

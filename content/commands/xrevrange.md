@@ -60,14 +60,10 @@ summary: Returns the messages from a stream within a range of IDs in reverse ord
 syntax_fmt: "XREVRANGE key end start [COUNT\_count]"
 title: XREVRANGE
 ---
-This command is exactly like [`XRANGE`]({{< relref "/commands/xrange" >}}), but with the notable difference of
-returning the entries in reverse order, and also taking the start-end
-range in reverse order: in `XREVRANGE` you need to state the *end* ID
-and later the *start* ID, and the command will produce all the element
-between (or exactly like) the two IDs, starting from the *end* side.
+This command works like XRANGE, but returns entries in reverse order. Specify the end ID first, then the start ID. XREVRANGE returns the entries between those IDs, inclusive, starting from the end of the range.
 
-So for instance, to get all the elements from the higher ID to the lower
-ID one could use:
+So for example, to get all the elements from the higher ID to the lower
+ID you can use:
 
     XREVRANGE somestream + -
 
@@ -75,6 +71,34 @@ Similarly to get just the last element added into the stream it is
 enough to send:
 
     XREVRANGE somestream + - COUNT 1
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
+<details open><summary><code>end</code></summary>
+
+The end of the ID range, inclusive. Entries are returned in reverse order. Use `+` for the greatest ID.
+
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The start of the ID range, inclusive. Use `-` for the smallest ID.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The maximum number of entries to return.
+
+</details>
 
 ## Examples
 

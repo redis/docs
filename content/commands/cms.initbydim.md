@@ -35,12 +35,25 @@ title: CMS.INITBYDIM
 ---
 Initializes a Count-Min Sketch to dimensions specified by user.
 
-### Parameters:
+## Required arguments
 
-* **key**: The name of the sketch.
-* **width**: Number of counters in each array. Reduces the error size.
-* **depth**: Number of counter-arrays. Reduces the probability for an
-    error of a certain size (percentage of total count).
+<details open><summary><code>key</code></summary>
+
+The name of the sketch.
+
+</details>
+
+<details open><summary><code>width</code></summary>
+
+Number of counters in each array. Reduces the error size.
+
+</details>
+
+<details open><summary><code>depth</code></summary>
+
+Number of counter-arrays. Reduces the probability for an error of a certain size (percentage of total count).
+
+</details>
 
 ## Examples
 

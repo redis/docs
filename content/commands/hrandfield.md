@@ -69,6 +69,28 @@ In this case, the number of returned fields is the absolute value of the specifi
 
 The optional `WITHVALUES` modifier changes the reply so it includes the respective values of the randomly selected hash fields.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of fields to return. A positive `count` returns up to that many distinct fields; a negative `count` returns exactly `|count|` fields and may repeat fields. When omitted, a single random field is returned.
+
+</details>
+
+<details open><summary><code>WITHVALUES</code></summary>
+
+Also return the value of each selected field. Can only be used together with `count`.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

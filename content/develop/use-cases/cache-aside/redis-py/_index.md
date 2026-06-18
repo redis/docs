@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/cache-aside/python
 categories:
 - docs
 - develop

@@ -31,9 +31,13 @@ title: CMS.INFO
 ---
 Returns width, depth and total count of the sketch.
 
-### Parameters:
+## Required arguments
 
-* **key**: The name of the sketch.
+<details open><summary><code>key</code></summary>
+
+The name of the sketch.
+
+</details>
 
 ## Examples
 

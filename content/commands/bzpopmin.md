@@ -81,6 +81,20 @@ popped from.
 
 [cl]: /commands/blpop
 
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys to pop from.
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
 ## Examples
 
 ```

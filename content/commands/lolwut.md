@@ -58,6 +58,14 @@ LOLWUT version should have the following properties:
 4. LOLWUT implementations should be safe and carefully checked for security, and resist to untrusted inputs if they take arguments.
 5. LOLWUT must always display the Redis version at the end.
 
+## Optional arguments
+
+<details open><summary><code>VERSION version</code></summary>
+
+Request a specific version of the generated art.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

@@ -60,7 +60,7 @@ is synonym group to return.
 
 Use FT.SYNUPDATE to create or update a synonym group with additional terms. The command triggers a scan of all documents.
 
-## Optional parameters
+## Optional arguments
 
 <details open>
 <summary><code>SKIPINITIALSCAN</code></summary>

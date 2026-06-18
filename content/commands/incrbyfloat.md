@@ -78,6 +78,20 @@ Trailing zeroes are always removed.
 The precision of the output is fixed at 17 digits after the decimal point
 regardless of the actual internal precision of the computation.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>increment</code></summary>
+
+The floating-point amount to add to the value. A negative value decrements the value instead.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -88,7 +102,9 @@ SET mykey 5.0e3
 INCRBYFLOAT mykey 2.0e2
 {{% /redis-cli %}}
 
-## Implementation details
+## Details
+
+### Implementation
 
 The command is always propagated in the replication link and the Append Only
 File as a [`SET`]({{< relref "/commands/set" >}}) operation, so that differences in the underlying floating point

@@ -240,7 +240,9 @@ SET mykey7 99
 INCREX mykey7 BYINT 5 UBOUND 100 SATURATE
 {{% /redis-cli %}}
 
-## Pattern: window counter rate limiter
+## Details
+
+### Pattern: window counter rate limiter
 
 A common rate-limiting pattern requires atomically incrementing a counter and setting its expiration. With plain [`INCR`]({{< relref "/commands/incr" >}}) and [`EXPIRE`]({{< relref "/commands/expire" >}}), this typically requires a Lua script to be atomic.
 

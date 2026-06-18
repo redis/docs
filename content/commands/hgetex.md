@@ -90,19 +90,55 @@ title: HGETEX
 
 Get the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
 
-## Options
+## Required arguments
 
-The `HGETEX` command supports a set of options:
+<details open><summary><code>key</code></summary>
 
-* `EX seconds` -- Set the specified expiration time, in seconds.
-* `PX milliseconds` -- Set the specified expiration time, in milliseconds.
-* `EXAT unix-time-seconds` -- Set the specified Unix time at which the fields will expire, in seconds.
-* `PXAT unix-time-milliseconds` -- Set the specified Unix time at which the fields will expire, in milliseconds.
-* `PERSIST` -- Remove the TTL associated with the fields.
+The name of the key that holds the hash.
 
-The `EX`, `PX`, `EXAT`, `PXAT`, and `PERSIST` options are mutually exclusive.
+</details>
 
-## Example
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to retrieve. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. They are mutually exclusive.
+
+<details open><summary><code>EX seconds</code></summary>
+
+Set the specified expiration time, in seconds.
+
+</details>
+
+<details open><summary><code>PX milliseconds</code></summary>
+
+Set the specified expiration time, in milliseconds.
+
+</details>
+
+<details open><summary><code>EXAT unix-time-seconds</code></summary>
+
+Set the specified Unix time at which the fields will expire, in seconds.
+
+</details>
+
+<details open><summary><code>PXAT unix-time-milliseconds</code></summary>
+
+Set the specified Unix time at which the fields will expire, in milliseconds.
+
+</details>
+
+<details open><summary><code>PERSIST</code></summary>
+
+Remove the TTL associated with the fields.
+
+</details>
+
+## Examples
 
 ```
 redis> HSET mykey field1 "Hello" field2 "World"

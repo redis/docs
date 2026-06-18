@@ -68,6 +68,34 @@ For more information about when to use this command vs [`EVALSHA`]({{< relref "/
 
 For more information about [`EVALSHA`]({{< relref "/commands/evalsha" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
 
+## Required arguments
+
+<details open><summary><code>sha1</code></summary>
+
+The SHA1 digest of a read-only script previously cached with `SCRIPT LOAD` or `EVAL_RO`.
+
+</details>
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of key names that follow. Arguments after the keys are passed as regular arguments.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+The key names the script accesses, provided to it via the Lua `KEYS` global variable. There must be exactly `numkeys` of them.
+
+</details>
+
+<details open><summary><code>arg [arg ...]</code></summary>
+
+Additional arguments provided to the script via the Lua `ARGV` variable.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

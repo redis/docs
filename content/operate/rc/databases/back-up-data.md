@@ -40,9 +40,7 @@ To turn on database backups:
 
     {{<image filename="images/rc/button-database-edit.png" alt="The Edit button lets you change database settings." width=100px >}}
 
-1.  In the **Durability** section of the **Configuration** tab, locate the **Remote backup** setting:
-
-    {{<image filename="images/rc/database-details-configuration-tab-durability-flexible.png" alt="The Remote backup setting is located in the Durability section of the Configuration tab of the database details screen." >}}
+1.  In the **Configuration** tab, locate the **Remote backup** setting: in the **Performance & availability > Remote backup** section for Essentials databases, or the **Durability** section for Pro databases.
 
 When you enable **Remote backup**, additional options appear.  The options vary according to your subscription.
 
@@ -58,7 +56,7 @@ When you enable **Remote backup**, additional options appear.  The options vary 
 
 ## Back up and export data on demand
 
-After backups are turned on, you can back up your data at any time.  Use the **Backup now** button in the **Durability** section.
+After backups are turned on, you can back up your data at any time.  Use the **Backup now** button, located in the **Performance & availability > Remote backup** section for Essentials databases, or the **Durability** section for Pro databases.
 
 {{<image filename="images/rc/button-database-backup-now.png" alt="Use the Backup Now button to make backups on demand." width=150px >}}
 

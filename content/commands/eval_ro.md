@@ -63,21 +63,48 @@ summary: Executes a read-only server-side Lua script.
 syntax_fmt: EVAL_RO script numkeys [key [key ...]] [arg [arg ...]]
 title: EVAL_RO
 ---
-This is a read-only variant of the [`EVAL`]({{< relref "/commands/eval" >}}) command that cannot execute commands that modify data.
 
-For more information about when to use this command vs [`EVAL`]({{< relref "/commands/eval" >}}), please refer to [Read-only scripts]({{< relref "develop/programmability#read-only-scripts" >}}).
+Runs a read-only Lua script. Unlike EVAL, this command can’t run commands that modify data.
+
+For more information about when to use this command versus [`EVAL`]({{< relref "/commands/eval" >}}), please refer to [Read-only scripts]({{< relref "develop/programmability#read-only-scripts" >}}).
 
 For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+
+## Required arguments
+
+<details open><summary><code>script</code></summary>
+
+The Lua script to evaluate. It must not modify data.
+
+</details>
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of key names that follow. Arguments after the keys are passed as regular arguments.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+The key names the script accesses, provided to it via the Lua `KEYS` global variable. There must be exactly `numkeys` of them.
+
+</details>
+
+<details open><summary><code>arg [arg ...]</code></summary>
+
+Additional arguments provided to the script via the Lua `ARGV` variable.
+
+</details>
 
 ## Examples
 
 ```
 > SET mykey "Hello"
 OK
-
 > EVAL_RO "return redis.call('GET', KEYS[1])" 1 mykey
 "Hello"
-
 > EVAL_RO "return redis.call('DEL', KEYS[1])" 1 mykey
 (error) ERR Error running script (call to b0d697da25b13e49157b2c214a4033546aba2104): @user_script:1: @user_script: 1: Write commands are not allowed from read-only scripts.
 ```

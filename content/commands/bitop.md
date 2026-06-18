@@ -122,14 +122,25 @@ The result of each operation is always stored at `destkey`.
 
 1. <a name="list-note-1"></a> Added in Redis 8.2.
 
-## Handling of strings with different lengths
+## Required arguments
 
-When an operation is performed between strings having different lengths, all the
-strings shorter than the longest string in the set are treated as if they were
-zero-padded up to the length of the longest string.
+<details open><summary><code>operation</code></summary>
 
-The same holds true for non-existent keys, that are considered as a stream of
-zero bytes up to the length of the longest string.
+The bitwise operation to perform: `AND`, `OR`, `XOR`, `NOT`, `DIFF`, `DIFF1`, `ANDOR`, or `ONE`. `NOT` accepts exactly one source key.
+
+</details>
+
+<details open><summary><code>destkey</code></summary>
+
+The key to store the result in.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more source keys.
+
+</details>
 
 ## Examples
 
@@ -155,7 +166,18 @@ To create a bitmap representing the target audience, use the following command:
 BITOP ANDOR TA LRB B:F B:A B:SF
 ```
 
-## Pattern: real time metrics using bitmaps
+## Details
+
+### Handling of strings with different lengths
+
+When an operation is performed between strings having different lengths, all the
+strings shorter than the longest string in the set are treated as if they were
+zero-padded up to the length of the longest string.
+
+The same holds true for non-existent keys, that are considered as a stream of
+zero bytes up to the length of the longest string.
+
+### Pattern: real time metrics using bitmaps
 
 `BITOP` is a good complement to the pattern documented in the [`BITCOUNT`]({{< relref "/commands/bitcount" >}}) command
 documentation.
@@ -167,7 +189,7 @@ bitmaps][hbgc212fermurb]" for an interesting use cases.
 
 [hbgc212fermurb]: http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps
 
-## Performance considerations
+### Performance considerations
 
 `BITOP` is a potentially slow command as it runs in O(N) time.
 Care should be taken when running it against long input strings.

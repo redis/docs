@@ -60,6 +60,20 @@ This operation is limited to 64-bit signed integers.
 
 See [`INCR`]({{< relref "/commands/incr" >}}) for extra information on increment/decrement operations.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>decrement</code></summary>
+
+The integer amount to subtract from the value.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

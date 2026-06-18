@@ -76,17 +76,47 @@ title: PEXPIRE
 This command works exactly like [`EXPIRE`]({{< relref "/commands/expire" >}}) but the time to live of the key is
 specified in milliseconds instead of seconds.
 
-## Options
+## Required arguments
 
-The `PEXPIRE` command supports a set of options since Redis 7.0:
+<details open><summary><code>key</code></summary>
 
-* `NX` -- Set expiry only when the key has no expiry
-* `XX` -- Set expiry only when the key has an existing expiry
-* `GT` -- Set expiry only when the new expiry is greater than current one
-* `LT` -- Set expiry only when the new expiry is less than current one
+The name of the key to set a timeout on.
 
-A non-volatile key is treated as an infinite TTL for the purpose of `GT` and `LT`.
-The `GT`, `LT` and `NX` options are mutually exclusive.
+</details>
+
+<details open><summary><code>milliseconds</code></summary>
+
+The timeout, in milliseconds.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. They are mutually exclusive.
+
+<details open><summary><code>NX</code></summary>
+
+Set expiry only when the key has no expiry.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+Set expiry only when the key has an existing expiry.
+
+</details>
+
+<details open><summary><code>GT</code></summary>
+
+Set expiry only when the new expiry is greater than the current one. A non-volatile key is treated as an infinite TTL for the purpose of `GT`.
+
+</details>
+
+<details open><summary><code>LT</code></summary>
+
+Set expiry only when the new expiry is less than the current one. A non-volatile key is treated as an infinite TTL for the purpose of `LT`.
+
+</details>
 
 ## Examples
 

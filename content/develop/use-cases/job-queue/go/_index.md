@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/job-queue/go-redis
 categories:
 - docs
 - develop

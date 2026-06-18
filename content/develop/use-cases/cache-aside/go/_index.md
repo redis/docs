@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/cache-aside/go-redis
 categories:
 - docs
 - develop

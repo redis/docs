@@ -50,6 +50,14 @@ title: GETDEL
 Get the value of `key` and delete the key.
 This command is similar to [`GET`]({{< relref "/commands/get" >}}), except for the fact that it also deletes the key on success (if and only if the key's value type is a string).
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key to get and then delete.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

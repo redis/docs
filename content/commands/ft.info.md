@@ -116,7 +116,7 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 - Index error statistics, including `indexing failures`, `last indexing error`, and `last indexing error key`.
 - Field statistics, including `indexing failures`, `last indexing error`, and `last indexing error key` for each schema field.
 
-## Example
+## Examples
 
 <details open>
 <summary><b>Return statistics about an index</b></summary>
