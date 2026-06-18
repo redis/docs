@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/prefetch-cache/java
+- /develop/use-cases/prefetch-cache/jedis
 categories:
 - docs
 - develop

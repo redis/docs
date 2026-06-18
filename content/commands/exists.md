@@ -57,18 +57,31 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 {{< /note >}}
 
 
-Returns if `key` exists.
+Returns the number of keys that exist.
 
-The user should be aware that if the same existing key is mentioned in the arguments multiple times, it will be counted multiple times. So if `somekey` exists, `EXISTS somekey somekey` will return 2.
+If you specify the same existing key multiple times, `EXISTS` counts it each time. For example, if `somekey` exists, `EXISTS somekey somekey` returns `2`.
+
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys to check for existence. A repeated key is counted once per occurrence.
+
+</details>
 
 ## Examples
 
 {{< clients-example set="cmds_generic" step="exists" description="Foundational: Check if one or more keys exist using EXISTS (returns count of existing keys, useful for conditional logic)" difficulty="beginner" >}}
 SET key1 "Hello"
+"OK"
 EXISTS key1
+(integer) 1
 EXISTS nosuchkey
+(integer) 0
 SET key2 "World"
+"OK"
 EXISTS key1 key2 nosuchkey
+(integer) 2
 {{< /clients-example >}}
 
 Give these commands a try in the interactive console:

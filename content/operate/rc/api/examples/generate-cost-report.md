@@ -18,7 +18,7 @@ The following sections provide examples for each step.
 
 ## Generate a cost report
 
-To generate a cost report, use [`POST /cost-report`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/createCostReport" >}}). Your account must have the **Owner** or **Viewer** role to generate a cost report through this endpoint.
+To generate a cost report, use [`POST /cost-report`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/createCostReport" >}}). Your account must have the **Owner**, **Billing admin**, or **Viewer** role to generate a cost report through this endpoint.
 
 Include `startDate` and `endDate` in your request body using `YYYY-MM-DD` format. You can specify a date range up to 40 days.
 

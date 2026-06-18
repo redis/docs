@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/redis-rs
 categories:
 - docs
 - develop

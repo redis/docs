@@ -111,11 +111,45 @@ This command comes in place of the now deprecated [`BRPOPLPUSH`]({{< relref "/co
 
 See [`LMOVE`]({{< relref "/commands/lmove" >}}) for more information.
 
-## Pattern: Reliable queue
+## Required arguments
+
+<details open><summary><code>source</code></summary>
+
+The key of the source list.
+
+</details>
+
+<details open><summary><code>destination</code></summary>
+
+The key of the destination list.
+
+</details>
+
+<details open><summary><code>LEFT | RIGHT</code></summary>
+
+The end of `source` to pop the element from: `LEFT` (head) or `RIGHT` (tail).
+
+</details>
+
+<details open><summary><code>LEFT | RIGHT</code></summary>
+
+The end of `destination` to push the element to: `LEFT` (head) or `RIGHT` (tail).
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
+## Details
+
+### Pattern: reliable queue
 
 Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove" >}}) documentation.
 
-## Pattern: Circular list
+### Pattern: circular list
 
 Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove" >}}) documentation.
 

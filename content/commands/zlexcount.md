@@ -60,6 +60,26 @@ The `min` and `max` arguments have the same meaning as described for
 
 Note: the command has a complexity of just O(log(N)) because it uses elements ranks (see [`ZRANK`]({{< relref "/commands/zrank" >}})) to get an idea of the range. Because of this there is no need to do a work proportional to the size of the range.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `-` for the lowest possible value.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `+` for the highest possible value.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

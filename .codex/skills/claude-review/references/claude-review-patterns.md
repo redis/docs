@@ -42,6 +42,15 @@ When adding a new entry, use this schema:
 **False-positive guard:** Some generated files are intentionally not committed; check repo convention before requiring an artifact update.
 **Suggested review prompt:** Trace every new or changed docs reference to its backing shortcode, data file, example file, or generated artifact, and flag broken links or stale mappings.
 
+## Validator Source-Of-Truth Drift
+
+**Status:** candidate
+**Source:** `.claude/hooks/check_shortcode_paths.py` review, 2026-06-12.
+**What to check:** When reviewing hooks, linters, or validators that model Hugo shortcodes, generated references, or build-time resolution, read the template, config, or runtime source of truth they approximate. Compare exact semantics: base directory, extension handling, fragment/query stripping, relative paths, case handling, mounts, fallback rules, and failure behavior when git or other context is unavailable. Run scan modes and small synthetic probes against existing files when the validator exposes them.
+**Pass criterion:** The validator rejects paths the real build would fail and does not accept paths the real build cannot resolve. Diff-scoped checks should degrade safely when source-control context is unavailable.
+**False-positive guard:** Do not report every approximation. Report only mismatches that can wrongly block a plausible edit or silently miss a build-breaking reference.
+**Suggested review prompt:** For any docs validator, ask: what is the real source of truth this code models, and where does the model differ in ways that affect blocking or misses?
+
 ## Timeout And Race Assumptions
 
 **Status:** established

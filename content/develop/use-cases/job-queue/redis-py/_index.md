@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/job-queue/python
 categories:
 - docs
 - develop

@@ -63,20 +63,25 @@ end of the list.
 For example, `-1` is the last element of the list, `-2` the penultimate, and so
 on.
 
-## Consistency with range functions in various programming languages
+## Required arguments
 
-Note that if you have a list of numbers from 0 to 100, `LRANGE list 0 10` will
-return 11 elements, that is, the rightmost item is included.
-This **may or may not** be consistent with behavior of range-related functions
-in your programming language of choice (think Ruby's `Range.new`, `Array#slice`
-or Python's `range()` function).
+<details open><summary><code>key</code></summary>
 
-## Out-of-range indexes
+The name of the key that holds the list.
 
-Out of range indexes will not produce an error.
-If `start` is larger than the end of the list, an empty list is returned.
-If `stop` is larger than the actual end of the list, Redis will treat it like
-the last element of the list.
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The zero-based start index. Negative indexes count from the tail.
+
+</details>
+
+<details open><summary><code>stop</code></summary>
+
+The zero-based stop index (inclusive). Negative indexes count from the tail.
+
+</details>
 
 ## Examples
 
@@ -112,6 +117,23 @@ LRANGE mylist -3 2
 LRANGE mylist -100 100
 LRANGE mylist 5 10
 {{% /redis-cli %}}
+
+## Details
+
+### Consistency with range functions in various programming languages
+
+Note that if you have a list of numbers from 0 to 100, `LRANGE list 0 10` will
+return 11 elements, that is, the rightmost item is included.
+This may or may not be consistent with the behavior of range-related functions
+in your programming language of choice (think Ruby's `Range.new`, `Array#slice`
+or Python's `range()` function).
+
+### Out-of-range indexes
+
+Out of range indexes will not produce an error.
+If `start` is larger than the end of the list, an empty list is returned.
+If `stop` is larger than the actual end of the list, Redis will treat it like
+the last element of the list.
 
 ## Redis Software and Redis Cloud compatibility
 

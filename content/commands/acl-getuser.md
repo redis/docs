@@ -52,6 +52,14 @@ Note: This description of command rules reflects the user's effective permission
 
 Selectors are listed in the order they were applied to the user, and include information about commands, key patterns, and channel patterns.
 
+## Required arguments
+
+<details open><summary><code>username</code></summary>
+
+The user whose rules to return.
+
+</details>
+
 ## Examples
 
 Here's an example configuration for a user

@@ -211,6 +211,10 @@ make sure that you disable **Replica Of** before you direct clients to the desti
 This avoids a full sync that can overwrite your data.
 {{% /warning %}}
 
+## Upgrade order
+
+When you [upgrade]({{< relref "/operate/rs/7.22/installing-upgrading/upgrading/upgrade-database" >}}) a Replica Of database, upgrade the destination database before the source database to avoid possible replication failures.
+
 ## Active-Passive replication backlog
 
 In addition to the [database replication backlog]({{< relref "/operate/rs/7.22/databases/durability-ha/replication#database-replication-backlog" >}}), active-passive databases maintain a replication backlog (per shard) to synchronize the database instances between clusters.

@@ -42,17 +42,21 @@ Increase the score of an item in the data structure by `increment`.
 Multiple items' scores can be increased at once.
 If an item enters the Top-K list, the item that is expelled (if any) is returned.
 
-### Parameters
+## Required arguments
 
-* **key**: the name of the sketch.
-* **item**: the items to be incremented.
-* **increment**: the value by which items will be incremented. The `increment` must be greater or equal to 1 and less than or equal to 100,000 to avoid server freeze.
+<details open><summary><code>key</code></summary>
 
-## Return
+the name of the sketch.
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - if an element was dropped from the TopK list, [Nil reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) otherwise..
+</details>
 
-## Example
+<details open><summary><code>item increment [item increment ...]</code></summary>
+
+One or more item-increment pairs. Each `item` is incremented by its corresponding `increment`. The `increment` must be greater than or equal to 1 and less than or equal to 100,000 to avoid server freeze.
+
+</details>
+
+## Examples
 
 ```
 redis> TOPK.INCRBY topk foo 3 bar 2 42 30

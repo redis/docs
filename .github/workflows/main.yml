@@ -486,8 +486,26 @@ jobs:
     - name: Deploy latest to GCS
       run: |
         bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
-        gsutil -m rsync -r -c -j html -d public gs://$BUCKET/$bucket_path
-        gsutil -m rsync -r -c -j html -d public gs://$BUCKET/docs/$bucket_path
+
+        # The -d flag mirrors the bucket to this build, deleting any object not
+        # present locally -- including older fingerprinted css/index.min.{hash}.css
+        # files. Browser/Cloudflare-cached HTML can still reference an old hash for
+        # hours after a deploy, so deleting it produces 404s. Exclude css/scss from
+        # the destructive syncs, then additively upload this build's css/scss (no -d)
+        # so old and new hashes coexist. Mirrors the versioned matrix deploy jobs.
+        upload_assets() {
+          local dest="$1"
+          for d in css scss; do
+            if [ -d "public/$d" ]; then
+              gsutil -m rsync -r -c -j css "public/$d" "${dest}/$d"
+            fi
+          done
+        }
+
+        gsutil -m rsync -r -c -j html -d -x '^(css|scss)/' public gs://$BUCKET/$bucket_path
+        gsutil -m rsync -r -c -j html -d -x '^(css|scss)/' public gs://$BUCKET/docs/$bucket_path
+        upload_assets "gs://$BUCKET/$bucket_path"
+        upload_assets "gs://$BUCKET/docs/$bucket_path"
 
   # Deploy Kubernetes versions to GCS
   deploy_kubernetes:

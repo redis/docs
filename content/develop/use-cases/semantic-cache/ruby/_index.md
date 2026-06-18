@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/semantic-cache/redis-rb
 categories:
 - docs
 - develop

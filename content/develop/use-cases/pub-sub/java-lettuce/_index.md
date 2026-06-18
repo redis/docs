@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/pub-sub/lettuce
 categories:
 - docs
 - develop

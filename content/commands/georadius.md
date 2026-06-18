@@ -211,11 +211,81 @@ By default the command returns the items to the client. It is possible to store 
 * `STORE`: Store the items in a sorted set populated with their geospatial information.
 * `STOREDIST`: Store the items in a sorted set populated with their distance from the center as a floating point number, in the same unit specified in the radius.
 
-## Read-only variants
+## Required arguments
 
-Since `GEORADIUS` and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) have a `STORE` and `STOREDIST` option they are technically flagged as writing commands in the Redis command table. For this reason read-only replicas will flag them, and Redis Cluster replicas will redirect them to the master instance even if the connection is in read-only mode (see the [`READONLY`]({{< relref "/commands/readonly" >}}) command of Redis Cluster).
+<details open><summary><code>key</code></summary>
 
-Breaking the compatibility with the past was considered but rejected, at least for Redis 4.0, so instead two read-only variants of the commands were added. They are exactly like the original commands but refuse the `STORE` and `STOREDIST` options. The two variants are called [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}), and can safely be used in replicas.
+The name of the key that holds the geospatial index (a sorted set).
+
+</details>
+
+<details open><summary><code>longitude</code></summary>
+
+The longitude of the center point.
+
+</details>
+
+<details open><summary><code>latitude</code></summary>
+
+The latitude of the center point.
+
+</details>
+
+<details open><summary><code>radius</code></summary>
+
+The radius of the search circle, in the unit given by the following argument.
+
+</details>
+
+<details open><summary><code>M | KM | FT | MI</code></summary>
+
+The unit for `radius`: meters (`M`), kilometers (`KM`), feet (`FT`), or miles (`MI`).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHCOORD</code></summary>
+
+Also return the longitude and latitude of each matching item.
+
+</details>
+
+<details open><summary><code>WITHDIST</code></summary>
+
+Also return the distance of each matching item from the center, in the same unit as the radius.
+
+</details>
+
+<details open><summary><code>WITHHASH</code></summary>
+
+Also return the raw 52-bit geohash-encoded score of each matching item.
+
+</details>
+
+<details open><summary><code>COUNT count [ANY]</code></summary>
+
+Return at most `count` matches. With `ANY`, the command returns as soon as enough matches are found — faster, but the results may be unsorted.
+
+</details>
+
+<details open><summary><code>ASC | DESC</code></summary>
+
+Sort the results by distance from the center: nearest first (`ASC`) or farthest first (`DESC`).
+
+</details>
+
+<details open><summary><code>STORE key</code></summary>
+
+Store the results as a geospatial index in `key` instead of returning them. `STORE` and `STOREDIST` are mutually exclusive.
+
+</details>
+
+<details open><summary><code>STOREDIST key</code></summary>
+
+Store the results in `key` as a sorted set of distances from the center, instead of returning them.
+
+</details>
 
 ## Examples
 
@@ -225,6 +295,14 @@ GEORADIUS Sicily 15 37 200 km WITHDIST
 GEORADIUS Sicily 15 37 200 km WITHCOORD
 GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
 {{% /redis-cli %}}
+
+## Details
+
+### Read-only variants
+
+Since `GEORADIUS` and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) have a `STORE` and `STOREDIST` option they are technically flagged as writing commands in the Redis command table. For this reason read-only replicas will flag them, and Redis Cluster replicas will redirect them to the master instance even if the connection is in read-only mode (see the [`READONLY`]({{< relref "/commands/readonly" >}}) command of Redis Cluster).
+
+Breaking the compatibility with the past was considered but rejected, at least for Redis 4.0, so instead two read-only variants of the commands were added. They are exactly like the original commands but refuse the `STORE` and `STOREDIST` options. The two variants are called [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}), and can safely be used in replicas.
 
 ## Redis Software and Redis Cloud compatibility
 

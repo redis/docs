@@ -44,7 +44,7 @@ For workloads that require durability and recovery across restarts or failures, 
 
     After you select **Essentials**, the rest of the database details will appear. Select **Flex (RAM + SSD)** to use Flex.
 
-    {{<image filename="images/rc/create-database-flex-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
+    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
 

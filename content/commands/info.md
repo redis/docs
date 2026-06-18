@@ -43,7 +43,7 @@ title: INFO
 The `INFO` command returns information and statistics about the server in a
 format that is simple to parse by computers and easy to read by humans.
 
-The optional parameter can be used to select a specific section of information:
+The optional parameter(s) can be used to select a specific section of information:
 
 *   `server`: General information about the Redis server
 *   `clients`: Client connections section
@@ -75,17 +75,19 @@ When no parameter is provided, the `default` option is assumed.
 INFO
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
+## Optional arguments
 
-{{% redis-cli %}}
-INFO
-{{% /redis-cli %}}
+<details open><summary><code>section [section ...]</code></summary>
 
-## Notes
+One or more sections to include in the output, such as `server`, `clients`, or `memory`. Also accepts `all`, `everything`, and `default`.
 
-Please note depending on the version of Redis some of the fields have been
+</details>
+
+## Details
+
+Depending on the version of Redis some of the fields have been
 added or removed. A robust client application should therefore parse the
-result of this command by skipping unknown properties, and gracefully handle
+result of this command by skipping unknown properties and gracefully handling
 missing fields.
 
 Here is the description of fields for Redis >= 2.4.
@@ -580,7 +582,7 @@ _Redis Search fields_
 *   `search_fields_geoshape_Geoshape`: The total number of `GEOSHAPE` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup>
 *   `search_fields_geoshape_Sortable`: The total number of `SORTABLE GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
 *   `search_fields_geoshape_NoIndex`: The total number of `NOINDEX GEOSHAPE` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
-*   `search_fields_<field>_IndexErrors`: The total number of indexing failures caused by attempts to index a document containing <field> field. <sup>[1](#tnote-1)</sup>
+*   `search_fields_<field>_IndexErrors`: The total number of indexing failures caused by attempts to index a document containing `field` field. <sup>[1](#tnote-1)</sup>
 *   `search_used_memory_vector_index`: The total memory usage of all vector indexes in the shard. <sup>[1](#tnote-1)</sup>
 *   `search_used_memory_indexes`: The estimated total memory allocated by all indexes in the shard in bytes (including vector indexes memory accounted in `search_used_memory_vector_index`). <sup>[1](#tnote-1)</sup>
 *   `search_used_memory_indexes_human`: The estimated total memory allocated by all indexes in the shard in MB. <sup>[1](#tnote-1)</sup>

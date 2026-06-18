@@ -37,6 +37,17 @@ zero being returned.
 {{< note>}}During atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.
 {{< /note >}}
 
+
+## Required arguments
+
+<details open><summary><code>slot</code></summary>
+
+The hash slot to count the keys in.
+
+</details>
+
+## Examples
+
 ```
 > CLUSTER COUNTKEYSINSLOT 7000
 (integer) 50341

@@ -56,7 +56,7 @@ You can change the target database for your pipeline if the new target database 
 
 3. Select **Change target** to continue.
 
-Changing the target database restarts the pipeline and re-ingests all data into the new target database.
+Changing the target database restarts the pipeline, but it does not automatically re-ingest all data into the new target database. If you want the existing data re-ingested after the change, manually [reset the pipeline](#reset-data-pipeline).
 
 ## Metrics
 

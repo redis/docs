@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/time-series-dashboard/python
 categories:
 - docs
 - develop

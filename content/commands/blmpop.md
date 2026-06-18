@@ -89,6 +89,40 @@ A `timeout` of zero can be used to block indefinitely.
 
 See [`LMPOP`]({{< relref "/commands/lmpop" >}}) for more information.
 
+## Required arguments
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys of lists to operate on.
+
+</details>
+
+<details open><summary><code>LEFT | RIGHT</code></summary>
+
+The end of the list to pop elements from: `LEFT` (head) or `RIGHT` (tail).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The number of elements to pop. Defaults to 1.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
