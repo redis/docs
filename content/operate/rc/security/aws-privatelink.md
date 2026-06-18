@@ -86,7 +86,7 @@ In this step, you will associate the Redis Cloud resource share with an AWS Acco
 
     {{<image filename="images/rc/icon-add.png" width="30px" alt="The Add button adds principals to the resource share." >}}
 
-1. Enter the account's ID in the **Principal ID** field. You can also add an optional alias in the **AWS principal alias** field.
+1. Enter the account's ID in the **AWS Account** field. You can also add an optional alias in the **AWS principal alias** field.
 
     {{<image filename="images/rc/privatelink-aws-consumer-principals.png" width="80%" alt="The AWS consumer principals section with an AWS account added as a principal." >}}
 
