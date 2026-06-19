@@ -47,6 +47,17 @@ LANG_BASE_IMAGE = {
     ),
 }
 
+# Languages whose Jupyter kernel surfaces runtime errors as proper Jupyter
+# errors, so the notebook verify gate (and the local pre-check) actually catch
+# failing asserts. Compile-and-subprocess kernels (Go gonb, Node jslab) report
+# runtime errors as stream output and can exit 0 - the gate only catches their
+# compile/import errors, so verify those clients via a native harness.
+GATING_LANGUAGES = {"python", "java", "c#"}
+
+# verify.py's kernel-less --mode script driver executes Python; it is only valid
+# for Python notebooks. Other languages must use --mode kernel.
+SCRIPT_MODE_LANGUAGES = {"python"}
+
 DOCKERIGNORE = "Dockerfile\ngha-creds*\ndemo.test.ipynb\n"
 
 README = (
@@ -73,9 +84,15 @@ on:
 
 jobs:
   # Gate: execute the test notebook (which still contains the REMOVE-block
-  # asserts) inside the exact base image this branch ships on. Any cell error
-  # or failed assert fails the job, which blocks the build-and-deploy below.
-  # GitHub runners are amd64, so the Jupyter kernel runs natively (no emulation).
+  # asserts) inside the exact base image this branch ships on, before deploy.
+  # GitHub runners are amd64, so the Jupyter kernel runs natively.
+  #
+  # NOTE: this reliably gates failing asserts only for IN-PROCESS kernels
+  # (Python/Java/C#), which surface errors as Jupyter error messages. Compile-
+  # and-subprocess kernels (Go `gonb`, Node `jslab`) report runtime errors as
+  # stream output and can still exit 0, so for those this catches compile/import
+  # errors but NOT runtime assert failures - verify those with a native harness
+  # (`go test`, `node script.js`). See build/jupyterize/js-notebook-findings.md.
   verify:
     runs-on: ubuntu-latest
     permissions:
@@ -217,8 +234,11 @@ def main():
                     help="generate + verify + write files, but do not commit/push")
     ap.add_argument("--no-verify", action="store_true",
                     help="skip the local verify.py pre-check")
-    ap.add_argument("--mode", choices=["kernel", "script"], default="script",
-                    help="verify mode for the local pre-check (default: script)")
+    ap.add_argument("--mode", choices=["kernel", "script", "auto"],
+                    default="auto",
+                    help="verify mode for the local pre-check. 'auto' (default) "
+                         "picks script for Python, kernel for other languages "
+                         "(the script driver only runs Python).")
     args = ap.parse_args()
 
     source = os.path.abspath(args.source)
@@ -234,6 +254,21 @@ def main():
         fail(f"no BINDER_ID marker in {source}; cannot determine target branch")
     print(f"Source:   {source}")
     print(f"Language: {language}   Target branch: {branch}")
+
+    # Resolve the pre-check mode: the kernel-less script driver only runs Python.
+    mode = args.mode
+    if mode == "auto":
+        mode = "script" if language in SCRIPT_MODE_LANGUAGES else "kernel"
+    elif mode == "script" and language not in SCRIPT_MODE_LANGUAGES:
+        fail(f"--mode script only works for Python; {language!r} needs "
+             f"--mode kernel (the script driver executes Python).")
+
+    # Warn when the kernel can't gate runtime errors (asserts won't fail CI).
+    if language not in GATING_LANGUAGES:
+        print(f"WARNING: {language}'s kernel reports runtime errors as stream "
+              f"output, so neither this pre-check nor the CI gate catches "
+              f"failing asserts (only compile/import errors). Verify {language} "
+              f"examples with a native harness.")
 
     # Guard against clobbering work in the binder-launchers clone.
     status = git(repo, "status", "--porcelain").stdout.strip()
@@ -272,7 +307,7 @@ def main():
     # GENERATED test notebook (not a re-parse), so the exact artifact that ships
     # is what gets verified. Refuse to sync if its asserts don't pass.
     if not args.no_verify:
-        if not local_verify(test_nb_path, args.mode, base_image):
+        if not local_verify(test_nb_path, mode, base_image):
             restore_clone(repo, orig_branch, branch, is_new)
             fail("local verification failed - not syncing")
         print("--- Local pre-check PASSED ---")

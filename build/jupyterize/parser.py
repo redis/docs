@@ -68,7 +68,7 @@ class FileParser:
             lines = f.readlines()
 
         # State tracking
-        in_remove = False
+        remove_depth = 0
         in_step = False
         step_name = None
         step_lines = []
@@ -89,10 +89,14 @@ class FileParser:
                 logging.debug(f"Line {line_num}: Skipping BINDER_ID marker")
                 continue
 
-            # Handle REMOVE blocks
+            # Handle REMOVE blocks. Nested markers are absorbed into the
+            # outer block (track depth) so a nested REMOVE_START doesn't discard
+            # the lines collected for the outer block.
             if _check_marker(line, self.prefix, REMOVE_START):
-                if in_remove:
+                if remove_depth > 0:
                     logging.warning(f"Line {line_num}: Nested REMOVE_START detected")
+                    remove_depth += 1
+                    continue
                 if self.keep_tests:
                     # Flush pending code first so the test cell lands *after*
                     # the code it checks (asserts reference its variables).
@@ -105,22 +109,25 @@ class FileParser:
                                       'step_name': None, 'is_test': False})
                         preamble_lines = []
                     remove_lines = []
-                in_remove = True
+                remove_depth = 1
                 logging.debug(f"Line {line_num}: Entering REMOVE block")
                 continue
 
             if _check_marker(line, self.prefix, REMOVE_END):
-                if not in_remove:
+                if remove_depth == 0:
                     logging.warning(f"Line {line_num}: REMOVE_END without REMOVE_START")
+                    continue
+                remove_depth -= 1
+                if remove_depth > 0:
+                    continue  # closing a nested block; keep collecting
                 if self.keep_tests and remove_lines:
                     cells.append({'code': ''.join(remove_lines),
                                   'step_name': None, 'is_test': True})
                     remove_lines = []
-                in_remove = False
                 logging.debug(f"Line {line_num}: Exiting REMOVE block")
                 continue
 
-            if in_remove:
+            if remove_depth > 0:
                 if self.keep_tests:
                     remove_lines.append(line)
                 continue
@@ -194,7 +201,7 @@ class FileParser:
             logging.debug(f"Saved final preamble cell ({len(preamble_lines)} lines)")
 
         # Check for unclosed blocks
-        if in_remove:
+        if remove_depth > 0:
             logging.warning("File ended with unclosed REMOVE block")
         if in_step:
             logging.warning("File ended with unclosed STEP block")

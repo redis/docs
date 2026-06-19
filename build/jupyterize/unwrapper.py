@@ -141,6 +141,32 @@ def _remove_trailing_braces(code, count):
     return '\n'.join(result)
 
 
+def _strip_trailing_orphan_braces(code):
+    """
+    Strip orphan closing braces left when a class/method wrapper's opening was
+    removed from an earlier cell.
+
+    Only CONTIGUOUS trailing lone-'}' lines are removed (stopping at the first
+    real content line), and at most as many as the cell has unmatched closes
+    (`}` minus `{`). This preserves the closing braces of balanced blocks
+    (for/foreach/lambda bodies) that legitimately sit inside the cell.
+    """
+    net = code.count('}') - code.count('{')
+    if net <= 0:
+        return code
+
+    lines = code.split('\n')
+    while net > 0 and lines:
+        if lines[-1].strip() == '':
+            lines.pop()                       # drop trailing blank lines
+        elif re.match(r'^\s*\}\s*$', lines[-1]):
+            lines.pop()                       # drop an orphan closing brace
+            net -= 1
+        else:
+            break                             # hit real content; stop
+    return '\n'.join(lines)
+
+
 class CodeUnwrapper:
     """Removes language-specific structural wrappers from code."""
 
@@ -226,12 +252,9 @@ class CodeUnwrapper:
         # Strip any remaining orphan trailing closing braces. A class/method
         # wrapper spans cells (opening braces in the first cell, closing braces
         # in the last), so per-cell removal above leaves the trailing closes
-        # behind. Bound the strip to this cell's net brace imbalance so balanced
-        # bodies (for/foreach/lambda blocks) keep their own closing braces.
-        net_orphans = code.count('}') - code.count('{')
-        if net_orphans > 0:
-            logging.debug(f"Removing {net_orphans} orphan trailing closing braces")
-            code = _remove_trailing_braces(code, net_orphans)
+        # behind. Only contiguous trailing lone-'}' lines are removed, bounded by
+        # the cell's net brace imbalance, so balanced bodies keep their braces.
+        code = _strip_trailing_orphan_braces(code)
 
         return code
 
