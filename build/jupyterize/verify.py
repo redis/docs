@@ -37,10 +37,11 @@ EXT_LANGUAGE = {
 # real image. Only python is verified today; other languages must be passed via
 # --image until their binder-<lang>-base digests are added here.
 BASE_IMAGES = {
+    # Current python base: redis-py 8.0.0 on Redis 8.2.2 (rebuilt 2026-06-19).
     "python": (
         "us-central1-docker.pkg.dev/redis-learning-378123/binderhub/"
         "binder-python-base@sha256:"
-        "d28356e3f85b5d41c8324fcec7161b3a268a287b9025b590925829fda9aa71c1"
+        "bbb6b1f137115974f938f74acfcc50203565899343efe1dcfa5a72e48383f346"
     ),
 }
 
