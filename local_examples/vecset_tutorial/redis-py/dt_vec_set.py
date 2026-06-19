@@ -214,6 +214,7 @@ assert res26 == 1
 assert res27 == 1
 assert res28 == 1
 
+assert res29 == ['pt:A', 'pt:C', 'pt:B']
 assert res30 == ['pt:C', 'pt:B']
 # REMOVE_END
 

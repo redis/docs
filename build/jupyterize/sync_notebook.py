@@ -156,14 +156,26 @@ def remote_branch_exists(repo, branch):
     return bool(r.stdout.strip())
 
 
-def local_verify(source, mode, image):
-    """Run verify.py on the source against the branch's base image."""
-    print(f"\n--- Local pre-check: verify.py --mode {mode} ---")
-    cmd = [sys.executable, VERIFY, source, "--mode", mode]
+def local_verify(notebook, mode, image):
+    """Execute the generated notebook in the base image; True if it passes."""
+    print(f"\n--- Local pre-check: verify.py --notebook --mode {mode} ---")
+    cmd = [sys.executable, VERIFY, "--notebook", notebook, "--mode", mode]
     if image:
         cmd += ["--image", image]
     r = subprocess.run(cmd)
     return r.returncode == 0
+
+
+def restore_clone(repo, orig_branch, target, is_new):
+    """Return the binder-launchers clone to its pre-run clean state (used on
+    non-committing exits so a dry-run/failed sync doesn't block the next run)."""
+    git(repo, "reset", "--hard", "--quiet")
+    subprocess.run(["git", "-C", repo, "clean", "-fdq"], check=False)
+    if orig_branch and orig_branch != target:
+        git(repo, "switch", "--quiet", orig_branch)
+        if is_new:
+            subprocess.run(["git", "-C", repo, "branch", "-D", target],
+                           capture_output=True)
 
 
 def read_from(dockerfile):
@@ -228,6 +240,8 @@ def main():
     if status:
         fail(f"binder-launchers working tree is dirty; commit/stash first:\n{status}")
 
+    # Remember where the clone started so non-committing exits can restore it.
+    orig_branch = git(repo, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
     git(repo, "fetch", "--quiet", "origin")
     is_new = not remote_branch_exists(repo, branch)
 
@@ -249,16 +263,20 @@ def main():
         if not base_image:
             fail("could not read FROM line from the branch Dockerfile")
 
-    # Local pre-check against the branch's ACTUAL base image: refuse to sync a
-    # notebook whose asserts don't pass on the image it will ship on.
+    # Generate notebooks straight into the branch working tree.
+    test_nb_path = os.path.join(repo, "demo.test.ipynb")
+    jupyterize(source, os.path.join(repo, "demo.ipynb"), with_tests=False)
+    jupyterize(source, test_nb_path, with_tests=True)
+
+    # Local pre-check against the branch's ACTUAL base image, run on the
+    # GENERATED test notebook (not a re-parse), so the exact artifact that ships
+    # is what gets verified. Refuse to sync if its asserts don't pass.
     if not args.no_verify:
-        if not local_verify(source, args.mode, base_image):
+        if not local_verify(test_nb_path, args.mode, base_image):
+            restore_clone(repo, orig_branch, branch, is_new)
             fail("local verification failed - not syncing")
         print("--- Local pre-check PASSED ---")
 
-    # Generate notebooks straight into the branch working tree.
-    jupyterize(source, os.path.join(repo, "demo.ipynb"), with_tests=False)
-    jupyterize(source, os.path.join(repo, "demo.test.ipynb"), with_tests=True)
     # Always (re)apply the verify gate + ignore rules so existing plain branches
     # get upgraded too. Dockerfile is left as-is for existing branches.
     write(os.path.join(repo, ".github", "workflows", "main.yml"), WORKFLOW)
@@ -268,11 +286,13 @@ def main():
     diff = git(repo, "status", "--porcelain").stdout.strip()
     if not diff:
         print("\nNothing changed - branch already up to date.")
+        restore_clone(repo, orig_branch, branch, is_new)
         return 0
     print(f"\nChanges staged on '{branch}':\n{diff}")
 
     if args.dry_run:
-        print("\n[dry-run] not committing or pushing.")
+        restore_clone(repo, orig_branch, branch, is_new)
+        print("\n[dry-run] not committing or pushing; clone restored.")
         return 0
 
     msg = (f"Sync {os.path.basename(source)} notebook via jupyterize\n\n"

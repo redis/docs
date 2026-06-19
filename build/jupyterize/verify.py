@@ -114,7 +114,14 @@ def parse_cells(path):
         if _is(line, EXAMPLE) or _is(line, BINDER_ID) or _is(line, KERNEL_NAME):
             continue
         if _is(line, REMOVE_START):
-            flush_ctx()
+            # Flush an open step first so the REMOVE test cell lands *after* the
+            # step code that defines the variables its asserts reference.
+            if in_step and any(ln.strip() for ln in step_buf):
+                cells.append({"source": "".join(step_buf).strip("\n"),
+                              "step": step_name, "test": False})
+                step_buf = []
+            else:
+                flush_ctx()
             in_remove, rem_buf = True, []
             continue
         if _is(line, REMOVE_END):
@@ -259,7 +266,11 @@ def report(executed):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("source", help="example source .py")
+    ap.add_argument("source", nargs="?", help="example source .py")
+    ap.add_argument("--notebook", metavar="PATH",
+                    help="verify a prebuilt .ipynb directly (e.g. jupyterize's "
+                         "output) instead of re-parsing a source file; needs "
+                         "--image")
     ap.add_argument("--image", default=None,
                     help="base image (defaults to the source language's image)")
     ap.add_argument("--mode", choices=["kernel", "script"], default="kernel",
@@ -269,6 +280,23 @@ def main():
                     help="also write the stripped (shipped) notebook here")
     args = ap.parse_args()
 
+    # Notebook mode: execute a prebuilt notebook as-is (no re-parsing), so the
+    # exact artifact that ships is what gets verified.
+    if args.notebook:
+        if not args.image:
+            raise SystemExit("--image is required with --notebook")
+        with open(args.notebook, encoding="utf-8") as f:
+            test_nb = json.load(f)
+        img_name = args.image.split('@')[0].split('/')[-1]
+        print(f"Verifying {args.notebook} in {img_name} (mode={args.mode}) ...")
+        executed = execute_in_image(test_nb, args.image, args.mode)
+        ok, _ = report(executed)
+        print()
+        print("RESULT: PASS" if ok else "RESULT: FAIL")
+        return 0 if ok else 1
+
+    if not args.source:
+        raise SystemExit("provide a source file, or --notebook PATH")
     image = resolve_image(args.source, args.image)
     markers = read_markers(args.source)
     cells = parse_cells(args.source)
