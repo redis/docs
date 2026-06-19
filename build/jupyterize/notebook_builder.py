@@ -144,6 +144,11 @@ class NotebookBuilder:
         nb = new_notebook()
         nb.cells = cells
 
+        # Deterministic cell ids: nbformat assigns random ids otherwise, which
+        # would make every regeneration of an unchanged example produce a diff.
+        for i, cell in enumerate(nb.cells):
+            cell['id'] = f"cell{i}"
+
         # Set kernel metadata
         kernel_spec = get_kernel_spec(self.language)
 
