@@ -32,9 +32,11 @@ VERIFY = os.path.join(HERE, "verify.py")
 # Default sibling clone: <Repos>/binder-launchers next to <Repos>/docs
 DEFAULT_REPO = os.path.normpath(os.path.join(HERE, "..", "..", "..", "binder-launchers"))
 
+# Mirror of build/local_examples.py's EXTENSION_TO_LANGUAGE (kept local to avoid
+# importing that module's heavy dependency chain). Keep the two in sync.
 EXT_LANGUAGE = {
-    ".py": "python", ".js": "node.js", ".go": "go", ".java": "java",
-    ".cs": "c#", ".php": "php", ".rb": "ruby", ".rs": "rust",
+    ".py": "python", ".js": "node.js", ".go": "go", ".c": "c", ".h": "c",
+    ".cs": "c#", ".java": "java", ".php": "php", ".rb": "ruby", ".rs": "rust",
 }
 
 # Base image used only when SCAFFOLDING A NEW branch. Existing branches keep

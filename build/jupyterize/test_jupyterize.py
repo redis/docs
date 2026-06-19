@@ -868,6 +868,7 @@ def main():
         test_hide_remove_blocks()
         test_keep_tests_mode()
         test_trailing_brace_orphans()
+        test_orphan_braces_ignore_strings()
         test_javascript_file()
 
         # Edge case tests
@@ -1318,6 +1319,31 @@ public class TrailingBraceExample {
             os.unlink(test_file)
         if os.path.exists(output_file):
             os.unlink(output_file)
+
+
+def test_orphan_braces_ignore_strings():
+    """Braces inside string/char literals must not skew orphan-brace removal."""
+    print("\nTesting orphan-brace removal ignores string-literal braces...")
+
+    from unwrapper import _net_braces, _strip_trailing_orphan_braces
+
+    # A '}' in a string/char/comment is not a structural brace.
+    assert _net_braces('System.out.println("}");') == 0
+    assert _net_braces("char c = '}';") == 0
+    assert _net_braces('x = 1;  // closes the } block') == 0
+    # Real structural imbalance is still counted.
+    assert _net_braces('foo();\n}\n}') == 2
+
+    # A balanced loop whose body prints a '}' keeps its own closing brace.
+    balanced = 'for (int i = 0; i < 2; i++) {\n    print("}");\n}'
+    assert _strip_trailing_orphan_braces(balanced) == balanced
+
+    # Genuine orphan wrapper closes (with a string brace earlier) are stripped,
+    # but only the unmatched ones.
+    orphan = 'print("}");\njedis.close();\n}\n}'
+    assert _strip_trailing_orphan_braces(orphan) == 'print("}");\njedis.close();'
+
+    print("✓ Orphan-brace string-literal test passed")
 
 
 if __name__ == '__main__':
