@@ -867,6 +867,7 @@ def main():
         test_basic_conversion()
         test_hide_remove_blocks()
         test_keep_tests_mode()
+        test_trailing_brace_orphans()
         test_javascript_file()
 
         # Edge case tests
@@ -1246,6 +1247,77 @@ assert res is True
         for p in (test_file, ship_file, test_nb_file):
             if os.path.exists(p):
                 os.unlink(p)
+
+
+def test_trailing_brace_orphans():
+    """Orphan wrapper close-braces (in a later cell) are stripped, but balanced
+    block braces in the same example are preserved."""
+    print("\nTesting orphan trailing-brace removal across cells...")
+
+    # The class/method wrapper opens in the first cell; a teardown statement and
+    # the wrapper's closing braces land in a trailing context cell (not a
+    # braces-only cell, so it isn't skipped). A balanced for-loop sits in a step.
+    test_content = """// EXAMPLE: test_trailing_braces
+import redis.clients.jedis.UnifiedJedis;
+
+public class TrailingBraceExample {
+    public void run() {
+        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+
+        // STEP_START loop
+        for (int i = 0; i < 2; i++) {
+            System.out.println(i);
+        }
+        // STEP_END
+
+        jedis.close();
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.java', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.java', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # No wrapper scaffolding survives anywhere.
+        all_src = '\n'.join(''.join(c['source']) for c in nb['cells'])
+        assert 'public class' not in all_src
+        assert 'public void run' not in all_src
+
+        # The balanced for-loop keeps its own closing brace.
+        loop_cell = next(c for c in nb['cells']
+                         if 'for (int i' in ''.join(c['source']))
+        loop_src = ''.join(loop_cell['source'])
+        assert loop_src.count('{') == loop_src.count('}'), \
+            f"balanced loop braces altered: {loop_src!r}"
+
+        # The teardown cell keeps jedis.close() but loses the orphan wrapper '}'.
+        close_cell = next(c for c in nb['cells']
+                          if 'jedis.close()' in ''.join(c['source']))
+        close_src = ''.join(close_cell['source']).rstrip()
+        assert close_src.endswith('jedis.close();'), \
+            f"orphan braces not stripped: {close_src!r}"
+
+        # No kept cell is left brace-positive (orphan trailing closes).
+        for c in nb['cells']:
+            src = ''.join(c['source'])
+            assert src.count('}') <= src.count('{'), \
+                f"cell has orphan closing braces: {src!r}"
+
+        print("✓ Orphan trailing-brace removal test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if os.path.exists(output_file):
+            os.unlink(output_file)
 
 
 if __name__ == '__main__':

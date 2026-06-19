@@ -223,5 +223,15 @@ class CodeUnwrapper:
             logging.debug(f"Removing {braces_removed} trailing closing braces")
             code = _remove_trailing_braces(code, braces_removed)
 
+        # Strip any remaining orphan trailing closing braces. A class/method
+        # wrapper spans cells (opening braces in the first cell, closing braces
+        # in the last), so per-cell removal above leaves the trailing closes
+        # behind. Bound the strip to this cell's net brace imbalance so balanced
+        # bodies (for/foreach/lambda blocks) keep their own closing braces.
+        net_orphans = code.count('}') - code.count('{')
+        if net_orphans > 0:
+            logging.debug(f"Removing {net_orphans} orphan trailing closing braces")
+            code = _remove_trailing_braces(code, net_orphans)
+
         return code
 
