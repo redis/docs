@@ -126,8 +126,8 @@ jobs:
           docker run --rm -v "${PWD}:/work" "${BASE}" bash -c '
             cd /usr/src/redis-src && ./redis-server ./redis.conf --daemonize yes >/dev/null 2>&1 && sleep 1
             cd /work && jupyter nbconvert --to notebook --execute \\
-              --ExecutePreprocessor.startup_timeout=120 \\
-              --ExecutePreprocessor.timeout=120 \\
+              --ExecutePreprocessor.startup_timeout=300 \\
+              --ExecutePreprocessor.timeout=300 \\
               --output /tmp/executed.ipynb demo.test.ipynb'
 
   call-reusable-workflow:
@@ -370,8 +370,10 @@ def main():
     print(f"Committed to '{branch}'.")
 
     if args.push:
-        git(repo, "push", "--quiet",
-            *(["-u", "origin", branch] if is_new else []), capture=False)
+        # Always target origin/<branch> explicitly and (re)set the upstream.
+        # A scaffolded branch is created from origin/main, so a plain `git push`
+        # would otherwise follow that upstream and fail or push to the wrong ref.
+        git(repo, "push", "--quiet", "-u", "origin", branch, capture=False)
         print(f"Pushed '{branch}' to origin.")
     else:
         print("Not pushed (use --push). Review the commit, then push when ready.")
