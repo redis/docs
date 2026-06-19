@@ -173,6 +173,25 @@ def remote_branch_exists(repo, branch):
     return bool(r.stdout.strip())
 
 
+def local_branch_exists(repo, branch):
+    r = subprocess.run(
+        ["git", "-C", repo, "rev-parse", "--verify", "--quiet",
+         f"refs/heads/{branch}"],
+        capture_output=True, text=True,
+    )
+    return r.returncode == 0
+
+
+def commits_ahead(repo, branch):
+    """How many commits local `branch` has that origin/`branch` does not."""
+    r = subprocess.run(
+        ["git", "-C", repo, "rev-list", "--count",
+         f"origin/{branch}..{branch}"],
+        capture_output=True, text=True,
+    )
+    return int(r.stdout.strip() or 0) if r.returncode == 0 else 0
+
+
 def local_verify(notebook, mode, image):
     """Execute the generated notebook in the base image; True if it passes."""
     print(f"\n--- Local pre-check: verify.py --notebook --mode {mode} ---")
@@ -278,7 +297,9 @@ def main():
     # Remember where the clone started so non-committing exits can restore it.
     orig_branch = git(repo, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
     git(repo, "fetch", "--quiet", "origin")
-    is_new = not remote_branch_exists(repo, branch)
+    on_origin = remote_branch_exists(repo, branch)
+    on_local = local_branch_exists(repo, branch)
+    is_new = not (on_origin or on_local)
 
     if is_new:
         print(f"Branch '{branch}' does not exist -> scaffolding a new one.")
@@ -292,8 +313,18 @@ def main():
         write(os.path.join(repo, "README.md"), README)
     else:
         print(f"Branch '{branch}' exists -> updating (Dockerfile preserved).")
-        git(repo, "switch", "--quiet", branch)
-        git(repo, "reset", "--hard", "--quiet", f"origin/{branch}")
+        # Check out the branch (creating a local ref from origin if needed).
+        if on_local:
+            git(repo, "switch", "--quiet", branch)
+        else:
+            git(repo, "switch", "--quiet", "-c", branch, f"origin/{branch}")
+        # Re-sync to origin, but never silently drop local commits not on origin.
+        if on_origin:
+            ahead = commits_ahead(repo, branch)
+            if ahead:
+                fail(f"branch '{branch}' has {ahead} local commit(s) not on "
+                     f"origin; push or discard them before syncing")
+            git(repo, "reset", "--hard", "--quiet", f"origin/{branch}")
         base_image = read_from(os.path.join(repo, "Dockerfile"))
         if not base_image:
             fail("could not read FROM line from the branch Dockerfile")

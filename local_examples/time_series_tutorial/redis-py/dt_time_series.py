@@ -227,7 +227,8 @@ print(res28)  # >>> [{'rg:2': [{}, 4, 1.78]}, {'rg:3': [{}, 4, 0.74]}]
 # Retrieve the same data points, but include the `unit`
 # label in the results.
 res29 = r.ts().mget(["location=us"], select_labels=["unit"])
-print(res29)  # >>> [{'unit': 'cm'}, (4, 1.78), {'unit': 'in'}, (4, 0.74)]
+print(res29)
+# >>> [{'rg:2': [{'unit': 'cm'}, 4, 1.78]}, {'rg:3': [{'unit': 'in'}, 4, 0.74]}]
 
 # Retrieve data points up to time 2 (inclusive) from all
 # time series that use millimeters as the unit. Include all
