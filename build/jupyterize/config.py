@@ -25,8 +25,10 @@ KERNEL_SPECS = {
         }
     },
     'node.js': {
-        'name': 'javascript',
-        'display_name': 'JavaScript (Node.js)',
+        # 'jslab' is the kernel the binder-nodejs-base image actually installs
+        # (from the tslab package); the older 'javascript' name is not present.
+        'name': 'jslab',
+        'display_name': 'JavaScript',
         'language': 'javascript',
         'language_info': {
             'name': 'javascript',
@@ -36,7 +38,8 @@ KERNEL_SPECS = {
         }
     },
     'go': {
-        'name': 'gophernotes',
+        # binder-go-base installs GoNB (kernel name 'gonb'), not gophernotes.
+        'name': 'gonb',
         'display_name': 'Go',
         'language': 'go',
         'language_info': {
