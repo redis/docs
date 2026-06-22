@@ -580,7 +580,11 @@ If `GROUPBY label REDUCE reducer` is specified:
 - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): either a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value, or empty array
 - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
 - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by ","
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing all samples/aggregations matching the range
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range:
+  - Without `AGGREGATION` or with a single aggregator:
+    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value)
+  - With multiple aggregators:
+    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value...)
 
 -tab-sep-
 
