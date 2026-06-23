@@ -2,6 +2,7 @@
 aliases:
 - /data-types/hashes/
 - /manual/data-types/hashes/
+- /develop/data-types/hash/
 categories:
 - docs
 - develop

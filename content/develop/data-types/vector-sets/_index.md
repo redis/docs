@@ -2,6 +2,7 @@
 aliases:
 - /data-types/vector-sets/
 - /manual/data-types/vector-sets/
+- /develop/data-types/vector-set/
 categories:
 - docs
 - develop

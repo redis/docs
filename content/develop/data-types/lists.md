@@ -2,6 +2,7 @@
 aliases:
 - /data-types/lists/
 - /manual/data-types/lists/
+- /develop/data-types/list/
 categories:
 - docs
 - develop
