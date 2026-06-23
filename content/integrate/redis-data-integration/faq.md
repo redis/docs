@@ -103,8 +103,7 @@ with Redis Insight or with the
 [`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
 command from the CLI.
 
-See [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}})
-for more information.
+See [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}) for more information about DLQ.
 
 ## Can I use RDI without persistence enabled?
 
