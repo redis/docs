@@ -27,18 +27,18 @@ whether to commit the change.
 
 | Capability | Confidence | Real encounters | Last verified | Evidence |
 |---|---|---|---|---|
-| Branch/PR identification + arg handling | 🟢 corroborated | 3 | 2026-06-23 | #3415, #3507, #3374 |
-| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 4 | 2026-06-23 | #3415, #3507, #3510, #3374 |
-| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 2 | 2026-06-23 | #3510 (12/12 resolved), #3374 (15/15) |
-| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 3 | 2026-06-23 | #3415, #3507, #3374 |
-| Open/resolved split | 🟢 corroborated | 2 | 2026-06-23 | #3510, #3374 |
+| Branch/PR identification + arg handling | 🟢 corroborated | 4 | 2026-06-23 | #3415, #3507, #3374, #3536 |
+| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 5 | 2026-06-23 | #3415, #3507, #3510, #3374, #3536 |
+| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 3 | 2026-06-23 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open) |
+| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 4 | 2026-06-23 | #3415, #3507, #3374, #3536 |
+| Open/resolved split | 🟢 corroborated | 3 | 2026-06-23 | #3510, #3374, #3536 (0 resolved / 2 open) |
 | Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 2 | 2026-06-23 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed) |
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
 | "Resolved ≠ fixed" flag — **still-broken** variant | ❓ untested | 0 | — | never confirmed a resolved thread that was actually still broken |
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
 | **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding); #3507 (bugbot vs author intent, off-branch) |
 | **Ping-pong loop** detection | ❓ untested | 0 | — | never observed a real loop; all PRs so far had clean find→fix→resolve flow |
-| Approval-over-open-finding cross-check | 🟢 corroborated | 2 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH) |
+| Approval-over-open-finding cross-check | 🟢 corroborated | 3 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant) |
 | Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
 | Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
 | Bot calibration (fixed-vs-dismissed ratio) | 🟡 seen once | 1 | 2026-06-23 | #3374 (bugbot signal mostly accepted) |

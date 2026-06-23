@@ -12,8 +12,11 @@ is the synthesis layer the individual tools don't have.
 
 **This command assesses and reports. It does not edit PR content, commit, push,
 or reply** — the one and only file it may write is its own coverage ledger
-(step 11). Fixing is a separate step — hand the safe clusters to `/docs:bugbot`
-or fix them yourself once you've seen the report.
+(step 11). Fixing is a separate step. Note that `/docs:bugbot` only triages and
+fixes **Cursor Bugbot's own** comments — so it's the right hand-off *only* for
+bugbot-sourced clusters. Safe fixes that came from humans, Codex, the security
+or history bots, etc. won't be touched by `/docs:bugbot`; apply those directly
+(or ask me to) once you've seen the report.
 
 It's also meant to be run **repeatedly** as the PR evolves: the bots tend to post
 fresh comments after each round of fixes, so each run is a checkpoint — verify
@@ -76,10 +79,15 @@ exactly what lets you adjudicate the tool findings.
 
    For each comment capture: author `login`, `created_at`, the body, and for
    inline comments the `path`, line, and its thread's `isResolved` /
-   `isOutdated`. If `$ARGUMENTS` was given, drop every comment whose author
-   doesn't match it before going further.
+   `isOutdated`. If `$ARGUMENTS` was given, it narrows which comments become
+   **findings you cluster and adjudicate** (steps 4–7) to the matching author —
+   but **don't discard the others**. Always retain every review verdict and the
+   full set of open findings as *context*, because step 8 (approval-over-open-
+   finding) needs to see approvals and bot findings together; filtering them out
+   would silently disable that safety check. In filtered mode, run step 8
+   against the full comment set, not the filtered one.
 
-   If nothing is left after filtering, stop and tell me.
+   If no comment matches `$ARGUMENTS`, stop and tell me.
 
 3. **Tag each comment by its source role.** You're reconciling *roles*, not
    usernames. Classify each author as one of:
@@ -186,10 +194,12 @@ exactly what lets you adjudicate the tool findings.
    |---|---|---|---|---|
 
    - **Verdict**: agreement / contradiction / ping-pong / solo / stale.
-   - **Recommended action**: one of — *safe to fix* (uncontested and low-risk →
-     hand to `/docs:bugbot`); *needs your call* (contradiction, approval-over-
-     finding, or history-bot warning); *dismiss* (false positive — say why);
-     *already handled* (stale).
+   - **Recommended action**: one of — *safe to fix* (uncontested and low-risk;
+     hand **bugbot-sourced** clusters to `/docs:bugbot`, but apply safe fixes
+     from any other source — human, Codex, security, history — directly, since
+     `/docs:bugbot` won't touch those); *needs your call* (contradiction,
+     approval-over-finding, or history-bot warning); *dismiss* (false positive —
+     say why); *already handled* (stale).
 
    Then, in this order:
    - the **headline** — contradictions, ping-pong loops, and any approval-over-
