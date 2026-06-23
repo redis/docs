@@ -36,12 +36,12 @@ whether to commit the change.
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
 | "Resolved ≠ fixed" flag — **still-broken** variant | ❓ untested | 0 | — | never confirmed a resolved thread that was actually still broken |
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
-| **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding); #3507 (bugbot vs author intent, off-branch) |
-| **Ping-pong loop** detection | ❓ untested | 0 | — | never observed a real loop; all PRs so far had clean find→fix→resolve flow |
+| **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
+| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-23 | still no real loop. #3536 was the first *post-fix re-scan* tested: round-1 fixes (commit `da7c04a`) re-triggered a bugbot re-review that raised 3 new findings, but they were independent/pre-existing, not a back-and-forth — correctly judged NOT a loop (near-miss recorded below) |
 | Approval-over-open-finding cross-check | 🟢 corroborated | 3 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant) |
 | Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
 | Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
-| Bot calibration (fixed-vs-dismissed ratio) | 🟡 seen once | 1 | 2026-06-23 | #3374 (bugbot signal mostly accepted) |
+| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 2 | 2026-06-23 | #3374 (bugbot signal mostly accepted); #3536 (bugbot 5/5 findings valid across 2 rounds — high trust) |
 | Codex second-opinion availability gate | 🟢 corroborated | 2 | 2026-06-23 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review) |
 
 ## Worked examples library
@@ -50,8 +50,19 @@ Concrete real-world signatures, so detection sharpens over time. Add to this
 whenever a rare pattern is seen for the first time.
 
 ### Ping-pong loops
-*(none observed yet — when the first real loop appears, record the tool
+*(no true loop observed yet — when the first real one appears, record the tool
 sequence, the comment ids, and the commits between them here)*
+
+**Near-miss (NOT a loop) — #3536, 2026-06-23.** Round-1 bugbot findings (ids
+3460160413, 3460160429 on commit `17517ed`) were fixed in commit `da7c04a`;
+bugbot re-reviewed and raised 3 *new* findings (ids 3460820452/470/474). One new
+finding (GraphQL pagination, `assess-comments.md:72-75`) sat in the same step I'd
+just edited — superficially loop-shaped. But the new findings were independent,
+pre-existing issues exposed by the file changing, **not** the same spot toggled
+back and forth or a fix being undone. Lesson for the detector: "fix → re-scan →
+new findings in an edited region" is normal iteration, **not** ping-pong. A true
+loop needs the *same concern* reopened, or tool A's fix re-triggering tool B in a
+cycle.
 
 ### Resolved-but-still-broken
 *(none confirmed yet — record any thread marked resolved whose bug was still

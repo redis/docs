@@ -74,6 +74,11 @@ exactly what lets you adjudicate the tool findings.
          isResolved isOutdated comments(first:100){ nodes {
            databaseId author{login} path body } } } } } } }'
      ```
+     `first:100` covers any normal PR, but unlike the `--paginate`d REST calls it
+     does **not** page — so if a PR genuinely has >100 review threads (or a thread
+     with >100 comments), check `pageInfo.hasNextPage` and follow the cursor, or
+     you'll silently miss resolution state and skew the open/resolved split.
+
      Use `databaseId` to map each thread back to the inline comments from the
      REST pull, so you know which are **resolved** vs **open**.
 
@@ -92,7 +97,11 @@ exactly what lets you adjudicate the tool findings.
 3. **Tag each comment by its source role.** You're reconciling *roles*, not
    usernames. Classify each author as one of:
 
-   - **bugbot** — `cursor` / `cursor[bot]`, or any body mentioning "Bugbot"
+   - **bugbot** — author `login` is `cursor` / `cursor[bot]`. **Tag by author,
+     not body text:** a *human* reply that quotes or mentions "Bugbot" is still a
+     human comment — don't tag it bugbot (that would mis-route it to
+     `/docs:bugbot`). Only treat a body mention of "Bugbot" as a signal when the
+     author is some other bot relaying bugbot's output.
    - **security** — the security scanner
    - **history** — the commit-history / semantic-similarity bot
    - **summary** — the AI PR summary (usually the PR body or a bot comment)
@@ -166,10 +175,15 @@ exactly what lets you adjudicate the tool findings.
      said is a deliberate CTF example; bugbot wants a refactor the history bot
      says was reverted before). Call these out loudest — they're where blind
      auto-fixing does damage.
-   - **Ping-pong** — using `created_at` order and the commits in between, spot
-     cases where a fix for one tool's comment re-triggered another tool, or the
-     same spot has been edited back and forth. Flag the loop rather than
-     extending it.
+   - **Ping-pong** — a genuine loop is narrower than it looks. Using `created_at`
+     order and the commits in between, flag it **only** when *the same concern is
+     reopened* (a finding you thought fixed comes back), or *a fix for tool A's
+     comment re-triggered tool B in a cycle* (A→fix→B→fix→A…). It is **not**
+     ping-pong when a fix round simply prompts a re-scan that surfaces **new,
+     independent findings** — even if they land in the region you just edited.
+     That's normal iteration; treat those as fresh clusters, not a loop. (Real
+     example of the non-loop case in the coverage ledger's near-miss log.) When
+     it *is* a true loop, flag it rather than extending it.
    - **Solo** — a single source, no corroboration → judge it on its merits and
      say how confident you are. A solo finding you've *verified against the code
      and data* is high-confidence even with one source.
