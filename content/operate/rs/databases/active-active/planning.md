@@ -68,11 +68,15 @@ The `replication_oom_threshold_percent` setting works as follows:
 
 - If memory reaches `maxmemory` despite the client block, the standard out-of-memory behavior applies to all operations, including replication.
 
-`replication_oom_threshold_percent` defaults to `5`, which means 5% of `maxmemory` is reserved. To adjust the reserved percentage, use an [update database configuration]({{<relref "operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+`replication_oom_threshold_percent` defaults to `5`, which means 5% of `maxmemory` is reserved. To adjust the reserved percentage in all participating clusters, use an [update Active-Active database configuration]({{<relref "/operate/rs/references/rest-api/requests/crdbs#patch-crdbs">}}) REST API request:
 
 ```sh
-PUT https://<host>:<port>/v1/bdbs/<database_id>
-{ "replication_oom_threshold_percent": <integer from 0 to 20> }
+PATCH https://<host>:<port>/v1/crdbs/<crdb_guid>
+{ 
+  "default_db_config": { 
+    "replication_oom_threshold_percent": <integer from 0 to 20> 
+  }
+}
 ```
 
 ## Networking
