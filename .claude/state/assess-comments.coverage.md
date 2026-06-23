@@ -38,7 +38,7 @@ whether to commit the change.
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
 | **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
 | **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-23 | still no real loop across 4 bugbot rounds on #3536. Rounds 2 & 4 each raised new post-fix findings but none was a reopened concern or A↔B cycle — correctly judged NOT a loop both times. Round 4 instead revealed *subsystem churn* (next row) |
-| **Subsystem churn** detection (repeated findings on one patched area) | 🟡 seen once | 1 | 2026-06-23 | #3536 — findings 429 (r1), 862 + 874 (r4) all cluster on `$ARGUMENTS` filter + review-verdict handling; recommended a consolidated redesign over another patch (worked example below) |
+| **Subsystem churn** detection (repeated findings on one patched area) | 🟡 seen (1 PR, 2 instances) | 2 | 2026-06-23 | #3536 — (a) findings 429/862/874 on `$ARGUMENTS` filter + review handling; (b) round-5 findings 442/449 on the *churn feature itself* (added r4 in step 7, not threaded into steps 6 & 9). Both met with a consolidated fix, not a patch. Stays 🟡 — both on one PR; needs a 2nd PR for 🟢. Worked examples below |
 | Approval-over-open-finding cross-check | 🟢 corroborated | 3 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant) |
 | Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
 | Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
@@ -84,6 +84,14 @@ present in the code)*
   second-class vs comments. Signature: each incremental patch exposed the next
   adjacent gap. Response that ended it: one **consolidated** fix promoting reviews
   to first-class across steps 2–4, rather than patching 862/874 individually.
+- **#3536 churn-on-the-churn-feature (round 5), 2026-06-23.** The *fix* for the
+  case above added "subsystem churn" to step 7 — but only there. Round 5 bugbot
+  raised 442 ("churn detection capped incorrectly" — gated behind step 6's depth
+  cap) and 449 ("report verdict omits churn" — missing from step 9's verdict list
+  and headline). Same signature as any churn: a feature added in one place,
+  adjacent integration gaps exposed next round. Cured by threading churn through
+  steps 6 and 9 in one pass. Lesson: adding a capability *is* a subsystem edit —
+  wire it through every dependent step at once, or it becomes its own churn.
 
 ### Cross-tool agreement
 - **#3374 `num_docs`** — Claude (Critical #2, top-level review) and bugbot

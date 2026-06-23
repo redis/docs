@@ -169,6 +169,12 @@ exactly what lets you adjudicate the tool findings.
    **ping-pong loops**, and **resolved-but-not-outdated High/Critical findings**
    (step 5). Everything else competes for the remaining slots.
 
+   One assessment runs *outside* the cap entirely: **subsystem churn** (step 7).
+   Churn is a pattern across findings — including ones you deferred this round
+   and ones from prior rounds — so judge it against the **full** open+recent set,
+   never just the capped deep set. If a deferred cluster turns out to be part of
+   a churn pattern, pull it into deep-verify; the cap must not hide churn.
+
 7. **Adjudicate the chosen clusters — and verify, don't trust.** For each
    cluster in your deep set, open the file it points at (and the underlying data
    it depends on) and judge for yourself; these tools have false positives, and
@@ -224,7 +230,7 @@ exactly what lets you adjudicate the tool findings.
    | Cluster | File / line | Sources | Verdict | Recommended action |
    |---|---|---|---|---|
 
-   - **Verdict**: agreement / contradiction / ping-pong / solo / stale.
+   - **Verdict**: agreement / contradiction / ping-pong / churn / solo / stale.
    - **Recommended action**: one of — *safe to fix* (uncontested and low-risk;
      hand **bugbot-sourced** clusters to `/docs:bugbot`, but apply safe fixes
      from any other source — human, Codex, security, history — directly, since
@@ -233,8 +239,9 @@ exactly what lets you adjudicate the tool findings.
      say why); *already handled* (stale).
 
    Then, in this order:
-   - the **headline** — contradictions, ping-pong loops, and any approval-over-
-     open-finding from step 8 (these need a human) first;
+   - the **headline** — contradictions, ping-pong loops, **subsystem churn (with
+     its consolidate-don't-patch recommendation)**, and any approval-over-open-
+     finding from step 8 (these need a human) first;
    - the **safe-to-fix** list;
    - what you're **dismissing** and why, so I can sanity-check your reasoning;
    - a short **resolved-threads** note (from step 5) — only what's worth saying:
