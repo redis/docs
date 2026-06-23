@@ -37,7 +37,8 @@ whether to commit the change.
 | "Resolved ≠ fixed" flag — **still-broken** variant | ❓ untested | 0 | — | never confirmed a resolved thread that was actually still broken |
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
 | **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
-| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-23 | still no real loop. #3536 was the first *post-fix re-scan* tested: round-1 fixes (commit `da7c04a`) re-triggered a bugbot re-review that raised 3 new findings, but they were independent/pre-existing, not a back-and-forth — correctly judged NOT a loop (near-miss recorded below) |
+| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-23 | still no real loop across 4 bugbot rounds on #3536. Rounds 2 & 4 each raised new post-fix findings but none was a reopened concern or A↔B cycle — correctly judged NOT a loop both times. Round 4 instead revealed *subsystem churn* (next row) |
+| **Subsystem churn** detection (repeated findings on one patched area) | 🟡 seen once | 1 | 2026-06-23 | #3536 — findings 429 (r1), 862 + 874 (r4) all cluster on `$ARGUMENTS` filter + review-verdict handling; recommended a consolidated redesign over another patch (worked example below) |
 | Approval-over-open-finding cross-check | 🟢 corroborated | 3 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant) |
 | Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
 | Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
@@ -72,6 +73,17 @@ borne out by what happened next: assess → fix → re-scan reached a fixed poin
 ### Resolved-but-still-broken
 *(none confirmed yet — record any thread marked resolved whose bug was still
 present in the code)*
+
+### Subsystem churn (not a loop, but the precursor)
+- **#3536 review-handling, 2026-06-23.** Bugbot finding 429 (round 1) flagged the
+  `$ARGUMENTS` filter dropping cross-check data; it was patched. Two rounds later
+  bugbot raised 862 ("filter abort ignores reviews") and 874 ("review bodies skip
+  clustering") — *new, independent* findings (so not ping-pong), but all three
+  cluster on the **same under-specified subsystem**: how review verdicts flow
+  through collect → filter → tag → cluster → abort. Root cause: reviews were
+  second-class vs comments. Signature: each incremental patch exposed the next
+  adjacent gap. Response that ended it: one **consolidated** fix promoting reviews
+  to first-class across steps 2–4, rather than patching 862/874 individually.
 
 ### Cross-tool agreement
 - **#3374 `num_docs`** — Claude (Critical #2, top-level review) and bugbot

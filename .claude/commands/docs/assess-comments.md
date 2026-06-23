@@ -92,10 +92,17 @@ exactly what lets you adjudicate the tool findings.
    would silently disable that safety check. In filtered mode, run step 8
    against the full comment set, not the filtered one.
 
-   If no comment matches `$ARGUMENTS`, stop and tell me.
+   If no comment **or review verdict** matches `$ARGUMENTS`, stop and tell me — a
+   reviewer who left only an approve/request-changes verdict still counts as a
+   match.
 
-3. **Tag each comment by its source role.** You're reconciling *roles*, not
-   usernames. Classify each author as one of:
+3. **Tag each comment _and review verdict_ by its source role.** You're
+   reconciling *roles*, not usernames. Reviews are first-class here: a
+   **request-changes** (or any review whose body raises specific, actionable
+   points) is a *finding* from its author's role, not just an approve/reject
+   signal for step 8 — tag and carry it forward like any comment. (A bare
+   approval with no actionable body stays a step-8 signal only.) Classify each
+   author as one of:
 
    - **bugbot** — author `login` is `cursor` / `cursor[bot]`. **Tag by author,
      not body text:** a *human* reply that quotes or mentions "Bugbot" is still a
@@ -113,10 +120,10 @@ exactly what lets you adjudicate the tool findings.
    healthy. Don't raise them as issues.
 
 4. **Cluster findings by what they touch, not by who said them.** Group the
-   actual findings (from bugbot, security, history, humans) by file + line, or
-   by shared theme when they're not line-specific. One cluster may hold comments
-   from several tools pointing at the same code — that overlap is the whole
-   point.
+   actual findings — from bugbot, security, history, humans, **and actionable
+   review-verdict bodies (step 3)** — by file + line, or by shared theme when
+   they're not line-specific. One cluster may hold comments from several tools
+   pointing at the same code — that overlap is the whole point.
 
 5. **Split clusters into OPEN and RESOLVED — and treat them differently.** Using
    the resolution state from step 2, mark each cluster open or resolved. An
@@ -184,6 +191,16 @@ exactly what lets you adjudicate the tool findings.
      That's normal iteration; treat those as fresh clusters, not a loop. (Real
      example of the non-loop case in the coverage ledger's near-miss log.) When
      it *is* a true loop, flag it rather than extending it.
+   - **Subsystem churn** — distinct from ping-pong, and the *earlier* warning
+     sign. Look across fix rounds: if several findings (even new, independent
+     ones) keep landing on the **same area of code you keep patching**, the
+     symptom isn't any single finding — it's that the subsystem is
+     under-specified and each patch just exposes the next adjacent gap.
+     Incrementally fixing the latest one tends to trigger another round. When you
+     see this, **recommend a single consolidated redesign of that subsystem
+     rather than another patch** — that's the move that actually ends the churn.
+     (Worked example in the ledger: PR #3536's review-handling findings across
+     rounds 1 and 4.)
    - **Solo** — a single source, no corroboration → judge it on its merits and
      say how confident you are. A solo finding you've *verified against the code
      and data* is high-confidence even with one source.
