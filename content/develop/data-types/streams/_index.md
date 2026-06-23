@@ -4,6 +4,7 @@ aliases:
 - /data-types/streams/
 - /develop/data-types/streams-tutorial/
 - /io/data-structures/streams/
+- /develop/data-types/stream/
 categories:
 - docs
 - develop
