@@ -23,7 +23,7 @@ The pipeline page has the following tabs:
 - [Dataset](#dataset)
 - [Transformations](#transformations)
 
-The following sections describe each of these tabs, as well as any actions that you can perform.
+The following sections describe each of these tabs, as well as related diagnostic views and actions.
 
 ## Dashboard
 
@@ -39,7 +39,7 @@ The **Dashboard** tab shows an overview and high-level statistics for the data p
     | **Error** | There is an error in the data pipeline. [Reset the pipeline](#reset-data-pipeline) and contact support if the issue persists. |
 - **Total ingested**: Total number of records ingested from the source database.
 - **Pending**: Total number of records that are being processed and have not been inserted into the target database.
-- **Record health**: The number of records that were rejected from the database, and the number of records that were filtered from being inserted into the database.
+- **Record health**: The number of records that were rejected from the database, and the number of records that were filtered from being inserted into the database. If there are rejected records, select the rejected count to open the [Rejected records](#rejected-records) view.
 - **Data latency**: How long it takes for a new record to be ingested from the source database.
 
 ### Change target database
@@ -73,7 +73,7 @@ The **Metrics** tab shows the following metrics for each data stream:
 | **Updated** | Number of updated records from the source table that have been updated in the target database. |
 | **Deleted** | Number of deleted records from the source table that have been deleted in the target database. |
 | **Filtered** | Number of records from the source table that were filtered from being inserted into the target database. |
-| **Rejected** | Number of records from the source table that could not be parsed or inserted into the target database. |
+| **Rejected** | Number of records from the source table that could not be parsed or inserted into the target database. Select a rejected count to open the [Rejected records](#rejected-records) view for that table. |
 
 <!--
 ### View metrics endpoints
@@ -86,6 +86,22 @@ Prometheus endpoints are exposed on Redis Cloud's internal network. To access th
 
 For more information about available RDI metrics, see [Observability]({{< relref "/integrate/redis-data-integration/observability" >}}).
 -->
+
+## Rejected records
+
+The **Rejected records** view shows records that RDI sent to the dead letter queue (DLQ) because processing failed. Open it from the rejected count on the **Dashboard** tab or from a table-level rejected count on the **Metrics** tab.
+
+The view shows:
+
+- The total number of rejected records.
+- The number of affected tables.
+- The affected tables and their rejected counts.
+- Rejected record IDs and rejection times.
+- Safe troubleshooting metadata, such as the rejection reason, operation, affected table, and transformation job details when available.
+
+Redis Cloud does not show the original source record payload in this view.
+
+For more information about why records are rejected and how RDI stores them, see [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}).
 
 ## Configuration
 

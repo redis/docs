@@ -103,6 +103,9 @@ with Redis Insight or with the
 [`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
 command from the CLI.
 
+See [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}})
+for more information.
+
 ## Can I use RDI without persistence enabled?
 
 By default, RDI requires persistence to be enabled on the RDI database. This ensures that RDI can recover both its configuration and the last known state if the cluster crashes.

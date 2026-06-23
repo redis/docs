@@ -304,7 +304,7 @@ configuration above contains the following properties:
 - `error_handling`: The strategy to use when an invalid record is encountered. The available
   strategies are `ignore` and  `dlq` (store rejected messages in a dead letter queue).
   The default is `dlq`. See
-  [What does RDI do if the data is corrupted or invalid?]({{< relref "/integrate/redis-data-integration/faq#what-does-rdi-do-if-the-data-is-corrupted-or-invalid" >}})
+  [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}})
   for more information about the dead letter queue.
 
 {{< note >}}When `type` is set to `flink`, fine-tuning of the processor and the
