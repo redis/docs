@@ -64,6 +64,11 @@ new findings in an edited region" is normal iteration, **not** ping-pong. A true
 loop needs the *same concern* reopened, or tool A's fix re-triggering tool B in a
 cycle.
 
+*Confirmed convergence (round 3):* the fixes for those 3 new findings were
+pushed, and bugbot's next re-scan came back **clean — no comments**. A real loop
+would have spawned another round; this settled. So the "not a loop" judgement is
+borne out by what happened next: assess → fix → re-scan reached a fixed point.
+
 ### Resolved-but-still-broken
 *(none confirmed yet — record any thread marked resolved whose bug was still
 present in the code)*
