@@ -38,7 +38,7 @@ whether to commit the change.
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
 | **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
 | **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-23 | still no real loop across 4 bugbot rounds on #3536. Rounds 2 & 4 each raised new post-fix findings but none was a reopened concern or A↔B cycle — correctly judged NOT a loop both times. Round 4 instead revealed *subsystem churn* (next row) |
-| **Subsystem churn** detection (repeated findings on one patched area) | 🟡 seen (1 PR, 2 instances) | 2 | 2026-06-23 | #3536 — (a) findings 429/862/874 on `$ARGUMENTS` filter + review handling; (b) round-5 findings 442/449 on the *churn feature itself* (added r4 in step 7, not threaded into steps 6 & 9). Both met with a consolidated fix, not a patch. Stays 🟡 — both on one PR; needs a 2nd PR for 🟢. Worked examples below |
+| **Subsystem churn** detection (repeated findings on one patched area) | 🟡 seen (1 PR, 3 instances) | 3 | 2026-06-23 | #3536 — (a) 429/862/874 on `$ARGUMENTS` filter + review handling; (b) r5 442/449 on the *churn feature*; (c) r6 3461052859 on the *cap ↔ report contract* — i.e. (b)'s consolidation was too narrow. Pattern is robust on this PR; needs a 2nd PR for 🟢. Worked examples below |
 | Approval-over-open-finding cross-check | 🟢 corroborated | 3 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant) |
 | Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
 | Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
@@ -92,6 +92,16 @@ present in the code)*
   adjacent integration gaps exposed next round. Cured by threading churn through
   steps 6 and 9 in one pass. Lesson: adding a capability *is* a subsystem edit —
   wire it through every dependent step at once, or it becomes its own churn.
+- **#3536 churn persisted — consolidation scoped too narrowly (round 6),
+  2026-06-23.** The round-5 "consolidated" fix threaded the *churn feature*
+  through steps 6 & 9 but left the deeper contract under them unfixed, so round 6
+  raised finding 3461052859 ("open table needs full verdicts": step 9 promised a
+  verdict per open cluster while step 6 only verifies 3–5). Same area a third
+  time. Real root: the **cap ↔ report-completeness contract**, not the churn
+  feature. Fixed by making the table cover only deep-verified clusters and
+  marking deferred ones unverified. Meta-lesson: when round N+1 finds another gap
+  in an area you *just* "consolidated", your consolidation boundary was wrong —
+  widen it to the true subsystem, don't re-patch the edge.
 
 ### Cross-tool agreement
 - **#3374 `num_docs`** — Claude (Critical #2, top-level review) and bugbot

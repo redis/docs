@@ -225,7 +225,12 @@ exactly what lets you adjudicate the tool findings.
    real issue merge — exactly the gap a reconciler should catch. Surface it even
    when the PR is marked WIP / don't-merge.
 
-9. **Produce the reconciliation report.** One row per **open** cluster:
+9. **Produce the reconciliation report.** One row per **open cluster you
+   deep-verified this round** (step 7) — those are the only clusters with a
+   real verdict. Open clusters you deferred under the step-6 cap do **not** get a
+   table row or a verdict (you haven't verified them); they're listed, plainly
+   marked unverified, in the "story so far" below. The table never promises more
+   coverage than you actually did.
 
    | Cluster | File / line | Sources | Verdict | Recommended action |
    |---|---|---|---|---|
