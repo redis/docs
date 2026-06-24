@@ -40,6 +40,11 @@
 
     {{ block "head" . }}{{ end }}
 
+    {{- /* RFC 8288 web linking for agent discovery. Equivalent to HTTP Link response headers. */}}
+    <link rel="api-catalog" href="{{ "/.well-known/api-catalog" | absURL }}">
+    <link rel="service-doc" href="{{ "/docs/latest/develop/" | absURL }}">
+    <link rel="service-desc" href="{{ "/.well-known/api-catalog" | absURL }}" type="application/json">
+
     {{ partial "ai-metadata.html" . }}
 
     {{ partial "fonts.html" . }}

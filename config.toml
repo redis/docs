@@ -2,6 +2,14 @@
 baseURL = "https://redis.io"
 title = "Docs"
 
+# RFC 8288 Link response headers for agent discovery (hugo serve only).
+# For production, configure equivalent headers in your nginx ingress or CDN.
+[server]
+  [[server.headers]]
+    for = "/**"
+    [server.headers.values]
+      Link = '</.well-known/api-catalog>; rel="api-catalog", </docs/latest/develop/>; rel="service-doc", </.well-known/api-catalog>; rel="service-desc"'
+
 timeout="75"
 refLinksErrorLevel = "WARNING"
 enableRobotsTXT = true
