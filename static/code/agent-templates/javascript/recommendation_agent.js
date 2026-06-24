@@ -29,7 +29,8 @@ const fs = require('fs');
 const path = require('path');
 
 const INDEX_NAME   = 'movies_idx';
-const MOVIE_PREFIX = 'movie:';
+const MOVIE_PREFIX  = 'movie:';
+const LOAD_SENTINEL = 'movies:load_complete';
 
 const CONFIG = {
   maxResults:       10,
@@ -134,8 +135,10 @@ class RecommendationAgent {
 
   async _indexExists() {
     try {
-      const info = await this.redisClient.ft.info(INDEX_NAME);
-      return parseInt(info.num_docs ?? info.numDocs ?? '0') > 0;
+      // Check the sentinel written only after a full successful load.
+      // num_docs > 0 alone is not sufficient — a partial import looks non-empty
+      // but leaves the index permanently incomplete on subsequent startups.
+      return (await this.redisClient.exists(LOAD_SENTINEL)) === 1;
     } catch {
       return false;
     }
@@ -252,6 +255,10 @@ class RecommendationAgent {
       pipeline.json.set(`${MOVIE_PREFIX}${movie.movieId}`, '$', movie);
     }
     await pipeline.exec();
+
+    // Write the sentinel only after all documents are loaded. _indexExists checks
+    // this key so a partial import (pipeline fails midway) never looks complete.
+    await this.redisClient.set(LOAD_SENTINEL, '1');
 
     this.indexReady = true;
     console.log('Movie recommendation system initialized successfully!');
