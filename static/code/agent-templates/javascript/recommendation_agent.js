@@ -152,9 +152,10 @@ class RecommendationAgent {
       return;
     }
 
-    const ratingsFile = path.join('datasets', 'collaborative_filtering', 'ratings_small.csv');
-    const moviesFile  = path.join('datasets', 'collaborative_filtering', 'movies_metadata.csv');
-    const linksFile   = path.join('datasets', 'collaborative_filtering', 'links.csv');
+    const dataDir     = path.join(__dirname, 'datasets', 'collaborative_filtering');
+    const ratingsFile = path.join(dataDir, 'ratings_small.csv');
+    const moviesFile  = path.join(dataDir, 'movies_metadata.csv');
+    const linksFile   = path.join(dataDir, 'links.csv');
 
     for (const f of [ratingsFile, moviesFile, linksFile]) {
       if (!fs.existsSync(f)) {
@@ -232,8 +233,10 @@ class RecommendationAgent {
     console.log(`Processed ${merged.length} movies`);
 
     // Drop existing index and its documents so stale movie keys don't survive the reload.
+    // Also delete the sentinel so a partial previous run can't block re-import.
     const indexExists = await this.redisClient.ft.info(INDEX_NAME).then(() => true).catch(() => false);
     if (indexExists) await this.redisClient.ft.dropIndex(INDEX_NAME, { DD: true });
+    await this.redisClient.del(LOAD_SENTINEL);
 
     await this.redisClient.ft.create(
       INDEX_NAME,
