@@ -19,13 +19,12 @@ exclude_all_private = true
 
 exclude = [
   # --- Internal / non-external links ---
-  '^https?://(www\.)?redis\.io',
+  # Anchor the host so it doesn't also match e.g. redis.io.example.com.
+  '^https?://(www\.)?redis\.io(:[0-9]+)?([/?#]|$)',
   'localhost',
   '127\.0\.0\.1',
   '0\.0\.0\.0',
   'example\.(com|org|net)',
-  '(www\.)?w3\.org',
-  'schema\.org',
 
   # --- Theme-generated "edit this page" links, not authored content (~5k of them) ---
   'github\.com/redis/docs',
@@ -33,4 +32,8 @@ exclude = [
   # --- Known false positives (verified live, but unreachable to an automated checker) ---
   'redis\.azure\.com',       # OAuth scope string in code samples, not a real URL
   'techdocs\.broadcom\.com', # JS single-page app returns 404 to bots; pages are live
+  # Namespace/spec URIs that appear in attributes but aren't navigable docs links
+  # (e.g. SVG/XML namespaces); they routinely 404 or refuse automated fetches.
+  '(www\.)?w3\.org',
+  'schema\.org',
 ]
