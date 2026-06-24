@@ -212,6 +212,48 @@ When working on this project:
 
 ---
 
+## Production Configuration for Agent Readiness
+
+### Content Negotiation (text/markdown)
+
+Every page generates a markdown version at `{path}index.html.md` (e.g. `/develop/index.html.md`).
+The `<link rel="alternate" type="text/markdown">` element is already present in every page's `<head>`.
+
+To enable HTTP-level content negotiation so `Accept: text/markdown` returns the markdown file
+with `Content-Type: text/markdown`, configure nginx as follows:
+
+```nginx
+map $http_accept $use_markdown {
+    "~*text/markdown"  1;
+    default            0;
+}
+
+server {
+    # Serve .html.md files with correct Content-Type
+    location ~ \.html\.md$ {
+        add_header Content-Type "text/markdown; charset=utf-8";
+        add_header Vary "Accept";
+    }
+
+    location / {
+        add_header Vary "Accept";
+
+        # Content negotiation: rewrite to .html.md when Accept: text/markdown
+        if ($use_markdown) {
+            rewrite ^(.*/)$ $1index.html.md last;
+            rewrite ^([^.]+)$ $1/index.html.md last;
+        }
+
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
+The `hugo serve` dev server already sends `Vary: Accept` and `Content-Type: text/markdown`
+for `.html.md` files via the `[server]` config in `config.toml`.
+
+---
+
 **Last Updated**: 2026-01-08
 **Purpose**: Help AI agents discover and understand Redis documentation architecture
 
