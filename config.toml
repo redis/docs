@@ -133,4 +133,4 @@ page = ["HTML", "Markdown", "JSON"]
   [[server.headers]]
     for = "/**"
     [server.headers.values]
-      Link = '<.well-known/api-catalog>; rel="api-catalog", <develop/>; rel="service-doc", <.well-known/api-catalog>; rel="service-desc"'
+      Link = '</.well-known/api-catalog>; rel="api-catalog", </develop/>; rel="service-doc", </.well-known/api-catalog>; rel="service-desc"'
