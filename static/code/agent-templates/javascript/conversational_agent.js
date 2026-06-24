@@ -151,14 +151,11 @@ class ConversationalAgent {
     });
 
     // Track insertion order for recent-turn retrieval.
-    // Before trimming, collect any keys that will be evicted and delete their documents
-    // so message JSON and embeddings don't accumulate in Redis indefinitely.
-    const listLen = await this.redisClient.lLen(RECENT_KEY(this.sessionName));
-    const evictCount = listLen - (RECENT_WINDOW * 2 - 1); // -1 because we haven't pushed yet
-    if (evictCount > 0) {
-      const toEvict = await this.redisClient.lRange(RECENT_KEY(this.sessionName), 0, evictCount - 1);
-      if (toEvict.length) await this.redisClient.del(toEvict);
-    }
+    // Only trim the recent list — do NOT delete the underlying JSON documents.
+    // Older messages must stay in the search index so _getSemanticMessages can
+    // retrieve them; deleting docs here would make semantic recall a no-op since
+    // every KNN hit would already be in the recent window and deduped out.
+    // For long-running sessions, set a TTL on message keys if you need a memory bound.
     await this.redisClient.rPush(RECENT_KEY(this.sessionName), key);
     await this.redisClient.lTrim(RECENT_KEY(this.sessionName), -RECENT_WINDOW * 2, -1);
   }
@@ -180,7 +177,7 @@ class ConversationalAgent {
       `(@session:{${this.sessionName}})=>[KNN ${SEMANTIC_TOP_K} @embedding $vec AS score]`,
       {
         PARAMS: { vec: queryBuffer },
-        RETURN: ['role', 'content', '__key'],
+        RETURN: ['role', 'content'],
         SORTBY: { BY: 'score', DIRECTION: 'ASC' },
         DIALECT: 2,
       }
