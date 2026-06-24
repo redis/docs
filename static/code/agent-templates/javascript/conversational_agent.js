@@ -174,7 +174,7 @@ class ConversationalAgent {
     const queryBuffer = this._toQueryBuffer(await this._embed(query));
     const results = await this.redisClient.ft.search(
       INDEX_NAME,
-      `(@session:{${this.sessionName}})=>[KNN ${SEMANTIC_TOP_K} @embedding $vec AS score]`,
+      `(@session:{${this.sessionName.replace(/[^a-zA-Z0-9_\-]/g, '_')}})=>[KNN ${SEMANTIC_TOP_K} @embedding $vec AS score]`,
       {
         PARAMS: { vec: queryBuffer },
         RETURN: ['role', 'content'],

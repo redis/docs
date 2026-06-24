@@ -13,10 +13,12 @@
  *     REDIS_URL=redis://localhost:6379
  *       (or use REDIS_HOST, REDIS_PORT, REDIS_PASSWORD, REDIS_USERNAME separately)
  *
- * Download datasets:
+ * Download datasets (all three are required):
  *   https://redis-ai-resources.s3.us-east-2.amazonaws.com/recommenders/datasets/collaborative-filtering/ratings_small.csv
  *   https://redis-ai-resources.s3.us-east-2.amazonaws.com/recommenders/datasets/collaborative-filtering/movies_metadata.csv
+ *   https://redis-ai-resources.s3.us-east-2.amazonaws.com/recommenders/datasets/collaborative-filtering/links.csv
  * Place them in datasets/collaborative_filtering/ relative to this file.
+ * links.csv bridges MovieLens movieIds (ratings) to TMDB ids (movies_metadata).
  */
 
 require('dotenv').config();
@@ -149,31 +151,33 @@ class RecommendationAgent {
 
     const ratingsFile = path.join('datasets', 'collaborative_filtering', 'ratings_small.csv');
     const moviesFile  = path.join('datasets', 'collaborative_filtering', 'movies_metadata.csv');
+    const linksFile   = path.join('datasets', 'collaborative_filtering', 'links.csv');
 
-    if (!fs.existsSync(ratingsFile) || !fs.existsSync(moviesFile)) {
-      console.warn('Movie datasets not found. Skipping index setup.');
-      console.warn(`  Expected: ${ratingsFile}`);
-      console.warn(`  Expected: ${moviesFile}`);
-      return;
+    for (const f of [ratingsFile, moviesFile, linksFile]) {
+      if (!fs.existsSync(f)) {
+        console.warn(`Movie dataset not found: ${f}. Skipping index setup.`);
+        return;
+      }
     }
 
     console.log('Loading movie datasets...');
 
-    let ratings, movies;
+    let ratings, movies, links;
     try {
       ratings = parse(fs.readFileSync(ratingsFile), { columns: true, cast: true });
       movies  = parse(fs.readFileSync(moviesFile),  { columns: true, cast: true });
+      links   = parse(fs.readFileSync(linksFile),   { columns: true, cast: true });
     } catch (err) {
       console.error('Failed to parse dataset files:', err.message);
       return;
     }
 
-    if (!ratings.length || !movies.length) {
+    if (!ratings.length || !movies.length || !links.length) {
       console.error('One or more dataset files are empty.');
       return;
     }
 
-    // Aggregate ratings per movie
+    // Aggregate ratings per MovieLens movieId
     const stats = {};
     for (const r of ratings) {
       if (!r.movieId || !isFinite(r.rating)) continue;
@@ -182,23 +186,40 @@ class RecommendationAgent {
       stats[r.movieId].total += r.rating;
     }
 
-    // Merge metadata with aggregated stats
-    const merged = movies
-      .filter((m) => m.id && stats[String(m.id)])
-      .map((m) => {
-        const s = stats[String(m.id)];
-        const avgRating = s.total / s.count;
-        return {
-          movieId:         String(m.id),
-          title:           String(m.title || '').trim(),
-          genres:          parseGenres(m.genres), // comma-separated TAG string
-          revenue:         safeNumber(m.revenue),
-          ratingCount:     s.count,
-          avgRating:       Math.round(avgRating * 100) / 100,
-          popularityScore: Math.round(s.count * avgRating * 100) / 100,
-        };
-      })
-      .filter((m) => m.title);
+    // Build MovieLens movieId → TMDB id bridge via links.csv.
+    // ratings_small uses MovieLens ids; movies_metadata uses TMDB ids — they are
+    // different id spaces and cannot be joined directly without this mapping.
+    const movieLensToTmdb = new Map();
+    for (const row of links) {
+      if (row.movieId && row.tmdbId) {
+        movieLensToTmdb.set(String(row.movieId), String(row.tmdbId));
+      }
+    }
+
+    // Index movies_metadata by TMDB id for O(1) lookup
+    const moviesByTmdb = new Map();
+    for (const m of movies) {
+      if (m.id) moviesByTmdb.set(String(m.id), m);
+    }
+
+    // Join ratings → links → metadata
+    const merged = [];
+    for (const [movieLensId, s] of Object.entries(stats)) {
+      const tmdbId = movieLensToTmdb.get(movieLensId);
+      if (!tmdbId) continue;
+      const m = moviesByTmdb.get(tmdbId);
+      if (!m || !m.title) continue;
+      const avgRating = s.total / s.count;
+      merged.push({
+        movieId:         movieLensId,
+        title:           String(m.title).trim(),
+        genres:          parseGenres(m.genres),
+        revenue:         safeNumber(m.revenue),
+        ratingCount:     s.count,
+        avgRating:       Math.round(avgRating * 100) / 100,
+        popularityScore: Math.round(s.count * avgRating * 100) / 100,
+      });
+    }
 
     if (!merged.length) {
       console.error('No valid movies found after merging datasets.');
@@ -296,7 +317,7 @@ Return only valid JSON with no explanation or markdown.`;
     let results;
     try {
       results = await this.redisClient.ft.search(INDEX_NAME, filterQuery, {
-        RETURN: ['title', 'genres', 'ratingCount', 'avgRating', 'popularityScore'],
+        RETURN: ['title', 'genres', 'ratingCount', 'avgRating', 'popularityScore', 'revenue'],
         SORTBY: { BY: params.sortBy, DIRECTION: params.sortOrder },
         LIMIT: { from: 0, size: params.maxResults },
       });
@@ -316,7 +337,11 @@ Return only valid JSON with no explanation or markdown.`;
       response += `${i + 1}. ${m.title}\n`;
       response += `   Genres: ${m.genres || 'N/A'}\n`;
       response += `   Average Rating: ${parseFloat(m.avgRating || 0).toFixed(1)}/5 (${m.ratingCount || 0} reviews)\n`;
-      response += `   Popularity Score: ${parseFloat(m.popularityScore || 0).toFixed(1)}\n\n`;
+      response += `   Popularity Score: ${parseFloat(m.popularityScore || 0).toFixed(1)}\n`;
+      if (m.revenue && parseFloat(m.revenue) > 0) {
+        response += `   Box Office: $${(parseFloat(m.revenue) / 1_000_000).toFixed(0)}M\n`;
+      }
+      response += '\n';
     });
     return response;
   }
