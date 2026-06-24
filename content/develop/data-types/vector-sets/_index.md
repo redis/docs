@@ -194,6 +194,10 @@ to include them in the search:
 1) "pt:C"
 2) "pt:B"
 {{< /clients-example >}}
+&nbsp;
+{{< alert title="Try it out" >}}
+Experiment with vector set commands interactively in the [Redis playground](https://redis.io/try/sandbox) — no installation required.
+{{< /alert >}}
 
 ## More information
 
