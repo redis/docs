@@ -1,0 +1,36 @@
+# Configuration for the lychee external-link checker.
+# Used by .github/workflows/link_check.yaml (and runnable locally:
+#   build/extract_external_urls.sh && lychee --config .lychee.toml external-urls.txt)
+
+# Treat these as alive. 429 = rate-limited (host is up); 206 = partial content.
+accept = ["200", "206", "429"]
+
+# Be patient with slow or rate-limiting hosts before declaring a link dead.
+max_retries = 3
+retry_wait_time = 3   # seconds, grows with each retry
+timeout = 25          # seconds per request
+max_concurrency = 8
+
+# Some hosts 403 a default checker UA; present as a normal browser.
+user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+
+# Skip private/loopback/reserved address ranges.
+exclude_all_private = true
+
+exclude = [
+  # --- Internal / non-external links ---
+  '^https?://(www\.)?redis\.io',
+  'localhost',
+  '127\.0\.0\.1',
+  '0\.0\.0\.0',
+  'example\.(com|org|net)',
+  '(www\.)?w3\.org',
+  'schema\.org',
+
+  # --- Theme-generated "edit this page" links, not authored content (~5k of them) ---
+  'github\.com/redis/docs',
+
+  # --- Known false positives (verified live, but unreachable to an automated checker) ---
+  'redis\.azure\.com',       # OAuth scope string in code samples, not a real URL
+  'techdocs\.broadcom\.com', # JS single-page app returns 404 to bots; pages are live
+]

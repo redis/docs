@@ -1,0 +1,85 @@
+name: link_check
+
+# Weekly check for broken *external* links in the latest docs.
+# Builds the site, extracts external URLs (build/extract_external_urls.sh),
+# checks them with lychee (.lychee.toml), and opens/updates a tracking issue
+# when any are broken. Run it on demand from the Actions tab via "Run workflow".
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # 06:00 UTC every Monday
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  HUGO_VERSION: 0.143.1
+
+jobs:
+  link_check:
+    name: Check external links (latest docs)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Free up disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+
+      - name: Install Hugo
+        run: |
+          wget -O "${{ runner.temp }}/hugo.deb" \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb" \
+          && sudo dpkg -i "${{ runner.temp }}/hugo.deb"
+
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies and build components
+        run: |
+          make deps
+          make components
+
+      - name: Build the site
+        run: hugo --gc
+
+      - name: Extract external URLs (latest docs only)
+        run: ./build/extract_external_urls.sh public external-urls.txt
+
+      - name: Restore lychee cache
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: lychee-cache-${{ github.run_id }}
+          restore-keys: lychee-cache-
+
+      - name: Check links
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --config .lychee.toml --cache --max-cache-age 1d external-urls.txt
+          output: lychee-report.md
+          fail: true   # non-zero exit when broken links are found
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # authenticated GitHub checks (higher rate limit)
+
+      - name: Open or update tracking issue
+        if: failure() && steps.lychee.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Make sure the label exists (no-op if it already does).
+          gh label create link-check --color FBCA04 --description "Automated external link check" 2>/dev/null || true
+
+          title="Broken external links in docs"
+          existing=$(gh issue list --label link-check --state open --json number --jq '.[0].number')
+
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file lychee-report.md
+            echo "Updated existing issue #$existing"
+          else
+            gh issue create --title "$title" --label link-check --body-file lychee-report.md
+          fi
