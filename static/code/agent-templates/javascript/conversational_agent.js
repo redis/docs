@@ -40,7 +40,9 @@ const MAX_CONTENT_CHARS = 2000;
 
 class ConversationalAgent {
   constructor(sessionName = 'chat') {
-    this.sessionName = sessionName;
+    // Sanitize at construction so _storeMessage and _getSemanticMessages
+    // always index and query the same value.
+    this.sessionName = sessionName.replace(/[^a-zA-Z0-9_\-]/g, '_');
     this.messageCount = 0;
     this._dimValidated = false;
 
@@ -174,7 +176,7 @@ class ConversationalAgent {
     const queryBuffer = this._toQueryBuffer(await this._embed(query));
     const results = await this.redisClient.ft.search(
       INDEX_NAME,
-      `(@session:{${this.sessionName.replace(/[^a-zA-Z0-9_\-]/g, '_')}})=>[KNN ${SEMANTIC_TOP_K} @embedding $vec AS score]`,
+      `(@session:{${this.sessionName}})=>[KNN ${SEMANTIC_TOP_K} @embedding $vec AS score]`,
       {
         PARAMS: { vec: queryBuffer },
         RETURN: ['role', 'content'],
