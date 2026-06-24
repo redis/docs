@@ -27,8 +27,10 @@ exclude = [
   '0\.0\.0\.0',
   'example\.(com|org|net)',
 
-  # --- Theme-generated "edit this page" links, not authored content (~5k of them) ---
-  'github\.com/redis/docs',
+  # --- Theme-generated edit/issue/PR links, not authored content (~5k of them) ---
+  # Scoped to the theme's URL forms so authored /blob/ and /tree/ source links
+  # into the docs repo are still checked.
+  'github\.com/redis/docs/(edit|issues|pulls)([/?#]|$)',
 
   # --- Known false positives (verified live, but unreachable to an automated checker) ---
   'redis\.azure\.com',       # OAuth scope string in code samples, not a real URL

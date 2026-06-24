@@ -40,13 +40,25 @@ if (( ${#files[@]} == 0 )); then
 fi
 
 # Extract http(s) URLs from href/src (single or double quoted), strip the attribute
-# wrapper, decode HTML entities, and de-duplicate. The `|| true` tolerates the
-# legitimate "no external links" case without masking it as a pipeline failure.
-{ grep -hoE "(href|src)=(\"https?://[^\"]+\"|'https?://[^']+')" "${files[@]}" || true; } \
+# wrapper, decode HTML entities, and de-duplicate. Files are streamed through xargs
+# (rather than passed as one big argument list) so grep can't hit the shell's
+# argument limit on a large public/ tree. The `|| true` tolerates the legitimate
+# "this batch has no external links" case (grep exits 1); the sanity check below
+# turns a genuine extraction failure into a loud error instead of a silent empty
+# result that lychee would treat as "nothing to check".
+printf '%s\0' "${files[@]}" \
+  | { xargs -0 grep -hoE "(href|src)=(\"https?://[^\"]+\"|'https?://[^']+')" || true; } \
   | sed -E "s/^(href|src)=[\"']//; s/[\"']$//" \
   | python3 -c 'import sys, html
 for line in sys.stdin:
     sys.stdout.write(html.unescape(line))' \
   | sort -u > "$OUTPUT_FILE"
 
-echo "Extracted $(wc -l < "$OUTPUT_FILE") unique external URLs to $OUTPUT_FILE" >&2
+count=$(wc -l < "$OUTPUT_FILE")
+if (( count == 0 )); then
+  echo "ERROR: found ${#files[@]} in-scope HTML files but extracted 0 external URLs;" \
+       "extraction likely failed rather than there being no links." >&2
+  exit 1
+fi
+
+echo "Extracted $count unique external URLs to $OUTPUT_FILE" >&2
