@@ -1,32 +1,44 @@
 {
-  "apis": [
+  "linkset": [
     {
-      "id": "redis-commands",
-      "title": "Redis Commands Reference",
-      "description": "Complete reference for all Redis commands, including syntax, arguments, complexity, and examples.",
-      "humanURL": "https://redis.io/docs/latest/commands/",
-      "tags": ["redis", "commands", "reference"]
+      "anchor": "https://redis.io/docs/latest/commands/",
+      "service-doc": [
+        {
+          "href": "https://redis.io/docs/latest/commands/",
+          "type": "text/html",
+          "title": "Redis Commands Reference"
+        }
+      ]
     },
     {
-      "id": "redis-developer-docs",
-      "title": "Redis Developer Documentation",
-      "description": "Guides, quickstarts, and tutorials for building applications with Redis, including vector search, AI agents, and client libraries.",
-      "humanURL": "https://redis.io/docs/latest/develop/",
-      "tags": ["redis", "develop", "ai", "vector-search", "clients"]
+      "anchor": "https://redis.io/docs/latest/develop/",
+      "service-doc": [
+        {
+          "href": "https://redis.io/docs/latest/develop/",
+          "type": "text/html",
+          "title": "Redis Developer Documentation"
+        }
+      ]
     },
     {
-      "id": "redis-cloud-api",
-      "title": "Redis Cloud REST API",
-      "description": "REST API for managing Redis Cloud subscriptions, databases, and accounts programmatically.",
-      "humanURL": "https://redis.io/docs/latest/operate/rc/api/",
-      "tags": ["redis-cloud", "rest-api", "management"]
+      "anchor": "https://redis.io/docs/latest/operate/rc/api/",
+      "service-doc": [
+        {
+          "href": "https://redis.io/docs/latest/operate/rc/api/",
+          "type": "text/html",
+          "title": "Redis Cloud REST API"
+        }
+      ]
     },
     {
-      "id": "redis-data-integration-api",
-      "title": "Redis Data Integration (RDI) API",
-      "description": "API reference for Redis Data Integration, enabling Change Data Capture pipelines from relational databases into Redis.",
-      "humanURL": "https://redis.io/docs/latest/integrate/redis-data-integration/reference/",
-      "tags": ["rdi", "cdc", "data-integration"]
+      "anchor": "https://redis.io/docs/latest/integrate/redis-data-integration/reference/",
+      "service-doc": [
+        {
+          "href": "https://redis.io/docs/latest/integrate/redis-data-integration/reference/",
+          "type": "text/html",
+          "title": "Redis Data Integration (RDI) API"
+        }
+      ]
     }
   ]
 }

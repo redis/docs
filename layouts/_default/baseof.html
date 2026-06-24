@@ -40,10 +40,13 @@
 
     {{ block "head" . }}{{ end }}
 
-    {{- /* RFC 8288 web linking for agent discovery. Equivalent to HTTP Link response headers. */}}
-    <link rel="api-catalog" href="{{ "/.well-known/api-catalog" | absURL }}">
-    <link rel="service-doc" href="{{ "/docs/latest/develop/" | absURL }}">
-    <link rel="service-desc" href="{{ "/.well-known/api-catalog" | absURL }}" type="application/json">
+    {{- /* RFC 8288 web linking for agent discovery. Equivalent to HTTP Link response headers.
+         relURL keeps paths within the site prefix so links match where Hugo actually serves
+         the files. For full RFC 8615 compliance, nginx should also alias
+         /.well-known/api-catalog to this path at the host root. */}}
+    <link rel="api-catalog" href="{{ ".well-known/api-catalog" | relURL }}">
+    <link rel="service-doc" href="{{ "develop/" | relURL }}">
+    <link rel="service-desc" href="{{ ".well-known/api-catalog" | relURL }}" type="application/linkset+json">
 
     {{ partial "ai-metadata.html" . }}
 
