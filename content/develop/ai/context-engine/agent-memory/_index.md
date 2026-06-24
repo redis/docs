@@ -59,7 +59,7 @@ Get started with Redis Agent Memory on Redis Cloud, join the private preview for
 
 -tab-sep-
 
-Contact your Redis representative or [contact sales](https://redis.com/contact-sales/) to join the private preview on Redis Software.
+Contact your Redis representative or [contact sales](https://redis.io/contact/) to join the private preview on Redis Software.
 
 -tab-sep-
 

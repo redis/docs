@@ -50,7 +50,7 @@ Start by importing the required OTel and Redis modules:
 Otel uses a [Meter provider](https://opentelemetry.io/docs/concepts/signals/metrics/#meter-provider)
 to create the objects that collect the metric information. The example below
 configures a meter provider to export metrics to a local Grafana instance
-every 10 seconds, but see the [OpenTelemetry Node.js docs](https://opentelemetry.io/docs/languages/node/)
+every 10 seconds, but see the [OpenTelemetry Node.js docs](https://opentelemetry.io/docs/languages/js/)
 to learn more about other export options.
 
 {{< clients-example set="observability" step="setup_meter_provider" lang_filter="Node.js" description="Foundational: Configure a meter provider to export metrics to a local Grafana instance every 10 seconds" difficulty="beginner" >}}

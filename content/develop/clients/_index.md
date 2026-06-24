@@ -112,7 +112,7 @@ between the options for each language.
 -   [`Lettuce`](https://github.com/redis/lettuce) supports synchronous, asynchronous,
     and reactive operations. However, it has a more complex API than Jedis and doesn't currently
     support all Redis features (notably time series and probabilistic data structures).
--   [RedisOM for Java](https://github.com/redis/redis-om-java) is an object mapping library that
+-   [RedisOM for Java](https://github.com/redis/redis-om-spring) is an object mapping library that
     provides a high-level API for working with Redis data structures.
 
 ### C#

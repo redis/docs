@@ -183,7 +183,7 @@ FT.CREATE idx:bikes_vss ON JSON
 Here is a breakdown of the `VECTOR` field definition:
 
 * `$.description_embeddings AS vector`: The vector field's JSON path and its field alias `vector`.
-* `FLAT`: Specifies the indexing method, which is either a flat index or a hierarchical navigable small world graph ([HNSW](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf)).
+* `FLAT`: Specifies the indexing method, which is either a flat index or a hierarchical navigable small world graph ([HNSW](https://arxiv.org/abs/1603.09320)).
 * `TYPE FLOAT32`: Sets the float precision of a vector component, in this case a 32-bit floating point number.
 * `DIM 768`: The length or dimension of the embeddings, determined by the chosen embedding model.
 * `DISTANCE_METRIC COSINE`: The chosen distance function: [cosine distance](https://en.wikipedia.org/wiki/Cosine_similarity).

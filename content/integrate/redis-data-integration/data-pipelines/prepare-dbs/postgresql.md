@@ -88,7 +88,7 @@ Follow the steps below to enable CDC with [Amazon RDS for PostgreSQL](https://aw
 ## Install the logical decoding output plug-in
 
 As of PostgreSQL 9.4, the only way to read changes to the write-ahead-log is to
-[install a logical decoding output plug-in](https://debezium.io/documentation/reference/2.6/postgres-plugins.html).
+[install a logical decoding output plug-in](https://debezium.io/documentation/reference/stable/postgres-plugins.html).
 These plug-ins are written in C using PostgreSQL-specific APIs, as described in the
 [PostgreSQL documentation](https://www.postgresql.org/docs/current/logicaldecoding-output-plugin.html). 
 The PostgreSQL connector uses one of Debezium’s supported logical decoding
@@ -237,7 +237,7 @@ the replication group using the following commands:
 
 You must also set the value of the `publication.autocreate.mode` parameter to `filtered`
 to allow Debezium to specify the publication configuration. See the
-[Debezium documentation for `publication.autocreate.mode`](https://debezium.io/documentation/reference/2.6/connectors/postgresql.html#postgresql-publication-autocreate-mode)
+[Debezium documentation for `publication.autocreate.mode`](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-publication-autocreate-mode)
 to learn more about this setting.
 
 ## Configure PostgreSQL for replication with the Debezium connector host

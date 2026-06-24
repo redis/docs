@@ -35,7 +35,7 @@ Get started with Redis Context Retriever on Redis Cloud or join the private prev
 
 -tab-sep-
 
-Contact your Redis representative or [contact sales](https://redis.com/contact-sales/) to join the private preview on Redis Software.
+Contact your Redis representative or [contact sales](https://redis.io/contact/) to join the private preview on Redis Software.
 
 {{< /multitabs >}}
 
