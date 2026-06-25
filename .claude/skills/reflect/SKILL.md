@@ -125,6 +125,12 @@ git log -1 --format='%(trailers:only,unfold)'
 If that prints nothing but you wrote trailers, the block isn't contiguous/last — fix the
 blank lines.
 
+> **Pass `unfold` downstream too.** Any consumer that reads these trailers — the squash-time
+> distiller, a dashboard, a `git log` query — should use `%(trailers:...,unfold)`. Without
+> `unfold`, a value folded across multiple lines (RFC-822 continuation) is returned in its
+> raw wrapped form, so a naive reader sees a truncated or oddly-split value. Keep values
+> single-line where you can; pass `unfold` for when you can't.
+
 ## Step 4 — Sort: is this lesson actually location-bound?
 
 The note you just wrote belongs in the commit **only if it's retrievable by location** —
