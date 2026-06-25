@@ -13,7 +13,9 @@ bannerText: Redis Agent Memory is currently available in preview. Features and b
 bannerChildren: true
 ---
 
-Redis Agent Memory is a memory service for AI Agents available as a REST API and client libraries. It provides the persistent, structured memory layer that intelligent agents need to store, retrieve, and manage contextual data across interactions. Rather than requiring developers to build custom memory infrastructure from scratch, Redis Agent Memory offers a turnkey solution with dedicated endpoints, secure API key management, configurable memory schemas, and automatic TTL-based lifecycle management.
+Building memory for AI agents from scratch means solving a set of hard, interconnected problems: deciding what to remember and what to discard, deduplicating facts that arrive in different phrasings, storing vectors alongside structured data, querying by meaning instead of exact match, and expiring stale context before it pollutes responses. Each of those problems is tractable alone. Together they become a full-time infrastructure project.
+
+Redis Agent Memory is that infrastructure, already solved. It is available as a REST API and client libraries. You call an API; Redis Agent Memory handles extraction, deduplication, semantic indexing, retrieval, and forgetting. Your team stays focused on the agent logic that differentiates your product, not on the memory layer underneath it.
 
 [Get started](#get-started) with Redis Agent Memory on Redis Cloud, join the private preview, or set up your own Redis Agent Memory instance.
 
@@ -66,3 +68,11 @@ Contact your Redis representative or [contact sales](https://redis.com/contact-s
 The open-source version of Redis Agent Memory is [available on GitHub](https://github.com/redis/agent-memory-server). See [Redis Agent Memory server](https://redis.github.io/agent-memory-server/) for comprehensive docs, quick start guides, and API references.
 
 {{< /multitabs >}}
+
+## Redis Cloud setup and management
+
+If you are using Redis Agent Memory on Redis Cloud, the following guides cover the console and management workflows:
+
+- [Create an Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}) — create a service, select a database, and configure your LLM provider
+- [Use the Agent Memory API on Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) — API and SDK usage specific to Redis Cloud
+- [View and manage your service]({{< relref "/operate/rc/context-engine/agent-memory/view-service" >}}) — monitor, update, and delete your Agent Memory service
