@@ -64,7 +64,7 @@ from redis_fastapi import FastAPIRedis
 
 ## Quick start
 
-Attach Redis to your app with the fluent builder. The `lifespan()` call hooks into
+Attach Redis to your app with the [fluent builder](https://en.wikipedia.org/wiki/Fluent_interface). The `lifespan()` call hooks into
 the [FastAPI lifespan events](https://fastapi.tiangolo.com/advanced/events/) to open a
 connection pool at startup and close it cleanly on shutdown. Inject `AsyncRedisDep`
 into your `async` endpoints to get a ready-to-use client:
@@ -93,7 +93,7 @@ All settings are read from environment variables prefixed with `REDIS_`, or from
 export REDIS_URL=redis://user:pass@host:6379/0
 ```
 
-Or configure individual fields:
+Alternatively, you can configure individual fields:
 
 ```bash
 export REDIS_HOST=redis.example.com
@@ -102,7 +102,7 @@ export REDIS_PASSWORD=secret
 ```
 
 When `REDIS_URL` is set, it takes precedence over the individual connection fields.
-The most commonly used variables are:
+The most commonly used variables are described in the table below:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
