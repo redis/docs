@@ -378,11 +378,16 @@
         if (CONFIG.agentTypes[input]) {
             selectedType = input;
         } else {
-            // Search by keywords
+            // Search by keywords, preferring the longest matching keyword so that
+            // multi-word phrases like "knowledge assistant" resolve to the most
+            // specific type rather than the first type whose shorter keyword matches.
+            let bestMatchLength = 0;
             for (const [key, config] of Object.entries(CONFIG.agentTypes)) {
-                if (config.keywords.some(keyword => input.includes(keyword))) {
-                    selectedType = key;
-                    break;
+                for (const keyword of config.keywords) {
+                    if (input.includes(keyword) && keyword.length > bestMatchLength) {
+                        bestMatchLength = keyword.length;
+                        selectedType = key;
+                    }
                 }
             }
         }

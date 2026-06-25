@@ -365,10 +365,9 @@ class KnowledgeAssistant {
         // vector_distance for cosine: 0=identical, 1=orthogonal. Hit when similarity > CACHE_THRESHOLD.
         const dist = parseFloat(top.value.distance ?? '1');
         if (dist < (1 - CACHE_THRESHOLD)) {
-            return {
-                response:  top.value.response,
-                citations: JSON.parse(top.value.citations ?? '[]')
-            };
+            let citations = [];
+            try { citations = JSON.parse(top.value.citations ?? '[]'); } catch { /* corrupted entry — fall back to empty */ }
+            return { response: top.value.response, citations };
         }
         return null;
     }
