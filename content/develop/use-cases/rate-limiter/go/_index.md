@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/go-redis
 categories:
 - docs
 - develop

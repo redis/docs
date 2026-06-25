@@ -50,14 +50,22 @@ When tracking is enabled in Redis, using the [`CLIENT TRACKING`]({{< relref "/co
 possible to specify the `OPTIN` or `OPTOUT` options, so that keys
 in read only commands are not automatically remembered by the server to
 be invalidated later. When we are in `OPTIN` mode, we can enable the
-tracking of the keys in the next command by calling `CLIENT CACHING yes`
+tracking of the keys in the next command by calling `CLIENT CACHING YES`
 immediately before it. Similarly when we are in `OPTOUT` mode, and keys
 are normally tracked, we can avoid the keys in the next command to be
-tracked using `CLIENT CACHING no`.
+tracked using `CLIENT CACHING NO`.
 
 Basically the command sets a state in the connection, that is valid only
 for the next command execution, that will modify the behavior of client
 tracking.
+
+## Required arguments
+
+<details open><summary><code>YES | NO</code></summary>
+
+Whether to cache keys for the next command (`YES`) or not (`NO`) when tracking is in `OPTIN`/`OPTOUT` mode.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

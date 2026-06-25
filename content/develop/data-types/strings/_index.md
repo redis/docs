@@ -2,6 +2,7 @@
 aliases:
 - /data-types/strings/
 - /manual/data-types/strings/
+- /develop/data-types/string/
 categories:
 - docs
 - develop

@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/prefetch-cache/go-redis
 categories:
 - docs
 - develop

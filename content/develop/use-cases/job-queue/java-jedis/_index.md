@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/job-queue/java
+- /develop/use-cases/job-queue/jedis
 categories:
 - docs
 - develop

@@ -84,7 +84,7 @@ An error is returned if a tracking session is already in progress.
 
 The tracking session continues until manually stopped with [`HOTKEYS STOP`]({{< relref "/commands/hotkeys-stop" >}}) or automatically stopped after the specified duration.
 
-## Arguments
+## Required arguments
 
 <details open><summary><code>METRICS count [CPU] [NET]</code></summary>
 

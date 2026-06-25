@@ -188,7 +188,7 @@ This marks the message as permanently failed by setting the delivery counter to 
 
 </details>
 
-## Behavior
+## Details
 
 When `XNACK` executes successfully, the entry:
 
@@ -201,7 +201,7 @@ The head of the PEL is reserved for all NACKed messages, ordered as a FIFO list,
 
 NACKed messages are prioritized over other pending messages in the group's PEL, ensuring they are delivered before idle messages during claim operations.
 
-## Notes
+Notes:
 
 - `XNACK` will only process message IDs that exist in the consumer group's PEL. Messages that are not pending will be ignored and not counted in the return value.
 - Released messages occupy a dedicated zone at the head of the PEL (called the *XNACKed portion of the PEL*), ensuring they are prioritized for re-delivery over other pending entries.

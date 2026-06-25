@@ -63,6 +63,14 @@ The entry's unique ID can be used in order to avoid processing slow log entries 
 The ID is never reset in the course of the Redis server execution, only a server
 restart will reset it.
 
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of recent slow-log entries to return. `-1` returns all entries; the default is 10.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

@@ -49,6 +49,8 @@ Before upgrading a database:
 
     Use the Cluster Manager UI to display the **Configuration** tab for the cluster. The tab displays the cluster version information and the Redis database compatibility version.
 
+- For [Replica Of databases]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}), upgrade the destination database before the source database.
+
 - Check client compatibility with the database version.
 
     If you run Redis Stack commands with Go-Redis versions 9 and later or Lettuce versions 6 and later, set the client’s protocol version to RESP2 before upgrading your database to Redis version 7.2 to prevent potential application issues due to RESP3 breaking changes. See [Client prerequisites for Redis 7.2 upgrade]({{< relref "/operate/rs/references/compatibility/resp#client-prerequisites-for-redis-72-upgrade" >}}) for more details and examples.
@@ -139,6 +141,8 @@ To upgrade a database:
     ```sh
     rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
     ```
+
+    For module upgrade options, see [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}).
 
 1. Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version. Verify that the Redis version is set to the expected value.
 

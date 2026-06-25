@@ -39,11 +39,19 @@ title: CMS.INCRBY
 
 Increases the count of item by increment. Multiple items can be increased with one call. 
 
-### Parameters:
+## Required arguments
 
-* **key**: The name of the sketch.
-* **item**: The item which counter is to be increased.
-* **increment**: Amount by which the item counter is to be increased.
+<details open><summary><code>key</code></summary>
+
+The name of the sketch.
+
+</details>
+
+<details open><summary><code>item increment [item increment ...]</code></summary>
+
+One or more item-increment pairs. Each `item`'s counter is increased by its corresponding `increment`.
+
+</details>
 
 ## Examples
 

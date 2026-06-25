@@ -67,28 +67,52 @@ title: EVAL
 This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
 {{< /note >}}
 
-
-Invoke the execution of a server-side Lua script.
-
-The first argument is the script's source code.
-Scripts are written in [Lua](https://lua.org) and executed by the embedded [Lua 5.1]({{< relref "develop/programmability/lua-api" >}}) interpreter in Redis.
+Executes a server-side [Lua](https:lua.org) script with the embedded Redis [Lua 5.1]({{< relref "develop/programmability/lua-api" >}}) interpreter. The first argument is the script’s source code.
 
 The second argument is the number of input key name arguments, followed by all the keys accessed by the script.
-These names of input keys are available to the script as the [_KEYS_ global runtime variable]({{< relref "develop/programmability/lua-api#the-keys-global-variable" >}})
-Any additional input arguments **should not** represent names of keys.
+These input key names are made available to the script as the [`KEYS` global runtime variable]({{< relref "develop/programmability/lua-api#the-keys-global-variable" >}}).
+Any additional input arguments should not represent names of keys.
 
 **Important:**
-to ensure the correct execution of scripts, both in standalone and clustered deployments, all names of keys that a script accesses must be explicitly provided as input key arguments.
-The script **should only** access keys whose names are given as input arguments.
-Scripts **should never** access keys with programmatically-generated names or based on the contents of data structures stored in the database.
+to ensure the correct execution of scripts, both in standalone and clustered deployments, all keys that a script accesses must be explicitly provided as input key arguments.
+Scripts should only access keys whose names are given as input arguments.
+Scripts should never access keys with programmatically-generated names or based on the contents of data structures stored in the database.
 
 **Note:**
-in some cases, users will abuse Lua EVAL by embedding values in the script instead of providing them as argument, and thus generating a different script on each call to EVAL.
-These are added to the Lua interpreter and cached to redis-server, consuming a large amount of memory over time.
-Starting from Redis 7.4, scripts loaded with `EVAL` or [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}) will be deleted from redis after a certain number (least recently used order).
-The number of evicted scripts can be viewed through [`INFO`]({{< relref "/commands/info" >}})'s `evicted_scripts`.
+in some cases, users will abuse Lua `EVAL` by embedding values in the script instead of providing them as arguments, thus generating a different script on each call to `EVAL`.
+These values are added to the Lua interpreter and cached in Redis, consuming a large amount of memory over time.
+
+Starting with Redis 7.4, Redis evicts scripts loaded with `EVAL` or [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}) from the script cache when the cache reaches a certain size. Redis evicts the least recently used scripts first. You can view the number of evicted scripts with the `evicted_scripts` field in [`INFO`]({{< relref "/commands/info" >}}).
 
 Please refer to the [Redis Programmability]({{< relref "/develop/programmability/" >}}) and [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}) for more information about Lua scripts.
+
+## Required arguments
+
+<details open><summary><code>script</code></summary>
+
+The Lua script to evaluate.
+
+</details>
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of key names that follow. Arguments after the keys are passed as regular arguments.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+The key names the script accesses, provided to it via the Lua global `KEYS` runtime variable. There must be exactly `numkeys` of them.
+
+</details>
+
+<details open><summary><code>arg [arg ...]</code></summary>
+
+Additional arguments provided to the script via the Lua `ARGV` variable.
+
+</details>
 
 ## Examples
 

@@ -47,6 +47,9 @@ However, we contribute new features, offer guidance, and collaborate with the co
 on a best-effort basis to help ensure these libraries remain reliable and up-to-date.
 {{< /note >}}
 
+See [Client library support and versioning policy]({{< relref "/develop/clients/version-support" >}})
+for details about how Redis maintains, versions, and tests the official client libraries.
+
 We also provide several higher-level
 [object mapping (OM)]({{< relref "/develop/clients/om-clients" >}})
 libraries for [Python]({{< relref "/integrate/redisom-for-python" >}}),

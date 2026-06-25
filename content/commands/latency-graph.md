@@ -60,6 +60,14 @@ Valid values for `event` are:
 * `fork`
 * `rdb-unlink-temp-file`
 
+## Required arguments
+
+<details open><summary><code>event</code></summary>
+
+The latency event to graph.
+
+</details>
+
 ## Examples
 
 ```

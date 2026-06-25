@@ -54,6 +54,20 @@ Returns the scores associated with the specified `members` in the sorted set sto
 
 For every `member` that does not exist in the sorted set, a `nil` value is returned.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members whose scores to return.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

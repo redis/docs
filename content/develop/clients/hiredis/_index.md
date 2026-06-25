@@ -2,6 +2,7 @@
 aliases:
 - /connect/clients/hiredis/
 - /clients/hiredis/
+- /develop/clients/c
 categories:
 - docs
 - develop

@@ -51,6 +51,14 @@ When turned off, the current client will be re-included in the pool of potential
 
 See [client eviction]({{< relref "/develop/reference/clients" >}}#client-eviction) for more details.
 
+## Required arguments
+
+<details open><summary><code>ON | OFF</code></summary>
+
+Turn eviction protection on (`ON`) or off (`OFF`) for the current connection.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

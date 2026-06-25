@@ -36,14 +36,28 @@ summary: Extracts the key names from an arbitrary command.
 syntax_fmt: COMMAND GETKEYS command [arg [arg ...]]
 title: COMMAND GETKEYS
 ---
-Returns [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of keys from a full Redis command.
 
 `COMMAND GETKEYS` is a helper command to let you find the keys
-from a full Redis command.
+from the provided Redis `command`.
 
-[`COMMAND`]({{< relref "/commands/command" >}}) provides information on how to find the key names of each command (see `firstkey`, [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}), and `movablekeys`),
-but in some cases it's not possible to find keys of certain commands and then the entire command must be parsed to discover some / all key names.
-You can use `COMMAND GETKEYS` or [`COMMAND GETKEYSANDFLAGS`]({{< relref "/commands/command-getkeysandflags" >}}) to discover key names directly from how Redis parses the commands.
+
+[`COMMAND`]({{< relref "/commands/command" >}}) describes how Redis identifies key names for each command, including `firstkey`, [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}), and `movablekeys`. For some commands, Redis can identify the keys only by parsing the full command. Use COMMAND GETKEYS or [`COMMAND GETKEYSANDFLAGS`]({{< relref "/commands/command-getkeysandflags" >}}) to get the key names directly from the Redis command parser.
+
+## Required arguments
+
+<details open><summary><code>command</code></summary>
+
+The name of the command to analyze.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>arg [arg ...]</code></summary>
+
+The arguments that would be passed to the command.
+
+</details>
 
 ## Examples
 

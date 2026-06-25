@@ -284,6 +284,34 @@ For reliable update and delete handling, define `keyColumns` with a stable busin
 - Verify the warehouse name is correct
 - Ensure the user has USAGE permission on the warehouse
 
+**Error: "Network policy is required"**
+
+If the collector logs show an error like the following:
+
+```
+Failed to open new session for user: USERNAME, host: <account>.snowflakecomputing.com. Error: Fail : Network policy is required.
+Failed to initialize pool: Fail : Network policy is required.
+```
+
+Your Snowflake account enforces a network policy, so you must whitelist the RDI egress IP addresses in Snowflake.
+
+The following example creates a network policy and applies it to the RDI user. Replace the example IP addresses with your actual RDI egress IPs and replace `"USERNAME"` with your RDI user:
+
+```sql
+USE ROLE SECURITYADMIN;
+
+CREATE NETWORK POLICY rdi_policy
+  ALLOWED_IP_LIST = (
+    '203.0.113.10/32',
+    '203.0.113.20/32',
+    '198.51.100.30/32',
+    '198.51.100.40/32'
+  );
+
+ALTER USER "USERNAME"
+SET NETWORK_POLICY = rdi_policy;
+```
+
 ### CDC issues
 
 **No data appearing in Redis**

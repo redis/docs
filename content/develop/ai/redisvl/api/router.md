@@ -27,6 +27,25 @@ Initialize the SemanticRouter.
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
 
+#### `add_route(route)`
+
+Add a new route to the SemanticRouter.
+
+Embeds the route’s references, writes them to the Redis index,
+appends the route to `self.routes`, and persists the updated router
+config so the route survives [from_existing](#from_existing).
+
+* **Parameters:**
+  **route** ([Route](#route)) – A fully-formed Route (name, references,
+  distance_threshold, optional metadata).
+* **Returns:**
+  The added route’s name.
+* **Return type:**
+  str
+* **Raises:**
+  **ValueError** – If a route with this name already exists on the router.
+      Use [add_route_references](#add_route_references) to extend an existing route.
+
 #### `add_route_references(route_name, references)`
 
 Add a reference(s) to an existing route.

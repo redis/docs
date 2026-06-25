@@ -47,26 +47,15 @@ summary: Sets configuration parameters in-flight.
 syntax_fmt: CONFIG SET parameter value [parameter value ...]
 title: CONFIG SET
 ---
-The `CONFIG SET` command is used in order to reconfigure the server at run time
-without the need to restart Redis.
-You can change both trivial parameters or switch from one to another persistence
-option using this command.
+CONFIG SET reconfigures Redis at runtime without restarting the server. You can use it to change simple configuration parameters or switch between persistence options.
 
-The list of configuration parameters supported by `CONFIG SET` can be obtained
-issuing a `CONFIG GET *` command, that is the symmetrical command used to obtain
-information about the configuration of a running Redis instance.
+Run [CONFIG GET *]({{< relref "/commands/config-get" >}}) to list the configuration parameters that CONFIG SET supports.
 
 All the configuration parameters set using `CONFIG SET` are immediately loaded
 by Redis and will take effect starting with the next command executed.
 
 All the supported parameters have the same meaning of the equivalent
-configuration parameter used in the [redis.conf][hgcarr22rc] file.
-
-[hgcarr22rc]: http://github.com/redis/redis/raw/unstable/redis.conf
-
-Note that you should look at the redis.conf file relevant to the version you're
-working with as configuration options might change between versions. The link
-above is to the latest development version.
+configuration parameter used in the [redis.conf]({{< relref "/operate/oss_and_stack/management/config/" >}}) file. The provided link has links to the `redis.conf` files for Redis version 6.2 and greater. See the [Redis souce code repo](https://github.com/redis/redis) for earlier versions.
 
 It is possible to switch persistence from RDB snapshotting to append-only file
 (and the other way around) using the `CONFIG SET` command.
@@ -83,6 +72,14 @@ Redis server that started with AOF turned on since the start.
 
 You can have both the AOF enabled with RDB snapshotting if you want, the two
 options are not mutually exclusive.
+
+## Required arguments
+
+<details open><summary><code>parameter value [parameter value ...]</code></summary>
+
+One or more configuration parameter-value pairs to set.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

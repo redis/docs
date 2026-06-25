@@ -26,15 +26,7 @@ Note: You cannot use client libraries to configure Redis Software.  Instead, use
 
 ### Discovery service
 
-We recommend the following clients when using a [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) based on the Redis Sentinel API:
+All [recommended Redis client libraries]({{< relref "/develop/clients" >}}) support the Redis Sentinel API, so you can use any of them with the [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}).
 
-- [redis-py]({{< relref "/develop/clients/redis-py" >}}) (Python client)
-- [StackExchange.Redis]({{< relref "/develop/clients/dotnet" >}}) (.NET client)
-- [Jedis]({{< relref "/develop/clients/jedis" >}}) (synchronous Java client)
-- [Lettuce]({{< relref "/develop/clients/lettuce" >}}) (asynchronous Java client)
-- [go-redis]({{< relref "/develop/clients/go" >}}) (Go client)
-- [Hiredis](https://github.com/redis/hiredis) (C client)
-
-If you need to use another client, you can use [Sentinel Tunnel](https://github.com/RedisLabs/sentinel_tunnel)
-to discover the current Redis master with Sentinel and create a TCP tunnel between a local port on the client and the master.
+If you need to use a client that doesn't support Sentinel, you can use [Sentinel Tunnel](https://github.com/RedisLabs/sentinel_tunnel) to discover the current primary Redis endpoint with Sentinel and create a TCP tunnel between a local port on the client and the primary endpoint.
 

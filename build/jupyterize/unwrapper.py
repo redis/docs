@@ -141,6 +141,67 @@ def _remove_trailing_braces(code, count):
     return '\n'.join(result)
 
 
+def _net_braces(code):
+    """
+    Return ('}' count) - ('{' count), IGNORING braces inside string/char
+    literals ('...', "...", `...`) and line comments (# or //). A scanner rather
+    than a raw count, so a brace in a string (e.g. a JSON literal) doesn't skew
+    the balance and cause a real closing brace to be stripped.
+    """
+    net = 0
+    i, n = 0, len(code)
+    quote = None
+    while i < n:
+        ch = code[i]
+        if quote:
+            if ch == '\\' and quote != '`':
+                i += 2
+                continue
+            if ch == quote:
+                quote = None
+            i += 1
+            continue
+        if ch in ('"', "'", '`'):
+            quote = ch
+        elif ch == '#' or (ch == '/' and i + 1 < n and code[i + 1] == '/'):
+            while i < n and code[i] != '\n':  # skip to end of line comment
+                i += 1
+            continue
+        elif ch == '{':
+            net -= 1
+        elif ch == '}':
+            net += 1
+        i += 1
+    return net
+
+
+def _strip_trailing_orphan_braces(code):
+    """
+    Strip orphan closing braces left when a class/method wrapper's opening was
+    removed from an earlier cell.
+
+    Only CONTIGUOUS trailing lone-'}' lines are removed (stopping at the first
+    real content line), and at most as many as the cell has unmatched closes
+    (counted by _net_braces, which ignores braces in strings/comments). This
+    preserves the closing braces of balanced blocks (for/foreach/lambda bodies)
+    that legitimately sit inside the cell.
+    """
+    net = _net_braces(code)
+    if net <= 0:
+        return code
+
+    lines = code.split('\n')
+    while net > 0 and lines:
+        if lines[-1].strip() == '':
+            lines.pop()                       # drop trailing blank lines
+        elif re.match(r'^\s*\}\s*$', lines[-1]):
+            lines.pop()                       # drop an orphan closing brace
+            net -= 1
+        else:
+            break                             # hit real content; stop
+    return '\n'.join(lines)
+
+
 class CodeUnwrapper:
     """Removes language-specific structural wrappers from code."""
 
@@ -222,6 +283,13 @@ class CodeUnwrapper:
         if braces_removed > 0:
             logging.debug(f"Removing {braces_removed} trailing closing braces")
             code = _remove_trailing_braces(code, braces_removed)
+
+        # Strip any remaining orphan trailing closing braces. A class/method
+        # wrapper spans cells (opening braces in the first cell, closing braces
+        # in the last), so per-cell removal above leaves the trailing closes
+        # behind. Only contiguous trailing lone-'}' lines are removed, bounded by
+        # the cell's net brace imbalance, so balanced bodies keep their braces.
+        code = _strip_trailing_orphan_braces(code)
 
         return code
 

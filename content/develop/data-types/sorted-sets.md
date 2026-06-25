@@ -2,6 +2,7 @@
 aliases:
 - /data-types/sorted-sets/
 - /manual/data-types/sorted-sets/
+- /develop/data-types/sorted-set/
 categories:
 - docs
 - develop

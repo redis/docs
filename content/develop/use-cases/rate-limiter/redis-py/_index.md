@@ -1,4 +1,8 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/demo_server.py
+- /develop/use-cases/rate-limiter/token_bucket.py
+- /develop/use-cases/rate-limiter/python
 categories:
 - docs
 - develop

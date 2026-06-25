@@ -57,6 +57,20 @@ The cluster makes sure that published shard messages are forwarded to all the no
 
 For more information about sharded pubsub, see [Sharded Pubsub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
 
+## Required arguments
+
+<details open><summary><code>shardchannel</code></summary>
+
+The shard channel to publish to.
+
+</details>
+
+<details open><summary><code>message</code></summary>
+
+The message to publish.
+
+</details>
+
 ## Examples
 
 For example the following command publishes to the `orders` channel with a subscriber already waiting for message(s).

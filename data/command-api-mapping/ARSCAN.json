@@ -1,0 +1,298 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arScan(key: RedisArgument, start: number | string, end: number | string, options?: ArScanOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "ArScanOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArScanReply",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "arscan(string $key, int $start, int $end, ?int $limit = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$limit",
+            "type": "?int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<IndexedValue<V>> arscan(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "List<IndexedValue<V>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      },
+      {
+        "signature": "List<IndexedValue<V>> arscan(K key, long start, long end, long limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "the maximum number of entries to return."
+          }
+        ],
+        "returns": {
+          "type": "List<IndexedValue<V>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<IndexedValue<V>>> arscan(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<IndexedValue<V>>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<IndexedValue<V>>> arscan(K key, long start, long end, long limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "the maximum number of entries to return."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<IndexedValue<V>>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<IndexedValue<V>> arscan(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Flux<IndexedValue<V>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      },
+      {
+        "signature": "Flux<IndexedValue<V>> arscan(K key, long start, long end, long limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "the maximum number of entries to return."
+          }
+        ],
+        "returns": {
+          "type": "Flux<IndexedValue<V>>",
+          "description": "a list of IndexedValue pairs."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "arscan(name: KeyT, start: int, end: int, limit: int | None = None)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int | None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARScan(ctx context.Context, key string, start, end uint64, args *ARScanArgs) *AREntrySliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "args",
+            "type": "*ARScanArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*AREntrySliceCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

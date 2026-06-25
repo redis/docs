@@ -15,7 +15,7 @@ Redis Context Retriever helps teams expose operational context to AI agents thro
 
 ## Prerequisites and limitations
 
-To create a Redis Context Retriever service, you will need a Redis Cloud database that already has relevant data. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}). If your source data lives in a relational database, use [Redis Data Integration (RDI)]({{< relref "/operate/rc/databases/rdi" >}}) to ingest it into a Redis Cloud database first.
+To create a Redis Context Retriever service, you will need a Redis Cloud database that already has relevant data. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}). If your source data lives in a relational database, use [Redis Data Integration (RDI)]({{< relref "/operate/rc/rdi" >}}) to ingest it into a Redis Cloud database first.
 
 {{< note >}}
 Agent Memory does not support the following databases during public preview:
@@ -100,7 +100,7 @@ Expand each entry to view the currently defined fields for that entry. Select **
 
 - Enter the field name in the **Field** cell.
 - Select the **PK** checkbox if the field is a primary key. You must have at least one primary key. 
-- If the field is related to any other defined entities, select it from the **Related Entity** dropdown. This is usually set if the field contains primary keys of another entity. For example, you might have an
+- If the field is related to any other defined entities, select it from the **Related Entity** dropdown. This is usually set if the field contains primary keys of another entity. 
 - Select the field's **Type** from the dropdown.
 - In the **Index** cell, select one or more index types to enable searching and filtering on that field.
 - You can also add a description in the **Description** cell.

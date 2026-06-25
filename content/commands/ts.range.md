@@ -362,13 +362,21 @@ Similarly, when the end timestamp for the range query is explicitly stated, you 
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value).
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of 
+  * Without `AGGREGATION` or with a single aggregator:
+    ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value).
+  * With multiple aggregators:
+    ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) tuples representing (timestamp, value...).
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pairs representing (timestamp, value).
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of
+  * Without `AGGREGATION` or with a single aggregator:
+    ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pairs representing (timestamp, value).
+  * With multiple aggregators:
+    ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) tuples representing (timestamp, value...).    
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.
 
 {{< /multitabs >}}

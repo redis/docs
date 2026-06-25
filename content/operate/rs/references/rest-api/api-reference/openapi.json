@@ -822,6 +822,23 @@
           ]
         }
       },
+      "LdapMappingUpdateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LdapMappingBody"
+          }
+        ],
+        "description": "Request body for updating a Redis Software LDAP mapping.",
+        "example": {
+          "dn": "OU=ops.group,DC=redislabs,DC=com",
+          "email": "ops.group@redislabs.com",
+          "email_alerts": true,
+          "name": "Admins",
+          "role_uids": [
+            1
+          ]
+        }
+      },
       "LdapQuery": {
         "additionalProperties": false,
         "oneOf": [
@@ -2268,7 +2285,8 @@
           "Cluster"
         ],
         "x-publish-docs": true,
-        "x-stability-level": "stable"
+        "x-stability-level": "stable",
+        "x-timeout-seconds": 900
       }
     },
     "/v1/cluster/certificates/{certificate_name}": {
@@ -2705,6 +2723,70 @@
           }
         ],
         "summary": "Get a single Redis Software LDAP mapping",
+        "tags": [
+          "LDAP Mapping"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Update an existing LDAP mapping by unique ID.",
+        "operationId": "cluster_update_ldap_mapping",
+        "parameters": [
+          {
+            "description": "The LDAP mapping unique ID.",
+            "example": 17,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LdapMappingUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LdapMapping"
+                }
+              }
+            },
+            "description": "LDAP mapping updated successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_ldap_mapping"
+            ]
+          }
+        ],
+        "summary": "Update a Redis Software LDAP mapping",
         "tags": [
           "LDAP Mapping"
         ],

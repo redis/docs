@@ -2,6 +2,7 @@
 aliases:
 - /connect/clients/ruby/
 - /clients/ruby/
+- /develop/clients/redis-rb
 categories:
 - docs
 - develop

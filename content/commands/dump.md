@@ -73,6 +73,14 @@ should be used.
 
 If `key` does not exist a nil bulk reply is returned.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key to serialize.
+
+</details>
+
 ## Examples
 
 ```

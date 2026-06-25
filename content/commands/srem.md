@@ -62,6 +62,20 @@ If `key` does not exist, it is treated as an empty set and this command returns
 
 An error is returned when the value stored at `key` is not a set.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members to remove from the set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

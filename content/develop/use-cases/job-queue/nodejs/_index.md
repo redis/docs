@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/job-queue/node-redis
 categories:
 - docs
 - develop

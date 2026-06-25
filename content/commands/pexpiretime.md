@@ -48,6 +48,14 @@ title: PEXPIRETIME
 ---
 `PEXPIRETIME` has the same semantic as [`EXPIRETIME`]({{< relref "/commands/expiretime" >}}), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
