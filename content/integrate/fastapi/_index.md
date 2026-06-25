@@ -34,13 +34,8 @@ so anything redis-py can do is still available to you alongside the caching help
 
 ## Requirements
 
-| Dependency   | Supported versions |
-|--------------|--------------------|
-| Python       | 3.10 to 3.14       |
-| FastAPI      | 0.115+             |
-| redis-py     | 6.0 to 7.2         |
-| Pydantic     | 2.12.5+            |
-| Redis server | 7.4+               |
+See [Requirements](https://github.com/redis/fastapi-redis-sdk#requirements) on the
+GitHub repo for the full set of dependencies used by `fastapi-redis-sdk`.
 
 You also need a running Redis server. You can run one locally with
 [Redis Open Source]({{< relref "/operate/oss_and_stack/install/archive/install-redis" >}}),
