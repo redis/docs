@@ -45,9 +45,13 @@ human-triggered pre-merge step, not an automated merge hook.
   the trailers, plus the commit bodies for the prose. **`--reverse` is required** — the arc
   walk in Step 2 is oldest-first, and the default `git log` order (newest-first) would invert
   the timeline and let stale, overturned notes win. (Drop the deliberate no-note commits.)
-- **Reviewer/bot critique:** the PR comments. Reuse `/docs:assess-comments` if available (it
-  already collects, role-tags, and splits open/resolved across tools); otherwise read them
-  directly (`gh api repos/<o>/<r>/pulls/<n>/comments`, `.../issues/<n>/comments`,
+  Also fold in any PR comment carrying the `<!-- reflect-note -->` marker — those are
+  author-side reflection routed to a comment because the commit was already pushed, **not**
+  critique (see [`../_shared/commit-trailers.md`](../_shared/commit-trailers.md)).
+- **Reviewer/bot critique:** the PR comments **without** the `<!-- reflect-note -->` marker.
+  Reuse `/docs:assess-comments` if available (it already collects, role-tags, and splits
+  open/resolved across tools); otherwise read them directly
+  (`gh api repos/<o>/<r>/pulls/<n>/comments`, `.../issues/<n>/comments`,
   `.../pulls/<n>/reviews`). Note which findings were *fixed* vs *dismissed* vs *still open*.
 - **Check outcomes:** whether CI / security / Bugbot ended clean.
 

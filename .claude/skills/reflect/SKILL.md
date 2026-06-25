@@ -93,9 +93,10 @@ promoted. Decide the split here, then carry only the location-bound part into St
   write. (Preferred — no rewrite.)
 - **Already committed, not pushed** → `git commit --amend` to add the note.
 - **Already pushed** → do *not* amend (it rewrites shared history). Either carry the note on
-  the next related commit, or **post it as a PR comment** — `/finalize` reads PR comments, so
-  the distiller still sees it. (An *uncommitted* working note is invisible to `/finalize`,
-  which only reads `git log` and PR comments — don't rely on one.) Say which you did.
+  the next related commit, or **post it as a PR comment prefixed with the `<!-- reflect-note -->`
+  marker** so `/finalize` classifies it as author-side reflection, not reviewer critique (see
+  [`../_shared/commit-trailers.md`](../_shared/commit-trailers.md)). An *uncommitted* working
+  note is invisible to `/finalize` — don't rely on one. Say which you did.
 
 Verify the trailers parse before finishing:
 

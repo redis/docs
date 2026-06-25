@@ -70,10 +70,24 @@ Always pass `unfold`, or a value folded across lines (RFC-822 continuation) come
 wrapped and a naive reader sees a truncated/oddly-split value:
 
 ```
-git log -1 --format='%(trailers:only,unfold)'           # verify a single commit
-git log main..HEAD --format='%(trailers:only,unfold)'   # all notes on a branch (the distiller's input)
-git log -1 --format='%(trailers:key=Learned,valueonly)' # one keyed field
+git log -1 --format='%(trailers:only,unfold)'                     # verify a single commit
+git log --reverse main..HEAD --format='%(trailers:only,unfold)'   # all notes on a branch, oldest-first (the distiller's input)
+git log -1 --format='%(trailers:key=Learned,valueonly)'           # one keyed field
 ```
 
 If a verify prints nothing but trailers were written, the block isn't contiguous/last — fix
 the blank lines.
+
+## Author-reflection PR comments (the fallback channel)
+
+When a note can't go on a commit (e.g. the commit is already pushed), `/reflect` may post it
+as a PR comment instead. To stop `/finalize` from mistaking it for reviewer critique, such a
+comment **must begin with the marker line**:
+
+```
+<!-- reflect-note -->
+```
+
+`/finalize` treats PR comments **with** this marker as author-side reflection (part of the
+oldest-first arc) and comments **without** it as reviewer/bot critique. The marker is an HTML
+comment, so it's invisible in the rendered PR.
