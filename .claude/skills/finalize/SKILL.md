@@ -41,8 +41,10 @@ human-triggered pre-merge step, not an automated merge hook.
 
 ## Step 1 — Gather
 
-- **Author-side notes:** `git log main..HEAD --format='%(trailers:only,unfold)'` for the
-  trailers, plus the commit bodies for the prose. (Drop the deliberate no-note commits.)
+- **Author-side notes:** `git log --reverse main..HEAD --format='%(trailers:only,unfold)'` for
+  the trailers, plus the commit bodies for the prose. **`--reverse` is required** — the arc
+  walk in Step 2 is oldest-first, and the default `git log` order (newest-first) would invert
+  the timeline and let stale, overturned notes win. (Drop the deliberate no-note commits.)
 - **Reviewer/bot critique:** the PR comments. Reuse `/docs:assess-comments` if available (it
   already collects, role-tags, and splits open/resolved across tools); otherwise read them
   directly (`gh api repos/<o>/<r>/pulls/<n>/comments`, `.../issues/<n>/comments`,
