@@ -107,7 +107,24 @@ Ticket: DOC-XXXX
 "thread these commits to their ticket" a clean trailer query even if the subject convention
 ever changes.
 
-## Step 3 — Land it on the commit
+## Step 3 — Sort: where does this note belong? (decide *before* you commit)
+
+The sort picks the destination, so it must run **before** Step 4 lands anything — once a note
+is committed or amended in, you can't honour a "this didn't belong in the commit" decision
+without a rewrite.
+
+- **Location-bound** — a future agent editing *this file/area* is who needs it → it goes in
+  the commit message (Step 4).
+- **Cross-cutting** — it must apply regardless of what's being edited (a user preference, a
+  process rule, a standing gotcha like "check the running image, not the client version") →
+  a commit can never guarantee it'll be seen, so flag it for promotion to the relevant
+  **learning skill** or **memory**. Tell the user what you're proposing to promote and where;
+  don't edit a learning skill silently.
+
+A note can **split**: the location-bound part goes in the commit, the cross-cutting part gets
+promoted. Decide the split here, then carry only the location-bound part into Step 4.
+
+## Step 4 — Land the location-bound part on the commit
 
 - **Not yet committed** → fold the body + trailers into the commit message you're about to
   write. (Preferred — no rewrite.)
@@ -131,17 +148,6 @@ blank lines.
 > raw wrapped form, so a naive reader sees a truncated or oddly-split value. Keep values
 > single-line where you can; pass `unfold` for when you can't.
 
-## Step 4 — Sort: is this lesson actually location-bound?
-
-The note you just wrote belongs in the commit **only if it's retrievable by location** —
-i.e. a future agent editing *this file/area* is who needs it.
-
-If instead it's **cross-cutting** — it must apply regardless of what's being edited (a user
-preference, a process rule, a standing gotcha like "check the running image, not the client
-version") — a commit can never guarantee it'll be seen. Flag it for promotion to the
-relevant **learning skill** or **memory** instead of (or as well as) the commit. Tell the
-user what you're proposing to promote and where; don't edit a learning skill silently.
-
 ## Limits (read honestly)
 
 - This captures *episodic* notes. It does **not** produce the durable record — that's the
@@ -149,7 +155,7 @@ user what you're proposing to promote and where; don't edit a learning skill sil
 - It cannot make a note correct. A confidently-wrong reflection that survives into a durable
   trailer is worse than none, which is exactly why the durable write is deferred and
   reviewable.
-- It will not catch cross-cutting lessons by itself — Step 4 is manual judgment, and if it's
+- It will not catch cross-cutting lessons by itself — Step 3 is manual judgment, and if it's
   skipped the learning-skills tier quietly starves.
 - The temptation is to over-capture because schemas are satisfying to fill. Resist it; an
   empty note is the right output for most commits.
