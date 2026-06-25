@@ -64,12 +64,17 @@ The table below lists the Redis client libraries that support SCH,
 and the versions that added support for basic connections and
 [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
 
-| Client | Basic connection | OSS Cluster API |
-| :-- | :-- | :-- |
-| [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | v7.2.0 |
-| [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}}) | v5.9.0 | v5.11.0 |
-| [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | - |
-| [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}}) | v9.16.0 | v9.18.0 |
+| Client | Basic connection | OSS Cluster API | Client-side geographic failover |
+| :-- | :-- | :-- | :-- |
+| [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | v7.2.0 | Disabled |
+| [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}}) | v5.9.0 | v5.11.0 | Disabled |
+| [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | - | Disabled |
+| [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}}) | v9.16.0 | v9.18.0 | Disabled |
+
+{{< note >}}SCH is currently disabled when a client is configured for
+[Client-side geographic failover]({{< relref "/develop/clients/failover" >}}).
+Integration of the two features is planned for a future release.
+{{< /note >}}
 
 ## SCH support in Redis server products
 

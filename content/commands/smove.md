@@ -83,6 +83,26 @@ destination set.
 When the specified element already exists in the destination set, it is only
 removed from the source set.
 
+## Required arguments
+
+<details open><summary><code>source</code></summary>
+
+The key of the source set.
+
+</details>
+
+<details open><summary><code>destination</code></summary>
+
+The key of the destination set.
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member to move from the source set to the destination set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

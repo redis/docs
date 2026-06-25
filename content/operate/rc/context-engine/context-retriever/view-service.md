@@ -54,7 +54,7 @@ The **Tools** section shows the tools that are available to your Agents.
 
 {{<image filename="images/rc/context-retriever-view-tools.png" alt="The Entities section for the Context Retriever service." >}}
 
-You can use your Agents to call your tools. For more information, see the [Context Surfaces Python Client](https://pypi.org/project/context-surfaces/)
+You can use your Agents to call your tools. For more information, see the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/)
 
 ### Actions
 

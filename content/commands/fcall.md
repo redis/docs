@@ -69,17 +69,45 @@ Functions are loaded to the server with the [`FUNCTION LOAD`]({{< relref "/comma
 The first argument is the name of a loaded function.
 
 The second argument is the number of input key name arguments, followed by all the keys accessed by the function.
-In Lua, these names of input keys are available to the function as a table that is the callback's first argument.
+In Lua, these input keys names are available to the function as a table that is the callback's first argument.
 
 **Important:**
-To ensure the correct execution of functions, both in standalone and clustered deployments, all names of keys that a function accesses must be explicitly provided as input key arguments.
-The function **should only** access keys whose names are given as input arguments.
-Functions **should never** access keys with programmatically-generated names or based on the contents of data structures stored in the database.
+To ensure the correct execution of functions, both in standalone and clustered deployments, all the key names that a function accesses must be explicitly provided as input key arguments.
+The function should only access keys whose names are given as input arguments.
+Functions should never access keys with programmatically-generated names or based on the contents of data structures stored in the database.
 
-Any additional input argument **should not** represent names of keys.
+Any additional input arguments should not represent names of keys.
 These are regular arguments and are passed in a Lua table as the callback's second argument.
 
 For more information please refer to the [Redis Programmability]({{< relref "/develop/programmability/" >}}) and [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}) pages.
+
+## Required arguments
+
+<details open><summary><code>function</code></summary>
+
+The name of the function to call.
+
+</details>
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of key names that follow. Arguments after the keys are passed as regular arguments.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+The key names the function accesses, provided to it via the Lua  `KEYS` global variable. There must be exactly `numkeys` of them.
+
+</details>
+
+<details open><summary><code>arg [arg ...]</code></summary>
+
+Additional arguments provided to the function via the Lua `ARGV` variable.
+
+</details>
 
 ## Examples
 

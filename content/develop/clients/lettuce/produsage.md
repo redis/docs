@@ -70,7 +70,7 @@ logger.info("Lettuce epool is available: {}", EpollProvider.isAvailable());
 
 If the snippet above returns `false`, you need to enable debugging logging for `io.lettuce.core` and `io.netty` to see why the native transport is not available.
 
-For more information on using Netty Native Transport, see the [Lettuce reference guide](https://redis.github.io/lettuce/advanced-usage/#native-transports).
+For more information on using Netty Native Transport, see the [Lettuce reference guide](https://redis.github.io/lettuce/advanced-usage/native-transports/).
 
 ### Setting timeouts
 
@@ -282,7 +282,7 @@ client.setOptions(ClientOptions.builder()
 ```
 
 See
-[Command execution reliability](https://redis.github.io/lettuce/advanced-usage/#command-execution-reliability)
+[Command execution reliability](https://redis.github.io/lettuce/advanced-usage/command-execution-reliability/)
 in the Lettuce reference guide for more information.
 
 ## Smart client handoffs

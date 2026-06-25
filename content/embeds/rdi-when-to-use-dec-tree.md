@@ -39,7 +39,7 @@ questions:
         text: |
             Are you transferring data from a single source database?
         whyAsk: |
-            RDI is designed to work with a single source database. Multiple sources or Active-Active replicas create conflicting change events.
+            RDI is designed to work with a single source database. Multiple sources create conflicting change events.
         answers:
             no:
                 value: "No"

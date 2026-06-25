@@ -2,6 +2,7 @@
 aliases:
 - /data-types/sets/
 - /manual/data-types/sets/
+- /develop/data-types/set/
 categories:
 - docs
 - develop

@@ -54,6 +54,20 @@ Returns whether each `member` is a member of the set stored at `key`.
 
 For every `member`, `1` is returned if the value is a member of the set, or `0` if the element is not a member of the set or if `key` does not exist.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members to check for.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

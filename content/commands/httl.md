@@ -63,7 +63,21 @@ given hash field will continue to be part of the hash key.
 
 See also the [`HPTTL`]({{< relref "/commands/hpttl" >}}) command that returns the same information with millisecond resolution.
 
-## Example
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to retrieve the remaining time to live for. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Examples
 
 ```
 redis> HTTL no-key FIELDS 3 field1 field2 field3

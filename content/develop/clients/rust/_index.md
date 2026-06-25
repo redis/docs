@@ -2,6 +2,7 @@
 aliases:
 - /connect/clients/rust/
 - /clients/rust/
+- /develop/clients/redis-rs
 categories:
 - docs
 - develop

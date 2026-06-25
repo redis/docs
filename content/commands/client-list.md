@@ -91,7 +91,24 @@ You can use one of the optional subcommands to filter the list. The `TYPE type` 
 
 The `ID` filter only returns entries for clients with IDs matching the `client-id` arguments.
 
-Here is the meaning of the fields:
+
+## Optional arguments
+
+<details open><summary><code>TYPE NORMAL | MASTER | REPLICA | PUBSUB</code></summary>
+
+List only clients of the given type.
+
+</details>
+
+<details open><summary><code>ID client-id [client-id ...]</code></summary>
+
+List only the clients with the given IDs.
+
+</details>
+
+## Details
+
+### Returned information
 
 * `id`: a unique 64-bit client ID.
 * `addr`: address/port of the client.
@@ -164,8 +181,6 @@ The file descriptor events can be:
 r: the client socket is readable (event loop)
 w: the client socket is writable (event loop)
 ```
-
-## Notes
 
 New fields are regularly added for debugging purpose. Some could be removed
 in the future. A version safe Redis client using this command should parse

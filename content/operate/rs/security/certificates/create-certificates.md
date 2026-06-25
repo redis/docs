@@ -30,7 +30,7 @@ You can run the `generate_self_signed_certs.sh` script with the following option
 |----------|-------------|
 | `-h`<br />`--help` | Displays usage instructions. (Optional) |
 | `-d <days>`<br />`--days <days>` | Number of days the self-signed certificate is valid for. Setting this field longer than a year (365 days) is not recommended. (Optional, default: 365) |
-| `-f <names>`<br /><nobr>`--fqdnNames <names>`</nobr> | Space-separated list of [fully qualified domain names (FQDNs)](https://en.wikipedia.org/wiki/Fully_qualified_domain_name). Used for [storage area networks (SANs)](https://en.wikipedia.org/wiki/Storage_area_network). (Required)<br />Example: `-f "redis.example.com redis-1.example.com"` |
+| `-f <names>`<br /><nobr>`--fqdnNames <names>`</nobr> | Space-separated list of [fully qualified domain names (FQDNs)](https://en.wikipedia.org/wiki/Fully_qualified_domain_name). Used for [Subject Alternative Names (SANs)](https://en.wikipedia.org/wiki/Public_key_certificate#Subject_Alternative_Name_certificate). (Required)<br />Example: `-f "redis.example.com redis-1.example.com"` |
 | `-t <type>`<br />`--type <type>` | Type of certificate to generate. (Optional, default: all) <br />Values:<br />**cm**: Cluster Manager UI certificate<br />**api**: REST API certificate<br /> **proxy**: database endpoint proxy certificate<br />**syncer**: syncer component certificate<br />**metrics**: metrics exporter certificate<br />**all**: generates all certificate types |
 
 ### Step 1: Generate new certificates 

@@ -68,6 +68,34 @@ title: XSETID
 The `XSETID` command is an internal command.
 It is used by a Redis master to replicate the last delivered ID of streams.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
+<details open><summary><code>last-id</code></summary>
+
+The ID to set as the stream's last-generated ID.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>ENTRIESADDED entries-added</code></summary>
+
+Set the stream's entries-added counter.
+
+</details>
+
+<details open><summary><code>MAXDELETEDID max-deleted-id</code></summary>
+
+Set the stream's maximum deleted entry ID.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

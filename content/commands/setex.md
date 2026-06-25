@@ -68,6 +68,26 @@ SET key value EX seconds
 
 An error is returned when `seconds` is invalid.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>seconds</code></summary>
+
+The time to live, in seconds.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The value to set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -75,10 +95,6 @@ SETEX mykey 10 "Hello"
 TTL mykey
 GET mykey
 {{% /redis-cli %}}
-
-## See also
-
-[`TTL`]({{< relref "/commands/ttl" >}})
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -99,3 +115,7 @@ GET mykey
 [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
 
 {{< /multitabs >}}
+
+## See also
+
+[`TTL`]({{< relref "/commands/ttl" >}})

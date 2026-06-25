@@ -65,6 +65,28 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 This command is similar to [`ZDIFFSTORE`]({{< relref "/commands/zdiffstore" >}}), but instead of storing the resulting
 sorted set, it is returned to the client.
 
+## Required arguments
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys. The result is the members of the first set that are not present in any of the subsequent sets.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each member.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

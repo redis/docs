@@ -102,6 +102,40 @@ bit, -2 is the penultimate, and so forth.
 
 Non-existent keys are treated as empty strings.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the string.
+
+</details>
+
+<details open><summary><code>bit</code></summary>
+
+The bit value to search for: `0` or `1`.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>start</code></summary>
+
+The offset to start searching from. By default a byte offset; negative values count from the end of the string.
+
+</details>
+
+<details open><summary><code>end</code></summary>
+
+The offset to stop searching at, inclusive.
+
+</details>
+
+<details open><summary><code>BYTE | BIT</code></summary>
+
+Interpret `start` and `end` as byte offsets (`BYTE`, the default) or bit offsets (`BIT`).
+
+</details>
+
 ## Examples
 
 ```redis

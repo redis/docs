@@ -46,9 +46,17 @@ summary: Returns the time since the last access to a Redis object.
 syntax_fmt: OBJECT IDLETIME key
 title: OBJECT IDLETIME
 ---
-This command returns the time in seconds since the last access to the value stored at `<key>`.
+This command returns the time in seconds since the last access to the value stored at `key`.
 
 The command is only available when the `maxmemory-policy` configuration directive is not set to one of the LFU policies.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

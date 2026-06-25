@@ -12,6 +12,27 @@ min-version-rs: blah
 weight: 40
 ---
 
+## Redis Open Source 8.4.4 (June 2026)
+
+Update urgency: `HIGH`: There are critical bugs that may affect a subset of users.
+
+### Bug fixes
+
+- [#15175](https://github.com/redis/redis/pull/15175), RediSearch/RediSearch[#9262](https://github.com/redisearch/redisearch/pull/9262) Redis fails to start on AArch64.
+- [#15163](https://github.com/redis/redis/pull/15163) `MULTI` queue memory incorrect memory accounting.
+- [#14581](https://github.com/redis/redis/pull/14581) Rare server hang at shutdown.
+- [#14545](https://github.com/redis/redis/pull/14545) ACL: AOF loading fails if ACL rules are changed and don't allow some commands in `MULTI`-`EXEC`.
+- [#14537](https://github.com/redis/redis/pull/14537) `SCAN`: restore original filter order (revert change introduced in 8.2).
+- [#14816](https://github.com/redis/redis/pull/14816) setModuleEnumConfig() passing prefixed name to module callbacks.
+- [#14659](https://github.com/redis/redis/pull/14659) ACL: Key-pattern bypass in `MSETEX`.
+- [#14623](https://github.com/redis/redis/pull/14623) Streams: `XTRIM`/`XADD` with approx mode (`~`) don’t delete entries for `DELREF`/`ACKED` strategies.
+- [#14552](https://github.com/redis/redis/pull/14552) Streams: Incorrect behavior when using `XDELEX...`ACKED` after `XGROUP DESTROY`.
+- [#14848](https://github.com/redis/redis/pull/14848) Crash during command processing on replicas performing full synchronization.
+- [#15188](https://github.com/redis/redis/pull/15188) `cluster-announce-ip` rejecting hostnames (regression).
+- [#14667](https://github.com/redis/redis/pull/14667), [#14886](https://github.com/redis/redis/pull/14886) Potential TCP stalls/deadlocks.
+- RediSearch/RediSearch[#9484](https://github.com/redisearch/redisearch/pull/9484) Shard crash during background index scan of JSON documents with vector fields on Active-Active (CRDT) databases (MOD-15542).
+- RediSearch/RediSearch[#9635](https://github.com/redisearch/redisearch/pull/9635) Severe latency spikes and shard unresponsiveness when `EXPIRE` or `EXPIREAT` operations run concurrently with queries on large indexes (MOD-14930).
+
 ## Redis Open Source 8.4.3 (May 2026)
 
 Update urgency: `SECURITY`: There are security fixes in the release.

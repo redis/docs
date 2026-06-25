@@ -437,6 +437,69 @@ systems to trigger this method in your application. For example, if your applica
 exposes a REST API, you might consider creating a REST endpoint to call
 `switchTo()`.
 
+## Pub/Sub and re-subscription
+
+`MultiDbClient` supports [Pub/Sub]({{< relref "/develop/pubsub" >}})
+messaging with automatic re-subscription to channels during failover.
+This means you don't have to detect failovers and re-subscribe manually:
+
+- **Subscriber failover**: When the active database becomes unhealthy, the
+  subscriber automatically reconnects to the next available database and
+  re-subscribes to the same channels.
+- **Publisher failover**: The publisher switches to the next available
+  database and continues publishing to the same channels.
+
+For reliable Pub/Sub delivery during failover, use `MultiDbClient` instances
+for *both* publishers and subscribers.
+
+Unlike the standard commands, which use the connection returned by `connect()`,
+Pub/Sub uses a dedicated connection that you obtain with the `connectPubSub()`
+method. This returns a `StatefulRedisMultiDbPubSubConnection`, which implements
+the same interface as the standard `StatefulRedisPubSubConnection`. Register a
+`RedisPubSubListener` (or extend `RedisPubSubAdapter` to override only the
+callbacks you need) to receive messages, then subscribe to one or more channels:
+
+```java
+import io.lettuce.core.failover.api.StatefulRedisMultiDbPubSubConnection;
+import io.lettuce.core.pubsub.RedisPubSubAdapter;
+
+StatefulRedisMultiDbPubSubConnection<String, String> pubSubConnection =
+        client.connectPubSub();
+
+// Register a listener to handle incoming messages.
+pubSubConnection.addListener(new RedisPubSubAdapter<String, String>() {
+    @Override
+    public void message(String channel, String message) {
+        System.out.printf("Received \"%s\" on channel \"%s\"%n", message, channel);
+    }
+});
+
+// Subscribe to one or more channels. If a failover happens, the
+// subscriptions are automatically re-established on the new active database.
+pubSubConnection.sync().subscribe("news", "alerts");
+```
+
+Use a separate Pub/Sub connection to publish messages:
+
+```java
+StatefulRedisMultiDbPubSubConnection<String, String> publisher =
+        client.connectPubSub();
+
+publisher.sync().publish("news", "Hello World");
+```
+
+{{< note >}}The only addition over a standard Lettuce Pub/Sub connection is that
+you obtain the connection with `connectPubSub()` on the `MultiDbClient`. The
+subscription and publishing API is otherwise identical, but the active
+subscriptions and registered listeners are automatically migrated to the new
+database when a failover occurs.
+
+Message loss can still occur if the failover events happen in the reverse order,
+with the publisher failing over to the new database before the subscriber.
+Messages published during this window may not reach a subscriber that is still
+connected to the previous database.
+{{< /note >}}
+
 ## Behavior when all endpoints are unhealthy
 
 In the extreme case where no endpoint is healthy, Lettuce will keep trying

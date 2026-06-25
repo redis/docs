@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arGet(key: RedisArgument, index: number | string)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "number | string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "BlobStringReply | NullReply",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "arget(string $key, int $index)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|null",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V arget(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to get."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "the value at the index, or null if the index is empty or the key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> arget(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to get."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "the value at the index, or null if the index is empty or the key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> arget(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to get."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "the value at the index, or null if the index is empty or the key does not exist."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "arget(name: KeyT, index: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes | str | None",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARGet(ctx context.Context, key string, index uint64) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

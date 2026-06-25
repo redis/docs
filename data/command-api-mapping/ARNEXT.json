@@ -1,0 +1,121 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arNext(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply | NullReply",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "arnext(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int|null",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long arnext(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the next insert index, or 0 if the key does not exist, or null if the cursor is exhausted."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> arnext(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the next insert index, or 0 if the key does not exist, or null if the cursor is exhausted."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> arnext(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the next insert index, or 0 if the key does not exist, or null if the cursor is exhausted."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "arnext(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int | None",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARNext(ctx context.Context, key string) *UintCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*UintCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

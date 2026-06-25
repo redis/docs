@@ -81,12 +81,24 @@ When the capacity is reached, the oldest idempotent IDs for that producer are ev
 
 </details>
 
-## Behavior
+## Details
+
+### Behavior
 
 - Calling `XCFGSET` clears all existing producer IDMP maps for the stream.
 - At least one of `IDMP-DURATION` or `IDMP-MAXSIZE` must be specified.
 - The stream must exist before calling this command.
 - Configuration changes apply immediately to all future IDMP operations.
+
+### Error conditions
+
+The command returns an error in the following cases:
+
+- `WRONGTYPE`: The key exists but is not a stream.
+- `ERR no such key`: The stream does not exist.
+- `ERR syntax error`: Invalid command syntax or missing required arguments.
+- `ERR invalid duration`: Duration value is outside the valid range (1-86,400).
+- `ERR invalid maxsize`: Maxsize value is outside the valid range (1-10,000).
 
 ## Examples
 
@@ -116,13 +128,3 @@ XCFGSET mystream IDMP-DURATION 600 IDMP-MAXSIZE 500
 [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the configuration was set successfully.
 
 {{< /multitabs >}}
-
-## Error conditions
-
-The command returns an error in the following cases:
-
-- **WRONGTYPE**: The key exists but is not a stream
-- **ERR no such key**: The stream does not exist
-- **ERR syntax error**: Invalid command syntax or missing required arguments
-- **ERR invalid duration**: Duration value is outside the valid range (1-86,400)
-- **ERR invalid maxsize**: Maxsize value is outside the valid range (1-10,000)

@@ -1,0 +1,17 @@
+# Bundler installs the gems and their native extensions (onnxruntime
+# ships its own shared library) under vendor/ when run with
+# `bundle config set --local path vendor/bundle`.
+vendor/
+
+# Local bundler config; `bundle config set --local path` writes to
+# .bundle/config and a developer's personal path choice should not be
+# committed alongside the example.
+.bundle/
+
+# informers downloads the ONNX-exported all-MiniLM-L6-v2 weights into
+# the local Hugging Face cache directory on first run. Use the env var
+# HF_HOME to override it; the default is ~/.cache/huggingface so it
+# typically does not land here, but this entry catches the case where
+# a user pins the cache to the project directory.
+.cache/
+huggingface/

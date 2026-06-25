@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/node-redis
 categories:
 - docs
 - develop

@@ -8,8 +8,8 @@ categories:
 description: Deploy and manage Redis Enterprise on Kubernetes with the Redis Enterprise operator.
 hideListLinks: true
 linkTitle: 7.22
-weight: 30
-bannerText: This documentation applies to version 7.22.
+weight: 50
+bannerText: This documentation applies to version 7.22. For documentation on the latest version, see [redis.io/docs/latest/operate/kubernetes/](https://redis.io/docs/latest/operate/kubernetes/).
 bannerChildren: true
 url: '/operate/kubernetes/7.22/'
 ---

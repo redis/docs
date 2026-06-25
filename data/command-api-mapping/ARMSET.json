@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arMSet(key: RedisArgument, entries: ArMSetEntries)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "entries",
+            "type": "ArMSetEntries",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "armset(string $key, array $indexValueDictionary)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$indexValueDictionary",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long armset(K key, Map<Long, V> indexValueMap)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indexValueMap",
+            "type": "Map<Long, V>",
+            "description": "map of index to value pairs."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> armset(K key, Map<Long, V> indexValueMap)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indexValueMap",
+            "type": "Map<Long, V>",
+            "description": "map of index to value pairs."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> armset(K key, Map<Long, V> indexValueMap)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indexValueMap",
+            "type": "Map<Long, V>",
+            "description": "map of index to value pairs."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "armset(name: KeyT, mapping: Mapping[int, FieldT])",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "mapping",
+            "type": "Mapping[int, FieldT]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARMSet(ctx context.Context, key string, members ...AREntry) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...AREntry",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
