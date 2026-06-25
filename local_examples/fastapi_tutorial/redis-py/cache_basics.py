@@ -88,19 +88,23 @@ assert third.json() != first.json()
 # REMOVE_END
 
 # STEP_START http_caching
-# Cached responses carry standard HTTP caching headers. Replaying the ETag with
-# If-None-Match lets the server answer 304 Not Modified with no body.
-cached = client.get("/cache-demo")
-etag = cached.headers["ETag"]
-print(cached.headers["Cache-Control"])
+# Cached responses carry standard HTTP caching headers. Evict first so the next
+# request is a fresh MISS whose Cache-Control reflects the full 30-second TTL.
+client.delete("/cache-demo")
+miss = client.get("/cache-demo")
+print(miss.headers["Cache-Control"])
 # >>> max-age=30
 
+# The cached response also carries a weak ETag. Replaying it with If-None-Match
+# lets the server answer 304 Not Modified with no body.
+etag = miss.headers["ETag"]
 not_modified = client.get("/cache-demo", headers={"If-None-Match": etag})
 print(not_modified.status_code)
 # >>> 304
 # STEP_END
 
 # REMOVE_START
+assert miss.headers["Cache-Control"].startswith("max-age=")
 assert etag
 assert not_modified.status_code == 304
 client.__exit__(None, None, None)

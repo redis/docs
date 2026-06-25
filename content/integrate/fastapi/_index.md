@@ -38,8 +38,8 @@ so anything redis-py can do is still available to you alongside the caching help
 |--------------|--------------------|
 | Python       | 3.10 to 3.14       |
 | FastAPI      | 0.115+             |
-| redis-py     | 6.0+               |
-| Pydantic     | 2.0+               |
+| redis-py     | 6.0 to 7.2         |
+| Pydantic     | 2.12.5+            |
 | Redis server | 7.4+               |
 
 You also need a running Redis server. You can run one locally with
@@ -64,22 +64,18 @@ from redis_fastapi import FastAPIRedis
 
 Attach Redis to your app with the fluent builder. The `lifespan()` call hooks into
 the [FastAPI lifespan events](https://fastapi.tiangolo.com/advanced/events/) to open a
-connection pool at startup and close it cleanly on shutdown. Inject `RedisDep` (or
-`AsyncRedisDep` for `async` endpoints) to get a ready-to-use client:
+connection pool at startup and close it cleanly on shutdown. Inject `AsyncRedisDep`
+into your `async` endpoints to get a ready-to-use client:
 
 ```python
 from fastapi import FastAPI
-from redis_fastapi import FastAPIRedis, RedisDep, AsyncRedisDep
+from redis_fastapi import FastAPIRedis, AsyncRedisDep
 
 app = FastAPI()
 FastAPIRedis(app).lifespan()
 
 @app.get("/items")
-def get_items(redis: RedisDep):
-    return {"items": redis.get("items")}
-
-@app.get("/async-items")
-async def get_items_async(redis: AsyncRedisDep):
+async def get_items(redis: AsyncRedisDep):
     return {"items": await redis.get("items")}
 ```
 
@@ -194,7 +190,7 @@ from redis_fastapi import CacheBackendDep
 @app.get("/dashboard/{user_id}")
 async def dashboard(user_id: int, cache: CacheBackendDep):
     cached = await cache.get(f"stats:{user_id}", eviction_group="dashboard")
-    if cached:
+    if cached is not None:
         return cached
     result = await compute_dashboard(user_id)
     await cache.set(f"stats:{user_id}", result, ttl=300, eviction_group="dashboard")
@@ -223,8 +219,7 @@ export REDIS_CLUSTER=true
 export REDIS_URL=redis://node1:6379,node2:6379,node3:6379
 ```
 
-In cluster mode, `RedisDep` yields a `RedisCluster` client and `AsyncRedisDep` yields
-an `AsyncRedisCluster`.
+In cluster mode, `AsyncRedisDep` yields an `AsyncRedisCluster` client.
 
 ## Observability
 
@@ -240,9 +235,11 @@ pip install fastapi-redis-sdk[otel]
 FastAPIRedis(app).lifespan().caching().otel()
 ```
 
-You can also enable it with `REDIS_OTEL_ENABLED=true`. See the
+Calling `.otel()` on the builder is what activates the cache telemetry. To also emit
+redis-py's low-level command spans and connection-pool metrics, set
+`REDIS_OTEL_REDIS_ENABLED=true`. See the
 [SDK configuration guide](https://redis.github.io/fastapi-redis-sdk/guide/configuration/#opentelemetry)
-for the spans and metrics that are emitted.
+for the full list of spans and metrics that are emitted.
 
 ## More information
 
