@@ -16,6 +16,16 @@ Before you begin, you'll need:
 - Reachable Postgres and Redis endpoints for your offline-store and online-store [providers]({{< relref "/develop/ai/featureform/register-providers" >}})
 - Sample data loaded that matches the quickstart definitions file
 
+## Install the `ff` CLI
+
+The Feature Form CLI ships as the `redis-featureform` package on PyPI. **Do not run `pip install featureform`** — that's an unrelated upstream project. Install into a virtual environment:
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install redis-featureform
+ff --help
+```
+
 ## 1. Confirm identity and workspace access
 
 If you haven't yet, log in with `ff auth login`. Then:
