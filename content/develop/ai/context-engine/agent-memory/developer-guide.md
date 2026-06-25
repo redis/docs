@@ -1045,13 +1045,13 @@ headers = {
 openai = OpenAI()
 
 
-def add_event(session_id: str, role: str, text: str) -> dict:
+def add_event(session_id: str, role: str, text: str, actor_id: str = "assistant") -> dict:
     resp = httpx.post(
         f"{BASE_URL}/v1/stores/{STORE_ID}/session-memory/events",
         headers=headers,
         json={
             "sessionId": session_id,
-            "actorId": "user-1",
+            "actorId": actor_id,
             "role": role.upper(),
             "content": [{"text": text}],
             "createdAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -1085,6 +1085,8 @@ def search_long_term(query: str, owner_id: str, top_k: int = 5) -> list[dict]:
 
 
 def chat(user_message: str, session_id: str, owner_id: str) -> str:
+    # owner_id is the actorId for user events and the ownerId filter for memory search —
+    # they must match so retrieved memories align with what was stored.
     memories = search_long_term(user_message, owner_id)
     memory_context = "\n".join(m["text"] for m in memories)
 
@@ -1102,7 +1104,7 @@ def chat(user_message: str, session_id: str, owner_id: str) -> str:
     response = openai.chat.completions.create(model="gpt-4o", messages=messages)
     reply = response.choices[0].message.content
 
-    add_event(session_id, "user", user_message)
+    add_event(session_id, "user", user_message, actor_id=owner_id)
     add_event(session_id, "assistant", reply)
 
     return reply
