@@ -20,6 +20,8 @@ The tasks on this page require one of two roles:
 
 For the full list of built-in roles and the scope model, see [Authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}).
 
+This page covers the `ff` CLI. The Feature Form dashboard supports the same workspace operations with a UI when you prefer.
+
 Most commands on this page identify a workspace by its UUID, either as a positional argument or via the `--workspace` flag. Find the UUID with `ff workspace create` or `ff workspace list`. The examples below use `<workspace-id>`, substitute the actual UUID.
 
 ## Create a workspace and grant access

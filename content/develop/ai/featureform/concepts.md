@@ -11,7 +11,7 @@ Redis Feature Form is a feature platform. It turns raw data from your existing s
 
 ## How the pieces fit together
 
-A Feature Form deployment runs one or more [workspaces](#workspaces). Each workspace owns a versioned [resource graph](#the-resource-graph) that describes what features should exist, where their inputs live, and how they're served. You author that graph in a Python [definitions file](#definitions-files-and-ff-apply) and apply it with `ff apply`.
+A Feature Form deployment runs one or more [workspaces](#workspaces). Each workspace owns a versioned [resource graph](#the-resource-graph) that describes what features should exist, where their inputs live, and how they're served. You author that graph in a Python [definitions file](#definitions-files-and-ff-apply) and apply it with `ff apply`. The `ff` command-line tool also handles workspaces, providers, RBAC, and serving operations.
 
 The graph itself is data, not credentials or connections. [Providers](#providers) connect the workspace to external systems (Postgres, Redis, S3, Spark, an Iceberg catalog), and [secret references](#secrets-and-secret-references) point to the backend that holds the credentials. At the end of the chain, a [feature view](#feature-views-and-serving) is the single resource the rest of your stack reads from to serve features online.
 
@@ -19,7 +19,7 @@ The graph itself is data, not credentials or connections. [Providers](#providers
 
 A workspace is a self-contained environment in Feature Form. Each one owns its own resource graph, providers, secret references, and serving metadata. Nothing is shared between workspaces.
 
-Use workspaces to keep environments such as dev, staging, and prod separate, or to give independent teams their own area on a shared deployment. Two workspaces can connect to the same external Postgres database and remain fully isolated, because each workspace tracks its own resources.
+Use workspaces to keep environments such as dev, staging, and prod separate, or to give independent teams their own area on a shared deployment. Conceptually, a workspace is a single tenant in a multi-tenant Feature Form deployment — providers, secret references, RBAC bindings, and graph state are all scoped per workspace, even though they share the underlying server. Two workspaces can connect to the same external Postgres database and remain fully isolated, because each workspace tracks its own resources.
 
 Every workspace also has a `last_applied_version` counter that increases each time you successfully apply a change. Read commands always return the latest committed version.
 
@@ -34,17 +34,19 @@ Two properties shape how you work with it:
 - It is versioned as a whole. Each successful change creates a new version of the entire graph. Either every resource in the change lands together, or nothing does — you never end up with half-applied feature definitions.
 - It is declarative. You describe what the graph should look like, not the steps to get there. Feature Form figures out the difference between the current graph and the new one and applies only what changed.
 
+When `ff apply` accepts a change, Feature Form's planner converts the desired graph into a task DAG that runs against your data infrastructure — materializing new datasets, executing transformations, and populating the online store. The graph is the logical specification; the task DAG is the executed plan.
+
 ### Resource types
 
 A graph is built from seven resource types. New users encountering Feature Form for the first time benefit from learning these as a vocabulary list — every other concept on this page builds on them.
 
-- **Entities** identify the real-world objects features describe, such as a `customer` or `order`. Other resources join on the entity's key column.
-- **Datasets** point at an existing table, view, or file on an offline store and make it visible to the graph. The data itself stays where it lives; Feature Form just registers a handle to it.
+- **Entities** identify the real-world objects features describe, such as a `customer` or `order`. Other resources join on the entity's primary key — the actual column name can vary across tables (`customer_id`, `user_id`, `id`), as long as the values identify the same business entity.
+- **Datasets** point at an existing table, view, or file in an offline store and make it visible to the graph. The data itself stays where it lives; Feature Form just registers a handle to it.
 - **Transformations** produce new datasets from existing ones, expressed as SQL or as a Spark job. A transformation describes the shape of the output; the compute that runs it is supplied by a provider.
-- **Features** are entity-keyed values that get served at inference time. A feature attaches to a column of a dataset, optionally applies an aggregation (such as `SUM` over a 7-day window), and declares which provider owns its computation.
-- **Labels** look like features but feed offline training rather than online serving. They carry the value a model is trying to predict.
-- **Training sets** join one or more features with a label on the entity key, so an offline training job reads a single time-aligned table instead of stitching things together by hand.
-- **Feature views** are the online serving interface for a group of features. They are the only resource that downstream applications and model services interact with directly.
+- **Features** are named, measurable characteristics of an entity that a model reads as input at inference time. A feature attaches to a column of a dataset (or transformation), optionally applies an aggregation (such as `SUM` over a 7-day window), and declares which provider owns its computation.
+- **Labels** are the target value a model is trained to predict — the known outcome attached to each training example. They share the entity-keyed shape of features but feed offline training rather than online serving.
+- **Training sets** join one or more features with a label by entity key and time, so an offline training job reads a single point-in-time-correct table instead of stitching inputs together by hand. The point-in-time alignment prevents data leakage — features whose values weren't actually known at the label's timestamp.
+- **Feature views** group related features for an entity behind a shared definition, materialization policy, and serving contract. They're the primary interface model-serving systems use to read feature values at inference time, and the only graph resource downstream applications interact with directly.
 
 The following example definitions file shows how the vocabulary above appears as code.
 
@@ -98,6 +100,19 @@ Definitions files describe features, not infrastructure. Providers and secret ba
 
 For an end-to-end walkthrough of authoring a definitions file and applying it, see the [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}). For the full apply lifecycle and editing loop, see [Define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}) and [Update features]({{< relref "/develop/ai/featureform/update-features" >}}).
 
+## Secrets and secret references
+
+Feature Form never stores credentials in any form — not plaintext, not hashed, not encrypted. A provider configuration carries a secret reference that points at a separately-registered secret backend, and Feature Form resolves the reference at the moment the credential is needed. Because of this, secret providers are registered first — every provider that follows points back at one through its secret reference.
+
+Keeping credentials out of the graph has two important consequences:
+
+- The graph is safe to inspect and export. Nothing in it contains a usable credential. You can hand the graph to another team, version it, or paste it into a ticket without leaking secrets.
+- The process that resolves a reference is whichever process actually needs the credential. In a deployed environment, that's almost always the Feature Form server, not your local CLI shell. A reference such as `env:PG_PASSWORD` reads from the server's process environment, not yours.
+
+Every new workspace is created with a built-in `env` secret provider, which makes `env:` references work out of the box for local development. Production deployments typically register a Vault, Kubernetes-secrets, or AWS Secrets Manager backend instead, because the `env` backend offers no rotation, no audit, and exposes values in process listings.
+
+To register a secret provider for a workspace, see [Configure secret providers]({{< relref "/develop/ai/featureform/register-providers#configure-secret-providers" >}}).
+
 ## Providers
 
 A provider is the workspace's connection to an external system. It carries the host, port, credentials reference, and any configuration Feature Form needs to talk to that system. Resources in the graph reference providers by name, so you must register a provider in the workspace before applying any resource that uses it.
@@ -125,19 +140,6 @@ The role model is what lets a graph stay portable: a feature definition doesn't 
 
 To register providers in a workspace, see [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}).
 
-## Secrets and secret references
-
-Feature Form never stores plaintext credentials in the graph. A provider configuration carries a secret reference. Feature Form resolves it through a registered secret provider when the credential is needed.
-
-Keeping credentials out of the graph has two important consequences:
-
-- The graph is safe to inspect and export. Nothing in it contains a usable credential. You can hand the graph to another team, version it, or paste it into a ticket without leaking secrets.
-- The process that resolves a reference is whichever process actually needs the credential. In a deployed environment, that's almost always the Feature Form server, not your local CLI shell. A reference such as `env:PG_PASSWORD` reads from the server's process environment, not yours.
-
-Every new workspace is created with a built-in `env` secret provider, which makes `env:` references work out of the box for local development. Production deployments typically register a Vault, Kubernetes-secrets, or AWS Secrets Manager backend instead, because the `env` backend offers no rotation, no audit, and exposes values in process listings.
-
-To register a secret provider for a workspace, see [Configure secret providers]({{< relref "/develop/ai/featureform/register-providers#configure-secret-providers" >}}).
-
 ## Feature views and serving
 
 A feature view is the resource that everything else in the graph eventually feeds. Applications query it to get the latest features for an entity.
@@ -160,7 +162,7 @@ customer_risk_view = ff.FeatureView(
 )
 ```
 
-### Feature view requirements 
+### Feature view requirements
 
 Before applications can read from a feature view:
 
