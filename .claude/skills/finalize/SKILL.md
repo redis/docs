@@ -82,9 +82,13 @@ Same split `/reflect` Step 3 makes, now over the reconciled set:
 
 ## Step 4 — Compose
 
-Write the distilled message per the shared shape: `DOC-XXXX` subject, a tight body paragraph
+Write the distilled message per the shared shape: a `DOC-XXXX` subject, a tight body paragraph
 (the durable narrative for humans + the history bot), then the reconciled trailer block. Far
 fewer trailers than the inputs held — distillation is compression, not collection.
+
+Keep the **subject** and the **body-file** separate: the body-file holds the body paragraph
+and the trailer block **only — no subject line**. The subject is passed via `--subject` in
+Step 5, so repeating it in the file would duplicate the title into the commit body.
 
 ## Step 5 — Hand off (do **not** merge)
 

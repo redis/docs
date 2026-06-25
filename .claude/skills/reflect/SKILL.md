@@ -98,13 +98,20 @@ promoted. Decide the split here, then carry only the location-bound part into St
   [`../_shared/commit-trailers.md`](../_shared/commit-trailers.md)). An *uncommitted* working
   note is invisible to `/finalize` — don't rely on one. Say which you did.
 
-Verify the trailers parse before finishing:
+Verify the trailers parse — but against the message you actually wrote, not whatever `HEAD`
+happens to be:
 
-```
-git log -1 --format='%(trailers:only,unfold)'
-```
+- **Before committing** (the preferred fold-in path), check the *pending message*, since
+  `git log -1` would read the previous commit and give a false pass:
+  ```
+  git interpret-trailers --parse <message-file>
+  ```
+- **After committing or amending**, check the commit that now carries the note:
+  ```
+  git log -1 --format='%(trailers:only,unfold)'
+  ```
 
-If that prints nothing but you wrote trailers, the block isn't contiguous/last — fix the
+If either prints nothing but you wrote trailers, the block isn't contiguous/last — fix the
 blank lines. (Format and `unfold` rules:
 [`../_shared/commit-trailers.md`](../_shared/commit-trailers.md).)
 
