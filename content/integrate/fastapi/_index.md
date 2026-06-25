@@ -9,7 +9,7 @@ categories:
 - rs
 - rc
 description: Add idiomatic Redis connection management and dependency-injection caching
-  to FastAPI apps with the fastapi-redis-sdk.
+  to FastAPI apps.
 group: framework
 hideListLinks: false
 stack: true
@@ -22,7 +22,7 @@ weight: 9
 [FastAPI](https://fastapi.tiangolo.com/) is a modern, high-performance web framework
 for building APIs with Python. The official
 [fastapi-redis-sdk](https://github.com/redis/fastapi-redis-sdk) integrates Redis with
-FastAPI without boilerplate: it manages connection pools through the application
+FastAPI without any boilerplate. It manages connection pools through the application
 lifespan and exposes caching as injectable dependencies, including HTTP-native
 [`ETag`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag),
 [`304 Not Modified`](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/304),
@@ -47,13 +47,15 @@ You also need a running Redis server. You can run one locally with
 use [Docker](https://hub.docker.com/_/redis), or connect to
 [Redis Cloud](https://redis.io/cloud/).
 
-## Install
+## Install and import
+
+Use the following command to install `fastapi-redis-sdk`:
 
 ```bash
 pip install fastapi-redis-sdk
 ```
 
-Although you install the package as `fastapi-redis-sdk`, you import it as
+Note that although you install the package as `fastapi-redis-sdk`, you import it as
 `redis_fastapi`:
 
 ```python
