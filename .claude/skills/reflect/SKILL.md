@@ -54,58 +54,21 @@ where the diff fully explains itself.
 
 **Prose reflection → commit body.** One short paragraph, in plain language. This is what a
 human reviewer reads and what a semantic-matching history bot recalls on. Keep it about
-*this change*; cross-cutting lessons go to a learning skill instead (see Step 4).
+*this change*; cross-cutting lessons go to a learning skill instead (see Step 3).
 
 **Atomic facts → trailers.** Flat `Key: value`, one line each, in a single contiguous block
 at the very end of the message, no blank lines inside the block (git's trailer parser needs
 this — a stray blank line or an earlier `Foo: bar` line in the body will break extraction).
 
-### Trailer vocabulary
+### Trailer vocabulary, message shape, and format rules
 
-Core — reach for these first; each one changes what a future agent *does*:
+These are defined once in [`../_shared/commit-trailers.md`](../_shared/commit-trailers.md) so
+they can't drift between this skill and `/finalize`. **Read it now** for the core vocabulary
+(`Constraint` / `Rejected` / `Directive` / `Learned`), the situational fields, the
+`DOC-XXXX` subject convention, and the format rules that keep trailers parseable.
 
-| Trailer | Use it for |
-|---|---|
-| `Constraint:` | A load-bearing invariant. Breaking it is a bug. |
-| `Rejected:` | `<approach> \| <why not>` — a dead end already burned, so it isn't re-proposed. |
-| `Directive:` | A message to the next editor of this code, pinned here. |
-| `Learned:` | One-line index to the body reflection (keeps "show me commits that taught us something" a clean `git log` query). |
-
-Situational — only when they genuinely apply:
-
-| Trailer | Use it for |
-|---|---|
-| `Reversibility:` | `clean` / `migration-needed` / `irreversible` — how freely a future agent can experiment here. |
-| `Gaps:` | What was *not* verified — where to be skeptical / add tests. |
-| `Ticket:` | `DOC-NNNN` or a link, so commits thread back to the ticket. |
-| `Recheck:` | An expiry *condition* for a fact that tracks a moving target, e.g. `when AR* commands reach GA`. (Especially for docs.) |
-
-Don't invent fields casually. A field only earns its place if reading it before touching the
-code would change a decision; provenance-only fields ("this came from review") don't.
-
-### Shape
-
-This skill owns the **body and the trailers**, not the subject. Leave the subject in the
-repo's existing convention — `DOC-XXXX <summary>` (the Jira workflow keys off the ticket id),
-or the `RS:` / `DEV:` area prefixes. **Not** Conventional Commits (`type(scope):`); this repo
-doesn't use it.
-
-```
-DOC-XXXX <summary>
-
-<the change in a sentence or two, then the reflection paragraph — the why,
-the surprise, the dead end — in plain prose.>
-
-Learned: <one-line summary of the body reflection>
-Constraint: <invariant that must hold>
-Rejected: <approach> | <reason it was dropped>
-Directive: <warning to the next editor>
-Ticket: DOC-XXXX
-```
-
-`Ticket:` duplicates the subject's ticket id on purpose — it's belt-and-braces, and it keeps
-"thread these commits to their ticket" a clean trailer query even if the subject convention
-ever changes.
+The one rule worth repeating here: a field only earns its place if reading it before touching
+the code would change a decision. When in doubt, leave it out and let the body prose carry it.
 
 ## Step 3 — Sort: where does this note belong? (decide *before* you commit)
 
@@ -140,13 +103,8 @@ git log -1 --format='%(trailers:only,unfold)'
 ```
 
 If that prints nothing but you wrote trailers, the block isn't contiguous/last — fix the
-blank lines.
-
-> **Pass `unfold` downstream too.** Any consumer that reads these trailers — the squash-time
-> distiller, a dashboard, a `git log` query — should use `%(trailers:...,unfold)`. Without
-> `unfold`, a value folded across multiple lines (RFC-822 continuation) is returned in its
-> raw wrapped form, so a naive reader sees a truncated or oddly-split value. Keep values
-> single-line where you can; pass `unfold` for when you can't.
+blank lines. (Format and `unfold` rules:
+[`../_shared/commit-trailers.md`](../_shared/commit-trailers.md).)
 
 ## Limits (read honestly)
 
