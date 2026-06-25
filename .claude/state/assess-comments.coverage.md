@@ -27,11 +27,11 @@ whether to commit the change.
 
 | Capability | Confidence | Real encounters | Last verified | Evidence |
 |---|---|---|---|---|
-| Branch/PR identification + arg handling | 🟢 corroborated | 4 | 2026-06-23 | #3415, #3507, #3374, #3536 |
-| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 5 | 2026-06-23 | #3415, #3507, #3510, #3374, #3536 |
-| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 3 | 2026-06-23 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open) |
-| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 4 | 2026-06-23 | #3415, #3507, #3374, #3536 |
-| Open/resolved split | 🟢 corroborated | 3 | 2026-06-23 | #3510, #3374, #3536 (0 resolved / 2 open) |
+| Branch/PR identification + arg handling | 🟢 corroborated | 5 | 2026-06-25 | #3415, #3507, #3374, #3536, #3543 |
+| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 6 | 2026-06-25 | #3415, #3507, #3510, #3374, #3536, #3543 |
+| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 4 | 2026-06-25 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3543 (1/1 open) |
+| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 5 | 2026-06-25 | #3415, #3507, #3374, #3536, #3543 |
+| Open/resolved split | 🟢 corroborated | 4 | 2026-06-25 | #3510, #3374, #3536, #3543 (1 open / 0 resolved) |
 | Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 2 | 2026-06-23 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed) |
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
 | "Resolved ≠ fixed" flag — **still-broken** variant | ❓ untested | 0 | — | never confirmed a resolved thread that was actually still broken |
@@ -42,8 +42,8 @@ whether to commit the change.
 | Approval-over-open-finding cross-check | 🟢 corroborated | 3 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant) |
 | Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
 | Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
-| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 2 | 2026-06-23 | #3374 (bugbot signal mostly accepted); #3536 (bugbot 5/5 findings valid across 2 rounds — high trust) |
-| Codex second-opinion availability gate | 🟢 corroborated | 2 | 2026-06-23 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review) |
+| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 3 | 2026-06-25 | #3374 (bugbot signal mostly accepted); #3536 (bugbot 5/5 findings valid across 2 rounds — high trust); #3543 (bugbot 1/1 valid — lifespan asymmetry real; Jit 0 findings) |
+| Codex second-opinion availability gate | 🟢 corroborated | 3 | 2026-06-25 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review); #3543 (codex on PATH) |
 
 ## Worked examples library
 
