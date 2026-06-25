@@ -27,23 +27,23 @@ whether to commit the change.
 
 | Capability | Confidence | Real encounters | Last verified | Evidence |
 |---|---|---|---|---|
-| Branch/PR identification + arg handling | 🟢 corroborated | 4 | 2026-06-23 | #3415, #3507, #3374, #3536 |
-| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 5 | 2026-06-23 | #3415, #3507, #3510, #3374, #3536 |
-| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 3 | 2026-06-23 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open) |
-| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 4 | 2026-06-23 | #3415, #3507, #3374, #3536 |
-| Open/resolved split | 🟢 corroborated | 3 | 2026-06-23 | #3510, #3374, #3536 (0 resolved / 2 open) |
-| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 2 | 2026-06-23 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed) |
+| Branch/PR identification + arg handling | 🟢 corroborated | 5 | 2026-06-25 | #3415, #3507, #3374, #3536, #3312 |
+| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 6 | 2026-06-25 | #3415, #3507, #3510, #3374, #3536, #3312 |
+| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 4 | 2026-06-25 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3312 (13 open / 9 resolved out of 22 threads) |
+| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 5 | 2026-06-25 | #3415, #3507, #3374, #3536, #3312 |
+| Open/resolved split | 🟢 corroborated | 4 | 2026-06-25 | #3510, #3374, #3536 (0 resolved / 2 open), #3312 (9 resolved / 13 open) |
+| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 3 | 2026-06-25 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #3312 (bugbot 3228632453 raw-md→relref shortcodes verified in register-providers.md) |
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
 | "Resolved ≠ fixed" flag — **still-broken** variant | ❓ untested | 0 | — | never confirmed a resolved thread that was actually still broken |
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
 | **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
 | **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-23 | still no real loop across 4 bugbot rounds on #3536. Rounds 2 & 4 each raised new post-fix findings but none was a reopened concern or A↔B cycle — correctly judged NOT a loop both times. Round 4 instead revealed *subsystem churn* (next row) |
 | **Subsystem churn** detection (repeated findings on one patched area) | 🟡 seen (1 PR, 3 instances) | 3 | 2026-06-23 | #3536 — (a) 429/862/874 on `$ARGUMENTS` filter + review handling; (b) r5 442/449 on the *churn feature*; (c) r6 3461052859 on the *cap ↔ report contract* — i.e. (b)'s consolidation was too narrow. Pattern is robust on this PR; needs a 2nd PR for 🟢. Worked examples below |
-| Approval-over-open-finding cross-check | 🟢 corroborated | 3 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant) |
-| Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
-| Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
-| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 2 | 2026-06-23 | #3374 (bugbot signal mostly accepted); #3536 (bugbot 5/5 findings valid across 2 rounds — high trust) |
-| Codex second-opinion availability gate | 🟢 corroborated | 2 | 2026-06-23 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review) |
+| Approval-over-open-finding cross-check | 🟢 corroborated | 4 | 2026-06-25 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant), #3312 (dwdougherty LGTM-with-explicit-bugbot-carveout — *benign-via-explicit-carveout, later defanged by restructure* — see worked examples) |
+| Depth cap / prioritisation under load | 🟢 corroborated | 2 | 2026-06-25 | #3374 (19 candidate findings → 4 deep-verified), #3312 (13 open candidates → 5 deep-verified, 8 deferred) |
+| Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run (no resolved+not-outdated HIGH/Critical on #3312 either) |
+| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 3 | 2026-06-25 | #3374 (bugbot signal mostly accepted); #3536 (bugbot 5/5 findings valid across 2 rounds — high trust); #3312 (bugbot 3/3 findings valid — 1 substantively fixed, 2 made stale by larger restructure — sustained high trust) |
+| Codex second-opinion availability gate | 🟢 corroborated | 3 | 2026-06-25 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review), #3312 (CLI **not** on PATH — Codex mention correctly suppressed) |
 
 ## Worked examples library
 
@@ -107,3 +107,17 @@ present in the code)*
 - **#3374 `num_docs`** — Claude (Critical #2, top-level review) and bugbot
   ("Wrong FT.INFO document count field", inline, 06-17) independently flagged
   the same `info.numDocs` → `num_docs` bug. Verified fixed in current code.
+
+### Approval-over-open-finding — benign variants
+
+- **#3312 dwdougherty, 2026-05-12.** Review state `COMMENTED` (not `APPROVED`)
+  with body *"Apart from the issues already identified by Bugbot, LGTM."* sat
+  over 3 open bugbot findings. **Explicit carveout** — the human deliberately
+  excluded the bot's findings from the LGTM. Over the following months, 1
+  finding (3228632453 raw-md → relref) was substantively fixed by the author and
+  2 (3228632434 streaming.md empty page; 3228632444 manage-workspace.md empty
+  frontmatter) became *stale via the broader restructure* (streaming.md
+  deleted; manage-workspace.md fully populated with frontmatter). Pattern: the
+  approval-over-open-finding signal *did* fire, but the carveout language made
+  it benign and the open findings were later defanged by unrelated work. Distinct
+  from the dangerous variant where an "LGTM" silently rides over a real bug.
