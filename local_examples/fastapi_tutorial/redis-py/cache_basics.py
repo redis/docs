@@ -107,5 +107,10 @@ print(not_modified.status_code)
 assert miss.headers["Cache-Control"].startswith("max-age=")
 assert etag
 assert not_modified.status_code == 304
-client.__exit__(None, None, None)
 # REMOVE_END
+
+# HIDE_START
+# Close the TestClient context to run the shutdown lifespan and release the
+# Redis connection pool opened by client.__enter__() above.
+client.__exit__(None, None, None)
+# HIDE_END
