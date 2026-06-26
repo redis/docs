@@ -127,3 +127,7 @@ SINTERCARD 2 key1 key2 LIMIT 1
 [Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting intersection.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SINTER`]({{< relref "commands/sinter" >}}) | [`SINTERSTORE`]({{< relref "commands/sinterstore" >}})

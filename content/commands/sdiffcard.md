@@ -128,7 +128,7 @@ When provided with the optional `LIMIT` argument (which defaults to `0`, meaning
 
 ## See also
 
-[`SDIFF`]({{< relref "commands/sdiff/" >}}) | [`SDIFFSTORE`]({{< relref "commands/sdiffstore/" >}}) | [`SINTERCARD`]({{< relref "commands/sintercard/" >}}) | [`SUNIONCARD`]({{< relref "commands/sunioncard/" >}})
+[`SDIFF`]({{< relref "commands/sdiff/" >}}) | [`SDIFFSTORE`]({{< relref "commands/sdiffstore/" >}})
 
 ## Related topics
 

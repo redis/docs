@@ -106,3 +106,7 @@ SDIFF key1 key2
 [Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SDIFFCARD`]({{< relref "commands/sdiffcard/" >}}) | [`SDIFFSTORE`]({{< relref "commands/sdiffstore" >}})

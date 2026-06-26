@@ -117,7 +117,7 @@ When provided with the optional `LIMIT` argument (which defaults to `0`, meaning
 
 ### Approximate cardinality
 
-By default, `SUNIONCARD` returns the exact union cardinality. With the `APPROX` option, it instead uses [HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}}) to estimate the cardinality with a standard error of about 0.81%, without materializing the full union. This is useful for very large unions, where computing an exact count is expensive in both time and memory.
+By default, `SUNIONCARD` returns the exact union cardinality. With the `APPROX` option, it instead uses [HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}}) internally to estimate the cardinality with a standard error of about 0.81%, without materializing the full union. This is useful for very large unions, where computing an exact count is expensive in both time and memory.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -141,7 +141,7 @@ By default, `SUNIONCARD` returns the exact union cardinality. With the `APPROX` 
 
 ## See also
 
-[`SUNION`]({{< relref "commands/sunion/" >}}) | [`SUNIONSTORE`]({{< relref "commands/sunionstore/" >}}) | [`SINTERCARD`]({{< relref "commands/sintercard/" >}}) | [`SDIFFCARD`]({{< relref "commands/sdiffcard/" >}})
+[`SUNION`]({{< relref "commands/sunion/" >}}) | [`SUNIONSTORE`]({{< relref "commands/sunionstore/" >}})
 
 ## Related topics
 

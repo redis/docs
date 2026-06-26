@@ -120,3 +120,7 @@ SMEMBERS key
 [Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the result set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SINTER`]({{< relref "commands/sinter" >}}) | [`SINTERCARD`]({{< relref "commands/sintercard" >}})

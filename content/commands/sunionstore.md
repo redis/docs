@@ -119,3 +119,7 @@ SMEMBERS key
 [Integer reply](../../develop/reference/protocol-spec#integers): Number of the elements in the resulting set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SUNION`]({{< relref "commands/sunion/" >}}) | [`SUNIONCARD`]({{< relref "commands/sunioncard/" >}})

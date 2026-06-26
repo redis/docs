@@ -119,3 +119,7 @@ SMEMBERS key
 [Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SDIFF`]({{< relref "commands/sdiff" >}}) | [`SDIFFCARD`]({{< relref "commands/sdiffcard/" >}})
