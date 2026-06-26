@@ -11,6 +11,81 @@ hideListLinks: true
 weight: 40
 ---
 
+Stream live business data into Redis so agents always work with accurate, up-to-date information.
+
+Redis Data Integration (RDI) keeps your Redis Cloud database in sync with your existing relational databases using change data capture. Agents query Redis at full speed without ever touching your production databases directly.
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  {{< image-card image="images/ai-model.svg" alt="Quick start icon" title="Quick Start — Get a PostgreSQL pipeline running on Redis Cloud in minutes" url="/operate/rc/rdi/quick-start" >}}
+  {{< image-card image="images/ai-cube.svg" alt="Pipeline setup icon" title="Define Your Pipeline — Configure which tables to sync and how to map them to Redis" url="/operate/rc/rdi/define" >}}
+  {{< image-card image="images/ai-brain-2.svg" alt="RDI docs icon" title="Full RDI Documentation — Installation, configuration, and advanced pipeline options" url="/integrate/redis-data-integration" >}}
+</div>
+
+## What is Redis Data Integration?
+
+Redis Data Integration (RDI) is a fully-managed pipeline service that:
+
+<ul class="my-4 space-y-2">
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Syncs data in near real time</strong> — Changes in your source database propagate to Redis within seconds using CDC</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Keeps agents away from source databases</strong> — Agents query Redis at full speed, preserving performance and security</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Requires no coding</strong> — Define pipelines through configuration; transformations are handled automatically</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Handles initial and streaming sync</strong> — Full snapshot on first run, then continuous change capture from that point on</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Supports major relational databases</strong> — Oracle, MySQL, PostgreSQL, MariaDB, SQL Server, and AWS Aurora</span></li>
+</ul>
+
+## Why use Redis Data Integration?
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">For AI applications</h3>
+    <ul class="space-y-1 text-redis-pen-600">
+      <li>Eliminate stale data — agents always see current business state</li>
+      <li>Millisecond query performance from Redis instead of slow source DB calls</li>
+      <li>No cache invalidation logic to write or maintain</li>
+      <li>Combine with Context Retriever for governed, always-fresh agent tools</li>
+    </ul>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">For developers</h3>
+    <ul class="space-y-1 text-redis-pen-600">
+      <li>Configuration-driven — no custom ETL code required</li>
+      <li>Fully managed on Redis Cloud, no infrastructure to provision</li>
+      <li>~10,000 records per second per core for initial snapshots and streaming</li>
+      <li>At-least-once delivery guaranteed for every change in the defined dataset</li>
+    </ul>
+  </div>
+</div>
+
+## Quick example
+
+Define a pipeline to sync a PostgreSQL `users` table into Redis:
+
+```yaml
+sources:
+  my_pg:
+    type: postgresql
+    host: my-db.example.com
+    database: myapp
+    username: rdi_user
+
+targets:
+  my_redis:
+    type: redis
+
+jobs:
+  sync-users:
+    source:
+      server-name: my_pg
+      schema: public
+      table: users
+    target:
+      key:
+        expression: "user:{{ id }}"
+        language: jmespath
+```
+
+RDI performs an initial full sync, then captures every subsequent `INSERT`, `UPDATE`, and `DELETE` and applies them to Redis within seconds. See the [RDI quick start]({{< relref "/operate/rc/rdi/quick-start" >}}) to get up and running with a live PostgreSQL source.
+
 Redis Data Integration (RDI) is a fully-managed data pipeline service that keeps your Redis Cloud database in sync with your existing relational databases in near real time. By streaming live data from your primary databases into Redis, RDI ensures that AI agents always have access to accurate, up-to-date business data without querying slow source databases directly.
 
 [Get started](#get-started) with RDI on [Redis Cloud]({{< relref "/operate/rc/rdi" >}}) or explore the full [Redis Data Integration documentation]({{< relref "/integrate/redis-data-integration" >}}).

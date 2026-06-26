@@ -15,7 +15,75 @@ aliases:
 - /develop/ai/langcache
 ---
 
-Redis LangCache is a fully-managed semantic caching service that reduces large language model (LLM) costs and improves response times for AI applications. 
+Cut LLM costs and improve response times with semantic caching.
+
+LangCache checks whether a semantically similar prompt has been answered before and returns the cached response instantly — no LLM call required. When there's no match, your app calls the LLM as usual and stores the result for future use.
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  {{< image-card image="images/ai-LLM-memory.svg" alt="Quick start icon" title="Quick Start — Create a LangCache service on Redis Cloud and make your first API call" url="/operate/rc/context-engine/langcache/create-service" >}}
+  {{< image-card image="images/ai-search.svg" alt="API examples icon" title="API and SDK Examples — Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/context-engine/langcache/api-examples" >}}
+  {{< image-card image="images/ai-brain-2.svg" alt="Monitor icon" title="Monitor Cache — Track hit rates, usage, and performance in Redis Cloud" url="/operate/rc/context-engine/langcache/monitor-cache" >}}
+</div>
+
+## What is LangCache?
+
+LangCache is a fully-managed semantic caching service that:
+
+<ul class="my-4 space-y-2">
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Reduces LLM costs</strong> — Avoids redundant API calls for semantically equivalent queries</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Improves response times</strong> — Returns cached answers in milliseconds instead of waiting for an LLM</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Handles embeddings automatically</strong> — No embedding model to manage; LangCache generates them for you</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Gives you cache control</strong> — Configure similarity thresholds, TTLs, and eviction policies</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Works with any LLM workflow</strong> — REST API and Python/JS SDKs drop into existing applications</span></li>
+</ul>
+
+## Why use LangCache?
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">For AI applications</h3>
+    <ul class="space-y-1 text-redis-pen-600">
+      <li>Dramatically lower LLM API spend for apps with repetitive queries</li>
+      <li>Faster responses for AI assistants, chatbots, and RAG pipelines</li>
+      <li>Cache intermediate results in multi-step agent workflows</li>
+      <li>Centralize caching across multiple apps via an AI gateway</li>
+    </ul>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">For developers</h3>
+    <ul class="space-y-1 text-redis-pen-600">
+      <li>Two API calls to integrate — search before LLM, store after LLM</li>
+      <li>Python and JavaScript SDKs available on PyPI and npm</li>
+      <li>No database to provision — fully managed on Redis Cloud</li>
+      <li>Monitor hit rates and cost savings from the Redis Cloud console</li>
+    </ul>
+  </div>
+</div>
+
+## Quick example
+
+Before calling your LLM, search for a cached response:
+
+```json
+POST /v1/caches/{cacheId}/entries/search
+{
+    "prompt": "What are the features of Product A?"
+}
+```
+
+On a cache miss, call your LLM, then store the result:
+
+```json
+POST /v1/caches/{cacheId}/entries
+{
+    "prompt": "What are the features of Product A?",
+    "response": "Product A includes real-time analytics, automatic scaling, and sub-millisecond latency."
+}
+```
+
+See the full [LangCache API and SDK examples]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) for more.
+
+Redis LangCache is a fully-managed semantic caching service that reduces large language model (LLM) costs and improves response times for AI applications.
 
 [Get started](#get-started) with LangCache on [Redis Cloud]({{< relref "/operate/rc/context-engine/langcache" >}}) or join the [private preview](https://redis.io/langcache/).
 
