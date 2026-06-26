@@ -21,10 +21,11 @@ Map a record into a new output based on expressions
 
 **Properties**
 
-| Name                          | Type               | Description                                   | Required |
-| ----------------------------- | ------------------ | --------------------------------------------- | -------- |
-| [**expression**](#expression) | `object`, `string` | Expression<br/>                               | yes      |
-| **language**                  | `string`           | Language<br/>Enum: `"jmespath"`, `"sql"`<br/> | yes      |
+| Name                          | Type               | Description                                                                                                                                                                                                                                             | Required |
+| ----------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| [**expression**](#expression) | `object`, `string` | Expression<br/>                                                                                                                                                                                                                                         | yes      |
+| **language**                  | `string`           | Language<br/>Enum: `"jmespath"`, `"sql"`<br/>                                                                                                                                                                                                           | yes      |
+| **cache**                     | `object`           | Cache the result of the map expression. See [`cache`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/cache" >}}) for the property list. **Flink processor only.**<br/>                                                      | no       |
 
 **Additional Properties:** not allowed
 
@@ -32,7 +33,6 @@ Map a record into a new output based on expressions
 
 ```yaml
 source:
-  server_name: redislabs
   schema: dbo
   table: emp
 transform:

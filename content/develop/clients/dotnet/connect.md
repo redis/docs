@@ -24,8 +24,6 @@ form "hostname:port" to the `Connect()` method (for example,
 username, password, and many other options:
 
 ```csharp
-using NRedisStack;
-using NRedisStack.RedisStackCommands;
 using StackExchange.Redis;
 
 ConfigurationOptions conf = new ConfigurationOptions {
@@ -95,7 +93,7 @@ ConfigurationOptions options = new ConfigurationOptions
 
 options.CertificateSelection += delegate
 {
-    return new X509Certificate2("redis.pfx", "secret"); // use the password you specified for pfx file
+    return X509CertificateLoader.LoadPkcs12FromFile("redis.pfx", "secret"); // use the password you specified for pfx file
 };
 options.CertificateValidation += ValidateServerCertificate;
 
@@ -109,7 +107,7 @@ bool ValidateServerCertificate(
         return false;       
     }
 
-    var ca = new X509Certificate2("redis_ca.pem");
+    var ca = X509CertificateLoader.LoadCertificateFromFile("redis_ca.pem");
     bool verdict = (certificate.Issuer == ca.Subject);
     if (verdict) {
         return true;
@@ -139,9 +137,9 @@ to manage open connections carefully to avoid this.
 
 Several other
 Redis client libraries use *connection pools* to reuse a set of open
-connections efficiently. NRedisStack uses a different approach called
+connections efficiently. StackExchange.Redis uses a different approach called
 *multiplexing*, which sends all client commands and responses over a
-single connection. NRedisStack manages multiplexing for you automatically.
+single connection. StackExchange.Redis manages multiplexing for you automatically.
 This gives high performance without requiring any extra coding.
 See
 [Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})

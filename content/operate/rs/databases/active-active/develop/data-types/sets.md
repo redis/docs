@@ -30,18 +30,18 @@ Here is an example of an "add wins" case:
 
 |  **Time** | **CRDB Instance1** | **CRDB Instance2** |
 |  ------: | :------: | :------: |
-|  t1 | SADD key1 “a” |  |
-|  t2 |  | SADD key1 “b” |
-|  t3 | SMEMBERS key1 “a” | SMEMBERS key1 “b” |
+|  t1 | SADD key1 "a" |  |
+|  t2 |  | SADD key1 "b" |
+|  t3 | SMEMBERS key1 "a" | SMEMBERS key1 "b" |
 |  t4 | — Sync — | — Sync — |
-|  t3 | SMEMBERS key1 “a” “b” | SMEMBERS key1 “a” “b” |
+|  t3 | SMEMBERS key1 "a" "b" | SMEMBERS key1 "a" "b" |
 
 Here is an example of an "observed remove" case.
 
 |  **Time** | **CRDB Instance1** | **CRDB Instance2** |
 |  ------: | :------: | :------: |
-|  t1 | SMEMBERS key1 “a” “b” | SMEMBERS key1 “a” “b” |
-|  t2 | SREM key1 “a” | SADD key1 “c” |
-|  t3 | SREM key1 “c” |  |
+|  t1 | SMEMBERS key1 "a" "b" | SMEMBERS key1 "a" "b" |
+|  t2 | SREM key1 "a" | SADD key1 "c" |
+|  t3 | SREM key1 "c" |  |
 |  t4 | — Sync — | — Sync — |
-|  t3 | SMEMBERS key1 “c” “b” | SMEMBERS key1 “c” “b” |
+|  t3 | SMEMBERS key1 "c" "b" | SMEMBERS key1 "c" "b" |

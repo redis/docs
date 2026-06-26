@@ -20,6 +20,10 @@ rladmin placement
         { dense | sparse }
 ```
 
+{{< note >}}
+`rladmin placement db` is deprecated and will be removed in a future version. Use [`rladmin tune db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}) with the `shards_placement` parameter instead.
+{{< /note >}}
+
 ### Parameters
 
 | Parameter | Type/Value                     | Description                                                                                   |

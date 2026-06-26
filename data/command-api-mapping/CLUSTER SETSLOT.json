@@ -1,0 +1,233 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clusterSetSlotImporting(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String clusterSetSlotMigrating(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String clusterSetSlotNode(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String clusterSetSlotStable(int slot)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clusterSetSlotImporting(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> clusterSetSlotMigrating(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> clusterSetSlotNode(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "RedisFuture<String> clusterSetSlotStable(int slot)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clusterSetSlotImporting(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "Mono<String> clusterSetSlotMigrating(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "Mono<String> clusterSetSlotNode(int slot, String nodeId)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          },
+          {
+            "name": "nodeId",
+            "type": "String",
+            "description": "The node ID"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "Mono<String> clusterSetSlotStable(int slot)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

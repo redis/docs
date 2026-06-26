@@ -56,7 +56,7 @@ Upgrade each node one at a time, starting with the replicas, using these steps:
 If necessary, restore the saved files to their original locations on each node. Then restart Redis on each node.
 
 {{< warning >}}
-Redis Query Engine won't be fully operational until all master shards have completed their upgrades.
+Redis Search won't be fully operational until all master shards have completed their upgrades.
 Any queries sent during the upgrade process will either return errors or a message such as "Waiting for all nodes to connect".
 {{< /warning >}}
 

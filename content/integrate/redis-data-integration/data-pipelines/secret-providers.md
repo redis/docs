@@ -14,7 +14,7 @@ linkTitle: External secret providers
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 3
+weight: 49
 ---
 
 For K8s deployments, you can use an external secret provider, such as

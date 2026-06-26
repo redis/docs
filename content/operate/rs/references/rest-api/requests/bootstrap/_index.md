@@ -140,7 +140,7 @@ POST /v1/bootstrap/{action}
 Initiate bootstrapping.
 
 The request must contain a bootstrap configuration JSON object, as
-described in [Object attributes]({{< relref "/operate/rs/references/rest-api/objects/" >}}) or a minimal subset.
+described in [Object attributes]({{< relref "/operate/rs/references/rest-api/objects/bootstrap" >}}) or a minimal subset.
 
 Bootstrapping is permitted only when the current bootstrap state is
 `idle` or `error` (in which case the process will restart with the new

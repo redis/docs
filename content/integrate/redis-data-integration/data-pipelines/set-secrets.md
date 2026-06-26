@@ -1,8 +1,5 @@
 ---
 Title: Set secrets
-aliases:
-- /integrate/redis-data-integration/ingest/data-pipelines/data-type-handling/
-- /integrate/redis-data-integration/data-pipelines/deploy/
 alwaysopen: false
 categories:
 - docs
@@ -15,11 +12,11 @@ linkTitle: Set secrets
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 2
+weight: 48
 ---
 
 Before you
-[deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#deploy-a-pipeline" >}})
+[deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 your pipeline, you must set the authentication secrets for the
 source and target databases. Each secret has a name that you can pass to the
 [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
@@ -28,7 +25,9 @@ For K8s, you can also configure RDI to obtain the secrets from an
 [external provider]({{< relref "/integrate/redis-data-integration/data-pipelines/secret-providers" >}}).
 
 The `config.yaml` file accesses these secrets with the syntax "`${SECRET_NAME}`"
-(the sample [config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines#the-configyaml-file" >}}) shows the secrets in use).
+(the sample
+[config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#example" >}})
+shows the secrets in use).
 
 The table below lists all valid secret names. Note that the
 username and password are required for the source and target, but the other
@@ -49,16 +48,11 @@ secrets are only relevant for TLS/mTLS connections.
 | `TARGET_DB_KEY` | (For mTLS only) Target database private key |
 | `TARGET_DB_KEY_PASSWORD` | (For mTLS only) Target database private key password |
 
-{{< note >}}When creating secrets for TLS or mTLS, ensure that all certificates and keys are in `PEM` format. The only exception to this is that for PostgreSQL, the private key `SOURCE_DB_KEY` secret must be in `DER` format. If you have a key in `PEM` format, you must convert it to `DER` before creating the `SOURCE_DB_KEY` secret using the command:
-
-```bash
-openssl pkcs8 -topk8 -inform PEM -outform DER -in /path/to/myclient.pem -out /path/to/myclient.pk8 -nocrypt
-```
-
-This command assumes that the private key is not encrypted. See the [`openssl` documentation](https://docs.openssl.org/master/) to learn how to convert an encrypted private key.
+{{< note >}}
+{{< embed-md "rdi-tls-secrets.md" >}}
 {{< /note >}}
   
-### Set secrets for VM deployment
+## Set secrets for VM deployment
 
 Use [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
 to set secrets for a VM deployment. 
@@ -97,7 +91,7 @@ redis-di set-secret TARGET_DB_KEY /path/to/myclient.key
 redis-di set-secret TARGET_DB_KEY_PASSWORD yourKeyPassword
 ```
 
-### Set secrets for K8s/Helm deployment using the rdi-secret.sh script
+## Set secrets for K8s/Helm deployment using the rdi-secret.sh script
 
 Use the `rdi-secret.sh` script to set secrets for a K8s/Helm deployment. To use this script, unzip the archive that contains the RDI Helm chart and navigate to the resulting folder. The `rdi-secret.sh` script is located in the `scripts` subfolder. The general pattern for using this script is:
 
@@ -149,7 +143,7 @@ scripts/rdi-secret.sh set TARGET_DB_KEY /path/to/myclient.key
 scripts/rdi-secret.sh set TARGET_DB_KEY_PASSWORD yourKeyPassword
 ```
 
-### Set secrets for K8s/Helm deployment using Kubectl command
+## Set secrets for K8s/Helm deployment using Kubectl command
 
 In some scenarios, you may prefer to use [`kubectl create secret generic`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/)
 to set secrets for a K8s/Helm deployment. The general pattern of the commands is:

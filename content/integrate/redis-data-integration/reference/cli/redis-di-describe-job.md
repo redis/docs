@@ -17,20 +17,17 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `info`
   - Usage: `--log-level
 -l`
 
 - `job_name` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `job-name`
 
 - `rdi_host` (REQUIRED):
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-host`
@@ -38,7 +35,6 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   Host/IP of RDI Database
 
 - `rdi_port` (REQUIRED):
-
   - Type: <IntRange 1<=x<=65535>
   - Default: `none`
   - Usage: `--rdi-port`
@@ -46,7 +42,6 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   Port of RDI Database
 
 - `rdi_user`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-user`
@@ -54,7 +49,6 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   RDI Database Username
 
 - `rdi_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-password`
@@ -62,7 +56,6 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   RDI Database Password
 
 - `rdi_key`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key`
@@ -70,7 +63,6 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   Private key file to authenticate with
 
 - `rdi_cert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cert`
@@ -78,7 +70,6 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   Client certificate file to authenticate with
 
 - `rdi_cacert`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-cacert`
@@ -86,7 +77,6 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   CA certificate file to verify with
 
 - `rdi_key_password`:
-
   - Type: STRING
   - Default: `none`
   - Usage: `--rdi-key-password`
@@ -94,7 +84,6 @@ Usage: redis-di describe-job [OPTIONS] JOB_NAME
   Password for unlocking an encrypted private key
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

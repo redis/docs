@@ -12,7 +12,7 @@ title: Manage databases
 weight: 37
 ---
 
-You can manage your Redis Enterprise Software databases with several different tools:
+You can manage your Redis Software databases with several different tools:
 
 - Cluster Manager UI (the web-based user interface)
 - Command-line tools ([`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}), [`redis-cli`]({{< relref "/develop/tools/cli" >}}), [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}))

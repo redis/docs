@@ -14,7 +14,7 @@ linkTitle: Prepare source databases
 summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
-weight: 30
+weight: 1
 ---
 
 Each database uses a different mechanism to track changes to its data and

@@ -1,5 +1,11 @@
 ---
-aliases: /develop/connect/clients/python/redis-py
+aliases:
+- /develop/connect/clients/python/redis-py
+- /develop/connect/clients/python/
+- /develop/clients/python/
+- /clients/python/
+- /connect/clients/redis-py/
+- /clients/redis-py/
 categories:
 - docs
 - develop
@@ -48,35 +54,19 @@ pip install redis[hiredis]
 
 Connect to localhost on port 6379, set a value in Redis, and retrieve it. All responses are returned as bytes in Python. To receive decoded strings, set `decode_responses=True`. For more connection options, see [these examples](https://redis.readthedocs.io/en/stable/examples.html).
 
-```python
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
-```
+{{< jupyter-example set="landing" step="connect" lang_filter="Python" description="Connect to a Redis server and establish a client connection" />}}
 
 Store and retrieve a simple string.
 
-```python
-r.set('foo', 'bar')
-# True
-r.get('foo')
-# bar
-```
+{{< jupyter-example set="landing" step="set_get_string" depends="connect" lang_filter="Python" description="Set and retrieve string values using SET and GET commands" />}}
 
 Store and retrieve a dict.
 
-```python
-r.hset('user-session:123', mapping={
-    'name': 'John',
-    "surname": 'Smith',
-    "company": 'Redis',
-    "age": 29
-})
-# True
+{{< jupyter-example set="landing" step="hash_operations" depends="connect" lang_filter="Python" description="Store and retrieve hash data structures using HSET and HGETALL" />}}
 
-r.hgetall('user-session:123')
-# {'surname': 'Smith', 'name': 'John', 'company': 'Redis', 'age': '29'}
-```
+Close the connection when you're done.
 
-
+{{< jupyter-example set="landing" step="close" depends="connect" lang_filter="Python" description="Close the Redis connection" no_output="true" />}}
 
 ## More information
 

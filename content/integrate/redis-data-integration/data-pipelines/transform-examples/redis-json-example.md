@@ -28,8 +28,8 @@ Another optional parameter, `on_update`, specifies the writing strategy. You can
 In this case, the result will be Redis JSON documents with key names based on the key expression (for example, `invoice_id:1`) and with an expiration of 100 seconds. If you don't supply an `expire` parameter, the keys will never expire.    
 
 ```yaml
+name: Write invoice to JSON
 source:
-  server_name: chinook
   schema: public
   table: invoice
 output:
@@ -40,6 +40,6 @@ output:
       key:
         expression: concat(['invoice_id:', InvoiceId])
         language: jmespath
-      on_update: replace        
+      on_update: replace
       expire: 100
 ```

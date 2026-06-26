@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   September 2023.
 highlights: RESP protocol selection
 linktitle: September 2023
+tags:
+- changelog
 weight: 78
 aliases:
   - /operate/rc/changelog/september-2023

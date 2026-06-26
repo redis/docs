@@ -1,0 +1,124 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="800" height="200" viewBox="0 0 800 200">
+  <style>
+    .title { font: 700 16px 'Space Grotesk', Helvetica, Arial, sans-serif; fill: #000; }
+    .label { font: 12px 'Space Grotesk', Helvetica, Arial, sans-serif; fill: #000; }
+    .panel { fill: none; stroke: none; rx: 10; }
+    .window { fill: #ffffff; stroke: #000000; rx: 10; }
+    .itemBox { fill: #ffffff; stroke: #000000; rx: 6; }
+    .checkmark { stroke: #2e7d32; stroke-width: 3; stroke-linecap: round; fill: none; }
+    .xmark { stroke: #FF0000; stroke-width: 3; stroke-linecap: round; }
+    .connOk { stroke: #FF0000; stroke-width: 3; fill: none; }
+    .dirArrow { stroke: #888888; stroke-width: 2; fill: none; opacity: 0.6; }
+    .faded { opacity: 0.5; }
+  </style>
+
+  <defs>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF0000" />
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#888888" />
+    </marker>
+  </defs>
+
+  <!-- Single panel -->
+  <g transform="translate(10,10)">
+    <rect class="panel" x="0" y="0" width="780" height="220" />
+    <text class="title" x="12" y="26">Sliding window (recent connection attempts)</text>
+
+    <!-- Sliding window container -->
+    <g transform="translate(20,60)">
+      <rect class="window" x="0" y="0" width="560" height="80" />
+
+      <!-- Left side: incoming new item -->
+      <g transform="translate(-75,20)">
+        <rect class="itemBox" x="0" y="0" width="40" height="40" />
+        <!-- Example: success -->
+        <g transform="translate(20,20)">
+          <path class="checkmark" d="M -8 0 L -2 6 L 10 -8"/>
+        </g>
+        <text class="label" x="20" y="58" text-anchor="middle">new</text>
+      </g>
+      <!-- Arrow into buffer -->
+      <path class="connOk" marker-end="url(#arrowRed)" d="M -20,40 C -10,40 -6,40 0,40" />
+
+      <!-- Items inside the buffer (fully populated) -->
+      <g transform="translate(10,20)">
+        <!-- x=0: success -->
+        <rect class="itemBox" x="0" y="0" width="40" height="40" />
+        <g transform="translate(20,20)">
+          <path class="checkmark" d="M -8 0 L -2 6 L 10 -8"/>
+        </g>
+        <!-- x=50: failure -->
+        <rect class="itemBox" x="50" y="0" width="40" height="40" />
+        <g transform="translate(70,20)">
+          <line class="xmark" x1="-8" y1="-8" x2="8" y2="8"/>
+          <line class="xmark" x1="8" y1="-8" x2="-8" y2="8"/>
+        </g>
+        <!-- x=100: success -->
+        <rect class="itemBox" x="100" y="0" width="40" height="40" />
+        <g transform="translate(120,20)">
+          <path class="checkmark" d="M -8 0 L -2 6 L 10 -8"/>
+        </g>
+        <!-- x=150: failure -->
+        <rect class="itemBox" x="150" y="0" width="40" height="40" />
+        <g transform="translate(170,20)">
+          <line class="xmark" x1="-8" y1="-8" x2="8" y2="8"/>
+          <line class="xmark" x1="8" y1="-8" x2="-8" y2="8"/>
+        </g>
+        <!-- x=200: success -->
+        <rect class="itemBox" x="200" y="0" width="40" height="40" />
+        <g transform="translate(220,20)">
+          <path class="checkmark" d="M -8 0 L -2 6 L 10 -8"/>
+        </g>
+        <!-- x=250: ellipsis -->
+        <text class="label" x="270" y="25" text-anchor="middle">...</text>
+        <!-- x=300: success -->
+        <rect class="itemBox" x="300" y="0" width="40" height="40" />
+        <g transform="translate(320,20)">
+          <path class="checkmark" d="M -8 0 L -2 6 L 10 -8"/>
+        </g>
+        <!-- x=350: success -->
+        <rect class="itemBox" x="350" y="0" width="40" height="40" />
+        <g transform="translate(370,20)">
+          <path class="checkmark" d="M -8 0 L -2 6 L 10 -8"/>
+        </g>
+        <!-- x=400: failure -->
+        <rect class="itemBox" x="400" y="0" width="40" height="40" />
+        <g transform="translate(420,20)">
+          <line class="xmark" x1="-8" y1="-8" x2="8" y2="8"/>
+          <line class="xmark" x1="8" y1="-8" x2="-8" y2="8"/>
+        </g>
+        <!-- x=450: success -->
+        <rect class="itemBox" x="450" y="0" width="40" height="40" />
+        <g transform="translate(470,20)">
+          <path class="checkmark" d="M -8 0 L -2 6 L 10 -8"/>
+        </g>
+        <!-- x=500: failure -->
+        <rect class="itemBox" x="500" y="0" width="40" height="40" />
+        <g transform="translate(520,20)">
+          <line class="xmark" x1="-8" y1="-8" x2="8" y2="8"/>
+          <line class="xmark" x1="8" y1="-8" x2="-8" y2="8"/>
+        </g>
+      </g>
+
+      <!-- Right side: outgoing old item being dropped -->
+      <g class="faded" transform="translate(580,20)">
+        <rect class="itemBox" x="0" y="0" width="40" height="40" />
+        <g transform="translate(20,20)">
+          <line class="xmark" x1="-8" y1="-8" x2="8" y2="8"/>
+          <line class="xmark" x1="8" y1="-8" x2="-8" y2="8"/>
+        </g>
+        <text class="label" x="20" y="58" text-anchor="middle">drop</text>
+      </g>
+      <!-- Arrow out of buffer -->
+      <path class="connOk" marker-end="url(#arrowRed)" d="M 560,40 C 568,40 574,40 580,40" />
+
+      <!-- Captions and direction arrow -->
+      <text class="label" x="30" y="115" text-anchor="middle">Newest</text>
+      <text class="label" x="565" y="115" text-anchor="end">Oldest</text>
+      <path class="dirArrow" marker-end="url(#arrowGray)" d="M 60,110 L 515,110" />
+    </g>
+  </g>
+</svg>
+

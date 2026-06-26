@@ -1,0 +1,17 @@
+{
+  "name": "redis-feature-store-nodejs-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Redis online feature store demo with node-redis and the Node.js standard http module.",
+  "main": "demoServer.js",
+  "scripts": {
+    "start": "node demoServer.js",
+    "build": "node buildFeatures.js"
+  },
+  "dependencies": {
+    "redis": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

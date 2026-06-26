@@ -1,0 +1,580 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "geopos(name: KeyT, *values: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*values",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<GeoCoordinate> geopos(final byte[] key, final byte[]... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<GeoCoordinate>",
+          "description": "A list of GeoCoordinate representing longitude and latitude (x,y) of each member name passed as argument to the command."
+        }
+      },
+      {
+        "signature": "List<GeoCoordinate> geopos(final String key, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<GeoCoordinate>",
+          "description": "A list of GeoCoordinate representing longitude and latitude (x,y) of each member name passed as argument to the command."
+        }
+      },
+      {
+        "signature": "List<GeoCoordinate> geopos(String key, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<GeoCoordinate>",
+          "description": "A list of GeoCoordinate representing longitude and latitude (x,y) of each member name passed as argument to the command."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<GeoCoordinates> geopos(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members."
+          }
+        ],
+        "returns": {
+          "type": "List<GeoCoordinates>",
+          "description": "a list of GeoCoordinatess representing the x,y position of each element specified in the arguments. For missing elements null is returned."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<GeoCoordinates>> geopos(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<GeoCoordinates>>",
+          "description": "a list of GeoCoordinatess representing the x,y position of each element specified in the arguments. For missing elements null is returned."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Value<GeoCoordinates>> geopos(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Value<GeoCoordinates>>",
+          "description": "a list of GeoCoordinatess representing the x,y position of each element specified in the arguments. For missing elements null is returned."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "GeoPos(ctx context.Context, key string, members ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*GeoPosCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "GEOPOS(key: RedisArgument, member: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "geopos(...args: [, key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<([longitude: string, latitude: string] | null)[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geopos(...args: [, key: RedisKey, members: (string | Buffer | number)[], callback: Callback<([longitude: string, latitude: string] | null)[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geopos(...args: [key: RedisKey, ...members: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geopos(...args: [key: RedisKey, members: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "geo_pos(key: K, members: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<Option<geo::Coord<f64>>>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "geo_pos(key: K, members: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<Option<geo::Coord<f64>>>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "GeoPosition(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "members",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoPosition?[]",
+          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
+        }
+      },
+      {
+        "signature": "GeoPosition(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoPosition?",
+          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
+        }
+      },
+      {
+        "signature": "GeoPositionAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<GeoPosition?>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "GeoPosition(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "members",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoPosition?[]",
+          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
+        }
+      },
+      {
+        "signature": "GeoPosition(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoPosition?",
+          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "GeoPositionAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<GeoPosition?>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "GeoPosition(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "members",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoPosition?[]",
+          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
+        }
+      },
+      {
+        "signature": "GeoPosition(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoPosition?",
+          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
+        }
+      },
+      {
+        "signature": "GeoPosition(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "members",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoPosition?[]",
+          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
+        }
+      },
+      {
+        "signature": "GeoPosition(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "GeoPosition?",
+          "description": "The command returns an array where each element is a two elements array representing longitude and latitude (x,y) of each member name passed as argument to the command. Non-existing elements are reported as NULL elements of the array."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "geopos(string $key, array $members)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geopos(key, member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String, Array<String>",
+            "description": "one member or array of members"
+          }
+        ],
+        "returns": {
+          "type": "Array<Array<String>, nil>",
+          "description": "array of elements, where each element is either array of longitude and latitude or nil"
+        }
+      }
+    ]
+  }
+}

@@ -17,7 +17,7 @@ type: integration
 weight: 1
 ---
 
-This is the first General Availability version of Redis Data Integration (RDI).
+Redis Data Integration (RDI) keeps your Redis cache in sync with a primary system-of-record database in near real time.
 
 RDI's purpose is to help Redis customers sync Redis Enterprise with live data from their slow disk based databases in order to:
 
@@ -39,11 +39,16 @@ RDI keeps a Redis cache up to date with changes in the primary database, using a
 [*Change Data Capture (CDC)*](https://en.wikipedia.org/wiki/Change_data_capture) mechanism.
 It also lets you *transform* the data from relational tables into convenient
 and fast data structures that match your app's requirements. You specify the
-transformations using a configuration system, so no coding is necessary.
+transformations using a configuration system, so no coding is necessary. RDI supports both standard Redis databases and [Active-Active (CRDB)](https://redis.io/active-active/) replication targets.
 
-{{<note>}}
-RDI is supported with Redis database or [CRDB](https://redis.io/active-active/) (Active Active Replication) targets.
-{{</note>}}
+## RDI in Redis Cloud
+
+RDI is also available as a fully managed service on Redis Cloud, removing the need to install or maintain the underlying infrastructure. Redis manages the compute, scaling, and upgrades for you. You define the source connection and pipeline configuration using the Redis Cloud console.
+
+The Cloud service currently supports AWS-hosted source databases (Amazon RDS, Amazon Aurora, and Amazon EC2), as well as MongoDB Atlas and Snowflake, writing to a Redis Cloud Pro target database.
+
+See [Data Integration]({{< relref "/operate/rc/rdi" >}}) in the Redis Cloud documentation for
+full setup instructions, prerequisites, and a quick start guide.
 
 ## Features
 
@@ -80,33 +85,20 @@ RDI provides enterprise-grade streaming data pipelines with the following featur
 
 ## When to use RDI
 
-RDI is designed to support apps that must use a disk based database as the system of record
-but must also be fast and scalable. This is a common requirement for mobile and web
-apps with a rapidly-growing number of users; the performance of the main database is fine at first
-but it will soon struggle to handle the increasing demand without a cache.
-
-You should use RDI when:
-
-- You must use a slow database as the system of record for the app .
-- The app must always *write* its data to the slow database.
-- You already intend to use Redis for the app cache.
-- The data changes frequently in small increments.
-- Your app can tolerate *eventual* consistency of data in the Redis cache.
-
-You should *not* use RDI when:
-
-- You are migrating an existing data set into Redis only once.
-- The data is updated infrequently and in big batches.
-- Your app needs *immediate* cache consistency rather than *eventual* consistency.
-- The data is ingested from two replicas of Active-Active at the same time.
-- The app must *write* data to the Redis cache, which then updates the source database.
-- Your data set will only ever be small.
+RDI is highly configurable but it is not intended to be a general
+solution for all data integration tasks. See
+[When to use RDI]({{< relref "/integrate/redis-data-integration/when-to-use" >}})
+to find out if your use case is a good fit for RDI's features.
 
 ## Supported source databases
 
 RDI can capture data from any of the following sources:
 
 {{< embed-md "rdi-supported-source-versions.md" >}}
+
+## Continue learning with Redis University
+
+* [Redis Data Integration Lab](https://university.redis.io/course/2qa1u1ss21vsy5?tab=details)
 
 ## Documentation
 

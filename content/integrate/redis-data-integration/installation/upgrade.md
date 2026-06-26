@@ -82,6 +82,26 @@ If there is an active pipeline, upgrade RDI on the active VM first.
 This will cause a short pipeline downtime of up to two minutes. 
 Afterwards, upgrade RDI on the passive VM. This will not cause any downtime.
 
+{{< warning >}}
+When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI instances may incorrectly consider themselves active after the upgrade. This occurs because the upgrade process doesn't change the cluster id value from its default `cluster-1`, causing both clusters to assume they are the active cluster.
+
+**Symptoms:**
+
+- The upgraded passive node will start collector and processor components
+- Collector may enter a crash loop as it fails to connect to the source
+- Both clusters will restart in a loop
+
+**Workaround:**
+
+After upgrading, manually set a unique cluster ID for one of the installations (preferably on the passive instance):
+
+1. Locate the RDI configuration file on the VM host. The file is typically located at `/etc/rdi/rdi-sys-config.yaml`.
+2. Open the configuration file in a text editor. For example:
+
+   ```bash
+   sudo nano /etc/rdi/rdi-sys-config.yaml
+{{< /warning >}}
+
 ## Upgrading a Kubernetes installation
 
 Follow the steps below to upgrade an existing
@@ -117,18 +137,38 @@ the RDI configuration again after this step.
 
 ### Upgrading to RDI 1.8.0 or later from an earlier version
 
-When upgrading to RDI 1.8.0 or later from an earlier version 
+When upgrading to RDI 1.8.0 or later from an earlier version
 you must adapt your `rdi-values.yaml` file to the following changes:
 
--   All collector and processor values that were previously under `collector`, 
-    `collectorSourceMetricsExporter`, and `processor` have been moved to 
+-   All collector and processor values that were previously under `collector`,
+    `collectorSourceMetricsExporter`, and `processor` have been moved to
     `operator.dataPlane.collector` and `operator.dataPlane.processor`.
--   `global.collectorApiEnabled` has been moved to `operator.dataPlane.collectorApi.enabled`, 
+-   `global.collectorApiEnabled` has been moved to `operator.dataPlane.collectorApi.enabled`,
     and is now a boolean value, not `"0"` or `"1"`.
 -   `api.authEnabled` is also now a boolean value, not `"0"` or `"1"`.
--   The following values have been deprecated: `rdiMetricsExporter.service.protocol`, 
-    `rdiMetricsExporter.service.port`, `rdiMetricsExporter.serviceMonitor.path`, 
+-   The following values have been deprecated: `rdiMetricsExporter.service.protocol`,
+    `rdiMetricsExporter.service.port`, `rdiMetricsExporter.serviceMonitor.path`,
     `api.service.name`.
+
+### Enabling the Flink processor
+
+The
+[Apache Flink](https://flink.apache.org/)-based stream processor is
+available after upgrading to RDI 1.18.0 or later. Once the upgrade
+completes, it is always available — no Helm-level opt-in is required, and
+the chart defaults are sized for typical workloads. Upgrading the Helm
+chart does not change the processor used by existing pipelines, which keep
+running on the classic processor until you explicitly switch them by
+setting
+[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+to `flink` in their `config.yaml`.
+
+To override the Flink processor defaults, add an
+`operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file as
+described in
+[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}}).
+For the per-pipeline migration steps, see
+[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
 
 ### Verifying the upgrade
 

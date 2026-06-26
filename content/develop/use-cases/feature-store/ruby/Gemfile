@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+# Redis 5.4+ ships HEXPIRE/HTTL semantics, but the typed `hexpire`
+# binding mis-orders the FIELDS clause. The helper issues the
+# field-TTL commands with `Redis#call` directly, which is also why
+# we don't pin the typed-hexpire patch release.
+gem 'redis', '~> 5.4'
+
+# WEBrick was removed from Ruby's default-gem set in 3.0; install it
+# explicitly so the demo runs cleanly on modern Rubies.
+gem 'webrick', '~> 1.9'

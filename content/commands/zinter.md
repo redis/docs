@@ -1,0 +1,156 @@
+---
+acl_categories:
+- '@read'
+- '@sortedset'
+- '@slow'
+arguments:
+- name: numkeys
+  type: integer
+- key_spec_index: 0
+  multiple: true
+  name: key
+  type: key
+- multiple: true
+  name: weight
+  optional: true
+  token: WEIGHTS
+  type: integer
+- arguments:
+  - name: sum
+    token: SUM
+    type: pure-token
+  - name: min
+    token: MIN
+    type: pure-token
+  - name: max
+    token: MAX
+    type: pure-token
+  - name: count
+    token: COUNT
+    type: pure-token
+  name: aggregate
+  optional: true
+  token: AGGREGATE
+  type: oneof
+- name: withscores
+  optional: true
+  token: WITHSCORES
+  type: pure-token
+arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
+command_flags:
+- readonly
+- movablekeys
+complexity: O(N*K)+O(M*log(M)) worst case with N being the smallest input sorted set,
+  K being the number of input sorted sets and M being the number of elements in the
+  resulting sorted set.
+description: Returns the intersect of multiple sorted sets.
+group: sorted-set
+hidden: false
+history:
+- - 8.8.0
+  - Added `COUNT` aggregate option.
+key_specs:
+- begin_search:
+    index:
+      pos: 1
+  find_keys:
+    keynum:
+      firstkey: 1
+      keynumidx: 0
+      step: 1
+  flags:
+  - RO
+  - ACCESS
+linkTitle: ZINTER
+railroad_diagram: /images/railroad/zinter.svg
+since: 6.2.0
+summary: Returns the intersect of multiple sorted sets.
+syntax_fmt: "ZINTER numkeys key [key ...] [WEIGHTS\_weight [weight ...]]\n  [AGGREGATE\_\
+  <SUM | MIN | MAX | COUNT>] [WITHSCORES]"
+title: ZINTER
+---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
+This command is similar to [`ZINTERSTORE`]({{< relref "/commands/zinterstore" >}}), but instead of storing the resulting
+sorted set, it is returned to the client.
+
+For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}).
+
+## Required arguments
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys to intersect.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WEIGHTS weight [weight ...]</code></summary>
+
+A multiplication factor for each input set; each set's scores are multiplied by its weight before aggregation. Defaults to 1 for every set.
+
+</details>
+
+<details open><summary><code>AGGREGATE SUM | MIN | MAX | COUNT</code></summary>
+
+How to combine the scores of members that exist in multiple sets: `SUM` (the default), `MIN`, `MAX`, or `COUNT`.
+
+</details>
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each member.
+
+</details>
+
+## Examples
+
+{{% redis-cli %}}
+ZADD zset1 1 "one"
+ZADD zset1 2 "two"
+ZADD zset2 1 "one"
+ZADD zset2 2 "two"
+ZADD zset2 3 "three"
+ZINTER 2 zset1 zset2
+ZINTER 2 zset1 zset2 WITHSCORES
+{{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="zinter-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the intersection including, optionally, scores when the _WITHSCORES_ option is used.
+
+-tab-sep-
+
+* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the intersection including, optionally, scores when the _WITHSCORES_ option is used.
+
+{{< /multitabs >}}

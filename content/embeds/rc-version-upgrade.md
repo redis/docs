@@ -8,4 +8,4 @@ Select the version to upgrade your databases from the list and select **Upgrade*
 
 The upgrade will start one week from your request, according to your subscription's [maintenance windows]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}). 
 
-Review the [7.2 breaking changes]({{< relref "/operate/rc/changelog/2023/june-2023#redis-72-breaking-changes" >}}) or [7.4 breaking changes]({{< relref "/operate/rc/changelog/july-2024#redis-74-breaking-changes" >}}) before you request to upgrade.
+Review the [7.2 breaking changes]({{< relref "/operate/rc/changelog/2023/june-2023#redis-72-breaking-changes" >}}) or [7.4 breaking changes]({{< relref "/operate/rc/changelog/2024/july-2024#redis-74-breaking-changes" >}}) before you request to upgrade.

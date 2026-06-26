@@ -1,0 +1,51 @@
+<svg class="railroad-diagram" height="62" viewBox="0 0 401.5 62" width="401.5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<style type="text/css"><![CDATA[
+svg.railroad-diagram { background-color: transparent; }
+.terminal rect { fill: #DC382D !important; stroke: #DC382D !important; }
+.terminal text { fill: white !important; font-weight: bold; }
+.nonterminal rect { fill: none !important; stroke: #DC382D !important; stroke-width: 2; }
+.nonterminal text { fill: #DC382D !important; font-weight: bold; }
+path { stroke: #DC382D !important; stroke-width: 2; fill: none; }
+circle { fill: #DC382D !important; stroke: #DC382D !important; }
+]]></style>
+</defs>
+<g transform="translate(.5 .5)">
+<style>/* <![CDATA[ */
+	svg.railroad-diagram {
+		background-color: transparent;
+	}
+	svg.railroad-diagram path {
+		stroke-width:3;
+		stroke: #DC382D;
+		fill:rgba(0,0,0,0);
+	}
+	svg.railroad-diagram text {
+		font:bold 14px monospace;
+		text-anchor:middle;
+	}
+	svg.railroad-diagram text.label{
+		text-anchor:start;
+	}
+	svg.railroad-diagram text.comment{
+		font:italic 12px monospace;
+	}
+	svg.railroad-diagram rect{
+		stroke-width:3;
+		stroke: #DC382D;
+		fill: none;
+	}
+	svg.railroad-diagram rect.group-box {
+		stroke: #DC382D;
+		stroke-dasharray: 10 5;
+		fill: none;
+	}
+
+/* ]]> */
+</style><g>
+<path d="M20 21v20m10 -20v20m-10 -10h20"></path></g><path d="M40 31h10"></path><g>
+<path d="M50 31h0.0"></path><path d="M351.5 31h0.0"></path><g class="terminal ">
+<path d="M50.0 31h0.0"></path><path d="M104.0 31h0.0"></path><rect height="22" rx="10" ry="10" width="54.0" x="50.0" y="20"></rect><text x="77.0" y="35">LREM</text></g><path d="M104.0 31h10"></path><path d="M114.0 31h10"></path><g class="non-terminal ">
+<path d="M124.0 31h0.0"></path><path d="M169.5 31h0.0"></path><rect height="22" width="45.5" x="124.0" y="20"></rect><text x="146.75" y="35">key</text></g><path d="M169.5 31h10"></path><path d="M179.5 31h10"></path><g class="non-terminal ">
+<path d="M189.5 31h0.0"></path><path d="M252.0 31h0.0"></path><rect height="22" width="62.5" x="189.5" y="20"></rect><text x="220.75" y="35">count</text></g><path d="M252.0 31h10"></path><path d="M262.0 31h10"></path><g class="non-terminal ">
+<path d="M272.0 31h0.0"></path><path d="M351.5 31h0.0"></path><rect height="22" width="79.5" x="272.0" y="20"></rect><text x="311.75" y="35">element</text></g></g><path d="M351.5 31h10"></path><path d="M 361.5 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

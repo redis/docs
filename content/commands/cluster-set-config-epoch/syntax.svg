@@ -1,8 +1,0 @@
-<svg class="railroad-diagram" viewBox="0 0 486.0 62" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g transform="translate(.5 .5)">
-<g>
-<path d="M20 21v20m10 -20v20m-10 -10h20"></path></g><path d="M40 31h10"></path><g>
-<path d="M50 31h0.0"></path><g>
-<path d="M50.0 31h10.0"></path><path d="M426.0 31h10.0"></path><g class="terminal ">
-<path d="M60.0 31h0.0"></path><path d="M284.0 31h0.0"></path><rect height="22" rx="10" ry="10" width="224.0" x="60.0" y="20"></rect><text x="172.0" y="35">CLUSTER SET-CONFIG-EPOCH</text></g><path d="M284.0 31h10"></path><path d="M294.0 31h10"></path><g class="non-terminal ">
-<path d="M304.0 31h0.0"></path><path d="M426.0 31h0.0"></path><rect height="22" width="122.0" x="304.0" y="20"></rect><text x="365.0" y="35">config-epoch</text><title>integer</title></g></g><path d="M436.0 31h0.0"></path></g><path d="M436.0 31h10"></path><path d="M 446.0 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

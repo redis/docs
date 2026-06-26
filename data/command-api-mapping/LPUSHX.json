@@ -1,0 +1,287 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "lpushx(name: KeyT, *values: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*values",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long lpushx(final byte[] key, final byte[]... strings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "strings",
+            "type": "byte[]...",
+            "description": "the strings to push"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the push operation"
+        }
+      },
+      {
+        "signature": "long lpushx(final String key, final String... strings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "strings",
+            "type": "String...",
+            "description": "the strings to push"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the push operation"
+        }
+      },
+      {
+        "signature": "long lpushx(String key, String... strings)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "strings",
+            "type": "String...",
+            "description": "the strings to push"
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the list after the push operation"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long lpushx(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the length of the list after the push operation."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> lpushx(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the length of the list after the push operation."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> lpushx(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the length of the list after the push operation."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "LPushX(ctx context.Context, key string, values ...interface{})",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...interface{}",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "lpushx(...args: [, key: RedisKey, ...elements: (string | Buffer | number)[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lpushx(...args: [key: RedisKey, ...elements: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "lpush_exists(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "lpush_exists(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "lpushx(string $key, array $values)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$values",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "lpushx(key, value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the length of the list after the push operation"
+        }
+      }
+    ]
+  }
+}

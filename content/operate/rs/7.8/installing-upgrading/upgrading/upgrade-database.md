@@ -62,6 +62,8 @@ Before upgrading a database:
 
     Use the Cluster Manager UI to display the **Configuration** tab for the cluster. The tab displays the cluster version information and the Redis database compatibility version.
 
+- For [Replica Of databases]({{< relref "/operate/rs/7.8/databases/import-export/replica-of/" >}}), upgrade the destination database before the source database.
+
 - Check client compatibility with the database version.
 
     If you run Redis Stack commands with Go-Redis versions 9 and later or Lettuce versions 6 and later, set the client’s protocol version to RESP2 before upgrading your database to Redis version 7.2 to prevent potential application issues due to RESP3 breaking changes. See [Client prerequisites for Redis 7.2 upgrade]({{< relref "/operate/rs/7.8/references/compatibility/resp#client-prerequisites-for-redis-72-upgrade" >}}) for more details and examples.
@@ -82,12 +84,12 @@ To upgrade a database:
 
 1.  _(Optional)_  Back up the database to minimize the risk of data loss.
 
-1.  Use [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data.
+1.  Use [`rladmin`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/upgrade" >}}) to upgrade the database. During the upgrade process, the database will restart without losing any data. Use the `preserve_roles` option to keep the database's current state, including primary shard placement, and prevent the cluster from becoming unbalanced.
 
     - To upgrade a database and its modules:
 
         ``` shell
-        rladmin upgrade db <database name | database ID>
+        rladmin upgrade db <database name | database ID> preserve_roles
         ```
 
         Example of a successful upgrade:
@@ -105,8 +107,10 @@ To upgrade a database:
     - To upgrade the database to a version other than the default version, use the `redis_version` parameter:
 
         ```sh
-        rladmin upgrade db <database name | database ID> redis_version <version>
+        rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
         ```
+
+    - For module upgrade options, see [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}).
 
 1. Check the Redis database compatibility version for the database to confirm the upgrade.  
 

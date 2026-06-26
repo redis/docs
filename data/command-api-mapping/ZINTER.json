@@ -1,0 +1,472 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zinter(keys: KeysT, aggregate: Optional[str] = None, withscores: bool = False)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "KeysT",
+            "description": ""
+          },
+          {
+            "name": "aggregate",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> zinter(final ZParams params, final String... keys)",
+        "params": [
+          {
+            "name": "params",
+            "type": "ZParams",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "A set with members of the resulting set"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> zinter(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1"
+        }
+      },
+      {
+        "signature": "List<V> zinter(ZAggregateArgs aggregateArgs, K... keys)",
+        "params": [
+          {
+            "name": "aggregateArgs",
+            "type": "ZAggregateArgs",
+            "description": "arguments to define aggregation and weights."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> zinter(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> zinter(ZAggregateArgs aggregateArgs, K... keys)",
+        "params": [
+          {
+            "name": "aggregateArgs",
+            "type": "ZAggregateArgs",
+            "description": "arguments to define aggregation and weights."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> zinter(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "V array-reply list of elements. @since 6.1"
+        }
+      },
+      {
+        "signature": "Flux<V> zinter(ZAggregateArgs aggregateArgs, K... keys)",
+        "params": [
+          {
+            "name": "aggregateArgs",
+            "type": "ZAggregateArgs",
+            "description": "arguments to define aggregation and weights."
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "V array-reply list of elements. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZInter(ctx context.Context, store *ZStore)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "store",
+            "type": "*ZStore",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZINTER(keys: ZInterKeysType, options?: ZInterOptions)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "ZInterKeysType",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZInterOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zinter(...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<string[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zinter(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<string[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zinter(...args: [numkeys: number | string, ...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zinter(...args: [numkeys: number | string, keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zinter(...args: [, numkeys: number | string, ...keys: RedisKey[], withscores: \"WITHSCORES\", callback: Callback<string[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sorted sets."
+          },
+          {
+            "name": "weights",
+            "type": "double[]?",
+            "description": "The optional weights per set that correspond to keys."
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to Sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The resulting sorted set."
+        }
+      },
+      {
+        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sorted sets."
+          },
+          {
+            "name": "weights",
+            "type": "double[]?",
+            "description": "The optional weights per set that correspond to keys."
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to Sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The resulting sorted set."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sorted sets."
+          },
+          {
+            "name": "weights",
+            "type": "double[]?",
+            "description": "The optional weights per set that correspond to keys."
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to Sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The resulting sorted set."
+        }
+      },
+      {
+        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "operation",
+            "type": "SetOperation",
+            "description": "The operation to perform."
+          },
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sorted sets."
+          },
+          {
+            "name": "weights",
+            "type": "double[]?",
+            "description": "The optional weights per set that correspond to keys."
+          },
+          {
+            "name": "aggregate",
+            "type": "Aggregate",
+            "description": "The aggregation method (defaults to Sum)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "The resulting sorted set."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zinter(array $keys, int[] $weights = [], string $aggregate = 'sum', bool $withScores = false)",
+        "params": [
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "int[] $weights = []",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "string $aggregate = 'sum'",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $withScores = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zinter(*keys, weights: nil, aggregate: nil, with_scores: false)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "String, Array<String>",
+            "description": "one or more keys to intersect"
+          },
+          {
+            "name": "weights",
+            "type": "Array<Float>",
+            "description": "weights to associate with source sorted sets"
+          },
+          {
+            "name": "aggregate",
+            "type": "String",
+            "description": "aggregate function to use (sum, min, max)"
+          },
+          {
+            "name": "with_scores",
+            "type": "Boolean",
+            "description": "include scores in output"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, Array<[String, Float]>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

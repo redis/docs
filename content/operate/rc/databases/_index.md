@@ -22,7 +22,7 @@ Here's how to perform a variety of tasks:
     - [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}})
     - [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
     - [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}})
-    - [Create an Active-Active database]({{< relref "/operate/rc/databases/create-database/create-active-active-database" >}})
+    - [Create an Active-Active database]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}})
 
 - [View and edit databases]({{< relref "/operate/rc/databases/view-edit-database" >}})
 
@@ -39,8 +39,6 @@ If you're new to Redis Cloud, see the [Quick Start]({{< relref "/operate/rc/rc-q
 - [Back up databases]({{< relref "/operate/rc/databases/back-up-data" >}})
 
 - [Secure database access]({{< relref "/operate/rc/security/database-security/" >}})
-
-- [Flush database data]({{< relref "/operate/rc/databases/flush-data" >}})
 
 ## Configuration details
 

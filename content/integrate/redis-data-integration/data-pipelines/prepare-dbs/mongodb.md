@@ -25,7 +25,7 @@ This guide describes the steps required to prepare a MongoDB database as a sourc
 {{< note >}}The MongoDB connector is not capable of monitoring the changes of a standalone MongoDB server, since standalone servers do not have an oplog. The connector will work if the standalone server is converted to a replica set with one member.{{< /note >}}
 ## Summary
 
-The following table summarizes the steps to prepare a MongoDB database for RDI. The sections below explain the steps in more detail.
+The following table summarizes the considerations to prepare a MongoDB database for RDI.
 
 | Requirement         | Description                                                                 |
 |---------------------|-----------------------------------------------------------------------------|
@@ -36,6 +36,20 @@ The following table summarizes the steps to prepare a MongoDB database for RDI. 
 | Connection String   | Must include all hosts, replicaSet (if applicable), authSource, credentials |
 | MongoDB Atlas       | **[SSL required](https://debezium.io/documentation/reference/stable/connectors/mongodb.html#mongodb-property-mongodb-ssl-enabled)**, provide root CA as `SOURCE_DB_CACERT` secret in RDI       |
 | Network             | RDI Collector must reach all MongoDB nodes on required ports                |
+
+The following checklist shows the steps to prepare a MongoDB database for RDI,
+with links to the sections that explain the steps in full detail.
+You may find it helpful to track your progress with the checklist as you
+complete each step.
+
+```checklist {id="mongodblist"}
+- [ ] [Configure oplog size](#1-configure-oplog-size)
+- [ ] [Create a MongoDB user for RDI](#2-create-a-mongodb-user-for-rdi)
+- [ ] [Connection string format](#3-connection-string-format)
+- [ ] [Enable change streams and pre/post images (only if using a custom key)](#4-enable-change-streams-and-prepost-images-only-if-using-a-custom-key)
+- [ ] [MongoDB Atlas specific requirements](#5-mongodb-atlas-specific-requirements)
+- [ ] [Network and security](#6-network-and-security)
+```
 
 ## 1. Configure oplog size
 

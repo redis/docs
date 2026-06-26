@@ -1,0 +1,234 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "shutdown(save: bool = False, nosave: bool = False, now: bool = False, force: bool = False, abort: bool = False, **kwargs)",
+        "params": [
+          {
+            "name": "save",
+            "type": "bool",
+            "description": "Save before shutdown"
+          },
+          {
+            "name": "nosave",
+            "type": "bool",
+            "description": "Don't save"
+          },
+          {
+            "name": "now",
+            "type": "bool",
+            "description": "Shutdown now"
+          },
+          {
+            "name": "force",
+            "type": "bool",
+            "description": "Force shutdown"
+          },
+          {
+            "name": "abort",
+            "type": "bool",
+            "description": "Abort shutdown"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "None",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "void shutdown()",
+        "params": [],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "void shutdown(ShutdownParams shutdownParams)",
+        "params": [
+          {
+            "name": "shutdownParams",
+            "type": "ShutdownParams",
+            "description": "Shutdown parameters"
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "String shutdownAbort()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Shutdown(ctx context.Context) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SHUTDOWN(options?: ShutdownOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "ShutdownOptions",
+            "description": "Options for the shutdown process"
+          }
+        ],
+        "returns": {
+          "type": "void | SimpleStringReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "void shutdown(boolean save)",
+        "params": [
+          {
+            "name": "save",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "void shutdown(ShutdownArgs args)",
+        "params": [
+          {
+            "name": "args",
+            "type": "ShutdownArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "void shutdown(boolean save)",
+        "params": [
+          {
+            "name": "save",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      },
+      {
+        "signature": "void shutdown(ShutdownArgs args)",
+        "params": [
+          {
+            "name": "args",
+            "type": "ShutdownArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Void> shutdown(boolean save)",
+        "params": [
+          {
+            "name": "save",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Void>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Mono<Void> shutdown(ShutdownArgs args)",
+        "params": [
+          {
+            "name": "args",
+            "type": "ShutdownArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<Void>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "shutdown(?bool $noSave = null, bool $now = false, bool $force = false, bool $abort = false)",
+        "params": [
+          {
+            "name": "$noSave",
+            "type": "bool|null",
+            "description": ""
+          },
+          {
+            "name": "$now",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "$force",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "$abort",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

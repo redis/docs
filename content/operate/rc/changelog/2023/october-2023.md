@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   October 2023.
 highlights: Cost report CSV download, SAML Account linking tokens
 linktitle: October 2023
+tags:
+- changelog
 weight: 76
 aliases:
   - /operate/rc/changelog/october-2023

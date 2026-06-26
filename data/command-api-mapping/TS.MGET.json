@@ -1,0 +1,205 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "mget(, filters: List[str],, with_labels: Optional[bool] = False,, select_labels: Optional[List[str]] = None,, latest: Optional[bool] = False,)",
+        "params": [
+          {
+            "name": "filters",
+            "type": "List[str]",
+            "description": ""
+          },
+          {
+            "name": "with_labels",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "select_labels",
+            "type": "Optional[List[str]] = None",
+            "description": ""
+          },
+          {
+            "name": "latest",
+            "type": "Optional[bool] = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map<String, TSMGetElement> tsMGet(TSMGetParams multiGetParams, String... filters)",
+        "params": [
+          {
+            "name": "multiGetParams",
+            "type": "TSMGetParams",
+            "description": "optional arguments"
+          },
+          {
+            "name": "filters",
+            "type": "String...",
+            "description": "secondary indexes"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, TSMGetElement>",
+          "description": "multi get elements"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TSMGet(ctx context.Context, filters []string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "filters",
+            "type": "[]string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*MapStringSliceInterfaceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "TSMGetWithArgs(ctx context.Context, filters []string, options *TSMGetOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "filters",
+            "type": "[]string",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "*TSMGetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*MapStringSliceInterfaceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "MGET(filter: RedisVariadicArgument, options?: TsMGetOptions)",
+        "params": [
+          {
+            "name": "filter",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "TsMGetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "MGet(IReadOnlyCollection<string> filter, bool latest = false, bool? withLabels = null, IReadOnlyCollection<string>? selectedLabels = null)",
+        "params": [
+          {
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>",
+            "description": ""
+          },
+          {
+            "name": "latest",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "withLabels",
+            "type": "bool?",
+            "description": ""
+          },
+          {
+            "name": "selectedLabels",
+            "type": "IReadOnlyCollection<string>?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "IReadOnlyList<(string key, IReadOnlyList<TimeSeriesLabel> labels, TimeSeriesTuple value)>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MGetAsync(IReadOnlyCollection<string> filter, bool latest = false, bool? withLabels = null, IReadOnlyCollection<string>? selectedLabels = null)",
+        "params": [
+          {
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>",
+            "description": ""
+          },
+          {
+            "name": "latest",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "withLabels",
+            "type": "bool?",
+            "description": ""
+          },
+          {
+            "name": "selectedLabels",
+            "type": "IReadOnlyCollection<string>?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<IReadOnlyList<(string key, IReadOnlyList<TimeSeriesLabel> labels, TimeSeriesTuple value)>>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tsmget(MGetArguments $arguments, string ...$filterExpression)",
+        "params": [
+          {
+            "name": "$arguments",
+            "type": "MGetArguments",
+            "description": ""
+          },
+          {
+            "name": "$filterExpression",
+            "type": "string ...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -87,17 +87,29 @@ You need the following RDI images with tags matching the RDI version you want to
 -   [redis/rdi-collector-api](https://hub.docker.com/r/redis/rdi-collector-api)
 -   [redis/rdi-collector-initializer](https://hub.docker.com/r/redis/rdi-collector-initializer)
 
+If you plan to use the Flink processor for any of your pipelines, you'll also need:
+
+-   [redis/rdi-flink-processor](https://hub.docker.com/r/redis/rdi-flink-processor)
+-   [redis/rdi-metrics-aggregator](https://hub.docker.com/r/redis/rdi-metrics-aggregator)
+
+If you plan to use the Flink processor exclusively, the `redis/rdi-processor`
+and `redis/rdi-monitor` images are not required.
+
+If you plan to use Spanner as a source for your pipeline, you'll also need
+[redis/rdi-flink-collector](https://hub.docker.com/r/redis/rdi-flink-collector).
+
+If you plan to use Snowflake as a source for any of your pipelines, you'll also need
+[riotx/riotx:v1.8.0](https://hub.docker.com/r/riotx/riotx):
+[RIOT-X](https://redis.github.io/riotx/), a data ingestion and replication tool for Redis.
+
 In addition, the RDI Helm chart uses the following 3rd party images:
 
--   [redislabs/debezium-server:3.0.8.Final-rdi.1](https://hub.docker.com/r/redislabs/debezium-server), 
-    based on `quay.io/debezium/server/3.0.8.Final` with minor modifications: 
+-   [redislabs/debezium-server:3.5.0.Final-rdi.1](https://hub.docker.com/r/redislabs/debezium-server),
+    based on `quay.io/debezium/server/3.5.0.Final` with minor modifications:
     [Debezium](https://debezium.io/), an open source distributed platform for change data capture.
--   [redis/reloader:v1.1.0](https://hub.docker.com/r/redis/reloader), originally `ghcr.io/stakater/reloader:v1.1.0`: 
-    [Reloader](https://github.com/stakater/Reloader), a K8s controller to watch changes to ConfigMaps 
+-   [redis/reloader:v1.4.13](https://hub.docker.com/r/redis/reloader), originally `ghcr.io/stakater/reloader:v1.4.13`:
+    [Reloader](https://github.com/stakater/Reloader), a K8s controller to watch changes to ConfigMaps
     and Secrets and do rolling upgrades.
--   [redis/kube-webhook-certgen:v20221220-controller-v1.5.1-58-g787ea74b6](https://hub.docker.com/r/redis/kube-webhook-certgen), 
-    originally `registry.k8s.io/ingress-nginx/kube-webhook-certgen/v20221220-controller-v1.5.1-58-g787ea74b6`: 
-    [kube-webhook-certgen](https://github.com/jet/kube-webhook-certgen), K8s webhook certificate generator and patcher.
 
 The example below shows how to specify the registry and image pull secret in your
 [`rdi-values.yaml`](#the-valuesyaml-file) file for the Helm chart:
@@ -113,6 +125,17 @@ global:
   # Image pull secrets to be used when using a private image registry.
   imagePullSecrets:
     - name: your-secret-name
+
+# ...
+
+# Configuration of the reloader.
+reloader:
+  reloader:
+    # ...
+    deployment:
+      image:
+        name: my-registry.com/my-repo/reloader
+        #...
 ```
 
 To pull images from a private image registry, you must provide the image pull secret and in some cases also set the permissions. Follow the links below to learn how to use a private registry with:
@@ -133,7 +156,7 @@ To pull images from a private image registry, you must provide the image pull se
     `rdi-values.yaml` file:
 
     ```bash
-    helm show values rdi-<tag>.tar.gz > rdi-values.yaml
+    helm show values rdi-<tag>.tgz > rdi-values.yaml
     ```
 
 1.  Open the `rdi-values.yaml` file you just created, change or add the appropriate
@@ -144,13 +167,19 @@ To pull images from a private image registry, you must provide the image pull se
 1.  Run the `helm upgrade --install` command:
 
     ```bash
-    helm upgrade --install rdi rdi-<tag>.tar.gz -f rdi-values.yaml -n rdi --create-namespace
+    helm upgrade --install rdi rdi-<tag>.tgz -f rdi-values.yaml -n rdi --create-namespace
     ```
 
     {{< note >}}The above command will install RDI in a namespace called
     `rdi`. If you want to use a different namespace, pass the option
     `-n <custom-namespace>` to the `helm install` command instead.
-    {{< /note >}} 
+    {{< /note >}}
+    &nbsp;
+    {{< warning >}}Only one RDI installation is supported per Kubernetes
+    cluster. Installing RDI into multiple namespaces in the same cluster is
+    not supported and will fail. If you need more than one RDI deployment,
+    use separate Kubernetes clusters.
+    {{< /warning >}} 
 
 ### The `values.yaml` file
 
@@ -208,6 +237,93 @@ also use mTLS, you must set the client certificate and private key contents in
       --set-file connection.ssl.cert=<path-to-client-certificate> \
       --set-file connection.ssl.key=<path-to-client-key>
     ```
+
+{{< note >}}
+Please see [these docs]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner#6-additional-kubernetes-configuration" >}}) if this RDI installation is for use with GCP Spanner.
+{{< /note >}}
+
+If you are deploying to [OpenShift](https://docs.openshift.com/), you must
+set `global.openshift` to `true`:
+
+```yaml
+global:
+  # Indicates whether the deployment is intended for an OpenShift environment.
+  openShift: true
+```
+
+Set `global.securityContext.runAsUser` and
+`global.securityContext.runAsGroup` to the appropriate values for your
+OpenShift environment.
+
+```yaml
+global:
+  # Container default security context.
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+  securityContext:
+    runAsNonRoot: true
+    # On OpenShift, user and group 1000 are usually not allowed.
+    # If using OpenShift, set runAsUser and runAsGroup to values in your project's user and group ranges.
+    # You can examine the latter via `oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"`
+    runAsUser: 1000701234
+    runAsGroup: 1000701234
+    allowPrivilegeEscalation: false
+```
+
+{{< warning >}}The default OpenShift Security Context Constraints (SCCs)
+will not allow RDI to run if `global.securityContext.runAsUser`
+and `global.securityContext.runAsGroup` have their default values of `1000`.
+You must edit your `rdi-values.yaml` file to ensure these values are
+in the valid range for your OpenShift environment.
+
+Use the following [OpenShift CLI](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/cli_tools/openshift-cli-oc) command
+to find the user and group ranges for your project:
+
+```bash
+oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
+```
+{{< /warning >}}
+
+### Configure the Flink processor
+
+RDI ships with two stream processor implementations: the default *classic*
+processor and the
+[Apache Flink](https://flink.apache.org/)-based *Flink* processor.
+See
+[Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
+for an overview of the differences.
+
+To configure the Flink processor at the Helm chart level, add the
+`operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file. The
+snippet below shows a few of the most commonly adjusted values. See the
+`flinkProcessor` block in the Helm chart's `values.yaml` for the full set of
+supported values.
+
+```yaml
+operator:
+  dataPlane:
+    flinkProcessor:
+      jobManager:
+        # JobManager pod resources.
+        cpu: 0.1
+        memory: 1024
+      taskManager:
+        # TaskManager pod resources.
+        cpu: 1
+        memory: 2048
+        # Number of parallel task slots per TaskManager pod.
+        # Total parallelism is `replicas * numberOfTaskSlots`.
+        numberOfTaskSlots: 1
+```
+
+Configuring the Flink processor at the Helm chart level only sets the values
+that the operator will use when deploying the JobManager and TaskManager workloads.
+To run a specific pipeline on the Flink processor, set
+[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+to `flink` in that pipeline's `config.yaml`. Pipelines without this setting
+continue to use the classic processor.
+
+For migrating existing pipelines to the Flink processor, see
+[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
 
 ## Check the installation
 
@@ -275,10 +391,12 @@ section to learn how to do this.
 
 When the Helm installation is complete and you have prepared the source database for CDC,
 you are ready to start using RDI.
-Use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}) to
-[configure]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
+Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to
+[configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-your pipeline.
+your pipeline (see
+[RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+for full details on how to do this).
 
 ## Uninstall RDI
 

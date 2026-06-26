@@ -9,7 +9,9 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   April 2025.
 highlights: New UI and dark mode, Map multiple Redis Cloud accounts to marketplace account
 linktitle: April 2025
-weight: 32
+tags:
+- changelog
+weight: 76
 ---
 
 ## New features

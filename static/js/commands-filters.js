@@ -95,7 +95,20 @@ function filter() {
     hiddenCards.pop().style.display = '';
   }
 
-  for (const element of document.querySelectorAll('#commands-grid > [data-group]')) {
+  const commandElements = document.querySelectorAll('#commands-grid > [data-group]');
+
+  // Defensive check: if no command elements found, don't filter yet
+  if (commandElements.length === 0) {
+    console.warn('No command elements found for filtering. DOM may not be ready.');
+    return;
+  }
+
+  const visibleElements = [];
+  const nameFilterValue = FILTERS.name.element.value.toLowerCase();
+
+  for (const element of commandElements) {
+    let shouldHide = false;
+
     for (const [key, filter] of Object.entries(FILTERS)) {
       if (!filter.element.value) continue;
 
@@ -103,9 +116,38 @@ function filter() {
       if (!match(filter, elementValue)) {
         element.style.display = 'none';
         hiddenCards.push(element);
+        shouldHide = true;
         break;
       }
     }
+
+    if (!shouldHide) {
+      visibleElements.push(element);
+    }
+  }
+
+  // Sort visible elements: commands starting with search term first, then others
+  if (nameFilterValue) {
+    const grid = document.querySelector('#commands-grid');
+
+    visibleElements.sort((a, b) => {
+      const aName = a.dataset.name.toLowerCase();
+      const bName = b.dataset.name.toLowerCase();
+      const aStarts = aName.startsWith(nameFilterValue);
+      const bStarts = bName.startsWith(nameFilterValue);
+
+      // If one starts with the search term and the other doesn't, prioritize the one that starts
+      if (aStarts && !bStarts) return -1;
+      if (!aStarts && bStarts) return 1;
+
+      // Otherwise maintain alphabetical order
+      return aName.localeCompare(bName);
+    });
+
+    // Re-append elements in sorted order
+    visibleElements.forEach(element => {
+      grid.appendChild(element);
+    });
   }
 }
 
@@ -122,27 +164,41 @@ if (url.hash) {
   setUrl();
 }
 
-for (const [key, { element, oninput }] of Object.entries(FILTERS)) {
-  if (url.searchParams.has(key)) {
-    element.value = url.searchParams.get(key);
+// Initialize filters with DOM ready check
+function initializeFilters() {
+  // Check if commands grid exists and has content
+  const commandsGrid = document.querySelector('#commands-grid');
+  if (!commandsGrid || commandsGrid.children.length === 0) {
+    // Retry after a short delay if DOM isn't ready
+    setTimeout(initializeFilters, 50);
+    return;
   }
 
-  element.addEventListener('input', () => {
-    if (oninput) oninput();
-
-    if (!element.value) {
-      url.searchParams.delete(key);
-    } else {
-      url.searchParams.set(key, element.value);
+  for (const [key, { element, oninput }] of Object.entries(FILTERS)) {
+    if (url.searchParams.has(key)) {
+      element.value = url.searchParams.get(key);
     }
 
-    setUrl();
-    filter();
-  });
+    element.addEventListener('input', () => {
+      if (oninput) oninput();
+
+      if (!element.value) {
+        url.searchParams.delete(key);
+      } else {
+        url.searchParams.set(key, element.value);
+      }
+
+      setUrl();
+      filter();
+    });
+  }
+
+  for (const { oninput } of Object.values(FILTERS)) {
+    if (oninput) oninput();
+  }
+
+  filter();
 }
 
-for (const { oninput } of Object.values(FILTERS)) {
-  if (oninput) oninput();
-}
-
-filter();
+// Start initialization
+initializeFilters();

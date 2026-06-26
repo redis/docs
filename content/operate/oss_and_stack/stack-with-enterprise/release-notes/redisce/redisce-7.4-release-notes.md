@@ -12,6 +12,71 @@ min-version-rs: blah
 weight: 100
 ---
 
+## Redis Community Edition 7.4.9 (May 2026):
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2026-23479) Use-After-Free in unblock client flow may lead to Remote Code Execution.
+- (CVE-2026-25243) Invalid memory access in `RESTORE` may lead to Remote Code Execution.
+- (CVE-2026-23631) Lua Use-After-Free may lead to remote code execution.
+
+### Bug fixes
+
+- `SUBSCRIBE`, `PSUBSCRIBE`, `SSUBSCRIBE`: crash on OOM (RED-167788).
+- `CONFIG SET`: some settings allow invalid characters (RED-167787).
+- `SCRIPT DEBUG`: potential crash on scripts (RED-175507).
+
+## Redis Community Edition 7.4.8 (February 2026)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- A user can manipulate data read by a connection by injecting `\r\n` sequences into a Redis error reply.
+
+## Redis Community Edition 7.4.7 (November 2025)
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users.
+
+### Bug fixes
+
+- Potential crash on HyperLogLog with 2GB+ entries
+
+## Redis Community Edition 7.4.6 (October 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+- (CVE-2025-49844) A Lua script may lead to remote code execution
+- (CVE-2025-46817) A Lua script may lead to integer overflow and potential RCE
+- (CVE-2025-46818) A Lua script can be executed in the context of another user
+- (CVE-2025-46819) LUA out-of-bound read
+
+### Bug fixes
+
+- [#14330](https://github.com/redis/redis/pull/14330) Potential use-after-free after pubsub and Lua defrag
+- [#14319](https://github.com/redis/redis/pull/14319) Potential crash on Lua script defrag
+- [#14164](https://github.com/redis/redis/pull/14164) Prevent `CLIENT UNBLOCK` from unblocking `CLIENT PAUSE`
+- [#14165](https://github.com/redis/redis/pull/14165) Endless client blocking for blocking commands
+- [#14163](https://github.com/redis/redis/pull/14163) `EVAL` crash when error table is empty
+- [#14227](https://github.com/redis/redis/pull/14227) `HINCRBYFLOAT` removes field expiration on replica
+
+## Redis Community Edition 7.4.5 (July 2025)
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+### Security fixes
+
+* (CVE-2025-27151) redis-check-aof may lead to stack overflow and potential RCE
+
+### Bug fixes
+
+- [#13966](https://github.com/redis/redis/pull/13966), [#13932](https://github.com/redis/redis/pull/13932) `CLUSTER SLOTS` - TLS port update not reflected in CLUSTER SLOTS
+- [#13958](https://github.com/redis/redis/pull/13958) `XTRIM`, `XADD` - incorrect lag due to trimming stream
+
 ## Redis Community Edition 7.4.4 (May 2025):
 
 Update urgency: `SECURITY`: There are security fixes in the release.

@@ -1,0 +1,182 @@
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.List;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisNoScriptException;
+
+/**
+ * Token Bucket Rate Limiter
+ *
+ * <p>A Redis-based token bucket rate limiter implementation using Lua scripts
+ * for atomic operations.</p>
+ *
+ * <p>The token bucket algorithm allows requests at a controlled rate by maintaining
+ * a bucket of tokens that refills over time. Each request consumes a token, and
+ * requests are denied when the bucket is empty.</p>
+ *
+ * <p>Example usage:</p>
+ * <pre>{@code
+ * JedisPool pool = new JedisPool("localhost", 6379);
+ * TokenBucket limiter = new TokenBucket(10, 1.0, 1.0, pool);
+ * RateLimitResult result = limiter.allow("user:123");
+ * if (result.allowed()) {
+ *     System.out.println("Request allowed. " + result.remaining() + " tokens remaining.");
+ * } else {
+ *     System.out.println("Request denied. Rate limit exceeded.");
+ * }
+ * }</pre>
+ */
+public class TokenBucket {
+
+    /**
+     * Result of a rate limit check.
+     *
+     * @param allowed   whether the request is allowed
+     * @param remaining number of tokens remaining in the bucket
+     */
+    public record RateLimitResult(boolean allowed, double remaining) {}
+
+    /** Lua script for atomic token bucket operations. */
+    private static final String TOKEN_BUCKET_SCRIPT = """
+            local key = KEYS[1]
+            local capacity = tonumber(ARGV[1])
+            local refill_rate = tonumber(ARGV[2])
+            local refill_interval = tonumber(ARGV[3])
+            local now = tonumber(ARGV[4])
+
+            -- Get current state or initialize
+            local bucket = redis.call('HMGET', key, 'tokens', 'last_refill')
+            local tokens = tonumber(bucket[1])
+            local last_refill = tonumber(bucket[2])
+
+            -- Initialize if this is the first request
+            if tokens == nil then
+                tokens = capacity
+                last_refill = now
+            end
+
+            -- Calculate token refill
+            local time_passed = now - last_refill
+            local refills = math.floor(time_passed / refill_interval)
+
+            if refills > 0 then
+                tokens = math.min(capacity, tokens + (refills * refill_rate))
+                last_refill = last_refill + (refills * refill_interval)
+            end
+
+            -- Try to consume a token
+            local allowed = 0
+            if tokens >= 1 then
+                tokens = tokens - 1
+                allowed = 1
+            end
+
+            -- Update state
+            redis.call('HMSET', key, 'tokens', tokens, 'last_refill', last_refill)
+
+            -- Return result: allowed (1 or 0) and remaining tokens
+            return {allowed, tokens}
+            """;
+
+    private final int capacity;
+    private final double refillRate;
+    private final double refillInterval;
+    private final JedisPool jedisPool;
+    private String scriptSha;
+    private boolean scriptLoaded;
+
+    /**
+     * Creates a new token bucket rate limiter.
+     *
+     * @param capacity       maximum number of tokens in the bucket (default: 10)
+     * @param refillRate     number of tokens added per refill interval (default: 1.0)
+     * @param refillInterval time in seconds between refills (default: 1.0)
+     * @param jedisPool      Jedis connection pool for Redis operations
+     */
+    public TokenBucket(int capacity, double refillRate, double refillInterval, JedisPool jedisPool) {
+        this.capacity = capacity;
+        this.refillRate = refillRate;
+        this.refillInterval = refillInterval;
+        this.jedisPool = jedisPool;
+        this.scriptSha = sha1Hex(TOKEN_BUCKET_SCRIPT);
+        this.scriptLoaded = false;
+    }
+
+    /**
+     * Creates a token bucket with default parameters (capacity=10, refillRate=1.0, refillInterval=1.0).
+     *
+     * @param jedisPool Jedis connection pool for Redis operations
+     */
+    public TokenBucket(JedisPool jedisPool) {
+        this(10, 1.0, 1.0, jedisPool);
+    }
+
+    /**
+     * Checks if a request should be allowed for the given key.
+     *
+     * <p>Each call attempts to consume one token from the bucket identified by
+     * the key. If tokens are available the request is allowed; otherwise it is denied.</p>
+     *
+     * @param key the rate limit key (e.g., "user:123", "api:endpoint:xyz")
+     * @return a {@link RateLimitResult} with the allowed status and remaining tokens
+     */
+    @SuppressWarnings("unchecked")
+    public RateLimitResult allow(String key) {
+        ensureScriptLoaded();
+
+        double now = System.currentTimeMillis() / 1000.0;
+        List<String> keys = Collections.singletonList(key);
+        List<String> args = List.of(
+                String.valueOf(capacity),
+                String.valueOf(refillRate),
+                String.valueOf(refillInterval),
+                String.valueOf(now)
+        );
+
+        List<Long> result;
+        try (Jedis jedis = jedisPool.getResource()) {
+            try {
+                // Try EVALSHA first (faster if script is cached)
+                result = (List<Long>) jedis.evalsha(scriptSha, keys, args);
+            } catch (JedisNoScriptException e) {
+                // Script not in cache, fall back to EVAL and reload
+                result = (List<Long>) jedis.eval(TOKEN_BUCKET_SCRIPT, keys, args);
+                scriptLoaded = false;
+            }
+        }
+
+        boolean allowed = result.get(0) == 1L;
+        double remaining = result.get(1).doubleValue();
+        return new RateLimitResult(allowed, remaining);
+    }
+
+    /** Ensures the Lua script is loaded into Redis. */
+    private void ensureScriptLoaded() {
+        if (!scriptLoaded) {
+            try (Jedis jedis = jedisPool.getResource()) {
+                scriptSha = jedis.scriptLoad(TOKEN_BUCKET_SCRIPT);
+                scriptLoaded = true;
+            }
+        }
+    }
+
+    /** Computes the SHA-1 hex digest of the given text. */
+    private static String sha1Hex(String text) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            byte[] digest = md.digest(text.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder(40);
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-1 not available", e);
+        }
+    }
+}
+

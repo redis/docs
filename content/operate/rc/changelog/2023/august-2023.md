@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   August 2023.
 highlights: Redis 7.2 Opt-in for Flexible subscriptions, Triggers and functions preview
 linktitle: August 2023
+tags:
+- changelog
 weight: 80
 aliases:
   - /operate/rc/changelog/august-2023
@@ -36,7 +38,7 @@ If you'd like to use triggers and functions with a [Flexible subscription]({{< r
 For more information about triggers and functions, see the [triggers and functions documentation]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/" >}}).
 
 {{< note >}}
-Triggers and functions is discontinued as of [May 2024]({{< relref "/operate/rc/changelog/may-2024" >}}).
+Triggers and functions is discontinued as of [May 2024]({{< relref "/operate/rc/changelog/2024/may-2024" >}}).
 {{< /note >}}
 
 ### Maintenance windows

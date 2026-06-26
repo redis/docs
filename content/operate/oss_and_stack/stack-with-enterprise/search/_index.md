@@ -1,4 +1,6 @@
 ---
+aliases:
+- /stack/search/
 Title: Search and query
 alwaysopen: false
 categories:
@@ -11,7 +13,7 @@ linkTitle: Search and query
 weight: 20
 ---
 The [RediSearch 2.x module](https://redis.com/blog/introducing-redisearch-2-0/) is a source-available project that lets you build powerful search queries for open source Redis databases.
-When combined with Redis Enterprise Software, you can use the same protocols and [commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/commands" >}})
+When combined with Redis Software, you can use the same protocols and [commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/commands" >}})
 to run geo-replicated queries and full-text searches over efficient in-memory indexes.
 
 ## Index documents
@@ -21,11 +23,11 @@ The search and query engine indexes documents, which are objects that represent 
 As the documents in your database change, the index automatically processes these changes to keep the search results up to date.
 
 With indexes, you can do:
-- Language-aware [fuzzy matching]({{< relref "develop/interact/search-and-query/advanced-concepts/query_syntax#fuzzy-matching" >}})
-- Fast [auto-complete]({{< relref "develop/interact/search-and-query/administration/overview#auto-complete" >}})
-- [Exact phrase matching]({{< relref "develop/interact/search-and-query/advanced-concepts/query_syntax" >}})
-- [Numeric filtering]({{< relref "develop/interact/search-and-query/advanced-concepts/query_syntax#numeric-filters-in-query" >}})
-- [Geo-radius queries]({{< relref "develop/interact/search-and-query/advanced-concepts/query_syntax#geo-filters" >}})
+- Language-aware [fuzzy matching]({{< relref "develop/ai/search-and-query/advanced-concepts/query_syntax#fuzzy-matching" >}})
+- Fast [auto-complete]({{< relref "develop/ai/search-and-query/administration/overview#auto-complete" >}})
+- [Exact phrase matching]({{< relref "develop/ai/search-and-query/advanced-concepts/query_syntax" >}})
+- [Numeric filtering]({{< relref "develop/ai/search-and-query/advanced-concepts/query_syntax#numeric-filters-in-query" >}})
+- [Geo-radius queries]({{< relref "develop/ai/search-and-query/advanced-concepts/query_syntax#geo-filters" >}})
 
 ## Supported document types
 
@@ -49,7 +51,7 @@ For full-text searches, you can customize the field queries and ranking of the s
 When querying, you can use multiple predicates that query text, numeric, and geospatial fields in one query.
 You can also sort by a specific field and limit the results with an offset to produce customized results pages.
 
-Redis Open Source supports [over 15 natural languages]({{< relref "/develop/interact/search-and-query/advanced-concepts/stemming" >}}) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions]({{< relref "/commands/ft.sugadd" >}}).
+Redis Open Source supports [over 15 natural languages]({{< relref "/develop/ai/search-and-query/advanced-concepts/stemming" >}}) for stemming and includes auto-complete engines with specific commands that can provide real-time [interactive search suggestions]({{< relref "/commands/ft.sugadd" >}}).
 
 ## Search and query Active-Active databases
 
@@ -64,7 +66,7 @@ Because the index on the new shard is created synchronously though, it's expecte
 
 ## Limitations
 
-- You cannot use search and query capabilities with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}).
+- You cannot use search and query capabilities with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). This limitation was fixed in Redis Software version 8.0.
 
 ## More info
 
@@ -72,5 +74,5 @@ Because the index on the new shard is created synchronously though, it's expecte
 - [Search and query quick start]({{< relref "/develop/get-started/document-database" >}})
 - [Search and query configuration]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}})
 - [Search and query commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/commands" >}})
-- [Search and query references]({{< relref "/develop/interact/search-and-query/advanced-concepts/" >}})
+- [Search and query references]({{< relref "/develop/ai/search-and-query/advanced-concepts/" >}})
 - [RediSearch source](https://github.com/RediSearch/RediSearch)

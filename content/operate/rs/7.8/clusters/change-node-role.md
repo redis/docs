@@ -17,7 +17,7 @@ A Redis Software cluster contains a primary node, which coordinates cluster-wide
 
 To demote the primary node to a secondary node using the Cluster Manager UI:
 
-1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to promote.
+1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the primary node you want to demote.
 
     {{<image filename="images/rs/screenshots/nodes/primary-node-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
 
@@ -37,7 +37,7 @@ To demote the primary node to a secondary node using the Cluster Manager UI:
 
 To promote a secondary node to become the primary node using the Cluster Manager UI:
 
-1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the node you want to promote.
+1. On the **Nodes** screen, click {{< image filename="/images/rs/buttons/button-toggle-actions-vertical.png#no-click" alt="More actions button" width="22px" class="inline" >}} for the secondary node you want to promote.
 
     {{<image filename="images/rs/screenshots/nodes/secondary-nodes-more-actions.png" alt="Click the more actions button for a node to access node actions.">}}
 

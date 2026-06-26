@@ -26,6 +26,8 @@ Use the [Quick start]({{< relref "/operate/rc/rc-quickstart" >}}) to learn how t
 - [Connect with Redis client]({{< relref "/operate/rc/rc-quickstart#using-redis-client" >}})
 - [Connect with Redis Insight]({{< relref "/operate/rc/rc-quickstart#using-redisinsight" >}})
 
+You can also use [Vercel's Redis Cloud integration](https://vercel.com/marketplace/redis-cloud) or [Heroku's Redis Cloud add-on](https://elements.heroku.com/addons/rediscloud) to quickly add a Redis database to your project.
+
 ## Databases
 Create and manage [Redis databases]({{< relref "/operate/rc/databases" >}}) in the cloud.
 - [Create database]({{< relref "/operate/rc/databases/create-database" >}})
@@ -54,13 +56,22 @@ Manage [secure connections]({{< relref "/operate/rc/security" >}}) to cloud data
 - [Data access control]({{< relref "/operate/rc/security/access-control/data-access-control" >}})
 
 ## REST API
-Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage the database.
+Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage Redis Cloud databases and subscriptions.
 - [Get started with the REST API]({{< relref "/operate/rc/api/get-started" >}})
 - REST API [reference]({{< relref "/operate/rc/api/api-reference" >}}) & [examples]({{< relref "/operate/rc/api/examples" >}})
 
+## Migrate to Redis Cloud
+Follow the step-by-step guide for your source environment:
+- [ElastiCache to Redis Cloud](https://redis.io/tutorials/migration/elasticache-to-redis-cloud/) — offline and live migration from AWS ElastiCache
+- [Memorystore to Redis Cloud](https://redis.io/tutorials/migration/memorystore-to-redis-cloud/) — offline and live migration from Google Cloud Memorystore
+- [Open source Redis to Redis Cloud](https://redis.io/tutorials/migration/redis-open-source-to-redis-cloud/) — migrate from a self-hosted Redis instance
+
+## Migrate to Azure Managed Redis
+- [ElastiCache to Azure Managed Redis (AMR)](https://redis.io/tutorials/learn/migration/elasti-cache-to-azure-managed-redis/) — move your workload from AWS to Azure
+- [Memorystore to Azure Managed Redis (AMR)](https://redis.io/tutorials/learn/migration/memorystore-to-azure-managed-redis/) — move your workload from Google Cloud to Azure
 
 ## Related info
-- [Redis Enterprise Software]({{< relref "/operate/rs" >}})
+- [Redis Software]({{< relref "/operate/rs" >}})
 - [Develop with Redis]({{< relref "/develop/" >}})
 - [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}})
 - [Glossary]({{< relref "/glossary" >}})

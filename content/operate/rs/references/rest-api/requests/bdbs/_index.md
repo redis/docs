@@ -38,10 +38,18 @@ Get all databases in the cluster.
 
 ### Request {#get-all-request}
 
-#### Example HTTP request
+#### Example HTTP requests
+
+The following request returns the unique IDs and names of all databases:
 
 ```sh
 GET /v1/bdbs?fields=uid,name
+```
+
+The following request returns all fields for the databases, including configuration fields for modules like search, probabilistic, and timeseries:
+
+```sh
+GET /v1/bdbs?extended=true 
 ```
 
 #### Headers
@@ -56,6 +64,7 @@ GET /v1/bdbs?fields=uid,name
 | Field | Type | Description |
 |-------|------|-------------|
 | fields | string | Comma-separated list of field names to return (by default all fields are returned). (optional) |
+| extended | boolean | If true, includes configuration fields for modules, such as search, timeseries, and probabilistic, in the response. If the `extended` query parameter is not included in the request, module configuration fields do not appear in the response. (optional) |
 
 ### Response {#get-all-response}
 
@@ -128,10 +137,18 @@ Get a single database.
 
 ### Request {#get-request}
 
-#### Example HTTP request
+#### Example HTTP requests
+
+The following request returns all fields for the specified database, except for module configuration fields:
 
 ```sh
 GET /v1/bdbs/1
+```
+
+The following request returns all fields for the specified database, including configuration fields for modules like search, probabilistic, and timeseries:
+
+```sh
+GET /v1/bdbs/1?extended=true 
 ```
 
 #### Headers
@@ -154,6 +171,7 @@ GET /v1/bdbs/1
 | Field | Type | Description |
 |-------|------|-------------|
 | fields | string | Comma-separated list of field names to return (by default all fields are returned). (optional) |
+| extended | boolean | If true, includes configuration fields for modules, such as search, timeseries, and probabilistic, in the response. If the `extended` query parameter is not included in the request, module configuration fields do not appear in the response. (optional) |
 
 ### Response {#get-response}
 

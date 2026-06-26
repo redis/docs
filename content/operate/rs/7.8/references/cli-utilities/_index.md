@@ -32,13 +32,14 @@ Do not use these tools for normal operations.
 |---------|-------------|
 | bdb-cli | `redis-cli` connected to a database. |
 | ccs-cli | Inspect Cluster Configuration Store. |
-| cnm-ctl | Manages services for provisioning, migration, monitoring, <br />resharding, rebalancing, deprovisioning, and autoscaling. |
+| cnm_ctl | Manages services for provisioning, migration, monitoring, <br />resharding, rebalancing, deprovisioning, and autoscaling. |
 | consistency_checker | Checks the consistency of Redis instances. |
 | crdbtop | Monitor Active-Active databases. |
 | debug_mode | Enables debug mode. |
 | debuginfo | Collects cluster information. |
 | dmc-cli | Configure and monitor the DMC proxy. |
 | pdns_control | Sends commands to a running PowerDNS nameserver. |
+| [rdb-cli](https://github.com/redis/librdb) | Parse and convert RDB files. |
 | redis_ctl | Stops or starts Redis instances. |
 | rl_rdbloader | Load RDB backup files to a server. |
 | rlutil | Maintenance utility. |

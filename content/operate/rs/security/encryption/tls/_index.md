@@ -10,7 +10,7 @@ hideListLinks: true
 linkTitle: TLS
 weight: 10
 ---
-[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security), a successor to SSL, ensures the privacy of data sent between applications and Redis databases. TLS also secures connections between Redis Enterprise Software nodes.
+[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security), a successor to SSL, ensures the privacy of data sent between applications and Redis databases. TLS also secures connections between Redis Software nodes.
 
 You can [use TLS authentication]({{< relref "/operate/rs/security/encryption/tls/enable-tls" >}}) for the following types of communication:
 
@@ -22,4 +22,12 @@ You can [use TLS authentication]({{< relref "/operate/rs/security/encryption/tls
 
 TLS protocols and ciphers define the overall suite of algorithms that clients are able to connect to the servers with.
 
-You can change the [TLS protocols]({{< relref "/operate/rs/security/encryption/tls/tls-protocols" >}}) and [ciphers]({{< relref "/operate/rs/security/encryption/tls/ciphers" >}}) to improve the security of your Redis Enterprise cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
+You can change the [TLS protocols]({{< relref "/operate/rs/security/encryption/tls/tls-protocols" >}}) and [ciphers]({{< relref "/operate/rs/security/encryption/tls/ciphers" >}}) to improve the security of your Redis Software cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
+
+## Troubleshooting
+
+For help troubleshooting TLS failures, see the following knowledge base guides:
+
+- [Troubleshooting TLS Failures](https://support.redislabs.com/hc/en-us/articles/26867190871314-Troubleshooting-TLS-Failures)
+
+- [Troubleshooting TLS Connection Failures Caused by Certificate Expiration](https://support.redislabs.com/hc/en-us/articles/27021922067090-Troubleshooting-TLS-Connection-Failures-Caused-by-Certificate-Expiration)

@@ -11,6 +11,7 @@ description: This section lists the different ways to set up and run Redis Enter
 hideListLinks: false
 linkTitle: Deployment
 weight: 11
+aliases: [/operate/kubernetes/7.8.4/deployment/helm/]
 url: '/operate/kubernetes/7.8.4/deployment/'
 ---
 

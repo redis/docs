@@ -47,6 +47,22 @@ No. RDI is designed and tested to work only with Redis Enterprise. The staging d
 only use version 6.4 or above. The target Redis database can be of any version and can be a
 replica of an Active-Active replication setup or an Auto tiering database.
 
+## Can I use Active-Active for the RDI database?
+
+Yes, starting with RDI 1.16.0, you can use Active-Active for the RDI database. This is useful if you
+want to create a disaster recovery setup for RDI using Google Cloud Storage (GCS) to provide a reliable lease mechanism for leader election.
+The configuration for the GCS is available only for [Helm based installations]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
+
+**Important:** You should only use this configuration when both sites use the same source configuration.
+
+## Can I run multiple RDI installations in the same Kubernetes cluster?
+
+No. Only one RDI installation is supported per Kubernetes cluster, even if
+you install into different namespaces. If you need more than one RDI
+deployment, use separate Kubernetes clusters. See
+[Install on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
+for installation details.
+
 ## Can RDI automatically track changes to the source database schema?
 
 If you don't configure RDI to capture a specific set of tables in the schema then it will
@@ -83,6 +99,57 @@ the structure of the JSON data is invalid or if there is a fatal bug in the tran
 job then RDI can't transform the data. When this happens, RDI will store the original data
 in a "dead letter queue" along with a message to say why it was rejected. The dead letter
 queue is stored as a capped stream in the RDI staging database. You can see its contents
-with Redis Insight or with the 
+with Redis Insight or with the
 [`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
 command from the CLI.
+
+See [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}) for more information about DLQ.
+
+## Can I use RDI without persistence enabled?
+
+By default, RDI requires persistence to be enabled on the RDI database. This ensures that RDI can recover both its configuration and the last known state if the cluster crashes.
+
+If you don't have permissions to use persistence due to compliance or other reasons, you can disable
+the persistence check on the RDI database (Helm installation only). If you do this, RDI will not be
+able to recover from a crash, and you will have to perform a new deploy to reinitialize the pipeline.
+
+To disable the persistence check, set the `aofRequired` value to `false` in the `operator.prerequisiteChecks`
+section of the `values.yaml` file.
+
+```yaml
+operator:
+  prerequisiteChecks:
+    aofRequired: false
+```
+
+This option is available in RDI 1.16.2 and later.
+
+## Which processor should I use? {#which-processor-should-i-use}
+
+RDI ships with two stream processor implementations: the *classic*
+processor and the *Flink* processor. The classic processor is the
+production-supported default. The Flink processor was introduced in
+RDI 1.18.0 as a **Preview** and is not yet supported for production
+use; we encourage you to try it on new, non-production pipelines and
+share feedback so we can prioritize improvements before general
+availability. Regular preview terms apply.
+
+The Flink processor delivers significantly higher snapshot throughput,
+lower end-to-end latency, horizontal scaling, and Flink checkpointing
+on top of the same at-least-once delivery guarantees as the classic
+processor.
+
+Continue to use the classic processor for production pipelines, and
+in any of the following cases where the Flink processor does not yet
+apply:
+
+-   **Output `data_type` other than `hash` or `json`** (for example,
+    `set`, `sorted_set`, `stream`, or `string`).
+-   **VM installations.** The Flink processor currently runs on
+    Kubernetes only.
+
+Both limitations are expected to be lifted in a future release. See
+[Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+for a side-by-side comparison and
+[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
+for a step-by-step migration guide.

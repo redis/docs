@@ -1,0 +1,141 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "count(key, *items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "items",
+            "type": "*args"
+          }
+        ],
+        "returns": {
+          "type": "List[int]",
+          "description": "Count for each item (deprecated since RedisBloom 2.4.0)"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "topkCount(String key, String... items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "items",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Count for each item (deprecated)"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TopKCount(ctx context.Context, key string, elements ...interface{}) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "elements",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": "Counts for each item"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TOPK.COUNT(key, items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "name": "items",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply>",
+          "description": "Count for each item (deprecated)"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Count(RedisKey key, params RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "items",
+            "type": "params RedisValue[]"
+          }
+        ],
+        "returns": {
+          "type": "long[]",
+          "description": "Count for each item"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "CountAsync(RedisKey key, params RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "items",
+            "type": "params RedisValue[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<long[]>",
+          "description": "Count for each item"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "topkcount($key, ...$items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "items",
+            "type": "string..."
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Count for each item (deprecated)"
+        }
+      }
+    ]
+  }
+}

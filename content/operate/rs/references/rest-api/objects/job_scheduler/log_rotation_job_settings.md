@@ -5,8 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the log_rotation_job_settings object used with Redis Enterprise
-  Software REST API calls.
+description: Documents the log_rotation_job_settings object used with Redis Software REST API calls.
 linkTitle: log_rotation_job_settings
 weight: $weight
 ---

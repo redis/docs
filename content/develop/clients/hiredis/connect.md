@@ -24,6 +24,7 @@ and port as its arguments, and returns a context object.
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <hiredis/hiredis.h>
     .
@@ -77,6 +78,7 @@ sets the context callbacks. Note that you must also include the
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <hiredis/hiredis.h>
 #include <hiredis/async.h>

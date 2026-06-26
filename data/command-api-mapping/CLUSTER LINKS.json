@@ -1,0 +1,44 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "List<Object> clusterLinks()",
+        "params": [],
+        "returns": {
+          "type": "List<Object>",
+          "description": "Cluster links information"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Object>> clusterLinks()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<List<Object>>",
+          "description": "Cluster links information"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<List<Object>> clusterLinks()",
+        "params": [],
+        "returns": {
+          "type": "Mono<List<Object>>",
+          "description": "Cluster links information"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

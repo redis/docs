@@ -24,6 +24,10 @@ The Redis Enterprise for Kubernetes automates these recovery steps:
 
 {{<warning>}}Redis Enterprise for Kubernetes 7.2.4-2 introduces a new limitation. You cannot recover or upgrade your cluster if there are databases with old module versions or manually uploaded modules. See the [Redis Enterprise Software 7.2.4 known limitations]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#cluster-recovery-with-manually-uploaded-modules" >}}) for more details.{{</warning>}}
 
+{{< note >}}
+If your cluster uses user-defined modules, the recovery process doesn't block on module validation errors (such as URL or credential issues). The cluster can recover successfully, and you can resolve any module configuration issues after recovery is complete. See [User-defined modules]({{< relref "/operate/kubernetes/re-databases/modules#user-defined-modules" >}}) for more information.
+{{< /note >}}
+
 ## Prerequisites
 
 - For cluster recovery, the cluster must be [deployed with persistence]({{< relref "/operate/kubernetes/recommendations/persistent-volumes" >}}).
@@ -33,7 +37,7 @@ The Redis Enterprise for Kubernetes automates these recovery steps:
 1. Edit the REC resource to set the `clusterRecovery` flag to `true`.
 
     ```sh
-    kubectl patch rec <cluster-name> --type merge --patch '{"spec":{"clusterRecovery":true}}'
+    kubectl patch rec <cluster-name> -n <rec_namespace> --type merge --patch '{"spec":{"clusterRecovery":true}}'
     ```
 
 

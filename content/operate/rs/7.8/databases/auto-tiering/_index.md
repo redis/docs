@@ -11,6 +11,7 @@ hideListLinks: true
 linktitle: Auto Tiering
 weight: 50
 url: '/operate/rs/7.8/databases/auto-tiering/'
+aliases: /operate/rs/7.8/databases/flash/
 ---
 Redis Enterprise's auto tiering offers users the unique ability to use solid state drives (SSDs) to extend databases beyond DRAM capacity.
 Developers can build applications that require large datasets using the same Redis API.
@@ -53,9 +54,9 @@ When using Auto Tiering, RAM storage holds:
 - Dictionaries
 - Hot data (working set)
 
-All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as “hot data”.
+All data is accessed through RAM. If a value in flash memory is accessed, it becomes part of the working set and is moved to RAM. These values are referred to as "hot data".
 
-Inactive or infrequently accessed data is referred to as “warm data” and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
+Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm data is moved from RAM to flash storage.
 
 {{<note>}} When using Auto Tiering with RediSearch, it’s important to note that RediSearch indexes are also stored in RAM.{{</note>}}
 

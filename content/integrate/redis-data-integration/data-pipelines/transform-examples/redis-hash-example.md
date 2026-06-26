@@ -23,8 +23,8 @@ In this case, the result will be Redis hashes with key names based on the key ex
 If you don't supply an `expire` parameter, the keys will never expire. 
 
 ```yaml
+name: Write invoice to hash
 source:
-  server_name: chinook
   schema: public
   table: invoice
 output:

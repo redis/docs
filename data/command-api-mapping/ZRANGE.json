@@ -1,0 +1,1354 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "zrange(, name: KeyT,, start: EncodableT,, end: EncodableT,, desc: bool = False,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,, byscore: bool = False,, bylex: bool = False,, offset: Optional[int] = None,, num: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "EncodableT",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "EncodableT",
+            "description": ""
+          },
+          {
+            "name": "desc",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "score_cast_func",
+            "type": "Union[type, Callable] = float",
+            "description": ""
+          },
+          {
+            "name": "byscore",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "bylex",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "num",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Tuple> zrangeWithScores(final byte[] key, final long start, final long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> zrangeWithScores(byte[] key, ZRangeParams zRangeParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "zRangeParams",
+            "type": "ZRangeParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<String> zrange(final String key, final long start, final long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Tuple> zrangeWithScores(final String key, final long start, final long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Tuple>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<String> zrange(String key, ZRangeParams zRangeParams)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "zRangeParams",
+            "type": "ZRangeParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> zrange(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "Long count of elements in the specified range."
+        }
+      },
+      {
+        "signature": "Long zrange(ValueStreamingChannel<V> channel, K key, long start, long stop)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "streaming channel that receives a call for every value."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long count of elements in the specified range."
+        }
+      },
+      {
+        "signature": "List<ScoredValue<V>> zrangeWithScores(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "List<ScoredValue<V>>",
+          "description": "Long count of elements in the specified range."
+        }
+      },
+      {
+        "signature": "Long zrangeWithScores(ScoredValueStreamingChannel<V> channel, K key, long start, long stop)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ScoredValueStreamingChannel<V>",
+            "description": "streaming channel that receives a call for every value."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long count of elements in the specified range."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> zrange(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "Long count of elements in the specified range."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zrange(ValueStreamingChannel<V> channel, K key, long start, long stop)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "streaming channel that receives a call for every value."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long count of elements in the specified range."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<ScoredValue<V>>> zrangeWithScores(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<ScoredValue<V>>>",
+          "description": "Long count of elements in the specified range."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> zrangeWithScores(ScoredValueStreamingChannel<V> channel, K key, long start, long stop)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ScoredValueStreamingChannel<V>",
+            "description": "streaming channel that receives a call for every value."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long count of elements in the specified range."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> zrange(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long count of elements in the specified range. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrange."
+        }
+      },
+      {
+        "signature": "Mono<Long> zrange(ValueStreamingChannel<V> channel, K key, long start, long stop)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "streaming channel that receives a call for every value."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long count of elements in the specified range. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrange."
+        }
+      },
+      {
+        "signature": "Flux<ScoredValue<V>> zrangeWithScores(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "Flux<ScoredValue<V>>",
+          "description": "Long count of elements in the specified range. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrangeWithScores."
+        }
+      },
+      {
+        "signature": "Mono<Long> zrangeWithScores(ScoredValueStreamingChannel<V> channel, K key, long start, long stop)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ScoredValueStreamingChannel<V>",
+            "description": "streaming channel that receives a call for every value."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long count of elements in the specified range. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrangeWithScores."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ZRange(ctx context.Context, key string, start, stop int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ZRangeWithScores(ctx context.Context, key string, start, stop int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*ZSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "ZRANGE(key: RedisArgument, min: RedisArgument | number, max: RedisArgument | number, options?: ZRangeOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "RedisArgument | number",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "ZRangeOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ZRANGE_WITHSCORES(...args: Parameters<typeof ZRANGE.parseCommand>)",
+        "params": [
+          {
+            "name": "...args",
+            "type": "Parameters<typeof ZRANGE.parseCommand>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "zrange(key: RedisKey, min: string | Buffer | number, max: string | Buffer | number, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrange(key: RedisKey, min: string | Buffer | number, max: string | Buffer | number, withscores: \"WITHSCORES\", callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "\"WITHSCORES\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrange(key: RedisKey, min: string | Buffer | number, max: string | Buffer | number, offsetCountToken: \"LIMIT\", offset: number | string, count: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "offsetCountToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrange(key: RedisKey, min: string | Buffer | number, max: string | Buffer | number, offsetCountToken: \"LIMIT\", offset: number | string, count: number | string, withscores: \"WITHSCORES\", callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "offsetCountToken",
+            "type": "\"LIMIT\"",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "withscores",
+            "type": "\"WITHSCORES\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrange(key: RedisKey, min: string | Buffer | number, max: string | Buffer | number, rev: \"REV\", callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "rev",
+            "type": "\"REV\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "zrange(key: K, start: isize, stop: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrange_withscores(key: K, start: isize, stop: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<(String, f64)>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "zrange(key: K, start: isize, stop: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "zrange_withscores(key: K, start: isize, stop: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<(String, f64)>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index to get."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index to get."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "SortedSetRangeByRankWithScores(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index to get."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index to get."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index to get."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index to get."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "SortedSetRangeByRankWithScores(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index to get."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index to get."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "SortedSetRangeByScore(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "double",
+            "description": "The minimum score to filter by."
+          },
+          {
+            "name": "stop",
+            "type": "double",
+            "description": "The maximum score to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of start and stop to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "How many items to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "How many items to take."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified score range."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index to get."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index to get."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "SortedSetRangeByRankWithScores(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index to get."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index to get."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index to get."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index to get."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "SortedSetRangeByRankWithScores(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index to get."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index to get."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "SortedSetEntry[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "SortedSetRangeByScore(RedisKey key, double start = double.NegativeInfinity, double stop = double.PositiveInfinity, Exclude exclude = Exclude.None, Order order = Order.Ascending, long skip = 0, long take = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the sorted set."
+          },
+          {
+            "name": "start",
+            "type": "double",
+            "description": "The minimum score to filter by."
+          },
+          {
+            "name": "stop",
+            "type": "double",
+            "description": "The maximum score to filter by."
+          },
+          {
+            "name": "exclude",
+            "type": "Exclude",
+            "description": "Which of start and stop to exclude (defaults to both inclusive)."
+          },
+          {
+            "name": "order",
+            "type": "Order",
+            "description": "The order to sort by (defaults to ascending)."
+          },
+          {
+            "name": "skip",
+            "type": "long",
+            "description": "How many items to skip."
+          },
+          {
+            "name": "take",
+            "type": "long",
+            "description": "How many items to take."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified score range."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "zrange(string $key, int|string $start, int|string $stop, ?array $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int|string",
+            "description": ""
+          },
+          {
+            "name": "$stop",
+            "type": "int|string",
+            "description": ""
+          },
+          {
+            "name": "?array $options = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "zrange(key, start, stop, by_score: false, by_lex: false, rev: false, limit: nil, with_scores: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "start index"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "stop index"
+          },
+          {
+            "name": "by_score",
+            "type": "Boolean",
+            "description": "return members by score"
+          },
+          {
+            "name": "by_lex",
+            "type": "Boolean",
+            "description": "return members by lexicographical ordering"
+          },
+          {
+            "name": "rev",
+            "type": "Boolean",
+            "description": "reverse the ordering"
+          },
+          {
+            "name": "limit",
+            "type": "Array",
+            "description": "[offset, count]"
+          },
+          {
+            "name": "with_scores",
+            "type": "Boolean",
+            "description": "include scores in output"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>, Array<[String, Float]>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

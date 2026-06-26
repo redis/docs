@@ -1,0 +1,19 @@
+{
+  "name": "redis-recommendation-engine-nodejs-demo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Redis recommendation engine demo with node-redis and @xenova/transformers.",
+  "main": "demoServer.js",
+  "scripts": {
+    "build-catalog": "node buildCatalog.js",
+    "start": "node demoServer.js"
+  },
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "redis": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

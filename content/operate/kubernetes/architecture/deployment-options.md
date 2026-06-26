@@ -9,6 +9,7 @@ description: Redis Enterprise for Kubernetes allows you to deploy to multiple na
   This article describes flexible deployment options you can use to meet your specific
   needs.
 linkTitle: Deployment options
+aliases: [/operate/kubernetes/deployment/deployment-options/]
 ---
 You can deploy Redis Enterprise for Kubernetes in several different ways depending on your database needs.
 
@@ -39,7 +40,7 @@ You have the flexibility to create databases in separate namespaces, or in the s
 See [Manage databases in multiple namespaces]({{< relref "/operate/kubernetes/re-clusters/multi-namespace" >}}) for more information.
 
 
-{{< image filename="/images/k8s/k8s-deploy-many-to-many.png" >}}
+{{< image filename="/images/k8s/k8s-deploy-many-to-many-new.png" >}}
 
 ## Unsupported deployment patterns
 

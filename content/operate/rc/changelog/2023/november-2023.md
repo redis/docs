@@ -9,6 +9,8 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   November 2023.
 highlights: New Fixed plans, Redis 7.2 Fixed region support
 linktitle: November 2023
+tags:
+- changelog
 weight: 74
 ---
 

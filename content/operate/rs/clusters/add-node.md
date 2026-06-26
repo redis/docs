@@ -5,11 +5,11 @@ categories:
 - docs
 - operate
 - rs
-description: Add a node to your existing Redis Enterprise cluster.
+description: Add a node to your existing Redis Software cluster.
 linktitle: Add a node
 weight: 20
 ---
-When you install Redis Enterprise Software on the first node of a cluster, you create the new cluster.
+When you install Redis Software on the first node of a cluster, you create the new cluster.
 After you install the first node, you can add more nodes to the cluster.
 
 ## Prerequisites
@@ -31,12 +31,12 @@ Before you add a node to the cluster:
 
 To add a node to an existing cluster:
 
-1. [Install the Redis Enterprise Software installation package]({{< relref "/operate/rs/installing-upgrading" >}}) on a clean installation
+1. [Install the Redis Software installation package]({{< relref "/operate/rs/installing-upgrading" >}}) on a clean installation
     of a [supported operating system]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms.md" >}}).
 
-1. To connect to the Cluster Manager UI of the new Redis Enterprise Software installation, go to: <https://URL or IP address:8443>
+1. To connect to the Cluster Manager UI of the new Redis Software installation, go to: <https://URL or IP address:8443>
 
-    For example, if you installed Redis Enterprise Software on a machine with IP address 10.0.1.34, go to `https://10.0.1.34:8443`.
+    For example, if you installed Redis Software on a machine with IP address 10.0.1.34, go to `https://10.0.1.34:8443`.
 
     {{< tip >}}
 The management UI uses TLS encryption with a default certificate.
@@ -63,7 +63,7 @@ with a custom certificate.
     1. Enter a path for [*Persistent storage*]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}),
         or leave the default path.
 
-    1. To enable [*Auto Tiering*]({{< relref "/operate/rs/databases/auto-tiering/" >}}),
+    1. To enable [*Redis Flex or Auto Tiering*]({{< relref "/operate/rs/databases/flash/" >}}),
         select **Enable flash storage** and enter the path to the flash storage.
 
     1. If the cluster is configured to support [rack-zone awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}), set the **Rack-zone ID** for the new node.

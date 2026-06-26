@@ -10,6 +10,7 @@ description: Administrative tasks and information related to the Redis Enterpris
 hideListLinks: false
 linktitle: Clusters
 weight: 36
+aliases: [/operate/rs/7.4/clusters/monitoring/]
 url: '/operate/rs/7.4/clusters/'
 ---
 

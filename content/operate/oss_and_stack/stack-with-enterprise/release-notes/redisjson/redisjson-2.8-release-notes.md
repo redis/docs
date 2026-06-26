@@ -15,10 +15,65 @@ weight: 95
 
 ## Requirements
 
-RedisJSON v2.8.9 requires:
+RedisJSON v2.8.19 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.8.19 (April 2026):
+
+{{< note >}}
+Starting with Redis 8 in Redis Open Source, the JSON data structure is integral to Redis. You don't need to install this module separately.
+
+We no longer release standalone versions of RedisJSON.
+
+See https://github.com/redis/redis.
+{{< /note >}}
+
+This is a maintenance release for RedisJSON 2.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+- Bug fixes:
+  - [#1554](https://github.com/redisjson/redisjson/pull/1554) Trailing chars are ignored (MOD-7266); Fixes [#976](https://github.com/redisjson/redisjson/pull/976).
+  - [#1543](https://github.com/redisjson/redisjson/pull/1543) Wrong mutation ordering for array commands with recursive paths (MOD-6722).
+  - [#1542](https://github.com/redisjson/redisjson/pull/1542) JSONPath evaluation issues (MOD-14664); Fixes [#968](https://github.com/redisjson/redisjson/pull/968) (MOD-7264), [#962](https://github.com/redisjson/redisjson/pull/962) (MOD-7272), [#963](https://github.com/redisjson/redisjson/pull/963) (MOD-7270), [#1089](https://github.com/redisjson/redisjson/pull/1089) (MOD-7268).
+
+## v2.8.16 (November 2025)
+
+This is a maintenance release for RedisJSON 2.8.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Bug fixes:
+- [#1446](https://github.com/redisjson/redisjson/pull/1446) Rare race condition in async flush (MOD-12014).
+
+## v2.8.15 (October 2025)
+
+This is a maintenance release for RedisJSON 2.8.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Details:
+
+Improvements:
+
+- Added support for Rocky Linux 9 and RHEL9 ARM.
+
+## v2.8.14 (September 2025)
+
+This is a maintenance release for RedisJSON 2.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+Bug fixes
+- [#1374](https://github.com/redisjson/redisjson/pull/1374) - `JSON.DEL` doesn’t delete all matching object members / array elements (MOD-11032, MOD-11067).
 
 ## v2.8.9 (April 2025)
 

@@ -1,15 +1,15 @@
 ---
-Title: Migrate data to new subscription
+Title: Migrate data between Redis Cloud databases
 alwaysopen: false
 categories:
 - docs
 - operate
 - rc
-description: Shows two ways to migrate data to a database in a new subscription.
+description: Shows two ways to migrate data from one Redis Cloud database to another.
 linkTitle: Migrate databases
 weight: 30
 ---
-There are times when you need to migrate data from one database to another.  
+There are times when you need to migrate data from one Redis Cloud database to another.  
 
 Here are two common ways to do this.
 
@@ -56,12 +56,12 @@ Before you use Active-Passive, be aware of the following limitations:
 
 - An error will appear when syncing the two databases if the source and target databases are hosted on different Redis Cloud accounts. [Contact support](https://redis.io/support/) if you want to migrate a database between accounts using Active-Passive.
 
-- As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}). We recommend that you turn off Active-Passive after the databases are synced. 
+- As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}). **Do not write to the target database while Active-Passive is enabled.** We recommend that you turn off Active-Passive after the databases are synced. 
 
 - Turning on Active-Passive will flush the target database. Make sure that your target database has no important data before you turn on Active-Passive.
 {{< /note >}}
 
-### Detailed Active-Passive syncing process
+### Detailed Active-Passive syncing process {#sync-using-active-passive}
 
 Follow these detailed steps to migrate data using Active-Passive syncing:
 
@@ -115,13 +115,13 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
 1. Select **Save Active-Passive** to save your Active-Passive settings.
 
-    {{<image filename="images/rc/icon-database-save-active-passive.png" alt="The **Save** button verifies the Source URI and you can't save until it validates." width="150px">}}
+    {{<image filename="images/rc/icon-database-save-active-passive.png" alt="The **Save Active-Passive** button saves the active-passive settings." width="150px">}}
 
     For an external database, we'll verify the endpoint at this step. If the endpoint can't be verified, make sure that you've copied the details directly from the source database and that the value you entered starts with `redis://`.
 
 1.  Select **Save Database** to begin updating the database.
 
-    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." >}}
+    {{<image filename="images/rc/button-database-save.png" alt="Use the **Save Database** button to save your changes, deploy the database, and to start data migration." width="150px" >}}
 
     Initially, the database status is __Pending__, which means the update task is still running.  
 
@@ -135,13 +135,27 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
     {{<image filename="images/rc/migrate-data-status-synced.png" alt="When the data is migrated, the target database status displays `Synced`." width=100px >}}
 
-Active-Passive sync lets you migrate data while apps and other connections are using the source database.  Once the data is migrated, you should migrate active connections to the target database.  
+Active-Passive sync lets you migrate data while apps and other connections are using the source database.  Once the data is migrated, you should migrate active connections to the target database.
 
-## Active-Passive memory requirements
+{{< warning >}}
+Do not write to the target database until turning off Active-Passive. Writing to the target database of an Active-Passive setup can cause data consistency issues and replication failures. See [Active-Passive replication considerations]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md#active-passive-replication-considerations" >}}) for more information.
+{{< /warning >}}
+
+### Active-Passive memory requirements
 
 Active-Passive sync requires more memory than data import.  On average, you need an extra 25% memory on top of other requirements, though specific requirements depend on the data types and other factors.  
 
 To illustrate, suppose you want to migrate a 1&nbsp;GB source database without replication to a target database with replication enabled.  Here, the target database memory limit should be at least 2.5&nbsp;GB to avoid data loss.
 
-Once the databases are synced, you can disable Active-Passive for the target database.  Before doing so, however, verify that apps and other connections have switched to the target database; otherwise, you may lose data.
+## Next steps
 
+If you want to redirect your application's connections to the target database, you can [redirect your database endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) to the target database. 
+
+Before you redirect your endpoints, make sure:
+- The import or replication is finished.
+- Basic metrics for both the source and target databases are reporting normally.
+- The application authentication and authorization are set up correctly for the target database.
+- You have tested connection to the target database to confirm connectivity and credentials.
+- If using Active-Passive, turn off Active-Passive for the target database.
+
+Different applications have different availability and consistency requirements. Pausing writes before endpoint redirection is a standard best practice to help ensure data consistency. Still, you can choose the timing and behavior that fits your system (for example, whether to allow reads, how long to pause traffic, and what validation to run).

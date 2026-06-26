@@ -1,0 +1,5 @@
+{{- $markdown := partial "usage-block-markdown.html" (dict "RawContent" .Inner) -}}
+{{- $html := $markdown | markdownify -}}
+{{- $html = replace $html "&amp;lt;" "&lt;" -}}
+{{- $html = replace $html "&amp;gt;" "&gt;" -}}
+{{- $html | safeHTML -}}

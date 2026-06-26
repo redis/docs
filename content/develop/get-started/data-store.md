@@ -12,6 +12,8 @@ categories:
 description: Understand how to use basic Redis data types
 linkTitle: Data structure store
 title: Redis as an in-memory data structure store quick start guide
+aliases:
+- /get-started/data-store/
 weight: 1
 ---
 
@@ -39,7 +41,7 @@ You can alternatively follow the [installation guides]({{< relref "/operate/oss_
 
 The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
-{{< clients-example search_quickstart connect >}}
+{{< clients-example set="search_quickstart" step="connect" description="Foundational: Connect to a Redis server" difficulty="beginner" >}}
 > redis-cli -h 127.0.0.1 -p 6379
 {{< /clients-example>}}
 <br/>
@@ -53,14 +55,14 @@ Redis stands for Remote Dictionary Server. You can use the same data types as in
 
 Similar to byte arrays, Redis strings store sequences of bytes, including text, serialized objects, counter values, and binary arrays. The following example shows you how to set and get a string value:
 
-{{< clients-example set_and_get >}}
+{{< clients-example set="set_and_get" step="" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 SET bike:1 "Process 134"
 GET bike:1
 {{< /clients-example >}}
 
 Hashes are the equivalent of dictionaries (dicts or hash maps). Among other things, you can use hashes to represent plain objects and to store groupings of counters. The following example explains how to set and access field values of an object:
 
-{{< clients-example hash_tutorial set_get_all >}}
+{{< clients-example set="hash_tutorial" step="set_get_all" description="Foundational: Store and retrieve hash data structures using HSET to set multiple fields, HGET to retrieve individual fields, and HGETALL to retrieve all fields at once" difficulty="beginner" >}}
 > HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972
 (integer) 4
 > HGET bike:1 model
@@ -82,7 +84,7 @@ You can get a complete overview of available data types in this documentation si
 
 ## Scan the keyspace
 
-Each item within Redis has a unique key. All items live within the Redis [keyspace]({{< relref "/develop/use/keyspace" >}}). You can scan the Redis keyspace via the [SCAN command]({{< relref "/commands/scan" >}}). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
+Each item within Redis has a unique key. All items live within the Redis [keyspace]({{< relref "/develop/using-commands/keyspace" >}}). You can scan the Redis keyspace via the [SCAN command]({{< relref "/commands/scan" >}}). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
 
 ```
 SCAN 0 MATCH "bike:*" COUNT 100

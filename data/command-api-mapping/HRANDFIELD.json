@@ -1,0 +1,399 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hrandfield(key: str, count: Optional[int] = None, withvalues: bool = False)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "withvalues",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String hrandfield(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "multiple random fields from a hash."
+        }
+      },
+      {
+        "signature": "List<String> hrandfield(final String key, final long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "multiple random fields from a hash."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "K hrandfield(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "K",
+          "description": "array-reply list of field names. @since 6.1"
+        }
+      },
+      {
+        "signature": "List<K> hrandfield(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "fields."
+          }
+        ],
+        "returns": {
+          "type": "List<K>",
+          "description": "array-reply list of field names. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<K> hrandfield(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<K>",
+          "description": "array-reply list of field names. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<K>> hrandfield(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "fields."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<K>>",
+          "description": "array-reply list of field names. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<K> hrandfield(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<K>",
+          "description": "array-reply list of field names. @since 6.1"
+        }
+      },
+      {
+        "signature": "Flux<K> hrandfield(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "fields."
+          }
+        ],
+        "returns": {
+          "type": "Flux<K>",
+          "description": "array-reply list of field names. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HRandField(ctx context.Context, key string, count int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HRANDFIELD(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hrandfield(key: RedisKey, count: number | string, callback?: Callback<string | unknown[] | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | unknown[] | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "hrandfield(key: RedisKey, count: number | string, withvalues: \"WITHVALUES\", callback?: Callback<string | unknown[] | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "withvalues",
+            "type": "\"WITHVALUES\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | unknown[] | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashRandomField(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "A random hash field name or Null if the hash does not exist."
+        }
+      },
+      {
+        "signature": "HashRandomField(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "A random hash field name or Null if the hash does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashRandomField(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "A random hash field name or Null if the hash does not exist."
+        }
+      },
+      {
+        "signature": "HashRandomField(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "A random hash field name or Null if the hash does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hrandfield(string $key, int $count = 1, bool $withValues = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "int $count = 1",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $withValues = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hrandfield(key, count = nil, with_values: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": ""
+          },
+          {
+            "name": "with_values",
+            "type": "Boolean",
+            "description": "include values in output"
+          }
+        ],
+        "returns": {
+          "type": "nil, String, Array<String>, Array<[String, String]>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

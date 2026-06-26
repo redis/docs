@@ -1,0 +1,690 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arOp(key: RedisArgument, start: number | string, end: number | string, operation: ArOperation, value?: RedisArgument | number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "operation",
+            "type": "ArOperation",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisArgument | number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "BlobStringReply | NumberReply | NullReply",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "arop(string $key, int $start, int $end, string $operation, $matchValue = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$operation",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$matchValue",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V aropAggregate(K key, long start, long end, ArAggregateType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArAggregateType",
+            "description": "the aggregate operation."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "the result as a value, or null if the range is empty or values are non-numeric."
+        }
+      },
+      {
+        "signature": "Long aropBitwise(K key, long start, long end, ArBitwiseType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArBitwiseType",
+            "description": "the bitwise operation."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the result as a long."
+        }
+      },
+      {
+        "signature": "Long aropCount(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the count of non-empty elements."
+        }
+      },
+      {
+        "signature": "Long aropCount(K key, long start, long end, V matchValue)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "matchValue",
+            "type": "V",
+            "description": "the value to match."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the count of matching elements."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> aropAggregate(K key, long start, long end, ArAggregateType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArAggregateType",
+            "description": "the aggregate operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "the result as a value, or null if the range is empty or values are non-numeric."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> aropBitwise(K key, long start, long end, ArBitwiseType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArBitwiseType",
+            "description": "the bitwise operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the result as a long."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> aropCount(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the count of non-empty elements."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> aropCount(K key, long start, long end, V matchValue)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "matchValue",
+            "type": "V",
+            "description": "the value to match."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the count of matching elements."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> aropAggregate(K key, long start, long end, ArAggregateType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArAggregateType",
+            "description": "the aggregate operation."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "the result as a value, or null if the range is empty or values are non-numeric."
+        }
+      },
+      {
+        "signature": "Mono<Long> aropBitwise(K key, long start, long end, ArBitwiseType operation)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "operation",
+            "type": "ArBitwiseType",
+            "description": "the bitwise operation."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the result as a long."
+        }
+      },
+      {
+        "signature": "Mono<Long> aropCount(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the count of non-empty elements."
+        }
+      },
+      {
+        "signature": "Mono<Long> aropCount(K key, long start, long end, V matchValue)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          },
+          {
+            "name": "matchValue",
+            "type": "V",
+            "description": "the value to match."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the count of matching elements."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "arop(name: KeyT, start: int, end: int, operation: ArrayAggregateOperations, value: EncodableT | None = None)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "operation",
+            "type": "ArrayAggregateOperations",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "EncodableT | None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bytes | str | int | None",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "AROpSum(ctx context.Context, key string, start, end uint64) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpMin(ctx context.Context, key string, start, end uint64) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpMax(ctx context.Context, key string, start, end uint64) *StringCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpAnd(ctx context.Context, key string, start, end uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpOr(ctx context.Context, key string, start, end uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpXor(ctx context.Context, key string, start, end uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpMatch(ctx context.Context, key string, start, end uint64, value string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "AROpUsed(ctx context.Context, key string, start, end uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

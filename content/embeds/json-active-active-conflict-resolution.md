@@ -45,7 +45,7 @@ The instance with the smaller ID wins, so the key becomes an object in the given
 | Time  | Description | Instance 1 | Instance 2 |
 | :---: | :--- | :--- | :--- |
 | t1 | Set the same key to an object or an array | JSON.SET doc $.a '{}' | JSON.SET doc $.a '[]' |
-| t2 | Add data to the object and array | <nobr>JSON.SET doc  $.a.x '“y”'</nobr> <br /><br /> Result: <br /> {"a": {"x": "y"}} | <nobr>JSON.SET doc $.a '["z"]'</nobr> <br /><br /> Result: <br /> {“a”: ["z"]} |
+| t2 | Add data to the object and array | <nobr>JSON.SET doc  $.a.x '"y"'</nobr> <br /><br /> Result: <br /> {"a": {"x": "y"}} | <nobr>JSON.SET doc $.a '["z"]'</nobr> <br /><br /> Result: <br /> {"a": ["z"]} |
 | t3 | Active-Active synchronization | – Sync – | – Sync – |
 | t4 | Instance 1 wins | JSON.GET doc $ <br /><br /> Result: <br /> {"a": {"x": "y"}} | JSON.GET doc $ <br /><br /> Result: <br /> {"a": {"x": "y"}} |
 
@@ -267,8 +267,8 @@ Merges the results of all operations on the array. Preserves the original elemen
 | Time  | Description | Instance 1 | Instance 2 |
 | :---: | :--- | :--- | :--- |
 | t1 | The document exists on both instances | JSON.GET doc $ <br /><br /> Result: <br /> '["a", "b", "c"]' | JSON.GET doc $ <br /><br /> Result: <br /> '["a", "b", "c"]' |
-| t2 | Instance 1 removes an array element; instance 2 adds one | JSON.ARRPOP doc $ 1 <br /><br /> Result: <br /> ["a", "c"] | <nobr>JSON.ARRINSERT doc $ 0 ‘“y”’</nobr> <br /><br /> Result: <br /> ["y", "a", "b", "c"] |
-| t3 | Both instances add another element to the array | <nobr>JSON.ARRINSERT doc $ 1 ‘“x”’</nobr> <br /><br /> Result: <br /> ["a", "x", "c"] | <nobr>JSON.ARRINSERT doc $ 2 ‘“z”’</nobr> <br /><br /> Result: <br /> ["y", "a", "z", "b", "c"] |
+| t2 | Instance 1 removes an array element; instance 2 adds one | JSON.ARRPOP doc $ 1 <br /><br /> Result: <br /> ["a", "c"] | <nobr>JSON.ARRINSERT doc $ 0 ‘"y"’</nobr> <br /><br /> Result: <br /> ["y", "a", "b", "c"] |
+| t3 | Both instances add another element to the array | <nobr>JSON.ARRINSERT doc $ 1 ‘"x"’</nobr> <br /><br /> Result: <br /> ["a", "x", "c"] | <nobr>JSON.ARRINSERT doc $ 2 ‘"z"’</nobr> <br /><br /> Result: <br /> ["y", "a", "z", "b", "c"] |
 | t4 | Active-Active synchronization | – Sync – | – Sync – |
 | t5 | Merge results from both instances | JSON.GET doc $ <br /><br /> Result: <br /> ["y", "a", "x", "z", "c"] | JSON.GET doc $ <br /><br /> Result: <br /> ["y", "a", "x", "z", "c"] |
 
@@ -292,11 +292,11 @@ Deletion wins over updates.
 
 | Time  | Description | Instance 1 | Instance 2 |
 | :---: | :--- | :--- | :--- |
-| t1 | The document exists on both instances | JSON.GET doc $ <br /><br /> Result: <br /> {“todo”: [{“title”: “buy milk”, “done”: false}]} | JSON.GET doc $ <br /><br /> Result: <br /> {“todo”: [{“title”: “buy milk”, “done”: false}]} |
+| t1 | The document exists on both instances | JSON.GET doc $ <br /><br /> Result: <br /> {"todo": [{"title": "buy milk", "done": false}]} | JSON.GET doc $ <br /><br /> Result: <br /> {"todo": [{"title": "buy milk", "done": false}]} |
 | t2 | Instance 1 removes an array element; instance 2 updates the same element | <nobr>JSON.ARRPOP doc $.todo 0</nobr> | <nobr>JSON.SET doc '$.todo[0]["done"]' 'true'’</nobr> |
-| t3 |  | JSON.GET doc $ <br /><br /> Result: <br /> {“todo”: []} | JSON.GET doc $ <br /><br /> Result: <br /> [{“title”: “buy milk”, “done”: true}]} |
+| t3 |  | JSON.GET doc $ <br /><br /> Result: <br /> {"todo": []} | JSON.GET doc $ <br /><br /> Result: <br /> [{"title": "buy milk", "done": true}]} |
 | t4 | Active-Active synchronization | – Sync – | – Sync – |
-| t5 | Instance 1 wins | JSON.GET doc $ <br /><br /> Result: <br /> doc = {“todo”: []} | JSON.GET doc $ <br /><br /> Result: <br /> doc = {“todo”: []} |
+| t5 | Instance 1 wins | JSON.GET doc $ <br /><br /> Result: <br /> doc = {"todo": []} | JSON.GET doc $ <br /><br /> Result: <br /> doc = {"todo": []} |
 
 ### Update versus update object
 
@@ -317,8 +317,8 @@ Merges the results of all operations on the object.
 | Time  | Description | Instance 1 | Instance 2 |
 | :---: | :--- | :--- | :--- |
 | t1 | The document exists on both instances | JSON.GET doc $ <br /><br /> Result: <br /> '{"grocery": []}' | JSON.GET doc $ <br /><br /> Result: <br /> '{"grocery": []}' |
-| t2 | Add new elements to the array | <nobr>JSON.ARRAPPEND doc $.grocery ‘“eggs”’</nobr> | JSON.ARRAPPEND doc $.grocery ‘“milk”’ |
-| t3 | Add new elements to the array | JSON.ARRAPPEND doc $.grocery ‘“ham”’ | <nobr>JSON.ARRAPPEND doc $.grocery ‘“flour”’</nobr> |
+| t2 | Add new elements to the array | <nobr>JSON.ARRAPPEND doc $.grocery ‘"eggs"’</nobr> | JSON.ARRAPPEND doc $.grocery ‘"milk"’ |
+| t3 | Add new elements to the array | JSON.ARRAPPEND doc $.grocery ‘"ham"’ | <nobr>JSON.ARRAPPEND doc $.grocery ‘"flour"’</nobr> |
 | t4 |  | JSON.GET doc $ <br /><br /> Result: <br /> {"grocery":["eggs", "ham"]} | JSON.GET doc $ <br /><br /> Result: <br /> {"grocery":["milk", "flour"]} |
 | t5 | Active-Active synchronization | – Sync – | – Sync – |
 | t6 | Merges the results from both instances | JSON.GET doc . <br /><br /> Result: <br /> {"grocery":["eggs","ham","milk", "flour"]} | JSON.GET doc . <br /><br /> Result: <br /> {"grocery":["eggs","ham","milk", "flour" ]} |

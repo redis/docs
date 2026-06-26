@@ -31,7 +31,7 @@ The [`redis-py`]({{< relref "/develop/clients/redis-py" >}}),
 [`jedis`]({{< relref "/develop/clients/jedis" >}}), and
 [`go-redis`]({{< relref "/develop/clients/go" >}}) clients support
 connection pooling, while
-[`NRedisStack`]({{< relref "/develop/clients/dotnet" >}})
+[`StackExchange.Redis`]({{< relref "/develop/clients/dotnet" >}})
 supports multiplexing.
 [`Lettuce`]({{< relref "/develop/clients/lettuce" >}})
 supports both approaches.
@@ -71,7 +71,7 @@ used to identify where to send the response data from your commands.
 
 Note that it is not a problem if the multiplexer receives several commands close
 together in time. When this happens, the multiplexer can often combine the commands into a
-[pipeline]({{< relref "/develop/use/pipelining" >}}), which
+[pipeline]({{< relref "/develop/using-commands/pipelining" >}}), which
 improves efficiency.
 
 Multiplexing offers high efficiency but works transparently without requiring

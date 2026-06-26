@@ -1,0 +1,466 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hgetdel(name: str, *keys: str)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "*keys",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> hgetdel(String key, String... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "Bulk reply"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<KeyValue<K, V>> hgetdel(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve and delete."
+          }
+        ],
+        "returns": {
+          "type": "List<KeyValue<K, V>>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      },
+      {
+        "signature": "Long hgetdel(KeyValueStreamingChannel<K, V> channel, K key, K... fields)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve and delete."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<KeyValue<K, V>>> hgetdel(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve and delete."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<KeyValue<K, V>>>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> hgetdel(KeyValueStreamingChannel<K, V> channel, K key, K... fields)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve and delete."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<KeyValue<K, V>> hgetdel(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve and delete."
+          }
+        ],
+        "returns": {
+          "type": "Flux<KeyValue<K, V>>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      },
+      {
+        "signature": "Mono<Long> hgetdel(KeyValueStreamingChannel<K, V> channel, K key, K... fields)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "fields to retrieve and delete."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long the number of fields that were removed from the hash."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HGetDel(ctx context.Context, key string, fields ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hget_del(key: K, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<Option<String>>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hget_del(key: K, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<Option<String>>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashFieldGetAndDelete(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "List of values associated with the given fields, in the same order as they are requested."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndDelete(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of values associated with the given fields, in the same order as they are requested."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndDelete(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "List of values associated with the given fields, in the same order as they are requested."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndDelete(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of values associated with the given fields, in the same order as they are requested."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashFieldGetAndDelete(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "List of values associated with the given fields, in the same order as they are requested."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndDelete(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of values associated with the given fields, in the same order as they are requested."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndDelete(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "List of values associated with the given fields, in the same order as they are requested."
+        }
+      },
+      {
+        "signature": "HashFieldGetAndDelete(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of values associated with the given fields, in the same order as they are requested."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hgetdel(string $key, array $fields)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$fields",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

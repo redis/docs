@@ -1,0 +1,557 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "lrange(name: KeyT, start: int, end: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[list], list]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> lrange(final String key, final long start, final long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "A list of elements in the specified range"
+        }
+      },
+      {
+        "signature": "List<String> lrange(String key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "A list of elements in the specified range"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> lrange(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop type: long."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "Long count of elements in the specified range."
+        }
+      },
+      {
+        "signature": "Long lrange(ValueStreamingChannel<V> channel, K key, long start, long stop)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop type: long."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long count of elements in the specified range."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> lrange(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop type: long."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "Long count of elements in the specified range."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> lrange(ValueStreamingChannel<V> channel, K key, long start, long stop)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop type: long."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long count of elements in the specified range."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> lrange(K key, long start, long stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop type: long."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long count of elements in the specified range. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #lrange."
+        }
+      },
+      {
+        "signature": "Mono<Long> lrange(ValueStreamingChannel<V> channel, K key, long start, long stop)",
+        "params": [
+          {
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>",
+            "description": "the channel."
+          },
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start type: long."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "the stop type: long."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long count of elements in the specified range. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #lrange."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "LRange(ctx context.Context, key string, start, stop int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "LRANGE(key: RedisArgument, start: number, stop: number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "lrange(key: RedisKey, start: number | string, stop: number | string, callback?: Callback<string[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "lrange(key: K, start: isize, stop: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "lrange(key: K, start: isize, stop: isize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "isize",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "isize",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index of the list."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index of the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index of the list."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index of the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified range."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index of the list."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index of the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified range."
+        }
+      },
+      {
+        "signature": "ListRange(RedisKey key, long start = 0, long stop = -1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the list."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "The start index of the list."
+          },
+          {
+            "name": "stop",
+            "type": "long",
+            "description": "The stop index of the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "List of elements in the specified range."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "lrange(string $key, int $start, int $stop)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$stop",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string[]",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "lrange(key, start, stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "start index"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "stop index"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

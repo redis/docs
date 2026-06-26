@@ -24,6 +24,8 @@ PUT /v1/crdbs/{crdb_guid}/flush
 
 Flush an Active-Active database.
 
+Run flush from only one participating cluster. The flush operation propagates to all other clusters automatically.
+
 ### Request {#put-request}
 
 #### Example HTTP request
@@ -44,6 +46,12 @@ PUT /v1/crdbs/552bbccb-99f3-4142-bd17-93d245f0bc79/flush
 | Field | Type | Description |
 |-------|------|-------------|
 | crdb_guid | string | Globally unique Active-Active database ID (GUID) |
+
+#### Query parameters
+
+| Field | Type | Description |
+|-------|------|-------------|
+| async_flush | boolean | Perform asynchronous flush operation (optional) |
 
 ### Response {#put-response}
 

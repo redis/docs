@@ -1,0 +1,71 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "command_docs(*commands, **kwargs)",
+        "params": [
+          {
+            "name": "*commands",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "dict",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map<String, Object> commandDocs(String... commands)",
+        "params": [
+          {
+            "name": "commands",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Object>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "command(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

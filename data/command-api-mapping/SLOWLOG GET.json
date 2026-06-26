@@ -1,0 +1,168 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "slowlog_get(num: int | None = None, **kwargs)",
+        "params": [
+          {
+            "name": "num",
+            "type": "int | None",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Slowlog> slowlogGet()",
+        "params": [],
+        "returns": {
+          "type": "List<Slowlog>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Slowlog> slowlogGet(long entries)",
+        "params": [
+          {
+            "name": "entries",
+            "type": "long",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Slowlog>",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SlowLogGet(ctx context.Context, num int64) *SlowLogCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "num",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*SlowLogCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "List<Object> slowlogGet()",
+        "params": [],
+        "returns": {
+          "type": "List<Object>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Object> slowlogGet(int count)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Object>> slowlogGet()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<List<Object>>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Object>> slowlogGet(int count)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Object>>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Object> slowlogGet()",
+        "params": [],
+        "returns": {
+          "type": "Flux<Object>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "Flux<Object> slowlogGet(int count)",
+        "params": [
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<Object>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "slowlog(string $operation, ?int $length = null)",
+        "params": [
+          {
+            "name": "$operation",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$length",
+            "type": "int|null",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|int|bool",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

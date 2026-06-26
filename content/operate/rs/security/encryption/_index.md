@@ -1,24 +1,24 @@
 ---
-Title: Encryption in Redis Enterprise Software
+Title: Encryption in Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Encryption in Redis Enterprise Software.
+description: Encryption in Redis Software.
 hideListLinks: true
 linkTitle: Encryption
 toc: 'true'
 weight: 60
 ---
 
-Redis Enterprise Software uses encryption to secure communications between clusters, nodes, databases, and clients and to protect [data in transit](https://en.wikipedia.org/wiki/Data_in_transit), [at rest](https://en.wikipedia.org/wiki/Data_at_rest), and [in use](https://en.wikipedia.org/wiki/Data_in_use).
+Redis Software uses encryption to secure communications between clusters, nodes, databases, and clients and to protect [data in transit](https://en.wikipedia.org/wiki/Data_in_transit), [at rest](https://en.wikipedia.org/wiki/Data_at_rest), and [in use](https://en.wikipedia.org/wiki/Data_in_use).
 
 ## Encrypt data in transit
 
 ### TLS
 
-Redis Enterprise Software uses [Transport Layer Security (TLS)]({{<relref "/operate/rs/security/encryption/tls">}}) to encrypt communications for the following:
+Redis Software uses [Transport Layer Security (TLS)]({{<relref "/operate/rs/security/encryption/tls">}}) to encrypt communications for the following:
 
 - Cluster Manager UI
 
@@ -44,13 +44,13 @@ By default, internode encryption is enabled for the control plane, which manages
 
 ### Require HTTPS for REST API endpoints
 
-By default, the Redis Enterprise Software API supports communication over HTTP and HTTPS. However, you can [turn off HTTP support]({{< relref "/operate/rs/references/rest-api/encryption" >}}) to ensure that API requests are encrypted.
+By default, the Redis Software API supports communication over HTTP and HTTPS. However, you can [turn off HTTP support]({{< relref "/operate/rs/references/rest-api/encryption" >}}) to ensure that API requests are encrypted.
 
 ## Encrypt data at rest
 
 ### File system encryption
 
-To encrypt data stored on disk, use file system-based encryption capabilities available on Linux operating systems before you install Redis Enterprise Software.
+To encrypt data stored on disk, use file system-based encryption capabilities available on Linux operating systems before you install Redis Software.
 
 ### Private key encryption
 

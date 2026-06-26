@@ -37,7 +37,7 @@ Here is an example of an "add wins" case:
 
 |  **Time** | **CRDB Instance1** | **CRDB Instance2** |
 |  ------: | :------: | :------: |
-|  t1 | HSET key1 field1 “a” |  |
-|  t2 |  | HSET key1 field2 “b” |
+|  t1 | HSET key1 field1 "a" |  |
+|  t2 |  | HSET key1 field2 "b" |
 |  t4 | - Sync - | - Sync - |
-|  t5 | HGETALL key1<br/>1) “field2”<br/>2) “b”<br/>3) “field1”<br/>4) “a” | HGETALL key1<br/>1) “field2”<br/>2) “b”<br/>3) “field1”<br/>4) “a” |
+|  t5 | HGETALL key1<br/>1) "field2"<br/>2) "b"<br/>3) "field1"<br/>4) "a" | HGETALL key1<br/>1) "field2"<br/>2) "b"<br/>3) "field1"<br/>4) "a" |

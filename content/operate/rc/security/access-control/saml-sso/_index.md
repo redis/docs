@@ -274,6 +274,10 @@ If you change certain metadata or configuration settings after you set up SAML S
 
 After you set up SAML SSO for one account, you can link other accounts you own to the existing SAML configuration. This lets you use the same SAML configuration for SSO across multiple accounts.
 
+{{<note>}}
+You must have the `Owner` role assigned to your user account for all accounts you want to link. The same user must link each account to the original configuration.
+{{</note>}}
+
 To link other accounts to an existing SAML SSO configuration:
 
 1. Sign in to the [Redis Cloud console](https://cloud.redis.io/) with the account that has an existing SAML configuration.
@@ -291,10 +295,6 @@ To link other accounts to an existing SAML SSO configuration:
     After you do this, the owner of the original account will receive a request to link the new account to the SAML configuration.
 
 1. Sign in with the original account and select **Access Management > Single Sign-On**. You should see the new account in the **Unlinked accounts** list.
-
-    {{<note>}}
-To see and interact with the Redis Cloud account in the **Unlinked accounts** list, you must be an owner of the account. If you are not an owner, the account will not be displayed in the section.
-    {{</note>}}
 
 1. Select **Link account**.
 

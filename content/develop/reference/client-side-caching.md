@@ -304,6 +304,13 @@ in normal and broadcasting mode. Using this option, clients are able to
 tell the server they don't want to receive invalidation messages for keys
 that they modified.
 
+With tracking in the default mode, the server removes the key from the
+invalidation table when the key is modified. If the connection that modified
+the key is using `NOLOOP`, Redis suppresses the invalidation message to that
+connection, but the key is still no longer tracked for that connection after
+the write. To receive future invalidations for the same key, the connection
+must read the key again so that Redis can track it again.
+
 ## Avoiding race conditions
 
 When implementing client-side caching redirecting the invalidation messages
@@ -364,4 +371,3 @@ keys that were not served recently.
 ## Limiting the amount of memory used by Redis
 
 Be sure to configure a suitable value for the maximum number of keys remembered by Redis or alternatively use the BCAST mode that consumes no memory at all on the Redis side. Note that the memory consumed by Redis when BCAST is not used, is proportional both to the number of keys tracked and the number of clients requesting such keys.
-

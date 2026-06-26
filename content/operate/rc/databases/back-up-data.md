@@ -38,11 +38,9 @@ To turn on database backups:
 
 1.  Select the database to open the **Database** page and then select **Edit**.
 
-    {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
+    {{<image filename="images/rc/button-database-edit.png" alt="The Edit button lets you change database settings." width=100px >}}
 
-1.  In the **Durability** section of the **Configuration** tab, locate the **Remote backup** setting:
-
-    {{<image filename="images/rc/database-details-configuration-tab-durability-flexible.png" alt="The Remote backup setting is located in the Durability section of the Configuration tab of the database details screen." >}}
+1.  In the **Configuration** tab, locate the **Remote backup** setting: in the **Performance & availability > Remote backup** section for Essentials databases, or the **Durability** section for Pro databases.
 
 When you enable **Remote backup**, additional options appear.  The options vary according to your subscription.
 
@@ -58,9 +56,9 @@ When you enable **Remote backup**, additional options appear.  The options vary 
 
 ## Back up and export data on demand
 
-After backups are turned on, you can back up your data at any time.  Use the **Backup now** button in the **Durability** section.
+After backups are turned on, you can back up your data at any time.  Use the **Backup now** button, located in the **Performance & availability > Remote backup** section for Essentials databases, or the **Durability** section for Pro databases.
 
-{{<image filename="images/rc/button-database-backup-now.png" alt="Use the Backup Now button to make backups on demand." >}}
+{{<image filename="images/rc/button-database-backup-now.png" alt="Use the Backup Now button to make backups on demand." width=150px >}}
 
 You can only use the **Backup now** button after you turn on backups.
 
@@ -70,9 +68,15 @@ Database backups can be stored to a cloud provider service or saved to a URI usi
 
 Your subscription needs the ability to view permissions and update objects in the storage location.  Specific details vary according to the provider.  To learn more, consult the provider's documentation.
 
-The following sections describe specific backup options. Be aware that provider features change frequently.  For best results, use your provider's documentation for the latest info.
+Be aware that provider features change frequently.  For best results, use your provider's documentation for the latest info.
 
-### AWS S3
+Select the tab for your storage location type.
+
+{{< multitabs id="backup-storage-locations" 
+    tab1="AWS S3" 
+    tab2="Google Cloud Storage"
+    tab3="Azure Blob Storage"
+    tab4="FTP/FTPS Server" >}}
 
 To store backups in an Amazon Web Services (AWS) Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html):
 
@@ -156,7 +160,7 @@ To learn more, see [Using bucket policies](https://docs.aws.amazon.com/AmazonS3/
 An AWS S3 bucket can be used by only one Redis Cloud account. If you have more than one Redis Cloud account, repeat the setup steps for multiple buckets. 
 {{< /note >}}
 
-### Google Cloud Storage
+-tab-sep-
 
 To store backups in a Google Cloud Storage [bucket](https://cloud.google.com/storage/docs/creating-buckets):
 
@@ -170,29 +174,19 @@ To store backups in a Google Cloud Storage [bucket](https://cloud.google.com/sto
 
 1. Select the **Grant Access** button and then add:
 
-    `service@redislabs-prod-clusters.iam.gserviceaccount.com`
+    ```sh
+    service@redislabs-prod-clusters.iam.gserviceaccount.com
+    ```
 
 1. Set **Role** to **Storage Legacy Bucket Writer**.
 
 1. Save your changes.
 
-1. Verify that your bucket does _not_ have a set retention policy.  
-
-    To do so:
-
-    1. View the details of your bucket.
-
-    1. Select the **Configuration** tab.
-
-    1. Verify **Protection** -> **Bucket retention policy** is set to **none**.  
-
-    If a policy is defined and you cannot delete it, you need to use a different bucket.
-
 Use the bucket details **Configuration** tab to locate the **gsutil URI**.  This is the value you'll assign to your resource's backup path.
 
 To learn more, see [Use IAM permissions](https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-iam).
 
-### Azure Blob Storage
+-tab-sep-
 
 To store your backup in Microsoft Azure Blob Storage, sign in to the Azure portal and then:
 
@@ -206,7 +200,9 @@ Set your resource's **Backup Path** to the path of your storage account.
 
 The syntax for creating the backup varies according to your authorization mechanism.  For example:
 
-`abs://:storage_account_access_key@storage_account_name/container_name/[path/]`
+```
+abs://storage_account_access_key@storage_account_name/container_name/[path/]
+```
 
 Where:
 
@@ -218,11 +214,14 @@ Where:
 
 To learn more, see [Authorizing access to data in Azure Storage](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth).
 
-### FTP Server
+-tab-sep-
 
 To store your backups on an FTP server, set its **Backup Path** using the following syntax:
 
-`<protocol>://[username]:[password]@[hostname]:[port]/[path]/`
+```sh
+<protocol>://[username]:[password]@[hostname]:[port]/[path]/
+```
+
 
 Where:
 
@@ -238,3 +237,5 @@ If your FTP username or password contains special characters such as `@`, `\`, o
     {{< /note >}}
 
 The user account needs permission to write files to the server.
+
+{{< /multitabs >}}

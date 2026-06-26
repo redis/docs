@@ -9,6 +9,7 @@ description: Articles to help you manage your Redis Enterprise clusters (REC).
 hideListLinks: false
 linkTitle: Redis Enterprise clusters (REC)
 weight: 30
+aliases: [/operate/kubernetes/7.8.6/delete-custom-resources/]
 url: '/operate/kubernetes/7.8.6/re-clusters/'
 ---
 

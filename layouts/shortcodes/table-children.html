@@ -6,6 +6,12 @@
 {{ $enableLinks := split $enableLinksStr "," }}
 {{ $limitTags := .Get "limitTags" }}
 {{ $children := .Page.Pages }}
+{{ $from := .Get "from" }}
+
+{{ if $from }}
+    {{ $fromPage := .Page.GetPage $from }}
+    {{ $children = $fromPage.Pages }}
+{{ end }}
 
 <table>
     <thead>

@@ -8,7 +8,7 @@ description: Releases with support for Redis Enterprise Software 7.4.2.
 hideListLinks: true
 linkTitle: 7.4.2 releases
 title: Redis Enterprise for Kubernetes 7.4.2 release notes
-weight: 54
+weight: 96
 ---
 
 ## Detailed release notes
@@ -77,7 +77,7 @@ The limitations below are specific to the Redis Enterprise for Kubernetes produc
 ### New limitations
 
 - **Missing endpoint for admission endpoint (rare) (RED-119469)** Restart the operator pod.
-- **The REDB “redisVersion” field can’t be used for memcached databases(RED-119152)**
+- **The REDB "redisVersion" field can’t be used for memcached databases(RED-119152)**
 
 ### Existing limitations
 

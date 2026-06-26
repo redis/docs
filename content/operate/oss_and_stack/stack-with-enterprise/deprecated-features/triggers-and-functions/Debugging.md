@@ -21,7 +21,7 @@ aliases:
 There are two methods you can use to debug your Redis Stack functions:
 
 1. Make judicious use of the `redis.log` function, which writes to the Redis log file.
-1. Use Redis [pub/sub]({{< relref "/develop/interact/pubsub" >}}).
+1. Use Redis [pub/sub]({{< relref "/develop/pubsub" >}}).
 
 ### Use `redis.log`
 

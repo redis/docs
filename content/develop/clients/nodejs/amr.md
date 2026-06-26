@@ -315,16 +315,16 @@ Note that when you use `createForDefaultAzureCredential()`, you must:
 When you have created your credential provider instance, you are ready to
 connect to AMR.
 The example below shows how to pass the instance as a parameter to the standard
-`createClient()` connection method.
+`createCluster()` connection method.
 
 ```js
-import { createClient } from '@redis/client';
+import { createCluster } from '@redis/client';
 import { EntraIdCredentialsProviderFactory }
     from '@redis/entraid';
     
 // Create credentials provider instance...
-
-const client = createClient({
+// Note: AMR databases have clustering enabled by default.
+const client = createCluster({
   url: 'redis://localhost',
   credentialsProvider: provider
 });
@@ -340,7 +340,7 @@ console.log(`Database size is ${size}`);
 If you are using the
 [RESP2]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
 protocol, you should
-be aware that [pub/sub]({{< relref "/develop/interact/pubsub" >}}) can
+be aware that [pub/sub]({{< relref "/develop/pubsub" >}}) can
 cause complications with reauthentication.
 
 After a connection enters PUB/SUB mode, the socket is blocked and can't process

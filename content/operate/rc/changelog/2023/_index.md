@@ -9,6 +9,8 @@ description: All Redis Cloud changelogs from 2023.
 hideListLinks: true
 linktitle: 2023
 highlights: All Redis Cloud changelogs from 2023.
+tags:
+- changelog
 weight: 95
 ---
 

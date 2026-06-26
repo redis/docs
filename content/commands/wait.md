@@ -1,0 +1,131 @@
+---
+acl_categories:
+- '@slow'
+- '@blocking'
+- '@connection'
+arguments:
+- display_text: numreplicas
+  name: numreplicas
+  type: integer
+- display_text: timeout
+  name: timeout
+  type: integer
+arity: 3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
+command_flags:
+- blocking
+complexity: O(1)
+description: Blocks until the asynchronous replication of all preceding write commands
+  sent by the connection is completed.
+group: generic
+hidden: false
+hints:
+- request_policy:all_shards
+- response_policy:agg_min
+linkTitle: WAIT
+railroad_diagram: /images/railroad/wait.svg
+since: 3.0.0
+summary: Blocks until the asynchronous replication of all preceding write commands
+  sent by the connection is completed.
+syntax_fmt: WAIT numreplicas timeout
+title: WAIT
+---
+
+This command blocks the current client until all the previous write commands
+are successfully transferred and acknowledged by at least the number
+of replicas you specify in the `numreplicas` argument. If the value
+you specify for the `timeout` argument (in milliseconds) is reached, the command
+returns even if the specified number of replicas were not yet reached.
+
+The command will always return the number of replicas that acknowledged
+the write commands sent by the current client before the `WAIT` command, both in the case where
+the specified number of replicas are reached, or when the timeout is reached.
+
+A few remarks:
+
+1. When `WAIT` returns, all the previous write commands sent in the context of the current connection are guaranteed to be received by the number of replicas returned by `WAIT`.
+2. If the command is sent as part of a [`MULTI`]({{< relref "/commands/multi" >}}) transaction (since Redis 7.0, any context that does not allow blocking, such as inside scripts), the command does not block but instead just return ASAP the number of replicas that acknowledged the previous write commands.
+3. A timeout of 0 means to block forever.
+4. Since `WAIT` returns the number of replicas reached both in case of failure and success, the client should check that the returned value is equal or greater to the replication level it demanded.
+
+
+## Required arguments
+
+<details open><summary><code>numreplicas</code></summary>
+
+The number of replicas to wait for.
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to wait, in milliseconds. `0` means wait forever.
+
+</details>
+
+## Details
+
+### Consistency and WAIT
+
+`WAIT` does not make Redis a strongly consistent store: while synchronous replication is part of a replicated state machine, it is not the only thing needed. However in the context of Sentinel or Redis Cluster failover, `WAIT` improves the real world data safety.
+
+Specifically, if a given write is transferred to one or more replicas, it is more likely (but not guaranteed) that if the master fails, we'll be able to promote, during a failover, a replica that received the write: both Sentinel and Redis Cluster will do a best-effort attempt to promote the best replica among the set of available replicas.
+
+However this is just a best-effort attempt so it is possible to still lose a write synchronously replicated to multiple replicas.
+
+### Implementation
+
+Since the introduction of partial resynchronization with replicas (PSYNC feature) Redis replicas asynchronously ping their master with the offset they already processed in the replication stream. This is used in multiple ways:
+
+1. Detect timed out replicas.
+1. Perform a partial resynchronization after a disconnection.
+1. Implement `WAIT`.
+
+In the specific case of the implementation of `WAIT`, Redis remembers, for each client, the replication offset of the produced replication stream when a given
+write command was executed in the context of a given client. When `WAIT` is
+called Redis checks if the specified number of replicas already acknowledged
+this offset or a greater one.
+
+## Examples
+
+```
+> SET foo bar
+OK
+> WAIT 1 0
+(integer) 1
+> WAIT 2 1000
+(integer) 1
+```
+
+In the previous example, the first WAIT call does not use a timeout. It waits for the write to reach one replica and returns successfully.
+
+The second WAIT call uses a timeout and waits for the write to reach two replicas. Because only one replica is available, WAIT unblocks after one second and returns 1, the number of replicas that acknowledged the write.
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Not supported">&#x274c; Standard**</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*For Active-Active databases, `WAIT` commands are supported for primary and replica shard replication. You can contact support to enable `WAIT` for local replicas only. `WAIT` is not supported for cross-instance replication.<br></br>\*\*`WAIT` commands are supported on Redis Cloud Flexible subscriptions. |
+
+## Return information
+
+{{< multitabs id="wait-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the command returns the number of replicas reached by all the writes performed in the context of the current connection.
+
+-tab-sep-
+
+[Integer reply](../../develop/reference/protocol-spec#integers): the number of replicas reached by all the writes performed in the context of the current connection.
+
+{{< /multitabs >}}

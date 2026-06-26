@@ -1,7 +1,7 @@
 ---
 Title: RedisTimeSeries 1.6 release notes
 linkTitle: v1.6 (January 2022)
-description: Added support for aggregating across multiple time series (multi-key). Can compute queries such as “the maximum observed value of a set of time series” server-side instead of client-side.
+description: Added support for aggregating across multiple time series (multi-key). Can compute queries such as "the maximum observed value of a set of time series" server-side instead of client-side.
 min-version-db: "6.0.16"
 min-version-rs: "6.2.8"
 weight: 97
@@ -127,7 +127,7 @@ This is the General Availability release of RedisTimeSeries 1.6.
 
 ### Highlights
 
-RedisTimeSeries 1.6 adds support for aggregating across multiple time series (multi-key). Before this version, queries such as “the maximum observed value of a set of time series” needed to be calculated client-side. Such queries can now be computed server-side, leveraging the heart of RedisGears ([LibMR](https://github.com/RedisGears/LibMR)) for clustered databases.
+RedisTimeSeries 1.6 adds support for aggregating across multiple time series (multi-key). Before this version, queries such as "the maximum observed value of a set of time series" needed to be calculated client-side. Such queries can now be computed server-side, leveraging the heart of RedisGears ([LibMR](https://github.com/RedisGears/LibMR)) for clustered databases.
 
 ### What's new in 1.6
 

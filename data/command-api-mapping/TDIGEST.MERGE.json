@@ -1,0 +1,210 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "merge(destination_key, num_keys, *keys, compression=None, override=False)",
+        "params": [
+          {
+            "name": "destination_key",
+            "type": "str"
+          },
+          {
+            "name": "num_keys",
+            "type": "int"
+          },
+          {
+            "name": "*keys",
+            "type": "str"
+          },
+          {
+            "name": "compression",
+            "type": "int|None"
+          },
+          {
+            "name": "override",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestMerge(String destinationKey, String... sourceKeys)",
+        "params": [
+          {
+            "name": "destinationKey",
+            "type": "String"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "tdigestMerge(TDigestMergeParams mergeParams, String destinationKey, String... sourceKeys)",
+        "params": [
+          {
+            "name": "mergeParams",
+            "type": "TDigestMergeParams"
+          },
+          {
+            "name": "destinationKey",
+            "type": "String"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestMerge(ctx context.Context, destKey string, options *TDigestMergeOptions, sourceKeys ...string) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "name": "options",
+            "type": "*TDigestMergeOptions"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.MERGE(destination, numKeys, sourceKeys, options?)",
+        "params": [
+          {
+            "name": "destination",
+            "type": "string"
+          },
+          {
+            "name": "numKeys",
+            "type": "number"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "string[]"
+          },
+          {
+            "name": "options",
+            "type": "{ COMPRESSION?: number, OVERRIDE?: boolean }"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Merge(destinationKey, sourceKeys, compression?, override?)",
+        "params": [
+          {
+            "name": "destinationKey",
+            "type": "RedisKey"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "params RedisKey[]"
+          },
+          {
+            "name": "compression",
+            "type": "long?"
+          },
+          {
+            "name": "override",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true on success"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "MergeAsync(destinationKey, sourceKeys, compression?, override?)",
+        "params": [
+          {
+            "name": "destinationKey",
+            "type": "RedisKey"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "params RedisKey[]"
+          },
+          {
+            "name": "compression",
+            "type": "long?"
+          },
+          {
+            "name": "override",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true on success"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestmerge($destKey, $sourceKeys, $compression = null, $override = false)",
+        "params": [
+          {
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "name": "sourceKeys",
+            "type": "array"
+          },
+          {
+            "name": "compression",
+            "type": "int|null"
+          },
+          {
+            "name": "override",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}

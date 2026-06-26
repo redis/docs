@@ -9,7 +9,7 @@ title: Build and run Redis Open Source on Ubuntu 22.04 (Jammy)
 weight: 30
 ---
 
-Follow the steps below to build and run Redis Open Source from its source code on a system running Ubuntu 22.04 (Jammy).
+Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Ubuntu 22.04 (Jammy).
 
 {{< note >}}
 Docker images used to produce these build notes:
@@ -18,7 +18,7 @@ Docker images used to produce these build notes:
 
 ## 1. Install required dependencies
 
-First, update your package lists and install the development tools and libraries needed to build Redis:
+Update your package lists and install the necessary development tools and libraries:
 
 ```bash
 apt-get update
@@ -46,7 +46,21 @@ sudo apt-get install -y --no-install-recommends \
     libtool
 ```
 
-## 2. Download and extract the Redis source
+## 2. Install CMake
+
+Install CMake using `pip3` and link it for system-wide access.
+
+{{< warning >}}
+CMake version 3.31.6 is the latest supported version. Newer versions cannot be used.
+{{< /warning>}}
+
+```bash
+pip3 install cmake==3.31.6
+sudo ln -sf /usr/local/bin/cmake /usr/bin/cmake
+cmake --version
+```
+
+## 3. Download and extract the Redis source
 
 The Redis source code is available from [the Redis GitHub site](https://github.com/redis/redis/releases). Select the release you want to build and then select the .tar.gz file from the **Assets** drop down menu. You can verify the integrity of these downloads by checking them against the digests in the [redis-hashes GitHub repository](https://github.com/redis/redis-hashes).
 
@@ -54,7 +68,7 @@ Copy the tar(1) file to `/usr/src`.
 
 Alternatively, you can download the file directly using the `wget` command, as shown below.
 
-```
+```bash
 cd /usr/src
 wget -O redis-<version>.tar.gz https://github.com/redis/redis/archive/refs/tags/<version>.tar.gz
 ```
@@ -69,9 +83,9 @@ tar xvf redis-<version>.tar.gz
 rm redis-<version>.tar.gz
 ```
 
-## 3. Build Redis
+## 4. Build Redis
 
-Set the appropriate environment variables to enable TLS, modules, and other build options, then compile and install Redis:
+Set the necessary environment variables, and build Redis with TLS and module support:
 
 ```bash
 cd /usr/src/redis-<version>
@@ -79,32 +93,32 @@ export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
 export INSTALL_RUST_TOOLCHAIN=yes
 export DISABLE_WERRORS=yes
-
 make -j "$(nproc)" all
 ```
 
-This builds the Redis server, CLI, and any included modules.
+## 5. (Optional) Verify the installation
 
-## 4. (Optional) Verify the installation
-
-You can confirm that Redis has been built and installed successfully by checking the version:
+Check the built Redis server and CLI versions:
 
 ```bash
+cd /usr/src/redis-<version>
 ./src/redis-server --version
 ./src/redis-cli --version
 ```
 
-## 5. Start Redis
+## 6. Start Redis
 
 To start Redis, use the following command:
 
 ```bash
+cd /usr/src/redis-<version>
 ./src/redis-server redis-full.conf
 ```
 
 To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
 
-```
+```bash
+cd /usr/src/redis-<version>
 ./src/redis-cli INFO
 ...
 # Modules
@@ -117,9 +131,9 @@ module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
 ...
 ```
 
-## 6. (Optional) Install Redis to its default location
+## 7. (Optional) Install Redis to its default location
 
-```
+```bash
 cd /usr/src/redis-<version>
 sudo make install
 ```

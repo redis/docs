@@ -1,0 +1,290 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "insert(key, items, capacity=None, error=None, noCreate=None, expansion=None, noScale=None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "list",
+            "description": "Items to add to the filter"
+          },
+          {
+            "name": "capacity",
+            "type": "int",
+            "description": "Optional initial capacity"
+          },
+          {
+            "name": "error",
+            "type": "float",
+            "description": "Optional error rate"
+          },
+          {
+            "name": "noCreate",
+            "type": "bool",
+            "description": "If True, do not create filter if it doesn't exist"
+          },
+          {
+            "name": "expansion",
+            "type": "int",
+            "description": "Optional expansion rate"
+          },
+          {
+            "name": "noScale",
+            "type": "bool",
+            "description": "If True, prevent auto-scaling"
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": "List of booleans indicating if each item was newly added"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Boolean> bfInsert(String key, String... items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "String...",
+            "description": "Items to add"
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List of booleans"
+        }
+      },
+      {
+        "signature": "List<Boolean> bfInsert(String key, BFInsertParams insertParams, String... items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "insertParams",
+            "type": "BFInsertParams",
+            "description": "Insert parameters (capacity, error, expansion, nocreate, nonscaling)"
+          },
+          {
+            "name": "items",
+            "type": "String...",
+            "description": "Items to add"
+          }
+        ],
+        "returns": {
+          "type": "List<Boolean>",
+          "description": "List of booleans"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BFInsert(ctx context.Context, key string, options *BFInsertOptions, elements ...interface{}) *BoolSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "options",
+            "type": "*BFInsertOptions",
+            "description": "Insert options (Capacity, Error, Expansion, NonScaling, NoCreate)"
+          },
+          {
+            "name": "elements",
+            "type": "...interface{}",
+            "description": "Items to add"
+          }
+        ],
+        "returns": {
+          "type": "*BoolSliceCmd",
+          "description": "Boolean slice command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BF.INSERT(key: RedisArgument, items: RedisVariadicArgument, options?: BfInsertOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisVariadicArgument",
+            "description": "Items to add"
+          },
+          {
+            "name": "options",
+            "type": "BfInsertOptions",
+            "description": "Optional: CAPACITY, ERROR, EXPANSION, NOCREATE, NONSCALING"
+          }
+        ],
+        "returns": {
+          "type": "boolean[]",
+          "description": "Array of booleans"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool[] Insert(RedisKey key, RedisValue[] items, int? capacity = null, double? error = null, int? expansion = null, bool nocreate = false, bool nonscaling = false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisValue[]",
+            "description": "Items to add"
+          },
+          {
+            "name": "capacity",
+            "type": "int?",
+            "description": "Optional capacity"
+          },
+          {
+            "name": "error",
+            "type": "double?",
+            "description": "Optional error rate"
+          },
+          {
+            "name": "expansion",
+            "type": "int?",
+            "description": "Optional expansion rate"
+          },
+          {
+            "name": "nocreate",
+            "type": "bool",
+            "description": "If true, don't create filter"
+          },
+          {
+            "name": "nonscaling",
+            "type": "bool",
+            "description": "If true, prevent scaling"
+          }
+        ],
+        "returns": {
+          "type": "bool[]",
+          "description": "Array of booleans"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool[]> InsertAsync(RedisKey key, RedisValue[] items, int? capacity = null, double? error = null, int? expansion = null, bool nocreate = false, bool nonscaling = false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "RedisValue[]",
+            "description": "Items to add"
+          },
+          {
+            "name": "capacity",
+            "type": "int?",
+            "description": "Optional capacity"
+          },
+          {
+            "name": "error",
+            "type": "double?",
+            "description": "Optional error rate"
+          },
+          {
+            "name": "expansion",
+            "type": "int?",
+            "description": "Optional expansion rate"
+          },
+          {
+            "name": "nocreate",
+            "type": "bool",
+            "description": "If true, don't create filter"
+          },
+          {
+            "name": "nonscaling",
+            "type": "bool",
+            "description": "If true, prevent scaling"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool[]>",
+          "description": "Array of booleans"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "bfinsert(string $key, int $capacity = -1, float $error = -1, int $expansion = -1, bool $noCreate = false, bool $nonScaling = false, string ...$item)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "$capacity",
+            "type": "int",
+            "description": "Optional capacity (-1 for default)"
+          },
+          {
+            "name": "$error",
+            "type": "float",
+            "description": "Optional error rate (-1 for default)"
+          },
+          {
+            "name": "$expansion",
+            "type": "int",
+            "description": "Optional expansion rate (-1 for default)"
+          },
+          {
+            "name": "$noCreate",
+            "type": "bool",
+            "description": "If true, don't create filter"
+          },
+          {
+            "name": "$nonScaling",
+            "type": "bool",
+            "description": "If true, prevent scaling"
+          },
+          {
+            "name": "$item",
+            "type": "string...",
+            "description": "Items to add"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Array of booleans"
+        }
+      }
+    ]
+  }
+}

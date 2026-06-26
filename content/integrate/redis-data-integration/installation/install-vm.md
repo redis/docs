@@ -134,7 +134,20 @@ sudo ufw reload
 
 ## Installation steps
 
-Follow the steps below for each of your VMs:
+Follow the steps below for each of your VMs.
+
+{{< note >}}RDI installs executables by default in the `/var` partition, so you must
+ensure it is mounted without the `noexec` option. Use the following command to
+find any partitions mounted with the `noexec` option:
+
+```bash
+mount | grep noexec
+```
+
+If your `/var` partition is listed in the output from this command, you must remount
+it without the `noexec` option. See
+[Using the mount command](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/5/html/deployment_guide/chap-using_the_mount_command) in the Red Hat documentation to learn how to remount a partition.
+{{< /note >}}
 
 1.  Download the RDI installer from the
     [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
@@ -165,11 +178,27 @@ Follow the steps below for each of your VMs:
     or your company policy forbids you to install there. You can
     select a different directory for the K3s installation using the
     `--installation-dir` option with `install.sh`:
+```bash
+sudo ./install.sh --installation-dir <custom-installation-directory>
+```
+    {{< /note >}}
+
+    **Advanced**: You can also pass custom K3s parameters to the installer using the
+    `INSTALL_K3S_EXEC` environment variable. For example, to set the kubeconfig file 
+    permissions to be readable by all users:
 
     ```bash
-    sudo ./install.sh --installation-dir <custom-installation-directory>
+    sudo INSTALL_K3S_EXEC='--write-kubeconfig-mode=644' ./install.sh
     ```
-    {{< /note >}}
+
+    You can combine multiple K3s options in the `INSTALL_K3S_EXEC` variable. See the
+    [K3s documentation](https://docs.k3s.io/installation/configuration) for a full list of 
+    available options.
+
+    {{< warning >}}Only modify K3s parameters if you understand exactly what you are changing 
+    and why. Incorrect K3s configuration can cause RDI installation to fail or result in an 
+    unstable deployment. {{< /warning >}}
+    
 
 The RDI installer collects all necessary configuration details and alerts you to potential issues, 
 offering options to abort, apply fixes, or provide additional information. 
@@ -240,6 +269,8 @@ to renew the lease in the RDI database, it will lose the leadership and a failov
 will take place. After the failover, the secondary instance will become the primary one, 
 and the RDI pipeline will be active on that VM.
 
+You may find it useful to trigger a failover deliberately to check that RDI is correctly configured to handle it. See [Test HA failover]({{< relref "/integrate/redis-data-integration/installation/ha-test" >}}) to learn how to do this.
+
 ## Prepare your source database
 
 Before deploying a pipeline, you must configure your source database to enable CDC. See the
@@ -250,10 +281,12 @@ section to learn how to do this.
 
 When the installation is complete, and you have prepared the source database for CDC,
 you are ready to start using RDI. See the guides on how to
-[configure]({{< relref "/integrate/redis-data-integration/data-pipelines/data-pipelines" >}}) and
+[configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 RDI pipelines for more information. You can also configure and deploy a pipeline
-using [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+using [Redis Insight]({{< relref "/develop/tools/insight" >}}). See
+[RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+for full details on how to connect to RDI and deploy pipelines.
 
 ## Uninstall RDI
 

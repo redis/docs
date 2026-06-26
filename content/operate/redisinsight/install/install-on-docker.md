@@ -27,7 +27,7 @@ docker run -d --name redisinsight -p 5540:5540 redis/redisinsight:latest
 2. If you want to persist your Redis Insight data, first attach the Docker volume to the `/data` path and then run the following command:
 
 ```bash
-docker run -d --name redisinsight -p 5540:5540 redis/redisinsight:latest -v redisinsight:/data
+docker run -d --name redisinsight -p 5540:5540 -v redisinsight:/data redis/redisinsight:latest
 ```
 
 If the previous command returns a permission error, ensure that the user with `ID = 1000` has the necessary permissions to access the volume provided (`redisinsight` in the command above).

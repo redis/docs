@@ -1,0 +1,122 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "syndump()",
+        "params": [],
+        "returns": {
+          "type": "Dict[str, List[str]]",
+          "description": "The contents of the synonym group"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map<String, List<String>> ftSynDump(String indexName)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, List<String>>",
+          "description": "The contents of the synonym group"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTSynDump(ctx context.Context, index string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "*FTSynDumpCmd",
+          "description": "The contents of the synonym group"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SYNDUMP(index: RedisArgument)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Promise<FTSynDumpResult>",
+          "description": "The contents of the synonym group"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "Dictionary<string, List<string>> SynDump(string indexName)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Dictionary<string, List<string>>",
+          "description": "Synonym groups and their terms"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<Dictionary<string, List<string>>> SynDumpAsync(string indexName)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "Task<Dictionary<string, List<string>>>",
+          "description": "Synonym groups and their terms"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftsyndump(string $index)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Synonym groups and their terms"
+        }
+      }
+    ]
+  }
+}
+

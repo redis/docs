@@ -75,7 +75,7 @@ The following example allows read and write access to all keys that start with "
 
 ### Pub/sub channels
 
-The `&` prefix allows access to [pub/sub channels]({{< relref "/develop/interact/pubsub" >}}) (only supported for databases with Redis version 6.2 or later).
+The `&` prefix allows access to [pub/sub channels]({{< relref "/develop/pubsub" >}}) (only supported for databases with Redis version 6.2 or later).
 
 To limit access to specific channels, include `resetchannels` before the allowed channels:
 
@@ -99,7 +99,7 @@ In the following example, the base rule allows `GET key1` and the selector allow
 
 ## Default pub/sub permissions
 
-Redis database version 6.2 introduced pub/sub ACL rules that determine which [pub/sub channels]({{< relref "/develop/interact/pubsub" >}}) a user can access.
+Redis database version 6.2 introduced pub/sub ACL rules that determine which [pub/sub channels]({{< relref "/develop/pubsub" >}}) a user can access.
 
 The configuration option `acl-pubsub-default`, added in Redis Enterprise Software version 6.4.2, determines the cluster-wide default level of access for all pub/sub channels. Redis Enterprise Software uses the following pub/sub permissions by default:
 

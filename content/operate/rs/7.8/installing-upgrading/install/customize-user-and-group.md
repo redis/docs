@@ -18,7 +18,7 @@ During installation, you can specify the user and group that own all Redis Enter
 If you specify the user only, then installation is run with the primary group that the user belongs to.
 
 {{< note >}}
-- Custom installation user is supported on Red Hat Enterprise Linux.
+- Custom installation user is supported on Red Hat Enterprise Linux and compatible distributions.
 - When you install with custom directories, the installation does not run as an RPM file.
 - You must create the user and group before attempting to install Redis Software.
 - You can specify an LDAP user as the installation user.

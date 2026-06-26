@@ -1,0 +1,94 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "pubsub_numsub(*args: ChannelT, **kwargs)",
+        "params": [
+          {
+            "name": "*args",
+            "type": "ChannelT",
+            "description": "Channel names to get subscriber counts for"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": "Additional keyword arguments"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "Map of channel names to subscriber counts"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map<String, Long> pubsubNumSub(String... channels)",
+        "params": [
+          {
+            "name": "channels",
+            "type": "String...",
+            "description": "Channel names to get subscriber counts for"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Long>",
+          "description": "Map of channel names to subscriber counts"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "PubSubNumSub(ctx context.Context, channels ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "channels",
+            "type": "...string",
+            "description": "Channel names to get subscriber counts for"
+          }
+        ],
+        "returns": {
+          "type": "*MapStringIntCmd",
+          "description": "Map of channel names to subscriber counts"
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "pubsub($subcommand, $argument)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": "PUBSUB subcommand (e.g., 'NUMSUB')"
+          },
+          {
+            "name": "$argument",
+            "type": "mixed",
+            "description": "Channel names to get subscriber counts for"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "Map of channel names to subscriber counts"
+        }
+      }
+    ]
+  }
+}
+

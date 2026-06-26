@@ -21,4 +21,4 @@ This is the General Availability (GA) release of RedisInsight 2.44.
 - [#3010](https://github.com/RedisInsight/RedisInsight/pull/3010) Enhancements to prevent authentication errors caused by [certain special characters](https://github.com/RedisInsight/RedisInsight/issues/3019) in database passwords. 
 
 **Bugs**
-- [#3029](https://github.com/RedisInsight/RedisInsight/pull/3029) A fix for cases when autofill [prevents](https://github.com/RedisInsight/RedisInsight/issues/3026) the form to auto-discover Redis Enterprise Cluster database from being submitted.
+- [#3029](https://github.com/RedisInsight/RedisInsight/pull/3029) A fix for cases when autofill [prevents](https://github.com/RedisInsight/RedisInsight/issues/3026) the form to auto-discover Redis Software Cluster database from being submitted.

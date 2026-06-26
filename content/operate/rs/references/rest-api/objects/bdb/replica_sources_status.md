@@ -5,8 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the bdb replica_sources status field used with Redis Enterprise
-  Software REST API calls.
+description: Documents the bdb replica_sources status field used with Redis Software REST API calls.
 linkTitle: replica_sources status
 weight: $weight
 ---

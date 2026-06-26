@@ -34,39 +34,38 @@ To create a new account with a free database:
 
 1. After you enter your information, you should receive an activation email from Redis. Select **Activate account** to go to the **Create your database** page in the [Redis Cloud console](https://cloud.redis.io).
 
-1. Select whether you want an **Essentials** or a **Pro** plan.
+1. You'll go to the [create database]({{< relref "/operate/rc/databases/create-database" >}}) page with the **Free** plan selected.
 
-    - A Redis Cloud Essentials plan contains a single database designed for low-throughput scenarios. Your free database will have 30 MB of space for you to learn Redis concepts and develop application prototypes.
+    {{<image filename="images/rc/create-database-subscription-free.png" alt="The Subscription selection panel with Free selected.">}}
 
-        If you select **Essentials**, you can choose your cloud provider and region, and then select **Get started** to create your database.
+    {{< note >}}
+If you want to create a different type of database, see the following guides:
+- [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}})
+- [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}})
+- [Create a Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}})
+    {{</note>}}
 
-        {{<image filename="images/rc/quickstart-essentials.png" width="75%" alt="Create your database with Essentials selected." >}}
+1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field. 
 
-        {{< note >}}
-If you would rather customize your database, select **See more plans** to go to the **New database** page. From there, you can [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
-        {{< /note >}}
+    {{<image filename="images/rc/create-database-free-settings.png" alt="The database name, cloud vendor, and region settings.">}}
 
-        You'll go directly to your new database's **Configuration** tab.
+1. Select the **Database version** you want to use.
 
-        {{<image filename="images/rc/quickstart-database-overview.png" width="75%" alt="Configuration tab showing details of your new database." >}}
+1. Choose your **Cloud vendor** and **Region**. You can choose between **Amazon Web Services (AWS)**, **Google Cloud**, and **Microsoft Azure** for the Cloud Vendor. 
 
-    - A Redis Cloud Pro plan supports more databases, larger databases, greater throughput, and unlimited connections compared to Redis Cloud Essentials; as well as more security and connectivity options. You'll get started with a $200 credit to set up your database. 
+    See [Supported regions]({{< relref "/operate/rc/supported-regions" >}}) for a list of supported regions by cloud vendor.
 
-        If you select **Pro**, you can choose your cloud provider and region, and then select **Start with $200 credit** to go to the **New database** page.
+1. Select **Create database**.
 
-        {{<image filename="images/rc/quickstart-pro.png" width="75%" alt="Create your database with Pro selected." >}}
+    {{<image filename="images/rc/button-create-db.png" width="140px" alt="Select the Create database button to create your new database." >}}
 
-        From there, see [Create a Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) to learn how to finish setting up your Pro database.
-
-    See [Subscriptions]({{< relref "/operate/rc/subscriptions" >}}) for more information about the available plans.
+    When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
 
 1.  In the upper corner, an icon shows the current status of the database.  If the icon shows an orange clock, this means your database is still being created and its status is _pending_.
 
-       {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" >}} {{< image filename="/images/rc/icon-database-status-active.png#no-click" alt="Active database status" class="inline">}}</nobr>
+    {{< image filename="/images/rc/icon-database-update-status-pending.png#no-click" alt="Pending database status" class="inline" width="30px" >}} {{< image filename="/images/rc/icon-database-status-active.png#no-click" alt="Active database status" class="inline" width="30px">}}</nobr>
 
-       Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
-
-    Redis Cloud console operations are asynchronous; they operate [in the background]({{< relref "/operate/rc/api/get-started/process-lifecycle.md" >}}).  You can continue to use the Redis Cloud console for other tasks, but pending resources aren't available until they're active.
+    Once the database has been created, it becomes _active_ and the status indicator switches to a green circle containing a checkmark.  
 
     When your new database becomes active, you're ready to connect to it.
 
@@ -74,9 +73,9 @@ If you would rather customize your database, select **See more plans** to go to 
 
 At this point, you're viewing the **Configuration** details for your new database. Go to the **Security** section of the page.
 
-To connect to your database, you need your username and password. Each database is protected by a **Default user** called `default` and a masked **Default user password**. Select the eye icon to show or hide the password.    
+To connect to your database, you need your username and password. Each database is protected by a **Default user** called `default` and a masked **Default user password**. Select **Default user > Configure** and then select the eye icon to view your password.    
 
-{{<image filename="images/rc/database-fixed-configuration-security.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}
+{{<image filename="images/rc/database-essentials-default-user.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}
 
 Once you have the username and password, select **Connect** to open the connection wizard.
 
@@ -106,10 +105,10 @@ You can connect to your database with Redis Insight in two ways:
 #### Open in your browser {#ri-browser}
 
 {{< note >}}
-Opening your database with Redis Insight in your browser is currently available for some Essentials databases, and will be available to more Essentials databases over time. 
+Opening your database with Redis Insight in your browser is only available for Essentials databases. For all other databases, [Download and install Redis Insight](#ri-app) on your computer.
 {{< /note >}}
 
-If Redis Insight on Redis Cloud is available for your database, select **Launch Redis Insight web** from the connection wizard to open it.
+Select **Launch Redis Insight web** from the connection wizard to open it.
 
 {{<image filename="images/rc/rc-ri-wizard-launch.png" alt="Launch Redis Insight web from the Connection Wizard." width=500px >}}
 
@@ -123,8 +122,8 @@ From there, you can:
 
 - Select **Load sample data** to add sample data into your database.
     {{<image filename="images/rc/rc-ri-load-data.png" alt="Load Sample Data button" width=300px >}}
-- Select **Explore** to learn how to use Redis.
-    {{<image filename="images/rc/rc-ri-explore-icon.png" alt="The Explore icon" >}}
+- Select **Insights** to learn how to use Redis.
+    {{<image filename="images/rc/rc-ri-explore-icon.png" alt="The Insights icon" >}}
 
 For more information on how to use Redis Insight in your browser, see [Open with Redis Insight on Redis Cloud]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}).
 
@@ -147,7 +146,7 @@ A Redis client is a software library or tool that enables applications to intera
 
 The connection wizard provides code snippets to connect to your database with the following programming languages:
 
-- .NET using [NRedisStack]({{< relref "/develop/clients/dotnet" >}})
+- .NET using [StackExchange.Redis/NRedisStack]({{< relref "/develop/clients/dotnet" >}})
 - node.js using [node-redis]({{< relref "/develop/clients/nodejs" >}})
 - Python using [redis-py]({{< relref "/develop/clients/redis-py" >}})
 - Java using [Jedis]({{< relref "/develop/clients/jedis" >}}) and [Lettuce]({{< relref "/develop/clients/lettuce" >}})
@@ -169,7 +168,7 @@ See the following guides to get started with different Redis use cases:
 
 The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}).
 
-To run `redis-cli`, [install Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine.
+To run `redis-cli`, [install Redis]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine.
 
 See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-cli`.
 

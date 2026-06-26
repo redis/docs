@@ -1,0 +1,580 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "restore(name: KeyT, ttl: int, value: bytes, replace: bool = False, absttl: bool = False, idletime: Optional[int] = None, frequency: Optional[int] = None)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "bytes",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "absttl",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "idletime",
+            "type": "Optional[int]",
+            "description": ""
+          },
+          {
+            "name": "frequency",
+            "type": "Optional[int]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String restore(final byte[] key, final long ttl, final byte[] serializedValue)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "long",
+            "description": "time to live"
+          },
+          {
+            "name": "serializedValue",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      },
+      {
+        "signature": "String restore(final byte[] key, final long ttl, final byte[] serializedValue, final RestoreParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "long",
+            "description": "time to live"
+          },
+          {
+            "name": "serializedValue",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "RestoreParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      },
+      {
+        "signature": "String restore(final String key, final long ttl, final byte[] serializedValue)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "long",
+            "description": "time to live"
+          },
+          {
+            "name": "serializedValue",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      },
+      {
+        "signature": "String restore(final String key, final long ttl, final byte[] serializedValue, final RestoreParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "long",
+            "description": "time to live"
+          },
+          {
+            "name": "serializedValue",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "RestoreParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status code reply"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Restore(ctx context.Context, key string, ttl time.Duration, value string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "RestoreReplace(ctx context.Context, key string, ttl time.Duration, value string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "time.Duration",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "RESTORE(key: RedisArgument, ttl: number, serializedValue: RedisArgument, options?: RestoreOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "serializedValue",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "RestoreOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String restore(K key, byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      },
+      {
+        "signature": "String restore(K key, long ttl, byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "ttl",
+            "type": "long",
+            "description": "the ttl."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      },
+      {
+        "signature": "String restore(K key, byte[] value, RestoreArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "the value."
+          },
+          {
+            "name": "args",
+            "type": "RestoreArgs",
+            "description": "the restore arguments."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> restore(K key, byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      },
+      {
+        "signature": "RedisFuture<String> restore(K key, long ttl, byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "ttl",
+            "type": "long",
+            "description": "the ttl."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      },
+      {
+        "signature": "RedisFuture<String> restore(K key, byte[] value, RestoreArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "the value."
+          },
+          {
+            "name": "args",
+            "type": "RestoreArgs",
+            "description": "the restore arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> restore(K key, byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      },
+      {
+        "signature": "Mono<String> restore(K key, long ttl, byte[] value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "ttl",
+            "type": "long",
+            "description": "the ttl."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "the value."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      },
+      {
+        "signature": "Mono<String> restore(K key, byte[] value, RestoreArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "the value."
+          },
+          {
+            "name": "args",
+            "type": "RestoreArgs",
+            "description": "the restore arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply The command returns OK on success."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyRestore(RedisKey key, byte[] value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to restore."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "The serialized value to restore."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "void",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyRestoreAsync(RedisKey key, byte[] value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to restore."
+          },
+          {
+            "name": "value",
+            "type": "byte[]",
+            "description": "The serialized value to restore."
+          },
+          {
+            "name": "expiry",
+            "type": "TimeSpan?",
+            "description": "The expiry to set."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "restore(string $key, int $ttl, string $value, array $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$ttl",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$options",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "restore(key, ttl, serialized_value, replace: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "ttl",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "serialized_value",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "replace",
+            "type": "Boolean",
+            "description": "if false, raises an error if key already exists"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
+    ]
+  }
+}

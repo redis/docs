@@ -1,0 +1,15 @@
+{
+    "id": "redis_rs_sync",
+    "type": "client",
+    "name": "redis-rs-sync",
+    "language": "Rust-Sync",
+    "label": "Rust-Sync",
+    "repository": {
+        "git_uri": "https://github.com/redis-rs/redis-rs"
+    },
+    "examples": {
+        "git_uri": "https://github.com/redis-rs/redis-rs",
+        "path": "redis/examples",
+        "pattern": "*.rs"
+    }
+}

@@ -108,7 +108,7 @@ This is the General Availability release of RediSearch 2.2.
 
 #### Searching and indexing JSON documents
 
-This release introduces the ability to [index, query, and full-text search JSON documents]({{<relref "/develop/interact/search-and-query/indexing">}}) using JSONPath queries.
+This release introduces the ability to [index, query, and full-text search JSON documents]({{<relref "/develop/ai/search-and-query/indexing">}}) using JSONPath queries.
 
 On the schema creation `FT.CREATE`, it is now possible to map a JSONPath query with a field. When a JSON document is indexed, the value extracted by the JSONPath query is indexed in the given field.
 

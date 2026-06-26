@@ -8,15 +8,174 @@ categories:
 description: New vector data types. Enhanced indexing capabilities. Simplified query syntax. Expanded geospatial search.
 linkTitle: v2.10 (July 2024)
 min-version-db: '7.4'
-min-version-rs: 7.6 (TBD)
+min-version-rs: 7.8
 weight: 90
 ---
 ## Requirements
 
-RediSearch v2.10.17 requires:
+RediSearch v2.10.31 requires:
 
 - Minimum Redis compatibility version (database): 7.4
-- Minimum Redis Enterprise Software version (cluster): 7.6 (TBD)
+- Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v2.10.31 (June 2026)
+
+This is a maintenance release for Redis Search 2.10.
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+**Bug Fixes**
+
+- [#9938](https://github.com/redisearch/redisearch/pull/9938) Server can crash in fork GC when the last document with an empty TAG value is deleted from an INDEXEMPTY WITHSUFFIXTRIE field. (MOD-15996) 
+- [#10104](https://github.com/redisearch/redisearch/pull/10104) FT.SEARCH and FT.AGGREGATE return Unknown argument errors on 2.10 shards during rolling upgrades when a newer coordinator injects internal query arguments. (MOD-16047) 
+- [#9578](https://github.com/redisearch/redisearch/pull/9578) Server can crash when FT.CREATE is called with an extremely large number of arguments or fields. (MOD-6411) 
+- [#9810](https://github.com/redisearch/redisearch/pull/9810) FT.SYNUPDATE leaves the synonym map partially mutated when an update batch exceeds synonym or group-ID limits. (MOD-15402) 
+- [#9533](https://github.com/redisearch/redisearch/pull/9533) FT.INFO num_records grows without bound for indexes with vector fields because vector records were counted on insert but never decremented. (MOD-15487)
+
+## v2.10.30 (May 2026)
+
+This is a maintenance release for Redis Search 2.10. 
+
+Update urgency: `HIGH`: There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#Q8948](https://github.com/redisearch/redisearch/pull/8948) `FT.CURSOR READ` enters an infinite loop when the caller lacks the required ACL permissions. (MOD-14479)
+- [#Q8794](https://github.com/redisearch/redisearch/pull/8794) `FT.EXPLAIN` crashes or produces corrupt output when a concurrent schema change occurs. (MOD-14461)
+- [#Q9176](https://github.com/redisearch/redisearch/pull/9176), [#Q9314](https://github.com/redisearch/redisearch/pull/9314) Coordinator deadlock under mixed `FT.SEARCH` and `FT.AGGREGATE` load. (MOD-14268)
+- [#Q9273](https://github.com/redisearch/redisearch/pull/9273), [#Q9302](https://github.com/redisearch/redisearch/pull/9302) Async shard connect hangs indefinitely when a peer endpoint is unreachable; the connect is now bounded by search-connect-timeout. (MOD-12739)
+- [#Q9167](https://github.com/redisearch/redisearch/pull/9167) Crash on `FT.SEARCH` when topology validation fails (for example, some nodes unreachable). (MOD-14475)
+- [#Q9082](https://github.com/redisearch/redisearch/pull/9082) `FT.SPELLCHECK` ignores $param placeholders even when `PARAMS` is supplied. (MOD-10596)
+- [#Q9050](https://github.com/redisearch/redisearch/pull/9050) `FT.PROFILE` produces malformed output for documents with missing field values. (MOD-10560)
+- [#Q9075](https://github.com/redisearch/redisearch/pull/9075) Invalid schema option combinations are silently accepted at `FT.CREATE` time. (MOD-14655)
+- [#Q9436](https://github.com/redisearch/redisearch/pull/9436) Malformed index definitions in an RDB file crash the shard or load an invalid index. (MOD-13118)
+- [#Q7686](https://github.com/redisearch/redisearch/pull/7686) Cursors are not released on certain error paths, leaking cursor slots over time. (MOD-12807)
+- [#Q8465](https://github.com/redisearch/redisearch/pull/8465) Garbage collector mishandles out-of-memory responses on replicas, leaving the index inconsistent. (MOD-14066)
+- [#Q7771](https://github.com/redisearch/redisearch/pull/7771) String comparisons truncate at embedded `NULL` bytes, returning wrong results for TAG and binary fields. (MOD-13010)
+- [#Q7851](https://github.com/redisearch/redisearch/pull/7851) `FT.SUG*` commands are not registered on Redis Enterprise builds. (MOD-13152)
+- [#Q8154](https://github.com/redisearch/redisearch/pull/8154) Per-shard total time in cluster `FT.PROFILE` output is reported incorrectly. (MOD-13735, MOD-13181)
+- [#Q8084](https://github.com/redisearch/redisearch/pull/8084) `FULLTEXT` field count in `FT.INFO` statistics is inaccurate. (MOD-13432)
+
+Metrics:
+- [#Q7558](https://github.com/redisearch/redisearch/pull/7558), [#Q7688](https://github.com/redisearch/redisearch/pull/7688), [#Q7723](https://github.com/redisearch/redisearch/pull/7723), [#Q7791](https://github.com/redisearch/redisearch/pull/7791), [#Q7749](https://github.com/redisearch/redisearch/pull/7749), [#Q7738](https://github.com/redisearch/redisearch/pull/7738), [#Q7744](https://github.com/redisearch/redisearch/pull/7744) New `FT.INFO` metrics expose live thread-pool utilization and pending-job depth for worker, coordinator, IO, and topology-update pools (`search_active_io_threads`, `search_active_worker_threads`, `search_active_coord_threads`, `search_active_topology_update_threads`, `search_workers_low_priority_pending_jobs`, `search_workers_high_priority_pending_jobs`, `search_workers_admin_priority_pending_jobs`, `search_coord_high_priority_pending_jobs`). (MOD-12069, MOD-12695, MOD-12694, MOD-12790, MOD-12791)
+- [#Q7793](https://github.com/redisearch/redisearch/pull/7793), [#Q7816](https://github.com/redisearch/redisearch/pull/7816) New `FT.INFO` counters track per-shard and coordinator query timeouts and `MAXPREFIXEXPANSIONS` truncations (`search_shard_total_query_errors_timeout`, `search_shard_total_query_warnings_timeout`, `search_shard_total_query_warnings_max_prefix_expansions`, and equivalent `search_coord_total_* counters`). (MOD-12419, MOD-12417)
+- [#Q7766](https://github.com/redisearch/redisearch/pull/7766) New `FT.INFO` per-field-type indexing-operation counters added for `TEXT`, `TAG`, `NUMERIC`, `GEO`, `GEOSHAPE`, and `VECTOR fields`. (MOD-12070)
+- [#Q7746](https://github.com/redisearch/redisearch/pull/7746) New Internal cursor reads counter in cluster `FT.PROFILE` output surfaces internal cursor-hop round-trips per query. (MOD-12414)
+- [#Q7593](https://github.com/redisearch/redisearch/pull/7593) FT.PROFILE now reports GIL time, giving an accurate breakdown of where query time is spent. (MOD-11987, MOD-12816)
+
+## v2.10.25 (December 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Improvements:
+
+- [#7157](https://github.com/RediSearch/RediSearch/pull/7157) Show background Indexing OOM warning in FT.AGGREGATE reply in RESP3.
+- [#7086](https://github.com/RediSearch/RediSearch/pull/7086) Add the default text scorer as a new configuration.
+- [#7380](https://github.com/RediSearch/RediSearch/pull/7380) Rename FT.PROFILE counter fields.
+- [#7366](https://github.com/RediSearch/RediSearch/pull/7366) Reduce temporary memory overhead upon index load from RDB.
+- [#7393](https://github.com/RediSearch/RediSearch/pull/7393) Improve timeout check for FT.AGGREGATE in cluster mode.
+- [#7451](https://github.com/RediSearch/RediSearch/pull/7451) Enhance FT.PROFILE with vector search execution details.
+- [#7480](https://github.com/RediSearch/RediSearch/pull/7480) Ensure full profile output on timeout with RETURN policy.
+
+Bug Fixes:
+
+- [#7216](https://github.com/RediSearch/RediSearch/pull/7216) Fix a concurrency issue on Reducer in FT.AGGREGATE.
+- [#7259](https://github.com/RediSearch/RediSearch/pull/7259) Fix underflow in BM25STD.
+- [#7278](https://github.com/RediSearch/RediSearch/pull/7278) Report used memory as unsigned long long to avoid underflows.
+- [#7340](https://github.com/RediSearch/RediSearch/pull/7340) Fix a rare leak in GC.
+- [#7462](https://github.com/RediSearch/RediSearch/pull/7462) Fix Fork GC potential double-free on error path.
+- [#7525](https://github.com/RediSearch/RediSearch/pull/7525) Avoid draining workers thread pool from FLUSHDB callback to avoid potential deadlocks.
+
+
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.10.24...v2.10.25
+
+## v2.10.24 (October 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Bug Fixes
+- [#6960](https://github.com/redisearch/redisearch/pull/6960) - FT.INFO returns the wrong number of documents in OSS Cluster with replicas.
+- [#6938](https://github.com/redisearch/redisearch/pull/6938) - Fix for the HIGHLIGHT feature, where if some fields have empty strings, wrong tokens might be highlighted.
+- [#7047](https://github.com/redisearch/redisearch/pull/7047) - Avoid crashing in the FT.AGGREGATE command in clusters where different shards have different ON_TIMEOUT policies configured (fail vs return).
+
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.10.23...v2.10.24.
+
+## v2.10.23 (September 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6672](https://github.com/RediSearch/RediSearch/pull/6672) Fix potential file descriptor leak when OOM.
+- [#6763](https://github.com/RediSearch/RediSearch/pull/6763) Fix potential deadlock during RDB loading in cases where the `INFO` command is sent to the server.
+
+Full Changelog: https://github.com/RediSearch/RediSearch/compare/v2.10.22...v2.10.23
+
+## v2.10.22 (August 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6600](https://github.com/redisearch/redisearch/pull/6600) `FLUSHDB` while active queries are still running could lead to a crash due to premature release of the CURSOR (MOD-10681).
+
+Improvements:
+- [#6664](https://github.com/redisearch/redisearch/pull/6664) Time measurement on `FT.PROFILE` using thread-independent clock mechanism (MOD-10622).
+- [#6647](https://github.com/redisearch/redisearch/pull/6647) Response on RESP2/3 validation was inefficiently consuming excessive CPU cycles (MOD-9687).
+
+## v2.10.21 (July 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW`: No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+- [#6405](https://github.com/redisearch/redisearch/pull/6405) Validate compatibility against RedisJSON version upon open key.
+
+Improvements:
+- [#6340](https://github.com/redisearch/redisearch/pull/6340) Handle excessive logging when processing JSON.DEL errors.
+
+## v2.10.20 (June 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Improvements:
+- [#6279](https://github.com/redisearch/redisearch/pull/6279) Added a locking mechanism for collecting `FT.INFO` statistics when concurrently running the index sanitiser (MOD-10007, MOD-9761).
+
+## v2.10.19 (June 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `LOW` No need to upgrade unless there are new features you want to use.
+
+Bug fixes:
+- [#6211](https://github.com/redisearch/redisearch/pull/6211) Some languages (like Russian) could have multiple lower and upper case matches, causing index misbehaviour (MOD-9835).
+
+Improvements:
+- [#5637](https://github.com/redisearch/redisearch/pull/5637) Memory allocation when converting special UTF-8 symbols requires more memory (MOD-8799).
+
+## v2.10.18 (May 2025)
+
+This is a maintenance release for RediSearch 2.10.
+
+Update urgency: `HIGH` : There is a critical bug that may affect a subset of users. Upgrade!
+
+Bug fixes:
+- [#6184](https://github.com/redisearch/redisearch/pull/6184) Reindexing from RDB with multiple vector indices could lead to a crash due to cluster health check - NodeWD (MOD-9220,MOD-8809)
+- [#6028](https://github.com/redisearch/redisearch/pull/6028) `FT.CURSOR...DEL` while another thread is reading it could lead to a crash (MOD-9408,MOD-9432,MOD-9433,MOD-9434,MOD-9435)
+- [#5967](https://github.com/redisearch/redisearch/pull/5967) Indexing documents using `TEXT` without the text in the documents leads to an `inf` or `nan` score (MOD-9423)
+- [#6056](https://github.com/redisearch/redisearch/pull/6056) Avoid lazy expiration in background indexing for Active-Active setup preventing keys from expiring incorrectly (MOD-9486)
+- [#6108](https://github.com/redisearch/redisearch/pull/6108) A timeout failure is returned when the `ON_TIMEOUT RETURN` policy is set to stop the collection of partial results - best effort (MOD-9612)
+
+Improvements:
+- [#6007](https://github.com/redisearch/redisearch/pull/6007) Parser for intersections on parentheses and sub-queries order won't affect full-text scores (MOD-9278)
+- [#6020](https://github.com/redisearch/redisearch/pull/6020) Prevent access to the Redis key space when `LOAD...@__key` is used (MOD-9419)
 
 ## v2.10.17 (April 2025)
 
@@ -133,7 +292,7 @@ This is a maintenance release for RediSearch 2.10.
 Update urgency: `HIGH` - There is a critical bug that may affect a subset of users. Upgrade!
 
 Bug fixes:
-- [#4916](https://github.com/redisearch/redisearch/pull/4916) - Union query, similar to `"is|the"`, starting with 2 [storwords](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
+- [#4916](https://github.com/redisearch/redisearch/pull/4916) - Union query, similar to `"is|the"`, starting with 2 [storwords](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/stopwords/) could cause a crash (MOD-7495)
 - [#4895](https://github.com/redisearch/redisearch/pull/4895) - `FT.AGGREGATE` with `VERBATIM` option is not handled by the shards in cluster mode (MOD-7463) 
 - [#4922](https://github.com/redisearch/redisearch/pull/4922) - Counting twice the field statistics at `#search` section of `INFO` response (MOD-7339)
 
@@ -151,7 +310,7 @@ This new major version introduces new `BFLOAT16` and `FLOAT16` vector data types
 
 Features:
 
-- Enhancing exact matching queries with `TAG` avoiding escaping special meaning characters using the [simpler syntax](https://redis.io/docs/latest/develop/interact/search-and-query/query/exact-match/#tag-field) `'@tag:{"my-query%term"}'` and `NUMERIC` queries:
+- Enhancing exact matching queries with `TAG` avoiding escaping special meaning characters using the [simpler syntax](https://redis.io/docs/latest/develop/ai/search-and-query/query/exact-match/#tag-field) `'@tag:{"my-query%term"}'` and `NUMERIC` queries:
   - [#4802](https://github.com/RediSearch/RediSearch/pull/4802) - Using double quotes to wrap exact matching query terms such as `@email:{"test@redis.com"}` in `DIALECT 2` ( MOD-7299)
   - [#4676](https://github.com/RediSearch/RediSearch/pull/4676), [#4433](https://github.com/RediSearch/RediSearch/pull/4433) - Enhancing query parser to avoid unnecessary escaping (MOD-5756)
   - [#4527](https://github.com/RediSearch/RediSearch/pull/4527) - Enhancing exact matching queries for `NUMERIC` using single value `FT.SEARCH idx @numeric:[3456]` (MOD-6623)
@@ -164,12 +323,12 @@ Features:
 
 
 - Enabling new vector data types reducing memory consumed by vectors with the new `BFLOAT16` and `FLOAT16`
-  - [#4674](https://github.com/RediSearch/RediSearch/pull/4674) - Adding support `BFLOAT16` and `FLOAT16` in the [vector index definition](https://redis.io/docs/latest/develop/interact/search-and-query/advanced-concepts/vectors/#creation-attributes-per-algorithm) (MOD-6765, MOD-6776)
+  - [#4674](https://github.com/RediSearch/RediSearch/pull/4674) - Adding support `BFLOAT16` and `FLOAT16` in the [vector index definition](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#creation-attributes-per-algorithm) (MOD-6765, MOD-6776)
 
 - Exposing the full-text score values during the aggregation pipeline using `ADDSCORE`. When calling the scores you can use `@__score` in the pipeline as in `FT.AGGREGATE idx 'hello' ADDSCORES SORTBY 2 @__score DESC`
   - [#4859](https://github.com/RediSearch/RediSearch/pull/4859) - Expose scores to `FT.AGGREGATE` pipeline (MOD-7190)
 
-- [#4227](https://github.com/RediSearch/RediSearch/pull/4227) - Adding support for new operators `INTERSECT` and `DISJOINT` when querying for `GEOSHAPE` [polygons](https://redis.io/docs/latest/develop/interact/search-and-query/query/geo-spatial/) (MOD-6178)
+- [#4227](https://github.com/RediSearch/RediSearch/pull/4227) - Adding support for new operators `INTERSECT` and `DISJOINT` when querying for `GEOSHAPE` [polygons](https://redis.io/docs/latest/develop/ai/search-and-query/query/geo-spatial/) (MOD-6178)
 
 
 Bug fixes (since 2.10.4):

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>FeatureStoreDemo</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- StackExchange.Redis 2.8+ ships typed bindings for per-field
+         TTL (HashFieldExpireAsync / HashFieldGetTimeToLiveAsync); the
+         demo pins 2.13.17. -->
+    <PackageReference Include="StackExchange.Redis" Version="2.13.17" />
+  </ItemGroup>
+
+</Project>

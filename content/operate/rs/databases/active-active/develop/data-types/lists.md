@@ -26,11 +26,11 @@ example:
 
 |  **Time** | **CRDB Instance 1** | **CRDB Instance 2** |
 |  ------: | :------: | :------: |
-|  t1 | LPUSH mylist “hello” |  |
+|  t1 | LPUSH mylist "hello" |  |
 |  t2 | — Sync — | — Sync — |
-|  t3 |  | LPUSH mylist “world” |
+|  t3 |  | LPUSH mylist "world" |
 |  t4 | — Sync — | — Sync — |
-|  t5 | LRANGE mylist 0 -1 =>“world” “hello” | LRANGE mylist 0 -1 => “world” “hello” |
+|  t5 | LRANGE mylist 0 -1 =>"world" "hello" | LRANGE mylist 0 -1 => "world" "hello" |
 
 **Explanation**:
 The final list contains both the "world" and "hello" elements, in that

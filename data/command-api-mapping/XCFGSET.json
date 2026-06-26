@@ -1,0 +1,201 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xcfgset(, name: KeyT,, idmp_duration: Optional[int] = None,, idmp_maxsize: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "idmp_duration",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "idmp_maxsize",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String xcfgset(String key, redis.clients.jedis.params.XCfgSetParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "Stream name"
+          },
+          {
+            "name": "params",
+            "type": "redis.clients.jedis.params.XCfgSetParams",
+            "description": "Configuration parameters"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK if successful"
+        }
+      },
+      {
+        "signature": "String xcfgset(String key, XCfgSetParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "Stream name"
+          },
+          {
+            "name": "params",
+            "type": "XCfgSetParams",
+            "description": "Configuration parameters"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK if successful"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String xcfgset(K key, XCfgSetArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XCfgSetArgs",
+            "description": "configuration arguments."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "simple-reply OK. @since 7.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> xcfgset(K key, XCfgSetArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XCfgSetArgs",
+            "description": "configuration arguments."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "simple-reply OK. @since 7.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> xcfgset(K key, XCfgSetArgs args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XCfgSetArgs",
+            "description": "configuration arguments."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "simple-reply OK. @since 7.3"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XCfgSet(ctx context.Context, a *XCfgSetArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "*XCfgSetArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XCFGSET(key: RedisArgument, options?: XCfgSetOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "XCfgSetOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xcfgset(string $key, ?int $duration = null, ?int $maxsize = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?int $duration = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?int $maxsize = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

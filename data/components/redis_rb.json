@@ -1,0 +1,16 @@
+{
+    "id": "redis_rb",
+    "type": "client",
+    "name": "redis-rb",
+    "language": "Ruby",
+    "label": "Ruby",
+    "repository": {
+        "git_uri": "https://github.com/redis/redis-rb"
+    },
+    "examples": {
+        "git_uri": "https://github.com/redis/redis-rb",
+        "path": "examples",
+        "pattern": "*.rb"
+    }
+}
+

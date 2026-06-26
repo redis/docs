@@ -1,0 +1,592 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hincrbyfloat(name: str, key: str, amount: float = 1.0)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "amount",
+            "type": "float = 1.0",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[float], float]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "double hincrByFloat(final byte[] key, final byte[] field, final double value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The new value at field after the increment operation"
+        }
+      },
+      {
+        "signature": "double hincrByFloat(final String key, final String field, final double value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The new value at field after the increment operation"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Double hincrbyfloat(K key, K field, double amount)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          },
+          {
+            "name": "amount",
+            "type": "double",
+            "description": "the increment type: double."
+          }
+        ],
+        "returns": {
+          "type": "Double",
+          "description": "Double bulk-string-reply the value of field after the increment."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Double> hincrbyfloat(K key, K field, double amount)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          },
+          {
+            "name": "amount",
+            "type": "double",
+            "description": "the increment type: double."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Double>",
+          "description": "Double bulk-string-reply the value of field after the increment."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Double> hincrbyfloat(K key, K field, double amount)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "field",
+            "type": "K",
+            "description": "the field type: key."
+          },
+          {
+            "name": "amount",
+            "type": "double",
+            "description": "the increment type: double."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Double>",
+          "description": "Double bulk-string-reply the value of field after the increment."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HIncrByFloat(ctx context.Context, key, field string, incr float64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "incr",
+            "type": "float64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*FloatCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HINCRBYFLOAT(key: RedisArgument, field: RedisArgument, increment: number)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hincrbyfloat(key: RedisKey, field: string | Buffer, increment: number | string, callback?: Callback<string>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(key, hashField, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "Any",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(key, hashField, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "Any",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the increment operation."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, double value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "double",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "double",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(key, hashField, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "Any",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(key, hashField, -value, flags)",
+        "params": [
+          {
+            "name": "key",
+            "type": "Any",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "Any",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "-value",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "Any",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "return",
+          "description": "The value at field after the increment operation."
+        }
+      },
+      {
+        "signature": "HashIncrement(RedisKey key, RedisValue hashField, long value = 1, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field in the hash to increment."
+          },
+          {
+            "name": "value",
+            "type": "long",
+            "description": "The amount to increment by."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The value at field after the increment operation."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hincrbyfloat(string $key, string $field, int|float $increment)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$field",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$increment",
+            "type": "int|float",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hincrbyfloat(key, field, increment)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "field",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "increment",
+            "type": "Float",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Float",
+          "description": "value of the field after incrementing it"
+        }
+      }
+    ]
+  }
+}

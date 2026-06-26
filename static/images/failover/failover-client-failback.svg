@@ -1,0 +1,89 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="640" height="280" viewBox="0 0 640 300">
+  <style>
+    .title { font: 700 16px 'Space Grotesk', Helvetica, Arial, sans-serif; fill: #000; }
+    .label { font: 12px 'Space Grotesk', Helvetica, Arial, sans-serif; fill: #000; }
+    .panel { fill: #ffffff; stroke: #000000; rx: 10; }
+    .map { fill: rgb(240,240,240); stroke: #cccccc; }
+    .server-body { fill: #ffffff; stroke: #000000; rx: 4; }
+    .server-top { fill: rgb(200,0,0); }
+    .client { fill: #ffffff; stroke: #000000; rx: 6; }
+    .connOk { stroke: #FF0000; stroke-width: 3; fill: none; }
+    .connPast { stroke: #999999; stroke-width: 2; fill: none; stroke-dasharray: 6 6; opacity: 0.6; }
+    .checkmark { stroke: #2e7d32; stroke-width: 3; stroke-linecap: round; fill: none; }
+  </style>
+
+  <defs>
+    <!-- Arrow marker matching CSC diagrams' red, width 3 -->
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#FF0000" />
+    </marker>
+
+    <!-- Simple server icon -->
+    <g id="serverIcon">
+      <rect class="server-body" x="0" y="4" width="36" height="24" />
+      <rect class="server-top" x="0" y="0" width="36" height="6" />
+      <circle cx="30" cy="17" r="2" fill="#999" />
+    </g>
+
+    <!-- Simple client box -->
+    <g id="clientIcon">
+      <rect class="client" x="0" y="0" width="70" height="36" />
+      <text x="35" y="23" text-anchor="middle" class="label">Client</text>
+    </g>
+
+    <!-- Abstract map shape (same as reconnect diagram) -->
+    <g id="mapShape">
+      <path class="map" d="M20,70 C60,20 140,20 180,70 C220,120 140,160 100,150 C60,140 -20,120 20,70 z"/>
+      <!-- small island cluster -->
+      <path class="map" d="M170,110 c15,-10 35,-8 44,2 c9,10 -3,25 -20,28 c-17,3 -41,-9 -24,-30 z"/>
+      <path class="map" d="M48,124 c10,-6 22,-6 28,0 c6,6 3,14 -6,16 c-9,2 -24,-3 -22,-16 z"/>
+    </g>
+  </defs>
+  <!-- Panel 3: Original available -->
+  <g transform="translate(10,10)">
+    <rect class="panel" x="0" y="0" width="300" height="280" />
+    <text class="title" x="12" y="26">4. Original available</text>
+    <g transform="translate(20,40)">
+      <use href="#mapShape"/>
+      <!-- Same servers -->
+      <use href="#serverIcon" x="50" y="90"/>
+      <use href="#serverIcon" x="150" y="40"/>
+      <use href="#serverIcon" x="180" y="130"/>
+      <!-- Client -->
+      <use href="#clientIcon" x="0" y="170"/>
+      <!-- Solid connection to temporary server (still in place) -->
+      <path class="connOk" marker-end="url(#arrowRed)" d="M 70,188 C 120,170 160,160 188,146"/>
+      <!-- Green checkmark indicating original server healthy -->
+      <g transform="translate(65,110)">
+        <path class="checkmark" d="M -6 0 L -1 5 L 8 -6"/>
+      </g>
+      <text class="label" x="10" y="230">Original server healthy (detected)</text>
+    </g>
+  </g>
+
+
+  <!-- Panel 4: Failback -->
+  <g transform="translate(330,10)">
+    <rect class="panel" x="0" y="0" width="300" height="280" />
+    <text class="title" x="12" y="26">5. Failback</text>
+    <g transform="translate(20,40)">
+      <use href="#mapShape"/>
+      <!-- Servers on the map (original server at 50,90 available again) -->
+      <use href="#serverIcon" x="50" y="90"/>
+      <use href="#serverIcon" x="150" y="40"/>
+      <use href="#serverIcon" x="180" y="130"/>
+      <!-- Client -->
+      <use href="#clientIcon" x="0" y="170"/>
+      <!-- Faint dashed past connection to temporary server at (180,130) -->
+      <path class="connPast" d="M 70,188 C 120,170 160,160 188,146"/>
+      <!-- Solid connection back to original server at (50,90) -->
+      <path class="connOk" marker-end="url(#arrowRed)" d="M 70,188 C 90,170 80,140 68,114"/>
+      <!-- Green checkmark indicating original server healthy -->
+      <g transform="translate(65,110)">
+        <path class="checkmark" d="M -6 0 L -1 5 L 8 -6"/>
+      </g>
+      <text class="label" x="10" y="230">Connection switches back to original server</text>
+    </g>
+  </g>
+</svg>
+

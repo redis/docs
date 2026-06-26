@@ -5,60 +5,23 @@ categories:
 - docs
 - operate
 - rs
-description: Upgrade a Redis Enterprise Software cluster's operating system to a later
+description: Upgrade a Redis Software cluster's operating system to a later
   major version.
 linkTitle: Upgrade operating system
 toc: 'true'
 weight: 70
 ---
 
-To upgrade the operating system (OS) on a Redis Enterprise Software cluster to a later major version, perform a rolling upgrade. Because you upgrade one node at a time, you can upgrade your cluster's OS without downtime.
+To upgrade the operating system (OS) on a Redis Software cluster to a later major version, perform a rolling upgrade. Because you upgrade one node at a time, you can upgrade your cluster's OS without downtime.
 
 ## Prerequisites
 
 Before you upgrade a cluster's operating system:
 
-1. [Upgrade all nodes in the cluster]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster" >}}) to a Redis Enterprise Software version that supports the OS's current version and upgrade version.
+1. [Upgrade all nodes in the cluster]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-cluster" >}}) to a Redis Software version that supports the OS's current version and upgrade version.
 
-    To learn which versions of Redis Enterprise Software support specific OS versions, see [Supported platforms]({{< relref "/operate/rs/references/supported-platforms#supported-platforms" >}}).
+    To learn which versions of Redis Software support specific OS versions, see [Supported platforms]({{< relref "/operate/rs/references/supported-platforms#supported-platforms" >}}).
 
-1. If the cluster contains any databases that use modules:
-
-    1. Update all nodes in the cluster to [Redis Enterprise Software version 7.2.4-52]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases" >}}) or later before you upgrade the OS.
-
-    1. Check the status of modules using [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}):
-
-        ```sh
-        rladmin status modules
-        ```
-
-        The output lists the module versions installed on the cluster and the module versions used by existing databases:
-
-        ```sh
-        CLUSTER MODULES:
-        MODULE                                                                      VERSION                            
-        RedisBloom                                                                  2.6.3                              
-        RediSearch 2                                                                2.8.4                              
-        RedisGears                                                                  2.0.12                             
-        RedisGraph                                                                  2.10.12                            
-        RedisJSON                                                                   2.6.6                              
-        RedisTimeSeries                                                             1.10.6                             
-
-        DATABASE MODULES:
-        DB:ID    NAME       MODULE              VERSION     ARGS                     STATUS                            
-        db:1     db1        RediSearch 2        2.6.9       PARTITIONS AUTO          OK, OLD MODULE VERSION            
-        db:1     db1        RedisJSON           2.4.7                                OK, OLD MODULE VERSION  
-        ```
-
-    1. Upload module packages for the target OS version to a node in the existing cluster. See [Install a module on a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}}) for instructions.
-
-        {{<note>}}
-The uploaded module packages have the following requirements:
-
-- The module is compiled for the target OS version.
-    
-- The module version matches the version currently used by databases.
-        {{</note>}}
 
 1. If the cluster uses custom directories, make sure the OS upgrade version also supports custom directories, and specify the same custom directories during installation for all nodes. See [Customize installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}) for details.
 
@@ -76,7 +39,7 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 
 1. Create a node with the OS upgrade version.
 
-1. [Install the cluster's current Redis Enterprise Software version]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the new node using the installation package for the OS upgrade version.
+1. [Install the cluster's current Redis Software version]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the new node using the installation package for the OS upgrade version.
 
 1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}})  to the cluster.
 
@@ -92,7 +55,7 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 
 1. [Remove a node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) with the earlier OS version from the cluster.
 
-1. Uninstall Redis Enterprise Software from the removed node:
+1. Uninstall Redis Software from the removed node:
 
     ```sh
     sudo ./rl_uninstall.sh
@@ -100,7 +63,7 @@ To upgrade the cluster's operating system, use one of the following rolling upgr
 
 1. Either upgrade the existing node to the OS upgrade version, or create a new node with the OS upgrade version.
 
-1. [Install the cluster's current Redis Enterprise Software version]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the upgraded node using the installation package for the OS upgrade version.
+1. [Install the cluster's current Redis Software version]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the upgraded node using the installation package for the OS upgrade version.
 
 1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}}) to the cluster.
 

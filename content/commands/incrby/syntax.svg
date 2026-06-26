@@ -1,9 +1,0 @@
-<svg class="railroad-diagram" viewBox="0 0 373.0 62" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g transform="translate(.5 .5)">
-<g>
-<path d="M20 21v20m10 -20v20m-10 -10h20"></path></g><path d="M40 31h10"></path><g>
-<path d="M50 31h0.0"></path><g>
-<path d="M50.0 31h10.0"></path><path d="M313.0 31h10.0"></path><g class="terminal ">
-<path d="M60.0 31h0.0"></path><path d="M131.0 31h0.0"></path><rect height="22" rx="10" ry="10" width="71.0" x="60.0" y="20"></rect><text x="95.5" y="35">INCRBY</text></g><path d="M131.0 31h10"></path><path d="M141.0 31h10"></path><g class="non-terminal ">
-<path d="M151.0 31h0.0"></path><path d="M196.5 31h0.0"></path><rect height="22" width="45.5" x="151.0" y="20"></rect><text x="173.75" y="35">key</text><title>key</title></g><path d="M196.5 31h10"></path><path d="M206.5 31h10"></path><g class="non-terminal ">
-<path d="M216.5 31h0.0"></path><path d="M313.0 31h0.0"></path><rect height="22" width="96.5" x="216.5" y="20"></rect><text x="264.75" y="35">increment</text><title>integer</title></g></g><path d="M323.0 31h0.0"></path></g><path d="M323.0 31h10"></path><path d="M 333.0 31 h 20 m -10 -10 v 20 m 10 -20 v 20"></path></g></svg>

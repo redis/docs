@@ -1,0 +1,213 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arInsert(key: RedisArgument, values: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "arinsert(string $key, string ...$value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long arinsert(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to insert."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the index used."
+        }
+      },
+      {
+        "signature": "Long arinsert(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to insert."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the last index used."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> arinsert(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to insert."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the index used."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> arinsert(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to insert."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the last index used."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> arinsert(K key, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to insert."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the index used."
+        }
+      },
+      {
+        "signature": "Mono<Long> arinsert(K key, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to insert."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the last index used."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "arinsert(name: KeyT, *values: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*values",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARInsert(ctx context.Context, key string, values ...string) *UintCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*UintCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

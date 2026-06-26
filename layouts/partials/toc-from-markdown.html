@@ -1,0 +1,89 @@
+{{- /* Generate table of contents JSON from raw Markdown content */ -}}
+{{- /* This parses ## and ### headers directly from .RawContent */ -}}
+{{- /* since Hugo's .TableOfContents may be empty for custom templates */ -}}
+
+{{- $content := .RawContent -}}
+
+{{- /* Unescape HTML entities that may be present in .RawContent */ -}}
+{{- $content = $content | replaceRE "&#34;" "\"" -}}
+{{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&#39;" "'" -}}
+{{- $content = $content | replaceRE "&lt;" "<" -}}
+{{- $content = $content | replaceRE "&gt;" ">" -}}
+{{- $content = $content | replaceRE "&amp;" "&" -}}
+
+{{- $sections := slice -}}
+
+{{- /* Find all ## and ### headers in the raw markdown */ -}}
+{{- /* Pattern matches lines starting with ## or ### followed by space and title */ -}}
+{{- $headerPattern := `(?m)^(#{2,3}) +(.+)$` -}}
+
+{{- /* Extract all headers */ -}}
+{{- $headerMatches := findRE $headerPattern $content -}}
+
+{{- /* Track current h2 section for nesting h3 children */ -}}
+{{- $currentH2 := dict -}}
+{{- $currentH2Index := -1 -}}
+
+{{- /* Process each header */ -}}
+{{- range $headerMatch := $headerMatches -}}
+  {{- /* Determine header level and extract title */ -}}
+  {{- $isH3 := hasPrefix $headerMatch "### " -}}
+  {{- $title := "" -}}
+  {{- if $isH3 -}}
+    {{- $title = replaceRE `^### +` "" $headerMatch -}}
+  {{- else -}}
+    {{- $title = replaceRE `^## +` "" $headerMatch -}}
+  {{- end -}}
+
+  {{- /* Remove inline code markers */ -}}
+  {{- $title = replaceRE "`([^`]+)`" "$1" $title -}}
+  {{- /* Remove other inline formatting */ -}}
+  {{- $title = replaceRE `\*\*([^*]+)\*\*` "$1" $title -}}
+  {{- $title = replaceRE `\*([^*]+)\*` "$1" $title -}}
+  {{- $title = replaceRE `_([^_]+)_` "$1" $title -}}
+  {{- /* Trim whitespace */ -}}
+  {{- $title = $title | strings.TrimSpace -}}
+
+  {{- /* Generate ID (slug) from title */ -}}
+  {{- $id := $title | lower -}}
+  {{- /* Replace spaces with hyphens */ -}}
+  {{- $id = $id | replaceRE `\s+` "-" -}}
+  {{- /* Remove special characters except hyphens */ -}}
+  {{- $id = $id | replaceRE `[^a-z0-9-]` "" -}}
+  {{- /* Remove consecutive hyphens */ -}}
+  {{- $id = $id | replaceRE `-+` "-" -}}
+  {{- /* Trim leading/trailing hyphens */ -}}
+  {{- $id = $id | replaceRE `^-+|-+$` "" -}}
+
+  {{- /* Add to sections array */ -}}
+  {{- if and $id $title -}}
+    {{- if $isH3 -}}
+      {{- /* H3: Add as child to current H2 if one exists */ -}}
+      {{- if ge $currentH2Index 0 -}}
+        {{- $existingH2 := index $sections $currentH2Index -}}
+        {{- $children := $existingH2.children | default slice -}}
+        {{- $children = $children | append (dict "id" $id "title" $title) -}}
+        {{- $updatedH2 := merge $existingH2 (dict "children" $children) -}}
+        {{- /* Save elements after current H2 BEFORE modifying $sections */ -}}
+        {{- $remainingElements := slice -}}
+        {{- if lt (add $currentH2Index 1) (len $sections) -}}
+          {{- $remainingElements = after (add $currentH2Index 1) $sections -}}
+        {{- end -}}
+        {{- /* Rebuild sections: elements before H2 + updated H2 + elements after H2 */ -}}
+        {{- $sections = $sections | first $currentH2Index | append $updatedH2 -}}
+        {{- range $remainingElements -}}
+          {{- $sections = $sections | append . -}}
+        {{- end -}}
+      {{- end -}}
+    {{- else -}}
+      {{- /* H2: Add as new top-level section */ -}}
+      {{- $sections = $sections | append (dict "id" $id "title" $title) -}}
+      {{- $currentH2Index = sub (len $sections) 1 -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* Output JSON */ -}}
+{"sections":{{ $sections | jsonify }}}
+

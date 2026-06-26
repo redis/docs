@@ -16,10 +16,38 @@ weight: 96
 ---
 ## Requirements
 
-RedisTimeSeries v1.8.17 requires:
+RedisTimeSeries v1.8.23 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v1.8.23 (May 2026)
+
+This is a maintenance release for RedisTimeSeries 1.8.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security:**
+
+  - (CVE-2026-25588) Invalid memory access in `RESTORE` may lead to Remote Code Execution.
+
+## v1.8.19 (October 2025)
+
+This is a maintenance release for RedisTimeSeries 1.8.
+
+Update urgency: `MODERATE`: Program an upgrade of the server, but it's not urgent.
+
+Details:
+
+Bug fixes:
+
+- [#1776](https://github.com/redistimeseries/redistimeseries/pull/1776) Potential crash on `TS.RANGE` with `ALIGN +`, `AGGREGATION twa` and `EMPTY` (MOD-11620, MOD-10484).
+
+Improvements:
+
+- Added support for Rocky Linux 9 and RHEL9 ARM.
 
 ## v1.8.17 (April 2025)
 
@@ -29,7 +57,7 @@ Update urgency: `MODERATE`: Plan an upgrade of the server, but it's not urgent.
 
 Details:
 
-*Bug fixes:
+Bug fixes:
 - [#1725](https://github.com/redistimeseries/redistimeseries/pull/1725) `TS.DEL` crashes on keys with compactions if the deletion removes the last compaction bucket (MOD-8936)
 - [LibMR#58](https://github.com/RedisGears/LibMR/pull/58) Crash when a cluster contains both 1.8 and newer nodes (MOD-8976, MOD-9192)
 

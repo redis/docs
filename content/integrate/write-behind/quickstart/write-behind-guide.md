@@ -158,7 +158,7 @@ The `redis` section is common for every pipeline initiated by an event in Redis,
 
 - The `row_format` attribute can be used with the value `full` to receive both the `before` and `after` sections of the payload. Note that for write-behind events the `before` value of the key is never provided.
 
- > Note: Write-behind does not support the [`expired`]({{< relref "/develop/use/keyspace-notifications" >}}#events-generated-by-different-commands) event. Therefore, keys that are expired in Redis will not be deleted from the target database automatically.
+ > Note: Write-behind does not support the [`expired`]({{< relref "/develop/pubsub/keyspace-notifications" >}}#events-generated-by-different-commands) event. Therefore, keys that are expired in Redis will not be deleted from the target database automatically.
 > Notes: The `redis` attribute is a breaking change replacing the `keyspace` attribute. The `key_pattern` attribute replaces the `pattern` attribute. The `exclude_commands` attributes replaces the `exclude-commands` attribute. If you upgrade to version 0.105 and beyond, you must edit your existing jobs and redeploy them.
 
 ### Output section

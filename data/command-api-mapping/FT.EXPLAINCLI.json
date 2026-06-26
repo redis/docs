@@ -1,0 +1,153 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "explain_cli(query: Union[str, Query])",
+        "params": [
+          {
+            "name": "query",
+            "type": "Union[str, Query]",
+            "description": "The query to explain"
+          }
+        ],
+        "returns": {
+          "type": "List[str]",
+          "description": "The execution plan in CLI format"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> ftExplainCli(String indexName, Query query)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "Query",
+            "description": "The query to explain"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "The execution plan in CLI format"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTExplainCli(ctx context.Context, index string, query string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to explain"
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": "The execution plan in CLI format"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "EXPLAINCLI(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "RedisArgument",
+            "description": "The query to explain"
+          },
+          {
+            "name": "options",
+            "type": "FTSearchOptions",
+            "description": "Optional search options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<Array<string>>",
+          "description": "The execution plan in CLI format"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "RedisResult[] ExplainCli(string indexName, string query, int? dialect = null)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to explain"
+          },
+          {
+            "name": "dialect",
+            "type": "int?",
+            "description": "Query dialect version"
+          }
+        ],
+        "returns": {
+          "type": "RedisResult[]",
+          "description": "Query execution plan in CLI format"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<RedisResult[]> ExplainCliAsync(string indexName, string query, int? dialect = null)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to explain"
+          },
+          {
+            "name": "dialect",
+            "type": "int?",
+            "description": "Query dialect version"
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": "Query execution plan in CLI format"
+        }
+      }
+    ],
+    "php": []
+  }
+}
+

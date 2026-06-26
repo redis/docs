@@ -1,0 +1,158 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "tagvals(tagfield: str)",
+        "params": [
+          {
+            "name": "tagfield",
+            "type": "str",
+            "description": "The tag field name"
+          }
+        ],
+        "returns": {
+          "type": "List[str]",
+          "description": "The distinct tags indexed in the field"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Set<String> ftTagVals(String indexName, String fieldName)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "fieldName",
+            "type": "String",
+            "description": "The tag field name"
+          }
+        ],
+        "returns": {
+          "type": "Set<String>",
+          "description": "The distinct tags indexed in the field"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTTagVals(ctx context.Context, index string, field string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "field",
+            "type": "string",
+            "description": "The tag field name"
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": "The distinct tags indexed in the field"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TAGVALS(index: RedisArgument, fieldName: RedisArgument)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "fieldName",
+            "type": "RedisArgument",
+            "description": "The tag field name"
+          }
+        ],
+        "returns": {
+          "type": "Promise<Array<string>>",
+          "description": "The distinct tags indexed in the field"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "RedisResult[] TagVals(string indexName, string fieldName)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "fieldName",
+            "type": "string",
+            "description": "The tag field name"
+          }
+        ],
+        "returns": {
+          "type": "RedisResult[]",
+          "description": "Distinct tag values"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<RedisResult[]> TagValsAsync(string indexName, string fieldName)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "fieldName",
+            "type": "string",
+            "description": "The tag field name"
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]>",
+          "description": "Distinct tag values"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "fttagvals(string $index, string $fieldName)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$fieldName",
+            "type": "string",
+            "description": "The tag field name"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Distinct tag values"
+        }
+      }
+    ]
+  }
+}
+

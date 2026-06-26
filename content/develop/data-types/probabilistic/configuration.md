@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/probabilistic/configuration/
+- /manual/data-types/probabilistic/configuration/
 categories:
 - docs
 - develop
@@ -46,6 +49,8 @@ The following table summarizes which Cuckoo filter configuration parameters can 
 {{< note >}}
 Parameter names for Redis Open Source versions < 8.0, while deprecated, will still be supported in Redis 8.
 {{< /note >}}
+
+See also [Redis configuration]({{< relref "/operate/oss_and_stack/management/config" >}}).
 
 ---
 

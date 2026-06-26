@@ -40,7 +40,7 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
 
 1. Select an entry **Type** from the list:
 
-    {{<image filename="images/rc/subscription-connectivity-allow-list-type-dropdown.png" alt="Select the type of entry to add to the allow list from the Type list." >}}
+    {{<image filename="images/rc/subscription-connectivity-allow-list-type-dropdown.png" alt="Select the type of entry to add to the allow list from the Type list. You can choose between IP address and AWS security group." >}}
 
 1. In the **Value** box, enter one of these options:
 
@@ -62,7 +62,7 @@ To add IP addresses or [AWS security groups](https://docs.aws.amazon.com/managed
     
     You can also select the **Edit** button to change an entry or the **Delete** button to remove it.
 
-    {{<image filename="images/rc/icon-edit.png#no-click" alt="The Edit button updates an entry in the allow list." width="36px" class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-teal.png#no-click" alt="The Delete button removes an entry from the allow list." width="36px" class="inline" >}}
+    {{<image filename="images/rc/icon-edit.png#no-click" alt="The Edit button updates an entry in the allow list." width="36px" class="inline" >}}&nbsp;{{<image filename="images/rc/icon-delete-lb.png#no-click" alt="The Delete button removes an entry from the allow list." width="36px" class="inline" >}}
     
 1. Select **Apply all changes** to apply the allow list updates.
 

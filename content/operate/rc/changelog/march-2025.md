@@ -9,7 +9,9 @@ description: New features, enhancements, and other changes added to Redis Cloud 
   March 2025.
 highlights: Redis Insight on Redis Cloud, Redis Hashing policy
 linktitle: March 2025
-weight: 34
+tags:
+- changelog
+weight: 78
 ---
 
 ## New features

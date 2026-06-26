@@ -21,6 +21,8 @@ To upgrade a cluster's Redis Software version, use one of the following methods:
 
 - [Rolling upgrade](#rolling-upgrade) - Minimize downtime by adding new nodes with an updated Redis Software version to the cluster, one at a time, while keeping the rest of the cluster operational. This method is recommended for production environments that require continuous availability.
 
+## Supported upgrade paths
+
 {{<embed-md "rs-upgrade-paths.md">}}
 
 See the [Redis Enterprise Software product lifecycle]({{<relref "/operate/rs/7.8/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
@@ -33,9 +35,43 @@ Redis Enterprise for Kubernetes has its own support lifecycle, which accounts fo
 
 Before upgrading a cluster:
 
-- Verify access to [rlcheck]({{< relref "/operate/rs/7.8/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands
+- Verify access to [rlcheck]({{< relref "/operate/rs/7.8/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands.
+
+- Run [rlcheck]({{< relref "/operate/rs/7.8/references/cli-utilities/rlcheck/" >}}) on each node and verify there are no issues:
+
+    ```sh
+    rlcheck
+    ```
+
+- Verify [maintenance mode]({{< relref "/operate/rs/7.8/clusters/maintenance-mode" >}}) is not enabled:
+
+    1. On a node in the cluster, run [`rladmin status`]({{< relref "/operate/rs/7.8/references/cli-utilities/rladmin/status" >}}):
+
+        ```sh
+        rladmin status
+        ```
+
+    1. Review each node's `SHARDS` field. If the value is yellow, the node is in maintenance mode.
+
+        {{< image filename="/images/rs/maintenance_mode.png" >}}
+
+    1. To deactivate maintenance mode on a node, run the following [`rladmin node maintenance_mode off`]({{<relref "/operate/rs/7.8/references/cli-utilities/rladmin/node/maintenance-mode#node-maintenance_mode-off">}}) command. See [Deactivate maintenance mode]({{<relref "/operate/rs/7.8/clusters/maintenance-mode#deactivate-maintenance-mode">}}) for additional details.
+
+        ```sh
+        rladmin node <node_id> maintenance_mode off
+        ```
 
 - Verify that you meet the upgrade path requirements for the target cluster version and review the relevant [release notes](https://redis.io/docs/latest/operate/rs/release-notes/) for any preparation instructions.
+
+- Before you upgrade a cluster from Redis Enterprise Software version 6.2.x to 7.8.x, you must follow these steps if the cluster has any databases with Redis version 6.0:
+
+    1. Set the Redis upgrade policy to `latest`:
+
+        ```sh
+        rladmin tune cluster redis_upgrade_policy latest
+        ```
+
+    1. [Upgrade Redis 6.0 databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to Redis 6.2.
 
 - [Upgrade your databases]({{<relref "/operate/rs/7.8/installing-upgrading/upgrading/upgrade-database">}}) to a version that is supported by the target Redis Enterprise Software version before upgrading the cluster. We recommend you upgrade the databases to the latest supported version if possible. Make sure to test the upgrade in a non-production environment to determine any impact.
 

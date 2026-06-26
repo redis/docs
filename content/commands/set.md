@@ -1,0 +1,311 @@
+---
+acl_categories:
+- '@write'
+- '@string'
+- '@slow'
+arguments:
+- display_text: key
+  key_spec_index: 0
+  name: key
+  type: key
+- display_text: value
+  name: value
+  type: string
+- arguments:
+  - display_text: nx
+    name: nx
+    token: NX
+    type: pure-token
+  - display_text: xx
+    name: xx
+    token: XX
+    type: pure-token
+  - display_text: ifeq-value
+    name: ifeq-value
+    since: 8.4.0
+    token: IFEQ
+    type: string
+  - display_text: ifne-value
+    name: ifne-value
+    since: 8.4.0
+    token: IFNE
+    type: string
+  - display_text: ifdeq-digest
+    name: ifdeq-digest
+    since: 8.4.0
+    token: IFDEQ
+    type: integer
+  - display_text: ifdne-digest
+    name: ifdne-digest
+    since: 8.4.0
+    token: IFDNE
+    type: integer
+  name: condition
+  optional: true
+  since: 2.6.12
+  type: oneof
+- display_text: get
+  name: get
+  optional: true
+  since: 6.2.0
+  token: GET
+  type: pure-token
+- arguments:
+  - display_text: seconds
+    name: seconds
+    since: 2.6.12
+    token: EX
+    type: integer
+  - display_text: milliseconds
+    name: milliseconds
+    since: 2.6.12
+    token: PX
+    type: integer
+  - display_text: unix-time-seconds
+    name: unix-time-seconds
+    since: 6.2.0
+    token: EXAT
+    type: unix-time
+  - display_text: unix-time-milliseconds
+    name: unix-time-milliseconds
+    since: 6.2.0
+    token: PXAT
+    type: unix-time
+  - display_text: keepttl
+    name: keepttl
+    since: 6.0.0
+    token: KEEPTTL
+    type: pure-token
+  name: expiration
+  optional: true
+  type: oneof
+arity: -3
+categories:
+- docs
+- develop
+- stack
+- oss
+- rs
+- rc
+- oss
+- kubernetes
+- clients
+command_flags:
+- write
+- denyoom
+complexity: O(1)
+description: Sets the string value of a key, ignoring its type. The key is created
+  if it doesn't exist.
+group: string
+hidden: false
+history:
+- - 2.6.12
+  - Added the `EX`, `PX`, `NX` and `XX` options.
+- - 6.0.0
+  - Added the `KEEPTTL` option.
+- - 6.2.0
+  - Added the `GET`, `EXAT` and `PXAT` option.
+- - 7.0.0
+  - Allowed the `NX` and `GET` options to be used together.
+- - 8.4.0
+  - Added 'IFEQ', 'IFNE', 'IFDEQ', 'IFDNE' options.
+key_specs:
+- RW: true
+  access: true
+  begin_search:
+    spec:
+      index: 1
+    type: index
+  find_keys:
+    spec:
+      keystep: 1
+      lastkey: 0
+      limit: 0
+    type: range
+  notes: RW and ACCESS due to the optional `GET` argument
+  update: true
+  variable_flags: true
+linkTitle: SET
+railroad_diagram: /images/railroad/set.svg
+since: 1.0.0
+summary: Sets the string value of a key, ignoring its type. The key is created if
+  it doesn't exist.
+syntax_fmt: "SET key value [NX | XX | IFEQ\_ifeq-value | IFNE\_ifne-value |\n\
+  \  IFDEQ\_ifdeq-digest | IFDNE\_ifdne-digest] [GET] [EX\_seconds |\n  PX\_milliseconds\
+  \ | EXAT\_unix-time-seconds |\n  PXAT\_unix-time-milliseconds | KEEPTTL]"
+title: SET
+---
+Set `key` to hold the string `value`.
+If `key` already holds a value, it is overwritten, regardless of its type.
+Any previous time to live associated with the key is discarded on successful `SET` operation.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The string value to set.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. The condition options (`NX`, `XX`, `IFEQ`, `IFNE`, `IFDEQ`, `IFDNE`) are mutually exclusive, as are the expiration options (`EX`, `PX`, `EXAT`, `PXAT`, `KEEPTTL`).
+
+<details open><summary><code>NX</code></summary>
+
+Only set the key if it does not already exist.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+Only set the key if it already exists.
+
+</details>
+
+<details open><summary><code>IFEQ ifeq-value</code></summary>
+
+Set the key's value and expiration only if its current value is equal to `ifeq-value`. If the key doesn't exist, it won't be created.
+
+</details>
+
+<details open><summary><code>IFNE ifne-value</code></summary>
+
+Set the key's value and expiration only if its current value is not equal to `ifne-value`. If the key doesn't exist, it will be created.
+
+</details>
+
+<details open><summary><code>IFDEQ ifdeq-digest</code></summary>
+
+Set the key's value and expiration only if the hash digest of its current value is equal to `ifdeq-digest`. If the key doesn't exist, it won't be created. See the [Hash Digest](#hash-digest) section below for more information.
+
+</details>
+
+<details open><summary><code>IFDNE ifdne-digest</code></summary>
+
+Set the key's value and expiration only if the hash digest of its current value is not equal to `ifdne-digest`. If the key doesn't exist, it will be created. See the [Hash Digest](#hash-digest) section below for more information.
+
+</details>
+
+<details open><summary><code>GET</code></summary>
+
+Return the old string stored at the key, or nil if the key did not exist. An error is returned and `SET` is aborted if the value stored at the key is not a string.
+
+</details>
+
+<details open><summary><code>EX seconds</code></summary>
+
+Set the specified expire time, in seconds (a positive integer).
+
+</details>
+
+<details open><summary><code>PX milliseconds</code></summary>
+
+Set the specified expire time, in milliseconds (a positive integer).
+
+</details>
+
+<details open><summary><code>EXAT unix-time-seconds</code></summary>
+
+Set the specified Unix time at which the key will expire, in seconds (a positive integer).
+
+</details>
+
+<details open><summary><code>PXAT unix-time-milliseconds</code></summary>
+
+Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).
+
+</details>
+
+<details open><summary><code>KEEPTTL</code></summary>
+
+Retain the time to live associated with the key.
+
+</details>
+
+Note: Since the `SET` command options can replace [`SETNX`]({{< relref "/commands/setnx" >}}), [`SETEX`]({{< relref "/commands/setex" >}}), [`PSETEX`]({{< relref "/commands/psetex" >}}), [`GETSET`]({{< relref "/commands/getset" >}}), it is possible that in future versions of Redis these commands will be deprecated and finally removed.
+
+## Examples
+
+{{% redis-cli %}}
+SET mykey "Hello"
+GET mykey
+
+SET anotherkey "will expire in a minute" EX 60
+{{% /redis-cli %}}
+&nbsp;
+{{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" />}}
+
+## Details
+
+### Hash digest
+
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
+
+### Patterns
+
+Note: The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref "/develop/clients/patterns/distributed-locks" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
+
+The command `SET resource-name anystring NX EX max-lock-time` is a simple way to implement a locking system with Redis.
+
+A client can acquire the lock if the above command returns `OK` (or retry after some time if the command returns Nil), and remove the lock just using [`DEL`]({{< relref "/commands/del" >}}).
+
+The lock will be auto-released after the expire time is reached.
+
+It is possible to make this system more robust modifying the unlock schema as follows:
+
+* Instead of setting a fixed string, set a non-guessable large random string, called token.
+* Instead of releasing the lock with [`DEL`]({{< relref "/commands/del" >}}), send a script that only removes the key if the value matches.
+
+This avoids that a client will try to release the lock after the expire time deleting the key created by another client that acquired the lock later.
+
+An example of unlock script would be similar to the following:
+
+    if redis.call("get",KEYS[1]) == ARGV[1]
+    then
+        return redis.call("del",KEYS[1])
+    else
+        return 0
+    end
+
+The script should be called with `EVAL ...script... 1 resource-name token-value`
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="set-return-info" 
+    tab1="RESP2" 
+    tab2="RESP3" >}}
+
+* If `GET` was not specified, one of the following:
+  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings) in the following two cases.
+    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.
+    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.
+  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.
+* If `GET` was specified, one of the following:
+  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The key didn't exist before the `SET` operation, whether the key was created of not.
+  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.
+
+-tab-sep-
+
+* If `GET` was not specified, one of the following:
+  * [Null reply](../../develop/reference/protocol-spec#nulls) in the following two cases.
+    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.
+    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.
+  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.
+* If `GET` was specified, one of the following:
+  * [Null reply](../../develop/reference/protocol-spec#nulls): The key didn't exist before the `SET` operation, whether the key was created of not.
+  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.
+
+{{< /multitabs >}}

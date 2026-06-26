@@ -58,7 +58,7 @@ Returns a JSON array of [LDAP mapping objects]({{< relref "/operate/rs/reference
      "name": "Admins",
      "dn": "OU=ops.group,DC=redislabs,DC=com",
      "email": "ops.group@redislabs.com",
-     "role_uids": ["1"],
+     "role_uids": [1],
      "email_alerts": true,
      "bdbs_email_alerts": ["1","2"],
      "cluster_email_alerts": true
@@ -115,7 +115,7 @@ Returns an [LDAP mapping object]({{< relref "/operate/rs/references/rest-api/obj
      "name": "Admins",
      "dn": "OU=ops.group,DC=redislabs,DC=com",
      "email": "ops.group@redislabs.com",
-     "role_uids": ["1"],
+     "role_uids": [1],
      "email_alerts": true,
      "bdbs_email_alerts": ["1","2"],
      "cluster_email_alerts": true
@@ -192,7 +192,7 @@ Include an [LDAP mapping object]({{< relref "/operate/rs/references/rest-api/obj
      "name": "Admins",
      "dn": "OU=ops,DC=redislabs,DC=com",
      "email": "ops@redislabs.com",
-     "role_uids": ["1"],
+     "role_uids": [1],
      "email_alerts": true,
      "bdbs_email_alerts": ["1","2"],
      "cluster_email_alerts": true
@@ -247,7 +247,7 @@ Create a new LDAP mapping.
      "name": "Admins",
      "dn": "OU=ops.group,DC=redislabs,DC=com",
      "email": "ops.group@redislabs.com",
-     "role_uids": ["1"]
+     "role_uids": [1]
 }
 ```
 
@@ -273,7 +273,7 @@ Include an [LDAP mapping object]({{< relref "/operate/rs/references/rest-api/obj
      "name": "Admins",
      "dn": "OU=ops.group,DC=redislabs,DC=com",
      "email": "ops.group@redislabs.com",
-     "role_uids": ["1"]
+     "role_uids": [1]
 }
 ```
 

@@ -1,0 +1,802 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "blmove(, first_list: str,, second_list: str,, timeout: int,, src: str = \"LEFT\",, dest: str = \"RIGHT\",)",
+        "params": [
+          {
+            "name": "first_list",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "second_list",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "src",
+            "type": "str = \"LEFT\"",
+            "description": ""
+          },
+          {
+            "name": "dest",
+            "type": "str = \"RIGHT\"",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String blmove(final String srcKey, final String dstKey, final ListDirection from final ListDirection to, final double timeout)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "to",
+            "type": "ListDirection from final ListDirection",
+            "description": "can be LEFT or RIGHT"
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "The element being popped and pushed"
+        }
+      },
+      {
+        "signature": "String blmove(String srcKey, String dstKey, ListDirection from, ListDirection to, double timeout)",
+        "params": [
+          {
+            "name": "srcKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "dstKey",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "from",
+            "type": "ListDirection",
+            "description": "can be LEFT or RIGHT"
+          },
+          {
+            "name": "to",
+            "type": "ListDirection",
+            "description": "can be LEFT or RIGHT"
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "The element being popped and pushed"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V blmove(K source, K destination, LMoveArgs args, long timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "args",
+            "type": "LMoveArgs",
+            "description": "command arguments to configure source and destination directions."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply the element being popped and pushed. @since 6.1.3"
+        }
+      },
+      {
+        "signature": "V blmove(K source, K destination, LMoveArgs args, double timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "args",
+            "type": "LMoveArgs",
+            "description": "command arguments to configure source and destination directions."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "V bulk-string-reply the element being popped and pushed. @since 6.1.3"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> blmove(K source, K destination, LMoveArgs args, long timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "args",
+            "type": "LMoveArgs",
+            "description": "command arguments to configure source and destination directions."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply the element being popped and pushed. @since 6.1.3"
+        }
+      },
+      {
+        "signature": "RedisFuture<V> blmove(K source, K destination, LMoveArgs args, double timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "args",
+            "type": "LMoveArgs",
+            "description": "command arguments to configure source and destination directions."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "V bulk-string-reply the element being popped and pushed. @since 6.1.3"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> blmove(K source, K destination, LMoveArgs args, long timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "args",
+            "type": "LMoveArgs",
+            "description": "command arguments to configure source and destination directions."
+          },
+          {
+            "name": "timeout",
+            "type": "long",
+            "description": "the timeout in seconds."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply the element being popped and pushed. @since 6.1.3"
+        }
+      },
+      {
+        "signature": "Mono<V> blmove(K source, K destination, LMoveArgs args, double timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "K",
+            "description": "the source key."
+          },
+          {
+            "name": "destination",
+            "type": "K",
+            "description": "the destination type: key."
+          },
+          {
+            "name": "args",
+            "type": "LMoveArgs",
+            "description": "command arguments to configure source and destination directions."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "the timeout in seconds."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V bulk-string-reply the element being popped and pushed. @since 6.1.3"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BLMove(ctx context.Context, source, destination, srcpos, destpos string, timeout time.Duration)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "source",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "srcpos",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "destpos",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "time.Duration",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "blmove(source: RedisKey, destination: RedisKey, left: \"LEFT\", left1: \"LEFT\", timeout: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "left",
+            "type": "\"LEFT\"",
+            "description": ""
+          },
+          {
+            "name": "left1",
+            "type": "\"LEFT\"",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "blmove(source: RedisKey, destination: RedisKey, left: \"LEFT\", right: \"RIGHT\", timeout: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "left",
+            "type": "\"LEFT\"",
+            "description": ""
+          },
+          {
+            "name": "right",
+            "type": "\"RIGHT\"",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "blmove(source: RedisKey, destination: RedisKey, right: \"RIGHT\", left: \"LEFT\", timeout: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "right",
+            "type": "\"RIGHT\"",
+            "description": ""
+          },
+          {
+            "name": "left",
+            "type": "\"LEFT\"",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "blmove(source: RedisKey, destination: RedisKey, right: \"RIGHT\", right1: \"RIGHT\", timeout: number | string, callback?: Callback<string | null>)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "right",
+            "type": "\"RIGHT\"",
+            "description": ""
+          },
+          {
+            "name": "right1",
+            "type": "\"RIGHT\"",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "blmove(srckey: S, dstkey: D, src_dir: Direction, dst_dir: Direction, timeout: f64)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          },
+          {
+            "name": "src_dir",
+            "type": "Direction",
+            "description": ""
+          },
+          {
+            "name": "dst_dir",
+            "type": "Direction",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "blmove(srckey: S, dstkey: D, src_dir: Direction, dst_dir: Direction, timeout: f64)",
+        "params": [
+          {
+            "name": "srckey",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "dstkey",
+            "type": "D",
+            "description": ""
+          },
+          {
+            "name": "src_dir",
+            "type": "Direction",
+            "description": ""
+          },
+          {
+            "name": "dst_dir",
+            "type": "Direction",
+            "description": ""
+          },
+          {
+            "name": "timeout",
+            "type": "f64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Option<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "BLMove(RedisKey source, RedisKey destination, ListSide sourceSide, ListSide destinationSide, double timeout)",
+        "params": [
+          {
+            "name": "source",
+            "type": "RedisKey",
+            "description": "The key of the source list."
+          },
+          {
+            "name": "destination",
+            "type": "RedisKey",
+            "description": "The key of the destination list."
+          },
+          {
+            "name": "sourceSide",
+            "type": "ListSide",
+            "description": "What side of the source list to remove from."
+          },
+          {
+            "name": "destinationSide",
+            "type": "ListSide",
+            "description": "What side of the destination list to move to."
+          },
+          {
+            "name": "timeout",
+            "type": "double",
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue?",
+          "description": "The element being popped and pushed, or null if the server timeout expires."
+        }
+      },
+      {
+        "signature": "ListMove(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "RedisKey",
+            "description": "The key of the list to remove from."
+          },
+          {
+            "name": "destinationKey",
+            "type": "RedisKey",
+            "description": "The key of the list to move to."
+          },
+          {
+            "name": "sourceSide",
+            "type": "ListSide",
+            "description": "What side of the sourceKey list to remove from."
+          },
+          {
+            "name": "destinationSide",
+            "type": "ListSide",
+            "description": "What side of the destinationKey list to move to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The element being popped and pushed or Null if there is no element to move."
+        }
+      },
+      {
+        "signature": "ListMove(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "RedisKey",
+            "description": "The key of the list to remove from."
+          },
+          {
+            "name": "destinationKey",
+            "type": "RedisKey",
+            "description": "The key of the list to move to."
+          },
+          {
+            "name": "sourceSide",
+            "type": "ListSide",
+            "description": "What side of the sourceKey list to remove from."
+          },
+          {
+            "name": "destinationSide",
+            "type": "ListSide",
+            "description": "What side of the destinationKey list to move to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The element being popped and pushed or Null if there is no element to move."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ListMove(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "RedisKey",
+            "description": "The key of the list to remove from."
+          },
+          {
+            "name": "destinationKey",
+            "type": "RedisKey",
+            "description": "The key of the list to move to."
+          },
+          {
+            "name": "sourceSide",
+            "type": "ListSide",
+            "description": "What side of the sourceKey list to remove from."
+          },
+          {
+            "name": "destinationSide",
+            "type": "ListSide",
+            "description": "What side of the destinationKey list to move to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The element being popped and pushed or Null if there is no element to move."
+        }
+      },
+      {
+        "signature": "ListMove(RedisKey sourceKey, RedisKey destinationKey, ListSide sourceSide, ListSide destinationSide, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "sourceKey",
+            "type": "RedisKey",
+            "description": "The key of the list to remove from."
+          },
+          {
+            "name": "destinationKey",
+            "type": "RedisKey",
+            "description": "The key of the list to move to."
+          },
+          {
+            "name": "sourceSide",
+            "type": "ListSide",
+            "description": "What side of the sourceKey list to remove from."
+          },
+          {
+            "name": "destinationSide",
+            "type": "ListSide",
+            "description": "What side of the destinationKey list to move to."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "The element being popped and pushed or Null if there is no element to move."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "blmove(string $source, string $destination, string $where, string $to, int $timeout)",
+        "params": [
+          {
+            "name": "$source",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$destination",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$where",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$to",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$timeout",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "blmove(source, destination, where_source, where_destination, timeout: 0)",
+        "params": [
+          {
+            "name": "source",
+            "type": "String",
+            "description": "source key"
+          },
+          {
+            "name": "destination",
+            "type": "String",
+            "description": "destination key"
+          },
+          {
+            "name": "where_source",
+            "type": "String, Symbol",
+            "description": "LEFT or RIGHT"
+          },
+          {
+            "name": "where_destination",
+            "type": "String, Symbol",
+            "description": "LEFT or RIGHT"
+          },
+          {
+            "name": "timeout",
+            "type": "Float, Integer",
+            "description": "timeout in seconds"
+          }
+        ],
+        "returns": {
+          "type": "nil, String",
+          "description": "the element, or nil when the source key does not exist or the timeout expired"
+        }
+      }
+    ]
+  }
+}

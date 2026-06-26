@@ -23,7 +23,7 @@ This change allows databases with RediSearch to support:
 
 In addition, RediSearch 2.x indexes data that already existed in the database at the time that the index was created.
 
-To upgrade a Redis Enterprise Software database with RediSearch 1.x to RediSearch 2.x, you have to set up a new database with RediSearch 2.x and use the `RediSearch_Syncer.py` script to replicate the data from the old database into the new database.
+To upgrade a Redis Software database with RediSearch 1.x to RediSearch 2.x, you have to set up a new database with RediSearch 2.x and use the `RediSearch_Syncer.py` script to replicate the data from the old database into the new database.
 
 {{< note >}}
 After you create the database or after you replicate the data, [create an index]({{< relref "commands/ft.create" >}}) with a prefix or filter that defines the keys that you want to index.
@@ -49,7 +49,7 @@ sudo apt install python3
 
 To replicate a RediSearch 1.x database to a RediSearch 2.x database:
 
-1. Sign in to the admin console of the Redis Enterprise cluster where you want to host the new RediSearch 2.x database.
+1. Sign in to the admin console of the Redis Software cluster where you want to host the new RediSearch 2.x database.
 
 1. [Add the RediSearch 2.x module](#add-new-module) to the cluster.
 
@@ -61,7 +61,7 @@ To replicate a RediSearch 1.x database to a RediSearch 2.x database:
 
 1. Download the RediSearch 2.x module package from the [Redis Download Center](https://redis.io/downloads).
 
-1. In the Redis Enterprise admin console, select **settings**.
+1. In the Redis Software admin console, select **settings**.
 
 1. In **redis modules**, select the **Add module** button.
 
