@@ -22,6 +22,7 @@ If you specify the user only, then installation is run with the primary group th
 - When you install with custom directories, the installation does not run as an RPM file.
 - You must create the user and group before attempting to install Redis Software.
 - You can specify an LDAP user as the installation user.
+- The custom group must be the user's primary group. If the user's primary group differs from the custom group, database backups can fail because the installation user cannot change backup file ownership to a different group.
 {{< /note >}}
 
 To customize the user or group during [installation]({{< relref "/operate/rs/7.8/installing-upgrading/install/install-on-linux" >}}), include the `--os-user` or `--os-group` [command-line options]({{< relref "/operate/rs/7.8/installing-upgrading/install/install-script" >}}) when you run the `install.sh` script. For example:
