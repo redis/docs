@@ -18,7 +18,12 @@ components:
 components_local:
 	@python3 build/make.py --stack ./data/components_local/index.json
 
-hugo:
+# Validate that paths in data/rdi-reference/collections.json all resolve
+# to nodes in config.json. Catches drift when the upstream schema changes.
+validate_rdi:
+	@python3 build/validate_rdi_collections.py
+
+hugo: validate_rdi
 	@hugo $(HUGO_DEBUG) $(HUGO_BUILD)
 
 # json_transform requires hugo to have populated public/ with index.json files
@@ -33,7 +38,7 @@ ndjson: json_transform
 	@echo "Compressing NDJSON feed..."
 	@gzip -kf public/docs.ndjson
 
-serve_hugo:
+serve_hugo: validate_rdi
 	@hugo serve
 
 # Passive post-build report of unusually large rendered pages (warn-only).
