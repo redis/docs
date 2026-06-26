@@ -156,6 +156,51 @@ When your configuration is ready, you must deploy it to start using the pipeline
 [Deploy a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
 to learn how to do this.
 
+## Pipeline features
+
+RDI pipelines include several built-in features that keep your data accurate and
+the system stable, even when components fail or change data arrives faster than
+RDI can process it. The sections below describe the most important ones.
+
+### At-least-once delivery guarantee
+
+RDI guarantees *at-least-once delivery* to the target. This means that
+a given change will never be lost, but it might be added to the target
+more than once. Apart from a slight performance overhead, adding a
+change multiple times is harmless because the multiple writes
+are [*idempotent*](https://en.wikipedia.org/wiki/Idempotence) (that is
+to say that all writes after the first one make no change to the
+overall state).
+
+### Checkpointing
+
+RDI uses Redis streams to store the sequence of change events
+captured from the source. The events are then retrieved in order
+from the streams, processed, and written to the target. The stream
+processor uses a *checkpoint* mechanism to keep track of the last
+event in the sequence that it has successfully processed and stored. If the processor fails
+for any reason, it can restart from the last checkpoint and
+re-process any events that might not have been written to the target.
+This ensures that all changes are eventually recorded, even in the
+face of failures.
+
+### Backpressure mechanism
+
+Sometimes, data records can get added to the streams faster than RDI can
+process them. This can happen if the target is slowed or disconnected
+or simply if the source quickly generates a lot of change data.
+If this continues, then the streams will eventually occupy all the
+available memory. When RDI detects this situation, it applies a
+*backpressure* mechanism to slow or stop the flow of incoming data.
+Change data is held at the source until RDI clears the backlog and has
+enough free memory to resume streaming.
+
+{{<note>}}The Debezium log sometimes reports that RDI has run out
+of memory (usually while creating the initial snapshot). This is not
+an error, just an informative message to note that RDI has applied
+the backpressure mechanism.
+{{</note>}}
+
 ## More information
 
 See the other pages in this section for more information and examples:

@@ -41,7 +41,11 @@ in sequence:
 
 1.  A *CDC collector* captures changes to the source database. RDI
     currently uses an open source collector called
-    [Debezium](https://debezium.io/) for this step.
+    [Debezium](https://debezium.io/) for this step, which uses
+    [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html)
+    connectors to support a range of database sources. See
+    [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
+    for the full list of supported databases and versions.
 
 1.  The collector records the captured changes using
 [Redis streams]({{< relref "/develop/data-types/streams" >}})
@@ -69,51 +73,6 @@ change when new data gets captured from the source. At this point,
 RDI automatically enters a second phase called *change streaming*, where
 changes in the data are captured as they happen. Changes are usually
 added to the target within a few seconds after capture.
-
-## At-least-once delivery guarantee
-
-RDI guarantees *at-least-once delivery* to the target. This means that
-a given change will never be lost, but it might be added to the target
-more than once. Apart from a slight performance overhead, adding a
-change multiple times is harmless because the multiple writes
-are [*idempotent*](https://en.wikipedia.org/wiki/Idempotence) (that is
-to say that all writes after the first one make no change to the
-overall state).
-
-## Checkpointing
-
-RDI uses Redis streams to store the sequence of change events
-captured from the source. The events are then retrieved in order
-from the streams, processed, and written to the target. The stream
-processor uses a *checkpoint* mechanism to keep track of the last
-event in the sequence that it has successfully processed and stored. If the processor fails
-for any reason, it can restart from the last checkpoint and
-re-process any events that might not have been written to the target.
-This ensures that all changes are eventually recorded, even in the
-face of failures.
-
-## Backpressure mechanism
-
-Sometimes, data records can get added to the streams faster than RDI can
-process them. This can happen if the target is slowed or disconnected
-or simply if the source quickly generates a lot of change data.
-If this continues, then the streams will eventually occupy all the
-available memory. When RDI detects this situation, it applies a
-*backpressure* mechanism to slow or stop the flow of incoming data.
-Change data is held at the source until RDI clears the backlog and has
-enough free memory to resume streaming.
-
-{{<note>}}The Debezium log sometimes reports that RDI has run out
-of memory (usually while creating the initial snapshot). This is not
-an error, just an informative message to note that RDI has applied
-the backpressure mechanism.
-{{</note>}}
-
-## Supported sources
-
-RDI supports the following database sources using [Debezium Server](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) connectors:
-
-{{< embed-md "rdi-supported-source-versions.md" >}}
 
 ## How RDI is deployed
 
