@@ -55,6 +55,8 @@ title: XCFGSET
 ---
 Sets the IDMP (Idempotent Message Processing) configuration parameters for a stream. This command configures how long idempotent IDs are retained and the maximum number of idempotent IDs tracked per producer.
 
+For more details, see [Idempotent message processing](../../develop/data-types/streams/idempotency/).
+
 ## Required arguments
 
 <details open><summary><code>key</code></summary>
@@ -67,7 +69,7 @@ The name of the stream key. The stream must already exist.
 
 <details open><summary><code>IDMP-DURATION idmp-duration</code></summary>
 
-Sets the duration in seconds that each idempotent ID (iid) is kept in the stream's IDMP map. Valid range: 1-86,400 seconds. Default: 100 seconds.
+Sets the duration, in seconds, for which each idempotent ID (iid) is retained in the stream's IDMP map. Valid range: 1-86,400 seconds. Default: 100 seconds.
 
 When an idempotent ID expires, it can be reused for new messages. This provides an operational guarantee that Redis will not forget an idempotency ID before the duration elapses (unless capacity is reached).
 
