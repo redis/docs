@@ -56,7 +56,7 @@ title: XIDMPRECORD
 
  `XIDMPRECORD` is an internal command. Users should not call it directly.
  
-Redis uses it to set IDMP metadata on an existing stream message, which is then replayed during AOF loading.
+Redis uses it to set IDMP metadata, which is then replayed during AOF loading.
 
 ## Required arguments
 
