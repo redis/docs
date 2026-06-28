@@ -65,7 +65,7 @@ summary: An internal command for replicating stream values.
 syntax_fmt: "XSETID key last-id [ENTRIESADDED\_entries-added]\n  [MAXDELETEDID\_max-deleted-id]"
 title: XSETID
 ---
- `XSETID` is an internal command. Users should not call this command directly.
+ `XSETID` is an internal command. Users should not call it directly.
  
 Redis primary shards use it to replicate the last delivered entry ID of the stream.
 
