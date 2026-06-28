@@ -54,8 +54,9 @@ syntax_fmt: XIDMPRECORD key pid iid stream-id
 title: XIDMPRECORD
 ---
 
-`XIDMPRECORD` is an internal command for setting IDMP metadata on an existing stream message, which would be replayed during AOF loading.
-Users should not call this command directly.
+ `XIDMPRECORD` is an internal command. Users should not call it directly.
+ 
+Redis uses it to set IDMP metadata on an existing stream message, which is then replayed during AOF loading.
 
 ## Required arguments
 
