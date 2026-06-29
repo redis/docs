@@ -19,7 +19,7 @@ The following table shows which Redis Open Source features are supported by Redi
 
 | Feature | Redis<br/>Software | Redis<br/>Cloud |
 |:-------|:-------------------------|:-----------------------|
-| [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | &#x2705; Supported | &#x2705; Supported |
+| [Redis Search]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | &#x2705; Supported | &#x2705; Supported |
 | [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})   | &#x2705; Supported | &#x2705; Supported |
 | [Time series]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries" >}}) | &#x2705; Supported | &#x2705; Supported |
 | [Probabilistic]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}}) | &#x2705; Supported | &#x2705; Supported |
@@ -36,7 +36,7 @@ Version numbers indicate when the feature was first supported.  If you're using 
 
 For details about individual features, see the corresponding documentation.
 
-| Feature name/capability   | [Search and query]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})    | 
+| Feature name/capability   | [Redis Search]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}}) | [JSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})    | 
 |---------------------------|:--------------:|:------------:|
 | Active-Active (CRDB)[^5]  | Yes (v2.0)     | Yes (v2.2)   |
 | Backup/Restore            | Yes (v1.4)     | Yes (v1.0)   |
@@ -57,7 +57,7 @@ For details about individual features, see the corresponding documentation.
 
 [^2]: RediSearch version 1.6 supported Replica Of only between databases with the same number of shards.  This limitation was fixed in v2.0. 
 
-[^3]: You cannot use search and query with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). This limitation was fixed in Redis Software version 8.0.
+[^3]: You cannot use Redis Search with the [OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}). This limitation was fixed in Redis Software version 8.0.
 
 [^4]: You currently cannot combine Auto Tiering with Redis Open Source features in Redis Cloud. 
 
