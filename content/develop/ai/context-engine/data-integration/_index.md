@@ -13,7 +13,7 @@ weight: 40
 
 Stream live business data into Redis so agents always work with accurate, up-to-date information.
 
-Redis Data Integration (RDI) keeps your Redis Cloud database in sync with your existing relational databases using change data capture. Agents query Redis at full speed without ever touching your production databases directly.
+Redis Data Integration (RDI) keeps your Redis Cloud database in sync with your existing relational databases using [Change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC). Agents query Redis at full speed without ever querying your production databases directly.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< image-card image="images/ai-model.svg" alt="Quick start icon" title="Quick Start — Get a PostgreSQL pipeline running on Redis Cloud in minutes" url="/operate/rc/rdi/quick-start" >}}
@@ -58,37 +58,9 @@ Redis Data Integration (RDI) is a fully-managed pipeline service that:
 
 ## Quick example
 
-Define a pipeline to sync a PostgreSQL `users` table into Redis:
+RDI pipelines are defined through configuration — you specify which source database tables to sync, how to map each row to a Redis key, and what transformations to apply. No custom code is required.
 
-```yaml
-sources:
-  my_pg:
-    type: postgresql
-    host: my-db.example.com
-    database: myapp
-    username: rdi_user
-
-targets:
-  my_redis:
-    type: redis
-
-jobs:
-  sync-users:
-    source:
-      server-name: my_pg
-      schema: public
-      table: users
-    target:
-      key:
-        expression: "user:{{ id }}"
-        language: jmespath
-```
-
-RDI performs an initial full sync, then captures every subsequent `INSERT`, `UPDATE`, and `DELETE` and applies them to Redis within seconds. See the [RDI quick start]({{< relref "/operate/rc/rdi/quick-start" >}}) to get up and running with a live PostgreSQL source.
-
-Redis Data Integration (RDI) is a fully-managed data pipeline service that keeps your Redis Cloud database in sync with your existing relational databases in near real time. By streaming live data from your primary databases into Redis, RDI ensures that AI agents always have access to accurate, up-to-date business data without querying slow source databases directly.
-
-[Get started](#get-started) with RDI on [Redis Cloud]({{< relref "/operate/rc/rdi" >}}) or explore the full [Redis Data Integration documentation]({{< relref "/integrate/redis-data-integration" >}}).
+See the [RDI quick start]({{< relref "/operate/rc/rdi/quick-start" >}}) for a step-by-step walkthrough syncing a live PostgreSQL source to Redis Cloud.
 
 ## Redis Data Integration overview
 

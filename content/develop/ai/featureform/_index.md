@@ -52,7 +52,6 @@ Redis Feature Form is a feature platform for machine learning teams that:
       <li>Python SDK for defining features, labels, training sets, and providers</li>
       <li>Redis as the online store — sub-millisecond feature serving at scale</li>
       <li>No need to replace existing data systems — register them as providers</li>
-      <li>Refer to <a href="/operate/featureform">Deploy</a> for installation and license key setup</li>
     </ul>
   </div>
 </div>

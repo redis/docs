@@ -83,10 +83,6 @@ POST /v1/caches/{cacheId}/entries
 
 See the full [LangCache API and SDK examples]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) for more.
 
-Redis LangCache is a fully-managed semantic caching service that reduces large language model (LLM) costs and improves response times for AI applications.
-
-[Get started](#get-started) with LangCache on [Redis Cloud]({{< relref "/operate/rc/context-engine/langcache" >}}) or join the [private preview](https://redis.io/langcache/).
-
 ## LangCache overview
 
 LangCache uses semantic caching to store and reuse previous LLM responses for repeated queries. Instead of calling the LLM for every request, LangCache checks if a similar response has already been generated and is stored in the cache. If a match is found, LangCache returns the cached response instantly, saving time and resources. 

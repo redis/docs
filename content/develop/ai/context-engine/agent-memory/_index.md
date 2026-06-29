@@ -20,7 +20,7 @@ Transform your AI agents from simple chatbots into intelligent assistants with R
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< image-card image="images/ai-brain.svg" alt="Quick start icon" title="Quick Start — Get up and running in 5 minutes with our step-by-step Cloud setup guide" url="/operate/rc/context-engine/agent-memory/create-service" >}}
   {{< image-card image="images/ai-LLM-memory.svg" alt="Use cases icon" title="API and SDK Examples — See real-world usage patterns with session events and long-term memory" url="/develop/ai/context-engine/agent-memory/api-examples" >}}
-  {{< image-card image="images/ai-brain-2.svg" alt="Python SDK icon" title="Python SDK — Easy integration with tool abstractions for OpenAI and Anthropic" url="/develop/ai/context-engine/agent-memory/api-examples" >}}
+  {{< image-card image="images/ai-brain-2.svg" alt="Python SDK icon" title="Python SDK — Install the redis-agent-memory package from PyPI" url="https://pypi.org/project/redis-agent-memory/" >}}
 </div>
 
 ## What is Redis Agent Memory?
@@ -31,8 +31,7 @@ Redis Agent Memory is a production-ready memory system for AI agents and applica
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Remembers everything</strong> — Stores conversation history, user preferences, and important facts across sessions</span></li>
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Finds relevant context</strong> — Uses semantic, keyword, and hybrid search to surface the right information at the right time</span></li>
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Gets smarter over time</strong> — Automatically extracts, organizes, and deduplicates memories from interactions</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Works with any AI model</strong> — REST API and MCP interfaces compatible with OpenAI, Anthropic, and others</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Multi-provider support</strong> — Use 100+ LLM providers via LiteLLM (OpenAI, Anthropic, AWS Bedrock, Ollama, Azure, Gemini, and more)</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Works with any AI model</strong> — REST API and Python SDK compatible with any agent framework or LLM provider</span></li>
 </ul>
 
 ## Why use Redis Agent Memory?

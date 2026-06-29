@@ -46,7 +46,7 @@ Redis is an in-memory data platform purpose-built for the speed and structure th
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">For developers</h3>
     <ul class="space-y-1 text-redis-pen-600">
-      <li>Python, JavaScript, Java, Go, and .NET client libraries</li>
+      <li>Redis Search available in Python, JavaScript, Java, Go, .NET, and PHP client libraries</li>
       <li>Managed Context Engine services — no infrastructure to build or maintain</li>
       <li>Works with LangChain, LlamaIndex, LangGraph, and other AI frameworks</li>
       <li>From local development to Redis Cloud with the same API</li>
