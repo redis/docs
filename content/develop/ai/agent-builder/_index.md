@@ -30,10 +30,11 @@ Redis powers these capabilities with fast, reliable data storage and retrieval t
 
 ## What you can build
 
-Choose from two types of intelligent agents:
+Choose from three types of intelligent agents:
 
 - **Recommendation engines**: Personalized product and content recommendations
 - **Conversational assistants**: Chatbots with memory and context awareness
+- **Knowledge assistants**: RAG agents that ingest documents, answer questions with citations, and use semantic caching
 
 The agent builder will generate complete, working code examples for your chosen agent type.
 
