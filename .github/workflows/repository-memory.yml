@@ -1,0 +1,92 @@
+# Redis Repository Memory
+#
+# On every push (non-main branch) and PR open/update, this workflow:
+#   1. Extracts the commit or PR title, body, and changed files.
+#   2. Embeds that context with OpenAI text-embedding-3-small.
+#   3. Searches a Redis vector index for semantically related prior PRs,
+#      issues, and commits, then stores the current item in the index.
+#   4. Posts the results as a commit status (pushes) or PR comment (PRs).
+#
+# ── Required repository secrets ────────────────────────────────────────────
+#
+#   MEMORY_REDIS_URL   Connection string for the Redis instance used as the
+#                      memory store, e.g. redis://default:<password>@<host>:<port>
+#                      A Redis Cloud free-tier database works fine.
+#                      Create one at https://redis.io/try-free/
+#
+#   OPENAI_API_KEY     OpenAI API key used to generate text embeddings.
+#                      Only the Embeddings API is called (text-embedding-3-small),
+#                      so a low-usage key is sufficient.
+#
+# ── Optional configuration ──────────────────────────────────────────────────
+#
+#   UPSTREAM_REPO (env var, line 42 below)
+#                      When set to "redis/docs", the memory search also
+#                      surfaces results from the upstream repo. This lets
+#                      a fork benefit from the upstream's accumulated history.
+#                      Change or remove this line if running in the upstream
+#                      repo directly.
+#
+# ── Seeding existing history ────────────────────────────────────────────────
+#
+#   To pre-populate the memory index with existing PRs and issues before
+#   the workflow has run on them, use the seed script locally:
+#
+#     cd scripts/memory
+#     npm install
+#     REDIS_URL=<your-redis-url> OPENAI_API_KEY=<your-key> \
+#       GITHUB_TOKEN=<your-pat> TARGET_REPO=redis/docs \
+#       node seed.js
+#
+#   The PAT needs read access to the target repo's issues and pull requests.
+#   Seeding is a one-time operation; the workflow keeps the index up to date
+#   from that point on.
+#
+name: Redis Repository Memory
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+  contents: read
+  statuses: write
+
+jobs:
+  memory:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: scripts/memory
+        run: npm install
+
+      - name: Collect context
+        run: node scripts/memory/collect_context.js
+
+      - name: Retrieve and store memory
+        env:
+          REDIS_URL: ${{ secrets.MEMORY_REDIS_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          UPSTREAM_REPO: redis/docs
+        run: node scripts/memory/retrieve_memory.js
+
+      - name: Post result
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/memory/post_comment.js
