@@ -41,4 +41,5 @@ You can use the API to:
 
 - Use the [Redis Cloud API]({{< relref "/operate/rc/api/get-started/use-rest-api.md" >}})
 - [Full API Reference]({{< relref "/operate/rc/api/api-reference" >}})
+- [Data Integration API Reference]({{< relref "/operate/rc/api/data-integration-api-reference" >}})
 - Secure [authentication and authorization]({{< relref "/operate/rc/api/get-started" >}})
