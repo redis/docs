@@ -31,7 +31,6 @@ since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Checks whether one or more items exist in a Bloom Filter
 syntax_fmt: BF.MEXISTS key item [item ...]
-syntax_str: item [item ...]
 title: BF.MEXISTS
 ---
 Determines whether one or more items were added to a Bloom filter.
@@ -63,12 +62,11 @@ redis> BF.MEXISTS bf item1 item2 item3
 3) (integer) 0
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

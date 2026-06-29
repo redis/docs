@@ -47,14 +47,27 @@ railroad_diagram: /images/railroad/hget.svg
 since: 2.0.0
 summary: Returns the value of a field in a hash.
 syntax_fmt: HGET key field
-syntax_str: field
 title: HGET
 ---
 Returns the value associated with `field` in the hash stored at `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field</code></summary>
+
+The field whose value to retrieve.
+
+</details>
+
 ## Examples
 
-{{< clients-example cmds_hash hget >}}
+{{< clients-example set="cmds_hash" step="hget" description="Foundational: Retrieve a single field value from a hash using HGET (returns nil if field or key doesn't exist)" difficulty="beginner" >}}
 > HSET myhash field1 "foo"
 (integer) 1
 > HGET myhash field1
@@ -71,9 +84,9 @@ HGET myhash field1
 HGET myhash field2
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -33,7 +33,6 @@ summary: Returns, for each input value (floating-point), the estimated reverse r
   of the value (the number of observations in the sketch that are larger than the
   value + half the number of observations that are equal to the value)
 syntax_fmt: TDIGEST.REVRANK key value [value ...]
-syntax_str: value [value ...]
 title: TDIGEST.REVRANK
 ---
 Returns, for each floating-point input value, the estimated reverse rank of the value (_the number of observations in the sketch that are larger than the value_ + _half the number of observations that are equal to the value_).
@@ -50,20 +49,6 @@ is the key name for an existing t-digest sketch.
 
 is the input value for which the reverse rank should be estimated.
 </details>
-
-## Return value
-
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) - an array of integers populated with revrank_1, revrank_2, ..., revrank_V:
-  
-- -1 - when `value` is larger than the value of the largest observation.
-- The number of observations - when `value` is smaller than the value of the smallest observation.
-- Otherwise: an estimation of the number of (observations larger than `value` + half the observations equal to `value`).
-  
-0 is the reverse rank of the value of the largest observation.
-
-_n_-1 is the reverse rank of the value of the smallest observation; _n_ denotes the number of observations added to the sketch.
-
-All values are -2 if the sketch is empty.  
 
 ## Examples
 
@@ -105,9 +90,9 @@ redis> TDIGEST.REVRANK s 10 20
 2) (integer) 1
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 

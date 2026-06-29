@@ -43,12 +43,19 @@ railroad_diagram: /images/railroad/type.svg
 since: 1.0.0
 summary: Determines the type of value stored at a key.
 syntax_fmt: TYPE key
-syntax_str: ''
 title: TYPE
 ---
 Returns the string representation of the type of the value stored at `key`.
 The different types that can be returned are: `string`, `list`, `set`, `zset`,
 `hash`, `stream`, and `vectorset`.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
 
 ## Examples
 
@@ -61,9 +68,9 @@ TYPE key2
 TYPE key3
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

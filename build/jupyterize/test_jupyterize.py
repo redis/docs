@@ -13,24 +13,28 @@ import json
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(__file__))
 
-from jupyterize import jupyterize, detect_language, validate_input, parse_file
+from jupyterize import jupyterize
+from validator import InputValidator
+from parser import FileParser
 
 
 def test_language_detection():
     """Test language detection from file extensions."""
     print("Testing language detection...")
 
-    assert detect_language('example.py') == 'python'
-    assert detect_language('example.js') == 'node.js'
-    assert detect_language('example.go') == 'go'
-    assert detect_language('example.cs') == 'c#'
-    assert detect_language('example.java') == 'java'
-    assert detect_language('example.php') == 'php'
-    assert detect_language('example.rs') == 'rust'
+    validator = InputValidator()
+
+    assert validator.detect_language('example.py') == 'python'
+    assert validator.detect_language('example.js') == 'node.js'
+    assert validator.detect_language('example.go') == 'go'
+    assert validator.detect_language('example.cs') == 'c#'
+    assert validator.detect_language('example.java') == 'java'
+    assert validator.detect_language('example.php') == 'php'
+    assert validator.detect_language('example.rs') == 'rust'
 
     # Test unsupported extension
     try:
-        detect_language('example.txt')
+        validator.detect_language('example.txt')
         assert False, "Should have raised ValueError"
     except ValueError as e:
         assert "Unsupported file extension" in str(e)
@@ -516,7 +520,7 @@ r = redis.Redis()
 
 
 def test_go_boilerplate_injection():
-    """Test Go boilerplate injection (func main() {} appended to first cell)."""
+    """Test Go boilerplate injection (client config and func main() {} appended to first cell)."""
     print("\nTesting Go boilerplate injection...")
 
     # Create test file with Go code
@@ -556,12 +560,16 @@ fmt.Println("Hello")
         assert nb['metadata']['kernelspec']['name'] == 'gophernotes', \
             f"Kernel should be gophernotes, got {nb['metadata']['kernelspec']['name']}"
 
-        # First cell should contain imports AND func main() {}
+        # First cell should contain imports, client config, and func main() {}
         # (boilerplate is appended to first cell for Go, not separate)
         first_cell = nb['cells'][0]
         first_cell_source = ''.join(first_cell['source'])
         assert 'import (' in first_cell_source, \
             f"First cell should contain imports, got: {first_cell_source}"
+        assert 'redis.NewClient' in first_cell_source, \
+            f"First cell should contain redis.NewClient, got: {first_cell_source}"
+        assert 'MaintNotificationsConfig' in first_cell_source, \
+            f"First cell should contain MaintNotificationsConfig, got: {first_cell_source}"
         assert 'func main() {}' in first_cell_source, \
             f"First cell should contain 'func main() {{}}', got: {first_cell_source}"
 
@@ -772,6 +780,81 @@ $r->get('foo');
             os.unlink(output_file)
 
 
+def test_php_unwrapping():
+    """Test that PHP class/method wrappers are removed."""
+    print("\nTesting PHP unwrapping...")
+
+    test_content = """// EXAMPLE: test_php_unwrap
+<?php
+
+require 'vendor/autoload.php';
+
+use Predis\\Client as PredisClient;
+
+class DtSetsTest
+{
+    public function testDtSet() {
+        $r = new PredisClient([
+            'scheme'   => 'tcp',
+            'host'     => '127.0.0.1',
+            'port'     => 6379,
+            'password' => '',
+            'database' => 0,
+        ]);
+
+        // STEP_START test_step
+        $res = $r->sadd('test_key', ['value1']);
+        echo $res . PHP_EOL;
+        // STEP_END
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.php', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        # Convert
+        output_file = test_file.replace('.php', '.ipynb')
+        result = jupyterize(test_file, output_file, verbose=False)
+
+        # Load and validate notebook
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # Verify kernel is php
+        assert nb['metadata']['kernelspec']['name'] == 'php', \
+            f"Kernel should be php, got {nb['metadata']['kernelspec']['name']}"
+
+        # Verify class and method wrappers are removed
+        all_code = ''.join(''.join(cell['source']) for cell in nb['cells'])
+        assert 'class DtSetsTest' not in all_code, \
+            "Should not contain class declaration"
+        assert 'public function testDtSet' not in all_code, \
+            "Should not contain method declaration"
+
+        # Verify actual code is present
+        assert '$r = new PredisClient' in all_code, \
+            "Should contain connection code"
+        assert '$r->sadd' in all_code, \
+            "Should contain actual Redis command"
+        assert 'require' in all_code, \
+            "Should contain require statement"
+
+        # Verify we have 2 cells (preamble + step)
+        assert len(nb['cells']) == 2, \
+            f"Should have 2 cells, got {len(nb['cells'])}"
+
+        print("✓ PHP unwrapping test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if output_file and os.path.exists(output_file):
+            os.unlink(output_file)
+
+
 def main():
     """Run all tests."""
     print("=" * 60)
@@ -783,6 +866,9 @@ def main():
         test_language_detection()
         test_basic_conversion()
         test_hide_remove_blocks()
+        test_keep_tests_mode()
+        test_trailing_brace_orphans()
+        test_orphan_braces_ignore_strings()
         test_javascript_file()
 
         # Edge case tests
@@ -811,6 +897,7 @@ def main():
 
         # Language-specific feature tests (PHP)
         test_php_no_step_metadata()
+        test_php_unwrapping()
 
         # Regression tests
         test_csharp_for_loop_braces()
@@ -1099,6 +1186,164 @@ public class TestExample {
             os.unlink(test_file)
         if os.path.exists(output_file):
             os.unlink(output_file)
+
+
+def test_keep_tests_mode():
+    """Test that --with-tests keeps REMOVE blocks as tagged 'test' cells."""
+    print("\nTesting keep-tests (test notebook) mode...")
+
+    test_content = """# EXAMPLE: test_keep
+# HIDE_START
+import redis
+r = redis.Redis()
+# HIDE_END
+
+# REMOVE_START
+r.delete("k")
+# REMOVE_END
+
+# STEP_START setit
+res = r.set("k", "v")
+print(res)
+# STEP_END
+# REMOVE_START
+assert res is True
+# REMOVE_END
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    ship_file = test_file.replace('.py', '.ipynb')
+    test_nb_file = test_file.replace('.py', '.test.ipynb')
+    try:
+        # Default (ship) mode: REMOVE content excluded, no test tags.
+        jupyterize(test_file, ship_file, verbose=False)
+        with open(ship_file) as f:
+            ship = json.load(f)
+        ship_src = ''.join(''.join(c['source']) for c in ship['cells'])
+        assert 'assert res is True' not in ship_src
+        assert 'r.delete' not in ship_src
+        assert all('test' not in c['metadata'].get('tags', []) for c in ship['cells'])
+
+        # With tests: REMOVE blocks kept as cells tagged 'test', in order.
+        jupyterize(test_file, test_nb_file, verbose=False, with_tests=True)
+        with open(test_nb_file) as f:
+            tnb = json.load(f)
+        test_cells = [c for c in tnb['cells'] if 'test' in c['metadata'].get('tags', [])]
+        assert len(test_cells) == 2, f"expected 2 test cells, got {len(test_cells)}"
+        tnb_src = ''.join(''.join(c['source']) for c in tnb['cells'])
+        assert 'assert res is True' in tnb_src
+        assert 'r.delete' in tnb_src
+        # The shipped notebook is the test notebook minus the tagged cells.
+        non_test = [c for c in tnb['cells'] if 'test' not in c['metadata'].get('tags', [])]
+        assert len(non_test) == len(ship['cells'])
+        # Test cells carry no step metadata (so stripping leaves steps intact).
+        assert all('step' not in c['metadata'] for c in test_cells)
+
+        print("✓ Keep-tests mode test passed")
+
+    finally:
+        for p in (test_file, ship_file, test_nb_file):
+            if os.path.exists(p):
+                os.unlink(p)
+
+
+def test_trailing_brace_orphans():
+    """Orphan wrapper close-braces (in a later cell) are stripped, but balanced
+    block braces in the same example are preserved."""
+    print("\nTesting orphan trailing-brace removal across cells...")
+
+    # The class/method wrapper opens in the first cell; a teardown statement and
+    # the wrapper's closing braces land in a trailing context cell (not a
+    # braces-only cell, so it isn't skipped). A balanced for-loop sits in a step.
+    test_content = """// EXAMPLE: test_trailing_braces
+import redis.clients.jedis.UnifiedJedis;
+
+public class TrailingBraceExample {
+    public void run() {
+        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+
+        // STEP_START loop
+        for (int i = 0; i < 2; i++) {
+            System.out.println(i);
+        }
+        // STEP_END
+
+        jedis.close();
+    }
+}
+"""
+
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.java', delete=False) as f:
+        f.write(test_content)
+        test_file = f.name
+
+    try:
+        output_file = test_file.replace('.java', '.ipynb')
+        jupyterize(test_file, output_file, verbose=False)
+
+        with open(output_file) as f:
+            nb = json.load(f)
+
+        # No wrapper scaffolding survives anywhere.
+        all_src = '\n'.join(''.join(c['source']) for c in nb['cells'])
+        assert 'public class' not in all_src
+        assert 'public void run' not in all_src
+
+        # The balanced for-loop keeps its own closing brace.
+        loop_cell = next(c for c in nb['cells']
+                         if 'for (int i' in ''.join(c['source']))
+        loop_src = ''.join(loop_cell['source'])
+        assert loop_src.count('{') == loop_src.count('}'), \
+            f"balanced loop braces altered: {loop_src!r}"
+
+        # The teardown cell keeps jedis.close() but loses the orphan wrapper '}'.
+        close_cell = next(c for c in nb['cells']
+                          if 'jedis.close()' in ''.join(c['source']))
+        close_src = ''.join(close_cell['source']).rstrip()
+        assert close_src.endswith('jedis.close();'), \
+            f"orphan braces not stripped: {close_src!r}"
+
+        # No kept cell is left brace-positive (orphan trailing closes).
+        for c in nb['cells']:
+            src = ''.join(c['source'])
+            assert src.count('}') <= src.count('{'), \
+                f"cell has orphan closing braces: {src!r}"
+
+        print("✓ Orphan trailing-brace removal test passed")
+
+    finally:
+        if os.path.exists(test_file):
+            os.unlink(test_file)
+        if os.path.exists(output_file):
+            os.unlink(output_file)
+
+
+def test_orphan_braces_ignore_strings():
+    """Braces inside string/char literals must not skew orphan-brace removal."""
+    print("\nTesting orphan-brace removal ignores string-literal braces...")
+
+    from unwrapper import _net_braces, _strip_trailing_orphan_braces
+
+    # A '}' in a string/char/comment is not a structural brace.
+    assert _net_braces('System.out.println("}");') == 0
+    assert _net_braces("char c = '}';") == 0
+    assert _net_braces('x = 1;  // closes the } block') == 0
+    # Real structural imbalance is still counted.
+    assert _net_braces('foo();\n}\n}') == 2
+
+    # A balanced loop whose body prints a '}' keeps its own closing brace.
+    balanced = 'for (int i = 0; i < 2; i++) {\n    print("}");\n}'
+    assert _strip_trailing_orphan_braces(balanced) == balanced
+
+    # Genuine orphan wrapper closes (with a string brace earlier) are stripped,
+    # but only the unmatched ones.
+    orphan = 'print("}");\njedis.close();\n}\n}'
+    assert _strip_trailing_orphan_braces(orphan) == 'print("}");\njedis.close();'
+
+    print("✓ Orphan-brace string-literal test passed")
 
 
 if __name__ == '__main__':

@@ -36,24 +36,27 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Increases the count of one or more items by increment
 syntax_fmt: TOPK.INCRBY key item increment [item increment ...]
-syntax_str: item increment [item increment ...]
 title: TOPK.INCRBY
 ---
 Increase the score of an item in the data structure by `increment`. 
 Multiple items' scores can be increased at once.
 If an item enters the Top-K list, the item that is expelled (if any) is returned.
 
-### Parameters
+## Required arguments
 
-* **key**: the name of the sketch.
-* **item**: the items to be incremented.
-* **increment**: the value by which items will be incremented. The `increment` must be greater or equal to 1 and less than or equal to 100,000 to avoid server freeze.
+<details open><summary><code>key</code></summary>
 
-## Return
+the name of the sketch.
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - if an element was dropped from the TopK list, [Nil reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) otherwise..
+</details>
 
-## Example
+<details open><summary><code>item increment [item increment ...]</code></summary>
+
+One or more item-increment pairs. Each `item` is incremented by its corresponding `increment`. The `increment` must be greater than or equal to 1 and less than or equal to 100,000 to avoid server freeze.
+
+</details>
+
+## Examples
 
 ```
 redis> TOPK.INCRBY topk foo 3 bar 2 42 30
@@ -62,12 +65,11 @@ redis> TOPK.INCRBY topk foo 3 bar 2 42 30
 3) foo
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

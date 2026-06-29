@@ -52,7 +52,6 @@ railroad_diagram: /images/railroad/zincrby.svg
 since: 1.2.0
 summary: Increments the score of a member in a sorted set.
 syntax_fmt: ZINCRBY key increment member
-syntax_str: increment member
 title: ZINCRBY
 ---
 Increments the score of `member` in the sorted set stored at `key` by
@@ -68,6 +67,26 @@ The `score` value should be the string representation of a numeric value, and
 accepts double precision floating point numbers.
 It is possible to provide a negative value to decrement the score.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>increment</code></summary>
+
+The amount to add to the member's current score.
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member whose score to increment. It is added with the increment as its score if it does not exist.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -77,9 +96,9 @@ ZINCRBY myzset 2 "one"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

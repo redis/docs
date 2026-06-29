@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the paths object used with Redis Enterprise Software REST API
+description: Documents the paths object used with Redis Software REST API
   calls.
 linkTitle: paths
 weight: $weight

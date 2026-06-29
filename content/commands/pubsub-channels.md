@@ -32,20 +32,27 @@ railroad_diagram: /images/railroad/pubsub-channels.svg
 since: 2.8.0
 summary: Returns the active channels.
 syntax_fmt: PUBSUB CHANNELS [pattern]
-syntax_str: ''
 title: PUBSUB CHANNELS
 ---
-Lists the currently *active channels*.
+Lists the currently active Pub/Sub channels.
 
 An active channel is a Pub/Sub channel with one or more subscribers (excluding clients subscribed to patterns).
 
 If no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.
 
-Cluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
+Cluster note: in a Redis Cluster, clients can subscribe to every node and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Optional arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>pattern</code></summary>
+
+List only active channels whose names match the given glob-style pattern. If omitted, all active channels are listed.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -73,9 +73,9 @@ If you want to create a different type of database, see the following guides:
 
 At this point, you're viewing the **Configuration** details for your new database. Go to the **Security** section of the page.
 
-To connect to your database, you need your username and password. Each database is protected by a **Default user** called `default` and a masked **Default user password**. Select the eye icon to show or hide the password.    
+To connect to your database, you need your username and password. Each database is protected by a **Default user** called `default` and a masked **Default user password**. Select **Default user > Configure** and then select the eye icon to view your password.    
 
-{{<image filename="images/rc/database-fixed-configuration-security.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}
+{{<image filename="images/rc/database-essentials-default-user.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}
 
 Once you have the username and password, select **Connect** to open the connection wizard.
 
@@ -146,7 +146,7 @@ A Redis client is a software library or tool that enables applications to intera
 
 The connection wizard provides code snippets to connect to your database with the following programming languages:
 
-- .NET using [NRedisStack]({{< relref "/develop/clients/dotnet" >}})
+- .NET using [StackExchange.Redis/NRedisStack]({{< relref "/develop/clients/dotnet" >}})
 - node.js using [node-redis]({{< relref "/develop/clients/nodejs" >}})
 - Python using [redis-py]({{< relref "/develop/clients/redis-py" >}})
 - Java using [Jedis]({{< relref "/develop/clients/jedis" >}}) and [Lettuce]({{< relref "/develop/clients/lettuce" >}})

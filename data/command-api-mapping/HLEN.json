@@ -1,0 +1,305 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hlen(name: str)",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long hlen(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of entries (fields) contained in the hash stored at key. If the specified key does not exist, 0 is returned assuming an empty hash."
+        }
+      },
+      {
+        "signature": "long hlen(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of entries (fields) contained in the hash stored at key. If the specified key does not exist, 0 is returned assuming an empty hash."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long hlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply number of fields in the hash, or 0 when key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> hlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply number of fields in the hash, or 0 when key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> hlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply number of fields in the hash, or 0 when key does not exist."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HLen(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HLEN(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "hlen(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Get the values of all the given hash fields, * - _group_: hash, * - _complexity_: O(N) where N is the number of fields being requested., * - _since_: 2.0.0, */, hmget(, ...args: [, key: RedisKey, ...fields: (string | Buffer)[], callback: Callback<(string | null)[]>, ])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>)",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hlen(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hlen(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields in the hash, or 0 when key does not exist."
+        }
+      },
+      {
+        "signature": "HashLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields in the hash, or 0 when key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields in the hash, or 0 when key does not exist."
+        }
+      },
+      {
+        "signature": "HashLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The number of fields in the hash, or 0 when key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hlen(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "hlen(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "number of fields in the hash"
+        }
+      }
+    ]
+  }
+}

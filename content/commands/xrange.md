@@ -58,7 +58,6 @@ railroad_diagram: /images/railroad/xrange.svg
 since: 5.0.0
 summary: Returns the messages from a stream within a range of IDs.
 syntax_fmt: "XRANGE key start end [COUNT\_count]"
-syntax_str: "start end [COUNT\_count]"
 title: XRANGE
 ---
 The command returns the stream entries matching a given range of IDs.
@@ -79,7 +78,49 @@ The `XRANGE` command has a number of applications:
 The command also has a reciprocal command returning items in the
 reverse order, called [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}), which is otherwise identical.
 
-## `-` and `+` special IDs
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The start of the ID range, inclusive. Use `-` for the smallest ID.
+
+</details>
+
+<details open><summary><code>end</code></summary>
+
+The end of the ID range, inclusive. Use `+` for the greatest ID.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The maximum number of entries to return.
+
+</details>
+
+## Examples
+
+{{% redis-cli %}}
+XADD writers * name Virginia surname Woolf
+XADD writers * name Jane surname Austen
+XADD writers * name Toni surname Morrison
+XADD writers * name Agatha surname Christie
+XADD writers * name Ngozi surname Adichie
+XLEN writers
+XRANGE writers - + COUNT 2
+{{% /redis-cli %}}
+
+## Details
+
+### `-` and `+` special IDs
 
 The `-` and `+` special IDs mean respectively the minimum ID possible
 and the maximum ID possible inside a stream, so the following command
@@ -107,7 +148,7 @@ will just return every entry in the stream:
 The `-` and `+` special IDs mean, respectively, the minimal and maximal range IDs,
 however they are nicer to type.
 
-## Incomplete IDs
+### Incomplete IDs
 
 Stream IDs are composed of two parts, a Unix millisecond time stamp and a
 sequence number for entries inserted in the same millisecond. It is possible
@@ -129,14 +170,14 @@ Used in this way `XRANGE` works as a range query command to obtain entries
 in a specified time. This is very handy in order to access the history
 of past events in a stream.
 
-## Exclusive ranges
+### Exclusive ranges
 
 The range is close (inclusive) by default, meaning that the reply can include
 entries with IDs matching the query's start and end intervals. It is possible
 to specify an open interval (exclusive) by prefixing the ID with the
 character `(`. This is useful for iterating the stream, as explained below.
 
-## Returning a maximum number of entries
+### Returning a maximum number of entries
 
 Using the **COUNT** option it is possible to reduce the number of entries
 reported. This is a very important feature even if it may look marginal,
@@ -158,7 +199,7 @@ In the above case the entry `1526985054069-0` exists, otherwise the server
 would have sent us the next one. Using `COUNT` is also the base in order to
 use `XRANGE` as an iterator.
 
-## Iterating a stream
+### Iterating a stream
 
 In order to iterate a stream, we can proceed as follows. Let's assume that
 we want two elements per iteration. We start fetching the first two
@@ -209,7 +250,7 @@ The command [`XREAD`]({{< relref "/commands/xread" >}}) is also able to iterate 
 The command [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) can iterate the stream reverse, from higher IDs
 (or times) to lower IDs (or times).
 
-### Iterating with earlier versions of Redis
+#### Iterating with earlier versions of Redis
 
 While exclusive range intervals are only available from Redis 6.2, it is still
 possible to use a similar stream iteration pattern with earlier versions. You
@@ -240,7 +281,7 @@ only difference is that the client needs to decrement the ID for the subsequent
 calls. When decrementing an ID with a sequence part of 0, the timestamp needs
 to be decremented by 1 and the sequence set to 18446744073709551615.
 
-## Fetching single items
+### Fetching single items
 
 If you look for an `XGET` command you'll be disappointed because `XRANGE`
 is effectively the way to go in order to fetch a single entry from a
@@ -258,26 +299,14 @@ of XRANGE:
       6) "7782813"
 ```
 
-## Additional information about streams
+### Additional information about streams
 
-For further information about Redis streams please check our
-[introduction to Redis Streams document]({{< relref "/develop/data-types/streams" >}}).
+For further information about Redis streams please see
+[Introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}).
 
-## Examples
+## Redis Software and Redis Cloud compatibility
 
-{{% redis-cli %}}
-XADD writers * name Virginia surname Woolf
-XADD writers * name Jane surname Austen
-XADD writers * name Toni surname Morrison
-XADD writers * name Agatha surname Christie
-XADD writers * name Ngozi surname Adichie
-XLEN writers
-XRANGE writers - + COUNT 2
-{{% /redis-cli %}}
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

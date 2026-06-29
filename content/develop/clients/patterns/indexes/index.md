@@ -12,6 +12,9 @@ categories:
 description: Building secondary indexes in Redis
 linkTitle: Secondary indexing
 title: Secondary indexing
+aliases:
+- /develop/use/patterns/indexes
+- /manual/patterns/indexes/
 weight: 1
 ---
 
@@ -19,7 +22,7 @@ Redis is not exactly a key-value store, since values can be complex data structu
 
 This document explains how it is possible to create indexes in Redis using the following data structures:
 
-* Hashes and JSON documents, using a variety of field types; used in conjunction with the Redis query engine.
+* Hashes and JSON documents, using a variety of field types; used in conjunction with Redis Search.
 * Sorted sets to create secondary indexes by ID or other numerical fields.
 * Sorted sets with lexicographical ranges for creating more advanced secondary indexes, composite indexes and graph traversal indexes.
 * Sets for creating random indexes.
@@ -33,7 +36,7 @@ scenarios, there is the explicit need to store indexed data into Redis in order 
 
 ## Hashes and JSON indexes
 
-The Redis query engine provides capabilities to index and query both hash and JSON keys using a variety of field types:
+Redis Search provides capabilities to index and query both hash and JSON keys using a variety of field types:
 
 * `TEXT`
 * `TAG`

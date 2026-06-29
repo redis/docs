@@ -169,10 +169,13 @@ summary: Queries a geospatial index for members within a distance from a coordin
 syntax_fmt: "GEORADIUS key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]\n  [STORE\_key | STOREDIST\_\
   key]"
-syntax_str: "longitude latitude radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH]\
-  \ [COUNT\_count [ANY]] [ASC | DESC] [STORE\_key | STOREDIST\_key]"
 title: GEORADIUS
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Return the members of a sorted set populated with geospatial information using [`GEOADD`]({{< relref "/commands/geoadd" >}}), which are within the borders of the area specified with the center location and the maximum distance from the center (the radius).
 
 This manual page also covers the [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}) variants (see the section below for more information).
@@ -208,11 +211,81 @@ By default the command returns the items to the client. It is possible to store 
 * `STORE`: Store the items in a sorted set populated with their geospatial information.
 * `STOREDIST`: Store the items in a sorted set populated with their distance from the center as a floating point number, in the same unit specified in the radius.
 
-## Read-only variants
+## Required arguments
 
-Since `GEORADIUS` and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) have a `STORE` and `STOREDIST` option they are technically flagged as writing commands in the Redis command table. For this reason read-only replicas will flag them, and Redis Cluster replicas will redirect them to the master instance even if the connection is in read-only mode (see the [`READONLY`]({{< relref "/commands/readonly" >}}) command of Redis Cluster).
+<details open><summary><code>key</code></summary>
 
-Breaking the compatibility with the past was considered but rejected, at least for Redis 4.0, so instead two read-only variants of the commands were added. They are exactly like the original commands but refuse the `STORE` and `STOREDIST` options. The two variants are called [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}), and can safely be used in replicas.
+The name of the key that holds the geospatial index (a sorted set).
+
+</details>
+
+<details open><summary><code>longitude</code></summary>
+
+The longitude of the center point.
+
+</details>
+
+<details open><summary><code>latitude</code></summary>
+
+The latitude of the center point.
+
+</details>
+
+<details open><summary><code>radius</code></summary>
+
+The radius of the search circle, in the unit given by the following argument.
+
+</details>
+
+<details open><summary><code>M | KM | FT | MI</code></summary>
+
+The unit for `radius`: meters (`M`), kilometers (`KM`), feet (`FT`), or miles (`MI`).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHCOORD</code></summary>
+
+Also return the longitude and latitude of each matching item.
+
+</details>
+
+<details open><summary><code>WITHDIST</code></summary>
+
+Also return the distance of each matching item from the center, in the same unit as the radius.
+
+</details>
+
+<details open><summary><code>WITHHASH</code></summary>
+
+Also return the raw 52-bit geohash-encoded score of each matching item.
+
+</details>
+
+<details open><summary><code>COUNT count [ANY]</code></summary>
+
+Return at most `count` matches. With `ANY`, the command returns as soon as enough matches are found — faster, but the results may be unsorted.
+
+</details>
+
+<details open><summary><code>ASC | DESC</code></summary>
+
+Sort the results by distance from the center: nearest first (`ASC`) or farthest first (`DESC`).
+
+</details>
+
+<details open><summary><code>STORE key</code></summary>
+
+Store the results as a geospatial index in `key` instead of returning them. `STORE` and `STOREDIST` are mutually exclusive.
+
+</details>
+
+<details open><summary><code>STOREDIST key</code></summary>
+
+Store the results in `key` as a sorted set of distances from the center, instead of returning them.
+
+</details>
 
 ## Examples
 
@@ -223,9 +296,17 @@ GEORADIUS Sicily 15 37 200 km WITHCOORD
 GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Details
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+### Read-only variants
+
+Since `GEORADIUS` and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) have a `STORE` and `STOREDIST` option they are technically flagged as writing commands in the Redis command table. For this reason read-only replicas will flag them, and Redis Cluster replicas will redirect them to the master instance even if the connection is in read-only mode (see the [`READONLY`]({{< relref "/commands/readonly" >}}) command of Redis Cluster).
+
+Breaking the compatibility with the past was considered but rejected, at least for Redis 4.0, so instead two read-only variants of the commands were added. They are exactly like the original commands but refuse the `STORE` and `STOREDIST` options. The two variants are called [`GEORADIUS_RO`]({{< relref "/commands/georadius_ro" >}}) and [`GEORADIUSBYMEMBER_RO`]({{< relref "/commands/georadiusbymember_ro" >}}), and can safely be used in replicas.
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

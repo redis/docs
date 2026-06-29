@@ -67,15 +67,11 @@ is the name of the element whose vector you want to retrieve.
 returns the raw vector data, its quantization type, and metadata such as norm and range.
 </details>
 
-## Related topics
+## Redis Software and Redis Cloud compatibility
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 
@@ -108,3 +104,7 @@ One of the following:
     1. (Only for q8): The quantization range as a [double](../../develop/reference/protocol-spec#doubles). Multiply this by integer components to recover normalized values.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

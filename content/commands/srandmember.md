@@ -54,7 +54,6 @@ railroad_diagram: /images/railroad/srandmember.svg
 since: 1.0.0
 summary: Get one or multiple random members from a set
 syntax_fmt: SRANDMEMBER key [count]
-syntax_str: '[count]'
 title: SRANDMEMBER
 ---
 When called with just the `key` argument, return a random element from the set value stored at `key`.
@@ -65,6 +64,22 @@ The array's length is either `count` or the set's cardinality ([`SCARD`]({{< rel
 If called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.
 In this case, the number of returned elements is the absolute value of the specified `count`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of members to return. A positive `count` returns up to that many distinct members; a negative `count` returns exactly `|count|` members and may repeat them.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -74,8 +89,9 @@ SRANDMEMBER myset 2
 SRANDMEMBER myset -5
 {{% /redis-cli %}}
 
+## Details
 
-## Specification of the behavior when count is passed
+### Specification of the behavior when count is passed
 
 When the `count` argument is a positive value this command behaves as follows:
 
@@ -89,7 +105,7 @@ When the `count` is a negative value, the behavior changes as follows:
 * Exactly `count` elements, or an empty array if the set is empty (non-existing key), are always returned.
 * The order of elements in the reply is truly random.
 
-## Distribution of returned elements
+### Distribution of returned elements
 
 Note: this section is relevant only for Redis 5 or below, as Redis 6 implements a fairer algorithm. 
 
@@ -99,9 +115,9 @@ The algorithm used, that is implemented inside dict.c, samples the hash table bu
 
 This means that if you have two non-empty buckets in the entire hash table, and one has three elements while one has just one, the element that is alone in its bucket will be returned with much higher probability.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

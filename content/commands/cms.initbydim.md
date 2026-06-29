@@ -31,17 +31,29 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Initializes a Count-Min Sketch to dimensions specified by user
 syntax_fmt: CMS.INITBYDIM key width depth
-syntax_str: width depth
 title: CMS.INITBYDIM
 ---
 Initializes a Count-Min Sketch to dimensions specified by user.
 
-### Parameters:
+## Required arguments
 
-* **key**: The name of the sketch.
-* **width**: Number of counters in each array. Reduces the error size.
-* **depth**: Number of counter-arrays. Reduces the probability for an
-    error of a certain size (percentage of total count).
+<details open><summary><code>key</code></summary>
+
+The name of the sketch.
+
+</details>
+
+<details open><summary><code>width</code></summary>
+
+Number of counters in each array. Reduces the error size.
+
+</details>
+
+<details open><summary><code>depth</code></summary>
+
+Number of counter-arrays. Reduces the probability for an error of a certain size (percentage of total count).
+
+</details>
 
 ## Examples
 
@@ -50,12 +62,11 @@ redis> CMS.INITBYDIM test 2000 5
 OK
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

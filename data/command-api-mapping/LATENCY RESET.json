@@ -1,0 +1,114 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "latency_reset(*events, **kwargs)",
+        "params": [
+          {
+            "name": "*events",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long latencyReset()",
+        "params": [],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long latencyReset(String... events)",
+        "params": [
+          {
+            "name": "events",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "LatencyReset(ctx context.Context, events ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "events",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "latencyReset(...events: Array<LatencyEvent>)",
+        "params": [
+          {
+            "name": "events",
+            "type": "Array<LatencyEvent>",
+            "description": "The latency events to reset. If not specified, all events are reset"
+          }
+        ],
+        "returns": {
+          "type": "number",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "latency(string $subcommand, ...$args)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$args",
+            "type": "mixed",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

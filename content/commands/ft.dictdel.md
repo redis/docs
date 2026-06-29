@@ -27,11 +27,7 @@ railroad_diagram: /images/railroad/ft.dictdel.svg
 since: 1.4.0
 stack_path: docs/interact/search-and-query
 summary: Deletes terms from a dictionary
-syntax: 'FT.DICTDEL dict term [term ...]
-
-  '
 syntax_fmt: FT.DICTDEL dict term [term ...]
-syntax_str: term [term ...]
 title: FT.DICTDEL
 ---
 
@@ -64,9 +60,9 @@ term to delete from the dictionary.
 {{< / highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 

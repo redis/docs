@@ -42,7 +42,6 @@ railroad_diagram: /images/railroad/cluster-meet.svg
 since: 3.0.0
 summary: Forces a node to handshake with another node.
 syntax_fmt: CLUSTER MEET ip port [cluster-bus-port]
-syntax_str: port [cluster-bus-port]
 title: CLUSTER MEET
 ---
 `CLUSTER MEET` is used in order to connect different Redis nodes with cluster
@@ -73,20 +72,39 @@ As a side effect of `A` knowing and being known by all the other nodes, it will 
 
 Moreover `CLUSTER MEET` does not need to be reciprocal. If I send the command to A in order to join B, I don't need to also send it to B in order to join A.
 
-If the optional `cluster_bus_port` argument is not provided, the default of port + 10000 will be used.
+If the optional `cluster_bus_port` argument is not provided, the default of client port number + 10,000 will be used.
 
-## Implementation details: MEET and PING packets
+## Required arguments
 
-When a given node receives a `CLUSTER MEET` message, the node specified in the
-command still does not know the node we sent the command to. So in order for
-the node to force the receiver to accept it as a trusted node, it sends a
-`MEET` packet instead of a [`PING`]({{< relref "/commands/ping" >}}) packet. The two packets have exactly the
-same format, but the former forces the receiver to acknowledge the node as
-trusted.
+<details open><summary><code>ip</code></summary>
 
-## Redis Enterprise and Redis Cloud compatibility
+The IP address of the node to add to the cluster.
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+</details>
+
+<details open><summary><code>port</code></summary>
+
+The client port of the node to add.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>cluster-bus-port</code></summary>
+
+The cluster bus port of the node. If omitted, it defaults to the client port number plus 10,000.
+
+</details>
+
+## Details
+
+### Implementation: MEET and PING packets
+
+When you send CLUSTER MEET to a node, the node specified in the command does not yet know the receiving node. To establish trust, the receiving node sends a MEET packet to the specified node instead of a [PING]({{< relref "/commands/ping" >}}) packet. The two packets have the same format, but MEET forces the specified node to trust the sender.
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

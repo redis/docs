@@ -34,24 +34,41 @@ railroad_diagram: /images/railroad/keys.svg
 since: 1.0.0
 summary: Returns all key names that match a pattern.
 syntax_fmt: KEYS pattern
-syntax_str: ''
 title: KEYS
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Returns all keys matching `pattern`.
+
+
+
+## Required arguments
+
+<details open><summary><code>pattern</code></summary>
+
+The glob-style pattern to match key names against.
+
+</details>
+
+## Details
 
 While the time complexity for this operation is O(N), the constant times are
 fairly low.
 For example, Redis running on an entry level laptop can scan a 1 million key
 database in 40 milliseconds.
 
-**Warning**: consider `KEYS` as a command that should only be used in production
-environments with extreme care.
+{{< warning >}}
+Use extreme care when using this command in production environments.
 It may ruin performance when it is executed against large databases.
 This command is intended for debugging and special operations, such as changing
 your keyspace layout.
 Don't use `KEYS` in your regular application code.
 If you're looking for a way to find keys in a subset of your keyspace, consider
 using [`SCAN`]({{< relref "/commands/scan" >}}) or [sets]({{< relref "/develop/data-types/sets" >}}).
+{{< /warning >}}
 
 Supported glob-style patterns:
 
@@ -68,10 +85,25 @@ If a pattern can only match keys of one slot,
 Redis only iterates over keys in that slot, rather than the whole database,
 when searching for keys matching the pattern.
 For example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.
-To use pattern with hash tag, see [Hash tags]({{< relref "operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}) in the Cluster specification for more information.
+To use pattern with a hash tag, see [Hash tags]({{< relref "operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}) in the Cluster specification for more information.
 
 ## Examples
 
+{{< clients-example set="cmds_generic" step="keys" description="Returns all key names that match a pattern" difficulty="beginner" >}}
+> MSET firstname Jack lastname Stuntman age 35
+"OK"
+> KEYS *name*
+1) "lastname"
+2) "firstname"
+> KEYS a??
+1) "age"
+> KEYS *
+1) "age"
+2) "lastname"
+3) "firstname"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
 {{% redis-cli %}}
 MSET firstname Jack lastname Stuntman age 35
 KEYS *name*
@@ -79,9 +111,9 @@ KEYS a??
 KEYS *
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -1,0 +1,788 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vsim(, key: KeyT,, input: Union[List[float], bytes, str],, with_scores: Optional[bool] = False,, with_attribs: Optional[bool] = False,, count: Optional[int] = None,, ef: Optional[Number] = None,, filter: Optional[str] = None,, filter_ef: Optional[str] = None,, truth: Optional[bool] = False,, no_thread: Optional[bool] = False,, epsilon: Optional[Number] = None,)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "input",
+            "type": "Union[List[float], bytes, str]",
+            "description": ""
+          },
+          {
+            "name": "with_scores",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "with_attribs",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "ef",
+            "type": "Optional[Number] = None",
+            "description": ""
+          },
+          {
+            "name": "filter",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "filter_ef",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "truth",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "no_thread",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "epsilon",
+            "type": "Optional[Number] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[VSimResult], VSimResult]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> vsim(String key, float[] vector)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set data"
+          },
+          {
+            "name": "vector",
+            "type": "float[]",
+            "description": "the vector to use as similarity reference"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "list of similar elements"
+        }
+      },
+      {
+        "signature": "List<String> vsim(String key, float[] vector, VSimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set data"
+          },
+          {
+            "name": "vector",
+            "type": "float[]",
+            "description": "the vector to use as similarity reference"
+          },
+          {
+            "name": "params",
+            "type": "VSimParams",
+            "description": "additional parameters for the VSIM command"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "list of similar elements"
+        }
+      },
+      {
+        "signature": "Map<String, Double> vsimWithScores(String key, float[] vector, VSimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set data"
+          },
+          {
+            "name": "vector",
+            "type": "float[]",
+            "description": "the vector to use as similarity reference"
+          },
+          {
+            "name": "params",
+            "type": "VSimParams",
+            "description": "added)"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Double>",
+          "description": "map of element names to their similarity scores"
+        }
+      },
+      {
+        "signature": "Map<String, VSimScoreAttribs> vsimWithScoresAndAttribs(String key, float[] vector, VSimParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set data"
+          },
+          {
+            "name": "vector",
+            "type": "float[]",
+            "description": "the vector to use as similarity reference"
+          },
+          {
+            "name": "params",
+            "type": "VSimParams",
+            "description": "automatically added)"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, VSimScoreAttribs>",
+          "description": "map of element names to their similarity scores and attributes"
+        }
+      },
+      {
+        "signature": "List<String> vsimByElement(String key, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that holds the vector set data"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element to use as similarity reference"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "list of similar elements"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> vsim(K key, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      },
+      {
+        "signature": "List<V> vsim(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element whose vector will be used as the query"
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      },
+      {
+        "signature": "List<V> vsim(K key, VSimArgs args, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VSimArgs",
+            "description": "the additional arguments for the VSIM command"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      },
+      {
+        "signature": "List<V> vsim(K key, VSimArgs args, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VSimArgs",
+            "description": "the additional arguments for the VSIM command"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element whose vector will be used as the query"
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> vsim(K key, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> vsim(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element whose vector will be used as the query"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> vsim(K key, VSimArgs args, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VSimArgs",
+            "description": "the additional arguments for the VSIM command"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> vsim(K key, VSimArgs args, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VSimArgs",
+            "description": "the additional arguments for the VSIM command"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element whose vector will be used as the query"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> vsim(K key, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      },
+      {
+        "signature": "Flux<V> vsim(K key, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element whose vector will be used as the query"
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      },
+      {
+        "signature": "Flux<V> vsim(K key, VSimArgs args, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VSimArgs",
+            "description": "the additional arguments for the VSIM command"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      },
+      {
+        "signature": "Flux<V> vsim(K key, VSimArgs args, V element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VSimArgs",
+            "description": "the additional arguments for the VSIM command"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element whose vector will be used as the query"
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VSim(ctx context.Context, key string, val Vector)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "val",
+            "type": "Vector",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "VSimWithScores(ctx context.Context, key string, val Vector)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "val",
+            "type": "Vector",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*VectorScoreSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "VSimWithArgs(ctx context.Context, key string, val Vector, simArgs *VSimArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "val",
+            "type": "Vector",
+            "description": ""
+          },
+          {
+            "name": "simArgs",
+            "type": "*VSimArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "VSimWithArgsWithScores(ctx context.Context, key string, val Vector, simArgs *VSimArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "val",
+            "type": "Vector",
+            "description": ""
+          },
+          {
+            "name": "simArgs",
+            "type": "*VSimArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*VectorScoreSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VSIM(key: RedisArgument, query: RedisArgument | Array<number>, options?: VSimOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "query",
+            "type": "RedisArgument | Array<number>",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "VSimOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vsim(key: K, input: vector_sets::VectorSimilaritySearchInput<'a>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "input",
+            "type": "vector_sets",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vsim_options(key: K, input: vector_sets::VectorSimilaritySearchInput<'a>, options: &'a vector_sets::VSimOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "input",
+            "type": "vector_sets",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a vector_sets",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vsim(key: K, input: vector_sets::VectorSimilaritySearchInput<'a>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "input",
+            "type": "vector_sets",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vsim_options(key: K, input: vector_sets::VectorSimilaritySearchInput<'a>, options: &'a vector_sets::VSimOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "input",
+            "type": "vector_sets",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a vector_sets",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "VectorSetSimilaritySearch(RedisKey key, VectorSetSimilaritySearchRequest query, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "query",
+            "type": "VectorSetSimilaritySearchRequest",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Lease<VectorSetSimilaritySearchResult>?",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetSimilaritySearchAsync(RedisKey key, VectorSetSimilaritySearchRequest query, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "query",
+            "type": "VectorSetSimilaritySearchRequest",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<Lease<VectorSetSimilaritySearchResult>?>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vsim(string $key, string|array $vectorOrElem, bool $isElem = false, bool $withScores = false, int $count = null, float $epsilon = null, int $ef = null, string $filter = null, int $filterEf = null, bool $truth = false, bool $noThread = false)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$vectorOrElem",
+            "type": "string|array",
+            "description": ""
+          },
+          {
+            "name": "bool $isElem = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $withScores = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $count = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "float $epsilon = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $ef = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "string $filter = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $filterEf = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $truth = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $noThread = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

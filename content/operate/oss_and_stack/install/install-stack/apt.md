@@ -31,23 +31,47 @@ apt policy redis
 
 redis:
   Installed: (none)
-  Candidate: 6:8.0.0-1rl1~bookworm1
+  Candidate: 6:8.6.1-1rl1~noble1
   Version table:
-     6:8.0.0-1rl1~bookworm1 500
-        500 https://packages.redis.io/deb bookworm/main arm64 Packages
-        500 https://packages.redis.io/deb bookworm/main all Packages
-     6:7.4.3-1rl1~bookworm1 500
-        500 https://packages.redis.io/deb bookworm/main arm64 Packages
-        500 https://packages.redis.io/deb bookworm/main all Packages
-     6:7.4.2-1rl1~bookworm1 500
-        500 https://packages.redis.io/deb bookworm/main arm64 Packages
-        500 https://packages.redis.io/deb bookworm/main all Packages
+     6:8.6.1-1rl1~noble1 500
+        500 https://packages.redis.io/deb noble/main amd64 Packages
+        500 https://packages.redis.io/deb noble/main all Packages
+     6:8.6.0-1rl1~noble1 500
+        500 https://packages.redis.io/deb noble/main amd64 Packages
+        500 https://packages.redis.io/deb noble/main all Packages
+     ...
+     6:8.0.0-1rl1~noble1 500
+        500 https://packages.redis.io/deb noble/main amd64 Packages
+        500 https://packages.redis.io/deb noble/main all Packages
+     6:7.4.8-1rl1~noble1 500
+        500 https://packages.redis.io/deb noble/main amd64 Packages
+        500 https://packages.redis.io/deb noble/main all Packages
 {{< /highlight >}}
 
-To install an earlier version, say 7.4.2, run the following command:
+For example, to install Redis Open Source v7.4.8 on Ubuntu LTS 24.04 (Noble Numbat), run the following command:
 
 {{< highlight bash >}}
-sudo apt-get install redis=6:7.4.2-1rl1~jammy1
+sudo apt-get install \
+redis=6:7.4.8-1rl1~noble1 \
+redis-server=6:7.4.8-1rl1~noble1 \
+redis-sentinel=6:7.4.8-1rl1~noble1 \
+redis-tools=6:7.4.8-1rl1~noble1
+{{< /highlight >}}
+
+Alternatively, you can also set up a preferences file to pin a particular release:
+
+{{< highlight bash >}}
+Package: redis redis-server redis-sentinel redis-tools
+Pin: version 6:7.4.*
+Pin-Priority: 1001
+{{< /highlight >}}
+
+See [this document](https://manpages.debian.org/buster/apt/apt_preferences.5.en.html#How_APT_Interprets_Priorities) for more information on `Pin-Priority`.
+
+With the example preferences file give above, `6:7.4.8-1rl1~noble1` is the latest version that matches the pinned version and it will be installed when you run this command:
+
+{{< highlight bash >}}
+sudo apt-get install redis-server redis-sentinel redis-tools
 {{< /highlight >}}
 
 Redis should start automatically after the initial installation and also at boot time.

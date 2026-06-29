@@ -149,7 +149,7 @@ rladmin tune db { db:<id> | <name> }
         [ syncer_mode { distributed | centralized }]
         [ syncer_monitoring { enabled | disabled } ]
         [ mtls_allow_weak_hashing { enabled | disabled } ]
-        [ mtls_allow_outdated_cert { enabled | disabled } ]
+        [ mtls_allow_outdated_certs { enabled | disabled } ]
         [ data_internode_encryption { enabled | disabled } ]
         [ db_conns_auditing { enabled | disabled } ]
         [ resp3 { enabled | disabled } ]
@@ -185,7 +185,7 @@ rladmin tune db { db:<id> | <name> }
 | mkms                                 | `enabled`<br /> `disabled`       | Activates multi-key multi-slot commands                                                                                               |
 | module_config_params | string | Configures module arguments at runtime. Enclose `module_config_params` within quotation marks. |
 | module_name | `search`<br />`ReJSON`<br />`graph`<br />`timeseries`<br />`bf`<br />`rg` | The module to configure with `module_config_params` |
-| mtls_allow_outdated_cert             | `enabled`<br /> `disabled`       | Activates outdated certificates in mTLS connections                                   |
+| mtls_allow_outdated_certs             | `enabled`<br /> `disabled`       | If enabled, allows outdated certificates in mTLS connections                                   |
 | mtls_allow_weak_hashing              | `enabled`<br /> `disabled`       | Activates weak hashing (less than 2048 bits) in mTLS connections                       |
 | oss_cluster                          | `enabled`<br /> `disabled`       | Activates OSS cluster API                                                                                                             |
 | oss_cluster_api_preferred_ip_type    | `internal`<br /> `external`      | IP type for the endpoint and database in the OSS cluster API (default is internal)                                     |

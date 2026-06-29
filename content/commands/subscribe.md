@@ -27,12 +27,14 @@ complexity: O(N) where N is the number of channels to subscribe to.
 description: Listens for messages published to channels.
 group: pubsub
 hidden: false
+history:
+- - 6.2.0
+  - RESET can be called to exit the subscribed state.
 linkTitle: SUBSCRIBE
 railroad_diagram: /images/railroad/subscribe.svg
 since: 2.0.0
 summary: Listens for messages published to channels.
 syntax_fmt: SUBSCRIBE channel [channel ...]
-syntax_str: ''
 title: SUBSCRIBE
 ---
 Subscribes the client to the specified channels.
@@ -44,13 +46,17 @@ However, if RESP3 is used (see [`HELLO`]({{< relref "/commands/hello" >}})) it i
 
 For more information, see [Pub/sub]({{< relref "/develop/pubsub" >}}).
 
-## Behavior change history
+## Required arguments
 
-*   `>= 6.2.0`: [`RESET`]({{< relref "/commands/reset" >}}) can be called to exit subscribed state.
+<details open><summary><code>channel [channel ...]</code></summary>
 
-## Redis Enterprise and Redis Cloud compatibility
+One or more channels to subscribe to.
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -39,14 +39,21 @@ railroad_diagram: /images/railroad/cluster-addslotsrange.svg
 since: 7.0.0
 summary: Assigns new hash slot ranges to a node.
 syntax_fmt: CLUSTER ADDSLOTSRANGE start-slot end-slot [start-slot end-slot ...]
-syntax_str: ''
 title: CLUSTER ADDSLOTSRANGE
 ---
 The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`]({{< relref "/commands/cluster-addslots" >}}) command in that they both assign hash slots to nodes.
 
 The difference between the two commands is that [`CLUSTER ADDSLOTS`]({{< relref "/commands/cluster-addslots" >}}) takes a list of slots to assign to the node, while `CLUSTER ADDSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to assign to the node.
 
-## Example
+## Required arguments
+
+<details open><summary><code>start-slot end-slot [start-slot end-slot ...]</code></summary>
+
+One or more inclusive ranges of hash slots to assign to the current node.
+
+</details>
+
+## Examples
 
 To assign slots 1 2 3 4 5 to the node, the [`CLUSTER ADDSLOTS`]({{< relref "/commands/cluster-addslots" >}}) command is:
 
@@ -58,17 +65,18 @@ The same operation can be completed with the following `CLUSTER ADDSLOTSRANGE` c
     > CLUSTER ADDSLOTSRANGE 1 5
     OK
 
+## Details
 
-## Usage in Redis Cluster
+### Usage in Redis Cluster
 
 This command only works in cluster mode and is useful in the following Redis Cluster operations:
 
 1. To create a new cluster, `CLUSTER ADDSLOTSRANGE` is used to initially set up master nodes splitting the available hash slots among them.
 2. In order to fix a broken cluster where certain slots are unassigned.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

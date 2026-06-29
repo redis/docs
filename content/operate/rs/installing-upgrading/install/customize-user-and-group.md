@@ -5,22 +5,22 @@ categories:
 - docs
 - operate
 - rs
-description: Specify the user and group who own all Redis Enterprise Software processes.
+description: Specify the user and group who own all Redis Software processes.
 linkTitle: Customize user and group
 weight: 40
 ---
 
-By default, Redis Enterprise Software is installed with the user:group `redislabs:redislabs`.
+By default, Redis Software is installed with the user:group `redislabs:redislabs`.
 
-During installation, you can specify the user and group that own all Redis Enterprise Software processes.
+During installation, you can specify the user and group that own all Redis Software processes.
 
 ## Considerations
 
 - Custom installation user is supported on Red Hat Enterprise Linux and compatible distributions.
 
-- You must create the user and group before installing Redis Enterprise Software.
+- You must create the user and group before installing Redis Software.
 
-- You must install Redis Enterprise Software on all nodes in the cluster with the same user and group.
+- You must install Redis Software on all nodes in the cluster with the same user and group.
 
 - You can specify an LDAP user as the installation user.
 

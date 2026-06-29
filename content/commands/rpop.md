@@ -55,7 +55,6 @@ since: 1.0.0
 summary: Returns and removes the last elements of a list. Deletes the list if the
   last element was popped.
 syntax_fmt: RPOP key [count]
-syntax_str: '[count]'
 title: RPOP
 ---
 Removes and returns the last elements of the list stored at `key`.
@@ -64,9 +63,25 @@ By default, the command pops a single element from the end of the list.
 When provided with the optional `count` argument, the reply will consist of up
 to `count` elements, depending on the list's length.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of elements to pop. Without it, a single element is popped.
+
+</details>
+
 ## Examples
 
-{{< clients-example cmds_list rpop >}}
+{{< clients-example set="cmds_list" step="rpop" description="Foundational: Remove and return the last element(s) from a list using RPOP (supports optional count parameter to pop multiple elements from tail)" difficulty="beginner" >}}
 redis> RPUSH mylist "one" "two" "three" "four" "five"
 (integer) 5
 redis> RPOP mylist
@@ -88,9 +103,9 @@ RPOP mylist 2
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -130,14 +130,21 @@ fmt.Println("foo", val)
 ## Connect using Smart client handoffs (SCH)
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and
-Redis Enterprise servers that lets them actively notify clients
+Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
-To enable SCH on the client, add the `MaintNotificationsConfig` option during the
-connection, as shown in the following example:
+{{< note >}}Using SCH with go-redis requires v9.16.0 or later for
+basic connections, and v9.18.0 or later for
+[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
+{{< /note >}}
+
+By default, `go-redis` always attempts to connect via SCH but falls back to
+a non-SCH connection if the server doesn't support it. However, you can configure SCH
+explicitly by passing a `MaintNotificationsConfig` object during the connection,
+as shown in the following example:
 
 ```go
 rdb := redis.NewClient(&redis.Options{
@@ -163,8 +170,16 @@ The `maintnotifications.Config` object accepts the following parameters:
 | Name | Description |
 |------ |------------- |
 | `Mode` | Whether or not to enable SCH. The options are `ModeDisabled`, `ModeEnabled` (require SCH and abort the connection if not supported), and `ModeAuto` (require SCH and fall back to a non-SCH connection if not supported). The default is `ModeAuto`.   |
-| `EndpointType` | The type of endpoint to use for the connection. The options are `EndpointTypeExternalIP`, `EndpointTypeInternalIP`, `EndpointTypeExternalFQDN`, `EndpointTypeInternalFQDN`, `EndpointTypeAuto` (auto-detect based on connection), and `EndpointTypeNone` (reconnect with current config). The default is `EndpointTypeExternalIP`. |
+| `EndpointType` | The type of endpoint to use for the connection. The options are `EndpointTypeExternalIP`, `EndpointTypeInternalIP`, `EndpointTypeExternalFQDN`, `EndpointTypeInternalFQDN`, `EndpointTypeAuto` (auto-detect based on connection), and `EndpointTypeNone` (reconnect with current config). The default is `EndpointTypeAuto`. |
 | `HandoffTimeout` | The timeout to connect to the replacement node. The default is 15 seconds. |
 | `RelaxedTimeout` | The timeout to use for commands and connections while the server is performing maintenance. The default is 10 seconds. |
 | `PostHandoffRelaxedDuration` | The duration to continue using relaxed timeouts after a successful handoff (this provides extra resilience during cluster transitions). The default is 20 seconds. |
 | `MaxHandoffRetries` | The maximum number of times to retry connecting to the replacement node. The default is 3. |
+
+{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) or
+[Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
+(see [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) for more information).
+To use relaxed timeouts with these services, you should set `EndpointType: maintnotifications.EndpointTypeNone`
+when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
+{{< /note >}}

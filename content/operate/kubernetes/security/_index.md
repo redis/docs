@@ -20,12 +20,14 @@ Manage cluster credentials and authentication settings:
 - [Manage REC credentials]({{< relref "/operate/kubernetes/security/manage-rec-credentials" >}}) - Configure and manage Redis Enterprise cluster credentials
 - [Configuration secrets]({{< relref "/operate/kubernetes/security/configuration-secrets" >}}) - Store Redis Enterprise configuration items in Kubernetes Secrets for automatic updates and secure management
 - [LDAP authentication]({{< relref "/operate/kubernetes/security/ldap" >}}) - Integrate with LDAP for centralized authentication
+- [SSO authentication]({{< relref "/operate/kubernetes/security/sso" >}}) - Enable SAML-based single sign-on for Cluster Manager UI access
 
 ## Certificates and encryption
 
 Configure TLS certificates and encryption for secure communications:
 
 - [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}}) - Configure cluster certificates for TLS encryption
+- [cert-manager integration]({{< relref "/operate/kubernetes/security/cert-manager" >}}) - Automate TLS certificate management with cert-manager
 - [Add client certificates]({{< relref "/operate/kubernetes/security/add-client-certificates" >}}) - Set up client certificate authentication for databases
 - [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}}) - Enable encryption between cluster nodes and configure custom certificates
 

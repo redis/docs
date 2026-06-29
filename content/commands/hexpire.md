@@ -80,7 +80,6 @@ since: 7.4.0
 summary: Set expiry for hash field using relative time to expire (seconds)
 syntax_fmt: "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS\_numfields field\n  [field\
   \ ...]"
-syntax_str: "seconds [NX | XX | GT | LT] FIELDS\_numfields field [field ...]"
 title: HEXPIRE
 ---
 Set an expiration (TTL or time to live) on one or more fields of a given hash key. You must specify at least one field.
@@ -96,17 +95,53 @@ You can clear the TTL using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}
 Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a zero TTL or
 [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the hash field being deleted.
 
-## Options
+## Required arguments
 
-The `HEXPIRE` command supports a set of options:
+<details open><summary><code>key</code></summary>
 
-* `NX` -- For each specified field, set expiration only when the field has no expiration.
-* `XX` -- For each specified field, set expiration only when the field has an existing expiration.
-* `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.
-* `LT` -- For each specified field, set expiration only when the new expiration is less than current one.
+The name of the key that holds the hash.
 
-A non-volatile field is treated as an infinite TTL for the purpose of `GT` and `LT`.
-The `NX`, `XX`, `GT`, and `LT` options are mutually exclusive.
+</details>
+
+<details open><summary><code>seconds</code></summary>
+
+The time to live, in seconds. Each specified field is deleted after this many seconds.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to set expiration for. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. They are mutually exclusive.
+
+<details open><summary><code>NX</code></summary>
+
+For each specified field, set expiration only when the field has no expiration.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+For each specified field, set expiration only when the field has an existing expiration.
+
+</details>
+
+<details open><summary><code>GT</code></summary>
+
+For each specified field, set expiration only when the new expiration is greater than the current one. A non-volatile field is treated as an infinite TTL for the purposes of `GT`.
+
+</details>
+
+<details open><summary><code>LT</code></summary>
+
+For each specified field, set expiration only when the new expiration is less than the current one. A non-volatile field is treated as an infinite TTL for the purposes of `LT`.
+
+</details>
 
 ## Refreshing expires
 
@@ -114,13 +149,13 @@ You can call `HEXPIRE` using as argument a field that already has an
 existing TTL set.
 In this case, the time to live is _updated_ to the new value.
 
-## Redis Query Engine and field expiration
+## Redis Search and field expiration
 
-Starting with Redis 8, the Redis Query Engine has enhanced behavior when handling expiring hash fields. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring hash fields, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
+Starting with Redis 8, Redis Search has enhanced behavior when handling expiring hash fields. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring hash fields, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
 
 ## Examples
 
-{{< clients-example set="cmds_hash" step="hexpire" >}}
+{{< clients-example set="cmds_hash" step="hexpire" description="Field expiration: Set TTL on individual hash fields using HEXPIRE with conditional options (NX, XX, GT, LT) when you need fine-grained control over field lifecycle" difficulty="intermediate" >}}
 HEXPIRE no-key 20 NX FIELDS 2 field1 field2
 (nil)
 HSET mykey field1 "hello" field2 "world"
@@ -141,9 +176,9 @@ HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
 HGETALL mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

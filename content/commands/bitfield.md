@@ -114,17 +114,13 @@ syntax_fmt: "BITFIELD key [GET\_encoding offset | [OVERFLOW\_<WRAP | SAT | FAIL>
   \  <SET\_encoding offset value | INCRBY\_encoding offset increment>\n  [GET\_encoding\
   \ offset | [OVERFLOW\_<WRAP | SAT | FAIL>]\n  <SET\_encoding offset value | INCRBY\_\
   encoding offset increment>\n  ...]]"
-syntax_str: "[GET\_encoding offset | [OVERFLOW\_<WRAP | SAT | FAIL>] <SET\_encoding\
-  \ offset value | INCRBY\_encoding offset increment> [GET\_encoding offset | [OVERFLOW\_\
-  <WRAP | SAT | FAIL>] <SET\_encoding offset value | INCRBY\_encoding offset increment>\
-  \ ...]]"
 title: BITFIELD
 ---
-The command treats a Redis string as an array of bits, and is capable of addressing specific integer fields of varying bit widths and arbitrary non (necessary) aligned offset. In practical terms using this command you can set, for example, a signed 5 bits integer at bit offset 1234 to a specific value, retrieve a 31 bit unsigned integer from offset 4567. Similarly the command handles increments and decrements of the specified integers, providing guaranteed and well specified overflow and underflow behavior that the user can configure.
+The command treats a Redis string as an array of bits, and is capable of addressing specific integer fields of varying bit widths and arbitrary non (necessary) aligned offset. In practical terms using this command you can set, for example, a signed 5-bit integer at bit offset 1234 to a specific value or retrieve a 31-bit unsigned integer from offset 4567. Similarly the command handles increments and decrements of the specified integers, providing guaranteed and well specified overflow and underflow behavior that the user can configure.
 
 `BITFIELD` is able to operate with multiple bit fields in the same command call. It takes a list of operations to perform, and returns an array of replies, where each array matches the corresponding operation in the list of arguments.
 
-For example the following command increments a 5 bit signed integer at bit offset 100, and gets the value of the 4 bit unsigned integer at bit offset 0:
+For example the following command increments a 5-bit signed integer at bit offset 100, and gets the value of the 4-bit unsigned integer at bit offset 0:
 
     > BITFIELD mykey INCRBY i5 100 1 GET u4 0
     1) (integer) 1
@@ -132,10 +128,48 @@ For example the following command increments a 5 bit signed integer at bit offse
 
 Note that:
 
-1. Addressing with `GET` bits outside the current string length (including the case the key does not exist at all), results in the operation to be performed like the missing part all consists of bits set to 0.
-2. Addressing with `SET` or `INCRBY` bits outside the current string length will enlarge the string, zero-padding it, as needed, for the minimal length needed, according to the most far bit touched.
+1. Addressing with `GET` bits outside the current string length (including the case the key does not exist at all), results in the operation being performed as if the missing part all consists of bits set to 0.
+2. Addressing with `SET` or `INCRBY` bits outside the current string length will enlarge the string, zero-padding it as needed, for the minimal length needed, according to the most far bit touched.
 
-## Supported subcommands and integer encoding
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the string.
+
+</details>
+
+## Optional arguments
+
+A `BITFIELD` call may chain multiple of the following operations, applied in order.
+
+<details open><summary><code>GET encoding offset</code></summary>
+
+Return the value at `offset`, interpreted with `encoding` (for example `u8` or `i16`).
+
+</details>
+
+<details open><summary><code>SET encoding offset value</code></summary>
+
+Set the value at `offset` (interpreted with `encoding`) to `value` and return its previous value.
+
+</details>
+
+<details open><summary><code>INCRBY encoding offset increment</code></summary>
+
+Increment the value at `offset` (interpreted with `encoding`) by `increment` and return the new value.
+
+</details>
+
+<details open><summary><code>OVERFLOW WRAP | SAT | FAIL</code></summary>
+
+Set the overflow behavior for the following `SET` and `INCRBY` operations: `WRAP` (the default), `SAT` (saturate to the min/max value), or `FAIL` (return nil on overflow).
+
+</details>
+
+## Details
+
+### Supported subcommands and integer encoding
 
 The following is the list of supported commands.
 
@@ -156,7 +190,7 @@ unsigned integers. This limitation with unsigned integers is due to the fact
 that currently the Redis protocol is unable to return 64 bit unsigned integers
 as replies.
 
-## Bits and positional offsets
+### Bits and positional offsets
 
 There are two ways in order to specify offsets in the bitfield command.
 If a number without any prefix is specified, it is used just as a zero based
@@ -171,7 +205,7 @@ Will set the first i8 integer at offset 0 and the second at offset 8.
 This way you don't have to do the math yourself inside your client if what
 you want is a plain array of integers of a given size.
 
-## Overflow control
+### Overflow control
 
 Using the `OVERFLOW` command the user is able to fine-tune the behavior of
 the increment or decrement overflow (or underflow) by specifying one of
@@ -205,18 +239,18 @@ The following is an example of `OVERFLOW FAIL` returning NULL.
     > BITFIELD mykey OVERFLOW FAIL incrby u2 102 1
     1) (nil)
 
-## Motivations
+### Motivations
 
 The motivation for this command is that the ability to store many small integers
 as a single large bitmap (or segmented over a few keys to avoid having huge keys) is extremely memory efficient, and opens new use cases for Redis to be applied, especially in the field of real time analytics. This use cases are supported by the ability to specify the overflow in a controlled way.
 
 Fun fact: Reddit's 2017 April fools' project [r/place](https://reddit.com/r/place) was [built using the Redis BITFIELD command](https://redditblog.com/2017/04/13/how-we-built-rplace/) in order to take an in-memory representation of the collaborative canvas.
 
-## Performance considerations
+### Performance considerations
 
 Usually `BITFIELD` is a fast command, however note that addressing far bits of currently short strings will trigger an allocation that may be more costly than executing the command on bits already existing.
 
-## Orders of bits
+### Bit order
 
 The representation used by `BITFIELD` considers the bitmap as having the
 bit number 0 to be the most significant bit of the first byte, and so forth, so
@@ -231,9 +265,9 @@ When offsets and integer sizes are aligned to bytes boundaries, this is the
 same as big endian, however when such alignment does not exist, its important
 to also understand how the bits inside a byte are ordered.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

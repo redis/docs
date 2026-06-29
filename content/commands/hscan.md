@@ -65,14 +65,47 @@ railroad_diagram: /images/railroad/hscan.svg
 since: 2.8.0
 summary: Iterates over fields and values of a hash.
 syntax_fmt: "HSCAN key cursor [MATCH\_pattern] [COUNT\_count] [NOVALUES]"
-syntax_str: "cursor [MATCH\_pattern] [COUNT\_count] [NOVALUES]"
 title: HSCAN
 ---
 See [`SCAN`]({{< relref "/commands/scan" >}}) for `HSCAN` documentation.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>cursor</code></summary>
+
+The cursor value. Start an iteration with `0`, then use the cursor returned by each call as the argument to the next call.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>MATCH pattern</code></summary>
+
+Only return fields whose names match the given glob-style pattern.
+
+</details>
+
+<details open><summary><code>COUNT count</code></summary>
+
+A hint for the number of fields to return per iteration. The default is 10.
+
+</details>
+
+<details open><summary><code>NOVALUES</code></summary>
+
+Return only the field names, without their values.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -30,7 +30,6 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Adds an item to a Top-k sketch. Multiple items can be added at the same time.
 syntax_fmt: TOPK.ADD key items [items ...]
-syntax_str: items [items ...]
 title: TOPK.ADD
 ---
 
@@ -39,12 +38,21 @@ Multiple items can be added at the same time.
 If an item enters the Top-K sketch, the item that is expelled (if any) is returned.
 This allows dynamic heavy-hitter detection of items being entered or expelled from Top-K sketch. 
 
-## Parameters
+## Required arguments
 
-* **key**: the name of the sketch where items are added.
-* **item**: the items to be added.
+<details open><summary><code>key</code></summary>
 
-## Example
+the name of the sketch where items are added.
+
+</details>
+
+<details open><summary><code>item [item ...]</code></summary>
+
+the items to be added.
+
+</details>
+
+## Examples
 
 ```
 redis> TOPK.ADD topk foo bar 42
@@ -53,12 +61,11 @@ redis> TOPK.ADD topk foo bar 42
 3) (nil)
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

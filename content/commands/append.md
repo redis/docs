@@ -51,13 +51,23 @@ railroad_diagram: /images/railroad/append.svg
 since: 2.0.0
 summary: Appends a string to the value of a key. Creates the key if it doesn't exist.
 syntax_fmt: APPEND key value
-syntax_str: value
 title: APPEND
 ---
-If `key` already exists and is a string, this command appends the `value` at the
-end of the string.
-If `key` does not exist it is created and set as an empty string, so `APPEND`
-will be similar to [`SET`]({{< relref "/commands/set" >}}) in this special case.
+Appends a value to the string stored at `key`. If `key` does not exist, it is created with an empty string, so in that case, `APPEND` behaves like [`SET`]({{< relref "/commands/set" >}}).
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The string to append to the existing value.
+
+</details>
 
 ## Examples
 
@@ -68,8 +78,9 @@ APPEND mykey " World"
 GET mykey
 {{% /redis-cli %}}
 
+## Details
 
-## Pattern: Time series
+### Pattern: time series
 
 The `APPEND` command can be used to create a very compact representation of a
 list of fixed-size samples, usually referred as _time series_.
@@ -108,9 +119,9 @@ GETRANGE ts 0 3
 GETRANGE ts 4 7
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

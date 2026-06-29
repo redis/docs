@@ -92,9 +92,13 @@ summary: Pops an element from a list, pushes it to another list and returns it. 
   until an element is available otherwise. Deletes the list if the last element was
   moved.
 syntax_fmt: BLMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT> timeout
-syntax_str: destination <LEFT | RIGHT> <LEFT | RIGHT> timeout
 title: BLMOVE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BLMOVE` is the blocking variant of [`LMOVE`]({{< relref "/commands/lmove" >}}).
 When `source` contains elements, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
 When used inside a [`MULTI`]({{< relref "/commands/multi" >}})/[`EXEC`]({{< relref "/commands/exec" >}}) block or a Lua script, this command behaves exactly like [`LMOVE`]({{< relref "/commands/lmove" >}}).
@@ -107,17 +111,51 @@ This command comes in place of the now deprecated [`BRPOPLPUSH`]({{< relref "/co
 
 See [`LMOVE`]({{< relref "/commands/lmove" >}}) for more information.
 
-## Pattern: Reliable queue
+## Required arguments
+
+<details open><summary><code>source</code></summary>
+
+The key of the source list.
+
+</details>
+
+<details open><summary><code>destination</code></summary>
+
+The key of the destination list.
+
+</details>
+
+<details open><summary><code>LEFT | RIGHT</code></summary>
+
+The end of `source` to pop the element from: `LEFT` (head) or `RIGHT` (tail).
+
+</details>
+
+<details open><summary><code>LEFT | RIGHT</code></summary>
+
+The end of `destination` to push the element to: `LEFT` (head) or `RIGHT` (tail).
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
+## Details
+
+### Pattern: reliable queue
 
 Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove" >}}) documentation.
 
-## Pattern: Circular list
+### Pattern: circular list
 
 Please see the pattern description in the [`LMOVE`]({{< relref "/commands/lmove" >}}) documentation.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

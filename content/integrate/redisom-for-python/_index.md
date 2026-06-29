@@ -13,6 +13,8 @@ stack: true
 summary: Redis OM for Python is an object-mapping library for Redis.
 title: Redis OM Python
 type: integration
+aliases:
+- /connect/clients/om-clients/stack-python/
 weight: 9
 ---
 

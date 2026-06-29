@@ -1,0 +1,560 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "setbit(name: KeyT, offset: int, value: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean setbit(final byte[] key, final long offset, final boolean value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": ""
+        }
+      },
+      {
+        "signature": "boolean setbit(final String key, final long offset, final boolean value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "boolean",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long setbit(K key, long offset, int value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "the offset type: long."
+          },
+          {
+            "name": "value",
+            "type": "int",
+            "description": "the value type: string."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the original bit value stored at <em>offset</em>."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> setbit(K key, long offset, int value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "the offset type: long."
+          },
+          {
+            "name": "value",
+            "type": "int",
+            "description": "the value type: string."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the original bit value stored at <em>offset</em>."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> setbit(K key, long offset, int value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "the offset type: long."
+          },
+          {
+            "name": "value",
+            "type": "int",
+            "description": "the value type: string."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the original bit value stored at <em>offset</em>."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SetBit(ctx context.Context, key string, offset int64, value int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SETBIT(key: RedisArgument, offset: number, value: BitValue)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "BitValue",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "setbit(key: RedisKey, offset: number | string, value: number | string, callback?: Callback<number>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "setbit(key: K, offset: usize, value: bool)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "usize",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "setbit(key: K, offset: usize, value: bool)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "usize",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "bool",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StringSetBit(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "The offset in the string to set bit."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "The bit value to set, true for 1, false for 0."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The original bit value stored at offset."
+        }
+      },
+      {
+        "signature": "StringSetBitAsync(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringSetBit(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "The offset in the string to set bit."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "The bit value to set, true for 1, false for 0."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The original bit value stored at offset."
+        }
+      },
+      {
+        "signature": "StringSetBitAsync(RedisKey key, long offset, bool value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StringSetBitAsync(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StringSetBit(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "The offset in the string to set bit."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "The bit value to set, true for 1, false for 0."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The original bit value stored at offset."
+        }
+      },
+      {
+        "signature": "StringSetBit(RedisKey key, long offset, bool bit, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": "The offset in the string to set bit."
+          },
+          {
+            "name": "bit",
+            "type": "bool",
+            "description": "The bit value to set, true for 1, false for 0."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "The original bit value stored at offset."
+        }
+      },
+      {
+        "signature": "StringSetBitAsync(RedisKey key, long offset, bool value, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "offset",
+            "type": "long",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "bool",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "setbit(string $key, $offset, $value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$offset",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

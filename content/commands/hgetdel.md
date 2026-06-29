@@ -56,12 +56,25 @@ railroad_diagram: /images/railroad/hgetdel.svg
 since: 8.0.0
 summary: Returns the value of a field and deletes it from the hash.
 syntax_fmt: "HGETDEL key FIELDS\_numfields field [field ...]"
-syntax_str: "FIELDS\_numfields field [field ...]"
 title: HGETDEL
 ---
 Get and delete the value of one or more fields of a given hash key. When the last field is deleted, the key will also be deleted.
 
-## Example
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to get and then delete. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Examples
 
 ```
 redis> HSET mykey field1 "Hello" field2 "World" field3 "!"
@@ -88,9 +101,9 @@ redis> KEYS *
 (empty array)
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

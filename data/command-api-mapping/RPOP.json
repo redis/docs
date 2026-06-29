@@ -1,0 +1,564 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "rpop(, name: KeyT,, count: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[Union[str, List, None]], Union[str, List, None]]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String rpop(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "A list of count popped elements, or 'nil' when key does not exist."
+        }
+      },
+      {
+        "signature": "List<String> rpop(final String key, final int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "return up to count elements"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "A list of count popped elements, or 'nil' when key does not exist."
+        }
+      },
+      {
+        "signature": "String rpop(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "A list of count popped elements, or 'nil' when key does not exist."
+        }
+      },
+      {
+        "signature": "List<String> rpop(String key, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "return up to count elements"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "A list of count popped elements, or 'nil' when key does not exist."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "V rpop(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "V",
+          "description": "List&lt;V&gt; array-reply list of the last count elements, or null when key does not exist. @since 6.1"
+        }
+      },
+      {
+        "signature": "List<V> rpop(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of elements to return."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "List&lt;V&gt; array-reply list of the last count elements, or null when key does not exist. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<V> rpop(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<V>",
+          "description": "List&lt;V&gt; array-reply list of the last count elements, or null when key does not exist. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<V>> rpop(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of elements to return."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "List&lt;V&gt; array-reply list of the last count elements, or null when key does not exist. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<V> rpop(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<V>",
+          "description": "V array-reply list of the last count elements, or null when key does not exist. @since 6.1"
+        }
+      },
+      {
+        "signature": "Flux<V> rpop(K key, long count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "the number of elements to return."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "V array-reply list of the last count elements, or null when key does not exist. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "RPop(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "RPOP(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "rpop(key: RedisKey, count: number | string, callback?: Callback<string[] | null>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<string[] | null>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "rpop(key: K, count: Option<core::num::NonZeroUsize>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Option<core",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "rpop(key: K, count: Option<core::num::NonZeroUsize>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Option<core",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Generic",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "ListRightPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      },
+      {
+        "signature": "ListRightPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of elements to pop from the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      },
+      {
+        "signature": "ListRightPop(RedisKey[] keys, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys to look through for elements to pop."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of elements to pop from the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ListPopResult",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      },
+      {
+        "signature": "ListRightPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      },
+      {
+        "signature": "ListRightPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of elements to pop from the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "ListRightPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      },
+      {
+        "signature": "ListRightPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of elements to pop from the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      },
+      {
+        "signature": "ListRightPop(RedisKey[] keys, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys to look through for elements to pop."
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of elements to pop from the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "ListPopResult",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      },
+      {
+        "signature": "ListRightPop(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      },
+      {
+        "signature": "ListRightPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "long",
+            "description": "The maximum number of elements to pop from the list."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisValue[]",
+          "description": "A span of contiguous elements from the list, or Null if no non-empty lists are found."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "rpop(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string|null",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "rpop(key, count = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "number of elements to remove"
+          }
+        ],
+        "returns": {
+          "type": "nil, String, Array<String>",
+          "description": "the values of the last elements"
+        }
+      }
+    ]
+  }
+}

@@ -11,8 +11,23 @@
 **/__pycache__/
 venv/**
 node_modules/
+/tmp/**
 package-lock.json 
 .hugo_build.lock
 .vscode/
 .DS_Store
 .idea
+# Rust docs demos
+/content/develop/use-cases/**/rust/target/
+/content/develop/use-cases/**/rust/Cargo.lock
+# Java / Maven build output for the docs demos
+/content/develop/use-cases/**/java-jedis/target/
+/content/develop/use-cases/**/java-lettuce/target/
+# .NET build output for the docs demos
+/content/develop/use-cases/**/dotnet/bin/
+/content/develop/use-cases/**/dotnet/obj/
+# PHP and Ruby build output for the docs demos
+/content/develop/use-cases/**/php/vendor/
+/content/develop/use-cases/**/php/composer.lock
+/content/develop/use-cases/**/ruby/.gems/
+/content/develop/use-cases/**/ruby/Gemfile.lock

@@ -47,7 +47,6 @@ railroad_diagram: /images/railroad/spublish.svg
 since: 7.0.0
 summary: Post a message to a shard channel
 syntax_fmt: SPUBLISH shardchannel message
-syntax_str: message
 title: SPUBLISH
 ---
 Posts a message to the given shard channel.
@@ -58,6 +57,20 @@ The cluster makes sure that published shard messages are forwarded to all the no
 
 For more information about sharded pubsub, see [Sharded Pubsub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
 
+## Required arguments
+
+<details open><summary><code>shardchannel</code></summary>
+
+The shard channel to publish to.
+
+</details>
+
+<details open><summary><code>message</code></summary>
+
+The message to publish.
+
+</details>
+
 ## Examples
 
 For example the following command publishes to the `orders` channel with a subscriber already waiting for message(s).
@@ -67,9 +80,9 @@ For example the following command publishes to the `orders` channel with a subsc
 (integer) 1
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

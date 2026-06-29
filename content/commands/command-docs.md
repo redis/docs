@@ -33,7 +33,6 @@ railroad_diagram: /images/railroad/command-docs.svg
 since: 7.0.0
 summary: Returns documentary information about one, multiple or all commands.
 syntax_fmt: COMMAND DOCS [command-name [command-name ...]]
-syntax_str: ''
 title: COMMAND DOCS
 ---
 Return documentary information about commands.
@@ -48,29 +47,38 @@ The following keys may be included in the mapped reply:
 * **since:** the Redis version that added the command (or for module commands, the module version).
 * **group:** the functional group to which the command belongs.
   Possible values are:
-  - _bitmap_
-  - _cluster_
-  - _connection_
-  - _generic_
-  - _geo_
-  - _hash_
-  - _hyperloglog_
-  - _list_
-  - _module_
-  - _pubsub_
-  - _scripting_
-  - _sentinel_
-  - _server_
-  - _set_
-  - _sorted-set_
-  - _stream_
-  - _string_
-  - _transactions_
+    - array
+    - bf
+    - bitmap
+    - cf
+    - cluster
+    - cms
+    - connection
+    - generic
+    - geo
+    - hash
+    - hyperloglog
+    - json
+    - list
+    - pubsub
+    - scripting
+    - search
+    - server
+    - set
+    - sorted-set
+    - stream
+    - string
+    - suggestion
+    - tdigest
+    - timeseries
+    - topk
+    - transactions
+    - vector_set
 * **complexity:** a short explanation about the command's time complexity.
 * **doc_flags:** an array of documentation flags.
   Possible values are:
-  - _deprecated:_ the command is deprecated.
-  - _syscmd:_ a system command that isn't meant to be called by users.
+  - deprecated: the command is deprecated.
+  - syscmd: a system command that isn't meant to be called by users.
 * **deprecated_since:** the Redis version that deprecated the command (or for module commands, the module version)..
 * **replaced_by:** the alternative for a deprecated command.
 * **history:** an array of historical notes describing changes to the command's output or arguments. It should not contain information about behavioral changes.
@@ -82,15 +90,23 @@ The following keys may be included in the mapped reply:
 
 [td]: /develop/reference/command-arguments
 
+## Optional arguments
+
+<details open><summary><code>command-name [command-name ...]</code></summary>
+
+One or more command names to return documentation for. If omitted, documentation for all commands is returned.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
 COMMAND DOCS SET
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

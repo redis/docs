@@ -4,36 +4,32 @@ acl_categories:
 - '@sortedset'
 - '@slow'
 arguments:
-- display_text: destination
-  key_spec_index: 0
+- key_spec_index: 0
   name: destination
   type: key
-- display_text: numkeys
-  name: numkeys
+- name: numkeys
   type: integer
-- display_text: key
-  key_spec_index: 1
+- key_spec_index: 1
   multiple: true
   name: key
   type: key
-- display_text: weight
-  multiple: true
+- multiple: true
   name: weight
   optional: true
   token: WEIGHTS
   type: integer
 - arguments:
-  - display_text: sum
-    name: sum
+  - name: sum
     token: SUM
     type: pure-token
-  - display_text: min
-    name: min
+  - name: min
     token: MIN
     type: pure-token
-  - display_text: max
-    name: max
+  - name: max
     token: MAX
+    type: pure-token
+  - name: count
+    token: COUNT
     type: pure-token
   name: aggregate
   optional: true
@@ -60,41 +56,45 @@ complexity: O(N*K)+O(M*log(M)) worst case with N being the smallest input sorted
 description: Stores the intersect of multiple sorted sets in a key.
 group: sorted-set
 hidden: false
+history:
+- - 8.8.0
+  - Added `COUNT` aggregate option.
 key_specs:
-- OW: true
-  begin_search:
-    spec:
-      index: 1
-    type: index
+- begin_search:
+    index:
+      pos: 1
   find_keys:
-    spec:
-      keystep: 1
+    range:
       lastkey: 0
       limit: 0
-    type: range
-  update: true
-- RO: true
-  access: true
-  begin_search:
-    spec:
-      index: 2
-    type: index
+      step: 1
+  flags:
+  - OW
+  - UPDATE
+- begin_search:
+    index:
+      pos: 2
   find_keys:
-    spec:
+    keynum:
       firstkey: 1
       keynumidx: 0
-      keystep: 1
-    type: keynum
+      step: 1
+  flags:
+  - RO
+  - ACCESS
 linkTitle: ZINTERSTORE
 railroad_diagram: /images/railroad/zinterstore.svg
 since: 2.0.0
 summary: Stores the intersect of multiple sorted sets in a key.
 syntax_fmt: "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [weight\
-  \ ...]] [AGGREGATE\_<SUM | MIN | MAX>]"
-syntax_str: "numkeys key [key ...] [WEIGHTS\_weight [weight ...]] [AGGREGATE\_<SUM\
-  \ | MIN | MAX>]"
+  \ ...]] [AGGREGATE\_<SUM | MIN | MAX | COUNT>]"
 title: ZINTERSTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Computes the intersection of `numkeys` sorted sets given by the specified keys,
 and stores the result in `destination`.
 It is mandatory to provide the number of input keys (`numkeys`) before passing
@@ -110,6 +110,40 @@ For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`](
 
 If `destination` already exists, it is overwritten.
 
+## Required arguments
+
+<details open><summary><code>destination</code></summary>
+
+The key to store the resulting sorted set in.
+
+</details>
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys to intersect.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WEIGHTS weight [weight ...]</code></summary>
+
+A multiplication factor for each input set; each set's scores are multiplied by its weight before aggregation. Defaults to 1 for every set.
+
+</details>
+
+<details open><summary><code>AGGREGATE SUM | MIN | MAX | COUNT</code></summary>
+
+How to combine the scores of members that exist in multiple sets: `SUM` (the default), `MIN`, `MAX`, or `COUNT`.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -122,9 +156,9 @@ ZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3
 ZRANGE out 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

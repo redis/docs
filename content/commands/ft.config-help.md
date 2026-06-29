@@ -27,11 +27,7 @@ railroad_diagram: /images/railroad/ft.config-help.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Help description of runtime configuration options
-syntax: 'FT.CONFIG HELP option
-
-  '
 syntax_fmt: FT.CONFIG HELP option
-syntax_str: ''
 title: FT.CONFIG HELP
 ---
 
@@ -62,9 +58,9 @@ is name of the configuration option, or '*' for all.
 {{< / highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Not supported"><nobr>&#x274c; Not supported</span> | <span title="Not supported"><nobr>&#x274c; Not supported</span> | <span title="Not supported"><nobr>&#x274c; Not supported</nobr></span> |  |
 

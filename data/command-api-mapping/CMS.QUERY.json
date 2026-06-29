@@ -1,0 +1,141 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "query(key, *items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "items",
+            "type": "*args"
+          }
+        ],
+        "returns": {
+          "type": "List[int]",
+          "description": "Estimated count for each item"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "cmsQuery(String key, String... items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "items",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Count for one or more items"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CMSQuery(ctx context.Context, key string, elements ...interface{}) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "elements",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": "Estimated counts"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CMS.QUERY(key, items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "name": "items",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<NumberReply>",
+          "description": "Counts for each item"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Query(RedisKey key, params RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "items",
+            "type": "params RedisValue[]"
+          }
+        ],
+        "returns": {
+          "type": "long[]",
+          "description": "Estimated counts"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "QueryAsync(RedisKey key, params RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "items",
+            "type": "params RedisValue[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<long[]>",
+          "description": "Estimated counts"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cmsquery($key, ...$items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "items",
+            "type": "string..."
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Estimated counts"
+        }
+      }
+    ]
+  }
+}

@@ -90,7 +90,6 @@ since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes.
 syntax_fmt: "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]\n\
   \  [WITHSCORES]"
-syntax_str: "start stop [BYSCORE | BYLEX] [REV] [LIMIT\_offset count] [WITHSCORES]"
 title: ZRANGE
 ---
 Returns the specified range of elements in the sorted set stored at `<key>`.
@@ -99,7 +98,101 @@ Returns the specified range of elements in the sorted set stored at `<key>`.
 
 Starting with Redis 6.2.0, this command can replace the following commands: [`ZREVRANGE`]({{< relref "/commands/zrevrange" >}}), [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}), [`ZREVRANGEBYSCORE`]({{< relref "/commands/zrevrangebyscore" >}}), [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) and [`ZREVRANGEBYLEX`]({{< relref "/commands/zrevrangebylex" >}}).
 
-## Common behavior and options
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The start of the range. By default a zero-based index (negatives count from the end); a score bound with `BYSCORE`; or a lexicographical bound with `BYLEX`.
+
+</details>
+
+<details open><summary><code>stop</code></summary>
+
+The end of the range, inclusive. Interpreted the same way as `start`.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>BYSCORE | BYLEX</code></summary>
+
+Interpret the range as a score range (`BYSCORE`) or a lexicographical range (`BYLEX`) instead of an index range.
+
+</details>
+
+<details open><summary><code>REV</code></summary>
+
+Reverse the ordering so results are returned from high to low.
+
+</details>
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Skip `offset` matching members and return up to `count` of them. Requires `BYSCORE` or `BYLEX`. A negative `count` returns all remaining members.
+
+</details>
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each member.
+
+</details>
+
+## Examples
+
+{{< clients-example set="cmds_sorted_set" step="zrange1" description="Foundational: Retrieve a range of members from a sorted set by index using ZRANGE (supports negative indexes, inclusive range)" difficulty="beginner" >}}
+> ZADD myzset 1 "one" 2 "two" 3 "three"
+(integer) 3
+> ZRANGE myzset 0 -1
+1) "one"
+2) "two"
+3) "three"
+> ZRANGE myzset 2 3
+1) "three"
+> ZRANGE myzset -2 -1
+1) "two"
+2) "three"
+{{< /clients-example >}}
+
+The following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.
+
+{{< clients-example set="cmds_sorted_set" step="zrange2" description="Return scores with members: Retrieve members with their scores from a sorted set using ZRANGE with WITHSCORES option" difficulty="intermediate" >}}
+> ZADD myzset 1 "one" 2 "two" 3 "three"
+(integer) 3
+> ZRANGE myzset 0 1 WITHSCORES
+1) "one"
+2) "1"
+3) "two"
+4) "2"
+{{< /clients-example >}}
+
+This example shows how to query the sorted set by score, excluding the value `1` and up to infinity, returning only the second element of the result:
+
+{{< clients-example set="cmds_sorted_set" step="zrange3" description="Query by score: Query a sorted set by score range using ZRANGE with BYSCORE and LIMIT options (supports exclusive ranges and pagination)" difficulty="intermediate" >}}
+> ZADD myzset 1 "one" 2 "two" 3 "three"
+(integer) 3
+> ZRANGE myzset (1 +inf BYSCORE LIMIT 1 1
+1) "three"
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
+
+{{% redis-cli %}}
+ZADD myzset 1 "one" 2 "two" 3 "three"
+ZRANGE myzset 0 -1
+ZRANGE myzset 2 3
+ZRANGE myzset -2 -1
+{{% /redis-cli %}}
+
+## Details
+
+### Common behavior and options
 
 The order of elements is from the lowest to the highest score. Elements with the same score are ordered lexicographically.
 
@@ -110,7 +203,7 @@ A negative `<count>` returns all elements from the `<offset>`. Keep in mind that
 
 The optional `WITHSCORES` argument supplements the command's reply with the scores of elements returned. The returned list contains `value1,score1,...,valueN,scoreN` instead of `value1,...,valueN`. Client libraries are free to return a more appropriate data type (suggestion: an array with (value, score) arrays/tuples).
 
-## Index ranges
+### Index ranges
 
 By default, the command performs an index range query. The `<start>` and `<stop>` arguments represent zero-based indexes, where `0` is the first element, `1` is the next element, and so on. These arguments specify an **inclusive range**, so for example, `ZRANGE myzset 0 1` will return both the first and the second element of the sorted set.
 
@@ -122,7 +215,7 @@ If `<start>` is greater than either the end index of the sorted set or `<stop>`,
 
 If `<stop>` is greater than the end index of the sorted set, Redis will use the last element of the sorted set.
 
-## Score ranges
+### Score ranges
 
 When the `BYSCORE` option is provided, the command behaves like [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}) and returns the range of elements from the sorted set having scores equal or between `<start>` and `<stop>`.
 
@@ -146,7 +239,7 @@ ZRANGE zset (5 (10 BYSCORE
 
 Will return all the elements with `5 < score < 10` (5 and 10 excluded).
 
-## Reverse ranges
+### Reverse ranges
 
 Using the `REV` option reverses the sorted set, with index 0 as the element with the highest score.
 
@@ -167,7 +260,7 @@ ZRANGE zset 10 5 REV BYSCORE
 
 Will return all elements with scores less than 10 and greater than 5.
 
-## Lexicographical ranges
+### Lexicographical ranges
 
 When the `BYLEX` option is used, the command behaves like [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) and returns the range of elements from the sorted set between the `<start>` and `<stop>` lexicographical closed range intervals.
 
@@ -180,7 +273,7 @@ The special values of `+` or `-` for `<start>` and `<stop>` mean positive and ne
 
 The `REV` options reverses the order of the `<start>` and `<stop>` elements, where `<start>` must be lexicographically greater than `<stop>` to produce a non-empty result.
 
-### Lexicographical comparison of strings
+#### Lexicographical comparison of strings
 
 Strings are compared as a binary array of bytes. Because of how the ASCII character set is specified, this means that usually this also have the effect of comparing normal ASCII characters in an obvious dictionary way. However, this is not true if non-plain ASCII strings are used (for example, utf8 strings).
 
@@ -195,55 +288,9 @@ Because of the first *normalized* part in every element (before the colon charac
 
 The binary nature of the comparison allows to use sorted sets as a general purpose index, for example, the first part of the element can be a 64-bit big-endian number. Since big-endian numbers have the most significant bytes in the initial positions, the binary comparison will match the numerical comparison of the numbers. This can be used in order to implement range queries on 64-bit values. As in the example below, after the first 8 bytes, we can store the value of the element we are indexing.
 
-## Examples
+## Redis Software and Redis Cloud compatibility
 
-{{< clients-example cmds_sorted_set zrange1 >}}
-> ZADD myzset 1 "one" 2 "two" 3 "three"
-(integer) 3
-> ZRANGE myzset 0 -1
-1) "one"
-2) "two"
-3) "three"
-> ZRANGE myzset 2 3
-1) "three"
-> ZRANGE myzset -2 -1
-1) "two"
-2) "three"
-{{< /clients-example >}}
-
-The following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.
-
-{{< clients-example cmds_sorted_set zrange2 >}}
-> ZADD myzset 1 "one" 2 "two" 3 "three"
-(integer) 3
-> ZRANGE myzset 0 1 WITHSCORES
-1) "one"
-2) "1"
-3) "two"
-4) "2"
-{{< /clients-example >}}
-
-This example shows how to query the sorted set by score, excluding the value `1` and up to infinity, returning only the second element of the result:
-
-{{< clients-example cmds_sorted_set zrange3 >}}
-> ZADD myzset 1 "one" 2 "two" 3 "three"
-(integer) 3
-> ZRANGE myzset (1 +inf BYSCORE LIMIT 1 1
-1) "three"
-{{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-ZADD myzset 1 "one" 2 "two" 3 "three"
-ZRANGE myzset 0 -1
-ZRANGE myzset 2 3
-ZRANGE myzset -2 -1
-{{% /redis-cli %}}
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

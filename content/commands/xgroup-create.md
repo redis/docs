@@ -70,15 +70,14 @@ railroad_diagram: /images/railroad/xgroup-create.svg
 since: 5.0.0
 summary: Creates a consumer group.
 syntax_fmt: "XGROUP CREATE key group <id | $> [MKSTREAM]\n  [ENTRIESREAD\_entries-read]"
-syntax_str: "group <id | $> [MKSTREAM] [ENTRIESREAD\_entries-read]"
 title: XGROUP CREATE
 ---
-Create a new consumer group uniquely identified by `<groupname>` for the stream stored at `<key>`
+Create a new consumer group uniquely identified by `groupname` for the stream stored at `key`
 
 Every group has a unique name in a given stream. 
 When a consumer group with the same name already exists, the command returns a `-BUSYGROUP` error.
 
-The command's `<id>` argument specifies the last delivered entry in the stream from the new group's perspective.
+The command's `id` argument specifies the last delivered entry in the stream from the new group's perspective.
 The special ID `$` is the ID of the last entry in the stream, but you can substitute it with any valid ID.
 
 For example, if you want the group's consumers to fetch the entire stream from the beginning, use zero as the starting ID for the consumer group:
@@ -86,7 +85,7 @@ For example, if you want the group's consumers to fetch the entire stream from t
     XGROUP CREATE mystream mygroup 0
 
 By default, the `XGROUP CREATE` command expects that the target stream exists, and returns an error when it doesn't.
-If a stream does not exist, you can create it automatically with length of 0 by using the optional `MKSTREAM` subcommand as the last argument after the `<id>`:
+If a stream does not exist, you can create it automatically with length of 0 by using the optional `MKSTREAM` subcommand as the last argument after the `id`:
 
     XGROUP CREATE mystream mygroup $ MKSTREAM
 
@@ -95,9 +94,43 @@ An arbitrary ID is any ID that isn't the ID of the stream's first entry, last en
 Use it to find out how many entries are between the arbitrary ID (excluding it) and the stream's last entry.
 Set the `entries_read` the stream's `entries_added` subtracted by the number of entries.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
+<details open><summary><code>group</code></summary>
+
+The name of the consumer group to create.
+
+</details>
+
+<details open><summary><code>id | $</code></summary>
+
+The ID of the last delivered message the group starts reading after. Use `$` for the last message currently in the stream, or `0` to read from the start.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>MKSTREAM</code></summary>
+
+Create the stream as an empty stream if it does not already exist.
+
+</details>
+
+<details open><summary><code>ENTRIESREAD entries-read</code></summary>
+
+Set the group's initial entries-read counter, used to compute its lag.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

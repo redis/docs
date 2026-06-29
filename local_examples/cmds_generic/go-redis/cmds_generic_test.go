@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"math"
+	"sort"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -224,6 +225,62 @@ func ExampleClient_expire_cmd() {
 	// -1ns
 	// true
 	// 10
+}
+
+func ExampleClient_keys_cmd() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	rdb.FlushDB(ctx)
+	// REMOVE_END
+
+	// STEP_START keys
+	keysResult1, err := rdb.MSet(ctx, "firstname", "Jack", "lastname", "Stuntman", "age", "35").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(keysResult1) // >>> OK
+
+	keysResult2, err := rdb.Keys(ctx, "*name*").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	sort.Strings(keysResult2)
+	fmt.Println(keysResult2) // >>> [firstname lastname]
+
+	keysResult3, err := rdb.Keys(ctx, "a??").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(keysResult3) // >>> [age]
+
+	keysResult4, err := rdb.Keys(ctx, "*").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	sort.Strings(keysResult4)
+	fmt.Println(keysResult4) // >>> [age firstname lastname]
+	// STEP_END
+
+	// Output:
+	// OK
+	// [firstname lastname]
+	// [age]
+	// [age firstname lastname]
 }
 
 func ExampleClient_ttl_cmd() {

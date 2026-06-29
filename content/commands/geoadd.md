@@ -83,7 +83,6 @@ summary: Adds one or more members to a geospatial index. The key is created if i
   doesn't exist.
 syntax_fmt: "GEOADD key [NX | XX] [CH] longitude latitude member [longitude\n  latitude\
   \ member ...]"
-syntax_str: '[NX | XX] [CH] longitude latitude member [longitude latitude member ...]'
 title: GEOADD
 ---
 Adds the specified geospatial items (longitude, latitude, name) to the specified key. Data is stored into the key as a sorted set, in a way that makes it possible to query the items with the [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}) command.
@@ -99,18 +98,44 @@ The command will report an error when the user attempts to index coordinates out
 
 **Note:** there is no **GEODEL** command because you can use [`ZREM`]({{< relref "/commands/zrem" >}}) to remove elements. The Geo index structure is just a sorted set.
 
-## GEOADD options
+## Required arguments
 
-`GEOADD` also provides the following options:
+<details open><summary><code>key</code></summary>
 
-* **XX**: Only update elements that already exist. Never add elements.
-* **NX**: Don't update already existing elements. Always add new elements.
-* **CH**: Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of *changed*). Changed elements are **new elements added** and elements already existing for which **the coordinates was updated**. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally, the return value of `GEOADD` only counts the number of new elements added.
+The name of the key that holds the geospatial index (a sorted set).
 
-Note: The **XX** and **NX** options are mutually exclusive.
+</details>
 
-How does it work?
----
+<details open><summary><code>longitude latitude member [longitude latitude member ...]</code></summary>
+
+One or more longitude-latitude-member triples to add to the index.
+
+</details>
+
+## Optional arguments
+
+`NX` and `XX` are mutually exclusive.
+
+<details open><summary><code>NX</code></summary>
+
+Don't update already existing elements. Always add new elements.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+Only update elements that already exist. Never add elements.
+
+</details>
+
+<details open><summary><code>CH</code></summary>
+
+Modify the return value from the number of new elements added, to the total number of elements changed (`CH` is an abbreviation of *changed*). Changed elements are **new elements added** and elements already existing for which **the coordinates was updated**. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally, the return value of `GEOADD` only counts the number of new elements added.
+
+</details>
+
+## Details
+### How it works
 
 The way the sorted set is populated is using a technique called
 [Geohash](https://en.wikipedia.org/wiki/Geohash). Latitude and Longitude
@@ -120,8 +145,7 @@ precision.
 
 This format allows for bounding box and radius querying by checking the 1+8 areas needed to cover the whole shape and discarding elements outside it. The areas are checked by calculating the range of the box covered, removing enough bits from the less significant part of the sorted set score, and computing the score range to query in the sorted set for each area.
 
-What Earth model does it use?
----
+### What Earth model does it use?
 
 The model assumes that the Earth is a sphere since it uses the Haversine formula to calculate distance. This formula is only an approximation when applied to the Earth, which is not a perfect sphere.
 The introduced errors are not an issue when used, for example, by social networks and similar applications requiring this type of querying. 
@@ -136,9 +160,9 @@ GEORADIUS Sicily 15 37 100 km
 GEORADIUS Sicily 15 37 200 km
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

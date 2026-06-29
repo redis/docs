@@ -1,8 +1,6 @@
 // EXAMPLE: cmds_hash
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use PHPUnit\Framework\TestCase;
 use Predis\Client as PredisClient;
 
@@ -58,6 +56,23 @@ class CmdsHashTest extends TestCase
         $this->assertEquals(1, $hGetResult1);
         $this->assertEquals('foo', $hGetResult2);
         $this->assertNull($hGetResult3);
+        $this->redis->del('myhash');
+        // REMOVE_END
+
+        // STEP_START hmget
+        $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);
+
+        $hmgetResult = $this->redis->hmget('myhash', ['field1', 'field2', 'nofield']);
+        echo "HMGET myhash field1 field2 nofield: ";
+        print_r($hmgetResult);
+        // >>> Array ( [0] => Hello [1] => World [2] => )
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('Hello', $hmgetResult[0]);
+        $this->assertEquals('World', $hmgetResult[1]);
+        $this->assertNull($hmgetResult[2]);
+        $this->redis->del('myhash');
         // REMOVE_END
 
         // STEP_START hgetall

@@ -8,33 +8,25 @@ description: Info about Redis client libraries and supported clients when using 
   discovery service.
 weight: 10
 ---
-You can connect to Redis Enterprise Software databases programmatically using client libraries.
+You can connect to Redis Software databases programmatically using client libraries.
 
 ## Redis client libraries
 
-To connect an application to a Redis database hosted by Redis Enterprise Software, use a [client library]({{< relref "/develop/clients" >}}) appropriate for your programming language.
+To connect an application to a Redis database hosted by Redis Software, use a [client library]({{< relref "/develop/clients" >}}) appropriate for your programming language.
 
 You can also use the `redis-cli` utility to connect to a database from the command line.
 
-For examples of each approach, see the [Redis Enterprise Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
+For examples of each approach, see the [Redis Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
 
-Note: You cannot use client libraries to configure Redis Enterprise Software.  Instead, use:
+Note: You cannot use client libraries to configure Redis Software.  Instead, use:
 
-- The Redis Enterprise Software [Cluster Manager UI]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- The Redis Software [Cluster Manager UI]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
 - The [REST API]({{< relref "/operate/rs/references/rest-api" >}})
 - Command-line utilities, such as [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}})
 
 ### Discovery service
 
-We recommend the following clients when using a [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) based on the Redis Sentinel API:
+All [recommended Redis client libraries]({{< relref "/develop/clients" >}}) support the Redis Sentinel API, so you can use any of them with the [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}).
 
-- [redis-py]({{< relref "/develop/clients/redis-py" >}}) (Python client)
-- [NRedisStack]({{< relref "/develop/clients/dotnet" >}}) (.NET client)
-- [Jedis]({{< relref "/develop/clients/jedis" >}}) (synchronous Java client)
-- [Lettuce]({{< relref "/develop/clients/lettuce" >}}) (asynchronous Java client)
-- [go-redis]({{< relref "/develop/clients/go" >}}) (Go client)
-- [Hiredis](https://github.com/redis/hiredis) (C client)
-
-If you need to use another client, you can use [Sentinel Tunnel](https://github.com/RedisLabs/sentinel_tunnel)
-to discover the current Redis master with Sentinel and create a TCP tunnel between a local port on the client and the master.
+If you need to use a client that doesn't support Sentinel, you can use [Sentinel Tunnel](https://github.com/RedisLabs/sentinel_tunnel) to discover the current primary Redis endpoint with Sentinel and create a TCP tunnel between a local port on the client and the primary endpoint.
 

@@ -31,10 +31,24 @@ since: 1.0.0
 stack_path: docs/data-types/json
 summary: Returns the type of the JSON value at path
 syntax_fmt: JSON.TYPE key [path]
-syntax_str: '[path]'
 title: JSON.TYPE
 ---
 Report the type of JSON value at `path`
+
+The returned type is one of the following strings:
+
+| Type | Description |
+|:-----|:------------|
+| `null` | A JSON null value. |
+| `boolean` | A JSON `true` or `false` value. |
+| `integer` | A number with no fractional part. |
+| `number` | A number with a fractional part (a floating-point value). <sup>[1](#table-note-1)</sup>|
+| `string` | A JSON string value. |
+| `object` | A JSON object (a collection of key-value pairs). |
+| `array` | A JSON array (an ordered list of values). |
+
+1. <a name="table-note-1"></a>
+A floating-point homogeneous array (FPHA) stored with the [`JSON.SET`]({{< relref "commands/json.set/" >}}) `FPHA` argument still reports as `array`, and its elements report as `number`. The FP type (`FP16`, `BF16`, `FP32`, or `FP64`) is an internal storage representation and is not exposed by `JSON.TYPE`.
 
 [Examples](#examples)
 
@@ -67,12 +81,11 @@ redis> JSON.TYPE doc $..dummy
 (empty array)
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

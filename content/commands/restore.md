@@ -87,7 +87,6 @@ since: 2.6.0
 summary: Creates a key from the serialized representation of a value.
 syntax_fmt: "RESTORE key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME\_seconds]\
   \ [FREQ\_frequency]"
-syntax_str: "ttl serialized-value [REPLACE] [ABSTTL] [IDLETIME\_seconds] [FREQ\_frequency]"
 title: RESTORE
 ---
 Create a key associated with a value that is obtained by deserializing the
@@ -110,6 +109,52 @@ exists unless you use the `REPLACE` modifier.
 `RESTORE` checks the RDB version and data checksum.
 If they don't match an error is returned.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key to create.
+
+</details>
+
+<details open><summary><code>ttl</code></summary>
+
+The time to live for the key, in milliseconds. `0` means no expiration. With `ABSTTL`, this is an absolute Unix timestamp in milliseconds.
+
+</details>
+
+<details open><summary><code>serialized-value</code></summary>
+
+The serialized value, as produced by `DUMP`.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>REPLACE</code></summary>
+
+Replace the key if it already exists.
+
+</details>
+
+<details open><summary><code>ABSTTL</code></summary>
+
+Interpret `ttl` as an absolute Unix timestamp in milliseconds rather than a relative time.
+
+</details>
+
+<details open><summary><code>IDLETIME seconds</code></summary>
+
+Set the key's idle time (for LRU eviction) to this many seconds.
+
+</details>
+
+<details open><summary><code>FREQ frequency</code></summary>
+
+Set the key's access-frequency counter (for LFU eviction) to this value.
+
+</details>
+
 ## Examples
 
 ```
@@ -127,9 +172,9 @@ redis> LRANGE mykey 0 -1
 3) "3"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported">&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported">&#x274c; Active-Active\*</nobr></span> | \*Only supported for module keys. |
 

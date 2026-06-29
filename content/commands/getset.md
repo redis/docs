@@ -50,11 +50,10 @@ key_specs:
   update: true
 linkTitle: GETSET
 railroad_diagram: /images/railroad/getset.svg
-replaced_by: '`SET` with the `!GET` argument'
+replaced_by: '`SET` with the `GET` argument'
 since: 1.0.0
 summary: Returns the previous string value of a key after setting it to a new value.
 syntax_fmt: GETSET key value
-syntax_str: value
 title: GETSET
 ---
 Atomically sets `key` to `value` and returns the old value stored at `key`.
@@ -62,20 +61,19 @@ Returns an error when `key` exists but does not hold a string value.  Any
 previous time to live associated with the key is discarded on successful 
 [`SET`]({{< relref "/commands/set" >}}) operation.
 
-## Design pattern
+## Required arguments
 
-`GETSET` can be used together with [`INCR`]({{< relref "/commands/incr" >}}) for counting with atomic reset.
-For example: a process may call [`INCR`]({{< relref "/commands/incr" >}}) against the key `mycounter` every time
-some event occurs, but from time to time we need to get the value of the counter
-and reset it to zero atomically.
-This can be done using `GETSET mycounter "0"`:
+<details open><summary><code>key</code></summary>
 
-{{% redis-cli %}}
-INCR mycounter
-GETSET mycounter "0"
-GET mycounter
-{{% /redis-cli %}}
+The name of the key.
 
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The new value to set.
+
+</details>
 
 ## Examples
 
@@ -85,9 +83,23 @@ GETSET mykey "World"
 GET mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Details
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+### Design pattern
+
+You can use GETSET with [INCR]({{< relref "/commands/incr" >}}) to count events and reset the counter atomically.
+For example, you can call [INCR]({{< relref "/commands/incr" >}}) on the key `mycounter` each time an event occurs. When you need to read the counter value and reset it to zero atomically, call GETSET.
+This can be done using `GETSET mycounter "0"`:
+
+{{% redis-cli %}}
+INCR mycounter
+GETSET mycounter "0"
+GET mycounter
+{{% /redis-cli %}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

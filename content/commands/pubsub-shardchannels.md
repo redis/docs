@@ -32,16 +32,23 @@ railroad_diagram: /images/railroad/pubsub-shardchannels.svg
 since: 7.0.0
 summary: Returns the active shard channels.
 syntax_fmt: PUBSUB SHARDCHANNELS [pattern]
-syntax_str: ''
 title: PUBSUB SHARDCHANNELS
 ---
-Lists the currently *active shard channels*.
+Lists the currently active shard channels.
 
 An active shard channel is a Pub/Sub shard channel with one or more subscribers.
 
-If no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.
+If no `pattern` is specified, all the channels are listed, otherwise if pattern is specified, only channels matching the specified glob-style pattern are listed.
 
 The information returned about the active shard channels are at the shard level and not at the cluster level.
+
+## Optional arguments
+
+<details open><summary><code>pattern</code></summary>
+
+List only active shard channels whose names match the given glob-style pattern. If omitted, all active shard channels are listed.
+
+</details>
 
 ## Examples
 
@@ -52,9 +59,9 @@ The information returned about the active shard channels are at the shard level 
 1) "orders"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

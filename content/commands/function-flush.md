@@ -42,21 +42,25 @@ railroad_diagram: /images/railroad/function-flush.svg
 since: 7.0.0
 summary: Deletes all libraries and functions.
 syntax_fmt: FUNCTION FLUSH [ASYNC | SYNC]
-syntax_str: ''
 title: FUNCTION FLUSH
 ---
 Deletes all the libraries.
 
-Unless called with the optional mode argument, the `lazyfree-lazy-user-flush` configuration directive sets the effective behavior. Valid modes are:
-
-* `ASYNC`: Asynchronously flush the libraries.
-* `SYNC`: Synchronously flush the libraries.
+Unless called with the optional mode argument, the `lazyfree-lazy-user-flush` configuration directive sets the effective behavior.
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Optional arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>ASYNC | SYNC</code></summary>
+
+Flush the function libraries asynchronously (`ASYNC`) or synchronously (`SYNC`). The default is set by the `lazyfree-lazy-user-flush` configuration directive.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -51,16 +51,29 @@ since: 1.0.0
 summary: Increments the integer value of a key by a number. Uses 0 as initial value
   if the key doesn't exist.
 syntax_fmt: INCRBY key increment
-syntax_str: increment
 title: INCRBY
 ---
 Increments the number stored at `key` by `increment`.
 If the key does not exist, it is set to `0` before performing the operation.
 An error is returned if the key contains a value of the wrong type or contains a
 string that can not be represented as integer.
-This operation is limited to 64 bit signed integers.
+This operation is limited to 64-bit signed integers.
 
 See [`INCR`]({{< relref "/commands/incr" >}}) for extra information on increment/decrement operations.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>increment</code></summary>
+
+The integer amount to add to the value.
+
+</details>
 
 ## Examples
 
@@ -69,9 +82,9 @@ SET mykey "10"
 INCRBY mykey 5
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -68,9 +68,13 @@ since: 7.0.0
 summary: Returns the highest- or lowest-scoring members from one or more sorted sets
   after removing them. Deletes the sorted set if the last member was popped.
 syntax_fmt: "ZMPOP numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
-syntax_str: "key [key ...] <MIN | MAX> [COUNT\_count]"
 title: ZMPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.
 
 `ZMPOP` and [`BZMPOP`]({{< relref "/commands/bzmpop" >}}) are similar to the following, more limited, commands:
@@ -84,6 +88,34 @@ When the `MIN` modifier is used, the elements popped are those with the lowest s
 The optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.
 
 The number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value.
+
+## Required arguments
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys to pop from.
+
+</details>
+
+<details open><summary><code>MIN | MAX</code></summary>
+
+Pop the members with the lowest scores (`MIN`) or the highest scores (`MAX`).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The number of members to pop. Defaults to 1.
+
+</details>
 
 ## Examples
 
@@ -101,9 +133,9 @@ ZRANGE myzset2 0 -1 WITHSCORES
 EXISTS myzset myzset2
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

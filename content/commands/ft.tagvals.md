@@ -33,11 +33,7 @@ railroad_diagram: /images/railroad/ft.tagvals.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns the distinct tags indexed in a Tag field
-syntax: 'FT.TAGVALS index field_name
-
-  '
 syntax_fmt: FT.TAGVALS index field_name
-syntax_str: field_name
 title: FT.TAGVALS
 ---
 
@@ -78,9 +74,9 @@ The returned strings are lowercase with whitespaces removed, but otherwise uncha
 {{< / highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 

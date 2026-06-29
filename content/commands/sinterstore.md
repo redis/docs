@@ -62,13 +62,31 @@ railroad_diagram: /images/railroad/sinterstore.svg
 since: 1.0.0
 summary: Stores the intersect of multiple sets in a key.
 syntax_fmt: SINTERSTORE destination key [key ...]
-syntax_str: key [key ...]
 title: SINTERSTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is equal to [`SINTER`]({{< relref "/commands/sinter" >}}), but instead of returning the resulting set,
 it is stored in `destination`.
 
 If `destination` already exists, it is overwritten.
+
+## Required arguments
+
+<details open><summary><code>destination</code></summary>
+
+The key to store the resulting set in.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more set keys to intersect.
+
+</details>
 
 ## Examples
 
@@ -83,9 +101,9 @@ SINTERSTORE key key1 key2
 SMEMBERS key
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

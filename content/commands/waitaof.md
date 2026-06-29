@@ -40,7 +40,6 @@ since: 7.2.0
 summary: Blocks until all of the preceding write commands sent by the connection are
   written to the append-only file of the master and/or replicas.
 syntax_fmt: WAITAOF numlocal numreplicas timeout
-syntax_str: numreplicas timeout
 title: WAITAOF
 ---
 This command blocks the current client until all previous write commands by that client are acknowledged as having been fsynced to the AOF of the local Redis and/or at least the specified number of replicas.
@@ -51,7 +50,7 @@ The value 0 disables this check.
 
 If the timeout, specified in milliseconds, is reached, the command returns even if the specified number of acknowledgments has not been met.
 
-The command **will always return** the number of masters and replicas that have fsynced all write commands sent by the current client before the `WAITAOF` command, both in the case where the specified thresholds were met, and when the timeout is reached.
+The command will always return the number of masters and replicas that have fsynced all write commands sent by the current client before the `WAITAOF` command, both in the case where the specified thresholds were met, and when the timeout is reached.
 
 A few remarks:
 
@@ -61,22 +60,43 @@ A few remarks:
 4. Since `WAITAOF` returns the number of fsyncs completed both in case of success and timeout, the client should check that the returned values are equal or greater than the persistence level required.
 5. `WAITAOF` cannot be used on replica instances, and the `numlocal` argument cannot be non-zero if the local Redis does not have AOF enabled.
 
-Limitations
----
+
+## Required arguments
+
+<details open><summary><code>numlocal</code></summary>
+
+The number of local Redis instances to wait for an AOF fsync on (`0` or `1`).
+
+</details>
+
+<details open><summary><code>numreplicas</code></summary>
+
+The number of replicas to wait for an AOF fsync on.
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to wait, in milliseconds. `0` means wait forever.
+
+</details>
+
+## Details
+
+### Limitations
+
 It is possible to write a module or Lua script that propagate writes to the AOF but not the replication stream.
 (For modules, this is done using the `fmt` argument to `RedisModule_Call` or `RedisModule_Replicate`; For Lua scripts, this is achieved using `redis.set_repl`.)
 
 These features are incompatible with the `WAITAOF` command as it is currently implemented, and using them in combination may result in incorrect behavior.
 
-Consistency and WAITAOF
----
+### Consistency and WAITAOF
 
 Note that, similarly to [`WAIT`]({{< relref "/commands/wait" >}}), `WAITAOF` does not make Redis a strongly-consistent store.
 Unless waiting for all members of a cluster to fsync writes to disk, data can still be lost during a failover or a Redis restart.
 However, `WAITAOF` does improve real-world data safety.
 
-Implementation details
----
+### Implementation
 
 Since Redis 7.2, Redis tracks and increments the replication offset even when no replicas are configured (as long as AOF exists).
 
@@ -84,6 +104,7 @@ In addition, Redis replicas asynchronously ping their master with two replicatio
 
 Redis remembers, for each client, the replication offset of the produced replication stream when the last write command was executed in the context of that client.
 When `WAITAOF` is called, Redis checks if the local Redis and/or the specified number of replicas have confirmed fsyncing this offset or a greater one to their AOF.
+
 
 ## Examples
 
@@ -103,9 +124,9 @@ In the above example, the first call to `WAITAOF` does not use a timeout and ask
 In the second attempt we instead specify a timeout, and ask for the write to be confirmed as fsynced by a single replica.
 Since there are no connected replicas, the `WAITAOF` command unblocks after one second and again returns [1, 0], indicating the write has been fsynced on the local Redis but no replicas.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

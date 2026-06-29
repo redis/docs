@@ -55,9 +55,13 @@ since: 2.0.0
 summary: Removes and returns the last element in a list. Blocks until an element is
   available otherwise. Deletes the list if the last element was popped.
 syntax_fmt: BRPOP key [key ...] timeout
-syntax_str: timeout
 title: BRPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BRPOP` is a blocking list pop primitive.
 It is the blocking version of [`RPOP`]({{< relref "/commands/rpop" >}}) because it blocks the connection when there
 are no elements to pop from any of the given lists.
@@ -69,6 +73,20 @@ identical to [`BLPOP`]({{< relref "/commands/blpop" >}}) with the only differenc
 the tail of a list instead of popping from the head.
 
 [cb]: /commands/blpop
+
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys of lists to operate on.
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
 
 ## Examples
 
@@ -82,9 +100,9 @@ redis> BRPOP list1 list2 0
 2) "c"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

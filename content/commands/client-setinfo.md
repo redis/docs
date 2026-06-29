@@ -41,7 +41,6 @@ railroad_diagram: /images/railroad/client-setinfo.svg
 since: 7.2.0
 summary: Sets information specific to the client or connection.
 syntax_fmt: "CLIENT SETINFO <LIB-NAME\_libname | LIB-VER\_libver>"
-syntax_str: ''
 title: CLIENT SETINFO
 ---
 The `CLIENT SETINFO` command assigns various info attributes to the current connection which are displayed in the output of [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) and [`CLIENT INFO`]({{< relref "/commands/client-info" >}}).
@@ -49,9 +48,24 @@ The `CLIENT SETINFO` command assigns various info attributes to the current conn
 Client libraries are expected to pipeline this command after authentication on all connections
 and ignore failures since they could be connected to an older version that doesn't support them.
 
-Currently the supported attributes are:
-* `lib-name` - meant to hold the name of the client library that's in use.
-* `lib-ver` - meant to hold the client library's version.
+
+## Required arguments
+
+Provide one of the following.
+
+<details open><summary><code>LIB-NAME libname</code></summary>
+
+Set the library name for the current connection.
+
+</details>
+
+<details open><summary><code>LIB-VER libver</code></summary>
+
+Set the library version for the current connection.
+
+</details>
+
+## Details
 
 There is no limit to the length of these attributes. However it is not possible to use spaces, newlines, or other non-printable characters that would violate the format of the [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) reply.
 
@@ -61,11 +75,10 @@ The resulting `lib-name` would be `jedis(redis-om-spring_v1.0.0)`.
 Brace characters are used to delimit the custom suffix and should be avoided in the suffix itself.
 We recommend using the following format for the custom suffixes for third-party libraries `(?<custom-name>[ -~]+)[ -~]v(?<custom-version>[\d\.]+)` and use `;` to delimit multiple suffixes.
 
-Note that these attributes are **not** cleared by the RESET command.
+Note that these attributes are not cleared by the [`RESET`]({{< relref "/commands/reset" >}}) command.
+## Redis Software and Redis Cloud compatibility
 
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

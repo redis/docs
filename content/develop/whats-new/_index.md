@@ -11,6 +11,157 @@ linkTitle: What's new?
 hideListLinks: true
 weight: 10
 ---
+
+## Q2 2026 (April - June) Updates
+
+### Redis Version Updates
+
+- [Redis 8.8]({{< relref "/develop/whats-new/8-8" >}}) - New Array data structure, `INCREX` rate limiter, in-group sorting reducer for `FT.AGGREGATE`, Rust iterators and devirtualized vector hot paths in Search, HyperLogLog and `MGET`/`MSET`/`HGETALL` performance improvements.
+
+## Q1 2026 (January - March) Updates
+
+### Tools
+
+- Redis Insight [v3.2.0 release notes]({{< relref "/develop/tools/insight/release-notes/v.3.2.0" >}})
+- Redis Insight [v3.0.3 release notes]({{< relref "/develop/tools/insight/release-notes/v.3.0.3" >}})
+- Redis Insight [v2.68.0 release notes]({{< relref "/develop/tools/insight/release-notes/v.2.68.0" >}})
+- Redis Insight [v2.66.0 release notes]({{< relref "/develop/tools/insight/release-notes/v.2.66.0" >}})
+
+---
+
+### Redis AI & Vectors
+
+- Added [n8n vector store integration]({{< relref "/integrate/n8n-vector-store" >}})
+- Updated [RedisVL 0.7.0 documentation]({{< relref "/develop/ai/redisvl/0.7.0" >}})
+- Updated [RedisVL 0.9.1 documentation]({{< relref "/develop/ai/redisvl/0.9.1" >}})
+- Updated [RedisVL 0.12.1 documentation]({{< relref "/develop/ai/redisvl/0.12.1" >}}) (28 pages)
+
+---
+
+### Data Types
+
+- Enhanced [example progression]({{< relref "/develop/data-types" >}}) with metadata for:
+  - [Strings]({{< relref "/develop/data-types/strings" >}})
+  - [Hashes]({{< relref "/develop/data-types/hashes" >}})
+  - [Lists]({{< relref "/develop/data-types/lists" >}})
+  - [Sets]({{< relref "/develop/data-types/sets" >}})
+  - [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
+  - [Bitmaps]({{< relref "/develop/data-types/strings/bitmaps" >}})
+  - [Geospatial]({{< relref "/develop/data-types/geospatial" >}})
+  - [JSON]({{< relref "/develop/data-types/json" >}})
+  - [Time series]({{< relref "/develop/data-types/timeseries" >}})
+  - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+
+---
+
+### Client Libraries
+
+#### Ruby (NEW)
+- Added [Ruby client documentation]({{< relref "/develop/clients/ruby" >}})
+- Landing page code examples for redis-rb
+
+#### ioredis (NEW)
+- Added [ioredis connect page]({{< relref "/develop/clients/ioredis/connect" >}})
+
+#### node-redis (JavaScript)
+- Added Smart client handoffs section in the Connect page
+
+#### Rust
+- Added [Rust AMR/EntraID connection page]({{< relref "/develop/clients/rust/amr" >}})
+- Added Rust error handling documentation
+- Added Rust transactions and pipelines documentation
+
+#### Python (redis-py)
+- Updated failover documentation with initial health checks
+- Added failback configuration details
+- Added observability page
+- Added Smart client handoffs section in the Connect page
+
+#### Java (Jedis)
+- Added failback configuration section
+- Updated failover behavior documentation
+
+#### Java (Lettuce)
+- Added failover documentation
+- Added `LagAwareStrategy` dependencies
+- Added Smart client handoffs section in the Connect page
+
+#### .NET (NRedisStack)
+- Added [FusionCache integration page]({{< relref "/integrate/fusioncache" >}})
+
+#### Go
+- Added observability page
+- Added Smart client handoffs section in the Connect page
+
+---
+
+### Documentation Updates
+
+- Added BinderHub support for "Run in browser" functionality with Python examples
+- Added Jupyter notebook support with pre-configured environments
+- Enhanced example progression metadata across all data types
+- Added testable code example shortcodes with language-specific markers
+- Fixed fuzzy search documentation with specific attribute examples
+- Updated client library description differences across all major clients
+- Added observability overview with OpenTelemetry metrics
+- Added Smart client handoffs overview
+- Docs for n8n Redis vector store integration
+- Added railroad diagrams and API methods to all command pages
+
+---
+
+### Redis Version Updates
+
+- [Redis 8.6]({{< relref "/develop/whats-new/8-6" >}}) - Stream idempotency, least recently modified eviction policies, hot key detection, TLS certificate-based authentication, enhanced time series with NaN support, memory optimizations
+- [Redis 8.4]({{< relref "/develop/whats-new/8-4" >}}) - Updated documentation (removed RC1 designation)
+
+## Q4 2025 (October - December) Updates
+
+### Tools
+
+- Enhanced Redis Insight documentation with autocomplete features
+
+---
+
+### Redis AI & Vectors
+
+- Launched [AI Agent Builder]({{< relref "/develop/ai/agent-builder" >}}) - interactive code generator for production-ready AI agents
+- Documented [RedisVL 0.9.0]({{< relref "/develop/ai/redisvl" >}}) (28 pages):
+  - Vector search and indexing
+  - Semantic caching
+  - Message history management
+  - Rerankers and routers
+  - Vectorizers
+- Added [AI video tutorials]({{< relref "/develop/ai/ai-videos" >}}) with YouTube content
+- Added [AI notebook collection]({{< relref "/develop/ai/notebook-collection" >}}) with notebook links
+- Added [LangCache documentation]({{< relref "/develop/ai/context-engine/langcache" >}}) with API examples
+
+---
+
+### Client Libraries
+
+#### Rust (NEW)
+- Added [Rust client documentation]({{< relref "/develop/clients/rust" >}})
+- Enabled Rust-Sync and Rust-Async client variants
+- Landing page code examples for Rust
+
+#### Java (Jedis)
+- Added [vector set embedding examples]({{< relref "/develop/clients/jedis/vecsets" >}})
+
+#### .NET (NRedisStack)
+- Added [vector set embedding examples]({{< relref "/develop/clients/dotnet/vecsets" >}})
+- Enabled C#-Sync and C#-Async client variants with async examples
+
+---
+
+### Documentation Updates
+
+- Integrated BinderHub for "Run in browser" functionality with Python examples
+- Launched Testable Code Examples (TCE) framework for hands-on learning
+- Added new integration guides (cloud platforms, monitoring tools, AI/ML frameworks)
+
+---
+
 ## Q3 2025 (July - September) Updates
 
 ### Tools
@@ -23,13 +174,13 @@ weight: 10
 
 - Updated [vector types documentation]({{< relref "/develop/ai/search-and-query/vectors/_index" >}}) for INT8 and UINT8
 - Added [GEO search precision information]({{< relref "/develop/ai/search-and-query/indexing/geoindex" >}})
-- Enhanced [LangCache SDK]({{< relref "/develop/ai/langcache/_index" >}}) with savings calculator and improved API documentation
+- Enhanced [LangCache SDK]({{< relref "/develop/ai/context-engine/langcache/_index" >}}) with savings calculator and improved API documentation
 
 ---
 
 ### Data Types
 
-- [Bitmaps]({{< relref "/develop/data-types/bitmaps" >}}):
+- [Bitmaps]({{< relref "/develop/data-types/strings/bitmaps" >}}):
   - Added BITOP documentation with Python testable code examples
   - Added bit operation diagrams
 
@@ -82,7 +233,7 @@ weight: 10
   - [Lettuce vector queries]({{< relref "/develop/clients/lettuce/vecsearch" >}})
   - [Lettuce vector sets]({{< relref "/develop/clients/lettuce/vecsets" >}})
 - Updated [redisvl documentation]({{< relref "/develop/ai/redisvl/_index" >}}) for versions 0.6.0-0.8.2
-- Added [LangCache SDK]({{< relref "/develop/ai/langcache/_index" >}}) documentation with [API reference]({{< relref "/develop/ai/langcache/api-examples" >}})
+- Added [LangCache SDK]({{< relref "/develop/ai/context-engine/langcache/_index" >}}) documentation with [API reference]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}})
 
 ---
 
@@ -90,7 +241,7 @@ weight: 10
 
 - [Redis Open Source 8.2 documentation]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.2-release-notes" >}})
 - Updated [Redis 8.0 release notes]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes" >}})
-- [Redis Query Engine expiration capabilities]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}) in Redis 8
+- [Redis Search expiration capabilities]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}) in Redis 8
 - Enhanced [TAG documentation]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}) per GitHub issues
 - [Vector quantization and compression]({{< relref "/develop/ai/search-and-query/vectors/svs-compression" >}}) moved to dedicated page
 
@@ -102,7 +253,7 @@ weight: 10
   - [Enhanced time series examples]({{< relref "/develop/data-types/timeseries/_index" >}}) with query and aggregation info
   - Added testable code examples (TCE) support
 - Probabilistic:
-  - Added testable examples for [Python]({{< relref "/develop/clients/redis-py/prob/" >}}), [C#]({{< relref "/develop/clients/dotnet/prob/" >}}), [Java]({{< relref "/develop/clients/jedis/prob/" >}}), and [Go]({{< relref "/develop/clients/go/prob/" >}})
+  - Added testable examples for [Python]({{< relref "/develop/clients/redis-py/prob/" >}}), [C#]({{< relref "/develop/clients/dotnet/nredisstack/prob/" >}}), [Java]({{< relref "/develop/clients/jedis/prob/" >}}), and [Go]({{< relref "/develop/clients/go/prob/" >}})
   - Updated [Cuckoo filter documentation]({{< relref "/develop/data-types/probabilistic/cuckoo-filter" >}})
 
 ---
@@ -124,9 +275,9 @@ weight: 10
 - Added [command reliability information]({{< relref "/develop/clients/nodejs/produsage#command-execution-reliability" >}})
 - Fixed [reconnection details]({{< relref "/develop/clients/nodejs/connect#reconnect-after-disconnection" >}})
 
-#### .NET (NRedisStack)
+#### .NET (StackExchange.Redis/NRedisStack)
 - Added [retries and timeouts]({{< relref "/develop/clients/dotnet/produsage" >}}) to production usage advice
-- Enhanced [dialect 2 notes]({{< relref "/develop/clients/dotnet/queryjson" >}})
+- Enhanced [dialect 2 notes]({{< relref "/develop/clients/dotnet/nredisstack/queryjson" >}})
 
 #### Go (go-redis)
 - Added [retries and timeouts]({{< relref "/develop/clients/go/produsage" >}}) to production usage
@@ -178,7 +329,7 @@ weight: 10
   - [Node.js]({{< relref "/develop/clients/nodejs/vecsearch.md" >}})
   - [Java (Jedis)]({{< relref "/develop/clients/jedis/vecsearch.md" >}})
   - [Go]({{< relref "/develop/clients/go/vecsearch.md" >}})
-  - [.NET]({{< relref "/develop/clients/dotnet/vecsearch.md" >}})
+  - [.NET]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
 - Updated AI integrations:
   - [AI overview]({{< relref "/develop/ai/index.md" >}})
   - [RAG intro]({{< relref "/develop/get-started/rag.md" >}})
@@ -235,9 +386,9 @@ weight: 10
 - [JSON queries]({{< relref "/develop/clients/go/queryjson.md" >}})
 
 #### .NET
-- [Vector search]({{< relref "/develop/clients/dotnet/vecsearch.md" >}})
-- [Trans/pipe usage]({{< relref "/develop/clients/dotnet/transpipe.md" >}})
-- [JSON queries]({{< relref "/develop/clients/dotnet/queryjson.md" >}})
+- [Vector search]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
+- [Trans/pipe usage]({{< relref "/develop/clients/dotnet/transpipe" >}})
+- [JSON queries]({{< relref "/develop/clients/dotnet/nredisstack/queryjson" >}})
 
 #### Java (Jedis)
 - [Vector search]({{< relref "/develop/clients/jedis/vecsearch.md" >}})
@@ -272,7 +423,7 @@ weight: 10
 
 * Updated the RESP3 specification document to include the [attribute type]({{< relref "/develop/reference/protocol-spec#attributes" >}}).
 * Updates to the [key eviction]({{< relref "/develop/reference/eviction" >}}) page.
-* Updates to the Redis Insight page related to its new Redis Query Engine auto-completion [feature]({{< relref "/develop/tools/insight#workbench">}}).
+* Updates to the Redis Insight page related to its new Redis Search auto-completion [feature]({{< relref "/develop/tools/insight#workbench">}}).
 * Restructured and added testable connection examples to the [client pages]({{< relref "/develop/clients" >}}).
 * Added [Redis Open Source]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce" >}}) and [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisstack" >}}) release notes.
 * Added new [Redis for AI]({{< relref "/develop/ai" >}}) page.
@@ -287,6 +438,6 @@ weight: 10
 * Added new [client-side caching page]({{< relref "/develop/clients/client-side-caching" >}}).
 * Added new documentation for the [RDI in Redis Insight feature]({{< relref "/develop/tools/insight/rdi-connector" >}}).
 * Added new documentation for the [Redis for VS Code feature]({{< relref "/develop/tools/redis-for-vscode/" >}}).
-* Added multi-language code examples to the Redis Query Engine [query]({{< relref "/develop/ai/search-and-query/query">}}) pages.
+* Added multi-language code examples to Redis Search [query]({{< relref "/develop/ai/search-and-query/query">}}) pages.
 * Added client-side caching information to the [supported clients]({{< relref "/develop/clients/client-side-caching#which-client-libraries-support-client-side-caching" >}}) pages.
 * Numerous changes to the [Redis client content]({{< relref "/develop/clients" >}}).

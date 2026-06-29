@@ -45,21 +45,27 @@ railroad_diagram: /images/railroad/sunsubscribe.svg
 since: 7.0.0
 summary: Stops listening to messages posted to shard channels.
 syntax_fmt: SUNSUBSCRIBE [shardchannel [shardchannel ...]]
-syntax_str: ''
 title: SUNSUBSCRIBE
 ---
-Unsubscribes the client from the given shard channels, or from all of them if none is given.
+Unsubscribes the client from the specified patterns, or from all patterns if none are specified.
 
-When no shard channels are specified, the client is unsubscribed from all the previously subscribed shard channels. 
-In this case a message for every unsubscribed shard channel will be sent to the client. 
+If you don’t specify any shard channels, the client unsubscribes from all previously subscribed shard channels. The client receives one message for each shard channel it unsubscribes from.
 
-Note: The global channels and shard channels needs to be unsubscribed from separately.
+Note: global channels and shard channels need to be unsubscribed from separately.
 
 For more information about sharded Pub/Sub, see [Sharded Pub/Sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Optional arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>shardchannel [shardchannel ...]</code></summary>
+
+One or more shard channels to unsubscribe from. If omitted, the client is unsubscribed from all shard channels.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

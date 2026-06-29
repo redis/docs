@@ -1,0 +1,813 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xrange(, name: KeyT,, min: StreamIdT = \"-\",, max: StreamIdT = \"+\",, count: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "min",
+            "type": "StreamIdT = \"-\"",
+            "description": ""
+          },
+          {
+            "name": "max",
+            "type": "StreamIdT = \"+\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Object> xrange(byte[] key, byte[] start, byte[] end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "byte[]",
+            "description": "minimum StreamEntryID for the retrieved range, passing null will"
+          },
+          {
+            "name": "end",
+            "type": "byte[]",
+            "description": "maximum StreamEntryID for the retrieved range, passing null will"
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching."
+        }
+      },
+      {
+        "signature": "List<Object> xrange(byte[] key, byte[] start, byte[] end, int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "byte[]",
+            "description": "minimum StreamEntryID for the retrieved range, passing null will"
+          },
+          {
+            "name": "end",
+            "type": "byte[]",
+            "description": "maximum StreamEntryID for the retrieved range, passing null will"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The entries with IDs matching the specified range."
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching."
+        }
+      },
+      {
+        "signature": "List<StreamEntry> xrange(final String key, final StreamEntryID start, final StreamEntryID end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "StreamEntryID",
+            "description": "minimum StreamEntryID for the retrieved range, passing null will"
+          },
+          {
+            "name": "end",
+            "type": "StreamEntryID",
+            "description": "maximum StreamEntryID for the retrieved range, passing null will"
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntry>",
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching."
+        }
+      },
+      {
+        "signature": "List<StreamEntry> xrange(final String key, final StreamEntryID start final StreamEntryID end, final int count)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "StreamEntryID start final StreamEntryID",
+            "description": "maximum StreamEntryID for the retrieved range, passing null will"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "The entries with IDs matching the specified range."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntry>",
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching."
+        }
+      },
+      {
+        "signature": "List<StreamEntry> xrange(final String key, final String start, final String end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "String",
+            "description": "minimum StreamEntryID for the retrieved range, passing null will"
+          },
+          {
+            "name": "end",
+            "type": "String",
+            "description": "maximum StreamEntryID for the retrieved range, passing null will"
+          }
+        ],
+        "returns": {
+          "type": "List<StreamEntry>",
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<StreamMessage<K, V>> xrange(K key, Range<String> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": "must not be null."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamMessage<K, V>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      },
+      {
+        "signature": "List<StreamMessage<K, V>> xrange(K key, Range<String> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": "must not be null."
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": "must not be null."
+          }
+        ],
+        "returns": {
+          "type": "List<StreamMessage<K, V>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xrange(K key, Range<String> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": "must not be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamMessage<K, V>>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xrange(K key, Range<String> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": "must not be null."
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": "must not be null."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<StreamMessage<K, V>>>",
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<StreamMessage<K, V>> xrange(K key, Range<String> range)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": "must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamMessage<K, V>>",
+          "description": "StreamMessage array-reply list with members of the resulting stream."
+        }
+      },
+      {
+        "signature": "Flux<StreamMessage<K, V>> xrange(K key, Range<String> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": "must not be null."
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": "must not be null."
+          }
+        ],
+        "returns": {
+          "type": "Flux<StreamMessage<K, V>>",
+          "description": "StreamMessage array-reply list with members of the resulting stream."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XRange(ctx context.Context, stream, start, stop string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XMessageSliceCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "XRangeN(ctx context.Context, stream, start, stop string, count int64)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "stop",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XMessageSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XRANGE(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "Parameters<typeof xRangeArguments>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xrange(key: RedisKey, start: string | Buffer | number, end: string | Buffer | number, callback?: Callback<[id: string, fields: string[]][]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[id",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xrange(key: RedisKey, start: string | Buffer | number, end: string | Buffer | number, countToken: \"COUNT\", count: number | string, callback?: Callback<[id: string, fields: string[]][]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "countToken",
+            "type": "\"COUNT\"",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<[id",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xrange(key: K, start: S, end: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamRangeReply)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xrange_all(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamRangeReply)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xrange_count(key: K, start: S, end: E, count: C)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "C",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamRangeReply)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xrange(key: K, start: S, end: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamRangeReply)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xrange_all(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamRangeReply)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xrange_count(key: K, start: S, end: E, count: C)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "C",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamRangeReply)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "minId",
+            "type": "RedisValue?",
+            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream."
+          },
+          {
+            "name": "maxId",
+            "type": "RedisValue?",
+            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream."
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "The maximum number of messages to return."
+          },
+          {
+            "name": "messageOrder",
+            "type": "Order",
+            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "Returns an instance of StreamEntry for each message returned."
+        }
+      },
+      {
+        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "minId",
+            "type": "RedisValue?",
+            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream."
+          },
+          {
+            "name": "maxId",
+            "type": "RedisValue?",
+            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream."
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "The maximum number of messages to return."
+          },
+          {
+            "name": "messageOrder",
+            "type": "Order",
+            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "Returns an instance of StreamEntry for each message returned."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "minId",
+            "type": "RedisValue?",
+            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream."
+          },
+          {
+            "name": "maxId",
+            "type": "RedisValue?",
+            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream."
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "The maximum number of messages to return."
+          },
+          {
+            "name": "messageOrder",
+            "type": "Order",
+            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "Returns an instance of StreamEntry for each message returned."
+        }
+      },
+      {
+        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "minId",
+            "type": "RedisValue?",
+            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream."
+          },
+          {
+            "name": "maxId",
+            "type": "RedisValue?",
+            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream."
+          },
+          {
+            "name": "count",
+            "type": "int?",
+            "description": "The maximum number of messages to return."
+          },
+          {
+            "name": "messageOrder",
+            "type": "Order",
+            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamEntry[]",
+          "description": "Returns an instance of StreamEntry for each message returned."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xrange(string $key, string $start, string $end, ?int $count = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?int $count = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xrange(key, start = '-', range_end = '+', count: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "start",
+            "type": "String",
+            "description": "first entry id of range, default is -"
+          },
+          {
+            "name": "range_end",
+            "type": "String",
+            "description": "last entry id of range, default is +"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "the number of entries as limit"
+          }
+        ],
+        "returns": {
+          "type": "Array<Array<String, Hash>>",
+          "description": "the ids and entries pairs"
+        }
+      }
+    ]
+  }
+}

@@ -12,7 +12,7 @@ queries for different use cases. Each query class wraps the `redis-py` Query mod
 
 ## VectorQuery
 
-### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, ef_runtime=None, epsilon=None, search_window_size=None, use_search_history=None, search_buffer_capacity=None, normalize_vector_distance=False)`
+### `class VectorQuery(vector, vector_field_name, return_fields=None, filter_expression=None, dtype='float32', num_results=10, return_score=True, dialect=2, sort_by=None, in_order=False, hybrid_policy=None, batch_size=None, ef_runtime=None, search_window_size=None, use_search_history=None, search_buffer_capacity=None, normalize_vector_distance=False)`
 
 Bases: `BaseVectorQuery`, `BaseQuery`
 
@@ -33,7 +33,7 @@ expression.
     vector search. Defaults to 10.
   * **return_score** (*bool* *,* *optional*) – Whether to return the vector
     distance. Defaults to True.
-  * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
+  * **dialect** (*int* *,* *optional*) – The Redis Search query dialect.
     Defaults to 2.
   * **sort_by** (*Optional* *[* *SortSpec* *]*) – The field(s) to order the results by. Can be:
     - str: single field name
@@ -57,10 +57,6 @@ expression.
   * **ef_runtime** (*Optional* *[* *int* *]*) – Controls the size of the dynamic candidate list for HNSW
     algorithm at query time. Higher values improve recall at the expense of
     slower search performance. Defaults to None, which uses the index-defined value.
-  * **epsilon** (*Optional* *[* *float* *]*) – The range search approximation factor for HNSW and SVS-VAMANA
-    indexes. Sets boundaries for candidates within radius \* (1 + epsilon). Higher values
-    allow more extensive search and more accurate results at the expense of run time.
-    Defaults to None, which uses the index-defined value (typically 0.01).
   * **search_window_size** (*Optional* *[* *int* *]*) – The size of the search window for SVS-VAMANA KNN searches.
     Increasing this value generally yields more accurate but slower search results.
     Defaults to None, which uses the index-defined value (typically 10).
@@ -82,8 +78,9 @@ expression.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### `NOTE`
+{{< note >}}
 Learn more about vector queries in Redis: [https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search](https://redis.io/docs/latest/develop/ai/search-and-query/vectors/#knn-vector-search)
+{{< /note >}}
 
 #### `dialect(dialect)`
 
@@ -98,7 +95,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -111,7 +108,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -129,12 +126,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -188,7 +185,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -230,19 +227,6 @@ Set the EF_RUNTIME parameter for the query.
 * **Raises:**
   * **TypeError** – If ef_runtime is not an integer
   * **ValueError** – If ef_runtime is not positive
-
-#### `set_epsilon(epsilon)`
-
-Set the epsilon parameter for the query.
-
-* **Parameters:**
-  **epsilon** (*float*) – The range search approximation factor for HNSW and SVS-VAMANA
-  indexes. Sets boundaries for candidates within radius \* (1 + epsilon).
-  Higher values allow more extensive search and more accurate results at the
-  expense of run time.
-* **Raises:**
-  * **TypeError** – If epsilon is not a float or int
-  * **ValueError** – If epsilon is negative
 
 #### `set_filter(filter_expression=None)`
 
@@ -300,7 +284,7 @@ Set the USE_SEARCH_HISTORY parameter for the query.
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -317,7 +301,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -340,10 +324,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -356,7 +341,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -394,15 +379,6 @@ Return the EF_RUNTIME parameter for the query.
 * **Return type:**
   Optional[int]
 
-#### `property epsilon: float | None`
-
-Return the epsilon parameter for the query.
-
-* **Returns:**
-  The epsilon value for the query.
-* **Return type:**
-  Optional[float]
-
 #### `property filter: str | `[`FilterExpression`]({{< relref "filter/#filterexpression" >}})` `
 
 The filter expression for the query.
@@ -416,7 +392,7 @@ Return the hybrid policy for the query.
 * **Return type:**
   Optional[str]
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the parameters for the query.
 
@@ -456,7 +432,7 @@ Return the USE_SEARCH_HISTORY parameter for the query.
 * **Return type:**
   Optional[str]
 
-#### `NOTE`
+{{< note >}}
 **Runtime Parameters for Performance Tuning**
 
 VectorQuery supports runtime parameters for HNSW and SVS-VAMANA indexes that can be adjusted at query time without rebuilding the index:
@@ -496,6 +472,7 @@ query = VectorQuery(
     search_buffer_capacity=30
 )
 ```
+{{< /note >}}
 
 ## VectorRangeQuery
 
@@ -540,7 +517,7 @@ distance threshold.
     Defaults to 10.
   * **return_score** (*bool* *,* *optional*) – Whether to return the vector
     distance. Defaults to True.
-  * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
+  * **dialect** (*int* *,* *optional*) – The Redis Search query dialect.
     Defaults to 2.
   * **sort_by** (*Optional* *[* *SortSpec* *]*) – The field(s) to order the results by. Can be:
     - str: single field name
@@ -570,8 +547,9 @@ distance threshold.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### `NOTE`
+{{< note >}}
 Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
+{{< /note >}}
 
 #### `dialect(dialect)`
 
@@ -586,7 +564,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -599,7 +577,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -617,12 +595,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -676,7 +654,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -783,7 +761,7 @@ Set the USE_SEARCH_HISTORY parameter for the range query.
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -800,7 +778,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -823,10 +801,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -839,7 +818,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -899,7 +878,7 @@ Return the hybrid policy for the query.
 * **Return type:**
   Optional[str]
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the parameters for the query.
 
@@ -939,7 +918,7 @@ Return the USE_SEARCH_HISTORY parameter for the query.
 * **Return type:**
   Optional[str]
 
-#### `NOTE`
+{{< note >}}
 **Runtime Parameters for Range Queries**
 
 VectorRangeQuery supports runtime parameters for controlling range search behavior:
@@ -968,19 +947,41 @@ query = VectorRangeQuery(
     use_search_history='AUTO'  # SVS-VAMANA only
 )
 ```
+{{< /note >}}
 
-## HybridQuery
+## AggregateHybridQuery
 
-### `class HybridQuery(*args, **kwargs)`
+### `class AggregateHybridQuery(text, text_field_name, vector, vector_field_name, text_scorer='BM25STD', filter_expression=None, alpha=0.7, dtype='float32', num_results=10, return_fields=None, stopwords='english', dialect=2, text_weights=None)`
 
-Bases: `AggregateHybridQuery`
+Bases: `AggregationQuery`
 
-Backward compatibility wrapper for AggregateHybridQuery.
+AggregateHybridQuery combines text and vector search in Redis.
+It allows you to perform a hybrid search using both text and vector similarity.
+It scores documents based on a weighted combination of text and vector similarity.
 
-#### `Deprecated`
-Deprecated since version HybridQuery: is a backward compatibility wrapper around AggregateHybridQuery
-and will eventually be replaced with a new hybrid query implementation.
-To maintain current functionality please use AggregateHybridQuery directly.",
+```python
+from redisvl.query import AggregateHybridQuery
+from redisvl.index import SearchIndex
+
+index = SearchIndex.from_yaml("path/to/index.yaml")
+
+query = AggregateHybridQuery(
+    text="example text",
+    text_field_name="text_field",
+    vector=[0.1, 0.2, 0.3],
+    vector_field_name="vector_field",
+    text_scorer="BM25STD",
+    filter_expression=None,
+    alpha=0.7,
+    dtype="float32",
+    num_results=10,
+    return_fields=["field1", "field2"],
+    stopwords="english",
+    dialect=2,
+)
+
+results = index.query(query)
+```
 
 Instantiates a AggregateHybridQuery object.
 
@@ -1002,7 +1003,7 @@ Instantiates a AggregateHybridQuery object.
   * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – 
 
     The stopwords to remove from the
-    provided text prior to searchuse. If a string such as "english" "german" is
+    provided text prior to search-use. If a string such as "english" "german" is
     provided then a default set of stopwords for that language will be used. if a list,
     set, or tuple of strings is provided then those will be used as stopwords.
     Defaults to "english". if set to "None" then no stopwords will be removed.
@@ -1015,15 +1016,30 @@ Instantiates a AggregateHybridQuery object.
     within the query text. Defaults to None, as no modifications will be made to the
     text_scorer score.
 
-#### `NOTE`
+{{< note >}}
 AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime
 parameters. For runtime parameter support (ef_runtime, search_window_size, etc.),
 use VectorQuery or VectorRangeQuery which use FT.SEARCH commands.
+{{< /note >}}
 
 * **Raises:**
   * **ValueError** – If the text string is empty, or if the text string becomes empty after
         stopwords are removed.
   * **TypeError** – If the stopwords are not a set, list, or tuple of strings.
+* **Parameters:**
+  * **text** (*str*)
+  * **text_field_name** (*str*)
+  * **vector** (*bytes* *|* *list* *[* *float* *]*)
+  * **vector_field_name** (*str*)
+  * **text_scorer** (*str*)
+  * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *|* *None*)
+  * **alpha** (*float*)
+  * **dtype** (*str*)
+  * **num_results** (*int*)
+  * **return_fields** (*list* *[* *str* *]*  *|* *None*)
+  * **stopwords** (*str* *|* *set* *[* *str* *]*  *|* *None*)
+  * **dialect** (*int*)
+  * **text_weights** (*dict* *[* *str* *,* *float* *]*  *|* *None*)
 
 #### `add_scores()`
 
@@ -1084,8 +1100,8 @@ Specify by which fields to group the aggregation.
   : aggregation module.
 
 * **Parameters:**
-  * **fields** (*List* *[* *str* *]*)
-  * **reducers** (*Reducer* *|* *List* *[* *Reducer* *]*)
+  * **fields** (*str* *|* *List* *[* *str* *]*)
+  * **reducers** (*Reducer*)
 * **Return type:**
   *AggregateRequest*
 
@@ -1162,8 +1178,7 @@ Default is TFIDF.
 Set or update the text weights for the query.
 
 * **Parameters:**
-  * **text_weights** – Dictionary of word:weight mappings
-  * **weights** (*Dict* *[* *str* *,* *float* *]*)
+  **weights** (*dict* *[* *str* *,* *float* *]*) – Dictionary of word:weight mappings
 
 #### `sort_by(*fields, **kwargs)`
 
@@ -1203,7 +1218,7 @@ entries in the result object.
 * **Return type:**
   *AggregateRequest*
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the parameters for the aggregation.
 
@@ -1212,13 +1227,13 @@ Return the parameters for the aggregation.
 * **Return type:**
   Dict[str, Any]
 
-#### `property stopwords: Set[str]`
+#### `property stopwords: set[str]`
 
 Return the stopwords used in the query.
 :returns: The stopwords used in the query.
 :rtype: Set[str]
 
-#### `property text_weights: Dict[str, float]`
+#### `property text_weights: dict[str, float]`
 
 Get the text weights.
 
@@ -1227,33 +1242,146 @@ Get the text weights.
 * **Return type:**
   Dictionary of word
 
-#### `NOTE`
-The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
+{{< note >}}
+The `stopwords` parameter in [AggregateHybridQuery](#aggregatehybridquery) (and `HybridQuery`) controls query-time stopword filtering (client-side).
 For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
 Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+{{< /note >}}
 
-#### `NOTE`
+{{< note >}}
+`HybridQuery` and [AggregateHybridQuery](#aggregatehybridquery) apply linear combination inconsistently. `HybridQuery` uses `linear_alpha` to weight the text score, while [AggregateHybridQuery](#aggregatehybridquery) uses `alpha` to weight the vector score. When switching between the two classes, take care to revise your `alpha` setting.
+{{< /note >}}
+
+{{< note >}}
 **Runtime Parameters for Hybrid Queries**
 
 **Important:** AggregateHybridQuery uses FT.AGGREGATE commands which do NOT support runtime parameters.
 Runtime parameters (`ef_runtime`, `search_window_size`, `use_search_history`, `search_buffer_capacity`)
 are only supported with FT.SEARCH commands.
 
-For runtime parameter support, use [VectorQuery](#vectorquery) or [VectorRangeQuery](#vectorrangequery) instead of AggregateHybridQuery.
+For runtime parameter support, use `HybridQuery`, [VectorQuery](#vectorquery), or [VectorRangeQuery](#vectorrangequery) instead of AggregateHybridQuery.
 
-Example with VectorQuery (supports runtime parameters):
+Example with HybridQuery (supports runtime parameters):
 
 ```python
-from redisvl.query import VectorQuery
+from redisvl.query import HybridQuery
 
-query = VectorQuery(
+query = HybridQuery(
+    text="query string",
+    text_field_name="description",
     vector=[0.1, 0.2, 0.3],
     vector_field_name="embedding",
+    vector_search_method="KNN",
+    knn_ef_runtime=150,  # Runtime parameters work with HybridQuery
     return_fields=["description"],
     num_results=10,
-    ef_runtime=150  # Runtime parameters work with VectorQuery
 )
 ```
+{{< /note >}}
+
+## HybridQuery
+
+### `class HybridQuery(text, text_field_name, vector, vector_field_name, vector_param_name='vector', text_scorer='BM25STD', yield_text_score_as=None, vector_search_method=None, knn_ef_runtime=10, range_radius=None, range_epsilon=0.01, yield_vsim_score_as=None, filter_expression=None, combination_method=None, rrf_window=20, rrf_constant=60, linear_alpha=0.3, yield_combined_score_as=None, dtype='float32', num_results=10, return_fields=None, stopwords='english', text_weights=None)`
+
+Bases: `object`
+
+A hybrid search query that combines text search and vector similarity, with configurable fusion methods.
+
+```python
+from redisvl.query import HybridQuery
+from redisvl.index import SearchIndex
+
+index = SearchIndex.from_yaml("path/to/index.yaml")
+
+query = HybridQuery(
+    text="example text",
+    text_field_name="text_field",
+    vector=[0.1, 0.2, 0.3],
+    vector_field_name="vector_field",
+    text_scorer="BM25STD",
+    yield_text_score_as="text_score",
+    yield_vsim_score_as="vector_similarity",
+    combination_method="LINEAR",
+    linear_alpha=0.3,
+    yield_combined_score_as="hybrid_score",
+    num_results=10,
+    return_fields=["field1", "field2"],
+    stopwords="english",
+)
+
+results = index.query(query)
+```
+
+{{< note >}}
+- [FT.HYBRID command documentation](https://redis.io/docs/latest/commands/ft.hybrid)
+{{< /note >}}
+- [redis-py hybrid_search documentation](https://redis.readthedocs.io/en/stable/redismodules.html#redis.commands.search.commands.SearchCommands.hybrid_search)
+
+Instantiates a HybridQuery object.
+
+* **Parameters:**
+  * **text** (*str*) – The text to search for.
+  * **text_field_name** (*str*) – The text field name to search in.
+  * **vector** (*bytes* *|* *list* *[* *float* *]*) – The vector to perform vector similarity search.
+  * **vector_field_name** (*str*) – The vector field name to search in.
+  * **vector_param_name** (*str*) – The name of the parameter substitution containing the vector blob.
+  * **text_scorer** (*str*) – The text scorer to use. Options are {TFIDF, TFIDF.DOCNORM,
+    BM25STD, BM25STD.NORM, BM25STD.TANH, DISMAX, DOCSCORE, HAMMING}. Defaults to "BM25STD". For more
+    information about supported scoring algorithms,
+    see [https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/scoring/)
+  * **yield_text_score_as** (*str* *|* *None*) – The name of the field to yield the text score as.
+  * **vector_search_method** (*Literal* *[* *'KNN'* *,*  *'RANGE'* *]*  *|* *None*) – The vector search method to use. Options are {KNN, RANGE}. Defaults to None.
+  * **knn_ef_runtime** (*int*) – The exploration factor parameter for HNSW, optional if vector_search_method is "KNN".
+  * **range_radius** (*float* *|* *None*) – The search radius to use, required if vector_search_method is "RANGE".
+  * **range_epsilon** (*float*) – The epsilon value to use, optional if vector_search_method is "RANGE"; defines the
+    accuracy of the search.
+  * **yield_vsim_score_as** (*str* *|* *None*) – The name of the field to yield the vector similarity score as.
+  * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *|* *None*) – The filter expression to use for both the text and vector searches. Defaults to None.
+  * **combination_method** (*Literal* *[* *'RRF'* *,*  *'LINEAR'* *]*  *|* *None*) – The combination method to use. Options are {RRF, LINEAR}. If not specified, the server
+    defaults to RRF. If "RRF" is specified, then at least one of rrf_window or rrf_constant must be
+    provided. If "LINEAR" is specified, then at least one of linear_alpha or linear_beta must be
+    provided.
+  * **rrf_window** (*int*) – The window size to use for the reciprocal rank fusion (RRF) combination method. Limits
+    fusion scope.
+  * **rrf_constant** (*int*) – The constant to use for the reciprocal rank fusion (RRF) combination method. Controls decay
+    of rank influence.
+  * **linear_alpha** (*float*) – The weight of the text query for the linear combination method (LINEAR).
+  * **yield_combined_score_as** (*str* *|* *None*) – The name of the field to yield the combined score as.
+  * **dtype** (*str*) – The data type of the vector. Defaults to "float32".
+  * **num_results** (*int* *|* *None*) – The number of results to return.
+  * **return_fields** (*list* *[* *str* *]*  *|* *None*) – The fields to return. Defaults to None.
+  * **stopwords** (*Optional* *[* *Union* *[* *str* *,* *Set* *[* *str* *]* *]* *]* *,* *optional*) – 
+
+    The stopwords to remove from the
+    provided text prior to search-use. If a string such as "english" "german" is
+    provided then a default set of stopwords for that language will be used. if a list,
+    set, or tuple of strings is provided then those will be used as stopwords.
+    Defaults to "english". if set to "None" then no stopwords will be removed.
+
+    Note: This parameter controls query-time stopword filtering (client-side).
+    For index-level stopwords configuration (server-side), see IndexInfo.stopwords.
+    Using query-time stopwords with index-level STOPWORDS 0 is counterproductive.
+  * **text_weights** (*Optional* *[* *Dict* *[* *str* *,* *float* *]* *]*) – The importance weighting of individual words
+    within the query text. Defaults to None, as no modifications will be made to the
+    text_scorer score.
+* **Raises:**
+  * **ImportError** – If redis-py>=7.1.0 is not installed.
+  * **TypeError** – If the stopwords are not a set, list, or tuple of strings.
+  * **ValueError** – If the text string is empty, or if the text string becomes empty after
+        stopwords are removed.
+  * **ValueError** – If vector_search_method is defined and isn’t one of {KNN, RANGE}.
+  * **ValueError** – If vector_search_method is "KNN" and knn_k is not provided.
+  * **ValueError** – If vector_search_method is "RANGE" and range_radius is not provided.
+
+{{< note >}}
+The `stopwords` parameter in [HybridQuery](#hybridquery) (and `AggregateHybridQuery`) controls query-time stopword filtering (client-side).
+For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
+Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+{{< /note >}}
+
+{{< note >}}
+[HybridQuery](#hybridquery) and `AggregateHybridQuery` apply linear combination inconsistently. [HybridQuery](#hybridquery) uses `linear_alpha` to weight the text score, while `AggregateHybridQuery` uses `alpha` to weight the vector score. When switching between the two classes, take care to revise your `alpha` setting.
+{{< /note >}}
 
 ## TextQuery
 
@@ -1267,7 +1395,7 @@ TextQuery is a query for running a full text search, along with an optional filt
 from redisvl.query import TextQuery
 from redisvl.index import SearchIndex
 
-index = SearchIndex.from_yaml(index.yaml)
+index = SearchIndex.from_yaml("index.yaml")
 
 query = TextQuery(
     text="example text",
@@ -1300,7 +1428,7 @@ A query for running a full text search, along with an optional filter expression
     search. Defaults to 10.
   * **return_score** (*bool* *,* *optional*) – Whether to return the text score.
     Defaults to True.
-  * **dialect** (*int* *,* *optional*) – The RediSearch query dialect.
+  * **dialect** (*int* *,* *optional*) – The Redis Search query dialect.
     Defaults to 2.
   * **sort_by** (*Optional* *[* *SortSpec* *]*) – The field(s) to order the results by. Can be:
     - str: single field name
@@ -1344,7 +1472,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -1357,7 +1485,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1375,12 +1503,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -1434,7 +1562,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -1461,7 +1589,7 @@ Since Redis 8.0 default was changed to BM25STD.
 Set or update the field weights for the query.
 
 * **Parameters:**
-  **field_weights** (*str* *|* *Dict* *[* *str* *,* *float* *]*) – Either a single field name or dictionary of field:weight mappings
+  **field_weights** (*str* *|* *dict* *[* *str* *,* *float* *]*) – Either a single field name or dictionary of field:weight mappings
 
 #### `set_filter(filter_expression=None)`
 
@@ -1479,11 +1607,11 @@ Set or update the text weights for the query.
 
 * **Parameters:**
   * **text_weights** – Dictionary of word:weight mappings
-  * **weights** (*Dict* *[* *str* *,* *float* *]*)
+  * **weights** (*dict* *[* *str* *,* *float* *]*)
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -1500,7 +1628,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -1523,10 +1651,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -1539,7 +1668,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -1559,7 +1688,7 @@ Ask the engine to return document search scores.
 * **Return type:**
   *Query*
 
-#### `property field_weights: Dict[str, float]`
+#### `property field_weights: dict[str, float]`
 
 Get the field weights for the query.
 
@@ -1570,7 +1699,7 @@ Get the field weights for the query.
 
 The filter expression for the query.
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the query parameters.
 
@@ -1578,7 +1707,7 @@ Return the query parameters.
 
 Return self as the query object.
 
-#### `property text_field_name: str | Dict[str, float]`
+#### `property text_field_name: str | dict[str, float]`
 
 Get the text field name(s) - for backward compatibility.
 
@@ -1586,7 +1715,7 @@ Get the text field name(s) - for backward compatibility.
   Either a single field name string (if only one field with weight 1.0)
   or a dictionary of field:weight mappings.
 
-#### `property text_weights: Dict[str, float]`
+#### `property text_weights: dict[str, float]`
 
 Get the text weights.
 
@@ -1595,10 +1724,11 @@ Get the text weights.
 * **Return type:**
   Dictionary of word
 
-#### `NOTE`
+{{< note >}}
 The `stopwords` parameter in [TextQuery](#textquery) controls query-time stopword filtering (client-side).
 For index-level stopwords configuration (server-side), see `redisvl.schema.IndexInfo.stopwords`.
 Using query-time stopwords with index-level `STOPWORDS 0` is counterproductive.
+{{< /note >}}
 
 ## FilterQuery
 
@@ -1639,7 +1769,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -1652,7 +1782,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1670,12 +1800,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -1729,7 +1859,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -1763,7 +1893,7 @@ Set the filter expression for the query.
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -1780,7 +1910,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -1803,10 +1933,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -1819,7 +1950,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -1843,7 +1974,7 @@ Ask the engine to return document search scores.
 
 The filter expression for the query.
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the query parameters.
 
@@ -1890,7 +2021,7 @@ Add a dialect field to the query.
 
 #### `expander(expander)`
 
-Add a expander field to the query.
+Add an expander field to the query.
 
 - **expander** - the name of the expander
 
@@ -1903,7 +2034,7 @@ Add a expander field to the query.
 
 Match only documents where the query terms appear in
 the same order in the document.
-i.e. for the query "hello world", we do not match "world hello"
+i.e., for the query "hello world", we do not match "world hello"
 
 * **Return type:**
   *Query*
@@ -1921,12 +2052,12 @@ Analyze the query as being in the specified language.
 
 Limit the search to specific TEXT fields only.
 
-- **fields**: A list of strings, case sensitive field names
+- **fields**: Each element should be a string, case sensitive field name
 
 from the defined schema.
 
 * **Parameters:**
-  **fields** (*List* *[* *str* *]*)
+  **fields** (*str*)
 * **Return type:**
   *Query*
 
@@ -1980,7 +2111,7 @@ Set the fields to return with search results.
 
 * **Parameters:**
   * **\*fields** – Variable number of field names to return.
-  * **skip_decode** (*str* *|* *List* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
+  * **skip_decode** (*str* *|* *list* *[* *str* *]*  *|* *None*) – Optional field name or list of field names that should not be
     decoded. Useful for binary data like embeddings.
 * **Returns:**
   Returns the query object for method chaining.
@@ -2014,7 +2145,7 @@ Set the filter expression for the query.
 
 #### `slop(slop)`
 
-Allow a maximum of N intervening non matched terms between
+Allow a maximum of N intervening non-matched terms between
 phrase terms (0 means exact phrase).
 
 * **Parameters:**
@@ -2031,7 +2162,7 @@ natively supports only a single SORTBY field. When multiple fields are specified
 only the FIRST field is used for the Redis SORTBY clause.
 
 * **Parameters:**
-  * **sort_spec** (*str* *|* *Tuple* *[* *str* *,* *str* *]*  *|* *List* *[* *str* *|* *Tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
+  * **sort_spec** (*str* *|* *tuple* *[* *str* *,* *str* *]*  *|* *list* *[* *str* *|* *tuple* *[* *str* *,* *str* *]* *]*  *|* *None*) – Sort specification in various formats:
     - str: single field name
     - Tuple[str, str]: (field_name, "ASC"|"DESC")
     - List: list of field names or tuples
@@ -2054,10 +2185,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -2070,7 +2202,7 @@ overrides the timeout parameter of the module
 
 #### `verbatim()`
 
-Set the query to be verbatim, i.e. use no query expansion
+Set the query to be verbatim, i.e., use no query expansion
 or stemming.
 
 * **Return type:**
@@ -2094,7 +2226,7 @@ Ask the engine to return document search scores.
 
 The filter expression for the query.
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the query parameters.
 
@@ -2221,8 +2353,8 @@ Specify by which fields to group the aggregation.
   : aggregation module.
 
 * **Parameters:**
-  * **fields** (*List* *[* *str* *]*)
-  * **reducers** (*Reducer* *|* *List* *[* *Reducer* *]*)
+  * **fields** (*str* *|* *List* *[* *str* *]*)
+  * **reducers** (*Reducer*)
 * **Return type:**
   *AggregateRequest*
 
@@ -2332,7 +2464,7 @@ entries in the result object.
 * **Return type:**
   *AggregateRequest*
 
-#### `property params: Dict[str, Any]`
+#### `property params: dict[str, Any]`
 
 Return the parameters for the aggregation.
 
@@ -2340,3 +2472,123 @@ Return the parameters for the aggregation.
   The parameters for the aggregation.
 * **Return type:**
   Dict[str, Any]
+
+## SQLQuery
+
+### `class SQLQuery(sql, params=None, *, sql_redis_options=None)`
+
+Bases: `object`
+
+A query class that translates SQL-like syntax into Redis queries.
+
+This class allows users to write SQL SELECT statements that are
+automatically translated into Redis FT.SEARCH or FT.AGGREGATE commands.
+
+For TEXT fields with `sql-redis >= 0.4.0`:
+
+- `=` performs exact phrase or exact-term matching
+- `LIKE` performs wildcard/pattern matching using SQL `%` wildcards
+- `fuzzy(field, 'term')` performs typo-tolerant matching
+- `fulltext(field, 'query')` performs tokenized text search
+
+```python
+from redisvl.query import SQLQuery
+from redisvl.index import SearchIndex
+
+index = SearchIndex.from_existing("products", redis_url="redis://localhost:6379")
+
+sql_query = SQLQuery('''
+    SELECT title, price, category
+    FROM products
+    WHERE category = 'electronics' AND price < 100
+''')
+
+results = index.query(sql_query)
+```
+
+{{< note >}}
+Requires the optional sql-redis package. Install with:
+`pip install redisvl[sql-redis]`
+{{< /note >}}
+
+Initialize a SQLQuery.
+
+* **Parameters:**
+  * **sql** (*str*) – The SQL SELECT statement to execute.
+  * **params** (*dict* *[* *str* *,* *Any* *]*  *|* *None*) – Optional dictionary of parameters for parameterized queries.
+    Useful for passing vector data for similarity searches.
+  * **sql_redis_options** (*dict* *[* *str* *,* *Any* *]*  *|* *None*) – Optional passthrough options forwarded to
+    `sql-redis` executor creation. Use this to tune how SQL
+    query translation loads and caches index schema metadata.
+    For example, `{"schema_cache_strategy": "lazy"}` loads
+    schemas on demand (the RedisVL default), while
+    `{"schema_cache_strategy": "load_all"}` eagerly loads
+    all schemas up front. These options exist to balance startup
+    cost vs repeated-query performance across many indexes.
+
+{{< note >}}
+`sql-redis >= 0.4.0` uses explicit TEXT search operators.
+Use `=` for exact phrase matching, `LIKE` for wildcard
+matching, `fuzzy()` for typo-tolerant matching, and
+`fulltext()` for tokenized search.
+{{< /note >}}
+
+#### `redis_query_string(redis_client=None, redis_url='redis://localhost:6379')`
+
+Translate the SQL query to a Redis command string.
+
+This method uses the sql-redis translator to convert the SQL statement
+into the equivalent Redis FT.SEARCH or FT.AGGREGATE command.
+
+* **Parameters:**
+  * **redis_client** (*Any* *|* *None*) – A Redis client connection used to load index schemas.
+    If not provided, a connection will be created using redis_url.
+  * **redis_url** (*str*) – The Redis URL to connect to if redis_client is not provided.
+    Defaults to "redis://localhost:6379".
+* **Returns:**
+  {electronics}"’).
+* **Return type:**
+  The Redis command string (e.g., ‘FT.SEARCH products "@category
+* **Raises:**
+  **ImportError** – If sql-redis package is not installed.
+
+### `Example`
+
+```python
+from redisvl.query import SQLQuery
+
+sql_query = SQLQuery("SELECT * FROM products WHERE category = 'electronics'")
+
+# Using redis_url
+redis_cmd = sql_query.redis_query_string(redis_url="redis://localhost:6379")
+
+# Or using an existing client
+from redis import Redis
+client = Redis()
+redis_cmd = sql_query.redis_query_string(redis_client=client)
+
+print(redis_cmd)
+# Output: FT.SEARCH products "@category:{electronics}"
+```
+
+{{< note >}}
+SQLQuery requires the optional `sql-redis` package. Install with:
+`pip install redisvl[sql-redis]`
+{{< /note >}}
+
+{{< note >}}
+SQLQuery translates SQL SELECT statements into Redis FT.SEARCH or FT.AGGREGATE commands.
+The SQL syntax supports WHERE clauses, field selection, ordering, and parameterized queries
+for vector similarity searches.
+{{< /note >}}
+
+{{< note >}}
+SQLQuery accepts a `sql_redis_options` dictionary that is passed through to
+`sql-redis` executor creation. The most common option is
+`schema_cache_strategy`:
+
+- `"lazy"` (default) loads schemas on demand, which keeps one-off or
+  narrow queries cheaper.
+- `"load_all"` eagerly loads all schemas up front, which can help when
+  running many SQL queries across many indexes.
+{{< /note >}}

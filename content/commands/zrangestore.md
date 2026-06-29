@@ -96,10 +96,60 @@ since: 6.2.0
 summary: Stores a range of members from sorted set in a key.
 syntax_fmt: "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset\n\
   \  count]"
-syntax_str: "src min max [BYSCORE | BYLEX] [REV] [LIMIT\_offset count]"
 title: ZRANGESTORE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 This command is like [`ZRANGE`]({{< relref "/commands/zrange" >}}), but stores the result in the `<dst>` destination key.
+
+## Required arguments
+
+<details open><summary><code>dst</code></summary>
+
+The key to store the resulting sorted set in.
+
+</details>
+
+<details open><summary><code>src</code></summary>
+
+The source sorted-set key.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The start of the range. By default a zero-based index (negatives count from the end); a score bound with `BYSCORE`; or a lexicographical bound with `BYLEX`.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The end of the range, inclusive. Interpreted the same way as `min`.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>BYSCORE | BYLEX</code></summary>
+
+Interpret the range as a score range (`BYSCORE`) or a lexicographical range (`BYLEX`) instead of an index range.
+
+</details>
+
+<details open><summary><code>REV</code></summary>
+
+Reverse the ordering so results are returned from high to low.
+
+</details>
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Skip `offset` matching members and return up to `count` of them. Requires `BYSCORE` or `BYLEX`. A negative `count` returns all remaining members.
+
+</details>
 
 ## Examples
 
@@ -109,9 +159,9 @@ ZRANGESTORE dstzset srczset 2 -1
 ZRANGE dstzset 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

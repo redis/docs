@@ -44,23 +44,19 @@ railroad_diagram: /images/railroad/digest.svg
 since: 8.4.0
 summary: Returns the hash digest of a string value as a hexadecimal string.
 syntax_fmt: DIGEST key
-syntax_str: ''
 title: DIGEST
 ---
+Get the [hash digest](#hash-digest) for the value stored in the specified key as a hexadecimal string. Keys must be of type string.
 
-Get the hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string.
+## Required arguments
 
-## Hash Digest
+<details open><summary><code>key</code></summary>
 
-A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options, and also the [DELEX]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
+The name of the key.
 
-## Redis Software and Redis Cloud compatibility
+</details>
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
-
-## Example
+## Examples
 
 ```bash
 > SET key1 "Hello world"
@@ -68,6 +64,18 @@ OK
 > DIGEST key1
 "b6acb9d84a38ff74"
 ```
+
+## Details
+
+### Hash Digest {#hash-digest}
+
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options, and also the [DELEX]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 

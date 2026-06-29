@@ -69,7 +69,6 @@ railroad_diagram: /images/railroad/geodist.svg
 since: 3.2.0
 summary: Returns the distance between two members of a geospatial index.
 syntax_fmt: GEODIST key member1 member2 [M | KM | FT | MI]
-syntax_str: member1 member2 [M | KM | FT | MI]
 title: GEODIST
 ---
 Return the distance between two members in the geospatial index represented by the sorted set.
@@ -87,6 +86,34 @@ The unit must be one of the following, and defaults to meters:
 
 The distance is computed assuming that the Earth is a perfect sphere, so errors up to 0.5% are possible in edge cases.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the geospatial index (a sorted set).
+
+</details>
+
+<details open><summary><code>member1</code></summary>
+
+The first member.
+
+</details>
+
+<details open><summary><code>member2</code></summary>
+
+The second member.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>M | KM | FT | MI</code></summary>
+
+The unit for the returned distance: meters (`M`, the default), kilometers (`KM`), feet (`FT`), or miles (`MI`).
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -97,9 +124,9 @@ GEODIST Sicily Palermo Catania mi
 GEODIST Sicily Foo Bar
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

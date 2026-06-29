@@ -1,0 +1,100 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "bgrewriteaof(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String bgrewriteaof()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "BgRewriteAOF(ctx context.Context) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "BGREWRITEAOF()",
+        "params": [],
+        "returns": {
+          "type": "SimpleStringReply",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String bgrewriteaof()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> bgrewriteaof()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> bgrewriteaof()",
+        "params": [],
+        "returns": {
+          "type": "Mono<String>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "bgrewriteaof()",
+        "params": [],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

@@ -68,12 +68,39 @@ since: 2.8.9
 summary: Returns members in a sorted set within a lexicographical range in reverse
   order.
 syntax_fmt: "ZREVRANGEBYLEX key max min [LIMIT\_offset count]"
-syntax_str: "max min [LIMIT\_offset count]"
 title: ZREVRANGEBYLEX
 ---
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.
 
 Apart from the reversed ordering, `ZREVRANGEBYLEX` is similar to [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}).
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `+` for the highest possible value.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `-` for the lowest possible value.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Skip `offset` matching members and return up to `count` of them. A negative `count` returns all remaining members.
+
+</details>
 
 ## Examples
 
@@ -84,9 +111,9 @@ ZREVRANGEBYLEX myzset (c -
 ZREVRANGEBYLEX myzset (g [aaa
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

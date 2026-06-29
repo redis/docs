@@ -48,7 +48,6 @@ since: 1.0.0
 summary: Increments the integer value of a key by one. Uses 0 as initial value if
   the key doesn't exist.
 syntax_fmt: INCR key
-syntax_str: ''
 title: INCR
 ---
 Increments the number stored at `key` by one.
@@ -57,18 +56,26 @@ An error is returned if the key contains a value of the wrong type or contains a
 string that can not be represented as integer.
 This operation is limited to 64 bit signed integers.
 
-**Note**: this is a string operation because Redis does not have a dedicated
+Note: this is a string operation because Redis does not have a dedicated
 integer type.
-The string stored at the key is interpreted as a base-10 **64 bit signed
-integer** to execute the operation.
+The string stored at the key is interpreted as a base-10 64-bit signed
+integer to execute the operation.
 
 Redis stores integers in their integer representation, so for string values
 that actually hold an integer, there is no overhead for storing the string
 representation of the integer.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
-{{< clients-example cmds_string incr >}}
+{{< clients-example set="cmds_string" step="incr" description="Foundational: Increment the integer value of a key by one using INCR (initializes to 0 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "10"
 "OK"
 > INCR mykey
@@ -85,7 +92,9 @@ INCR mykey
 GET mykey
 {{% /redis-cli %}}
 
-## Pattern: Counter
+## Details
+
+### Pattern: counter
 
 The counter pattern is the most obvious thing you can do with Redis atomic
 increment operations.
@@ -110,18 +119,16 @@ This simple pattern can be extended in many ways:
   operations performed by the user.
   Imagine for instance the score of different users in an online game.
 
-## Pattern: Rate limiter
+### Pattern: rate limiter
 
 The rate limiter pattern is a special counter that is used to limit the rate at
 which an operation can be performed.
 The classical materialization of this pattern involves limiting the number of
 requests that can be performed against a public API.
 
-We provide two implementations of this pattern using `INCR`, where we assume
-that the problem to solve is limiting the number of API calls to a maximum of
-_ten requests per second per IP address_.
+You can implement this pattern with INCR in two ways. Both examples limit API calls to a maximum of ten requests per second per IP address.
 
-## Pattern: Rate limiter 1
+#### Pattern: rate limiter 1
 
 The more simple and direct implementation of this pattern is the following:
 
@@ -141,7 +148,7 @@ ELSE
 END
 ```
 
-Basically we have a counter for every IP, for every different second.
+In this example, there is a counter for every IP, for every different second.
 But these counters are always incremented setting an expire of 10 seconds so that
 they'll be removed by Redis automatically when the current second is a different
 one.
@@ -149,7 +156,7 @@ one.
 Note the used of [`MULTI`]({{< relref "/commands/multi" >}}) and [`EXEC`]({{< relref "/commands/exec" >}}) in order to make sure that we'll both
 increment and set the expire at every API call.
 
-## Pattern: Rate limiter 2
+#### Pattern: rate limiter 2
 
 An alternative implementation uses a single counter, but is a bit more complex
 to get it right without race conditions.
@@ -222,9 +229,9 @@ the [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands
 However this race will just miss an API call under rare conditions, so the rate
 limiting will still work correctly.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

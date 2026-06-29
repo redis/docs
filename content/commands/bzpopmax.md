@@ -58,9 +58,13 @@ summary: Removes and returns the member with the highest score from one or more 
   sets. Blocks until a member available otherwise.  Deletes the sorted set if the
   last element was popped.
 syntax_fmt: BZPOPMAX key [key ...] timeout
-syntax_str: timeout
 title: BZPOPMAX
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BZPOPMAX` is the blocking variant of the sorted set [`ZPOPMAX`]({{< relref "/commands/zpopmax" >}}) primitive.
 
 It is the blocking version because it blocks the connection when there are no
@@ -77,6 +81,20 @@ with the highest scores instead of popping the ones with the lowest scores.
 
 [cb]: /commands/bzpopmin
 
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys to pop from.
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
 ## Examples
 
 ```
@@ -90,9 +108,9 @@ redis> BZPOPMAX zset1 zset2 0
 3) "2"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

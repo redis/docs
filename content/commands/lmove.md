@@ -85,9 +85,13 @@ since: 6.2.0
 summary: Returns an element after popping it from one list and pushing it to another.
   Deletes the list if the last element was moved.
 syntax_fmt: LMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT>
-syntax_str: destination <LEFT | RIGHT> <LEFT | RIGHT>
 title: LMOVE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Atomically returns and removes the first/last element (head/tail depending on
 the `wherefrom` argument) of the list stored at `source`, and pushes the
 element at the first/last element (head/tail depending on the `whereto`
@@ -108,6 +112,32 @@ no-op if `wherefrom` is the same as `whereto`).
 This command comes in place of the now deprecated [`RPOPLPUSH`]({{< relref "/commands/rpoplpush" >}}). Doing
 `LMOVE RIGHT LEFT` is equivalent.
 
+## Required arguments
+
+<details open><summary><code>source</code></summary>
+
+The key of the source list.
+
+</details>
+
+<details open><summary><code>destination</code></summary>
+
+The key of the destination list.
+
+</details>
+
+<details open><summary><code>LEFT | RIGHT</code></summary>
+
+The end of `source` to pop the element from: `LEFT` (head) or `RIGHT` (tail).
+
+</details>
+
+<details open><summary><code>LEFT | RIGHT</code></summary>
+
+The end of `destination` to push the element to: `LEFT` (head) or `RIGHT` (tail).
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -120,8 +150,9 @@ LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
 
+## Details
 
-## Pattern: Reliable queue
+### Pattern: reliable queue
 
 Redis is often used as a messaging server to implement processing of background
 jobs or other kinds of messaging tasks.
@@ -144,7 +175,7 @@ An additional client may monitor the _processing_ list for items that remain
 there for too much time, and will push those timed out items into the queue
 again if needed.
 
-## Pattern: Circular list
+### Pattern: circular list
 
 Using `LMOVE` with the same source and destination key, a client can visit
 all the elements of an N-elements list, one after the other, in O(N) without
@@ -167,9 +198,9 @@ Note that this implementation of workers is trivially scalable and reliable,
 because even if a message is lost the item is still in the queue and will be
 processed at the next iteration.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

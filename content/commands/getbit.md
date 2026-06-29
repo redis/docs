@@ -47,7 +47,6 @@ railroad_diagram: /images/railroad/getbit.svg
 since: 2.2.0
 summary: Returns a bit value by offset.
 syntax_fmt: GETBIT key offset
-syntax_str: offset
 title: GETBIT
 ---
 Returns the bit value at _offset_ in the string value stored at _key_.
@@ -58,6 +57,20 @@ When _key_ does not exist it is assumed to be an empty string, so _offset_ is
 always out of range and the value is also assumed to be a contiguous space with
 0 bits.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the string.
+
+</details>
+
+<details open><summary><code>offset</code></summary>
+
+The zero-based bit offset to read.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -67,9 +80,9 @@ GETBIT mykey 7
 GETBIT mykey 100
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

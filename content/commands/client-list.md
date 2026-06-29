@@ -82,7 +82,6 @@ since: 2.4.0
 summary: Lists open connections.
 syntax_fmt: "CLIENT LIST [TYPE\_<NORMAL | MASTER | REPLICA | PUBSUB>]\n  [ID\_client-id\
   \ [client-id ...]]"
-syntax_str: "[ID\_client-id [client-id ...]]"
 title: CLIENT LIST
 ---
 The `CLIENT LIST` command returns information and statistics about the client
@@ -92,41 +91,63 @@ You can use one of the optional subcommands to filter the list. The `TYPE type` 
 
 The `ID` filter only returns entries for clients with IDs matching the `client-id` arguments.
 
-Here is the meaning of the fields:
 
-* `id`: a unique 64-bit client ID
-* `addr`: address/port of the client
-* `laddr`: address/port of local address client connected to (bind address)
-* `fd`: file descriptor corresponding to the socket
-* `name`: the name set by the client with [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}})
-* `age`: total duration of the connection in seconds
-* `idle`: idle time of the connection in seconds
-* `flags`: client flags (see below)
-* `db`: current database ID
-* `sub`: number of channel subscriptions
-* `psub`: number of pattern matching subscriptions
-* `ssub`: number of shard channel subscriptions. Added in Redis 7.0.3
-* `multi`: number of commands in a MULTI/EXEC context
-* `watch`: number of keys this client is currently watching. Added in Redis 7.4
-* `qbuf`: query buffer length (0 means no query pending)
-* `qbuf-free`: free space of the query buffer (0 means the buffer is full)
-* `argv-mem`: incomplete arguments for the next command (already extracted from query buffer)
-* `multi-mem`: memory is used up by buffered multi commands. Added in Redis 7.0
-* `obl`: output buffer length
-* `oll`: output list length (replies are queued in this list when the buffer is full)
-* `omem`: output buffer memory usage
-* `tot-mem`: total memory consumed by this client in its various buffers
-* `events`: file descriptor events (see below)
-* `cmd`: last command played
-* `user`: the authenticated username of the client
-* `redir`: client id of current client tracking redirection
-* `resp`: client RESP protocol version. Added in Redis 7.0
-* `rbp`: peak size of the client's read buffer since the client connected. Added in Redis 7.0
-* `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0
-* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0
+## Optional arguments
+
+<details open><summary><code>TYPE NORMAL | MASTER | REPLICA | PUBSUB</code></summary>
+
+List only clients of the given type.
+
+</details>
+
+<details open><summary><code>ID client-id [client-id ...]</code></summary>
+
+List only the clients with the given IDs.
+
+</details>
+
+## Details
+
+### Returned information
+
+* `id`: a unique 64-bit client ID.
+* `addr`: address/port of the client.
+* `laddr`: address/port of local address client connected to (bind address).
+* `fd`: file descriptor corresponding to the socket.
+* `name`: the name set by the client with [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}).
+* `age`: total duration of the connection in seconds.
+* `idle`: idle time of the connection in seconds.
+* `flags`: client flags (see below).
+* `db`: current database ID.
+* `sub`: number of channel subscriptions.
+* `psub`: number of pattern matching subscriptions.
+* `ssub`: number of shard channel subscriptions. Added in Redis 7.0.3.
+* `multi`: number of commands in a MULTI/EXEC context.
+* `watch`: number of keys this client is currently watching. Added in Redis 7.4.
+* `qbuf`: query buffer length (0 means no query pending).
+* `qbuf-free`: free space of the query buffer (0 means the buffer is full).
+* `argv-mem`: incomplete arguments for the next command (already extracted from query buffer).
+* `multi-mem`: memory is used up by buffered multi commands. Added in Redis 7.0.
+* `obl`: output buffer length.
+* `oll`: output list length (replies are queued in this list when the buffer is full).
+* `omem`: output buffer memory usage.
+* `tot-mem`: total memory consumed by this client in its various buffers.
+* `events`: file descriptor events (see below).
+* `cmd`: last command played.
+* `user`: the authenticated username of the client.
+* `redir`: client id of current client tracking redirection.
+* `resp`: client RESP protocol version. Added in Redis 7.0.
+* `rbp`: peak size of the client's read buffer since the client connected. Added in Redis 7.0.
+* `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0.
+* `lib-name` - the name of the client library that is being used.
+* `lib-ver` - the version of the client library.
+* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0.
 * `tot-net-in`: total network input bytes read from this client.
 * `tot-net-out`: total network output bytes sent to this client.
 * `tot-cmds`: total count of commands this client executed.
+* `read-events`: number of read events for this client. Added in Redis 8.8
+* `parse-batch-cmd-sum`: cumulative number of commands parsed across all parsing batches for this client. Added in Redis 8.8
+* `parse-batch-cnt`: total number of parsing batches for this client. Divide `parse-batch-cmd-sum` by this value to get the client’s average commands per batch. Added in Redis 8.8
 
 The client flags can be a combination of:
 
@@ -161,16 +182,14 @@ r: the client socket is readable (event loop)
 w: the client socket is writable (event loop)
 ```
 
-## Notes
-
 New fields are regularly added for debugging purpose. Some could be removed
 in the future. A version safe Redis client using this command should parse
 the output accordingly (i.e. handling gracefully missing fields, skipping
 unknown fields).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

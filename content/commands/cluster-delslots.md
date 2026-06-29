@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/cluster-delslots.svg
 since: 3.0.0
 summary: Sets hash slots as unbound for a node.
 syntax_fmt: CLUSTER DELSLOTS slot [slot ...]
-syntax_str: ''
 title: CLUSTER DELSLOTS
 ---
 In Redis Cluster, each node keeps track of which master is serving
@@ -40,6 +39,34 @@ a particular hash slot.
 
 The `CLUSTER DELSLOTS` command asks a particular Redis Cluster node to
 forget which master is serving the hash slots specified as arguments.
+
+
+## Required arguments
+
+<details open><summary><code>slot [slot ...]</code></summary>
+
+One or more hash slots to unassign from the current node.
+
+</details>
+
+## Examples
+
+The following command removes the association for slots 5000 and
+5001 from the node receiving the command:
+
+    > CLUSTER DELSLOTS 5000 5001
+    OK
+
+## Details
+
+### Usage in Redis Cluster
+
+This command only works in cluster mode and may be useful for
+debugging and in order to manually orchestrate a cluster configuration
+when a new cluster is created. It is currently not used by `redis-cli`,
+and mainly exists for API completeness.
+
+### Other details
 
 In the context of a node that has received a `CLUSTER DELSLOTS` command and
 has consequently removed the associations for the passed hash slots,
@@ -62,26 +89,12 @@ However, note that:
 associated with some node.
 2. The command fails if the same slot is specified multiple times.
 3. As a side effect of the command execution, the node may go into
-*down* state because not all hash slots are covered.
+down state because not all hash slots are covered.
 
-## Example
 
-The following command removes the association for slots 5000 and
-5001 from the node receiving the command:
+## Redis Software and Redis Cloud compatibility
 
-    > CLUSTER DELSLOTS 5000 5001
-    OK
-
-## Usage in Redis Cluster
-
-This command only works in cluster mode and may be useful for
-debugging and in order to manually orchestrate a cluster configuration
-when a new cluster is created. It is currently not used by `redis-cli`,
-and mainly exists for API completeness.
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

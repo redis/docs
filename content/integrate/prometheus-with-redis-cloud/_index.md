@@ -31,7 +31,7 @@ The Prometheus endpoint's metrics cover all databases within a subscription. Any
 
   {{< /note >}}
 
-For more information on how Prometheus communicates with Redis Enterprise clusters, see [Prometheus integration with Redis Enterprise Software]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
+For more information on how Prometheus communicates with Redis Software clusters, see [Prometheus integration with Redis Software]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
 
 ## Quick start
 
@@ -43,19 +43,9 @@ You can quickly set up Prometheus and Grafana for testing using the Prometheus a
 
 1. Set up [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}).
 
-1. Extract the Prometheus endpoint from the private endpoint to your database. The private endpoint is in the [Redis Cloud console](https://cloud.redis.io/) under the [Configuration tab]({{< relref "/operate/rc/databases/view-edit-database#configuration-tab" >}}) of your database. The Prometheus endpoint is on port 8070 of the internal server.
+1. Get the Prometheus endpoint for your database from the [Redis Cloud console]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}).
 
-    For example, if your private endpoint is:
-
-    ```sh
-    redis-12345.internal.<cluster_address>:12345
-    ```
-
-    The Prometheus endpoint is:
-
-    ```sh
-    internal.<cluster_address>:8070
-    ``` 
+    {{< embed-md "rc-get-prometheus-endpoint.md" >}}
 
 1. Create an instance to run Prometheus and Grafana on the same cloud provider as your Redis Cloud subscription (for example, Amazon Web Services or Google Cloud). This instance must:
     - Exist in the same region as your Redis Cloud subscription.
@@ -143,11 +133,11 @@ To get started with custom monitoring with Prometheus on Docker:
 1. In your browser, sign in to Prometheus at `http://localhost:9090` to make sure the server is running.
 1. Select **Status** and then **Targets** to check that Prometheus is collecting data from the Redis Cloud cluster.
 
-    {{<image filename="images/rs/prometheus-target.png" alt="The Redis Enterprise target showing that Prometheus is connected to the Redis Enterprise Cluster.">}}
+    {{<image filename="images/rs/prometheus-target.png" alt="The Redis Software target showing that Prometheus is connected to the Redis Software Cluster.">}}
 
     If Prometheus is connected to the cluster, you can type **node_up** in the Expression field on the Prometheus home page to see the cluster metrics.
 
-See [Prometheus Metrics]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}}) for a list of metrics that Prometheus collects from Redis Enterprise clusters.
+See [Prometheus Metrics]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}}) for a list of metrics that Prometheus collects from Redis Software clusters.
 
 ### Set up Grafana
 

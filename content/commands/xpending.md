@@ -80,7 +80,6 @@ since: 5.0.0
 summary: Returns the information and entries from a stream consumer group's pending
   entries list.
 syntax_fmt: "XPENDING key group [[IDLE\_min-idle-time] start end count [consumer]]"
-syntax_str: "group [[IDLE\_min-idle-time] start end count [consumer]]"
 title: XPENDING
 ---
 Fetching data from a stream via a consumer group, and not acknowledging
@@ -103,7 +102,57 @@ different consumer can claim the message and continue. This is better
 explained in the [streams intro]({{< relref "/develop/data-types/streams" >}}) and in the
 [`XCLAIM`]({{< relref "/commands/xclaim" >}}) command page, and is not covered here.
 
-## Summary form of XPENDING
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
+<details open><summary><code>group</code></summary>
+
+The consumer group name.
+
+</details>
+
+## Optional arguments
+
+With no optional arguments, `XPENDING` returns a summary. Providing `start`, `end`, and `count` returns the extended (detailed) form.
+
+<details open><summary><code>IDLE min-idle-time</code></summary>
+
+Filter to messages that have been idle for at least this long, in milliseconds.
+
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The start of the ID range to inspect, inclusive. Use `-` for the smallest ID.
+
+</details>
+
+<details open><summary><code>end</code></summary>
+
+The end of the ID range to inspect, inclusive. Use `+` for the greatest ID.
+
+</details>
+
+<details open><summary><code>count</code></summary>
+
+The maximum number of messages to return.
+
+</details>
+
+<details open><summary><code>consumer</code></summary>
+
+Filter to messages owned by the given consumer.
+
+</details>
+
+## Details
+
+### Summary form of XPENDING
 
 When `XPENDING` is called with just a key name and a consumer group
 name, it just outputs a summary about the pending messages in a given
@@ -145,7 +194,7 @@ consumer group, which is one, followed by the smallest and greatest ID among the
 pending messages, and then list every consumer in the consumer group with
 at least one pending message, and the number of pending messages it has.
 
-## Extended form of XPENDING
+### Extended form of XPENDING
 
 The summary provides a good overview, but sometimes we are interested in the
 details. In order to see all the pending messages with more associated
@@ -166,7 +215,7 @@ is detailed information for each message in the pending entries list. For
 each message four attributes are returned:
 
 1. The ID of the message.
-2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message.
+2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message. For messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}), this field will be an empty string.
 3. The number of milliseconds that elapsed since the last time this message was delivered to this consumer.
 4. The number of times this message was delivered.
 
@@ -190,7 +239,7 @@ we have a pending entries list data structure both globally, and for
 every consumer, so we can very efficiently show just messages pending for
 a single consumer.
 
-## Idle time filter
+### Idle time filter
 
 It is also possible to filter pending stream entries by their idle-time,
 given in milliseconds (useful for [`XCLAIM`]({{< relref "/commands/xclaim" >}})ing entries that have not been
@@ -205,7 +254,7 @@ The first case will return the first 10 (or less) PEL entries of the entire grou
 that are idle for over 9 seconds, whereas in the second case only those of
 `consumer-123`.
 
-## Exclusive ranges and iterating the PEL
+### Exclusive ranges and iterating the PEL
 
 The `XPENDING` command allows iterating over the pending entries just like
 [`XRANGE`]({{< relref "/commands/xrange" >}}) and [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) allow for the stream's entries. You can do this by
@@ -213,9 +262,9 @@ prefixing the ID of the last-read pending entry with the `(` character that
 denotes an open (exclusive) range, and proving it to the subsequent call to the
 command.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

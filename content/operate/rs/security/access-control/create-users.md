@@ -28,6 +28,12 @@ To add a user to the cluster:
 
 1. Enter the name, email, and password of the new user.
 
+    {{< note >}}
+- Usernames must contain ASCII characters only.
+
+- To use [single sign-on (SSO)]({{< relref "/operate/rs/security/access-control/saml-sso" >}}), users must have email addresses.
+    {{< /note >}}
+
     {{<image filename="images/rs/screenshots/access-control/7-22-updates/create-user-panel.png" alt="Create user panel with fields for username, email, password, and alerts.">}}
 
 1. Select the **Alerts** the user should receive by email:
@@ -70,6 +76,6 @@ Depending on the type of the user's assigned role (cluster management role or da
 
 - [Connect to a database]({{< relref "/operate/rs/databases/connect" >}}) associated with the role and run limited Redis commands, depending on the role's Redis ACLs.
 
-- Sign in to the Redis Enterprise Software Cluster Manager UI.
+- Sign in to the Redis Software Cluster Manager UI.
 
 - Make a [REST API]({{< relref "/operate/rs/references/rest-api" >}}) request.

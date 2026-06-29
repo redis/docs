@@ -53,7 +53,6 @@ railroad_diagram: /images/railroad/sadd.svg
 since: 1.0.0
 summary: Adds one or more members to a set. Creates the key if it doesn't exist.
 syntax_fmt: SADD key member [member ...]
-syntax_str: member [member ...]
 title: SADD
 ---
 Add the specified members to the set stored at `key`.
@@ -63,9 +62,23 @@ members.
 
 An error is returned when the value stored at `key` is not a set.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members to add to the set.
+
+</details>
+
 ## Examples
 
-{{< clients-example cmds_set sadd >}}
+{{< clients-example set="cmds_set" step="sadd" description="Foundational: Add one or more members to a set using SADD (creates set if needed, ignores duplicates, returns count of new members)" difficulty="beginner" >}}
 redis> SADD myset "Hello" "World"
 (integer) 2
 redis> SADD myset "World"
@@ -83,9 +96,9 @@ SADD myset "World"
 SMEMBERS myset
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

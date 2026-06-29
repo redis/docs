@@ -1,0 +1,755 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "georadiusbymember(, name: KeyT,, member: FieldT,, radius: float,, unit: Optional[str] = None,, withdist: bool = False,, withcoord: bool = False,, withhash: bool = False,, count: Optional[int] = None,, sort: Optional[str] = None,, store: Union[KeyT, None] = None,, store_dist: Union[KeyT, None] = None,, any: bool = False,)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "FieldT",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "float",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "withdist",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "withcoord",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "withhash",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "sort",
+            "type": "Optional[str] = None",
+            "description": ""
+          },
+          {
+            "name": "store",
+            "type": "Union[KeyT, None] = None",
+            "description": ""
+          },
+          {
+            "name": "store_dist",
+            "type": "Union[KeyT, None] = None",
+            "description": ""
+          },
+          {
+            "name": "any",
+            "type": "bool = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<GeoRadiusResponse> georadiusByMember(final byte[] key, final byte[] member final double radius, final GeoUnit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "byte[] member final double",
+            "description": "of the area"
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      },
+      {
+        "signature": "List<GeoRadiusResponse> georadiusByMember(final byte[] key, final byte[] member final double radius, final GeoUnit unit, final GeoRadiusParam param)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "byte[] member final double",
+            "description": "of the area"
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          },
+          {
+            "name": "param",
+            "type": "GeoRadiusParam",
+            "description": "GeoRadiusParam"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      },
+      {
+        "signature": "List<GeoRadiusResponse> georadiusByMember(final String key, final String member final double radius, final GeoUnit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "String member final double",
+            "description": "of the area"
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      },
+      {
+        "signature": "List<GeoRadiusResponse> georadiusByMember(final String key, final String member final double radius, final GeoUnit unit, final GeoRadiusParam param)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "String member final double",
+            "description": "of the area"
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          },
+          {
+            "name": "param",
+            "type": "GeoRadiusParam",
+            "description": "GeoRadiusParam"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      },
+      {
+        "signature": "List<GeoRadiusResponse> georadiusByMember(String key, String member, double radius, GeoUnit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": "represents the center of the area"
+          },
+          {
+            "name": "radius",
+            "type": "double",
+            "description": "of the area"
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnit",
+            "description": "can be M, KM, MI or FT"
+          }
+        ],
+        "returns": {
+          "type": "List<GeoRadiusResponse>",
+          "description": "List of GeoRadiusResponse"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Set<V> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "reference member."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          }
+        ],
+        "returns": {
+          "type": "Set<V>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "List<GeoWithin<V>> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoArgs geoArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "reference member."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          },
+          {
+            "name": "geoArgs",
+            "type": "GeoArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<GeoWithin<V>>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "Long georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoRadiusStoreArgs<K> geoRadiusStoreArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "reference member."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          },
+          {
+            "name": "geoRadiusStoreArgs",
+            "type": "GeoRadiusStoreArgs<K>",
+            "description": "their locations a sorted set."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Set<V>> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "reference member."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Set<V>>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "RedisFuture<List<GeoWithin<V>>> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoArgs geoArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "reference member."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          },
+          {
+            "name": "geoArgs",
+            "type": "GeoArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<GeoWithin<V>>>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit GeoRadiusStoreArgs<K> geoRadiusStoreArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "reference member."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "geoRadiusStoreArgs",
+            "type": "GeoArgs.Unit unit GeoRadiusStoreArgs<K>",
+            "description": "their locations a sorted set."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<V> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "reference member."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          }
+        ],
+        "returns": {
+          "type": "Flux<V>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "Flux<GeoWithin<V>> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoArgs geoArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "reference member."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          },
+          {
+            "name": "geoArgs",
+            "type": "GeoArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<GeoWithin<V>>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      },
+      {
+        "signature": "Mono<Long> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoRadiusStoreArgs<K> geoRadiusStoreArgs)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "member",
+            "type": "V",
+            "description": "reference member."
+          },
+          {
+            "name": "distance",
+            "type": "double",
+            "description": "radius distance."
+          },
+          {
+            "name": "unit",
+            "type": "GeoArgs.Unit",
+            "description": "distance unit."
+          },
+          {
+            "name": "geoRadiusStoreArgs",
+            "type": "GeoRadiusStoreArgs<K>",
+            "description": "their locations a sorted set."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the number of elements in the result."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "GeoRadiusByMember(ctx context.Context, key, member string, query *GeoRadiusQuery)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "query",
+            "type": "*GeoRadiusQuery",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*GeoLocationCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "GEORADIUSBYMEMBER(key: RedisArgument, from: RedisArgument, radius: number, unit: GeoUnits, options?: GeoSearchOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "from",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "number",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "GeoUnits",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "GeoSearchOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "georadiusbymember(...args: [, key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], callback: Callback<unknown>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "georadiusbymember(...args: [, key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "geo_radius_by_member(key: K, member: M, radius: f64, unit: geo::Unit, options: geo::RadiusOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "geo",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "geo",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<geo::RadiusSearchResult>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "geo_radius_by_member(key: K, member: M, radius: f64, unit: geo::Unit, options: geo::RadiusOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "M",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "f64",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "geo",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "geo",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<geo::RadiusSearchResult>)",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "georadiusbymember(string $key, $member, $radius, $unit, ?array $options = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$member",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$radius",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "$unit",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?array $options = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "georadiusbymember(*args, **geoptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "radius",
+            "type": "Float",
+            "description": ""
+          },
+          {
+            "name": "unit",
+            "type": "String",
+            "description": "m|km|ft|mi"
+          },
+          {
+            "name": "sort",
+            "type": "String",
+            "description": "asc or desc"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "limit the results"
+          },
+          {
+            "name": "options",
+            "type": "String",
+            "description": "WITHDIST, WITHCOORD, WITHHASH"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

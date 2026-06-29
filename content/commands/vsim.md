@@ -135,15 +135,11 @@ forces an exact linear scan of all elements, bypassing the HNSW graph. Use for b
 executes the search in the main thread instead of a background thread. Useful for small vector sets or benchmarks. This may block the server during execution.
 </details>
 
-## Related topics
+## Redis Software and Redis Cloud compatibility
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 
@@ -168,3 +164,7 @@ One of the following:
 * With the `WITHSCORES` and `WITHATTRIBS` options, a [Map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements (keys), and an additional array (values) with the following elements: (1) a [double reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})  for the score and (2) a [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the JSON attribute associated with the element or [null]({{< relref "/develop/reference/protocol-spec#nulls" >}}) for the elements missing an attribute.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

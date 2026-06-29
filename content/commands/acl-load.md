@@ -28,7 +28,6 @@ railroad_diagram: /images/railroad/acl-load.svg
 since: 6.0.0
 summary: Reloads the rules from the configured ACL file.
 syntax_fmt: ACL LOAD
-syntax_str: ''
 title: ACL LOAD
 ---
 When Redis is configured to use an ACL file (with the `aclfile` configuration
@@ -38,6 +37,10 @@ sure to have an *all or nothing* behavior, that is:
 
 * If every line in the file is valid, all the ACLs are loaded.
 * If one or more line in the file is not valid, nothing is loaded, and the old ACL rules defined in the server memory continue to be used.
+
+Starting with Redis 8.8, your ACL file is allowed to have comment lines; lines that begin with the `#` character.
+Any such comment lines are stripped when the ACL file is loaded and they are not persisted across `ACL LOAD`/`ACL SAVE` commands.
+Make sure you save a backup of your ACL file. This is the only way to preserve comments.
 
 ## Examples
 
@@ -49,9 +52,9 @@ sure to have an *all or nothing* behavior, that is:
 -ERR /tmp/foo:1: Unknown command or category name in ACL...
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

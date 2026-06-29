@@ -54,7 +54,6 @@ railroad_diagram: /images/railroad/lpush.svg
 since: 1.0.0
 summary: Prepends one or more elements to a list. Creates the key if it doesn't exist.
 syntax_fmt: LPUSH key element [element ...]
-syntax_str: element [element ...]
 title: LPUSH
 ---
 Insert all the specified values at the head of the list stored at `key`.
@@ -69,8 +68,22 @@ leftmost element to the rightmost element.
 So for instance the command `LPUSH mylist a b c` will result into a list
 containing `c` as first element, `b` as second element and `a` as third element.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>element [element ...]</code></summary>
+
+One or more values to prepend to the list.
+
+</details>
+
 ## Examples
-{{< clients-example cmds_list lpush >}}
+{{< clients-example set="cmds_list" step="lpush" description="Foundational: Add one or more elements to the head of a list using LPUSH (creates list if needed, returns new list length)" difficulty="beginner" >}}
 redis> LPUSH mylist "world"
 (integer) 1
 redis> LPUSH mylist "hello"
@@ -88,9 +101,9 @@ LPUSH mylist "hello"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

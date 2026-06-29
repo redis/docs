@@ -39,34 +39,56 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Initializes a TopK with specified parameters
 syntax_fmt: TOPK.RESERVE key topk [width depth decay]
-syntax_str: topk [width depth decay]
 title: TOPK.RESERVE
 ---
 Initializes a Top-K sketch with specified parameters.
 
-## Parameters
+## Required arguments
 
-* **key**: the name of the Top-k sketch.
-* **topk**: the number of top (k) occurring items to keep.
+<details open><summary><code>key</code></summary>
 
-Optional parameters
-* **width**: Number of counters kept in each array. (Default 8)
-* **depth**: Number of arrays. (Default 7)
-* **decay**: The probability of reducing a counter in an occupied bucket (decay ^ bucket[i].counter). As the counter gets higher, the likelihood of a reduction is lower. (Default 0.9)
+the name of the Top-k sketch.
 
-## Example
+</details>
+
+<details open><summary><code>topk</code></summary>
+
+the number of top (k) occurring items to keep.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>width</code></summary>
+
+Number of counters kept in each array. (Default 8)
+
+</details>
+
+<details open><summary><code>depth</code></summary>
+
+Number of arrays. (Default 7)
+
+</details>
+
+<details open><summary><code>decay</code></summary>
+
+The probability of reducing a counter in an occupied bucket (decay ^ bucket[i].counter). As the counter gets higher, the likelihood of a reduction is lower. (Default 0.9)
+
+</details>
+
+## Examples
 
 ```
 redis> TOPK.RESERVE topk 50 2000 7 0.925
 OK
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

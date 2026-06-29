@@ -55,13 +55,26 @@ railroad_diagram: /images/railroad/hpttl.svg
 since: 7.4.0
 summary: Returns the TTL in milliseconds of a hash field.
 syntax_fmt: "HPTTL key FIELDS\_numfields field [field ...]"
-syntax_str: "FIELDS\_numfields field [field ...]"
 title: HPTTL
 ---
 Like [`HTTL`]({{< relref "/commands/httl" >}}), this command returns the remaining TTL (time to live) of a field that has an
 expiration set, but in milliseconds instead of seconds.
 
-## Example
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to retrieve the remaining time to live for. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Examples
 
 ```
 redis> HPTTL no-key FIELDS 3 field1 field2 field3
@@ -77,9 +90,9 @@ redis> HPTTL mykey FIELDS 3 field1 field2 field3
 3) (integer) -2
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

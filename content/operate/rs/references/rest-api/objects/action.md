@@ -18,7 +18,18 @@ The REST API provides a simplified interface that allows callers to invoke actio
 
 The action lifecycle is based on the following status and status transitions:
 
-{{< image filename="/images/rs/rest-api-action-cycle.png#no-click" alt="Action lifecycle" >}}
+```mermaid
+stateDiagram-v2
+    queued --> starting
+    queued --> cancelled
+    starting --> running
+    starting --> aborted
+    running --> completed
+    running --> cancelling
+    running --> failed
+    running --> aborted
+    cancelling --> cancelled
+```
 
 | Name | Type/Value | Description |
 |------|------------|-------------|
@@ -28,6 +39,7 @@ The action lifecycle is based on the following status and status transitions:
 |                 | running | Currently executing operation |
 |                 | cancelling | Operation cancellation is in progress |
 |                 | cancelled | Operation cancelled |
+|                 | aborted | Operation aborted |
 |                 | completed | Operation completed |
 |                 | failed | Operation failed |
 

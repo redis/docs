@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the sentinel_service object used with Redis Enterprise Software REST API calls.
+description: Documents the sentinel_service object used with Redis Software REST API calls.
 linkTitle: sentinel_service
 weight: $weight
 ---

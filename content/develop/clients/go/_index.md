@@ -1,5 +1,9 @@
 ---
-aliases: /develop/connect/clients/go
+aliases:
+- /develop/connect/clients/go
+- /connect/clients/go/
+- /clients/go/
+- /develop/clients/go-redis
 categories:
 - docs
 - develop
@@ -42,13 +46,13 @@ go get github.com/redis/go-redis/v9
 The following example shows the simplest way to connect to a Redis server.
 First, import the `go-redis` package:
 
-{{< clients-example set="landing" step="import" lang_filter="Go" >}}
+{{< clients-example set="landing" step="import" lang_filter="Go" description="Foundational: Import the go-redis package" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Then connect to localhost on port 6379 and add a
 [context](https://golang.org/pkg/context/) object:
 
-{{< clients-example set="landing" step="connect" lang_filter="Go" >}}
+{{< clients-example set="landing" step="connect" lang_filter="Go" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 You can also connect using a connection string:
@@ -65,12 +69,12 @@ client := redis.NewClient(opt)
 After connecting, you can test the connection by  storing and retrieving
 a simple [string]({{< relref "/develop/data-types/strings" >}}):
 
-{{< clients-example set="landing" step="set_get_string" lang_filter="Go" >}}
+{{< clients-example set="landing" step="set_get_string" lang_filter="Go" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
 
-{{< clients-example set="landing" step="set_get_hash" lang_filter="Go" >}}
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Go" description="Foundational: Store and retrieve hash data structures using HSET and HGET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
  Use
@@ -78,12 +82,12 @@ You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/
  of the form `redis:"<field-name>"` with the `Scan()` method to parse fields from
  a hash directly into corresponding struct fields:
 
-{{< clients-example set="landing" step="get_hash_scan" lang_filter="Go" >}}
+{{< clients-example set="landing" step="get_hash_scan" lang_filter="Go" description="Foundational: Parse hash data structures into struct fields using Scan()" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 Close the connection when you're done using a `Close()` call:
 
-{{< clients-example set="landing" step="close" lang_filter="Go" >}}
+{{< clients-example set="landing" step="close" lang_filter="Go" description="Foundational: Close the Redis client connection" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 In the common case where you want to close the connection at the end of the
@@ -99,34 +103,6 @@ func main() {
     ...
 }
 ```
-
-## Observability
-
-`go-redis` supports [OpenTelemetry](https://opentelemetry.io/) instrumentation.
-to monitor performance and trace the execution of Redis commands.
-For example, the following code instruments Redis commands to collect traces, logs, and metrics:
-
-```go
-import (
-    "github.com/redis/go-redis/v9"
-    "github.com/redis/go-redis/extra/redisotel/v9"
-)
-
-client := redis.NewClient(&redis.Options{...})
-
-// Enable tracing instrumentation.
-if err := redisotel.InstrumentTracing(client); err != nil {
-	panic(err)
-}
-
-// Enable metrics instrumentation.
-if err := redisotel.InstrumentMetrics(client); err != nil {
-	panic(err)
-}
-```
-
-See the `go-redis` [GitHub repo](https://github.com/redis/go-redis/blob/master/example/otel/README.md).
-for more OpenTelemetry examples.
 
 ## More information
 

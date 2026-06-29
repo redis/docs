@@ -52,13 +52,26 @@ replaced_by: '`SET` with the `NX` argument'
 since: 1.0.0
 summary: Set the string value of a key only when the key doesn't exist.
 syntax_fmt: SETNX key value
-syntax_str: value
 title: SETNX
 ---
 Set `key` to hold string `value` if `key` does not exist.
 In that case, it is equal to [`SET`]({{< relref "/commands/set" >}}).
 When `key` already holds a value, no operation is performed.
 `SETNX` is short for "**SET** if **N**ot e**X**ists".
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The value to set, only if the key does not already exist.
+
+</details>
 
 ## Examples
 
@@ -68,8 +81,9 @@ SETNX mykey "World"
 GET mykey
 {{% /redis-cli %}}
 
+## Details
 
-## Design pattern: Locking with `SETNX`
+### Design pattern: locking with `SETNX`
 
 **Please note that:**
 
@@ -92,7 +106,7 @@ If `SETNX` returns `0` the key is already locked by some other client.
 We can either return to the caller if it's a non blocking lock, or enter a loop
 retrying to hold the lock until we succeed or some kind of timeout expires.
 
-### Handling deadlocks
+#### Handling deadlocks
 
 In the above locking algorithm there is a problem: what happens if a client
 fails, crashes, or is otherwise not able to release the lock?
@@ -149,9 +163,9 @@ crashing but also blocking a lot of time against some operations and trying
 to issue [`DEL`]({{< relref "/commands/del" >}}) after a lot of time (when the LOCK is already held by another
 client).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

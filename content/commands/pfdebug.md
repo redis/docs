@@ -52,8 +52,13 @@ railroad_diagram: /images/railroad/pfdebug.svg
 since: 2.8.9
 summary: Internal commands for debugging HyperLogLog values.
 syntax_fmt: PFDEBUG subcommand key
-syntax_str: key
 title: PFDEBUG
 ---
 The `PFDEBUG` command is an internal command.
 It is meant to be used for developing and testing Redis.
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |

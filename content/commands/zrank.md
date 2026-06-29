@@ -55,7 +55,6 @@ railroad_diagram: /images/railroad/zrank.svg
 since: 2.0.0
 summary: Returns the index of a member in a sorted set ordered by ascending scores.
 syntax_fmt: ZRANK key member [WITHSCORE]
-syntax_str: member [WITHSCORE]
 title: ZRANK
 ---
 Returns the rank of `member` in the sorted set stored at `key`, with the scores
@@ -67,6 +66,28 @@ The optional `WITHSCORE` argument supplements the command's reply with the score
 
 Use [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) to get the rank of an element with the scores ordered from high
 to low.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member whose rank to return.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHSCORE</code></summary>
+
+Also return the member's score along with its rank.
+
+</details>
 
 ## Examples
 
@@ -80,9 +101,9 @@ ZRANK myzset "three" WITHSCORE
 ZRANK myzset "four" WITHSCORE
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

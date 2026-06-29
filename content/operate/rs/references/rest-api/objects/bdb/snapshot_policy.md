@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the snapshot_policy object used with Redis Enterprise Software
+description: Documents the snapshot_policy object used with Redis Software
   REST API calls.
 linkTitle: snapshot_policy
 weight: $weight

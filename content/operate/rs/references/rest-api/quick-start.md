@@ -1,16 +1,16 @@
 ---
-Title: Redis Enterprise Software REST API quick start
+Title: Redis Software REST API quick start
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Redis Enterprise Software REST API quick start
+description: Redis Software REST API quick start
 linkTitle: Quick start
 weight: 20
 ---
 
-Redis Enterprise Software includes a REST API that allows you to automate certain tasks. This article shows you how to send a request to the Redis Enterprise Software REST API.
+Redis Software includes a REST API that allows you to automate certain tasks. This article shows you how to send a request to the Redis Software REST API.
 
 ## Fundamentals
 
@@ -24,7 +24,7 @@ No matter which method you use to send API requests, there are a few common conc
 | [Headers]({{< relref "/operate/rs/references/rest-api#headers" >}}) | `Accept` and `Content-Type` should be `application/json` |
 | [Response types and error codes]({{< relref "/operate/rs/references/rest-api#response-types-and-error-codes" >}}) | A response of `200 OK` means success; otherwise, the request failed due to an error |  
 
-For more information, see [Redis Enterprise Software REST API]({{< relref "/operate/rs/references/rest-api/" >}}).
+For more information, see [Redis Software REST API]({{< relref "/operate/rs/references/rest-api/" >}}).
 
 ## cURL example requests
 
@@ -115,7 +115,7 @@ You can also use client libraries to make API requests in your preferred languag
 
 To follow these examples, you need:
 
-- A [Redis Enterprise Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) node
+- A [Redis Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) node
 - Python 3 and the [requests](https://pypi.org/project/requests/) Python library
 - [node.js](https://nodejs.dev/) and [node-fetch](https://www.npmjs.com/package/node-fetch)
 
@@ -318,5 +318,5 @@ PUT https://[host]:[port]/v1/bdbs/1
 
 ## More info
 
-- [Redis Enterprise Software REST API]({{< relref "/operate/rs/references/rest-api/" >}})
-- [Redis Enterprise Software REST API requests]({{< relref "/operate/rs/references/rest-api/requests/" >}})
+- [Redis Software REST API]({{< relref "/operate/rs/references/rest-api/" >}})
+- [Redis Software REST API requests]({{< relref "/operate/rs/references/rest-api/requests/" >}})

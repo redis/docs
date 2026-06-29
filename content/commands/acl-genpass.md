@@ -32,7 +32,6 @@ since: 6.0.0
 summary: Generates a pseudorandom, secure password that can be used to identify ACL
   users.
 syntax_fmt: ACL GENPASS [bits]
-syntax_str: ''
 title: ACL GENPASS
 ---
 ACL users need a solid password in order to authenticate to the server without
@@ -58,9 +57,17 @@ The command output is a hexadecimal representation of a binary string.
 By default it emits 256 bits (so 64 hex characters). The user can provide
 an argument in form of number of bits to emit from 1 to 1024 to change
 the output length. Note that the number of bits provided is always
-rounded to the next multiple of 4. So for instance asking for just 1
+rounded to the next multiple of 4. So for instance asking for just a 1
 bit password will result in 4 bits to be emitted, in the form of a single
 hex character.
+
+## Optional arguments
+
+<details open><summary><code>bits</code></summary>
+
+The amount of entropy, in bits, for the generated password. Defaults to 256.
+
+</details>
 
 ## Examples
 
@@ -75,9 +82,9 @@ hex character.
 "90"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

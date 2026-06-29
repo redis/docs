@@ -43,43 +43,46 @@ history:
 - - 4.0.0
   - Added the `ASYNC` flushing mode modifier.
 - - 6.2.0
-  - Added the `SYNC` flushing mode modifier.
+  - Added the `SYNC` flushing mode modifier. The default flush behavior is now configurable using the lazyfree-lazy-user-flush configuration directive.
 linkTitle: FLUSHALL
 railroad_diagram: /images/railroad/flushall.svg
 since: 1.0.0
 summary: Removes all keys from all databases.
 syntax_fmt: FLUSHALL [ASYNC | SYNC]
-syntax_str: ''
 title: FLUSHALL
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Delete all the keys of all the existing databases, not just the currently selected one.
 This command never fails.
 
 By default, `FLUSHALL` will synchronously flush all the databases.
-Starting with Redis 6.2, setting the **lazyfree-lazy-user-flush** configuration directive to "yes" changes the default flush mode to asynchronous.
+Starting with Redis 6.2, setting the `lazyfree-lazy-user-flush` configuration directive to `yes` changes the default flush mode to asynchronous.
 
-It is possible to use one of the following modifiers to dictate the flushing mode explicitly:
-
-* `ASYNC`: flushes the databases asynchronously
-* `SYNC`: flushes the databases synchronously
-
-{{< clients-example cmds_servermgmt flushall >}}
+{{< clients-example set="cmds_servermgmt" step="flushall" description="Full delete: Delete all keys from all databases using FLUSHALL (dangerous operation, supports ASYNC/SYNC modes, clears RDB file)" difficulty="advanced" >}}
 FLUSHALL SYNC
 {{< /clients-example >}}
 
-## Notes
+## Optional arguments
+
+<details open><summary><code>ASYNC | SYNC</code></summary>
+
+Flush asynchronously (`ASYNC`) or synchronously (`SYNC`). The default is set by the `lazyfree-lazy-user-flush` configuration directive.
+
+</details>
+
+## Details
 
 * An asynchronous `FLUSHALL` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
 * This command does not delete functions.
 * Other than emptying all databases (similar to `FLUSHDB`), this command clears the RDB persistence file, aborts any snapshot that is in progress, and, if the `save` config is enabled, saves an empty RDB file.
 
-## Behavior change history
+## Redis Software and Redis Cloud compatibility
 
-*   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive.
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*Can use the [Active-Active flush API request]({{< relref "/operate/rs/references/rest-api/requests/crdbs/flush" >}}). |
 

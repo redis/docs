@@ -30,7 +30,6 @@ since: 2.4.0
 stack_path: docs/data-types/probabilistic
 summary: Allocates memory and initializes a new t-digest sketch
 syntax_fmt: "TDIGEST.CREATE key [COMPRESSION\_compression]"
-syntax_str: "[COMPRESSION\_compression]"
 title: TDIGEST.CREATE
 ---
 Allocates memory and initializes a new t-digest sketch.
@@ -49,19 +48,18 @@ is the key name for this new t-digest sketch.
 is a controllable tradeoff between accuracy and memory consumption. 100 is a common value for normal uses and also the default if not specified. 1000 is more accurate. For more information on scaling of accuracy versus the compression value see [_The t-digest: Efficient estimates of distributions_](https://www.sciencedirect.com/science/article/pii/S2665963820300403).
 </details>
 
-## Example
+## Examples
 
 {{< highlight bash >}}
 redis> TDIGEST.CREATE t COMPRESSION 100
 OK
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

@@ -34,6 +34,7 @@ Updates the cluster configuration.
         [ encrypt_pkeys { enabled | disabled } ]
         [ envoy_admin_port <new-port> ]
         [ envoy_mgmt_server_port <new-port> ]
+        [ external_ipv6 { enabled | disabled } ]
         [ gossip_envoy_admin_port <new-port> ]
         [ handle_redirects { enabled | disabled } ]
         [ handle_metrics_redirects { enabled | disabled } ]
@@ -42,14 +43,14 @@ Updates the cluster configuration.
         [ min_control_TLS_version { 1.2 | 1.3 } ]
         [ min_data_TLS_version { 1.2 | 1.3 } ]
         [ min_sentinel_TLS_version { 1.2 | 1.3 } ]
+        [ options_method_forbidden { enabled | disabled } ]
         [ reserved_ports <list of ports/port ranges> ]
         [ s3_url <URL> ]
         [ s3_ca_cert <filepath> ]
-        [ saslauthd_ldap_conf </tmp/ldap.conf> ]
         [ sentinel_tls_mode { allowed | required | disabled } ]
         [ sentinel_cipher_suites <golang cipher list> ]
         [ services { cm_server | crdb_coordinator | crdb_worker | 
-                     mdns_server | pdns_server | saslauthd | 
+                     mdns_server | pdns_server | 
                      stats_archiver } { enabled | disabled } ]
         [ upgrade_mode { enabled | disabled } ]
 ```
@@ -73,21 +74,22 @@ Updates the cluster configuration.
 | encrypt_pkeys | `enabled`<br />`disabled` | Enable or turn off encryption of private keys |
 | envoy_admin_port | integer, (range:&nbsp;1024-65535) | Envoy admin port. Changing this port during runtime might result in an empty response because envoy serves as the cluster gateway.|
 | envoy_mgmt_server_port | integer, (range:&nbsp;1024-65535) | Envoy management server port|
+| external_ipv6 | `enabled`<br />`disabled` | Enable or disable use of IPv6 for external cluster communications |
 | gossip_envoy_admin_port | integer, (range:&nbsp;1024-65535) | Gossip envoy admin port|
 | handle_redirects | `enabled`<br />`disabled` | Enable or turn off handling DNS redirects when DNS is not configured and running behind a load balancer |
 | handle_metrics_redirects | `enabled`<br />`disabled` | Enable or turn off handling cluster redirects internally for Metrics API |
 | http_support | `enabled`<br />`disabled` | Enable or turn off using HTTP for REST API connections |
-| ipv6 | `enabled`<br />`disabled` | Enable or turn off IPv6 connections to the Cluster Manager UI |
+| ipv6 | `enabled`<br />`disabled` | Enable or turn off IPv6 connections to the Cluster Manager UI (deprecated; use `external_ipv6` instead) |
 | min_control_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the control path |
 | min_data_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the data path |
 | min_sentinel_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the discovery service |
+| options_method_forbidden | `enabled`<br />`disabled` | Enable or turn off forbidding `OPTIONS` method for CNM HTTPS port |
 | reserved_ports | list of ports/port ranges | List of reserved ports and/or port ranges to avoid using for database endpoints (for example `reserved_ports 11000 13000-13010`) |
 | s3_url | string | The URL of S3 export and import |
 | s3_ca_cert | string | The CA certificate filepath for S3 export and import |
-| saslauthd_ldap_conf | filepath | Updates LDAP authentication configuration for the cluster |
 | sentinel_cipher_suites | list of ciphers | Cipher suites used by the discovery service (supported ciphers are implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package) |
 | sentinel_tls_mode | `allowed`<br />`required`<br />`disabled` | Define the SSL policy for the discovery service<br />(previously named `sentinel_ssl_policy`) |
-| services | `cm_server`<br />`crdb_coordinator`<br />`crdb_worker`<br />`mdns_server`<br />`pdns_server`<br />`saslauthd`<br />`stats_archiver`<br /><br />`enabled`<br />`disabled` | Enable or turn off selected cluster services |
+| services | `cm_server`<br />`crdb_coordinator`<br />`crdb_worker`<br />`mdns_server`<br />`pdns_server`<br />`stats_archiver`<br /><br />`enabled`<br />`disabled` | Enable or turn off selected cluster services |
 | upgrade_mode | `enabled`<br />`disabled` | Enable or turn off upgrade mode on the cluster |
 
 ### Returns

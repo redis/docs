@@ -38,17 +38,16 @@ railroad_diagram: /images/railroad/info.svg
 since: 1.0.0
 summary: Returns information and statistics about the server.
 syntax_fmt: INFO [section [section ...]]
-syntax_str: ''
 title: INFO
 ---
 The `INFO` command returns information and statistics about the server in a
 format that is simple to parse by computers and easy to read by humans.
 
-The optional parameter can be used to select a specific section of information:
+The optional parameter(s) can be used to select a specific section of information:
 
 *   `server`: General information about the Redis server
 *   `clients`: Client connections section
-*   `memory`: Memory consumption related information
+*   `memory`: Memory consumption-related information
 *   `persistence`: RDB and AOF related information
 *   `threads`: I/O threads information
 *   `stats`: General statistics
@@ -59,8 +58,10 @@ The optional parameter can be used to select a specific section of information:
 *   `sentinel`: Redis Sentinel section (only applicable to Sentinel instances)
 *   `cluster`: Redis Cluster section
 *   `modules`: Modules section
-*   `keyspace`: Database related statistics
+*   `keyspace`: Database-related statistics
+*   `keysizes`: Statistics on the distribution of key sizes for each data type
 *   `errorstats`: Redis error statistics
+*   `hotkeys`: Hotkeys tracking information
 
 It can also take the following values:
 
@@ -70,26 +71,26 @@ It can also take the following values:
 
 When no parameter is provided, the `default` option is assumed.
 
-{{< clients-example cmds_servermgmt info >}}
+{{< clients-example set="cmds_servermgmt" step="info" description="Foundational: Get server information and statistics using INFO (supports optional section filtering, returns key-value pairs)" difficulty="beginner" >}}
 INFO
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
+## Optional arguments
 
-{{% redis-cli %}}
-INFO
-{{% /redis-cli %}}
+<details open><summary><code>section [section ...]</code></summary>
 
+One or more sections to include in the output, such as `server`, `clients`, or `memory`. Also accepts `all`, `everything`, and `default`.
 
-## Notes
+</details>
 
-Please note depending on the version of Redis some of the fields have been
+## Details
+
+Depending on the version of Redis some of the fields have been
 added or removed. A robust client application should therefore parse the
-result of this command by skipping unknown properties, and gracefully handle
+result of this command by skipping unknown properties and gracefully handling
 missing fields.
 
 Here is the description of fields for Redis >= 2.4.
-
 
 Here is the meaning of all fields in the **server** section:
 
@@ -391,7 +392,20 @@ Here is the meaning of all fields in the **stats** section:
 *   `acl_access_denied_auth`: Number of authentication failures
 *   `acl_access_denied_cmd`: Number of commands rejected because of access denied to the command
 *   `acl_access_denied_key`: Number of commands rejected because of access denied to a key
-*   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel 
+*   `acl_access_denied_channel`: Number of commands rejected because of access denied to a channel
+*   `acl_access_denied_tls_cert`: Number of failed TLS certificate–based authentication attempts
+*   `cluster_incompatible_ops`: Number of cluster-incompatible commands. This metric appears only if the `cluster-compatibility-sample-ratio` configuration parameter is not 0. Added in Redis 8.0.
+*   `slowlog_commands_count`: commands written to slowlog <sup>[1](#list-note-1)</sup>
+*   `slowlog_commands_time_ms_sum`: sum of execution times of commands from the slowlog <sup>[1](#list-note-1)</sup>
+*   `slowlog_commands_time_ms_max`: maximum execution time of a command from the slowlog <sup>[1](#list-note-1)</sup>
+*   `total_client_processing_events`: attempts to process client input buffers; does not guarantee any command was actually parsed <sup>[1](#list-note-1)</sup>
+*   `eventloop_cycles_with_clients_processing`: event loop cycles where client input buffers were processed <sup>[1](#list-note-1)</sup>
+*   `commands_per_parse_batch_sum`: cumulative number of commands parsed across all parsing batches for all clients <sup>[1](#list-note-1)</sup>
+*   `commands_per_parse_batch_cnt`: number of parsing batches across all clients. A batch is counted each time at least one command is parsed from a client's query buffer <sup>[1](#list-note-1)</sup>
+*   `commands_per_parse_batch_avg`: average commands parsed per batch (sum/cnt). Approximates pipelining depth <sup>[1](#list-note-1)</sup>
+
+1. <a name="list-note-1"></a>Added in Redis 8.8
+
 
 Here is the meaning of all fields in the **replication** section:
 
@@ -462,16 +476,24 @@ Here is the meaning of all fields in the **cpu** section:
 *   `used_cpu_sys_main_thread`: System CPU consumed by the Redis server main thread
 *   `used_cpu_user_main_thread`: User CPU consumed by the Redis server main thread
 
-The **commandstats** section provides statistics based on the command type,
- including the number of calls that reached command execution (not rejected),
- the total CPU time consumed by these commands, the average CPU consumed
- per command execution, the number of rejected calls
- (errors prior command execution), and the number of failed calls
- (errors within the command execution).
+The **commandstats** section provides statistics based on the command type:
+
+- `calls` - the number of calls that reached command execution
+- `usec` - the total CPU time consumed by these commands
+- `usec_per_call` - the average CPU consumed per command execution
+- `rejected_calls` - the number of rejected calls
+- `failed_calls` - the number of failed calls
+ 
+ For commands that are logged to the slowlog, the following statistics are also reported (added in Redis 8.8): 
+
+- `slowlog_count` - number of times the command was written in the slowlog
+- `slowlog_time_ms_sum` - sum of execution time of the command (only from the slowlog)
+- `slowlog_time_ms_max` - maximum execution time of the command (only from the slowlog)
 
 For each command type, the following line is added:
 
-*   `cmdstat_XXX`: `calls=XXX,usec=XXX,usec_per_call=XXX,rejected_calls=XXX,failed_calls=XXX`
+*   `cmdstat_XXX`:`calls=XXX,usec=XXX,usec_per_call=XXX,rejected_calls=XXX,failed_calls=XXX,`
+    `slowlog_count=XXX,slowlog_time_ms_sum=XXX,slowlog_time_ms_max=XXX`
 
 The **latencystats** section provides latency percentile distribution statistics based on the command type.
 
@@ -495,6 +517,12 @@ For each error type, the following line is added:
 If the server detects that this section was flooded with an excessive number of errors, it will be disabled, show a single `ERRORSTATS_DISABLED` error, and print the errors to the server log.
 This can be reset by `CONFIG RESETSTAT`.
 
+The **hotkeys** section provides information about hotkeys tracking. It consists of the following fields:
+
+*   `tracking_active`: Boolean flag (0 or 1) indicating whether hotkeys tracking is currently active.
+*   `used_memory`: Memory overhead in bytes of the structures used for hotkeys tracking.
+*   `cpu_time`: Time in milliseconds spent updating the hotkey tracking structures.
+
 The **sentinel** section is only available in Redis Sentinel instances. It consists of the following fields:
 
 *   `sentinel_masters`: Number of Redis masters monitored by this Sentinel instance
@@ -505,13 +533,13 @@ The **sentinel** section is only available in Redis Sentinel instances. It consi
 *   `sentinel_scripts_queue_length`: The length of the queue of user scripts that are pending execution
 *   `sentinel_simulate_failure_flags`: Flags for the `SENTINEL SIMULATE-FAILURE` command
     
-The **cluster** section contains a single fields:
+The **cluster** section contains a single field:
 
 *   `cluster_enabled`: Indicates whether Redis cluster is enabled.
 
 The **modules** section contains additional information about loaded modules if the modules provide it. The field part of property lines in this section are always prefixed with the module's name.
 
-_Redis Query Engine fields_
+_Redis Search fields_
 
 *   `search_gc_bytes_collected`: The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. <sup>[3](#tnote-3)</sup>
 *   `search_bytes_collected`: The total amount of memory freed by the garbage collectors from indexes in the shard's memory in bytes. Deprecated in 8.0 (renamed `search_gc_bytes_collected`), but still available in older versions. <sup>[1](#tnote-1)</sup>
@@ -554,7 +582,7 @@ _Redis Query Engine fields_
 *   `search_fields_geoshape_Geoshape`: The total number of `GEOSHAPE` fields across all indexes in the shard. <sup>[2](#tnote-2)</sup>
 *   `search_fields_geoshape_Sortable`: The total number of `SORTABLE GEOSHAPE` fields across all indexes in the shard. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
 *   `search_fields_geoshape_NoIndex`: The total number of `NOINDEX GEOSHAPE` fields across all indexes in the shard; i.e., used for sorting only but not indexed. This field appears only if its value is larger than 0. <sup>[2](#tnote-2)</sup>
-*   `search_fields_<field>_IndexErrors`: The total number of indexing failures caused by attempts to index a document containing <field> field. <sup>[1](#tnote-1)</sup>
+*   `search_fields_<field>_IndexErrors`: The total number of indexing failures caused by attempts to index a document containing `field` field. <sup>[1](#tnote-1)</sup>
 *   `search_used_memory_vector_index`: The total memory usage of all vector indexes in the shard. <sup>[1](#tnote-1)</sup>
 *   `search_used_memory_indexes`: The estimated total memory allocated by all indexes in the shard in bytes (including vector indexes memory accounted in `search_used_memory_vector_index`). <sup>[1](#tnote-1)</sup>
 *   `search_used_memory_indexes_human`: The estimated total memory allocated by all indexes in the shard in MB. <sup>[1](#tnote-1)</sup>
@@ -623,11 +651,11 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 
 **Modules generated sections**: Starting with Redis 6, modules can inject their information into the `INFO` command. These are excluded by default even when the `all` argument is provided (it will include a list of loaded modules but not their generated info fields). To get these you must use either the `modules` argument or `everything`.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Enterprise, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/programmability">}}). |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | In Redis Software, `INFO` returns a different set of fields than Redis Open Source.<br />Not supported for [scripts]({{<relref "/develop/programmability">}}). |
 
 Note: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.
 
@@ -655,7 +683,7 @@ Lines can contain a section name (starting with a `#` character) or a property. 
 
 -tab-sep-
 
-[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
+[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a map of info fields, one field per line in the form of `<field>:<value>` where the value can be a comma separated map like `<key>=<val>`. Also contains section header lines starting with `#` and blank lines.
 Lines can contain a section name (starting with a `#` character) or a property. All the properties are in the form of `field:value` terminated by `\r\n`.
 
 {{< /multitabs >}}

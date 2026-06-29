@@ -27,15 +27,29 @@ complexity: O(N) where N is the number of patterns to subscribe to.
 description: Listens for messages published to channels that match one or more patterns.
 group: pubsub
 hidden: false
+history:
+- - 6.2.0
+  - RESET can be called to exit the subscribed state.
 linkTitle: PSUBSCRIBE
 railroad_diagram: /images/railroad/psubscribe.svg
 since: 2.0.0
 summary: Listens for messages published to channels that match one or more patterns.
 syntax_fmt: PSUBSCRIBE pattern [pattern ...]
-syntax_str: ''
 title: PSUBSCRIBE
 ---
 Subscribes the client to the given patterns.
+
+
+Once the client enters the subscribed state it is not supposed to issue any other commands, except for additional [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}}), `PSUBSCRIBE`, [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}), [`SUNSUBSCRIBE`]({{< relref "/commands/sunsubscribe" >}}), [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}), [`PING`]({{< relref "/commands/ping" >}}), [`RESET`]({{< relref "/commands/reset" >}}) and [`QUIT`]({{< relref "/commands/quit" >}}) commands.
+However, if RESP3 is used (see [`HELLO`]({{< relref "/commands/hello" >}})), it is possible for a client to issue any commands while in a subscribed state.
+
+For more information, see [Pub/sub]({{< relref "/develop/pubsub" >}}).
+
+## Required arguments
+
+<details open><summary><code>pattern [pattern ...]</code></summary>
+
+One or more glob-style patterns to subscribe to. Messages published to any channel whose name matches a pattern are delivered to the client.
 
 Supported glob-style patterns:
 
@@ -45,18 +59,11 @@ Supported glob-style patterns:
 
 Use `\` to escape special characters if you want to match them verbatim.
 
-Once the client enters the subscribed state it is not supposed to issue any other commands, except for additional [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}), [`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}}), `PSUBSCRIBE`, [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}), [`SUNSUBSCRIBE`]({{< relref "/commands/sunsubscribe" >}}), [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}), [`PING`]({{< relref "/commands/ping" >}}), [`RESET`]({{< relref "/commands/reset" >}}) and [`QUIT`]({{< relref "/commands/quit" >}}) commands.
-However, if RESP3 is used (see [`HELLO`]({{< relref "/commands/hello" >}})) it is possible for a client to issue any commands while in subscribed state.
+</details>
 
-For more information, see [Pub/sub]({{< relref "/develop/pubsub" >}}).
+## Redis Software and Redis Cloud compatibility
 
-## Behavior change history
-
-*   `>= 6.2.0`: [`RESET`]({{< relref "/commands/reset" >}}) can be called to exit subscribed state.
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

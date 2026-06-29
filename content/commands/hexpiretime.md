@@ -55,12 +55,25 @@ railroad_diagram: /images/railroad/hexpiretime.svg
 since: 7.4.0
 summary: Returns the expiration time of a hash field as a Unix timestamp, in seconds.
 syntax_fmt: "HEXPIRETIME key FIELDS\_numfields field [field ...]"
-syntax_str: "FIELDS\_numfields field [field ...]"
 title: HEXPIRETIME
 ---
 Returns the absolute Unix timestamp in seconds since Unix epoch at which the given key's field(s) will expire.
 
 See also the [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime" >}}) command, which returns the same information with millisecond resolution.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to retrieve the expiration time for. `numfields` is the number of fields, followed by that many field names.
+
+</details>
 
 ## Examples
 
@@ -75,9 +88,9 @@ redis> HEXPIRETIME mykey FIELDS 2 field1 field2
 2) (integer) 1715705914
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

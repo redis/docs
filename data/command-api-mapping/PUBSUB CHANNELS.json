@@ -1,0 +1,102 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "pubsub_channels(pattern: PatternT = \"*\", **kwargs)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "PatternT",
+            "description": "Pattern to match channel names (default: \"*\")"
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": "Additional keyword arguments"
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "List of active channels matching the pattern"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> pubsubChannels()",
+        "params": [],
+        "returns": {
+          "type": "List<String>",
+          "description": "List of all active channels"
+        }
+      },
+      {
+        "signature": "List<String> pubsubChannels(final String pattern)",
+        "params": [
+          {
+            "name": "pattern",
+            "type": "String",
+            "description": "Pattern to match channel names"
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "List of active channels matching the pattern"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "PubSubChannels(ctx context.Context, pattern string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "pattern",
+            "type": "string",
+            "description": "Pattern to match channel names"
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": "List of active channels matching the pattern"
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "pubsub($subcommand, $argument)",
+        "params": [
+          {
+            "name": "$subcommand",
+            "type": "string",
+            "description": "PUBSUB subcommand (e.g., 'CHANNELS')"
+          },
+          {
+            "name": "$argument",
+            "type": "mixed",
+            "description": "Pattern to match channel names"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "List of active channels matching the pattern"
+        }
+      }
+    ]
+  }
+}
+

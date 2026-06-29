@@ -1,0 +1,246 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "spellcheck(query: str, distance: Optional[int] = None, include: Optional[str] = None, exclude: Optional[str] = None)",
+        "params": [
+          {
+            "name": "query",
+            "type": "str",
+            "description": "The query to spell check"
+          },
+          {
+            "name": "distance",
+            "type": "Optional[int]",
+            "description": "Maximum Levenshtein distance"
+          },
+          {
+            "name": "include",
+            "type": "Optional[str]",
+            "description": "Dictionary to include"
+          },
+          {
+            "name": "exclude",
+            "type": "Optional[str]",
+            "description": "Dictionary to exclude"
+          }
+        ],
+        "returns": {
+          "type": "Dict[str, List[Dict[str, Any]]]",
+          "description": "Spelling suggestions"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map<String, Map<String, Double>> ftSpellCheck(String indexName, String query)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "The query to spell check"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Map<String, Double>>",
+          "description": "Spelling suggestions"
+        }
+      },
+      {
+        "signature": "Map<String, Map<String, Double>> ftSpellCheck(String indexName, String query, FTSpellCheckParams spellCheckParams)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "The query to spell check"
+          },
+          {
+            "name": "spellCheckParams",
+            "type": "FTSpellCheckParams",
+            "description": "Spell check parameters"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Map<String, Double>>",
+          "description": "Spelling suggestions"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTSpellCheck(ctx context.Context, index string, query string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to spell check"
+          }
+        ],
+        "returns": {
+          "type": "*FTSpellCheckCmd",
+          "description": "Spelling suggestions"
+        }
+      },
+      {
+        "signature": "FTSpellCheckWithArgs(ctx context.Context, index string, query string, options *FTSpellCheckOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to spell check"
+          },
+          {
+            "name": "options",
+            "type": "*FTSpellCheckOptions",
+            "description": "Spell check options"
+          }
+        ],
+        "returns": {
+          "type": "*FTSpellCheckCmd",
+          "description": "Spelling suggestions"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SPELLCHECK(index: RedisArgument, query: RedisArgument, options?: FTSpellCheckOptions)",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "RedisArgument",
+            "description": "The query to spell check"
+          },
+          {
+            "name": "options",
+            "type": "FTSpellCheckOptions",
+            "description": "Optional spell check options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<FTSpellCheckResult>",
+          "description": "Spelling suggestions"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "Dictionary<string, Dictionary<string, double>> SpellCheck(string indexName, string query, FTSpellCheckParams? spellCheckParams = null)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to spell check"
+          },
+          {
+            "name": "spellCheckParams",
+            "type": "FTSpellCheckParams?",
+            "description": "Optional spell check parameters"
+          }
+        ],
+        "returns": {
+          "type": "Dictionary<string, Dictionary<string, double>>",
+          "description": "Spell check suggestions with scores"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<Dictionary<string, Dictionary<string, double>>> SpellCheckAsync(string indexName, string query, FTSpellCheckParams? spellCheckParams = null)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to spell check"
+          },
+          {
+            "name": "spellCheckParams",
+            "type": "FTSpellCheckParams?",
+            "description": "Optional spell check parameters"
+          }
+        ],
+        "returns": {
+          "type": "Task<Dictionary<string, Dictionary<string, double>>>",
+          "description": "Spell check suggestions with scores"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftspellcheck(string $index, string $query, ?SearchArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$query",
+            "type": "string",
+            "description": "The query to spell check"
+          },
+          {
+            "name": "$arguments",
+            "type": "?SearchArguments",
+            "description": "Optional search arguments"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Spell check suggestions"
+        }
+      }
+    ]
+  }
+}
+

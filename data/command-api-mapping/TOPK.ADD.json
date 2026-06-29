@@ -1,0 +1,141 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "add(key, *items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "items",
+            "type": "*args"
+          }
+        ],
+        "returns": {
+          "type": "List",
+          "description": "Items dropped from the Top-K list"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "topkAdd(String key, String... items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "items",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "Items dropped from list"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TopKAdd(ctx context.Context, key string, elements ...interface{}) *StringSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "elements",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": "Items removed from filter"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TOPK.ADD(key, items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "name": "items",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply>",
+          "description": "Items dropped from Top-K list"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Add(RedisKey key, params RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "items",
+            "type": "params RedisValue[]"
+          }
+        ],
+        "returns": {
+          "type": "RedisResult[]?",
+          "description": "Items dropped from list"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "AddAsync(RedisKey key, params RedisValue[] items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "items",
+            "type": "params RedisValue[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisResult[]?>",
+          "description": "Items dropped from list"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "topkadd($key, ...$items)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "items",
+            "type": "string..."
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Items dropped from Top-K list"
+        }
+      }
+    ]
+  }
+}

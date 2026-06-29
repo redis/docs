@@ -10,8 +10,8 @@ linktitle: Discovery service
 weight: 30
 ---
 The Discovery Service provides an IP-based connection management service
-used when connecting to Redis Enterprise Software databases. When used
-in conjunction with Redis Enterprise Software's other high availability
+used when connecting to Redis Software databases. When used
+in conjunction with Redis Software's other high availability
 features, the Discovery Service assists an application scope with
 topology changes such as adding, removing of nodes, node failovers and
 so on. It does this by providing your application with the ability to
@@ -49,10 +49,9 @@ the database name to explicitly ask for the internal endpoint. to query
 the internal endpoint explicitly with database name "db1", you can pass
 in the database name as "db1\@internal".
 
-If you'd like to examine the metadata returned from Redis Enterprise
-Software Discovery Service you can connect to port 8001 with redis-cli
+If you'd like to examine the metadata returned from Redis Software Discovery Service you can connect to port 8001 with redis-cli
 utility and execute "SENTINEL masters". Following is a sample output
-from one of the nodes of a Redis Enterprise Software cluster:
+from one of the nodes of a Redis Software cluster:
 
 ```sh
 $ ./redis-cli -p 8001
@@ -83,7 +82,7 @@ It is important to note that, the Discovery Service is not a full
 implementation of the [Redis Sentinel
 protocol]({{< relref "/operate/oss_and_stack/management/sentinel" >}}). There are aspects of the
 protocol that are not applicable or would be duplication with existing
-technology in Redis Enterprise Software. The Discovery Service
+technology in Redis Software. The Discovery Service
 implements only the parts required to provide applications with easy
 High Availability, be compatible with the protocol, and not rely on DNS
 to derive which node in the cluster to communicate with.
@@ -94,13 +93,13 @@ To use Redis Sentinel, every database name must be unique across the cluster.
 
 ## Redis client support
 
-We recommend these clients that are tested for use with the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) that uses the Redis Sentinel API:
+All [recommended Redis client libraries]({{< relref "/develop/clients" >}}) support the Redis Sentinel API, so you can use any of them with the discovery service.
 
-{{< embed-md "discovery-clients.md" >}}
+If you need to use a client that doesn't support Sentinel, you can use [Sentinel Tunnel](https://github.com/RedisLabs/sentinel_tunnel) to discover the current primary Redis endpoint with Sentinel and create a TCP tunnel between a local port on the client and the primary endpoint.
 
 {{< note >}}
-Redis Sentinel API can return endpoints for both master and replica
+Redis Sentinel API can return endpoints for both primary and replica
 endpoints.
-Discovery Service only supports master endpoints and does not
+Discovery Service only supports primary endpoints and does not
 support returning replica endpoints for a database.
 {{< /note >}}

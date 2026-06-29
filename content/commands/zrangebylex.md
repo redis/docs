@@ -66,7 +66,6 @@ replaced_by: '`ZRANGE` with the `BYLEX` argument'
 since: 2.8.9
 summary: Returns members in a sorted set within a lexicographical range.
 syntax_fmt: "ZRANGEBYLEX key min max [LIMIT\_offset count]"
-syntax_str: "min max [LIMIT\_offset count]"
 title: ZRANGEBYLEX
 ---
 When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `min` and `max`.
@@ -82,7 +81,46 @@ Keep in mind that if `offset` is large, the sorted set needs to be traversed for
 `offset` elements before getting to the elements to return, which can add up to
 O(N) time complexity.
 
-## How to specify intervals
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `-` for the lowest possible value.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `+` for the highest possible value.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Skip `offset` matching members and return up to `count` of them. A negative `count` returns all remaining members.
+
+</details>
+
+## Examples
+
+{{% redis-cli %}}
+ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
+ZRANGEBYLEX myzset - [c
+ZRANGEBYLEX myzset - (c
+ZRANGEBYLEX myzset [aaa (g
+{{% /redis-cli %}}
+
+## Details
+
+### How to specify intervals
 
 Valid *start* and *stop* must start with `(` or `[`, in order to specify
 if the range item is respectively exclusive or inclusive.
@@ -92,7 +130,7 @@ instance the command **ZRANGEBYLEX myzset - +** is guaranteed to return
 all the elements in the sorted set, if all the elements have the same
 score.
 
-## Details on strings comparison
+### Details on strings comparison
 
 Strings are compared as binary array of bytes. Because of how the ASCII character
 set is specified, this means that usually this also have the effect of comparing
@@ -118,18 +156,9 @@ comparison of the numbers. This can be used in order to implement range
 queries on 64 bit values. As in the example below, after the first 8 bytes
 we can store the value of the element we are actually indexing.
 
-## Examples
+## Redis Software and Redis Cloud compatibility
 
-{{% redis-cli %}}
-ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
-ZRANGEBYLEX myzset - [c
-ZRANGEBYLEX myzset - (c
-ZRANGEBYLEX myzset [aaa (g
-{{% /redis-cli %}}
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

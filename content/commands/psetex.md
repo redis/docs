@@ -56,11 +56,30 @@ since: 2.6.0
 summary: Sets both string value and expiration time in milliseconds of a key. The
   key is created if it doesn't exist.
 syntax_fmt: PSETEX key milliseconds value
-syntax_str: milliseconds value
 title: PSETEX
 ---
 `PSETEX` works exactly like [`SETEX`]({{< relref "/commands/setex" >}}) with the sole difference that the expire
 time is specified in milliseconds instead of seconds.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>milliseconds</code></summary>
+
+The time to live, in milliseconds.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The value to set.
+
+</details>
 
 ## Examples
 
@@ -70,9 +89,9 @@ PTTL mykey
 GET mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

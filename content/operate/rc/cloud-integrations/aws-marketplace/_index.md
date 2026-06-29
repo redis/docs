@@ -19,7 +19,7 @@ Here's how to subscribe to Redis Cloud with AWS Marketplace:
 
 1.  Sign in to the [AWS console](https://console.aws.amazon.com/).
 
-1.  Search AWS Marketplace for [Redis Cloud Pay as you go with 14-day free trial](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) and subscribe to the listing.
+1.  Search AWS Marketplace for [Redis Cloud: Real-Time Cache, Vector Search & AI Agent Memory](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) and subscribe to the listing.
 
     {{<image filename="images/rc/aws-marketplace-rc-flexible-plan.png" alt="The Redis Cloud listing on AWS Marketplace" >}}
 

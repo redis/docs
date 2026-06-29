@@ -63,7 +63,6 @@ railroad_diagram: /images/railroad/linsert.svg
 since: 2.2.0
 summary: Inserts an element before or after another element in a list.
 syntax_fmt: LINSERT key <BEFORE | AFTER> pivot element
-syntax_str: <BEFORE | AFTER> pivot element
 title: LINSERT
 ---
 Inserts `element` in the list stored at `key` either before or after the reference
@@ -74,6 +73,32 @@ performed.
 
 An error is returned when `key` exists but does not hold a list value.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>BEFORE | AFTER</code></summary>
+
+Whether to insert `element` before or after `pivot`.
+
+</details>
+
+<details open><summary><code>pivot</code></summary>
+
+The existing element to insert relative to.
+
+</details>
+
+<details open><summary><code>element</code></summary>
+
+The value to insert.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -83,9 +108,9 @@ LINSERT mylist BEFORE "World" "There"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

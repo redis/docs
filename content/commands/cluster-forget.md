@@ -28,18 +28,17 @@ group: cluster
 hidden: false
 history:
 - - 7.2.0
-  - Forgotten nodes are automatically propagated across the cluster via gossip.
+  - Automatically propagate forgotten node deletion to other nodes in a cluster, allowing nodes to be deleted with a single call in most cases.
 linkTitle: CLUSTER FORGET
 railroad_diagram: /images/railroad/cluster-forget.svg
 since: 3.0.0
 summary: Removes a node from the nodes table.
 syntax_fmt: CLUSTER FORGET node-id
-syntax_str: ''
 title: CLUSTER FORGET
 ---
-The command is used in order to remove a node, specified via its node ID,
-from the set of *known nodes* of the Redis Cluster node receiving the command.
-In other words the specified node is removed from the *nodes table* of the
+The command is used to remove a node, specified by its node ID,
+from the set of known nodes of the Redis Cluster node receiving the command.
+In other words, the specified node is removed from the nodes table of the
 node receiving the command.
 
 Because when a given node is part of the cluster, all the other nodes
@@ -48,16 +47,26 @@ completely removed from a cluster, the `CLUSTER FORGET` command must be
 sent to all the remaining nodes, regardless of the fact they are masters
 or replicas.
 
-However the command cannot simply drop the node from the internal node
-table of the node receiving the command, it also implements a ban-list, not
+However, the command cannot simply drop the node from the internal node
+table of the node receiving the command, it also implements a ban list, not
 allowing the same node to be added again as a side effect of processing the
-*gossip section* of the heartbeat packets received from other nodes.
+gossip section of the heartbeat packets received from other nodes.
 
-Starting with Redis 7.2.0, the ban-list is included in cluster gossip ping/pong messages. 
+Starting with Redis 7.2.0, the ban list is included in cluster gossip ping/pong messages. 
 This means that `CLUSTER FORGET` doesn't need to be sent to all nodes in a cluster.
 You can run the command on one or more nodes, after which it will be propagated to the rest of the nodes in most cases.
 
-## Details on why the ban-list is needed
+## Required arguments
+
+<details open><summary><code>node-id</code></summary>
+
+The ID of the node to remove from the current node's view of the cluster.
+
+</details>
+
+## Details
+
+### Details on why the ban list is needed
 
 In the following example we'll show why the command must not just remove
 a given node from the nodes table, but also prevent it for being re-inserted
@@ -76,18 +85,18 @@ end with just a three nodes cluster A, B, C we may follow these steps:
 As you can see in this way removing a node is fragile, we need to send
 `CLUSTER FORGET` commands to all the nodes ASAP hoping there are no
 gossip sections processing in the meantime. Because of this problem the
-command implements a ban-list with an expire time for each entry.
+command implements a ban list with an expire time for each entry.
 
 So what the command really does is:
 
 1. The specified node gets removed from the nodes table.
-2. The node ID of the removed node gets added to the ban-list, for 1 minute.
-3. The node will skip all the node IDs listed in the ban-list when processing gossip sections received in heartbeat packets from other nodes.
+2. The node ID of the removed node gets added to the ban list, for 1 minute.
+3. The node will skip all the node IDs listed in the ban list when processing gossip sections received in heartbeat packets from other nodes.
 
 This way we have a 60 second window to inform all the nodes in the cluster that
 we want to remove a node.
 
-## Special conditions not allowing the command execution
+### Special conditions not allowing the command execution
 
 The command does not succeed and returns an error in the following cases:
 
@@ -95,14 +104,10 @@ The command does not succeed and returns an error in the following cases:
 2. The node receiving the command is a replica, and the specified node ID identifies its current master.
 3. The node ID identifies the same node we are sending the command to.
 
-## Behavior change history
 
-*   `>= 7.2.0`: Automatically propagate node deletion to other nodes in a cluster, allowing nodes to be deleted with a single call
-  in most cases.
+## Redis Software and Redis Cloud compatibility
 
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

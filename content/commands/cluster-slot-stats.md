@@ -88,30 +88,42 @@ summary: Return an array of slot usage statistics for slots assigned to the curr
   node.
 syntax_fmt: "CLUSTER SLOT-STATS <SLOTSRANGE\_start-slot end-slot | ORDERBY\_metric\n  [LIMIT\_\
   limit] [ASC | DESC]>"
-syntax_str: ''
 title: CLUSTER SLOT-STATS
 ---
 
 Use this command to get an array of slot usage statistics for the slots assigned to the current shard. If you're working with a Redis cluster, this data helps you understand overall slot usage, spot hot or cold slots, plan slot migrations to balance load, or refine your application logic to better distribute keys.
 
-## Options
+## Required arguments
 
-`CLUSTER SLOT-STATS` has two mutually exclusive options:
+Specify exactly one of the following to select which slots to report on.
 
-* `ORDERBY`: Sorts the slot statistics by the specified metric. Use ASC or DESC to sort in ascending or descending order. If multiple slots have the same value, the command uses the slot number as a tiebreaker, sorted in ascending order.
+<details open><summary><code>SLOTSRANGE start-slot end-slot</code></summary>
 
-* `SLOTSRANGE`: Limits the results to a specific, inclusive range of slots. Results are always sorted by slot number in ascending order.
+Limits the results to a specific, inclusive range of slots. Results are always sorted by slot number in ascending order.
 
-The command reports on the following statistics:
+</details>
 
-* `KEY-COUNT`: Number of keys stored in the slot.
-* `CPU-USEC`: CPU time (in microseconds) spent handling the slot.
-* `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.
-* `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.
+<details open><summary><code>ORDERBY metric [LIMIT limit] [ASC | DESC]</code></summary>
 
-## Redis Enterprise and Redis Cloud compatibility
+Sorts the slot statistics by the specified `metric`. Use `ASC` or `DESC` to sort in ascending or descending order, and `LIMIT` to limit the number of results returned. If multiple slots have the same value, the command uses the slot number as a tiebreaker, sorted in ascending order.
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+`metric` is one of the statistics reported for each slot:
+
+- `KEY-COUNT`: Number of keys stored in the slot.
+- `CPU-USEC`: CPU time (in microseconds) spent handling the slot.
+- `MEMORY-BYTES`: Number of bytes allocated by the slot.
+- `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.
+- `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.
+
+</details>
+
+{{< note >}}
+All metrics except `KEY-COUNT` require that `cluster-slot-stats-enabled` is set to `yes` in the `redis.conf` file.
+{{< /note >}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

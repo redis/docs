@@ -53,9 +53,13 @@ since: 1.0.1
 summary: Atomically modifies the string values of one or more keys only when all keys
   don't exist.
 syntax_fmt: MSETNX key value [key value ...]
-syntax_str: ''
 title: MSETNX
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Sets the given keys to their respective values.
 `MSETNX` will not perform any operation at all even if just a single key already
 exists.
@@ -68,6 +72,14 @@ that either all the fields or none at all are set.
 It is not possible for clients to see that some of the keys were updated while
 others are unchanged.
 
+## Required arguments
+
+<details open><summary><code>key value [key value ...]</code></summary>
+
+One or more key-value pairs to set. No keys are set if any of them already exists.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -76,9 +88,9 @@ MSETNX key2 "new" key3 "world"
 MGET key1 key2 key3
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

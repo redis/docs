@@ -122,17 +122,73 @@ summary: Returns members from a geospatial index that are within a distance from
   member.
 syntax_fmt: "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI>\n  [WITHCOORD]\
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
-syntax_str: "member radius <M | KM | FT | MI> [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT\_\
-  count [ANY]] [ASC | DESC]"
 title: GEORADIUSBYMEMBER_RO
 ---
 Read-only variant of the [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) command.
 
 This command is identical to the [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the geospatial index (a sorted set).
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member whose position is used as the center of the search.
+
+</details>
+
+<details open><summary><code>radius</code></summary>
+
+The radius of the search circle, in the unit given by the following argument.
+
+</details>
+
+<details open><summary><code>M | KM | FT | MI</code></summary>
+
+The unit for `radius`: meters (`M`), kilometers (`KM`), feet (`FT`), or miles (`MI`).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHCOORD</code></summary>
+
+Also return the longitude and latitude of each matching item.
+
+</details>
+
+<details open><summary><code>WITHDIST</code></summary>
+
+Also return the distance of each matching item from the center, in the same unit as the radius.
+
+</details>
+
+<details open><summary><code>WITHHASH</code></summary>
+
+Also return the raw 52-bit geohash-encoded score of each matching item.
+
+</details>
+
+<details open><summary><code>COUNT count [ANY]</code></summary>
+
+Return at most `count` matches. With `ANY`, the command returns as soon as enough matches are found — faster, but the results may be unsorted.
+
+</details>
+
+<details open><summary><code>ASC | DESC</code></summary>
+
+Sort the results by distance from the center: nearest first (`ASC`) or farthest first (`DESC`).
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

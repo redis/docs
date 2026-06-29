@@ -45,9 +45,10 @@ v = VectorQuery(
 )
 ```
 
-#### `NOTE`
+{{< note >}}
 Filter expressions are typically not called directly. Instead they are
 built by combining filter statements using the & and | operators.
+{{< /note >}}
 
 * **Parameters:**
   * **\_filter** (*str* *|* *None*)
@@ -77,6 +78,33 @@ Create a Tag equality filter expression.
 from redisvl.query.filter import Tag
 
 f = Tag("brand") == "nike"
+```
+
+#### `__mod__(other)`
+
+Create a Tag wildcard filter expression for pattern matching.
+
+This enables wildcard pattern matching on tag fields using the `*`
+character. Unlike the equality operator, wildcards are not escaped,
+allowing patterns with wildcards in any position, such as prefix
+(`"tech*"`), suffix (`"*tech"`), or middle (`"*tech*"`)
+matches.
+
+* **Parameters:**
+  **other** (*Union* *[* *List* *[* *str* *]* *,* *str* *]*) – The tag pattern(s) to filter on.
+  Use `*` for wildcard matching (e.g., `"tech*"`, `"*tech"`,
+  or `"*tech*"`).
+* **Return type:**
+  [FilterExpression](#filterexpression)
+
+```python
+from redisvl.query.filter import Tag
+
+f = Tag("category") % "tech*"               # Prefix match
+f = Tag("category") % "*tech"               # Suffix match
+f = Tag("category") % "*tech*"              # Contains match
+f = Tag("category") % "elec*|*soft"         # Multiple wildcard patterns
+f = Tag("category") % ["tech*", "*science"] # List of patterns
 ```
 
 #### `__ne__(other)`
@@ -184,7 +212,7 @@ A Num is a FilterField representing a numeric field in a Redis index.
 Create a Numeric equality filter expression.
 
 * **Parameters:**
-  **other** (*int*) – The value to filter on.
+  **other** (*Union* *[* *int* *,* *float* *]*) – The value to filter on.
 * **Return type:**
   [FilterExpression](#filterexpression)
 
@@ -198,7 +226,7 @@ f = Num("zipcode") == 90210
 Create a Numeric greater than or equal to filter expression.
 
 * **Parameters:**
-  **other** (*int*) – The value to filter on.
+  **other** (*Union* *[* *int* *,* *float* *]*) – The value to filter on.
 * **Return type:**
   [FilterExpression](#filterexpression)
 
@@ -213,7 +241,7 @@ f = Num("age") >= 18
 Create a Numeric greater than filter expression.
 
 * **Parameters:**
-  **other** (*int*) – The value to filter on.
+  **other** (*Union* *[* *int* *,* *float* *]*) – The value to filter on.
 * **Return type:**
   [FilterExpression](#filterexpression)
 
@@ -228,7 +256,7 @@ f = Num("age") > 18
 Create a Numeric less than or equal to filter expression.
 
 * **Parameters:**
-  **other** (*int*) – The value to filter on.
+  **other** (*Union* *[* *int* *,* *float* *]*) – The value to filter on.
 * **Return type:**
   [FilterExpression](#filterexpression)
 
@@ -243,7 +271,7 @@ f = Num("age") <= 18
 Create a Numeric less than filter expression.
 
 * **Parameters:**
-  **other** (*int*) – The value to filter on.
+  **other** (*Union* *[* *int* *,* *float* *]*) – The value to filter on.
 * **Return type:**
   [FilterExpression](#filterexpression)
 
@@ -258,7 +286,7 @@ f = Num("age") < 18
 Create a Numeric inequality filter expression.
 
 * **Parameters:**
-  **other** (*int*) – The value to filter on.
+  **other** (*Union* *[* *int* *,* *float* *]*) – The value to filter on.
 * **Return type:**
   [FilterExpression](#filterexpression)
 

@@ -1,0 +1,102 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "slowlog_len(**kwargs)",
+        "params": [
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long slowlogLen()",
+        "params": [],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SlowLogLen(ctx context.Context) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "Long slowlogLen()",
+        "params": [],
+        "returns": {
+          "type": "Long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> slowlogLen()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> slowlogLen()",
+        "params": [],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "slowlog(string $operation, ?int $length = null)",
+        "params": [
+          {
+            "name": "$operation",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$length",
+            "type": "int|null",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|int|bool",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}

@@ -27,7 +27,6 @@ since: 2.4.4
 stack_path: docs/data-types/probabilistic
 summary: Returns the cardinality of a Bloom filter
 syntax_fmt: BF.CARD key
-syntax_str: ''
 title: BF.CARD
 ---
 Returns the cardinality of a Bloom filter - number of items that were added to a Bloom filter and detected as unique (items that caused at least one bit to be set in at least one sub-filter)
@@ -53,9 +52,9 @@ redis> BF.CARD bf_new
 (integer) 0
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 

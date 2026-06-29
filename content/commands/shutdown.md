@@ -66,7 +66,6 @@ railroad_diagram: /images/railroad/shutdown.svg
 since: 1.0.0
 summary: Synchronously saves the database(s) to disk and shuts down the Redis server.
 syntax_fmt: SHUTDOWN [NOSAVE | SAVE] [NOW] [FORCE] [ABORT]
-syntax_str: '[NOW] [FORCE] [ABORT]'
 title: SHUTDOWN
 ---
 The command behavior is the following:
@@ -90,19 +89,35 @@ shutting down.
 Also note: If Redis receives one of the signals `SIGTERM` and `SIGINT`, the same shutdown sequence is performed.
 See also [Signal Handling]({{< relref "/operate/oss_and_stack/reference/signals" >}}).
 
-## Modifiers
+## Optional arguments
 
-It is possible to specify optional modifiers to alter the behavior of the command.
-Specifically:
+<details open><summary><code>NOSAVE | SAVE</code></summary>
 
-* **SAVE** will force a DB saving operation even if no save points are configured.
-* **NOSAVE** will prevent a DB saving operation even if one or more save points are configured.
-* **NOW** skips waiting for lagging replicas, i.e. it bypasses the first step in the shutdown sequence.
-* **FORCE** ignores any errors that would normally prevent the server from exiting.
-  For details, see the following section.
-* **ABORT** cancels an ongoing shutdown and cannot be combined with other flags.
+`SAVE` forces a DB save even if no save points are configured; `NOSAVE` prevents a DB save even if one or more save points are configured.
 
-## Conditions where a SHUTDOWN fails
+</details>
+
+<details open><summary><code>NOW</code></summary>
+
+Skip waiting for lagging replicas, bypassing the first step in the shutdown sequence.
+
+</details>
+
+<details open><summary><code>FORCE</code></summary>
+
+Ignore any errors that would normally prevent the server from exiting.
+
+</details>
+
+<details open><summary><code>ABORT</code></summary>
+
+Cancel an ongoing shutdown. Cannot be combined with the other flags.
+
+</details>
+
+## Details
+
+### Conditions where a SHUTDOWN fails
 
 When a save point is configured or the **SAVE** modifier is specified, the shutdown may fail if the RDB file can't be saved.
 Then, the server continues to run in order to ensure no data loss.
@@ -126,20 +141,16 @@ In versions before 7.0, where the **NOW** and **FORCE** flags are not available,
 The first command will turn off the AOF if needed, and will terminate the AOF rewriting child if there is one active.
 The second command will not have any problem to execute since the AOF is no longer enabled.
 
-## Minimize the risk of data loss
+### Minimize the risk of data loss
 
 Since Redis 7.0, the server waits for lagging replicas up to a configurable `shutdown-timeout`, by default 10 seconds, before shutting down.
 This provides a best effort minimizing the risk of data loss in a situation where no save points are configured and AOF is disabled.
 Before version 7.0, shutting down a heavily loaded master node in a diskless setup was more likely to result in data loss.
 To minimize the risk of data loss in such setups, it's advised to trigger a manual [`FAILOVER`]({{< relref "/commands/failover" >}}) (or [`CLUSTER FAILOVER`]({{< relref "/commands/cluster-failover" >}})) to demote the master to a replica and promote one of the replicas to be the new master, before shutting down a master node.
 
-## Behavior change history
+## Redis Software and Redis Cloud compatibility
 
-*   `>= 7.0.0`: Introduced waiting for lagging replicas before exiting.
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

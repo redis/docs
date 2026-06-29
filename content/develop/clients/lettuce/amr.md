@@ -85,7 +85,7 @@ You can also add configuration to authenticate with a [service principal](#serv-
 or a [managed identity](#mgd-identity) as described in the sections below.
 
 When you have created your `TokenBasedRedisCredentialsProvider` instance, you may want to
-test it by obtaining a token, as shown in the folowing example:
+test it by obtaining a token, as shown in the following example:
 
 ```java
 // Test that the Entra ID credentials provider can resolve credentials.
@@ -204,8 +204,9 @@ RedisURI redisURI = RedisURI.builder()
         .withSsl(true)
         .build();
 
-// Create the RedisClient and set the re-authentication options.
-RedisClient redisClient = RedisClient.create(redisURI);
+// Create the RedisClusterClient and set the re-authentication options.
+// Note: AMR databases have clustering enabled by default.
+RedisClusterClient redisClient = RedisClusterClient.create(redisURI);
 redisClient.setOptions(clientOptions);
 
 // Connect with the credentials provider.

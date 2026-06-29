@@ -47,15 +47,38 @@ railroad_diagram: /images/railroad/mget.svg
 since: 1.0.0
 summary: Atomically returns the string values of one or more keys.
 syntax_fmt: MGET key [key ...]
-syntax_str: ''
 title: MGET
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
 Returns the values of all specified keys.
-For every key that does not hold a string value or does not exist, the special
-value `nil` is returned.
+For every key that does not hold a string value or does not exist, `nil` is returned.
 Because of this, the operation never fails.
 
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys whose values to retrieve.
+
+</details>
+
 ## Examples
+
+{{< clients-example set="cmds_string" step="mget" description="Returns the values of all specified keys." difficulty="beginner" >}}
+> SET key1 "Hello"
+"OK"
+> SET key2 "World"
+"OK"
+> MGET key1 key2 nonexisting
+1) "Hello"
+2) "World"
+3) (nil)
+{{< /clients-example >}}
+
+Give these commands a try in the interactive console:
 
 {{% redis-cli %}}
 SET key1 "Hello"
@@ -63,9 +86,9 @@ SET key2 "World"
 MGET key1 key2 nonexisting
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

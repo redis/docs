@@ -55,15 +55,11 @@ is the name of the element whose attributes you want to set or remove.
 is a valid JSON string. Use an empty string (`""`) to delete the attributes.
 </details>
 
-## Related topics
+## Redis Software and Redis Cloud compatibility
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 
@@ -82,3 +78,7 @@ One of the following:
 * [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

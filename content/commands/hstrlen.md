@@ -46,10 +46,23 @@ railroad_diagram: /images/railroad/hstrlen.svg
 since: 3.2.0
 summary: Returns the length of the value of a field.
 syntax_fmt: HSTRLEN key field
-syntax_str: field
 title: HSTRLEN
 ---
 Returns the string length of the value associated with `field` in the hash stored at `key`. If the `key` or the `field` do not exist, 0 is returned.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field</code></summary>
+
+The field whose value length to return.
+
+</details>
 
 ## Examples
 
@@ -60,9 +73,9 @@ HSTRLEN myhash f2
 HSTRLEN myhash f3
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

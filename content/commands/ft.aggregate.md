@@ -5,11 +5,14 @@ acl_categories:
 - '@fast'
 arguments:
 - name: index
+  summary: Specifies the name of the index. The index must be created using `FT.CREATE`.
   type: string
 - name: query
+  summary: Specifies the query to profile and analyze performance.
   type: string
 - name: verbatim
   optional: true
+  summary: Searches using the exact query terms without stemming or synonym expansion.
   token: VERBATIM
   type: pure-token
 - arguments:
@@ -18,12 +21,14 @@ arguments:
     type: string
   - multiple: true
     name: field
+    summary: Specifies a field in the index schema with its properties.
     type: string
   name: load
   optional: true
   type: block
 - name: timeout
   optional: true
+  summary: Sets a time limit for query execution, specified in milliseconds.
   token: TIMEOUT
   type: integer
 - name: loadall
@@ -38,9 +43,111 @@ arguments:
     name: property
     type: string
   - arguments:
-    - name: function
+    - name: reduce
       token: REDUCE
-      type: string
+      type: pure-token
+    - arguments:
+      - name: count
+        token: COUNT
+        type: pure-token
+      - name: count_distinct
+        token: COUNT_DISTINCT
+        type: pure-token
+      - name: count_distinctish
+        token: COUNT_DISTINCTISH
+        type: pure-token
+      - name: sum
+        token: SUM
+        type: pure-token
+      - name: min
+        token: MIN
+        type: pure-token
+      - name: max
+        token: MAX
+        type: pure-token
+      - name: avg
+        token: AVG
+        type: pure-token
+      - name: stddev
+        token: STDDEV
+        type: pure-token
+      - name: quantile
+        token: QUANTILE
+        type: pure-token
+      - name: tolist
+        token: TOLIST
+        type: pure-token
+      - name: first_value
+        token: FIRST_VALUE
+        type: pure-token
+      - name: random_sample
+        token: RANDOM_SAMPLE
+        type: pure-token
+      - arguments:
+        - name: collect_token
+          token: COLLECT
+          type: pure-token
+        - arguments:
+          - name: fields_token
+            token: FIELDS
+            type: pure-token
+          - arguments:
+            - name: all
+              token: '*'
+              type: pure-token
+            - arguments:
+              - name: num_fields
+                type: integer
+              - multiple: true
+                name: field
+                type: string
+              name: explicit
+              type: block
+            name: fields_spec
+            type: oneof
+          name: fields
+          type: block
+        - arguments:
+          - name: sortby_token
+            token: SORTBY
+            type: pure-token
+          - name: nargs
+            type: integer
+          - arguments:
+            - name: field
+              type: string
+            - arguments:
+              - name: asc
+                token: ASC
+                type: pure-token
+              - name: desc
+                token: DESC
+                type: pure-token
+              name: order
+              optional: true
+              type: oneof
+            multiple: true
+            name: key
+            type: block
+          name: sortby
+          optional: true
+          type: block
+        - arguments:
+          - name: limit_token
+            token: LIMIT
+            type: pure-token
+          - name: offset
+            type: integer
+          - name: count
+            type: integer
+          name: limit
+          optional: true
+          type: block
+        name: collect
+        since: 8.8.0
+        type: block
+      name: function
+      type: oneof
     - name: nargs
       type: integer
     - multiple: true
@@ -53,10 +160,12 @@ arguments:
     multiple: true
     name: reduce
     optional: true
+    summary: Applies a reducer function, like `SUM` or `COUNT`, on grouped results.
     type: block
   multiple: true
   name: groupby
   optional: true
+  summary: Groups results by specified fields, often used for aggregations.
   type: block
 - arguments:
   - name: nargs
@@ -86,9 +195,203 @@ arguments:
   optional: true
   type: block
 - arguments:
-  - name: expression
+  - arguments:
+    - arguments:
+      - token: s
+      name: exists
+      summary: Checks whether a field exists in a document.
+      token: exists
+      type: function
+    - arguments:
+      - token: x
+      name: log
+      summary: Return the logarithm of a number, property or subexpression
+      token: log
+      type: function
+    - arguments:
+      - token: x
+      name: abs
+      summary: Return the absolute value of a numeric expression
+      token: abs
+      type: function
+    - arguments:
+      - token: x
+      name: ceil
+      summary: Round to the smallest integer not less than x
+      token: ceil
+      type: function
+    - arguments:
+      - token: x
+      name: floor
+      summary: Round to largest integer not greater than x
+      token: floor
+      type: function
+    - arguments:
+      - token: x
+      name: log2
+      summary: Return the logarithm of x to base 2
+      token: log2
+      type: function
+    - arguments:
+      - token: x
+      name: exp
+      summary: Return the exponent of x, e.g., e^x
+      token: exp
+      type: function
+    - arguments:
+      - token: x
+      name: sqrt
+      summary: Return the square root of x
+      token: sqrt
+      type: function
+    - arguments:
+      - token: s
+      name: upper
+      summary: Return the uppercase conversion of s
+      token: upper
+      type: function
+    - arguments:
+      - token: s
+      name: lower
+      summary: Return the lowercase conversion of s
+      token: lower
+      type: function
+    - arguments:
+      - token: s1
+      - token: s2
+      name: startswith
+      summary: Return 1 if s2 is the prefix of s1, 0 otherwise.
+      token: startswith
+      type: function
+    - arguments:
+      - token: s1
+      - token: s2
+      name: contains
+      summary: Return the number of occurrences of s2 in s1, 0 otherwise. If s2 is
+        an empty string, return length(s1) + 1.
+      token: contains
+      type: function
+    - arguments:
+      - token: s
+      name: strlen
+      summary: Return the length of s
+      token: strlen
+      type: function
+    - arguments:
+      - token: s
+      - token: offset
+      - token: count
+      name: substr
+      summary: Return the substring of s, starting at offset and having count characters.
+        If offset is negative, it represents the distance from the end of the string.
+        If count is -1, it means "the rest of the string starting at offset".
+      token: substr
+      type: function
+    - arguments:
+      - token: fmt
+      name: format
+      summary: Use the arguments following fmt to format a string. Currently the only
+        format argument supported is %s and it applies to all types of arguments.
+      token: format
+      type: function
+    - arguments:
+      - optional: true
+        token: max_terms=100
+      name: matched_terms
+      summary: Return the query terms that matched for each record (up to 100), as
+        a list. If a limit is specified, Redis will return the first N matches found,
+        based on query order.
+      token: matched_terms
+      type: function
+    - arguments:
+      - token: s
+      name: split
+      summary: Split a string by any character in the string sep, and strip any characters
+        in strip. If only s is specified, it is split by commas and spaces are stripped.
+        The output is an array.
+      token: split
+      type: function
+    - arguments:
+      - token: x
+      - optional: true
+        token: fmt
+      name: timefmt
+      summary: Return a formatted time string based on a numeric timestamp value x.
+      token: timefmt
+      type: function
+    - arguments:
+      - token: timesharing
+      - optional: true
+        token: fmt
+      name: parsetime
+      summary: The opposite of timefmt() - parse a time format using a given format
+        string
+      token: parsetime
+      type: function
+    - arguments:
+      - token: timestamp
+      name: day
+      summary: Round a Unix timestamp to midnight (00:00) start of the current day.
+      token: day
+      type: function
+    - arguments:
+      - token: timestamp
+      name: hour
+      summary: Round a Unix timestamp to the beginning of the current hour.
+      token: hour
+      type: function
+    - arguments:
+      - token: timestamp
+      name: minute
+      summary: Round a Unix timestamp to the beginning of the current minute.
+      token: minute
+      type: function
+    - arguments:
+      - token: timestamp
+      name: month
+      summary: Round a unix timestamp to the beginning of the current month.
+      token: month
+      type: function
+    - arguments:
+      - token: timestamp
+      name: dayofweek
+      summary: Convert a Unix timestamp to the day number (Sunday = 0).
+      token: dayofweek
+      type: function
+    - arguments:
+      - token: timestamp
+      name: dayofmonth
+      summary: Convert a Unix timestamp to the day of month number (1 .. 31).
+      token: dayofmonth
+      type: function
+    - arguments:
+      - token: timestamp
+      name: dayofyear
+      summary: Convert a Unix timestamp to the day of year number (0 .. 365).
+      token: dayofyear
+      type: function
+    - arguments:
+      - token: timestamp
+      name: year
+      summary: Convert a Unix timestamp to the current year (e.g. 2018).
+      token: year
+      type: function
+    - arguments:
+      - token: timestamp
+      name: monthofyear
+      summary: Convert a Unix timestamp to the current month (0 .. 11).
+      token: monthofyear
+      type: function
+    - arguments:
+      - token: ''
+      name: geodistance
+      summary: Return distance in meters.
+      token: geodistance
+      type: function
+    expression: true
+    name: expression
     token: APPLY
-    type: string
+    type: block
   - name: name
     token: AS
     type: string
@@ -107,8 +410,11 @@ arguments:
   name: limit
   optional: true
   type: block
-- name: filter
+- expression: true
+  name: filter
   optional: true
+  summary: Applies a numeric range filter to restrict results to documents with field
+    values within the specified range.
   token: FILTER
   type: string
 - arguments:
@@ -146,6 +452,7 @@ arguments:
 - name: dialect
   optional: true
   since: 2.4.3
+  summary: Sets the query dialect version to be used.
   token: DIALECT
   type: integer
 categories:
@@ -174,31 +481,12 @@ summary: Run a search query on an index and perform aggregate transformations on
   results
 syntax: "FT.AGGREGATE index query \n  [VERBATIM] \n  [LOAD count field [field ...]]\
   \ \n  [TIMEOUT timeout] \n  [GROUPBY nargs property [property ...] [REDUCE function\
-  \ nargs arg [arg ...] [AS name] [REDUCE function nargs arg [arg ...] [AS name]\
-  \ ...]] ...]] \n  [SORTBY nargs [property ASC | DESC [property ASC | DESC ...]]\
-  \ [MAX num] [WITHCOUNT | WITHOUTCOUNT]] \n  [APPLY expression AS name [APPLY expression AS name\
-  \ ...]] \n  [LIMIT offset num] \n  [FILTER filter] \n  [WITHCURSOR [COUNT read_size]\
-  \ [MAXIDLE idle_time]] \n  [PARAMS nargs name value [name value ...]] \n  [SCORER scorer]\n
-  \ [ADDSCORES] \n  [DIALECT\
-  \ dialect]\n"
-syntax_fmt: "FT.AGGREGATE index query [VERBATIM] [LOAD\_count field [field ...]]\n\
-  \  [TIMEOUT\_timeout] [LOAD *] [GROUPBY\_nargs property [property ...]\n  [REDUCE\_\
-  function nargs arg [arg ...] [AS\_name] [REDUCE\_function\n  nargs arg [arg ...]\
-  \ [AS\_name] ...]] [GROUPBY\_nargs property\n  [property ...] [REDUCE\_function\
-  \ nargs arg [arg ...] [AS\_name]\n  [REDUCE\_function nargs arg [arg ...] [AS\_\
-  name] ...]] ...]]\n  [SORTBY\_nargs [property <ASC | DESC> [property <ASC | DESC>\
-  \ ...]]\n  [MAX\_num]] [APPLY\_expression AS\_name [APPLY\_expression AS\_name\n\
-  \  ...]] [LIMIT offset num] [FILTER\_filter] [WITHCURSOR\n  [COUNT\_read_size] [MAXIDLE\_\
-  idle_time]] [PARAMS nargs name value\n  [name value ...]] [DIALECT\_dialect]"
-syntax_str: "query [VERBATIM] [LOAD\_count field [field ...]] [TIMEOUT\_timeout] [LOAD\
-  \ *] [GROUPBY\_nargs property [property ...] [REDUCE\_function nargs arg [arg ...]\
-  \ [AS\_name] [REDUCE\_function nargs arg [arg ...] [AS\_name] ...]] [GROUPBY\_nargs\
-  \ property [property ...] [REDUCE\_function nargs arg [arg ...] [AS\_name] [REDUCE\_\
-  function nargs arg [arg ...] [AS\_name] ...]] ...]] [SORTBY\_nargs [property <ASC\
-  \ | DESC> [property <ASC | DESC> ...]] [MAX\_num]] [APPLY\_expression AS\_name [APPLY\_\
-  expression AS\_name ...]] [LIMIT offset num] [FILTER\_filter] [WITHCURSOR [COUNT\_\
-  read_size] [MAXIDLE\_idle_time]] [PARAMS nargs name value [name value ...]] [DIALECT\_\
-  dialect]"
+  \ nargs arg [arg ...] [AS name] [REDUCE function nargs arg [arg ...] [AS name] ...]]\
+  \ ...]] \n  [SORTBY nargs [property ASC | DESC [property ASC | DESC ...]] [MAX num]\
+  \ [WITHCOUNT | WITHOUTCOUNT]] \n  [APPLY expression AS name [APPLY expression AS\
+  \ name ...]] \n  [LIMIT offset num] \n  [FILTER filter] \n  [WITHCURSOR [COUNT read_size]\
+  \ [MAXIDLE idle_time]] \n  [PARAMS nargs name value [name value ...]] \n  [SCORER\
+  \ scorer]\n  [ADDSCORES] \n  [DIALECT dialect]\n"
 title: FT.AGGREGATE
 ---
 
@@ -247,13 +535,14 @@ Attributes needed for aggregations should be stored as `SORTABLE`, where they ar
 
 groups the results in the pipeline based on one or more properties. Each group should have at least one _reducer_, a function that handles the group entries,
   either counting them, or performing multiple aggregate operations (see below).
+</details>
       
 <details open>
 <summary><code>REDUCE {func} {nargs} {arg} … [AS {name}]</code></summary>
 
 reduces the matching results in each group into a single record, using a reduction function. For example, `COUNT` counts the number of records in the group. The reducers can have their own property names using the `AS {name}` optional argument. If a name is not given, the resulting name will be the name of the reduce function and the group properties. For example, if a name is not given to `COUNT_DISTINCT` by property `@foo`, the resulting name will be `count_distinct(@foo)`.
   
-See [Supported GROUPBY reducers]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations#supported-groupby-reducers" >}}) for more details.   
+See [Supported GROUPBY reducers]({{< relref "develop/ai/search-and-query/advanced-concepts/aggregations#supported-groupby-reducers" >}}) for more details.
 </details>
 
 <details open>
@@ -354,7 +643,6 @@ selects the dialect version under which to execute the query. If not specified, 
 See [Return multiple values]({{< relref "commands/ft.search#return-multiple-values/" >}}) in [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})
 The `DIALECT` can be specified as a parameter in the FT.AGGREGATE command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
 For example, with the following document and index:
-
 
 ```sh
 127.0.0.1:6379> JSON.SET doc:1 $ '[{"arr": [1, 2, 3]}, {"val": "hello"}, {"val": "world"}]'
@@ -501,9 +789,31 @@ APPLY case(@is_pending == 0 && @priority == "high", 3,4) AS status_completed
 
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+<details open>
+<summary><b>Collect top documents per group</b></summary>
 
-| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+Group movies by genre and collect the top 5 movies per group, sorted by rating in descending order. Return the top 50 groups.
+
+{{< highlight bash >}}
+FT.AGGREGATE idx:movies "*"
+    LOAD 4 @genre @title @rating @year
+    GROUPBY 1 @genre
+      REDUCE COLLECT 12 FIELDS 3 @title @rating @year SORTBY 2 @rating DESC LIMIT 0 5 AS top_movies
+    SORTBY 1 @genre LIMIT 0 50
+{{< /highlight >}}
+
+In this example:
+- `LOAD` brings `@genre`, `@title`, `@rating`, and `@year` into the pipeline. `COLLECT` projects from fields already available in the pipeline; it does not trigger an implicit document load. Using `FIELDS *` in place of the explicit field list would return only the fields the pipeline already has, as controlled by `LOAD` and any field-generating operations such as `APPLY`.
+- `FIELDS 3 @title @rating @year` projects those three fields into each collected entry.
+- Duplicates are retained (default behavior, no `DISTINCT` flag).
+- Documents within each group are sorted by `@rating` descending.
+- Only the top 5 documents per group are returned.
+- Only the top 50 groups are returned.
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
@@ -539,3 +849,4 @@ One of the following:
 - [Aggregations]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}})
 - [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
 - [RediSearch]({{< relref "/develop/ai/search-and-query" >}})
+- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})

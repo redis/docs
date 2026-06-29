@@ -46,10 +46,23 @@ railroad_diagram: /images/railroad/sismember.svg
 since: 1.0.0
 summary: Determines whether a member belongs to a set.
 syntax_fmt: SISMEMBER key member
-syntax_str: member
 title: SISMEMBER
 ---
 Returns if `member` is a member of the set stored at `key`.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member to check for.
+
+</details>
 
 ## Examples
 
@@ -59,9 +72,9 @@ SISMEMBER myset "one"
 SISMEMBER myset "two"
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

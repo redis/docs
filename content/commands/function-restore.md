@@ -50,24 +50,39 @@ railroad_diagram: /images/railroad/function-restore.svg
 since: 7.0.0
 summary: Restores all libraries from a payload.
 syntax_fmt: FUNCTION RESTORE serialized-value [FLUSH | APPEND | REPLACE]
-syntax_str: '[FLUSH | APPEND | REPLACE]'
 title: FUNCTION RESTORE
 ---
-Restore libraries from the serialized payload.
+Restore libraries from serialized payload.
 
-You can use the optional _policy_ argument to provide a policy for handling existing libraries.
-The following policies are allowed:
+You can use the optional [policy argument](#optional-arguments) to provide a policy for handling existing libraries.
 
-* **APPEND:** appends the restored libraries to the existing libraries and aborts on collision. 
+
+For more information see [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+
+## Required arguments
+
+<details open><summary><code>serialized-value</code></summary>
+
+The payload produced by [`FUNCTION DUMP`]({{< relref "/commands/function-dump" >}}).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>FLUSH | APPEND | REPLACE</code></summary>
+
+Policies for handling existing libraries:
+
+* `APPEND:` appends the restored libraries to the existing libraries and aborts on collision. 
   This is the default policy.
-* **FLUSH:** deletes all existing libraries before restoring the payload.
-* **REPLACE:** appends the restored libraries to the existing libraries, replacing any existing ones in case of name collisions. Note that this policy doesn't prevent function name collisions, only libraries.
+* `FLUSH:` deletes all existing libraries before restoring the payload.
+* `REPLACE:` appends the restored libraries to the existing libraries, replacing any existing ones in case of name collisions. Note that this policy doesn't prevent function name collisions, only libraries.
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+</details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

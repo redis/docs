@@ -11,7 +11,7 @@ weight: 100
 tocEmbedHeaders: true
 url: '/operate/rs/7.22/installing-upgrading/product-lifecycle/'
 ---
-The Redis Enterprise Software product lifecycle fully reflects the [subscription agreement](https://redis.com/software-subscription-agreement).
+The Redis Enterprise Software product lifecycle fully reflects the [subscription agreement](https://redis.io/legal/software-agreement/).
 However, for any discrepancy between the two policies, the subscription agreement prevails.
 
 Redis Enterprise modules follow the [modules lifecycle]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle" >}}).
@@ -51,6 +51,8 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 | 5.6 – April 2020                          | October 31, 2021  |
 | 5.4 – December 2018                       | December 31, 2020  |
 | 5.2 – June 2018                           | December 31, 2019  |
+
+## Supported cluster version upgrade paths
 
 {{<embed-md "rs-upgrade-paths.md">}}
 

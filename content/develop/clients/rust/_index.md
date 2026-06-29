@@ -1,4 +1,8 @@
 ---
+aliases:
+- /connect/clients/rust/
+- /clients/rust/
+- /develop/clients/redis-rs
 categories:
 - docs
 - develop
@@ -31,7 +35,7 @@ To use the synchronous API, add the `redis` crate as a dependency in your
 
 ```toml
 [dependencies]
-redis = "0.32.5"
+redis = "1.0.4"
 ```
 
 If you want to use the asynchronous API, you should also enable either
@@ -42,34 +46,34 @@ as your async platform:
 [dependencies]
 # if you use tokio
 tokio = { version = "1.32.0", features = ["full"] }
-redis = { version = "0.32.5", features = ["tokio-comp"] }
+redis = { version = "1.0.4", features = ["tokio-comp"] }
 
 # if you use smol
 smol = "2.0.2"
-redis = { version = "0.32.5", features = ["smol-comp"] }
+redis = { version = "1.0.4", features = ["smol-comp"] }
 ```
 
 ## Connect
 
 Start by importing the `Commands` or `AsyncCommands` trait from the `redis` crate:
 
-{{< clients-example set="landing" step="import" lang_filter="Rust-Sync,Rust-Async" >}}
+{{< clients-example set="landing" step="import" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Import the Commands trait to access Redis command methods" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 The following example shows the simplest way to connect to a Redis server:
 
-{{< clients-example set="landing" step="connect" lang_filter="Rust-Sync,Rust-Async" >}}
+{{< clients-example set="landing" step="connect" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Connect to a Redis server and establish a client connection" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 After connecting, you can test the connection by  storing and retrieving
 a simple [string]({{< relref "/develop/data-types/strings" >}}):
 
-{{< clients-example set="landing" step="set_get_string" lang_filter="Rust-Sync,Rust-Async" >}}
+{{< clients-example set="landing" step="set_get_string" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
 
-{{< clients-example set="landing" step="set_get_hash" lang_filter="Rust-Sync,Rust-Async" >}}
+{{< clients-example set="landing" step="set_get_hash" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## More information

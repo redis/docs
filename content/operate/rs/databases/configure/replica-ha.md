@@ -12,7 +12,7 @@ weight: 50
 ---
 
 When you enable [database replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}),
-Redis Enterprise Software creates a replica of each primary shard.  The replica shard will always be 
+Redis Software creates a replica of each primary shard.  The replica shard will always be 
 located on a different node than the primary shard to make your data highly available.  If the primary shard 
 fails or if the node hosting the primary shard fails, then the replica is promoted to primary.
 
@@ -169,3 +169,11 @@ The following alerts are sent during replica HA activation:
 - Shard migration begins after the grace period.
 - Shard migration fails because there is no available node (sent hourly).
 - Shard migration is delayed because of the cooldown period.
+
+## Limitations
+
+- If two nodes that host a primary shard and its corresponding replica shard go down at the same time, both shards will be lost and replica high availability will not be able to create a new replica shard for any primary shard still running.
+
+    {{< note >}}
+This limitation applies only when cluster quorum is maintained after two nodes fail, such as clusters with at least five nodes. If two nodes fail simultaneously in a cluster with only three nodes, the entire cluster is lost and must be recovered.
+    {{< /note >}}

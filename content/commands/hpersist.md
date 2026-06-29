@@ -55,12 +55,25 @@ railroad_diagram: /images/railroad/hpersist.svg
 since: 7.4.0
 summary: Removes the expiration time for each specified field
 syntax_fmt: "HPERSIST key FIELDS\_numfields field [field ...]"
-syntax_str: "FIELDS\_numfields field [field ...]"
 title: HPERSIST
 ---
 Remove the existing expiration on a hash key's field(s), turning the field(s) from _volatile_ (a field
 with expiration set) to _persistent_ (a field that will never expire as no TTL (time to live)
 is associated).
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to remove the expiration from. `numfields` is the number of fields, followed by that many field names.
+
+</details>
 
 ## Examples
 
@@ -80,9 +93,9 @@ redis> HTTL mykey FIELDS 2 field1 field2
 2) (integer) -1
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

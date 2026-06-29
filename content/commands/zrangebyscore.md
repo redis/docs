@@ -75,7 +75,6 @@ replaced_by: '`ZRANGE` with the `BYSCORE` argument'
 since: 1.0.5
 summary: Returns members in a sorted set within a range of scores.
 syntax_fmt: "ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT\_offset count]"
-syntax_str: "min max [WITHSCORES] [LIMIT\_offset count]"
 title: ZRANGEBYSCORE
 ---
 Returns all the elements in the sorted set at `key` with a score between `min`
@@ -97,7 +96,55 @@ The optional `WITHSCORES` argument makes the command return both the element and
 its score, instead of the element alone.
 This option is available since Redis 2.0.
 
-## Exclusive intervals and infinity
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum score. The bound is inclusive unless prefixed with `(`. Use `-inf` for no lower bound.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum score. The bound is inclusive unless prefixed with `(`. Use `+inf` for no upper bound.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each member.
+
+</details>
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Skip `offset` matching members and return up to `count` of them. A negative `count` returns all remaining members.
+
+</details>
+
+## Examples
+
+{{% redis-cli %}}
+ZADD myzset 1 "one"
+ZADD myzset 2 "two"
+ZADD myzset 3 "three"
+ZRANGEBYSCORE myzset -inf +inf
+ZRANGEBYSCORE myzset 1 2
+ZRANGEBYSCORE myzset (1 2
+ZRANGEBYSCORE myzset (1 (2
+{{% /redis-cli %}}
+
+## Details
+
+### Exclusive intervals and infinity
 
 `min` and `max` can be `-inf` and `+inf`, so that you are not required to know
 the highest or lowest score in the sorted set to get all elements from or up to
@@ -120,20 +167,7 @@ ZRANGEBYSCORE zset (5 (10
 
 Will return all the elements with `5 < score < 10` (5 and 10 excluded).
 
-## Examples
-
-{{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZRANGEBYSCORE myzset -inf +inf
-ZRANGEBYSCORE myzset 1 2
-ZRANGEBYSCORE myzset (1 2
-ZRANGEBYSCORE myzset (1 (2
-{{% /redis-cli %}}
-
-
-## Pattern: weighted random selection of an element
+### Pattern: weighted random selection of an element
 
 Normally `ZRANGEBYSCORE` is simply used in order to get range of items
 where the score is the indexed integer key, however it is possible to do less
@@ -177,9 +211,9 @@ just compute a random number between 0 and 1 (which is like calling
 
     RANDOM_ELE = ZRANGEBYSCORE key RAND() +inf LIMIT 0 1
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

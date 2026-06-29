@@ -27,14 +27,17 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a sketch
 syntax_fmt: TOPK.INFO key
-syntax_str: ''
 title: TOPK.INFO
 ---
 Returns number of required items (k), width, depth, and decay values of a given sketch.
 
-## Parameters
+## Required arguments
 
-* **key**: the name of the sketch.
+<details open><summary><code>key</code></summary>
+
+the name of the sketch.
+
+</details>
 
 ## Examples
 
@@ -50,12 +53,11 @@ TOPK.INFO topk
 8) "0.92500000000000004"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 
@@ -72,7 +74,7 @@ One of the following:
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs. For decay, a [double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) is used to represent the floating point value.
+* [A map]({{< relref "/develop/reference/protocol-spec#maps" >}}) of [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs. For decay, a [double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) is used to represent the floating point value.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
 
 {{< /multitabs >}}

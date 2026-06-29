@@ -1,5 +1,8 @@
 ---
-aliases: /develop/connect/om-clients
+aliases:
+- /develop/connect/om-clients
+- /connect/clients/om-clients/
+- /clients/om-clients/
 categories:
 - docs
 - develop
@@ -17,7 +20,7 @@ title: Object-Mapper libraries
 weight: 20
 ---
 
-Redis OM (pronounced *REDiss OHM*) is a library that provides object mapping for Redis. With the help of Redis OM, you can map Redis data types, specifically Hashes and JSON documents, to objects of your preferred programming language or framework. Redis OM relies on the JSON and Redis Query Engine features of Redis Open Source, allowing you to search and/or query for objects. 
+Redis OM (pronounced *REDiss OHM*) is a library that provides object mapping for Redis. With the help of Redis OM, you can map Redis data types, specifically Hashes and JSON documents, to objects of your preferred programming language or framework. Redis OM relies on the JSON and Redis Search features of Redis Open Source, allowing you to search and/or query for objects. 
 
 You can use Redis OM with the following four programming languages:
 

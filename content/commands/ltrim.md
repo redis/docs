@@ -51,28 +51,50 @@ since: 1.0.0
 summary: Removes elements from both ends a list. Deletes the list if all elements
   were trimmed.
 syntax_fmt: LTRIM key start stop
-syntax_str: start stop
 title: LTRIM
 ---
 Trim an existing list so that it will contain only the specified range of
 elements specified.
 Both `start` and `stop` are zero-based indexes, where `0` is the first element
-of the list (the head), `1` the next element and so on.
+of the list (the head), `1` the next element, and so on.
 
 For example: `LTRIM foobar 0 2` will modify the list stored at `foobar` so that
 only the first three elements of the list will remain.
 
-`start` and `end` can also be negative numbers indicating offsets from the end
+`start` and `stop` can also be negative numbers indicating offsets from the end
 of the list, where `-1` is the last element of the list, `-2` the penultimate
-element and so on.
+element, and so on.
 
 Out of range indexes will not produce an error: if `start` is larger than the
-end of the list, or `start > end`, the result will be an empty list (which
-causes `key` to be removed).
-If `end` is larger than the end of the list, Redis will treat it like the last
+end of the list (`start > stop`), the result will be an empty list, which
+causes `key` to be removed.
+If `stop` is larger than the end of the list (`stop > start`), Redis will treat it like the last
 element of the list.
 
-A common use of `LTRIM` is together with [`LPUSH`]({{< relref "/commands/lpush" >}}) / [`RPUSH`]({{< relref "/commands/rpush" >}}).
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The zero-based start index. Negative indexes count from the tail.
+
+</details>
+
+<details open><summary><code>stop</code></summary>
+
+The zero-based stop index (inclusive). Negative indexes count from the tail.
+
+</details>
+
+## Examples
+
+A common use of `LTRIM` is to use it with [`LPUSH`]({{< relref "/commands/lpush" >}}) or [`RPUSH`]({{< relref "/commands/rpush" >}}).
 For example:
 
 ```
@@ -87,7 +109,6 @@ It is important to note that when used in this way `LTRIM` is an O(1) operation
 because in the average case just one element is removed from the tail of the
 list.
 
-## Examples
 
 {{% redis-cli %}}
 RPUSH mylist "one"
@@ -97,9 +118,9 @@ LTRIM mylist 1 -1
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

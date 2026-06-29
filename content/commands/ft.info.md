@@ -26,9 +26,7 @@ railroad_diagram: /images/railroad/ft.info.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns information and statistics on the index
-syntax: FT.INFO index
 syntax_fmt: FT.INFO index
-syntax_str: ''
 title: FT.INFO
 ---
 
@@ -118,7 +116,7 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 - Index error statistics, including `indexing failures`, `last indexing error`, and `last indexing error key`.
 - Field statistics, including `indexing failures`, `last indexing error`, and `last indexing error key` for each schema field.
 
-## Example
+## Examples
 
 <details open>
 <summary><b>Return statistics about an index</b></summary>
@@ -354,9 +352,9 @@ The next two GC-related fields are relevant in scenarios where simultaneous chan
 {{< / highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 

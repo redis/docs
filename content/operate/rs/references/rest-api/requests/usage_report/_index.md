@@ -22,7 +22,7 @@ weight: $weight
 GET /v1/usage_report
 ```
 
-Gets the database usage report from the cluster as a gzip file that contains Newline Delimited JSON (NDJSON). The final line in the file is the response's MD5 hash.
+Gets the database usage report from the cluster as Newline Delimited JSON (NDJSON). The response is returned as a gzip file if the request includes the `Accept-Encoding: gzip` header; otherwise, it returns an NDJSON file directly. The final line in the file is the response's MD5 hash.
 
 ### Request {#get-request}
 
@@ -38,10 +38,11 @@ GET /v1/usage_report
 |-----|-------|-------------|
 | Host | cnm.cluster.fqdn | Domain name |
 | Accept | application/json | Accepted media type |
+| Accept-Encoding | gzip | (Optional) Request gzip compression for the response |
 
 ### Response {#get-response}
 
-Returns a gzip file that contains Newline Delimited JSON (NDJSON), which represents the usage report for every database in the cluster. The final line in the file is the response's MD5 hash.
+Returns Newline Delimited JSON (NDJSON), which represents the usage report for every database in the cluster. The response is returned as a gzip file if the request includes the `Accept-Encoding: gzip` header; otherwise, it returns an NDJSON file directly. The final line in the file is the response's MD5 hash.
 
 | Field | Type/Value | Description |
 |-------|------------|-------------|
@@ -52,18 +53,19 @@ Returns a gzip file that contains Newline Delimited JSON (NDJSON), which represe
 | cluster_name | string | Cluster name |
 | cluster_uuid | string | Cluster's unique ID |
 | date | string | Date of the report, including time and time zone |
-| dominant_shard_criteria | "mem"<br />"ops"<br />"rof" | Dominant criteria for shard selection |
+| <span class="break-all">dominant_shard_criteria</span> | "mem"<br />"ops"<br />"rof" | Dominant criteria for shard selection |
 | type | "core"<br />"premium"<br />"auto_tiering" | Database type |
 | shard_type | "micro"<br />"normal"<br />"large"<br />"auto_tiering" | Shard type |
 | no_eviction | boolean | Indicates if no eviction policy is applied |
 | ops/sec | number | Consolidated ops/sec for the whole database |
 | persistence | boolean | Indicates if persistence is enabled |
-| provisioned_memory | number | Provisioned memory in bytes |
+| <span class="break-all">provisioned_memory</span> | number | Provisioned memory in bytes |
 | replication | boolean | Indicates if replication is enabled |
-| software_version | string | The Redis Enterprise Software version |
+| software_version | string | The Redis Software version |
 | used_memory | number | Used memory in bytes |
-| using_redis_search | boolean | Indicates if RediSearch is in use |
-| master_shards_count | number | Amount of primary shards |
+| <span class="break-all">using_redis_search</span> | boolean | Indicates if RediSearch is in use |
+| <span class="break-all">master_shards_count</span> | number | Amount of primary shards |
+| license | object | License information for the cluster<br />{{<code>}} "license": {<br />    "activation_date": string,<br />    "expiration_date": string,<br />    "ram_shards_in_use": integer,<br />    "ram_shards_limit": integer,<br />    "flash_shards_in_use": integer,<br />    "flash_shards_limit": integer,<br />    "shards_limit": integer<br />}{{</code>}}<br />**activation_date**: License activation date and time<br />**expiration_date**: License expiration date and time<br />**ram_shards_in_use**: Amount of RAM shards in use<br />**ram_shards_limit**: Amount of RAM shards allowed<br />**flash_shards_in_use**: Amount of flash shards in use<br />**flash_shards_limit**: Amount of flash shards allowed<br />**shards_limit**: Total shards limit |
 
 #### Example response
 
@@ -87,7 +89,16 @@ Returns a gzip file that contains Newline Delimited JSON (NDJSON), which represe
  "using_redis_search": false,
  "ops_sec": 0,
  "replication": false,
- "active_active": false
+ "active_active": false,
+ "license": {
+   "activation_date": "2018-12-31T00:00:00Z",
+   "expiration_date": "2019-12-31T00:00:00Z",
+   "ram_shards_in_use": 0,
+   "ram_shards_limit": 300,
+   "flash_shards_in_use": 0,
+   "flash_shards_limit": 100,
+   "shards_limit": 400
+ }
 }
 {
  "cluster_name": "mycluster.local",
@@ -108,7 +119,16 @@ Returns a gzip file that contains Newline Delimited JSON (NDJSON), which represe
  "using_redis_search": false,
  "ops_sec": 0,
  "replication": false,
- "active_active": false
+ "active_active": false,
+ "license": {
+   "activation_date": "2018-12-31T00:00:00Z",
+   "expiration_date": "2019-12-31T00:00:00Z",
+   "ram_shards_in_use": 0,
+   "ram_shards_limit": 300,
+   "flash_shards_in_use": 0,
+   "flash_shards_limit": 100,
+   "shards_limit": 400
+ }
 }
 ...
 <MD5 hash of the entire response>

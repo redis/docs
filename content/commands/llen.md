@@ -43,16 +43,23 @@ railroad_diagram: /images/railroad/llen.svg
 since: 1.0.0
 summary: Returns the length of a list.
 syntax_fmt: LLEN key
-syntax_str: ''
 title: LLEN
 ---
 Returns the length of the list stored at `key`.
 If `key` does not exist, it is interpreted as an empty list and `0` is returned.
 An error is returned when the value stored at `key` is not a list.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
 ## Examples
 
-{{< clients-example cmds_list llen >}}
+{{< clients-example set="cmds_list" step="llen" description="Foundational: Get the length of a list using LLEN (returns 0 if key doesn't exist, useful for checking list size)" difficulty="beginner" >}}
 redis> LPUSH mylist "World"
 (integer) 1
 redis> LPUSH mylist "Hello"
@@ -69,9 +76,9 @@ LPUSH mylist "Hello"
 LLEN mylist
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -75,9 +75,13 @@ summary: Removes and returns a member by score from one or more sorted sets. Blo
   until a member is available otherwise. Deletes the sorted set if the last element
   was popped.
 syntax_fmt: "BZMPOP timeout numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
-syntax_str: "numkeys key [key ...] <MIN | MAX> [COUNT\_count]"
 title: BZMPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BZMPOP` is the blocking variant of [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
 
 When any of the sorted sets contains elements, this command behaves exactly like [`ZMPOP`]({{< relref "/commands/zmpop" >}}).
@@ -87,9 +91,43 @@ A `timeout` of zero can be used to block indefinitely.
 
 See [`ZMPOP`]({{< relref "/commands/zmpop" >}}) for more information.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys to pop from.
+
+</details>
+
+<details open><summary><code>MIN | MAX</code></summary>
+
+Pop the members with the lowest scores (`MIN`) or the highest scores (`MAX`).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The number of members to pop. Defaults to 1.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

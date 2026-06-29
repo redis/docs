@@ -40,7 +40,6 @@ since: 7.2.0
 summary: Controls whether commands sent by the client affect the LRU/LFU of accessed
   keys.
 syntax_fmt: CLIENT NO-TOUCH <ON | OFF>
-syntax_str: ''
 title: CLIENT NO-TOUCH
 ---
 The `CLIENT NO-TOUCH` command controls whether commands sent by the client will alter the LRU/LFU of the keys they access.
@@ -49,9 +48,17 @@ When turned on, the current client will not change LFU/LRU stats, unless it send
 
 When turned off, the client touches LFU/LRU stats just as a normal client.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>ON | OFF</code></summary>
+
+Turn off (`ON`) or on (`OFF`) updates to keys' last-access time and LFU counter for commands issued by this connection.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

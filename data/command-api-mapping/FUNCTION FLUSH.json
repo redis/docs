@@ -1,0 +1,132 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "function_flush(mode: str = \"SYNC\")",
+        "params": [
+          {
+            "name": "mode",
+            "type": "str",
+            "description": "Flush mode (SYNC or ASYNC)"
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[str], str]",
+          "description": "Status response"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String functionFlush()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      },
+      {
+        "signature": "String functionFlush(final FlushMode mode)",
+        "params": [
+          {
+            "name": "mode",
+            "type": "FlushMode",
+            "description": "Flush mode (SYNC or ASYNC)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "FunctionFlush(ctx context.Context)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": "Status response"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "functionFlush(mode?: RedisFlushMode)",
+        "params": [
+          {
+            "name": "mode",
+            "type": "RedisFlushMode",
+            "description": "Optional flush mode (ASYNC or SYNC)"
+          }
+        ],
+        "returns": {
+          "type": "Promise<SimpleStringReply<'OK'>>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String functionFlush(FlushMode flushMode)",
+        "params": [
+          {
+            "name": "flushMode",
+            "type": "FlushMode",
+            "description": "Flush mode (SYNC or ASYNC)"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> functionFlush(FlushMode flushMode)",
+        "params": [
+          {
+            "name": "flushMode",
+            "type": "FlushMode",
+            "description": "Flush mode (SYNC or ASYNC)"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> functionFlush(FlushMode flushMode)",
+        "params": [
+          {
+            "name": "flushMode",
+            "type": "FlushMode",
+            "description": "Flush mode (SYNC or ASYNC)"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "Status response"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": []
+  }
+}
+

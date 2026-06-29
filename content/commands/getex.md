@@ -71,22 +71,52 @@ since: 6.2.0
 summary: Returns the string value of a key after setting its expiration time.
 syntax_fmt: "GETEX key [EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds |\n\
   \  PXAT\_unix-time-milliseconds | PERSIST]"
-syntax_str: "[EX\_seconds | PX\_milliseconds | EXAT\_unix-time-seconds | PXAT\_unix-time-milliseconds\
-  \ | PERSIST]"
 title: GETEX
 ---
 Get the value of `key` and optionally set its expiration.
 `GETEX` is similar to [`GET`]({{< relref "/commands/get" >}}), but is a write command with additional options.
 
-## Options
+## Required arguments
 
-The `GETEX` command supports a set of options that modify its behavior:
+<details open><summary><code>key</code></summary>
 
-* `EX` *seconds* -- Set the specified expire time, in seconds.
-* `PX` *milliseconds* -- Set the specified expire time, in milliseconds.
-* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds.
-* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds.
-* [`PERSIST`]({{< relref "/commands/persist" >}}) -- Remove the time to live associated with the key.
+The name of the key to retrieve.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. They are mutually exclusive.
+
+<details open><summary><code>EX seconds</code></summary>
+
+Set the specified expire time, in seconds.
+
+</details>
+
+<details open><summary><code>PX milliseconds</code></summary>
+
+Set the specified expire time, in milliseconds.
+
+</details>
+
+<details open><summary><code>EXAT unix-time-seconds</code></summary>
+
+Set the specified Unix time at which the key will expire, in seconds.
+
+</details>
+
+<details open><summary><code>PXAT unix-time-milliseconds</code></summary>
+
+Set the specified Unix time at which the key will expire, in milliseconds.
+
+</details>
+
+<details open><summary><code>PERSIST</code></summary>
+
+Remove the time to live associated with the key. See [`PERSIST`]({{< relref "/commands/persist" >}}).
+
+</details>
 
 ## Examples
 
@@ -98,9 +128,9 @@ GETEX mykey EX 60
 TTL mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active\*</nobr></span> | \*Not supported for HyperLogLog. |
 

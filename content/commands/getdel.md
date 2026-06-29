@@ -45,11 +45,18 @@ railroad_diagram: /images/railroad/getdel.svg
 since: 6.2.0
 summary: Returns the string value of a key after deleting the key.
 syntax_fmt: GETDEL key
-syntax_str: ''
 title: GETDEL
 ---
 Get the value of `key` and delete the key.
 This command is similar to [`GET`]({{< relref "/commands/get" >}}), except for the fact that it also deletes the key on success (if and only if the key's value type is a string).
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key to get and then delete.
+
+</details>
 
 ## Examples
 
@@ -59,9 +66,9 @@ GETDEL mykey
 GET mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

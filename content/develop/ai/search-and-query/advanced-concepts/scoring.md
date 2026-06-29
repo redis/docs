@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/interact/search-and-query/advanced-concepts/scoring
+- /interact/search-and-query/advanced-concepts/scoring/
 categories:
 - docs
 - develop

@@ -1,0 +1,294 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "profile(query: Union[str, Query], limited: bool = False)",
+        "params": [
+          {
+            "name": "query",
+            "type": "Union[str, Query]",
+            "description": "The query to profile"
+          },
+          {
+            "name": "limited",
+            "type": "bool",
+            "description": "Whether to use limited profiling"
+          }
+        ],
+        "returns": {
+          "type": "Dict[str, Any]",
+          "description": "Profiling information"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Map.Entry<AggregationResult, Map<String, Object>> ftProfileAggregate(String indexName, FTProfileParams profileParams, AggregationBuilder aggr)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "profileParams",
+            "type": "FTProfileParams",
+            "description": "Profile parameters"
+          },
+          {
+            "name": "aggr",
+            "type": "AggregationBuilder",
+            "description": "The aggregation builder"
+          }
+        ],
+        "returns": {
+          "type": "Map.Entry<AggregationResult, Map<String, Object>>",
+          "description": "Aggregation results and profiling information"
+        }
+      },
+      {
+        "signature": "Map.Entry<SearchResult, Map<String, Object>> ftProfileSearch(String indexName, FTProfileParams profileParams, Query query)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          },
+          {
+            "name": "profileParams",
+            "type": "FTProfileParams",
+            "description": "Profile parameters"
+          },
+          {
+            "name": "query",
+            "type": "Query",
+            "description": "The query to profile"
+          }
+        ],
+        "returns": {
+          "type": "Map.Entry<SearchResult, Map<String, Object>>",
+          "description": "Search results and profiling information"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTProfileSearch(ctx context.Context, index string, limited bool, query string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "limited",
+            "type": "bool",
+            "description": "Whether to use limited profiling"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The query to profile"
+          }
+        ],
+        "returns": {
+          "type": "*FTProfileCmd",
+          "description": "Profiling information"
+        }
+      },
+      {
+        "signature": "FTProfileAggregate(ctx context.Context, index string, limited bool, query string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "limited",
+            "type": "bool",
+            "description": "Whether to use limited profiling"
+          },
+          {
+            "name": "query",
+            "type": "string",
+            "description": "The aggregation query to profile"
+          }
+        ],
+        "returns": {
+          "type": "*FTProfileCmd",
+          "description": "Profiling information"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "PROFILE(index: RedisArgument, queryType: 'SEARCH' | 'AGGREGATE', query: RedisArgument, options?: { LIMITED?: boolean })",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "queryType",
+            "type": "'SEARCH' | 'AGGREGATE'",
+            "description": "The query type"
+          },
+          {
+            "name": "query",
+            "type": "RedisArgument",
+            "description": "The query to profile"
+          },
+          {
+            "name": "options",
+            "type": "{ LIMITED?: boolean }",
+            "description": "Optional profile options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<FTProfileResult>",
+          "description": "Profiling information"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "Tuple<SearchResult, Dictionary<string, RedisResult>> ProfileSearch(string indexName, Query q, bool limited = false)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "q",
+            "type": "Query",
+            "description": "The search query"
+          },
+          {
+            "name": "limited",
+            "type": "bool",
+            "description": "Whether to return limited profiling info"
+          }
+        ],
+        "returns": {
+          "type": "Tuple<SearchResult, Dictionary<string, RedisResult>>",
+          "description": "Search results and profiling information"
+        }
+      },
+      {
+        "signature": "Tuple<AggregationResult, Dictionary<string, RedisResult>> ProfileAggregate(string indexName, AggregationRequest query, bool limited = false)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "AggregationRequest",
+            "description": "The aggregation query"
+          },
+          {
+            "name": "limited",
+            "type": "bool",
+            "description": "Whether to return limited profiling info"
+          }
+        ],
+        "returns": {
+          "type": "Tuple<AggregationResult, Dictionary<string, RedisResult>>",
+          "description": "Aggregation results and profiling information"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<Tuple<SearchResult, Dictionary<string, RedisResult>>> ProfileSearchAsync(string indexName, Query q, bool limited = false)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "q",
+            "type": "Query",
+            "description": "The search query"
+          },
+          {
+            "name": "limited",
+            "type": "bool",
+            "description": "Whether to return limited profiling info"
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<SearchResult, Dictionary<string, RedisResult>>>",
+          "description": "Search results and profiling information"
+        }
+      },
+      {
+        "signature": "Task<Tuple<AggregationResult, Dictionary<string, RedisResult>>> ProfileAggregateAsync(string indexName, AggregationRequest query, bool limited = false)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "query",
+            "type": "AggregationRequest",
+            "description": "The aggregation query"
+          },
+          {
+            "name": "limited",
+            "type": "bool",
+            "description": "Whether to return limited profiling info"
+          }
+        ],
+        "returns": {
+          "type": "Task<Tuple<AggregationResult, Dictionary<string, RedisResult>>>",
+          "description": "Aggregation results and profiling information"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftprofile(string $index, ProfileArguments $arguments)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$arguments",
+            "type": "ProfileArguments",
+            "description": "Profile arguments (query type and query)"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Query results and profiling information"
+        }
+      }
+    ]
+  }
+}
+

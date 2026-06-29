@@ -48,7 +48,6 @@ railroad_diagram: /images/railroad/geopos.svg
 since: 3.2.0
 summary: Returns the longitude and latitude of members from a geospatial index.
 syntax_fmt: GEOPOS key [member [member ...]]
-syntax_str: '[member [member ...]]'
 title: GEOPOS
 ---
 Return the positions (longitude,latitude) of all the specified members of the geospatial index represented by the sorted set at *key*.
@@ -57,6 +56,20 @@ Given a sorted set representing a geospatial index, populated using the [`GEOADD
 
 The command can accept a variable number of arguments so it always returns an array of positions even when a single element is specified.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the geospatial index (a sorted set).
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members whose longitude and latitude to return.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -64,9 +77,9 @@ GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
 GEOPOS Sicily Palermo Catania NonExisting
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

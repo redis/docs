@@ -9,6 +9,6 @@ description: null
 hideListLinks: false
 weight: 80
 ---
-This section describes additional configuration options for Redis Enterprise Software installation.
+This section describes additional configuration options for Redis Software installation.
 
 

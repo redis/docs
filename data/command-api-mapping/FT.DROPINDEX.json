@@ -1,0 +1,186 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "dropindex(delete_documents: bool = False)",
+        "params": [
+          {
+            "name": "delete_documents",
+            "type": "bool",
+            "description": "Whether to delete the documents as well"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String ftDropIndex(String indexName)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "String ftDropIndexDD(String indexName)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "String",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success (deletes documents)"
+        }
+      }
+    ],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "go-redis": [
+      {
+        "signature": "FTDropIndex(ctx context.Context, index string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      },
+      {
+        "signature": "FTDropIndexWithArgs(ctx context.Context, index string, options *FTDropIndexOptions)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "options",
+            "type": "*FTDropIndexOptions",
+            "description": "Drop options"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "DROPINDEX(index: RedisArgument, options?: { DD?: boolean })",
+        "params": [
+          {
+            "name": "index",
+            "type": "RedisArgument",
+            "description": "The index name"
+          },
+          {
+            "name": "options",
+            "type": "{ DD?: boolean }",
+            "description": "Optional drop options"
+          }
+        ],
+        "returns": {
+          "type": "Promise<string>",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "nredisstack_sync": [
+      {
+        "signature": "bool DropIndex(string indexName, bool dd = false)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "dd",
+            "type": "bool",
+            "description": "Whether to delete the documents as well"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if the index was dropped"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "Task<bool> DropIndexAsync(string indexName, bool dd = false)",
+        "params": [
+          {
+            "name": "indexName",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "dd",
+            "type": "bool",
+            "description": "Whether to delete the documents as well"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if the index was dropped"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ftdropindex(string $index, ?DropArguments $arguments = null)",
+        "params": [
+          {
+            "name": "$index",
+            "type": "string",
+            "description": "The index name"
+          },
+          {
+            "name": "$arguments",
+            "type": "?DropArguments",
+            "description": "Optional drop arguments"
+          }
+        ],
+        "returns": {
+          "type": "Status",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}
+

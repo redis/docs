@@ -57,8 +57,6 @@ summary: Adds one or more items to a Bloom Filter. A filter will be created if i
   does not exist
 syntax_fmt: "BF.INSERT key [CAPACITY\_capacity] [ERROR\_error]\n  [EXPANSION\_expansion]\
   \ [NOCREATE] [NONSCALING] ITEMS item [item\n  ...]"
-syntax_str: "[CAPACITY\_capacity] [ERROR\_error] [EXPANSION\_expansion] [NOCREATE]\
-  \ [NONSCALING] ITEMS item [item ...]"
 title: BF.INSERT
 ---
 Creates a new Bloom filter if the `key` does not exist using the specified error rate, capacity, and expansion, then adds all specified items to the Bloom Filter.
@@ -139,12 +137,11 @@ Add two items to a filter, then return error if the filter does not already exis
 BF.INSERT filter NOCREATE ITEMS foo bar
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

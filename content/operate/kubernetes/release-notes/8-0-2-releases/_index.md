@@ -8,7 +8,7 @@ description: Releases with support for Redis Enterprise Software 8.0.2
 hideListLinks: true
 linkTitle: 8.0.2 releases
 title: Redis Enterprise for Kubernetes 8.0.2 release notes
-weight: 1
+weight: 89
 ---
 
 Redis Enterprise for Kubernetes 8.0.2 includes bug fixes, enhancements, and support for Redis Enterprise Software 8.0.2. The latest release is 8.0.2-2 with support for Redis Enterprise Software version 8.0.2.
@@ -17,7 +17,23 @@ Redis Enterprise for Kubernetes 8.0.2 includes bug fixes, enhancements, and supp
 
 {{<table-children columnNames="Version&nbsp;(Release&nbsp;date)&nbsp;,Major changes" columnSources="LinkTitle,Description" enableLinks="LinkTitle">}}
 
+## RHEL9-based image
+
+As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades require:
+
+- [Cluster version of 7.4.2-2 or later](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/).
+- Database version 7.2 or later.
+- RHEL9 compatible binaries for any modules you need.
+
+For detailed steps, see the relevant upgrade page:
+
+- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
+- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
+- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
+
 ## Known limitations
+
+- **Expired license causes pod readiness failures, blocking recovery and upgrades** <!--RED-185977--> If a pod is stuck during upgrade, manually update the licenses via the REST API.
 
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 8.0.2-2.
 
@@ -31,7 +47,7 @@ Redis Enterprise for Kubernetes 8.0.2 includes bug fixes, enhancements, and supp
 
 - **REAADB changes might fail with "gateway timeout" errors, mostly on OpenShift (RED-103048)** Retry the operation.
 
-- **Creating two databases with the same name directly on Redis Enterprise software will cause the service to be deleted and the database will not be available (RED-99997)** Avoid duplicating database names. Database creation via K8s has validation in place to prevent this.
+- **Creating two databases with the same name directly in the Redis Enterprise cluster manager UI will cause the service to be deleted and the database will not be available (RED-99997)** Avoid duplicating database names. The admission controller prevents duplicate database names when databases are created via the Kubernetes operator.
 
 - **Installing the operator bundle produces warning: `Warning: would violate PodSecurity "restricted: v1.24"` (RED-97381)** Ignore the warning. This issue is documented as benign on official Red Hat documentation.
 

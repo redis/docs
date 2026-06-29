@@ -1,0 +1,443 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "sintercard(numkeys: int, keys: List[KeyT], limit: int = 0)",
+        "params": [
+          {
+            "name": "numkeys",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "List[KeyT]",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int = 0",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long sintercard(byte[]... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets"
+        }
+      },
+      {
+        "signature": "long sintercard(int limit, byte[]... keys)",
+        "params": [
+          {
+            "name": "limit",
+            "type": "int",
+            "description": "If the intersection cardinality reaches limit partway through the computation,"
+          },
+          {
+            "name": "keys",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets"
+        }
+      },
+      {
+        "signature": "long sintercard(String... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets"
+        }
+      },
+      {
+        "signature": "long sintercard(int limit, String... keys)",
+        "params": [
+          {
+            "name": "limit",
+            "type": "int",
+            "description": "If the intersection cardinality reaches limit partway through the computation,"
+          },
+          {
+            "name": "keys",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long sintercard(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets. @since 6.2"
+        }
+      },
+      {
+        "signature": "Long sintercard(long limit, K... keys)",
+        "params": [
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and"
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets. @since 6.2"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> sintercard(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets. @since 6.2"
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> sintercard(long limit, K... keys)",
+        "params": [
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and"
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets. @since 6.2"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> sintercard(K... keys)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets. @since 6.2"
+        }
+      },
+      {
+        "signature": "Mono<Long> sintercard(long limit, K... keys)",
+        "params": [
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and"
+          },
+          {
+            "name": "keys",
+            "type": "K...",
+            "description": "the keys."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "The cardinality of the set which would result from the intersection of all the given sets. @since 6.2"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "SInterCard(ctx context.Context, limit int64, keys ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "int64",
+            "description": ""
+          },
+          {
+            "name": "keys",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "SINTERCARD(keys: RedisVariadicArgument, options?: SInterCardOptions | number)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "SInterCardOptions | number",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "sintercard(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sintercard(...args: [numkeys: number | string, ...keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sintercard(...args: [numkeys: number | string, keys: RedisKey[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sintercard(...args: [, numkeys: number | string, ...keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "sintercard(...args: [, numkeys: number | string, keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, numkeys",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "SetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "The number of elements to check (defaults to 0 and means unlimited)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
+        }
+      },
+      {
+        "signature": "SetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "The number of elements to check (defaults to 0 and means unlimited)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "SetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "The number of elements to check (defaults to 0 and means unlimited)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
+        }
+      },
+      {
+        "signature": "SetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "keys",
+            "type": "RedisKey[]",
+            "description": "The keys of the sets."
+          },
+          {
+            "name": "limit",
+            "type": "long",
+            "description": "The number of elements to check (defaults to 0 and means unlimited)."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The cardinality (number of elements) of the set, or 0 if key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "sintercard(array $keys, int $limit = 0)",
+        "params": [
+          {
+            "name": "$keys",
+            "type": "array",
+            "description": ""
+          },
+          {
+            "name": "int $limit = 0",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

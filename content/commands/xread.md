@@ -43,6 +43,10 @@ command_flags:
 - readonly
 - blocking
 - movablekeys
+complexity: 'For each stream mentioned: O(M) with M being the number of elements returned.
+  If M is constant (for example, always asking for the first 10 elements with COUNT), you
+  can consider it O(1). On the other side when XREADGROUP blocks, XADD will pay the
+  O(N) time in order to serve the N clients blocked on the stream getting new data.'
 description: Returns messages from multiple streams with IDs greater than the ones
   requested. Blocks until a message is available otherwise.
 group: stream
@@ -68,18 +72,45 @@ summary: Returns messages from multiple streams with IDs greater than the ones r
   Blocks until a message is available otherwise.
 syntax_fmt: "XREAD [COUNT\_count] [BLOCK\_milliseconds] STREAMS\_key [key ...] id\n\
   \  [id ...]"
-syntax_str: "[BLOCK\_milliseconds] STREAMS\_key [key ...] id [id ...]"
 title: XREAD
 ---
-Read data from one or multiple streams, only returning entries with an
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
+Read data from one or more streams, returning only entries with an
 ID greater than the last received ID reported by the caller.
 This command has an option to block if items are not available, in a similar
 fashion to [`BRPOP`]({{< relref "/commands/brpop" >}}) or [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}) and others.
 
-Please note that before reading this page, if you are new to streams,
-we recommend to read [our introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}).
+If you are new to streams, see [Introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}).
 
-## Non-blocking usage
+## Required arguments
+
+<details open><summary><code>STREAMS key [key ...] id [id ...]</code></summary>
+
+The keys to read from, followed by an ID for each key. For each stream, entries with an ID greater than the given one are returned. Use `$` to read only entries added after the call.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The maximum number of entries to return per stream.
+
+</details>
+
+<details open><summary><code>BLOCK milliseconds</code></summary>
+
+Block for up to this many milliseconds if no entries are available. `0` blocks indefinitely.
+
+</details>
+
+## Details
+
+### Non-blocking usage
 
 If the **BLOCK** option is not used, the command is synchronous, and can
 be considered somewhat related to [`XRANGE`]({{< relref "/commands/xrange" >}}): it will return a range of items
@@ -175,7 +206,7 @@ empty array, then we know that there is nothing more to fetch from our
 stream (and we would have to retry the operation, hence this command
 also supports a blocking mode).
 
-## Incomplete IDs
+### Incomplete IDs
 
 To use incomplete IDs is valid, like it is valid for [`XRANGE`]({{< relref "/commands/xrange" >}}). However
 here the sequence part of the ID, if missing, is always interpreted as
@@ -191,7 +222,7 @@ is exactly equivalent to
 > XREAD COUNT 2 STREAMS mystream writers 0-0 0-0
 ```
 
-## Blocking for data
+### Blocking for data
 
 In its synchronous form, the command can get new data as long as there
 are more items available. However, at some point, we'll have to wait for
@@ -226,7 +257,7 @@ a null reply because the timeout has elapsed without new data arriving:
 (nil)
 ```
 
-## The special `$` ID.
+### The special `$` ID.
 
 When blocking sometimes we want to receive just entries that are added
 to the stream via [`XADD`]({{< relref "/commands/xadd" >}}) starting from the moment we block. In such a case
@@ -256,7 +287,7 @@ Once we get some replies, the next call will be something like:
 
 And so forth.
 
-## The special `+` ID
+### The special `+` ID
 
 You can read the last entry in a single stream easily using the `XREVRANGE` command, like so:
 
@@ -274,7 +305,7 @@ This requests the last available entry in a stream. For example:
 Note that when using this special ID for a stream, the **COUNT** option will
 be ignored (for the specific stream) since only the last entry can be returned.
 
-## How multiple clients blocked on a single stream are served
+### How multiple clients blocked on a single stream are served
 
 Blocking list operations on lists or sorted sets have a *pop* behavior.
 Basically, the element is removed from the list or sorted set in order
@@ -292,9 +323,9 @@ Reading the [Redis Streams introduction]({{< relref "/develop/data-types/streams
 suggested in order to understand more about the streams overall behavior
 and semantics.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

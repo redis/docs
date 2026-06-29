@@ -45,40 +45,41 @@ railroad_diagram: /images/railroad/client-unblock.svg
 since: 5.0.0
 summary: Unblocks a client blocked by a blocking command from a different connection.
 syntax_fmt: CLIENT UNBLOCK client-id [TIMEOUT | ERROR]
-syntax_str: '[TIMEOUT | ERROR]'
 title: CLIENT UNBLOCK
 ---
-This command can unblock, from a different connection, a client blocked in a blocking operation, such as for instance [`BRPOP`]({{< relref "/commands/brpop" >}}) or [`XREAD`]({{< relref "/commands/xread" >}}) or [`WAIT`]({{< relref "/commands/wait" >}}).
+Use this command from one connection to unblock a client that is blocked by a blocking operation, such as [`BRPOP`]({{< relref "/commands/brpop" >}}), [`XREAD`]({{< relref "/commands/xread" >}}), or [`WAIT`]({{< relref "/commands/wait" >}}).
 
-By default the client is unblocked as if the timeout of the command was
-reached, however if an additional (and optional) argument is passed, it is possible to specify the unblocking behavior, that can be **TIMEOUT** (the default) or **ERROR**. If **ERROR** is specified, the behavior is to unblock the client returning as error the fact that the client was force-unblocked. Specifically the client will receive the following error:
+By default, Redis unblocks the client as if the blocked command timed out. You can pass an optional argument to choose the unblocking behavior: TIMEOUT, the default, or ERROR. If you specify ERROR, Redis unblocks the client and returns an error that indicates the client was force-unblocked.Specifically the client will receive the following error:
 
     -UNBLOCKED client unblocked via CLIENT UNBLOCK
 
-Note: of course as usually it is not guaranteed that the error text remains
-the same, however the error code will remain `-UNBLOCKED`.
+The error text may change over time, but the error code will remain `-UNBLOCKED`.
 
-This command is useful especially when we are monitoring many keys with
-a limited number of connections. For instance we may want to monitor multiple
-streams with [`XREAD`]({{< relref "/commands/xread" >}}) without using more than N connections. However at some
-point the consumer process is informed that there is one more stream key
-to monitor. In order to avoid using more connections, the best behavior would
-be to stop the blocking command from one of the connections in the pool, add
-the new key, and issue the blocking command again.
 
-To obtain this behavior the following pattern is used. The process uses
-an additional *control connection* in order to send the `CLIENT UNBLOCK` command
-if needed. In the meantime, before running the blocking operation on the other
-connections, the process runs [`CLIENT ID`]({{< relref "/commands/client-id" >}}) in order to get the ID associated
-with that connection. When a new key should be added, or when a key should
-no longer be monitored, the relevant connection blocking command is aborted
-by sending `CLIENT UNBLOCK` in the control connection. The blocking command
-will return and can be finally reissued.
 
-This example shows the application in the context of Redis streams, however
-the pattern is a general one and can be applied to other cases.
+## Required arguments
 
-## Examples
+<details open><summary><code>client-id</code></summary>
+
+The ID of the client to unblock.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>TIMEOUT | ERROR</code></summary>
+
+How to unblock the client: as if its timeout expired (`TIMEOUT`, the default), or by returning an error (`ERROR`).
+
+</details>
+
+## Details
+
+Use this command when you need to monitor many keys with a limited number of connections. For example, you might monitor multiple streams with XREAD without using more than N connections. If your consumer process needs to monitor another stream key, you can avoid opening another connection: unblock one of the connections in the pool, add the new key, and issue the blocking command again.
+
+To use this pattern, create an additional control connection that sends CLIENT UNBLOCK when needed. Before you run a blocking operation on each monitored connection, run CLIENT ID to get that connection’s ID. When you need to add or remove a key, use the control connection to send CLIENT UNBLOCK for the connection that is running the blocking command. The blocking command returns, and you can then reissue it with the updated set of keys.
+
+The following example uses Redis Streams, but you can apply the same pattern to other blocking operations.
 
 ```
 Connection A (blocking connection):
@@ -100,9 +101,9 @@ NULL
 (client is blocked again)
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

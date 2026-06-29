@@ -34,18 +34,30 @@ railroad_diagram: /images/railroad/command-getkeysandflags.svg
 since: 7.0.0
 summary: Extracts the key names and access flags for an arbitrary command.
 syntax_fmt: COMMAND GETKEYSANDFLAGS command [arg [arg ...]]
-syntax_str: '[arg [arg ...]]'
 title: COMMAND GETKEYSANDFLAGS
 ---
-Returns [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of keys from a full Redis command and their usage flags.
 
-`COMMAND GETKEYSANDFLAGS` is a helper command to let you find the keys from a full Redis command together with flags indicating what each key is used for.
+`COMMAND GETKEYSANDFLAGS` is a helper command to let you find the keys from a full Redis `command`, together with flags that indicate what each key is used for.
 
-[`COMMAND`]({{< relref "/commands/command" >}}) provides information on how to find the key names of each command (see `firstkey`, [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}), and `movablekeys`),
-but in some cases it's not possible to find keys of certain commands and then the entire command must be parsed to discover some / all key names.
-You can use [`COMMAND GETKEYS`]({{< relref "/commands/command-getkeys" >}}) or `COMMAND GETKEYSANDFLAGS` to discover key names directly from how Redis parses the commands.
+[COMMAND]({{< relref "/commands/command" >}}) describes how Redis identifies key names for each command, including `firstkey`, [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}), and `movablekeys`. For some commands, Redis can identify the keys only by parsing the full command. Use [COMMAND GETKEYS]({{< relref "/commands/command-getkeys" >}}) or COMMAND GETKEYSANDFLAGS to get key names directly from the Redis command parser.
 
 Refer to [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}) for information about the meaning of the key flags.
+
+## Required arguments
+
+<details open><summary><code>command</code></summary>
+
+The name of the command to analyze.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>arg [arg ...]</code></summary>
+
+The arguments that would be passed to the command.
+
+</details>
 
 ## Examples
 
@@ -55,9 +67,9 @@ COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
 COMMAND GETKEYSANDFLAGS LMOVE mylist1 mylist2 left left
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

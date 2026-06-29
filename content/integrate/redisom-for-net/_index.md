@@ -13,6 +13,8 @@ stack: true
 summary: Redis OM for .NET is an object-mapping library for Redis.
 title: Redis OM .NET
 type: integration
+aliases:
+- /connect/clients/om-clients/stack-dotnet/
 weight: 9
 ---
 

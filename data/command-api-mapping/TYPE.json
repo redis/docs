@@ -1,0 +1,209 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "type(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "String type(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "type of key, or none when key does not exist."
+        }
+      },
+      {
+        "signature": "String type(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "type of key, or none when key does not exist."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "Type(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TYPE(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "String type(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "String simple-string-reply type of key, or none when key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> type(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "String simple-string-reply type of key, or none when key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> type(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "String simple-string-reply type of key, or none when key does not exist."
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "KeyType(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to check."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "RedisType",
+          "description": "The type of the key, or RedisType.None if the key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "KeyTypeAsync(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key to check."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "Task<RedisType>",
+          "description": "The type of the key, or RedisType.None if the key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "type(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "type(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "string, list, set, zset, hash or none"
+        }
+      }
+    ]
+  }
+}

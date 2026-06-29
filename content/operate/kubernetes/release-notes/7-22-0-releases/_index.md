@@ -1,4 +1,3 @@
-
 ---
 alwaysopen: false
 categories:
@@ -9,7 +8,7 @@ description: Releases with support for Redis Enterprise Software 7.22.0
 hideListLinks: true
 linkTitle: 7.22.0 releases
 title: Redis Enterprise for Kubernetes 7.22.0 release notes
-weight: 46
+weight: 91
 ---
 
 Redis Enterprise for Kubernetes 7.22.0 includes bug fixes, enhancements, and support for Redis Enterprise Software. The latest release is 7.22.0-17 with support for Redis Enterprise Software version 7.22.0-250.
@@ -42,7 +41,23 @@ Any distribution not listed below is not supported for production workloads.
 | **VMware TKGI** | **1.19** | **1.20** | **1.21** |  |  |  |
 |  | <span title="Deprecation warning" class="font-serif">:warning:</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |
 
+## RHEL9-based image
+
+As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise Linux 9 (RHEL9). This means upgrades require:
+
+- [Cluster version of 7.4.2-2 or later](https://redis.io/docs/latest/operate/kubernetes/7.4.6/upgrade/).
+- Database version 7.2 or later.
+- RHEL9 compatible binaries for any modules you need.
+
+For detailed steps, see the relevant upgrade page:
+
+- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
+- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
+- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
+
 ## Known limitations
+
+- **Expired license causes pod readiness failures, blocking recovery and upgrades** <!--RED-185977--> If a pod is stuck during upgrade, manually update the licenses via the REST API.
 
 - **Only upgrades from 7.4.2-2 and later are supported.** If you are using an earlier version, install 7.4.2-2 before upgrading to 7.8.2-6 or later.
 

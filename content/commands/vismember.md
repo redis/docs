@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/vismember.svg
 since: 8.0.0
 summary: Check if an element exists in a vector set.
 syntax_fmt: VISMEMBER key element
-syntax_str: element
 title: VISMEMBER
 ---
 
@@ -47,15 +46,11 @@ is the name of the key that holds the vector set.
 is the name of the element you want to check for membership.
 </details>
 
-## Related topics
+## Redis Software and Redis Cloud compatibility
 
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 
 ## Return information
 
@@ -70,3 +65,7 @@ is the name of the element you want to check for membership.
 [Boolean reply](../../develop/reference/protocol-spec#booleans): `false` if the element does not exist in the vector set, or the key does not exist. `true` if the element exists in the vector set.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

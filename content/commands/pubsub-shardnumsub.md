@@ -33,7 +33,6 @@ railroad_diagram: /images/railroad/pubsub-shardnumsub.svg
 since: 7.0.0
 summary: Returns the count of subscribers of shard channels.
 syntax_fmt: PUBSUB SHARDNUMSUB [shardchannel [shardchannel ...]]
-syntax_str: ''
 title: PUBSUB SHARDNUMSUB
 ---
 Returns the number of subscribers for the specified shard channels.
@@ -41,6 +40,14 @@ Returns the number of subscribers for the specified shard channels.
 Note that it is valid to call this command without channels, in this case it will just return an empty list.
 
 Cluster note: in a Redis Cluster, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
+
+## Optional arguments
+
+<details open><summary><code>shardchannel [shardchannel ...]</code></summary>
+
+One or more shard channels to report the subscriber count for.
+
+</details>
 
 ## Examples
 
@@ -50,9 +57,9 @@ Cluster note: in a Redis Cluster, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'
 2) (integer) 1
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

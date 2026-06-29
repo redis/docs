@@ -69,7 +69,7 @@ You can also use the following query syntax to perform more complex numeric quer
 
 Geo fields are used to store geographical coordinates such as longitude and latitude. They enable geospatial radius queries, which allow you to implement location-based search functionality in your applications such as finding nearby restaurants, stores, or any other points of interest.
 
-Redis Query Engine also supports [geoshape fields](#geoshape-fields) for more advanced
+Redis Search also supports [geoshape fields](#geoshape-fields) for more advanced
 geospatial queries. See the
 [Geospatial]({{< relref "/develop/ai/search-and-query/advanced-concepts/geo" >}})
 reference page for an introduction to the format and usage of both schema types.
@@ -240,7 +240,7 @@ You can search for documents with specific text values using the `<term>` or the
 
 ## Unicode considerations
 
-Redis Query Engine only supports Unicode characters in the [basic multilingual plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane); U+0000 to U+FFFF. Unicode characters beyond U+FFFF, such as Emojis, are not supported and would not be retrieved by queries including such characters in the following use cases:
+Redis Search only supports Unicode characters in the [basic multilingual plane](https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane); U+0000 to U+FFFF. Unicode characters beyond U+FFFF, such as Emojis, are not supported and would not be retrieved by queries including such characters in the following use cases:
 
 * Querying TEXT fields with Prefix/Suffix/Infix
 * Querying TEXT fields with fuzzy

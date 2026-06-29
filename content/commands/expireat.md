@@ -71,7 +71,6 @@ railroad_diagram: /images/railroad/expireat.svg
 since: 1.2.0
 summary: Sets the expiration time of a key to a Unix timestamp.
 syntax_fmt: EXPIREAT key unix-time-seconds [NX | XX | GT | LT]
-syntax_str: unix-time-seconds [NX | XX | GT | LT]
 title: EXPIREAT
 ---
 `EXPIREAT` has the same effect and semantic as [`EXPIRE`]({{< relref "/commands/expire" >}}), but instead of
@@ -84,24 +83,47 @@ timestamp in the past will delete the key immediately.
 Please for the specific semantics of the command refer to the documentation of
 [`EXPIRE`]({{< relref "/commands/expire" >}}).
 
-## Background
+## Required arguments
 
-`EXPIREAT` was introduced in order to convert relative timeouts to absolute
-timeouts for the AOF persistence mode.
-Of course, it can be used directly to specify that a given key should expire at
-a given time in the future.
+<details open><summary><code>key</code></summary>
 
-## Options
+The name of the key.
 
-The `EXPIREAT` command supports a set of options:
+</details>
 
-* `NX` -- Set expiry only when the key has no expiry
-* `XX` -- Set expiry only when the key has an existing expiry
-* `GT` -- Set expiry only when the new expiry is greater than current one
-* `LT` -- Set expiry only when the new expiry is less than current one
+<details open><summary><code>unix-time-seconds</code></summary>
 
-A non-volatile key is treated as an infinite TTL for the purpose of `GT` and `LT`.
-The `GT`, `LT` and `NX` options are mutually exclusive.
+The absolute expiration time as a Unix timestamp in seconds. A timestamp in the past deletes the key immediately.
+
+</details>
+
+## Optional arguments
+
+These options are mutually exclusive.
+
+<details open><summary><code>NX</code></summary>
+
+Set the expiry only when the key has no expiry.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+Set the expiry only when the key already has an expiry.
+
+</details>
+
+<details open><summary><code>GT</code></summary>
+
+Set the expiry only when the new expiry is greater than the current one. A non-volatile key is treated as an infinite TTL for the purpose of `GT`.
+
+</details>
+
+<details open><summary><code>LT</code></summary>
+
+Set the expiry only when the new expiry is less than the current one. A non-volatile key is treated as an infinite TTL for the purpose of `LT`.
+
+</details>
 
 ## Examples
 
@@ -112,9 +134,18 @@ EXPIREAT mykey 1293840000
 EXISTS mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Details
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+### Background
+
+`EXPIREAT` was introduced in order to convert relative timeouts to absolute
+timeouts for the AOF persistence mode.
+Of course, it can be used directly to specify that a given key should expire at
+a given time in the future.
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

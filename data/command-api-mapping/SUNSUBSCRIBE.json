@@ -1,0 +1,49 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [],
+    "go-redis": [],
+    "node_redis": [],
+    "lettuce_sync": [],
+    "lettuce_async": [],
+    "lettuce_reactive": [],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [
+      {
+        "signature": "sunsubscribe(?string ...$shardChannels = null)",
+        "params": [
+          {
+            "name": "$shardChannels",
+            "type": "?string...",
+            "description": "Shard channels to unsubscribe from (null for all)"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Unsubscription confirmation messages"
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "sunsubscribe(*channels)",
+        "params": [
+          {
+            "name": "*channels",
+            "type": "Array<String>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "nil",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

@@ -12,72 +12,77 @@ categories:
 - oss
 - kubernetes
 - clients
-description: Redis Query Engine can be tuned through multiple configuration parameters. Some of these parameters can only be set at load-time, while other parameters can be set either at load-time or at run-time.
+description: Redis Search can be tuned through multiple configuration parameters. Some of these parameters can only be set at load-time, while other parameters can be set either at load-time or at run-time.
 linkTitle: Configuration parameters
 title: Configuration parameters
 weight: 1
 ---
 {{< note >}}
-As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for Redis Query Engine (RQE) are now set in the following ways:
+As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for Redis Search are now set in the following ways:
 * At load time via your `redis.conf` file.
 * At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
 
-Also, Redis 8 persists RQE configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
+Also, Redis 8 persists Redis Search configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
 {{< /note >}}
 
-## RQE configuration parameters
+## Redis Search configuration parameters
 
-The following table summarizes which configuration parameters can be set at run-time, and compatibility with Redis Software and Redis Cloud.
+The following table summarizes which configuration parameters can be set at run-time, the versions in which each parameter is available, and compatibility with Redis Software and Redis Cloud.
 
-| Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | Run-time | Redis<br />Software | Redis<br />Cloud |
-| :------- | :------- | :------- | :------- | :------- |
-| BG_INDEX_SLEEP_GAP                | [search-bg-index-sleep-gap](#search-bg-index-sleep-gap)         | :white_large_square: |||
-| CONCURRENT_WRITE_MODE             | [search-concurrent-write-mode](#search-concurrent-write-mode)   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| CONN_PER_SHARD                    | [search-conn-per-shard](#search-conn-per-shard)                 | :white_check_mark:   |||
-| CURSOR_MAX_IDLE                   | [search-cursor-max-idle](#search-cursor-max-idle)               | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| CURSOR_READ_SIZE                  | [search-cursor-read-size](#search-cursor-read-size)             | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| CURSOR_REPLY_THRESHOLD            | [search-cursor-reply-threshold](#search-cursor-reply-threshold) | :white_check_mark:   |||
-| DEFAULT_DIALECT                   | [search-default-dialect](#search-default-dialect)               | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| EXTLOAD                           | [search-ext-load](#search-ext-load)                             | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| FORK_GC_CLEAN_THRESHOLD           | [search-fork-gc-clean-threshold](#search-fork-gc-clean-threshold) | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| FORK_GC_RETRY_INTERVAL            | [search-fork-gc-retry-interval](#search-fork-gc-retry-interval) | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| FORK_GC_RUN_INTERVAL              | [search-fork-gc-run-interval](#search-fork-gc-run-interval)     | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| FORKGC_SLEEP_BEFORE_EXIT          | [search-fork-gc-sleep-before-exit](#search-fork-gc-sleep-before-exit) | :white_check_mark: |||
-| FRISOINI                          | [search-friso-ini](#search-friso-ini)                             | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| [GC_POLICY](#gc_policy)           | There is no matching `CONFIG` parameter.                        | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| GCSCANSIZE                        | [search-gc-scan-size](#search-gc-scan-size)                       | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| INDEX_CURSOR_LIMIT                | [search-index-cursor-limit](#search-index-cursor-limit)         | :white_large_square: |||
-| INDEX_THREADS                     | search-index-threads                                            | :white_large_square: |||
-| MAXAGGREGATERESULTS               | [search-max-aggregate-results](#search-max-aggregate-results)   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| MAXDOCTABLESIZE                   | [search-max-doctablesize](#search-max-doctablesize)             | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| MAXEXPANSIONS                     | [search-max-expansions](#search-max-expansions)                 | :white_check_mark:   |||
-| MAXPREFIXEXPANSIONS               | [search-max-prefix-expansions](#search-max-prefix-expansions)   | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| MAXSEARCHRESULTS                  | [search-max-search-results](#search-max-search-results)           | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| MIN_OPERATION_WORKERS             | [search-min-operation-workers](#search-min-operation-workers)   | :white_check_mark:   |||
-| MIN_PHONETIC_TERM_LEN             | [search-min-phonetic-term-len](#search-min-phonetic-term-len)   | :white_check_mark:   |||
-| MINPREFIX                         | [search-min-prefix](#search-min-prefix)                         | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| MINSTEMLEN                        | [search-min-stem-len](#search-min-stem-len)                     | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| MULTI_TEXT_SLOP                   | [search-multi-text-slop](#search-multi-text-slop)               | :white_large_square: |||
-| NO_MEM_POOLS                      | [search-no-mem-pools](#search-no-mem-pools)                     | :white_large_square: |||
-| NOGC                              | [search-no-gc](#search-no-gc)                                     | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| ON_TIMEOUT                        | [search-on-timeout](#search-on-timeout)                         | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| PARTIAL_INDEXED_DOCS              | [search-partial-indexed-docs](#search-partial-indexed-docs)     | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| RAW_DOCID_ENCODING                | [search-raw-docid-encoding](#search-raw-docid-encoding)         | :white_large_square: |||
-| SEARCH_THREADS                    | [search-threads](#search-threads)                               | :white_large_square: |||
-| TIERED_HNSW_BUFFER_LIMIT          | [search-tiered-hnsw-buffer-limit](#search-tiered-hnsw-buffer-limit) | :white_large_square: |||
-| TIMEOUT                           | [search-timeout](#search-timeout)                               | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| TOPOLOGY_VALIDATION_TIMEOUT       | [search-topology-validation-timeout](#search-topology-validation-timeout) | :white_check_mark: |||
-| UNION_ITERATOR_HEAP               | [search-union-iterator-heap](#search-union-iterator-heap)       | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| UPGRADE_INDEX                     | [search-upgrade-index](#search-upgrade-index)                   | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| VSS_MAX_RESIZE                    | [search-vss-max-resize](#search-vss-max-resize)                 | :white_check_mark:   |||
-| WORKERS_PRIORITY_BIAS_THRESHOLD   | [search-workers-priority-bias-threshold](#search-workers-priority-bias-threshold) | :white_large_square: |||
-| WORKERS                           | [search-workers](#search-workers)                               | :white_check_mark: |||
-| OSS_GLOBAL_PASSWORD               | Deprecated in v8.0.0. Replace with the `masterauth` password.   | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Not supported"><nobr>&#x274c; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
-| MT_MODE                           | Deprecated in v8.0.0. Use search-workers.                       | :white_large_square: |||
-| PRIVILEGED_THREADS_NUM            | Deprecated in v8.0.0. Use search-workers-priority-bias-threshold.| :white_large_square: |||
-| WORKER_THREADS                    | Deprecated in v8.0.0. Use search-min-operation-workers.         | :white_large_square: |||
-| SAFEMODE                          | Deprecated in v1.6.0. This is now the default setting.          | :white_large_square: |||
-| FORK_GC_CLEAN_NUMERIC_EMPTY_NODES | Deprecated in v8.0.0.                                           | :white_large_square: |||
+The version columns indicate availability per Redis Query Engine module version (2.6, 2.8, and 2.10) and per Redis Open Source version (8.0, 8.2, and 8.4). In those columns, &#x2705; means the parameter is available, &#x274c; means it is not available, and :warning: means it is deprecated (but still accepted) in that version.
+
+{{<table-scrollable>}}| Parameter name<br />(version < 8.0) | Parameter name<br />(version &#8805; 8.0) | 2.6 | 2.8 | 2.10 | 8.0 | 8.2 | 8.4 | Run-time | Redis<br />Software | Redis<br />Cloud |
+| :------- | :------- | :----: | :----: | :----: | :----: | :----: | :----: | :------- | :------- | :------- |
+| BG_INDEX_SLEEP_GAP                | [search-bg-index-sleep-gap](#search-bg-index-sleep-gap)         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Not supported"><nobr>&#x274c; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| BG_INDEX_SLEEP_DURATION_US        | [search-bg-index-sleep-duration-us](#search-bg-index-sleep-duration-us) | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
+| CONCURRENT_WRITE_MODE             | Removed in v2.10.                                               | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | | | |
+| CONN_PER_SHARD                    | [search-conn-per-shard](#search-conn-per-shard)                 | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | | |
+| CURSOR_MAX_IDLE                   | [search-cursor-max-idle](#search-cursor-max-idle)               | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| CURSOR_REPLY_THRESHOLD            | [search-cursor-reply-threshold](#search-cursor-reply-threshold) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | | |
+| DEFAULT_DIALECT                   | [search-default-dialect](#search-default-dialect)               | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| EXTLOAD                           | [search-ext-load](#search-ext-load)                             | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| FORK_GC_CLEAN_THRESHOLD           | [search-fork-gc-clean-threshold](#search-fork-gc-clean-threshold) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| FORK_GC_RETRY_INTERVAL            | [search-fork-gc-retry-interval](#search-fork-gc-retry-interval) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| FORK_GC_RUN_INTERVAL              | [search-fork-gc-run-interval](#search-fork-gc-run-interval)     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| FORKGC_SLEEP_BEFORE_EXIT          | [search-fork-gc-sleep-before-exit](#search-fork-gc-sleep-before-exit) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark: | | |
+| FRISOINI                          | [search-friso-ini](#search-friso-ini)                             | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| [GC_POLICY](#gc_policy)           | There is no matching `CONFIG` parameter.                        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| GCSCANSIZE                        | [search-gc-scan-size](#search-gc-scan-size)                       | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| INDEX_CURSOR_LIMIT                | [search-index-cursor-limit](#search-index-cursor-limit)         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
+| INDEX_THREADS                     | Removed in v2.10.                                               | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | | | |
+| MAXAGGREGATERESULTS               | [search-max-aggregate-results](#search-max-aggregate-results)   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| MAXDOCTABLESIZE                   | [search-max-doctablesize](#search-max-doctablesize)             | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| MAXEXPANSIONS                     | [search-max-expansions](#search-max-expansions)                 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | | |
+| MAXPREFIXEXPANSIONS               | [search-max-prefix-expansions](#search-max-prefix-expansions)   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| MAXSEARCHRESULTS                  | [search-max-search-results](#search-max-search-results)           | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| MIN_OPERATION_WORKERS             | [search-min-operation-workers](#search-min-operation-workers)   | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | | |
+| MIN_PHONETIC_TERM_LEN             | [search-min-phonetic-term-len](#search-min-phonetic-term-len)   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | | |
+| MINPREFIX                         | [search-min-prefix](#search-min-prefix)                         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| MINSTEMLEN                        | [search-min-stem-len](#search-min-stem-len)                     | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| MULTI_TEXT_SLOP                   | [search-multi-text-slop](#search-multi-text-slop)               | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
+| NO_MEM_POOLS                      | [search-no-mem-pools](#search-no-mem-pools)                     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
+| NOGC                              | [search-no-gc](#search-no-gc)                                     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| ON_TIMEOUT                        | [search-on-timeout](#search-on-timeout)                         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| PARTIAL_INDEXED_DOCS              | [search-partial-indexed-docs](#search-partial-indexed-docs)     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| RAW_DOCID_ENCODING                | [search-raw-docid-encoding](#search-raw-docid-encoding)         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
+| SEARCH_THREADS                    | [search-threads](#search-threads)                               | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
+| SEARCH_IO_THREADS                 | [search-io-threads](#search-io-threads)                         | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
+| TIERED_HNSW_BUFFER_LIMIT          | [search-tiered-hnsw-buffer-limit](#search-tiered-hnsw-buffer-limit) | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
+| TIMEOUT                           | [search-timeout](#search-timeout)                               | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| TOPOLOGY_VALIDATION_TIMEOUT       | [search-topology-validation-timeout](#search-topology-validation-timeout) | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark: | | |
+| UNION_ITERATOR_HEAP               | [search-union-iterator-heap](#search-union-iterator-heap)       | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| [UPGRADE_INDEX](#upgrade_index)   | There is no matching `CONFIG` parameter.                        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| VSS_MAX_RESIZE                    | [search-vss-max-resize](#search-vss-max-resize)                 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | | |
+| WORKERS_PRIORITY_BIAS_THRESHOLD   | [search-workers-priority-bias-threshold](#search-workers-priority-bias-threshold) | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
+| WORKERS                           | [search-workers](#search-workers)                               | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark: | | |
+| OSS_GLOBAL_PASSWORD               | Deprecated in v8.0.0. Replace with the `masterauth` password.   | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Not supported"><nobr>&#x274c; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| MT_MODE                           | Deprecated in v8.0.0. Use search-workers.                       | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | :white_large_square: | | |
+| PRIVILEGED_THREADS_NUM            | Deprecated in v8.0.0. Use search-workers-priority-bias-threshold.| <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | :white_large_square: | | |
+| WORKER_THREADS                    | Deprecated in v8.0.0. Use search-min-operation-workers.         | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | :white_large_square: | | |
+| SAFEMODE                          | Deprecated in v1.6.0. This is now the default setting.          | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | :white_large_square: | | |
+| FORK_GC_CLEAN_NUMERIC_EMPTY_NODES | Deprecated in v8.0.0.                                           | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | <span title="Deprecated" class="font-serif">:warning:</span> | :white_large_square: | | |
+
+{{</table-scrollable>}}
 
 {{< note >}}
 Parameter names for Redis Open Source versions < 8.0, while deprecated, will still be supported in Redis 8.
@@ -95,13 +100,17 @@ Valid range: `[1 .. 4294967295]`
 
 Default: `100`
 
-### search-concurrent-write-mode
+### search-bg-index-sleep-duration-us
 
-If enabled, the tokenization of write queries will be performed concurrently.
+Added in v8.2.
 
-Type: boolean
+The sleep duration (in microseconds) used during background indexing. During background indexing (triggered by `FT.CREATE` on existing keys), Redis periodically sleeps to allow the main thread to process commands. This parameter controls how long each sleep lasts. Works in conjunction with [`search-bg-index-sleep-gap`](#search-bg-index-sleep-gap), which controls how many iterations occur between sleeps.
 
-Default: `FALSE`
+Type: integer
+
+Valid range: `[1 .. 999999]`
+
+Default: `1`
 
 ### search-conn-per-shard
 
@@ -123,12 +132,6 @@ Type: integer
 Valid range: `[0 .. 9,223,372,036,854,775,807]`
 
 Default: `300000`
-
-### search-cursor-read-size
-
-Type: integer
-
-Default: `1000`
 
 ### search-cursor-reply-threshold
 
@@ -249,9 +252,9 @@ Redis Cloud defaults:
 
 ### search-index-cursor-limit
 
-Added in v2.10.8.
+Available in all supported versions (originally added in v2.10.8 and backported to v2.6 and v2.8).
 
-The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "/commands/ft.aggregate/" >}}). Cursors are also opened internally by the RQE for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
+The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "/commands/ft.aggregate/" >}}). Cursors are also opened internally by  Redis Search for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
 
 {{% alert title="Notes" color="info" %}}
 * Caution should be used in modifying this parameter.  Every open cursor results in additional memory usage.
@@ -377,7 +380,7 @@ Default: `100`
 
 ### search-no-mem-pools
 
-Set RQE to run without memory pools.
+Set Redis Search to run without memory pools.
 
 Type: boolean
 
@@ -435,6 +438,16 @@ Sets the number of search threads in the coordinator thread pool.
 
 Type: integer
 
+### search-io-threads
+
+Sets the number of threads used in the coordinator to run I/O tasks with other shards.
+
+Type: integer
+
+Valid range: `[1 .. 256]`
+
+Default: 1
+
 ### search-tiered-hnsw-buffer-limit
 
 Used for setting the buffer limit threshold for vector tiered HNSW indexes. If Redis is using `WORKERS` for indexing, and the number of vectors waiting in the buffer to be indexed exceeds this limit, new vectors are inserted directly into HNSW.
@@ -487,10 +500,12 @@ Valid range: `[1 .. 9,223,372,036,854,775,807]`
 
 Default: `20`
 
-### search-upgrade-index
+### UPGRADE_INDEX
+
+There is no matching `CONFIG` parameter for `UPGRADE_INDEX`; it is available only as an `FT.CONFIG` parameter or as a module load-time argument.
 
 Relevant only when loading an v1.x RDB file. Specify the argument for upgrading the index.
-This configuration setting is a special configuration option introduced to upgrade indexes from v1.x RQE versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE]({{< relref "/commands/ft.create/" >}}) command page. 
+This configuration setting is a special configuration option introduced to upgrade indexes from v1.x Redis Search versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE]({{< relref "/commands/ft.create/" >}}) command page. 
 
 Type: string
 
@@ -499,7 +514,7 @@ Default: there is no default for index name, and the other arguments have the sa
 **Example**
 
 ```
-search-upgrade-index idx PREFIX 1 tt LANGUAGE french LANGUAGE_FIELD MyLang SCORE 0.5 SCORE_FIELD MyScore
+UPGRADE_INDEX idx PREFIX 1 tt LANGUAGE french LANGUAGE_FIELD MyLang SCORE 0.5 SCORE_FIELD MyScore
     PAYLOAD_FIELD MyPayload UPGRADE_INDEX idx1
 ```
 
@@ -587,7 +602,7 @@ $ redis-server --loadmodule ./redisearch.so [OPT VAL]...
 
 These methods are deprecated beginning with Redis 8.
 
-RQE exposes the `FT.CONFIG` endpoint to allow for the setting and retrieval of configuration parameters at run-time.
+Redis Search exposes the `FT.CONFIG` endpoint to allow for the setting and retrieval of configuration parameters at run-time.
 
 To set the value of a configuration parameter at run-time (for supported parameters), simply run:
 

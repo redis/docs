@@ -8,7 +8,7 @@ categories:
 description: Describes how to view billing transactions and manage payment methods
   for Redis Cloud subscriptions.
 linkTitle: Billing & payments
-weight: 39
+weight: 46
 ---
 
 The **Billing & Payments** screen:

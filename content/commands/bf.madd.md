@@ -33,7 +33,6 @@ stack_path: docs/data-types/probabilistic
 summary: Adds one or more items to a Bloom Filter. A filter will be created if it
   does not exist
 syntax_fmt: BF.MADD key item [item ...]
-syntax_str: item [item ...]
 title: BF.MADD
 ---
 Adds one or more items to a Bloom filter.
@@ -56,22 +55,6 @@ If `key` does not exist - a new Bloom filter is created with default error rate,
 One or more items to add.
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
-|:----------------------|:-----------------|:------|
-| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
-
-## Return information
-
-Returns one of these replies:
-
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) where each element is either
-  - [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) - where "1" means that the item has been added successfully, and "0" means that such item was already added to the filter (which could be wrong)
-  - [] when the item cannot be added because the filter is full
-- [] on error (invalid arguments, wrong key type, etc.)
-
 ## Examples
 
 {{< highlight bash >}}
@@ -80,6 +63,12 @@ redis> BF.MADD bf item1 item2 item2
 2) (integer) 1
 3) (integer) 0
 {{< / highlight >}}
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+|:----------------------|:-----------------|:------|
+| <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 
 ## Return information
 

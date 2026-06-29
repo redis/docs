@@ -504,9 +504,10 @@ railroad_diagram: /images/railroad/ft.hybrid.svg
 since: 8.4.0
 summary: Performs hybrid search combining text search and vector similarity search
 syntax_fmt: "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SCORE_AS\
-  \ name]\n  VSIM vector_field $vector_param\n    [KNN count [K k] [EF_RUNTIME ef_runtime]]\n\
-  \    [RANGE count [RADIUS radius] [EPSILON epsilon]]\n    [YIELD_SCORE_AS name]\n\
-  \    [FILTER filter]\n  [COMBINE RRF count [CONSTANT constant] [WINDOW window]\
+  \ name]\n  VSIM vector_field $vector_param\n    [KNN count K k [EF_RUNTIME ef_runtime]] [SHARD_K_RATIO shard_k_ratio]]\n\
+  \    [RANGE count RADIUS radius [EPSILON epsilon]]\n    [YIELD_SCORE_AS name]\n\
+  \    [FILTER] count filter-expression [POLICY [ADHOC/BATCHES] BATCH_SIZE batch-size-value]\n\
+  \  [COMBINE RRF count [CONSTANT constant] [WINDOW window]\
   \ [YIELD_SCORE_AS name]]\n  [COMBINE LINEAR count [[ALPHA alpha] [BETA beta]] [WINDOW\
   \ window] [YIELD_SCORE_AS name]]\n  [LIMIT offset num]\n  [SORTBY count sortby\
   \ [ASC | DESC]]\n  [NOSORT]\n  [LOAD count field [field ...]]\n  [LOAD *]\n  [GROUPBY\
@@ -566,9 +567,9 @@ assigns an alias to the search score for use in post-processing operations like 
 </details>
 
 <details open>
-<summary><code>KNN count K top-k [EF_RUNTIME ef-value] [YIELD_SCORE_AS name]</code></summary>
+<summary><code>KNN count K top-k [EF_RUNTIME ef-value] [SHARD_K_RATIO shard-k-ratio] [YIELD_SCORE_AS name]</code></summary>
 
-configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `YIELD_SCORE_AS` assigns an alias to the score value.
+configures K-nearest neighbors search for vector similarity. The `count` parameter indicates the number of following parameters. `K` specifies the number of nearest neighbors to find. `EF_RUNTIME` controls the search accuracy vs. speed tradeoff. `SHARD_K_RATIO` controls the number of results each shard retrieves relative to the requested `top_k` in cluster setups. `YIELD_SCORE_AS` assigns an alias to the score value. See the [vector search]({{< relref "/develop/ai/search-and-query/vectors#cluster-optimization-examples" >}}) documentation for more information about `SHARD_K_RATIO`.
 </details>
 
 <details open>
@@ -787,11 +788,11 @@ FT.HYBRID complexity depends on both the text search and vector similarity compo
 - Fusion: O(k) where k is the number of results to combine
 - Overall complexity is typically dominated by the more expensive component
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 
@@ -823,3 +824,4 @@ One of the following:
 
 - [Vector search concepts]({{< relref "/develop/ai/search-and-query/vectors" >}})
 - [Combined search]({{< relref "/develop/ai/search-and-query/query/combined/" >}})
+- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})

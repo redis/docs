@@ -48,28 +48,41 @@ railroad_diagram: /images/railroad/geohash.svg
 since: 3.2.0
 summary: Returns members from a geospatial index as geohash strings.
 syntax_fmt: GEOHASH key [member [member ...]]
-syntax_str: '[member [member ...]]'
 title: GEOHASH
 ---
 Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`]({{< relref "/commands/geoadd" >}})).
 
 Normally Redis represents positions of elements using a variation of the Geohash
-technique where positions are encoded using 52 bit integers. The encoding is
-also different compared to the standard because the initial min and max
+technique where positions are encoded using 52-bit integers. The encoding is
+also different compared to the standard because the initial minimum and maximum
 coordinates used during the encoding and decoding process are different. This
-command however **returns a standard Geohash** in the form of a string as
-described in the [Wikipedia article](https://en.wikipedia.org/wiki/Geohash) and compatible with the [geohash.org](http://geohash.org) web site.
+command returns a standard Geohash in the form of a string as
+described in the [Wikipedia article](https://en.wikipedia.org/wiki/Geohash).
 
-Geohash string properties
----
+## Required arguments
 
-The command returns 11 characters Geohash strings, so no precision is lost
-compared to the Redis internal 52 bit representation. The returned Geohashes
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the geospatial index (a sorted set).
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members whose Geohash strings to return.
+
+</details>
+
+## Details
+
+### Geohash string properties
+
+The command returns 11 character Geohash strings, so no precision is lost
+compared to the Redis internal 52-bit representation. The returned Geohashes
 have the following properties:
 
-1. They can be shortened removing characters from the right. It will lose precision but will still point to the same area.
-2. It is possible to use them in `geohash.org` URLs such as `http://geohash.org/<geohash-string>`. This is an [example of such URL](http://geohash.org/sqdtr74hyu0).
-3. Strings with a similar prefix are nearby, but the contrary is not true, it is possible that strings with different prefixes are nearby too.
+1. They can be shortened by removing characters from the right. They will lose precision but will still point to the same area.
+2. Strings with a similar prefix are nearby, but the contrary is not true, it is possible that strings with different prefixes are nearby too.
 
 ## Examples
 
@@ -78,9 +91,9 @@ GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
 GEOHASH Sicily Palermo Catania
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

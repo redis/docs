@@ -34,17 +34,24 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Increases the count of one or more items by increment
 syntax_fmt: CMS.INCRBY key item increment [item increment ...]
-syntax_str: item increment [item increment ...]
 title: CMS.INCRBY
 ---
 
 Increases the count of item by increment. Multiple items can be increased with one call. 
 
-### Parameters:
+## Required arguments
 
-* **key**: The name of the sketch.
-* **item**: The item which counter is to be increased.
-* **increment**: Amount by which the item counter is to be increased.
+<details open><summary><code>key</code></summary>
+
+The name of the sketch.
+
+</details>
+
+<details open><summary><code>item increment [item increment ...]</code></summary>
+
+One or more item-increment pairs. Each `item`'s counter is increased by its corresponding `increment`.
+
+</details>
 
 ## Examples
 
@@ -54,12 +61,11 @@ redis> CMS.INCRBY test foo 10 bar 42
 2) (integer) 42
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

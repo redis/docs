@@ -55,16 +55,48 @@ since: 2.0.0
 summary: Removes and returns the first element in a list. Blocks until an element
   is available otherwise. Deletes the list if the last element was popped.
 syntax_fmt: BLPOP key [key ...] timeout
-syntax_str: timeout
 title: BLPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BLPOP` is a blocking list pop primitive.
 It is the blocking version of [`LPOP`]({{< relref "/commands/lpop" >}}) because it blocks the connection when there
 are no elements to pop from any of the given lists.
 An element is popped from the head of the first list that is non-empty, with the
 given keys being checked in the order that they are given.
 
-## Non-blocking behavior
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys of lists to operate on.
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
+## Examples
+
+```
+redis> DEL list1 list2
+(integer) 0
+redis> RPUSH list1 a b c
+(integer) 3
+redis> BLPOP list1 list2 0
+1) "list1"
+2) "a"
+```
+
+## Details
+
+### Non-blocking behavior
 
 When `BLPOP` is called, if at least one of the specified keys contains a
 non-empty list, an element is popped from the head of the list and returned to
@@ -83,7 +115,7 @@ BLPOP list1 list2 list3 0
 it is the first non empty list when checking `list1`, `list2` and `list3` in
 that order).
 
-## Blocking behavior
+### Blocking behavior
 
 If none of the specified keys exist, `BLPOP` blocks the connection until another
 client performs an [`LPUSH`]({{< relref "/commands/lpush" >}}) or [`RPUSH`]({{< relref "/commands/rpush" >}}) operation against one of the keys.
@@ -98,7 +130,7 @@ specified keys.
 
 **The timeout argument is interpreted as a double value specifying the maximum number of seconds to block**. A timeout of zero can be used to block indefinitely.
 
-## What key is served first? What client? What element? Priority ordering details.
+### What key is served first? What client? What element? Priority ordering details.
 
 * If the client tries to block for multiple keys, but at least one key contains elements, the returned key/element pair is the first key from left to right that has one or more elements. In this case, the client is not blocked. For example, `BLPOP key1 key2 key3 key4 0`, assuming that both `key2` and `key4` are non-empty, will always return an element from `key2`.
 
@@ -140,7 +172,7 @@ To make Redis pop from `key2` instead, reverse the order of the keys in the bloc
 BLPOP key2 key1 0
 ```
 
-## Behavior of `BLPOP` when multiple elements are pushed inside a list.
+### Behavior of `BLPOP` when multiple elements are pushed inside a list.
 
 There are times when a list can receive multiple elements in the context of the same conceptual command:
 
@@ -163,7 +195,7 @@ The behavior of Redis 2.4 creates a lot of problems when replicating or persisti
 
 Note that for the same reason a Lua script or a `MULTI/EXEC` block may push elements into a list and afterward **delete the list**. In this case the blocked clients will not be served at all and will continue to be blocked as long as no data is present on the list after the execution of a single command, transaction, or script.
 
-## `BLPOP` inside a `MULTI` / `EXEC` transaction
+### `BLPOP` inside a `MULTI` / `EXEC` transaction
 
 `BLPOP` can be used with pipelining (sending multiple commands and
 reading the replies in batch), however this setup makes sense almost solely
@@ -178,25 +210,13 @@ thing that happens when the timeout is reached.
 If you like science fiction, think of time flowing at infinite speed inside a
 [`MULTI`]({{< relref "/commands/multi" >}}) / [`EXEC`]({{< relref "/commands/exec" >}}) block...
 
-## Examples
-
-```
-redis> DEL list1 list2
-(integer) 0
-redis> RPUSH list1 a b c
-(integer) 3
-redis> BLPOP list1 list2 0
-1) "list1"
-2) "a"
-```
-
-## Reliable queues
+### Reliable queues
 
 When `BLPOP` returns an element to the client, it also removes the element from the list. This means that the element only exists in the context of the client: if the client crashes while processing the returned element, it is lost forever.
 
 This can be a problem with some application where we want a more reliable messaging system. When this is the case, please check the [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}) command, that is a variant of `BLPOP` that adds the returned element to a target list before returning it to the client.
 
-## Pattern: Event notification
+### Pattern: event notification
 
 Using blocking list operations it is possible to mount different blocking
 primitives.
@@ -226,9 +246,9 @@ LPUSH helper_key x
 EXEC
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

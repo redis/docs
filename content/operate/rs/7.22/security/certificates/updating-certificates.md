@@ -15,6 +15,10 @@ url: '/operate/rs/7.22/security/certificates/updating-certificates/'
 When you update the certificates, the new certificate replaces the same certificates on all nodes in the cluster.
 {{</warning>}}
 
+## Prerequisites
+
+You need to create new certificates before you can update them in the cluster. To create replacement certificates, see [Renew self-signed certificates]({{<relref "/operate/rs/7.22/security/certificates/create-certificates#renew-self-signed-certificates">}}) or [Create CA-signed certificates]({{<relref "/operate/rs/7.22/security/certificates/create-certificates#create-ca-signed-certificates">}}) for detailed instructions.
+
 ## How to update certificates
 
 You can use the [`rladmin`]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin" >}}) command-line interface (CLI) or the [REST API]({{< relref "/operate/rs/7.22/references/rest-api" >}}) to update certificates. The Cluster Manager UI lets you update proxy, syncer, and internode encryption certificates on the **Cluster > Security > Certificates** screen.

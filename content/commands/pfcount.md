@@ -50,21 +50,32 @@ since: 2.8.9
 summary: Returns the approximated cardinality of the set(s) observed by the HyperLogLog
   key(s).
 syntax_fmt: PFCOUNT key [key ...]
-syntax_str: ''
 title: PFCOUNT
 ---
-When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
 
-When called with multiple keys, returns the approximated cardinality of the union of the HyperLogLogs passed, by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.
+When called with a single key, `PFCOUNT` returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified `key`, which is 0 if the `key` does not exist.
 
-The HyperLogLog data structure can be used in order to count **unique** elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).
+When called with multiple keys, `PFCOUNT` returns the approximated cardinality of the union of the HyperLogLogs passed by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.
+
+The HyperLogLog data structure can be used in order to count unique elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).
 
 The returned cardinality of the observed set is not exact, but approximated with a standard error of 0.81%.
 
-For example in order to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]({{< relref "/commands/pfadd" >}}) every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.
+For example, to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]({{< relref "/commands/pfadd" >}}) every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.
 
 Note: as a side effect of calling this function, it is possible that the HyperLogLog is modified, since the last 8 bytes encode the latest computed cardinality
 for caching purposes. So `PFCOUNT` is technically a write command.
+
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more HyperLogLog keys. With multiple keys, the command returns the approximated cardinality of their union.
+
+</details>
 
 ## Examples
 
@@ -77,9 +88,9 @@ PFADD some-other-hll 1 2 3
 PFCOUNT hll some-other-hll
 {{% /redis-cli %}}
 
+## Details
 
-Performances
----
+### Performances
 
 When `PFCOUNT` is called with a single key, performances are excellent even if
 in theory constant times to process a dense HyperLogLog are high. This is
@@ -95,8 +106,9 @@ the order of magnitude of the millisecond, and should be not abused.
 The user should take in mind that single-key and multiple-keys executions of
 this command are semantically different and have different performances.
 
-HyperLogLog representation
----
+### HyperLogLog representation
+
+
 
 Redis HyperLogLogs are represented using a double representation: the *sparse* representation suitable for HLLs counting a small number of elements (resulting in a small number of registers set to non-zero value), and a *dense* representation suitable for higher cardinalities. Redis automatically switches from the sparse to the dense representation when needed.
 
@@ -110,9 +122,9 @@ The representation is neutral from the point of view of the processor word size 
 
 More details about the Redis HyperLogLog implementation can be found in [this blog post](http://antirez.com/news/75). The source code of the implementation in the `hyperloglog.c` file is also easy to read and understand, and includes a full specification for the exact encoding used for the sparse and dense representations.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

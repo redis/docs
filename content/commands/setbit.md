@@ -53,7 +53,6 @@ since: 2.2.0
 summary: Sets or clears the bit at offset of the string value. Creates the key if
   it doesn't exist.
 syntax_fmt: SETBIT key offset value
-syntax_str: offset value
 title: SETBIT
 ---
 Sets or clears the bit at _offset_ in the string value stored at _key_.
@@ -67,16 +66,35 @@ The _offset_ argument is required to be greater than or equal to 0, and smaller
 than 2^32 (this limits bitmaps to 512MB).
 When the string at _key_ is grown, added bits are set to 0.
 
-**Warning**: When setting the last possible bit (_offset_ equal to 2^32 -1) and
+{{< warning >}}
+When setting the last possible bit (_offset_ equal to 2^32 -1) and
 the string value stored at _key_ does not yet hold a string value, or holds a
 small string value, Redis needs to allocate all intermediate memory which can
 block the server for some time.
-On a 2010 MacBook Pro, setting bit number 2^32 -1 (512MB allocation) takes
-~300ms, setting bit number 2^30 -1 (128MB allocation) takes ~80ms, setting bit
-number 2^28 -1 (32MB allocation) takes ~30ms and setting bit number 2^26 -1 (8MB
-allocation) takes ~8ms.
+
 Note that once this first allocation is done, subsequent calls to `SETBIT` for
 the same _key_ will not have the allocation overhead.
+{{< /warning >}}
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the string.
+
+</details>
+
+<details open><summary><code>offset</code></summary>
+
+The zero-based bit offset to set. The string is zero-padded if the offset is beyond its current length.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The bit value to set: `0` or `1`.
+
+</details>
 
 ## Examples
 
@@ -86,8 +104,9 @@ SETBIT mykey 7 0
 GET mykey
 {{% /redis-cli %}}
 
+## Details
 
-## Pattern: accessing the entire bitmap
+### Pattern: accessing the entire bitmap
 
 There are cases when you need to set all the bits of single bitmap at once, for
 example when initializing it to a default non-zero value. It is possible to do
@@ -127,7 +146,7 @@ with the resultant string.
 
 [ti]: /develop/data-types-intro#bitmaps
 
-## Pattern: setting multiple bits
+### Pattern: setting multiple bits
 
 `SETBIT` excels at setting single bits, and can be called several times when
 multiple bits need to be set. To optimize this operation you can replace
@@ -140,7 +159,7 @@ For example, the example above could be replaced by:
 > BITFIELD bitsinabitmap SET u1 2 1 SET u1 3 1 SET u1 5 1 SET u1 10 1 SET u1 11 1 SET u1 14 1
 ```
 
-## Advanced Pattern: accessing bitmap ranges
+### Advanced pattern: accessing bitmap ranges
 
 It is also possible to use the [`GETRANGE`]({{< relref "/commands/getrange" >}}) and [`SETRANGE`]({{< relref "/commands/setrange" >}}) string commands to
 efficiently access a range of bit offsets in a bitmap. Below is a sample
@@ -215,9 +234,9 @@ end
 **Note:** the implementation for getting a range of bit offsets from a bitmap is
 left as an exercise to the reader.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

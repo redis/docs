@@ -1,4 +1,5 @@
 ---
+bannerText: This page is generated automatically from the Redis source code. To report an issue, please [open one on the redis/redis repo](https://github.com/redis/redis/issues/new?title=Feedback%20on%20Modules%20API%20reference).
 categories:
 - docs
 - develop
@@ -10,6 +11,7 @@ categories:
 - kubernetes
 - clients
 description: Reference for the Redis Modules API
+hideEditLinks: true
 linkTitle: API reference
 title: Modules API reference
 weight: 1
@@ -2208,6 +2210,8 @@ Available flags and their meaning:
 
  * `REDISMODULE_CTX_FLAGS_DEBUG_ENABLED`: Debug commands are enabled for this
                                         context.
+ * `REDISMODULE_CTX_FLAGS_TRIM_IN_PROGRESS`: Trim is in progress due to slot
+                                           migration.
 
 <span id="RedisModule_AvoidReplicaTraffic"></span>
 
@@ -2445,6 +2449,218 @@ the absolute Unix timestamp the key should have.
 
 The function returns `REDISMODULE_OK` on success or `REDISMODULE_ERR` if
 the key was not open for writing or is an empty key.
+
+<span id="RedisModule_CreateKeyMetaClass"></span>
+
+### `RedisModule_CreateKeyMetaClass`
+
+    RedisModuleKeyMetaClassId RedisModule_CreateKeyMetaClass(RedisModuleCtx *ctx,;
+
+**Available since:** 8.6.0
+
+Register a new key metadata class exported by the module.
+
+Key metadata allows modules to attach up to 8 bytes of metadata to any Redis key,
+regardless of the key's type. This metadata persists across key operations like
+COPY, RENAME, MOVE, and can be saved/loaded from RDB files.
+
+The parameters are the following:
+
+* **metaname**: A 9 characters metadata class name that MUST be unique in the Redis
+  Modules ecosystem. Use the charset A-Z a-z 0-9, plus the two "-_" characters.
+  A good idea is to use, for example `<metaname>-<vendor>`. For example
+  "idx-RediSearch" may mean "Index metadata by RediSearch module". To use both
+  lower case and upper case letters helps in order to prevent collisions.
+
+* **metaver**: Encoding version, which is the version of the serialization
+  that a module used in order to persist metadata. As long as the "metaname"
+  matches, the RDB loading will be dispatched to the metadata class callbacks
+  whatever 'metaver' is used, however the module can understand if
+  the encoding it must load is of an older version of the module.
+  For example the module "idx-RediSearch" initially used metaver=0. Later
+  after an upgrade, it started to serialize metadata in a different format
+  and to register the class with metaver=1. However this module may
+  still load old data produced by an older version if the `rdb_load`
+  callback is able to check the metaver value and act accordingly.
+  The metaver must be a positive value between 0 and 1023.
+
+* **confPtr** is a pointer to a `RedisModuleKeyMetaClassConfig` structure
+  that should be populated with the configuration and callbacks, like in
+  the following example:
+
+        RedisModuleKeyMetaClassConfig config = {
+            .version = REDISMODULE_KEY_META_VERSION,
+            .flags = 1 << REDISMODULE_META_ALLOW_IGNORE,
+            .reset_value = 0,
+            .copy = myMeta_CopyCallback,
+            .rename = myMeta_RenameCallback,
+            .move = myMeta_MoveCallback,
+            .unlink = myMeta_UnlinkCallback,
+            .free = myMeta_FreeCallback,
+            .rdb_load = myMeta_RDBLoadCallback,
+            .rdb_save = myMeta_RDBSaveCallback,
+            .aof_rewrite = myMeta_AOFRewriteCallback,
+            .defrag = myMeta_DefragCallback,
+            .mem_usage = myMeta_MemUsageCallback,
+            .free_effort = myMeta_FreeEffortCallback
+        }
+
+  Redis does NOT take ownership of the config structure itself. The `confPtr` 
+  parameter only needs to remain valid during the [`RedisModule_CreateKeyMetaClass()`](#RedisModule_CreateKeyMetaClass) call 
+  and can be freed immediately after.
+
+* **version**: Module must set it to `REDISMODULE_KEY_META_VERSION`. This field is
+  bumped when new fields are added; Redis keeps backward compatibility in
+  [`RedisModule_CreateKeyMetaClass()`](#RedisModule_CreateKeyMetaClass).
+
+* **flags**: Currently supports `REDISMODULE_META_ALLOW_IGNORE` (value 0).
+  When set, metadata will be silently ignored during RDB load if the module
+  is not available or if `rdb_load` callback is NULL. Otherwise, RDB loading
+  will fail if metadata is encountered but cannot be loaded.
+
+* **reset_value**: The value to which metadata should be reset when it is being
+  "removed" from a key. Typically 0, but can be any 8-byte value. This is
+  especially relevant when metadata is a pointer/handler to external resources.
+
+  IMPORTANT GUARANTEE: Redis only invokes callbacks when meta != `reset_value`.
+
+* **copy**: A callback function pointer for COPY command (optional).
+  - Return 1 to attach `meta` to the new key, or 0 to skip attaching metadata.
+  - If NULL, metadata is ignored during copy.
+  - The `meta` value may be modified in-place to produce a different value
+    for the new key.
+
+* **rename**: A callback function pointer for RENAME command (optional).
+  - If NULL, then metadata is kept during rename.
+  - The `meta` value may be modified in-place to produce a different value
+    for the new key.
+
+* **move**: A callback function pointer for MOVE command (optional).
+  - Return 1 to keep metadata, 0 to drop.
+  - If NULL, then metadata is kept during move.
+  - The `meta` value may be modified in-place to produce a different value
+    for the new key.
+
+* **unlink**: A callback function pointer for unlink operations (optional).
+  - If not provided, then metadata is ignored during unlink.
+  - Indication that key may soon be freed by background thread.
+  - Pointer to meta is provided for modification. If the metadata holds a pointer
+    or handle to resources and you free them here, you should set `*meta=reset_value`
+    to prevent the free callback from being invoked (Redis skips callbacks when
+    meta == reset_value, see reset_value documentation above).
+
+* **free**: A callback function pointer for cleanup (optional).
+  Invoked when a key with this metadata is deleted/overwritten/expired,
+  or when Redis needs to release per-key metadata during lifecycle operations.
+  The module should free any external allocation referenced by `meta`
+  if it uses the 8 bytes as a handle/pointer.
+  This callback may run in a background thread and is not protected by GIL.
+  It also might be called during RDB loading if the load fails after some
+  metadata has been successfully loaded. In this case, keyname will be NULL
+  since the key hasn't been created yet.
+
+* **rdb_load**: A callback function pointer for RDB loading (optional).
+  - Called during RDB loading when metadata for this class is encountered.
+  - Behavior when NULL:
+    > If rdb_load is NULL AND REDISMODULE_META_ALLOW_IGNORE flag is set,
+      the metadata will be silently ignored during RDB load.
+    > If rdb_load is NULL AND the flag is NOT set, RDB loading will fail
+      if metadata for this class is encountered.
+  - Behavior when class is not registered:
+    > If the class was saved with REDISMODULE_META_ALLOW_IGNORE flag but
+      is not registered at load time, the metadata will be silently ignored.
+    > Otherwise, RDB loading will fail.
+  - Callback responsibilities:
+    > Read custom serialized data from `rdb` using RedisModule_Load*() APIs
+    > Deserialize and reconstruct the 8-byte metadata value
+    > Write the final 8-byte value into `*meta`
+    > Return appropriate status code (see below)
+    > Database ID can be derived from `rdb` if needed. The associated key
+      will be loaded immediately after this callback returns.
+  - Parameters:
+    > rdb: RDB I/O context (use RedisModule_Load*() functions to read data)
+    > meta: Pointer to 8-byte metadata slot (write your deserialized value here)
+    > encver: Encoding version (the metadata class version at save time)
+  - Return values:
+    > 1: Attach value `*meta` to the key (success)
+    > 0: Ignore/skip metadata (don't attach, but continue loading - not an error)
+    > -1: Error - abort RDB load (e.g., invalid data, version incompatibility)
+           Module MUST clean up any allocated metadata before returning -1.
+
+* **rdb_save**: A callback function pointer for RDB saving (optional).
+  - If set to NULL, Redis will not save metadata to RDB.
+  - Callback should write data using RDB assisting functions: `RedisModule_Save*()`.
+
+* **aof_rewrite**: A callback function pointer for AOF rewrite (optional).
+  Called during AOF rewrite to emit commands that reconstruct the metadata.
+  IMPORTANT: For AOF/RDB persistence to work correctly, metadata classes must be
+  registered in `RedisModule_OnLoad()` so they are available when loading persisted
+  data on server startup.
+
+* **defrag**: A callback function pointer for active defragmentation (optional).
+  If the metadata contains pointers, this callback should defragment them.
+
+* **mem_usage**: A callback function pointer for MEMORY USAGE command (optional).
+  Should return the memory used by the metadata in bytes.
+
+* **free_effort**: A callback function pointer for lazy free (optional).
+  Should return the complexity of freeing the metadata to determine if
+  lazy free should be used.
+
+Note: the metadata class name "AAAAAAAAA" is reserved and produces an error.
+
+If [`RedisModule_CreateKeyMetaClass()`](#RedisModule_CreateKeyMetaClass) is called outside of `RedisModule_OnLoad()` function
+and outside of server startup, there is already a metadata class registered
+with the same name, or if the metadata class name or metaver is invalid,
+a negative value is returned.
+Otherwise the new metadata class is registered into Redis, and a reference of
+type `RedisModuleKeyMetaClassId` is returned: the caller of the function should store
+this reference into a global variable to make future use of it in the
+modules metadata API, since a single module may register multiple metadata classes.
+Example code fragment:
+
+     static RedisModuleKeyMetaClassId IndexMetaClass;
+
+     int RedisModule_OnLoad(RedisModuleCtx *ctx) {
+         // some code here ...
+         IndexMetaClass = RedisModule_CreateKeyMetaClass(...);
+     }
+
+<span id="RedisModule_ReleaseKeyMetaClass"></span>
+
+### `RedisModule_ReleaseKeyMetaClass`
+
+    int RedisModule_ReleaseKeyMetaClass(RedisModuleKeyMetaClassId id);
+
+**Available since:** 8.6.0
+
+Release a class by its ID. Returns 1 on success, 0 on failure.
+
+<span id="RedisModule_SetKeyMeta"></span>
+
+### `RedisModule_SetKeyMeta`
+
+    int RedisModule_SetKeyMeta(RedisModuleKeyMetaClassId id,
+                               RedisModuleKey *key,
+                               uint64_t metadata);
+
+**Available since:** 8.6.0
+
+Set metadata of class id on an opened key. If metadata is already attached,
+it will be overwritten. The caller is responsible for retrieving and freeing
+any existing pointer-based metadata before setting a new value.
+
+<span id="RedisModule_GetKeyMeta"></span>
+
+### `RedisModule_GetKeyMeta`
+
+    int RedisModule_GetKeyMeta(RedisModuleKeyMetaClassId id,
+                               RedisModuleKey *key,
+                               uint64_t *metadata);
+
+**Available since:** 8.6.0
+
+Get metadata of class id from an opened key.
 
 <span id="RedisModule_ResetDataset"></span>
 
@@ -3727,6 +3943,18 @@ integer. Otherwise (wrong reply type) return NULL.
 
 Modifies the user that [`RedisModule_Call`](#RedisModule_Call) will use (e.g. for ACL checks)
 
+<span id="RedisModule_GetContextUser"></span>
+
+### `RedisModule_GetContextUser`
+
+    const RedisModuleUser *RedisModule_GetContextUser(RedisModuleCtx *ctx);
+
+**Available since:** unreleased
+
+Returns the user associated with the context via [`RedisModule_SetContextUser`](#RedisModule_SetContextUser).
+Returns NULL if no user was set on the context.
+The returned pointer is borrowed from the context — do NOT free it.
+
 <span id="RedisModule_Call"></span>
 
 ### `RedisModule_Call`
@@ -4741,9 +4969,9 @@ the command, so the private data is often not needed.
 Note: Under normal circumstances [`RedisModule_UnblockClient`](#RedisModule_UnblockClient) should not be
       called for clients that are blocked on keys (Either the key will
       become ready or a timeout will occur). If for some reason you do want
-      to call RedisModule_UnblockClient it is possible: Client will be
-      handled as if it were timed-out (You must implement the timeout
-      callback in that case).
+      to call RedisModule_UnblockClient it is possible, but it must NOT be
+      called from module threads and the client will be handled as if it
+      timed out (You must implement the timeout callback in that case).
 
 <span id="RedisModule_BlockClientOnKeysWithFlags"></span>
 
@@ -4794,7 +5022,8 @@ A common usage for 'privdata' is a thread that computes something that
 needs to be passed to the client, included but not limited some slow
 to compute reply or some reply obtained via networking.
 
-Note 1: this function can be called from threads spawned by the module.
+Note 1: this function can be called from threads spawned by the module when
+the client was blocked using [`RedisModule_BlockClient()`](#RedisModule_BlockClient).
 
 Note 2: when we unblock a client that is blocked for keys using the API
 [`RedisModule_BlockClientOnKeys()`](#RedisModule_BlockClientOnKeys), the privdata argument here is not used.
@@ -5050,10 +5279,11 @@ is interested in. This can be an ORed mask of any of the following flags:
  - `REDISMODULE_NOTIFY_OVERWRITTEN`: Overwritten events
  - `REDISMODULE_NOTIFY_TYPE_CHANGED`: Type-changed events
  - `REDISMODULE_NOTIFY_KEY_TRIMMED`: Key trimmed events after a slot migration operation
+ - `REDISMODULE_NOTIFY_RATE_LIMIT`: Rate limit event
  - `REDISMODULE_NOTIFY_ALL`: All events (Excluding `REDISMODULE_NOTIFY_KEYMISS`,
                            REDISMODULE_NOTIFY_NEW, REDISMODULE_NOTIFY_OVERWRITTEN,
-                           REDISMODULE_NOTIFY_TYPE_CHANGED
-                           and REDISMODULE_NOTIFY_KEY_TRIMMED)
+                           REDISMODULE_NOTIFY_TYPE_CHANGED, REDISMODULE_NOTIFY_KEY_TRIMMED
+                           and REDISMODULE_NOTIFY_RATE_LIMIT)
  - `REDISMODULE_NOTIFY_LOADED`: A special notification available only for modules,
                               indicates that the key was loaded from persistence.
                               Notice, when this event fires, the given key
@@ -5117,6 +5347,77 @@ Returns:
  - `REDISMODULE_OK` on successful removal of the subscription.
  - `REDISMODULE_ERR` if no matching subscription was found or if invalid parameters were provided.
 
+<span id="RedisModule_SubscribeToKeyspaceEventsWithSubkeys"></span>
+
+### `RedisModule_SubscribeToKeyspaceEventsWithSubkeys`
+
+    int RedisModule_SubscribeToKeyspaceEventsWithSubkeys(RedisModuleCtx *ctx,
+                                                         int types,
+                                                         int flags,
+                                                         RedisModuleNotificationWithSubkeysFunc callback);
+
+**Available since:** unreleased
+
+Subscribe to keyspace notifications with subkey information.
+
+This is the extended version of [`RedisModule_SubscribeToKeyspaceEvents`](#RedisModule_SubscribeToKeyspaceEvents). When subkeys
+are available, the `subkeys` array and `count` are passed to the callback.
+`subkeys` contains only the names of affected subkeys (values are not included),
+and `count` is the number of elements. The array may contain duplicates when
+the same subkey appears more than once in a command (e.g. HSET key f1 v1 f1 v2
+produces subkeys=["f1","f1"], count=2). When no subkeys are present, `subkeys`
+will be NULL and `count` will be 0. Whether events without subkeys are delivered
+depends on the `flags` parameter (see below).
+
+`types` is a bit mask of event types the module is interested in
+(using the same `REDISMODULE_NOTIFY_`* flags as [`RedisModule_SubscribeToKeyspaceEvents`](#RedisModule_SubscribeToKeyspaceEvents)).
+
+`flags` controls delivery filtering:
+ - `REDISMODULE_NOTIFY_FLAG_NONE`: The callback is invoked for all matching
+   events regardless of whether subkeys are present, so a separate
+   [`RedisModule_SubscribeToKeyspaceEvents`](#RedisModule_SubscribeToKeyspaceEvents) registration can be omitted.
+ - `REDISMODULE_NOTIFY_FLAG_SUBKEYS_REQUIRED`: The callback is only invoked
+   when subkeys are not empty. Events without subkey information (e.g. SET,
+   EXPIRE, DEL) are skipped.
+
+The callback signature is:
+  void callback(`RedisModuleCtx` *ctx, int type, const char *event,
+                RedisModuleString *key, RedisModuleString **subkeys, int count);
+
+The subkeys array and its contents are only valid during the callback.
+The underlying objects may be stack-allocated or temporary, so
+[`RedisModule_RetainString`](#RedisModule_RetainString) must NOT be used on them. To keep a subkey beyond
+the callback (e.g. in a [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob) callback), use
+[`RedisModule_HoldString`](#RedisModule_HoldString) (which handles static objects by copying) or
+[`RedisModule_CreateStringFromString`](#RedisModule_CreateStringFromString) to make a deep copy before returning.
+
+<span id="RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys"></span>
+
+### `RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys`
+
+    int RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys(RedisModuleCtx *ctx,
+                                                             int types,
+                                                             int flags,
+                                                             RedisModuleNotificationWithSubkeysFunc callback);
+
+**Available since:** unreleased
+
+Unregister a module's callback from keyspace notifications with subkeys
+for specific event types.
+
+This function removes a previously registered subscription identified by
+the event mask, delivery flags, and the callback function.
+
+Parameters:
+ - ctx: The `RedisModuleCtx` associated with the calling module.
+ - types: The event mask representing the notification types to unsubscribe from.
+ - flags: The delivery flags that were used during registration.
+ - callback: The callback function pointer that was originally registered.
+
+Returns:
+ - `REDISMODULE_OK` on successful removal of the subscription.
+ - `REDISMODULE_ERR` if no matching subscription was found.
+
 <span id="RedisModule_AddPostNotificationJob"></span>
 
 ### `RedisModule_AddPostNotificationJob`
@@ -5169,6 +5470,26 @@ for additional filtering in `RedisModuleNotificationFunc`)
 **Available since:** 6.0.0
 
 Expose notifyKeyspaceEvent to modules
+
+<span id="RedisModule_NotifyKeyspaceEventWithSubkeys"></span>
+
+### `RedisModule_NotifyKeyspaceEventWithSubkeys`
+
+    int RedisModule_NotifyKeyspaceEventWithSubkeys(RedisModuleCtx *ctx,
+                                                   int type,
+                                                   const char *event,
+                                                   ;
+
+**Available since:** unreleased
+
+Like [`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent), but also triggers subkey-level notifications
+when subkeys are provided. Both key-level (keyspace/keyevent) and
+subkey-level (subkeyspace/subkeyevent/subkeyspaceitem/subkeyspaceevent)
+channels are published to, depending on the server configuration.
+
+This is the extended version of [`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent) and can actually
+replace it. When called with subkeys=NULL and count=0, it behaves
+identically to [`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent).
 
 <span id="section-modules-cluster-api"></span>
 
@@ -5334,6 +5655,37 @@ With the following effects:
                   Slots information will still be propagated across the
                   cluster, but without effect.
 
+<span id="RedisModule_ClusterDisableTrim"></span>
+
+### `RedisModule_ClusterDisableTrim`
+
+    int RedisModule_ClusterDisableTrim(RedisModuleCtx *ctx);
+
+**Available since:** 8.4.1
+
+[`RedisModule_ClusterDisableTrim`](#RedisModule_ClusterDisableTrim) allows a module to temporarily prevent slot trimming
+after a slot migration. This is useful when the module has asynchronous
+operations that rely on keys in migrating slots, which would be trimmed.
+
+The module must call [`RedisModule_ClusterEnableTrim`](#RedisModule_ClusterEnableTrim) once it has completed those
+operations to re-enable trimming.
+
+Trimming uses a reference counter: every call to [`RedisModule_ClusterDisableTrim`](#RedisModule_ClusterDisableTrim)
+increments the counter, and every [`RedisModule_ClusterEnableTrim`](#RedisModule_ClusterEnableTrim) call decrements it.
+Trimming remains disabled as long as the counter is greater than zero.
+
+Disable automatic slot trimming.
+
+<span id="RedisModule_ClusterEnableTrim"></span>
+
+### `RedisModule_ClusterEnableTrim`
+
+    int RedisModule_ClusterEnableTrim(RedisModuleCtx *ctx);
+
+**Available since:** 8.4.1
+
+Enable automatic slot trimming. See also comments on [`RedisModule_ClusterDisableTrim`](#RedisModule_ClusterDisableTrim).
+
 <span id="RedisModule_ClusterKeySlot"></span>
 
 ### `RedisModule_ClusterKeySlot`
@@ -5351,7 +5703,7 @@ This function works even if cluster mode is not enabled.
 
     unsigned int RedisModule_ClusterKeySlotC(const char *keystr, size_t keylen);
 
-**Available since:** unreleased
+**Available since:** 8.4.0
 
 Like [`RedisModule_ClusterKeySlot`](#RedisModule_ClusterKeySlot), but gets a char pointer and a length.
 Returns the cluster slot of a key, similar to the `CLUSTER KEYSLOT` command.
@@ -5375,7 +5727,7 @@ a valid slot.
 
     int RedisModule_ClusterCanAccessKeysInSlot(int slot);
 
-**Available since:** unreleased
+**Available since:** 8.4.0
 
 Returns 1 if keys in the specified slot can be accessed by this node, 0 otherwise.
 
@@ -5397,7 +5749,7 @@ Returns 0 for:
                                                      const char *fmt,
                                                      ...);
 
-**Available since:** unreleased
+**Available since:** 8.4.0
 
 Propagate commands along with slot migration.
 
@@ -5427,7 +5779,7 @@ On success `REDISMODULE_OK` is returned, otherwise
 
     RedisModuleSlotRangeArray *RedisModule_ClusterGetLocalSlotRanges(RedisModuleCtx *ctx);
 
-**Available since:** unreleased
+**Available since:** 8.4.0
 
 Returns the locally owned slot ranges for the node.
 
@@ -5444,7 +5796,7 @@ The returned array must be freed with [`RedisModule_ClusterFreeSlotRanges()`](#R
     void RedisModule_ClusterFreeSlotRanges(RedisModuleCtx *ctx,
                                            RedisModuleSlotRangeArray *slots);
 
-**Available since:** unreleased
+**Available since:** 8.4.0
 
 Frees a slot range array returned by [`RedisModule_ClusterGetLocalSlotRanges()`](#RedisModule_ClusterGetLocalSlotRanges).
 Pass the `ctx` pointer only if the array was created with a context.
@@ -5743,6 +6095,7 @@ On success a `REDISMODULE_OK` is returned, otherwise
 `REDISMODULE_ERR` is returned and errno is set to the following values:
 
 * ENOENT: Specified command does not exist.
+* EINVAL: Invalid number of arguments for the specified command.
 * EACCES: Command cannot be executed, according to ACL rules
 
 <span id="RedisModule_ACLCheckKeyPermissions"></span>
@@ -7991,7 +8344,8 @@ See [`RedisModule_ConfigSet`](#RedisModule_ConfigSet) for return value.
 Set the value of a numeric config.
 If the value passed is meant to be a percentage, it should be passed as a
 negative value.
-For unsigned configs, pass the value and cast to (long long) - internal type checks will handle it.
+For unsigned configs pass the value and cast to (long long) - internal type
+checks will handle it.
 
 See [`RedisModule_ConfigSet`](#RedisModule_ConfigSet) for return value.
 
@@ -8502,6 +8856,8 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_CloseKey`](#RedisModule_CloseKey)
 * [`RedisModule_ClusterCanAccessKeysInSlot`](#RedisModule_ClusterCanAccessKeysInSlot)
 * [`RedisModule_ClusterCanonicalKeyNameInSlot`](#RedisModule_ClusterCanonicalKeyNameInSlot)
+* [`RedisModule_ClusterDisableTrim`](#RedisModule_ClusterDisableTrim)
+* [`RedisModule_ClusterEnableTrim`](#RedisModule_ClusterEnableTrim)
 * [`RedisModule_ClusterFreeSlotRanges`](#RedisModule_ClusterFreeSlotRanges)
 * [`RedisModule_ClusterGetLocalSlotRanges`](#RedisModule_ClusterGetLocalSlotRanges)
 * [`RedisModule_ClusterKeySlot`](#RedisModule_ClusterKeySlot)
@@ -8528,6 +8884,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_CreateCommand`](#RedisModule_CreateCommand)
 * [`RedisModule_CreateDataType`](#RedisModule_CreateDataType)
 * [`RedisModule_CreateDict`](#RedisModule_CreateDict)
+* [`RedisModule_CreateKeyMetaClass`](#RedisModule_CreateKeyMetaClass)
 * [`RedisModule_CreateModuleUser`](#RedisModule_CreateModuleUser)
 * [`RedisModule_CreateString`](#RedisModule_CreateString)
 * [`RedisModule_CreateStringFromCallReply`](#RedisModule_CreateStringFromCallReply)
@@ -8606,6 +8963,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_GetCommandKeysWithFlags`](#RedisModule_GetCommandKeysWithFlags)
 * [`RedisModule_GetContextFlags`](#RedisModule_GetContextFlags)
 * [`RedisModule_GetContextFlagsAll`](#RedisModule_GetContextFlagsAll)
+* [`RedisModule_GetContextUser`](#RedisModule_GetContextUser)
 * [`RedisModule_GetCurrentCommandName`](#RedisModule_GetCurrentCommandName)
 * [`RedisModule_GetCurrentUserName`](#RedisModule_GetCurrentUserName)
 * [`RedisModule_GetDbIdFromDefragCtx`](#RedisModule_GetDbIdFromDefragCtx)
@@ -8616,6 +8974,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_GetDetachedThreadSafeContext`](#RedisModule_GetDetachedThreadSafeContext)
 * [`RedisModule_GetExpire`](#RedisModule_GetExpire)
 * [`RedisModule_GetInternalSecret`](#RedisModule_GetInternalSecret)
+* [`RedisModule_GetKeyMeta`](#RedisModule_GetKeyMeta)
 * [`RedisModule_GetKeyNameFromDefragCtx`](#RedisModule_GetKeyNameFromDefragCtx)
 * [`RedisModule_GetKeyNameFromDigest`](#RedisModule_GetKeyNameFromDigest)
 * [`RedisModule_GetKeyNameFromIO`](#RedisModule_GetKeyNameFromIO)
@@ -8698,6 +9057,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_ModuleTypeSetValue`](#RedisModule_ModuleTypeSetValue)
 * [`RedisModule_MonotonicMicroseconds`](#RedisModule_MonotonicMicroseconds)
 * [`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent)
+* [`RedisModule_NotifyKeyspaceEventWithSubkeys`](#RedisModule_NotifyKeyspaceEventWithSubkeys)
 * [`RedisModule_OpenKey`](#RedisModule_OpenKey)
 * [`RedisModule_PoolAlloc`](#RedisModule_PoolAlloc)
 * [`RedisModule_PublishMessage`](#RedisModule_PublishMessage)
@@ -8720,6 +9080,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_RegisterInfoFunc`](#RedisModule_RegisterInfoFunc)
 * [`RedisModule_RegisterNumericConfig`](#RedisModule_RegisterNumericConfig)
 * [`RedisModule_RegisterStringConfig`](#RedisModule_RegisterStringConfig)
+* [`RedisModule_ReleaseKeyMetaClass`](#RedisModule_ReleaseKeyMetaClass)
 * [`RedisModule_Replicate`](#RedisModule_Replicate)
 * [`RedisModule_ReplicateVerbatim`](#RedisModule_ReplicateVerbatim)
 * [`RedisModule_ReplySetArrayLength`](#RedisModule_ReplySetArrayLength)
@@ -8779,6 +9140,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_SetContextUser`](#RedisModule_SetContextUser)
 * [`RedisModule_SetDisconnectCallback`](#RedisModule_SetDisconnectCallback)
 * [`RedisModule_SetExpire`](#RedisModule_SetExpire)
+* [`RedisModule_SetKeyMeta`](#RedisModule_SetKeyMeta)
 * [`RedisModule_SetLFU`](#RedisModule_SetLFU)
 * [`RedisModule_SetLRU`](#RedisModule_SetLRU)
 * [`RedisModule_SetModuleOptions`](#RedisModule_SetModuleOptions)
@@ -8809,6 +9171,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_StringToULongLong`](#RedisModule_StringToULongLong)
 * [`RedisModule_StringTruncate`](#RedisModule_StringTruncate)
 * [`RedisModule_SubscribeToKeyspaceEvents`](#RedisModule_SubscribeToKeyspaceEvents)
+* [`RedisModule_SubscribeToKeyspaceEventsWithSubkeys`](#RedisModule_SubscribeToKeyspaceEventsWithSubkeys)
 * [`RedisModule_SubscribeToServerEvent`](#RedisModule_SubscribeToServerEvent)
 * [`RedisModule_ThreadSafeContextLock`](#RedisModule_ThreadSafeContextLock)
 * [`RedisModule_ThreadSafeContextTryLock`](#RedisModule_ThreadSafeContextTryLock)
@@ -8821,6 +9184,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_UnlinkKey`](#RedisModule_UnlinkKey)
 * [`RedisModule_UnregisterCommandFilter`](#RedisModule_UnregisterCommandFilter)
 * [`RedisModule_UnsubscribeFromKeyspaceEvents`](#RedisModule_UnsubscribeFromKeyspaceEvents)
+* [`RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys`](#RedisModule_UnsubscribeFromKeyspaceEventsWithSubkeys)
 * [`RedisModule_ValueLength`](#RedisModule_ValueLength)
 * [`RedisModule_WrongArity`](#RedisModule_WrongArity)
 * [`RedisModule_Yield`](#RedisModule_Yield)

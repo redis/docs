@@ -32,13 +32,26 @@ since: 1.0.0
 stack_path: docs/data-types/json
 summary: Deletes a value
 syntax_fmt: JSON.FORGET key [path]
-syntax_str: '[path]'
 title: JSON.FORGET
 ---
 See [`JSON.DEL`]({{< relref "commands/json.del/" >}}).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="json-forget-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+
+-tab-sep-
+
+[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of paths deleted (0 or more).
+
+{{< /multitabs >}}

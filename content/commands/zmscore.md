@@ -48,12 +48,25 @@ railroad_diagram: /images/railroad/zmscore.svg
 since: 6.2.0
 summary: Returns the score of one or more members in a sorted set.
 syntax_fmt: ZMSCORE key member [member ...]
-syntax_str: member [member ...]
 title: ZMSCORE
 ---
 Returns the scores associated with the specified `members` in the sorted set stored at `key`.
 
 For every `member` that does not exist in the sorted set, a `nil` value is returned.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members whose scores to return.
+
+</details>
 
 ## Examples
 
@@ -63,9 +76,9 @@ ZADD myzset 2 "two"
 ZMSCORE myzset "one" "two" "nofield"
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

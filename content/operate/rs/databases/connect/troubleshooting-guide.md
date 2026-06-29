@@ -1,11 +1,11 @@
 ---
-Title: Troubleshooting pocket guide for Redis Enterprise Software
+Title: Troubleshooting pocket guide for Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - rs
-description: Troubleshoot issues with Redis Enterprise Software, including connectivity
+description: Troubleshoot issues with Redis Software, including connectivity
   issues between the database and clients or applications.
 linktitle: Troubleshoot
 toc: 'true'
@@ -27,7 +27,7 @@ If your client or application cannot connect to your database, verify the follow
     /dev/vda1        59G   23G   33G  41% /etc/hosts
     ```
 
-- RAM and CPU utilization should be less than `80%`, and host resources must be available exclusively for Redis Enterprise Software. You should also make sure that swap memory is not being used or is not configured.
+- RAM and CPU utilization should be less than `80%`, and host resources must be available exclusively for Redis Software. You should also make sure that swap memory is not being used or is not configured.
 
     1. Run the [`free`](https://man7.org/linux/man-pages/man1/free.1.html) command to check memory usage:
 

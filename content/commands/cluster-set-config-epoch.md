@@ -31,7 +31,6 @@ railroad_diagram: /images/railroad/cluster-set-config-epoch.svg
 since: 3.0.0
 summary: Sets the configuration epoch for a new node.
 syntax_fmt: CLUSTER SET-CONFIG-EPOCH config-epoch
-syntax_str: ''
 title: CLUSTER SET-CONFIG-EPOCH
 ---
 This command sets a specific *config epoch* in a fresh node. It only works when:
@@ -56,8 +55,30 @@ So, using `CLUSTER SET-CONFIG-EPOCH`, when a new cluster is created, we can
 assign a different progressive configuration epoch to each node before
 joining the cluster together.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>config-epoch</code></summary>
+
+The configuration epoch to set for the current node.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+
+## Return information
+
+{{< multitabs id="cluster-set-config-epoch-return-info"
+    tab1="RESP2"
+    tab2="RESP3" >}}
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+-tab-sep-
+
+[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.
+
+{{< /multitabs >}}

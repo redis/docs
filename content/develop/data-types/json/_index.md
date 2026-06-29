@@ -1,4 +1,7 @@
 ---
+aliases:
+- /data-types/json/
+- /manual/data-types/json/
 categories:
 - docs
 - develop
@@ -13,13 +16,15 @@ description: JSON support for Redis
 linkTitle: JSON
 stack: true
 title: JSON
-weight: 11
+weight: 60
 ---
+
+{{< command-group group="json" title="JSON command summary" show_link=true >}}
 
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
 [![Github](https://img.shields.io/static/v1?label=&message=repository&color=5961FF&logo=github)](https://github.com/RedisJSON/RedisJSON/)
 
-The JSON capability of Redis Open Source provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with the [Redis Query Engine]({{< relref "/develop/ai/search-and-query/" >}}) to let you [index and query JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
+The JSON capability of Redis Open Source provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with [Redis Search]({{< relref "/develop/ai/search-and-query/" >}}) to let you [index and query JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
 
 ## Primary features
 
@@ -32,7 +37,7 @@ The JSON capability of Redis Open Source provides JavaScript Object Notation (JS
 
 The first JSON command to try is [`JSON.SET`]({{< relref "commands/json.set/" >}}), which sets a Redis key with a JSON value. [`JSON.SET`]({{< relref "commands/json.set/" >}}) accepts all JSON value types. This example creates a JSON string:
 
-{{< clients-example json_tutorial set_get >}}
+{{< clients-example set="json_tutorial" step="set_get" description="Foundational: Set and retrieve JSON values using JSON.SET and JSON.GET to store and access JSON documents" >}}
 > JSON.SET bike $ '"Hyperion"'
 OK
 > JSON.GET bike $
@@ -45,7 +50,7 @@ Note how the commands include the dollar sign character `$`. This is the [path](
 
 Here are a few more string operations. [`JSON.STRLEN`]({{< relref "commands/json.strlen/" >}}) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< relref "commands/json.strappend/" >}}).
 
-{{< clients-example json_tutorial str>}}
+{{< clients-example set="json_tutorial" step="str" description="String operations: Manipulate JSON strings using JSON.STRLEN to get length and JSON.STRAPPEND to concatenate values" buildsUpon="set_get" >}}
 > JSON.STRLEN bike $
 1) (integer) 8
 > JSON.STRAPPEND bike $ '" (Enduro bikes)"'
@@ -56,7 +61,7 @@ Here are a few more string operations. [`JSON.STRLEN`]({{< relref "commands/json
 
 Numbers can be [incremented]({{< relref "commands/json.numincrby/" >}}) and [multiplied]({{< relref "commands/json.nummultby/" >}}):
 
-{{< clients-example json_tutorial num >}}
+{{< clients-example set="json_tutorial" step="num" description="Numeric operations: Perform atomic arithmetic on JSON numbers using JSON.NUMINCRBY to increment and JSON.NUMMULTBY to multiply values" buildsUpon="set_get" >}}
 > JSON.SET crashes $ 0
 OK
 > JSON.NUMINCRBY crashes $ 1
@@ -71,7 +76,7 @@ OK
 
 Here's a more interesting example that includes JSON arrays and objects:
 
-{{< clients-example json_tutorial arr >}}
+{{< clients-example set="json_tutorial" step="arr" description="Arrays and objects: Work with complex JSON structures using JSONPath to access nested elements and JSON.DEL to remove values" difficulty="intermediate" buildsUpon="set_get" >}}
 > JSON.SET newbike $ '["Deimos", {"crashes": 0}, null]'
 OK
 > JSON.GET newbike $
@@ -84,11 +89,20 @@ OK
 "[[\"Deimos\",{\"crashes\":0}]]"
 {{< /clients-example >}}
 
+Beginning with Redis 8.8, the JSON data type supports the ability to force a particular type when storing floating point homogeneous arrays (FPHAs)using the `FPHA BF16|FP16|FP32|FP64` option to the [`JSON.SET`]({{< relref "/commands/json.set" >}}) command. Here's an example:
+
+```
+> JSON.SET fp_array $ '[[1,2,3,4e3],[5,6.0,7,8]]' FPHA FP16
+OK
+> JSON.GET fp_array $
+"[[[1.0,2.0,3.0,4000.0],[5.0,6.0,7.0,8.0]]]"
+```
+
 The [`JSON.DEL`]({{< relref "commands/json.del/" >}}) command deletes any JSON value you specify with the `path` parameter.
 
 You can manipulate arrays with a dedicated subset of JSON commands:
 
-{{< clients-example json_tutorial arr2 >}}
+{{< clients-example set="json_tutorial" step="arr2" description="Array manipulation: Use JSON.ARRAPPEND to add elements, JSON.ARRINSERT to insert at positions, JSON.ARRTRIM to keep ranges, and JSON.ARRPOP to remove elements" difficulty="intermediate" buildsUpon="arr" >}}
 > JSON.SET riders $ []
 OK
 > JSON.ARRAPPEND riders $ '"Norem"'
@@ -111,7 +125,7 @@ OK
 
 JSON objects also have their own commands:
 
-{{< clients-example json_tutorial obj >}}
+{{< clients-example set="json_tutorial" step="obj" description="Object operations: Inspect JSON objects using JSON.OBJLEN to count fields and JSON.OBJKEYS to retrieve all keys" difficulty="intermediate" buildsUpon="arr" >}}
 > JSON.SET bike:1 $ '{"model": "Deimos", "brand": "Ergonom", "price": 4972}'
 OK
 > JSON.OBJLEN bike:1 $
@@ -147,7 +161,7 @@ $ redis-cli --raw
 The Redis JSON data type is part of Redis Open Source and it is also available in Redis Software and Redis Cloud.
 See
 [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-[Install Redis Enterprise]({{< relref "/operate/rs/installing-upgrading/install" >}})
+[Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.
 
 ## Limitation

@@ -93,9 +93,6 @@ syntax: "TS.CREATE key \n  [RETENTION retentionPeriod] \n  [ENCODING <COMPRESSED
 syntax_fmt: "TS.CREATE key [RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED |\n\
   \  COMPRESSED>] [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST |\n  LAST |\
   \ MIN | MAX | SUM>] [LABELS\_label value [label value ...]]"
-syntax_str: "[RETENTION\_retentionPeriod] [ENCODING\_<UNCOMPRESSED | COMPRESSED>]\
-  \ [CHUNK_SIZE\_size] [DUPLICATE_POLICY\_<BLOCK | FIRST | LAST | MIN | MAX | SUM>]\
-  \ [LABELS\_label value [label value ...]]"
 title: TS.CREATE
 ---
 
@@ -201,12 +198,11 @@ OK
 {{< / highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

@@ -1,0 +1,401 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "strlen(name: KeyT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "long strlen(final byte[] key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      },
+      {
+        "signature": "long strlen(final String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long strlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "Long integer-reply the length of the string at key, or 0 when key does not exist."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> strlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "Long integer-reply the length of the string at key, or 0 when key does not exist."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> strlen(K key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "Long integer-reply the length of the string at key, or 0 when key does not exist."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "StrLen(ctx context.Context, key string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "STRLEN(key: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "strlen(key: RedisKey, callback?: Callback<number>): Result<number, Context>;, /**, * Listen for messages published to the given channels, * - _group_: pubsub, * - _complexity_: O(N) where N is the number of channels to subscribe to., * - _since_: 2.0.0, */, subscribe(, ...args: [...channels: (string | Buffer)[], callback: Callback<unknown>])",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<number>)",
+            "description": ""
+          },
+          {
+            "name": "...args",
+            "type": "[...channels",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "strlen(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "strlen(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashStringLength(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field containing the string."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the string at field, or 0 when key does not exist."
+        }
+      },
+      {
+        "signature": "StringLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the string at key, or 0 when key does not exist."
+        }
+      },
+      {
+        "signature": "HashStringLength(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field containing the string."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the string at field, or 0 when key does not exist."
+        }
+      },
+      {
+        "signature": "StringLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the string at key, or 0 when key does not exist."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashStringLength(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field containing the string."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the string at field, or 0 when key does not exist."
+        }
+      },
+      {
+        "signature": "StringLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the string at key, or 0 when key does not exist."
+        }
+      },
+      {
+        "signature": "HashStringLength(RedisKey key, RedisValue hashField, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashField",
+            "type": "RedisValue",
+            "description": "The field containing the string."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the string at field, or 0 when key does not exist."
+        }
+      },
+      {
+        "signature": "StringLength(RedisKey key, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the string."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "long",
+          "description": "The length of the string at key, or 0 when key does not exist."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "strlen(string $key)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "strlen(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the length of the value stored in the key, or 0 if the key does not exist"
+        }
+      }
+    ]
+  }
+}

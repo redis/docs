@@ -50,7 +50,6 @@ summary: Gets completion suggestions for a prefix
 syntax: "FT.SUGGET key prefix \n  [FUZZY] \n  [WITHSCORES] \n  [WITHPAYLOADS] \n \
   \ [MAX max]\n"
 syntax_fmt: "FT.SUGGET key prefix [FUZZY] [WITHSCORES] [WITHPAYLOADS] [MAX\_max]"
-syntax_str: "prefix [FUZZY] [WITHSCORES] [WITHPAYLOADS] [MAX\_max]"
 title: FT.SUGGET
 ---
 
@@ -96,11 +95,7 @@ also returns the score of each suggestion. This can be used to merge results fro
 returns optional payloads saved along with the suggestions. If no payload is present for an entry, it returns a null reply.
 </details>
 
-## Return
-
-FT.SUGGET returns an array reply, which is a list of the top suggestions matching the prefix, optionally with score after each entry.
-
-## Example
+## Examples
 
 <details open>
 <summary><b>Get completion suggestions for a prefix</b></summary>
@@ -114,11 +109,11 @@ FT.SUGGET returns an array reply, which is a list of the top suggestions matchin
 {{< / highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |
 
 ## Return information
 

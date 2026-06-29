@@ -31,6 +31,11 @@ An API object that represents the cluster.
 | crdb_coordinator_port | integer, (range: 1024-65535) (default: 9081) | CRDB coordinator port |
 | <span class="break-all">crdt_rest_client_retries</span> | integer | Maximum number of retries for the REST client used by the Active-Active management API |
 | <span class="break-all">crdt_rest_client_timeout</span> | integer | Timeout for REST client used by the Active-Active management API |
+| <span class="break-all">crdt_supported_featureset_version</span> | integer | CRDB supported featureset version (read-only) |
+| <span class="break-all">crdt_supported_featureset_version_map</span> | object | CRDB supported featureset version mapping by Redis version (read-only) |
+| <span class="break-all">crdt_supported_module_featureset_version_map</span> | object | Mapping of module names to per-module-semantic-version supported CRDB featureset versions (read-only) |
+| <span class="break-all">crdt_supported_protocol_versions</span> | array of strings | CRDB supported protocol versions (read-only) |
+| <span class="break-all">crdt_supported_protocol_versions_map</span> | object | CRDB supported protocol versions mapping by Redis version (read-only) |
 | created_time | string | Cluster creation date (read-only) |
 | data_cipher_list | string | Specifies the enabled ciphers for the data plane. The ciphers are specified in the format understood by the OpenSSL library. |
 | <span class="break-all">data_cipher_suites_tls_1_3</span> | string | Specifies the enabled TLS 1.3 ciphers for the data plane. |
@@ -38,16 +43,21 @@ An API object that represents the cluster.
 | <span class="break-all">default_non_sharded_proxy_policy</span> | string (default: single) | Default proxy_policy for newly created non-sharded databases' endpoints (read-only) |
 | <span class="break-all">default_sharded_proxy_policy</span> | string (default: all-master-shards) | Default proxy_policy for newly created sharded databases' endpoints (read-only) |
 | <span class="break-all">disconnect_clients_on_password_removal</span> | "enabled"<br />"disabled"<br />**"auto"** | This flag controls whether client connections using removed, revoked, or rotated passwords are actively disconnected |
+| <span class="break-all">dmc_external_authentication</span> | boolean (default: false) | Enable DMC to call the authentication_service for basic authentication |
+| <span class="break-all">dmc_external_cba_authentication</span> | boolean (default: false) | Enable DMC to call the authentication_service for certificate-based authentication |
+| <span class="break-all">dmc_external_entraid_authentication</span> | boolean (default: false) | Enable DMC to call the authentication_service for entraid authentication |
+| <span class="break-all">dmc_external_ldap_authentication</span> | boolean (default: false) | Enable DMC to call the authentication_service for LDAP-based authentication |
 | email_alerts | boolean (default: false) | Send node/cluster email alerts (requires valid SMTP and email_from settings) |
 | email_from | string | Sender email for automated emails |
 | encrypt_pkeys | boolean (default: false) | Enable or turn off encryption of private keys |
 | envoy_admin_port | integer, (range: 1024-65535) | Envoy admin port. Changing this port during runtime might result in an empty response because envoy serves as the cluster gateway.|
 | <span class="break-all">envoy_max_downstream_connections</span> | integer, (range: 100-2048) | The max downstream connections envoy is allowed to open |
 | <span class="break-all">envoy_mgmt_server_port</span> | integer, (range: 1024-65535) | Envoy management server port|
-| <span class="break-all">gossip_envoy_admin_port</span> | integer, (range: 1024-65535) | Gossip envoy admin port|
+| <span class="break-all">gossip_envoy_admin_port</span> | integer, (range: 1024-65535) | Gossip envoy admin port (deprecated; this port is no longer used because gossip functionality is handled by the main envoy process on `envoy_admin_port`) |
 | handle_redirects | boolean (default: false) | Handle API HTTPS requests and redirect to the master node internally |
 | http_support | boolean (default: false) | Enable or turn off HTTP support |
 | logrotate_settings | [logrotate_settings]({{<relref "/operate/rs/references/rest-api/objects/cluster/logrotate_settings">}}) object | Settings for logrotate configuration |
+| mask_bdb_credentials | boolean (default: false) | If set to true, the BDB credentials will be masked in the BDB API responses |
 | metrics_auth | boolean (default: false) | If true, requires authentication for requests to the metrics exporter |
 | <span class="break-all">min_control_TLS_version</span> | "1.2"<br />"1.3" | The minimum version of TLS protocol which is supported at the control path |
 | min_data_TLS_version | "1.2"<br />"1.3" | The minimum version of TLS protocol which is supported at the data path |
@@ -57,6 +67,7 @@ An API object that represents the cluster.
 | <span class="break-all">mtls_client_cert_subject_validation_type</span> | "disabled"<br />"san_cn"<br />"full_subject" | Enables additional certificate validations that further limit connections to clients with valid certificates during TLS client authentication.<br />Values:<br />**disabled**: Authenticates clients with valid certificates. No additional validations are enforced.<br />**san_cn**: A client certificate is valid only if its Common Name (CN) matches an entry in the list of valid subjects. Ignores other Subject attributes.<br />**full_subject**: A client certificate is valid only if its Subject attributes match an entry in the list of valid subjects. |
 | multi_commands_opt | **"disabled"**<br />"batch"<br />"force_disabled" | Determines the default `multi_commands_opt` setting for databases in the cluster. If set to `batch`, it reduces the overhead of transaction management by batching multiple commands into a single transaction.<br />Values:<br />**disabled**: Turns off the optimization for all databases except those that override it on the [bdb level]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}). Default value.<br />**batch**: Enables the optimization on all databases except those that override it on the [bdb level]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}).<br />**force_disabled**: Disables the optimization for all databases, even those that override it on the [bdb level]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}). |
 | name | string | Cluster's fully qualified domain name (read-only) |
+| options_method_forbidden | boolean (default: false) | Make OPTIONS http method forbidden over CNM HTTPS port. |
 | password_complexity | boolean (default: false) | Enforce password complexity policy |
 | <span class="break-all">password_expiration_duration</span> | integer (default: 0) | The number of days a password is valid until the user is required to replace it |
 | password_min_length | integer, (range: 8-256) (default: 8) | The minimum length required for a password. |
@@ -68,7 +79,6 @@ An API object that represents the cluster.
 | robust_crdt_syncer | boolean (default: false) | If `true`, enables the robust syncer for Active-Active databases |
 | s3_ca_cert | string | Filepath to the PEM-encoded CA certificate to use for validating TLS connections to the S3 server |
 | s3_url | string | Specifies the URL for S3 export and import |
-| saslauthd_ldap_conf | string | saslauthd LDAP configuration |
 | <span class="break-all">sentinel_cipher_suites</span> | array | Specifies the list of enabled ciphers for the sentinel service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package. |
 | <span class="break-all">sentinel_cipher_suites_tls_1_3<span> | string | Specifies the list of enabled TLS 1.3 ciphers for the discovery (sentinel) service. The supported ciphers are those implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package.(read-only) |
 | sentinel_tls_mode | "allowed"<br />"disabled" <br />"required" | Determines whether the discovery service allows, blocks, or requires TLS connections (previously named `sentinel_ssl_policy`)<br />**allowed**: Allows both TLS and non-TLS connections<br />**disabled**: Allows only non-TLS connections<br />**required**: Allows only TLS connections |
@@ -81,10 +91,11 @@ An API object that represents the cluster.
 | smtp_password | string | SMTP server password |
 | smtp_port | integer | SMTP server port for automated emails |
 | smtp_tls_mode | "none"<br />"starttls"<br />"tls" | Specifies which TLS mode to use for SMTP access |
-| smtp_use_tls | boolean (default: false) | Use TLS for SMTP access (deprecated as of Redis Enterprise v4.3.3, use smtp_tls_mode field instead) |
+| smtp_use_tls | boolean (default: false) | Use TLS for SMTP access (deprecated as of Redis Software v4.3.3, use smtp_tls_mode field instead) |
 | smtp_username | string | SMTP server username (pattern does not allow special characters &,\<,>,") |
+| <span class="break-all">state_machine_smart_client_handoffs_delay_ms</span> | integer (range: 0-10000) (default: 2000) | For smart client handoffs feature, the time in milliseconds to pause the state machine between sending the notification to clients and performing the operation |
 | syncer_certificate | string | Cluster's syncer certificate |
 | upgrade_mode | boolean (default: false) | Is cluster currently in upgrade mode |
 | use_external_ipv6 | boolean (default: true) | Should redislabs services listen on ipv6 |
-| use_ipv6 | boolean (default: true) | Should redislabs services listen on ipv6 (deprecated as of Redis Enterprise v6.4.2, replaced with use_external_ipv6) |
+| use_ipv6 | boolean (default: true) | Should redislabs services listen on ipv6 (deprecated as of Redis Software v6.4.2, replaced with use_external_ipv6) |
 | wait_command | boolean (default: true) | Supports Redis wait command (read-only) |

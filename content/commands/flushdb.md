@@ -43,39 +43,42 @@ history:
 - - 4.0.0
   - Added the `ASYNC` flushing mode modifier.
 - - 6.2.0
-  - Added the `SYNC` flushing mode modifier.
+  - Added the `SYNC` flushing mode modifier. The default flush behavior is now configurable using the lazyfree-lazy-user-flush configuration directive.
 linkTitle: FLUSHDB
 railroad_diagram: /images/railroad/flushdb.svg
 since: 1.0.0
 summary: Remove all keys from the current database.
 syntax_fmt: FLUSHDB [ASYNC | SYNC]
-syntax_str: ''
 title: FLUSHDB
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Delete all the keys of the currently selected DB.
 This command never fails.
 
 By default, `FLUSHDB` will synchronously flush all keys from the database.
-Starting with Redis 6.2, setting the **lazyfree-lazy-user-flush** configuration directive to "yes" changes the default flush mode to asynchronous.
+Starting with Redis 6.2, setting the `lazyfree-lazy-user-flush` configuration directive to `yes` changes the default flush mode to asynchronous.
 
-It is possible to use one of the following modifiers to dictate the flushing mode explicitly:
+## Optional arguments
 
-* `ASYNC`: flushes the database asynchronously
-* `SYNC`: flushes the database synchronously
+<details open><summary><code>ASYNC | SYNC</code></summary>
 
-## Notes
+Flush asynchronously (`ASYNC`) or synchronously (`SYNC`). The default is set by the `lazyfree-lazy-user-flush` configuration directive.
+
+</details>
+
+## Details
 
 * An asynchronous `FLUSHDB` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.
 * This command does not delete functions.
 * When using Redis Cluster, this command is identical to `FLUSHALL` since a Redis Cluster supports only one database with an ID of zero.
 
-## Behavior change history
+## Redis Software and Redis Cloud compatibility
 
-*   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive.
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active\*</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | \*Can use the [Active-Active flush API request]({{< relref "/operate/rs/references/rest-api/requests/crdbs/flush" >}}). |
 

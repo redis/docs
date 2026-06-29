@@ -60,14 +60,41 @@ railroad_diagram: /images/railroad/sscan.svg
 since: 2.8.0
 summary: Iterates over members of a set.
 syntax_fmt: "SSCAN key cursor [MATCH\_pattern] [COUNT\_count]"
-syntax_str: "cursor [MATCH\_pattern] [COUNT\_count]"
 title: SSCAN
 ---
 See [`SCAN`]({{< relref "/commands/scan" >}}) for `SSCAN` documentation.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+<details open><summary><code>cursor</code></summary>
+
+The cursor value. Start an iteration with `0`, then use the cursor returned by each call as the argument to the next call.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>MATCH pattern</code></summary>
+
+Only return members matching the given glob-style pattern.
+
+</details>
+
+<details open><summary><code>COUNT count</code></summary>
+
+A hint for the number of members to return per iteration. The default is 10.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

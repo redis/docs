@@ -20,9 +20,23 @@ The **Metrics** tab of the **View Database** screen provides a series of graphs 
 
 Performance data provides insight into how your database is being used and how well it is performing.
 
+### Metric intervals
+
 The interval scrollbar controls the time period displayed in the graphs.  
 
 {{<image filename="images/rc/database-metrics-interval-scrollbar.png" width="75%" alt="The Metrics tab of the View Database screen." >}}
+
+The following intervals are available:
+
+| Interval | Resolution |
+|----------|------------|
+| 5 minutes | 30 seconds |
+| 15 minutes | 30 seconds |
+| Hour | 1 minute |
+| Day | 5 minutes |
+| Week | 30 minutes |
+| Month | 4 hours |
+| 3 months | 12 hours |
 
 ## Promote metric graphs
 
@@ -67,7 +81,7 @@ For more detailed analysis, consider using [Redis Insight]({{< relref "/develop/
 
 Depending on your subscription plan, you can enable alerts for several metrics for a given database.
 
-To do so, go to the **Configuration** tab of the database and then locate the **Alerts** section. 
+To do so, locate the alerts settings for your database: for Essentials databases, select the **Alerts** tab on the database screen; for Pro databases, go to the **Configuration** tab and locate the **Alerts** section. 
 
 | Setting name | Description | Default Value | Accepted Range |
 |---|---|---|---|
@@ -89,6 +103,14 @@ Any member of the account team can receive alert emails.
 To update alert settings for one or more team members, select **Access Management** from the Redis Cloud console menu and then select the **Team** tab. For details, see [Access management]({{< relref "/operate/rc/security/access-control/access-management" >}}).
 
 If you subscribe to Redis Cloud through a Platform-as-a-Service (PaaS) provider (such as Heroku), you will need to review your provider's documentation for help managing your team.
+
+## Connect to Prometheus
+
+Redis Cloud exposes a Prometheus endpoint for Redis Cloud Pro databases. You can use this endpoint to connect Prometheus to your database.
+
+{{< embed-md "rc-get-prometheus-endpoint.md" >}}
+
+For more information on how to connect Prometheus to Redis Cloud, see [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}).
 
 ## Continue learning with Redis University
 

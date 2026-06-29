@@ -28,7 +28,7 @@ To prevent this from happening, make sure your database is large enough to hold 
 |  volatile-lru | Removes least recently used keys with `expire` field set to true |
 |  volatile-lfu | Removes least frequently used keys with `expire` field set to true |
 |  volatile-random | Randomly removes keys with `expire` field set to true |
-|  volatile-ttl | Removes least frequently used keys with `expire` field set to true and the shortest remaining time-to-live (TTL) value |
+|  volatile-ttl | Removes keys with `expire` field set to true and the shortest remaining time-to-live (TTL) value |
 
 ## Eviction policy defaults
 

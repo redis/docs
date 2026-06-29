@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the stats_archiver object used with Redis Enterprise Software
+description: Documents the stats_archiver object used with Redis Software
   REST API calls.
 linkTitle: stats_archiver
 weight: $weight

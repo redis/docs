@@ -1,0 +1,114 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [
+      {
+        "signature": "String clusterReset()",
+        "params": [],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      },
+      {
+        "signature": "String clusterReset(final ClusterResetType resetType)",
+        "params": [
+          {
+            "name": "resetType",
+            "type": "ClusterResetType",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClusterResetSoft(ctx context.Context)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "ClusterResetHard(ctx context.Context)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [],
+    "lettuce_sync": [
+      {
+        "signature": "String clusterReset(boolean hard)",
+        "params": [
+          {
+            "name": "hard",
+            "type": "boolean",
+            "description": "Hard reset if true, soft reset if false"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<String> clusterReset(boolean hard)",
+        "params": [
+          {
+            "name": "hard",
+            "type": "boolean",
+            "description": "Hard reset if true, soft reset if false"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<String> clusterReset(boolean hard)",
+        "params": [
+          {
+            "name": "hard",
+            "type": "boolean",
+            "description": "Hard reset if true, soft reset if false"
+          }
+        ],
+        "returns": {
+          "type": "Mono<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

@@ -30,7 +30,6 @@ railroad_diagram: /images/railroad/lolwut.svg
 since: 5.0.0
 summary: Displays computer art and the Redis version
 syntax_fmt: "LOLWUT [VERSION\_version]"
-syntax_str: ''
 title: LOLWUT
 ---
 The LOLWUT command displays the Redis version: however as a side effect of
@@ -59,9 +58,17 @@ LOLWUT version should have the following properties:
 4. LOLWUT implementations should be safe and carefully checked for security, and resist to untrusted inputs if they take arguments.
 5. LOLWUT must always display the Redis version at the end.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Optional arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>VERSION version</code></summary>
+
+Request a specific version of the generated art.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

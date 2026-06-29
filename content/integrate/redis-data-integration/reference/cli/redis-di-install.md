@@ -17,14 +17,12 @@ Usage: redis-di install [OPTIONS]
 ## Options
 
 - `log_level`:
-
   - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
   - Default: `warning`
   - Usage: `--log-level
 -l`
 
 - `file`:
-
   - Type: <click.types.Path object>
   - Default: `none`
   - Usage: `-f
@@ -32,8 +30,28 @@ Usage: redis-di install [OPTIONS]
 
   Path to a YAML configuration file for silent installation
 
-- `installation_dir`:
+- `online`:
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--online`
 
+  Run installer in online mode
+
+- `k3s_only`:
+  - Type: BOOL
+  - Default: `false`
+  - Usage: `--k3s-only`
+
+  Install only k3s components
+
+- `https_port`:
+  - Type: INT
+  - Default: `443`
+  - Usage: `--https-port`
+
+  HTTPS port for Traefik
+
+- `installation_dir`:
   - Type: <click.types.Path object>
   - Default: `none`
   - Usage: `--installation-dir`
@@ -41,7 +59,6 @@ Usage: redis-di install [OPTIONS]
   Custom installation directory
 
 - `help`:
-
   - Type: BOOL
   - Default: `false`
   - Usage: `--help`

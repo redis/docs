@@ -44,12 +44,19 @@ railroad_diagram: /images/railroad/persist.svg
 since: 2.2.0
 summary: Removes the expiration time of a key.
 syntax_fmt: PERSIST key
-syntax_str: ''
 title: PERSIST
 ---
 Remove the existing timeout on `key`, turning the key from _volatile_ (a key
 with an expire set) to _persistent_ (a key that will never expire as no timeout
 is associated).
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
 
 ## Examples
 
@@ -61,9 +68,9 @@ PERSIST mykey
 TTL mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

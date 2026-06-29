@@ -43,7 +43,6 @@ railroad_diagram: /images/railroad/acl-log.svg
 since: 6.0.0
 summary: Lists recent security events generated due to ACL rules.
 syntax_fmt: ACL LOG [count | RESET]
-syntax_str: ''
 title: ACL LOG
 ---
 The command shows a list of recent ACL security events:
@@ -57,6 +56,14 @@ The command shows a list of recent ACL security events:
 The optional argument specifies how many entries to show. By default
 up to ten failures are returned. The special [`RESET`]({{< relref "/commands/reset" >}}) argument clears the log.
 Entries are displayed starting from the most recent.
+
+## Optional arguments
+
+<details open><summary><code>count | RESET</code></summary>
+
+The number of recent entries to return, or `RESET` to clear the log.
+
+</details>
 
 ## Examples
 
@@ -86,6 +93,8 @@ Entries are displayed starting from the most recent.
    20) (integer) 1675361492408
 ```
 
+## Details
+
 Each log entry is composed of the following fields:
 
 1. `count`: The number of security events detected within a 60 second period that are represented by this entry.
@@ -99,9 +108,9 @@ Each log entry is composed of the following fields:
 9. `timestamp-created`: A UNIX timestamp in `milliseconds` at the time the entry was first created.
 10. `timestamp-last-updated`: A UNIX timestamp in `milliseconds` at the time the entry was last updated.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

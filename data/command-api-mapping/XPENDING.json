@@ -1,0 +1,1060 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "xpending(name: KeyT, groupname: GroupT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "groupname",
+            "type": "GroupT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "Object xpending(final byte[] key, final byte[] groupName)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "byte[]",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Object",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Object> xpending(final byte[] key, final byte[] groupName, final XPendingParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XPendingParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Object>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StreamPendingSummary xpending(final String key, final String groupName)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamPendingSummary",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<StreamPendingEntry> xpending(final String key, final String groupName, final XPendingParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "XPendingParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<StreamPendingEntry>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "StreamPendingSummary xpending(String key, String groupName)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "groupName",
+            "type": "String",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "StreamPendingSummary",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "PendingMessages xpending(K key, K group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "PendingMessages",
+          "description": "List&lt;Object&gt; array-reply list with members of the resulting stream. @since 6.1"
+        }
+      },
+      {
+        "signature": "List<PendingMessage> xpending(K key, K group, Range<String> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<PendingMessage>",
+          "description": "List&lt;Object&gt; array-reply list with members of the resulting stream. @since 6.1"
+        }
+      },
+      {
+        "signature": "List<PendingMessage> xpending(K key, Consumer<K> consumer, Range<String> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": ""
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<PendingMessage>",
+          "description": "List&lt;Object&gt; array-reply list with members of the resulting stream. @since 6.1"
+        }
+      },
+      {
+        "signature": "List<PendingMessage> xpending(K key, XPendingArgs<K> args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XPendingArgs<K>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<PendingMessage>",
+          "description": "List&lt;Object&gt; array-reply list with members of the resulting stream. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<PendingMessages> xpending(K key, K group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<PendingMessages>",
+          "description": "List&lt;Object&gt; array-reply list with members of the resulting stream. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<PendingMessage>> xpending(K key, K group, Range<String> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<PendingMessage>>",
+          "description": "List&lt;Object&gt; array-reply list with members of the resulting stream. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<PendingMessage>> xpending(K key, Consumer<K> consumer, Range<String> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": ""
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<PendingMessage>>",
+          "description": "List&lt;Object&gt; array-reply list with members of the resulting stream. @since 6.1"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<PendingMessage>> xpending(K key, XPendingArgs<K> args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XPendingArgs<K>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<PendingMessage>>",
+          "description": "List&lt;Object&gt; array-reply list with members of the resulting stream. @since 6.1"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<PendingMessages> xpending(K key, K group)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Mono<PendingMessages>",
+          "description": "Object array-reply list with members of the resulting stream. @since 6.1"
+        }
+      },
+      {
+        "signature": "Flux<PendingMessage> xpending(K key, K group, Range<String> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "group",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<PendingMessage>",
+          "description": "Object array-reply list with members of the resulting stream. @since 6.1"
+        }
+      },
+      {
+        "signature": "Flux<PendingMessage> xpending(K key, Consumer<K> consumer, Range<String> range, Limit limit)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "consumer",
+            "type": "Consumer<K>",
+            "description": ""
+          },
+          {
+            "name": "range",
+            "type": "Range<String>",
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "type": "Limit",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<PendingMessage>",
+          "description": "Object array-reply list with members of the resulting stream. @since 6.1"
+        }
+      },
+      {
+        "signature": "Flux<PendingMessage> xpending(K key, XPendingArgs<K> args)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the stream key."
+          },
+          {
+            "name": "args",
+            "type": "XPendingArgs<K>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Flux<PendingMessage>",
+          "description": "Object array-reply list with members of the resulting stream. @since 6.1"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "XPending(ctx context.Context, stream, group string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "stream",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XPendingCmd",
+          "description": ""
+        }
+      },
+      {
+        "signature": "XPendingExt(ctx context.Context, a *XPendingExtArgs)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "a",
+            "type": "*XPendingExtArgs",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*XPendingExtCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "XPENDING(key: RedisArgument, group: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "xpending(key: RedisKey, group: string | Buffer, start: string | Buffer | number, end: string | Buffer | number, count: number | string, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xpending(key: RedisKey, group: string | Buffer, start: string | Buffer | number, end: string | Buffer | number, count: number | string, consumer: string | Buffer, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xpending(key: RedisKey, group: string | Buffer, minIdleTimeToken: \"IDLE\", minIdleTime: number | string, start: string | Buffer | number, end: string | Buffer | number, count: number | string, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTimeToken",
+            "type": "\"IDLE\"",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xpending(key: RedisKey, group: string | Buffer, minIdleTimeToken: \"IDLE\", minIdleTime: number | string, start: string | Buffer | number, end: string | Buffer | number, count: number | string, consumer: string | Buffer, callback?: Callback<unknown[]>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "minIdleTimeToken",
+            "type": "\"IDLE\"",
+            "description": ""
+          },
+          {
+            "name": "minIdleTime",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "string | Buffer | number",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "string | Buffer",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown[]>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "xpending(key: K, group: G)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamPendingReply)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xpending_count(key: K, group: G, start: S, end: E, count: C)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "C",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamPendingCountReply)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xpending_consumer_count(key: K, group: G, start: S, end: E, count: C, consumer: CN)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "C",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "CN",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamPendingCountReply)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "xpending(key: K, group: G)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamPendingReply)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xpending_count(key: K, group: G, start: S, end: E, count: C)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "C",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamPendingCountReply)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "xpending_consumer_count(key: K, group: G, start: S, end: E, count: C, consumer: CN)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "group",
+            "type": "G",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "S",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "C",
+            "description": ""
+          },
+          {
+            "name": "consumer",
+            "type": "CN",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(streams::StreamPendingCountReply)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "StreamPending(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamPendingInfo",
+          "description": "An instance of StreamPendingInfo. StreamPendingInfo contains the number of pending messages. The highest and lowest ID of the pending messages, and the consumers with their pending message count."
+        }
+      },
+      {
+        "signature": "StreamPending(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamPendingInfo",
+          "description": "An instance of StreamPendingInfo. StreamPendingInfo contains the number of pending messages. The highest and lowest ID of the pending messages, and the consumers with their pending message count."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "StreamPending(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamPendingInfo",
+          "description": "An instance of StreamPendingInfo. StreamPendingInfo contains the number of pending messages. The highest and lowest ID of the pending messages, and the consumers with their pending message count."
+        }
+      },
+      {
+        "signature": "StreamPending(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the stream."
+          },
+          {
+            "name": "groupName",
+            "type": "RedisValue",
+            "description": "The name of the consumer group."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "StreamPendingInfo",
+          "description": "An instance of StreamPendingInfo. StreamPendingInfo contains the number of pending messages. The highest and lowest ID of the pending messages, and the consumers with their pending message count."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "xpending(string $key, string $group, ?int $minIdleTime = null, ?string $start = null, ?string $end = null, ?int $count = null, ?string $consumer = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$group",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "?int $minIdleTime = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?string $start = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?string $end = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?int $count = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "?string $consumer = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "xpending(key, group, *args, idle: nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the stream key"
+          },
+          {
+            "name": "group",
+            "type": "String",
+            "description": "the consumer group name"
+          },
+          {
+            "name": "start",
+            "type": "String",
+            "description": "start first entry id of range"
+          },
+          {
+            "name": "end",
+            "type": "String",
+            "description": "end last entry id of range"
+          },
+          {
+            "name": "count",
+            "type": "Integer",
+            "description": "the number of entries as limit"
+          },
+          {
+            "name": "consumer",
+            "type": "String",
+            "description": "the consumer name"
+          },
+          {
+            "name": "idle",
+            "type": "Integer",
+            "description": "pending message minimum idle time in milliseconds"
+          }
+        ],
+        "returns": {
+          "type": "Hash, Array<Hash>",
+          "description": "the summary of pending entries or pending entries details"
+        }
+      }
+    ]
+  }
+}

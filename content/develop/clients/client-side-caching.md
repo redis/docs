@@ -1,5 +1,7 @@
 ---
-aliases: /develop/connect/clients/client-side-caching
+aliases:
+- /develop/connect/clients/client-side-caching
+- /manual/client-side-caching/
 categories:
 - docs
 - develop
@@ -91,6 +93,9 @@ The following client libraries support CSC from the stated version onwards:
 | [`Jedis`]({{< relref "/develop/clients/jedis/connect#connect-using-client-side-caching" >}}) | v5.2.0 |
 | [`node-redis`]({{< relref "/develop/clients/nodejs/connect#connect-using-client-side-caching" >}}) | v5.1.0 |
 
+Note that some other clients support the [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}) command to configure CSC on the server, but this does not mean they support the
+features required for CSC themselves.
+
 ## Which commands can cache data?
 
 All read-only commands (with the `@read`
@@ -106,7 +111,7 @@ will use cached data, except for the following:
     [`HSCAN`]({{< relref "/commands/hscan" >}}),
     and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
     give different results each time they are called.
--   Redis Query Engine commands (with the `FT.*` prefix), such as
+-   Redis Search commands (with the `FT.*` prefix), such as
     [`FT.SEARCH`]({{< relref "commands/ft.search" >}}).
 
 You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to

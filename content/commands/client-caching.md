@@ -38,7 +38,6 @@ railroad_diagram: /images/railroad/client-caching.svg
 since: 6.0.0
 summary: Instructs the server whether to track the keys in the next request.
 syntax_fmt: CLIENT CACHING <YES | NO>
-syntax_str: ''
 title: CLIENT CACHING
 ---
 This command controls the tracking of the keys in the next command executed
@@ -47,22 +46,30 @@ Please check the
 [client side caching documentation]({{< relref "/develop/clients/client-side-caching" >}}) for
 background information.
 
-When tracking is enabled Redis, using the [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}) command, it is
+When tracking is enabled in Redis, using the [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}) command, it is
 possible to specify the `OPTIN` or `OPTOUT` options, so that keys
 in read only commands are not automatically remembered by the server to
 be invalidated later. When we are in `OPTIN` mode, we can enable the
-tracking of the keys in the next command by calling `CLIENT CACHING yes`
+tracking of the keys in the next command by calling `CLIENT CACHING YES`
 immediately before it. Similarly when we are in `OPTOUT` mode, and keys
 are normally tracked, we can avoid the keys in the next command to be
-tracked using `CLIENT CACHING no`.
+tracked using `CLIENT CACHING NO`.
 
 Basically the command sets a state in the connection, that is valid only
 for the next command execution, that will modify the behavior of client
 tracking.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>YES | NO</code></summary>
+
+Whether to cache keys for the next command (`YES`) or not (`NO`) when tracking is in `OPTIN`/`OPTOUT` mode.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

@@ -15,17 +15,28 @@ title: Connect to the server
 weight: 2
 ---
 
+{{< note >}}Jedis 7.2.0 introduced a new client connection API:
+
+| New API class | Replaces | Use case |
+| :-- | :-- | :-- |
+| `RedisClient` | `UnifiedJedis`, `JedisPool`, `JedisPooled` | Single connection (with connection pooling) |
+| `RedisClusterClient` | `JedisCluster` | Redis Cluster connections |
+| `RedisSentinelClient` | `JedisSentinelPool` | Redis Sentinel connections |
+
+The old client classes are now considered deprecated.
+{{< /note >}}
+
 ## Basic connection
 
 The following code opens a basic connection to a local Redis server:
 
 ```java
 package org.example;
-import redis.clients.jedis.UnifiedJedis;
+import redis.clients.jedis.RedisClient;
 
 public class Main {
     public static void main(String[] args) {
-        UnifiedJedis jedis = new UnifiedJedis("redis://localhost:6379");
+        RedisClient jedis = RedisClient.create("redis://localhost:6379");
 
         // Code that interacts with Redis...
 
@@ -51,10 +62,10 @@ System.out.println(res2); // Deimos
 
 ### Connect to a Redis cluster
 
-To connect to a Redis cluster, use `JedisCluster`. 
+To connect to a Redis cluster, use `RedisClusterClient`. 
 
 ```java
-import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.RedisClusterClient;
 import redis.clients.jedis.HostAndPort;
 
 //...
@@ -62,7 +73,7 @@ import redis.clients.jedis.HostAndPort;
 Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
 jedisClusterNodes.add(new HostAndPort("127.0.0.1", 7379));
 jedisClusterNodes.add(new HostAndPort("127.0.0.1", 7380));
-JedisCluster jedis = new JedisCluster(jedisClusterNodes);
+RedisClusterClient jedis = RedisClusterClient.create(jedisClusterNodes);
 ```
 
 ### Connect to your production Redis with TLS
@@ -94,55 +105,35 @@ package org.example;
 
 import redis.clients.jedis.*;
 
-import javax.net.ssl.*;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.KeyStore;
 
 public class Main {
 
     public static void main(String[] args) throws GeneralSecurityException, IOException {
         HostAndPort address = new HostAndPort("my-redis-instance.cloud.redislabs.com", 6379);
 
-        SSLSocketFactory sslFactory = createSslSocketFactory(
-                "./truststore.jks",
-                "secret!", // use the password you specified for keytool command
-                "./redis-user-keystore.p12",
-                "secret!" // use the password you specified for openssl command
-        );
+        SslOptions sslOptions = SslOptions.builder()
+                .truststore(new File("./truststore.jks"), "secret!".toCharArray())
+                .trustStoreType("jks")
+                // optional: use if Redis requires client certificate
+                .keystore(new File("./redis-user-keystore.p12"), "secret!".toCharArray())
+                .keyStoreType("pkcs12")
+                .build();
 
         JedisClientConfig config = DefaultJedisClientConfig.builder()
-                .ssl(true).sslSocketFactory(sslFactory)
+                .sslOptions(sslOptions)
                 .user("default") // use your Redis user. More info https://redis.io/docs/latest/operate/oss_and_stack/management/security/acl/
                 .password("secret!") // use your Redis password
                 .build();
 
-        JedisPooled jedis = new JedisPooled(address, config);
+        RedisClient jedis = RedisClient.builder()
+              .hostAndPort(address)
+              .clientConfig(config)
+              .build();
         jedis.set("foo", "bar");
         System.out.println(jedis.get("foo")); // prints bar
-    }
-
-    private static SSLSocketFactory createSslSocketFactory(
-            String caCertPath, String caCertPassword, String userCertPath, String userCertPassword)
-            throws IOException, GeneralSecurityException {
-
-        KeyStore keyStore = KeyStore.getInstance("pkcs12");
-        keyStore.load(new FileInputStream(userCertPath), userCertPassword.toCharArray());
-
-        KeyStore trustStore = KeyStore.getInstance("jks");
-        trustStore.load(new FileInputStream(caCertPath), caCertPassword.toCharArray());
-
-        TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("X509");
-        trustManagerFactory.init(trustStore);
-
-        KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("PKIX");
-        keyManagerFactory.init(keyStore, userCertPassword.toCharArray());
-
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(keyManagerFactory.getKeyManagers(), trustManagerFactory.getTrustManagers(), null);
-
-        return sslContext.getSocketFactory();
     }
 }
 ```
@@ -184,7 +175,11 @@ DefaultJedisClientConfig config = DefaultJedisClientConfig
 
 CacheConfig cacheConfig = CacheConfig.builder().maxSize(1000).build();
 
-UnifiedJedis client = new UnifiedJedis(endpoint, config, cacheConfig);
+RedisClient client = RedisClient.builder()
+        .hostAndPort(endpoint)
+        .clientConfig(config)
+        .cacheConfig(cacheConfig)
+        .build();
 ```
 
 Once you have connected, the usual Redis commands will work transparently
@@ -269,10 +264,8 @@ The client will also flush the cache automatically
 if any connection (including one from a connection pool)
 is disconnected.
 
-## Connect with a connection pool
+## Configure a connection pool
 
-For production usage, you should use a connection pool to manage
-connections rather than opening and closing connections individually.
 A connection pool maintains several open connections and reuses them
 efficiently. When you open a connection from a pool, the pool allocates
 one of its open connections. When you subsequently close the same connection,
@@ -282,49 +275,9 @@ See
 [Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
 for more information.
 
-Use the following code to connect with a connection pool:
-
-```java
-package org.example;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-
-public class Main {
-    public static void main(String[] args) {
-        JedisPool pool = new JedisPool("localhost", 6379);
-
-        try (Jedis jedis = pool.getResource()) {
-            // Store & Retrieve a simple string
-            jedis.set("foo", "bar");
-            System.out.println(jedis.get("foo")); // prints bar
-            
-            // Store & Retrieve a HashMap
-            Map<String, String> hash = new HashMap<>();;
-            hash.put("name", "John");
-            hash.put("surname", "Smith");
-            hash.put("company", "Redis");
-            hash.put("age", "29");
-            jedis.hset("user-session:123", hash);
-            System.out.println(jedis.hgetAll("user-session:123"));
-            // Prints: {name=John, surname=Smith, company=Redis, age=29}
-        }
-    }
-}
-```
-
-Because adding a `try-with-resources` block for each command can be cumbersome, consider using `JedisPooled` as an easier way to pool connections. `JedisPooled`, added in Jedis version 4.0.0, provides capabilities similar to `JedisPool` but with a more straightforward API.
-
-```java
-import redis.clients.jedis.JedisPooled;
-
-//...
-
-JedisPooled jedis = new JedisPooled("localhost", 6379);
-jedis.set("foo", "bar");
-System.out.println(jedis.get("foo")); // prints "bar"
-```
-
-A connection pool holds a specified number of connections, creates more connections when necessary, and terminates them when they are no longer needed.
+From Jedis 7.2.0, the `RedisClient` class provides connection pooling automatically,
+but it's important to configure the connection pool correctly to get the best performance. 
+Each pool holds a specified number of connections, creates more connections when necessary, and terminates them when they are no longer needed.
 
 Here is a simplified connection lifecycle in a pool:
 
@@ -339,8 +292,8 @@ Here is a simplified connection lifecycle in a pool:
 7. The connection becomes evictable if the number of connections is greater than `minIdle`. 
 8. The connection is ready to be closed.
 
-It's important to configure the connection pool correctly. 
-Use `GenericObjectPoolConfig` from [Apache Commons Pool2](https://commons.apache.org/proper/commons-pool/apidocs/org/apache/commons/pool2/impl/GenericObjectPoolConfig.html).
+Pass a `ConnectionPoolConfig` object to the `RedisClient` builder to configure the pool. 
+(`ConnectionPoolConfig` is a wrapper around `GenericObjectPoolConfig` from [Apache Commons Pool2](https://commons.apache.org/proper/commons-pool/apidocs/org/apache/commons/pool2/impl/GenericObjectPoolConfig.html)).
 
 ```java
 ConnectionPoolConfig poolConfig = new ConnectionPoolConfig();
@@ -364,9 +317,10 @@ poolConfig.setTestWhileIdle(true);
 // controls the period between checks for idle connections in the pool
 poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(1));
 
-// JedisPooled does all hard work on fetching and releasing connection to the pool
-// to prevent connection starvation
-JedisPooled jedis = new JedisPooled(poolConfig, "localhost", 6379);
+RedisClient jedis = RedisClient.builder()
+        .hostAndPort("localhost", 6379)
+        .poolConfig(poolConfig)
+        .build();
 ```
 
 ### Retrying a command after a connection failure
@@ -380,11 +334,11 @@ shows a retry loop that uses a simple
 strategy:
 
 ```java
-JedisPooled jedis = new JedisPooled(
-    new HostAndPort("localhost", 6379),
-    clientConfig,
-    poolConfig
-);
+RedisClient jedis = RedisClient.builder()
+        .hostAndPort("localhost", 6379)
+        .poolConfig(poolConfig)
+        .clientConfig(config)
+        .build();
 
 // Set max retry attempts
 final int MAX_RETRIES = 5;

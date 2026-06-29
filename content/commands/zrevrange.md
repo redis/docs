@@ -60,7 +60,6 @@ replaced_by: '`ZRANGE` with the `REV` argument'
 since: 1.2.0
 summary: Returns members in a sorted set within a range of indexes in reverse order.
 syntax_fmt: ZREVRANGE key start stop [WITHSCORES]
-syntax_str: start stop [WITHSCORES]
 title: ZREVRANGE
 ---
 Returns the specified range of elements in the sorted set stored at `key`.
@@ -68,6 +67,34 @@ The elements are considered to be ordered from the highest to the lowest score.
 Descending lexicographical order is used for elements with equal score.
 
 Apart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]({{< relref "/commands/zrange" >}}).
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The start index, zero-based. Negative values count from the end of the sorted set (`-1` is the member with the highest score).
+
+</details>
+
+<details open><summary><code>stop</code></summary>
+
+The stop index, zero-based and inclusive. Negative values count from the end of the sorted set.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each member.
+
+</details>
 
 ## Examples
 
@@ -80,9 +107,9 @@ ZREVRANGE myzset 2 3
 ZREVRANGE myzset -2 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |
 

@@ -1,0 +1,188 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "function_list(library: Optional[str] = \"*\", withcode: Optional[bool] = False)",
+        "params": [
+          {
+            "name": "library",
+            "type": "Optional[str]",
+            "description": "Library name pattern (default: '*')"
+          },
+          {
+            "name": "withcode",
+            "type": "Optional[bool]",
+            "description": "Include library code in response"
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[List], List]",
+          "description": "List of library information"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<LibraryInfo> functionList()",
+        "params": [],
+        "returns": {
+          "type": "List<LibraryInfo>",
+          "description": "List of library information"
+        }
+      },
+      {
+        "signature": "List<LibraryInfo> functionList(final String libraryNamePattern)",
+        "params": [
+          {
+            "name": "libraryNamePattern",
+            "type": "String",
+            "description": "Library name pattern"
+          }
+        ],
+        "returns": {
+          "type": "List<LibraryInfo>",
+          "description": "List of library information"
+        }
+      },
+      {
+        "signature": "List<LibraryInfo> functionListWithCode()",
+        "params": [],
+        "returns": {
+          "type": "List<LibraryInfo>",
+          "description": "List of library information with code"
+        }
+      },
+      {
+        "signature": "List<LibraryInfo> functionListWithCode(String libraryNamePattern)",
+        "params": [
+          {
+            "name": "libraryNamePattern",
+            "type": "String",
+            "description": "Library name pattern"
+          }
+        ],
+        "returns": {
+          "type": "List<LibraryInfo>",
+          "description": "List of library information with code"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "FunctionList(ctx context.Context, q FunctionListQuery)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          },
+          {
+            "name": "q",
+            "type": "FunctionListQuery",
+            "description": "Query parameters for listing functions"
+          }
+        ],
+        "returns": {
+          "type": "*FunctionListCmd",
+          "description": "List of library information"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "functionList(options?: FunctionListOptions)",
+        "params": [
+          {
+            "name": "options",
+            "type": "FunctionListOptions",
+            "description": "Options for listing functions"
+          }
+        ],
+        "returns": {
+          "type": "Promise<FunctionListReply>",
+          "description": "Array of libraries and their functions"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Map<String, Object>> functionList()",
+        "params": [],
+        "returns": {
+          "type": "List<Map<String, Object>>",
+          "description": "List of library information"
+        }
+      },
+      {
+        "signature": "List<Map<String, Object>> functionList(String libraryName)",
+        "params": [
+          {
+            "name": "libraryName",
+            "type": "String",
+            "description": "Library name to filter by"
+          }
+        ],
+        "returns": {
+          "type": "List<Map<String, Object>>",
+          "description": "List of library information"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Map<String, Object>>> functionList()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<List<Map<String, Object>>>",
+          "description": "List of library information"
+        }
+      },
+      {
+        "signature": "RedisFuture<List<Map<String, Object>>> functionList(String libraryName)",
+        "params": [
+          {
+            "name": "libraryName",
+            "type": "String",
+            "description": "Library name to filter by"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Map<String, Object>>>",
+          "description": "List of library information"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Map<String, Object>> functionList()",
+        "params": [],
+        "returns": {
+          "type": "Flux<Map<String, Object>>",
+          "description": "List of library information"
+        }
+      },
+      {
+        "signature": "Flux<Map<String, Object>> functionList(String libraryName)",
+        "params": [
+          {
+            "name": "libraryName",
+            "type": "String",
+            "description": "Library name to filter by"
+          }
+        ],
+        "returns": {
+          "type": "Flux<Map<String, Object>>",
+          "description": "List of library information"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": []
+  }
+}
+

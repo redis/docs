@@ -65,8 +65,9 @@ expression.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### `NOTE`
+{{< note >}}
 Learn more about vector queries in Redis: [https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search](https://redis.io/docs/interact/search-and-query/search/vectors/#knn-search)
+{{< /note >}}
 
 #### `dialect(dialect)`
 
@@ -276,10 +277,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -417,8 +419,9 @@ distance threshold.
 * **Raises:**
   **TypeError** – If filter_expression is not of type redisvl.query.FilterExpression
 
-#### `NOTE`
+{{< note >}}
 Learn more about vector range queries: [https://redis.io/docs/interact/search-and-query/search/vectors/#range-query](https://redis.io/docs/interact/search-and-query/search/vectors/#range-query)
+{{< /note >}}
 
 #### `dialect(dialect)`
 
@@ -638,10 +641,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -906,7 +910,7 @@ returned in addition to any others implicitly specified.
 Otherwise, fields should be given in the format of @field.
 
 * **Parameters:**
-  **fields** (*str*)
+  **fields** (*List* *[* *str* *]*)
 * **Return type:**
   *AggregateRequest*
 
@@ -947,7 +951,7 @@ AggregateRequest()            .group_by("@customer", r.sum("@paid").alias(FIELDN
 ``
 
 * **Parameters:**
-  **fields** (*str*)
+  **fields** (*List* *[* *str* *]*)
 * **Return type:**
   *AggregateRequest*
 
@@ -1225,10 +1229,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -1491,10 +1496,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 
@@ -1742,10 +1748,11 @@ only the FIRST field is used for the Redis SORTBY clause.
 >> query.sort_by([("price", "DESC"), ("rating", "ASC")])
 ```
 
-#### `NOTE`
+{{< note >}}
 When multiple fields are specified, only the first field is used for sorting
 in Redis. Future versions may support multi-field sorting through post-query
 sorting in Python.
+{{< /note >}}
 
 #### `timeout(timeout)`
 

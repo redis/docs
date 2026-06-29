@@ -26,11 +26,9 @@ since: 2.0.0
 stack_path: docs/interact/search-and-query
 summary: Returns a list of all existing indexes
 syntax_fmt: FT._LIST
-syntax_str: ''
 title: FT._LIST
 ---
 Returns a list of all existing indexes.
-
 
 {{% alert title="Temporary command" color="info" %}}
 The prefix `_` in the command indicates, this is a temporary command.
@@ -48,9 +46,9 @@ FT._LIST
 3) "imdb"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 

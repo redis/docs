@@ -53,7 +53,6 @@ since: 1.0.0
 summary: Removes one or more members from a set. Deletes the set if the last member
   was removed.
 syntax_fmt: SREM key member [member ...]
-syntax_str: member [member ...]
 title: SREM
 ---
 Remove the specified members from the set stored at `key`.
@@ -62,6 +61,20 @@ If `key` does not exist, it is treated as an empty set and this command returns
 `0`.
 
 An error is returned when the value stored at `key` is not a set.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members to remove from the set.
+
+</details>
 
 ## Examples
 
@@ -74,9 +87,9 @@ SREM myset "four"
 SMEMBERS myset
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

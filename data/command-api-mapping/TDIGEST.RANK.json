@@ -1,0 +1,145 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "rank(key, value, *values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "value",
+            "type": "float"
+          },
+          {
+            "name": "*values",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "type": "List[int]",
+          "description": "Rank values"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestRank(String key, double... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "values",
+            "type": "double..."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "Rank values"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestRank(ctx context.Context, key string, values ...float64) *IntSliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "values",
+            "type": "...float64"
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": "Rank values"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.RANK(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "values",
+            "type": "number[]"
+          }
+        ],
+        "returns": {
+          "type": "number[]",
+          "description": "Rank values"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Rank(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "values",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "type": "long[]",
+          "description": "Rank values"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "RankAsync(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "values",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<long[]>",
+          "description": "Rank values"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestrank($key, ...$values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "values",
+            "type": "float..."
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Rank values"
+        }
+      }
+    ]
+  }
+}

@@ -57,7 +57,6 @@ railroad_diagram: /images/railroad/hrandfield.svg
 since: 6.2.0
 summary: Returns one or more random fields from a hash.
 syntax_fmt: HRANDFIELD key [count [WITHVALUES]]
-syntax_str: '[count [WITHVALUES]]'
 title: HRANDFIELD
 ---
 When called with just the `key` argument, return a random field from the hash value stored at `key`.
@@ -70,6 +69,28 @@ In this case, the number of returned fields is the absolute value of the specifi
 
 The optional `WITHVALUES` modifier changes the reply so it includes the respective values of the randomly selected hash fields.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of fields to return. A positive `count` returns up to that many distinct fields; a negative `count` returns exactly `|count|` fields and may repeat fields. When omitted, a single random field is returned.
+
+</details>
+
+<details open><summary><code>WITHVALUES</code></summary>
+
+Also return the value of each selected field. Can only be used together with `count`.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -78,7 +99,6 @@ HRANDFIELD coin
 HRANDFIELD coin
 HRANDFIELD coin -5 WITHVALUES
 {{% /redis-cli %}}
-
 
 ## Specification of the behavior when count is passed
 
@@ -94,9 +114,9 @@ When the `count` is a negative value, the behavior changes as follows:
 * Exactly `count` fields, or an empty array if the hash is empty (non-existing key), are always returned.
 * The order of fields in the reply is truly random.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

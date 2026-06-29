@@ -52,7 +52,6 @@ railroad_diagram: /images/railroad/replicaof.svg
 since: 5.0.0
 summary: Configures a server as replica of another, or promotes it to a master.
 syntax_fmt: REPLICAOF <host port | NO ONE>
-syntax_str: ''
 title: REPLICAOF
 ---
 The `REPLICAOF` command can change the replication settings of a replica on the fly.
@@ -62,6 +61,14 @@ If a Redis server is already acting as replica, the command `REPLICAOF` NO ONE w
 If a server is already a replica of some master, `REPLICAOF` hostname port will stop the replication against the old server and start the synchronization against the new one, discarding the old dataset.
 
 The form `REPLICAOF` NO ONE will stop replication, turning the server into a MASTER, but will not discard the already replicated data. So, if the old master stops working, it is possible to turn the replica into a master and set the application to use this new master in read/write. Later when the other Redis server is fixed, it can be reconfigured to work as a replica.
+
+## Required arguments
+
+<details open><summary><code>host port | NO ONE</code></summary>
+
+The host and port of the master to replicate from, or `NO ONE` to stop replicating and turn the server back into a master.
+
+</details>
 
 ## Examples
 
@@ -73,9 +80,9 @@ The form `REPLICAOF` NO ONE will stop replication, turning the server into a MAS
 "OK"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

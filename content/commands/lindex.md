@@ -47,7 +47,6 @@ railroad_diagram: /images/railroad/lindex.svg
 since: 1.0.0
 summary: Returns an element from a list by its index.
 syntax_fmt: LINDEX key index
-syntax_str: index
 title: LINDEX
 ---
 Returns the element at index `index` in the list stored at `key`.
@@ -59,6 +58,20 @@ Here, `-1` means the last element, `-2` means the penultimate and so forth.
 
 When the value at `key` is not a list, an error is returned.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>index</code></summary>
+
+The zero-based index of the element to return. Negative indexes count from the tail (`-1` is the last element).
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -69,9 +82,9 @@ LINDEX mylist -1
 LINDEX mylist 3
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

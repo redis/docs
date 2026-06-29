@@ -31,7 +31,6 @@ stack_path: docs/data-types/probabilistic
 summary: Returns, for each input rank, an estimation of the value (floating-point)
   with that rank
 syntax_fmt: TDIGEST.BYRANK key rank [rank ...]
-syntax_str: rank [rank ...]
 title: TDIGEST.BYRANK
 ---
 Returns, for each input rank, a floating-point estimation of the value with that rank.
@@ -53,7 +52,7 @@ Ranks for which the values should be retrieved.
 _n_-1 is the rank of the value of the largest observation, where _n_ denotes the number of observations that have been added to the sketch.
 </details>
 
-## Example
+## Examples
 
 {{< highlight bash >}}
 redis> TDIGEST.CREATE t COMPRESSION 1000
@@ -79,9 +78,9 @@ redis> TDIGEST.BYRANK t 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 16) "inf"
 {{< / highlight >}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
 

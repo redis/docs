@@ -54,9 +54,13 @@ railroad_diagram: /images/railroad/scan.svg
 since: 2.8.0
 summary: Iterates over the key names in the database.
 syntax_fmt: "SCAN cursor [MATCH\_pattern] [COUNT\_count] [TYPE\_type]"
-syntax_str: "[MATCH\_pattern] [COUNT\_count] [TYPE\_type]"
 title: SCAN
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 The `SCAN` command and the closely related commands [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) are used in order to incrementally iterate over a collection of elements.
 
 * `SCAN` iterates the set of keys in the currently selected Redis database.
@@ -70,7 +74,37 @@ However while blocking commands like [`SMEMBERS`]({{< relref "/commands/smembers
 
 Note that `SCAN`, [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) all work very similarly, so this documentation covers all four commands. However an obvious difference is that in the case of [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) the first argument is the name of the key holding the Set, Hash or Sorted Set value. The `SCAN` command does not need any key name argument as it iterates keys in the current database, so the iterated object is the database itself.
 
-## SCAN basic usage
+## Required arguments
+
+<details open><summary><code>cursor</code></summary>
+
+The cursor value. Start an iteration with `0`, then use the cursor returned by each call as the argument to the next call.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>MATCH pattern</code></summary>
+
+Only return keys matching the given glob-style pattern.
+
+</details>
+
+<details open><summary><code>COUNT count</code></summary>
+
+A hint for the number of keys to return per iteration. The default is 10.
+
+</details>
+
+<details open><summary><code>TYPE type</code></summary>
+
+Only return keys of the given type, such as `string`, `list`, or `set`.
+
+</details>
+
+## Details
+
+### SCAN basic usage
 
 SCAN is a cursor based iterator. This means that at every call of the command, the server returns an updated cursor that the user needs to use as the cursor argument in the next call.
 
@@ -109,7 +143,7 @@ As you can see the **SCAN return value** is an array of two values: the first va
 
 Since in the second call the returned cursor is 0, the server signaled to the caller that the iteration finished, and the collection was completely explored. Starting an iteration with a cursor value of 0, and calling `SCAN` until the returned cursor is 0 again is called a **full iteration**.
 
-## Return value
+### Return value
 
 `SCAN`, [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}) return a two element multi-bulk reply, where the first element is a string representing an unsigned 64 bit number (the cursor), and the second element is a multi-bulk with an array of elements.
 
@@ -118,7 +152,7 @@ Since in the second call the returned cursor is 0, the server signaled to the ca
 * [`HSCAN`]({{< relref "/commands/hscan" >}}) array of elements contain two elements, a field and a value, for every returned element of the Hash.
 * [`ZSCAN`]({{< relref "/commands/zscan" >}}) array of elements contain two elements, a member and its associated score, for every returned element of the Sorted Set.
 
-## Scan guarantees
+### Scan guarantees
 
 The `SCAN` command, and the other commands in the `SCAN` family, are able to provide to the user a set of guarantees associated to full iterations.
 
@@ -130,7 +164,7 @@ However because `SCAN` has very little state associated (just the cursor) it has
 * A given element may be returned multiple times. It is up to the application to handle the case of duplicated elements, for example only using the returned elements in order to perform operations that are safe when re-applied multiple times.
 * Elements that were not constantly present in the collection during a full iteration, may be returned or not: it is undefined.
 
-## Number of elements returned at every SCAN call
+### Number of elements returned at every SCAN call
 
 `SCAN` family functions do not guarantee that the number of elements returned per call are in a given range. The commands are also allowed to return zero elements, and the client should not consider the iteration complete as long as the returned cursor is not zero.
 
@@ -138,7 +172,7 @@ However the number of returned elements is reasonable, that is, in practical ter
 
 However there is a way for the user to tune the order of magnitude of the number of returned elements per call using the **COUNT** option.
 
-## The COUNT option
+### The COUNT option
 
 While `SCAN` does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of `SCAN` using the **COUNT** option. Basically with COUNT the user specifies the *amount of work that should be done at every call in order to retrieve elements from the collection*. This is **just a hint** for the implementation, however generally speaking this is what you could expect most of the times from the implementation.
 
@@ -148,7 +182,7 @@ While `SCAN` does not provide guarantees about the number of elements returned a
 
 Important: **there is no need to use the same COUNT value** for every iteration. The caller is free to change the count from one iteration to the other as required, as long as the cursor passed in the next call is the one obtained in the previous call to the command.
 
-## The MATCH option
+### The MATCH option
 
 It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the [`KEYS`]({{< relref "/commands/keys" >}}) command that takes a pattern as its only argument.
 
@@ -156,7 +190,7 @@ To do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` c
 
 This is an example of iteration using **MATCH**:
 
-{{< clients-example cmds_generic scan1 >}}
+{{< clients-example set="cmds_generic" step="scan1" description="Set iteration: Iterate set members with pattern matching using SSCAN MATCH (cursor-based iteration, non-blocking)" difficulty="intermediate" >}}
 > sadd myset 1 2 3 foo foobar feelsgood
 (integer) 6
 > sscan myset 0 match f*
@@ -168,7 +202,7 @@ This is an example of iteration using **MATCH**:
 
 It is important to note that the **MATCH** filter is applied after elements are retrieved from the collection, just before returning data to the client. This means that if the pattern matches very little elements inside the collection, `SCAN` will likely return no elements in most iterations. An example is shown below:
 
-{{< clients-example cmds_generic scan2 >}}
+{{< clients-example set="cmds_generic" step="scan2" description="Keyspace iteration: Iterate database keys with pattern matching using SCAN MATCH and COUNT (demonstrates cursor iteration with sparse results)" difficulty="intermediate" >}}
 > scan 0 MATCH *11*
 1) "288"
 2) 1) "key:911"
@@ -212,13 +246,13 @@ when searching for keys matching the pattern.
 For example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.
 To use pattern with hash tag, see [Hash tags]({{< relref "operate/oss_and_stack/reference/cluster-spec#hash-tags" >}}) in the Cluster specification for more information.
 
-## The TYPE option
+### The TYPE option
 
 You can use the `TYPE` option to ask `SCAN` to only return objects that match a given `type`, allowing you to iterate through the database looking for keys of a specific type. The **TYPE** option is only available on the whole-database `SCAN`, not [`HSCAN`]({{< relref "/commands/hscan" >}}) or [`ZSCAN`]({{< relref "/commands/zscan" >}}) etc.
 
 The `type` argument is the same string name that the [`TYPE`]({{< relref "/commands/type" >}}) command returns. Note a quirk where some Redis types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other Redis types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:
 
-{{< clients-example cmds_generic scan3 >}}
+{{< clients-example set="cmds_generic" step="scan3" description="Iterate keyspace by type: Iterate database keys filtered by type using SCAN TYPE (filters keys by data type, useful for type-specific operations)" difficulty="intermediate" >}}
 > GEOADD geokey 0 0 value
 (integer) 1
 > ZADD zkey 1000 value
@@ -235,11 +269,11 @@ zset
 
 It is important to note that the **TYPE** filter is also applied after elements are retrieved from the database, so the option does not reduce the amount of work the server has to do to complete a full iteration, and for rare types you may receive no elements in many iterations.
 
-## The NOVALUES option
+### The NOVALUES option
 
 When using [`HSCAN`]({{< relref "/commands/hscan" >}}), you can use the `NOVALUES` option to make Redis return only the keys in the hash table without their corresponding values.
 
-{{< clients-example cmds_generic scan4 >}}
+{{< clients-example set="cmds_generic" step="scan4" description="Hash iteration: Iterate hash fields with optional NOVALUES using HSCAN (returns field-value pairs or fields only)" difficulty="intermediate" >}}
 > HSET myhash a 1 b 2
 OK
 > HSCAN myhash 0
@@ -254,15 +288,15 @@ OK
    2) "b"
 {{< /clients-example >}}
 
-## Multiple parallel iterations
+### Multiple parallel iterations
 
 It is possible for an infinite number of clients to iterate the same collection at the same time, as the full state of the iterator is in the cursor, that is obtained and returned to the client at every call. No server side state is taken at all.
 
-## Terminating iterations in the middle
+### Terminating iterations in the middle
 
 Since there is no state server side, but the full state is captured by the cursor, the caller is free to terminate an iteration half-way without signaling this to the server in any way. An infinite number of iterations can be started and never terminated without any issue.
 
-## Calling SCAN with a corrupted cursor
+### Calling SCAN with a corrupted cursor
 
 Calling `SCAN` with a broken, negative, out of range, or otherwise invalid cursor, will result in undefined behavior but never in a crash. What will be undefined is that the guarantees about the returned elements can no longer be ensured by the `SCAN` implementation.
 
@@ -271,13 +305,13 @@ The only valid cursors to use are:
 * The cursor value of 0 when starting an iteration.
 * The cursor returned by the previous call to SCAN in order to continue the iteration.
 
-## Guarantee of termination
+### Guarantee of termination
 
 The `SCAN` algorithm is guaranteed to terminate only if the size of the iterated collection remains bounded to a given maximum size, otherwise iterating a collection that always grows may result into `SCAN` to never terminate a full iteration.
 
 This is easy to see intuitively: if the collection grows there is more and more work to do in order to visit all the possible elements, and the ability to terminate the iteration depends on the number of calls to `SCAN` and its COUNT option value compared with the rate at which the collection grows.
 
-## Why SCAN may return all the items of an aggregate data type in a single call?
+### Why SCAN may return all the items of an aggregate data type in a single call?
 
 In the `COUNT` option documentation, we state that sometimes this family of commands may return all the elements of a Set, Hash or Sorted Set at once in a single call, regardless of the `COUNT` option value. The reason why this happens is that the cursor-based iterator can be implemented, and is useful, only when the aggregate data type that we are scanning is represented as a hash table. However Redis uses a [memory optimization]({{< relref "/operate/oss_and_stack/management/optimization/memory-optimization" >}}) where small aggregate data types, until they reach a given amount of items or a given max size of single elements, are represented using a compact single-allocation packed encoding. When this is the case, `SCAN` has no meaningful cursor to return, and must iterate the whole data structure at once, so the only sane behavior it has is to return everything in a call.
 
@@ -285,11 +319,11 @@ However once the data structures are bigger and are promoted to use real hash ta
 
 Also note that this behavior is specific of [`SSCAN`]({{< relref "/commands/sscan" >}}), [`HSCAN`]({{< relref "/commands/hscan" >}}) and [`ZSCAN`]({{< relref "/commands/zscan" >}}). `SCAN` itself never shows this behavior because the key space is always represented by hash tables.
 
-## Further reading
+### Further reading
 
 For more information about managing keys, please refer to the [The Redis Keyspace]({{< relref "/develop/using-commands/keyspace" >}}) tutorial.
 
-## Additional examples
+### Additional examples
 
 Give the following commands, showing iteration of a hash key, a try in the interactive console:
 
@@ -298,9 +332,9 @@ HMSET hash name Jack age 33
 HSCAN hash 0
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

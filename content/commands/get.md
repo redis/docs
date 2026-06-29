@@ -44,13 +44,20 @@ railroad_diagram: /images/railroad/get.svg
 since: 1.0.0
 summary: Returns the string value of a key.
 syntax_fmt: GET key
-syntax_str: ''
 title: GET
 ---
 Get the value of `key`.
-If the key does not exist the special value `nil` is returned.
+If the key does not exist, `nil` is returned.
 An error is returned if the value stored at `key` is not a string, because `GET`
 only handles string values.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
 
 ## Examples
 
@@ -59,15 +66,12 @@ GET nonexisting
 SET mykey "Hello"
 GET mykey
 {{% /redis-cli %}}
+&nbsp;
+{{< clients-example set="set_and_get" step="get" description="Foundational: Retrieve the string value of a key using GET (returns nil if key doesn't exist)" difficulty="beginner" />}}
 
+## Redis Software and Redis Cloud compatibility
 
-### Code examples
-
-{{< clients-example set_and_get />}}
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

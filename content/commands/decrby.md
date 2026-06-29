@@ -51,7 +51,6 @@ since: 1.0.0
 summary: Decrements a number from the integer value of a key. Uses 0 as initial value
   if the key doesn't exist.
 syntax_fmt: DECRBY key decrement
-syntax_str: decrement
 title: DECRBY
 ---
 The `DECRBY` command reduces the value stored at the specified `key` by the specified `decrement`.
@@ -61,6 +60,20 @@ This operation is limited to 64-bit signed integers.
 
 See [`INCR`]({{< relref "/commands/incr" >}}) for extra information on increment/decrement operations.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>decrement</code></summary>
+
+The integer amount to subtract from the value.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -68,9 +81,9 @@ SET mykey "10"
 DECRBY mykey 3
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

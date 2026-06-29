@@ -33,24 +33,25 @@ railroad_diagram: /images/railroad/script-exists.svg
 since: 2.6.0
 summary: Determines whether server-side Lua scripts exist in the script cache.
 syntax_fmt: SCRIPT EXISTS sha1 [sha1 ...]
-syntax_str: ''
 title: SCRIPT EXISTS
 ---
 Returns information about the existence of the scripts in the script cache.
 
-This command accepts one or more SHA1 digests and returns a list of ones or
-zeros to signal if the scripts are already defined or not inside the script
-cache.
-This can be useful before a pipelining operation to ensure that scripts are
-loaded (and if not, to load them using [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}})) so that the pipelining
-operation can be performed solely using [`EVALSHA`]({{< relref "/commands/evalsha" >}}) instead of [`EVAL`]({{< relref "/commands/eval" >}}) to save
-bandwidth.
+This command accepts one or more SHA1 digests and returns a list of 1 and 0 values to indicate whether each script exists in the script cache. Before you run a pipeline, use this command to check whether Redis has loaded the scripts you need. For missing scripts, use [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}); then use [`EVALSHA`]({{< relref "/commands/evalsha" >}}) instead of [`EVAL`]({{< relref "/commands/eval" >}}) in the pipeline to save bandwidth.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts see [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>sha1 [sha1 ...]</code></summary>
+
+One or more SHA1 digests to look up in the script cache.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

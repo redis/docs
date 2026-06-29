@@ -63,19 +63,39 @@ railroad_diagram: /images/railroad/pfmerge.svg
 since: 2.8.9
 summary: Merges one or more HyperLogLog values into a single key.
 syntax_fmt: PFMERGE destkey [sourcekey [sourcekey ...]]
-syntax_str: '[sourcekey [sourcekey ...]]'
 title: PFMERGE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Merge multiple HyperLogLog values into a unique value that will approximate
-the cardinality of the union of the observed Sets of the source HyperLogLog
+the cardinality of the union of the observed sets of the source HyperLogLog
 structures.
 
 The computed merged HyperLogLog is set to the destination variable, which is
-created if does not exist (defaulting to an empty HyperLogLog).
+created if it does not exist (defaulting to an empty HyperLogLog).
 
 If the destination variable exists, it is treated as one of the source sets 
 and its cardinality will be included in the cardinality of the computed
 HyperLogLog.
+
+## Required arguments
+
+<details open><summary><code>destkey</code></summary>
+
+The destination HyperLogLog key in which to store the merged result.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>sourcekey [sourcekey ...]</code></summary>
+
+One or more source HyperLogLog keys to merge into `destkey`. `destkey` itself is also included in the merge.
+
+</details>
 
 ## Examples
 
@@ -86,9 +106,9 @@ PFMERGE hll3 hll1 hll2
 PFCOUNT hll3
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

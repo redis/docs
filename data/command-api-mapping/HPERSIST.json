@@ -1,0 +1,338 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "hpersist(name: KeyT, *fields: str)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": "The name of the hash key."
+          },
+          {
+            "name": "*fields",
+            "type": "str",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": "Returns a list which contains for each field in the request: - `-2` if the field does not exist, or if the key does not exist. - `-1` if the field exists but has no associated expiration time. - `1` if the expiration time was successfully removed from the field."
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<Long> hpersist(byte[] key, byte[]... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "byte[]...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "List<Long> hpersist(String key, String... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Long> hpersist(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to remove the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "List<Long>",
+          "description": "a list of Long values for each of the fields provided: 1 indicating expiration time is removed; -1 field has no expiration time to be removed; -2 indicating there is no such field @since 6.4"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Long>> hpersist(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to remove the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Long>>",
+          "description": "a list of Long values for each of the fields provided: 1 indicating expiration time is removed; -1 field has no expiration time to be removed; -2 indicating there is no such field @since 6.4"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Long> hpersist(K key, K... fields)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key."
+          },
+          {
+            "name": "fields",
+            "type": "K...",
+            "description": "one or more fields to remove the TTL for."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Long>",
+          "description": "a list of Long values for each of the fields provided: 1 indicating expiration time is removed; -1 field has no expiration time to be removed; -2 indicating there is no such field @since 6.4"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "HPersist(ctx context.Context, key string, fields ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "HPERSIST(key: RedisArgument, fields: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "hpersist(key: K, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<IntegerReplyOrNoOp>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "hpersist(key: K, fields: F)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "fields",
+            "type": "F",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<IntegerReplyOrNoOp>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "HashFieldPersist(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to remove expire time."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "PersistResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>1</term> <description>Expiration time was removed.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
+        }
+      },
+      {
+        "signature": "HashFieldPersist(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to remove expire time."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "PersistResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>1</term> <description>Expiration time was removed.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "HashFieldPersist(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to remove expire time."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "PersistResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>1</term> <description>Expiration time was removed.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
+        }
+      },
+      {
+        "signature": "HashFieldPersist(RedisKey key, RedisValue[] hashFields, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the hash."
+          },
+          {
+            "name": "hashFields",
+            "type": "RedisValue[]",
+            "description": "The fields in the hash to remove expire time."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "PersistResult[]",
+          "description": "Empty array if the key does not exist. Otherwise, returns the result of operation for given fields: <list type=\"table\"> <listheader> <term>Result</term> <description>Description</description> </listheader> <item> <term>1</term> <description>Expiration time was removed.</description> </item> <item> <term>-1</term> <description>Field has no associated expiration time.</description> </item> <item> <term>-2</term> <description>No such field exists.</description> </item> </list>"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "hpersist(string $key, array $fields)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$fields",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array|null",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

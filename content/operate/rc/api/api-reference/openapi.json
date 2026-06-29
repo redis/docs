@@ -16,14 +16,14 @@
   },
   "servers": [
     {
-      "url": "https://api.redislabs.com/v1"
+      "url": "https://api.redislabs.com"
     }
   ],
   "security": [
     {
       "x-api-key": [],
       "x-api-secret-key": [],
-      "X-Auth-Token": []
+      "x-auth-token": []
     }
   ],
   "tags": [
@@ -79,7 +79,7 @@
     }
   ],
   "paths": {
-    "/users/{userId}": {
+    "/v1/users/{userId}": {
       "get": {
         "tags": [
           "Users"
@@ -271,7 +271,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}": {
+    "/v1/subscriptions/{subscriptionId}": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -463,7 +463,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/{TgwId}/attachment": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -694,7 +694,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -768,7 +768,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -842,7 +842,81 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/{TgwId}/attachment": {
+    "/v1/subscriptions/{subscriptionId}/resource-tags": {
+      "put": {
+        "tags": [
+          "Subscriptions - Pro"
+        ],
+        "summary": "Update Pro subscription resource tags",
+        "description": "Updates the resource tags for the specified Pro subscription. This replaces all existing tags with the provided tags.",
+        "operationId": "updateSubscriptionResourceTags",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscriptionResourceTagsUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1106,7 +1180,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1191,7 +1265,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1387,7 +1461,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/peerings/{peeringId}": {
+    "/v1/subscriptions/{subscriptionId}/regions/peerings/{peeringId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1549,7 +1623,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1725,7 +1799,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/peerings/{peeringId}": {
+    "/v1/subscriptions/{subscriptionId}/peerings/{peeringId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1887,7 +1961,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/maintenance-windows": {
+    "/v1/subscriptions/{subscriptionId}/maintenance-windows": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -2017,7 +2091,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -2258,7 +2332,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -2493,7 +2567,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
       "put": {
         "tags": [
           "Databases - Pro"
@@ -2668,7 +2742,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/regions": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/regions": {
       "put": {
         "tags": [
           "Databases - Pro"
@@ -2772,7 +2846,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/flush": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/flush": {
       "put": {
         "tags": [
           "Databases - Pro"
@@ -2856,7 +2930,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/cidr": {
+    "/v1/subscriptions/{subscriptionId}/cidr": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -2986,7 +3060,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -3071,7 +3145,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}": {
+    "/v1/fixed/subscriptions/{subscriptionId}": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -3262,7 +3336,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -3499,7 +3573,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -3734,7 +3808,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
       "put": {
         "tags": [
           "Databases - Essentials"
@@ -3909,7 +3983,7 @@
         }
       }
     },
-    "/cloud-accounts/{cloudAccountId}": {
+    "/v1/cloud-accounts/{cloudAccountId}": {
       "get": {
         "tags": [
           "Cloud Accounts"
@@ -4104,7 +4178,7 @@
         }
       }
     },
-    "/acl/users/{aclUserId}": {
+    "/v1/acl/users/{aclUserId}": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -4297,7 +4371,7 @@
         }
       }
     },
-    "/acl/roles/{aclRoleId}": {
+    "/v1/acl/roles/{aclRoleId}": {
       "put": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -4433,7 +4507,7 @@
         }
       }
     },
-    "/acl/redisRules/{aclRedisRuleId}": {
+    "/v1/acl/redisRules/{aclRedisRuleId}": {
       "put": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -4569,7 +4643,7 @@
         }
       }
     },
-    "/subscriptions": {
+    "/v1/subscriptions": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -4721,7 +4795,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions": {
+    "/v1/subscriptions/{subscriptionId}/regions": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -4923,7 +4997,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5138,7 +5212,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5311,7 +5385,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5539,7 +5613,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/principals": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link/principals": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5710,7 +5784,92 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/peerings": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link/connections/disassociate": {
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Disassociate connections from Private Link for a specific region",
+        "description": "(Active-Active subscriptions only) Disassociates one or more VPC endpoint connections from the Private Link configuration for a specific region.",
+        "operationId": "disassociateActiveActivePrivateLinkConnections",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "regionId",
+            "in": "path",
+            "description": "Region ID - required for Active-Active subscription",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkActiveActiveConnectionsDisassociateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/regions/peerings": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5853,7 +6012,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6038,7 +6197,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6191,7 +6350,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link": {
+    "/v1/subscriptions/{subscriptionId}/private-link": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6386,7 +6545,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link/principals": {
+    "/v1/subscriptions/{subscriptionId}/private-link/principals": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6535,7 +6694,81 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/peerings": {
+    "/v1/subscriptions/{subscriptionId}/private-link/connections/disassociate": {
+      "post": {
+        "tags": [
+          "Subscriptions - Pro - Connectivity"
+        ],
+        "summary": "Disassociate connections from Private Link",
+        "description": "Disassociates one or more VPC endpoint connections from the Private Link configuration.",
+        "operationId": "disassociatePrivateLinkConnections",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateLinkConnectionsDisassociateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/peerings": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6679,7 +6912,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases": {
+    "/v1/subscriptions/{subscriptionId}/databases": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -6853,7 +7086,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -6895,7 +7128,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbVersionUpgradeStatus"
+                  "$ref": "#/components/schemas/DatabaseVersionUpgradeStatus"
                 }
               }
             }
@@ -7003,7 +7236,76 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
+      "post": {
+        "tags": [
+          "Databases - Pro"
+        ],
+        "summary": "Resume Pro database traffic",
+        "description": "Resumes traffic for the specified Pro database.",
+        "operationId": "resumeBdbTraffic",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "Traffic resumed"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7153,7 +7455,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7311,7 +7613,7 @@
         }
       }
     },
-    "/fixed/subscriptions": {
+    "/v1/fixed/subscriptions": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -7420,7 +7722,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -7589,7 +7891,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -7631,7 +7933,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbVersionUpgradeStatus"
+                  "$ref": "#/components/schemas/DatabaseVersionUpgradeStatus"
                 }
               }
             }
@@ -7739,7 +8041,76 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
+      "post": {
+        "tags": [
+          "Databases - Essentials"
+        ],
+        "summary": "Resume Essentials database traffic",
+        "description": "Resumes traffic for the specified Essentials database.",
+        "operationId": "resumeBdbTraffic_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "Traffic resumed"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -7889,7 +8260,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -8038,12 +8409,12 @@
         }
       }
     },
-    "/cost-report": {
+    "/v1/cost-report": {
       "post": {
         "tags": [
           "Account"
         ],
-        "summary": "Generate cost report (Beta)",
+        "summary": "Generate cost report",
         "description": "Generates a cost report in FOCUS format for the specified time period (max 40 days range) and filters. [Read more about focus here](https://focus.finops.org/).\n",
         "operationId": "createCostReport",
         "requestBody": {
@@ -8103,7 +8474,7 @@
         }
       }
     },
-    "/cloud-accounts": {
+    "/v1/cloud-accounts": {
       "get": {
         "tags": [
           "Cloud Accounts"
@@ -8212,7 +8583,7 @@
         }
       }
     },
-    "/acl/users": {
+    "/v1/acl/users": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -8321,7 +8692,7 @@
         }
       }
     },
-    "/acl/roles": {
+    "/v1/acl/roles": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -8430,7 +8801,7 @@
         }
       }
     },
-    "/acl/redisRules": {
+    "/v1/acl/redisRules": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -8539,7 +8910,7 @@
         }
       }
     },
-    "/users": {
+    "/v1/users": {
       "get": {
         "tags": [
           "Users"
@@ -8585,7 +8956,7 @@
         }
       }
     },
-    "/tasks": {
+    "/v1/tasks": {
       "get": {
         "tags": [
           "Tasks"
@@ -8631,7 +9002,7 @@
         }
       }
     },
-    "/tasks/{taskId}": {
+    "/v1/tasks/{taskId}": {
       "get": {
         "tags": [
           "Tasks"
@@ -8688,7 +9059,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -8746,7 +9117,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/invitations": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/invitations": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -8804,7 +9175,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -8873,7 +9244,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -8942,7 +9313,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9030,7 +9401,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9118,7 +9489,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/endpoint-script": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link/endpoint-script": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9186,7 +9557,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9264,7 +9635,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9342,7 +9713,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link/endpoint-script": {
+    "/v1/subscriptions/{subscriptionId}/private-link/endpoint-script": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9400,7 +9771,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/pricing": {
+    "/v1/subscriptions/{subscriptionId}/pricing": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -9458,7 +9829,77 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
+      "get": {
+        "tags": [
+          "Databases - Pro"
+        ],
+        "summary": "Get Pro database traffic",
+        "description": "Gets traffic information for the specified Pro database. If the database was not a source in a redirect endpoints operation, a not found error will be returned.",
+        "operationId": "getDatabaseTraffic",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatabaseTrafficStateResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -9535,7 +9976,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/certificate": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/certificate": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -9605,7 +10046,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -9647,7 +10088,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbAvailableVersionsResponse"
+                  "$ref": "#/components/schemas/DatabaseAvailableVersionsResponse"
                 }
               }
             }
@@ -9673,7 +10114,7 @@
         }
       }
     },
-    "/subscriptions/redis-versions": {
+    "/v1/subscriptions/redis-versions": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -9731,7 +10172,7 @@
         }
       }
     },
-    "/session-logs": {
+    "/v1/session-logs": {
       "get": {
         "tags": [
           "Account"
@@ -9823,7 +10264,7 @@
         }
       }
     },
-    "/regions": {
+    "/v1/regions": {
       "get": {
         "tags": [
           "Account"
@@ -9884,7 +10325,7 @@
         }
       }
     },
-    "/query-performance-factors": {
+    "/v1/query-performance-factors": {
       "get": {
         "tags": [
           "Account"
@@ -9930,7 +10371,7 @@
         }
       }
     },
-    "/payment-methods": {
+    "/v1/payment-methods": {
       "get": {
         "tags": [
           "Account"
@@ -9976,7 +10417,7 @@
         }
       }
     },
-    "/logs": {
+    "/v1/logs": {
       "get": {
         "tags": [
           "Account"
@@ -10079,7 +10520,77 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
+      "get": {
+        "tags": [
+          "Databases - Essentials"
+        ],
+        "summary": "Get Essentials database traffic",
+        "description": "Gets traffic information for the specified Essentials database. If the database was not a source in a redirect endpoints operation, a not found error will be returned.",
+        "operationId": "getDatabaseTraffic_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatabaseTrafficStateResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -10147,7 +10658,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -10189,7 +10700,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbAvailableVersionsResponse"
+                  "$ref": "#/components/schemas/DatabaseAvailableVersionsResponse"
                 }
               }
             }
@@ -10215,7 +10726,7 @@
         }
       }
     },
-    "/fixed/redis-versions": {
+    "/v1/fixed/redis-versions": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10273,7 +10784,7 @@
         }
       }
     },
-    "/fixed/plans": {
+    "/v1/fixed/plans": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10344,7 +10855,7 @@
         }
       }
     },
-    "/fixed/plans/{planId}": {
+    "/v1/fixed/plans/{planId}": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10402,7 +10913,7 @@
         }
       }
     },
-    "/fixed/plans/subscriptions/{subscriptionId}": {
+    "/v1/fixed/plans/subscriptions/{subscriptionId}": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10460,7 +10971,7 @@
         }
       }
     },
-    "/database-modules": {
+    "/v1/database-modules": {
       "get": {
         "tags": [
           "Account"
@@ -10506,7 +11017,7 @@
         }
       }
     },
-    "/data-persistence": {
+    "/v1/data-persistence": {
       "get": {
         "tags": [
           "Account"
@@ -10552,12 +11063,12 @@
         }
       }
     },
-    "/cost-report/{costReportId}": {
+    "/v1/cost-report/{costReportId}": {
       "get": {
         "tags": [
           "Account"
         ],
-        "summary": "Get cost report (Beta)",
+        "summary": "Get cost report",
         "description": "Returns the generated cost report file in FOCUS format using the costReportId returned from the cost report generation task. The file is downloaded as an attachment with the filename set to the costReportId.",
         "operationId": "getCostReport",
         "parameters": [
@@ -10606,7 +11117,7 @@
         }
       }
     },
-    "/": {
+    "/v1/": {
       "get": {
         "tags": [
           "Account"
@@ -10728,31 +11239,6 @@
         },
         "description": "User update request"
       },
-      "BdbVersionUpgradeStatus": {
-        "type": "object",
-        "properties": {
-          "databaseId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "targetRedisVersion": {
-            "type": "string"
-          },
-          "progress": {
-            "type": "number",
-            "format": "double"
-          },
-          "upgradeStatus": {
-            "type": "string",
-            "enum": [
-              "in-progress",
-              "in-progress-recovery-pending",
-              "done",
-              "failed"
-            ]
-          }
-        }
-      },
       "PaymentMethods": {
         "type": "object",
         "properties": {
@@ -10765,7 +11251,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -10845,7 +11331,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -10894,8 +11380,7 @@
             "type": "integer",
             "description": "Deployment region id as defined by cloud provider",
             "format": "int32",
-            "readOnly": true,
-            "example": 27
+            "readOnly": true
           },
           "shareName": {
             "maxLength": 64,
@@ -11154,7 +11639,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11172,7 +11657,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -11368,6 +11853,10 @@
             "description": "Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version (available in 'GET /subscriptions/redis-versions')",
             "example": "7.2"
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. Default: true."
+          },
           "shardingType": {
             "type": "string",
             "description": "Optional. Database [Hashing policy](https://redis.io/docs/latest/operate/rc/databases/configuration/clustering/#manage-the-hashing-policy).",
@@ -11428,7 +11917,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -11623,9 +12112,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -11779,9 +12270,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -11885,6 +12378,10 @@
             "description": "Optional. Relevant only to ram-and-flash (also known as Redis-Flex/Auto-Tiering) subscriptions. The percentage of data to be stored in RAM. Must be between 10 and 50 in steps of 10 (10, 20, 30, 40, 50).",
             "format": "int32",
             "example": 20
+          },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above."
           },
           "commandType": {
             "type": "string",
@@ -12077,7 +12574,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12380,7 +12877,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12496,6 +12993,31 @@
         },
         "description": "Active-Active VPC peering update request message"
       },
+      "DatabaseTrafficStateResponse": {
+        "type": "object",
+        "properties": {
+          "bdbId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "trafficStatus": {
+            "type": "string"
+          },
+          "canResume": {
+            "type": "boolean"
+          },
+          "resumeInProgress": {
+            "type": "boolean"
+          },
+          "stopReason": {
+            "type": "string"
+          },
+          "resumeEligibleAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "DataPersistenceEntry": {
         "type": "object",
         "properties": {
@@ -12520,7 +13042,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12578,8 +13100,7 @@
             "type": "integer",
             "description": "Deployment region id as defined by cloud provider",
             "format": "int32",
-            "readOnly": true,
-            "example": 27
+            "readOnly": true
           },
           "principal": {
             "type": "string",
@@ -12610,6 +13131,37 @@
           }
         },
         "description": "Request to add a principal to private link for Active-Active subscription"
+      },
+      "PrivateLinkActiveActiveConnectionsDisassociateRequest": {
+        "required": [
+          "connections"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "regionId": {
+            "type": "integer",
+            "description": "Deployment region id as defined by cloud provider",
+            "format": "int32",
+            "readOnly": true
+          },
+          "connections": {
+            "type": "array",
+            "description": "List of connections to disassociate from the private link. Each connection must include associationId, type, and principalId.",
+            "items": {
+              "$ref": "#/components/schemas/PrivateLinkConnectionDisassociate"
+            }
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Request to disassociate connections from private link for Active-Active subscription"
       },
       "VpcPeeringUpdateAwsRequest": {
         "type": "object",
@@ -12662,7 +13214,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -12842,6 +13394,17 @@
           }
         }
       },
+      "DatabaseAvailableVersionsResponse": {
+        "type": "object",
+        "properties": {
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TargetVersion"
+            }
+          }
+        }
+      },
       "CloudAccount": {
         "type": "object",
         "properties": {
@@ -12872,7 +13435,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -12992,7 +13555,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13015,7 +13578,7 @@
           },
           "deletionGracePeriod": {
             "type": "string",
-            "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
+            "description": "Optional. The grace period for deleting the subscription if Redis cannot access the provided key. Required when applying customer managed keys for a new subscription.",
             "example": "alerts-only",
             "enum": [
               "alerts-only",
@@ -13142,7 +13705,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13606,7 +14169,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -13650,7 +14213,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -13774,7 +14337,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -13889,7 +14452,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14020,7 +14583,7 @@
             "type": "string"
           }
         },
-        "description": "Optional. A list of resource tags to apply to the subscription. (max. 30 tags)."
+        "description": "List of resource tags to apply to the subscription. This will replace all existing tags."
       },
       "CustomerManagedKeyAccessDetails": {
         "type": "object",
@@ -14100,7 +14663,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14137,7 +14700,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14175,7 +14738,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14382,9 +14945,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -14536,7 +15101,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14617,7 +15182,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14670,7 +15235,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -14751,7 +15316,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15056,7 +15621,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15262,7 +15827,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15313,7 +15878,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -15367,17 +15932,6 @@
           }
         },
         "description": "Database tag"
-      },
-      "BdbAvailableVersionsResponse": {
-        "type": "object",
-        "properties": {
-          "targets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TargetVersion"
-            }
-          }
-        }
       },
       "SubscriptionSpec": {
         "required": [
@@ -15441,6 +15995,31 @@
           }
         },
         "description": "Essentials database backup request message"
+      },
+      "DatabaseVersionUpgradeStatus": {
+        "type": "object",
+        "properties": {
+          "databaseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "targetRedisVersion": {
+            "type": "string"
+          },
+          "progress": {
+            "type": "number",
+            "format": "double"
+          },
+          "upgradeStatus": {
+            "type": "string",
+            "enum": [
+              "in-progress",
+              "in-progress-recovery-pending",
+              "done",
+              "failed"
+            ]
+          }
+        }
       },
       "DatabaseModuleSpec": {
         "required": [
@@ -15530,6 +16109,31 @@
         },
         "description": "Optional. Cloud networking details, per region. Required if creating an Active-Active subscription."
       },
+      "SubscriptionResourceTagsUpdateRequest": {
+        "required": [
+          "resourceTags"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "resourceTags": {
+            "type": "array",
+            "description": "List of resource tags to apply to the subscription. This will replace all existing tags.",
+            "items": {
+              "$ref": "#/components/schemas/ResourceTag"
+            }
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Resource tags update request"
+      },
       "DatabaseTagsUpdateRequest": {
         "required": [
           "tags"
@@ -15559,6 +16163,31 @@
           }
         },
         "description": "Database tags update request message"
+      },
+      "PrivateLinkConnectionsDisassociateRequest": {
+        "required": [
+          "connections"
+        ],
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "connections": {
+            "type": "array",
+            "description": "List of connections to disassociate from the private link. Each connection must include associationId, type, and principalId.",
+            "items": {
+              "$ref": "#/components/schemas/PrivateLinkConnectionDisassociate"
+            }
+          },
+          "commandType": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "description": "Private Link connections disassociate request"
       },
       "AccountUsers": {
         "type": "object",
@@ -15730,13 +16359,19 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
             ]
+          },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above."
           },
           "commandType": {
             "type": "string",
@@ -15795,7 +16430,7 @@
           },
           "multipleAvailabilityZones": {
             "type": "boolean",
-            "description": "Optional. Support deployment on multiple availability zones within the selected region. Default: 'false'",
+            "description": "Optional. Support deployment on multiple availability zones within the selected region. Default for Active-Active: matches the region's multi-AZ capability (true on multi-AZ regions, false on non-multi-AZ regions). Default for Pro / single-region: `false`.",
             "example": false
           },
           "preferredAvailabilityZones": {
@@ -15896,6 +16531,10 @@
             "description": "Optional. If specified, redisVersion defines the Redis database version. If omitted, the Redis version will be set to the default version (available in 'GET /subscriptions/redis-versions')",
             "example": "7.2"
           },
+          "autoMinorVersionUpgrade": {
+            "type": "boolean",
+            "description": "Optional. Automatically upgrades the database to newer minor versions within the same major release. Applies to version 8.4 and above. Default: true."
+          },
           "respVersion": {
             "type": "string",
             "description": "Optional. Redis Serialization Protocol version. Must be compatible with Redis version.",
@@ -15933,9 +16572,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -16115,6 +16756,37 @@
         },
         "description": "ACL user update request"
       },
+      "PrivateLinkConnectionDisassociate": {
+        "required": [
+          "associationId",
+          "principalId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "description": "Resource share association ID",
+            "example": "rsa-12345678"
+          },
+          "connectionId": {
+            "type": "string",
+            "description": "VPC endpoint connection ID",
+            "example": "vpce-con-12345678"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the connection",
+            "example": "vpc_endpoint"
+          },
+          "principalId": {
+            "type": "string",
+            "description": "Principal ID that owns the connection, e.g. AWS account ID",
+            "example": "123456789012"
+          }
+        },
+        "description": "Private link connection information for disassociation request"
+      },
       "ProcessorResponse": {
         "type": "object",
         "properties": {
@@ -16163,6 +16835,8 @@
               "SUBSCRIPTION_INVALID_REGION_NAME",
               "SUBSCRIPTION_INVALID_REGION_ID",
               "SUBSCRIPTION_BAD_PREFERRED_AZ_SIZE",
+              "SUBSCRIPTION_REGION_DOES_NOT_SUPPORT_MULTI_AZ",
+              "SUBSCRIPTION_AA_NON_MAZ_REGION_NOT_SUPPORTED",
               "SUBSCRIPTION_PREFERRED_AZ_INVALID_VALUE",
               "SUBSCRIPTION_PREFERRED_AZ_MUST_BE_DEFINED_ONCE",
               "SUBSCRIPTION_PREFERRED_AZ_IS_DISABLED",
@@ -16192,7 +16866,7 @@
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_ALLOWED_WITH_CLOUD_PROVIDER_MANAGED_KEY",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_ALLOWED_WITH_INTERNAL_CLOUD_ACCOUNT",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REQUIRED_FOR_EXTERNAL_CLOUD_ACCOUNT",
-              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_NOT_PENDING",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_DELETION_GRACE_PERIOD_REQUIRED",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_NUMBER_OF_KEYS",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REGION_NOT_REQUIRED",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_REGION_REQUIRED",
@@ -16200,6 +16874,8 @@
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_REGION",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_DUPLICATE_REGIONS",
               "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_INVALID_FORMAT",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_UPDATE_IS_NOT_SUPPORTED",
+              "CUSTOMER_MANAGED_PERSISTENT_STORAGE_ENCRYPTION_KEY_SUBSCRIPTION_INVALID_STATUS",
               "ACTIVE_ACTIVE_CREATE_A_REGION_CUSTOMER_MANAGED_KEY_RESOURCE_NAME_SUBSCRIPTION_IS_NOT_CUSTOMER_MANAGED",
               "ACTIVE_ACTIVE_CREATE_A_REGION_CUSTOMER_MANAGED_KEY_RESOURCE_NAME_IS_NOT_SET",
               "PLANNED_SUBSCRIPTION_INVALID_PLAN_ID",
@@ -16232,11 +16908,8 @@
               "DATABASE_QUERY_PERFORMANCE_FACTOR_IS_NOT_SUPPORTED_ON_ACTIVE_ACTIVE",
               "REDISEARCH_SUPPORTS_ONLY_OPERATIONS_PER_SECOND_AS_THROUGHPUT_MEASUREMENT",
               "REDIS_GRAPH_SUPPORTS_ONLY_OPS_PER_SECOND_AS_THROUGHPUT_MEASUREMENT",
-              "DATABASE_MULTI_MODULES_IS_DISABLED",
               "DATABASE_RESP_VERSION_IS_NOT_SUPPORTED",
               "DATABASE_RESP_VERSION_IS_NOT_SUPPORTED_ON_CREATE_SUBSCRIPTION",
-              "CLUSTER_MULTI_MODULES_IS_NOT_SUPPORTED",
-              "DATABASE_INVALID_MULTI_MODULES_COMBINATION",
               "DATABASE_ROF_NOT_SUPPORTED",
               "DATABASE_REDISGRAPH_OVERSIZED",
               "DATABASE_BACKUP_NOT_SUPPORTED",
@@ -16325,6 +16998,7 @@
               "DATABASE_INVALID_REGEX_RULES",
               "DATABASE_INVALID_QUANTITY",
               "DATABASE_REPLICA_OF_VERSION_NOT_COMPATIBLE",
+              "DATABASE_REPLICA_OF_SOURCE_INCOMPATIBLE",
               "DATABASE_IMPORT_FAILED",
               "DATABASE_IMPORT_FROM_NON_OSS",
               "DATABASE_IMPORT_SOURCE_NOT_FOUND",
@@ -16346,10 +17020,12 @@
               "DATABASE_CUSTOM_PORT_NOT_UNIQUE",
               "DATABASE_AVERAGE_ITEM_SIZE_INVALID_VALUE",
               "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED",
+              "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED_FOR_REGION",
               "DATABASE_REDIS_VERSION_IS_NOT_SUPPORTED_FOR_MEMCACHED",
               "DATABASE_REDIS_VERSION_IS_REQUIRED",
               "DATABASE_REDIS_VERSION_INVALID_VALUE",
               "INCOMPATIBLE_TF_PROVIDER",
+              "DESIRED_SOFTWARE_VERSION_IS_NOT_SUPPORTED",
               "CONNECTIVITY_REQUESTS_ON_CUSTOMER_MANAGED_VPC_SUBSCRIPTION",
               "VPC_PEERING_NOT_ACTIVE",
               "VPC_PEERING_GENERAL_ERROR",
@@ -16450,6 +17126,7 @@
               "PAYMENT_INFO_NOT_ALLOWED_IN_GCP_ACCOUNT",
               "CLOUD_PROVIDER_IS_NOT_GCP_IN_GCP_ACCOUNT",
               "PAYMENT_INFO_NOT_ALLOWED_IN_CONTRACT_ASSOCIATED_ACCOUNT",
+              "PAYMENT_INFO_CHANGE_PROHIBITED_FOR_PRO_UNDER_CONTRACT",
               "LOCAL_THROUGHPUT_READ_AND_WRITE_OPERATIONS_PER_SECOND_VALUES_MUST_BE_IN_INCREMENTS_OF_500_OR_MINIMUM",
               "MISSING_REGIONS_BETWEEN_CLOUD_PROVIDERS_AND_DATABASES_LOCAL_THROUGHPUT_MEASUREMENTS",
               "MISSING_REGIONS_BETWEEN_LOCAL_THROUGHPUT_MEASUREMENTS_AND_SUBSCRIPTION_REGIONS",
@@ -16543,7 +17220,10 @@
               "FIXED_DATABASE_NO_EVICTION_IS_NOT_SUPPORTED_BY_CLUSTER",
               "FIXED_DATABASE_DATA_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_CLUSTER",
               "FIXED_DATABASE_DATA_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_SELECTED_MODULES",
-              "FIXED_DATABASE_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_REDIS_FLEX_PLAN",
+              "FIXED_DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_VERSION",
+              "DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_VERSION",
+              "DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_FLEX",
+              "FIXED_DATABASE_EVICTION_POLICY_NOT_COMPATIBLE_WITH_REDIS_FLEX",
               "FIXED_DATABASE_REPLICA_OF_IS_NOT_SUPPORTED_BY_SELECTED_MODULES",
               "FIXED_DATABASE_DATA_PERSISTENCE_VALUE_NOT_SUPPORTED_FOR_FIXED",
               "FIXED_DATABASE_DATA_EVICTION_POLICY_IS_NOT_SUPPORTED_BY_ALL_MODULES_IN_SELECTED_PLAN_OR_CLUSTER",
@@ -16570,6 +17250,7 @@
               "PAYMENT_INVALID_CARD_TYPE",
               "PAYMENT_CVV_MISSING",
               "PAYMENT_GENERAL_ERROR",
+              "PAYMENT_HOLD_FAILED",
               "ACL_USER_NAME_ALREADY_EXISTS",
               "ACL_USER_NAME_NOT_VALID",
               "ACL_USER_NOT_FOUND",
@@ -16713,6 +17394,10 @@
               "PRIVATE_LINK_DELETING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
               "PRIVATE_LINK_IS_NOT_SUPPORTED",
               "PRIVATE_LINK_SERVICE_ERROR",
+              "PRIVATE_LINK_SUBSCRIPTION_REACHED_MAX_DATABASES_COUNT",
+              "PRIVATE_LINK_ALL_PRINCIPALS_MUST_BE_DELETED_BEFORE_DELETING_RESOURCE_LINK",
+              "PRIVATE_LINK_DISASSOCIATE_CONNECTIONS_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
+              "PRIVATE_LINK_DISASSOCIATE_CONNECTIONS_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
               "COST_REPORT_IS_NOT_SUPPORTED",
               "COST_REPORT_START_DATE_IS_MISSING",
               "COST_REPORT_END_DATE_IS_MISSING",
@@ -16737,7 +17422,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           },
@@ -16847,6 +17532,20 @@
         },
         "description": "Database backup request message"
       },
+      "ReplicaAsSourceEndpoints": {
+        "type": "object",
+        "properties": {
+          "public": {
+            "type": "string",
+            "description": "Public cluster endpoint that can be used as source for replication"
+          },
+          "private": {
+            "type": "string",
+            "description": "Private cluster endpoint that can be used as source for replication"
+          }
+        },
+        "description": "Endpoints to use when configuring another database to replicate from this database (Make sure to use this instead of the dynamic endpoints)."
+      },
       "DataPersistenceOptions": {
         "type": "object",
         "properties": {
@@ -16861,7 +17560,7 @@
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -17385,8 +18084,7 @@
             "type": "integer",
             "description": "Deployment region id as defined by cloud provider",
             "format": "int32",
-            "readOnly": true,
-            "example": 27
+            "readOnly": true
           },
           "principal": {
             "type": "string",
@@ -17527,9 +18225,11 @@
             "enum": [
               "allkeys-lru",
               "allkeys-lfu",
+              "allkeys-lrm",
               "allkeys-random",
               "volatile-lru",
               "volatile-lfu",
+              "volatile-lrm",
               "volatile-random",
               "volatile-ttl",
               "noeviction"
@@ -17552,12 +18252,15 @@
           "dynamicEndpoints": {
             "$ref": "#/components/schemas/DynamicEndpoints"
           },
+          "replicaAsSourceEndpoints": {
+            "$ref": "#/components/schemas/ReplicaAsSourceEndpoints"
+          },
           "links": {
             "type": "array",
             "items": {
               "type": "object",
               "additionalProperties": {
-                "type": "object"
+                "type": "string"
               }
             }
           }
@@ -17773,6 +18476,11 @@
             "description": "Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account.",
             "example": "sg-0125be68a4625884ad"
           },
+          "multipleAvailabilityZones": {
+            "type": "boolean",
+            "description": "Optional. Support deployment on multiple availability zones within the selected region. When omitted, defaults to true unless the region is explicitly marked as not supporting multi-AZ.",
+            "example": false
+          },
           "preferredAvailabilityZones": {
             "type": "array",
             "description": "Optional. List the zone IDs for your preferred availability zones for the cloud provider and region.",
@@ -17898,7 +18606,7 @@
           },
           "deletionGracePeriod": {
             "type": "string",
-            "description": "Optional. The grace period for deleting the subscription. If not set, will default to immediate deletion grace period.",
+            "description": "Optional. The grace period for deleting the subscription if Redis cannot access the provided key. Required when applying customer managed keys for a new subscription.",
             "example": "alerts-only",
             "enum": [
               "alerts-only",
@@ -17948,9 +18656,9 @@
         "name": "x-api-secret-key",
         "in": "header"
       },
-      "X-Auth-Token": {
+      "x-auth-token": {
         "type": "apiKey",
-        "name": "X-Auth-Token",
+        "name": "x-auth-token",
         "in": "header"
       }
     }

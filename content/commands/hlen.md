@@ -43,10 +43,17 @@ railroad_diagram: /images/railroad/hlen.svg
 since: 2.0.0
 summary: Returns the number of fields in a hash.
 syntax_fmt: HLEN key
-syntax_str: ''
 title: HLEN
 ---
 Returns the number of fields contained in the hash stored at `key`.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
 
 ## Examples
 
@@ -56,9 +63,9 @@ HSET myhash field2 "World"
 HLEN myhash
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

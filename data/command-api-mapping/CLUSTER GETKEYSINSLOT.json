@@ -1,0 +1,147 @@
+{
+  "api_calls": {
+    "redis_py": [],
+    "jedis": [
+      {
+        "signature": "List<String> clusterGetKeysInSlot(final int slot, final int count)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "OK"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ClusterGetKeysInSlot(ctx context.Context, slot int, count int)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "slot",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "parseCommand(parser: CommandParser, slot: number, count: number)",
+        "params": [
+          {
+            "name": "parser",
+            "type": "CommandParser",
+            "description": "The Redis command parser"
+          },
+          {
+            "name": "slot",
+            "type": "number",
+            "description": "The hash slot to get keys from"
+          },
+          {
+            "name": "count",
+            "type": "number",
+            "description": "Maximum number of keys to return"
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply>",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<K> clusterGetKeysInSlot(int slot, int count)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot to get keys from"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "Maximum number of keys to return"
+          }
+        ],
+        "returns": {
+          "type": "List<K>",
+          "description": "List of keys in the slot"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<K>> clusterGetKeysInSlot(int slot, int count)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot to get keys from"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "Maximum number of keys to return"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<K>>",
+          "description": "List of keys in the slot"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<K> clusterGetKeysInSlot(int slot, int count)",
+        "params": [
+          {
+            "name": "slot",
+            "type": "int",
+            "description": "The hash slot to get keys from"
+          },
+          {
+            "name": "count",
+            "type": "int",
+            "description": "Maximum number of keys to return"
+          }
+        ],
+        "returns": {
+          "type": "Flux<K>",
+          "description": "List of keys in the slot"
+        }
+      }
+    ],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": []
+  }
+}
+

@@ -93,8 +93,6 @@ summary: Changes, or acquires, ownership of a message in a consumer group, as if
   message was delivered a consumer group member.
 syntax_fmt: "XCLAIM key group consumer min-idle-time id [id ...] [IDLE\_ms]\n  [TIME\_\
   unix-time-milliseconds] [RETRYCOUNT\_count] [FORCE] [JUSTID]\n  [LASTID\_lastid]"
-syntax_str: "group consumer min-idle-time id [id ...] [IDLE\_ms] [TIME\_unix-time-milliseconds]\
-  \ [RETRYCOUNT\_count] [FORCE] [JUSTID] [LASTID\_lastid]"
 title: XCLAIM
 ---
 In the context of a stream consumer group, this command changes the ownership
@@ -111,6 +109,8 @@ This dynamic is clearly explained in the [Stream intro documentation]({{< relref
 
 Note that the message is claimed only if its idle time is greater than the minimum idle time we specify when calling `XCLAIM`. Because as a side effect `XCLAIM` will also reset the idle time (since this is a new attempt at processing the message), two consumers trying to claim a message at the same time will never both succeed: only one will successfully claim the message. This avoids that we process a given message multiple times in a trivial way (yet multiple processing is possible and unavoidable in the general case).
 
+Messages that have been released back to the group using [`XNACK`]({{< relref "/commands/xnack" >}}) are immediately claimable since their delivery time is set to 0, satisfying any minimum idle time requirement.
+
 Moreover, as a side effect, `XCLAIM` will increment the count of attempted deliveries of the message unless the `JUSTID` option has been specified (which only delivers the message ID, not the message itself). In this way messages that cannot be processed for some reason, for instance because the consumers crash attempting to process them, will start to have a larger counter and can be detected inside the system.
 
 `XCLAIM` will not claim a message in the following cases:
@@ -121,18 +121,77 @@ Moreover, as a side effect, `XCLAIM` will increment the count of attempted deliv
 In both cases the reply will not contain a corresponding entry to that message (i.e. the length of the reply array may be smaller than the number of IDs provided to `XCLAIM`).
 In the latter case, the message will also be deleted from the PEL in which it was found. This feature was introduced in Redis 7.0.
 
-## Command options
+## Required arguments
 
-The command has multiple options, however most are mainly for internal use in
-order to transfer the effects of `XCLAIM` or other commands to the AOF file
-and to propagate the same effects to the replicas, and are unlikely to be
-useful to normal users:
+<details open><summary><code>key</code></summary>
 
-1. `IDLE <ms>`: Set the idle time (last time it was delivered) of the message. If IDLE is not specified, an IDLE of 0 is assumed, that is, the time count is reset because the message has now a new owner trying to process it.
-2. `TIME <ms-unix-time>`: This is the same as IDLE but instead of a relative amount of milliseconds, it sets the idle time to a specific Unix time (in milliseconds). This is useful in order to rewrite the AOF file generating `XCLAIM` commands.
-3. `RETRYCOUNT <count>`: Set the retry counter to the specified value. If not set, `XCLAIM` will increment the retry counter every time a message is delivered again.
-4. `FORCE`: Creates the pending message entry in the PEL even if certain specified IDs are not already in the PEL assigned to a different client. However the message must be exist in the stream, otherwise the IDs of non existing messages are ignored.
-5. `JUSTID`: Return just an array of IDs of messages successfully claimed, without returning the actual message. Using this option means the retry counter is not incremented.
+The stream key.
+
+</details>
+
+<details open><summary><code>group</code></summary>
+
+The consumer group name.
+
+</details>
+
+<details open><summary><code>consumer</code></summary>
+
+The name of the consumer that will own the claimed messages.
+
+</details>
+
+<details open><summary><code>min-idle-time</code></summary>
+
+Claim only messages that have been idle for at least this long, in milliseconds.
+
+</details>
+
+<details open><summary><code>id [id ...]</code></summary>
+
+One or more message IDs to claim.
+
+</details>
+
+## Optional arguments
+
+Most of the following options are mainly for internal use, to transfer the effects of `XCLAIM` to the AOF file and replicas, and are unlikely to be useful to normal users.
+
+<details open><summary><code>IDLE ms</code></summary>
+
+Set the idle time (last time it was delivered) of the message. If `IDLE` is not specified, an idle time of `0` is assumed, that is, the time count is reset because the message now has a new owner trying to process it.
+
+</details>
+
+<details open><summary><code>TIME unix-time-milliseconds</code></summary>
+
+The same as `IDLE` but sets the idle time to a specific Unix time (in milliseconds) instead of a relative amount of milliseconds. This is useful in order to rewrite the AOF file generating `XCLAIM` commands.
+
+</details>
+
+<details open><summary><code>RETRYCOUNT count</code></summary>
+
+Set the retry counter to the specified value. If not set, `XCLAIM` increments the retry counter every time a message is delivered again.
+
+</details>
+
+<details open><summary><code>FORCE</code></summary>
+
+Create the pending message entry in the PEL even if the specified IDs are not already in the PEL assigned to a different client. However, the message must exist in the stream, otherwise the IDs of non-existing messages are ignored.
+
+</details>
+
+<details open><summary><code>JUSTID</code></summary>
+
+Return just an array of IDs of messages successfully claimed, without returning the actual messages. Using this option means the retry counter is not incremented.
+
+</details>
+
+<details open><summary><code>LASTID lastid</code></summary>
+
+Update the consumer group's last-delivered ID to the given ID.
+
+</details>
 
 ## Examples
 
@@ -143,11 +202,11 @@ useful to normal users:
       2) "orange"
 ```
 
-In the above example we claim the message with ID `1526569498055-0`, only if the message is idle for at least one hour without the original consumer or some other consumer making progresses (acknowledging or claiming it), and assigns the ownership to the consumer `Alice`.
+In the previous example, you claim the message with ID 1526569498055-0 and assign it to the consumer Alice, but only if neither the original consumer nor another consumer has acknowledged or claimed it for at least one hour.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

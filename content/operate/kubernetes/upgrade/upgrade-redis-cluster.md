@@ -35,23 +35,15 @@ Check the [Redis Enterprise for Kubernetes release notes]({{<relref "/operate/ku
 
 Check the release notes for your target version to determine the minimum Redis database version required. See [upgrade databases](#upgrade-databases) for detailed steps. You can find your database version in the [REDB `spec.redisVersion` field]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#redisversion" >}}).
 
-### Module compatibility
+### User-defined modules
 
-Some Redis Enterprise operator versions may require specific module versions or involve changes to the underlying operating system. If your databases use modules, check the release notes for your target version to determine if you need to manually install updated modules.
+If your databases use user-defined modules (custom non-bundled modules):
 
-To see which modules you have installed, run:
+- Set `autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.
+- Define the user-defined modules in the REC custom resource before upgrading the database.
+- See [Edit `redisEnterpriseImageSpec`](#edit-redisenterpriseimagespec-in-the-rec-spec) for more details.
 
-```sh
-curl -k -u <rec_username>:<rec_password> -X GET https://localhost:9443/v1/modules | jq -r 'map([.module_name, .semantic_version, (.platforms | keys)]) | .[] | .[0] as $name | .[1] as $version | .[2][] | $name + "-" + $version + "-" + .' | sort
-```
-
-To see which modules are currently in use, run:
-
-```sh
-curl -k -u <rec_username>:<rec_password> -X GET https://localhost:9443/v1/bdbs | jq -r '.[].module_list | map(.module_name + "-" + .semantic_version) | .[]'
-```
-
-See [Upgrade modules]({{<relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module">}}) for details on how to upgrade modules with the `rladmin` tool.
+For more information about user-defined modules, see [User-defined modules]({{< relref "/operate/kubernetes/re-databases/modules#user-defined-modules" >}}).
 
 ### Valid license
 
@@ -85,6 +77,8 @@ After the Helm upgrade completes, continue with [upgrading the Redis Enterprise 
 For detailed Helm upgrade instructions, see [Upgrade the chart]({{<relref "/operate/kubernetes/deployment/helm#upgrade-the-chart">}}).
 
 ## Upgrade the operator
+
+{{<warning>}}If your databases use user-defined modules, set `autoUpgradeRedisEnterprise: false` in the REC custom resource before upgrading the operator.{{</warning>}}
 
 ### Download the bundle
 
@@ -160,15 +154,17 @@ We recommend upgrading the REC as soon as possible after updating the operator. 
 
 The Redis Enterprise cluster (REC) can be updated automatically or manually. To trigger automatic upgrade of the REC after the operator upgrade completes, specify `autoUpgradeRedisEnterprise: true` in your REC spec. If you don't have automatic upgrade enabled, follow the below steps for the manual upgrade.
 
+{{<warning>}}
+Automatic upgrade is incompatible with image digest hashes. If you set a `digestHash` in any image spec (`redisEnterpriseImageSpec`, `redisEnterpriseServicesRiggerImageSpec`, `bootstrapperImageSpec`, or `usageMeter.callHomeClient.imageSpec`) while `autoUpgradeRedisEnterprise` is `true`, the operator invalidates the REC spec and publishes a Kubernetes warning event. Remove all `digestHash` values before you enable automatic upgrade, or upgrade the cluster [manually](#edit-redisenterpriseimagespec-in-the-rec-spec) instead.
+{{</warning>}}
+
 Before beginning the upgrade of the Redis Enterprise cluster, check the [Redis Enterprise for Kubernetes release notes]({{<relref "/operate/kubernetes/release-notes">}}) to find the Redis Enterprise image tag for your target version.
 
 After the operator upgrade is complete, you can upgrade Redis Enterprise cluster (REC).
 
-### Upgrade an REC with an Active-Active database
-
-We recommend upgrading all participating clusters to the same operator version.
-
-If you are upgrading from a preview version of the Active-Active controller, you can remove the following environment variables: `ACTIVE_ACTIVE_DATABASE_CONTROLLER_ENABLED`, `REMOTE_CLUSTER_CONTROLLER_ENABLED`, and `ENABLE_ALPHA_FEATURES`.
+{{<note>}}
+For Active-Active databases, we recommend upgrading all participating clusters to the same operator version.
+{{</note>}}
 
 ### Edit `redisEnterpriseImageSpec` in the REC spec
 
@@ -187,6 +183,24 @@ If you are upgrading from a preview version of the Active-Active controller, you
         repository:       redislabs/redis
         versionTag:       <new-version-tag>
     ```
+
+1. Define any user-defined modules used by databases in the cluster.
+
+    ```YAML
+    spec:
+      userDefinedModules:
+        - name: "custom-module"
+          source:
+            https:
+              url: "https://modules.company.com/search-v2.1.zip"
+              credentialsSecret: "module-repo-creds"
+    ```
+
+  The `name` field must match the `display_name` or `module_name` that appears in the module manifest (for example, "redisgears"). This enables the operator to run validation on the user-defined module. If these names don't match, the operator can't run validation on the user-defined module and preventable errors may occur.
+
+  {{< note >}}
+Adding or modifying the `userDefinedModules` list triggers a rolling restart of the Redis Enterprise cluster pods in addition to the rolling upgrade for the version change.
+  {{< /note >}}
 
 1. Save the changes to apply.
 
@@ -214,23 +228,55 @@ To see the status of the current rolling upgrade, run:
 kubectl rollout status sts <REC_name>
 ```
 
-### Upgrade databases
+## Upgrade databases
 
 After the cluster is upgraded, you can upgrade your databases.
 
+### Upgrade REDB
+
 To upgrade your REDB, specify your new database version in the `spec.redisVersion` field in the REDB or REAADB custom resources. Supported database versions for operator versions include "7.2", "7.4", "8.0", and "8.2" (note this value is a string).  
+
+### Upgrade REAADB
 
 For Active-Active databases, the `redis.Version` change only needs to be applied on one participating cluster and will automatically propagate to all other participating clusters. All participating clusters must be running operator version 8.0.2-2 or later.
 
 If your REAADB uses supported modules, keep the existing `moduleList` version numbers unchanged when upgrading `redisVersion`. The database will automatically use the module versions that are bundled with the new Redis version, regardless of what versions are specified in `moduleList`. After the upgrade is complete, you can optionally change the old version numbers from `moduleList`, but this change has no functional impact.
 
-#### General upgrade notes
+### Upgrade with user-defined modules
+
+If a user-defined module is used by any database in the cluster, the module must be defined in the REC custom resource before upgrading the database. See [Add user-defined modules to the REC]({{< relref "/operate/kubernetes/re-databases/modules#add-user-defined-modules-to-the-rec" >}}) for detailed instructions.
+
+### Upgrade policy
 
 Note that if your cluster [`redisUpgradePolicy`]({{<relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#redisupgradepolicy" >}}) or your database [`redisVersion`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api#redisversion" >}}) are set to `major`, you won't be able to upgrade those databases to minor versions. See [Redis upgrade policy]({{< relref "/operate/rs/installing-upgrading/upgrading#redis-upgrade-policy" >}}) for more details.
 
 ## Troubleshooting
 
 If you start an upgrade without meeting the [prerequisites](#prerequisites), the operator will freeze the upgrade. Check the operator logs for the source of the error. The REDB reconsilliation doesn't work during an upgrade, so you need to apply a manual fix with the Redis Software API (examples below). The updates will also need to be added to the REDB custom resource.
+
+### User-defined modules
+
+If your databases use user-defined modules and you encounter upgrade issues:
+
+1. **Verify `autoUpgradeRedisEnterprise` is set to `false`**: Check the REC spec to ensure automatic upgrades are disabled.
+
+    ```sh
+    kubectl get rec <cluster-name> -o jsonpath='{.spec.autoUpgradeRedisEnterprise}'
+    ```
+
+1. **Verify modules are defined in the REC**: Ensure all user-defined modules are listed in the REC `userDefinedModules` section before upgrading.
+
+    ```sh
+    kubectl get rec <cluster-name> -o jsonpath='{.spec.userDefinedModules}' | jq
+    ```
+
+1. **Check module validation errors**: Review the REC status for module validation errors.
+
+    ```sh
+    kubectl describe rec <cluster-name>
+    ```
+
+For more information about user-defined modules, see [User-defined modules]({{< relref "/operate/kubernetes/re-databases/modules#user-defined-modules" >}}).
 
 ### Invalid module version
 
@@ -251,3 +297,17 @@ curl -sfk -u <rec_username>:<rec_password> -X POST -H "Content-Type: application
 ```
 
 After updating the modules with the Redis Software API, update the REDB custom resource to reflect the change.
+
+### Auto-upgrade blocked by image digest hashes
+
+If `autoUpgradeRedisEnterprise` is `true` and any image spec sets a `digestHash`, the operator invalidates the REC spec and blocks the upgrade until you remove the digest hashes. The REC enters the `InvalidUpgrade` state and the operator publishes a Kubernetes warning event describing the problem.
+
+1. **Check the REC events**: Review the event published on the REC.
+
+    ```sh
+    kubectl describe rec <cluster-name>
+    ```
+
+1. **Remove the digest hashes**: Delete the `digestHash` field from every image spec that sets it (`redisEnterpriseImageSpec`, `redisEnterpriseServicesRiggerImageSpec`, `bootstrapperImageSpec`, and `usageMeter.callHomeClient.imageSpec`). Once the spec no longer uses digest hashes, the operator revalidates it and the upgrade proceeds.
+
+Alternatively, set `autoUpgradeRedisEnterprise: false` and [upgrade the cluster manually](#edit-redisenterpriseimagespec-in-the-rec-spec), which supports digest hashes.

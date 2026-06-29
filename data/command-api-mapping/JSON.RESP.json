@@ -1,0 +1,67 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "resp(name: str, path: Optional[str] = Path.root_path())",
+        "params": [
+          {
+            "name": "name",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "Optional[str] = Path.root_path()",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Resp(RedisKey key, string? path = null)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "string?",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "RedisResult[]",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "jsonresp(string $key, string $path = '$')",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "string $path = '$'",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

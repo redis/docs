@@ -31,11 +31,7 @@ railroad_diagram: /images/railroad/ft.cursor-read.svg
 since: 1.1.0
 stack_path: docs/interact/search-and-query
 summary: Reads from a cursor
-syntax: 'FT.CURSOR READ index cursor_id [COUNT read_size]
-
-  '
 syntax_fmt: "FT.CURSOR READ index cursor_id [COUNT\_read size]"
-syntax_str: "cursor_id [COUNT\_read size]"
 title: FT.CURSOR READ
 ---
 
@@ -75,9 +71,9 @@ is number of results to read. This parameter overrides `COUNT` specified in [`FT
 {{< / highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
@@ -105,4 +101,5 @@ One of the following:
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})

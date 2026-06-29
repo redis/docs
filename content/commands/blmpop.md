@@ -73,9 +73,13 @@ since: 7.0.0
 summary: Pops the first element from one of multiple lists. Blocks until an element
   is available otherwise. Deletes the list if the last element was popped.
 syntax_fmt: "BLMPOP timeout numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
-syntax_str: "numkeys key [key ...] <LEFT | RIGHT> [COUNT\_count]"
 title: BLMPOP
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 `BLMPOP` is the blocking variant of [`LMPOP`]({{< relref "/commands/lmpop" >}}).
 
 When any of the lists contains elements, this command behaves exactly like [`LMPOP`]({{< relref "/commands/lmpop" >}}).
@@ -85,9 +89,43 @@ A `timeout` of zero can be used to block indefinitely.
 
 See [`LMPOP`]({{< relref "/commands/lmpop" >}}) for more information.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys of lists to operate on.
+
+</details>
+
+<details open><summary><code>LEFT | RIGHT</code></summary>
+
+The end of the list to pop elements from: `LEFT` (head) or `RIGHT` (tail).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The number of elements to pop. Defaults to 1.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

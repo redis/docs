@@ -51,13 +51,32 @@ railroad_diagram: /images/railroad/lset.svg
 since: 1.0.0
 summary: Sets the value of an element in a list by its index.
 syntax_fmt: LSET key index element
-syntax_str: index element
 title: LSET
 ---
 Sets the list element at `index` to `element`.
 For more information on the `index` argument, see [`LINDEX`]({{< relref "/commands/lindex" >}}).
 
 An error is returned for out of range indexes.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>index</code></summary>
+
+The zero-based index of the element to set. Negative indexes count from the tail.
+
+</details>
+
+<details open><summary><code>element</code></summary>
+
+The new value.
+
+</details>
 
 ## Examples
 
@@ -70,9 +89,9 @@ LSET mylist -2 "five"
 LRANGE mylist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

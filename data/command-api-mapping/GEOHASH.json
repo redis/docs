@@ -1,0 +1,561 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "geohash(name: KeyT, *values: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*values",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "List<String> geohash(final String key, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "A list of Geohash strings corresponding to each member name passed as argument to the command."
+        }
+      },
+      {
+        "signature": "List<String> geohash(String key, String... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "String...",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "List<String>",
+          "description": "A list of Geohash strings corresponding to each member name passed as argument to the command."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<Value<String>> geohash(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members."
+          }
+        ],
+        "returns": {
+          "type": "List<Value<String>>",
+          "description": "bulk reply Geohash strings in the order of members. Returns null if a member is not found."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<Value<String>>> geohash(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<Value<String>>>",
+          "description": "bulk reply Geohash strings in the order of members. Returns null if a member is not found."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Value<String>> geohash(K key, V... members)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the geo set."
+          },
+          {
+            "name": "members",
+            "type": "V...",
+            "description": "the members."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Value<String>>",
+          "description": "bulk reply Geohash strings in the order of members. Returns null if a member is not found."
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "GeoHash(ctx context.Context, key string, members ...string)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*StringSliceCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "GEOHASH(key: RedisArgument, member: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "geohash(...args: [, key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<string[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geohash(...args: [, key: RedisKey, members: (string | Buffer | number)[], callback: Callback<string[]>, ])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[, key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geohash(...args: [key: RedisKey, ...members: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "geohash(...args: [key: RedisKey, members: (string | Buffer | number)[]])",
+        "params": [
+          {
+            "name": "...args",
+            "type": "[key",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "geo_hash(key: K, members: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "geo_hash(key: K, members: M)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "members",
+            "type": "M",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(Vec<String>)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "GeoHash(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "members",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "string?[]",
+          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
+        }
+      },
+      {
+        "signature": "GeoHash(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "string?",
+          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
+        }
+      },
+      {
+        "signature": "GeoHashAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<string?>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "GeoHash(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "members",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "string?[]",
+          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
+        }
+      },
+      {
+        "signature": "GeoHash(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "string?",
+          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "GeoHashAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<string?>",
+          "description": ""
+        }
+      },
+      {
+        "signature": "GeoHash(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "members",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "string?[]",
+          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
+        }
+      },
+      {
+        "signature": "GeoHash(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "string?",
+          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
+        }
+      },
+      {
+        "signature": "GeoHash(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "members",
+            "type": "RedisValue[]",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "string?[]",
+          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
+        }
+      },
+      {
+        "signature": "GeoHash(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The key of the set."
+          },
+          {
+            "name": "member",
+            "type": "RedisValue",
+            "description": "The member to get."
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": "The flags to use for this operation."
+          }
+        ],
+        "returns": {
+          "type": "string?",
+          "description": "The command returns an array where each element is the Geohash corresponding to each member name passed as argument to the command."
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "geohash(string $key, array $members)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$members",
+            "type": "array",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rb": [
+      {
+        "signature": "geohash(key, member)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "member",
+            "type": "String, Array<String>",
+            "description": "one member or array of members"
+          }
+        ],
+        "returns": {
+          "type": "Array<String, nil>",
+          "description": "array containing geohash string if member is present, nil otherwise"
+        }
+      }
+    ]
+  }
+}

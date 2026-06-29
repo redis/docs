@@ -38,9 +38,7 @@ railroad_diagram: /images/railroad/ft.alter.svg
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Adds a new field to the index
-syntax: FT.ALTER index [SKIPINITIALSCAN] SCHEMA ADD field options
 syntax_fmt: FT.ALTER index [SKIPINITIALSCAN] SCHEMA ADD field options
-syntax_str: '[SKIPINITIALSCAN] SCHEMA ADD field options'
 title: FT.ALTER
 ---
 
@@ -91,9 +89,9 @@ OK
 {{< / highlight >}}
 </details>
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> |  |
 
@@ -122,6 +120,4 @@ One of the following:
 ## Related topics
 
 - [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-
-
 

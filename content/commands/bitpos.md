@@ -76,7 +76,6 @@ railroad_diagram: /images/railroad/bitpos.svg
 since: 2.8.7
 summary: Finds the first set (1) or clear (0) bit in a string.
 syntax_fmt: BITPOS key bit [start [end [BYTE | BIT]]]
-syntax_str: bit [start [end [BYTE | BIT]]]
 title: BITPOS
 ---
 Return the position of the first bit set to 1 or 0 in a string.
@@ -103,6 +102,40 @@ bit, -2 is the penultimate, and so forth.
 
 Non-existent keys are treated as empty strings.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the string.
+
+</details>
+
+<details open><summary><code>bit</code></summary>
+
+The bit value to search for: `0` or `1`.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>start</code></summary>
+
+The offset to start searching from. By default a byte offset; negative values count from the end of the string.
+
+</details>
+
+<details open><summary><code>end</code></summary>
+
+The offset to stop searching at, inclusive.
+
+</details>
+
+<details open><summary><code>BYTE | BIT</code></summary>
+
+Interpret `start` and `end` as byte offsets (`BYTE`, the default) or bit offsets (`BIT`).
+
+</details>
+
 ## Examples
 
 ```redis
@@ -128,9 +161,9 @@ redis> BITPOS mykey 1 7 -3 BIT
 (integer) -1
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

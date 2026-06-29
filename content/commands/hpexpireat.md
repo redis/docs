@@ -80,26 +80,60 @@ since: 7.4.0
 summary: Set expiry for hash field using an absolute Unix timestamp (milliseconds)
 syntax_fmt: "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]\n  FIELDS\_\
   numfields field [field ...]"
-syntax_str: "unix-time-milliseconds [NX | XX | GT | LT] FIELDS\_numfields field [field\
-  \ ...]"
 title: HPEXPIREAT
 ---
 `HPEXPIREAT` has the same effect and semantics as [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}), but the Unix time at
 which the field will expire is specified in milliseconds since Unix epoch instead of seconds.
 
-## Options
+## Required arguments
 
-The `HPEXPIREAT` command supports a set of options:
+<details open><summary><code>key</code></summary>
 
-* `NX` -- For each specified field, set expiration only when the field has no expiration.
-* `XX` -- For each specified field, set expiration only when the field has an existing expiration.
-* `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.
-* `LT` -- For each specified field, set expiration only when the new expiration is less than current one.
+The name of the key that holds the hash.
 
-A non-volatile key is treated as an infinite TTL for the purposes of `GT` and `LT`.
-The `NX`, `XX`, `GT`, and `LT` options are mutually exclusive.
+</details>
 
-## Example
+<details open><summary><code>unix-time-milliseconds</code></summary>
+
+The absolute Unix expiration timestamp, in milliseconds since Unix epoch. A timestamp in the past deletes the field immediately.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to operate on. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. They are mutually exclusive.
+
+<details open><summary><code>NX</code></summary>
+
+For each specified field, set expiration only when the field has no expiration.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+For each specified field, set expiration only when the field has an existing expiration.
+
+</details>
+
+<details open><summary><code>GT</code></summary>
+
+For each specified field, set expiration only when the new expiration is greater than the current one. A non-volatile key is treated as an infinite TTL for the purposes of `GT`.
+
+</details>
+
+<details open><summary><code>LT</code></summary>
+
+For each specified field, set expiration only when the new expiration is less than the current one. A non-volatile key is treated as an infinite TTL for the purposes of `LT`.
+
+</details>
+
+## Examples
 
 ```
 redis> HSET mykey field1 "hello" field2 "world"
@@ -112,9 +146,9 @@ redis> HPTTL mykey FIELDS 2 field1 field2
 2) (integer) 303340
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

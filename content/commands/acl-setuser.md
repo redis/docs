@@ -45,7 +45,6 @@ railroad_diagram: /images/railroad/acl-setuser.svg
 since: 6.0.0
 summary: Creates and modifies an ACL user and its rules.
 syntax_fmt: ACL SETUSER username [rule [rule ...]]
-syntax_str: '[rule [rule ...]]'
 title: ACL SETUSER
 ---
 Create an ACL user with the specified rules or modify the rules of an
@@ -99,12 +98,39 @@ For information on persisting ACLs, see the [ACL tutorial]({{< relref "/operate/
 
 The following documentation is a reference manual about the capabilities of this command, however our [ACL tutorial]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) may be a more gentle introduction to how the ACL system works in general.
 
-## ACL rules
+## Required arguments
+
+<details open><summary><code>username</code></summary>
+
+The user to create or modify.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>rule [rule ...]</code></summary>
+
+One or more ACL rules to apply to the user. See the [ACL rules](#acl-rules) section for the full list of rules.
+
+</details>
+
+## Examples
+
+```
+> ACL SETUSER alan allkeys +@string +@set -SADD >alanpassword
++OK
+> ACL SETUSER antirez heeyyyy
+(error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error
+```
+
+## Details
+
+### ACL rules
 
 Redis ACL rules are split into two categories: rules that define command permissions or _command rules_, and rules that define the user state or _user management rules_.
 This is a list of all the supported Redis ACL rules:
 
-### Command rules
+#### Command rules
 
 * `~<pattern>`: Adds the specified key pattern (glob style pattern, like in the [`KEYS`]({{< relref "/commands/keys" >}}) command), to the list of key patterns accessible by the user. This grants both read and write permissions to keys that match the pattern. You can add multiple key patterns to the same user. Example: `~objects:*`
 * `%R~<pattern>`: (Available in Redis 7.0 and later) Adds the specified read key pattern. This behaves similar to the regular key pattern but only grants permission to read from keys that match the given pattern. See [key permissions]({{< relref "/operate/oss_and_stack/management/security/acl#key-permissions" >}}) for more information.
@@ -123,7 +149,7 @@ This is a list of all the supported Redis ACL rules:
 * `-@<category>`: Like `+@<category>` but removes all the commands in the category instead of adding them.
 * `nocommands`: Alias for `-@all`. Removes all the commands, and the user is no longer able to execute anything.
 
-### User management rules
+#### User management rules
 
 * `on`: Set the user as active, it will be possible to authenticate as this user using `AUTH <username> <password>`.
 * `off`: Set user as not active, it will be impossible to log as this user. Please note that if a user gets disabled (set to off) after there are connections already authenticated with such a user, the connections will continue to work as expected. To also kill the old connections you can use [`CLIENT KILL`]({{< relref "/commands/client-kill" >}}) with the user option. An alternative is to delete the user with [`ACL DELUSER`]({{< relref "/commands/acl-deluser" >}}), that will result in all the connections authenticated as the deleted user to be disconnected.
@@ -136,19 +162,9 @@ This is a list of all the supported Redis ACL rules:
 * `clearselectors`: (Available in Redis 7.0 and later) Deletes all of the selectors attached to the user.
 * `reset`: Removes any capability from the user. They are set to off, without passwords, unable to execute any command, unable to access any key.
 
-## Examples
+## Redis Software and Redis Cloud compatibility
 
-```
-> ACL SETUSER alan allkeys +@string +@set -SADD >alanpassword
-+OK
-
-> ACL SETUSER antirez heeyyyy
-(error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error
-```
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

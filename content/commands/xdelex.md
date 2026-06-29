@@ -72,7 +72,6 @@ railroad_diagram: /images/railroad/xdelex.svg
 since: 8.2.0
 summary: Deletes one or multiple entries from the stream.
 syntax_fmt: "XDELEX key [KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
-syntax_str: "[KEEPREF | DELREF | ACKED] IDS\_numids id [id ...]"
 title: XDELEX
 ---
 
@@ -123,9 +122,9 @@ XDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56
 XRANGE mystream - +
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

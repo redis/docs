@@ -1,0 +1,79 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "function_dump()",
+        "params": [],
+        "returns": {
+          "type": "Union[Awaitable[str], str]",
+          "description": "Serialized payload of all libraries"
+        }
+      }
+    ],
+    "jedis": [],
+    "go-redis": [
+      {
+        "signature": "FunctionDump(ctx context.Context)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context for the operation"
+          }
+        ],
+        "returns": {
+          "type": "*StringCmd",
+          "description": "Serialized payload of all libraries"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "functionDump()",
+        "params": [],
+        "returns": {
+          "type": "Promise<BlobStringReply>",
+          "description": "Serialized payload of all libraries"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "byte[] functionDump()",
+        "params": [],
+        "returns": {
+          "type": "byte[]",
+          "description": "Serialized payload of all libraries"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<byte[]> functionDump()",
+        "params": [],
+        "returns": {
+          "type": "RedisFuture<byte[]>",
+          "description": "Serialized payload of all libraries"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<byte[]> functionDump()",
+        "params": [],
+        "returns": {
+          "type": "Mono<byte[]>",
+          "description": "Serialized payload of all libraries"
+        }
+      }
+    ],
+    "ioredis": [],
+    "redis_rs_sync": [],
+    "redis_rs_async": [],
+    "redisvl": [],
+    "nredisstack_sync": [],
+    "nredisstack_async": [],
+    "php": []
+  }
+}
+

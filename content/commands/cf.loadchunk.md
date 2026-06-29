@@ -31,7 +31,6 @@ since: 1.0.0
 stack_path: docs/data-types/probabilistic
 summary: Restores a filter previously saved using SCANDUMP
 syntax_fmt: CF.LOADCHUNK key iterator data
-syntax_str: iterator data
 title: CF.LOADCHUNK
 ---
 Restores a cuckoo filter previously saved using [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}).
@@ -62,23 +61,15 @@ Iterator value associated with `data` (returned by [`CF.SCANDUMP`]({{< relref "c
 Current data chunk (returned by [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}))
 </details>
 
-## Return value
-
-Returns one of these replies:
-
-- [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - `OK` if executed correctly
-- [] on error (invalid arguments, wrong key type, wrong data, etc.)
-
 ## Examples
 
 See [`CF.SCANDUMP`]({{< relref "commands/cf.scandump/" >}}) for an example.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

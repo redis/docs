@@ -27,14 +27,17 @@ since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Returns information about a sketch
 syntax_fmt: CMS.INFO key
-syntax_str: ''
 title: CMS.INFO
 ---
 Returns width, depth and total count of the sketch.
 
-### Parameters:
+## Required arguments
 
-* **key**: The name of the sketch.
+<details open><summary><code>key</code></summary>
+
+The name of the sketch.
+
+</details>
 
 ## Examples
 
@@ -48,12 +51,11 @@ redis> CMS.INFO test
  6) (integer) 0
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Supported</span><br /> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Supported">&#x2705; Free & Fixed</nobr></span> |  |
-
 
 ## Return information
 

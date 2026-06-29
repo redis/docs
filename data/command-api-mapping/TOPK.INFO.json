@@ -1,0 +1,113 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "info(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "type": "dict",
+          "description": "k, width, depth, and decay values"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "topkInfo(String key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "type": "Map<String, Object>",
+          "description": "Filter information"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TopKInfo(ctx context.Context, key string) *TopKInfoCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "*TopKInfoCmd",
+          "description": "TopKInfo with k, width, depth, decay"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TOPK.INFO(key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "type": "TopKInfoReplyMap",
+          "description": "{ k, width, depth, decay }"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Info(RedisKey key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "TopKInformation",
+          "description": "Filter information"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "InfoAsync(RedisKey key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "type": "Task<TopKInformation>",
+          "description": "Filter information"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "topkinfo($key)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": "Filter information"
+        }
+      }
+    ]
+  }
+}

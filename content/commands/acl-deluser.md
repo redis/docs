@@ -36,7 +36,6 @@ railroad_diagram: /images/railroad/acl-deluser.svg
 since: 6.0.0
 summary: Deletes ACL users, and terminates their connections.
 syntax_fmt: ACL DELUSER username [username ...]
-syntax_str: ''
 title: ACL DELUSER
 ---
 Delete all the specified ACL users and terminate all the connections that are
@@ -45,6 +44,14 @@ removed from the system, this is the default user that every new connection
 is authenticated with. The list of users may include usernames that do not
 exist, in such case no operation is performed for the non existing users.
 
+## Required arguments
+
+<details open><summary><code>username [username ...]</code></summary>
+
+One or more usernames to delete.
+
+</details>
+
 ## Examples
 
 ```
@@ -52,9 +59,9 @@ exist, in such case no operation is performed for the non existing users.
 1
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

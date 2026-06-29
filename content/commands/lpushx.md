@@ -53,13 +53,26 @@ railroad_diagram: /images/railroad/lpushx.svg
 since: 2.2.0
 summary: Prepends one or more elements to a list only when the list exists.
 syntax_fmt: LPUSHX key element [element ...]
-syntax_str: element [element ...]
 title: LPUSHX
 ---
 Inserts specified values at the head of the list stored at `key`, only if `key`
 already exists and holds a list.
 In contrary to [`LPUSH`]({{< relref "/commands/lpush" >}}), no operation will be performed when `key` does not yet
 exist.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>element [element ...]</code></summary>
+
+One or more values to prepend to the list, only if it already exists.
+
+</details>
 
 ## Examples
 
@@ -71,9 +84,9 @@ LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

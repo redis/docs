@@ -27,7 +27,6 @@ railroad_diagram: /images/railroad/cluster-countkeysinslot.svg
 since: 3.0.0
 summary: Returns the number of keys in a hash slot.
 syntax_fmt: CLUSTER COUNTKEYSINSLOT slot
-syntax_str: ''
 title: CLUSTER COUNTKEYSINSLOT
 ---
 Returns the number of keys in the specified Redis Cluster hash slot. The
@@ -38,14 +37,25 @@ zero being returned.
 {{< note>}}During atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.
 {{< /note >}}
 
+
+## Required arguments
+
+<details open><summary><code>slot</code></summary>
+
+The hash slot to count the keys in.
+
+</details>
+
+## Examples
+
 ```
 > CLUSTER COUNTKEYSINSLOT 7000
 (integer) 50341
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

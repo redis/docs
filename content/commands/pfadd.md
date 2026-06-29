@@ -50,7 +50,6 @@ railroad_diagram: /images/railroad/pfadd.svg
 since: 2.8.9
 summary: Adds elements to a HyperLogLog key. Creates the key if it doesn't exist.
 syntax_fmt: PFADD key [element [element ...]]
-syntax_str: '[element [element ...]]'
 title: PFADD
 ---
 Adds all the element arguments to the HyperLogLog data structure stored at the variable name specified as first argument.
@@ -61,7 +60,23 @@ If the approximated cardinality estimated by the HyperLogLog changed after execu
 
 To call the command without elements but just the variable name is valid, this will result into no operation performed if the variable already exists, or just the creation of the data structure if the key does not exist (in the latter case 1 is returned).
 
-For an introduction to HyperLogLog data structure check the [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) command page.
+For an introduction to the HyperLogLog data structure check its  [data structure page]({{< relref "/develop/data-types/probabilistic/hyperloglogs/" >}}) and the [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) command page.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the HyperLogLog key.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>element [element ...]</code></summary>
+
+One or more elements to add to the HyperLogLog. With no elements, the command only creates the key if it does not already exist.
+
+</details>
 
 ## Examples
 
@@ -70,9 +85,9 @@ PFADD hll a b c d e f g
 PFCOUNT hll
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

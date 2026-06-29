@@ -32,7 +32,6 @@ railroad_diagram: /images/railroad/script-load.svg
 since: 2.6.0
 summary: Loads a server-side Lua script to the script cache.
 syntax_fmt: SCRIPT LOAD script
-syntax_str: ''
 title: SCRIPT LOAD
 ---
 Load a script into the scripts cache, without executing it.
@@ -46,11 +45,19 @@ FLUSH` is called).
 The command works in the same way even if the script was already present in the
 script cache.
 
-For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please refer to [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+For more information about [`EVAL`]({{< relref "/commands/eval" >}}) scripts please see [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}).
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>script</code></summary>
+
+The Lua script to load into the script cache. Its SHA1 digest is returned for use with `EVALSHA`.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

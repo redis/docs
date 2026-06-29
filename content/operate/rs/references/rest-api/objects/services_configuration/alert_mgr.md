@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Documents the alert_mgr object used with Redis Enterprise Software REST API calls.
+description: Documents the alert_mgr object used with Redis Software REST API calls.
 linkTitle: alert_mgr
 weight: $weight
 ---

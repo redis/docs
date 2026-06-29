@@ -1,0 +1,437 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "stralgo(, algo: Literal[\"LCS\"],, value1: KeyT,, value2: KeyT,, specific_argument: Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\",, len: bool = False,, idx: bool = False,, minmatchlen: Optional[int] = None,, withmatchlen: bool = False,, **kwargs,)",
+        "params": [
+          {
+            "name": "algo",
+            "type": "Literal[\"LCS\"]",
+            "description": ""
+          },
+          {
+            "name": "value1",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "value2",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "specific_argument",
+            "type": "Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\"",
+            "description": ""
+          },
+          {
+            "name": "len",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "idx",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "minmatchlen",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "withmatchlen",
+            "type": "bool = False",
+            "description": ""
+          },
+          {
+            "name": "**kwargs",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ResponseT",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lcs(, key1: str,, key2: str,, len: Optional[bool] = False,, idx: Optional[bool] = False,, minmatchlen: Optional[int] = 0,, withmatchlen: Optional[bool] = False,)",
+        "params": [
+          {
+            "name": "key1",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "key2",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "len",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "idx",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "minmatchlen",
+            "type": "Optional[int] = 0",
+            "description": ""
+          },
+          {
+            "name": "withmatchlen",
+            "type": "Optional[bool] = False",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[str, int, list]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "LCSMatchResult lcs(final byte[] keyA, final byte[] keyB, final LCSParams params)",
+        "params": [
+          {
+            "name": "keyA",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "keyB",
+            "type": "byte[]",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "LCSParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "LCSMatchResult",
+          "description": "According to LCSParams to decide to return content to fill LCSMatchResult."
+        }
+      },
+      {
+        "signature": "LCSMatchResult lcs(final String keyA, final String keyB, final LCSParams params)",
+        "params": [
+          {
+            "name": "keyA",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "keyB",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "params",
+            "type": "LCSParams",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "LCSMatchResult",
+          "description": "According to LCSParams to decide to return content to fill LCSMatchResult."
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "StringMatchResult lcs(LcsArgs lcsArgs)",
+        "params": [
+          {
+            "name": "lcsArgs",
+            "type": "LcsArgs",
+            "description": "command arguments supplied by the LcsArgs."
+          }
+        ],
+        "returns": {
+          "type": "StringMatchResult",
+          "description": "StringMatchResult @see <a href=\"https://redis.io/commands/lcs\">LCS command refference</a> @since 6.6"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<StringMatchResult> lcs(LcsArgs lcsArgs)",
+        "params": [
+          {
+            "name": "lcsArgs",
+            "type": "LcsArgs",
+            "description": "command arguments supplied by the LcsArgs."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<StringMatchResult>",
+          "description": "StringMatchResult @see <a href=\"https://redis.io/commands/lcs\">LCS command refference</a> @since 6.6"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<StringMatchResult> lcs(LcsArgs lcsArgs)",
+        "params": [
+          {
+            "name": "lcsArgs",
+            "type": "LcsArgs",
+            "description": "command arguments supplied by the LcsArgs."
+          }
+        ],
+        "returns": {
+          "type": "Mono<StringMatchResult>",
+          "description": "StringMatchResult @see <a href=\"https://redis.io/commands/lcs\">LCS command refference</a> @since 6.6"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "LCS(ctx context.Context, q *LCSQuery)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "q",
+            "type": "*LCSQuery",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*LCSCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "LCS(key1: RedisArgument, key2: RedisArgument)",
+        "params": [
+          {
+            "name": "key1",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "key2",
+            "type": "RedisArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "ioredis": [
+      {
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key1",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "key2",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, withmatchlen: \"WITHMATCHLEN\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key1",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "key2",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "withmatchlen",
+            "type": "\"WITHMATCHLEN\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, lenToken: \"MINMATCHLEN\", len: number | string, callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key1",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "key2",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "lenToken",
+            "type": "\"MINMATCHLEN\"",
+            "description": ""
+          },
+          {
+            "name": "len",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, lenToken: \"MINMATCHLEN\", len: number | string, withmatchlen: \"WITHMATCHLEN\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key1",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "key2",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "lenToken",
+            "type": "\"MINMATCHLEN\"",
+            "description": ""
+          },
+          {
+            "name": "len",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "withmatchlen",
+            "type": "\"WITHMATCHLEN\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      },
+      {
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, idx: \"IDX\", callback?: Callback<unknown>)",
+        "params": [
+          {
+            "name": "key1",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "key2",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "idx",
+            "type": "\"IDX\"",
+            "description": ""
+          },
+          {
+            "name": "callback?",
+            "type": "Callback<unknown>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "lcs(string $key1, string $key2, bool $len = false, bool $idx = false, int $minMatchLen = 0, bool $withMatchLen = false)",
+        "params": [
+          {
+            "name": "$key1",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$key2",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "bool $len = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $idx = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $minMatchLen = 0",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $withMatchLen = false",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

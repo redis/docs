@@ -1,0 +1,80 @@
+{{- /*
+  Expand trimmable shortcodes for AI-facing Markdown output.
+
+  Supported usage:
+    {{< trimmable >}}...{{< /trimmable >}}
+    {{< trimmable head="12" tail="8" >}}...{{< /trimmable >}}
+
+  If the inner block is a fenced code block, trim the lines inside the fence and
+  render the result as an indented code block. This keeps banner lines such as
+  "# Scanning ..." from being misread as headings in AI-facing Markdown.
+*/ -}}
+
+{{- $content := .RawContent -}}
+{{- $pattern := `(?s)\{\{<\s*trimmable([^>]*)>\}\}(.*?)\{\{<\s*/trimmable\s*>\}\}` -}}
+{{- $matches := findRESubmatch $pattern $content -}}
+
+{{- range $match := $matches -}}
+  {{- $fullMatch := index $match 0 -}}
+  {{- $attrs := index $match 1 -}}
+  {{- $inner := index $match 2 -}}
+
+  {{- $head := 12 -}}
+  {{- $tail := 8 -}}
+
+  {{- with findRESubmatch `head\s*=\s*"([0-9]+)"` $attrs -}}
+    {{- $head = int (index (index . 0) 1) -}}
+  {{- end -}}
+  {{- with findRESubmatch `tail\s*=\s*"([0-9]+)"` $attrs -}}
+    {{- $tail = int (index (index . 0) 1) -}}
+  {{- end -}}
+
+  {{- $trimmedInner := strings.Trim $inner "\n" -}}
+  {{- $lines := split $trimmedInner "\n" -}}
+  {{- $replacement := $trimmedInner -}}
+  {{- $marker := "... output truncated for AI-facing Markdown ..." -}}
+
+  {{- if ge (len $lines) 2 -}}
+    {{- $firstLine := strings.TrimSpace (index $lines 0) -}}
+    {{- $lastLine := strings.TrimSpace (index $lines (sub (len $lines) 1)) -}}
+    {{- $isFenced := and (hasPrefix $firstLine "```") (eq $firstLine $lastLine) -}}
+
+    {{- if $isFenced -}}
+      {{- $body := first (sub (len $lines) 2) (after 1 $lines) -}}
+      {{- $bodyLines := $body -}}
+      {{- if gt (len $body) (add $head $tail 1) -}}
+        {{- $bodyLines = slice -}}
+        {{- range $line := first $head $body -}}
+          {{- $bodyLines = $bodyLines | append $line -}}
+        {{- end -}}
+        {{- $bodyLines = $bodyLines | append $marker -}}
+        {{- range $line := first $tail (after (sub (len $body) $tail) $body) -}}
+          {{- $bodyLines = $bodyLines | append $line -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $indentedLines := slice -}}
+      {{- range $line := $bodyLines -}}
+        {{- if eq $line "" -}}
+          {{- $indentedLines = $indentedLines | append "" -}}
+        {{- else -}}
+          {{- $indentedLines = $indentedLines | append (printf "    %s" $line) -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $replacement = delimit $indentedLines "\n" -}}
+    {{- else if gt (len $lines) (add $head $tail 1) -}}
+      {{- $newLines := slice -}}
+      {{- range $line := first $head $lines -}}
+        {{- $newLines = $newLines | append $line -}}
+      {{- end -}}
+      {{- $newLines = $newLines | append $marker -}}
+      {{- range $line := first $tail (after (sub (len $lines) $tail) $lines) -}}
+        {{- $newLines = $newLines | append $line -}}
+      {{- end -}}
+      {{- $replacement = delimit $newLines "\n" -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $content = replace $content $fullMatch $replacement -}}
+{{- end -}}
+
+{{- return $content -}}

@@ -27,6 +27,25 @@ Initialize the SemanticRouter.
   * **connection_kwargs** (*Dict* *[* *str* *,* *Any* *]*) – The connection arguments
     for the redis client. Defaults to empty {}.
 
+#### `add_route(route)`
+
+Add a new route to the SemanticRouter.
+
+Embeds the route’s references, writes them to the Redis index,
+appends the route to `self.routes`, and persists the updated router
+config so the route survives [from_existing](#from_existing).
+
+* **Parameters:**
+  **route** ([Route](#route)) – A fully-formed Route (name, references,
+  distance_threshold, optional metadata).
+* **Returns:**
+  The added route’s name.
+* **Return type:**
+  str
+* **Raises:**
+  **ValueError** – If a route with this name already exists on the router.
+      Use [add_route_references](#add_route_references) to extend an existing route.
+
 #### `add_route_references(route_name, references)`
 
 Add a reference(s) to an existing route.
@@ -63,8 +82,8 @@ Get references for an existing semantic router route.
   * **Optional** – The reference or list of references to delete.
   * **Optional** – List of fully qualified keys (prefix:router:reference_id) to delete.
   * **route_name** (*str*)
-  * **reference_ids** (*List* *[* *str* *]*)
-  * **keys** (*List* *[* *str* *]*)
+  * **reference_ids** (*list* *[* *str* *]*)
+  * **keys** (*list* *[* *str* *]*)
 * **Returns:**
   Number of objects deleted
 * **Return type:**
@@ -142,8 +161,8 @@ Get references for an existing route route.
   * **router_name** (*str*) – The name of the router.
   * **references** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The reference or list of references to add.
   * **route_name** (*str*)
-  * **reference_ids** (*List* *[* *str* *]*)
-  * **keys** (*List* *[* *str* *]*)
+  * **reference_ids** (*list* *[* *str* *]*)
+  * **keys** (*list* *[* *str* *]*)
 * **Returns:**
   Reference objects stored
 * **Return type:**
@@ -244,7 +263,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 The name of the semantic router.
 
-#### `property route_names: List[str]`
+#### `property route_names: list[str]`
 
 Get the list of route names.
 
@@ -253,7 +272,7 @@ Get the list of route names.
 * **Return type:**
   List[str]
 
-#### `property route_thresholds: Dict[str, float | None]`
+#### `property route_thresholds: dict[str, float | None]`
 
 Get the distance thresholds for each route.
 
@@ -262,7 +281,7 @@ Get the distance thresholds for each route.
 * **Return type:**
   Dict[str, float]
 
-#### `routes: `List[[Route](#route)]
+#### `routes: `list[[Route](#route)]
 
 List of Route objects.
 
@@ -314,15 +333,15 @@ self is explicitly positional-only to allow self as a field name.
 
 * **Parameters:**
   * **name** (*str*)
-  * **references** (*List* *[* *str* *]*)
-  * **metadata** (*Dict* *[* *str* *,* *Any* *]*)
+  * **references** (*list* *[* *str* *]*)
+  * **metadata** (*dict* *[* *str* *,* *Any* *]*)
   * **distance_threshold** (*Annotated* *[* *float* *,* *FieldInfo* *(* *annotation=NoneType* *,* *required=True* *,* *metadata=* *[* *Strict* *(* *strict=True* *)* *,* *Gt* *(* *gt=0* *)* *,* *Le* *(* *le=2* *)* *]* *)* *]*)
 
 #### `distance_threshold: Annotated[float, FieldInfo(annotation=NoneType, required=True, metadata=[Strict(strict=True), Gt(gt=0), Le(le=2)])]`
 
 Distance threshold for matching the route.
 
-#### `metadata: Dict[str, Any]`
+#### `metadata: dict[str, Any]`
 
 Metadata associated with the route.
 
@@ -334,7 +353,7 @@ Configuration for the model, should be a dictionary conforming to [ConfigDict][p
 
 The name of the route.
 
-#### `references: List[str]`
+#### `references: list[str]`
 
 List of reference phrases for the route.
 
@@ -369,7 +388,7 @@ The matched route name.
 
 ## Distance Aggregation Method
 
-### `class DistanceAggregationMethod(value, names=<not given>, *values, module=None, qualname=None, type=None, start=1, boundary=None)`
+### `class DistanceAggregationMethod(value, names=None, *, module=None, qualname=None, type=None, start=1, boundary=None)`
 
 Enumeration for distance aggregation methods.
 

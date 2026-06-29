@@ -19,7 +19,10 @@ weight: 30
 The string data type is useful for capturing a string representation of a single column from
 a source table.
 
-In the example job below, the `title` column is captured from the `invoice` table in the source.
+{{< note >}}The `string` data type is supported by the classic processor only.
+The Flink processor currently supports only `hash` and `json` outputs.{{< /note >}}
+
+In the example job below, the `title` column is captured from the `album` table in the source.
 The `title` is then written to the Redis target database as a string under a custom key of the
 form `AlbumTitle:42`, where the `42` is the primary key value of the table (the `albumid` column).
 
@@ -34,6 +37,7 @@ After this time, the key will be deleted automatically.
 If you don't supply an `expire` parameter, the keys will never expire. 
 
 ```yaml
+name: Write album title to string
 source:
   table: album
   row_format: full

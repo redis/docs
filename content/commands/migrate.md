@@ -134,8 +134,6 @@ since: 2.6.0
 summary: Atomically transfers a key from one Redis instance to another.
 syntax_fmt: "MIGRATE host port <key | \"\"> destination-db timeout [COPY] [REPLACE]\n\
   \  [AUTH\_password | AUTH2\_username password] [KEYS\_key [key ...]]"
-syntax_str: "port <key | \"\"> destination-db timeout [COPY] [REPLACE] [AUTH\_password\
-  \ | AUTH2\_username password] [KEYS\_key [key ...]]"
 title: MIGRATE
 ---
 Atomically transfer a key from a source Redis instance to a destination Redis
@@ -148,6 +146,73 @@ transfer the key, at any given time the key will appear to exist in a given
 instance or in the other instance, unless a timeout error occurs. In 3.2 and
 above, multiple keys can be pipelined in a single call to `MIGRATE` by passing
 the empty string ("") as key and adding the `KEYS` clause.
+
+
+## Required arguments
+
+<details open><summary><code>host</code></summary>
+
+The hostname or IP address of the destination Redis instance.
+
+</details>
+
+<details open><summary><code>port</code></summary>
+
+The port of the destination Redis instance.
+
+</details>
+
+<details open><summary><code>key | ""</code></summary>
+
+The key to migrate, or an empty string (`""`) when migrating multiple keys with the `KEYS` option.
+
+</details>
+
+<details open><summary><code>destination-db</code></summary>
+
+The database index to migrate the key into on the destination instance.
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum idle time for the transfer, in milliseconds.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COPY</code></summary>
+
+Do not remove the key from the local instance.
+
+</details>
+
+<details open><summary><code>REPLACE</code></summary>
+
+Replace an existing key on the destination instance.
+
+</details>
+
+<details open><summary><code>AUTH password</code></summary>
+
+Authenticate to the destination instance with the given password. `AUTH` and `AUTH2` are mutually exclusive.
+
+</details>
+
+<details open><summary><code>AUTH2 username password</code></summary>
+
+Authenticate to the destination instance with the given username and password (ACL-style auth, Redis 6 or later).
+
+</details>
+
+<details open><summary><code>KEYS key [key ...]</code></summary>
+
+Migrate all the listed keys. Use this when the key argument is an empty string (`""`).
+
+</details>
+
+## Details
 
 The command internally uses [`DUMP`]({{< relref "/commands/dump" >}}) to generate the serialized version of the key
 value, and [`RESTORE`]({{< relref "/commands/restore" >}}) in order to synthesize the key in the target instance.
@@ -179,9 +244,10 @@ same name was also _already_ present on the target instance).
 
 If there are no keys to migrate in the source instance `NOKEY` is returned.
 Because missing keys are possible in normal conditions, from expiry for example,
-`NOKEY` isn't an error. 
+`NOKEY` isn't an error.
 
-## Migrating multiple keys with a single command call
+
+### Migrating multiple keys with a single command call
 
 Starting with Redis 3.0.6 `MIGRATE` supports a new bulk-migration mode that
 uses pipelining in order to migrate multiple keys between instances without
@@ -198,17 +264,9 @@ When this form is used the `NOKEY` status code is only returned when none
 of the keys is present in the instance, otherwise the command is executed, even if
 just a single key exists.
 
-## Options
+## Redis Software and Redis Cloud compatibility
 
-* `COPY` -- Do not remove the key from the local instance.
-* `REPLACE` -- Replace existing key on the remote instance.
-* `KEYS` -- If the key argument is an empty string, the command will instead migrate all the keys that follow the `KEYS` option (see the above section for more info).
-* `AUTH` -- Authenticate with the given password to the remote instance.
-* `AUTH2` -- Authenticate with the given username and password pair (Redis 6 or greater ACL auth style).
-
-## Redis Enterprise and Redis Cloud compatibility
-
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

@@ -14,10 +14,22 @@ weight: 95
 ---
 ## Requirements
 
-RedisTimeSeries v1.10.20 requires:
+RedisTimeSeries v1.10.24 requires:
 
 - Minimum Redis compatibility version (database): 7.2
 - Minimum Redis Enterprise Software version (cluster): 7.2.4
+
+## v1.10.24 (May 2026)
+
+This is a maintenance release for RedisTimeSeries 1.10.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security:**
+
+  - (CVE-2026-25588) Invalid memory access in `RESTORE` may lead to Remote Code Execution.
 
 ## v1.10.20 (October 2025)
 

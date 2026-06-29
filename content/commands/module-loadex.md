@@ -51,7 +51,6 @@ since: 7.0.0
 summary: Loads a module using extended parameters.
 syntax_fmt: "MODULE LOADEX path [CONFIG\_name value [CONFIG name value ...]]\n  [ARGS\_\
   args [args ...]]"
-syntax_str: "[CONFIG\_name value [CONFIG name value ...]] [ARGS\_args [args ...]]"
 title: MODULE LOADEX
 ---
 Loads a module from a dynamic library at runtime with configuration directives.
@@ -66,9 +65,31 @@ Any additional arguments that follow the `ARGS` keyword are passed unmodified to
 **Note**: modules can also be loaded at server startup with `loadmodule`
 configuration directive in `redis.conf`.
 
-## Redis Enterprise and Redis Cloud compatibility
+## Required arguments
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+<details open><summary><code>path</code></summary>
+
+The absolute path to the module library file.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>CONFIG name value [CONFIG name value ...]</code></summary>
+
+One or more module configuration name-value pairs to set at load time.
+
+</details>
+
+<details open><summary><code>ARGS args [args ...]</code></summary>
+
+Additional arguments passed to the module's initialization function.
+
+</details>
+
+## Redis Software and Redis Cloud compatibility
+
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
 

@@ -43,7 +43,6 @@ railroad_diagram: /images/railroad/xlen.svg
 since: 5.0.0
 summary: Return the number of messages in a stream.
 syntax_fmt: XLEN key
-syntax_str: ''
 title: XLEN
 ---
 Returns the number of entries inside a stream. If the specified key does not
@@ -56,6 +55,14 @@ Streams are not auto-deleted once they have no entries inside (for instance
 after an [`XDEL`]({{< relref "/commands/xdel" >}}) call), because the stream may have consumer groups
 associated with it.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -65,9 +72,9 @@ XADD mystream * item 3
 XLEN mystream
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

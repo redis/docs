@@ -39,30 +39,40 @@ railroad_diagram: /images/railroad/function-load.svg
 since: 7.0.0
 summary: Creates a library.
 syntax_fmt: FUNCTION LOAD [REPLACE] function-code
-syntax_str: function-code
 title: FUNCTION LOAD
 ---
 Load a library to Redis.
 
-The command's gets a single mandatory parameter which is the source code that implements the library.
-The library payload must start with Shebang statement that provides a metadata about the library (like the engine to use and the library name).
-Shebang format: `#!<engine name> name=<library name>`. Currently engine name must be `lua`.
+The command takes one required parameter: the source code that implements the library. The library payload must start with a _shebang_ statement that provides the library metadata, including the engine to use and the library name.
 
-For the Lua engine, the implementation should declare one or more entry points to the library with the [`redis.register_function()` API]({{< relref "develop/programmability/lua-api#redis.register_function" >}}).
-Once loaded, you can call the functions in the library with the [`FCALL`]({{< relref "/commands/fcall" >}}) (or [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) when applicable) command.
+Use this shebang format:
 
-When attempting to load a library with a name that already exists, the Redis server returns an error.
-The `REPLACE` modifier changes this behavior and overwrites the existing library with the new contents.
+`#!<engine name> name=<library name>`.
 
-The command will return an error in the following circumstances:
+Currently, `<engine name>` must be `lua`.
 
-* An invalid _engine-name_ was provided.
-* The library's name already exists without the `REPLACE` modifier.
-* A function in the library is created with a name that already exists in another library (even when `REPLACE` is specified).
-* The engine failed in creating the library's functions (due to a compilation error, for example).
-* No functions were declared by the library.
+For the Lua engine, the implementation should declare one or more entry points to the library with the [`redis.register_function()`]({{< relref "develop/programmability/lua-api#redis.register_function" >}}) API.
+Once loaded, you can call the functions in the library with the [`FCALL`]({{< relref "/commands/fcall" >}}) or [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) commands, as appropriate.
+
+
 
 For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+
+## Required arguments
+
+<details open><summary><code>function-code</code></summary>
+
+The library's source code. It must begin with a Shebang statement that declares the engine and library name, for example `#!lua name=mylib`.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>REPLACE</code></summary>
+
+Replace an existing library that has the same name.
+
+</details>
 
 ## Examples
 
@@ -75,9 +85,9 @@ redis> FCALL myfunc 0 hello
 "hello"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
@@ -87,10 +97,24 @@ redis> FCALL myfunc 0 hello
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the library name that was loaded.
+One of the following:
+
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): the library name that was loaded.
+- [Simple error string]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in the following circumstances: an invalid engine-name was provided, 
+the library's name already exists without the `REPLACE` modifier, 
+a function in the library is created with a name that already exists in another library (even when `REPLACE` is specified), 
+the engine failed in creating the library's functions (for example, because of a compilation error), or 
+no functions were declared by the library.
 
 -tab-sep-
 
-[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the library name that was loaded.
+One of the following:
+
+- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}): the library name that was loaded.
+- [Simple error string]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in the following circumstances: an invalid engine-name was provided, 
+the library's name already exists without the `REPLACE` modifier, 
+a function in the library is created with a name that already exists in another library (even when `REPLACE` is specified), 
+the engine failed in creating the library's functions (for example, because of a compilation error), or 
+no functions were declared by the library.
 
 {{< /multitabs >}}

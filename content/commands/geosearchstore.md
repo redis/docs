@@ -174,18 +174,82 @@ summary: Queries a geospatial index for members inside an area of a box or a cir
 syntax_fmt: "GEOSEARCHSTORE destination source <FROMMEMBER\_member |\n  FROMLONLAT\_\
   longitude latitude> <BYRADIUS\_radius <M | KM | FT | MI>\n  | BYBOX\_width height\
   \ <M | KM | FT | MI>> [ASC | DESC] [COUNT\_count\n  [ANY]] [STOREDIST]"
-syntax_str: "source <FROMMEMBER\_member | FROMLONLAT\_longitude latitude> <BYRADIUS\_\
-  radius <M | KM | FT | MI> | BYBOX\_width height <M | KM | FT | MI>> [ASC | DESC]\
-  \ [COUNT\_count [ANY]] [STOREDIST]"
 title: GEOSEARCHSTORE
 ---
-This command is like [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}), but stores the result in destination key.
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
+This command is similar to [`GEOSEARCH`]({{< relref "/commands/geosearch" >}}), but it stores the result in the provided `destination`.
 
 This command replaces the now deprecated [`GEORADIUS`]({{< relref "/commands/georadius" >}}) and [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}).
 
 By default, it stores the results in the `destination` sorted set with their geospatial information.
 
 When using the `STOREDIST` option, the command stores the items in a sorted set populated with their distance from the center of the circle or box, as a floating-point number, in the same unit specified for that shape.
+
+## Required arguments
+
+<details open><summary><code>destination</code></summary>
+
+The key to store the results in.
+
+</details>
+
+<details open><summary><code>source</code></summary>
+
+The geospatial index key to search.
+
+</details>
+
+Query center points:
+
+<details open><summary><code>FROMMEMBER member</code></summary>
+
+Use the position of the existing `member` as the center of the search. Mutually exclusive with `FROMLONLAT`.
+
+</details>
+
+<details open><summary><code>FROMLONLAT longitude latitude</code></summary>
+
+Use the given coordinates as the center of the search. Mutually exclusive with `FROMMEMBER`.
+
+</details>
+
+Query shape options:
+
+<details open><summary><code>BYRADIUS radius M | KM | FT | MI</code></summary>
+
+Search within a circle of the given `radius` in the specified unit. Mutually exclusive with `BYBOX`.
+
+</details>
+
+<details open><summary><code>BYBOX width height M | KM | FT | MI</code></summary>
+
+Search within an axis-aligned box of the given `width` and `height` in the specified unit. Mutually exclusive with `BYRADIUS`.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>ASC | DESC</code></summary>
+
+Sort the results by distance from the center: nearest first (`ASC`) or farthest first (`DESC`).
+
+</details>
+
+<details open><summary><code>COUNT count [ANY]</code></summary>
+
+Return at most `count` matches. With `ANY`, the command returns as soon as enough matches are found — faster, but the results may be unsorted.
+
+</details>
+
+<details open><summary><code>STOREDIST</code></summary>
+
+Store the distance from the center as the sorted-set score, instead of the geohash-encoded position.
+
+</details>
 
 ## Examples
 
@@ -198,9 +262,9 @@ GEOSEARCHSTORE key2 Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC COUNT 3 STOREDI
 ZRANGE key2 0 -1 WITHSCORES
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

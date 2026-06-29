@@ -82,14 +82,14 @@ This maintenance release also contains the latest version of **RedisInsight**.
 ### Details:
 
  **Improvements**
-* **Search and query**:
+* **Redis Search**:
   * [#4792](https://github.com/RediSearch/RediSearch/pull/4792) - Add character validations to simple string replies and escape it when required (MOD-7258)
   * [#4768](https://github.com/RediSearch/RediSearch/pull/4768) - Indicate which value is missing on the error message at the aggregation pipeline (MOD-7201)
   * [#4745](https://github.com/RediSearch/RediSearch/pull/4745) - `GROUPBY` recursion cleanup (MOD-7245)
   * [#4823](https://github.com/RediSearch/RediSearch/pull/4823) - Mechanism of keys expiration during the query execution clearing intermediate results
 
 **Bug Fixes**
-* **Search and query**:
+* **Redis Search**:
   * [#4754](https://github.com/RediSearch/RediSearch/pull/4754) - Correct return the maximum value for negative values when using `MAX` reducer (MOD-7252)
   * [#4737](https://github.com/RediSearch/RediSearch/pull/4737) - Separators ignored when escaping backslash `\` after the escaped character such as in `hello\\,world` ignoring `,` (MOD-7240)
   * [#4717](https://github.com/RediSearch/RediSearch/pull/4717) - Sorting by multiple fields `SORTBY 2 @field1 @field2` was ignoring the subsequent field(MOD-7206)
@@ -157,7 +157,7 @@ This maintenance release also contains the latest version of **RedisInsight**.
 ### Details:
 
  **Improvements**
-* **Search and query**:
+* **Redis Search**:
   * [#4595](https://github.com/RediSearch/RediSearch/pull/4595) - Report memory of the `TAG` and `TEXT` tries (MOD-5902)
   * [#4669](https://github.com/RediSearch/RediSearch/pull/4669) - Inverted index memory counting (MOD-5977,MOD-5866)
   * [#4687](https://github.com/RediSearch/RediSearch/pull/4687) - Add missing `FT.INFO` fields when used within a cluster (MOD-6920)	
@@ -173,7 +173,7 @@ This maintenance release also contains the latest version of **RedisInsight**.
   * [#13092](https://github.com/redis/redis/pull/13092) redis-cli: --count (for --scan, --bigkeys, etc) was ignored unless --pattern was also used
   * [#12958](https://github.com/redis/redis/pull/12958) redis-check-aof: incorrectly considering data in manifest format as MP-AOF
 
-* **Search and query**:
+* **Redis Search**:
   * [#4614](https://github.com/RediSearch/RediSearch/pull/4614) - Shards become unresponsive when using `FT.AGGREGATE` with `APPLY 'split(...)'`(MOD-6759)
   * [#4556](https://github.com/RediSearch/RediSearch/pull/4556) - `FT.EXPLAIN` returns additional } when querying using wildcards (MOD-6768)
   * [#4646](https://github.com/RediSearch/RediSearch/pull/4646) - `FT.DROPINDEX` with `DD` flag deleted keys in one AA cluster but not the others (MOD-1855)
@@ -226,7 +226,7 @@ This version contains the latest **search and query** capability with several im
 ### Details:
 
  **Improvements**
-* **Search and query**:
+* **Redis Search**:
   * [#4502](https://github.com/RediSearch/RediSearch/pull/4502) Handle error properly when trying to execute Search commands on cluster setup as part of `MULTI`/`EXEC` or LUA script (MOD-6541)
   * [#4526](https://github.com/RediSearch/RediSearch/pull/4526) Adding detailed geometry info on error messages (MOD-6701)
 
@@ -237,7 +237,7 @@ This version contains the latest **search and query** capability with several im
   * [#1100](https://github.com/RedisGears/RedisGears/pull/1100) Update v8 version to 12.3.219.15
 
 **Bug Fixes**
-* **Search and query**:
+* **Redis Search**:
   * [#4481](https://github.com/RediSearch/RediSearch/pull/4481) Query syntax on `GEOSHAPE` accepting just prefix instead of complete predicate (MOD-6663)
   * [#4513](https://github.com/RediSearch/RediSearch/pull/4513) `FT.CURSOR READ` in a numeric query causing a crash (MOD-6597) [**critical bug**]
   * [#4534](https://github.com/RediSearch/RediSearch/pull/4534) `FT.PROFILE` with incorrect arguments could cause a crash on cluster setup (MOD-6791) [**critical bug**]
@@ -312,11 +312,11 @@ This version contains the latest **search and query** capability with an improve
 ### Details:
 
  **Improvements**
-* **Search and query**:
+* **Redis Search**:
   * [#4313](https://github.com/RediSearch/RediSearch/pull/4313) Memory allocation patterns on the memory used to query `GEOSHAPE` types (MOD 6431)
 
 **Bug Fixes**
-* **Search and query**:
+* **Redis Search**:
   * [#4476](https://github.com/RediSearch/RediSearch/pull/4476) Split `INFIX` and `SUFFIX` report on `FT.EXPLAIN` and `FT.EXPLAINCLI` (MOD-6186)
   * [#4467](https://github.com/RediSearch/RediSearch/pull/4467) Memory leak upon suffix query for a `TAG` indexed with `WITHSUFFIXTRIE` (MOD-6644)
   * [#4403](https://github.com/RediSearch/RediSearch/pull/4403) Clustered `FT.SEARCH` hangs forever without replying when an invalid topology is found (MOD-6557)
@@ -429,7 +429,7 @@ This is a maintenance release for Redis Stack Server 7.2.0.
 Update urgency: `SECURITY`:  there are security fixes in the release.
 
 ### Headlines:
-This version contains security fixes for the **Redis** server to properly handle the resizing of memory buffers, as well as security fixes for **probabilistic data structures** to avoid potential crashes. The new Redis Stack version also contains several improvements and bug fixes for the **Search and query** capability, including fixes of critical bugs. It also offers the latest **time series data structure**, the latest **Triggers and Functions** capability with various improvements and bug fixes, and it contains the latest version of **RedisInsight**.
+This version contains security fixes for the **Redis** server to properly handle the resizing of memory buffers, as well as security fixes for **probabilistic data structures** to avoid potential crashes. The new Redis Stack version also contains several improvements and bug fixes for the **Redis Search** capability, including fixes of critical bugs. It also offers the latest **time series data structure**, the latest **Triggers and Functions** capability with various improvements and bug fixes, and it contains the latest version of **RedisInsight**.
 
 ### Details:
 
@@ -442,7 +442,7 @@ This version contains security fixes for the **Redis** server to properly handle
   * [#722](https://github.com/RedisBloom/RedisBloom/issues/722) Potential crash on `CF.LOADCHUNK` (MOD-6344)
 
  **Improvements**
-* **Search and query**:
+* **Redis Search**:
   * [#3682](https://github.com/RediSearch/RediSearch/pull/3682) Report last key error and field type indexing failures on `FT.INFO` (MOD-5364)
   * [#4236](https://github.com/RediSearch/RediSearch/pull/4236) Adding Vector index parameters at the `FT.INFO` report (MOD-6198)
   * [#4196](https://github.com/RediSearch/RediSearch/pull/4196) Check for timeout after results processing in `FT.SEARCH` on cluster setup (MOD-6278)
@@ -466,7 +466,7 @@ This version contains security fixes for the **Redis** server to properly handle
   * [#4324](https://github.com/RediSearch/RediSearch/pull/4324) Internal cluster mechanism not waiting until all replies from shards causing a crash (MOD-6287)
   * [#4297](https://github.com/RediSearch/RediSearch/pull/4297) Execution loader when using `FT.AGGREGATE` with `LOAD` stage failing to buffer the right results potentially causing a crash (MOD-6385)
 
-* **Search and query**:
+* **Redis Search**:
   * [#4287](https://github.com/RediSearch/RediSearch/pull/4287) Re-index process while syncing from the replica causes a crash due to internal index variable initialisation
 (MOD-6337, MOD-6336)
   * [#4249](https://github.com/RediSearch/RediSearch/pull/4249) Memory tracking on cluster setups causing high memory usage and potentially Out-of-Memory (MOD-6123, MOD-5639)

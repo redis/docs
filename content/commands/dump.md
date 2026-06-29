@@ -48,7 +48,6 @@ railroad_diagram: /images/railroad/dump.svg
 since: 2.6.0
 summary: Returns a serialized representation of the value stored at a key.
 syntax_fmt: DUMP key
-syntax_str: ''
 title: DUMP
 ---
 Serialize the value stored at key in a Redis-specific format and return it to
@@ -74,6 +73,14 @@ should be used.
 
 If `key` does not exist a nil bulk reply is returned.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key to serialize.
+
+</details>
+
 ## Examples
 
 ```
@@ -83,9 +90,9 @@ OK
 "\x00\xc0\n\n\x00n\x9fWE\x0e\xaec\xbb"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

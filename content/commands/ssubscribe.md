@@ -44,17 +44,23 @@ railroad_diagram: /images/railroad/ssubscribe.svg
 since: 7.0.0
 summary: Listens for messages published to shard channels.
 syntax_fmt: SSUBSCRIBE shardchannel [shardchannel ...]
-syntax_str: ''
 title: SSUBSCRIBE
 ---
 Subscribes the client to the specified shard channels.
 
-In a Redis cluster, shard channels are assigned to slots by the same algorithm used to assign keys to slots. 
-Client(s) can subscribe to a node covering a slot (primary/replica) to receive the messages published. 
-All the specified shard channels needs to belong to a single slot to subscribe in a given `SSUBSCRIBE` call,
-A client can subscribe to channels across different slots over separate `SSUBSCRIBE` call.
+In Redis Cluster, shard channels are assigned to slots with the same algorithm Redis uses to assign keys to slots. To receive messages published to a shard channel, subscribe to a node, either a primary or replica, that serves the channel’s slot.
+
+All shard channels in a single SSUBSCRIBE call must belong to the same slot. To subscribe to shard channels across different slots, use separate SSUBSCRIBE calls.
 
 For more information about sharded Pub/Sub, see [Sharded Pub/Sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
+
+## Required arguments
+
+<details open><summary><code>shardchannel [shardchannel ...]</code></summary>
+
+One or more shard channels to subscribe to.
+
+</details>
 
 ## Examples
 
@@ -69,9 +75,9 @@ Reading messages... (press Ctrl-C to quit)
 3) "hello"
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

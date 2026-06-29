@@ -1,0 +1,156 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "delete(key, item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "str",
+            "description": "The item to delete"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "True if deleted, False if not found"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean cfDel(String key, String item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "String",
+            "description": "The item to delete"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if deleted, false if not found"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "CFDel(ctx context.Context, key string, element interface{}) *BoolCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "element",
+            "type": "interface{}",
+            "description": "The item to delete"
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": "Boolean command result"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "CF.DEL(key: RedisArgument, item: RedisArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisArgument",
+            "description": "The item to delete"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "true if deleted, false if not found"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "bool Del(RedisKey key, RedisValue item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue",
+            "description": "The item to delete"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true if deleted, false if not found"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "async Task<bool> DelAsync(RedisKey key, RedisValue item)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "item",
+            "type": "RedisValue",
+            "description": "The item to delete"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true if deleted, false if not found"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "cfdel(string $key, $item)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": "The name of the Cuckoo filter"
+          },
+          {
+            "name": "$item",
+            "type": "mixed",
+            "description": "The item to delete"
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "Result of the operation"
+        }
+      }
+    ]
+  }
+}

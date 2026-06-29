@@ -49,7 +49,6 @@ railroad_diagram: /images/railroad/ttl.svg
 since: 1.0.0
 summary: Returns the expiration time in seconds of a key.
 syntax_fmt: TTL key
-syntax_str: ''
 title: TTL
 ---
 Returns the remaining time to live of a key that has a timeout.
@@ -65,9 +64,17 @@ Starting with Redis 2.8 the return value in case of error changed:
 
 See also the [`PTTL`]({{< relref "/commands/pttl" >}}) command that returns the same information with milliseconds resolution (Only available in Redis 2.6 or greater).
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
-{{< clients-example cmds_generic ttl >}}
+{{< clients-example set="cmds_generic" step="ttl" description="Foundational: Check remaining time-to-live of a key using TTL (returns seconds remaining, -1 if no expiry, -2 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "Hello"
 "OK"
 > EXPIRE mykey 10
@@ -84,9 +91,9 @@ EXPIRE mykey 10
 TTL mykey
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

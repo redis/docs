@@ -64,9 +64,13 @@ railroad_diagram: /images/railroad/smove.svg
 since: 1.0.0
 summary: Moves a member from one set to another.
 syntax_fmt: SMOVE source destination member
-syntax_str: destination member
 title: SMOVE
 ---
+{{< note >}}
+This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
+{{< /note >}}
+
+
 Move `member` from the set at `source` to the set at `destination`.
 This operation is atomic.
 In every given moment the element will appear to be a member of `source` **or**
@@ -79,6 +83,26 @@ destination set.
 When the specified element already exists in the destination set, it is only
 removed from the source set.
 
+## Required arguments
+
+<details open><summary><code>source</code></summary>
+
+The key of the source set.
+
+</details>
+
+<details open><summary><code>destination</code></summary>
+
+The key of the destination set.
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member to move from the source set to the destination set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -90,9 +114,9 @@ SMEMBERS myset
 SMEMBERS myotherset
 {{% /redis-cli %}}
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

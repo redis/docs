@@ -1,16 +1,16 @@
 ---
-Title: Redis Enterprise Software observability and monitoring guidance
+Title: Redis Software observability and monitoring guidance
 alwaysopen: false
 categories:
 - docs
 - integrate
 - rs
-description: Using monitoring and observability with Redis Enterprise 
+description: Using monitoring and observability with Redis Software 
 group: observability
-linkTitle: Observability and monitoring
-summary: Observe Redis Enterprise resources and database perfomance indicators.
+linkTitle: Observability guide
+summary: Observe Redis Software resources and database perfomance indicators.
 type: integration
-weight: 45
+weight: 75
 tocEmbedHeaders: true
 ---
 

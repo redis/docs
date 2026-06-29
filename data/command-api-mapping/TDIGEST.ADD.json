@@ -1,0 +1,141 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "add(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "name": "values",
+            "type": "List[float]"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "tdigestAdd(String key, double... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "name": "values",
+            "type": "double..."
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "TDigestAdd(ctx context.Context, key string, elements ...float64) *StatusCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "elements",
+            "type": "...float64"
+          }
+        ],
+        "returns": {
+          "type": "*StatusCmd",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "TDIGEST.ADD(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "values",
+            "type": "number[]"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "OK on success"
+        }
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "signature": "Add(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "values",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": "true on success"
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "AddAsync(key, values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "name": "values",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": "true on success"
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "tdigestadd($key, ...$values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "name": "values",
+            "type": "float..."
+          }
+        ],
+        "returns": {
+          "type": "mixed",
+          "description": "OK on success"
+        }
+      }
+    ]
+  }
+}

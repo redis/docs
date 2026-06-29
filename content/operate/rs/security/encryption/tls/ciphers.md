@@ -10,7 +10,7 @@ title: Configure cipher suites
 weight: 60
 ---
 
-Ciphers are algorithms that help secure connections between clients and servers. You can change the ciphers to improve the security of your Redis Enterprise cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
+Ciphers are algorithms that help secure connections between clients and servers. You can change the ciphers to improve the security of your Redis Software cluster and databases. The default settings are in line with industry best practices, but you can customize them to match the security policy of your organization.
 
 ## TLS 1.2 cipher suites
 
@@ -42,7 +42,7 @@ When you modify your cipher suites, make sure:
 - The certificates in use are properly signed to support the required cipher suites.
 
 {{<note>}}
-- Redis Enterprise Software doesn't support static [Diffie–Hellman (`DH`) key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) ciphers.
+- Redis Software doesn't support static [Diffie–Hellman (`DH`) key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) ciphers.
 
 - Support for Ephemeral Diffie–Hellman (ECDHE) key exchange ciphers depends on the operating system version and security policy.
 {{</note>}}
@@ -65,7 +65,7 @@ To configure cipher suites using the Cluster Manager UI:
 
 ### Control plane cipher suites {#control-plane-ciphers-tls-1-2}
 
-As of Redis Enterprise Software version 6.0.12, control plane cipher suites can use the BoringSSL library format for TLS connections to the Cluster Manager UI. See the BoringSSL documentation for a full list of available [BoringSSL configurations](https://github.com/google/boringssl/blob/master/ssl/test/runner/cipher_suites.go#L99-L131).
+As of Redis Software version 6.0.12, control plane cipher suites can use the BoringSSL library format for TLS connections to the Cluster Manager UI. See the BoringSSL documentation for a full list of available [BoringSSL configurations](https://github.com/google/boringssl/blob/master/ssl/test/runner/cipher_suites.go#L99-L131).
 
 #### Configure TLS 1.2 control plane cipher suites
 
@@ -87,7 +87,7 @@ rladmin cluster config control_cipher_suites ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE
 
 ### Data plane cipher suites {#data-plane-ciphers-tls-1-2}
 
-Data plane cipher suites use the OpenSSL library format in Redis Enterprise Software version 6.0.20 or later. For a list of available OpenSSL configurations, see [Ciphers](https://www.openssl.org/docs/man1.1.1/man1/ciphers.html) (OpenSSL).
+Data plane cipher suites use the OpenSSL library format in Redis Software version 6.0.20 or later. For a list of available OpenSSL configurations, see [Ciphers](https://www.openssl.org/docs/man1.1.1/man1/ciphers.html) (OpenSSL).
 
 #### Configure TLS 1.2 data plane cipher suites
 
@@ -122,7 +122,7 @@ rladmin cluster config data_cipher_suites_tls_1_3 TLS_AES_256_GCM_SHA384:TLS_CHA
 
 ### Discovery service cipher suites {#discovery-service-ciphers-tls-1-2}
 
-Sentinel service cipher suites use the golang.org OpenSSL format for [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service" >}}) TLS connections in Redis Enterprise Software version 6.0.20 or later. See their documentation for a list of [available configurations](https://golang.org/src/crypto/tls/cipher_suites.go).
+Sentinel service cipher suites use the golang.org OpenSSL format for [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service" >}}) TLS connections in Redis Software version 6.0.20 or later. See their documentation for a list of [available configurations](https://golang.org/src/crypto/tls/cipher_suites.go).
 
 #### Configure TLS 1.2 discovery service cipher suites
 

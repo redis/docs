@@ -15,8 +15,8 @@ To create a replica connection, you define a database as a replica of a source d
 
 Sources databases can be:
 
-- Located in the same Redis Enterprise Software cluster
-- Located in a different Redis Enterprise cluster
+- Located in the same Redis Software cluster
+- Located in a different Redis Software cluster
 - Hosted by a different deployment, e.g. Redis Cloud
 - Redis Open Source databases
 
@@ -33,9 +33,9 @@ When you change the replica status of a database by adding, removing, or changin
 
 You can configure a database as a Replica Of, where the source database is in one of the following clusters:
 
-- [Same Redis Enterprise cluster](#same-cluster)
+- [Same Redis Software cluster](#same-cluster)
 
-- [Different Redis Enterprise cluster](#different-cluster)
+- [Different Redis Software cluster](#different-cluster)
 
 - [Redis Open Source cluster](#source-available-cluster)
 
@@ -47,9 +47,9 @@ For best results when using the [Multicast DNS](https://en.wikipedia.org/wiki/Mu
 As long as Replica Of is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy.md" >}}).
 {{< /note >}}
 
-### Same Redis Enterprise cluster {#same-cluster}
+### Same Redis Software cluster {#same-cluster}
 
-To configure a Replica Of database in the same Redis Enterprise cluster as the source database:
+To configure a Replica Of database in the same Redis Software cluster as the source database:
 
 1. [Create a new database]({{< relref "/operate/rs/databases/create" >}}) or select an existing database from the **Databases** screen.
 
@@ -67,9 +67,9 @@ To configure a Replica Of database in the same Redis Enterprise cluster as the s
 
 1. Select **Save**.
 
-### Different Redis Enterprise cluster {#different-cluster}
+### Different Redis Software cluster {#different-cluster}
 
-To configure a Replica Of database in a different Redis Enterprise cluster from the source database:
+To configure a Replica Of database in a different Redis Software cluster from the source database:
 
 1. Ensure the source database's port is allowed through firewalls between the clusters and can be accessed by the destination cluster's nodes.
 
@@ -144,6 +144,33 @@ To use a database from a Redis Open Source cluster as a Replica Of source:
 1. Select **Add source**.
 
 1. Select **Save**.
+
+### Enforce read-only access
+
+Writing directly to a Replica Of destination database is not supported and can result in replication errors, data inconsistencies, or data loss.
+
+As of Redis Software version 7.22.0-95, you can set `replica_read_only` to `true` when you [create a Replica Of database]({{<relref "operate/rs/references/rest-api/requests/bdbs#post-bdbs-v2">}}) using the REST API. When enabled, the destination database rejects all write operations to prevent accidental writes. Replication remains one-way from source to destination. You cannot change `replica_read_only` after database creation.
+
+To enforce read-only access when you create a Replica Of destination database:
+
+```sh
+POST https://<host>:<port>/v2/bdbs
+{
+  "name": "readonly-replica-db",
+  "memory_size": 1073741824,
+  "replica_sources": [
+    {
+      "uri": "redis://admin:<password>@<source-host>:<port>"
+    }
+  ],
+  "replica_read_only": true,
+  // Additional fields
+}
+```
+
+For additional database configuration fields, see the [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) reference.
+
+For Redis Software versions earlier than 7.22.0-95, there is no product-level enforcement preventing writes to the destination database, so you should configure your application to direct all write operations exclusively to the source database.
 
 ## Configure TLS for Replica Of
 

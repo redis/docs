@@ -67,17 +67,59 @@ railroad_diagram: /images/railroad/lcs.svg
 since: 7.0.0
 summary: Finds the longest common substring.
 syntax_fmt: "LCS key1 key2 [LEN] [IDX] [MINMATCHLEN\_min-match-len] [WITHMATCHLEN]"
-syntax_str: "key2 [LEN] [IDX] [MINMATCHLEN\_min-match-len] [WITHMATCHLEN]"
 title: LCS
 ---
 
 The LCS command implements the longest common subsequence algorithm. Note that this is different than the longest common string algorithm, since matching characters in the string does not need to be contiguous.
 
-For instance the LCS between "foo" and "fao" is "fo", since scanning the two strings from left to right, the longest common set of characters is composed of the first "f" and then the "o".
+For example, the `LCS` between "foo" and "fao" is "fo", since scanning the two strings from left to right, the longest common set of characters is composed of the first "f" and then the "o".
 
 LCS is very useful in order to evaluate how similar two strings are. Strings can represent many things. For instance if two strings are DNA sequences, the LCS will provide a measure of similarity between the two DNA sequences. If the strings represent some text edited by some user, the LCS could represent how different the new text is compared to the old one, and so forth.
 
-Note that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either spin a different Redis instance in order to run this algorithm, or make sure to run it against very small strings.
+Note that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either use a separate Redis instance to run this algorithm, or make sure to run it against very small strings.
+
+
+## Required arguments
+
+<details open><summary><code>key1</code></summary>
+
+The name of the first key.
+
+</details>
+
+<details open><summary><code>key2</code></summary>
+
+The name of the second key.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>LEN</code></summary>
+
+Return the length of the longest common subsequence instead of the subsequence itself.
+
+</details>
+
+<details open><summary><code>IDX</code></summary>
+
+Return the positions of the matches instead of the matching string.
+
+</details>
+
+<details open><summary><code>MINMATCHLEN min-match-len</code></summary>
+
+When used with `IDX`, only return matches at least `min-match-len` characters long.
+
+</details>
+
+<details open><summary><code>WITHMATCHLEN</code></summary>
+
+When used with `IDX`, include the length of each match in the result.
+
+</details>
+
+## Examples
 
 ```
 > MSET key1 ohmytext key2 mynewtext
@@ -86,14 +128,14 @@ OK
 "mytext"
 ```
 
-Sometimes we need just the length of the match:
+Sometimes you need just the length of the match:
 
 ```
 > LCS key1 key2 LEN
 (integer) 6
 ```
 
-However what is often very useful, is to know the match position in each strings:
+However what is often very useful is to know the match position in each string:
 
 ```
 > LCS key1 key2 IDX
@@ -111,7 +153,7 @@ However what is often very useful, is to know the match position in each strings
 ```
 
 Matches are produced from the last one to the first one, since this is how
-the algorithm works, and it more efficient to emit things in the same order.
+the algorithm works, and it more efficient to emit the matches in the same order.
 The above array means that the first match (second element of the array)
 is between positions 2-3 of the first string and 0-1 of the second.
 Then there is another match between 4-7 and 5-8.
@@ -129,7 +171,7 @@ To restrict the list of matches to the ones of a given minimal length:
 4) (integer) 6
 ```
 
-Finally to also have the match len:
+Finally, you may want to get the match length as well:
 
 ```
 > LCS key1 key2 IDX MINMATCHLEN 4 WITHMATCHLEN
@@ -143,9 +185,9 @@ Finally to also have the match len:
 4) (integer) 6
 ```
 
-## Redis Enterprise and Redis Cloud compatibility
+## Redis Software and Redis Cloud compatibility
 
-| Redis<br />Enterprise | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
+| Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
 | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 

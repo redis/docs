@@ -1,0 +1,810 @@
+{
+  "api_calls": {
+    "redis_py": [
+      {
+        "signature": "vadd(, key: KeyT,, vector: Union[List[float], bytes],, element: str,, reduce_dim: Optional[int] = None,, cas: Optional[bool] = False,, quantization: Optional[QuantizationOptions] = None,, ef: Optional[Number] = None,, attributes: Optional[Union[dict, str]] = None,, numlinks: Optional[int] = None,)",
+        "params": [
+          {
+            "name": "key",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "vector",
+            "type": "Union[List[float], bytes]",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "str",
+            "description": ""
+          },
+          {
+            "name": "reduce_dim",
+            "type": "Optional[int] = None",
+            "description": ""
+          },
+          {
+            "name": "cas",
+            "type": "Optional[bool] = False",
+            "description": ""
+          },
+          {
+            "name": "quantization",
+            "type": "Optional[QuantizationOptions] = None",
+            "description": ""
+          },
+          {
+            "name": "ef",
+            "type": "Optional[Number] = None",
+            "description": ""
+          },
+          {
+            "name": "attributes",
+            "type": "Optional[Union[dict, str]] = None",
+            "description": ""
+          },
+          {
+            "name": "numlinks",
+            "type": "Optional[int] = None",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Union[Awaitable[int], int]",
+          "description": ""
+        }
+      }
+    ],
+    "jedis": [
+      {
+        "signature": "boolean vadd(String key, float[] vector, String element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that will hold the vector set data"
+          },
+          {
+            "name": "vector",
+            "type": "float[]",
+            "description": "the vector as floating point numbers"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element that is being added to the vector set"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "1 if key was added; 0 if key was not added"
+        }
+      },
+      {
+        "signature": "boolean vadd(String key, float[] vector, String element, VAddParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that will hold the vector set data"
+          },
+          {
+            "name": "vector",
+            "type": "float[]",
+            "description": "the vector as floating point numbers"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "params",
+            "type": "VAddParams",
+            "description": "additional parameters for the VADD command"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "1 if key was added; 0 if key was not added"
+        }
+      },
+      {
+        "signature": "boolean vadd(String key, float[] vector, String element, int reduceDim, VAddParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the name of the key that will hold the vector set data"
+          },
+          {
+            "name": "vector",
+            "type": "float[]",
+            "description": "the vector as floating point numbers"
+          },
+          {
+            "name": "element",
+            "type": "String",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "reduceDim",
+            "type": "int",
+            "description": "the target dimension after reduction using random projection"
+          },
+          {
+            "name": "params",
+            "type": "VAddParams",
+            "description": "additional parameters for the VADD command"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "1 if key was added; 0 if key was not added"
+        }
+      },
+      {
+        "signature": "boolean vadd(byte[] key, float[] vector, byte[] element)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "the name of the key that will hold the vector set data"
+          },
+          {
+            "name": "vector",
+            "type": "float[]",
+            "description": "the vector as floating point numbers"
+          },
+          {
+            "name": "element",
+            "type": "byte[]",
+            "description": "the name of the element that is being added to the vector set"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "1 if key was added; 0 if key was not added"
+        }
+      },
+      {
+        "signature": "boolean vadd(byte[] key, float[] vector, byte[] element, VAddParams params)",
+        "params": [
+          {
+            "name": "key",
+            "type": "byte[]",
+            "description": "the name of the key that will hold the vector set data"
+          },
+          {
+            "name": "vector",
+            "type": "float[]",
+            "description": "the vector as floating point numbers"
+          },
+          {
+            "name": "element",
+            "type": "byte[]",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "params",
+            "type": "VAddParams",
+            "description": "additional parameters for the VADD command"
+          }
+        ],
+        "returns": {
+          "type": "boolean",
+          "description": "1 if key was added; 0 if key was not added"
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Boolean vadd(K key, V element, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      },
+      {
+        "signature": "Boolean vadd(K key, int dimensionality, V element, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "dimensionality",
+            "type": "int",
+            "description": "the reduced number of dimensions for the vector"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      },
+      {
+        "signature": "Boolean vadd(K key, V element, VAddArgs args, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VAddArgs",
+            "description": "the additional arguments for the VADD command"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      },
+      {
+        "signature": "Boolean vadd(K key, int dimensionality, V element, VAddArgs args, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "dimensionality",
+            "type": "int",
+            "description": "the reduced number of dimensions for the vector"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VAddArgs",
+            "description": "the additional arguments for the VADD command"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "Boolean",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Boolean> vadd(K key, V element, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> vadd(K key, int dimensionality, V element, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "dimensionality",
+            "type": "int",
+            "description": "the reduced number of dimensions for the vector"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> vadd(K key, V element, VAddArgs args, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VAddArgs",
+            "description": "the additional arguments for the VADD command"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      },
+      {
+        "signature": "RedisFuture<Boolean> vadd(K key, int dimensionality, V element, VAddArgs args, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "dimensionality",
+            "type": "int",
+            "description": "the reduced number of dimensions for the vector"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VAddArgs",
+            "description": "the additional arguments for the VADD command"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Boolean>",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Boolean> vadd(K key, V element, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      },
+      {
+        "signature": "Mono<Boolean> vadd(K key, int dimensionality, V element, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "dimensionality",
+            "type": "int",
+            "description": "the reduced number of dimensions for the vector"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      },
+      {
+        "signature": "Mono<Boolean> vadd(K key, V element, VAddArgs args, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VAddArgs",
+            "description": "the additional arguments for the VADD command"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      },
+      {
+        "signature": "Mono<Boolean> vadd(K key, int dimensionality, V element, VAddArgs args, Double... vectors)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the vector set"
+          },
+          {
+            "name": "dimensionality",
+            "type": "int",
+            "description": "the reduced number of dimensions for the vector"
+          },
+          {
+            "name": "element",
+            "type": "V",
+            "description": "the name of the element that is being added to the vector set"
+          },
+          {
+            "name": "args",
+            "type": "VAddArgs",
+            "description": "the additional arguments for the VADD command"
+          },
+          {
+            "name": "vectors",
+            "type": "Double...",
+            "description": "the vector values as floating point numbers"
+          }
+        ],
+        "returns": {
+          "type": "Mono<Boolean>",
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>"
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "VAdd(ctx context.Context, key, element string, val Vector)",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": ""
+          },
+          {
+            "name": "key",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "val",
+            "type": "Vector",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*BoolCmd",
+          "description": ""
+        }
+      }
+    ],
+    "node_redis": [
+      {
+        "signature": "VADD(key: RedisArgument, vector: Array<number>, element: RedisArgument, options?: VAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "vector",
+            "type": "Array<number>",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "options?",
+            "type": "VAddOptions",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Any",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "signature": "vadd(key: K, input: vector_sets::VectorAddInput<'a>, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "input",
+            "type": "vector_sets",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vadd_options(key: K, input: vector_sets::VectorAddInput<'a>, element: E, options: &'a vector_sets::VAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "input",
+            "type": "vector_sets",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a vector_sets",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "vadd(key: K, input: vector_sets::VectorAddInput<'a>, element: E)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "input",
+            "type": "vector_sets",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      },
+      {
+        "signature": "vadd_options(key: K, input: vector_sets::VectorAddInput<'a>, element: E, options: &'a vector_sets::VAddOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": ""
+          },
+          {
+            "name": "input",
+            "type": "vector_sets",
+            "description": ""
+          },
+          {
+            "name": "element",
+            "type": "E",
+            "description": ""
+          },
+          {
+            "name": "options",
+            "type": "&'a vector_sets",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": ""
+        }
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "signature": "VectorSetAddAsync(RedisKey key, VectorSetAddRequest request, CommandFlags flags = CommandFlags.None)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisKey",
+            "description": ""
+          },
+          {
+            "name": "request",
+            "type": "VectorSetAddRequest",
+            "description": ""
+          },
+          {
+            "name": "flags",
+            "type": "CommandFlags",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "Task<bool>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "vadd(string $key, string|array $vector, string $elem, int $dim = null, bool $cas = false, string $quant = VADD::QUANT_DEFAULT, int $bef = null, string|array $attributes = null, int $numlinks = null)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$vector",
+            "type": "string|array",
+            "description": ""
+          },
+          {
+            "name": "$elem",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "int $dim = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "bool $cas = false",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "string $quant = VADD::QUANT_DEFAULT",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $bef = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "string|array $attributes = null",
+            "type": "Any",
+            "description": ""
+          },
+          {
+            "name": "int $numlinks = null",
+            "type": "Any",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "bool",
+          "description": ""
+        }
+      }
+    ]
+  }
+}
