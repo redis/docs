@@ -102,7 +102,7 @@ Default: `100`
 
 ### search-bg-index-sleep-duration-us
 
-Added in v8.2.
+Added in the 8.2 maintenance line (v8.2.12) and the 8.4 maintenance line (v8.4.9). Not available in Redis Open Source 8.0, and not present in the initial 8.2.0 or 8.4.0 releases.
 
 The sleep duration (in microseconds) used during background indexing. During background indexing (triggered by `FT.CREATE` on existing keys), Redis periodically sleeps to allow the main thread to process commands. This parameter controls how long each sleep lasts. Works in conjunction with [`search-bg-index-sleep-gap`](#search-bg-index-sleep-gap), which controls how many iterations occur between sleeps.
 
@@ -252,7 +252,7 @@ Redis Cloud defaults:
 
 ### search-index-cursor-limit
 
-Available in all supported versions (originally added in v2.10.8 and backported to v2.6 and v2.8).
+Available in Redis Query Engine v2.6.24, v2.8.21, and v2.10.9 and their later maintenance releases, and in Redis Open Source 8.0 and later.
 
 The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "/commands/ft.aggregate/" >}}). Cursors are also opened internally by  Redis Search for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
 
@@ -409,7 +409,7 @@ Default: `RETURN`
 
 ### search-partial-indexed-docs
 
-Added in v2.0.0.
+Available in Redis Query Engine 2.0 and later.
 
 Enable/disable the Redis command filter. The filter optimizes partial updates of hashes
 and may avoid re-indexing the hash if changed fields are not part of the schema. 
@@ -525,7 +525,7 @@ UPGRADE_INDEX idx PREFIX 1 tt LANGUAGE french LANGUAGE_FIELD MyLang SCORE 0.5 SC
 
 ### search-vss-max-resize
 
-Added in v2.4.8.
+Available in Redis Query Engine 2.4.8 and later.
 
 The maximum memory resize (in bytes) for vector indexes.
 The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/ai/search-and-query/vectors/#creation-attributes-per-algorithm" >}}).
