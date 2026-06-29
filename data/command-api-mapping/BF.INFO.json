@@ -47,7 +47,7 @@
         ],
         "returns": {
           "type": "(BloomFilterInfoTypeResponse)",
-          "description": "The requested information value (derefs to i64)"
+          "description": "The requested information value (derefs to f64)"
         }
       }
     ],
@@ -82,7 +82,7 @@
         ],
         "returns": {
           "type": "(BloomFilterInfoTypeResponse)",
-          "description": "The requested information value (derefs to i64)"
+          "description": "The requested information value (derefs to f64)"
         }
       }
     ],
