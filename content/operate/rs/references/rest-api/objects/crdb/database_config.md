@@ -18,6 +18,8 @@ An object that represents the database configuration. This configuration object 
 
 ## `default_db_config` settings
 
+### Requires `default_db_config`
+
 Use `default_db_config` to set the following fields so they apply to every instance in the Active-Active database. Do not set these fields in `db_config` at the instance level because if they differ between instances, replication can fail to start, stop syncing, or return errors.
 
 | Name | Type/Value | Description |
@@ -28,27 +30,34 @@ Use `default_db_config` to set the following fields so they apply to every insta
 | shard_key_regex | `[{ "regex": string }, ...]` | Custom keyname-based sharding rules (required if sharding is enabled)<br /><br />To use the default rules you should set the value to:<br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |
 | tls_mode | 'enabled'<br /> **'disabled'** <br />'replica_ssl' | Encrypt communication |
 
-## Recommended `default_db_config` settings
+### Important to use `default_db_config`
 
-The following fields don't break replication if they differ between instances. However, because mismatches can cause problems over time or inconsistent behavior across clusters, you should set them in `default_db_config` so they apply to every instance in the Active-Active database.
+The following fields don't break replication if they differ between instances, but mismatches can cause problems over time, such as uneven load, higher latency, or inconsistent behavior across clusters. Set them in `default_db_config` so they apply to every instance in the Active-Active database.
+
+| Name | Type/Value | Description |
+|------|------------|-------------|
+| eviction_policy | **'noeviction'**<br />'allkeys-lru'<br />'allkeys-lfu'<br />'allkeys-random'<br />'volatile-lru'<br />'volatile-lfu'<br />'volatile-random'<br />'volatile-ttl' | Database memory eviction policy. See [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) for more information. |
+| memory_size | integer (default: 0) | Database memory size limit in bytes. 0 is unlimited. |
+| oss_cluster | boolean (default: false) | Enables OSS Cluster mode |
+| <span class="break-all">oss_cluster_api_preferred_ip_type</span> | 'internal'<br />'external' | Indicates preferred IP type in OSS cluster API |
+| proxy_policy | 'single'<br />'all-master-shards'<br />'all-nodes' | The policy used for proxy binding to the endpoint |
+| rack_aware | boolean (default: false) | Require the database to be always replicated across multiple racks |
+| shards_count | integer (range: 1-512) (default: 1) | Number of database shards |
+| shards_placement | 'dense'<br />'sparse' | Control the density of shards<br />Values:<br />**'dense'**: Shards reside on as few nodes as possible <br /> **'sparse'**: Shards reside on as many nodes as possible |
+
+### Recommended `default_db_config`
+
+The following fields don't break replication or cause future issues if they differ between instances. However, if there is no reason to use different values, you should use `default_db_config` to set them across all Active-Active database instances.
 
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | aof_policy | **'appendfsync-every-sec'** <br />'appendfsync-always' | Policy for Append-Only File data persistence |
 | <span class="break-all">authentication_redis_pass</span> | string | Redis AUTH password (deprecated as of Redis Software v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | data_persistence | 'disabled'<br />'snapshot'<br />**'aof'** | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided |
-| eviction_policy | **'noeviction'**<br />'allkeys-lru'<br />'allkeys-lfu'<br />'allkeys-random'<br />'volatile-lru'<br />'volatile-lfu'<br />'volatile-random'<br />'volatile-ttl' | Database memory eviction policy. See [eviction policy]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) for more information. |
 | max_aof_file_size | integer | Maximum AOF file size in bytes |
 | max_aof_load_time | integer (default: 3600) | Maximum AOF reload time in seconds |
-| memory_size | integer (default: 0) | Database memory size limit in bytes. 0 is unlimited. |
-| oss_cluster | boolean (default: false) | Enables OSS Cluster mode |
-| <span class="break-all">oss_cluster_api_preferred_ip_type</span> | 'internal'<br />'external' | Indicates preferred IP type in OSS cluster API |
-| proxy_policy | 'single'<br />'all-master-shards'<br />'all-nodes' | The policy used for proxy binding to the endpoint |
-| rack_aware | boolean (default: false) | Require the database to be always replicated across multiple racks |
 | replication | boolean (default: true) | Database replication |
 | <span class="break-all">replication_oom_threshold_percent</span> | integer (range: 0-20) (default: 5) | Reserved memory buffer percentage below `maxmemory` that blocks client writes while allowing Active-Active replication. Requires Redis database version 8.4 or later. See [Replication OOM protection]({{<relref "/operate/rs/databases/active-active/planning#replication-oom-protection">}}) for more information. |
-| shards_count | integer (range: 1-512) (default: 1) | Number of database shards |
-| shards_placement | 'dense'<br />'sparse' | Control the density of shards<br />Values:<br />**'dense'**: Shards reside on as few nodes as possible <br /> **'sparse'**: Shards reside on as many nodes as possible |
 | snapshot_policy | array of [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) objects | Policy for snapshot-based data persistence. A dataset snapshot will be taken every N secs if there are at least M writes changes in the dataset. |
 
 ## Per-instance `db_config` settings
