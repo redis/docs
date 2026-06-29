@@ -39,15 +39,19 @@ jobs:
             git checkout -b "${branch}"
           fi
 
-          curl -Ls https://api.redislabs.com/v1/cloud-api-docs \
+          curl -Ls https://api.redislabs.com/v1/cloud-api-docs/capi \
             | jq '(.. | .example? | try select(test("^{"))) |= fromjson' > content/operate/rc/api/api-reference/openapi.json
 
-          spec_is_different=$(git diff content/operate/rc/api/api-reference/openapi.json)
+          curl -Ls https://api.redislabs.com/v1/cloud-api-docs/rdi \
+            | jq '(.. | .example? | try select(test("^{"))) |= fromjson' > content/operate/rc/api/data-integration-api-reference/openapi.json
+
+          spec_is_different=$(git diff content/operate/rc/api/api-reference/openapi.json content/operate/rc/api/data-integration-api-reference/openapi.json)
 
           if [[ ! -z $spec_is_different ]]; then
             spec_change=true
 
             git add "content/operate/rc/api/api-reference/openapi.json"
+            git add "content/operate/rc/api/data-integration-api-reference/openapi.json"
             git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
             git config user.name "redisdocsapp[bot]"
             git commit -m "Update content/operate/rc/api/api-reference/openapi.json"
