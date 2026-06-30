@@ -41,7 +41,7 @@ When planning a Flex deployment, consider the following flash drive requirements
 
 - For the best performance, the SSDs should be NVMe based. NVMe Gen 5 or Gen 4 is recommended. Gen 3 is also supported, but not recommended for best performance.
 
-- Flash storage must be greater than the total provisioned database size to account for write buffers, space amplification, and more. Flash space should be three times the database memory limit (database memory limit x 3).
+- Flash storage must be greater than the total provisioned database size to account for write buffers, space amplification, and more. Flash space should be approximately three times the total memory limit of all Flex databases on the node. Because you can increase a database's memory limit after creation, size flash storage for the expected peak memory limit.
 
 See the general Redis Software [hardware requirements]({{<relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements">}}) for additional requirements.
 

@@ -91,7 +91,7 @@ Implementing Flex requires pre planning around memory and sizing. Considerations
 - Flash memory must be dedicated to Flex and not shared with other parts of the database, such as durability, binaries, or persistence.
 - For the best performance, the SSDs should be NVMe based, but SATA can also be used.
 - For Auto Tiering, the available flash space must be greater than or equal to the total database size (RAM+Flash). The extra space accounts for write buffers and [write amplification](https://en.wikipedia.org/wiki/Write_amplification).
-- For Flex, flash space should be three times the database memory limit (database memory limit x 3).
+- For Flex, flash space should be approximately three times the total memory limit of all Flex databases on the node. Because you can increase a database's memory limit after creation, size flash space for the expected peak memory limit.
 
 {{<note>}} The Redis Software database persistent and ephemeral storage should be on different disks, either local or attached. {{</note>}}
 

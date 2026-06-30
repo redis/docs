@@ -42,7 +42,7 @@ We recommend these hardware requirements for production systems or for developme
 | Persistent storage<sup>[4](#table-note-4)</sup> | Used for storing [snapshot (RDB format) and AOF files]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}) over a persistent storage media, such as AWS Elastic Block Storage (EBS) or Azure Data Disk. | RAM x 3 | In-memory >= RAM x 4 (except for [extreme 'write' scenarios]({{< relref "/operate/rs/clusters/optimize/disk-sizing-heavy-write-scenarios" >}}))<br /><br /> [Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) >= (RAM + Flash) x 4. |
 | Network<sup>[5](#table-note-5)</sup> | We recommend using multiple NICs per node where each NIC is >1Gbps, but Redis Software can also run over a single 1Gbps interface network used for processing application requests, inter-cluster communication, and storage access. | 1G | >=10G |
 | Local disk for [Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}}) | Used to extend an Auto Tiering database's DRAM capacity with solid state drives (SSDs). Flash memory must be locally attached. [Read more]({{< relref "/operate/rs/databases/flash/" >}}) | (RAM+Flash) x 1.6 | (RAM+Flash) x 2.5 |
-| Local disk for [Flex]({{< relref "/operate/rs/flex/" >}}) | Used to extend a Flex database's DRAM capacity with solid state drives (SSDs). Flash memory must be locally attached. [Read more]({{< relref "/operate/rs/flex/" >}}) | Database memory limit x 3 | Database memory limit x 3 |
+| Local disk for [Flex]({{< relref "/operate/rs/flex/" >}})<sup>[6](#table-note-6)</sup> | Used to extend a Flex database's DRAM capacity with solid state drives (SSDs). Flash memory must be locally attached. [Read more]({{< relref "/operate/rs/flex/" >}}) | (Total memory limit of all Flex databases on the node) x 3 | (Total memory limit of all Flex databases on the node) x 3 |
 
 
 Additional considerations:
@@ -82,4 +82,8 @@ Additional considerations:
 5. <a name="table-note-5"></a>Network:
 
     - Only static IP addresses are supported to ensure nodes remain part of the cluster after a reboot.
+
+6. <a name="table-note-6"></a>Local disk for Flex:
+
+    - Because you can increase a database's memory limit after creation, size the local disk for the expected peak memory limit.
 
