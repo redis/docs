@@ -18,7 +18,7 @@ aliases:
 weight: 1
 ---
 
-This is step 1 of the [search and query tutorial]({{< relref "/develop/get-started/search-tutorial" >}}).
+This is step 1 of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}).
 
 Before you can search anything, you need to decide how to store it. Redis gives you two natural ways to represent a structured record like a product: as a **hash** or as a **JSON document**. Both can be indexed and searched. This page explains the difference, helps you choose, and then loads the tutorial dataset.
 
