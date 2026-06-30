@@ -33,6 +33,12 @@ whether to commit the change.
 | Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 6 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #2531 (findings all 1 human RDI eng; bugbot+Jit clean) |
 | Open/resolved split | 🟢 corroborated | 5 | 2026-06-30 | #3510, #3374, #3536, #3543, #2531 (11 open / 3 resolved) |
 | Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 3 | 2026-06-30 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #2531 (resolved decimal thread 2619563419 found **reverted** by a later rewrite) |
+| Branch/PR identification + arg handling | 🟢 corroborated | 6 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #3573 |
+| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 7 | 2026-06-30 | #3415, #3507, #3510, #3374, #3536, #3543, #3573 |
+| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 5 | 2026-06-30 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3543 (1/1 open), #3573 (2/2 open) |
+| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 6 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #3573 |
+| Open/resolved split | 🟢 corroborated | 5 | 2026-06-30 | #3510, #3374, #3536, #3543, #3573 (r1: 2 open/0 resolved; r2: 2 resolved/2 open — mixed-state PR) |
+| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 3 | 2026-06-30 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #3573 (r1 fixes genuinely landed: relpath `.replace(os.sep,"/")` L105, --add dedup guard L146-150) |
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
 | "Resolved ≠ fixed" flag — **still-broken / reverted** variant | 🟡 seen once | 1 | 2026-06-30 | #2531 (resolved+outdated thread 2619563419 said decimal default=`string`; a later rewrite reverted current code to `precise`, so the resolved fix is no longer in the code — engineer re-raised it as 3496835587). Regression flavour; see worked examples |
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
@@ -44,6 +50,14 @@ whether to commit the change.
 | Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run (#2531 had no resolved+not-outdated HIGH) |
 | Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 4 | 2026-06-30 | #3374 (bugbot mostly accepted); #3536 (bugbot 5/5 valid); #3543 (bugbot 1/1 valid; Jit 0); #2531 (bugbot 0 findings + Jit 0 on a docs-only change — clean, no false-positive noise) |
 | Codex second-opinion availability gate | 🟢 corroborated | 4 | 2026-06-30 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review); #3543 (codex on PATH); #2531 (codex on PATH) |
+| **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
+| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-30 | still no real loop. #3536 (4 rounds) and now #3573 (r2): r1 findings reached a fixed point (both resolved), r2 raised new *independent* findings — correctly judged NOT a loop. Confirmed my r1 dedup patch did **not** cause the r2 collapse-drop finding (pre-existing gap), so not an A→fix→B cycle either |
+| **Subsystem churn** detection (repeated findings on one patched area) | 🟢 corroborated | 2 PRs | 2026-06-30 | #3536 (review-handling, 3 instances) **and** #3573 (the `--add` virtual-merge mechanism: r1 #3499137529 dup-vs-disk → I patched build_rows → r2 #3499226329 dropped-under-collapse, same mechanism, adjacent gap my patch didn't cover). 2nd distinct PR → corroborated. Worked examples below |
+| Approval-over-open-finding cross-check | 🟢 corroborated | 4 | 2026-06-30 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence over 2 open Mediums: benign), #3573 (dwdougherty "Sure, why not?" APPROVED 13:41 over open findings; 2 more bot findings landed 13:49 after the approval) |
+| Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified). *(#3573 had only 2 findings — under cap, not a load test)* |
+| Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
+| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 4 | 2026-06-30 | #3374 (bugbot signal mostly accepted); #3536 (bugbot 5/5 findings valid across 2 rounds — high trust); #3543 (bugbot 1/1 valid — lifespan asymmetry real; Jit 0 findings); #3573 (bugbot 4/4 valid across 2 rounds — all real; Jit 0 findings — high trust) |
+| Codex second-opinion availability gate | 🟢 corroborated | 4 | 2026-06-30 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review); #3543 (codex on PATH); #3573 (codex on PATH) |
 
 ## Worked examples library
 
@@ -129,6 +143,21 @@ A↔B cycle) and a never-fixed thread (it *was* fixed, then un-fixed).
   marking deferred ones unverified. Meta-lesson: when round N+1 finds another gap
   in an area you *just* "consolidated", your consolidation boundary was wrong —
   widen it to the true subsystem, don't re-patch the edge.
+
+- **#3573 `--add` virtual-merge, 2026-06-30 (2nd PR → corroborates the pattern).**
+  Round 1 bugbot #3499137529 flagged `--add` duplicating a page that's also on
+  disk; fixed by an existence-check in `build_rows`. Round-2 re-scan then raised
+  #3499226329: `--add` into a `--collapse`d folder is silently dropped (virtual
+  entries merge only when `walk` recurses, which collapsed folders skip). *New,
+  independent finding* (not ping-pong) but the **same under-specified subsystem**
+  — how `--add` virtual entries reconcile with the on-disk walk and collapse
+  state. Signature again: each point-patch exposed the next adjacent gap.
+  Consolidation that would end it: resolve all `--add` entries against the final
+  tree in one place — validate the parent is a real, non-collapsed, walked dir
+  and **warn instead of silently dropping**, and dedupe vs disk there too —
+  rather than threading a `virtual` dict through the recursion. Borderline
+  (only 2 instances, niche feature), but the cross-round, same-mechanism shape
+  is the early churn signal.
 
 ### Cross-tool agreement
 - **#3374 `num_docs`** — Claude (Critical #2, top-level review) and bugbot
