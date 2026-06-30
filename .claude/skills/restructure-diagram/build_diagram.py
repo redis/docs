@@ -89,13 +89,16 @@ def label(fm, fallback):
     return fm.get("linktitle") or fm.get("title") or fallback
 
 
-def walk(d, depth, root, collapse, virtual):
+def walk(d, depth, root, collapse, virtual, expanded):
     """Return [(depth, label, kind)] rows for directory `d`.
 
     kind is "folder", "page", or "ellipsis". `virtual` maps an absolute
     directory path to extra (weight, label) page entries to merge in (used for
-    pages that exist on another branch but not the working tree).
+    pages that exist on another branch but not the working tree). `expanded`
+    is a set this records each visited dir into, so build_rows can tell which
+    `virtual` entries actually got merged vs silently dropped.
     """
+    expanded.add(os.path.abspath(d))
     entries = []
     for name in os.listdir(d):
         p = os.path.join(d, name)
@@ -123,7 +126,8 @@ def walk(d, depth, root, collapse, virtual):
             if rel in collapse:
                 rows.append((depth + 1, "...", "ellipsis"))
             else:
-                rows.extend(walk(p, depth + 1, root, collapse, virtual))
+                rows.extend(walk(p, depth + 1, root, collapse, virtual,
+                                 expanded))
     return rows
 
 
@@ -137,42 +141,42 @@ def esc(s):
     return html.escape(s, quote=True)
 
 
-def _under_collapse(parent_rel, collapse):
-    """True if parent_rel is, or is nested under, any collapsed folder."""
-    return any(parent_rel == c or parent_rel.startswith(c + "/")
-               for c in collapse)
-
-
 def build_rows(root, collapse, adds):
     collapse = set(collapse)
+    # Queue every --add as a virtual page keyed on its parent dir. We do NOT try
+    # to predict whether walk() will render it -- a virtual page shows up iff
+    # walk() expands its parent dir, and the conditions for that (dir exists, has
+    # an _index.md, is in-tree, isn't collapsed) are exactly walk()'s own logic.
+    # Re-deriving them here is what kept leaking edge cases. Instead, let walk
+    # record the dirs it expanded and reconcile against that ground truth below.
+    # The one thing we still check up front is the on-disk case: there walk emits
+    # the page itself, so a virtual copy would duplicate rather than drop.
     virtual = {}
-    # Resolve every --add in one place: a virtual page only renders if walk()
-    # actually descends into its parent folder. That fails three ways -- the
-    # file is really on disk (walk emits it anyway -> would duplicate), the
-    # parent folder doesn't exist (typo), or the parent is collapsed (walk stops
-    # at the "..." box and never merges siblings). In every case warn rather
-    # than silently dropping or duplicating the page.
+    queued = []  # (parent_abs, rel) for post-walk reconciliation
     for rel, lab, w in adds:
-        rel_norm = rel.replace(os.sep, "/")
-        parent_rel = rel_norm.rsplit("/", 1)[0] if "/" in rel_norm else ""
-        parent_abs = os.path.abspath(os.path.join(root, parent_rel))
         if os.path.exists(os.path.join(root, rel)):
             print("note: --add %r is already in the working tree; using the "
                   "on-disk page (not duplicating)" % rel, file=sys.stderr)
             continue
-        if not os.path.isdir(parent_abs):
-            print("warning: --add %r skipped: folder %r does not exist"
-                  % (rel, parent_rel or "."), file=sys.stderr)
-            continue
-        if _under_collapse(parent_rel, collapse):
-            print("warning: --add %r skipped: its folder is collapsed via "
-                  "--collapse, so injected pages would not be shown" % rel,
-                  file=sys.stderr)
-            continue
+        rel_norm = rel.replace(os.sep, "/")
+        parent_rel = rel_norm.rsplit("/", 1)[0] if "/" in rel_norm else ""
+        parent_abs = os.path.abspath(os.path.join(root, parent_rel))
         virtual.setdefault(parent_abs, []).append((w, lab))
+        queued.append((parent_abs, rel))
+
     rootfm = front(os.path.join(root, "_index.md"))
     rows = [(0, label(rootfm, os.path.basename(os.path.normpath(root))), "root")]
-    rows.extend(walk(root, 1, root, set(collapse), virtual))
+    expanded = set()
+    rows.extend(walk(root, 1, root, collapse, virtual, expanded))
+
+    # Reconcile: warn for any --add whose parent walk never expanded -- one check
+    # that covers missing, collapsed, asset-folder, and out-of-tree parents.
+    for parent_abs, rel in queued:
+        if parent_abs not in expanded:
+            print("warning: --add %r not shown: its folder %r is not an "
+                  "expanded section (missing, collapsed, an asset folder "
+                  "without _index.md, or outside the tree)"
+                  % (rel, os.path.relpath(parent_abs, root)), file=sys.stderr)
     return rows
 
 
