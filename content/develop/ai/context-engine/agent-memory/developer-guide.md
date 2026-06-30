@@ -16,7 +16,7 @@ Everything you need to start building with Redis Agent Memory — REST API refer
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< image-card image="images/ai-brain.svg" alt="API examples icon" title="API and SDK Examples — Store and retrieve session events and long-term memories" url="/develop/ai/context-engine/agent-memory/api-examples" >}}
   {{< image-card image="images/ai-cube.svg" alt="API reference icon" title="API Reference — Full OpenAPI reference for all Agent Memory endpoints" url="/develop/ai/context-engine/agent-memory/api-reference" >}}
-  {{< image-card image="images/ai-lib.svg" alt="Language guides icon" title="Language Guides — Code examples for Python, Node.js, Go, Java, .NET, and more" url="/develop/use-cases/agent-memory" >}}
+  {{< image-card image="images/ai-lib.svg" alt="Language guides icon" title="Build Your Own — Self-hosted agent memory using Redis client libraries (Python, Node.js, Go, Java, .NET, and more)" url="/develop/use-cases/agent-memory" >}}
 </div>
 
 ## What you can build
@@ -62,6 +62,10 @@ POST /v1/stores/{storeId}/long-term-memory/search
 See the full [API and SDK examples]({{< relref "/develop/ai/context-engine/agent-memory/api-examples" >}}) for all endpoints, including session retrieval, memory deletion, and search filters.
 
 ## Language guides
+
+{{< note >}}
+The guides below show how to implement agent memory patterns **directly using Redis client libraries** — without the managed Agent Memory service. This is a good option if you prefer to self-host, want full control over the implementation, or are using a language that doesn't yet have an Agent Memory SDK. For the managed service, use the [REST API]({{< relref "/develop/ai/context-engine/agent-memory/api-examples" >}}) from any language.
+{{< /note >}}
 
 Step-by-step examples for building agent memory into your application using your preferred Redis client library:
 
