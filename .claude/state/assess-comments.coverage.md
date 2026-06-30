@@ -27,23 +27,23 @@ whether to commit the change.
 
 | Capability | Confidence | Real encounters | Last verified | Evidence |
 |---|---|---|---|---|
-| Branch/PR identification + arg handling | 🟢 corroborated | 5 | 2026-06-25 | #3415, #3507, #3374, #3536, #3543 |
-| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 6 | 2026-06-25 | #3415, #3507, #3510, #3374, #3536, #3543 |
-| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 4 | 2026-06-25 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3543 (1/1 open) |
-| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 5 | 2026-06-25 | #3415, #3507, #3374, #3536, #3543 |
-| Open/resolved split | 🟢 corroborated | 4 | 2026-06-25 | #3510, #3374, #3536, #3543 (1 open / 0 resolved) |
-| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 2 | 2026-06-23 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed) |
+| Branch/PR identification + arg handling | 🟢 corroborated | 6 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #2531 |
+| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 7 | 2026-06-30 | #3415, #3507, #3510, #3374, #3536, #3543, #2531 |
+| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 5 | 2026-06-30 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3543 (1/1 open), #2531 (11 open / 2 resolved-outdated / 1 outdated-unresolved) |
+| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 6 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #2531 (findings all 1 human RDI eng; bugbot+Jit clean) |
+| Open/resolved split | 🟢 corroborated | 5 | 2026-06-30 | #3510, #3374, #3536, #3543, #2531 (11 open / 3 resolved) |
+| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 3 | 2026-06-30 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #2531 (resolved decimal thread 2619563419 found **reverted** by a later rewrite) |
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
-| "Resolved ≠ fixed" flag — **still-broken** variant | ❓ untested | 0 | — | never confirmed a resolved thread that was actually still broken |
+| "Resolved ≠ fixed" flag — **still-broken / reverted** variant | 🟡 seen once | 1 | 2026-06-30 | #2531 (resolved+outdated thread 2619563419 said decimal default=`string`; a later rewrite reverted current code to `precise`, so the resolved fix is no longer in the code — engineer re-raised it as 3496835587). Regression flavour; see worked examples |
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
-| **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
-| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-23 | still no real loop across 4 bugbot rounds on #3536. Rounds 2 & 4 each raised new post-fix findings but none was a reopened concern or A↔B cycle — correctly judged NOT a loop both times. Round 4 instead revealed *subsystem churn* (next row) |
+| **Contradiction** detection | 🟢 corroborated | 2 | 2026-06-30 | #3415 (approval vs open bugbot finding); #2531 (RDI engineer's repo ground truth contradicts the page's Debezium-docs claims on ≥4 points — version, decimal default, temporal pass-through, MariaDB connector — **and** engineer-vs-existing-doc on temporal normalization). *(#3507 was an off-branch manual demo — not counted.)* |
+| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-30 | still no true tool A↔B loop. #2531 had the nearest reopened-concern (decimal default resolved Dec-2025 → reverted by a June rewrite → re-raised), but that's a **regression across one rewrite**, not a back-and-forth cycle — recorded under "still-broken/reverted" + worked examples, not counted as a loop |
 | **Subsystem churn** detection (repeated findings on one patched area) | 🟡 seen (1 PR, 3 instances) | 3 | 2026-06-23 | #3536 — (a) 429/862/874 on `$ARGUMENTS` filter + review handling; (b) r5 442/449 on the *churn feature*; (c) r6 3461052859 on the *cap ↔ report contract* — i.e. (b)'s consolidation was too narrow. Pattern is robust on this PR; needs a 2nd PR for 🟢. Worked examples below |
-| Approval-over-open-finding cross-check | 🟢 corroborated | 3 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant) |
-| Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
-| Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
-| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 3 | 2026-06-25 | #3374 (bugbot signal mostly accepted); #3536 (bugbot 5/5 findings valid across 2 rounds — high trust); #3543 (bugbot 1/1 valid — lifespan asymmetry real; Jit 0 findings) |
-| Codex second-opinion availability gate | 🟢 corroborated | 3 | 2026-06-25 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review); #3543 (codex on PATH) |
+| Approval-over-open-finding cross-check | 🟢 corroborated | 4 | 2026-06-30 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence over 2 open Mediums: benign), #2531 (correct **negative** — no approval exists; CHANGES_REQUESTED + COMMENTED over 11 open findings, no dangerous combo) |
+| Depth cap / prioritisation under load | 🟢 corroborated | 2 | 2026-06-30 | #3374 (19 candidate findings → 4 deep-verified); #2531 (14 threads → 5 deep-verified, 6 deferred) |
+| Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run (#2531 had no resolved+not-outdated HIGH) |
+| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 4 | 2026-06-30 | #3374 (bugbot mostly accepted); #3536 (bugbot 5/5 valid); #3543 (bugbot 1/1 valid; Jit 0); #2531 (bugbot 0 findings + Jit 0 on a docs-only change — clean, no false-positive noise) |
+| Codex second-opinion availability gate | 🟢 corroborated | 4 | 2026-06-30 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review); #3543 (codex on PATH); #2531 (codex on PATH) |
 
 ## Worked examples library
 
@@ -71,8 +71,35 @@ would have spawned another round; this settled. So the "not a loop" judgement is
 borne out by what happened next: assess → fix → re-scan reached a fixed point.
 
 ### Resolved-but-still-broken
-*(none confirmed yet — record any thread marked resolved whose bug was still
-present in the code)*
+*(none of the classic "resolved but bug never fixed" variant confirmed yet)*
+
+**Reverted-after-resolve (regression) — #2531, 2026-06-30.** Thread `2619563419`
+(ZdravkoDonev-redis, Dec 2025) stated RDI's decimal default is
+`debezium.source.decimal.handling.mode=string`; it was **resolved + marked
+outdated**. A June 2026 full rewrite of the page (commit `43e02c1d0`) then changed
+the documented default to `precise` and added a `TODO` questioning it — i.e. it
+**reverted the agreed, resolved fix**. The engineer had to re-raise the identical
+point as a fresh finding (`3496835587`). Signature: a *resolved+outdated* thread
+whose agreed resolution is no longer reflected in current code because a later
+large edit overwrote it. Lesson for the detector: when spot-checking resolved
+threads, don't assume "resolved+outdated" means the fix still holds — a big rewrite
+can silently undo it. This is a **regression**, distinct from both ping-pong (no
+A↔B cycle) and a never-fixed thread (it *was* fixed, then un-fixed).
+
+### Cross-source contradiction (authoritative human vs author's own prior work / other docs)
+- **#2531 RDI engineer vs Debezium-docs basis, 2026-06-30.** The page's mappings
+  were built from the Debezium 3.0 reference because RDI internals were non-public.
+  RDI engineer ZdravkoDonev then supplied repo ground truth contradicting it on
+  ≥4 points: shipped Debezium is `3.5.0.Final-rdi.3` not 3.0.8 (`3496835571`);
+  decimal default is `string` not `precise` (`3496835587`); RDI *normalizes*
+  temporal logical types rather than passing Debezium values through (`3496835595`);
+  RDI maps both `mysql` and `mariadb` to `MySqlConnector`, no separate MariaDB
+  connector (`3496835604`). Additionally an **doc-vs-doc** contradiction: the
+  engineer's temporal-normalization examples disagree with the published
+  `formatting-date-and-time-values.md` (Debezium `Date` → ms per engineer vs → days
+  per the doc). Lesson: a finding can be authoritative-human-correct yet contradict
+  *the author's own verified claims and another shipped doc* — the reconciler's job
+  is to surface that the Debezium-docs basis was the weaker source all along.
 
 ### Subsystem churn (not a loop, but the precursor)
 - **#3536 review-handling, 2026-06-23.** Bugbot finding 429 (round 1) flagged the
