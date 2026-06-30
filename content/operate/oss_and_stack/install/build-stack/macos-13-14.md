@@ -16,7 +16,6 @@ Three RediSearch-specific build constraints apply on macOS and are handled in th
 
 - The cross-language LTO that RediSearch enables by default requires Linux; its build script aborts on macOS with `Error: LTO is only supported on Linux`. Step 5 sets `LTO=0` to disable it.
 - RediSearch's Rust workspace uses edition 2024 and features stabilized in Rust 1.94, so the Rust toolchain in step 3 is pinned to `1.94.0`. Older Rust fails with `feature edition2024 is required`.
-- RediSearch's CMake build calls `libtool -static` (BSD `libtool` syntax). Step 5's `PATH` does **not** prepend `$HOMEBREW_PREFIX/opt/libtool/libexec/gnubin`, so macOS's `/usr/bin/libtool` is used for that step.
 {{< /note >}}
 
 ## 1. Install homebrew
