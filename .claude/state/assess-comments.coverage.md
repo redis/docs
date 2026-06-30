@@ -27,37 +27,24 @@ whether to commit the change.
 
 | Capability | Confidence | Real encounters | Last verified | Evidence |
 |---|---|---|---|---|
-| Branch/PR identification + arg handling | 🟢 corroborated | 6 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #2531 |
-| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 7 | 2026-06-30 | #3415, #3507, #3510, #3374, #3536, #3543, #2531 |
-| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 5 | 2026-06-30 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3543 (1/1 open), #2531 (11 open / 2 resolved-outdated / 1 outdated-unresolved) |
-| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 6 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #2531 (findings all 1 human RDI eng; bugbot+Jit clean) |
-| Open/resolved split | 🟢 corroborated | 5 | 2026-06-30 | #3510, #3374, #3536, #3543, #2531 (11 open / 3 resolved) |
-| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 3 | 2026-06-30 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #2531 (resolved decimal thread 2619563419 found **reverted** by a later rewrite) |
-| Branch/PR identification + arg handling | 🟢 corroborated | 6 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #3573 |
-| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 7 | 2026-06-30 | #3415, #3507, #3510, #3374, #3536, #3543, #3573 |
-| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 5 | 2026-06-30 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3543 (1/1 open), #3573 (2/2 open) |
-| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 6 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #3573 |
-| Open/resolved split | 🟢 corroborated | 5 | 2026-06-30 | #3510, #3374, #3536, #3543, #3573 (r1: 2 open/0 resolved; r2: 2 resolved/2 open — mixed-state PR) |
-| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 3 | 2026-06-30 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #3573 (r1 fixes genuinely landed: relpath `.replace(os.sep,"/")` L105, --add dedup guard L146-150) |
+| Branch/PR identification + arg handling | 🟢 corroborated | 7 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #3573, #2531 |
+| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 8 | 2026-06-30 | #3415, #3507, #3510, #3374, #3536, #3543, #3573, #2531 |
+| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 6 | 2026-06-30 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3543 (1/1 open), #3573 (2/2 open), #2531 (r1: 11 open/2 res-outdated/1 open; r2: 11 of 14 outdated after fixes + APPROVED) |
+| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 7 | 2026-06-30 | #3415, #3507, #3374, #3536, #3543, #3573, #2531 |
+| Open/resolved split | 🟢 corroborated | 6 | 2026-06-30 | #3510, #3374, #3536, #3543, #3573, #2531 |
+| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 4 | 2026-06-30 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #3573 (r1 fixes landed: relpath `.replace(os.sep,"/")`, `--add` dedup guard), #2531 (r1 found decimal thread 2619563419 reverted; r2 my doc fixes landed and engineer ZdravkoDonev **APPROVED** afterwards) |
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
 | "Resolved ≠ fixed" flag — **still-broken / reverted** variant | 🟡 seen once | 1 | 2026-06-30 | #2531 (resolved+outdated thread 2619563419 said decimal default=`string`; a later rewrite reverted current code to `precise`, so the resolved fix is no longer in the code — engineer re-raised it as 3496835587). Regression flavour; see worked examples |
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
 | **Contradiction** detection | 🟢 corroborated | 2 | 2026-06-30 | #3415 (approval vs open bugbot finding); #2531 (RDI engineer's repo ground truth contradicts the page's Debezium-docs claims on ≥4 points — version, decimal default, temporal pass-through, MariaDB connector — **and** engineer-vs-existing-doc on temporal normalization). *(#3507 was an off-branch manual demo — not counted.)* |
-| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-30 | still no true tool A↔B loop. #2531 had the nearest reopened-concern (decimal default resolved Dec-2025 → reverted by a June rewrite → re-raised), but that's a **regression across one rewrite**, not a back-and-forth cycle — recorded under "still-broken/reverted" + worked examples, not counted as a loop |
-| **Subsystem churn** detection (repeated findings on one patched area) | 🟡 seen (1 PR, 3 instances) | 3 | 2026-06-23 | #3536 — (a) 429/862/874 on `$ARGUMENTS` filter + review handling; (b) r5 442/449 on the *churn feature*; (c) r6 3461052859 on the *cap ↔ report contract* — i.e. (b)'s consolidation was too narrow. Pattern is robust on this PR; needs a 2nd PR for 🟢. Worked examples below |
-| Approval-over-open-finding cross-check | 🟢 corroborated | 4 | 2026-06-30 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence over 2 open Mediums: benign), #2531 (correct **negative** — no approval exists; CHANGES_REQUESTED + COMMENTED over 11 open findings, no dangerous combo) |
-| Depth cap / prioritisation under load | 🟢 corroborated | 2 | 2026-06-30 | #3374 (19 candidate findings → 4 deep-verified); #2531 (14 threads → 5 deep-verified, 6 deferred) |
+| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-30 | still no true tool A↔B loop across #3536 (4 rounds), #3573 (r1 reached a fixed point; r2 new independent findings), or #2531. #2531's nearest reopened-concern was the decimal regression (resolved Dec → reverted by a June rewrite → re-raised) — a regression across one rewrite, not a cycle; recorded under "still-broken/reverted" |
+| **Subsystem churn** detection (repeated findings on one patched area) | 🟢 corroborated | 2 PRs | 2026-06-30 | #3536 (review-handling, 3 instances) **and** #3573 (the `--add` virtual-merge mechanism: r1 #3499137529 dup-vs-disk → patched build_rows → r2 #3499226329 dropped-under-collapse, adjacent gap). 2nd distinct PR → corroborated. Worked examples below |
+| Approval-over-open-finding cross-check | 🟢 corroborated | 6 | 2026-06-30 | #3415 (dwdougherty), #3374 (low-confidence over open HIGH), #3536 (high-confidence over 2 open Mediums: benign), #3573 (dwdougherty APPROVED 13:41 over open findings; 2 bot findings landed 13:49 after), #2531 (run1 correct **negative** — no approval; run2 **positive** — ZdravkoDonev APPROVED 13:13 then bugbot finding 3499796857 landed 15:08, and he approved over 2-3 of his own still-open findings incl. the temporal one) |
+| Depth cap / prioritisation under load | 🟢 corroborated | 2 | 2026-06-30 | #3374 (19 candidate findings → 4 deep-verified); #2531 (r1: 14 threads → 5 deep-verified, 6 deferred). *(#3573 had only 2 findings — under cap, not a load test)* |
 | Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run (#2531 had no resolved+not-outdated HIGH) |
-| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 4 | 2026-06-30 | #3374 (bugbot mostly accepted); #3536 (bugbot 5/5 valid); #3543 (bugbot 1/1 valid; Jit 0); #2531 (bugbot 0 findings + Jit 0 on a docs-only change — clean, no false-positive noise) |
-| Codex second-opinion availability gate | 🟢 corroborated | 4 | 2026-06-30 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review); #3543 (codex on PATH); #2531 (codex on PATH) |
-| **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
-| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-30 | still no real loop. #3536 (4 rounds) and now #3573 (r2): r1 findings reached a fixed point (both resolved), r2 raised new *independent* findings — correctly judged NOT a loop. Confirmed my r1 dedup patch did **not** cause the r2 collapse-drop finding (pre-existing gap), so not an A→fix→B cycle either |
-| **Subsystem churn** detection (repeated findings on one patched area) | 🟢 corroborated | 2 PRs | 2026-06-30 | #3536 (review-handling, 3 instances) **and** #3573 (the `--add` virtual-merge mechanism: r1 #3499137529 dup-vs-disk → I patched build_rows → r2 #3499226329 dropped-under-collapse, same mechanism, adjacent gap my patch didn't cover). 2nd distinct PR → corroborated. Worked examples below |
-| Approval-over-open-finding cross-check | 🟢 corroborated | 4 | 2026-06-30 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence over 2 open Mediums: benign), #3573 (dwdougherty "Sure, why not?" APPROVED 13:41 over open findings; 2 more bot findings landed 13:49 after the approval) |
-| Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified). *(#3573 had only 2 findings — under cap, not a load test)* |
-| Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
-| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 4 | 2026-06-30 | #3374 (bugbot signal mostly accepted); #3536 (bugbot 5/5 findings valid across 2 rounds — high trust); #3543 (bugbot 1/1 valid — lifespan asymmetry real; Jit 0 findings); #3573 (bugbot 4/4 valid across 2 rounds — all real; Jit 0 findings — high trust) |
-| Codex second-opinion availability gate | 🟢 corroborated | 4 | 2026-06-30 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review); #3543 (codex on PATH); #3573 (codex on PATH) |
+| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 5 | 2026-06-30 | #3374 (bugbot mostly accepted); #3536 (bugbot 5/5 valid); #3543 (bugbot 1/1 valid; Jit 0); #3573 (bugbot 4/4 valid; Jit 0); #2531 (r1 bugbot 0 findings; r2 bugbot 1/1 valid — correctly caught the ledger duplicate-rows defect 3499796857; Jit 0) |
+| Codex second-opinion availability gate | 🟢 corroborated | 5 | 2026-06-30 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review), #3543, #3573, #2531 (codex on PATH) |
+| Ledger self-integrity after `main` merge (no duplicate rows) | 🟡 seen once | 1 | 2026-06-30 | #2531 r2 — bugbot 3499796857 caught the shared ledger gaining duplicate capability rows when `main` (carrying a #3573-era ledger) merged into the branch and git kept both blocks with conflicting confidence. Reconciled by hand this run. See worked examples + suggested step-11 refinement |
 
 ## Worked examples library
 
@@ -83,6 +70,21 @@ cycle.
 pushed, and bugbot's next re-scan came back **clean — no comments**. A real loop
 would have spawned another round; this settled. So the "not a loop" judgement is
 borne out by what happened next: assess → fix → re-scan reached a fixed point.
+
+### Ledger duplication after a `main` merge (shared-file hazard)
+- **#2531 r2, 2026-06-30.** The coverage ledger is a single shared file edited by
+  *every* assess-comments run across all branches. A #3573 run updated it on `main`;
+  my #2531 run updated it on this branch from the same #3543 ancestor. When `main`
+  was merged into the branch (commit `3007dfb3`), git auto-merged by keeping **both**
+  edited blocks, so nearly every capability appeared **twice** with conflicting
+  confidence (e.g. Contradiction detection: 🟢 in the #2531 block, 🟡 in the #3573
+  block) and split evidence. Bugbot caught it (finding `3499796857`, Low,
+  `.claude/state/assess-comments.coverage.md#L29-L60`). Fixed by reconciling the two
+  blocks into one row per capability (union of evidence, max justified confidence).
+  **Suggested step-11 refinement:** the ledger-update instruction should say to
+  *reconcile by capability name* (one row each; merge evidence) rather than insert a
+  fresh block, and to re-dedupe after any `main` merge — otherwise concurrent runs on
+  different branches keep colliding here.
 
 ### Resolved-but-still-broken
 *(none of the classic "resolved but bug never fixed" variant confirmed yet)*
