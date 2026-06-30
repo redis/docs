@@ -15,21 +15,35 @@ type: integration
 weight: 80
 ---
 
-This page describes the source data types that RDI captures for each source database
-and how they are represented in Redis. There are also some
+This page describes the source data types that RDI captures for the
+[Oracle](#oracle), [MySQL/MariaDB](#mysql-and-mariadb),
+[PostgreSQL](#postgresql-supabase-and-alloydb), [SQL Server](#sql-server),
+[MongoDB](#mongodb), and [Spanner](#spanner) source databases, and how they are
+represented in Redis. There are also some
 [cross-cutting considerations](#cross-cutting-considerations) that apply to all
 source databases.
+
+<!-- TODO(RDI team): Snowflake is also an RDI source (via the `riotx` collector, per ZdravkoDonev-redis, PR #2531) and is not covered here. Either add a Snowflake section or keep the scope limited to the sources listed above. The scope sentence has been narrowed so the page no longer implies it is the full RDI source-type matrix. -->
 
 ## How RDI captures and represents data
 
 For most source databases, RDI uses an embedded
 [Debezium](https://debezium.io/) connector as its change data capture (CDC)
-*collector*. RDI currently ships Debezium 3.0, so the data type mappings on this
-page are based on the
-[Debezium 3.0 connector reference](https://debezium.io/documentation/reference/3.0/).
+*collector*. RDI ships a Debezium 3.x–based collector, so the collector-level
+mappings on this page follow the
+[Debezium connector reference](https://debezium.io/documentation/reference/).
 [Google Cloud Spanner](#spanner) is the exception: it uses a Flink-based collector
 that reads Spanner change streams rather than Debezium (see the
 [Spanner section](#spanner) for details).
+
+<!-- TODO(RDI team): RDI currently ships Debezium 3.5.0.Final-rdi.3 (per ZdravkoDonev-redis, PR #2531). The collector mappings below were checked against the Debezium 3.0 reference and should be re-confirmed against 3.5, since mappings can change between Debezium releases. -->
+
+{{< note >}}**RDI does not always pass the collector value through unchanged.** RDI's
+processors normalize several Debezium logical types before they reach your jobs and
+Redis, and drop a few that they cannot represent. The collector-level representations
+in the tables below are therefore the *input* to RDI's processing, not always the
+final Redis value — the per-type notes and [cross-cutting considerations](#cross-cutting-considerations)
+call out where RDI transforms or drops a value.{{< /note >}}
 
 It helps to think of the data flow in two layers:
 
@@ -42,19 +56,17 @@ It helps to think of the data flow in two layers:
    [`binary.handling.mode`](#binary-values), and
    [`time.precision.mode`](#temporal-values). The tables below show the
    representation that each connector produces with its **default** settings.
-2. **How RDI writes it to Redis.** RDI writes each record to a Redis
-   [Hash]({{< relref "/develop/data-types/hashes" >}}) (the default) or, if you set
-   `target_data_type: json`, to a [JSON]({{< relref "/develop/data-types/json" >}})
-   document. Scalar values are passed through to Redis as the collector represents
-   them. For Hash targets, every field value is stored as a string; for JSON
-   targets, numbers and booleans are stored as native JSON values.
+2. **How RDI writes it to Redis.** RDI's processors take the collector value,
+   normalize some logical types (and drop a few unsupported ones), then write each
+   record to a Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) (the default)
+   or, if you set `target_data_type: json`, to a
+   [JSON]({{< relref "/develop/data-types/json" >}}) document. For Hash targets,
+   every field value is stored as a string; for JSON targets, numbers and booleans
+   are stored as native JSON values.
 
-{{< note >}}RDI surfaces the collector's representation of each value directly.
-For example, a column that Debezium emits as microseconds-since-epoch arrives in
-your Redis target as that same integer, and you format it with a
-[transformation]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/formatting-date-and-time-values" >}})
-if you need a different format. Because of this, the "collector representation"
-columns below are also what you work with in RDI jobs.{{< /note >}}
+When you need to reformat a value in a job, see
+[Formatting date and time values]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/formatting-date-and-time-values" >}})
+for worked examples.
 
 ### Setting collector properties
 
@@ -86,7 +98,7 @@ database. Each database has its own section with full detail.
 - Enable [supplemental logging]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle" >}}) on the tables/schemas you capture.
 - Set `lob.enabled: true` if you need `CLOB`, `NCLOB`, `BLOB`, or `XMLTYPE`.
 - Choose `binary.handling.mode` for `RAW`/`BLOB` (default is `bytes`).
-- Choose `decimal.handling.mode` for `NUMBER`/`DECIMAL` (default `precise` emits binary, not readable numbers).
+- `decimal.handling.mode` defaults to `string` in RDI; set `double` for numeric `NUMBER`/`DECIMAL` values.
 - Avoid unsupported types (`LONG`, `LONG RAW`, `BFILE`, `UROWID`, `VECTOR`, UDTs, spatial) or cast them upstream.
 
 [**MySQL/MariaDB**](#mysql-and-mariadb)
@@ -99,7 +111,7 @@ database. Each database has its own section with full detail.
 [**PostgreSQL/Supabase/AlloyDB**](#postgresql-supabase-and-alloydb)
 
 - Ensure WAL/logical replication settings match the connector's needs.
-- Choose `decimal.handling.mode` (default `precise` emits binary).
+- `decimal.handling.mode` defaults to `string` in RDI; set `double` for numeric values.
 - Use a RedisJSON target to get the most value from `JSON`/`JSONB`.
 
 [**SQL Server**](#sql-server)
@@ -127,20 +139,20 @@ database", so review them before reading the per-database sections.
 ### Decimal and numeric values
 
 `DECIMAL`, `NUMERIC`, `MONEY`, and similar types are controlled by
-`decimal.handling.mode`. The default is **`precise`**, which is often *not* what you
-want for Redis:
+`decimal.handling.mode`. **RDI's effective default is `string`** — the RDI collector
+templates set `debezium.source.decimal.handling.mode=string` before your
+`advanced.source` overrides apply, so decimals reach Redis as readable strings rather
+than Debezium's own `precise` binary default:
 
-| `decimal.handling.mode` | Collector representation                                                   |
+| `decimal.handling.mode` | Representation                                                              |
 |-------------------------|----------------------------------------------------------------------------|
-| `precise` (default)     | A Kafka Connect `Decimal` (`BYTES`) — a base64-encoded, scaled binary value. |
+| `string` (RDI default)  | The exact decimal as a `STRING`.                                            |
 | `double`                | A `FLOAT64` number (may lose precision for very large/precise values).      |
-| `string`                | The exact decimal as a `STRING`.                                            |
+| `precise`               | A Kafka Connect `Decimal` (`BYTES`) — a base64-encoded, scaled binary value. This is Debezium's default but not RDI's. |
 
-For most pipelines, set `decimal.handling.mode: string` when you need exact
-fidelity, or `double` when the value fits within double precision. With the default
-`precise` mode you will see base64 strings in Redis rather than readable numbers.
-
-<!-- TODO(RDI team): confirm whether RDI overrides Debezium's default decimal.handling.mode. The previous version of this page claimed the effective default was `string`; that claim could not be verified against any public source and most likely came from the legacy write-behind Debezium Server `application.properties` templates (which set `debezium.source.decimal.handling.mode=string` as an editable sample value). There is no public evidence that RDI's collector injects a default other than Debezium's own `precise`. Please confirm the effective default and document it here. -->
+Leave the default (`string`) for exact decimal fidelity, or set
+`decimal.handling.mode: double` if you want numeric values and can accept double
+precision.
 
 ### Temporal values
 
@@ -156,9 +168,12 @@ column's declared precision:
   on their precision. For example, an Oracle `TIMESTAMP(6)` or a PostgreSQL
   `timestamp` is emitted as microseconds.
 
-See
+RDI's processors may normalize these Debezium temporal types before they reach your
+jobs and Redis (for example, converting a `Date` to epoch milliseconds). See
 [Formatting date and time values]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/formatting-date-and-time-values" >}})
-for worked examples of converting these values in an RDI job.
+for worked examples of converting temporal values in an RDI job.
+
+<!-- TODO(RDI team): UNRESOLVED CONTRADICTION. ZdravkoDonev-redis (PR #2531) says RDI normalizes temporal logical types before jobs/Redis — e.g. Date 18656 -> 1611878400000 (ms), MicroTimestamp 1529507596945104 -> 1529507596945.104 (ms), ZonedTimestamp 2021-12-30T12:23:46Z -> 1640867026000 (epoch ms), MicroTime -> seconds. But the published formatting-date-and-time-values.md shows the RAW Debezium values (e.g. PostgreSQL date as DAYS since epoch, timestamp as microseconds). These two RDI sources disagree. Please confirm the actual RDI-visible values (and whether they differ by processor classic vs Flink, or snapshot vs stream) so this section and the formatting doc can be reconciled. -->
 
 ### Time zones
 
@@ -187,8 +202,9 @@ choose.
 When a connector captures large objects (for example, Oracle `CLOB`/`BLOB`), an
 update event never contains the value of an *unchanged* LOB column. Instead, the
 column carries a placeholder. The default placeholder is `__debezium_unavailable_value`,
-which you can change with the `debezium_lob_encoded_placeholder` processor setting in
-`config.yaml`.
+which you can change with `advanced.source.unavailable.value.placeholder` on the
+source (the Helm chart exposes this as `processor.lob.placeholder`). RDI skips these
+placeholder values rather than writing them to Redis as user data.
 
 ### Nullability
 
@@ -202,12 +218,17 @@ which you can change with the `debezium_lob_encoded_placeholder` processor setti
 ### Structured values (structs, arrays, and maps)
 
 Some source types are emitted as Kafka Connect `STRUCT`, `ARRAY`, or `MAP` values
-rather than scalars — for example, spatial types (a struct of `srid` + `wkb`),
-`BIT(>1)` (a `Bits` struct), and vector types (an array of floats). How RDI renders
-these into a Redis Hash or JSON document, and whether a transformation is needed, is
-noted per type below.
+rather than scalars — for example, spatial types (a struct of `srid` + `wkb`) and
+vector types (an array of floats).
 
-<!-- TODO(RDI team): confirm exactly how RDI renders Debezium STRUCT/ARRAY/MAP values (spatial Geometry, Bits, pgvector, primitive arrays) into Hash and JSON targets. The Debezium-layer representation is verified against the 3.0 docs; the Redis-side rendering needs RDI confirmation. -->
+**RDI does not support every complex logical type.** In particular, RDI treats
+`io.debezium.data.Bits` (from `BIT(>1)`/`BIT VARYING`) and the interval logical types
+as **unsupported**: the classic processor maps them to `None` and the Flink processor
+removes the field (via `RemovalConverter`), so they do not reach Redis. Other
+structured values (spatial `Geometry`, pgvector) pass through to RDI's processors,
+but how they are rendered into a Redis Hash or JSON document is noted per type below.
+
+<!-- TODO(RDI team): Bits and interval types confirmed unsupported/dropped by ZdravkoDonev-redis (PR #2531). Still needs confirmation: exactly how RDI renders the *supported* STRUCT/ARRAY values (spatial Geometry {srid,wkb}, pgvector) into Hash vs JSON targets. -->
 
 ## Oracle
 
@@ -231,7 +252,7 @@ for the required supplemental-logging setup.
 | `TIMESTAMP(7-9)` | `NanoTimestamp` (ns) | |
 | `TIMESTAMP WITH TIME ZONE` | `ZonedTimestamp` (`STRING`, ISO 8601) | See [Time zones](#time-zones). |
 | `TIMESTAMP WITH LOCAL TIME ZONE` | `ZonedTimestamp` (`STRING`, UTC) | |
-| `INTERVAL YEAR TO MONTH`, `INTERVAL DAY TO SECOND` | `MicroDuration` (`INT64`) | Or an ISO 8601 string if you set `interval.handling.mode: string`. |
+| `INTERVAL YEAR TO MONTH`, `INTERVAL DAY TO SECOND` | `MicroDuration` (`INT64`) | **Not supported by RDI** — interval types are dropped before reaching Redis. See [Structured values](#structured-values-structs-arrays-and-maps). |
 | `CLOB`, `NCLOB` | `STRING` | Requires `lob.enabled: true`. |
 | `BLOB` | `BYTES` | Requires `lob.enabled: true`; encoded per `binary.handling.mode`. |
 | `RAW` | `BYTES` | Encoded per `binary.handling.mode`. |
@@ -265,14 +286,14 @@ available to map `NUMBER(1)` columns to booleans.
 
 ## MySQL and MariaDB
 
-Debezium 3.0 ships a dedicated
-[MySQL connector](https://debezium.io/documentation/reference/3.0/connectors/mysql.html)
-and a separate
-[MariaDB connector](https://debezium.io/documentation/reference/3.0/connectors/mariadb.html).
-Their type mappings are effectively identical, so they are documented together here;
-notable differences are called out below. See
+RDI captures both `mysql` and `mariadb` sources with the
+[Debezium MySQL connector](https://debezium.io/documentation/reference/stable/connectors/mysql.html)
+(`io.debezium.connector.mysql.MySqlConnector`) — it does not use Debezium's separate
+MariaDB connector. The mappings below therefore apply to both source types. See
 [Prepare MySQL/MariaDB for RDI]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb" >}})
 for setup. Enable the binary log in **ROW** mode.
+
+<!-- TODO(RDI team): since RDI uses the MySQL connector for MariaDB too (per ZdravkoDonev-redis, PR #2531), re-confirm the MariaDB VECTOR and spatial rows below behave identically under that connector. -->
 
 ### Supported types
 
@@ -280,7 +301,7 @@ for setup. Enable the binary log in **ROW** mode.
 |--------------------|---------------------------------------------|-------|
 | `TINYINT`, `SMALLINT`, `MEDIUMINT`, `INT`, `BIGINT` | `INT8`/`INT16`/`INT32`/`INT64` | |
 | `BIT(1)` | `BOOLEAN` | A single bit is mapped to a boolean. |
-| `BIT(>1)` | `Bits` (`BYTES`) | Little-endian byte array. |
+| `BIT(>1)` | `Bits` (`BYTES`) | **Not supported by RDI** — dropped before reaching Redis. See [Structured values](#structured-values-structs-arrays-and-maps). |
 | `DECIMAL`, `NUMERIC` | Kafka Connect `Decimal` (`BYTES`) | Controlled by `decimal.handling.mode`. See [Decimal and numeric values](#decimal-and-numeric-values). |
 | `FLOAT(0-23)`, `REAL` | `FLOAT32` | |
 | `FLOAT(24-53)`, `DOUBLE` | `FLOAT64` | |
@@ -298,14 +319,12 @@ for setup. Enable the binary log in **ROW** mode.
 | `VECTOR` | `ARRAY (FLOAT32)`, `io.debezium.data.FloatVector` | See [Structured values](#structured-values-structs-arrays-and-maps). |
 | Spatial: `GEOMETRY`, `POINT`, `LINESTRING`, `POLYGON`, `MULTIPOINT`, `MULTILINESTRING`, `MULTIPOLYGON`, `GEOMETRYCOLLECTION` | `io.debezium.data.geometry.Geometry` (`STRUCT`) | A struct with `srid` (`INT32`) and `wkb` (`BYTES`, Well-Known Binary). |
 
-### MySQL vs MariaDB differences
+### Booleans
 
-- The connectors share a binlog code base and produce identical type mappings,
-  including `VECTOR` and the spatial types above.
-- Boolean handling differs slightly: MySQL obtains the original `BOOLEAN` type from
-  the DDL during streaming, whereas MariaDB obtains types from the JDBC driver
-  (which reports `TINYINT(1)`). In both cases the
-  `TinyIntOneToBooleanConverter` produces consistent results.
+MySQL and MariaDB both represent `BOOLEAN`/`BOOL` as `TINYINT(1)`. Because RDI uses
+the MySQL connector for both, the connector may report these columns as `TINYINT(1)`
+rather than `BOOLEAN` (especially during snapshots). Use the
+`TinyIntOneToBooleanConverter` for consistent boolean fidelity.
 
 ## PostgreSQL, Supabase, and AlloyDB
 
@@ -327,7 +346,7 @@ and use the same connector, so the mappings below apply to all three. See
 | `DOUBLE PRECISION` | `FLOAT64` | |
 | `BOOLEAN` | `BOOLEAN` | |
 | `BIT(1)` | `BOOLEAN` | |
-| `BIT(>1)`, `BIT VARYING` | `Bits` (`BYTES`) | Little-endian byte array. |
+| `BIT(>1)`, `BIT VARYING` | `Bits` (`BYTES`) | **Not supported by RDI** — dropped before reaching Redis. See [Structured values](#structured-values-structs-arrays-and-maps). |
 | `CHAR`, `VARCHAR`, `TEXT`, `CITEXT` | `STRING` | |
 | `BYTEA` | `BYTES` | Encoded per `binary.handling.mode`. Requires `bytea_output = hex` in PostgreSQL. |
 | `DATE` | `Date` (days since epoch) | See [Temporal values](#temporal-values). |
@@ -335,7 +354,7 @@ and use the same connector, so the mappings below apply to all three. See
 | `TIME WITH TIME ZONE` (`TIMETZ`) | `ZonedTime` (`STRING`, GMT) | For example, `07:15:00Z`. |
 | `TIMESTAMP` | `MicroTimestamp` (µs since epoch) | See [Temporal values](#temporal-values). |
 | `TIMESTAMP WITH TIME ZONE` (`TIMESTAMPTZ`) | `ZonedTimestamp` (`STRING`, GMT) | See [Time zones](#time-zones). |
-| `INTERVAL` | `MicroDuration` (`INT64`) | Or `io.debezium.time.Interval` (`STRING`) if you set `interval.handling.mode: string`. |
+| `INTERVAL` | `MicroDuration` (`INT64`) | **Not supported by RDI** — interval types are dropped before reaching Redis. See [Structured values](#structured-values-structs-arrays-and-maps). |
 | `UUID` | `io.debezium.data.Uuid` (`STRING`) | |
 | `INET`, `CIDR`, `MACADDR`, `MACADDR8` | `STRING` | |
 | `JSON`, `JSONB` | `io.debezium.data.Json` (`STRING`) | Parsed into a nested structure on a RedisJSON target. |
@@ -512,8 +531,11 @@ below uses GoogleSQL type names; the PostgreSQL dialect uses different type name
 | `ARRAY` | A JSON list of elements encoded per the element type. |
 | `STRUCT` | A JSON list of field values encoded per the field types. |
 
-Note the values that arrive as strings rather than native JSON numbers (`INT64`,
-`NUMERIC`, `ENUM`) and the encodings you may need to convert in an RDI job (`BYTES`
-as base64, `TIMESTAMP`/`DATE` as RFC 3339 strings).
+This table shows the **raw change-stream representation** only. RDI's Spanner
+collector parses some of these values before they become change events — for
+example, the string-encoded `INT64` values are parsed to numbers — and the snapshot
+phase reads through the Spanner JDBC path, which may not match the change-stream
+encoding. The RDI job/target representation is therefore not always identical to the
+raw encoding above.
 
 <!-- TODO(RDI team): two Spanner-specific points still need confirmation. (1) The SNAPSHOT phase reads over JDBC, so its value representation is governed by the Spanner JDBC driver and may differ from the change-stream encoding above — please confirm. (2) Confirm how RDI's Flink collector and stream processor render each of these values into a Redis Hash or JSON target. The change-stream encodings above are verified against Google Cloud's TypeCode reference. -->
