@@ -137,19 +137,39 @@ def esc(s):
     return html.escape(s, quote=True)
 
 
+def _under_collapse(parent_rel, collapse):
+    """True if parent_rel is, or is nested under, any collapsed folder."""
+    return any(parent_rel == c or parent_rel.startswith(c + "/")
+               for c in collapse)
+
+
 def build_rows(root, collapse, adds):
+    collapse = set(collapse)
     virtual = {}
+    # Resolve every --add in one place: a virtual page only renders if walk()
+    # actually descends into its parent folder. That fails three ways -- the
+    # file is really on disk (walk emits it anyway -> would duplicate), the
+    # parent folder doesn't exist (typo), or the parent is collapsed (walk stops
+    # at the "..." box and never merges siblings). In every case warn rather
+    # than silently dropping or duplicating the page.
     for rel, lab, w in adds:
-        # --add injects pages that aren't in the working tree. If the file is
-        # actually present, walk() will already emit it -- skip the virtual
-        # copy so it doesn't appear twice, and say so.
+        rel_norm = rel.replace(os.sep, "/")
+        parent_rel = rel_norm.rsplit("/", 1)[0] if "/" in rel_norm else ""
+        parent_abs = os.path.abspath(os.path.join(root, parent_rel))
         if os.path.exists(os.path.join(root, rel)):
-            print("note: --add %r is already in the working tree; "
-                  "using the on-disk page (not duplicating)" % rel,
+            print("note: --add %r is already in the working tree; using the "
+                  "on-disk page (not duplicating)" % rel, file=sys.stderr)
+            continue
+        if not os.path.isdir(parent_abs):
+            print("warning: --add %r skipped: folder %r does not exist"
+                  % (rel, parent_rel or "."), file=sys.stderr)
+            continue
+        if _under_collapse(parent_rel, collapse):
+            print("warning: --add %r skipped: its folder is collapsed via "
+                  "--collapse, so injected pages would not be shown" % rel,
                   file=sys.stderr)
             continue
-        parent = os.path.abspath(os.path.join(root, os.path.dirname(rel)))
-        virtual.setdefault(parent, []).append((w, lab))
+        virtual.setdefault(parent_abs, []).append((w, lab))
     rootfm = front(os.path.join(root, "_index.md"))
     rows = [(0, label(rootfm, os.path.basename(os.path.normpath(root))), "root")]
     rows.extend(walk(root, 1, root, set(collapse), virtual))
@@ -289,13 +309,16 @@ def main():
     rows = build_rows(root, args.collapse, args.add)
     svg, pw, ph = build_svg(rows, args.edge_style)
     print("Edge style: %s" % args.edge_style)
-    open(out, "w", encoding="utf-8").write(svg)
 
-    # Validate: both the outer SVG and the embedded editable model must parse.
+    # Validate *before* writing, so a parse failure never leaves an invalid
+    # file at --out (the skill promises validated output): both the outer SVG
+    # and the embedded editable model must parse.
     r = ET.fromstring(svg)
     model = ET.fromstring(r.get("content"))
     nv = sum(1 for c in model.iter("mxCell") if c.get("vertex") == "1")
     ne = sum(1 for c in model.iter("mxCell") if c.get("edge") == "1")
+
+    open(out, "w", encoding="utf-8").write(svg)
 
     print("Wrote %s  (%dx%d, %d rows, %d boxes, %d arrows)"
           % (out, pw, ph, len(rows), nv, ne))
