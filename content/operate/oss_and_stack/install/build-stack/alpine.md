@@ -4,49 +4,40 @@ categories:
 - operate
 - stack
 - oss
-linkTitle: Debian 12 (Bookworm) / 13 (Trixie)
-title: Build and run Redis Open Source on Debian 12 (Bookworm) and Debian 13 (Trixie)
-weight: 15
+linkTitle: Alpine 3.23+
+title: Build and run Redis Open Source on Alpine 3.23+
+weight: 45
 ---
 
-Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Debian 12 (Bookworm) or Debian 13 (Trixie).
+Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Alpine 3.23 or later.
 
 {{< note >}}
-Docker images used to produce these build notes:
-- debian:bookworm
-- debian:bookworm-slim
-- debian:trixie
-- debian:trixie-slim
+Docker image used to produce these build notes:
+- alpine:3.23
+
+The steps below assume you are running as `root`, as in the tested container image.
 {{< /note >}}
 
 ## 1. Install required dependencies
 
-Update your package lists and install the development tools and libraries:
+Update your package lists and install the necessary development tools and libraries:
 
 ```bash
-apt-get update
-apt-get install -y sudo
-sudo apt-get install -y --no-install-recommends \
-    ca-certificates \
-    wget \
-    dpkg-dev \
-    gcc \
-    g++ \
-    libc6-dev \
-    libssl-dev \
-    make \
-    git \
-    cmake \
-    python3 \
-    python3-pip \
-    python3-venv \
-    python3-dev \
-    unzip \
-    rsync \
-    clang \
-    automake \
-    autoconf \
-    libtool
+apk update
+apk add --no-cache \
+    build-base coreutils linux-headers bsd-compat-headers \
+    openssl openssl-dev cmake bash git wget curl xz unzip tar rsync which \
+    libtool automake autoconf libffi-dev libgcc ncurses-dev xsimd \
+    cargo clang21 clang21-static clang21-libclang llvm21-dev lld21 \
+    python3 py3-pip python3-dev
+```
+
+Install the Python packages required by the `RedisJSON` module build:
+
+```bash
+export PIP_BREAK_SYSTEM_PACKAGES=1
+pip install --upgrade setuptools pip
+pip install addict toml jinja2 ramp-packer
 ```
 
 ## 2. Download and extract the Redis source
@@ -58,6 +49,7 @@ Copy the tar(1) file to `/usr/src`.
 Alternatively, you can download the file directly using the `wget` command, as shown below.
 
 ```bash
+mkdir -p /usr/src
 cd /usr/src
 wget -O redis-<version>.tar.gz https://github.com/redis/redis/archive/refs/tags/<version>.tar.gz
 ```
@@ -74,17 +66,26 @@ rm redis-<version>.tar.gz
 
 ## 3. Build Redis
 
-Set the necessary environment variables and build Redis with TLS and module support:
+Set the necessary environment variables, apply the `RedisJSON` Rust-flags patch, and build Redis with TLS and module support:
 
 ```bash
 cd /usr/src/redis-<version>
+
 export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
 export INSTALL_RUST_TOOLCHAIN=yes
+export LTO=1
+export RUST_DYN_CRT=1
+export PATH="/usr/lib/llvm21/bin:$PATH"
+
+# RedisJSON's bindgen must dlopen libclang.so; drop crt-static from its Rust flags.
+make -C modules/redisjson get_source
+sed -i 's/^RUST_FLAGS=$/RUST_FLAGS += -C target-feature=-crt-static/' modules/redisjson/src/Makefile
+
 make -j "$(nproc)" all
 ```
 
-## 4. (Optional) Verify the installation
+## 4. (Optional) Verify the build
 
 Check the built Redis server and CLI versions:
 
@@ -103,7 +104,7 @@ cd /usr/src/redis-<version>
 ./src/redis-server redis-full.conf
 ```
 
-To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
+To validate that the available modules have been installed, run the [`INFO`]({{< relref "/commands/info" >}}) command and look for lines similar to the following:
 
 ```bash
 cd /usr/src/redis-<version>
@@ -123,5 +124,5 @@ module:name=vectorset,ver=1,api=1,filters=0,usedby=[],using=[],options=[]
 
 ```bash
 cd /usr/src/redis-<version>
-sudo make install
+make install
 ```
