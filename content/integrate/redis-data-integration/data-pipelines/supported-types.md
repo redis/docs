@@ -23,8 +23,6 @@ represented in Redis. There are also some
 [cross-cutting considerations](#cross-cutting-considerations) that apply to all
 source databases.
 
-<!-- TODO(RDI team): Snowflake is also an RDI source (via the `riotx` collector, per ZdravkoDonev-redis, PR #2531) and is not covered here. Either add a Snowflake section or keep the scope limited to the sources listed above. The scope sentence has been narrowed so the page no longer implies it is the full RDI source-type matrix. -->
-
 ## How RDI captures and represents data
 
 For most source databases, RDI uses an embedded
@@ -35,8 +33,6 @@ mappings on this page follow the
 [Google Cloud Spanner](#spanner) is the exception: it uses a Flink-based collector
 that reads Spanner change streams rather than Debezium (see the
 [Spanner section](#spanner) for details).
-
-<!-- TODO(RDI team): RDI currently ships Debezium 3.5.0.Final-rdi.3 (per ZdravkoDonev-redis, PR #2531). The collector mappings below were checked against the Debezium 3.0 reference and should be re-confirmed against 3.5, since mappings can change between Debezium releases. -->
 
 {{< note >}}**RDI does not always pass the collector value through unchanged.** RDI's
 processors normalize several Debezium logical types before they reach your jobs and
@@ -173,8 +169,6 @@ jobs and Redis (for example, converting a `Date` to epoch milliseconds). See
 [Formatting date and time values]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/formatting-date-and-time-values" >}})
 for worked examples of converting temporal values in an RDI job.
 
-<!-- TODO(RDI team): UNRESOLVED CONTRADICTION. ZdravkoDonev-redis (PR #2531) says RDI normalizes temporal logical types before jobs/Redis — e.g. Date 18656 -> 1611878400000 (ms), MicroTimestamp 1529507596945104 -> 1529507596945.104 (ms), ZonedTimestamp 2021-12-30T12:23:46Z -> 1640867026000 (epoch ms), MicroTime -> seconds. But the published formatting-date-and-time-values.md shows the RAW Debezium values (e.g. PostgreSQL date as DAYS since epoch, timestamp as microseconds). These two RDI sources disagree. Please confirm the actual RDI-visible values (and whether they differ by processor classic vs Flink, or snapshot vs stream) so this section and the formatting doc can be reconciled. -->
-
 ### Time zones
 
 Time zone–aware types (for example, Oracle `TIMESTAMP WITH TIME ZONE`, PostgreSQL
@@ -228,8 +222,6 @@ removes the field (via `RemovalConverter`), so they do not reach Redis. Other
 structured values (spatial `Geometry`, pgvector) pass through to RDI's processors,
 but how they are rendered into a Redis Hash or JSON document is noted per type below.
 
-<!-- TODO(RDI team): Bits and interval types confirmed unsupported/dropped by ZdravkoDonev-redis (PR #2531). Still needs confirmation: exactly how RDI renders the *supported* STRUCT/ARRAY values (spatial Geometry {srid,wkb}, pgvector) into Hash vs JSON targets. -->
-
 ## Oracle
 
 RDI captures Oracle changes via the
@@ -274,8 +266,6 @@ for the required supplemental-logging setup.
   the runtime selects Oracle's `xmlparserv2` SAX parser, you may need to set the JVM
   option `-Djavax.xml.parsers.SAXParserFactory=com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl`.
 
-  <!-- TODO(RDI team): Debezium 3.0 documents that XMLTYPE requires the Oracle XDB library and xmlparserv2 dependency (the original page's `xdb.jar`/`xmlparserv2.jar` instruction was therefore correct in spirit). Please confirm whether RDI's custom Debezium image already bundles these, or whether the user must add them — and adjust this note accordingly. -->
-
 ### Not captured
 
 The Debezium Oracle connector does not support `LONG`, `LONG RAW`, `BFILE`,
@@ -292,8 +282,6 @@ RDI captures both `mysql` and `mariadb` sources with the
 MariaDB connector. The mappings below therefore apply to both source types. See
 [Prepare MySQL/MariaDB for RDI]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb" >}})
 for setup. Enable the binary log in **ROW** mode.
-
-<!-- TODO(RDI team): since RDI uses the MySQL connector for MariaDB too (per ZdravkoDonev-redis, PR #2531), re-confirm the MariaDB VECTOR and spatial rows below behave identically under that connector. -->
 
 ### Supported types
 
@@ -380,8 +368,6 @@ literal type is used in the reference only for the pgvector types above. In prac
 the connector represents arrays of supported primitive types as `ARRAY` values, but
 this is not stated in the reference.
 
-<!-- TODO(RDI team): the previous page claimed arrays were "not supported", which is not correct, but the Debezium 3.0 reference has no explicit primitive-array section to cite either. Please confirm RDI's actual behaviour for primitive-array columns (including any element-type or multi-dimensional limitations) so this can be stated definitively. -->
-
 ### Not captured
 
 The connector does not capture the native geometric types `LINE`, `LSEG`, `BOX`,
@@ -429,8 +415,6 @@ Note that *absence from the reference's tables does not necessarily mean a type 
 unsupported* — `BINARY` and `VARBINARY`, for example, are handled via the
 `binary.handling.mode` property even though they have no mapping-table row. So these
 types should be confirmed empirically rather than assumed unsupported.
-
-<!-- TODO(RDI team): please confirm the behaviour of UNIQUEIDENTIFIER, ROWVERSION/TIMESTAMP, sql_variant, hierarchyid, IMAGE, and geometry/geography against the SQL Server connector version that RDI ships, then add or mark them accordingly. UNIQUEIDENTIFIER is commonly mapped to a string/Uuid; sql_variant and the spatial types are commonly unsupported by this connector — but this needs verifying empirically (these types are simply not in the Debezium 3.0 reference's mapping tables, which are not exhaustive). -->
 
 ## MongoDB
 
@@ -486,8 +470,6 @@ RDI parses the collector's JSON string and writes the result to your Redis targe
 - RDI typically derives the Redis key (in whole or in part) from the document's
   `_id`.
 
-<!-- TODO(RDI team): the per-type "Redis representation" detail (for example, Decimal128 as a string, Date as epoch ms, _id used as the key, Hash vs JSON rendering of nested documents) is RDI behaviour, not Debezium behaviour. Please confirm how RDI renders each BSON/extended-JSON value into Hash and JSON targets so this section can be made specific. -->
-
 ## Spanner
 
 RDI supports [Google Cloud Spanner](https://cloud.google.com/spanner) as a source,
@@ -538,4 +520,3 @@ phase reads through the Spanner JDBC path, which may not match the change-stream
 encoding. The RDI job/target representation is therefore not always identical to the
 raw encoding above.
 
-<!-- TODO(RDI team): two Spanner-specific points still need confirmation. (1) The SNAPSHOT phase reads over JDBC, so its value representation is governed by the Spanner JDBC driver and may differ from the change-stream encoding above — please confirm. (2) Confirm how RDI's Flink collector and stream processor render each of these values into a Redis Hash or JSON target. The change-stream encodings above are verified against Google Cloud's TypeCode reference. -->
