@@ -18,7 +18,7 @@ aliases:
 weight: 3
 ---
 
-This is step 3 of the [search and query tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). You need the [catalog loaded]({{< relref "/develop/get-started/search-tutorial/data-modeling" >}}) and the [index created]({{< relref "/develop/get-started/search-tutorial/indexing" >}}) before the queries below will work.
+This is step 3 of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). You need the [catalog loaded]({{< relref "/develop/get-started/search-tutorial/data-modeling" >}}) and the [index created]({{< relref "/develop/get-started/search-tutorial/indexing" >}}) before the queries below will work.
 
 Now the fun part: asking questions. The [FT.SEARCH]({{< relref "/commands/ft.search" >}}) command does two jobs:
 

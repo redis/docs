@@ -18,7 +18,7 @@ aliases:
 weight: 5
 ---
 
-This is the final step of the [search and query tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). It builds on everything so far: the [catalog]({{< relref "/develop/get-started/search-tutorial/data-modeling" >}}), the [index]({{< relref "/develop/get-started/search-tutorial/indexing" >}}), and the [search]({{< relref "/develop/get-started/search-tutorial/search" >}}) syntax.
+This is the final step of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). It builds on everything so far: the [catalog]({{< relref "/develop/get-started/search-tutorial/data-modeling" >}}), the [index]({{< relref "/develop/get-started/search-tutorial/indexing" >}}), and the [search]({{< relref "/develop/get-started/search-tutorial/search" >}}) syntax.
 
 {{% alert title="Version requirement" color="warning" %}}
 The hybrid search section uses [FT.HYBRID]({{< relref "/commands/ft.hybrid" >}}), which requires **Redis 8.8 or later**. Vector search with `FT.SEARCH` works on earlier versions with Redis Search.

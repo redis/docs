@@ -18,7 +18,7 @@ aliases:
 weight: 2
 ---
 
-This is step 2 of the [search and query tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). You should already have the [catalog loaded]({{< relref "/develop/get-started/search-tutorial/data-modeling" >}}) as JSON documents.
+This is step 2 of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). You should already have the [catalog loaded]({{< relref "/develop/get-started/search-tutorial/data-modeling" >}}) as JSON documents.
 
 So far you can fetch a product only if you already know its key. An **index** changes that: it tells Redis which fields to track and how, so you can ask questions like "which products cost less than $100?" or "which ones mention *wireless*?" and get answers quickly.
 

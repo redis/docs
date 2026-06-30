@@ -9,10 +9,10 @@ categories:
 - oss
 - kubernetes
 - clients
-description: A guided, end-to-end tour of search and query in Redis, from data modeling to vector and hybrid search.
-linkTitle: Search and query tutorial
+description: A guided, end-to-end tour of Redis Search, from data modeling to vector and hybrid search.
+linkTitle: Redis Search tutorial
 stack: true
-title: Search and query tutorial
+title: Redis Search tutorial
 aliases:
 - /get-started/search-tutorial/
 weight: 5

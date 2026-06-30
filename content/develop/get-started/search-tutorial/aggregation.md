@@ -18,7 +18,7 @@ aliases:
 weight: 4
 ---
 
-This is step 4 of the [search and query tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). It builds on the [index]({{< relref "/develop/get-started/search-tutorial/indexing" >}}) and the queries from [the previous step]({{< relref "/develop/get-started/search-tutorial/search" >}}).
+This is step 4 of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). It builds on the [index]({{< relref "/develop/get-started/search-tutorial/indexing" >}}) and the queries from [the previous step]({{< relref "/develop/get-started/search-tutorial/search" >}}).
 
 `FT.SEARCH` answers "*which records match?*". Often you want to answer a different kind of question:
 
