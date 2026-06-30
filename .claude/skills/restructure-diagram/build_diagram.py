@@ -99,7 +99,10 @@ def walk(d, depth, root, collapse, virtual):
     entries = []
     for name in os.listdir(d):
         p = os.path.join(d, name)
-        rel = os.path.relpath(p, root)
+        # Normalise to forward slashes: os.path.relpath uses "\" on Windows,
+        # but --collapse args (and the SKILL examples) use "/", so an un-
+        # normalised compare in `rel in collapse` would never match there.
+        rel = os.path.relpath(p, root).replace(os.sep, "/")
         if os.path.isdir(p):
             idx = os.path.join(p, "_index.md")
             if not os.path.exists(idx):
@@ -137,6 +140,14 @@ def esc(s):
 def build_rows(root, collapse, adds):
     virtual = {}
     for rel, lab, w in adds:
+        # --add injects pages that aren't in the working tree. If the file is
+        # actually present, walk() will already emit it -- skip the virtual
+        # copy so it doesn't appear twice, and say so.
+        if os.path.exists(os.path.join(root, rel)):
+            print("note: --add %r is already in the working tree; "
+                  "using the on-disk page (not duplicating)" % rel,
+                  file=sys.stderr)
+            continue
         parent = os.path.abspath(os.path.join(root, os.path.dirname(rel)))
         virtual.setdefault(parent, []).append((w, lab))
     rootfm = front(os.path.join(root, "_index.md"))
