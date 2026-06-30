@@ -264,6 +264,9 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
 for more information about SCH.
 
+{{< note >}}Support for SCH in Lettuce requires v7.0.0 or later.
+{{< /note >}}
+
 By default, `Lettuce` always attempts to connect via SCH but falls back to
 a non-SCH connection if the server doesn't support it. However, you can configure SCH
 explicitly by creating a `MaintNotificationsConfig` object and/or a `TimeoutOptions`
@@ -342,7 +345,7 @@ that is relevant to SCH:
 
 | Method | Description |
 |--------|-------------|
-| `relaxedTimeoutsDuringMaintenance(Duration duration)` | Set the timeout to use while the server is performing maintenance. The default is 10 seconds. |
+| `relaxedTimeoutsDuringMaintenance(Duration duration)` | Set the *command* timeout to use while the server is performing maintenance (this doesn't change the connection timeout). The default is 10 seconds. Note that relaxed timeouts are only available for the asynchronous and reactive APIs. |
 |
 
 {{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using

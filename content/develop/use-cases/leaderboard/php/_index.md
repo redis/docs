@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/predis
 categories:
 - docs
 - develop
@@ -51,7 +53,7 @@ composer require predis/predis
 ## The PHP class
 
 The `RedisLeaderboard` class wraps common leaderboard operations
-([source](RedisLeaderboard.php)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/php/RedisLeaderboard.php)):
 
 ```php
 <?php
@@ -181,8 +183,20 @@ This is a useful pattern when the ranking view and the profile view need differe
 
 ## Running the demo
 
-A local demo server is included to show the leaderboard in action
-([source](demo_server.php)):
+### Get the source files
+
+The demo consists of two PHP files. Download them from the [`php` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/leaderboard/php) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir leaderboard-demo && cd leaderboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/leaderboard/php
+curl -O $BASE/RedisLeaderboard.php
+curl -O $BASE/demo_server.php
+```
+
+### Start the demo server
+
+A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/php/demo_server.php)) is included to show the leaderboard in action:
 
 ```bash
 composer require predis/predis

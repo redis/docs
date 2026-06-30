@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/session-store/go-redis
 categories:
 - docs
 - develop
@@ -43,7 +45,7 @@ Because the cookie only contains an opaque identifier, the browser never receive
 ## The Go session store
 
 The `RedisSessionStore` type wraps the basic session operations
-([source](session_store.go)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/go/session_store.go)):
 
 ```go
 package main
@@ -212,8 +214,20 @@ If your Redis server is running elsewhere, start the demo with `-redis-host` and
 
 ## Running the demo
 
-A local demo server is included to show the session store in action
-([source](demo_server.go)):
+### Get the source files
+
+The demo consists of four files. Download them from the [`go` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/session-store/go) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir session-store-demo && cd session-store-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/session-store/go
+curl -O $BASE/session_store.go
+curl -O $BASE/demo_server.go
+curl -O $BASE/go.mod
+curl -O $BASE/go.sum
+```
+
+### Start the demo server
 
 Create a `main.go` file in the same directory:
 

@@ -21,6 +21,48 @@
         }
       }
     ],
+    "redis_rs_sync": [
+      {
+        "signature": "bf_mexists(key: K, items: &[V])",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "&[V]",
+            "description": "The items to check for"
+          }
+        ],
+        "returns": {
+          "type": "(Vec<bool>)",
+          "description": "For each item, true if it may exist, false if it definitely does not"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bf_mexists(key: K, items: &[V])",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "&[V]",
+            "description": "The items to check for"
+          }
+        ],
+        "returns": {
+          "type": "(Vec<bool>)",
+          "description": "For each item, true if it may exist, false if it definitely does not"
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "List<Boolean> bfMExists(String key, String... items)",

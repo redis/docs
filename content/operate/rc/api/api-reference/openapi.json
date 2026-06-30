@@ -16,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "https://api.redislabs.com/v1"
+      "url": "https://api.redislabs.com"
     }
   ],
   "security": [
@@ -79,7 +79,719 @@
     }
   ],
   "paths": {
-    "/users/{userId}": {
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/**": {
+      "get": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "requestBody",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/JsonNode"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_4",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_2",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_3",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace": {
+      "get": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_5",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "requestBody",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/JsonNode"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_9",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_7",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_8",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "Proxy a Data Integration workspace request",
+        "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
+        "operationId": "proxyDataIntegrationWorkspace_6",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JsonNode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/users/{userId}": {
       "get": {
         "tags": [
           "Users"
@@ -271,7 +983,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}": {
+    "/v1/subscriptions/{subscriptionId}": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -463,7 +1175,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/{TgwId}/attachment": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -694,7 +1406,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -768,7 +1480,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -842,7 +1554,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resource-tags": {
+    "/v1/subscriptions/{subscriptionId}/resource-tags": {
       "put": {
         "tags": [
           "Subscriptions - Pro"
@@ -916,7 +1628,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/{TgwId}/attachment": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/{TgwId}/attachment": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1180,7 +1892,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/accept": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1265,7 +1977,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1461,7 +2173,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/peerings/{peeringId}": {
+    "/v1/subscriptions/{subscriptionId}/regions/peerings/{peeringId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1623,7 +2335,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1799,7 +2511,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/peerings/{peeringId}": {
+    "/v1/subscriptions/{subscriptionId}/peerings/{peeringId}": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -1961,7 +2673,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/maintenance-windows": {
+    "/v1/subscriptions/{subscriptionId}/maintenance-windows": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -2091,7 +2803,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -2332,7 +3044,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -2567,7 +3279,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
       "put": {
         "tags": [
           "Databases - Pro"
@@ -2742,7 +3454,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/regions": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/regions": {
       "put": {
         "tags": [
           "Databases - Pro"
@@ -2846,7 +3558,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/flush": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/flush": {
       "put": {
         "tags": [
           "Databases - Pro"
@@ -2930,7 +3642,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/cidr": {
+    "/v1/subscriptions/{subscriptionId}/cidr": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -3060,7 +3772,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations/{tgwInvitationId}/reject": {
       "put": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -3145,7 +3857,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}": {
+    "/v1/fixed/subscriptions/{subscriptionId}": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -3336,7 +4048,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -3573,7 +4285,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -3808,7 +4520,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/tags/{tagKey}": {
       "put": {
         "tags": [
           "Databases - Essentials"
@@ -3983,7 +4695,7 @@
         }
       }
     },
-    "/cloud-accounts/{cloudAccountId}": {
+    "/v1/cloud-accounts/{cloudAccountId}": {
       "get": {
         "tags": [
           "Cloud Accounts"
@@ -4178,7 +4890,7 @@
         }
       }
     },
-    "/acl/users/{aclUserId}": {
+    "/v1/acl/users/{aclUserId}": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -4371,7 +5083,7 @@
         }
       }
     },
-    "/acl/roles/{aclRoleId}": {
+    "/v1/acl/roles/{aclRoleId}": {
       "put": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -4507,7 +5219,7 @@
         }
       }
     },
-    "/acl/redisRules/{aclRedisRuleId}": {
+    "/v1/acl/redisRules/{aclRedisRuleId}": {
       "put": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -4643,7 +5355,7 @@
         }
       }
     },
-    "/subscriptions": {
+    "/v1/subscriptions": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -4795,7 +5507,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions": {
+    "/v1/subscriptions/{subscriptionId}/regions": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -4997,7 +5709,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5212,7 +5924,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5385,7 +6097,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5613,7 +6325,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/principals": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link/principals": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5784,7 +6496,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/connections/disassociate": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link/connections/disassociate": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -5869,7 +6581,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/peerings": {
+    "/v1/subscriptions/{subscriptionId}/regions/peerings": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6012,7 +6724,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6197,7 +6909,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6350,7 +7062,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link": {
+    "/v1/subscriptions/{subscriptionId}/private-link": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6545,7 +7257,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link/principals": {
+    "/v1/subscriptions/{subscriptionId}/private-link/principals": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6694,7 +7406,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link/connections/disassociate": {
+    "/v1/subscriptions/{subscriptionId}/private-link/connections/disassociate": {
       "post": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6768,7 +7480,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/peerings": {
+    "/v1/subscriptions/{subscriptionId}/peerings": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -6912,7 +7624,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases": {
+    "/v1/subscriptions/{subscriptionId}/databases": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7086,7 +7798,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7128,7 +7840,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbVersionUpgradeStatus"
+                  "$ref": "#/components/schemas/DatabaseVersionUpgradeStatus"
                 }
               }
             }
@@ -7236,7 +7948,76 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
+      "post": {
+        "tags": [
+          "Databases - Pro"
+        ],
+        "summary": "Resume Pro database traffic",
+        "description": "Resumes traffic for the specified Pro database.",
+        "operationId": "resumeBdbTraffic",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "Traffic resumed"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7386,7 +8167,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -7544,7 +8325,7 @@
         }
       }
     },
-    "/fixed/subscriptions": {
+    "/v1/fixed/subscriptions": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -7653,7 +8434,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -7822,7 +8603,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/upgrade": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -7864,7 +8645,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbVersionUpgradeStatus"
+                  "$ref": "#/components/schemas/DatabaseVersionUpgradeStatus"
                 }
               }
             }
@@ -7972,7 +8753,76 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic/resume": {
+      "post": {
+        "tags": [
+          "Databases - Essentials"
+        ],
+        "summary": "Resume Essentials database traffic",
+        "description": "Resumes traffic for the specified Essentials database.",
+        "operationId": "resumeBdbTraffic_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "204": {
+            "description": "Traffic resumed"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/import": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -8122,7 +8972,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/backup": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -8271,7 +9121,7 @@
         }
       }
     },
-    "/cost-report": {
+    "/v1/cost-report": {
       "post": {
         "tags": [
           "Account"
@@ -8336,7 +9186,7 @@
         }
       }
     },
-    "/cloud-accounts": {
+    "/v1/cloud-accounts": {
       "get": {
         "tags": [
           "Cloud Accounts"
@@ -8445,7 +9295,7 @@
         }
       }
     },
-    "/acl/users": {
+    "/v1/acl/users": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -8554,7 +9404,7 @@
         }
       }
     },
-    "/acl/roles": {
+    "/v1/acl/roles": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -8663,7 +9513,7 @@
         }
       }
     },
-    "/acl/redisRules": {
+    "/v1/acl/redisRules": {
       "get": {
         "tags": [
           "Role-based Access Control (RBAC)"
@@ -8772,7 +9622,7 @@
         }
       }
     },
-    "/users": {
+    "/v1/users": {
       "get": {
         "tags": [
           "Users"
@@ -8818,7 +9668,7 @@
         }
       }
     },
-    "/tasks": {
+    "/v1/tasks": {
       "get": {
         "tags": [
           "Tasks"
@@ -8864,7 +9714,7 @@
         }
       }
     },
-    "/tasks/{taskId}": {
+    "/v1/tasks/{taskId}": {
       "get": {
         "tags": [
           "Tasks"
@@ -8921,7 +9771,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -8979,7 +9829,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/transitGateways/invitations": {
+    "/v1/subscriptions/{subscriptionId}/transitGateways/invitations": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9037,7 +9887,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9106,7 +9956,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/transitGateways/invitations": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9175,7 +10025,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9263,7 +10113,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9351,7 +10201,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/regions/{regionId}/private-link/endpoint-script": {
+    "/v1/subscriptions/{subscriptionId}/regions/{regionId}/private-link/endpoint-script": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9419,7 +10269,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/deletionScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9497,7 +10347,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
+    "/v1/subscriptions/{subscriptionId}/private-service-connect/{pscServiceId}/endpoints/{endpointId}/creationScripts": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9575,7 +10425,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/private-link/endpoint-script": {
+    "/v1/subscriptions/{subscriptionId}/private-link/endpoint-script": {
       "get": {
         "tags": [
           "Subscriptions - Pro - Connectivity"
@@ -9633,7 +10483,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/pricing": {
+    "/v1/subscriptions/{subscriptionId}/pricing": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -9691,7 +10541,77 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
+      "get": {
+        "tags": [
+          "Databases - Pro"
+        ],
+        "summary": "Get Pro database traffic",
+        "description": "Gets traffic information for the specified Pro database. If the database was not a source in a redirect endpoints operation, a not found error will be returned.",
+        "operationId": "getDatabaseTraffic",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatabaseTrafficStateResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -9768,7 +10688,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/certificate": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/certificate": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -9838,7 +10758,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
+    "/v1/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
       "get": {
         "tags": [
           "Databases - Pro"
@@ -9880,7 +10800,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbAvailableVersionsResponse"
+                  "$ref": "#/components/schemas/DatabaseAvailableVersionsResponse"
                 }
               }
             }
@@ -9906,7 +10826,7 @@
         }
       }
     },
-    "/subscriptions/redis-versions": {
+    "/v1/subscriptions/redis-versions": {
       "get": {
         "tags": [
           "Subscriptions - Pro"
@@ -9964,7 +10884,7 @@
         }
       }
     },
-    "/session-logs": {
+    "/v1/session-logs": {
       "get": {
         "tags": [
           "Account"
@@ -10056,7 +10976,7 @@
         }
       }
     },
-    "/regions": {
+    "/v1/regions": {
       "get": {
         "tags": [
           "Account"
@@ -10117,7 +11037,7 @@
         }
       }
     },
-    "/query-performance-factors": {
+    "/v1/query-performance-factors": {
       "get": {
         "tags": [
           "Account"
@@ -10163,7 +11083,7 @@
         }
       }
     },
-    "/payment-methods": {
+    "/v1/payment-methods": {
       "get": {
         "tags": [
           "Account"
@@ -10209,7 +11129,7 @@
         }
       }
     },
-    "/logs": {
+    "/v1/logs": {
       "get": {
         "tags": [
           "Account"
@@ -10312,7 +11232,77 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/traffic": {
+      "get": {
+        "tags": [
+          "Databases - Essentials"
+        ],
+        "summary": "Get Essentials database traffic",
+        "description": "Gets traffic information for the specified Essentials database. If the database was not a source in a redirect endpoints operation, a not found error will be returned.",
+        "operationId": "getDatabaseTraffic_1",
+        "parameters": [
+          {
+            "name": "subscriptionId",
+            "in": "path",
+            "description": "Subscription ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "databaseId",
+            "in": "path",
+            "description": "Database ID.",
+            "required": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatabaseTrafficStateResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/slow-log": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -10380,7 +11370,7 @@
         }
       }
     },
-    "/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
+    "/v1/fixed/subscriptions/{subscriptionId}/databases/{databaseId}/available-target-versions": {
       "get": {
         "tags": [
           "Databases - Essentials"
@@ -10422,7 +11412,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BdbAvailableVersionsResponse"
+                  "$ref": "#/components/schemas/DatabaseAvailableVersionsResponse"
                 }
               }
             }
@@ -10448,7 +11438,7 @@
         }
       }
     },
-    "/fixed/redis-versions": {
+    "/v1/fixed/redis-versions": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10506,7 +11496,7 @@
         }
       }
     },
-    "/fixed/plans": {
+    "/v1/fixed/plans": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10577,7 +11567,7 @@
         }
       }
     },
-    "/fixed/plans/{planId}": {
+    "/v1/fixed/plans/{planId}": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10635,7 +11625,7 @@
         }
       }
     },
-    "/fixed/plans/subscriptions/{subscriptionId}": {
+    "/v1/fixed/plans/subscriptions/{subscriptionId}": {
       "get": {
         "tags": [
           "Subscriptions - Essentials"
@@ -10693,7 +11683,7 @@
         }
       }
     },
-    "/database-modules": {
+    "/v1/database-modules": {
       "get": {
         "tags": [
           "Account"
@@ -10739,7 +11729,7 @@
         }
       }
     },
-    "/data-persistence": {
+    "/v1/data-persistence": {
       "get": {
         "tags": [
           "Account"
@@ -10785,7 +11775,53 @@
         }
       }
     },
-    "/cost-report/{costReportId}": {
+    "/v1/data-integration-workspaces": {
+      "get": {
+        "tags": [
+          "Data Integration"
+        ],
+        "summary": "List Data Integration workspaces",
+        "description": "Lists all Data Integration workspaces in the current account. Proxied to the Cloud RDI service.",
+        "operationId": "getDataIntegrationWorkspaces",
+        "responses": {
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonNode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/cost-report/{costReportId}": {
       "get": {
         "tags": [
           "Account"
@@ -10839,7 +11875,7 @@
         }
       }
     },
-    "/": {
+    "/v1/": {
       "get": {
         "tags": [
           "Account"
@@ -10961,30 +11997,8 @@
         },
         "description": "User update request"
       },
-      "BdbVersionUpgradeStatus": {
-        "type": "object",
-        "properties": {
-          "databaseId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "targetRedisVersion": {
-            "type": "string"
-          },
-          "progress": {
-            "type": "number",
-            "format": "double"
-          },
-          "upgradeStatus": {
-            "type": "string",
-            "enum": [
-              "in-progress",
-              "in-progress-recovery-pending",
-              "done",
-              "failed"
-            ]
-          }
-        }
+      "JsonNode": {
+        "type": "object"
       },
       "PaymentMethods": {
         "type": "object",
@@ -12740,6 +13754,31 @@
         },
         "description": "Active-Active VPC peering update request message"
       },
+      "DatabaseTrafficStateResponse": {
+        "type": "object",
+        "properties": {
+          "bdbId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "trafficStatus": {
+            "type": "string"
+          },
+          "canResume": {
+            "type": "boolean"
+          },
+          "resumeInProgress": {
+            "type": "boolean"
+          },
+          "stopReason": {
+            "type": "string"
+          },
+          "resumeEligibleAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "DataPersistenceEntry": {
         "type": "object",
         "properties": {
@@ -13113,6 +14152,17 @@
           },
           "currentSkipEnd": {
             "type": "string"
+          }
+        }
+      },
+      "DatabaseAvailableVersionsResponse": {
+        "type": "object",
+        "properties": {
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TargetVersion"
+            }
           }
         }
       },
@@ -15644,17 +16694,6 @@
         },
         "description": "Database tag"
       },
-      "BdbAvailableVersionsResponse": {
-        "type": "object",
-        "properties": {
-          "targets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TargetVersion"
-            }
-          }
-        }
-      },
       "SubscriptionSpec": {
         "required": [
           "regions"
@@ -15717,6 +16756,31 @@
           }
         },
         "description": "Essentials database backup request message"
+      },
+      "DatabaseVersionUpgradeStatus": {
+        "type": "object",
+        "properties": {
+          "databaseId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "targetRedisVersion": {
+            "type": "string"
+          },
+          "progress": {
+            "type": "number",
+            "format": "double"
+          },
+          "upgradeStatus": {
+            "type": "string",
+            "enum": [
+              "in-progress",
+              "in-progress-recovery-pending",
+              "done",
+              "failed"
+            ]
+          }
+        }
       },
       "DatabaseModuleSpec": {
         "required": [
@@ -16127,7 +17191,7 @@
           },
           "multipleAvailabilityZones": {
             "type": "boolean",
-            "description": "Optional. Support deployment on multiple availability zones within the selected region. Default: 'false'",
+            "description": "Optional. Support deployment on multiple availability zones within the selected region. Default for Active-Active: matches the region's multi-AZ capability (true on multi-AZ regions, false on non-multi-AZ regions). Default for Pro / single-region: `false`.",
             "example": false
           },
           "preferredAvailabilityZones": {
@@ -16532,6 +17596,8 @@
               "SUBSCRIPTION_INVALID_REGION_NAME",
               "SUBSCRIPTION_INVALID_REGION_ID",
               "SUBSCRIPTION_BAD_PREFERRED_AZ_SIZE",
+              "SUBSCRIPTION_REGION_DOES_NOT_SUPPORT_MULTI_AZ",
+              "SUBSCRIPTION_AA_NON_MAZ_REGION_NOT_SUPPORTED",
               "SUBSCRIPTION_PREFERRED_AZ_INVALID_VALUE",
               "SUBSCRIPTION_PREFERRED_AZ_MUST_BE_DEFINED_ONCE",
               "SUBSCRIPTION_PREFERRED_AZ_IS_DISABLED",
@@ -17089,6 +18155,7 @@
               "PRIVATE_LINK_DELETING_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
               "PRIVATE_LINK_IS_NOT_SUPPORTED",
               "PRIVATE_LINK_SERVICE_ERROR",
+              "PRIVATE_LINK_SUBSCRIPTION_REACHED_MAX_DATABASES_COUNT",
               "PRIVATE_LINK_ALL_PRINCIPALS_MUST_BE_DELETED_BEFORE_DELETING_RESOURCE_LINK",
               "PRIVATE_LINK_DISASSOCIATE_CONNECTIONS_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
               "PRIVATE_LINK_DISASSOCIATE_CONNECTIONS_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
@@ -18169,6 +19236,11 @@
             "type": "string",
             "description": "Optional. Enter a security group identifier that exists in the hosted AWS account. Security group Identifier must be in a valid format (for example: 'sg-0125be68a4625884ad') and must exist within the hosting account.",
             "example": "sg-0125be68a4625884ad"
+          },
+          "multipleAvailabilityZones": {
+            "type": "boolean",
+            "description": "Optional. Support deployment on multiple availability zones within the selected region. When omitted, defaults to true unless the region is explicitly marked as not supporting multi-AZ.",
+            "example": false
           },
           "preferredAvailabilityZones": {
             "type": "array",

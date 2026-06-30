@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/session-store/python
 categories:
 - docs
 - develop
@@ -43,7 +45,7 @@ Because the cookie only contains an opaque identifier, the browser never receive
 ## The Python session store
 
 The `RedisSessionStore` class wraps the basic session operations
-([source](session_store.py)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/redis-py/session_store.py)):
 
 ```python
 import redis
@@ -304,8 +306,20 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## Running the demo
 
-A local demo server is included to show the session store in action
-([source](demo_server.py)):
+### Get the source files
+
+The demo consists of two Python files. Download them from the [`redis-py` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/session-store/redis-py) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir session-store-demo && cd session-store-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/session-store/redis-py
+curl -O $BASE/session_store.py
+curl -O $BASE/demo_server.py
+```
+
+### Start the demo server
+
+From that directory:
 
 ```bash
 python demo_server.py

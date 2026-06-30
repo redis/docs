@@ -12,6 +12,23 @@ contentDir = "content/"
 
 # ignoreErrors = ["error-remote-getcsv"]
 
+# Stop Hugo's filesystem watcher from opening fds for build artifacts
+# and language-package directories that ship inside use-case demos but
+# are never referenced from a page as a resource. Without these the
+# Rust `target/` and PHP `vendor/` trees alone account for ~8,500 of
+# the files under `content/`, which pushes the watcher past macOS's
+# default `kern.maxfilesperproc` ceiling on `hugo serve`.
+ignoreFiles = [
+  "/vendor/",            # composer / bundler deps
+  "/node_modules/",      # npm deps
+  "/target/",            # rust + maven build output
+  "/bin/",               # .NET build output
+  "/obj/",               # .NET intermediate output
+  "/__pycache__/",       # Python bytecode cache
+  "/models/",            # Hugot model cache
+  "/\\.transformers-cache/",  # TransformersPHP cache
+]
+
 [related]
 [[related.indices]]
   name = 'group'

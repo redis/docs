@@ -50,6 +50,20 @@ title: HEXISTS
 ---
 Returns if `field` is an existing field in the hash stored at `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field</code></summary>
+
+The field to check for existence.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

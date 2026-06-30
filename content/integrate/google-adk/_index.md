@@ -42,11 +42,16 @@ docker run -d --name redis -p 6379:6379 redis:8.4-alpine
 docker run -d --name agent-memory-server -p 8088:8088 \
   -e REDIS_URL=redis://host.docker.internal:6379 \
   -e GEMINI_API_KEY=your-key \
-  -e GENERATION_MODEL=gemini/gemini-2.0-flash \
+  -e GENERATION_MODEL=gemini/gemini-2.5-flash \
   -e EMBEDDING_MODEL=gemini/text-embedding-004 \
   redislabs/agent-memory-server:latest \
   agent-memory api --host 0.0.0.0 --port 8088 --task-backend=asyncio
 ```
+
+On Linux, `host.docker.internal` does not resolve by default. Use
+`--network=host` plus `REDIS_URL=redis://127.0.0.1:6379`, or point
+`REDIS_URL` at the Docker bridge gateway (typically
+`redis://172.17.0.1:6379`).
 
 ## Installation
 
@@ -57,11 +62,17 @@ pip install adk-redis[memory]
 # Search tools via RedisVL
 pip install adk-redis[search]
 
+# SQL-style search tool (sql-redis)
+pip install adk-redis[sql]
+
 # Managed semantic caching via LangCache
 pip install adk-redis[langcache]
 
 # Everything
 pip install adk-redis[all]
+
+# For the RedisVL MCP server (used with ADK's native McpToolset)
+pip install 'redisvl[mcp]>=0.18.2'
 ```
 
 ## Quick start
@@ -118,9 +129,9 @@ runner = Runner(
 |------------|-------------|------|
 | **Redis Agent Memory** | Working and long-term memory via framework services, REST tools, or MCP | [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) |
 | **Integration patterns** | Framework-managed, LLM-controlled REST, and MCP tools | [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}) |
-| **Search tools** | Vector, hybrid, text, and range search via RedisVL | [Search tools]({{< relref "/integrate/google-adk/search-tools" >}}) |
+| **Search tools** | Vector, hybrid, text, range, and SQL search via RedisVL, plus the `rvl mcp` server over `McpToolset` | [Search tools]({{< relref "/integrate/google-adk/search-tools" >}}) |
 | **Semantic caching** | LLM response and tool result caching | [Semantic caching]({{< relref "/integrate/google-adk/semantic-caching" >}}) |
-| **Examples** | Seven complete examples covering all capabilities | [Examples]({{< relref "/integrate/google-adk/examples" >}}) |
+| **Examples** | Nine complete examples covering all capabilities | [Examples]({{< relref "/integrate/google-adk/examples" >}}) |
 
 ## More info
 

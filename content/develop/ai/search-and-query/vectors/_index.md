@@ -104,7 +104,7 @@ Choose the `HNSW` index type when you have larger datasets (> 1M documents) or w
 
 **Optional attributes**
 
-[`HNSW`](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf) supports a number of additional parameters to tune
+[`HNSW`](https://arxiv.org/abs/1603.09320) supports a number of additional parameters to tune
 the accuracy of the queries, while trading off performance.
 
 | Attribute          | Description                                                        | Default value |
@@ -562,6 +562,12 @@ Use a higher ratio for better accuracy when precision is more important than per
 
 ```
 FT.SEARCH products "*=>[KNN 20 @product_embedding $BLOB]=>{$SHARD_K_RATIO: 0.8; $YIELD_DISTANCE_AS: similarity}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY similarity DIALECT 2
+```
+
+[`FT.HYBRID`]({{< relref "/commands/ft.hybrid" >}}) also supports `SHARD_K_RATIO` as part of its `KNN` clause. The following query combines a text search for `laptop` with vector similarity, returning the top 100 nearest neighbors with each shard providing 50% of the requested results:
+
+```
+FT.HYBRID products-idx SEARCH "laptop" VSIM @description_vector $query_vec KNN 4 K 100 SHARD_K_RATIO 0.5 PARAMS 2 query_vec "\x12\xa9\xf5\x6c"
 ```
 
 ### Cluster considerations and best practices

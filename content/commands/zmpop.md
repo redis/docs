@@ -89,6 +89,34 @@ The optional `COUNT` can be used to specify the number of elements to pop, and i
 
 The number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value.
 
+## Required arguments
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys to pop from.
+
+</details>
+
+<details open><summary><code>MIN | MAX</code></summary>
+
+Pop the members with the lowest scores (`MIN`) or the highest scores (`MAX`).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The number of members to pop. Defaults to 1.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

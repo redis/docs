@@ -55,6 +55,14 @@ Streams are not auto-deleted once they have no entries inside (for instance
 after an [`XDEL`]({{< relref "/commands/xdel" >}}) call), because the stream may have consumer groups
 associated with it.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

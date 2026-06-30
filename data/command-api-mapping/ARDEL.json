@@ -1,0 +1,213 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arDel(key: RedisArgument, indices: ArIndex | Array<ArIndex>)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "indices",
+            "type": "ArIndex | Array<ArIndex>",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "ardel(string $key, int ...$index)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$index",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long ardel(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to delete."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "1 if the element was deleted, 0 if it was not found."
+        }
+      },
+      {
+        "signature": "Long ardel(K key, long... indices)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indices",
+            "type": "long...",
+            "description": "the indices to delete."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of elements deleted."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> ardel(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to delete."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "1 if the element was deleted, 0 if it was not found."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> ardel(K key, long... indices)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indices",
+            "type": "long...",
+            "description": "the indices to delete."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of elements deleted."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> ardel(K key, long index)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to delete."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "1 if the element was deleted, 0 if it was not found."
+        }
+      },
+      {
+        "signature": "Mono<Long> ardel(K key, long... indices)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "indices",
+            "type": "long...",
+            "description": "the indices to delete."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of elements deleted."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "ardel(name: KeyT, *indices: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "*indices",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARDel(ctx context.Context, key string, indexes ...uint64) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "indexes",
+            "type": "...uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

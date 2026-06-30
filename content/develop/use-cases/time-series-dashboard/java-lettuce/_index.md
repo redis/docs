@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/time-series-dashboard/lettuce
 categories:
 - docs
 - develop
@@ -49,10 +51,10 @@ Each sensor is stored in its own time series with labels such as `sensor_type`, 
 
 The implementation is split across four small files:
 
-* [`SensorSimulator.java`](SensorSimulator.java) - Sensor definitions and sample generation
-* [`AsyncRedisTimeSeriesStore.java`](AsyncRedisTimeSeriesStore.java) - Async Lettuce Redis TimeSeries helpers
-* [`ReactiveRedisTimeSeriesStore.java`](ReactiveRedisTimeSeriesStore.java) - Reactive Lettuce Redis TimeSeries helpers
-* [`DemoServer.java`](DemoServer.java) - Local HTTP server and inline dashboard UI
+* [`SensorSimulator.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/java-lettuce/SensorSimulator.java) - Sensor definitions and sample generation
+* [`AsyncRedisTimeSeriesStore.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/java-lettuce/AsyncRedisTimeSeriesStore.java) - Async Lettuce Redis TimeSeries helpers
+* [`ReactiveRedisTimeSeriesStore.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/java-lettuce/ReactiveRedisTimeSeriesStore.java) - Reactive Lettuce Redis TimeSeries helpers
+* [`DemoServer.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/java-lettuce/DemoServer.java) - Local HTTP server and inline dashboard UI
 
 Lettuce does not provide dedicated TimeSeries helpers in the core command interfaces, so both store classes use Lettuce's low-level `dispatch()` API with `TS.CREATE`, `TS.MADD`, `TS.GET`, and `TS.RANGE`.
 
@@ -157,6 +159,21 @@ If you use Maven:
 ```
 
 ## Running the demo
+
+### Get the source files
+
+The demo consists of four Java files. Download them from the [`java-lettuce` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/time-series-dashboard/java-lettuce) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir time-series-dashboard-demo && cd time-series-dashboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/time-series-dashboard/java-lettuce
+curl -O $BASE/SensorSimulator.java
+curl -O $BASE/AsyncRedisTimeSeriesStore.java
+curl -O $BASE/ReactiveRedisTimeSeriesStore.java
+curl -O $BASE/DemoServer.java
+```
+
+### Start the demo server
 
 Compile and run the demo:
 

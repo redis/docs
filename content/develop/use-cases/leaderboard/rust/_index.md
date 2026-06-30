@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/redis-rs
 categories:
 - docs
 - develop
@@ -53,7 +55,7 @@ tokio = { version = "1", features = ["full"] }
 ## Using the Rust module
 
 The module provides both a synchronous `RedisLeaderboard` and an asynchronous `AsyncRedisLeaderboard`
-([source](leaderboard.rs)).
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/rust/leaderboard.rs)).
 
 ### Synchronous usage
 
@@ -204,8 +206,21 @@ This is a useful pattern when the ranking view and the profile view need differe
 
 ## Running the demo
 
-A local demo server is included to show the leaderboard in action
-([source](demo_server.rs)):
+### Get the source files
+
+The demo consists of three files. Download them from the [`rust` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/leaderboard/rust) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir leaderboard-demo && cd leaderboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/leaderboard/rust
+curl -O $BASE/Cargo.toml
+curl -O $BASE/leaderboard.rs
+curl -O $BASE/demo_server.rs
+```
+
+### Start the demo server
+
+A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/rust/demo_server.rs)) is included to show the leaderboard in action:
 
 ```bash
 cargo run --bin demo_server

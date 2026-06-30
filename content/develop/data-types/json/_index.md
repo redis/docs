@@ -16,7 +16,7 @@ description: JSON support for Redis
 linkTitle: JSON
 stack: true
 title: JSON
-weight: 11
+weight: 60
 ---
 
 {{< command-group group="json" title="JSON command summary" show_link=true >}}
@@ -88,6 +88,15 @@ OK
 > JSON.GET newbike $
 "[[\"Deimos\",{\"crashes\":0}]]"
 {{< /clients-example >}}
+
+Beginning with Redis 8.8, the JSON data type supports the ability to force a particular type when storing floating point homogeneous arrays (FPHAs)using the `FPHA BF16|FP16|FP32|FP64` option to the [`JSON.SET`]({{< relref "/commands/json.set" >}}) command. Here's an example:
+
+```
+> JSON.SET fp_array $ '[[1,2,3,4e3],[5,6.0,7,8]]' FPHA FP16
+OK
+> JSON.GET fp_array $
+"[[[1.0,2.0,3.0,4000.0],[5.0,6.0,7.0,8.0]]]"
+```
 
 The [`JSON.DEL`]({{< relref "commands/json.del/" >}}) command deletes any JSON value you specify with the `path` parameter.
 

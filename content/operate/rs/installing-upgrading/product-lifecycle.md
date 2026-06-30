@@ -44,7 +44,8 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 
 | Version - Release date | End of Life (EOL)  |
 | ----------------------------------------- | ------------------ |
-| 8.0 – October 2025				        | - |
+| 8.2 – July 2026				            | - |
+| 8.0 – October 2025				        | July 31, 2028 |
 | 7.22 – May 2025				            | October 30, 2027 |
 | 7.8 – November 2024				        | May 30, 2027 |
 | 7.4 – February 2024				        | November 30, 2026 |
@@ -59,7 +60,8 @@ This update to the EOL policy allows a lead time of at least 24 months to upgrad
 The following timeline chart visualizes the Redis Software product lifecycle, showing release dates and end-of-life dates for each major version:
 
 ```timeline {title="Redis Software product lifecycle"}
-8.0: Oct 2025 - TBD
+8.2: Jul 2026 - TBD
+8.0: Oct 2025 - Jul 31, 2028
 7.22: May 2025 - Oct 30, 2027
 7.8: Nov 2024 - May 30, 2027
 7.4: Feb 2024 - Nov 30, 2026
@@ -81,3 +83,9 @@ For detailed upgrade instructions, see [Upgrade a Redis Software cluster]({{<rel
 {{<note>}}
 Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).
 {{</note>}}
+
+## Bundled Redis database versions
+
+Each cluster version of Redis Software includes a set of Redis database versions as follows:
+
+{{<embed-md "rs-bundled-db-versions.md">}}

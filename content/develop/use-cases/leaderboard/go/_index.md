@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/go-redis
 categories:
 - docs
 - develop
@@ -51,7 +53,7 @@ go get github.com/redis/go-redis/v9
 ## The Go package
 
 The `RedisLeaderboard` type wraps common leaderboard operations
-([source](leaderboard.go)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/go/leaderboard.go)):
 
 ```go
 package main
@@ -235,8 +237,22 @@ This is a useful pattern when the ranking view and the profile view need differe
 
 ## Running the demo
 
-A local demo server is included to show the leaderboard in action
-([source](demo_server.go)):
+### Get the source files
+
+The demo consists of four files. Download them from the [`go` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/leaderboard/go) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir leaderboard-demo && cd leaderboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/leaderboard/go
+curl -O $BASE/leaderboard.go
+curl -O $BASE/demo_server.go
+curl -O $BASE/go.mod
+curl -O $BASE/go.sum
+```
+
+### Start the demo server
+
+A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/go/demo_server.go)) is included to show the leaderboard in action.
 
 To run the demo, create a small `main.go` file in a separate directory that imports this package and calls `RunDemoServer()`:
 

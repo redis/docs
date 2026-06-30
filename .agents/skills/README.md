@@ -25,6 +25,14 @@ Creates tabbed code examples (TCEs) across 12 client languages (Python, Node.js 
 
 **Assets**: Contains reference templates and `*_TEST_PATTERNS.md` files for each language in the `assets/` subdirectory.
 
+### `redis-use-case-ports`
+
+Orchestrates a full Redis use-case implementation across all 9 supported client libraries (`redis-py`, `node-redis`, `go-redis`, Jedis, Lettuce, StackExchange.Redis, Predis, `redis-rb`, `redis-rs`) using a parallel-build + synthesise + audit workflow.
+
+**Use when**: A new use case (cache-aside, session store, rate limiter, leaderboard, etc.) needs to be ported to all 9 clients with consistent helper APIs, demo behaviour, and prose structure — and you want to use parallel sub-agents rather than implementing serially.
+
+**Assets**: Contains `brief-template.md` (for parallel build agents), `report-template.md` (structured agent output), `audit-checklist.md` (known bug classes — a living document), `cross-diff-checklist.md` (consistency rules across clients), `redis-conventions.md` (repo-specific layout and Hugo conventions), and `html-template.html` (shared demo UI).
+
 ## Setup
 
 The `generate-tce-examples` agent skill requires a very specific setup that includes (1) a clone of the `redis/docs` repo and

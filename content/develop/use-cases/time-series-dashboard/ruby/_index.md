@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/time-series-dashboard/redis-rb
 categories:
 - docs
 - develop
@@ -40,9 +42,9 @@ Each sensor is stored in its own time series with labels such as `sensor_type`, 
 
 The implementation is split across three small files:
 
-* [`sensor_simulator.rb`](sensor_simulator.rb) - Sensor definitions and sample generation
-* [`timeseries_store.rb`](timeseries_store.rb) - Redis TimeSeries command helpers
-* [`demo_server.rb`](demo_server.rb) - Local WEBrick server, background ingest loop, and inline dashboard UI
+* [`sensor_simulator.rb`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/ruby/sensor_simulator.rb) - Sensor definitions and sample generation
+* [`timeseries_store.rb`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/ruby/timeseries_store.rb) - Redis TimeSeries command helpers
+* [`demo_server.rb`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/ruby/demo_server.rb) - Local WEBrick server, background ingest loop, and inline dashboard UI
 
 The Redis helper issues time series commands directly through `redis-rb`'s low-level `call` method, which keeps the example small while still making the Redis command flow explicit.
 
@@ -97,6 +99,20 @@ gem install redis webrick
 ```
 
 ## Running the demo
+
+### Get the source files
+
+The demo consists of three Ruby files. Download them from the [`ruby` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/time-series-dashboard/ruby) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir time-series-dashboard-demo && cd time-series-dashboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/time-series-dashboard/ruby
+curl -O $BASE/sensor_simulator.rb
+curl -O $BASE/timeseries_store.rb
+curl -O $BASE/demo_server.rb
+```
+
+### Start the demo server
 
 Start the dashboard server:
 

@@ -53,10 +53,21 @@ summary: Appends a string to the value of a key. Creates the key if it doesn't e
 syntax_fmt: APPEND key value
 title: APPEND
 ---
-If `key` already exists and is a string, this command appends the `value` at the
-end of the string.
-If `key` does not exist it is created and set as an empty string, so `APPEND`
-will be similar to [`SET`]({{< relref "/commands/set" >}}) in this special case.
+Appends a value to the string stored at `key`. If `key` does not exist, it is created with an empty string, so in that case, `APPEND` behaves like [`SET`]({{< relref "/commands/set" >}}).
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The string to append to the existing value.
+
+</details>
 
 ## Examples
 
@@ -67,7 +78,9 @@ APPEND mykey " World"
 GET mykey
 {{% /redis-cli %}}
 
-## Pattern: Time series
+## Details
+
+### Pattern: time series
 
 The `APPEND` command can be used to create a very compact representation of a
 list of fixed-size samples, usually referred as _time series_.

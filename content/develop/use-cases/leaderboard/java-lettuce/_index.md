@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/lettuce
 categories:
 - docs
 - develop
@@ -67,7 +69,7 @@ In these docs, [`Jedis`]({{< relref "/develop/clients/jedis" >}}) is the recomme
 ## The Java leaderboard
 
 The async implementation is provided by `AsyncRedisLeaderboard`
-([source](AsyncRedisLeaderboard.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/java-lettuce/AsyncRedisLeaderboard.java)):
 
 ```java
 import java.util.Map;
@@ -105,7 +107,7 @@ public class Main {
 ```
 
 The reactive implementation is provided by `ReactiveRedisLeaderboard`
-([source](ReactiveRedisLeaderboard.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/java-lettuce/ReactiveRedisLeaderboard.java)):
 
 ```java
 import java.util.Map;
@@ -239,8 +241,21 @@ This is a useful pattern when the ranking view and the profile view need differe
 
 ## Running the demo
 
-A local demo server is included to show the leaderboard in action
-([source](DemoServer.java)):
+### Get the source files
+
+The demo consists of three Java files. Download them from the [`java-lettuce` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/leaderboard/java-lettuce) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir leaderboard-demo && cd leaderboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/leaderboard/java-lettuce
+curl -O $BASE/AsyncRedisLeaderboard.java
+curl -O $BASE/ReactiveRedisLeaderboard.java
+curl -O $BASE/DemoServer.java
+```
+
+### Start the demo server
+
+A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/java-lettuce/DemoServer.java)) is included to show the leaderboard in action:
 
 ```bash
 # Compile

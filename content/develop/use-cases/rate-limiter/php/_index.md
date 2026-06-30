@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/predis
 categories:
 - docs
 - develop
@@ -124,7 +126,7 @@ composer require predis/predis
 ## Using the PHP class
 
 The `TokenBucket` class provides a simple interface for rate limiting
-([source](TokenBucket.php)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/php/TokenBucket.php)):
 
 ```php
 <?php
@@ -195,8 +197,21 @@ $result2 = $limiter->allow('user:123'); // Uses EVALSHA (faster)
 
 ## Running the demo
 
+### Get the source files
+
+The demo consists of two PHP files. Download them from the [`php` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/rate-limiter/php) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir rate-limiter-demo && cd rate-limiter-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/rate-limiter/php
+curl -O $BASE/TokenBucket.php
+curl -O $BASE/demo_server.php
+```
+
+### Start the demo server
+
 A demonstration web server is included to show the rate limiter in action
-([source](demo_server.php)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/php/demo_server.php)):
 
 ```bash
 # Install dependencies

@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/time-series-dashboard/python
 categories:
 - docs
 - develop
@@ -87,6 +89,20 @@ pip install redis
 ```
 
 ## Running the demo
+
+### Get the source files
+
+The demo consists of three Python files. Download them from the [`redis-py` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/time-series-dashboard/redis-py) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir time-series-dashboard-demo && cd time-series-dashboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/time-series-dashboard/redis-py
+curl -O $BASE/sensor_simulator.py
+curl -O $BASE/timeseries_store.py
+curl -O $BASE/dashboard.py
+```
+
+### Start the demo server
 
 Start the dashboard server:
 

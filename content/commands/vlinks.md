@@ -55,10 +55,6 @@ is the name of the element whose HNSW neighbors you want to inspect.
 includes similarity scores for each neighbor.
 </details>
 
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -85,3 +81,7 @@ One of the following:
 * [Null reply](../../develop/reference/protocol-spec#nulls) for unknown keys and/or elements.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

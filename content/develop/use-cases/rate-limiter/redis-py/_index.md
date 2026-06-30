@@ -1,4 +1,8 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/demo_server.py
+- /develop/use-cases/rate-limiter/token_bucket.py
+- /develop/use-cases/rate-limiter/python
 categories:
 - docs
 - develop
@@ -116,7 +120,7 @@ Using [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/comm
 ## Using the Python module
 
 The `TokenBucket` class provides a simple interface for rate limiting
-([source](token_bucket.py)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/redis-py/token_bucket.py)):
 
 ```python
 import redis
@@ -166,8 +170,21 @@ The `key` parameter identifies what you're rate limiting. Common patterns:
 
 ## Running the demo
 
+### Get the source files
+
+The demo consists of two Python files. Download them from the [`redis-py` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/rate-limiter/redis-py) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir rate-limiter-demo && cd rate-limiter-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/rate-limiter/redis-py
+curl -O $BASE/token_bucket.py
+curl -O $BASE/demo_server.py
+```
+
+### Start the demo server
+
 A demonstration web server is included to show the rate limiter in action
-([source](demo_server.py)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/redis-py/demo_server.py)):
 
 ```bash
 # Install dependencies

@@ -448,6 +448,19 @@
           "availability": {
             "$ref": "#/components/schemas/replication_status"
           },
+          "availability_errors": {
+            "description": "List of errors that caused the BDB to be unavailable",
+            "items": {
+              "enum": [
+                "general_error",
+                "port_unbound",
+                "shard_unreachable"
+              ],
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
           "creation_time": {
             "description": "Database creation time.",
             "format": "date-time",
@@ -689,6 +702,33 @@
         "type": "object"
       },
       "LdapMapping": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LdapMappingBody"
+          },
+          {
+            "properties": {
+              "action_uid": {
+                "description": "Action uid. If exists - progress can be tracked by the GET /actions/\u003cuid\u003e API.",
+                "type": "string"
+              },
+              "uid": {
+                "description": "LDAP mapping's unique uid.",
+                "type": "integer",
+                "x-go-type": "json.Number"
+              }
+            },
+            "required": [
+              "uid",
+              "name",
+              "dn",
+              "email",
+              "email_alerts",
+              "role_uids"
+            ],
+            "type": "object"
+          }
+        ],
         "description": "An API object that represents a Redis Software LDAP mapping.",
         "example": {
           "dn": "OU=ops.group,DC=redislabs,DC=com",
@@ -699,15 +739,14 @@
             1
           ],
           "uid": 17
-        },
+        }
+      },
+      "LdapMappingBody": {
+        "description": "Common LDAP mapping properties shared across LDAP mapping payloads.",
         "properties": {
           "account_id": {
             "description": "SM account ID.",
             "type": "integer"
-          },
-          "action_uid": {
-            "description": "Action uid. If exists - progress can be tracked by the GET /actions/\u003cuid\u003e API.",
-            "type": "string"
           },
           "bdbs_email_alerts": {
             "description": "UIDs of databases that LDAP mapping users will receive alerts for.",
@@ -723,11 +762,16 @@
           },
           "dn": {
             "description": "LDAP group's distinguished name.",
-            "type": "string"
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string",
+            "x-pattern-error-message": "must contain at least one non-whitespace character"
           },
           "email": {
             "description": "LDAP mapping's email.",
-            "type": "string"
+            "pattern": "(^$|^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)",
+            "type": "string",
+            "x-pattern-error-message": "must be empty or a valid email address"
           },
           "email_alerts": {
             "default": true,
@@ -736,7 +780,10 @@
           },
           "name": {
             "description": "LDAP mapping's name.",
-            "type": "string"
+            "maxLength": 255,
+            "pattern": "^[a-zA-Z0-9_ \\[\\]()@,.;#-]+$",
+            "type": "string",
+            "x-pattern-error-message": "may contain only letters, numbers, spaces, and the characters _ [] () @ , . ; # -"
           },
           "role_uids": {
             "description": "List of role uids associated with the LDAP mapping.",
@@ -744,23 +791,53 @@
               "type": "integer",
               "x-go-type": "json.Number"
             },
+            "minItems": 1,
             "type": "array"
-          },
-          "uid": {
-            "description": "LDAP mapping's unique uid.",
-            "type": "integer",
-            "x-go-type": "json.Number"
           }
         },
-        "required": [
-          "uid",
-          "name",
-          "dn",
-          "email",
-          "email_alerts",
-          "role_uids"
-        ],
         "type": "object"
+      },
+      "LdapMappingCreateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LdapMappingBody"
+          },
+          {
+            "required": [
+              "name",
+              "dn",
+              "role_uids"
+            ],
+            "type": "object"
+          }
+        ],
+        "description": "Request body for creating a Redis Software LDAP mapping.",
+        "example": {
+          "dn": "OU=ops.group,DC=redislabs,DC=com",
+          "email": "ops.group@redislabs.com",
+          "email_alerts": true,
+          "name": "Admins",
+          "role_uids": [
+            1
+          ]
+        }
+      },
+      "LdapMappingUpdateRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LdapMappingBody"
+          }
+        ],
+        "description": "Request body for updating a Redis Software LDAP mapping.",
+        "example": {
+          "dn": "OU=ops.group,DC=redislabs,DC=com",
+          "email": "ops.group@redislabs.com",
+          "email_alerts": true,
+          "name": "Admins",
+          "role_uids": [
+            1
+          ]
+        }
       },
       "LdapQuery": {
         "additionalProperties": false,
@@ -1315,7 +1392,8 @@
               "busy",
               "down",
               "trimming",
-              "unknown"
+              "unknown",
+              "role_mismatch"
             ],
             "type": "string"
           },
@@ -2158,7 +2236,8 @@
           "Cluster"
         ],
         "x-publish-docs": true,
-        "x-stability-level": "stable"
+        "x-stability-level": "stable",
+        "x-timeout-seconds": 900
       }
     },
     "/v1/cluster/certificates/rotate": {
@@ -2206,7 +2285,8 @@
           "Cluster"
         ],
         "x-publish-docs": true,
-        "x-stability-level": "stable"
+        "x-stability-level": "stable",
+        "x-timeout-seconds": 900
       }
     },
     "/v1/cluster/certificates/{certificate_name}": {
@@ -2454,7 +2534,8 @@
           "Cluster"
         ],
         "x-publish-docs": true,
-        "x-stability-level": "stable"
+        "x-stability-level": "stable",
+        "x-timeout-seconds": 900
       }
     },
     "/v1/ldap_mappings": {
@@ -2487,6 +2568,54 @@
           }
         ],
         "summary": "Get all Redis Software LDAP mappings",
+        "tags": [
+          "LDAP Mapping"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "post": {
+        "description": "Create a new Redis Software LDAP mapping.",
+        "operationId": "cluster_create_ldap_mapping",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LdapMappingCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LdapMapping"
+                }
+              }
+            },
+            "description": "LDAP mapping created successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "create_ldap_mapping"
+            ]
+          }
+        ],
+        "summary": "Create a Redis Software LDAP mapping",
         "tags": [
           "LDAP Mapping"
         ],
@@ -2594,6 +2723,70 @@
           }
         ],
         "summary": "Get a single Redis Software LDAP mapping",
+        "tags": [
+          "LDAP Mapping"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      },
+      "put": {
+        "description": "Update an existing LDAP mapping by unique ID.",
+        "operationId": "cluster_update_ldap_mapping",
+        "parameters": [
+          {
+            "description": "The LDAP mapping unique ID.",
+            "example": 17,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LdapMappingUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LdapMapping"
+                }
+              }
+            },
+            "description": "LDAP mapping updated successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/cluster_BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "update_ldap_mapping"
+            ]
+          }
+        ],
+        "summary": "Update a Redis Software LDAP mapping",
         "tags": [
           "LDAP Mapping"
         ],

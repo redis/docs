@@ -1,0 +1,13 @@
+{
+  "name": "redis-job-queue-nodejs-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Redis-backed job queue demo with node-redis",
+  "main": "demoServer.js",
+  "scripts": {
+    "start": "node demoServer.js"
+  },
+  "dependencies": {
+    "redis": "^5.0.0"
+  }
+}

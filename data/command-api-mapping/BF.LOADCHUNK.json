@@ -26,6 +26,48 @@
         }
       }
     ],
+    "redis_rs_sync": [
+      {
+        "signature": "bf_loadchunk(key: K, chunk: BloomFilterDumpChunk)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter to restore"
+          },
+          {
+            "name": "chunk",
+            "type": "BloomFilterDumpChunk",
+            "description": "A chunk previously produced by bf_scandump"
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": "Unit on success"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bf_loadchunk(key: K, chunk: BloomFilterDumpChunk)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter to restore"
+          },
+          {
+            "name": "chunk",
+            "type": "BloomFilterDumpChunk",
+            "description": "A chunk previously produced by bf_scandump"
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": "Unit on success"
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String bfLoadChunk(String key, long iterator, byte[] data)",

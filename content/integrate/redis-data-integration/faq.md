@@ -55,6 +55,14 @@ The configuration for the GCS is available only for [Helm based installations]({
 
 **Important:** You should only use this configuration when both sites use the same source configuration.
 
+## Can I run multiple RDI installations in the same Kubernetes cluster?
+
+No. Only one RDI installation is supported per Kubernetes cluster, even if
+you install into different namespaces. If you need more than one RDI
+deployment, use separate Kubernetes clusters. See
+[Install on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
+for installation details.
+
 ## Can RDI automatically track changes to the source database schema?
 
 If you don't configure RDI to capture a specific set of tables in the schema then it will
@@ -94,6 +102,8 @@ queue is stored as a capped stream in the RDI staging database. You can see its 
 with Redis Insight or with the
 [`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
 command from the CLI.
+
+See [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}) for more information about DLQ.
 
 ## Can I use RDI without persistence enabled?
 

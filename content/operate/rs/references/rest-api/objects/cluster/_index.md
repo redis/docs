@@ -31,6 +31,11 @@ An API object that represents the cluster.
 | crdb_coordinator_port | integer, (range: 1024-65535) (default: 9081) | CRDB coordinator port |
 | <span class="break-all">crdt_rest_client_retries</span> | integer | Maximum number of retries for the REST client used by the Active-Active management API |
 | <span class="break-all">crdt_rest_client_timeout</span> | integer | Timeout for REST client used by the Active-Active management API |
+| <span class="break-all">crdt_supported_featureset_version</span> | integer | CRDB supported featureset version (read-only) |
+| <span class="break-all">crdt_supported_featureset_version_map</span> | object | CRDB supported featureset version mapping by Redis version (read-only) |
+| <span class="break-all">crdt_supported_module_featureset_version_map</span> | object | Mapping of module names to per-module-semantic-version supported CRDB featureset versions (read-only) |
+| <span class="break-all">crdt_supported_protocol_versions</span> | array of strings | CRDB supported protocol versions (read-only) |
+| <span class="break-all">crdt_supported_protocol_versions_map</span> | object | CRDB supported protocol versions mapping by Redis version (read-only) |
 | created_time | string | Cluster creation date (read-only) |
 | data_cipher_list | string | Specifies the enabled ciphers for the data plane. The ciphers are specified in the format understood by the OpenSSL library. |
 | <span class="break-all">data_cipher_suites_tls_1_3</span> | string | Specifies the enabled TLS 1.3 ciphers for the data plane. |
@@ -38,6 +43,10 @@ An API object that represents the cluster.
 | <span class="break-all">default_non_sharded_proxy_policy</span> | string (default: single) | Default proxy_policy for newly created non-sharded databases' endpoints (read-only) |
 | <span class="break-all">default_sharded_proxy_policy</span> | string (default: all-master-shards) | Default proxy_policy for newly created sharded databases' endpoints (read-only) |
 | <span class="break-all">disconnect_clients_on_password_removal</span> | "enabled"<br />"disabled"<br />**"auto"** | This flag controls whether client connections using removed, revoked, or rotated passwords are actively disconnected |
+| <span class="break-all">dmc_external_authentication</span> | boolean (default: false) | Enable DMC to call the authentication_service for basic authentication |
+| <span class="break-all">dmc_external_cba_authentication</span> | boolean (default: false) | Enable DMC to call the authentication_service for certificate-based authentication |
+| <span class="break-all">dmc_external_entraid_authentication</span> | boolean (default: false) | Enable DMC to call the authentication_service for entraid authentication |
+| <span class="break-all">dmc_external_ldap_authentication</span> | boolean (default: false) | Enable DMC to call the authentication_service for LDAP-based authentication |
 | email_alerts | boolean (default: false) | Send node/cluster email alerts (requires valid SMTP and email_from settings) |
 | email_from | string | Sender email for automated emails |
 | encrypt_pkeys | boolean (default: false) | Enable or turn off encryption of private keys |
@@ -48,6 +57,7 @@ An API object that represents the cluster.
 | handle_redirects | boolean (default: false) | Handle API HTTPS requests and redirect to the master node internally |
 | http_support | boolean (default: false) | Enable or turn off HTTP support |
 | logrotate_settings | [logrotate_settings]({{<relref "/operate/rs/references/rest-api/objects/cluster/logrotate_settings">}}) object | Settings for logrotate configuration |
+| mask_bdb_credentials | boolean (default: false) | If set to true, the BDB credentials will be masked in the BDB API responses |
 | metrics_auth | boolean (default: false) | If true, requires authentication for requests to the metrics exporter |
 | <span class="break-all">min_control_TLS_version</span> | "1.2"<br />"1.3" | The minimum version of TLS protocol which is supported at the control path |
 | min_data_TLS_version | "1.2"<br />"1.3" | The minimum version of TLS protocol which is supported at the data path |

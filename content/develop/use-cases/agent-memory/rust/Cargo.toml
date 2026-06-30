@@ -1,0 +1,49 @@
+[package]
+name = "agent-memory-demo"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "agent_memory_demo"
+path = "src/lib.rs"
+
+[[bin]]
+name = "agent-memory-demo"
+path = "src/main.rs"
+
+# Optimise the release build. The candle-based embedder is CPU-bound
+# on token throughput; without -O the first encode takes long enough
+# to be noticeable in the demo, and the docs example tells readers to
+# use --release for that reason.
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+
+[dependencies]
+redis = { version = "0.27", default-features = false }
+tiny_http = "0.12"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+byteorder = "1"
+url = "2"
+
+# Candle is the embedder. We need:
+#   - candle-core for the tensor type
+#   - candle-nn for module trait implementations BERT pulls in
+#   - candle-transformers for the BertModel + config types
+#   - tokenizers for the HuggingFace WordPiece tokenizer
+#   - hf-hub for fetching the model weights and tokenizer on first run
+candle-core = "0.8"
+candle-nn = "0.8"
+candle-transformers = "0.8"
+tokenizers = { version = "0.20", default-features = false, features = ["onig"] }
+hf-hub = "0.3"
+
+# UUID-style ids. The Python, Node, and .NET demos use 12 hex
+# characters; we match the shape by hex-encoding 6 random bytes
+# read from /dev/urandom via getrandom.
+getrandom = "0.2"
+
+[dev-dependencies]

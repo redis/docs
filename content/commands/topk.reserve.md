@@ -43,17 +43,41 @@ title: TOPK.RESERVE
 ---
 Initializes a Top-K sketch with specified parameters.
 
-## Parameters
+## Required arguments
 
-* **key**: the name of the Top-k sketch.
-* **topk**: the number of top (k) occurring items to keep.
+<details open><summary><code>key</code></summary>
 
-Optional parameters
-* **width**: Number of counters kept in each array. (Default 8)
-* **depth**: Number of arrays. (Default 7)
-* **decay**: The probability of reducing a counter in an occupied bucket (decay ^ bucket[i].counter). As the counter gets higher, the likelihood of a reduction is lower. (Default 0.9)
+the name of the Top-k sketch.
 
-## Example
+</details>
+
+<details open><summary><code>topk</code></summary>
+
+the number of top (k) occurring items to keep.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>width</code></summary>
+
+Number of counters kept in each array. (Default 8)
+
+</details>
+
+<details open><summary><code>depth</code></summary>
+
+Number of arrays. (Default 7)
+
+</details>
+
+<details open><summary><code>decay</code></summary>
+
+The probability of reducing a counter in an occupied bucket (decay ^ bucket[i].counter). As the counter gets higher, the likelihood of a reduction is lower. (Default 0.9)
+
+</details>
+
+## Examples
 
 ```
 redis> TOPK.RESERVE topk 50 2000 7 0.925

@@ -23,19 +23,7 @@ To view available Redis database versions:
 The default Redis database version differs between Redis Software releases as follows:
 
 <a name="db-versions-table"></a>
-| Redis<br />Software | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
-|-------|----------|-----|
-| 8.0.18 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4, 8.6 | 8.6 |
-| 8.0.16 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4 | 8.4 |
-| 8.0.10 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4 | 8.4 |
-| 8.0.6 | 6.2, 7.2, 7.4, 8.0, 8.2 | 8.2 |
-| 8.0.2 | 6.2, 7.2, 7.4, 8.0, 8.2 | 8.2 |
-| 7.22.x | 6.2, 7.2, 7.4 | 7.4 |
-| 7.8.x | 6.2, 7.2, 7.4 | 7.4 |
-| 7.4.x | 6.0, 6.2, 7.2 | 7.2 |
-| 7.2.4 | 6.0, 6.2, 7.2 | 7.2 |
-| 6.4.2 | 6.0, 6.2 | 6.2 |
-| 6.2.x | 6.0, 6.2 | 6.0 |
+{{<embed-md "rs-bundled-db-versions.md">}}
 
 ## Upgrade prerequisites
 
@@ -60,6 +48,8 @@ Before upgrading a database:
 - Verify the cluster is fully upgraded and operational.
 
     Use the Cluster Manager UI to display the **Configuration** tab for the cluster. The tab displays the cluster version information and the Redis database compatibility version.
+
+- For [Replica Of databases]({{< relref "/operate/rs/databases/import-export/replica-of/" >}}), upgrade the destination database before the source database.
 
 - Check client compatibility with the database version.
 
@@ -151,6 +141,8 @@ To upgrade a database:
     ```sh
     rladmin upgrade db <database name | database ID> redis_version <version> preserve_roles
     ```
+
+    For module upgrade options, see [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}).
 
 1. Use [`rladmin status databases extra all`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-databases" >}}) to display a list of the databases in your cluster and their current Redis database compatibility version. Verify that the Redis version is set to the expected value.
 

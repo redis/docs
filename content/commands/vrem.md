@@ -50,10 +50,6 @@ is the name of the key that holds the vector set.
 is the name of the element to remove from the vector set.
 </details>
 
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -73,3 +69,7 @@ is the name of the element to remove from the vector set.
 [Boolean reply](../../develop/reference/protocol-spec#booleans): false if either element or key do not exist; true if the element was removed.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

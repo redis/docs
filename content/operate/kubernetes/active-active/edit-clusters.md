@@ -86,7 +86,7 @@ To communicate with other clusters, all participating clusters need access to th
       recName: rec-boston
       recNamespace: ns-massachusetts
       apiFqdnUrl: test-example-api-rec-boston-ns-massachusetts.example.com
-      dbFqdnSuffix: -example-cluster-rec-boston-ns-massachusetts.example.com
+      dbFqdnSuffix: .example-cluster-rec-boston-ns-massachusetts.example.com
       secretName: redis-enterprise-rerc-logan
     ```
 

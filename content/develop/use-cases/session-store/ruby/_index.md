@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/session-store/redis-rb
 categories:
 - docs
 - develop
@@ -43,7 +45,7 @@ Because the cookie only contains an opaque identifier, the browser never receive
 ## The Ruby session store
 
 The `RedisSessionStore` class wraps the basic session operations
-([source](session_store.rb)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/ruby/session_store.rb)):
 
 ```ruby
 require "redis"
@@ -163,8 +165,20 @@ bundle install
 
 ## Running the demo
 
-A local demo server is included to show the session store in action
-([source](demo_server.rb)):
+### Get the source files
+
+The demo consists of two Ruby files. Download them from the [`ruby` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/session-store/ruby) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir session-store-demo && cd session-store-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/session-store/ruby
+curl -O $BASE/session_store.rb
+curl -O $BASE/demo_server.rb
+```
+
+### Start the demo server
+
+From that directory:
 
 ```bash
 gem install redis webrick

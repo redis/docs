@@ -11,3 +11,4 @@
 | AlloyDB for PostgreSQL | 14.2, 15.7 | - | 14.2, 15.7 |
 | AWS Aurora/PostgreSQL | 15 | 15 | - |
 | Neon | 14, 15, 16, 17 | - | - |
+| Snowflake (preview) | - | - | - | 

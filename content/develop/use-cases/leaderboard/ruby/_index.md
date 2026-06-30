@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/redis-rb
 categories:
 - docs
 - develop
@@ -63,7 +65,7 @@ bundle install
 ## The Ruby module
 
 The `RedisLeaderboard` class wraps common leaderboard operations
-([source](leaderboard.rb)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/ruby/leaderboard.rb)):
 
 ```ruby
 require 'redis'
@@ -180,8 +182,20 @@ This is a useful pattern when the ranking view and the profile view need differe
 
 ## Running the demo
 
-A local demo server is included to show the leaderboard in action
-([source](demo_server.rb)):
+### Get the source files
+
+The demo consists of two Ruby files. Download them from the [`ruby` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/leaderboard/ruby) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir leaderboard-demo && cd leaderboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/leaderboard/ruby
+curl -O $BASE/leaderboard.rb
+curl -O $BASE/demo_server.rb
+```
+
+### Start the demo server
+
+A local demo server ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/leaderboard/ruby/demo_server.rb)) is included to show the leaderboard in action:
 
 ```bash
 gem install redis webrick

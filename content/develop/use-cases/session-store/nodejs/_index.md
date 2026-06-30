@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/session-store/node-redis
 categories:
 - docs
 - develop
@@ -43,7 +45,7 @@ Because the cookie only contains an opaque identifier, the browser never receive
 ## The Node.js session store
 
 The `RedisSessionStore` class wraps the basic session operations
-([source](sessionStore.js)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/nodejs/sessionStore.js)):
 
 ```javascript
 const { createClient } = require("redis");
@@ -165,8 +167,20 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## Running the demo
 
-A local demo server is included to show the session store in action
-([source](demoServer.js)):
+### Get the source files
+
+The demo consists of two JavaScript files. Download them from the [`nodejs` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/session-store/nodejs) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir session-store-demo && cd session-store-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/session-store/nodejs
+curl -O $BASE/sessionStore.js
+curl -O $BASE/demoServer.js
+```
+
+### Start the demo server
+
+From that directory:
 
 ```bash
 node demoServer.js

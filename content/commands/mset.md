@@ -69,6 +69,14 @@ See [`MSETNX`]({{< relref "/commands/msetnx" >}}) if you don't want to overwrite
 It is not possible for clients to see that some of the keys were updated while
 others are unchanged.
 
+## Required arguments
+
+<details open><summary><code>key value [key value ...]</code></summary>
+
+One or more key-value pairs to set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

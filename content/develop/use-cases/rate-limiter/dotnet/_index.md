@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/stackexchange.redis
 categories:
 - docs
 - develop
@@ -130,7 +132,7 @@ Or add it directly to your `.csproj` file:
 ## Using the .NET class
 
 The `TokenBucket` class provides an interface for rate limiting
-([source](TokenBucket.cs)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/dotnet/TokenBucket.cs)):
 
 ```csharp
 using StackExchange.Redis;
@@ -214,8 +216,22 @@ var tasks = Enumerable.Range(0, 20).Select(i =>
 
 ## Running the demo
 
+### Get the source files
+
+The demo consists of three files. Download them from the [`dotnet` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/rate-limiter/dotnet) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir rate-limiter-demo && cd rate-limiter-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/rate-limiter/dotnet
+curl -O $BASE/TokenBucket.cs
+curl -O $BASE/Program.cs
+curl -O $BASE/RateLimiterDemo.csproj
+```
+
+### Start the demo server
+
 A demonstration HTTP server is included to show the rate limiter in action
-([source](Program.cs)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/dotnet/Program.cs)):
 
 ```bash
 # Run the demo server

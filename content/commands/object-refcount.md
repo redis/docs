@@ -46,7 +46,15 @@ summary: Returns the reference count of a value of a key.
 syntax_fmt: OBJECT REFCOUNT key
 title: OBJECT REFCOUNT
 ---
-This command returns the reference count of the stored at `<key>`.
+This command returns the reference count of the stored at `key`.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

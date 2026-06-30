@@ -48,7 +48,7 @@ is the key name for this new t-digest sketch.
 is a controllable tradeoff between accuracy and memory consumption. 100 is a common value for normal uses and also the default if not specified. 1000 is more accurate. For more information on scaling of accuracy versus the compression value see [_The t-digest: Efficient estimates of distributions_](https://www.sciencedirect.com/science/article/pii/S2665963820300403).
 </details>
 
-## Example
+## Examples
 
 {{< highlight bash >}}
 redis> TDIGEST.CREATE t COMPRESSION 100

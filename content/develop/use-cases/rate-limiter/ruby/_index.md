@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/redis-rb
 categories:
 - docs
 - develop
@@ -136,7 +138,7 @@ bundle install
 ## Using the Ruby module
 
 The `TokenBucket` class provides a simple interface for rate limiting
-([source](token_bucket.rb)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/ruby/token_bucket.rb)):
 
 ```ruby
 require 'redis'
@@ -200,8 +202,21 @@ result2 = limiter.allow('user:123') # Uses EVALSHA (faster)
 
 ## Running the demo
 
+### Get the source files
+
+The demo consists of two Ruby files. Download them from the [`ruby` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/rate-limiter/ruby) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir rate-limiter-demo && cd rate-limiter-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/rate-limiter/ruby
+curl -O $BASE/token_bucket.rb
+curl -O $BASE/demo_server.rb
+```
+
+### Start the demo server
+
 A demonstration web server is included to show the rate limiter in action
-([source](demo_server.rb)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/rate-limiter/ruby/demo_server.rb)):
 
 ```bash
 # Install dependencies

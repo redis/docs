@@ -7,6 +7,6 @@ spec:
   recName: rec-arlington
   recNamespace: ns-virginia
   apiFqdnUrl: api-rec-arlington-ns-virginia.example.com
-  dbFqdnSuffix: -db-rec-arlington-ns-virginia.example.com
+  dbFqdnSuffix: .db-rec-arlington-ns-virginia.example.com
   secretName: redis-enterprise-rerc-raegan
 ```

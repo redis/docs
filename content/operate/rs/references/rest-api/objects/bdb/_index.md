@@ -125,7 +125,7 @@ An API object that represents a managed database in the cluster.
 | oss_cluster | boolean (default:&nbsp;false); OSS Cluster mode option. Cannot be enabled with `'hash_slots_policy': 'legacy'` |
 | <span class="break-all">oss_cluster_api_preferred_endpoint_type</span> | Endpoint type in the OSS cluster API<br />Values:<br />**‘ip’**<br />‘hostname’ |
 | <span class="break-all">oss_cluster_api_preferred_ip_type</span> | Internal/external IP type in OSS cluster API. Default value for new endpoints<br />Values:<br />**'internal'** <br />'external' |
-| oss_sharding | boolean (default:&nbsp;false); An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |
+| oss_sharding | boolean (default: false); This flag is for future use and should not be changed |
 | <span class="break-all">partial_request_timeout_seconds</span> | integer (default: 3); When a client connection sends a command, takes a server connection, and stops writing before the command is complete, it causes head-of-line blocking on this server connection. Such commands will time out after this many seconds and the client connection will be closed. |
 | port | integer; TCP port on which the database is available. Generated automatically if omitted and returned as 0 |
 | <span class="break-all">preemptive_drain_timeout_seconds</span> | integer (default: 2); Timeout in seconds for preemptive drain of client connections before a shard is taken down |
@@ -155,7 +155,7 @@ An API object that represents a managed database in the cluster.
 | <span class="break-all">shard_imbalance_threshold</span> | number (default: 314572800); Automatically balances shards only if their imbalance is greater than this threshold. This field is for future use and should not be changed. |
 | <span class="break-all">shard_imbalance_threshold_percentage</span> | integer (default: 20); Automatically balances shards only if their imbalance percentage is greater than this threshold. This field is for future use and should not be changed. |
 | shard_list | array of integers; Cluster unique IDs of all database shards. |
-| sharding | boolean (default:&nbsp;false); Cluster mode (server-side sharding). When true, shard hashing rules must be provided by either `oss_sharding` or `shard_key_regex` |
+| sharding | boolean (default: false); Cluster mode (server-side sharding). When true, shard hashing rules must be provided by `shard_key_regex` |
 | shards_count | integer, <nobr>(range: 1-512)</nobr> (default:&nbsp;1); Number of database server-side shards |
 | shards_placement | Control the density of shards <br />Values:<br />**'dense'**: Shards reside on as few nodes as possible <br /> **'sparse'**: Shards reside on as many nodes as possible |
 | skip_import_analyze | Enable/disable skipping the analysis stage when importing an RDB file<br />Values:<br />'enabled'<br />'disabled' |
@@ -175,6 +175,7 @@ An API object that represents a managed database in the cluster.
 | timeseries | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/timeseries" >}}); Configuration fields for timeseries. |
 | tls_mode | Require TLS-authenticated and encrypted connections to the database<br />Values:<br />'enabled'<br /> **'disabled'** <br />'replica_ssl' |
 | tracking_table_max_keys | integer; The client-side caching invalidation table size. 0 makes the cache unlimited. |
+| traffic_manually_disabled | boolean; Whether traffic was manually turned off using the stop_traffic API (read-only) |
 | type | Type of database<br />Values:<br />**'redis'** <br />'memcached' |
 | use_nodes | array of strings; Cluster node UIDs to use for database shards and bound endpoints |
 | use_selective_flush | boolean (default: true); If true, enable selective flush of destination shards |

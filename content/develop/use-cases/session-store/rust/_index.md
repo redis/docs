@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/session-store/redis-rs
 categories:
 - docs
 - develop
@@ -43,7 +45,7 @@ Because the cookie only contains an opaque identifier, the browser never receive
 ## The Rust session store
 
 The `RedisSessionStore` struct wraps the basic session operations
-([source](session_store.rs)).
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/rust/session_store.rs)).
 
 ### Synchronous usage
 
@@ -214,8 +216,21 @@ If you only need the synchronous API, you can omit the async server dependencies
 
 ## Running the demo
 
-A local demo server is included to show the session store in action
-([source](demo_server.rs)):
+### Get the source files
+
+The demo consists of three files. Download them from the [`rust` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/session-store/rust) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir session-store-demo && cd session-store-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/session-store/rust
+curl -O $BASE/Cargo.toml
+curl -O $BASE/session_store.rs
+curl -O $BASE/demo_server.rs
+```
+
+### Start the demo server
+
+From that directory, build and run:
 
 ```bash
 cargo build

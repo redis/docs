@@ -57,9 +57,17 @@ The command output is a hexadecimal representation of a binary string.
 By default it emits 256 bits (so 64 hex characters). The user can provide
 an argument in form of number of bits to emit from 1 to 1024 to change
 the output length. Note that the number of bits provided is always
-rounded to the next multiple of 4. So for instance asking for just 1
+rounded to the next multiple of 4. So for instance asking for just a 1
 bit password will result in 4 bits to be emitted, in the form of a single
 hex character.
+
+## Optional arguments
+
+<details open><summary><code>bits</code></summary>
+
+The amount of entropy, in bits, for the generated password. Defaults to 256.
+
+</details>
 
 ## Examples
 

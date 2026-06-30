@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/session-store/stackexchange.redis
 categories:
 - docs
 - develop
@@ -43,7 +45,7 @@ Because the cookie only contains an opaque identifier, the browser never receive
 ## The .NET session store
 
 The `RedisSessionStore` class wraps the basic session operations
-([source](RedisSessionStore.cs)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/dotnet/RedisSessionStore.cs)):
 
 ```csharp
 using StackExchange.Redis;
@@ -178,8 +180,21 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## Running the demo
 
-A local demo server is included to show the session store in action
-([source](Program.cs)):
+### Get the source files
+
+The demo consists of three files. Download them from the [`dotnet` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/session-store/dotnet) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir session-store-demo && cd session-store-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/session-store/dotnet
+curl -O $BASE/RedisSessionStore.cs
+curl -O $BASE/Program.cs
+curl -O $BASE/SessionStoreDemo.csproj
+```
+
+### Start the demo server
+
+From that directory:
 
 ```bash
 dotnet run

@@ -56,6 +56,20 @@ When `key` already exists in the destination database, or it does not exist in
 the source database, it does nothing.
 It is possible to use `MOVE` as a locking primitive because of this.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
+<details open><summary><code>db</code></summary>
+
+The destination database index.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

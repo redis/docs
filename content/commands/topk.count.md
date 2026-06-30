@@ -40,10 +40,19 @@ Please note this number will never be higher than the real count and will likely
 This command has been deprecated. The count value is not a representative of
 the number of appearances of an item.
 
-## Parameters
+## Required arguments
 
-* **key**: the name of the sketch where items are to be counted.
-* **item**: the items to be counted.
+<details open><summary><code>key</code></summary>
+
+the name of the sketch where items are to be counted.
+
+</details>
+
+<details open><summary><code>item [item ...]</code></summary>
+
+the items to be counted.
+
+</details>
 
 ## Examples
 

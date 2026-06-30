@@ -12,6 +12,12 @@ hideListLinks: true
 weight: 10
 ---
 
+## Q2 2026 (April - June) Updates
+
+### Redis Version Updates
+
+- [Redis 8.8]({{< relref "/develop/whats-new/8-8" >}}) - New Array data structure, `INCREX` rate limiter, in-group sorting reducer for `FT.AGGREGATE`, Rust iterators and devirtualized vector hot paths in Search, HyperLogLog and `MGET`/`MSET`/`HGETALL` performance improvements.
+
 ## Q1 2026 (January - March) Updates
 
 ### Tools
@@ -40,7 +46,7 @@ weight: 10
   - [Lists]({{< relref "/develop/data-types/lists" >}})
   - [Sets]({{< relref "/develop/data-types/sets" >}})
   - [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
-  - [Bitmaps]({{< relref "/develop/data-types/bitmaps" >}})
+  - [Bitmaps]({{< relref "/develop/data-types/strings/bitmaps" >}})
   - [Geospatial]({{< relref "/develop/data-types/geospatial" >}})
   - [JSON]({{< relref "/develop/data-types/json" >}})
   - [Time series]({{< relref "/develop/data-types/timeseries" >}})
@@ -128,7 +134,7 @@ weight: 10
   - Vectorizers
 - Added [AI video tutorials]({{< relref "/develop/ai/ai-videos" >}}) with YouTube content
 - Added [AI notebook collection]({{< relref "/develop/ai/notebook-collection" >}}) with notebook links
-- Added [LangCache documentation]({{< relref "/develop/ai/langcache" >}}) with API examples
+- Added [LangCache documentation]({{< relref "/develop/ai/context-engine/langcache" >}}) with API examples
 
 ---
 
@@ -168,13 +174,13 @@ weight: 10
 
 - Updated [vector types documentation]({{< relref "/develop/ai/search-and-query/vectors/_index" >}}) for INT8 and UINT8
 - Added [GEO search precision information]({{< relref "/develop/ai/search-and-query/indexing/geoindex" >}})
-- Enhanced [LangCache SDK]({{< relref "/develop/ai/langcache/_index" >}}) with savings calculator and improved API documentation
+- Enhanced [LangCache SDK]({{< relref "/develop/ai/context-engine/langcache/_index" >}}) with savings calculator and improved API documentation
 
 ---
 
 ### Data Types
 
-- [Bitmaps]({{< relref "/develop/data-types/bitmaps" >}}):
+- [Bitmaps]({{< relref "/develop/data-types/strings/bitmaps" >}}):
   - Added BITOP documentation with Python testable code examples
   - Added bit operation diagrams
 
@@ -227,7 +233,7 @@ weight: 10
   - [Lettuce vector queries]({{< relref "/develop/clients/lettuce/vecsearch" >}})
   - [Lettuce vector sets]({{< relref "/develop/clients/lettuce/vecsets" >}})
 - Updated [redisvl documentation]({{< relref "/develop/ai/redisvl/_index" >}}) for versions 0.6.0-0.8.2
-- Added [LangCache SDK]({{< relref "/develop/ai/langcache/_index" >}}) documentation with [API reference]({{< relref "/develop/ai/langcache/api-examples" >}})
+- Added [LangCache SDK]({{< relref "/develop/ai/context-engine/langcache/_index" >}}) documentation with [API reference]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}})
 
 ---
 

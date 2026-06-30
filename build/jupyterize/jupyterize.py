@@ -26,7 +26,7 @@ from notebook_builder import NotebookBuilder
 
 
 
-def jupyterize(input_file, output_file=None, verbose=False):
+def jupyterize(input_file, output_file=None, verbose=False, with_tests=False):
     """
     Convert code example file to Jupyter notebook.
 
@@ -34,6 +34,8 @@ def jupyterize(input_file, output_file=None, verbose=False):
         input_file: Path to input file
         output_file: Path to output file (default: same name with .ipynb extension)
         verbose: Enable verbose logging
+        with_tests: When True, keep REMOVE blocks as cells tagged 'test' (for a
+            verification/test notebook) instead of dropping them.
 
     Returns:
         str: Path to output file
@@ -61,7 +63,7 @@ def jupyterize(input_file, output_file=None, verbose=False):
         validator.validate_file(input_file, language)
 
         # Parse file
-        parser = FileParser(language)
+        parser = FileParser(language, keep_tests=with_tests)
         parsed_blocks = parser.parse(input_file)
 
         if not parsed_blocks:
@@ -122,13 +124,21 @@ The tool automatically:
         help='Enable verbose logging'
     )
 
+    parser.add_argument(
+        '--with-tests',
+        action='store_true',
+        help="Keep REMOVE blocks as cells tagged 'test' (for a verification "
+             "notebook) instead of dropping them"
+    )
+
     args = parser.parse_args()
 
     try:
         output_file = jupyterize(
             args.input_file,
             args.output_file,
-            args.verbose
+            args.verbose,
+            args.with_tests
         )
         print(f"Successfully created: {output_file}")
         return 0

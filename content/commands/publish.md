@@ -39,9 +39,23 @@ title: PUBLISH
 ---
 Posts a message to the given channel.
 
-In a Redis Cluster clients can publish to every node. The cluster makes sure
+In a Redis Cluster, clients can publish to every node. The cluster makes sure
 that published messages are forwarded as needed, so clients can subscribe to any
 channel by connecting to any one of the nodes.
+
+## Required arguments
+
+<details open><summary><code>channel</code></summary>
+
+The channel to publish to.
+
+</details>
+
+<details open><summary><code>message</code></summary>
+
+The message to publish.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

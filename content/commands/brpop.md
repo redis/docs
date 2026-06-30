@@ -74,6 +74,20 @@ the tail of a list instead of popping from the head.
 
 [cb]: /commands/blpop
 
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys of lists to operate on.
+
+</details>
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
 ## Examples
 
 ```

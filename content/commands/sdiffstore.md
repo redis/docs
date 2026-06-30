@@ -73,6 +73,20 @@ is stored in `destination`.
 
 If `destination` already exists, it is overwritten.
 
+## Required arguments
+
+<details open><summary><code>destination</code></summary>
+
+The key to store the resulting set in.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more set keys. The difference is the members of the first set that are not present in any of the subsequent sets.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/session-store/java
+- /develop/use-cases/session-store/jedis
 categories:
 - docs
 - develop
@@ -43,7 +46,7 @@ Because the cookie only contains an opaque identifier, the browser never receive
 ## The Java session store
 
 The `RedisSessionStore` class wraps the basic session operations
-([source](RedisSessionStore.java)):
+([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/session-store/java-jedis/RedisSessionStore.java)):
 
 ```java
 import java.util.Map;
@@ -186,8 +189,20 @@ If your Redis server is running elsewhere, start the demo with `--redis-host` an
 
 ## Running the demo
 
-A local demo server is included to show the session store in action
-([source](DemoServer.java)):
+### Get the source files
+
+The demo consists of two Java files. Download them from the [`java-jedis` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/session-store/java-jedis) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir session-store-demo && cd session-store-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/session-store/java-jedis
+curl -O $BASE/RedisSessionStore.java
+curl -O $BASE/DemoServer.java
+```
+
+### Start the demo server
+
+From that directory:
 
 ```bash
 javac -cp jedis-5.2.0.jar RedisSessionStore.java DemoServer.java

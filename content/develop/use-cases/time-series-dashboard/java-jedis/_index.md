@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/time-series-dashboard/java
+- /develop/use-cases/time-series-dashboard/jedis
 categories:
 - docs
 - develop
@@ -40,9 +43,9 @@ Each sensor is stored in its own time series with labels such as `sensor_type`, 
 
 The implementation is split across three small files:
 
-* [`SensorSimulator.java`](SensorSimulator.java) - Sensor definitions and sample generation
-* [`RedisTimeSeriesStore.java`](RedisTimeSeriesStore.java) - Redis TimeSeries command helpers
-* [`DemoServer.java`](DemoServer.java) - Local HTTP server and inline dashboard UI
+* [`SensorSimulator.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/java-jedis/SensorSimulator.java) - Sensor definitions and sample generation
+* [`RedisTimeSeriesStore.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/java-jedis/RedisTimeSeriesStore.java) - Redis TimeSeries command helpers
+* [`DemoServer.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/time-series-dashboard/java-jedis/DemoServer.java) - Local HTTP server and inline dashboard UI
 
 The Redis helper uses Jedis' low-level command path with a small custom `ProtocolCommand` enum so the example can issue `TS.CREATE`, `TS.MADD`, `TS.GET`, and `TS.RANGE` directly.
 
@@ -103,6 +106,20 @@ If you use Maven:
 ```
 
 ## Running the demo
+
+### Get the source files
+
+The demo consists of three Java files. Download them from the [`java-jedis` source folder](https://github.com/redis/docs/tree/main/content/develop/use-cases/time-series-dashboard/java-jedis) on GitHub, or grab them with `curl`:
+
+```bash
+mkdir time-series-dashboard-demo && cd time-series-dashboard-demo
+BASE=https://raw.githubusercontent.com/redis/docs/main/content/develop/use-cases/time-series-dashboard/java-jedis
+curl -O $BASE/SensorSimulator.java
+curl -O $BASE/RedisTimeSeriesStore.java
+curl -O $BASE/DemoServer.java
+```
+
+### Start the demo server
 
 Compile and run the demo:
 

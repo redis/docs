@@ -390,10 +390,11 @@ for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-#### `NOTE`
+{{< note >}}
 The page_size parameter controls the number of items each result
 batch contains. Adjust this value based on performance
 considerations and the expected volume of search results.
+{{< /note >}}
 
 #### `query(query)`
 
@@ -865,10 +866,11 @@ async for result_batch in index.paginate(query, page_size=10):
     pass
 ```
 
-#### `NOTE`
+{{< note >}}
 The page_size parameter controls the number of items each result
 batch contains. Adjust this value based on performance
 considerations and the expected volume of search results.
+{{< /note >}}
 
 #### `async query(query)`
 

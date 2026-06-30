@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/clients/dotnet/vecsearch
 categories:
 - docs
 - develop

@@ -57,6 +57,20 @@ When _key_ does not exist it is assumed to be an empty string, so _offset_ is
 always out of range and the value is also assumed to be a contiguous space with
 0 bits.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the string.
+
+</details>
+
+<details open><summary><code>offset</code></summary>
+
+The zero-based bit offset to read.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

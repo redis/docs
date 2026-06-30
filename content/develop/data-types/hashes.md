@@ -2,6 +2,7 @@
 aliases:
 - /data-types/hashes/
 - /manual/data-types/hashes/
+- /develop/data-types/hash/
 categories:
 - docs
 - develop
@@ -17,7 +18,7 @@ description: 'Introduction to Redis hashes
   '
 linkTitle: Hashes
 title: Redis hashes
-weight: 40
+weight: 50
 ---
 
 {{< command-group group="hash" title="Hash command summary" show_link=true >}}
