@@ -147,7 +147,7 @@ RDI supports two authentication methods for accessing Spanner:
 
 Before deploying the RDI pipeline, you need to configure the necessary secrets for the target
 database. Instructions for setting up the target database secrets are available in the
-[RDI deployment guide]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}).
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/set-secrets#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}).
 
 **Optional**: If you prefer to use a service account credentials file instead of Workload Identity
 authentication, you'll need to create a Spanner-specific secret named `source-db-credentials`.
