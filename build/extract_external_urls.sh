@@ -33,31 +33,32 @@ while IFS= read -r f; do
   files+=("$f")
 done < <(find "$PUBLIC_DIR" -type f -name '*.html' | grep -vE "$SKIP_SOURCE_PATHS" || true)
 
-if (( ${#files[@]} == 0 )); then
-  : > "$OUTPUT_FILE"
-  echo "No in-scope HTML files found under '$PUBLIC_DIR'." >&2
-  exit 0
-fi
-
 # Extract http(s) URLs from href/src (single or double quoted), strip the attribute
 # wrapper, decode HTML entities, and de-duplicate. Files are streamed through xargs
 # (rather than passed as one big argument list) so grep can't hit the shell's
 # argument limit on a large public/ tree. The `|| true` tolerates the legitimate
-# "this batch has no external links" case (grep exits 1); the sanity check below
-# turns a genuine extraction failure into a loud error instead of a silent empty
-# result that lychee would treat as "nothing to check".
-printf '%s\0' "${files[@]}" \
-  | { xargs -0 grep -hoE "(href|src)=(\"https?://[^\"]+\"|'https?://[^']+')" || true; } \
-  | sed -E "s/^(href|src)=[\"']//; s/[\"']$//" \
-  | python3 -c 'import sys, html
+# "this batch has no external links" case (grep exits 1). The guard against an empty
+# array skips the pipeline when no files matched (an empty arg list would make xargs
+# run grep with no files and hang on stdin); the emptiness check below then fails.
+: > "$OUTPUT_FILE"
+if (( ${#files[@]} > 0 )); then
+  printf '%s\0' "${files[@]}" \
+    | { xargs -0 grep -hoE "(href|src)=(\"https?://[^\"]+\"|'https?://[^']+')" || true; } \
+    | sed -E "s/^(href|src)=[\"']//; s/[\"']$//" \
+    | python3 -c 'import sys, html
 for line in sys.stdin:
     sys.stdout.write(html.unescape(line))' \
-  | sort -u > "$OUTPUT_FILE"
+    | sort -u > "$OUTPUT_FILE"
+fi
 
+# A completed docs build always yields in-scope pages that carry external links, so
+# an empty result here — whether from no in-scope files or no extracted URLs — means
+# the build or the path scoping failed, not that there is genuinely nothing to check.
+# Fail loudly rather than let lychee "pass" an empty input and hide broken links.
 count=$(wc -l < "$OUTPUT_FILE")
 if (( count == 0 )); then
-  echo "ERROR: found ${#files[@]} in-scope HTML files but extracted 0 external URLs;" \
-       "extraction likely failed rather than there being no links." >&2
+  echo "ERROR: extracted 0 external URLs from '$PUBLIC_DIR' (${#files[@]} in-scope HTML files);" \
+       "the site build or path scoping likely failed. Refusing to pass an empty link check." >&2
   exit 1
 fi
 
