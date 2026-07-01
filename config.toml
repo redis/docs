@@ -142,3 +142,25 @@ rdi_current_version = "1.18.1"
 [outputs]
 section = ["HTML", "RSS", "Markdown", "JSON"]
 page = ["HTML", "Markdown", "JSON"]
+
+# RFC 8288 Link response headers for agent discovery (hugo serve only).
+# For production, configure equivalent headers in your nginx ingress or CDN.
+# Must be at the end of config.toml — TOML tables apply to all following keys.
+#
+# Note: paths here are root-relative and assume no site prefix, which is correct
+# for standard `hugo serve`. If you run hugo serve with a --baseURL path prefix,
+# the HTML <link> elements in baseof.html (which use relURL) are the authoritative
+# implementation — these server headers are a development convenience only.
+[server]
+  [[server.headers]]
+    for = "/**"
+    [server.headers.values]
+      Link = '</.well-known/api-catalog>; rel="api-catalog", </develop/>; rel="service-doc", </.well-known/api-catalog>; rel="service-desc"; type="application/linkset+json"'
+
+  # The api-catalog file is extensionless so servers infer a generic MIME type.
+  # Explicitly set application/linkset+json so RFC 9264/9727 clients parse it correctly.
+  # Production nginx should set the same Content-Type for /.well-known/api-catalog.
+  [[server.headers]]
+    for = "/.well-known/api-catalog"
+    [server.headers.values]
+      Content-Type = "application/linkset+json"

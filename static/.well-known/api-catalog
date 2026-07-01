@@ -1,0 +1,44 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://redis.io/docs/latest/commands/",
+      "service-doc": [
+        {
+          "href": "https://redis.io/docs/latest/commands/",
+          "type": "text/html",
+          "title": "Redis Commands Reference"
+        }
+      ]
+    },
+    {
+      "anchor": "https://redis.io/docs/latest/develop/",
+      "service-doc": [
+        {
+          "href": "https://redis.io/docs/latest/develop/",
+          "type": "text/html",
+          "title": "Redis Developer Documentation"
+        }
+      ]
+    },
+    {
+      "anchor": "https://redis.io/docs/latest/operate/rc/api/",
+      "service-doc": [
+        {
+          "href": "https://redis.io/docs/latest/operate/rc/api/",
+          "type": "text/html",
+          "title": "Redis Cloud REST API"
+        }
+      ]
+    },
+    {
+      "anchor": "https://redis.io/docs/latest/integrate/redis-data-integration/reference/",
+      "service-doc": [
+        {
+          "href": "https://redis.io/docs/latest/integrate/redis-data-integration/reference/",
+          "type": "text/html",
+          "title": "Redis Data Integration (RDI) API"
+        }
+      ]
+    }
+  ]
+}
