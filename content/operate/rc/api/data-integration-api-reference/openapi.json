@@ -2,8 +2,8 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Data Integration Workspace API",
-    "description": "Data Integration Workspace API",
-    "version": "2.2.2"
+    "version": "2.2.2",
+    "description": "Data Integration Workspace API"
   },
   "servers": [
     {
@@ -59,9 +59,8 @@
   "paths": {
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace": {
       "get": {
-        "tags": [
-          "Workspace"
-        ],
+        "summary": "Get a data integration workspace",
+        "description": "Returns the current data integration workspace state for the specified subscription.",
         "operationId": "getWorkspace",
         "parameters": [
           {
@@ -76,23 +75,85 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Workspace returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkspaceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "workspaces",
-        "x-api-lifecycle": "preview"
-      },
-      "post": {
         "tags": [
           "Workspace"
         ],
+        "x-api-lifecycle": "preview"
+      },
+      "post": {
+        "summary": "Create a data integration workspace",
+        "description": "Starts provisioning a data integration workspace for a subscription and returns an asynchronous task.",
         "operationId": "createWorkspace",
         "parameters": [
           {
@@ -117,23 +178,85 @@
         },
         "responses": {
           "202": {
-            "description": "Accepted",
+            "description": "Workspace creation accepted",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkspaceTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "workspaces",
-        "x-api-lifecycle": "preview"
-      },
-      "delete": {
         "tags": [
           "Workspace"
         ],
+        "x-api-lifecycle": "preview"
+      },
+      "delete": {
+        "summary": "Delete a data integration workspace",
+        "description": "Starts deleting the data integration workspace for a subscription and returns an asynchronous task.",
         "operationId": "deleteWorkspace",
         "parameters": [
           {
@@ -148,50 +271,185 @@
         ],
         "responses": {
           "202": {
-            "description": "Accepted",
+            "description": "Workspace deletion accepted",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkspaceTaskResponse"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
           }
         },
         "x-speakeasy-group": "workspaces",
+        "tags": [
+          "Workspace"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/data-integration-workspaces": {
       "get": {
-        "tags": [
-          "Workspace"
-        ],
+        "summary": "List data integration workspaces",
+        "description": "Lists all data integration workspaces in the current Redis Cloud account.",
         "operationId": "listWorkspaces",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Workspaces returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkspacesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "workspaces",
+        "tags": [
+          "Workspace"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/info": {
+      "parameters": [
+        {
+          "name": "subscriptionId",
+          "in": "path",
+          "description": "Subscription ID.",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      ],
       "get": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "Get RDI API information",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "getRdiV2Info",
+        "x-speakeasy-group": "rdi",
         "responses": {
           "200": {
             "description": "OK",
@@ -205,9 +463,13 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
+        "tags": [
+          "RDI Core"
+        ],
         "x-api-lifecycle": "preview"
-      },
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -219,16 +481,12 @@
             "format": "int64"
           }
         }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines": {
+      ],
       "get": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "List RDI pipelines",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "listRdiV2Pipelines",
+        "x-speakeasy-group": "rdi",
         "responses": {
           "200": {
             "description": "OK",
@@ -242,16 +500,16 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
-        "x-api-lifecycle": "preview"
-      },
-      "post": {
         "tags": [
           "RDI Core"
         ],
+        "x-api-lifecycle": "preview"
+      },
+      "post": {
         "summary": "Create an RDI pipeline",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "createRdiV2Pipeline",
+        "x-speakeasy-group": "rdi",
         "parameters": [
           {
             "name": "dry_run",
@@ -295,9 +553,13 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
+        "tags": [
+          "RDI Core"
+        ],
         "x-api-lifecycle": "preview"
-      },
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -308,17 +570,22 @@
             "type": "integer",
             "format": "int64"
           }
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "description": "RDI pipeline name.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
         }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}": {
+      ],
       "get": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "Get an RDI pipeline",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "getRdiV2Pipeline",
+        "x-speakeasy-group": "rdi",
         "responses": {
           "200": {
             "description": "OK",
@@ -332,16 +599,16 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
+        "tags": [
+          "RDI Core"
+        ],
         "x-api-lifecycle": "preview"
       },
       "put": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "Replace an RDI pipeline",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "replaceRdiV2Pipeline",
+        "x-speakeasy-group": "rdi",
         "parameters": [
           {
             "name": "dry_run",
@@ -385,39 +652,16 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
-        "x-api-lifecycle": "preview"
-      },
-      "delete": {
         "tags": [
           "RDI Core"
         ],
-        "summary": "Delete an RDI pipeline",
-        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
-        "operationId": "deleteRdiV2Pipeline",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              }
-            }
-          }
-        },
-        "x-speakeasy-group": "rdi",
         "x-api-lifecycle": "preview"
       },
       "patch": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "Update an RDI pipeline",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "updateRdiV2Pipeline",
+        "x-speakeasy-group": "rdi",
         "parameters": [
           {
             "name": "dry_run",
@@ -461,9 +705,36 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
+        "tags": [
+          "RDI Core"
+        ],
         "x-api-lifecycle": "preview"
       },
+      "delete": {
+        "summary": "Delete an RDI pipeline",
+        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
+        "operationId": "deleteRdiV2Pipeline",
+        "x-speakeasy-group": "rdi",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "RDI Core"
+        ],
+        "x-api-lifecycle": "preview"
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/status": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -484,16 +755,12 @@
             "type": "string"
           }
         }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/status": {
+      ],
       "get": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "Get RDI pipeline status",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "getRdiV2PipelineStatus",
+        "x-speakeasy-group": "rdi",
         "responses": {
           "200": {
             "description": "OK",
@@ -507,9 +774,13 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
+        "tags": [
+          "RDI Core"
+        ],
         "x-api-lifecycle": "preview"
-      },
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/start": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -530,16 +801,12 @@
             "type": "string"
           }
         }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/start": {
+      ],
       "post": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "Start an RDI pipeline",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "startRdiV2Pipeline",
+        "x-speakeasy-group": "rdi",
         "responses": {
           "200": {
             "description": "OK",
@@ -553,9 +820,13 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
+        "tags": [
+          "RDI Core"
+        ],
         "x-api-lifecycle": "preview"
-      },
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/stop": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -576,16 +847,12 @@
             "type": "string"
           }
         }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/stop": {
+      ],
       "post": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "Stop an RDI pipeline",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "stopRdiV2Pipeline",
+        "x-speakeasy-group": "rdi",
         "responses": {
           "200": {
             "description": "OK",
@@ -599,9 +866,13 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
+        "tags": [
+          "RDI Core"
+        ],
         "x-api-lifecycle": "preview"
-      },
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/reset": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -622,16 +893,12 @@
             "type": "string"
           }
         }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/reset": {
+      ],
       "post": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "Reset an RDI pipeline",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "resetRdiV2Pipeline",
+        "x-speakeasy-group": "rdi",
         "responses": {
           "200": {
             "description": "OK",
@@ -645,9 +912,13 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
+        "tags": [
+          "RDI Core"
+        ],
         "x-api-lifecycle": "preview"
-      },
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/metric-collections": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -668,16 +939,12 @@
             "type": "string"
           }
         }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/metric-collections": {
+      ],
       "get": {
-        "tags": [
-          "RDI Core"
-        ],
         "summary": "List RDI pipeline metric collections",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "listRdiV2MetricCollections",
+        "x-speakeasy-group": "rdi",
         "responses": {
           "200": {
             "description": "OK",
@@ -691,55 +958,13 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
-        "x-api-lifecycle": "preview"
-      },
-      "parameters": [
-        {
-          "name": "subscriptionId",
-          "in": "path",
-          "description": "Subscription ID.",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        {
-          "name": "name",
-          "in": "path",
-          "description": "RDI pipeline name.",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/metric-collections/{collection_name}": {
-      "get": {
         "tags": [
           "RDI Core"
         ],
-        "summary": "Get an RDI pipeline metric collection",
-        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
-        "operationId": "getRdiV2MetricCollection",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              }
-            }
-          }
-        },
-        "x-speakeasy-group": "rdi",
         "x-api-lifecycle": "preview"
-      },
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/metric-collections/{collection_name}": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -769,65 +994,32 @@
             "type": "string"
           }
         }
-      ]
+      ],
+      "get": {
+        "summary": "Get an RDI pipeline metric collection",
+        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
+        "operationId": "getRdiV2MetricCollection",
+        "x-speakeasy-group": "rdi",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "RDI Core"
+        ],
+        "x-api-lifecycle": "preview"
+      }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/secrets": {
-      "get": {
-        "tags": [
-          "RDI Core"
-        ],
-        "summary": "List RDI pipeline secrets",
-        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
-        "operationId": "listRdiV2PipelineSecrets",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              }
-            }
-          }
-        },
-        "x-speakeasy-group": "rdi",
-        "x-api-lifecycle": "preview"
-      },
-      "post": {
-        "tags": [
-          "RDI Core"
-        ],
-        "summary": "Create an RDI pipeline secret",
-        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
-        "operationId": "createRdiV2PipelineSecret",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              }
-            }
-          }
-        },
-        "x-speakeasy-group": "rdi",
-        "x-api-lifecycle": "preview"
-      },
       "parameters": [
         {
           "name": "subscriptionId",
@@ -848,16 +1040,12 @@
             "type": "string"
           }
         }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/secrets/{key}": {
+      ],
       "get": {
-        "tags": [
-          "RDI Core"
-        ],
-        "summary": "Get an RDI pipeline secret",
+        "summary": "List RDI pipeline secrets",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
-        "operationId": "getRdiV2PipelineSecret",
+        "operationId": "listRdiV2PipelineSecrets",
+        "x-speakeasy-group": "rdi",
         "responses": {
           "200": {
             "description": "OK",
@@ -871,16 +1059,16 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
-        "x-api-lifecycle": "preview"
-      },
-      "put": {
         "tags": [
           "RDI Core"
         ],
-        "summary": "Replace an RDI pipeline secret",
+        "x-api-lifecycle": "preview"
+      },
+      "post": {
+        "summary": "Create an RDI pipeline secret",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
-        "operationId": "replaceRdiV2PipelineSecret",
+        "operationId": "createRdiV2PipelineSecret",
+        "x-speakeasy-group": "rdi",
         "requestBody": {
           "content": {
             "application/json": {
@@ -904,32 +1092,13 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
-        "x-api-lifecycle": "preview"
-      },
-      "delete": {
         "tags": [
           "RDI Core"
         ],
-        "summary": "Delete an RDI pipeline secret",
-        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
-        "operationId": "deleteRdiV2PipelineSecret",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              }
-            }
-          }
-        },
-        "x-speakeasy-group": "rdi",
         "x-api-lifecycle": "preview"
-      },
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/secrets/{key}": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -959,16 +1128,123 @@
             "type": "string"
           }
         }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/source-schemas/{source_name}": {
+      ],
       "get": {
+        "summary": "Get an RDI pipeline secret",
+        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
+        "operationId": "getRdiV2PipelineSecret",
+        "x-speakeasy-group": "rdi",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
         "tags": [
           "RDI Core"
         ],
+        "x-api-lifecycle": "preview"
+      },
+      "put": {
+        "summary": "Replace an RDI pipeline secret",
+        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
+        "operationId": "replaceRdiV2PipelineSecret",
+        "x-speakeasy-group": "rdi",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "RDI Core"
+        ],
+        "x-api-lifecycle": "preview"
+      },
+      "delete": {
+        "summary": "Delete an RDI pipeline secret",
+        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
+        "operationId": "deleteRdiV2PipelineSecret",
+        "x-speakeasy-group": "rdi",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "RDI Core"
+        ],
+        "x-api-lifecycle": "preview"
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/source-schemas/{source_name}": {
+      "parameters": [
+        {
+          "name": "subscriptionId",
+          "in": "path",
+          "description": "Subscription ID.",
+          "required": true,
+          "schema": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        {
+          "name": "name",
+          "in": "path",
+          "description": "RDI pipeline name.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "source_name",
+          "in": "path",
+          "description": "Source name.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
         "summary": "Get RDI pipeline source schema",
         "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
         "operationId": "getRdiV2SourceSchema",
+        "x-speakeasy-group": "rdi",
         "parameters": [
           {
             "name": "schemas",
@@ -1011,74 +1287,13 @@
             }
           }
         },
-        "x-speakeasy-group": "rdi",
-        "x-api-lifecycle": "preview"
-      },
-      "parameters": [
-        {
-          "name": "subscriptionId",
-          "in": "path",
-          "description": "Subscription ID.",
-          "required": true,
-          "schema": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        {
-          "name": "name",
-          "in": "path",
-          "description": "RDI pipeline name.",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        },
-        {
-          "name": "source_name",
-          "in": "path",
-          "description": "Source name.",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        }
-      ]
-    },
-    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/flush-target/{target_name}": {
-      "post": {
         "tags": [
           "RDI Core"
         ],
-        "summary": "Flush an RDI pipeline target",
-        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
-        "operationId": "flushRdiV2Target",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": true
-                }
-              }
-            }
-          }
-        },
-        "x-speakeasy-group": "rdi",
         "x-api-lifecycle": "preview"
-      },
+      }
+    },
+    "/v1/subscriptions/{subscriptionId}/data-integration-workspace/rdi/api/v2/pipelines/{name}/flush-target/{target_name}": {
       "parameters": [
         {
           "name": "subscriptionId",
@@ -1108,13 +1323,45 @@
             "type": "string"
           }
         }
-      ]
+      ],
+      "post": {
+        "summary": "Flush an RDI pipeline target",
+        "description": "Forwards the request to the RDI API v2 deployment owned by the specified subscription.",
+        "operationId": "flushRdiV2Target",
+        "x-speakeasy-group": "rdi",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "RDI Core"
+        ],
+        "x-api-lifecycle": "preview"
+      }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/tasks": {
       "get": {
-        "tags": [
-          "Tasks"
-        ],
+        "summary": "List workspace tasks",
+        "description": "Lists asynchronous workspace tasks for the specified data integration workspace.",
         "operationId": "listTasks",
         "parameters": [
           {
@@ -1129,25 +1376,87 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Workspace tasks returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkspaceTasksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "tasks",
+        "tags": [
+          "Tasks"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/tasks/{taskId}": {
       "get": {
-        "tags": [
-          "Tasks"
-        ],
+        "summary": "Get a workspace task",
+        "description": "Returns one asynchronous workspace task by task ID.",
         "operationId": "getTask",
         "parameters": [
           {
@@ -1170,25 +1479,87 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Workspace task returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkspaceTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "tasks",
+        "tags": [
+          "Tasks"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/network/private-link": {
       "get": {
-        "tags": [
-          "PrivateLink"
-        ],
+        "summary": "List PrivateLink endpoints",
+        "description": "Lists PrivateLink endpoints for the data integration workspace in the specified subscription.",
         "operationId": "listEndpoints",
         "parameters": [
           {
@@ -1203,23 +1574,85 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "PrivateLink endpoints returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PrivateLinkEndpointListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "privatelink",
-        "x-api-lifecycle": "preview"
-      },
-      "post": {
         "tags": [
           "PrivateLink"
         ],
+        "x-api-lifecycle": "preview"
+      },
+      "post": {
+        "summary": "Create a PrivateLink endpoint",
+        "description": "Starts creating a PrivateLink endpoint for the data integration workspace and returns an asynchronous task.",
         "operationId": "createEndpoint",
         "parameters": [
           {
@@ -1243,12 +1676,72 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "OK",
+          "202": {
+            "description": "PrivateLink endpoint creation accepted",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkspaceTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
@@ -1256,14 +1749,16 @@
         },
         "x-speakeasy-group": "privatelink",
         "x-speakeasy-name-override": "create-endpoint",
+        "tags": [
+          "PrivateLink"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/network/private-link/{endpointId}": {
       "get": {
-        "tags": [
-          "PrivateLink"
-        ],
+        "summary": "Get a PrivateLink endpoint",
+        "description": "Returns one PrivateLink endpoint by endpoint ID.",
         "operationId": "getEndpoint",
         "parameters": [
           {
@@ -1286,23 +1781,85 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "PrivateLink endpoint returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PrivateLinkEndpointResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "privatelink",
-        "x-api-lifecycle": "preview"
-      },
-      "delete": {
         "tags": [
           "PrivateLink"
         ],
+        "x-api-lifecycle": "preview"
+      },
+      "delete": {
+        "summary": "Delete a PrivateLink endpoint",
+        "description": "Starts deleting a PrivateLink endpoint from the data integration workspace and returns an asynchronous task.",
         "operationId": "deleteEndpoint",
         "parameters": [
           {
@@ -1324,26 +1881,88 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
+          "202": {
+            "description": "PrivateLink endpoint deletion accepted",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WorkspaceTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "privatelink",
+        "tags": [
+          "PrivateLink"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/network/private-link/{endpointId}/validate": {
       "post": {
-        "tags": [
-          "PrivateLink"
-        ],
+        "summary": "Validate a PrivateLink endpoint",
+        "description": "Validates reachability for an existing PrivateLink endpoint attached to the data integration workspace.",
         "operationId": "validateEndpoint",
         "parameters": [
           {
@@ -1366,25 +1985,87 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "PrivateLink endpoint validation completed",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PrivateLinkValidationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "privatelink",
+        "tags": [
+          "PrivateLink"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/network/private-link/validate": {
       "post": {
-        "tags": [
-          "PrivateLink"
-        ],
+        "summary": "Validate a PrivateLink service",
+        "description": "Validates an AWS PrivateLink endpoint service name before creating a workspace PrivateLink endpoint.",
         "operationId": "validatePrivateLink",
         "parameters": [
           {
@@ -1409,25 +2090,87 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "PrivateLink service validation completed",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PrivateLinkValidationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "privatelink",
+        "tags": [
+          "PrivateLink"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/network/suggested-cidrs": {
       "get": {
-        "tags": [
-          "Workspace"
-        ],
+        "summary": "Get suggested workspace CIDRs",
+        "description": "Returns used CIDRs, the default CIDR, and the next free CIDR for data integration workspace provisioning.",
         "operationId": "getSuggestedCidrs",
         "parameters": [
           {
@@ -1452,25 +2195,87 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Suggested CIDRs returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CidrsInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "workspaces",
+        "tags": [
+          "Workspace"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/compose": {
       "get": {
-        "tags": [
-          "Compose"
-        ],
+        "summary": "List compose drafts",
+        "description": "Lists compose drafts for the specified data integration workspace.",
         "operationId": "listDrafts",
         "parameters": [
           {
@@ -1485,23 +2290,85 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Compose drafts returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ComposeDraftListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "compose",
-        "x-api-lifecycle": "preview"
-      },
-      "post": {
         "tags": [
           "Compose"
         ],
+        "x-api-lifecycle": "preview"
+      },
+      "post": {
+        "summary": "Create a compose draft",
+        "description": "Creates a compose draft for building or editing a data integration pipeline configuration.",
         "operationId": "createDraft",
         "parameters": [
           {
@@ -1524,26 +2391,88 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "OK",
+          "201": {
+            "description": "Compose draft created",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ComposeDraftCreatedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "compose",
+        "tags": [
+          "Compose"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/compose/mount-secrets": {
       "post": {
-        "tags": [
-          "Compose"
-        ],
+        "summary": "Mount compose payload secrets",
+        "description": "Mounts secret providers from an ad-hoc compose payload into the data integration workspace.",
         "operationId": "mountSecretsFromPayload",
         "parameters": [
           {
@@ -1568,18 +2497,80 @@
         },
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Compose secrets mounted"
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
           }
         },
         "x-speakeasy-group": "compose",
+        "tags": [
+          "Compose"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/compose/translate": {
       "post": {
-        "tags": [
-          "Compose"
-        ],
+        "summary": "Translate a compose configuration",
+        "description": "Translates between cloud compose configuration and the RDI-native pipeline configuration format.",
         "operationId": "translate",
         "parameters": [
           {
@@ -1604,25 +2595,87 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Compose configuration translated",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ComposeTranslateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "compose",
+        "tags": [
+          "Compose"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/compose/{draftId}": {
       "get": {
-        "tags": [
-          "Compose"
-        ],
+        "summary": "Get a compose draft",
+        "description": "Returns one compose draft by draft ID.",
         "operationId": "getDraft",
         "parameters": [
           {
@@ -1645,23 +2698,85 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Compose draft returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ComposeDraftResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "compose",
-        "x-api-lifecycle": "preview"
-      },
-      "put": {
         "tags": [
           "Compose"
         ],
+        "x-api-lifecycle": "preview"
+      },
+      "put": {
+        "summary": "Update a compose draft",
+        "description": "Replaces the body of an existing compose draft.",
         "operationId": "updateDraft",
         "parameters": [
           {
@@ -1694,23 +2809,85 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Compose draft updated",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ComposeDraftResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "compose",
-        "x-api-lifecycle": "preview"
-      },
-      "delete": {
         "tags": [
           "Compose"
         ],
+        "x-api-lifecycle": "preview"
+      },
+      "delete": {
+        "summary": "Delete a compose draft",
+        "description": "Deletes a compose draft from the data integration workspace.",
         "operationId": "deleteDraft",
         "parameters": [
           {
@@ -1732,19 +2909,81 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "Compose draft deleted"
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
           }
         },
         "x-speakeasy-group": "compose",
+        "tags": [
+          "Compose"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/compose/{draftId}/composed": {
       "get": {
-        "tags": [
-          "Compose"
-        ],
+        "summary": "Get composed RDI configuration",
+        "description": "Renders a compose draft as the RDI-native pipeline configuration payload.",
         "operationId": "getComposed",
         "parameters": [
           {
@@ -1767,25 +3006,87 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "RDI configuration returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RdiPatchRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "compose",
+        "tags": [
+          "Compose"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/compose/{draftId}/validate": {
       "post": {
-        "tags": [
-          "Compose"
-        ],
+        "summary": "Validate a compose draft",
+        "description": "Dry-run validates a compose draft against the RDI API without deploying the pipeline.",
         "operationId": "validateDraft",
         "parameters": [
           {
@@ -1808,25 +3109,87 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Compose draft validated",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RdiPipelineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "compose",
+        "tags": [
+          "Compose"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/compose/{draftId}/mount-secrets": {
       "post": {
-        "tags": [
-          "Compose"
-        ],
+        "summary": "Mount compose draft secrets",
+        "description": "Mounts secret providers from a saved compose draft into the data integration workspace.",
         "operationId": "mountSecrets",
         "parameters": [
           {
@@ -1849,18 +3212,80 @@
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Compose draft secrets mounted"
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
           }
         },
         "x-speakeasy-group": "compose",
+        "tags": [
+          "Compose"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/secrets/validate": {
       "post": {
-        "tags": [
-          "Secrets"
-        ],
+        "summary": "Validate workspace secrets",
+        "description": "Validates AWS Secrets Manager ARNs for source credentials and optional TLS materials used by a data integration workspace.",
         "operationId": "validateSecret",
         "parameters": [
           {
@@ -1885,11 +3310,71 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Secret validation completed",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SecretValidationResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
@@ -1897,14 +3382,16 @@
         },
         "x-speakeasy-group": "secrets",
         "x-speakeasy-name-override": "validate",
+        "tags": [
+          "Secrets"
+        ],
         "x-api-lifecycle": "preview"
       }
     },
     "/v1/subscriptions/{subscriptionId}/data-integration-workspace/secrets/validate-single": {
       "post": {
-        "tags": [
-          "Secrets"
-        ],
+        "summary": "Validate one workspace secret",
+        "description": "Validates one AWS Secrets Manager ARN against a specific data integration secret purpose.",
         "operationId": "validateSingleSecret",
         "parameters": [
           {
@@ -1929,17 +3416,80 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Single secret validation completed",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SingleSecretValidationResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request: request or business validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Resource conflict or invalid state transition",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebError"
                 }
               }
             }
           }
         },
         "x-speakeasy-group": "secrets",
+        "tags": [
+          "Secrets"
+        ],
         "x-api-lifecycle": "preview"
       }
     }
@@ -2091,9 +3641,7 @@
           },
           "rdiJob": {
             "type": "object",
-            "additionalProperties": {
-              "type": "object"
-            }
+            "additionalProperties": true
           }
         }
       },
@@ -2334,6 +3882,23 @@
       "Properties": {
         "type": "object"
       },
+      "RdiPipelineError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object"
+            }
+          }
+        }
+      },
       "Schema": {
         "required": [
           "name"
@@ -2501,6 +4066,12 @@
           },
           "params": {
             "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RdiPipelineError"
+            }
           }
         }
       },
@@ -2850,6 +4421,15 @@
           },
           "clientKeyPassphraseSecretArn": {
             "type": "string"
+          },
+          "snowflakeCredentialsSecretArn": {
+            "type": "string"
+          },
+          "snowflakePrivateKeySecretArn": {
+            "type": "string"
+          },
+          "snowflakePrivateKeyPassphraseSecretArn": {
+            "type": "string"
           }
         }
       },
@@ -2895,7 +4475,10 @@
               "source-tls-ca",
               "source-mtls-client-cert",
               "source-mtls-client-key",
-              "source-mtls-key-password"
+              "source-mtls-key-password",
+              "source-snowflake-credentials",
+              "source-snowflake-private-key",
+              "source-snowflake-key-password"
             ]
           }
         }
@@ -3001,23 +4584,6 @@
             "type": "array",
             "items": {
               "type": "string"
-            }
-          }
-        }
-      },
-      "RdiPipelineError": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "details": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "object"
             }
           }
         }
@@ -3246,6 +4812,9 @@
           },
           "readyForPipeline": {
             "type": "boolean"
+          },
+          "createPrivateLink": {
+            "type": "boolean"
           }
         }
       },
@@ -3330,11 +4899,17 @@
       "MetricsUrls": {
         "type": "object",
         "properties": {
+          "rdiOperatorUrl": {
+            "type": "string"
+          },
           "rdiProcessorUrl": {
             "type": "string"
           },
-          "collectorSourceUrl": {
-            "type": "string"
+          "collectorSourceUrls": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
           }
         }
       },
@@ -3367,6 +4942,10 @@
         "type": "object",
         "properties": {
           "subscriptionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "bdbId": {
             "type": "integer",
             "format": "int64"
           },
@@ -3883,6 +5462,12 @@
         "type": "object",
         "properties": {
           "pipelineIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "workspaceIds": {
             "type": "array",
             "items": {
               "type": "string"
