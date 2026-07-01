@@ -27,23 +27,23 @@ whether to commit the change.
 
 | Capability | Confidence | Real encounters | Last verified | Evidence |
 |---|---|---|---|---|
-| Branch/PR identification + arg handling | 🟢 corroborated | 4 | 2026-06-23 | #3415, #3507, #3374, #3536 |
-| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 5 | 2026-06-23 | #3415, #3507, #3510, #3374, #3536 |
-| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 3 | 2026-06-23 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open) |
-| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 4 | 2026-06-23 | #3415, #3507, #3374, #3536 |
-| Open/resolved split | 🟢 corroborated | 3 | 2026-06-23 | #3510, #3374, #3536 (0 resolved / 2 open) |
-| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 2 | 2026-06-23 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed) |
+| Branch/PR identification + arg handling | 🟢 corroborated | 5 | 2026-07-01 | #3415, #3507, #3374, #3536, #3542 |
+| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 6 | 2026-07-01 | #3415, #3507, #3510, #3374, #3536, #3542 (inline + top-level + 5 reviews) |
+| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 4 | 2026-07-01 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3542 (3 resolved / 1 open) |
+| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 5 | 2026-07-01 | #3415, #3507, #3374, #3536, #3542 (bugbot/human/ci/security/summary all present) |
+| Open/resolved split | 🟢 corroborated | 4 | 2026-07-01 | #3510, #3374, #3536 (0 resolved / 2 open), #3542 (3 resolved / 1 open) |
+| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 3 | 2026-07-01 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #3542 (xargs+guard, narrowed exclude, SHA pin all landed) |
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
 | "Resolved ≠ fixed" flag — **still-broken** variant | ❓ untested | 0 | — | never confirmed a resolved thread that was actually still broken |
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
 | **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
-| **Ping-pong loop** detection | ❓ untested | 0 | 2026-06-23 | still no real loop across 4 bugbot rounds on #3536. Rounds 2 & 4 each raised new post-fix findings but none was a reopened concern or A↔B cycle — correctly judged NOT a loop both times. Round 4 instead revealed *subsystem churn* (next row) |
-| **Subsystem churn** detection (repeated findings on one patched area) | 🟡 seen (1 PR, 3 instances) | 3 | 2026-06-23 | #3536 — (a) 429/862/874 on `$ARGUMENTS` filter + review handling; (b) r5 442/449 on the *churn feature*; (c) r6 3461052859 on the *cap ↔ report contract* — i.e. (b)'s consolidation was too narrow. Pattern is robust on this PR; needs a 2nd PR for 🟢. Worked examples below |
-| Approval-over-open-finding cross-check | 🟢 corroborated | 3 | 2026-06-23 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence — tested — over 2 open Mediums: benign variant) |
+| **Ping-pong loop** detection | ❓ untested | 0 | 2026-07-01 | still no real loop. #3536 (4 rounds) + #3542 (round-2 "empty-scope" was a new adjacent finding, not a reopened concern or A↔B cycle) — all correctly judged NOT a loop. #3542 was churn, not a loop |
+| **Subsystem churn** detection (repeated findings on one patched area) | 🟢 corroborated | 5 | 2026-07-01 | 2 distinct PRs. #3536 — 3 instances on review-handling / churn-feature / cap↔report contract. #3542 — 2 instances on the extraction *fail-loud-on-empty* contract: r1 High #3467309496 (ARG_MAX silent-green) fixed with xargs+zero-URL guard, r2 Medium #3498159511 exposed the sibling zero-files `exit 0` path the guard didn't cover. Worked examples below |
+| Approval-over-open-finding cross-check | 🟢 corroborated | 4 | 2026-07-01 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence over 2 open Mediums: benign), #3542 (paoloredis "yep go ahead" 7 min after open Medium #3498159511 posted; neither human acknowledged it) |
 | Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
-| Mandatory deep-verify of resolved+not-outdated HIGH | ❓ untested | 0 | — | rule added 2026-06-23; not yet fired on a fresh run |
-| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 2 | 2026-06-23 | #3374 (bugbot signal mostly accepted); #3536 (bugbot 5/5 findings valid across 2 rounds — high trust) |
-| Codex second-opinion availability gate | 🟢 corroborated | 2 | 2026-06-23 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review) |
+| Mandatory deep-verify of resolved+not-outdated HIGH | 🟡 seen once | 1 | 2026-07-01 | #3542 #3467309496 (High "Grep failure skips link check", resolved + isOutdated:false) — deep-verified against current code: xargs+guard genuinely present, so legitimately fixed (not still-broken). First real firing of the rule |
+| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 3 | 2026-07-01 | #3374 (bugbot mostly accepted); #3536 (bugbot 5/5 valid); #3542 (bugbot 3/3 valid — High + 2 Medium, all verified real; 2 fixed, 1 open — high trust) |
+| Codex second-opinion availability gate | 🟢 corroborated | 3 | 2026-07-01 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review), #3542 (CLI on PATH) |
 
 ## Worked examples library
 
@@ -70,9 +70,25 @@ pushed, and bugbot's next re-scan came back **clean — no comments**. A real lo
 would have spawned another round; this settled. So the "not a loop" judgement is
 borne out by what happened next: assess → fix → re-scan reached a fixed point.
 
+**Near-miss (NOT a loop) — #3542, 2026-07-01.** Round-1 bugbot High #3467309496
+(ARG_MAX / `|| true` silent-green) was fixed (commit `21f079e1d`: xargs +
+zero-URL `exit 1` guard). Round-2 re-scan raised Medium #3498159511 ("empty scope
+exits successfully") — the *sibling* zero-files `exit 0` path the new guard didn't
+cover. Superficially loop-shaped (same file, same "silent green" theme), but it's
+a new adjacent gap, not the same concern reopened → correctly judged churn, not
+ping-pong.
+
 ### Resolved-but-still-broken
 *(none confirmed yet — record any thread marked resolved whose bug was still
 present in the code)*
+
+**Deep-verify came back CLEAN — #3542, 2026-07-01.** First real firing of the
+"mandatory deep-verify of resolved+not-outdated High" rule: thread #3467309496 was
+`isResolved:true, isOutdated:false` (a green checkmark on an unchanged-looking
+line). Opened the current file anyway — the xargs fix + `count==0 → exit 1` guard
+are genuinely present (committed `21f079e1d`). So this was resolved-*and*-fixed,
+not the still-broken variant. Recorded here as the negative case that proves the
+rule fires and distinguishes fixed from still-broken.
 
 ### Subsystem churn (not a loop, but the precursor)
 - **#3536 review-handling, 2026-06-23.** Bugbot finding 429 (round 1) flagged the
@@ -102,6 +118,19 @@ present in the code)*
   marking deferred ones unverified. Meta-lesson: when round N+1 finds another gap
   in an area you *just* "consolidated", your consolidation boundary was wrong —
   widen it to the true subsystem, don't re-patch the edge.
+- **#3542 extraction "fail-loud-on-empty" contract, 2026-07-01.** 2nd distinct PR
+  showing the pattern (promotes churn detection to 🟢). Round-1 bugbot High
+  #3467309496 flagged `grep "${files[@]}"` + `|| true` as a silent-green path
+  (extraction failure → empty output → lychee passes checking nothing). Fixed
+  (commit `21f079e1d`) with xargs streaming + a `count==0 → exit 1` guard — but
+  the guard only covered the *zero-URLs-from-found-files* path. Round-2 bugbot
+  Medium #3498159511 then flagged the sibling *zero-files-found* branch, which
+  still does `: > "$OUTPUT_FILE"; exit 0` (silent green on a broken/mis-scoped
+  build). Same under-specified contract ("degenerate extraction must fail loudly"),
+  each patch exposing the adjacent path. Signature identical to #3536. Recommended
+  consolidation: enforce one invariant — any empty `external-urls.txt` in CI fails
+  — in a single place, rather than flipping just the zero-files branch and inviting
+  a round-3 finding on a third degenerate path.
 
 ### Cross-tool agreement
 - **#3374 `num_docs`** — Claude (Critical #2, top-level review) and bugbot
