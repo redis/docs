@@ -94,7 +94,7 @@ The following frameworks and libraries use Redis pub/sub for broadcast messaging
 
 -   **Node.js**: [Socket.IO](https://socket.io/) Redis adapter for cross-node WebSocket fan-out
 -   **Python**: [`redis-py`](https://redis.readthedocs.io/) subscribers with
-    [FastAPI](https://fastapi.tiangolo.com/) or [Django Channels](https://channels.readthedocs.io/)
+    [FastAPI]({{< relref "/integrate/fastapi" >}}) or [Django Channels](https://channels.readthedocs.io/)
     for WebSocket push and event listeners
 -   **Java**: [Spring Data Redis](https://spring.io/projects/spring-data-redis) message listener
     containers for inter-service messaging

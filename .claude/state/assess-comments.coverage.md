@@ -27,23 +27,23 @@ whether to commit the change.
 
 | Capability | Confidence | Real encounters | Last verified | Evidence |
 |---|---|---|---|---|
-| Branch/PR identification + arg handling | 🟢 corroborated | 5 | 2026-07-01 | #3415, #3507, #3374, #3536, #3542 |
-| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 6 | 2026-07-01 | #3415, #3507, #3510, #3374, #3536, #3542 (inline + top-level + 5 reviews) |
-| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 4 | 2026-07-01 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3542 (3 resolved / 1 open) |
-| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 5 | 2026-07-01 | #3415, #3507, #3374, #3536, #3542 (bugbot/human/ci/security/summary all present) |
-| Open/resolved split | 🟢 corroborated | 4 | 2026-07-01 | #3510, #3374, #3536 (0 resolved / 2 open), #3542 (3 resolved / 1 open) |
-| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 3 | 2026-07-01 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #3542 (xargs+guard, narrowed exclude, SHA pin all landed) |
+| Branch/PR identification + arg handling | 🟢 corroborated | 7 | 2026-07-01 | #3415, #3507, #3374, #3536, #3542, #3543, #3573 |
+| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 8 | 2026-07-01 | #3415, #3507, #3510, #3374, #3536, #3542, #3543, #3573 |
+| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 6 | 2026-07-01 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3542 (3 resolved / 1 open), #3543 (1/1 open), #3573 (2/2 open) |
+| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 7 | 2026-07-01 | #3415, #3507, #3374, #3536, #3542, #3543, #3573 (bugbot/human/ci/security/summary all present) |
+| Open/resolved split | 🟢 corroborated | 6 | 2026-07-01 | #3510, #3374, #3536 (0 resolved / 2 open), #3542 (3 resolved / 1 open), #3543, #3573 (r1: 2 open/0 resolved; r2: 2 resolved/2 open — mixed-state) |
+| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 4 | 2026-07-01 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #3542 (xargs+guard, narrowed exclude, SHA pin all landed), #3573 (relpath + --add dedup landed) |
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
 | "Resolved ≠ fixed" flag — **still-broken** variant | ❓ untested | 0 | — | never confirmed a resolved thread that was actually still broken |
 | Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
 | **Contradiction** detection | 🟡 seen once | 1 | 2026-06-23 | #3415 (approval vs open bugbot finding). *(#3507 bugbot-vs-author was an off-branch manual demo — illustrative, not counted toward encounters.)* |
-| **Ping-pong loop** detection | ❓ untested | 0 | 2026-07-01 | still no real loop. #3536 (4 rounds) + #3542 (round-2 "empty-scope" was a new adjacent finding, not a reopened concern or A↔B cycle) — all correctly judged NOT a loop. #3542 was churn, not a loop |
-| **Subsystem churn** detection (repeated findings on one patched area) | 🟢 corroborated | 5 | 2026-07-01 | 2 distinct PRs. #3536 — 3 instances on review-handling / churn-feature / cap↔report contract. #3542 — 2 instances on the extraction *fail-loud-on-empty* contract: r1 High #3467309496 (ARG_MAX silent-green) fixed with xargs+zero-URL guard, r2 Medium #3498159511 exposed the sibling zero-files `exit 0` path the guard didn't cover. Worked examples below |
-| Approval-over-open-finding cross-check | 🟢 corroborated | 4 | 2026-07-01 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence over 2 open Mediums: benign), #3542 (paoloredis "yep go ahead" 7 min after open Medium #3498159511 posted; neither human acknowledged it) |
-| Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified) |
+| **Ping-pong loop** detection | ❓ untested | 0 | 2026-07-01 | still no real loop across #3536 (4 rounds), #3542 (r2 "empty-scope"), and #3573 (r2): each post-fix re-scan either reached a fixed point or raised new *independent* findings, never a reopened concern or A↔B cycle — all correctly judged NOT a loop. #3542 and #3573 were churn, not loops |
+| **Subsystem churn** detection (repeated findings on one patched area) | 🟢 corroborated | 3 PRs | 2026-07-01 | 3 distinct PRs. #3536 — 3 instances (review-handling / churn-feature / cap↔report contract). #3542 — 2 instances on the extraction *fail-loud-on-empty* contract (r1 ARG_MAX silent-green → r2 sibling zero-files `exit 0`). #3573 — 2 instances on the `--add` virtual-merge mechanism (r1 dup-vs-disk → r2 dropped-under-collapse). Worked examples below |
+| Approval-over-open-finding cross-check | 🟢 corroborated | 5 | 2026-07-01 | #3415 (dwdougherty), #3374 (dwdougherty low-confidence over open HIGH), #3536 (dwdougherty high-confidence over 2 open Mediums: benign), #3542 (paoloredis "yep go ahead" 7 min after open Medium #3498159511; unacknowledged), #3573 (dwdougherty "Sure, why not?" APPROVED 13:41 over open findings; 2 more bot findings landed 13:49 after) |
+| Depth cap / prioritisation under load | 🟡 seen once | 1 | 2026-06-23 | #3374 (19 candidate findings → 4 deep-verified). *(#3573 had only 2 findings — under cap, not a load test)* |
 | Mandatory deep-verify of resolved+not-outdated HIGH | 🟡 seen once | 1 | 2026-07-01 | #3542 #3467309496 (High "Grep failure skips link check", resolved + isOutdated:false) — deep-verified against current code: xargs+guard genuinely present, so legitimately fixed (not still-broken). First real firing of the rule |
-| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 3 | 2026-07-01 | #3374 (bugbot mostly accepted); #3536 (bugbot 5/5 valid); #3542 (bugbot 3/3 valid — High + 2 Medium, all verified real; 2 fixed, 1 open — high trust) |
-| Codex second-opinion availability gate | 🟢 corroborated | 3 | 2026-07-01 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review), #3542 (CLI on PATH) |
+| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 5 | 2026-07-01 | #3374 (bugbot mostly accepted); #3536 (bugbot 5/5 valid); #3542 (bugbot 3/3 valid — 2 fixed, 1 open); #3543 (bugbot 1/1 valid; Jit 0 findings); #3573 (bugbot 4/4 valid; Jit 0 findings — high trust) |
+| Codex second-opinion availability gate | 🟢 corroborated | 5 | 2026-07-01 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review), #3542 (CLI on PATH), #3543 (codex on PATH), #3573 (codex on PATH) |
 
 ## Worked examples library
 
@@ -131,6 +131,21 @@ rule fires and distinguishes fixed from still-broken.
   consolidation: enforce one invariant — any empty `external-urls.txt` in CI fails
   — in a single place, rather than flipping just the zero-files branch and inviting
   a round-3 finding on a third degenerate path.
+
+- **#3573 `--add` virtual-merge, 2026-06-30 (2nd PR → corroborates the pattern).**
+  Round 1 bugbot #3499137529 flagged `--add` duplicating a page that's also on
+  disk; fixed by an existence-check in `build_rows`. Round-2 re-scan then raised
+  #3499226329: `--add` into a `--collapse`d folder is silently dropped (virtual
+  entries merge only when `walk` recurses, which collapsed folders skip). *New,
+  independent finding* (not ping-pong) but the **same under-specified subsystem**
+  — how `--add` virtual entries reconcile with the on-disk walk and collapse
+  state. Signature again: each point-patch exposed the next adjacent gap.
+  Consolidation that would end it: resolve all `--add` entries against the final
+  tree in one place — validate the parent is a real, non-collapsed, walked dir
+  and **warn instead of silently dropping**, and dedupe vs disk there too —
+  rather than threading a `virtual` dict through the recursion. Borderline
+  (only 2 instances, niche feature), but the cross-round, same-mechanism shape
+  is the early churn signal.
 
 ### Cross-tool agreement
 - **#3374 `num_docs`** — Claude (Critical #2, top-level review) and bugbot

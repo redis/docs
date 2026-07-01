@@ -80,17 +80,31 @@ Before you can connect to a database using certificate-based authentication, you
 
 ### Create certificate auth_method users {#create-cert-users}
 
-When you [create new users]({{<relref "/operate/rs/7.8/references/rest-api/requests/users#post-user">}}), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body :
+When you [create new users]({{<relref "/operate/rs/7.8/references/rest-api/requests/users#post-user">}}), include `"auth_method": "certificate"` and `certificate_subject_line` in the request body:
 
 ```sh
 POST /v1/users
 {
   "auth_method": "certificate",
-  "certificate_subject_line": "CN=<Common Name>, OU=<Organization Unit>, O=<Organization>, L=<Locality>, ST=<State/Province>, C=<Country>"
+  "certificate_subject_line": "CN=<Common Name>,OU=<Organizational Unit>,O=<Organization>,L=<Locality>,ST=<State/Province>,C=<Country>"
 }
 ```
 
 Replace the placeholder values `<>` with your client certificate's subject values.
+
+{{<note>}}
+The `certificate_subject_line` must:
+
+- Follow [RFC 2253](https://www.rfc-editor.org/rfc/rfc2253) format.
+
+- List the attributes in reverse order, starting with the Common Name (`CN`).
+
+- Not contain spaces after the commas that separate attributes.
+
+- Exactly match the certificate's RFC 2253 subject.
+
+- Contain only one Organizational Unit (`OU`) value.
+{{</note>}}
 
 ## Authenticate REST API requests
 
