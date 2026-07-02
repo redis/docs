@@ -46,7 +46,7 @@ For database versions earlier than Redis 8.2, module commands have several ACL l
 
 - You have to include individual module commands in a Redis ACL rule to allow them.
 
-    For example, the following Redis ACL rule allows read-only commands and the RediSearch commands `FT.INFO` and `FT.SEARCH`:
+    For example, the following Redis ACL rule allows read-only commands and the Redis Search commands `FT.INFO` and `FT.SEARCH`:
 
     ```sh
     +@read +FT.INFO +FT.SEARCH

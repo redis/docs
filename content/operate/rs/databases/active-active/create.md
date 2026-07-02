@@ -136,7 +136,7 @@ for this database. Minimum RAM is 10%. Maximum RAM is 50%.
 
 - [**Capabilities**]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}}) (previously **Modules**) - When you create a new in-memory database, you can enable additional capabilities in the database. You cannot enable them after database creation.
 
-    Active-Active databases created with or upgraded to Redis version 8 or later automatically enable [search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}}) and [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), which allows you to index, query, and perform full-text searches of nested JSON documents.
+    Active-Active databases created with or upgraded to Redis version 8 or later automatically enable [Redis Search]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}}) and [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), which allows you to index, query, and perform full-text searches of nested JSON documents.
 
     For Auto Tiering databases, you can enable capabilities that support Auto Tiering. See [Redis Software and Redis Stack feature compatibility 
 ]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}) for compatibility details.

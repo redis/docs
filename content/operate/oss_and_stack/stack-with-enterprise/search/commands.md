@@ -1,18 +1,18 @@
 ---
-Title: Search and query commands
+Title: Redis Search commands
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Lists search and query commands and provides links to the command reference
+description: Lists Redis Search commands and provides links to the command reference
   pages.
 linkTitle: Commands
 toc: 'false'
 weight: 10
 ---
 
-The following table lists search and query commands. See the command links for more information about each command's syntax, arguments, and examples.
+The following table lists Redis Search commands. See the command links for more information about each command's syntax, arguments, and examples.
 
 | Command | Redis Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | Description |
 |:--------|:----------------------|:-----------------|:-----------------|:------|
@@ -43,6 +43,6 @@ The following table lists search and query commands. See the command links for m
 | [FT.SYNUPDATE]({{< relref "commands/ft.synupdate" >}}) | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> | Creates or updates a synonym group with additional terms. |
 | [FT.TAGVALS]({{< relref "commands/ft.tagvals" >}}) | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</span> | <span title="Supported">&#x2705; Supported</nobr></span> | Returns all distinct values indexed in a tag field. |
 
-1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a>Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to change search and query configuration for Redis Software. See [search and query configuration compatibility with Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}}) for more information and examples.
+1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a>Use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to change Redis Search configuration for Redis Software. See [Redis Search configuration compatibility with Redis Software]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}}) for more information and examples.
 
 2. <a name="table-note-2" style="display: block; height: 80px; margin-top: -80px;"></a>[Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.
