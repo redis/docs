@@ -21,6 +21,21 @@ function copyCodeToClipboardForCodetabs(button) {
   const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
   if (!visiblePanel) return;
 
+  // The redis-cli panel is an interactive terminal (form.redis-cli) with no
+  // <code> element, so copy the registered commands instead of reading the DOM.
+  const cliForm = visiblePanel.querySelector('form.redis-cli');
+  if (cliForm) {
+    const cliCode = cliForm.getAttribute('data-cli-source') || cliForm.textContent;
+    navigator.clipboard.writeText(cliCode.trim());
+
+    const cliTooltip = button.querySelector('.tooltiptext');
+    if (cliTooltip) {
+      cliTooltip.style.display = 'block';
+      setTimeout(() => cliTooltip.style.display = 'none', 1000);
+    }
+    return;
+  }
+
   let code;
   const isCliTrimmed = visiblePanel.getAttribute('data-cli-trimmable') === 'true';
   const cliPreviewLines = parseInt(visiblePanel.getAttribute('data-cli-preview-lines') || '0', 10);

@@ -71,14 +71,6 @@ redis> SMEMBERS myset
 2) "World"
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SADD myset "Hello"
-SADD myset "World"
-SMEMBERS myset
-{{% /redis-cli %}}
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

@@ -103,14 +103,6 @@ To use pattern with a hash tag, see [Hash tags]({{< relref "operate/oss_and_stac
 3) "firstname"
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-{{% redis-cli %}}
-MSET firstname Jack lastname Stuntman age 35
-KEYS *name*
-KEYS a??
-KEYS *
-{{% /redis-cli %}}
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
