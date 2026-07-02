@@ -15,6 +15,8 @@ weight: 4
 
 To view or manage your data pipeline, select it from your workspace from the **Data Integration** page or from the **Data Integration** tab in your subscription or database.
 
+To manage Data Integration pipelines programmatically, see the [Redis Cloud Data Integration API reference]({{< relref "/operate/rc/api/api-reference" >}}#tag/Subscriptions-Pro-Data-Integration).
+
 The pipeline page has the following tabs:
 
 - [Dashboard](#dashboard)
