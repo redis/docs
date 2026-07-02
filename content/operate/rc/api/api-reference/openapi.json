@@ -11390,6 +11390,12 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": true
+              },
+              "example": {
+                "targetDataType": "hash",
+                "definitionType": "predefined",
+                "schemas": [],
+                "jobs": []
               }
             }
           }
