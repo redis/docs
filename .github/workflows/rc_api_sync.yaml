@@ -40,18 +40,54 @@ jobs:
           fi
 
           curl -Ls https://api.redislabs.com/v1/cloud-api-docs/capi \
-            | jq '(.. | .example? | try select(test("^{"))) |= fromjson' > content/operate/rc/api/api-reference/openapi.json
+            | jq '(.. | .example? | try select(test("^{"))) |= fromjson' > /tmp/rc-capi-openapi.json
 
           curl -Ls https://api.redislabs.com/v1/cloud-api-docs/rdi \
-            | jq '(.. | .example? | try select(test("^{"))) |= fromjson' > content/operate/rc/api/data-integration-api-reference/openapi.json
+            | jq '(.. | .example? | try select(test("^{"))) |= fromjson' > /tmp/rc-rdi-openapi.json
 
-          spec_is_different=$(git diff content/operate/rc/api/api-reference/openapi.json content/operate/rc/api/data-integration-api-reference/openapi.json)
+          jq -n --slurpfile capi /tmp/rc-capi-openapi.json --slurpfile rdi /tmp/rc-rdi-openapi.json '
+            def opkeys: ["get","put","post","delete","patch","options","head","trace"];
+            def retag_rdi_paths:
+              with_entries(
+                .value |= with_entries(
+                  if (.key as $k | opkeys | index($k)) then
+                    .value |= (.tags = ["Subscriptions - Pro - Data Integration"])
+                  else
+                    .
+                  end
+                )
+              );
+            def without_old_rdi_proxy_paths:
+              with_entries(
+                select(.key | test("^/v1/(data-integration-workspaces|subscriptions/\\{subscriptionId\\}/data-integration-workspace)(/\\*\\*)?$") | not)
+              );
+            def insert_rdi_tag($tags):
+              ($tags | map(select(.name != "Data Integration" and .name != "Subscriptions - Pro - Data Integration"))) as $base
+              | ($base | map(.name) | index("Subscriptions - Pro - Connectivity")) as $idx
+              | {
+                  name: "Subscriptions - Pro - Data Integration",
+                  description: "All Pro subscription Data Integration operations.",
+                  "x-order": "12",
+                  "x-api-lifecycle": "preview"
+                } as $tag
+              | if $idx == null then $base + [$tag]
+                else $base[0:($idx + 1)] + [$tag] + $base[($idx + 1):]
+                end;
+            ($capi[0]) as $c
+            | ($rdi[0]) as $r
+            | $c
+            | .tags = insert_rdi_tag($c.tags)
+            | .paths = (($c.paths | without_old_rdi_proxy_paths) + ($r.paths | retag_rdi_paths))
+            | .components.schemas = (($c.components.schemas // {}) + ($r.components.schemas // {}))
+            | .components.securitySchemes = (($c.components.securitySchemes // {}) + ($r.components.securitySchemes // {}))
+          ' > content/operate/rc/api/api-reference/openapi.json
+
+          spec_is_different=$(git diff content/operate/rc/api/api-reference/openapi.json)
 
           if [[ ! -z $spec_is_different ]]; then
             spec_change=true
 
             git add "content/operate/rc/api/api-reference/openapi.json"
-            git add "content/operate/rc/api/data-integration-api-reference/openapi.json"
             git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
             git config user.name "redisdocsapp[bot]"
             git commit -m "Update content/operate/rc/api/api-reference/openapi.json"
