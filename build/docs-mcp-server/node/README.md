@@ -57,10 +57,25 @@ Add to a Claude Code / Cursor MCP config after `npm run build`:
 Typical agent flow: `search_docs` → pick a result → `get_page` with `roles`
 (e.g. `["parameters","returns"]`) to pull just what's needed.
 
-## Measured (real feed, 2,531 pages)
+## Measured (real feed, ~2,530 pages)
 
 - Index build: ~0.3 s. Query latency: ~75–125 ms. This is why v0 needs no
   datastore and why Rust/WASM would be premature (see SPEC §6).
+
+## Retrieval eval
+
+`npm run eval` scores retrieval quality: it runs the questions in
+`test/eval/cases.json` (command-lookup questions phrased *without* the command
+name) through `search_docs` and reports recall@k / MRR, plus a data-integrity
+check that flags any expected url missing from the feed. The feed is read from
+`DOCS_NDJSON` or a local cache at `test/eval/docs.ndjson.gz` (gitignored;
+`curl -o test/eval/docs.ndjson.gz https://redis.io/docs/latest/docs.ndjson.gz`).
+
+**Baseline (lexical v0):** recall@1 32%, @3 45%, @5 59%, @10 73%, MRR 0.42 — i.e.
+lexical retrieval is **not** good enough alone (canonical command pages lose to
+sibling commands, operator, and concept pages; no stemming). This is the
+measured case for the ranking / vector-search work in SPEC §6/§10. Use it to
+compare any ranking change against the baseline rather than tuning blind.
 
 ## Known limitations (v0)
 

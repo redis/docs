@@ -11,7 +11,8 @@
     "build": "tsc",
     "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts",
-    "smoke": "tsx src/smoke.ts"
+    "smoke": "tsx src/smoke.ts",
+    "eval": "npm run build && node test/eval/run.mjs"
   },
   "keywords": [
     "redis",
