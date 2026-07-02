@@ -202,6 +202,15 @@ vector-on-Redis as a later upgrade to the **hosted** endpoint only.
   overviews** that repeat the same terms. Fix needs an analyzer
   (stemming/lemmatization), possibly a page-type/canonical boost, and/or the
   vector-search path. This is the strongest argument for §6's v2 upgrade.
+- **Section-role vocabulary (found via live MCP test):** the roles the spec
+  assumed (`syntax`, `parameters`, `returns`, `example`) do **not** all match
+  the feed. Command pages actually carry `content` / `parameters` / `example`
+  (singular) / `returns` — there is no `syntax` role, and it's `example` not
+  `examples`. So a `roles: ["examples","syntax"]` filter returns **zero
+  sections** against the real feed (verified on EXPIREAT). Before building
+  `get_examples` / `get_command` and documenting `roles`, enumerate the actual
+  role set across the corpus and align tool params/docs to it (and decide
+  whether the server should normalise synonyms like `examples`→`example`).
 - **`get_command` coverage:** command pages *do* carry `parameters`/`returns`/
   `example` roles (confirmed: `get_page('expire')` → roles
   `[content, parameters, example, returns]`). Confirm this holds across all
