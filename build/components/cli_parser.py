@@ -59,6 +59,13 @@ def extract_cli_commands(content):
         if not tokens:
             continue
 
+        # Skip assignment statements, not CLI commands. C# generic type
+        # declarations that span multiple lines leave the closing ">" at the
+        # start of the next line, e.g. "> res30 = db.TS().MRange(", which would
+        # otherwise be misread as a command named "RES30".
+        if len(tokens) >= 2 and tokens[1] == '=':
+            continue
+
         # Extract command name
         command = extract_command_name(tokens)
 
