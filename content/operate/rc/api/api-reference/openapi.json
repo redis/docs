@@ -30132,10 +30132,12 @@
         },
         "properties": {
           "cidr": {
-            "type": "string"
+            "type": "string",
+            "description": "CIDR block for the workspace deployment network."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Request to provision a data integration workspace for a Redis Cloud subscription."
       },
       "TaskLink": {
         "example": {
@@ -30144,13 +30146,16 @@
         },
         "properties": {
           "href": {
-            "type": "string"
+            "type": "string",
+            "description": "Link URL."
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "description": "Linked resource type."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Hypermedia link."
       },
       "TaskLinks": {
         "example": {
@@ -30165,13 +30170,16 @@
         },
         "properties": {
           "task": {
-            "$ref": "#/components/schemas/TaskLink"
+            "$ref": "#/components/schemas/TaskLink",
+            "description": "Link to the workspace task."
           },
           "resource": {
-            "$ref": "#/components/schemas/TaskLink"
+            "$ref": "#/components/schemas/TaskLink",
+            "description": "Link to the affected workspace resource."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Links related to a workspace task."
       },
       "WorkspaceTaskResponse": {
         "example": {
@@ -30194,29 +30202,37 @@
         },
         "properties": {
           "taskId": {
-            "type": "string"
+            "type": "string",
+            "description": "Workspace task ID."
           },
           "commandType": {
-            "type": "string"
+            "type": "string",
+            "description": "Workspace operation that created the task."
           },
           "status": {
-            "type": "string"
+            "type": "string",
+            "description": "Current task status."
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable task status or failure details."
           },
           "timestamp": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "description": "Time when the task status was recorded."
           },
           "response": {
-            "type": "object"
+            "type": "object",
+            "description": "Task result payload. Completed workspace tasks can include the current workspace response."
           },
           "_links": {
-            "$ref": "#/components/schemas/TaskLinks"
+            "$ref": "#/components/schemas/TaskLinks",
+            "description": "Links to the task and affected workspace resource."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Asynchronous task created by a workspace operation."
       },
       "SecretValidationRequestDto": {
         "example": {
@@ -31216,19 +31232,24 @@
         },
         "properties": {
           "validateSecrets": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the workspace can validate secret ARNs."
           },
           "validatePrivateLink": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the workspace can validate PrivateLink endpoint service names."
           },
           "readyForPipeline": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the workspace is ready to create and deploy RDI pipelines."
           },
           "createPrivateLink": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the workspace can create PrivateLink endpoints."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Workspace capabilities available in the current state."
       },
       "InfrastructureError": {
         "example": {
@@ -31241,23 +31262,28 @@
         },
         "properties": {
           "code": {
-            "type": "string"
+            "type": "string",
+            "description": "Machine-readable error code."
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "Human-readable error message."
           },
           "timestamp": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "description": "Time when the error was recorded."
           },
           "details": {
             "additionalProperties": {
               "type": "object"
             },
-            "type": "object"
+            "type": "object",
+            "description": "Additional structured error details."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Infrastructure failure details."
       },
       "InfrastructureIam": {
         "example": {
@@ -31266,13 +31292,16 @@
         },
         "properties": {
           "privateLinkAllowedPrincipal": {
-            "type": "string"
+            "type": "string",
+            "description": "AWS principal allowed to connect to the workspace PrivateLink endpoint service."
           },
           "secretsRoleArn": {
-            "type": "string"
+            "type": "string",
+            "description": "AWS IAM role ARN used to read workspace secrets."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "IAM values produced for workspace integrations."
       },
       "InfrastructureResponse": {
         "example": {
@@ -31323,28 +31352,36 @@
               "Deleting",
               "Failed"
             ],
-            "type": "string"
+            "type": "string",
+            "description": "Workspace infrastructure state."
           },
           "cidr": {
-            "type": "string"
+            "type": "string",
+            "description": "CIDR block assigned to the workspace deployment network."
           },
           "timestamps": {
-            "$ref": "#/components/schemas/InfrastructureTimestamps"
+            "$ref": "#/components/schemas/InfrastructureTimestamps",
+            "description": "Infrastructure lifecycle timestamps."
           },
           "iam": {
-            "$ref": "#/components/schemas/InfrastructureIam"
+            "$ref": "#/components/schemas/InfrastructureIam",
+            "description": "IAM values used by workspace integrations."
           },
           "networking": {
-            "$ref": "#/components/schemas/NetworkingOutput"
+            "$ref": "#/components/schemas/NetworkingOutput",
+            "description": "Workspace networking outputs."
           },
           "monitoring": {
-            "$ref": "#/components/schemas/MonitoringOutput"
+            "$ref": "#/components/schemas/MonitoringOutput",
+            "description": "Workspace monitoring endpoints."
           },
           "error": {
-            "$ref": "#/components/schemas/InfrastructureError"
+            "$ref": "#/components/schemas/InfrastructureError",
+            "description": "Infrastructure error details when the workspace is in a failed state."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Provisioned infrastructure state for a data integration workspace."
       },
       "InfrastructureTimestamps": {
         "example": {
@@ -31354,14 +31391,17 @@
         "properties": {
           "startedAt": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "description": "Time when infrastructure provisioning started."
           },
           "updatedAt": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "description": "Time when infrastructure state was last updated."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Workspace infrastructure lifecycle timestamps."
       },
       "MetricsUrls": {
         "example": {
@@ -31373,19 +31413,23 @@
         },
         "properties": {
           "rdiOperatorUrl": {
-            "type": "string"
+            "type": "string",
+            "description": "Metrics endpoint URL for the RDI operator."
           },
           "rdiProcessorUrl": {
-            "type": "string"
+            "type": "string",
+            "description": "Metrics endpoint URL for the RDI processor."
           },
           "collectorSourceUrls": {
             "additionalProperties": {
               "type": "string"
             },
-            "type": "object"
+            "type": "object",
+            "description": "Metrics endpoint URLs for deployed collector sources, keyed by source name."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Metrics endpoint URLs for RDI workspace components."
       },
       "MonitoringOutput": {
         "example": {
@@ -31399,10 +31443,12 @@
         },
         "properties": {
           "metricsUrls": {
-            "$ref": "#/components/schemas/MetricsUrls"
+            "$ref": "#/components/schemas/MetricsUrls",
+            "description": "Metrics endpoint URLs for workspace components."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Workspace monitoring outputs."
       },
       "NetworkingOutput": {
         "example": {
@@ -31420,16 +31466,19 @@
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "type": "array",
+            "description": "Outbound IP addresses used by workspace components."
           },
           "availabilityZones": {
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "type": "array",
+            "description": "Availability zones used by workspace infrastructure."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Workspace networking outputs."
       },
       "WorkspaceResponse": {
         "example": {
@@ -31488,33 +31537,42 @@
         "properties": {
           "subscriptionId": {
             "format": "int64",
-            "type": "integer"
+            "type": "integer",
+            "description": "Redis Cloud subscription ID."
           },
           "bdbId": {
             "format": "int64",
-            "type": "integer"
+            "type": "integer",
+            "description": "Redis database ID associated with the workspace."
           },
           "rcpClusterId": {
-            "type": "string"
+            "type": "string",
+            "description": "RCP cluster ID that hosts workspace resources."
           },
           "region": {
-            "type": "string"
+            "type": "string",
+            "description": "Cloud provider region where the workspace is deployed."
           },
           "vpcId": {
-            "type": "string"
+            "type": "string",
+            "description": "VPC ID used by the workspace."
           },
           "createdAt": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "description": "Time when the workspace record was created."
           },
           "infrastructure": {
-            "$ref": "#/components/schemas/InfrastructureResponse"
+            "$ref": "#/components/schemas/InfrastructureResponse",
+            "description": "Provisioned infrastructure state and connection details."
           },
           "capabilities": {
-            "$ref": "#/components/schemas/Capabilities"
+            "$ref": "#/components/schemas/Capabilities",
+            "description": "Workspace features available in the current state."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Current data integration workspace state for a subscription."
       },
       "WorkspaceTasksResponse": {
         "example": {
@@ -31562,10 +31620,12 @@
             "items": {
               "$ref": "#/components/schemas/WorkspaceTaskResponse"
             },
-            "type": "array"
+            "type": "array",
+            "description": "Workspace tasks."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Response containing asynchronous workspace tasks."
       },
       "CidrsInfoResponse": {
         "example": {
@@ -32567,10 +32627,12 @@
             "items": {
               "$ref": "#/components/schemas/WorkspaceResponse"
             },
-            "type": "array"
+            "type": "array",
+            "description": "Data integration workspaces."
           }
         },
-        "type": "object"
+        "type": "object",
+        "description": "Response containing data integration workspaces in the Redis Cloud account."
       },
       "BdbPipelinesResponseDto": {
         "example": {

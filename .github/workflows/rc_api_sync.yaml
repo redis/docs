@@ -73,6 +73,69 @@ jobs:
               | if $idx == null then $base + [$tag]
                 else $base[0:($idx + 1)] + [$tag] + $base[($idx + 1):]
                 end;
+            def enrich_rdi_workspace_docs:
+              .components.schemas.WorkspaceCreateRequest.description //= "Request to provision a data integration workspace for a Redis Cloud subscription."
+              | .components.schemas.WorkspaceCreateRequest.properties.cidr.description //= "CIDR block for the workspace deployment network."
+              | .components.schemas.WorkspacesResponse.description //= "Response containing data integration workspaces in the Redis Cloud account."
+              | .components.schemas.WorkspacesResponse.properties.workspaces.description //= "Data integration workspaces."
+              | .components.schemas.WorkspaceTasksResponse.description //= "Response containing asynchronous workspace tasks."
+              | .components.schemas.WorkspaceTasksResponse.properties.tasks.description //= "Workspace tasks."
+              | .components.schemas.WorkspaceTaskResponse.description //= "Asynchronous task created by a workspace operation."
+              | .components.schemas.WorkspaceTaskResponse.properties.taskId.description //= "Workspace task ID."
+              | .components.schemas.WorkspaceTaskResponse.properties.commandType.description //= "Workspace operation that created the task."
+              | .components.schemas.WorkspaceTaskResponse.properties.status.description //= "Current task status."
+              | .components.schemas.WorkspaceTaskResponse.properties.description.description //= "Human-readable task status or failure details."
+              | .components.schemas.WorkspaceTaskResponse.properties.timestamp.description //= "Time when the task status was recorded."
+              | .components.schemas.WorkspaceTaskResponse.properties.response.description //= "Task result payload. Completed workspace tasks can include the current workspace response."
+              | .components.schemas.WorkspaceTaskResponse.properties._links.description //= "Links to the task and affected workspace resource."
+              | .components.schemas.TaskLinks.description //= "Links related to a workspace task."
+              | .components.schemas.TaskLinks.properties.task.description //= "Link to the workspace task."
+              | .components.schemas.TaskLinks.properties.resource.description //= "Link to the affected workspace resource."
+              | .components.schemas.TaskLink.description //= "Hypermedia link."
+              | .components.schemas.TaskLink.properties.href.description //= "Link URL."
+              | .components.schemas.TaskLink.properties.type.description //= "Linked resource type."
+              | .components.schemas.WorkspaceResponse.description //= "Current data integration workspace state for a subscription."
+              | .components.schemas.WorkspaceResponse.properties.subscriptionId.description //= "Redis Cloud subscription ID."
+              | .components.schemas.WorkspaceResponse.properties.bdbId.description //= "Redis database ID associated with the workspace."
+              | .components.schemas.WorkspaceResponse.properties.rcpClusterId.description //= "RCP cluster ID that hosts workspace resources."
+              | .components.schemas.WorkspaceResponse.properties.region.description //= "Cloud provider region where the workspace is deployed."
+              | .components.schemas.WorkspaceResponse.properties.vpcId.description //= "VPC ID used by the workspace."
+              | .components.schemas.WorkspaceResponse.properties.createdAt.description //= "Time when the workspace record was created."
+              | .components.schemas.WorkspaceResponse.properties.infrastructure.description //= "Provisioned infrastructure state and connection details."
+              | .components.schemas.WorkspaceResponse.properties.capabilities.description //= "Workspace features available in the current state."
+              | .components.schemas.InfrastructureResponse.description //= "Provisioned infrastructure state for a data integration workspace."
+              | .components.schemas.InfrastructureResponse.properties.state.description //= "Workspace infrastructure state."
+              | .components.schemas.InfrastructureResponse.properties.cidr.description //= "CIDR block assigned to the workspace deployment network."
+              | .components.schemas.InfrastructureResponse.properties.timestamps.description //= "Infrastructure lifecycle timestamps."
+              | .components.schemas.InfrastructureResponse.properties.iam.description //= "IAM values used by workspace integrations."
+              | .components.schemas.InfrastructureResponse.properties.networking.description //= "Workspace networking outputs."
+              | .components.schemas.InfrastructureResponse.properties.monitoring.description //= "Workspace monitoring endpoints."
+              | .components.schemas.InfrastructureResponse.properties.error.description //= "Infrastructure error details when the workspace is in a failed state."
+              | .components.schemas.InfrastructureTimestamps.description //= "Workspace infrastructure lifecycle timestamps."
+              | .components.schemas.InfrastructureTimestamps.properties.startedAt.description //= "Time when infrastructure provisioning started."
+              | .components.schemas.InfrastructureTimestamps.properties.updatedAt.description //= "Time when infrastructure state was last updated."
+              | .components.schemas.InfrastructureIam.description //= "IAM values produced for workspace integrations."
+              | .components.schemas.InfrastructureIam.properties.privateLinkAllowedPrincipal.description //= "AWS principal allowed to connect to the workspace PrivateLink endpoint service."
+              | .components.schemas.InfrastructureIam.properties.secretsRoleArn.description //= "AWS IAM role ARN used to read workspace secrets."
+              | .components.schemas.NetworkingOutput.description //= "Workspace networking outputs."
+              | .components.schemas.NetworkingOutput.properties.egressIps.description //= "Outbound IP addresses used by workspace components."
+              | .components.schemas.NetworkingOutput.properties.availabilityZones.description //= "Availability zones used by workspace infrastructure."
+              | .components.schemas.MonitoringOutput.description //= "Workspace monitoring outputs."
+              | .components.schemas.MonitoringOutput.properties.metricsUrls.description //= "Metrics endpoint URLs for workspace components."
+              | .components.schemas.MetricsUrls.description //= "Metrics endpoint URLs for RDI workspace components."
+              | .components.schemas.MetricsUrls.properties.rdiOperatorUrl.description //= "Metrics endpoint URL for the RDI operator."
+              | .components.schemas.MetricsUrls.properties.rdiProcessorUrl.description //= "Metrics endpoint URL for the RDI processor."
+              | .components.schemas.MetricsUrls.properties.collectorSourceUrls.description //= "Metrics endpoint URLs for deployed collector sources, keyed by source name."
+              | .components.schemas.InfrastructureError.description //= "Infrastructure failure details."
+              | .components.schemas.InfrastructureError.properties.code.description //= "Machine-readable error code."
+              | .components.schemas.InfrastructureError.properties.message.description //= "Human-readable error message."
+              | .components.schemas.InfrastructureError.properties.timestamp.description //= "Time when the error was recorded."
+              | .components.schemas.InfrastructureError.properties.details.description //= "Additional structured error details."
+              | .components.schemas.Capabilities.description //= "Workspace capabilities available in the current state."
+              | .components.schemas.Capabilities.properties.validateSecrets.description //= "Whether the workspace can validate secret ARNs."
+              | .components.schemas.Capabilities.properties.validatePrivateLink.description //= "Whether the workspace can validate PrivateLink endpoint service names."
+              | .components.schemas.Capabilities.properties.readyForPipeline.description //= "Whether the workspace is ready to create and deploy RDI pipelines."
+              | .components.schemas.Capabilities.properties.createPrivateLink.description //= "Whether the workspace can create PrivateLink endpoints.";
             ($capi[0]) as $c
             | ($rdi[0]) as $r
             | $c
@@ -80,6 +143,7 @@ jobs:
             | .paths = (($c.paths | without_old_rdi_proxy_paths) + ($r.paths | retag_rdi_paths))
             | .components.schemas = (($c.components.schemas // {}) + ($r.components.schemas // {}))
             | .components.securitySchemes = (($c.components.securitySchemes // {}) + ($r.components.securitySchemes // {}))
+            | enrich_rdi_workspace_docs
           ' > content/operate/rc/api/api-reference/openapi.json
 
           spec_is_different=$(git diff content/operate/rc/api/api-reference/openapi.json)
