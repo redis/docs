@@ -57,21 +57,9 @@ function matchingSections(p: Page, qterms: Set<string>): string[] {
   return out;
 }
 
-/**
- * Heuristic version filter. Redis docs carry the version in the URL path
- * (e.g. /docs/latest/... or /docs/7.4/...). "latest"/unset does not filter.
- * NOTE: approximate pending confirmation of how versions appear in the feed
- * (SPEC.md §7 / open question).
- */
-function matchesVersion(page: Page, version: string): boolean {
-  if (!version || version.toLowerCase() === "latest") return true;
-  return page.url.includes(`/${version}/`);
-}
-
 export interface SearchOptions {
   limit?: number;
   pageType?: string;
-  version?: string;
 }
 
 export interface SearchHit {
@@ -146,14 +134,19 @@ export class DocsIndex {
 
   /**
    * Fallback lookup when a caller passes a path or partial URL. Returns EVERY
-   * page whose url ends with the given suffix — a suffix can match several
-   * pages (e.g. "/install/"), so the caller must disambiguate rather than
-   * silently taking the first.
+   * page whose url ends with the given suffix **at a path-segment boundary**,
+   * so "get" matches ".../commands/get" but NOT ".../config-get" or
+   * ".../arget". A suffix can still match several pages (e.g. "/install/" or a
+   * bare last segment shared by many pages), so the caller must disambiguate.
    */
   matchByUrlSuffix(url: string): Page[] {
     const target = normalizeUrl(url).replace(/^https?:\/\/[^/]+/, "");
     if (!target) return [];
-    return this.pages.filter((p) => normalizeUrl(p.url).endsWith(target));
+    // Anchor the leading edge to a "/" so we match whole path segments. The
+    // trailing edge is already anchored: normalizeUrl strips the trailing slash
+    // and we compare against the end of the string.
+    const anchored = target.startsWith("/") ? target : `/${target}`;
+    return this.pages.filter((p) => normalizeUrl(p.url).endsWith(anchored));
   }
 
   search(query: string, opts: SearchOptions = {}): SearchHit[] {
@@ -173,7 +166,6 @@ export class DocsIndex {
     const hits: SearchHit[] = [];
     for (const d of this.docs) {
       if (opts.pageType && (d.page.page_type ?? "content") !== opts.pageType) continue;
-      if (opts.version && !matchesVersion(d.page, opts.version)) continue;
 
       let score = 0;
       for (const t of qterms) {

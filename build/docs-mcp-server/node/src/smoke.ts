@@ -50,6 +50,18 @@ const ambUrl = getPage(index, { url: "/install/" }) as any;
 check("ambiguous partial url returns error (not silent first match)", typeof ambUrl.error === "string");
 check("ambiguous partial url lists candidates", (ambUrl.candidates ?? []).length === 2);
 
+// --- boundary-anchored suffix (Bugbot round-2 High): "add" must NOT match "xadd" ---
+const boundary = getPage(index, { url: "add" }) as any;
+check("partial url matches only on path-segment boundary (add !-> xadd)", typeof boundary.error === "string" && !boundary.candidates);
+
+// --- conflicting handles (Codex convergence model): url and id point at different pages ---
+const conflict = getPage(index, {
+  url: "https://redis.io/docs/latest/develop/data-types/json/",
+  id: "commands/xadd",
+}) as any;
+check("conflicting url+id returns error", typeof conflict.error === "string");
+check("conflicting url+id lists both candidates", (conflict.candidates ?? []).length === 2);
+
 const missing = getPage(index, { id: "does-not-exist-anywhere" }) as any;
 check("missing page returns error", typeof missing.error === "string");
 

@@ -51,7 +51,7 @@ Add to a Claude Code / Cursor MCP config after `npm run build`:
 
 | Tool | Inputs | Returns |
 |------|--------|---------|
-| `search_docs` | `query` (req), `page_type`, `version`, `limit` | ranked `[{id, title, url, summary, page_type, score, matching_section_ids}]` — refs only, no full text |
+| `search_docs` | `query` (req), `page_type`, `limit` | ranked `[{id, title, url, summary, page_type, score, matching_section_ids}]` — refs only, no full text |
 | `get_page` | `id` **or** `url` (req), `roles[]` | one page with `content_hash` + `sections`, optionally filtered to the given section roles |
 
 Typical agent flow: `search_docs` → pick a result → `get_page` with `roles`
@@ -73,6 +73,7 @@ Typical agent flow: `search_docs` → pick a result → `get_page` with `roles`
     terms.
   Fixing this properly means an analyzer (stemming/lemmatization) and/or the
   vector-search upgrade tracked in SPEC §6/§10.
-- **Version filtering is heuristic** (URL-path based); see SPEC §7.
+- **No version filtering.** The `version` param was removed until a committed
+  URL/version model exists (the feed is single-version today); see SPEC §7.
 - Only `search_docs` + `get_page`. `get_examples`, `get_section`,
   `get_command` are v1 (SPEC §4/§11).

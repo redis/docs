@@ -30,10 +30,6 @@ const TOOLS = [
           enum: ["content", "index"],
           description: "Restrict to prose ('content') or navigation ('index') pages",
         },
-        version: {
-          type: "string",
-          description: "Redis docs version, e.g. 'latest' (default) or '7.4'",
-        },
         limit: {
           type: "number",
           description: "Max results (default 10, max 50)",

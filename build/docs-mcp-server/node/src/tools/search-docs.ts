@@ -4,7 +4,6 @@ import type { DocsIndex } from "../search.js";
 export const SearchDocsInput = z.object({
   query: z.string().min(1, "query is required"),
   page_type: z.enum(["content", "index"]).optional(),
-  version: z.string().optional(),
   limit: z.number().int().positive().max(50).optional(),
 });
 export type SearchDocsInput = z.infer<typeof SearchDocsInput>;
@@ -14,7 +13,6 @@ export function searchDocs(index: DocsIndex, input: SearchDocsInput) {
   const results = index.search(input.query, {
     limit: input.limit ?? 10,
     pageType: input.page_type,
-    version: input.version,
   });
   return { query: input.query, count: results.length, results };
 }

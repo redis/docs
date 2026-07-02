@@ -170,9 +170,16 @@ vector-on-Redis as a later upgrade to the **hosted** endpoint only.
 
 ## 7. Versioning
 
-- `search_docs` / `get_page` accept an optional `version`; default to `latest`.
-- Responses echo the resolved version so an agent can't silently blend
-  versions. This is the single most common RAG-over-docs correctness bug.
+- **Planned:** `search_docs` / `get_page` accept an optional `version` (default
+  `latest`), and responses echo the resolved version so an agent can't silently
+  blend versions — the single most common RAG-over-docs correctness bug.
+- **v0 status: deferred, not implemented.** The prototype does **not** expose a
+  `version` param. An earlier v0 advertised a `latest` default it didn't
+  enforce (the filter was a no-op, and the live feed is single-version anyway),
+  which misleads agents. Rather than bake in a `page.url.includes("/<version>/")`
+  heuristic, the param was removed until a committed URL/version model exists
+  (Bugbot #3585 + Codex review). Add it back with the real filter when the feed
+  carries multiple version trees.
 
 ## 8. Freshness
 
