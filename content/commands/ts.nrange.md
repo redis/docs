@@ -76,6 +76,7 @@ arguments:
     token: AGGREGATION
     type: pure-token
   - display_text: aggregators
+    multiple: true
     name: aggregators
     type: string
   - display_text: bucketDuration
@@ -142,7 +143,7 @@ command_flags:
 complexity: O(numkeys*(n/m+k)) where n = Number of samples, m = Chunk size (samples
   per chunk), k = Number of samples that are in the requested range
 description: Query a range across multiple time series in forward direction, returning
-  the results pivoted by timestamp (one value per key)
+  the results pivoted by timestamp (one value column per key)
 group: timeseries
 hidden: false
 key_specs:
@@ -164,14 +165,14 @@ railroad_diagram: /images/railroad/ts.nrange.svg
 since: 8.10.0
 stack_path: docs/data-types/timeseries
 summary: Query a range across multiple time series in forward direction, returning
-  the results pivoted by timestamp (one value per key)
+  the results pivoted by timestamp (one value column per key)
 syntax_fmt: "TS.NRANGE numkeys key [key ...] fromTimestamp toTimestamp [LATEST]\n\
   \  [FILTER_BY_TS ts [ts ...]] [FILTER_BY_VALUE min max] [COUNT count]\n  [[ALIGN\
-  \ align] AGGREGATION aggregators bucketDuration\n  [BUCKETTIMESTAMP <start | - |\
+  \ align] AGGREGATION aggregators [aggregators ...] bucketDuration\n  [BUCKETTIMESTAMP <start | - |\
   \ end | + | mid | ~>] [EMPTY]]"
 title: TS.NRANGE
 ---
-Query a range across an explicit list of time series in the forward direction, returning the results pivoted by timestamp with one value per key in each row. Rows are ordered by increasing timestamp, and each row's values follow the order of the input keys.
+Query a range across an explicit list of time series in the forward direction, returning the results pivoted by timestamp: one row per distinct timestamp, ordered by increasing timestamp, with each row listing the keys' values in input order.
 
 {{< note >}}
 In a Redis cluster, all specified keys must map to the same hash slot. `TS.NRANGE` is a [single hash slot]({{< relref "/operate/oss_and_stack/reference/cluster-spec#key-distribution-model" >}}) command; it does not split a request across shards or merge replies from multiple hash slots.
@@ -252,11 +253,13 @@ is a time bucket alignment control for `AGGREGATION`. It controls the time bucke
 </details>
 
 <details open>
-<summary><code>AGGREGATION aggregators bucketDuration</code></summary>
+<summary><code>AGGREGATION aggregators [aggregators ...] bucketDuration</code></summary>
 
 aggregates samples into time buckets.
 
-Unlike [`TS.RANGE`]({{< relref "commands/ts.range/" >}}), TS.NRANGE requires exactly one aggregator per key. The aggregators are given as separate, space-separated arguments — one per `key`, in the same order as the keys — and not as a single comma-joined token. The aggregator in position _i_ applies to the key in position _i_, and all keys share the same `bucketDuration`. The comma-joined form (for example `AGGREGATION min,avg,max`) is rejected.
+Supply one aggregation spec per key, as separate, space-separated arguments in the same order as the keys: the spec in position _i_ applies to the key in position _i_, and the number of specs must equal `numkeys`. All keys share the same `bucketDuration`.
+
+Each spec is a comma-separated list of one or more aggregators, exactly as in [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) (for example `avg,max`); no whitespace is allowed inside a spec. A key contributes one value for each aggregator in its spec, and these values are concatenated into each pivot row in key order, then in the order the aggregators are listed. To apply several aggregators to one series, give that key a comma-separated spec such as `min,max`.
 
   - each `aggregator` is one of the following:
 
@@ -353,7 +356,7 @@ Query both series and pivot the samples by timestamp. One row is returned for ev
 <details open>
 <summary><b>Aggregate each series with a per-key aggregator</b></summary>
 
-In aggregation mode, supply exactly one aggregator per key, in key order. Here `{sensor}:1` is aggregated with `avg` and `{sensor}:2` with `sum`, both over 1000-millisecond buckets.
+In aggregation mode, supply one aggregation spec per key, in key order. Here `{sensor}:1` is aggregated with `avg` and `{sensor}:2` with `sum`, both over 1000-millisecond buckets.
 
 {{< highlight bash >}}
 127.0.0.1:6379> TS.MADD {sensor}:1 1000 10 {sensor}:1 1100 20 {sensor}:1 2000 30
@@ -375,18 +378,20 @@ In aggregation mode, supply exactly one aggregator per key, in key order. Here `
 </details>
 
 <details open>
-<summary><b>Repeat a key to apply several aggregators to one series</b></summary>
+<summary><b>Apply multiple aggregators to a series</b></summary>
 
-Because each value maps to one key argument, you apply several aggregators to the same physical series by repeating its key. This query returns the `min` and the `max` of `{sensor}:1` per bucket as two separate values.
+Give a key a comma-separated spec to compute several aggregators for it in one query. Here `{sensor}:1` uses the spec `avg,max` (two values) and `{sensor}:2` uses `sum` (one value). Each row's value array is flat: it holds `{sensor}:1`'s `avg`, then its `max`, then `{sensor}:2`'s `sum`.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.NRANGE 2 {sensor}:1 {sensor}:1 - + AGGREGATION min max 1000
+127.0.0.1:6379> TS.NRANGE 2 {sensor}:1 {sensor}:2 - + AGGREGATION avg,max sum 1000
 1) 1) (integer) 1000
-   2) 1) 10
+   2) 1) 15
       2) 20
+      3) 20
 2) 1) (integer) 2000
    2) 1) 30
       2) 30
+      3) 25
 {{< / highlight >}}
 </details>
 
@@ -403,9 +408,10 @@ In raw mode (no `AGGREGATION`):
 
 In aggregation mode (with `AGGREGATION`):
 
-- Exactly one aggregator applies to each key position; the aggregator at position _i_ maps to the key at position _i_.
-- All keys share one `bucketDuration`.
-- A missing bucket for one key is represented as `NaN` when another key emits that bucket timestamp.
+- One aggregation spec applies to each key position; the spec at position _i_ maps to the key at position _i_, and the number of specs must equal `numkeys`.
+- Each spec is a comma-separated list of one or more aggregators. A key contributes one value per aggregator in its spec.
+- Each row's value array is flat: the aggregator values are concatenated in key order, and within each key in the order its aggregators are listed. All keys share one `bucketDuration`.
+- When a key has no data at a row's bucket, all of that key's value slots are `NaN`.
 - With `EMPTY`, empty buckets can produce rows in which every value is `NaN`.
 
 ### NaN values
@@ -433,14 +439,14 @@ A `NaN` value can mean that a key had no sample (or no aggregation bucket) at th
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) values, one per key in input order. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregators, wrong key type, etc.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator in its spec, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregation specs, unknown aggregation type, wrong key type, etc.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) values, one per key in input order. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregators, wrong key type, etc.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator in its spec, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregation specs, unknown aggregation type, wrong key type, etc.
 
 {{< /multitabs >}}
 

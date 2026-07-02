@@ -10,15 +10,15 @@ arguments:
 - display_text: timestamp
   name: timestamp
   type: string
-- display_text: timeout
-  name: timeout
-  type: integer
 - arguments:
+  - display_text: milliseconds
+    name: milliseconds
+    token: BLOCK
+    type: integer
   - display_text: min_count
     name: min_count
-    token: MIN_COUNT
     type: integer
-  name: MIN_COUNT
+  name: BLOCK
   optional: true
   type: block
 - arguments:
@@ -29,7 +29,7 @@ arguments:
   name: MAX_COUNT
   optional: true
   type: block
-arity: -4
+arity: -3
 categories:
 - docs
 - develop
@@ -45,9 +45,8 @@ command_flags:
 - module
 complexity: O(log(n)+k) where n is the number of samples in the series and k is the
   number of returned samples
-description: 'Blocking GET: wait up to timeout ms or until min_count samples with
-  timestamp >= timestamp are available, then return up to max_count of the oldest
-  such samples'
+description: 'Read: return up to max_count samples with timestamp >= timestamp. With
+  BLOCK, waits up to milliseconds ms until at least min_count qualifying samples exist'
 group: timeseries
 hidden: false
 hints:
@@ -64,20 +63,20 @@ key_specs:
       lastkey: 0
       limit: 0
     type: range
-linkTitle: TS.BGET
+linkTitle: TS.READ
 module: TimeSeries
-railroad_diagram: /images/railroad/ts.bget.svg
+railroad_diagram: /images/railroad/ts.read.svg
 since: 8.10.0
 stack_path: docs/data-types/timeseries
-summary: 'Blocking GET: wait up to timeout ms or until min_count samples with timestamp
-  >= timestamp are available, then return up to max_count of the oldest such samples'
-syntax_fmt: "TS.BGET key timestamp timeout [MIN_COUNT\_min_count]\n  [MAX_COUNT\_\
+summary: 'Read: return up to max_count samples with timestamp >= timestamp. With BLOCK,
+  waits up to milliseconds ms until at least min_count qualifying samples exist'
+syntax_fmt: "TS.READ key timestamp [BLOCK\_milliseconds min_count]\n  [MAX_COUNT\_\
   max_count]"
-title: TS.BGET
+title: TS.READ
 ---
-Read a batch of time series samples at or after a cursor timestamp, blocking until enough samples are available. `TS.BGET` blocks until at least `min_count` samples with a timestamp greater than or equal to the resolved cursor are available, until `timeout` milliseconds elapse, or until the key is removed, whichever occurs first. It then returns up to `max_count` of the oldest qualifying samples, ordered by increasing timestamp, or an empty list when no matching samples are available.
+Read a batch of time series samples at or after a cursor timestamp, returning up to `max_count` of the oldest qualifying samples ordered by increasing timestamp. By default `TS.READ` returns immediately with whatever is available; add the optional `BLOCK` keyword to wait until at least `min_count` samples exist.
 
-`TS.BGET` lets applications continuously consume historical and newly appended samples without polling [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) manually. The key may be a regular time series or a compaction time series.
+`TS.READ` lets applications continuously consume historical and newly appended samples without polling [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) manually. The key may be a regular time series or a compaction time series.
 
 [Examples](#examples)
 
@@ -100,7 +99,7 @@ is the inclusive lower-bound cursor for the read. The command selects samples wh
 | -------------------- | ------------- | ----------- |
 | Non-negative integer | Literal cursor | A Unix timestamp in milliseconds. Matching is inclusive. `0` is accepted and reads from the beginning. |
 | `-`                  | Earliest      | The timestamp of the earliest sample in the series, or `0` when the series is empty or does not exist. |
-| `+`                  | Latest        | The timestamp of the latest sample in the series, or `0` when the series is empty or does not exist. The cursor is inclusive, so the latest existing sample itself qualifies (aligned with [`TS.RANGE`]({{< relref "commands/ts.range/" >}})). With the default `min_count` of `1`, the call returns that sample immediately; with a larger `min_count`, it blocks until enough samples at or after that timestamp exist. Intended for the first call only. |
+| `+`                  | Latest        | The timestamp of the latest sample in the series, or `0` when the series is empty or does not exist. The cursor is inclusive, so the latest existing sample itself qualifies (aligned with [`TS.RANGE`]({{< relref "commands/ts.range/" >}})). Without `BLOCK`, the call returns that sample immediately; with `BLOCK` and a `min_count` greater than `1`, it blocks until enough samples at or after that timestamp exist. Intended for the first call only. |
 | `$`                  | New           | The timestamp of the latest sample plus 1, or `0` when the series is empty or does not exist. Only samples reported after the command was received by the server qualify; the latest existing sample is excluded. |
 
 The `+` and `$` semantics mirror the special IDs of [`XREAD`]({{< relref "commands/xread/" >}}) and [`XREADGROUP`]({{< relref "commands/xreadgroup/" >}}). The server resolves all sentinels exactly once, when the command is received, so the cursor stays stable while the client is blocked. Send `-`, `+`, and `$` to the server as-is; do not resolve them on the client side.
@@ -116,47 +115,32 @@ Use the following table to choose the cursor for the first call:
 For every subsequent call, use `last_returned_timestamp + 1` so you receive no misses and no duplicates. Do not reuse `+` or `$` after the first call. If no samples are returned, you can retry with the same cursor, subject to your application's delivery policy.
 </details>
 
-<details open>
-<summary><code>timeout</code></summary>
-
-is the maximum time to wait, expressed as a non-negative integer number of milliseconds. `timeout = 0` means do not block: the command returns whatever is available immediately, even when fewer than `min_count` samples qualify.
-
-The client-side command/read timeout is separate from this argument and should exceed it. A client socket or read timeout that fires before the Redis `timeout` is a network timeout, not a `TS.BGET` timeout.
-</details>
-
 ## Optional arguments
 
 <details open>
-<summary><code>MIN_COUNT min_count</code></summary>
+<summary><code>BLOCK milliseconds min_count</code></summary>
 
-is the unblock threshold: the number of qualifying samples required before the command returns ahead of the timeout. It must be a positive integer and defaults to `1`. With the default of `1`, the command returns all available samples (up to `max_count`) immediately if at least one sample qualifies; otherwise it waits up to `timeout`.
+makes the command block instead of returning immediately. When `BLOCK` is present, the command waits until at least `min_count` qualifying samples are available, until `milliseconds` elapse, or until the key is removed, whichever occurs first.
+
+`milliseconds` is a non-negative integer timeout. A value of `0` means block indefinitely, until `min_count` samples become available or the key is removed (the same convention as [`BLPOP`]({{< relref "commands/blpop/" >}}) and `XREAD BLOCK 0`).
+
+`min_count` is the unblock threshold: the number of qualifying samples required before the command returns ahead of the timeout. It must be a positive integer. When `BLOCK` is omitted, the command does not block and returns whatever is available immediately, even when no samples qualify.
 </details>
 
 <details open>
 <summary><code>MAX_COUNT max_count</code></summary>
 
-is the reply cap: the maximum number of samples to return. It must be a positive integer and greater than or equal to `min_count`. When `MAX_COUNT` is not provided, the reply is unbounded. When more matching samples exist than `max_count`, the server returns the oldest `max_count` samples first, so you can page forward.
+is the reply cap: the maximum number of samples to return. It must be a positive integer and, when `BLOCK` is used, greater than or equal to `min_count`. When `MAX_COUNT` is not provided, the reply is unbounded. When more matching samples exist than `max_count`, the server returns the oldest `max_count` samples first, so you can page forward.
 
 `MAX_COUNT` defaults to unlimited; set it explicitly when consuming large histories to bound the reply size and enable paging.
 </details>
 
-The `MIN_COUNT` and `MAX_COUNT` keyword pairs are optional and independent. Omit a pair entirely to apply the server default. The keyword tokens are case-insensitive and can be given in any order. A keyword without a value, or any stray trailing token, is rejected as a wrong-arity error.
-
-## Blocking and retrieval semantics
-
-- From `key`, the command reads samples whose timestamp is greater than or equal to the resolved cursor.
-- If at least `min_count` matching samples are already available, the server returns immediately with up to `max_count` of the oldest qualifying samples.
-- If fewer than `min_count` matching samples are available and `timeout > 0`, the server blocks until `min_count` is reached, the timeout expires, or the key is removed. Each sample append ([`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}), and compaction-rule writes to the destination key) can unblock a blocked client.
-- On timeout, the server returns whatever is available, which can be empty or fewer than `min_count` samples. This is a successful reply, not an error.
-- If the key is removed while the client is blocked (`DEL`, `UNLINK`, `FLUSHDB`, `FLUSHALL`, expiry, or eviction), the server returns an empty list to the blocked client. This is a successful reply, not an error.
-- If `timeout = 0`, the server never blocks: it returns the available matching samples immediately, even when fewer than `min_count` qualify.
-- Returned samples are sorted by increasing timestamp, including when samples were inserted out of order.
-- Multiple blocked clients waiting on the same key wait independently. One client receiving samples does not consume them for another client.
+The `BLOCK` and `MAX_COUNT` keywords are optional and independent. Omit `BLOCK` to read without blocking; omit `MAX_COUNT` to leave the reply size unbounded. The keyword tokens are case-insensitive and can be given in any order. A keyword without its values, or any stray trailing token, is rejected as a wrong-arity error.
 
 ## Examples
 
 <details open>
-<summary><b>Read history and tail new samples</b></summary>
+<summary><b>Read history without blocking</b></summary>
 
 Create a time series and add three samples.
 
@@ -171,10 +155,10 @@ OK
 (integer) 300
 {{< / highlight >}}
 
-Read all historical samples without blocking. The default `min_count` of `1` is already met and `max_count` is unlimited.
+Read all historical samples without blocking. With no `BLOCK` keyword the command returns immediately, and `max_count` is unlimited.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.BGET sensor:1 0 0
+127.0.0.1:6379> TS.READ sensor:1 0
 1) 1) (integer) 100
    2) 1
 2) 1) (integer) 200
@@ -186,7 +170,7 @@ Read all historical samples without blocking. The default `min_count` of `1` is 
 The `-` sentinel is equivalent for a full read from the earliest sample.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.BGET sensor:1 - 0
+127.0.0.1:6379> TS.READ sensor:1 -
 {{< / highlight >}}
 </details>
 
@@ -196,12 +180,12 @@ The `-` sentinel is equivalent for a full read from the earliest sample.
 Read at most two samples per call, advancing the cursor to `last_returned_timestamp + 1` on each subsequent call.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.BGET sensor:1 - 1000 MAX_COUNT 2
+127.0.0.1:6379> TS.READ sensor:1 - MAX_COUNT 2
 1) 1) (integer) 100
    2) 1
 2) 1) (integer) 200
    2) 2
-127.0.0.1:6379> TS.BGET sensor:1 201 1000 MAX_COUNT 2
+127.0.0.1:6379> TS.READ sensor:1 201 MAX_COUNT 2
 1) 1) (integer) 300
    2) 3
 {{< / highlight >}}
@@ -210,28 +194,28 @@ Read at most two samples per call, advancing the cursor to `last_returned_timest
 <details open>
 <summary><b>Start from the latest sample</b></summary>
 
-Start from the current latest sample (inclusive). With the default `min_count` of `1`, this returns immediately.
+Start from the current latest sample (inclusive). Without `BLOCK`, this returns immediately.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.BGET sensor:1 + 5000
+127.0.0.1:6379> TS.READ sensor:1 +
 1) 1) (integer) 300
    2) 3
 {{< / highlight >}}
 
-With `MIN_COUNT 2`, the same `+` call blocks until a second sample with timestamp greater than or equal to 300 arrives, or returns the available samples after 5000 milliseconds.
+With `BLOCK 5000 2`, the same `+` call blocks until a second sample with timestamp greater than or equal to 300 arrives, or returns the available samples after 5000 milliseconds.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.BGET sensor:1 + 5000 MIN_COUNT 2
+127.0.0.1:6379> TS.READ sensor:1 + BLOCK 5000 2
 {{< / highlight >}}
 </details>
 
 <details open>
 <summary><b>Tail only new samples</b></summary>
 
-Use `$` to ignore everything that already exists and receive only samples added after the call.
+Use `$` to ignore everything that already exists and receive only samples added after the call. `BLOCK 5000 1` waits up to 5000 milliseconds for the first new sample.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.BGET sensor:1 $ 5000
+127.0.0.1:6379> TS.READ sensor:1 $ BLOCK 5000 1
 {{< / highlight >}}
 
 If another client runs `TS.ADD sensor:1 400 4.0` within 5000 milliseconds, the blocked call returns `[[400, 4]]`. If no new sample arrives, it returns an empty array.
@@ -240,10 +224,10 @@ If another client runs `TS.ADD sensor:1 400 4.0` within 5000 milliseconds, the b
 <details open>
 <summary><b>Partial flush on timeout</b></summary>
 
-When `MIN_COUNT` cannot be reached, the command returns the available samples after the timeout. Here `MIN_COUNT 10` cannot be reached, so the two qualifying samples are returned after 1000 milliseconds.
+When `min_count` cannot be reached, the command returns the available samples after the timeout. Here `BLOCK 1000 10` cannot reach 10 samples, so the two qualifying samples are returned after 1000 milliseconds.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.BGET sensor:1 101 1000 MIN_COUNT 10
+127.0.0.1:6379> TS.READ sensor:1 101 BLOCK 1000 10
 1) 1) (integer) 200
    2) 2
 2) 1) (integer) 300
@@ -253,7 +237,7 @@ When `MIN_COUNT` cannot be reached, the command returns the available samples af
 When nothing qualifies by the timeout, the reply is an empty array.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.BGET sensor:1 301 1000
+127.0.0.1:6379> TS.READ sensor:1 301 BLOCK 1000 1
 (empty array)
 {{< / highlight >}}
 </details>
@@ -261,12 +245,25 @@ When nothing qualifies by the timeout, the reply is an empty array.
 <details open>
 <summary><b>Read from a compaction series</b></summary>
 
-`key` may be a compaction series. The command can return compaction samples and can block for future compaction output.
+`key` may be a compaction series. The command can return compaction samples and, with `BLOCK`, can wait for future compaction output.
 
 {{< highlight bash >}}
-127.0.0.1:6379> TS.BGET sensor:1:avg - 10000
+127.0.0.1:6379> TS.READ sensor:1:avg - BLOCK 10000 1
 {{< / highlight >}}
 </details>
+
+## Details
+
+### Blocking and retrieval semantics
+
+- From `key`, the command reads samples whose timestamp is greater than or equal to the resolved cursor.
+- Without `BLOCK`, the command never blocks: it returns up to `max_count` of the oldest qualifying samples immediately, even when no samples qualify (an empty array).
+- With `BLOCK milliseconds min_count`, if at least `min_count` matching samples are already available, the server returns immediately with up to `max_count` of the oldest qualifying samples.
+- With `BLOCK` and fewer than `min_count` matching samples available, the server blocks until `min_count` is reached, `milliseconds` elapse, or the key is removed. `BLOCK 0` blocks indefinitely. Each sample append ([`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}), and compaction-rule writes to the destination key) can unblock a blocked client.
+- On timeout, the server returns whatever is available, which can be empty or fewer than `min_count` samples. This is a successful reply, not an error.
+- If the key is removed while the client is blocked (`DEL`, `UNLINK`, `FLUSHDB`, `FLUSHALL`, expiry, or eviction), the server returns an empty list to the blocked client. This is a successful reply, not an error.
+- Returned samples are sorted by increasing timestamp, including when samples were inserted out of order.
+- Multiple blocked clients waiting on the same key wait independently. One client receiving samples does not consume them for another client.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -276,19 +273,19 @@ When nothing qualifies by the timeout, the reply is an empty array.
 
 ## Return information
 
-{{< multitabs id="ts-bget-return-info"
+{{< multitabs id="ts-read-return-info"
     tab1="RESP2"
     tab2="RESP3" >}}
 
 One of the following:
 * [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value), ordered by increasing timestamp. The array is empty when no matching samples are available by the time the command returns, or when the key was removed while the command was blocked.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid timestamp, invalid timeout, invalid `min_count` or `max_count`, `min_count` greater than `max_count`, wrong number of arguments, wrong key type, the command is used where blocking is not allowed (for example, inside `MULTI` or a Lua script), etc.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid timestamp, invalid `milliseconds`, invalid `min_count` or `max_count`, `min_count` greater than `max_count`, wrong number of arguments, wrong key type, the command is used with `BLOCK` where blocking is not allowed (for example, inside `MULTI` or a Lua script), etc.
 
 -tab-sep-
 
 One of the following:
 * [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pairs representing (timestamp, value), ordered by increasing timestamp. The array is empty when no matching samples are available by the time the command returns, or when the key was removed while the command was blocked.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid timestamp, invalid timeout, invalid `min_count` or `max_count`, `min_count` greater than `max_count`, wrong number of arguments, wrong key type, the command is used where blocking is not allowed (for example, inside `MULTI` or a Lua script), etc.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid timestamp, invalid `milliseconds`, invalid `min_count` or `max_count`, `min_count` greater than `max_count`, wrong number of arguments, wrong key type, the command is used with `BLOCK` where blocking is not allowed (for example, inside `MULTI` or a Lua script), etc.
 
 {{< /multitabs >}}
 
