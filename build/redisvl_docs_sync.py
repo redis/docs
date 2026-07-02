@@ -310,9 +310,18 @@ def move_numbered_user_guides(staging: Path, repo_dir: Path) -> list[str]:
             continue
         dest = how_to / path.name
         shutil.move(str(path), dest)
-        # File moved one level deeper: bump '../' to '../../' in markdown links.
+        # File moved one level deeper into how_to_guides/. Two link fix-ups:
+        #   - bump '../' to '../../' (old top-level relative links now sit one
+        #     directory deeper), and
+        #   - drop the now-redundant 'how_to_guides/' prefix on links that
+        #     reached down into this same subdirectory from the old top-level
+        #     location; those targets are siblings now. The '../' bump runs
+        #     first so a '../how_to_guides/' link becomes '../../how_to_guides/'
+        #     (correct) rather than being mistaken for a same-dir prefix.
         text = dest.read_text(encoding="utf-8")
-        dest.write_text(text.replace("](../", "](../../"), encoding="utf-8")
+        text = text.replace("](../", "](../../")
+        text = text.replace("](how_to_guides/", "](")
+        dest.write_text(text, encoding="utf-8")
         slug = re.sub(r"^[0-9][0-9]_", "", path.name[:-3])
         moved_slugs.append(slug)
     return moved_slugs
