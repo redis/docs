@@ -86,7 +86,10 @@ export interface SearchHit {
 
 export class DocsIndex {
   readonly pages: Page[];
-  private byId = new Map<string, Page>();
+  // The feed's `id` is the last URL path segment (e.g. "config", "acl") and is
+  // NOT unique — ~200 ids map to several pages. So id -> list, and callers must
+  // disambiguate by url. `url` IS unique, so byUrl stays 1:1.
+  private byId = new Map<string, Page[]>();
   private byUrl = new Map<string, Page>();
   private docs: Array<{
     page: Page;
@@ -104,7 +107,9 @@ export class DocsIndex {
     this.pages = pages;
     let totalLen = 0;
     for (const p of pages) {
-      this.byId.set(p.id, p);
+      const bucket = this.byId.get(p.id);
+      if (bucket) bucket.push(p);
+      else this.byId.set(p.id, [p]);
       if (p.url) this.byUrl.set(normalizeUrl(p.url), p);
 
       const tokens = tokenize(searchableText(p));
@@ -130,22 +135,25 @@ export class DocsIndex {
     return this.pages.length;
   }
 
-  getById(id: string): Page | undefined {
-    return this.byId.get(id);
+  /** All pages sharing this id (usually one, but the feed's id is not unique). */
+  getPagesById(id: string): Page[] {
+    return this.byId.get(id) ?? [];
   }
 
   getByUrl(url: string): Page | undefined {
     return this.byUrl.get(normalizeUrl(url));
   }
 
-  /** Fallback lookup when a caller passes a path or partial URL. */
-  findByUrlSuffix(url: string): Page | undefined {
+  /**
+   * Fallback lookup when a caller passes a path or partial URL. Returns EVERY
+   * page whose url ends with the given suffix — a suffix can match several
+   * pages (e.g. "/install/"), so the caller must disambiguate rather than
+   * silently taking the first.
+   */
+  matchByUrlSuffix(url: string): Page[] {
     const target = normalizeUrl(url).replace(/^https?:\/\/[^/]+/, "");
-    if (!target) return undefined;
-    for (const p of this.pages) {
-      if (normalizeUrl(p.url).endsWith(target)) return p;
-    }
-    return undefined;
+    if (!target) return [];
+    return this.pages.filter((p) => normalizeUrl(p.url).endsWith(target));
   }
 
   search(query: string, opts: SearchOptions = {}): SearchHit[] {

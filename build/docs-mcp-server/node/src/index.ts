@@ -10,6 +10,7 @@ import { loadFeed } from "./feed.js";
 import { DocsIndex } from "./search.js";
 import { searchDocs, SearchDocsInput } from "./tools/search-docs.js";
 import { getPage, GetPageInput } from "./tools/get-page.js";
+import { toolResult, fail } from "./response.js";
 
 // Feed source: local path or http(s) URL, gzip-aware. Defaults to production.
 const FEED_SOURCE =
@@ -19,7 +20,7 @@ const TOOLS = [
   {
     name: "search_docs",
     description:
-      "Search the Redis documentation and return the most relevant pages as references (id, title, url, summary, matching section ids). Returns no full text — follow up with get_page to read a result.",
+      "Search the Redis documentation and return the most relevant pages as references (title, url, summary, matching section ids). Each hit includes a unique `url` — pass that `url` to get_page (a hit's `id` is NOT unique and may be ambiguous). Returns no full text — follow up with get_page to read a result.",
     inputSchema: {
       type: "object" as const,
       properties: {
@@ -44,12 +45,18 @@ const TOOLS = [
   {
     name: "get_page",
     description:
-      "Fetch a single documentation page by 'id' or 'url'. Optionally filter to sections with specific roles (e.g. ['syntax','parameters']) to save tokens. Includes content_hash for caching.",
+      "Fetch a single documentation page. Prefer the unique `url` from a search_docs hit. `id` also works but is NOT unique, so an ambiguous id returns an error listing candidate urls (likewise an ambiguous partial url). Optionally filter to sections with specific roles (e.g. ['syntax','parameters']) to save tokens. Includes content_hash for caching.",
     inputSchema: {
       type: "object" as const,
       properties: {
-        id: { type: "string", description: "Page id (URL slug), e.g. 'commands/xadd'" },
-        url: { type: "string", description: "Full or partial page URL" },
+        id: {
+          type: "string",
+          description: "Page id (last URL slug); not unique — prefer url",
+        },
+        url: {
+          type: "string",
+          description: "Full page URL (preferred — unique). A partial/suffix URL also works when it matches exactly one page.",
+        },
         roles: {
           type: "array",
           items: { type: "string" },
@@ -59,17 +66,6 @@ const TOOLS = [
     },
   },
 ];
-
-function ok(data: unknown) {
-  return { content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }] };
-}
-
-function fail(message: string) {
-  return {
-    content: [{ type: "text" as const, text: JSON.stringify({ error: message }) }],
-    isError: true,
-  };
-}
 
 async function main() {
   const pages = await loadFeed(FEED_SOURCE);
@@ -89,9 +85,9 @@ async function main() {
     try {
       switch (name) {
         case "search_docs":
-          return ok(searchDocs(index, SearchDocsInput.parse(args ?? {})));
+          return toolResult(searchDocs(index, SearchDocsInput.parse(args ?? {})));
         case "get_page":
-          return ok(getPage(index, GetPageInput.parse(args ?? {})));
+          return toolResult(getPage(index, GetPageInput.parse(args ?? {})));
         default:
           return fail(`Unknown tool: ${name}`);
       }
