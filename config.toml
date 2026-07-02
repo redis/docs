@@ -140,5 +140,21 @@ rdi_current_version = "1.18.1"
 
 # Comment out if you don't want the "print entire section" link enabled.
 [outputs]
+home    = ["HTML", "RSS", "Markdown", "JSON"]
 section = ["HTML", "RSS", "Markdown", "JSON"]
-page = ["HTML", "Markdown", "JSON"]
+page    = ["HTML", "Markdown", "JSON"]
+
+# Content negotiation headers (hugo serve only).
+# For production nginx config see AI_AGENT_DEVELOPER_GUIDE.md.
+# Must be at end of file — TOML [table] sections apply to all following keys.
+[server]
+  [[server.headers]]
+    for = "/**"
+    [server.headers.values]
+      Vary = "Accept"
+
+  [[server.headers]]
+    for = "**.html.md"
+    [server.headers.values]
+      Content-Type = "text/markdown; charset=utf-8"
+      Vary = "Accept"
