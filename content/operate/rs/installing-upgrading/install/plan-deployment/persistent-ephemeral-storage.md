@@ -30,7 +30,8 @@ options for a database.
     
 The persistent volume must be a storage area network (SAN)
 using an EXT4 or XFS file system and be connected as an external storage volume.
-    
+NFS, NFS-like, and multi-read-write/shared storage options are not supported. These types of storage are often slow and can cause locking behaviors that are incompatible with the requirements of database storage.
+
 When using append-only file (AOF) persistence, use flash-based storage
 for the persistent volume.
 
