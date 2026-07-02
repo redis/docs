@@ -26,7 +26,7 @@ learn how to:
 
 For conceptual background see
 [Index Migrations]({{< relref "../../concepts/index-migrations" >}}) and the
-[Migrate an Index how-to]({{< relref "how_to_guides/migrate-indexes" >}}).
+[Migrate an Index how-to]({{< relref "migrate-indexes" >}}).
 
 **Prerequisites:** a running Redis 8.0+ (or Redis Stack) at
 `redis://localhost:6379` and `redisvl` installed.
@@ -725,7 +725,7 @@ print("Cleaned up demo indexes, demo keys, backups, and YAML files")
 
 ## Learn more
 
-- [Migrate an Index (how-to)]({{< relref "how_to_guides/migrate-indexes" >}}) -- full CLI
+- [Migrate an Index (how-to)]({{< relref "migrate-indexes" >}}) -- full CLI
   workflow, batch migration, performance tuning, and troubleshooting
 - [Index Migrations (concepts)]({{< relref "../../concepts/index-migrations" >}}) -- modes,
   supported vs blocked changes, backup internals, sync vs async

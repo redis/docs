@@ -37,18 +37,9 @@ dnf install sudo -y
 ```
 {{< /note >}}
 
-Clean the package metadata, enable required repositories, and install development tools:
+Enable the required repositories and install the base development tools:
 
 ```bash
-sudo dnf clean all
-sudo tee /etc/yum.repos.d/goreleaser.repo > /dev/null <<EOF
-[goreleaser]
-name=GoReleaser
-baseurl=https://repo.goreleaser.com/yum/
-enabled=1
-gpgcheck=0
-EOF
-sudo dnf update -y
 sudo dnf groupinstall "Development Tools" -y
 sudo dnf config-manager --set-enabled powertools
 sudo dnf install -y epel-release
@@ -59,7 +50,7 @@ sudo dnf install -y epel-release
 Update your package lists and install the necessary development tools and libraries:
 
 ```bash
-sudo dnf install -y --nobest --skip-broken \
+sudo dnf install -y \
     pkg-config \
     wget \
     gcc-toolset-13-gcc \
@@ -74,18 +65,11 @@ sudo dnf install -y --nobest --skip-broken \
     unzip \
     rsync \
     clang \
-    curl \
     libtool \
     automake \
     autoconf \
     jq \
     systemd-devel
-```
-
-Create a Python virtual environment:
-
-```bash
-python3.11 -m venv /opt/venv
 ```
 
 Enable the GCC toolset:
@@ -147,7 +131,6 @@ cd /usr/src/redis-<version>
 export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
 export INSTALL_RUST_TOOLCHAIN=yes
-export DISABLE_WERRORS=yes
 make -j "$(nproc)" all
 ```
 

@@ -39,15 +39,20 @@ def _check_marker(line, prefix, marker):
 class FileParser:
     """Parses source files with special comment markers."""
 
-    def __init__(self, language):
+    def __init__(self, language, keep_tests=False):
         """
         Initialize parser for a specific language.
 
         Args:
             language: Programming language (e.g., 'python', 'c#')
+            keep_tests: When True, REMOVE blocks are emitted as cells tagged
+                'test' (in source order) instead of being dropped. Used to
+                build a test notebook whose asserts can be executed; strip the
+                tagged cells (e.g. nbconvert TagRemovePreprocessor) to ship.
         """
         self.language = language
         self.prefix = PREFIXES[language.lower()]
+        self.keep_tests = keep_tests
 
     def parse(self, file_path):
         """
@@ -63,11 +68,12 @@ class FileParser:
             lines = f.readlines()
 
         # State tracking
-        in_remove = False
+        remove_depth = 0
         in_step = False
         step_name = None
         step_lines = []
         preamble_lines = []
+        remove_lines = []
         cells = []
         seen_step_names = set()
 
@@ -83,22 +89,47 @@ class FileParser:
                 logging.debug(f"Line {line_num}: Skipping BINDER_ID marker")
                 continue
 
-            # Handle REMOVE blocks
+            # Handle REMOVE blocks. Nested markers are absorbed into the
+            # outer block (track depth) so a nested REMOVE_START doesn't discard
+            # the lines collected for the outer block.
             if _check_marker(line, self.prefix, REMOVE_START):
-                if in_remove:
+                if remove_depth > 0:
                     logging.warning(f"Line {line_num}: Nested REMOVE_START detected")
-                in_remove = True
+                    remove_depth += 1
+                    continue
+                if self.keep_tests:
+                    # Flush pending code first so the test cell lands *after*
+                    # the code it checks (asserts reference its variables).
+                    if in_step and step_lines:
+                        cells.append({'code': ''.join(step_lines),
+                                      'step_name': step_name, 'is_test': False})
+                        step_lines = []
+                    elif preamble_lines:
+                        cells.append({'code': ''.join(preamble_lines),
+                                      'step_name': None, 'is_test': False})
+                        preamble_lines = []
+                    remove_lines = []
+                remove_depth = 1
                 logging.debug(f"Line {line_num}: Entering REMOVE block")
                 continue
 
             if _check_marker(line, self.prefix, REMOVE_END):
-                if not in_remove:
+                if remove_depth == 0:
                     logging.warning(f"Line {line_num}: REMOVE_END without REMOVE_START")
-                in_remove = False
+                    continue
+                remove_depth -= 1
+                if remove_depth > 0:
+                    continue  # closing a nested block; keep collecting
+                if self.keep_tests and remove_lines:
+                    cells.append({'code': ''.join(remove_lines),
+                                  'step_name': None, 'is_test': True})
+                    remove_lines = []
                 logging.debug(f"Line {line_num}: Exiting REMOVE block")
                 continue
 
-            if in_remove:
+            if remove_depth > 0:
+                if self.keep_tests:
+                    remove_lines.append(line)
                 continue
 
             # Skip HIDE markers (but include content)
@@ -170,7 +201,7 @@ class FileParser:
             logging.debug(f"Saved final preamble cell ({len(preamble_lines)} lines)")
 
         # Check for unclosed blocks
-        if in_remove:
+        if remove_depth > 0:
             logging.warning("File ended with unclosed REMOVE block")
         if in_step:
             logging.warning("File ended with unclosed STEP block")

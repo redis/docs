@@ -19,6 +19,34 @@ mod home_prob_dts_tests {
             }
         };
 
+        // STEP_START bloom
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("recorded_users");
+        // REMOVE_END
+        let res1: Vec<bool> = r
+            .bf_madd(
+                "recorded_users",
+                &["andy", "cameron", "david", "michelle"],
+            )
+            .expect("Failed to add users to Bloom filter");
+        println!("{res1:?}"); // >>> [true, true, true, true]
+
+        let res2: bool = r
+            .bf_exists("recorded_users", "cameron")
+            .expect("Failed to check Bloom filter");
+        println!("{res2}"); // >>> true
+
+        let res3: bool = r
+            .bf_exists("recorded_users", "kaitlyn")
+            .expect("Failed to check Bloom filter");
+        println!("{res3}"); // >>> false
+        // STEP_END
+        // REMOVE_START
+        assert_eq!(res1, vec![true, true, true, true]);
+        assert!(res2);
+        assert!(!res3);
+        // REMOVE_END
+
         // STEP_START hyperloglog
         // REMOVE_START
         let _: Result<i32, _> = r.del(&["group:1", "group:2", "both_groups"]);

@@ -1,0 +1,263 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arSet(key: RedisArgument, index: number | string, value: RedisVariadicArgument)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "value",
+            "type": "RedisVariadicArgument",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "NumberReply",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "arset(string $key, int $index, string ...$value)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$index",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$value",
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "Long arset(K key, long index, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to set."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to store."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of new slots created (1 if new, 0 if updated)."
+        }
+      },
+      {
+        "signature": "Long arset(K key, long index, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the starting index."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to store at consecutive indices."
+          }
+        ],
+        "returns": {
+          "type": "Long",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<Long> arset(K key, long index, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to set."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to store."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of new slots created (1 if new, 0 if updated)."
+        }
+      },
+      {
+        "signature": "RedisFuture<Long> arset(K key, long index, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the starting index."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to store at consecutive indices."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<Long>",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Mono<Long> arset(K key, long index, V value)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the index to set."
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "the value to store."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of new slots created (1 if new, 0 if updated)."
+        }
+      },
+      {
+        "signature": "Mono<Long> arset(K key, long index, V... values)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "index",
+            "type": "long",
+            "description": "the starting index."
+          },
+          {
+            "name": "values",
+            "type": "V...",
+            "description": "the values to store at consecutive indices."
+          }
+        ],
+        "returns": {
+          "type": "Mono<Long>",
+          "description": "the number of new slots created."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "arset(name: KeyT, index: int, *values: FieldT)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "*values",
+            "type": "FieldT",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARSet(ctx context.Context, key string, index uint64, values ...string) *IntCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "index",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "values",
+            "type": "...string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*IntCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

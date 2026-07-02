@@ -2,6 +2,7 @@
 aliases:
 - /data-types/vector-sets/
 - /manual/data-types/vector-sets/
+- /develop/data-types/vector-set/
 categories:
 - docs
 - develop
@@ -193,6 +194,10 @@ to include them in the search:
 1) "pt:C"
 2) "pt:B"
 {{< /clients-example >}}
+&nbsp;
+{{< alert title="Try it out" >}}
+Experiment with vector set commands interactively in the [Redis playground](https://redis.io/try/sandbox) — no installation required.
+{{< /alert >}}
 
 ## More information
 

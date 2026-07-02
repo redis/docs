@@ -4,6 +4,7 @@ categories:
 - operate
 - stack
 - oss
+draft: true
 linkTitle: Ubuntu 20.04 (Focal)
 title: Build and run Redis Open Source on Ubuntu 20.04 (Focal)
 weight: 25

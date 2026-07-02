@@ -33,7 +33,7 @@ If you have not already created a Context Retriever service, you'll see a page w
 
 From here, you can either:
 
-- Select **Get started** to follow a step-by-step guide using the `ctxctl` CLI, which is installed with the [Context Surfaces Python Client](https://pypi.org/project/context-surfaces/). 
+- Select **Get started** to follow a step-by-step guide using the `ctxctl` CLI, which is installed with the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/). 
 - Select **Create custom service** to manually configure your own context retriever settings.
 
 For this guide, select **Create custom service**. 
@@ -100,7 +100,7 @@ Expand each entry to view the currently defined fields for that entry. Select **
 
 - Enter the field name in the **Field** cell.
 - Select the **PK** checkbox if the field is a primary key. You must have at least one primary key. 
-- If the field is related to any other defined entities, select it from the **Related Entity** dropdown. This is usually set if the field contains primary keys of another entity. For example, you might have an
+- If the field is related to any other defined entities, select it from the **Related Entity** dropdown. This is usually set if the field contains primary keys of another entity. 
 - Select the field's **Type** from the dropdown.
 - In the **Index** cell, select one or more index types to enable searching and filtering on that field.
 - You can also add a description in the **Description** cell.
@@ -109,6 +109,6 @@ After you set all fields for all of your entities, select **Create** to create y
 
 ## Next steps
 
-After your service is created, you can call the MCP tools Context Retriever exposes from your agent. See the [Context Surfaces Python Client](https://pypi.org/project/context-surfaces/) for more information on how to call your tools.
+After your service is created, you can call the MCP tools Context Retriever exposes from your agent. See the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/) for more information on how to call your tools.
 
 You can also [view your service]({{< relref "/operate/rc/context-engine/context-retriever/view-service" >}}).

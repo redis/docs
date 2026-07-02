@@ -1,4 +1,4 @@
-{{ $width := (index .Attributes "width") | default "75%" }}
+{{ $width := (index .Attributes "width") | default "100%" }}
 <div style="width: {{ $width }};">
 <pre class="mermaid" style="background-color: white; padding: 1rem; border-radius: 0.5rem;">
     {{ .Inner | htmlEscape | safeHTML }}
