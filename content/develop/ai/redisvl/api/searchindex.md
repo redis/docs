@@ -196,6 +196,11 @@ tag at a time.
 
 Remove a specific entry or entries from the index by it’s key ID.
 
+Uses `UNLINK` rather than `DEL` so memory reclamation runs on a
+background thread. This avoids blocking the main thread when a large
+number of keys are dropped at once (for example, scope-targeted
+`SemanticCache` invalidation). The returned count is unchanged.
+
 * **Parameters:**
   **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
 * **Returns:**
@@ -670,6 +675,11 @@ tag at a time.
 #### `async drop_keys(keys)`
 
 Remove a specific entry or entries from the index by it’s key ID.
+
+Uses `UNLINK` rather than `DEL` so memory reclamation runs on a
+background thread. This avoids blocking the main thread when a large
+number of keys are dropped at once (for example, scope-targeted
+`SemanticCache` invalidation). The returned count is unchanged.
 
 * **Parameters:**
   **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
