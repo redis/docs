@@ -1,4 +1,5 @@
 import type { Page } from "./types.js";
+import { stem } from "./stem.js";
 
 // Self-contained BM25 lexical index. No external search dependency: at
 // ~4,100 docs the whole index builds in-memory in well under a second, which
@@ -6,6 +7,20 @@ import type { Page } from "./types.js";
 
 const K1 = 1.5;
 const B = 0.75;
+
+// Page-type weighting applied to the final score. Command reference pages are
+// the canonical answer for command-shaped queries; release-notes / REST-API /
+// operator pages are secondary and were observed outranking primary docs
+// (e.g. "remove a key" -> operate/.../remove-node). Multipliers, not filters.
+// NOTE: the retrieval eval is command-heavy, so keep the command boost modest
+// to avoid tuning to the eval — the demotions are the more general fix.
+function pageWeight(url: string): number {
+  const u = url.toLowerCase();
+  if (u.includes("/release-notes") || u.includes("/rest-api/")) return 0.5;
+  if (u.includes("/operate/")) return 0.7;
+  if (u.includes("/commands/")) return 1.5;
+  return 1;
+}
 
 // Field boosts (added on top of the body BM25 score, weighted by term idf).
 // A query term appearing in the title/slug/summary is a strong signal that the
@@ -28,6 +43,12 @@ function tokenize(text: string): string[] {
   return text.toLowerCase().match(/[a-z0-9]+/g) ?? [];
 }
 
+/** Tokenize + stem. Used for everything indexed and for query terms, so word
+ * forms conflate. Stopwords are filtered on RAW tokens before this (see search). */
+function analyze(text: string): string[] {
+  return tokenize(text).map(stem);
+}
+
 function normalizeUrl(u: string): string {
   return u.trim().toLowerCase().replace(/\/+$/, "");
 }
@@ -45,7 +66,7 @@ function searchableText(p: Page): string {
 function matchingSections(p: Page, qterms: Set<string>): string[] {
   const out: string[] = [];
   for (const s of p.sections ?? []) {
-    const toks = new Set(tokenize(`${s.title ?? ""} ${s.text ?? ""}`));
+    const toks = new Set(analyze(`${s.title ?? ""} ${s.text ?? ""}`));
     for (const t of qterms) {
       if (toks.has(t)) {
         out.push(s.id);
@@ -100,7 +121,7 @@ export class DocsIndex {
       else this.byId.set(p.id, [p]);
       if (p.url) this.byUrl.set(normalizeUrl(p.url), p);
 
-      const tokens = tokenize(searchableText(p));
+      const tokens = analyze(searchableText(p));
       if (tokens.length === 0) continue;
       const tf = new Map<string, number>();
       for (const t of tokens) tf.set(t, (tf.get(t) ?? 0) + 1);
@@ -109,9 +130,9 @@ export class DocsIndex {
         page: p,
         tf,
         len: tokens.length,
-        titleTok: new Set(tokenize(p.title ?? "")),
-        slugTok: new Set(tokenize(p.id ?? "")),
-        summaryTok: new Set(tokenize(p.summary ?? "")),
+        titleTok: new Set(analyze(p.title ?? "")),
+        slugTok: new Set(analyze(p.id ?? "")),
+        summaryTok: new Set(analyze(p.summary ?? "")),
       });
       totalLen += tokens.length;
     }
@@ -150,10 +171,11 @@ export class DocsIndex {
   }
 
   search(query: string, opts: SearchOptions = {}): SearchHit[] {
-    let qterms = [...new Set(tokenize(query))].filter((t) => !STOPWORDS.has(t));
-    // If the query was *all* stopwords, fall back to using them rather than
-    // returning nothing.
-    if (qterms.length === 0) qterms = [...new Set(tokenize(query))];
+    // Filter stopwords on RAW tokens (before stemming), then stem + dedupe.
+    const raw = [...new Set(tokenize(query))];
+    let kept = raw.filter((t) => !STOPWORDS.has(t));
+    if (kept.length === 0) kept = raw; // query was all stopwords
+    const qterms = [...new Set(kept.map(stem))];
     if (qterms.length === 0) return [];
 
     const idf = new Map<string, number>();
@@ -181,6 +203,7 @@ export class DocsIndex {
         if (d.summaryTok.has(t)) score += termIdf * W_SUMMARY;
       }
       if (score > 0) {
+        score *= pageWeight(d.page.url);
         hits.push({
           id: d.page.id,
           title: d.page.title,

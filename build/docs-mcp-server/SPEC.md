@@ -200,15 +200,17 @@ vector-on-Redis as a later upgrade to the **hosted** endpoint only.
   vector search as a v2 upgrade to the hosted endpoint, backed by RediSearch /
   RedisVL, and is the retrieval gain worth the added infra given how
   well-structured the corpus already is?
-- **Ranking quality (found in v0 prototype):** untuned lexical BM25 — even
-  with stopword removal and title/summary/slug field boosts — mis-ranks
-  natural-language queries. Two concrete failure modes observed on the live
-  feed: (1) **no stemming**, so "append" ≠ "appends" and `XADD` won't surface
-  for "append an entry to a stream"; (2) **canonical command pages compete with
-  release notes, operator `custom-resources` pages, and client-library
-  overviews** that repeat the same terms. Fix needs an analyzer
-  (stemming/lemmatization), possibly a page-type/canonical boost, and/or the
-  vector-search path. This is the strongest argument for §6's v2 upgrade.
+- **Ranking quality (measured via the eval harness):** lexical BM25 with
+  Porter stemming, stopword removal, title/summary/slug field boosts, and
+  page-type weighting (demote release-notes/REST-API/operator, modestly boost
+  `/commands/*`) gets **recall@5 86% / MRR 0.65** on 22 command-lookup cases —
+  up from a **59% / 0.42** un-stemmed, un-weighted baseline. Two caveats: (1)
+  the eval is command-heavy so the `/commands/*` boost partly flatters it —
+  **add concept/how-to eval cases** before concluding lexical is sufficient
+  generally; (2) the residual misses are pure semantic gaps ("remove a key" →
+  `flushdb` beats `del`) that only vector search closes. Net: stemming+weighting
+  **weakened but did not eliminate** the §6 vector-search case — the eval now
+  lets that call be made on numbers.
 - **Section-role vocabulary (found via live MCP test):** the roles the spec
   assumed (`syntax`, `parameters`, `returns`, `example`) do **not** all match
   the feed. Command pages actually carry `content` / `parameters` / `example`

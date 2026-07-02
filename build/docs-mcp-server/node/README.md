@@ -71,23 +71,28 @@ check that flags any expected url missing from the feed. The feed is read from
 `DOCS_NDJSON` or a local cache at `test/eval/docs.ndjson.gz` (gitignored;
 `curl -o test/eval/docs.ndjson.gz https://redis.io/docs/latest/docs.ndjson.gz`).
 
-**Baseline (lexical v0):** recall@1 32%, @3 45%, @5 59%, @10 73%, MRR 0.42 — i.e.
-lexical retrieval is **not** good enough alone (canonical command pages lose to
-sibling commands, operator, and concept pages; no stemming). This is the
-measured case for the ranking / vector-search work in SPEC §6/§10. Use it to
-compare any ranking change against the baseline rather than tuning blind.
+**Results (22 command-lookup cases):**
+
+| | recall@1 | recall@3 | recall@5 | recall@10 | MRR |
+|---|---|---|---|---|---|
+| lexical baseline | 32% | 45% | 59% | 73% | 0.42 |
+| + Porter stemming + page-type weighting | 50% | 68% | 86% | 95% | 0.65 |
+
+Stemming (append↔appends) and demoting secondary pages (release-notes / REST-API /
+operator) while modestly boosting `/commands/*` lifted recall@5 from 59% → 86%.
+**Caveat:** this eval is command-heavy, so the `/commands/*` boost partly flatters
+it — concept/how-to query cases are not yet covered and should be added before
+concluding lexical is sufficient generally. The remaining case (`del`/`unlink`
+for "remove a key", beaten by `flushdb`) is a genuine lexical limitation and is
+the kind of gap vector search would close (SPEC §6/§10).
 
 ## Known limitations (v0)
 
-- **Ranking is untuned lexical search.** Good on distinctive terms
-  (`publish`, `incrby`, `pexpire`), but weaker where:
-  - there is **no stemmer** — a query for "append" won't match a summary that
-    says "appends", so `XADD` is hard to surface from natural language;
-  - **canonical command pages** compete with release notes, operator
-    (custom-resources) pages, and client-library overviews that repeat the same
-    terms.
-  Fixing this properly means an analyzer (stemming/lemmatization) and/or the
-  vector-search upgrade tracked in SPEC §6/§10.
+- **Ranking is lexical (BM25 + Porter stemming + field/page-type weighting).**
+  Now recall@5 86% on command lookups (see eval above), but still lexical: it
+  can't bridge pure semantic gaps (e.g. "remove a key" → `flushdb` over `del`),
+  and concept/how-to queries are unmeasured. Closing the remainder is the case
+  for vector search (SPEC §6/§10).
 - **No version filtering.** The `version` param was removed until a committed
   URL/version model exists (the feed is single-version today); see SPEC §7.
 - Only `search_docs` + `get_page`. `get_examples`, `get_section`,
