@@ -146,3 +146,7 @@ To create a new data pipeline, you need to:
 1. [Define the source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}) by selecting which tables to sync.
 
 Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.
+
+## More info
+
+- [Redis Cloud Data Integration API reference]({{< relref "/operate/rc/api/api-reference" >}}#tag/Subscriptions-Pro-Data-Integration)
