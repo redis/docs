@@ -97,9 +97,12 @@ The view shows:
 - The number of affected tables.
 - The affected tables and their rejected counts.
 - Rejected record IDs and rejection times.
-- Safe troubleshooting metadata, such as the rejection reason, operation, affected table, and transformation job details when available.
+- Safe troubleshooting metadata, such as the rejection reason, operation, affected table, and transformation job details when available. See [Using the operation code]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example" >}}) for the operation labels.
 
-Redis Cloud does not show the original source record payload in this view.
+Redis Cloud uses the RDI DLQ API to show a sanitized view of rejected records. It
+does not show the original source record payload or every field stored in the
+DLQ stream. To inspect the full DLQ entry, connect to the RDI database and read
+the corresponding DLQ stream directly.
 
 For more information about why records are rejected and how RDI stores them, see [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}).
 
