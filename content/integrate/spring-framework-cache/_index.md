@@ -13,40 +13,16 @@ categories:
 - client
 description: Plug Redis into your Spring application with minimal effort
 group: framework
-summary: Spring Data Redis implements the Spring framework's cache abstraction for
-  Redis, which allows you to plug Redis into your Spring application with minimal
-  effort.
+hideListLinks: true
+summary: Spring Data Redis integrates Redis with the Spring framework, letting you
+  use Redis as a cache and add client-side failover to your connections.
 type: integration
 weight: 8
 ---
 
-Spring Data Redis implements the Spring framework's cache abstraction for Redis, which allows you to plug Redis into your Spring application with minimal effort.
+[Spring Data Redis](https://spring.io/projects/spring-data-redis) integrates Redis with the [Spring framework](https://spring.io/projects/spring-framework), letting you plug Redis into your Spring application with minimal effort. It works with the [Lettuce]({{< relref "/develop/clients/lettuce" >}}) and [Jedis]({{< relref "/develop/clients/jedis" >}}) clients, so Spring applications can take advantage of those clients' connection features as well as Spring's own abstractions.
 
-Spring's cache abstraction applies cache-aside to methods, reducing executions by storing and reusing results. When a method is invoked, the abstraction checks if it's been called with the same arguments before. If so, it returns the cached result. If not, it invokes the method, caches the result, and returns it. This way, costly methods are invoked less often. Further details are in the [Spring cache abstraction documentation](https://docs.spring.io/spring-framework/reference/integration/cache.html).
+The pages in this section describe recipes for using Redis from Spring Data Redis:
 
-## Get started
-
-In a nutshell, you need to perform the following steps to use Redis as your cache storage:
-
-1. [Configure the cache storage](https://docs.spring.io/spring-framework/reference/integration/cache/store-configuration.html) by using the [Redis cache manager](https://docs.spring.io/spring-data/redis/reference/redis/redis-cache.html) that is part of Spring Data.
-2. Annotate a repository with your `@CacheConfig`.
-3. Use the `@Cachable` annotation on a repository method to cache the results of that method.
-
-Here is an example:
-
-```
-@CacheConfig("books")
-public class BookRepositoryImpl implements BookRepository {
-
-    @Cacheable
-    public Book findBook(ISBN isbn) {...}
-}
-```
-
-## Further readings
-
-Please read the Spring framework's documentation to learn more about how to use the Redis cache abstraction for Spring:
-
-* [Spring cache abstraction](https://docs.spring.io/spring-framework/reference/integration/cache.html)
-* [Spring cache store configuration](https://docs.spring.io/spring-framework/reference/integration/cache/store-configuration.html)
-* [Spring Data Redis Cache](https://docs.spring.io/spring-data/redis/reference/redis/redis-cache.html)
+- [Use Redis with the Spring cache abstraction]({{< relref "/integrate/spring-framework-cache/cache" >}}) shows how to use Redis as the storage for Spring's cache abstraction.
+- [Client-side geographic failover]({{< relref "/integrate/spring-framework-cache/geo-failover" >}}) shows how to configure resilient connections that automatically fail over between Redis endpoints.
