@@ -86,7 +86,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_1",
+        "operationId": "proxyDataIntegrationWorkspace_4",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -156,7 +156,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_4",
+        "operationId": "proxyDataIntegrationWorkspace_2",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -298,7 +298,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_2",
+        "operationId": "proxyDataIntegrationWorkspace_1",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -442,7 +442,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_6",
+        "operationId": "proxyDataIntegrationWorkspace_9",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -512,7 +512,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_9",
+        "operationId": "proxyDataIntegrationWorkspace_7",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -654,7 +654,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_7",
+        "operationId": "proxyDataIntegrationWorkspace_6",
         "parameters": [
           {
             "name": "subscriptionId",
