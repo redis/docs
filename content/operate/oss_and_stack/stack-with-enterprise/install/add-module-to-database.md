@@ -60,7 +60,7 @@ Depending on the [features supported by an enabled module]({{< relref "/operate/
 
 ## Module configuration options
 
-- [RediSearch configuration options]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}})
+- [Redis Search configuration options]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}})
 
 - [RedisTimeSeries configuration options]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries/config" >}})
 

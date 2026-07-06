@@ -31,3 +31,7 @@ package-lock.json
 /content/develop/use-cases/**/php/composer.lock
 /content/develop/use-cases/**/ruby/.gems/
 /content/develop/use-cases/**/ruby/Gemfile.lock
+
+# Link checker (link_check workflow) working files
+/external-urls.txt
+/.lycheecache

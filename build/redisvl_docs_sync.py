@@ -222,6 +222,38 @@ def mark_rst_admonitions(repo_dir: Path) -> None:
             rst_path.write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
+_MYST_FENCE_DIRECTIVE_RE = re.compile(
+    r"^(myst_fence_as_directive\s*=\s*)(\[[^\]]*\])", re.MULTILINE)
+
+
+def preserve_mermaid_fences(repo_dir: Path) -> None:
+    """Keep ```mermaid fences as plain code blocks so they survive into Hugo.
+
+    Upstream conf.py (since v0.21.0) sets `myst_fence_as_directive = ["mermaid"]`,
+    routing ```mermaid blocks to the sphinxcontrib.mermaid directive.
+    sphinx_markdown_builder has no translator for the resulting mermaid node, so
+    it drops it with an "unknown node type: <mermaid>" warning and the diagrams
+    vanish from the generated markdown. The Hugo site renders ```mermaid code
+    fences natively (layouts/_default/_markup/render-codeblock-mermaid.html), so
+    we strip "mermaid" from the directive list and let the fence pass through as
+    an ordinary code block. sphinxcontrib.mermaid stays installed (conf.py still
+    imports it in `extensions`); it is simply no longer invoked for these fences.
+    """
+    conf = repo_dir / "docs/conf.py"
+    if not conf.exists():
+        return
+    text = conf.read_text(encoding="utf-8")
+
+    def repl(m: re.Match) -> str:
+        items = re.findall(r"""["']([^"']+)["']""", m.group(2))
+        kept = [i for i in items if i != "mermaid"]
+        return m.group(1) + "[" + ", ".join(f'"{i}"' for i in kept) + "]"
+
+    new_text = _MYST_FENCE_DIRECTIVE_RE.sub(repl, text)
+    if new_text != text:
+        conf.write_text(new_text, encoding="utf-8")
+
+
 def sphinx_build(repo_dir: Path, build_dir: Path) -> None:
     if build_dir.exists():
         shutil.rmtree(build_dir)
@@ -310,9 +342,18 @@ def move_numbered_user_guides(staging: Path, repo_dir: Path) -> list[str]:
             continue
         dest = how_to / path.name
         shutil.move(str(path), dest)
-        # File moved one level deeper: bump '../' to '../../' in markdown links.
+        # File moved one level deeper into how_to_guides/. Two link fix-ups:
+        #   - bump '../' to '../../' (old top-level relative links now sit one
+        #     directory deeper), and
+        #   - drop the now-redundant 'how_to_guides/' prefix on links that
+        #     reached down into this same subdirectory from the old top-level
+        #     location; those targets are siblings now. The '../' bump runs
+        #     first so a '../how_to_guides/' link becomes '../../how_to_guides/'
+        #     (correct) rather than being mistaken for a same-dir prefix.
         text = dest.read_text(encoding="utf-8")
-        dest.write_text(text.replace("](../", "](../../"), encoding="utf-8")
+        text = text.replace("](../", "](../../")
+        text = text.replace("](how_to_guides/", "](")
+        dest.write_text(text, encoding="utf-8")
         slug = re.sub(r"^[0-9][0-9]_", "", path.name[:-3])
         moved_slugs.append(slug)
     return moved_slugs
@@ -880,6 +921,7 @@ def sync_version(version: str, *, is_latest: bool, repo_dir: Path,
                   flush=True)
     strip_empty_markdown_cells(repo_dir)
     mark_rst_admonitions(repo_dir)
+    preserve_mermaid_fences(repo_dir)
     sphinx_build(repo_dir, build_dir)
     stage_markdown(repo_dir, build_dir, staging_dir)
     moved_slugs = move_numbered_user_guides(staging_dir, repo_dir)

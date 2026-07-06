@@ -1,0 +1,58 @@
+# Configuration for the lychee external-link checker.
+# Used by .github/workflows/link_check.yaml (and runnable locally:
+#   build/extract_external_urls.sh && lychee --config .lychee.toml external-urls.txt)
+
+# Treat these as alive. 429 = rate-limited and 403 = bot-blocked (both mean the
+# host is up, not that the link is broken); 206 = partial content.
+accept = ["200", "206", "403", "429"]
+
+# Be patient with slow or rate-limiting hosts before declaring a link dead.
+max_retries = 3
+retry_wait_time = 3   # seconds, grows with each retry
+timeout = 25          # seconds per request
+max_concurrency = 8
+
+# Some hosts 403 a default checker UA; present as a normal browser.
+user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+
+# Skip private/loopback/reserved address ranges.
+exclude_all_private = true
+
+exclude = [
+  # --- Internal / non-external links ---
+  # Anchor the host so it doesn't also match e.g. redis.io.example.com.
+  '^https?://(www\.)?redis\.io(:[0-9]+)?([/?#]|$)',
+  'localhost',
+  '127\.0\.0\.1',
+  '0\.0\.0\.0',
+  'example\.(com|org|net)',
+
+  # --- Theme-generated edit/issue/PR links, not authored content (~5k of them) ---
+  # Scoped to the theme's URL forms so authored /blob/ and /tree/ source links
+  # into the docs repo are still checked.
+  'github\.com/redis/docs/(edit|issues|pulls)([/?#]|$)',
+
+  # --- Known false positives (verified live, but unreachable to an automated checker) ---
+  'redis\.azure\.com',       # OAuth scope string in code samples, not a real URL
+  'techdocs\.broadcom\.com', # JS single-page app returns 404 to bots; pages are live
+  # Namespace/spec URIs that appear in attributes but aren't navigable docs links
+  # (e.g. SVG/XML namespaces); they routinely 404 or refuse automated fetches.
+  '(www\.)?w3\.org',
+  'schema\.org',
+
+  # --- Reference endpoints that aren't fetchable as plain GETs ---
+  # API/console/dashboard base URLs (return 4xx/5xx to an unauthenticated GET),
+  # auth-walled redirects, link shorteners, and analytics CDNs. These are cited
+  # in docs as references, not as navigable pages, so a checker can't validate
+  # them meaningfully. (Surfaced by a dry run; see DOC-6776.)
+  'api\.openai\.com',
+  'api\.redislabs\.com',
+  'dash\.voyageai\.com',
+  'console\.cloud\.google\.com',
+  'console\.mistral\.ai',
+  'admin\.google\.com',
+  'dormando\.livejournal\.com',
+  'j\.mp',
+  'cdn\.segment\.com',
+  '(www\.)?facebook\.com',
+]

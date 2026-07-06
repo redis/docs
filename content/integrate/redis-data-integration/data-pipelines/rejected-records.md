@@ -41,6 +41,30 @@ RDI stores rejected records in the RDI database as capped Redis streams. Each DL
 stream corresponds to a source table and tracks the records rejected for that
 table.
 
+DLQ stream names use the `dlq:` prefix followed by the source data stream name.
+In current RDI versions, the stream name is typically:
+
+```text
+dlq:data:{rdi}:<schema_or_database>.<table>
+```
+
+For example, rejected records for the `public.users` table are stored in:
+
+```text
+dlq:data:{rdi}:public.users
+```
+
+For sources that include the source name in the stream qualifier, the final part
+can contain three components:
+
+```text
+dlq:data:{rdi}:<source>.<schema_or_database>.<table>
+```
+
+Some RDI versions or configurations can use a hash-tagged variant such as
+`dlq:{data:rdi:<schema_or_database>.<table>}`. To find all DLQ streams in the
+RDI database, scan for stream keys that start with `dlq:`.
+
 The maximum number of records stored per DLQ stream is controlled by
 `processors.dlq_max_messages`. When the stream reaches the configured limit,
 older entries are evicted as newer entries are added.
@@ -55,15 +79,18 @@ Useful fields include:
 
 - The affected table.
 - The rejection time.
-- The rejected operation, such as create, update, delete, or snapshot read.
+- The rejected operation. RDI stores this as an `opcode` value such as `c`,
+  `u`, `d`, `r`, `t`, or `m`. See [Using the operation code]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example" >}})
+  for the operation labels.
 - The rejection reason.
 - The transformation job or operation, when the failure happened during transformation.
 
 {{< note >}}
-Rejected records can contain source data when you inspect them directly with CLI
-or API tools. Treat DLQ contents as sensitive customer data. The Redis Cloud UI
-shows a limited set of troubleshooting metadata and does not show the original
-record payload.
+Rejected records can contain source data when you inspect them directly in the
+RDI database. Treat DLQ contents as sensitive customer data. The Redis Cloud UI
+uses the RDI DLQ API and shows a sanitized set of troubleshooting metadata. It
+does not show the original record payload or every field stored in the
+corresponding DLQ stream.
 {{< /note >}}
 
 ## Resolve rejected records
@@ -83,6 +110,10 @@ for Redis Cloud, or use the appropriate self-managed RDI reset workflow.
 
 For self-managed RDI, use the [`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
 command to inspect rejected records.
+
+For Redis Cloud RDI, connect to the RDI database and inspect the corresponding
+DLQ streams directly when you need details that are not shown in the Redis Cloud
+UI.
 
 RDI API v2 also includes DLQ inspection endpoints. See the
 [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}})

@@ -13,7 +13,7 @@ weight: $weight
 
 | Method | Path | Description |
 |--------|------|-------------|
-| [POST](#post-crdbs-updates) | `/v1/crdbs/{crdb_guid}/updates` | Modify Active-Active confgurarion |
+| [POST](#post-crdbs-updates) | `/v1/crdbs/{crdb_guid}/updates` | Modify Active-Active configuration |
 
 ## Modify Active-Active configuration {#post-crdbs-updates}
 
@@ -25,11 +25,13 @@ Modify Active-Active configuration.
 This is a very powerful API request and can cause damage if used incorrectly.
 {{</warning>}}
 
-In order to add or remove instances, you must use this API. For simple configuration updates, it is recommended to use PATCH on /crdbs/{crdb_guid} instead.
+To add or remove instances, you must use this API. For simple configuration updates, use [`PATCH /crdbs/{crdb_guid}`]({{<relref "/operate/rs/references/rest-api/requests/crdbs#patch-crdbs">}}) instead.
 
-Updating default_db_config affects both existing and new instances that may be added.
+Updating `default_db_config` affects both existing and new instances.
 
-When you update db_config, it changes the configuration of the database that you specify. This field overrides corresponding fields (if any) in default_db_config.
+When you update `db_config`, it changes the configuration of the specified database instance. This field overrides any corresponding fields in `default_db_config`.
+
+For a list of which settings must be identical across all instances and which to set per instance, see the [CRDB database config object]({{<relref "/operate/rs/references/rest-api/objects/crdb/database_config">}}) reference.
 
 ### Request {#post-request} 
 
