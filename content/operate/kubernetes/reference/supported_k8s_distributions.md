@@ -19,7 +19,6 @@ Redis tests Redis Software for Kubernetes on the following platforms:
 - Red Hat OpenShift
 - Google Kubernetes Engine (GKE)
 - Rancher Kubernetes Engine (RKE)
-- VMware Tanzu Kubernetes Grid Integrated Edition (TKGI)
 - Azure Kubernetes Service (AKS)
 - Amazon Elastic Kubernetes Service (EKS)
 
@@ -35,7 +34,7 @@ The tables below use the following status icons:
 
 ### Latest release
 
-Operator releases **8.0.18-11** through **8.0.20-21** support the following Kubernetes and OpenShift versions.
+Operator releases **8.0.10-15** through **8.0.20-21** support the following Kubernetes and OpenShift versions.
 
 | OpenShift | Kubernetes | Support status |
 |---|---|---|
