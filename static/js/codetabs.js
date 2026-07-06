@@ -21,11 +21,14 @@ function copyCodeToClipboardForCodetabs(button) {
   const visiblePanel = codetabsContainer.querySelector('.panel:not(.panel-hidden)');
   if (!visiblePanel) return;
 
-  // The redis-cli panel is an interactive terminal (form.redis-cli) with no
-  // <code> element, so copy the registered commands instead of reading the DOM.
-  const cliForm = visiblePanel.querySelector('form.redis-cli');
-  if (cliForm) {
-    const cliCode = cliForm.getAttribute('data-cli-source') || cliForm.textContent;
+  // The redis-cli panel has no <code> element: it's either an interactive
+  // terminal (form.redis-cli, whose command source is stashed in data-cli-source)
+  // or a static block (div.redis-cli-static > pre). Copy from those directly;
+  // falling through to the <code>-based logic below would dereference an
+  // undefined codeElement and throw.
+  const cliEl = visiblePanel.querySelector('form.redis-cli, .redis-cli-static');
+  if (cliEl) {
+    const cliCode = cliEl.getAttribute('data-cli-source') || cliEl.textContent;
     navigator.clipboard.writeText(cliCode.trim());
 
     const cliTooltip = button.querySelector('.tooltiptext');

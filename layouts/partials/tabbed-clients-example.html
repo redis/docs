@@ -54,6 +54,11 @@
     {{ end }}
 {{ end }}
 
+{{/* The redis-cli tab is interactive/executable only when the example is runnable
+     AND we extracted at least one prefixed command ("> " / "redis> "). Bare
+     command+output pairs or non-Redis REST/cURL snippets have no such prefix, so
+     they render as a static block (below) and cli.js never auto-runs them. */}}
+{{ $isInteractive := and $runnable (gt (len $tryItCommands) 0) }}
 
 {{ $tabs := slice }}
 {{/* Render redis-cli example from inner content if any */}}
@@ -82,21 +87,17 @@
     {{ if and (gt $redisCommandsLineLimitInt 0) (gt $estimatedVisualLineCount $redisCommandsLineLimitInt) }}
         {{ $hasCliTrim = true }}
     {{ end }}
-    {{/* Render the redis-cli tab. When runnable (default) it is an interactive
-         terminal (form.redis-cli is picked up by cli.js and executed inline).
-         When runnable="false" (e.g. unsafe blocking commands like BRPOP) it is
-         rendered as a static, non-executable code block with no "Try it" button.
+    {{/* Render the redis-cli tab. It is an interactive terminal (form.redis-cli,
+         picked up and executed inline by cli.js) only when $isInteractive — i.e.
+         the example is runnable AND at least one command was extracted. Otherwise
+         — runnable="false" (e.g. unsafe blocking commands like BRPOP), or content
+         with no "> "/"redis> " lines (bare command+output pairs, REST/cURL
+         snippets) — it renders as a static, non-executable code block with no
+         "Try it" button, so cli.js never auto-runs output or non-Redis text.
          Only redis-cli is interactive; other language tabs stay static. */}}
     {{ $redisCliContent := "" }}
-    {{ if $runnable }}
-        {{ $cliCommandLines := $tryItCommands }}
-        {{ if eq (len $cliCommandLines) 0 }}
-            {{ range $line := $redisCommandLines }}
-                {{ $trimmedCliLine := trim $line " \t\r" }}
-                {{ if $trimmedCliLine }}{{ $cliCommandLines = $cliCommandLines | append $trimmedCliLine }}{{ end }}
-            {{ end }}
-        {{ end }}
-        {{ $cliJoined := delimit $cliCommandLines "\n" }}
+    {{ if $isInteractive }}
+        {{ $cliJoined := delimit $tryItCommands "\n" }}
         {{ $cliFormInner := htmlEscape $cliJoined }}
         {{ $cliSourceAttr := replace (htmlEscape $cliJoined) "\n" "&#10;" }}
         {{ $redisCliContent = printf "<form class=\"redis-cli overflow-y-auto max-h-80\" data-cli-source=\"%s\">\n%s\n</form>" $cliSourceAttr $cliFormInner | safeHTML }}
@@ -235,7 +236,7 @@
 {{ if gt (len $buildsUpon) 0 }}
   {{ $params = merge $params (dict "buildsUpon" $buildsUpon) }}
 {{ end }}
-{{ if and $runnable (gt (len $tryItCommands) 0) }}
+{{ if $isInteractive }}
   {{ $params = merge $params (dict "tryItCommands" $tryItCommands) }}
 {{ end }}
 {{ if $isPrereq }}

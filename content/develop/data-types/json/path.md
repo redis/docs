@@ -194,7 +194,7 @@ This example, valid from version v2.4.2 onwards, filters only bikes whose materi
 the regular expression pattern `"(?i)al"`:
 
 {{< clients-example set="json_tutorial" step="filter3" description="Regex filters: Use =~ operator with regular expressions in filter expressions to match patterns in string values when you need flexible pattern-based filtering" difficulty="advanced" buildsUpon="filter2" needs_prereq="true" >}}
-JSON.GET bikes:inventory '$..[?(@.specs.material =~ "(?i)al")].model'
+> JSON.GET bikes:inventory '$..[?(@.specs.material =~ "(?i)al")].model'
 "[\"Quaoar\",\"Weywot\",\"Salacia\",\"Mimas\"]"
 {{< /clients-example >}}
 
