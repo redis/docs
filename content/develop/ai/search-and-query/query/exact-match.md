@@ -153,7 +153,7 @@ You can't use a phrase that starts with a [stop word]({{< relref "/develop/ai/se
 Here is an example for finding all bicycles that have a description containing the exact text 'rough terrain':
 
 {{< clients-example set="query_em" step="em4" description="Text fields: Query text fields for exact phrase matches using escaped double quotes when you need to find documents containing specific multi-word phrases" difficulty="intermediate" max_lines="10" >}}
-FT.SEARCH idx:bicycle "@description:\"rough terrain\""
+> FT.SEARCH idx:bicycle "@description:\"rough terrain\""
 1) (integer) 1
 2) "bicycle:8"
 3) 1) "$"

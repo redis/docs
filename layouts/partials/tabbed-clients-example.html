@@ -63,30 +63,7 @@
 {{ $tabs := slice }}
 {{/* Render redis-cli example from inner content if any */}}
 {{ if (ne (trim $redisCommands "\n") "") }}
-    {{ $redisCommandsLineLimitInt := 0 }}
     {{ $trimmedRedisCommands := trim $redisCommands "\n" }}
-    {{ $redisCommandLines := split $trimmedRedisCommands "\n" }}
-    {{ $redisCommandLineCount := len $redisCommandLines }}
-    {{ $estimatedVisualLineCount := $redisCommandLineCount }}
-    {{ $wrapCharsPerLine := 120 }}
-    {{ $hasCliTrim := false }}
-    {{ if $redisCommandsLineLimit }}
-        {{ $redisCommandsLineLimitInt = int $redisCommandsLineLimit }}
-    {{ end }}
-    {{ if gt $redisCommandsLineLimitInt 0 }}
-        {{ $estimatedVisualLineCount = 0 }}
-        {{ range $line := $redisCommandLines }}
-            {{ $lineLength := len $line }}
-            {{ $wrappedLines := 1 }}
-            {{ if gt $lineLength $wrapCharsPerLine }}
-                {{ $wrappedLines = int (math.Ceil (div (float $lineLength) (float $wrapCharsPerLine))) }}
-            {{ end }}
-            {{ $estimatedVisualLineCount = add $estimatedVisualLineCount $wrappedLines }}
-        {{ end }}
-    {{ end }}
-    {{ if and (gt $redisCommandsLineLimitInt 0) (gt $estimatedVisualLineCount $redisCommandsLineLimitInt) }}
-        {{ $hasCliTrim = true }}
-    {{ end }}
     {{/* Render the redis-cli tab. It is an interactive terminal (form.redis-cli,
          picked up and executed inline by cli.js) only when $isInteractive — i.e.
          the example is runnable AND at least one command was extracted. Otherwise
@@ -108,9 +85,7 @@
         {{ $staticInner := htmlEscape $trimmedRedisCommands }}
         {{ $redisCliContent = printf "<div class=\"redis-cli redis-cli-static overflow-y-auto max-h-80\"><pre>%s</pre></div>" $staticInner | safeHTML }}
     {{ end }}
-    {{/* Trimming applies to static code blocks; the interactive terminal manages its own height. */}}
-    {{ $hasCliTrim = false }}
-    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "limitInt" $redisCommandsLineLimitInt "lineCount" $redisCommandLineCount "visualLineCount" $estimatedVisualLineCount "hasCliTrim" $hasCliTrim "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
+    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
     {{ if gt (len $commands) 0 }}
         {{ $cliTab = merge $cliTab (dict "commands" $commands) }}
     {{ end }}
