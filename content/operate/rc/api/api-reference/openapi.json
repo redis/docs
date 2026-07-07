@@ -12,7 +12,7 @@
   },
   "externalDocs": {
     "description": "Redis Cloud API Documentation",
-    "url": "https://docs.redislabs.com/latest/rc/api/"
+    "url": "https://redis.io/docs/latest/operate/rc/api/"
   },
   "servers": [
     {
