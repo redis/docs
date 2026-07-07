@@ -299,7 +299,7 @@ timeout is reached.
 
 This is an example of a [`BRPOP`]({{< relref "/commands/brpop" >}}) call we could use in the worker:
 
-{{< clients-example set="list_tutorial" step="brpop" description="Blocking operations: Use BRPOP to wait for elements with a timeout when you need to implement producer-consumer patterns without polling" difficulty="intermediate" buildsUpon="lpush_rpush, lpop_rpop" >}}
+{{< clients-example set="list_tutorial" step="brpop" description="Blocking operations: Use BRPOP to wait for elements with a timeout when you need to implement producer-consumer patterns without polling" difficulty="intermediate" buildsUpon="lpush_rpush, lpop_rpop" runnable="false" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2
