@@ -11,6 +11,8 @@
 {{ $showFooter := .Scratch.Get "show_footer" | default true }}
 {{/* runnable defaults to true; "false" renders a static, non-executable cli tab */}}
 {{ $runnable := ne (.Scratch.Get "runnable") "false" }}
+{{/* try_it defaults to true; "false" hides the external redis.io/cli button but keeps the on-page tab interactive */}}
+{{ $showTryIt := ne (.Scratch.Get "try_it") "false" }}
 
 {{/* Parse buildsUpon parameter into an array */}}
 {{ $buildsUponStr := .Scratch.Get "buildsUpon" }}
@@ -212,7 +214,9 @@
   {{ $params = merge $params (dict "buildsUpon" $buildsUpon) }}
 {{ end }}
 {{ if $isInteractive }}
-  {{ $params = merge $params (dict "tryItCommands" $tryItCommands) }}
+  {{/* Pass tryItCommands (drives the interactive form + prereq registration) plus
+       showTryIt, which independently controls only the external "Try it" button. */}}
+  {{ $params = merge $params (dict "tryItCommands" $tryItCommands "showTryIt" $showTryIt) }}
 {{ end }}
 {{ if $isPrereq }}
   {{ $params = merge $params (dict "isPrereq" true) }}

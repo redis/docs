@@ -105,8 +105,10 @@
             </div>
 
             <div class="flex items-center gap-2">
-            {{/* "Try it" button - opens redis.io/cli with pre-populated commands */}}
-            {{ if $tryItCommands }}
+            {{/* "Try it" button - opens redis.io/cli with pre-populated commands.
+                 Hidden when try_it="false" (showTryIt=false); the on-page interactive
+                 tab and prereq registration are unaffected (they key off tryItCommands). */}}
+            {{ if and $tryItCommands (ne .showTryIt false) }}
             <button tabindex="1"
                     type="button"
                     class="tryit-button flex items-center gap-1 text-slate-300 hover:text-white bg-red-700 hover:bg-red-600 h-7 px-3 rounded text-xs font-medium transition duration-150 ease-in-out"

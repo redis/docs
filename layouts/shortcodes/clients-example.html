@@ -16,6 +16,7 @@
   - prereq: Mark this example as the setup/prerequisite for its set (optional, "true")
   - needs_prereq: Replay this set's prerequisite example before this one in "Try it" (optional, "true")
   - runnable: Whether the redis-cli tab is interactive/executable (optional, default "true"; set "false" for unsafe commands like BRPOP to render a static block with no "Try it" button)
+  - try_it: Show the external "Try it" (redis.io/cli) button (optional, default "true"; set "false" to hide the button while keeping the on-page tab interactive)
 
   Positional parameters (for backward compatibility):
   - 0: example set name
@@ -50,6 +51,7 @@
   {{ .Scratch.Set "prereq" (.Get "prereq") }}
   {{ .Scratch.Set "needs_prereq" (.Get "needs_prereq") }}
   {{ .Scratch.Set "runnable" (.Get "runnable") }}
+  {{ .Scratch.Set "try_it" (.Get "try_it") }}
   {{ if eq (.Get "footer") "hide" }}
     {{ .Scratch.Set "show_footer" false }}
   {{ end }}
@@ -68,6 +70,7 @@
   {{ .Scratch.Set "prereq" "" }}
   {{ .Scratch.Set "needs_prereq" "" }}
   {{ .Scratch.Set "runnable" "" }}
+  {{ .Scratch.Set "try_it" "" }}
 {{ end }}
 
 {{ .Scratch.Set "redisCommands" .Inner }}
