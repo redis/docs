@@ -35,6 +35,17 @@ Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 region
 
 Geo-distributed replication maintains copies of both primary and replica shards in multiple clusters. These clusters can be spread across multiple availability zones. Active-Active Redis uses zone awareness to spread your primary and replica shards across zones, which helps protect against data loss from regional outages.
 
+The availability of each region depends on the number of availability zones it provides:
+
+- Regions with three or more availability zones use multi-zone replication and provide **99.999%** (five-nines) availability.
+- Regions with fewer than three availability zones use single-zone replication and provide **99.99%** (four-nines) availability.
+
+An Active-Active database can combine regions with different availability zone counts. When it does, the availability of the entire deployment is determined by the least resilient region. For example, an Active-Active database that spans a region with three availability zones and a region with fewer than three availability zones provides 99.99% (four-nines) availability overall.
+
+{{< note >}}
+Regions with fewer than three availability zones are not available when you create an Active-Active database in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}). 
+{{< /note >}}
+
 ### Local latency with unique endpoints
 
 Applications can connect to a specific copy of an Active-Active database using its unique endpoint. For local latency, configure your application to use a database endpoint in the closest region.
