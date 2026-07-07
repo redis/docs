@@ -26,6 +26,12 @@ Here are some general guidelines:
 
 - [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) also doubles memory consumption and the effect is cumulative with the impact of replication. Since Active-Active requires replication to be turned on, the memory limit impact can be as large as four times (4x) the original data size.
 
+    Active-Active databases also have additional sizing considerations:
+
+    - Active-Active databases begin evicting keys when any one instance reaches 80% of its memory limit, rather than 100%, because eviction must propagate to all participating instances. Size your database so that expected usage stays below this threshold.
+
+    - Each Active-Active instance reserves a replication backlog for shard synchronization and an Active-Active replication backlog for synchronization between instances. By default, each backlog is set to 1% of the database size.
+
 - [Advanced capabilities]({{< relref "/operate/rc/databases/configuration/advanced-capabilities" >}}) also consume memory. For search databases, consider index size when you size your database. See [Search and query sizing]({{< relref "/operate/rc/databases/configuration/advanced-capabilities#search-and-query-sizing" >}}) for more info.
 
 Memory limits in Redis Cloud are subject to the same considerations as Redis Software; to learn more, see [Database memory limits]({{< relref "/operate/rs/databases/memory-performance/memory-limit" >}}).

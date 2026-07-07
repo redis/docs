@@ -71,3 +71,11 @@ However, Active-Active databases do not have a built-in [failover](https://en.wi
 For more information and guidance on which disaster recovery strategy to implement, see [Disaster recovery strategies for Active-Active databases]({{< relref "/operate/rs/databases/active-active/disaster-recovery" >}}).
 
 Data automatically syncs to a recovered cluster when it returns to a healthy state.
+
+## Sizing and memory
+
+Active-Active databases consume more memory than standalone databases. Because Active-Active requires replication, and Active-Active replication doubles memory consumption on top of that, the memory limit impact can be as large as four times (4x) the original data size.
+
+Active-Active databases also begin evicting keys earlier than standalone databases, at 80% of an instance's memory limit, and reserve additional memory for replication backlogs. Account for these factors when you size your database.
+
+For more information, see [Memory limits and sizing]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}).
