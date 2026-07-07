@@ -161,6 +161,8 @@ Filter expressions `?()` let you select JSON elements based on certain condition
 
 Paths within the filter condition use the dot notation with either `@` to denote the current array element or the current object value, or `$` to denote the top-level element. For example, use `@.key_name` to refer to a nested value and `$.top_level_key_name` to refer to a top-level value.
 
+Beginning with Redis Open Source 8.10, filter expressions and queries support additional operators, functions, and top-level projection expressions. For details, see [JSONPath extensions]({{< relref "develop/data-types/json/path-extensions" >}}).
+
 From version v2.4.2 onward, you can use the comparison operator `=~` to match a path of a string value on the left side against a regular expression pattern on the right side. For more information, see the [supported regular expression syntax docs](https://docs.rs/regex/latest/regex/#syntax).
 
 Non-string values do not match. A match can only occur when the left side is a path of a string value and the right side is either a hard-coded string, or a path of a string value. See [examples](#json-filter-examples) below.

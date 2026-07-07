@@ -14,7 +14,7 @@ description: 'Performance benchmarks
   '
 linkTitle: Performance
 title: Performance
-weight: 5
+weight: 6
 ---
 
 To get an early sense of what Redis JSON is capable of, you can test it with `redis-benchmark` just like

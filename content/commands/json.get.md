@@ -127,6 +127,21 @@ redis> JSON.GET doc ..a $..b
 {{< / highlight >}}
 </details>
 
+<details open>
+<summary><b>Compute a value with a projection expression</b></summary>
+
+Beginning with Redis Open Source 8.10, the path can be a projection expression that computes a value using arithmetic or a function, rather than only selecting a value from the document. For example:
+
+{{< highlight bash >}}
+redis> JSON.GET doc '$.a + 1'
+"[3]"
+redis> JSON.GET doc '$.nested.keys()'
+"[\"a\",\"b\"]"
+{{< / highlight >}}
+
+For the full set of operators and functions, see [JSONPath extensions]({{< relref "/develop/data-types/json/path-extensions" >}}).
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

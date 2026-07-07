@@ -88,6 +88,20 @@ redis> JSON.MGET doc1 doc2 $..a
 {{< / highlight >}}
 </details>
 
+<details open>
+<summary><b>Compute a value with a projection expression</b></summary>
+
+Beginning with Redis Open Source 8.10, the path can be a projection expression that computes a value using arithmetic or a function. `JSON.MGET` evaluates it independently for each key:
+
+{{< highlight bash >}}
+redis> JSON.MGET doc1 doc2 '$.a + 1'
+1) "[2]"
+2) "[5]"
+{{< / highlight >}}
+
+For the full set of operators and functions, see [JSONPath extensions]({{< relref "/develop/data-types/json/path-extensions" >}}).
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

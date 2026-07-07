@@ -12,7 +12,7 @@ categories:
 description: 'Notes on JSON debugging, testing and documentation.'
 linkTitle: Developer notes
 title: Developer notes
-weight: 7
+weight: 8
 ---
 
 Developing Redis JSON involves setting up the development environment (which can be either Linux-based or macOS-based), building RedisJSON (the Redis module providing JSON), running tests and benchmarks, and debugging both the JSON module and its tests.

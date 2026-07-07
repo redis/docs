@@ -12,7 +12,7 @@ categories:
 description: Debugging memory consumption
 linkTitle: Memory Usage
 title: Redis JSON RAM Usage
-weight: 6
+weight: 7
 ---
 
 {{< note >}}

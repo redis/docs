@@ -12,7 +12,7 @@ categories:
 description: JSON RESP2 to RESP3 replies reference for client developers
 linkTitle: RESP3 migration guide
 title: Guide for migrating from RESP2 to RESP3 replies
-weight: 6
+weight: 7
 ---
 
 In RESP3, the default value of the optional path argument was changed from `.` to `$`. 
