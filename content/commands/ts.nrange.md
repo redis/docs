@@ -408,10 +408,10 @@ In raw mode (no `AGGREGATION`):
 
 In aggregation mode (with `AGGREGATION`):
 
-- One aggregation spec applies to each key position; the spec at position _i_ maps to the key at position _i_, and the number of specs must equal `numkeys`.
-- Each spec is a comma-separated list of one or more aggregators. A key contributes one value per aggregator in its spec.
-- Each row's value array is flat: the aggregator values are concatenated in key order, and within each key in the order its aggregators are listed. All keys share one `bucketDuration`.
-- When a key has no data at a row's bucket, all of that key's value slots are `NaN`.
+- One aggregation spec applies to each key (spec _i_ maps to key _i_); the number of specs must equal `numkeys`, and all keys share one `bucketDuration`.
+- Each spec is a comma-separated list of one or more aggregators, and a key contributes one value per aggregator in its spec.
+- Each row is a single flat list of values, ordered by key and, within each key, by the order its aggregators are listed. For example, specs `avg,max` for the first key and `sum` for the second produce rows of the form `[avg, max, sum]`.
+- When a key has no data at a row's bucket, all of that key's values are `NaN`.
 - With `EMPTY`, empty buckets can produce rows in which every value is `NaN`.
 
 ### NaN values
@@ -439,13 +439,13 @@ A `NaN` value can mean that a key had no sample (or no aggregation bucket) at th
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator in its spec, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) composed of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator in its spec, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregation specs, unknown aggregation type, wrong key type, etc.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator in its spec, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) composed of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator in its spec, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregation specs, unknown aggregation type, wrong key type, etc.
 
 {{< /multitabs >}}

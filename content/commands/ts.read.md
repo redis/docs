@@ -260,7 +260,7 @@ When nothing qualifies by the timeout, the reply is an empty array.
 - Without `BLOCK`, the command never blocks: it returns up to `max_count` of the oldest qualifying samples immediately, even when no samples qualify (an empty array).
 - With `BLOCK milliseconds min_count`, if at least `min_count` matching samples are already available, the server returns immediately with up to `max_count` of the oldest qualifying samples.
 - With `BLOCK` and fewer than `min_count` matching samples available, the server blocks until `min_count` is reached, `milliseconds` elapse, or the key is removed. `BLOCK 0` blocks indefinitely. Each sample append ([`TS.ADD`]({{< relref "commands/ts.add/" >}}), [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}), and compaction-rule writes to the destination key) can unblock a blocked client.
-- On timeout, the server returns whatever is available, which can be empty or fewer than `min_count` samples. This is a successful reply, not an error.
+- On timeout, the server returns whatever is available, which can be an empty array or fewer than `min_count` samples. This is a successful reply, not an error.
 - If the key is removed while the client is blocked (`DEL`, `UNLINK`, `FLUSHDB`, `FLUSHALL`, expiry, or eviction), the server returns an empty list to the blocked client. This is a successful reply, not an error.
 - Returned samples are sorted by increasing timestamp, including when samples were inserted out of order.
 - Multiple blocked clients waiting on the same key wait independently. One client receiving samples does not consume them for another client.
