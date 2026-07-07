@@ -39,7 +39,7 @@ Refer to the provider's documentation to create a key:
 
 To set up self-managed encryption:
 
-1. [Activate self-managed encryption](#activate-self-managed-encryption) for a new or existing subscription.
+1. [Activate self-managed encryption](#activate-self-managed-encryption) for a new subscription.
 2. [Grant Redis permission to access your encryption key](#grant-key-permissions).
 
 ### Activate self-managed encryption
