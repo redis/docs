@@ -80,27 +80,7 @@ You can use an existing connection to the database to check its availability.
 
 #### PING command
 
-The [`PING`]({{<relref "/commands/ping">}}) command checks the following:
-
-- The database is connectable. 
-
-- The database is readable. 
-
-- The dataset is available.
-
-Example response for an available database:
-
-```
-127.0.0.1:6379> PING
-PONG
-```
-
-If a database is connectable but not available for reads, such as when reloading from a snapshot, `PING` returns an error message:
-
-```
-127.0.0.1:6379> PING
-(error) LOADING Redis is loading the dataset in memory
-```
+The [`PING`]({{<relref "/commands/ping">}}) command checks that the database endpoint is available and the application can connect to the database.
 
 #### Connection timeouts or Redis errors
 
@@ -125,5 +105,5 @@ Use multiple write operations with different randomized keys to access different
 | Health check | Connectivity | Readability | Writability | Durability | Notes |
 |--------------|--------------|-------------|--------------|------------|-------|
 | Database availability requests |:white_check_mark: |  |  |  | No guarantees on readability. For example, the shard might be reloading from a snapshot. |
-| `PING` |:white_check_mark: |:white_check_mark: |:white_check_mark: |  | No support for clustered databases. All `PING` requests will be forwarded to shard 1. |
+| `PING` |:white_check_mark: |  |  |  | No guarantees on readability. For example, the shard might be reloading from a snapshot. |
 | Keyspace sampling |:white_check_mark: |:white_check_mark: |:white_check_mark: |:white_check_mark: | Write operations are persisted, increasing disk usage for AOF and RDB. |
