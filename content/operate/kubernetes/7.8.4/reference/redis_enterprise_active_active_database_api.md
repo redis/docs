@@ -200,7 +200,7 @@ The Active-Active database global configurations, contains the global properties
         <td>evictionPolicy</td>
         <td>string</td>
         <td>
-          Database eviction policy. see more https://docs.redislabs.com/latest/rs/administering/database-operations/eviction-policy/<br/>
+          Database eviction policy. see more https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -258,7 +258,7 @@ The Active-Active database global configurations, contains the global properties
         <td>rackAware</td>
         <td>boolean</td>
         <td>
-          Whether database should be rack aware. This improves availability - more information: https://docs.redislabs.com/latest/rs/concepts/high-availability/rack-zone-awareness/<br/>
+          Whether database should be rack aware. This improves availability - more information: https://redis.io/docs/latest/operate/rs/clusters/configure/rack-zone-awareness/<br/>
         </td>
         <td>false</td>
       </tr><tr>
