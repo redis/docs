@@ -20,7 +20,7 @@ The available tabs depend on your account, and may include:
 
 - The **Account** tab displays basic information associated with your account, including general info, address details, time zone setting, security settings, and provider integration details.
 
-- The **Cloud Account** tab is displayed for Redis Cloud Pro subscriptions hosted on Amazon Web Services (AWS).  To learn more, see [Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/" >}}).
+- The **Cloud Account** tab is displayed for accounts with Redis Cloud Bring your own Cloud enabled. To learn more, see [Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/" >}}).
 
 - The **Integrations** tab lets you manage certain integrations.
 

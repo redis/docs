@@ -18,7 +18,7 @@ To learn more, see [System logs]({{< relref "/operate/rc/logs-reports/system-log
 
 ## Get system logs via REST API
 
-The REST API operation for querying the system log is [`GET /logs`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}).
+The REST API operation for querying the system log is [`GET /logs`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}).  Your account must have the **Owner**, **Viewer**, or **Logs viewer** role to query this endpoint.
 
 The `/logs` API operation accepts the following parameters:
 
