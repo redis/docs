@@ -33,7 +33,7 @@ You can use Redis sets to efficiently:
 
 * Store the sets of bikes racing in France and the USA. Note that
 if you add a member that already exists, it will be ignored.
-{{< clients-example set="sets_tutorial" step="sadd" description="Foundational: Add members to a set using SADD when you need to store unique items (duplicates are silently ignored)" difficulty="beginner" >}}
+{{< clients-example set="sets_tutorial" step="sadd" description="Foundational: Add members to a set using SADD when you need to store unique items (duplicates are silently ignored)" difficulty="beginner" prereq="true" >}}
 > SADD bikes:racing:france bike:1
 (integer) 1
 > SADD bikes:racing:france bike:1
@@ -45,7 +45,7 @@ if you add a member that already exists, it will be ignored.
 {{< /clients-example >}}
 
 * Check whether bike:1 or bike:2 are racing in the US.
-{{< clients-example set="sets_tutorial" step="sismember" description="Foundational: Test set membership using SISMEMBER when you need O(1) lookups (much faster than checking a list)" difficulty="beginner" buildsUpon="sadd" >}}
+{{< clients-example set="sets_tutorial" step="sismember" description="Foundational: Test set membership using SISMEMBER when you need O(1) lookups (much faster than checking a list)" difficulty="beginner" buildsUpon="sadd" needs_prereq="true" >}}
 > SISMEMBER bikes:racing:usa bike:1
 (integer) 1
 > SISMEMBER bikes:racing:usa bike:2
@@ -53,13 +53,13 @@ if you add a member that already exists, it will be ignored.
 {{< /clients-example >}}
 
 * Which bikes are competing in both races?
-{{< clients-example set="sets_tutorial" step="sinter" description="Set intersection: Find common members across multiple sets using SINTER when you need to identify shared items (e.g., users in multiple groups)" difficulty="intermediate" buildsUpon="sadd" >}}
+{{< clients-example set="sets_tutorial" step="sinter" description="Set intersection: Find common members across multiple sets using SINTER when you need to identify shared items (e.g., users in multiple groups)" difficulty="intermediate" buildsUpon="sadd" needs_prereq="true" >}}
 > SINTER bikes:racing:france bikes:racing:usa
 1) "bike:1"
 {{< /clients-example >}}
 
 * How many bikes are racing in France?
-{{< clients-example set="sets_tutorial" step="scard" description="Foundational: Get the cardinality of a set using SCARD when you need to count unique items efficiently" difficulty="beginner" buildsUpon="sadd" >}}
+{{< clients-example set="sets_tutorial" step="scard" description="Foundational: Get the cardinality of a set using SCARD when you need to count unique items efficiently" difficulty="beginner" buildsUpon="sadd" needs_prereq="true" >}}
 > SCARD bikes:racing:france
 (integer) 3
 {{< /clients-example >}}
@@ -88,7 +88,7 @@ elements in any order at every call.
 
 Redis has commands to test for set membership. These commands can be used on single as well as multiple items:
 
-{{< clients-example set="sets_tutorial" step="smismember" description="Batch membership checks: Test multiple items at once using SMISMEMBER when you need to reduce round trips to the server" difficulty="intermediate" buildsUpon="sismember" >}}
+{{< clients-example set="sets_tutorial" step="smismember" description="Batch membership checks: Test multiple items at once using SMISMEMBER when you need to reduce round trips to the server" difficulty="intermediate" buildsUpon="sismember" try_it="false" >}}
 > SISMEMBER bikes:racing:france bike:1
 (integer) 1
 > SMISMEMBER bikes:racing:france bike:2 bike:3 bike:4
@@ -100,7 +100,7 @@ Redis has commands to test for set membership. These commands can be used on sin
 We can also find the difference between two sets. For instance, we may want
 to know which bikes are racing in France but not in the USA:
 
-{{< clients-example set="sets_tutorial" step="sdiff" description="Set difference: Find members in one set but not in others using SDIFF when you need to exclude items (warning: argument order matters)" difficulty="intermediate" buildsUpon="sadd" >}}
+{{< clients-example set="sets_tutorial" step="sdiff" description="Set difference: Find members in one set but not in others using SDIFF when you need to exclude items (warning: argument order matters)" difficulty="intermediate" buildsUpon="sadd" needs_prereq="true" >}}
 > SADD bikes:racing:usa bike:1 bike:4
 (integer) 2
 > SDIFF bikes:racing:france bikes:racing:usa

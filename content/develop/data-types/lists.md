@@ -376,7 +376,7 @@ string
 
 Example of rule 2:
 
-{{< clients-example set="list_tutorial" step="rule_2" description="Automatic removal: Redis automatically deletes empty lists, freeing memory when the last element is removed" buildsUpon="lpush_rpush, lpop_rpop" >}}
+{{< clients-example set="list_tutorial" step="rule_2" description="Automatic removal: Redis automatically deletes empty lists, freeing memory when the last element is removed" buildsUpon="lpush_rpush, lpop_rpop" runnable="false" max_lines=6 >}}
 > DEL bikes:repairs
 (integer) 1
 > LPUSH bikes:repairs bike:1 bike:2 bike:3
