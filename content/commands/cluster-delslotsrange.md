@@ -44,7 +44,15 @@ title: CLUSTER DELSLOTSRANGE
 The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) command in that they both remove hash slots from the node.
 The difference is that [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) takes a list of hash slots to remove from the node, while `CLUSTER DELSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to remove from the node.
 
-## Example
+## Required arguments
+
+<details open><summary><code>start-slot end-slot [start-slot end-slot ...]</code></summary>
+
+One or more inclusive ranges of hash slots to unassign from the current node.
+
+</details>
+
+## Examples
 
 To remove slots 1 2 3 4 5 from the node, the [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) command is:
 
@@ -62,7 +70,9 @@ However, note that:
 2. The command fails if the same slot is specified multiple times.
 3. As a side effect of the command execution, the node may go into *down* state because not all hash slots are covered.
 
-## Usage in Redis Cluster
+## Details
+
+### Usage in Redis Cluster
 
 This command only works in cluster mode and may be useful for
 debugging and in order to manually orchestrate a cluster configuration

@@ -84,7 +84,7 @@ An error is returned if a tracking session is already in progress.
 
 The tracking session continues until manually stopped with [`HOTKEYS STOP`]({{< relref "/commands/hotkeys-stop" >}}) or automatically stopped after the specified duration.
 
-## Arguments
+## Required arguments
 
 <details open><summary><code>METRICS count [CPU] [NET]</code></summary>
 
@@ -128,7 +128,7 @@ Specifies which hash slots to track in a cluster environment. Takes a count foll
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

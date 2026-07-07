@@ -4,6 +4,7 @@ categories:
 - operate
 - stack
 - oss
+draft: true
 linkTitle: Debian 11 (Bullseye)
 title: Build and run Redis Open Source on Debian 11 (Bullseye)
 weight: 20

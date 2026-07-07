@@ -119,6 +119,14 @@ Then we may want to know what commands are part of a given category:
 31) "sort"
 ```
 
+## Optional arguments
+
+<details open><summary><code>category</code></summary>
+
+List only the commands in the given ACL category. If omitted, all categories are listed.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

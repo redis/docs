@@ -145,6 +145,33 @@ To use a database from a Redis Open Source cluster as a Replica Of source:
 
 1. Select **Save**.
 
+### Enforce read-only access
+
+Writing directly to a Replica Of destination database is not supported and can result in replication errors, data inconsistencies, or data loss.
+
+As of Redis Software version 7.22.0-95, you can set `replica_read_only` to `true` when you [create a Replica Of database]({{<relref "operate/rs/references/rest-api/requests/bdbs#post-bdbs-v2">}}) using the REST API. When enabled, the destination database rejects all write operations to prevent accidental writes. Replication remains one-way from source to destination. You cannot change `replica_read_only` after database creation.
+
+To enforce read-only access when you create a Replica Of destination database:
+
+```sh
+POST https://<host>:<port>/v2/bdbs
+{
+  "name": "readonly-replica-db",
+  "memory_size": 1073741824,
+  "replica_sources": [
+    {
+      "uri": "redis://admin:<password>@<source-host>:<port>"
+    }
+  ],
+  "replica_read_only": true,
+  // Additional fields
+}
+```
+
+For additional database configuration fields, see the [BDB object]({{<relref "/operate/rs/references/rest-api/objects/bdb">}}) reference.
+
+For Redis Software versions earlier than 7.22.0-95, there is no product-level enforcement preventing writes to the destination database, so you should configure your application to direct all write operations exclusively to the source database.
+
 ## Configure TLS for Replica Of
 
 When you enable TLS for Replica Of, the Replica Of synchronization traffic uses TLS certificates to authenticate the communication between the source and destination clusters.

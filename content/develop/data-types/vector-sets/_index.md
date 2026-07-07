@@ -2,6 +2,7 @@
 aliases:
 - /data-types/vector-sets/
 - /manual/data-types/vector-sets/
+- /develop/data-types/vector-set/
 categories:
 - docs
 - develop
@@ -15,7 +16,7 @@ categories:
 description: Introduction to Redis vector sets
 linkTitle: Vector sets
 title: Redis vector sets
-weight: 55
+weight: 130
 ---
 
 {{< command-group group="module" url_group="vector_set" title="Vector set command summary" show_link=true >}}
@@ -193,6 +194,10 @@ to include them in the search:
 1) "pt:C"
 2) "pt:B"
 {{< /clients-example >}}
+&nbsp;
+{{< alert title="Try it out" >}}
+Experiment with vector set commands interactively in the [Redis playground](https://redis.io/try/sandbox) — no installation required.
+{{< /alert >}}
 
 ## More information
 

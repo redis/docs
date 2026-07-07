@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/streaming/node-redis
 categories:
 - docs
 - develop

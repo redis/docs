@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/pub-sub/redis-rb
 categories:
 - docs
 - develop

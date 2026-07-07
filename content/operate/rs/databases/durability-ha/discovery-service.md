@@ -93,13 +93,13 @@ To use Redis Sentinel, every database name must be unique across the cluster.
 
 ## Redis client support
 
-We recommend these clients that are tested for use with the [Discovery Service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}) that uses the Redis Sentinel API:
+All [recommended Redis client libraries]({{< relref "/develop/clients" >}}) support the Redis Sentinel API, so you can use any of them with the discovery service.
 
-{{< embed-md "discovery-clients.md" >}}
+If you need to use a client that doesn't support Sentinel, you can use [Sentinel Tunnel](https://github.com/RedisLabs/sentinel_tunnel) to discover the current primary Redis endpoint with Sentinel and create a TCP tunnel between a local port on the client and the primary endpoint.
 
 {{< note >}}
-Redis Sentinel API can return endpoints for both master and replica
+Redis Sentinel API can return endpoints for both primary and replica
 endpoints.
-Discovery Service only supports master endpoints and does not
+Discovery Service only supports primary endpoints and does not
 support returning replica endpoints for a database.
 {{< /note >}}

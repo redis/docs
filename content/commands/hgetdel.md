@@ -60,7 +60,21 @@ title: HGETDEL
 ---
 Get and delete the value of one or more fields of a given hash key. When the last field is deleted, the key will also be deleted.
 
-## Example
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to get and then delete. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Examples
 
 ```
 redis> HSET mykey field1 "Hello" field2 "World" field3 "!"

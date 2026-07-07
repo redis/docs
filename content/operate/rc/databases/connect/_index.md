@@ -21,9 +21,11 @@ To connect to the database, you need the following information:
 
 ### Database endpoints
 
-The database endpoints are listed in the **General** section of the **Configuration** tab for your database.
+The database endpoints are listed in the **Configuration** tab for your database: in the **Access** section for Essentials databases, or the **General** section for Pro databases.
 
-{{<image filename="images/rc/databases-configuration-general-endpoints.png" alt="The General section of the Configuration tab of the database details page." >}}
+{{<image filename="images/rc/databases-configuration-general-endpoints.png" alt="The General section of the Configuration tab of the Pro database details page." >}}
+
+{{<image filename="images/rc/database-details-configuration-tab-access-essentials.png" alt="The Access section for an Essentials database." width=50%" >}}
 
 Redis Cloud Pro and Redis Cloud Essentials databases have a public endpoint, which you can access from the public internet. Redis Cloud Pro databases also have a private endpoint. You can connect to the private endpoint from a private network. Before you can connect to the private endpoint, you must set up a private connectivity method, such as:
 - [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}})
@@ -40,9 +42,9 @@ You can redirect the dynamic endpoints to a different database at any time, but 
 
 ### Database username and password
 
-By default, your database is protected by a [**Default user**]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) with the username `default` and a masked **Default user password**. You can see the default user password in the **Security** section of the **Configuration** details for your database. Select the eye icon to show or hide the password.    
+By default, your database is protected by a [**Default user**]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) with the username `default` and a masked **Default user password**. For Essentials databases, select **Default user > Configure** and then select the eye icon to view your password. 
 
-{{<image filename="images/rc/database-fixed-configuration-security.png" width="75%" alt="The Security section of the Configuration tab of the database details page." >}}
+For Pro databases, you can see the default user password in the **Security** section of the **Configuration** details for your database. Select the eye icon to show or hide the password.    
 
 If you've turned on [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) for your database and [turned off the default User]({{< relref "/operate/rc/security/access-control/data-access-control/default-user#turn-off-default-user" >}}), use the username and password for your data access role.
 

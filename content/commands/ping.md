@@ -34,17 +34,27 @@ summary: Returns the server's liveliness response.
 syntax_fmt: PING [message]
 title: PING
 ---
-Returns `PONG` if no argument is provided, otherwise return a copy of the
-argument as a bulk.
+
+This command returns the bulk string `PONG` if no argument is provided, otherwise it returns a copy of the
+provided `message` as a bulk string.
+
 This command is useful for:
 1. Testing whether a connection is still alive.
-1. Verifying the server's ability to serve data - an error is returned when this isn't the case (e.g., during load from persistence or accessing a stale replica).
+1. Verifying the server's ability to serve data - an error is returned when this isn't the case (for example, during load from persistence data or accessing a stale replica).
 1. Measuring latency.
 
 If the client is subscribed to a channel or a pattern, it will instead return a
-multi-bulk with a "pong" in the first position and an empty bulk in the second
-position, unless an argument is provided in which case it returns a copy
+multi-bulk string with `PONG` in the first position and an empty bulk string in the second
+position, unless an argument is provided, in which case it returns a copy
 of the argument.
+
+## Optional arguments
+
+<details open><summary><code>message</code></summary>
+
+A message to return instead of `PONG`.
+
+</details>
 
 ## Examples
 

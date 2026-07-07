@@ -67,30 +67,57 @@ syntax_fmt: "DELEX key [IFEQ\_ifeq-value | IFNE\_ifne-value | IFDEQ\_ifdeq-diges
   \ |\n  IFDNE\_ifdne-digest]"
 title: DELEX
 ---
-
 Conditionally removes the specified key based on value or hash digest comparison.
 
-## Hash Digest
+## Required arguments
 
-A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options.
+<details open><summary><code>key</code></summary>
 
-## Options
+The name of the key to delete.
 
-The DELEX command supports a set of options that modify its behavior.
-Only one of the options can be specified.
+</details>
 
-* `IFEQ ifeq-value` -- Remove the key if the value is equal to the specified value.
-* `IFNE ifne-value` -- Remove the key if the value is not equal to the specified value.
-* `IFDEQ ifeq-digest` -- Remove the key if its hash digest is equal to the specified hash digest.
-* `IFDNE ifne-digest` -- Remove the key if its hash digest is not equal to the specified hash digest.
+## Optional arguments
+
+The following options condition the deletion on the key's current value or [hash digest](#hash-digest). Only one may be specified.
+
+<details open><summary><code>IFEQ ifeq-value</code></summary>
+
+Delete the key only if its value is equal to `ifeq-value`.
+
+</details>
+
+<details open><summary><code>IFNE ifne-value</code></summary>
+
+Delete the key only if its value is not equal to `ifne-value`.
+
+</details>
+
+<details open><summary><code>IFDEQ ifdeq-digest</code></summary>
+
+Delete the key only if its hash digest is equal to `ifdeq-digest`.
+
+</details>
+
+<details open><summary><code>IFDNE ifdne-digest</code></summary>
+
+Delete the key only if its hash digest is not equal to `ifdne-digest`.
+
+</details>
 
 In 8.4, keys must be of type string when using one of the options above. If no options are specified, the key is removed regardless of its type.
+
+## Details
+
+### Hash Digest {#hash-digest}
+
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options.
 
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 

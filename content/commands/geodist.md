@@ -86,6 +86,34 @@ The unit must be one of the following, and defaults to meters:
 
 The distance is computed assuming that the Earth is a perfect sphere, so errors up to 0.5% are possible in edge cases.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the geospatial index (a sorted set).
+
+</details>
+
+<details open><summary><code>member1</code></summary>
+
+The first member.
+
+</details>
+
+<details open><summary><code>member2</code></summary>
+
+The second member.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>M | KM | FT | MI</code></summary>
+
+The unit for the returned distance: meters (`M`, the default), kilometers (`KM`), feet (`FT`), or miles (`MI`).
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

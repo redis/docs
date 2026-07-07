@@ -30,3 +30,7 @@ You can:
     {{<image filename="images/rc/system-logs-refresh.png" alt="Use the refresh button in the top right to refresh the system logs" width="30px">}}
 
 * Use the search bar to search for specific entries. Supported fields include *Originator*, *Database name*, *API key name*, *Activity*, and *Description*.
+
+## Get system logs using REST API
+
+Use [`GET /logs`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}) to get the system logs using the REST API. See [Audit system logs]({{< relref "/operate/rc/api/examples/audit-system-logs" >}}) for more information.

@@ -21,6 +21,10 @@ all write commands are synchronized from the sources to the destination.
 Replica Of lets you distribute the read load of your application across multiple databases or
 synchronize the database, either within Redis Software or external to Redis Software, to another database.
 
+{{< warning >}}
+Do not write directly to a Replica Of destination database, because it can result in replication errors, data inconsistencies, or data loss. See [Enforce read-only access]({{<relref "/operate/rs/databases/import-export/replica-of/create#enforce-read-only-access">}}) for details and instructions.
+{{< /warning >}}
+
 You can [create Active-Passive]({{< relref "/operate/rs/databases/import-export/replica-of/create.md" >}}) databases on Redis Software or Redis Cloud.
 
 [Active-Active Geo-Distribution (CRDB)]({{< relref "/operate/rs/databases/active-active" >}})
@@ -205,6 +209,10 @@ When you failover to the destination database for write operations,
 make sure that you disable **Replica Of** before you direct clients to the destination database.
 This avoids a full sync that can overwrite your data.
 {{% /warning %}}
+
+## Upgrade order
+
+When you [upgrade]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-database" >}}) a Replica Of database, upgrade the destination database before the source database to avoid possible replication failures.
 
 ## Active-Passive replication backlog
 

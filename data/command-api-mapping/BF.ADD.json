@@ -21,6 +21,48 @@
         }
       }
     ],
+    "redis_rs_sync": [
+      {
+        "signature": "bf_add(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "The item to add to the filter"
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": "true if the item was newly added, false if it may have existed previously"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bf_add(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "The item to add to the filter"
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": "true if the item was newly added, false if it may have existed previously"
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "boolean bfAdd(String key, String item)",

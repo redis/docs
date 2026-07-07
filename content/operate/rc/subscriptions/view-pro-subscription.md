@@ -39,11 +39,13 @@ In addition, you can view and edit the following subscription details:
 
 2.  The **Overview** tab displays subscription settings for your Redis Cloud Pro subscription.
 
-3.  The **Connectivity** tab lets you limit access to the subscription by defining a VPC peering or other connectivity options.
+3. The **Data integration** tab displays your Data integration workspace and pipelines.
 
-4.  The **Security** tab lets you set security settings for the databases in your subscription.
+4.  The **Connectivity** tab lets you limit access to the subscription by defining a VPC peering or other connectivity options.
 
-5.  The **Regions** tab lets you manage the regions in your Active-Active subscription (_Active-Active subscriptions only_).
+5.  The **Security** tab lets you set security settings for the databases in your subscription.
+
+6.  The **Regions** tab lets you manage the regions in your Active-Active subscription (_Active-Active subscriptions only_).
 
 The following sections provide more info.
 
@@ -89,6 +91,7 @@ The **Overview** summarizes the options used to create the subscription.
     | **Active-Active Redis** | Checked when Active-Active Redis is enabled for your subscription |
     | **Region** | Describes the region your subscription is deployed to |
     | **Availability Zones** | The availability zones your subscription is deployed in (Visible if you selected availability zones on creation) |
+    | **AWS Resource tags** | The tags applied to your resources in your BYOC account. Select the **Edit** button to manage your resource tags. See [Resource tags]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/resource-tags" >}}) for more information.<br/><br/>(Available only if [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}) is enabled) |
 
 
 - The **Price** panel shows the monthly cost of your Redis Cloud Pro subscription.
@@ -110,6 +113,10 @@ The **Overview** summarizes the options used to create the subscription.
   If your subscription is attached to a cloud account, the details appear in the panel header.
 
 - The **Redis price** panel breaks down your subscription price.
+
+## **Data Integration** tab
+
+The **Data integration** tab displays your Data integration workspace and pipelines. See [Data integration]({{< relref "/operate/rc/rdi" >}}) for more information.
 
 ## **Connectivity** tab
 

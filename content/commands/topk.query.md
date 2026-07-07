@@ -34,12 +34,21 @@ title: TOPK.QUERY
 ---
 Checks whether one or more items are one of the Top-K items.
 
-## Parameters
+## Required arguments
 
-* **key**: the name of the sketch.
-* **item**: the items to be queried.
+<details open><summary><code>key</code></summary>
 
-## Example
+the name of the sketch.
+
+</details>
+
+<details open><summary><code>item [item ...]</code></summary>
+
+the items to be queried.
+
+</details>
+
+## Examples
 
 ```
 redis> TOPK.QUERY topk 42 nonexist

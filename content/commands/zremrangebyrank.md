@@ -63,6 +63,26 @@ the element with the highest score.
 For example: `-1` is the element with the highest score, `-2` the element with
 the second highest score and so forth.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The start index, zero-based. Negative values count from the end of the sorted set (`-1` is the member with the highest score).
+
+</details>
+
+<details open><summary><code>stop</code></summary>
+
+The stop index, zero-based and inclusive. Negative values count from the end of the sorted set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

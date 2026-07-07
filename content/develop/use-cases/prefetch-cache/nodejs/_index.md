@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/prefetch-cache/node-redis
 categories:
 - docs
 - develop

@@ -2,6 +2,7 @@
 aliases:
 - /data-types/sorted-sets/
 - /manual/data-types/sorted-sets/
+- /develop/data-types/sorted-set/
 categories:
 - docs
 - develop
@@ -17,7 +18,7 @@ description: 'Introduction to Redis sorted sets
   '
 linkTitle: Sorted sets
 title: Redis sorted sets
-weight: 50
+weight: 100
 ---
 
 {{< command-group group="sorted-set" title="Sorted set command summary" show_link=true >}}

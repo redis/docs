@@ -78,6 +78,14 @@ master and set the application to use this new master in read/write.
 Later when the other Redis server is fixed, it can be reconfigured to work as a
 replica.
 
+## Required arguments
+
+<details open><summary><code>host port | NO ONE</code></summary>
+
+The host and port of the master to replicate from, or `NO ONE` to stop replicating. `SLAVEOF` is deprecated; use `REPLICAOF` instead.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

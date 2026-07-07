@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/java
+- /develop/use-cases/leaderboard/jedis
 categories:
 - docs
 - develop

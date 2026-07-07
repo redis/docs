@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/stackexchange.redis
 categories:
 - docs
 - develop

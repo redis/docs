@@ -72,6 +72,14 @@ that either all the fields or none at all are set.
 It is not possible for clients to see that some of the keys were updated while
 others are unchanged.
 
+## Required arguments
+
+<details open><summary><code>key value [key value ...]</code></summary>
+
+One or more key-value pairs to set. No keys are set if any of them already exists.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

@@ -73,6 +73,32 @@ performed.
 
 An error is returned when `key` exists but does not hold a list value.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>BEFORE | AFTER</code></summary>
+
+Whether to insert `element` before or after `pivot`.
+
+</details>
+
+<details open><summary><code>pivot</code></summary>
+
+The existing element to insert relative to.
+
+</details>
+
+<details open><summary><code>element</code></summary>
+
+The value to insert.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

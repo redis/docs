@@ -52,6 +52,14 @@ configuration update, it may show stale information. However eventually
 (in a matter of seconds if there are no network partitions) all the nodes
 will agree about the set of nodes associated with a given master.
 
+## Required arguments
+
+<details open><summary><code>node-id</code></summary>
+
+The ID of the master node to list the replicas of. `CLUSTER SLAVES` is deprecated; use `CLUSTER REPLICAS` instead.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

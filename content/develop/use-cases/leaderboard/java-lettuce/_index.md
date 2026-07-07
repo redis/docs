@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/lettuce
 categories:
 - docs
 - develop

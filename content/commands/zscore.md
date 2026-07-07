@@ -54,6 +54,20 @@ Returns the score of `member` in the sorted set at `key`.
 If `member` does not exist in the sorted set, or `key` does not exist, `nil` is
 returned.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member whose score to return.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

@@ -1,0 +1,6 @@
+vendor/
+.transformers-cache/
+.models/
+.idea/
+.vscode/
+*.log

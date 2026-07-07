@@ -63,7 +63,7 @@ Returns Newline Delimited JSON (NDJSON), which represents the usage report for e
 | replication | boolean | Indicates if replication is enabled |
 | software_version | string | The Redis Software version |
 | used_memory | number | Used memory in bytes |
-| <span class="break-all">using_redis_search</span> | boolean | Indicates if RediSearch is in use |
+| <span class="break-all">using_redis_search</span> | boolean | Indicates if Redis Search is in use |
 | <span class="break-all">master_shards_count</span> | number | Amount of primary shards |
 | license | object | License information for the cluster<br />{{<code>}} "license": {<br />    "activation_date": string,<br />    "expiration_date": string,<br />    "ram_shards_in_use": integer,<br />    "ram_shards_limit": integer,<br />    "flash_shards_in_use": integer,<br />    "flash_shards_limit": integer,<br />    "shards_limit": integer<br />}{{</code>}}<br />**activation_date**: License activation date and time<br />**expiration_date**: License expiration date and time<br />**ram_shards_in_use**: Amount of RAM shards in use<br />**ram_shards_limit**: Amount of RAM shards allowed<br />**flash_shards_in_use**: Amount of flash shards in use<br />**flash_shards_limit**: Amount of flash shards allowed<br />**shards_limit**: Total shards limit |
 

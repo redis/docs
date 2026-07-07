@@ -33,10 +33,19 @@ title: CMS.QUERY
 ---
 Returns the count for one or more items in a sketch.
 
-### Parameters:
+## Required arguments
 
-* **key**: The name of the sketch.
-* **item**: One or more items for which to return the count.
+<details open><summary><code>key</code></summary>
+
+The name of the sketch.
+
+</details>
+
+<details open><summary><code>item [item ...]</code></summary>
+
+One or more items for which to return the count.
+
+</details>
 
 ## Examples
 

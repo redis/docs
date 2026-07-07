@@ -37,13 +37,17 @@ summary: Stops listening to messages published to channels that match one or mor
 syntax_fmt: PUNSUBSCRIBE [pattern [pattern ...]]
 title: PUNSUBSCRIBE
 ---
-Unsubscribes the client from the given patterns, or from all of them if none is
-given.
+Unsubscribes the client from the specified patterns, or from all patterns if none are specified.
 
-When no patterns are specified, the client is unsubscribed from all the
-previously subscribed patterns.
-In this case, a message for every unsubscribed pattern will be sent to the
-client.
+If you don’t specify any patterns, the client unsubscribes from all previously subscribed patterns. The client receives one message for each pattern it unsubscribes from.
+
+## Optional arguments
+
+<details open><summary><code>pattern [pattern ...]</code></summary>
+
+One or more patterns to unsubscribe from. If omitted, the client is unsubscribed from all patterns.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

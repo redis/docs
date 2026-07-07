@@ -83,6 +83,7 @@ following table:
     h     Hash commands
     z     Sorted set commands
     t     Stream commands
+    a     Array commands
     d     Module key type events
     x     Expired events (events generated every time a key expires)
     e     Evicted events (events generated when a key is evicted for maxmemory)
@@ -90,7 +91,7 @@ following table:
     n     New key events generated whenever a new key is created (Note: not included in the 'A' class)
     o     Overwritten events generated every time a key is overwritten (Note: not included in the 'A' class)
     c     Type-changed events generated every time a key's type changes (Note: not included in the 'A' class)
-    A     Alias for "g$lshztdxe", so that the "AKE" string means all the events except "m", "n", "o" and "c".
+    A     Alias for "g$lshztdxea", so that the "AKE" string means all the events except "m", "n", "o" and "c".
 
 At least `K` or `E` should be present in the string, otherwise no event
 will be delivered regardless of the rest of the string.
@@ -115,6 +116,7 @@ Different commands generate different kind of events according to the following 
 * [`HSET`]({{< relref "/commands/hset" >}}), [`HSETNX`]({{< relref "/commands/hsetnx" >}}) and [`HMSET`]({{< relref "/commands/hmset" >}}) all generate a single `hset` event.
 * [`INCRBYFLOAT`]({{< relref "/commands/incrbyfloat" >}}) generates an `incrbyfloat` events.
 * [`INCR`]({{< relref "/commands/incr" >}}), [`DECR`]({{< relref "/commands/decr" >}}), [`INCRBY`]({{< relref "/commands/incrby" >}}), [`DECRBY`]({{< relref "/commands/decrby" >}}) commands all generate `incrby` events.
+* [`INCREX`]({{< relref "/commands/increx" >}}) generates an `incrby` event (or `incrbyfloat` when used with `BYFLOAT`). Additionally, an `expire` event is generated when `EX`/`PX`/`EXAT`/`PXAT` is used, a `persist` event when `PERSIST` is used, or a `del` event if the specified expiration is already in the past and the key is removed.
 * [`LINSERT`]({{< relref "/commands/linsert" >}}) generates an `linsert` event.
 * [`LMOVE`]({{< relref "/commands/lmove" >}}) and [`BLMOVE`]({{< relref "/commands/blmove" >}}) generate an `lpop`/`rpop` event (depending on the wherefrom argument) and an `lpush`/`rpush` event (depending on the whereto argument). In both cases the order is guaranteed (the `lpush`/`rpush` event will always be delivered after the `lpop`/`rpop` event). Additionally a `del` event will be generated if the resulting list is zero length and the key is removed.
 * [`LPOP`]({{< relref "/commands/lpop" >}}) generates an `lpop` event. Additionally a `del` event is generated if the key is removed because the last element from the list was popped.
@@ -194,8 +196,11 @@ Expired (`expired`) events are generated when the Redis server deletes the key a
 
 Every node of a Redis cluster generates events about its own subset of the keyspace as described above. However, unlike regular Pub/Sub communication in a cluster, events' notifications **are not** broadcasted to all nodes. Put differently, keyspace events are node-specific. This means that to receive all keyspace events of a cluster, clients need to subscribe to each of the nodes.
 
+## See also
+
+See the [subkey notifications]({{< relref "/develop/pubsub/subkeyspace-notifications" >}}) page for information about subkey notifications (for example, individual fields of a hash key).
+
 @history
 
 *   `>= 6.0`: Key miss events were added.
 *   `>= 7.0`: Event type `new` added
-

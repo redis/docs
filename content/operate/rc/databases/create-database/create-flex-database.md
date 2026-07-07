@@ -44,7 +44,7 @@ For workloads that require durability and recovery across restarts or failures, 
 
     After you select **Essentials**, the rest of the database details will appear. Select **Flex (RAM + SSD)** to use Flex.
 
-    {{<image filename="images/rc/create-database-flex-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
+    {{<image filename="images/rc/create-database-essentials-cloud-vendor.png" alt="The database name, cloud vendor, version, region, type, and durability settings.">}}
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.  
 
@@ -103,8 +103,12 @@ In the **Advanced options** of the **Setup** tab, select **Redis Flex**.
 
 {{<image filename="images/rc/pro-flex-on.png" width="75%" alt="The Flex setting selected." >}}
 
-During the **Sizing** step, when you are provisioning your databases, you can select the RAM percentage for your database. The default is 20%, but you can select a percentage between 10% and 50%. Lower RAM percentages reduce cost but may increase latency, while higher RAM percentages improve throughput and latency at higher cost.
+During the **Sizing** step, when you are provisioning your databases, you can select the RAM percentage for your database. The default is 20%, but you can select a percentage between 10% and 50%. Lower RAM percentages reduce cost but may increase latency, while higher RAM percentages improve throughput and latency at higher cost. See [Choosing the right RAM ratio](https://support.redislabs.com/hc/en-us/articles/36437338181522-Redis-Flex-V2-Choosing-the-Right-RAM-Ratio-and-Troubleshooting-Performance) to choose the right RAM percentage for your database.
 
 {{<image filename="images/rc/pro-flex-ram-percentage.png" width="75%" alt="The RAM percentage setting." >}}
 
 Continue with the instructions to [create your database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}).
+
+## Troubleshooting
+
+See [Troubleshooting Redis Flex performance questions](https://support.redislabs.com/hc/en-us/articles/36437338181522-Redis-Flex-V2-Choosing-the-Right-RAM-Ratio-and-Troubleshooting-Performance#h_01KV6F382KNM8N0W00DFEHPY3S) on the Redis Support knowledge base to learn how to troubleshoot Redis Flex databases.

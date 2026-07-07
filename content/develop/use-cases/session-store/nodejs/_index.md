@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/session-store/node-redis
 categories:
 - docs
 - develop

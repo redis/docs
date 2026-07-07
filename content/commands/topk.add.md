@@ -38,12 +38,21 @@ Multiple items can be added at the same time.
 If an item enters the Top-K sketch, the item that is expelled (if any) is returned.
 This allows dynamic heavy-hitter detection of items being entered or expelled from Top-K sketch. 
 
-## Parameters
+## Required arguments
 
-* **key**: the name of the sketch where items are added.
-* **item**: the items to be added.
+<details open><summary><code>key</code></summary>
 
-## Example
+the name of the sketch where items are added.
+
+</details>
+
+<details open><summary><code>item [item ...]</code></summary>
+
+the items to be added.
+
+</details>
+
+## Examples
 
 ```
 redis> TOPK.ADD topk foo bar 42

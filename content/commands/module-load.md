@@ -52,6 +52,22 @@ configuration directive in `redis.conf`.
 As of Redis 8 in Redis Open Source, loading a module using the Redis CLI with configuration parameters is deprecated.
 {{< /note >}}
 
+## Required arguments
+
+<details open><summary><code>path</code></summary>
+
+The absolute path to the module library file.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>arg [arg ...]</code></summary>
+
+Arguments passed to the module's initialization function.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

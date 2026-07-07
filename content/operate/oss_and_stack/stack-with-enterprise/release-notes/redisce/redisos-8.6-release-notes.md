@@ -12,6 +12,31 @@ min-version-rs: blah
 weight: 20
 ---
 
+## Redis Open Source 8.6.4 (June 2026)
+
+Update urgency: `HIGH`: There are critical bugs that may affect a subset of users.
+
+### Bug fixes
+
+- [#15175](https://github.com/redis/redis/pull/15175), RediSearch/RediSearch[#9262](https://github.com/redisearch/redisearch/pull/9262) Redis fails to start on AArch64.
+- [#15163](https://github.com/redis/redis/pull/15163) `MULTI` queue memory incorrect memory accounting.
+- [#15115](https://github.com/redis/redis/pull/15115) Under-copy in the Lua debugger.
+- [#15094](https://github.com/redis/redis/pull/15094) Cluster crash when `CLIENT KILL` unsubscribes `SSUBSCRIBE` client inside `EXEC`.
+- [#14963](https://github.com/redis/redis/pull/14963) `XREADGROUP`: consumer replication inconsistency.
+- [#14934](https://github.com/redis/redis/pull/14934) Client output buffer memory tracking not accounting for copy-avoided bulk string references.
+- [#14970](https://github.com/redis/redis/pull/14970) Sentinel config injection via `SENTINEL SET`.
+- [#14982](https://github.com/redis/redis/pull/14982) `SCAN` commands: integer overflow in `COUNT` parameter.
+- [#15073](https://github.com/redis/redis/pull/15073) `CLIENT TRACKING`: self-overlap returning non-zero loop index.
+- [#15059](https://github.com/redis/redis/pull/15059) Use-after-free.
+- [#15037](https://github.com/redis/redis/pull/15037) `XINFO STREAM`: wrong value in the per-slot memory tracking.
+- [#15034](https://github.com/redis/redis/pull/15034), [#15081](https://github.com/redis/redis/pull/15081) Issues processing corrupt RDB data.
+- [#15021](https://github.com/redis/redis/pull/15021) `HEXPIRE`: overflow on fields count.
+- [#14942](https://github.com/redis/redis/pull/14942) Fix `COMMAND GETKEYS for PFMERGE` with no source keys.
+- [#15188](https://github.com/redis/redis/pull/15188) `cluster-announce-ip` rejecting hostnames (regression).
+- [#14667](https://github.com/redis/redis/pull/14667), [#14886](https://github.com/redis/redis/pull/14886) Potential TCP stalls/deadlocks.
+- RediSearch/RediSearch[#9484](https://github.com/redisearch/redisearch/pull/9484) Shard crash during background index scan of JSON documents with vector fields on Active-Active (CRDT) databases (MOD-15542).
+- RediSearch/RediSearch[#9635](https://github.com/redisearch/redisearch/pull/9635) Severe latency spikes and shard unresponsiveness when `EXPIRE` or `EXPIREAT` operations run concurrently with queries on large indexes (MOD-14930).
+
 ## Redis Open Source 8.6.3 (May 2026)
 
 Update urgency: `SECURITY`: There are security fixes in the release.

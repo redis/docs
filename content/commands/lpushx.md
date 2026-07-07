@@ -60,6 +60,20 @@ already exists and holds a list.
 In contrary to [`LPUSH`]({{< relref "/commands/lpush" >}}), no operation will be performed when `key` does not yet
 exist.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>element [element ...]</code></summary>
+
+One or more values to prepend to the list, only if it already exists.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

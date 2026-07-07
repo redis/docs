@@ -125,7 +125,7 @@ An API object that represents a managed database in the cluster.
 | oss_cluster | boolean (default:&nbsp;false); OSS Cluster mode option. Cannot be enabled with `'hash_slots_policy': 'legacy'` |
 | <span class="break-all">oss_cluster_api_preferred_endpoint_type</span> | Endpoint type in the OSS cluster API<br />Values:<br />**‘ip’**<br />‘hostname’ |
 | <span class="break-all">oss_cluster_api_preferred_ip_type</span> | Internal/external IP type in OSS cluster API. Default value for new endpoints<br />Values:<br />**'internal'** <br />'external' |
-| oss_sharding | boolean (default:&nbsp;false); An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |
+| oss_sharding | boolean (default: false); This flag is for future use and should not be changed |
 | <span class="break-all">partial_request_timeout_seconds</span> | integer (default: 3); When a client connection sends a command, takes a server connection, and stops writing before the command is complete, it causes head-of-line blocking on this server connection. Such commands will time out after this many seconds and the client connection will be closed. |
 | port | integer; TCP port on which the database is available. Generated automatically if omitted and returned as 0 |
 | <span class="break-all">preemptive_drain_timeout_seconds</span> | integer (default: 2); Timeout in seconds for preemptive drain of client connections before a shard is taken down |
@@ -147,7 +147,7 @@ An API object that represents a managed database in the cluster.
 | resp3 | boolean (default:&nbsp;true); Enables or deactivates RESP3 support |
 | roles_permissions | {{<code>}}[{<br />  "role_uid": integer,<br />  "redis_acl_uid": integer<br />}, ...]{{</code>}} |
 | sched_policy | Controls how server-side connections are used when forwarding traffic to shards.<br />Values:<br />**cmp**: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit.<br />**mru**: Try to use most recently used connections.<br />**spread**: Try to use all connections.<br />**mnp**: Minimal pipeline policy. Pick the connection with the least pipelined commands. |
-| search | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/search" >}}); Configuration fields for search and query. |
+| search | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/search" >}}); Configuration fields for Redis Search. |
 | search_on_bigstore | boolean (default: false); Include search module in Redis on flash v2 (Flex databases) |
 | shard_block_crossslot_keys | boolean (default:&nbsp;false); In Lua scripts, prevent use of keys from different hash slots within the range owned by the current shard |
 | shard_block_foreign_keys | boolean (default:&nbsp;true); In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |
@@ -155,7 +155,7 @@ An API object that represents a managed database in the cluster.
 | <span class="break-all">shard_imbalance_threshold</span> | number (default: 314572800); Automatically balances shards only if their imbalance is greater than this threshold. This field is for future use and should not be changed. |
 | <span class="break-all">shard_imbalance_threshold_percentage</span> | integer (default: 20); Automatically balances shards only if their imbalance percentage is greater than this threshold. This field is for future use and should not be changed. |
 | shard_list | array of integers; Cluster unique IDs of all database shards. |
-| sharding | boolean (default:&nbsp;false); Cluster mode (server-side sharding). When true, shard hashing rules must be provided by either `oss_sharding` or `shard_key_regex` |
+| sharding | boolean (default: false); Cluster mode (server-side sharding). When true, shard hashing rules must be provided by `shard_key_regex` |
 | shards_count | integer, <nobr>(range: 1-512)</nobr> (default:&nbsp;1); Number of database server-side shards |
 | shards_placement | Control the density of shards <br />Values:<br />**'dense'**: Shards reside on as few nodes as possible <br /> **'sparse'**: Shards reside on as many nodes as possible |
 | skip_import_analyze | Enable/disable skipping the analysis stage when importing an RDB file<br />Values:<br />'enabled'<br />'disabled' |

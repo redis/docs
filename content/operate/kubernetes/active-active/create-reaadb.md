@@ -25,7 +25,7 @@ To create an Active-Active database, make sure you've completed all the followin
 
 3. Configure the REC [`ingressOrRoutes` field]({{< relref "/operate/kubernetes/networking/ingressorroutespec" >}}) and [create DNS records]({{< relref "/operate/kubernetes/networking/ingressorroutespec#configure-dns/" >}}).
    * REC API hostname (`api-<rec-name>-<rec-namespace>.<subdomain>`)
-   * Database hostname suffix (`-db-<rec-name>-<rec-namespace>.<subdomain>`)
+   * Database hostname suffix (`.db-<rec-name>-<rec-namespace>.<subdomain>`)
 
 4. [Prepare participating clusters]({{< relref "/operate/kubernetes/active-active/prepare-clusters" >}})
    * RERC name (`<rerc-name`>)
@@ -127,7 +127,7 @@ Example cluster 1:
 * RERC name: `rerc-ohare`
 * RERC secret name: `redis-enterprise-rerc-ohare`
 * API FQDN: `api-rec-chicago-ns-illinois.example.com`
-* DB FQDN suffix: `-db-rec-chicago-ns-illinois.example.com`
+* DB FQDN suffix: `.db-rec-chicago-ns-illinois.example.com`
 
 Example cluster 2:
 
@@ -136,5 +136,5 @@ Example cluster 2:
 * RERC name: `rerc-raegan`
 * RERC secret name: `redis-enterprise-rerc-reagan`
 * API FQDN: `api-rec-arlington-ns-virginia.example.com`
-* DB FQDN suffix: `-db-rec-arlington-ns-virginia.example.com`
+* DB FQDN suffix: `.db-rec-arlington-ns-virginia.example.com`
 

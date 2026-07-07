@@ -47,6 +47,9 @@ However, we contribute new features, offer guidance, and collaborate with the co
 on a best-effort basis to help ensure these libraries remain reliable and up-to-date.
 {{< /note >}}
 
+See [Client library support and versioning policy]({{< relref "/develop/clients/version-support" >}})
+for details about how Redis maintains, versions, and tests the official client libraries.
+
 We also provide several higher-level
 [object mapping (OM)]({{< relref "/develop/clients/om-clients" >}})
 libraries for [Python]({{< relref "/integrate/redisom-for-python" >}}),
@@ -109,7 +112,7 @@ between the options for each language.
 -   [`Lettuce`](https://github.com/redis/lettuce) supports synchronous, asynchronous,
     and reactive operations. However, it has a more complex API than Jedis and doesn't currently
     support all Redis features (notably time series and probabilistic data structures).
--   [RedisOM for Java](https://github.com/redis/redis-om-java) is an object mapping library that
+-   [RedisOM for Java](https://github.com/redis/redis-om-spring) is an object mapping library that
     provides a high-level API for working with Redis data structures.
 
 ### C#

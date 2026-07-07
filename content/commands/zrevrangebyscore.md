@@ -87,6 +87,40 @@ order.
 Apart from the reversed ordering, `ZREVRANGEBYSCORE` is similar to
 [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}}).
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum score. The bound is inclusive unless prefixed with `(`. Use `+inf` for no upper bound.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum score. The bound is inclusive unless prefixed with `(`. Use `-inf` for no lower bound.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each member.
+
+</details>
+
+<details open><summary><code>LIMIT offset count</code></summary>
+
+Skip `offset` matching members and return up to `count` of them. A negative `count` returns all remaining members.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

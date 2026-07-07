@@ -81,11 +81,11 @@ The `CLUSTER MIGRATION` command provides atomic slot migration functionality for
 
 The subcommand specifies the operation to perform:
 
-- `IMPORT <start-slot> <end-slot> [<start-slot> <end-slot> ...]`: Executes on the destination master. Accepts multiple slot ranges and triggers atomic migration for the specified ranges. Returns a task ID that you can use to monitor the status of the task.
+- `IMPORT start-slot end-slot [start-slot end-slot ...]`: Executes on the destination master. Accepts multiple slot ranges and triggers atomic migration for the specified ranges. Returns a task ID that you can use to monitor the status of the task.
 
-- `CANCEL <ID <task-id> | ALL>`: Cancels an ongoing migration task by its ID or cancels all tasks if `ALL` is specified. Note: Cancelling a task on the source node does not stop the migration on the destination node, which will continue retrying until it is also cancelled there.
+- `CANCEL ID task-id | ALL`: Cancels an ongoing migration task by its ID or cancels all tasks if `ALL` is specified. Note: Cancelling a task on the source node does not stop the migration on the destination node, which will continue retrying until it is also cancelled there.
 
-- `STATUS [ID <task-id> | ALL]`: Displays the status of current and completed atomic slot migration tasks. If a specific task ID is provided, it returns detailed information for that task only. If `ALL` is specified, it returns the status of all ongoing and completed tasks.
+- `STATUS [ID task-id | ALL]`: Displays the status of current and completed atomic slot migration tasks. If a specific task ID is provided, it returns detailed information for that task only. If `ALL` is specified, it returns the status of all ongoing and completed tasks.
 
 </details>
 
@@ -120,6 +120,31 @@ Cancel all migration tasks:
 ```bash
 CLUSTER MIGRATION CANCEL ALL
 ```
+
+## Details
+
+- Cancelling a task on the source node does not automatically stop the migration on the destination node.
+- In `CLUSTER MIGRATION STATUS` output, the "state" field will show `completed` for successful operations.
+- Tasks with empty "last_error" fields indicate no errors occurred during the migration process.
+
+### Key visibility during migration
+
+During atomic slot migration operations, keys in unowned slots may be filtered out from the following commands while importing or trimming is in progress:
+
+- [`KEYS`]({{< relref "/commands/keys" >}})
+- [`SCAN`]({{< relref "/commands/scan" >}})
+- [`RANDOMKEY`]({{< relref "/commands/randomkey" >}})
+- [`CLUSTER GETKEYSINSLOT`]({{< relref "/commands/cluster-getkeysinslot" >}})
+- [`DBSIZE`]({{< relref "/commands/dbsize" >}})
+- [`CLUSTER COUNTKEYSINSLOT`]({{< relref "/commands/cluster-countkeysinslot" >}})
+
+The [`INFO KEYSPACE`]({{< relref "/commands/info" >}}) command will continue to reflect the actual number of keys, including those being imported.
+
+### Related configuration
+
+- `cluster-slot-migration-handoff-max-lag-bytes`: After slot snapshot completion, if remaining replication stream size falls below this threshold, the source node pauses writes to hand off slot ownership. Higher values trigger handoff earlier but may cause longer write pauses. Lower values result in shorter write pauses but may be harder to reach with steady incoming writes (default: 1MB).
+- `cluster-slot-migration-write-pause-timeout`: Maximum duration that the source node pauses writes during ASM handoff. If the destination fails to take over slots within this timeout, the source assumes migration failed and resumes writes (default: 10 seconds).
+
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -179,27 +204,3 @@ For the `STATUS` subcommand:
 
 {{< /multitabs >}}
 
-## Notes
-
-- The atomic slot migration feature is available starting from Redis 8.4.0.
-- Cancelling a task on the source node does not automatically stop the migration on the destination node.
-- In `CLUSTER MIGRATION STATUS` output, the "state" field will show `completed` for successful operations.
-- Tasks with empty "last_error" fields indicate no errors occurred during the migration process.
-
-## Key visibility during migration
-
-During atomic slot migration operations, keys in unowned slots may be filtered out from the following commands while importing or trimming is in progress:
-
-- [`KEYS`]({{< relref "/commands/keys" >}})
-- [`SCAN`]({{< relref "/commands/scan" >}})
-- [`RANDOMKEY`]({{< relref "/commands/randomkey" >}})
-- [`CLUSTER GETKEYSINSLOT`]({{< relref "/commands/cluster-getkeysinslot" >}})
-- [`DBSIZE`]({{< relref "/commands/dbsize" >}})
-- [`CLUSTER COUNTKEYSINSLOT`]({{< relref "/commands/cluster-countkeysinslot" >}})
-
-The [`INFO KEYSPACE`]({{< relref "/commands/info" >}}) command will continue to reflect the actual number of keys, including those being imported.
-
-## Related configuration
-
-- `cluster-slot-migration-handoff-max-lag-bytes`: After slot snapshot completion, if remaining replication stream size falls below this threshold, the source node pauses writes to hand off slot ownership. Higher values trigger handoff earlier but may cause longer write pauses. Lower values result in shorter write pauses but may be harder to reach with steady incoming writes (default: 1MB).
-- `cluster-slot-migration-write-pause-timeout`: Maximum duration that the source node pauses writes during ASM handoff. If the destination fails to take over slots within this timeout, the source assumes migration failed and resumes writes (default: 10 seconds).
