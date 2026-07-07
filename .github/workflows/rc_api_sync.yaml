@@ -42,10 +42,8 @@ jobs:
           curl -Ls https://api.redislabs.com/v1/cloud-api-docs/capi \
             | jq '(.. | .example? | try select(test("^{"))) |= fromjson' > /tmp/rc-capi-openapi.json
 
-          # Use the checked-in RDI source spec so the generated API reference is reproducible
-          # before the updated sm-cloud-api RDI spec is deployed to api.redislabs.com.
-          jq '(.. | .example? | try select(test("^{"))) |= fromjson' \
-            data/api/rc-rdi-openapi.json > /tmp/rc-rdi-openapi.json
+          curl -Ls https://api.redislabs.com/v1/cloud-api-docs/rdi \
+            | jq '(.. | .example? | try select(test("^{"))) |= fromjson' > /tmp/rc-rdi-openapi.json
 
           jq -n --slurpfile capi /tmp/rc-capi-openapi.json --slurpfile rdi /tmp/rc-rdi-openapi.json '
             def opkeys: ["get","put","post","delete","patch","options","head","trace"];
