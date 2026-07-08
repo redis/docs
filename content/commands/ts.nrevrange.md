@@ -257,7 +257,7 @@ is a time bucket alignment control for `AGGREGATION`. It controls the time bucke
 
 aggregates samples into time buckets.
 
-Provide one aggregation per key, as a separate argument in the same order as the keys: the first applies to the first key, and so on. The number of these arguments must equal `numkeys`, and all keys share the same `bucketDuration`.
+Provide one or more aggregators per key, as a separate argument in the same order as the keys: the first argument applies to the first key, and so on. The number of these arguments must equal `numkeys`, and all keys share the same `bucketDuration`.
 
 Each per-key argument is either a single aggregator or a comma-separated list of aggregators (for example `avg,max`), exactly as in [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}); no whitespace is allowed. A key contributes one value for each aggregator you list for it, and a key's values appear together in the reply, in the order you list its aggregators. To compute several aggregations for one series, give that key a comma-separated list such as `min,max`.
 
@@ -380,7 +380,7 @@ In aggregation mode, supply one aggregator per key, in key order. Here `{sensor}
 <details open>
 <summary><b>Apply multiple aggregators to a series</b></summary>
 
-Give a key a comma-separated list of aggregators to compute several of them for it in one query. Here `{sensor}:1` uses `avg,max` (two values) and `{sensor}:2` uses `sum` (one value). Each timestamp's values are a single flat list: `{sensor}:1`'s `avg`, then its `max`, then `{sensor}:2`'s `sum`.
+To compute several aggregators for a single key, pass them as a comma-separated list. Here `{sensor}:1` uses `avg,max` (two values) and `{sensor}:2` uses `sum` (one value). Each timestamp's values are a single flat list: `{sensor}:1`'s `avg`, then its `max`, then `{sensor}:2`'s `sum`.
 
 {{< highlight bash >}}
 127.0.0.1:6379> TS.NREVRANGE 2 {sensor}:1 {sensor}:2 - + AGGREGATION avg,max sum 1000
@@ -416,14 +416,14 @@ In aggregation mode (with `AGGREGATION`):
 
 ### NaN values
 
-A `NaN` value can mean that a key had no sample (or no aggregation bucket) at that timestamp, or that the key stored or aggregated to a real `NaN`. These two cases are indistinguishable in the reply.
+A `NaN` value can mean that a key had no sample at that timestamp or no samples at that time bucket, or that the key stored or aggregated to a real `NaN`. These two cases are indistinguishable in the reply.
 
 | Case                                            | Value                                           |
 | ----------------------------------------------- | ----------------------------------------------- |
-| Key has a raw sample at that timestamp           | The sample value                                |
-| Key has no raw sample at that timestamp          | `NaN`                                           |
-| Key has aggregated data for that bucket          | The aggregated value                            |
-| Key has no data for that bucket                  | `NaN`                                           |
+| Key has a sample at that timestamp               | The sample value                                |
+| Key has no sample at that timestamp              | `NaN`                                           |
+| Key has aggregated data for that time bucket     | The aggregated value                            |
+| Key has no samples at that time bucket           | `NaN`                                           |
 | Key stores or aggregates to a real `NaN`         | `NaN`, indistinguishable from no data           |
 
 ## Redis Software and Redis Cloud compatibility
