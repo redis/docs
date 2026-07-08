@@ -181,15 +181,6 @@ This example shows how to query the sorted set by score, excluding the value `1`
 1) "three"
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-ZADD myzset 1 "one" 2 "two" 3 "three"
-ZRANGE myzset 0 -1
-ZRANGE myzset 2 3
-ZRANGE myzset -2 -1
-{{% /redis-cli %}}
-
 ## Details
 
 ### Common behavior and options

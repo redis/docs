@@ -56,7 +56,7 @@ The query below finds products within a 100 mile radius of Colorado Springs
 (Longitude=-104.800644, Latitude=38.846127). This returns only the location in
 Denver, but a radius of 200 miles would also include the location in Fort Collins:
 
-{{< clients-example set="geoindex" step="geo_query" description="GEO radius query: Query geospatial points within a radius using center coordinates and distance when you need to find nearby locations" difficulty="beginner" >}}
+{{< clients-example set="geoindex" step="geo_query" description="GEO radius query: Query geospatial points within a radius using center coordinates and distance when you need to find nearby locations" difficulty="beginner" try_it="false" >}}
 > FT.SEARCH productidx '@location:[-104.800644 38.846127 100 mi]'
 1) "1"
 2) "product:46885"
@@ -97,7 +97,7 @@ You can now run various geospatial queries against the index. For
 example, the query below returns any shapes within the boundary
 of the green square but omits the green square itself:
 
-{{< clients-example set="geoindex" step="gshape_query" description="GEOSHAPE query: Query geometric shapes using spatial operators like WITHIN to find shapes with specific geometric relationships when you need to test shape containment" difficulty="intermediate" >}}
+{{< clients-example set="geoindex" step="gshape_query" description="GEOSHAPE query: Query geometric shapes using spatial operators like WITHIN to find shapes with specific geometric relationships when you need to test shape containment" difficulty="intermediate" try_it="false" >}}
 > FT.SEARCH geomidx "(-@name:(Green Square) @geom:[WITHIN $qshape])" PARAMS 2 qshape "POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1))" RETURN 1 name DIALECT 2
 
 1) (integer) 1

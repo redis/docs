@@ -171,20 +171,6 @@ Set the expiry only when the new expiry is less than the current one. A non-vola
 (integer) 10
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET mykey "Hello"
-EXPIRE mykey 10
-TTL mykey
-SET mykey "Hello World"
-TTL mykey
-EXPIRE mykey 10 XX
-TTL mykey
-EXPIRE mykey 10 NX
-TTL mykey
-{{% /redis-cli %}}
-
 ## Details
 
 ### Refreshing expires

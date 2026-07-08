@@ -192,15 +192,6 @@ Increment the member's score by `score` instead of setting it, behaving like `ZI
 8) "3"
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 1 "uno"
-ZADD myzset 2 "two" 3 "three"
-ZRANGE myzset 0 -1 WITHSCORES
-{{% /redis-cli %}}
-
 ## Details
 
 ### Range of integer scores that can be expressed precisely

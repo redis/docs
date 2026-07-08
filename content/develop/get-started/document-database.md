@@ -55,7 +55,7 @@ You can alternatively use the [installation guides]({{< relref "/operate/oss_and
 
 The first step is to connect to your Redis Open Source database. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis Open Source server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
-{{< clients-example set="search_quickstart" step="connect" description="Foundational: Connect to a Redis server using redis-cli with host and port parameters" difficulty="beginner" >}}
+{{< clients-example set="search_quickstart" step="connect" description="Foundational: Connect to a Redis server using redis-cli with host and port parameters" difficulty="beginner" runnable="false" try_it="false" >}}
 > redis-cli -h 127.0.0.1 -p 6379
 {{< /clients-example>}}
 
@@ -83,7 +83,7 @@ Any pre-existing JSON documents with a key prefix `bicycle:` are automatically a
 
 The example below shows you how to use the [JSON.SET]({{< relref "commands/json.set" >}}) command to create new JSON documents:
 
-{{< clients-example set="search_quickstart" step="add_documents" description="Foundational: Add JSON documents to Redis using JSON.SET" difficulty="beginner" max_lines="2" >}}
+{{< clients-example set="search_quickstart" step="add_documents" description="Foundational: Add JSON documents to Redis using JSON.SET" difficulty="beginner" max_lines="2" try_it="false" >}}
 > JSON.SET "bicycle:0" "." "{\"brand\": \"Velorim\", \"model\": \"Jigger\", \"price\": 270, \"description\": \"Small and powerful, the Jigger is the best ride for the smallest of tikes! This is the tiniest kids\\u2019 pedal bike on the market available without a coaster brake, the Jigger is the vehicle of choice for the rare tenacious little rider raring to go.\", \"condition\": \"new\"}"
 OK
 > JSON.SET "bicycle:1" "." "{\"brand\": \"Bicyk\", \"model\": \"Hillcraft\", \"price\": 1200, \"description\": \"Kids want to ride with as little weight as possible. Especially on an incline! They may be at the age when a 27.5\\\" wheel bike is just too clumsy coming off a 24\\\" bike. The Hillcraft 26 is just the solution they need!\", \"condition\": \"used\"}"
@@ -112,7 +112,7 @@ OK
 
 You can retrieve all indexed documents using the [FT.SEARCH]({{< relref "commands/ft.search" >}}) command. Note the `LIMIT` clause below, which allows result pagination.
 
-{{< clients-example set="search_quickstart" step="wildcard_query" description="Foundational: Retrieve all indexed documents using FT.SEARCH with wildcard query" difficulty="beginner" max_lines="10" >}}
+{{< clients-example set="search_quickstart" step="wildcard_query" description="Foundational: Retrieve all indexed documents using FT.SEARCH with wildcard query" difficulty="beginner" max_lines="10" try_it="false" >}}
 > FT.SEARCH "idx:bicycle" "*" LIMIT 0 10
 1) (integer) 10
  2) "bicycle:1"
@@ -151,7 +151,7 @@ You can retrieve all indexed documents using the [FT.SEARCH]({{< relref "command
 
 The following command shows a simple single-term query for finding all bicycles with a specific model:
 
-{{< clients-example set="search_quickstart" step="query_single_term" description="Foundational: Perform a single-term full-text query using FT.SEARCH to find documents matching a specific field value" difficulty="beginner" >}}
+{{< clients-example set="search_quickstart" step="query_single_term" description="Foundational: Perform a single-term full-text query using FT.SEARCH to find documents matching a specific field value" difficulty="beginner" try_it="false" >}}
 > FT.SEARCH "idx:bicycle" "@model:Jigger" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:0"
@@ -163,7 +163,7 @@ The following command shows a simple single-term query for finding all bicycles 
 
 Below is a command to perform an exact match query that finds all bicycles with the brand name `Noka Bikes`. You must use double quotes around the search term when constructing an exact match query on a  text field.
 
-{{< clients-example set="search_quickstart" step="query_exact_matching" description="Foundational: Perform an exact match query using FT.SEARCH with double quotes to find documents with precise field values" difficulty="beginner" >}}
+{{< clients-example set="search_quickstart" step="query_exact_matching" description="Foundational: Perform an exact match query using FT.SEARCH with double quotes to find documents with precise field values" difficulty="beginner" try_it="false" >}}
 > FT.SEARCH "idx:bicycle" "@brand:\"Noka Bikes\"" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:4"
