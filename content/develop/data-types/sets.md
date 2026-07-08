@@ -89,7 +89,12 @@ elements in any order at every call.
 
 Redis has commands to test for set membership. These commands can be used on single as well as multiple items:
 
-{{< clients-example set="sets_tutorial" step="smismember" description="Batch membership checks: Test multiple items at once using SMISMEMBER when you need to reduce round trips to the server" difficulty="intermediate" buildsUpon="sismember" try_it="false" >}}
+{{< clients-example set="sets_tutorial" step="smismember" description="Batch membership checks: Test multiple items at once using SMISMEMBER when you need to reduce round trips to the server" difficulty="intermediate" buildsUpon="sismember" >}}
+# Recreate the France racing set so this example runs on its own.
+> DEL bikes:racing:france
+(integer) 1
+> SADD bikes:racing:france bike:1 bike:2 bike:3
+(integer) 3
 > SISMEMBER bikes:racing:france bike:1
 (integer) 1
 > SMISMEMBER bikes:racing:france bike:2 bike:3 bike:4
