@@ -75,25 +75,25 @@ Cases are tagged `command` (22) or `concept` (13, how-to / concept pages) so the
 runner reports recall per kind — because command and concept queries behave very
 differently.
 
-**Current results (shipped config: Porter stemming + field boosts + page-type
-weighting with `/commands/*` ×1.5, `/operate/` ×0.7, REST-API/release-notes ×0.5):**
+**Current results (shipped config: Porter stemming + field boosts + *balanced*
+page-type weighting — demote REST-API/release-notes/references ×0.5, no command
+boost, no blanket `/operate/` demotion):**
 
 | group | recall@1 | @3 | @5 | @10 | MRR |
 |---|---|---|---|---|---|
-| command (22) | 50% | 68% | 86% | 95% | 0.65 |
-| concept (13) | 15% | 31% | 46% | 62% | 0.29 |
-| overall (35) | 37% | 54% | 71% | 83% | 0.52 |
+| command (22) | 41% | 64% | 73% | 95% | 0.57 |
+| concept (13) | 31% | 54% | 62% | 77% | 0.45 |
+| overall (35) | 37% | 60% | 69% | 89% | 0.53 |
 
 (Un-stemmed, un-weighted lexical baseline on the command set was 59%@5 / 0.42.)
 
-**Finding:** command retrieval is good, but **concept/how-to retrieval is about
-half as good** — and the `/commands/*` boost is the cause: it lifts command
-queries but pushes command pages *above* the canonical concept page when both
-compete (e.g. "configure persistence" → `bgrewriteaof`; "set up replication" →
-`cluster-replicate`). An ablation neutralising the command boost moves concept
-@5 46%→62% and MRR 0.29→0.45, at the cost of command @5 86%→73%. That trade-off
-(command-optimised vs balanced) is a product call; the residual misses are pure
-semantic gaps that motivate vector search (SPEC §6/§10).
+**Why balanced:** an earlier command-optimised config (`/commands/*` ×1.5,
+`/operate/` ×0.7) scored command @5 86% but only concept @5 46% — the boost
+ranked command pages above the canonical concept page when both competed
+("configure persistence" → `bgrewriteaof`). We chose the balanced weighting:
+concept @5 46%→62% for command @5 86%→73% (SPEC §10). The residual misses are
+pure semantic gaps that motivate vector search (SPEC §6/§10) — the right lever
+for lifting both, rather than a bigger thumb on the scale.
 
 ## Known limitations (v0)
 

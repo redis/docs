@@ -202,15 +202,13 @@ vector-on-Redis as a later upgrade to the **hosted** endpoint only.
   well-structured the corpus already is?
 - **Ranking quality (measured via the eval harness):** lexical BM25 with
   Porter stemming, stopword removal, title/summary/slug field boosts, and
-  page-type weighting (demote release-notes/REST-API/operator, modestly boost
-  `/commands/*`) gets **recall@5 86% / MRR 0.65** on 22 command-lookup cases —
-  up from a **59% / 0.42** un-stemmed, un-weighted baseline. Two caveats: (1)
-  the eval is command-heavy so the `/commands/*` boost partly flatters it —
-  **add concept/how-to eval cases** before concluding lexical is sufficient
-  generally; (2) the residual misses are pure semantic gaps ("remove a key" →
-  `flushdb` beats `del`) that only vector search closes. Net: stemming+weighting
-  **weakened but did not eliminate** the §6 vector-search case — the eval now
-  lets that call be made on numbers.
+  balanced page-type weighting (demote release-notes/REST-API/references only)
+  gets, on the 35-case eval (22 command + 13 concept), **command recall@5 73% /
+  concept 62% / overall 69%, MRR 0.53** — up from a **59% / 0.42** un-stemmed,
+  un-weighted lexical baseline on the command set. Residual misses are pure
+  semantic gaps ("remove a key" → `flushdb` beats `del`) that only vector search
+  closes. Net: stemming+weighting **weakened but did not eliminate** the §6
+  vector-search case — the eval now lets that call be made on numbers.
 - **Command boost is command-overfit (found after adding concept cases).** With
   13 concept/how-to cases added, per-kind numbers diverge sharply: command
   recall@5 86% / MRR 0.65 vs **concept recall@5 46% / MRR 0.29**. The
@@ -220,11 +218,11 @@ vector-on-Redis as a later upgrade to the **hosted** endpoint only.
   notifications" → `expire`), and the blanket `/operate/` demotion drags down
   legitimate concept pages (persistence, replication). Ablation (neutralise the
   command boost, demote only REST-API/release-notes/references): concept @5
-  46%→62%, MRR 0.29→0.45; command @5 86%→73%. **Open decision:** command-
-  optimised (current) vs balanced weighting — a workload-mix call. A modest
-  command boost (×1.2) helps command none vs neutral, so the command signal
-  should really come from better lexical handling or vectors, not the thumb on
-  the scale.
+  46%→62%, MRR 0.29→0.45; command @5 86%→73%. **Resolved: adopted the balanced
+  weighting** (no command boost, no blanket `/operate/` demotion). A modest
+  command boost (×1.2) helped command none vs neutral, so lifting command
+  ranking should come from better lexical handling or vectors, not a bigger
+  thumb on the scale — the next lever, measured against this eval.
 - **Section-role vocabulary (found via live MCP test):** the roles the spec
   assumed (`syntax`, `parameters`, `returns`, `example`) do **not** all match
   the feed. Command pages actually carry `content` / `parameters` / `example`

@@ -8,17 +8,23 @@ import { stem } from "./stem.js";
 const K1 = 1.5;
 const B = 0.75;
 
-// Page-type weighting applied to the final score. Command reference pages are
-// the canonical answer for command-shaped queries; release-notes / REST-API /
-// operator pages are secondary and were observed outranking primary docs
-// (e.g. "remove a key" -> operate/.../remove-node). Multipliers, not filters.
-// NOTE: the retrieval eval is command-heavy, so keep the command boost modest
-// to avoid tuning to the eval — the demotions are the more general fix.
+// Page-type weighting applied to the final score. Demote clearly-secondary
+// reference material (release-notes / REST-API / other references) that was
+// observed outranking primary docs. Multipliers, not filters.
+//
+// Deliberately balanced, NOT command-optimised: an earlier config boosted
+// /commands/* (x1.5) and demoted all of /operate/ (x0.7), which lifted command
+// queries but ranked command pages above the canonical concept page when both
+// competed (persistence -> bgrewriteaof) and buried legitimate /operate/
+// concept pages. The eval showed that cost concept recall@5 ~16pts for ~13pts
+// of command gain, so we chose the balanced weighting (SPEC §10). Lifting
+// command ranking further should come from better signal (vectors), not a
+// bigger thumb on the scale.
 function pageWeight(url: string): number {
   const u = url.toLowerCase();
-  if (u.includes("/release-notes") || u.includes("/rest-api/")) return 0.5;
-  if (u.includes("/operate/")) return 0.7;
-  if (u.includes("/commands/")) return 1.5;
+  if (u.includes("/release-notes") || u.includes("/rest-api/") || u.includes("/references/")) {
+    return 0.5;
+  }
   return 1;
 }
 
