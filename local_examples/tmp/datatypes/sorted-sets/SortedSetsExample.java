@@ -78,6 +78,14 @@ public class SortedSetsExample {
     //REMOVE_END
 
     //STEP_START zrank
+    // Recreate the three remaining racers so this example runs on its own.
+    jedis.del("racer_scores");
+    jedis.zadd("racer_scores", new HashMap<String,Double>() {{
+      put("Norem", 10d);
+      put("Royce", 10d);
+      put("Prickett", 14d);
+    }});
+
     long res11 = jedis.zrank("racer_scores", "Norem");
     System.out.println(res11); // >>> 0
 
