@@ -55,6 +55,11 @@ src_path() {
     hash_tutorial:lettuce-reactive)echo local_examples/tmp/lettuce-reactive/HashExample.java ;;
     hash_tutorial:php)           echo local_examples/php/DtHashTest.php ;;
     hash_tutorial:dotnet)        echo local_examples/tmp/datatypes/hashes/HashExample.cs ;;
+    time_series_tutorial:python) echo local_examples/time_series_tutorial/redis-py/dt_time_series.py ;;
+    time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
+    time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
+    time_series_tutorial:node)   echo local_examples/time_series_tutorial/node-redis/dt-time-series.js ;;
+    time_series_tutorial:dotnet) echo local_examples/time_series_tutorial/nredisstack/TimeSeriesTutorial.cs ;;
     *) echo "" ;;
   esac
 }
