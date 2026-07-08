@@ -107,23 +107,19 @@ func ExampleClient_hmget() {
 	// REMOVE_START
 	// start with fresh database
 	rdb.FlushDB(ctx)
-	rdb.Del(ctx, "bike:1")
 	// REMOVE_END
 
+	// STEP_START hmget
+	// Recreate the bike:1 hash so this example runs on its own.
+	rdb.Del(ctx, "bike:1")
 	hashFields := []string{
 		"model", "Deimos",
 		"brand", "Ergonom",
 		"type", "Enduro bikes",
 		"price", "4972",
 	}
+	rdb.HSet(ctx, "bike:1", hashFields)
 
-	_, err := rdb.HSet(ctx, "bike:1", hashFields).Result()
-
-	if err != nil {
-		panic(err)
-	}
-
-	// STEP_START hmget
 	cmdReturn := rdb.HMGet(ctx, "bike:1", "model", "price")
 	res5, err := cmdReturn.Result()
 
@@ -167,23 +163,19 @@ func ExampleClient_hincrby() {
 	// REMOVE_START
 	// start with fresh database
 	rdb.FlushDB(ctx)
-	rdb.Del(ctx, "bike:1")
 	// REMOVE_END
 
+	// STEP_START hincrby
+	// Recreate the bike:1 hash so this example runs on its own.
+	rdb.Del(ctx, "bike:1")
 	hashFields := []string{
 		"model", "Deimos",
 		"brand", "Ergonom",
 		"type", "Enduro bikes",
 		"price", "4972",
 	}
+	rdb.HSet(ctx, "bike:1", hashFields)
 
-	_, err := rdb.HSet(ctx, "bike:1", hashFields).Result()
-
-	if err != nil {
-		panic(err)
-	}
-
-	// STEP_START hincrby
 	res6, err := rdb.HIncrBy(ctx, "bike:1", "price", 100).Result()
 
 	if err != nil {

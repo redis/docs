@@ -44,6 +44,17 @@ src_path() {
     set_tutorial:lettuce-reactive)echo local_examples/client-specific/lettuce-reactive/StringExample.java ;;
     set_tutorial:php)            echo local_examples/php/DtStringTest.php ;;
     set_tutorial:dotnet)         echo local_examples/tmp/datatypes/strings/StringSnippets.cs ;;
+    hash_tutorial:python)        echo local_examples/tmp/datatypes/hashes/dt_hash.py ;;
+    hash_tutorial:node)          echo local_examples/tmp/datatypes/hashes/dt-hash.js ;;
+    hash_tutorial:go)            echo local_examples/tmp/datatypes/hashes/hash_tutorial_test.go ;;
+    hash_tutorial:jedis)         echo local_examples/tmp/datatypes/hashes/HashExample.java ;;
+    hash_tutorial:ruby)          echo local_examples/ruby/dt_hash.rb ;;
+    hash_tutorial:rust-sync)     echo local_examples/rust-sync/dt-hash.rs ;;
+    hash_tutorial:rust-async)    echo local_examples/rust-async/dt-hash.rs ;;
+    hash_tutorial:lettuce-async) echo local_examples/tmp/lettuce-async/HashExample.java ;;
+    hash_tutorial:lettuce-reactive)echo local_examples/tmp/lettuce-reactive/HashExample.java ;;
+    hash_tutorial:php)           echo local_examples/php/DtHashTest.php ;;
+    hash_tutorial:dotnet)        echo local_examples/tmp/datatypes/hashes/HashExample.cs ;;
     *) echo "" ;;
   esac
 }
