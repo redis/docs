@@ -43,6 +43,7 @@ If you want to include double quotes in a query from the CLI, enclose the JSONPa
 JSON.GET store '$.inventory["mountain_bikes"]'
 ```
 
+
 ## JSONPath syntax
 
 The following JSONPath syntax table was adapted from Goessner's [path syntax comparison](https://goessner.net/articles/JsonPath/index.html#e2).
@@ -56,9 +57,38 @@ The following JSONPath syntax table was adapted from Goessner's [path syntax com
 | [] | Subscript operator, accesses an array element. |
 | [,] | Union, selects multiple elements. |
 | [start\:end\:step] | Array slice where *start*, *end*, and *step* are index values. You can omit values from the slice (for example, `[3:]`, `[:8:2]`) to use the default values: *start* defaults to the first index, *end* defaults to the last index, and *step* defaults to `1`. Use `[*]` or `[:]` to select all elements. |
-| ?() | Filters a JSON object or array. Supports comparison operators <nobr>(`==`, `!=`, `<`, `<=`, `>`, `>=`, `=~`)</nobr>, logical operators <nobr>(`&&`, `\|\|`)</nobr>, and parenthesis <nobr>(`(`, `)`)</nobr>. |
+| ?() | Filters a JSON object or array. Supports comparison operators <nobr>(`==`, `!=`, `<`, `<=`, `>`, `>=`, `=~`)</nobr>, logical operators <nobr>(`&&`, `\|\|`, `!`)</nobr>, arithmetic operators <nobr>(`+`, `-`, `*`, `/`, `%`)</nobr>, membership operators <nobr>(`in`, `nin`)</nobr>, set-relation operators <nobr>(`subsetof`, `anyof`, `noneof`)</nobr>, the <nobr>(`size`/`sizeof`, `empty`)</nobr> operators, and parenthesis <nobr>(`(`, `)`)</nobr>. |
 | () | Script expression. |
 | @ | The current element, used in filter or script expressions. |
+| ~ | Returns the names of an object's members as a list of strings. |
+
+Beginning with Redis 8.10, the JSON data type supports a richer JSONPath syntax, with additional operators and functions:
+
+- Projection expressions at the top level of a JSONPath query
+- `==` and `!=` can now compare any literal, including array and object literals
+- Filter negation operator: `!`
+- `size`/`sizeof` and `empty` operators on string, array, object, and nodelist
+- `in` and `nin` operators: membership test on an array and nodelist
+- Operators on numbers: binary `-`, `+`, `*`, `/`, `%`, and unary `-` and `+`
+- Operator on object: `~`
+- `length()` function on array, object, and string
+- Functions on number: `abs()`, `ceiling()`, `floor()`
+- Functions on string: `match()`, `search()`
+- Strings concatenation with `concat()`
+- Functions on array: `first()`, `last()`, `index()`, `append()`
+- Aggregation functions on array: `min()`, `max()`, `avg()`, `sum()`, `stddev()`
+- Function on object: `keys()`
+- Function on nodelist: `count()`
+- Function on nodelist with exactly one node: `value()`
+- Relations functions on array and nodelist: `subsetof()`, `anyof()`, `noneof()`
+
+{{< warning >}}
+Beginning with Redis 8.10, two changes to path parsing may affect existing queries:
+
+- To access a field whose name contains a tilde (`~`), use bracket notation, for example `$["a~b"]`. A tilde is no longer valid in a field name using dot notation.
+- The words `in`, `nin`, `subsetof`, `anyof`, `noneof`, `size`, `sizeof`, and `empty` are now reserved as operators. To access a field with one of these names, use `$.size` or `$["size"]`.
+{{< /warning >}}
+
 
 ## JSONPath examples
 
