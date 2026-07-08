@@ -19,7 +19,6 @@ This page covers creating users, changing passwords, and recovering locked accou
 - Requires Redis Software for Kubernetes operator 8.0.24-TBD or later.
 - The `RedisEnterpriseUser` resource and every referenced password Secret must live in the operator namespace.
 - Passwords must satisfy the cluster's [password complexity rules]({{< relref "/operate/rs/security/access-control/manage-passwords/password-complexity-rules" >}}).
-- To assign roles, you need a `RedisEnterpriseRole` or `RedisEnterpriseClusterRole` and a matching binding. See [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}).
 
 ## Create a user
 
@@ -75,7 +74,7 @@ If you omit `spec.username`, the operator assigns one and reports it in `status.
 kubectl get redisenterpriseuser alice -o jsonpath='{.status.username}'
 ```
 
-Use that value when you reference the user from a binding's `subjects` list or when you sign in to Redis Software.
+Use that value when you sign in to Redis Software. To reference the user from a binding's `subjects` list, use the resource name (`metadata.name`) instead — not the generated username.
 
 ## Choose a password mode
 

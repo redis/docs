@@ -21,7 +21,7 @@ For details on how roles and bindings work together, see [Roles and bindings]({{
 
 - Requires Redis Software for Kubernetes operator 8.0.24-TBD or later.
 - The role resource must live in the operator namespace. Database scopes resolve to REDBs in that namespace.
-- Decide whether you need [management permissions](#choose-a-management-role), [data-path permissions](#attach-acls), or both.
+- Decide whether you need [management permissions](#choose-a-management-role), [data-path permissions](#attach-an-acl), or both.
 - If the role references one or more `RedisEnterpriseACL` resources, create those first. See [Manage ACLs]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}).
 
 ## Choose a management role
@@ -51,8 +51,8 @@ spec:
   scopes:
   - kind: RedisEnterpriseDatabase
     name: orders
-  acls:
-  - kind: RedisEnterpriseACL
+  acl:
+    kind: RedisEnterpriseACL
     name: read-only
 ```
 
@@ -67,11 +67,11 @@ spec:
   - name: orders
   - name: customers
   - name: inventory
-  acls:
-  - name: read-only
+  acl:
+    name: read-only
 ```
 
-Every ACL in `spec.acls` applies to every REDB in `spec.scopes`. If a database needs a different ACL, create a separate role for it.
+The role's `spec.acl` applies to every REDB in `spec.scopes`. If a database needs a different ACL, create a separate role for it.
 
 ### Scope a role by label selector
 
@@ -88,8 +88,8 @@ spec:
   - selector:
       matchLabels:
         environment: production
-  acls:
-  - name: read-only
+  acl:
+    name: read-only
 ```
 
 `selector.matchExpressions` is also supported.
@@ -111,37 +111,34 @@ metadata:
   name: support-readonly
 spec:
   managementRole: ClusterViewer
-  acls:
-  - name: read-only
+  acl:
+    name: read-only
 ```
 
 Common patterns:
 
 - **Read-only operator** — `managementRole: ClusterViewer`, no ACL.
-- **Cluster admin** — `managementRole: Admin`, no ACL. Use sparingly; consider a [default-user]({{< relref "/operate/rs/security/access-control/manage-users/default-user" >}}) alternative for break-glass access.
-- **User-manager-only** — `managementRole: UserManager`, no ACL. Lets a delegated administrator manage users without granting database access.
-- **Cluster-wide data access** — `managementRole: None` (or omit) with one or more `acls`. The ACLs apply to every REDB in the cluster.
+- **Cluster admin** — `managementRole: Admin`, no ACL. Use sparingly.
+- **Cluster-wide data access** — `managementRole: None` (or omit) with an `acl`. The ACL applies to every REDB in the cluster.
 
-## Attach ACLs
+## Attach an ACL
 
-Both role kinds carry a list of `RedisEnterpriseACL` references in `spec.acls`. Each ACL grants Redis data-path permissions (commands, key patterns, categories) to users who hold the role.
+Both role kinds carry a single `RedisEnterpriseACL` reference in `spec.acl`. The ACL grants Redis data-path permissions (commands, key patterns, categories) to users who hold the role.
 
 ```yaml
 spec:
-  acls:
-  - kind: RedisEnterpriseACL
-    name: read-only
-  - name: customer-data    # kind defaults to RedisEnterpriseACL
+  acl:
+    kind: RedisEnterpriseACL
+    name: read-only    # kind defaults to RedisEnterpriseACL and can be omitted
 ```
 
 Rules:
 
-- `acls[].kind` must be `RedisEnterpriseACL` or empty.
-- Duplicate `name` entries are rejected.
-- For a `RedisEnterpriseRole`, every referenced ACL applies to every database the role's scopes select. If you need different ACLs for different databases, create separate roles.
-- For a `RedisEnterpriseClusterRole`, ACLs apply to every REDB in the cluster.
+- `acl.kind` must be `RedisEnterpriseACL` or empty.
+- For a `RedisEnterpriseRole`, the ACL applies to every database the role's scopes select. If you need different data-path access for different databases, create a separate role for each.
+- For a `RedisEnterpriseClusterRole`, the ACL applies to every REDB in the cluster.
 
-Set `spec.managementRole` alone, `spec.acls` alone, or both. A role with neither set effectively grants nothing.
+Set `spec.managementRole` alone, `spec.acl` alone, or both. A role with neither set effectively grants nothing.
 
 ## Update a role
 
@@ -149,7 +146,7 @@ Set `spec.managementRole` alone, `spec.acls` alone, or both. A role with neither
 
 - `managementRole` — replaces the management permission set on the Redis Software role.
 - `scopes` — re-resolves which REDBs the role attaches to. REDBs that drop out of the scope have the role's permissions removed.
-- `acls` — re-applies the data-path permissions to scoped REDBs (or cluster-wide for cluster roles).
+- `acl` — re-applies the data-path permissions to scoped REDBs (or cluster-wide for cluster roles).
 
 `status.observedGeneration` reaches the resource's `metadata.generation` once the update has been applied.
 
@@ -173,10 +170,10 @@ For cluster roles, replace `redisenterpriserolebinding` with `redisenterpriseclu
 
 ## Delete a role
 
-Delete any bindings that reference the role first, then delete the role:
+Delete any bindings that reference the role first, then delete the role. Find the bindings with the recipes in [Find bindings that reference a role or user]({{< relref "/operate/kubernetes/security/access-control/manage-bindings#find-bindings-that-reference-a-role-or-user" >}}), delete each by name, then delete the role:
 
 ```sh
-kubectl delete redisenterpriserolebinding --selector app=orders
+kubectl delete redisenterpriserolebinding alice-orders-viewer
 kubectl delete redisenterpriserole orders-viewer
 ```
 

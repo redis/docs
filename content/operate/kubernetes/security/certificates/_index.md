@@ -36,9 +36,8 @@ The underlying certificate roles, requirements, and TLS behavior are unchanged. 
 
 ## What's different on Kubernetes
 
-- **Certificates live in Kubernetes Secrets**, not in `/etc/opt/redislabs/`. The REC spec references them by name.
+- **You capture certificates in Kubernetes Secrets and reference them declaratively in the REC spec.** The operator applies them to the cluster through the Redis Software REST API — the same way certificates are applied on Redis Software, cluster-wide rather than file-by-file on each node.
 - **cert-manager can issue and rotate certificates automatically**, replacing manual rotation steps.
-- **The operator distributes certificates across cluster nodes**; you don't copy files between nodes yourself.
 
 ## In this section
 

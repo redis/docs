@@ -34,6 +34,18 @@ The operator merges and de-duplicates the two sets before sending them to Redis 
 
 You can run both sources in parallel during migration. Once every database is completely migrated, disable the deprecated field cluster-wide (see [Disable the deprecated field](#disable-the-deprecated-field)).
 
+## Reference existing Redis Software objects
+
+You don't have to recreate every database, ACL, and role as a custom resource. When an object was created directly through the Redis Software REST API or Cluster Manager UI, a CRD reference can point at it by name using an internal kind, so you can bring it under CRD-managed bindings without redefining it:
+
+| Field | Internal kind | References |
+| --- | --- | --- |
+| `scopes[].kind` | `bdb` | An internal Redis Software database by name. Name only — no selector. The role grants management access only; its ACL isn't bound to that database. |
+| `acl.kind` | `redis_acl` | An internal Redis Software ACL by name. |
+| `roleRef.kind` | `role` | An internal Redis Software role by name, from a binding. |
+
+The reference resolves by name against the existing Redis Software object. Use internal references to migrate assignments incrementally, then replace them with full `RedisEnterpriseDatabase`, `RedisEnterpriseACL`, and `RedisEnterpriseRole` resources as you bring each object under the CRD model.
+
 ## Migrate a database
 
 For each database, capture what `rolesPermissions` currently grants, recreate it as CRDs, verify the result, then remove the deprecated field.
@@ -77,8 +89,8 @@ spec:
   managementRole: DBViewer
   scopes:
   - name: orders
-  acls:
-  - name: read-only
+  acl:
+    name: read-only
 ```
 
 Set `managementRole` to match the Redis Software role's management level. If the original entry only granted data-path access, omit `managementRole` — it defaults to `None`.
@@ -92,8 +104,8 @@ spec:
   - name: orders
   - name: customers
   - name: inventory
-  acls:
-  - name: read-only
+  acl:
+    name: read-only
 ```
 
 ### 4. Create bindings for affected users

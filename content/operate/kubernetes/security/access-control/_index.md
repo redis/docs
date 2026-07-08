@@ -46,14 +46,14 @@ The role and binding CRDs follow the same pattern as Kubernetes' own RBAC: a `Ro
 | `managementRole` values | `DBMember`, `DBViewer`, `None` | `Admin`, `ClusterMember`, `ClusterViewer`, `DBMember`, `DBViewer`, `UserManager`, `None` |
 | Binding kind | `RedisEnterpriseRoleBinding` | `RedisEnterpriseClusterRoleBinding` |
 
-A `RedisEnterpriseClusterRole` applies to REDBs even when they're represented by resources in other namespaces — the access flows through Redis Software, not through explicit REDB references.
+A `RedisEnterpriseClusterRole` applies to every REDB in the cluster, including REDBs represented by resources in other namespaces. The operator applies the role to each REDB individually, so it doesn't reach databases created directly through the Redis Software REST API without a matching REDB resource.
 
 ### What a role grants
 
 Every role carries permissions on two independent planes. Set either, or both:
 
 - **`spec.managementRole`** — Redis Software API and Cluster Manager UI permissions, chosen from the built-in roles listed in the table above. Same set of roles you'd assign in Cluster Manager today.
-- **`spec.acls`** — a list of `RedisEnterpriseACL` references. Each ACL controls Redis data-path access (commands, key patterns, categories). Duplicate references are rejected; for different ACLs on different databases, create separate roles.
+- **`spec.acl`** — a single `RedisEnterpriseACL` reference. The ACL controls Redis data-path access (commands, key patterns, categories). To apply different data-path access to different databases, create a separate role for each.
 
 ### How a user gets permissions
 
@@ -65,7 +65,7 @@ Every role carries permissions on two independent planes. Set either, or both:
 
 The user's effective roles appear in `status.roles`. A user with no binding gets the Redis Software `none` role so it's never roleless, but it has zero permissions until a binding lands.
 
-### Worked example
+### End-to-end example
 
 End-to-end: an ACL, a database-scoped role that uses it, a binding that hands the role to a user, and the user itself. All four resources live in the operator namespace.
 
@@ -86,8 +86,8 @@ spec:
   managementRole: DBViewer
   scopes:
   - name: orders
-  acls:
-  - name: read-only
+  acl:
+    name: read-only
 ---
 apiVersion: app.redislabs.com/v1alpha1
 kind: RedisEnterpriseRoleBinding
@@ -128,6 +128,7 @@ The underlying Redis Software behavior is unchanged. For concepts and reference 
 
 - **Resources are declarative.** You define users, roles, ACLs, and bindings in YAML and let the operator apply them. The Cluster Manager UI and REST API still work but are no longer the source of truth.
 - **Role assignment lives on the binding, not the user.** In Redis Software, you assign roles by editing the user. On Kubernetes, you create a separate `RedisEnterpriseRoleBinding` or `RedisEnterpriseClusterRoleBinding`. See [Roles and bindings](#roles-and-bindings).
+- **Database and cluster scope are separate objects.** A `RedisEnterpriseRole` covers database scope and a `RedisEnterpriseClusterRole` covers cluster scope. In Redis Software, a single role object carries both.
 - **Passwords live in Kubernetes Secrets.** Each `RedisEnterpriseUser` references one or more Secrets. A `Rotatable` mode supports two Secrets at once for zero-downtime rotation. The operator marks Kubernetes Secrets immutable to prevent in-place edits.
 
 ## Known limitations

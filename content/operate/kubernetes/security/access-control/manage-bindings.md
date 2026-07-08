@@ -15,16 +15,15 @@ A role binding assigns a role to one or more users. Redis Software for Kubernete
 - `RedisEnterpriseRoleBinding` — binds a `RedisEnterpriseRole` (database-scoped) to users.
 - `RedisEnterpriseClusterRoleBinding` — binds a `RedisEnterpriseClusterRole` (cluster-scoped) to users.
 
-Both have the same two spec fields: `roleRef` points at the role, and `subjects` lists the users who receive it. A user holds the permissions defined by every role bound to it.
+Both have the same two spec fields: `roleRef` points at a single role, and `subjects` lists the users who receive it. A user holds the permissions defined by every role bound to it across all bindings.
 
-For the conceptual model and a complete worked example, see [Roles and bindings]({{< relref "/operate/kubernetes/security/access-control/_index#roles-and-bindings" >}}).
+For the conceptual model and a complete end-to-end example, see [Roles and bindings]({{< relref "/operate/kubernetes/security/access-control/_index#roles-and-bindings" >}}).
 
 ## Common patterns
 
-The CRD model doesn't enforce a binding granularity — a single binding can list many subjects, and a user can be the subject of many bindings. Pick one of these patterns and stick with it across the namespace to make audits and reviews predictable:
+Each binding references exactly one role through `roleRef` and lists up to 100 subjects. A user can be the subject of many bindings, so you grant a user multiple roles by creating multiple bindings. Beyond that, the CRD model doesn't enforce a granularity — pick one of these patterns and stick with it across the namespace to make audits and reviews predictable:
 
 - **One binding per role, many subjects** — every user with the role lives in one resource. A single apply changes access for every user at once, which can be either a feature or a hazard depending on the change.
-- **One binding per user, multiple roles per binding** — each user has one binding listing the roles they hold. Deleting a user is a single binding delete. Adding a new role to an existing user means editing their binding.
 - **One binding per user-role pair** — most verbose, but each grant is a discrete resource. Useful for attributing changes in GitOps and for scoping Kubernetes RBAC permissions on individual bindings.
 
 ## Before you start
@@ -95,35 +94,21 @@ spec:
   - name: bob
 ```
 
-A cluster role binding grants access cluster-wide — including to REDBs represented by resources in other namespaces, since access flows through Redis Software rather than through explicit REDB references. Reserve cluster role bindings for administrators who need cluster-wide access.
+A cluster role binding grants the role across every REDB in the cluster, including REDBs represented by resources in other namespaces. Reserve cluster role bindings for administrators who need cluster-wide access.
 
-## Subject kinds
+## Subjects
 
-`spec.subjects[].kind` accepts:
-
-| Kind | Use for |
-| --- | --- |
-| `RedisEnterpriseUser` (or empty) | A user managed by a `RedisEnterpriseUser` resource in the operator namespace. `name` is the resource name. |
-| `LDAPGroup` | An LDAP group that should receive this role. `name` is the group's distinguished name. Requires LDAP authentication to be configured on the cluster — see [Configure LDAP]({{< relref "/operate/kubernetes/security/authentication/ldap" >}}). |
-
-A single binding can mix subject kinds. The following grants the `cluster-admin` role to a `RedisEnterpriseUser` named `alice` and to every member of an LDAP group identified by its distinguished name:
+Each entry in `spec.subjects` references a `RedisEnterpriseUser` in the operator namespace. `spec.subjects[].kind` can be left empty or set to `RedisEnterpriseUser`, and `name` is the resource's `metadata.name`:
 
 ```yaml
-apiVersion: app.redislabs.com/v1alpha1
-kind: RedisEnterpriseClusterRoleBinding
-metadata:
-  name: ops-admins
 spec:
-  roleRef:
-    name: cluster-admin
   subjects:
   - kind: RedisEnterpriseUser
     name: alice
-  - kind: LDAPGroup
-    name: "cn=ops,ou=groups,dc=example,dc=com"
+  - name: bob    # kind defaults to RedisEnterpriseUser
 ```
 
-Quote the LDAP DN in YAML so commas and `=` don't cause parse errors. The UID of the LDAP mapping the operator creates appears in `status.ldapMappings`.
+A binding can list up to 100 subjects. To grant the role to more users, create additional bindings that reference the same role.
 
 ## Update a binding
 
@@ -157,13 +142,7 @@ kubectl get redisenterpriseclusterrolebinding -o json | \
 
 ## Inspect binding status
 
-The `status` block is minimal:
-
-| Field | Meaning |
-| --- | --- |
-| `ldapMappings` | UIDs of LDAP mappings the operator created in Redis Software for each `LDAPGroup` subject in this binding. Empty if the binding only references `RedisEnterpriseUser` subjects. |
-
-To see whether a binding has actually granted permissions, check the referenced user instead:
+The binding's own `status` block is empty. To see whether a binding has actually granted permissions, check the referenced user instead:
 
 ```sh
 kubectl get redisenterpriseuser alice -o jsonpath='{.status.roles}'
@@ -183,14 +162,12 @@ Watch reconciliation events with `kubectl describe redisenterpriserolebinding <n
 
 - **The user's `RolesBound` condition is `False` with reason `RoleNotFound`** — A binding references this user but points at a role that doesn't exist. Either create the missing role or fix `roleRef.name`. See [Apply order doesn't matter](#apply-order-doesnt-matter).
 - **User has permissions you didn't expect** — Multiple bindings may be granting the same user different roles. Use the recipes in [Find bindings that reference a role or user](#find-bindings-that-reference-a-role-or-user) to list everything that targets the user.
-- **LDAP subject doesn't get the role** — LDAP must be configured on the cluster (`spec.ldap` on the REC). Confirm the distinguished name matches what the LDAP server returns; mappings appear in `status.ldapMappings` once the operator has created them.
 - **`MissingRoleUIDs` event on a user** — Redis Software has role UIDs assigned to the user that the operator can't trace back to any Kubernetes role resource. This typically means roles were granted directly through the Redis Software REST API or Cluster Manager UI, bypassing the CRD model. Recreate the assignment as a `RedisEnterpriseRoleBinding` (or `RedisEnterpriseClusterRoleBinding`) so the CRD model is the source of truth, then revoke the direct assignment.
 
 For full field details, see the [`RedisEnterpriseRoleBinding`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_role_binding_api" >}}) and [`RedisEnterpriseClusterRoleBinding`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_role_binding_api" >}}) API reference.
 
 ## Related topics
 
-- [Roles and bindings]({{< relref "/operate/kubernetes/security/access-control/_index#roles-and-bindings" >}}) — the conceptual model and a worked end-to-end example.
+- [Roles and bindings]({{< relref "/operate/kubernetes/security/access-control/_index#roles-and-bindings" >}}) — the conceptual model and an end-to-end example.
 - [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) — create the roles a binding references.
 - [Manage users]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}) — create the users a binding lists as subjects.
-- [Configure LDAP]({{< relref "/operate/kubernetes/security/authentication/ldap" >}}) — required for `LDAPGroup` subjects.

@@ -81,14 +81,14 @@ To find roles that reference this ACL, scan the role resources:
 
 ```sh
 kubectl get redisenterpriserole -o yaml | \
-  yq '.items[] | select(.spec.acls[]?.name == "read-only") | .metadata.name'
+  yq '.items[] | select(.spec.acl.name == "read-only") | .metadata.name'
 kubectl get redisenterpriseclusterrole -o yaml | \
-  yq '.items[] | select(.spec.acls[]?.name == "read-only") | .metadata.name'
+  yq '.items[] | select(.spec.acl.name == "read-only") | .metadata.name'
 ```
 
 ## Delete an ACL
 
-Delete any roles that reference the ACL first, then delete the ACL itself:
+Delete or modify any roles that reference the ACL first (modify them to no longer reference it), then delete the ACL itself:
 
 ```sh
 kubectl delete redisenterpriseacl read-only
@@ -109,7 +109,7 @@ Other things to check:
 
 - **`status.uid` is empty** — The operator hasn't reconciled the ACL yet, or Redis Software rejected the rule. Check the events for an `RSOperationFailed` with the syntax message.
 - **Rule parses but grants nothing** — A common cause is an explicit `-@all` later in the rule overriding earlier `+` clauses. Redis ACL evaluation is order-sensitive; see the [Redis ACL overview]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}).
-- **Delete is blocked** — A `RedisEnterpriseRole` or `RedisEnterpriseClusterRole` still references the ACL in `spec.acls`. Remove the reference or delete the role first.
+- **Delete is blocked** — A `RedisEnterpriseRole` or `RedisEnterpriseClusterRole` still references the ACL in `spec.acl`. Remove the reference or delete the role first.
 
 For full field details, see the [`RedisEnterpriseACL`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_acl_api" >}}) API reference.
 
