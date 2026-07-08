@@ -15,6 +15,7 @@ title: Key eviction
 aliases:
 - /manual/eviction/
 - /reference/eviction/
+- /develop/reference/eviction/index/
 weight: 6
 ---
 

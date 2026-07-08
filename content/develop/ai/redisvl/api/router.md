@@ -68,7 +68,7 @@ Flush all routes from the semantic router index.
 
 #### `delete()`
 
-Delete the semantic router index.
+Delete the semantic router index and its persisted route config.
 
 * **Return type:**
   None

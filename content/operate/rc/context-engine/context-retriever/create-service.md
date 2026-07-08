@@ -33,7 +33,7 @@ If you have not already created a Context Retriever service, you'll see a page w
 
 From here, you can either:
 
-- Select **Get started** to follow a step-by-step guide using the `ctxctl` CLI, which is installed with the [Context Surfaces Python Client](https://pypi.org/project/context-surfaces/). 
+- Select **Get started** to follow a step-by-step guide using the `ctxctl` CLI, which is installed with the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/). 
 - Select **Create custom service** to manually configure your own context retriever settings.
 
 For this guide, select **Create custom service**. 
@@ -109,6 +109,6 @@ After you set all fields for all of your entities, select **Create** to create y
 
 ## Next steps
 
-After your service is created, you can call the MCP tools Context Retriever exposes from your agent. See the [Context Surfaces Python Client](https://pypi.org/project/context-surfaces/) for more information on how to call your tools.
+After your service is created, you can call the MCP tools Context Retriever exposes from your agent. See the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/) for more information on how to call your tools.
 
 You can also [view your service]({{< relref "/operate/rc/context-engine/context-retriever/view-service" >}}).

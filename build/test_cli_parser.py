@@ -58,6 +58,20 @@ redis> GET key2
     print("✓ Test with mixed prompts passed")
 
 
+def test_cli_parser_ignores_csharp_generic_assignment():
+    """Multi-line C# generic types leave a closing ">" at the start of the
+    next line (e.g. "> res30 = db.TS().MRange(...)"). These are assignments,
+    not CLI commands, and must not be extracted as commands like RES30."""
+    content = """IReadOnlyList<
+    (string, IReadOnlyList<TimeSeriesLabel>, IReadOnlyList<TimeSeriesTuple>)
+> res30 = db.TS().MRange("-", 2, mmFilters, withLabels: true);
+> res31 = db.TS().MRevRange(1, 3, cmMmFilters);"""
+
+    commands = extract_cli_commands(content)
+    assert commands == [], f"Expected [], got {commands}"
+    print("✓ Test ignoring C# generic assignments passed")
+
+
 def test_markdown_parser_with_redis_prompt():
     """Test markdown parser with redis> prompt."""
     content = """{{< clients-example set="cmds_list" step="lpop" >}}
@@ -100,6 +114,7 @@ def main():
         test_cli_parser_with_greater_than_prompt()
         test_cli_parser_with_redis_prompt()
         test_cli_parser_mixed_prompts()
+        test_cli_parser_ignores_csharp_generic_assignment()
         test_markdown_parser_with_redis_prompt()
         test_markdown_parser_with_greater_than_prompt()
         

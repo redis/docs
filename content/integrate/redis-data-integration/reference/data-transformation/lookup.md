@@ -49,7 +49,7 @@ weight: 10
 **Additional Properties:** not allowed
 **Example**
 
-Denormalize a hash:
+Read a hash field:
 
 ```yaml
 source:

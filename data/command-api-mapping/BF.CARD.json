@@ -16,6 +16,38 @@
         }
       }
     ],
+    "redis_rs_sync": [
+      {
+        "signature": "bf_card(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": "The number of items reported as added to the filter"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bf_card(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "(usize)",
+          "description": "The number of items reported as added to the filter"
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "long bfCard(String key)",

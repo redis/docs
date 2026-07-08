@@ -129,7 +129,7 @@ is an array containing the number of samples in each time series after the opera
 If you use the `*` character as the timestamp, Redis will record the current
 Unix time, as reported by the server's clock.
 
-{{< clients-example set="time_series_tutorial" step="madd" description="Batch operations: Add multiple data points to one or more time series using TS.MADD when you need to reduce round trips to the server" difficulty="beginner" buildsUpon="create" >}}
+{{< clients-example set="time_series_tutorial" step="madd" description="Batch operations: Add multiple data points to one or more time series using TS.MADD when you need to reduce round trips to the server" difficulty="beginner" buildsUpon="create" try_it="false" >}}
 > TS.MADD thermometer:1 1 9.2 thermometer:1 2 9.9 thermometer:2 2 10.3
 1) (integer) 1
 2) (integer) 2
@@ -141,7 +141,7 @@ Unix time, as reported by the server's clock.
 Use [`TS.GET`]({{< relref "commands/ts.get/" >}}) to retrieve the data point
 with the highest timestamp in a time series. This returns both the timestamp and the value.
 
-{{< clients-example set="time_series_tutorial" step="get" description="Foundational: Use TS.GET to get the latest value and timestamp" difficulty="beginner" buildsUpon="madd" >}}
+{{< clients-example set="time_series_tutorial" step="get" description="Foundational: Use TS.GET to get the latest value and timestamp" difficulty="beginner" buildsUpon="madd" try_it="false" >}}
 # The last recorded temperature for thermometer:2
 # was 10.3 at time 2ms.
 > TS.GET thermometer:2
@@ -224,7 +224,7 @@ use this option). Specify a minimum and maximum value to include only
 samples within that range. The value range is inclusive and you can
 use the same value for the minimum and maximum to filter for a single value.
 
-{{< clients-example set="time_series_tutorial" step="range_filter" description="Filtering results: Use FILTER_BY_TS and FILTER_BY_VALUE options with range queries when you need to select specific timestamps or value ranges" difficulty="intermediate" buildsUpon="range" >}}
+{{< clients-example set="time_series_tutorial" step="range_filter" description="Filtering results: Use FILTER_BY_TS and FILTER_BY_VALUE options with range queries when you need to select specific timestamps or value ranges" difficulty="intermediate" buildsUpon="range" try_it="false" >}}
 > TS.RANGE rg:1 - + FILTER_BY_TS 0 2 4
 1) 1) (integer) 0
    2) 18
@@ -398,7 +398,7 @@ For example, the example below shows an aggregation with the `avg` aggregator ov
 five data points in the `rg:2` time series. The bucket size is 2ms, so there are three
 aggregated values with only one value used to calculate the average for the last bucket.
 
-{{< clients-example set="time_series_tutorial" step="agg" description="Aggregation: Use AGGREGATION option with range queries to compute statistics such as avg, sum, min, and max over time buckets when you need to reduce large datasets" difficulty="intermediate" buildsUpon="madd" >}}
+{{< clients-example set="time_series_tutorial" step="agg" description="Aggregation: Use AGGREGATION option with range queries to compute statistics such as avg, sum, min, and max over time buckets when you need to reduce large datasets" difficulty="intermediate" buildsUpon="madd" try_it="false" >}}
 > TS.RANGE rg:2 - + AGGREGATION avg 2
 1) 1) (integer) 0
    2) 1.9500000000000002
@@ -457,7 +457,7 @@ Bucket(25ms): |_________________________||_________________________||___________
 
 You can also align the buckets to the start or end of the query range. For example, the following command aligns the buckets to the start of the query range at time 10.
 
-{{< clients-example set="time_series_tutorial" step="agg_align" description="Custom alignment: Use ALIGN option with aggregations to align buckets to query range start/end when you need aggregations relative to specific time boundaries" difficulty="advanced" buildsUpon="agg_bucket" >}}
+{{< clients-example set="time_series_tutorial" step="agg_align" description="Custom alignment: Use ALIGN option with aggregations to align buckets to query range start/end when you need aggregations relative to specific time boundaries" difficulty="advanced" buildsUpon="agg_bucket" try_it="false" >}}
 > TS.RANGE sensor3 10 70 AGGREGATION min 25 ALIGN start
 1) 1) (integer) 10
    2) 1000
@@ -671,7 +671,7 @@ produce any data in the compacted series. However, when you add data for
 time 4 (in the second bucket), the compaction rule computes the minimum
 value for the first bucket and adds it to the compacted series.
 
-{{< clients-example set="time_series_tutorial" step="comp_add" description="Compaction behavior: Understand how compaction rules process data incrementally, computing aggregates for completed buckets when new data arrives" difficulty="intermediate" buildsUpon="create_compaction" >}}
+{{< clients-example set="time_series_tutorial" step="comp_add" description="Compaction behavior: Understand how compaction rules process data incrementally, computing aggregates for completed buckets when new data arrives" difficulty="intermediate" buildsUpon="create_compaction" try_it="false" >}}
 > TS.MADD hyg:1 0 75 hyg:1 1 77 hyg:1 2 78
 1) (integer) 0
 2) (integer) 1
@@ -702,7 +702,7 @@ that fall within a given timestamp range. The range is inclusive, meaning that
 samples whose timestamp equals the start or end of the range are deleted.
 If you want to delete a single timestamp, use it as both the start and end of the range.
 
-{{< clients-example set="time_series_tutorial" step="del" description="Deleting data: Use TS.DEL to remove data points within a timestamp range when you need to clean up or correct historical data" difficulty="beginner" buildsUpon="create" >}}
+{{< clients-example set="time_series_tutorial" step="del" description="Deleting data: Use TS.DEL to remove data points within a timestamp range when you need to clean up or correct historical data" difficulty="beginner" buildsUpon="create" try_it="false" >}}
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 2

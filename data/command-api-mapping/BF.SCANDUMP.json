@@ -21,6 +21,48 @@
         }
       }
     ],
+    "redis_rs_sync": [
+      {
+        "signature": "bf_scandump(key: K, iterator: i64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter to dump"
+          },
+          {
+            "name": "iterator",
+            "type": "i64",
+            "description": "Iterator value; 0 to start, then the value returned by the previous call"
+          }
+        ],
+        "returns": {
+          "type": "(BloomFilterDumpChunk)",
+          "description": "The next chunk of the filter; an empty chunk signals completion"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bf_scandump(key: K, iterator: i64)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter to dump"
+          },
+          {
+            "name": "iterator",
+            "type": "i64",
+            "description": "Iterator value; 0 to start, then the value returned by the previous call"
+          }
+        ],
+        "returns": {
+          "type": "(BloomFilterDumpChunk)",
+          "description": "The next chunk of the filter; an empty chunk signals completion"
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "Map.Entry<Long, byte[]> bfScanDump(String key, long iterator)",

@@ -2,6 +2,7 @@
 aliases:
 - /data-types/lists/
 - /manual/data-types/lists/
+- /develop/data-types/list/
 categories:
 - docs
 - develop
@@ -299,7 +300,7 @@ timeout is reached.
 
 This is an example of a [`BRPOP`]({{< relref "/commands/brpop" >}}) call we could use in the worker:
 
-{{< clients-example set="list_tutorial" step="brpop" description="Blocking operations: Use BRPOP to wait for elements with a timeout when you need to implement producer-consumer patterns without polling" difficulty="intermediate" buildsUpon="lpush_rpush, lpop_rpop" >}}
+{{< clients-example set="list_tutorial" step="brpop" description="Blocking operations: Use BRPOP to wait for elements with a timeout when you need to implement producer-consumer patterns without polling" difficulty="intermediate" buildsUpon="lpush_rpush, lpop_rpop" runnable="false" >}}
 > DEL bikes:repairs
 (integer) 1
 > RPUSH bikes:repairs bike:1 bike:2
@@ -376,7 +377,7 @@ string
 
 Example of rule 2:
 
-{{< clients-example set="list_tutorial" step="rule_2" description="Automatic removal: Redis automatically deletes empty lists, freeing memory when the last element is removed" buildsUpon="lpush_rpush, lpop_rpop" >}}
+{{< clients-example set="list_tutorial" step="rule_2" description="Automatic removal: Redis automatically deletes empty lists, freeing memory when the last element is removed" buildsUpon="lpush_rpush, lpop_rpop" runnable="false" max_lines=6 >}}
 > DEL bikes:repairs
 (integer) 1
 > LPUSH bikes:repairs bike:1 bike:2 bike:3

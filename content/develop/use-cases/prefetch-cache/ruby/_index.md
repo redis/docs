@@ -305,9 +305,9 @@ After starting the server, visit `http://localhost:8789`.
 
 The demo server uses only Ruby standard library features for HTTP handling and concurrency:
 
-* [`webrick`](https://docs.ruby-lang.org/en/master/WEBrick.html) for the web server
+* [`webrick`](https://github.com/ruby/webrick) for the web server
 * [`uri`](https://docs.ruby-lang.org/en/master/URI.html) and `req.query` for query and form decoding
-* [`Thread`](https://docs.ruby-lang.org/en/master/Thread.html), [`Mutex`](https://docs.ruby-lang.org/en/master/Mutex.html), [`ConditionVariable`](https://docs.ruby-lang.org/en/master/ConditionVariable.html), and [`Queue`](https://docs.ruby-lang.org/en/master/Thread/Queue.html) for the sync worker daemon
+* [`Thread`](https://docs.ruby-lang.org/en/master/Thread.html), [`Mutex`](https://docs.ruby-lang.org/en/master/Thread/Mutex.html), [`ConditionVariable`](https://docs.ruby-lang.org/en/master/Thread/ConditionVariable.html), and [`Queue`](https://docs.ruby-lang.org/en/master/Thread/Queue.html) for the sync worker daemon
 
 It exposes a small interactive page where you can:
 

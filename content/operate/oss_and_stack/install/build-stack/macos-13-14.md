@@ -4,12 +4,19 @@ categories:
 - operate
 - stack
 - oss
-linkTitle: macOS 13 / macOS 14
-title: Build and run Redis Open Source on macOS 13 (Ventura) and macOS 14 (Sonoma)
+linkTitle: macOS 14 / 15 / 26
+title: Build and run Redis Open Source on macOS 14 (Sonoma), 15 (Sequoia), and 26 (Tahoe)
 weight: 50
 ---
 
-Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running macOS 13 (Ventura) and macOS 14 (Sonoma).
+Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running macOS 14 (Sonoma), macOS 15 (Sequoia), or macOS 26 (Tahoe). These instructions apply to both Intel and Apple Silicon (ARM) Macs.
+
+{{< note >}}
+Three RediSearch-specific build constraints apply on macOS and are handled in the steps below:
+
+- The cross-language LTO that RediSearch enables by default requires Linux; its build script aborts on macOS with `Error: LTO is only supported on Linux`. Step 5 sets `LTO=0` to disable it.
+- RediSearch's Rust workspace uses edition 2024 and features stabilized in Rust 1.94, so the Rust toolchain in step 3 is pinned to `1.94.0`. Older Rust fails with `feature edition2024 is required`.
+{{< /note >}}
 
 ## 1. Install homebrew
 
@@ -36,7 +43,7 @@ brew install wget
 Rust is required to build the JSON package.
 
 ```bash
-RUST_INSTALLER=rust-1.80.1-$(if [ "$(uname -m)" = "arm64" ]; then echo "aarch64"; else echo "x86_64"; fi)-apple-darwin
+RUST_INSTALLER=rust-1.94.0-$(if [ "$(uname -m)" = "arm64" ]; then echo "aarch64"; else echo "x86_64"; fi)-apple-darwin
 wget --quiet -O ${RUST_INSTALLER}.tar.xz https://static.rust-lang.org/dist/${RUST_INSTALLER}.tar.xz
 tar -xf ${RUST_INSTALLER}.tar.xz
 (cd ${RUST_INSTALLER} && sudo ./install.sh)
@@ -78,7 +85,7 @@ cd ~/src/redis-<version>
 export HOMEBREW_PREFIX="$(brew --prefix)"
 export BUILD_WITH_MODULES=yes
 export BUILD_TLS=yes
-export DISABLE_WERRORS=yes
+export LTO=0
 PATH="$HOMEBREW_PREFIX/opt/libtool/libexec/gnubin:$HOMEBREW_PREFIX/opt/llvm@18/bin:$HOMEBREW_PREFIX/opt/make/libexec/gnubin:$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin:$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
 export LDFLAGS="-L$HOMEBREW_PREFIX/opt/llvm@18/lib"
 export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/llvm@18/include"

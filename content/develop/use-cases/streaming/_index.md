@@ -112,7 +112,7 @@ The following libraries and frameworks use Redis Streams for event-driven worklo
     [`ioredis`](https://github.com/redis/ioredis) for stream producers and consumers in
     event-driven APIs.
 -   **Python**: [`redis-py`](https://redis.readthedocs.io/) with
-    [FastAPI](https://fastapi.tiangolo.com/) or [Django](https://www.djangoproject.com/) for
+    [FastAPI]({{< relref "/integrate/fastapi" >}}) or [Django](https://www.djangoproject.com/) for
     microservice event pipelines.
 -   **Infrastructure**:
     [Active-Active geo-distribution]({{< relref "/operate/rs/databases/active-active" >}}) on

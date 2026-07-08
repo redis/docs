@@ -562,7 +562,11 @@ If `GROUPBY label REDUCE reducer` is not specified:
   - By default, an empty array is reported
   - If `WITHLABELS` is specified, all labels associated with this time series are reported
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing all samples/aggregations matching the range in reverse chronological order
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range in reverse chronological order:
+  - Without `AGGREGATION` or with a single aggregator:
+    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value)
+  - With multiple aggregators:
+    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value...)
 
 If `GROUPBY label REDUCE reducer` is specified:
 
@@ -571,7 +575,11 @@ If `GROUPBY label REDUCE reducer` is specified:
 - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the `GROUPBY` label argument and value
 - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})):  the string `__reducer__` and the reducer argument
 - [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): a single pair ([Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})): the string `__source__` and the time series key names separated by ","
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing all samples/aggregations matching the range in reverse chronological order
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range in reverse chronological order:
+  - Without `AGGREGATION` or with a single aggregator:
+    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value)
+  - With multiple aggregators:
+    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) representing (timestamp, value...)
 
 -tab-sep-
 
@@ -584,7 +592,11 @@ If `GROUPBY label REDUCE reducer` is not specified:
   - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map
   - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map
 - Additional metadata including aggregators information
-- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) representing all samples/aggregations matching the range in reverse chronological order
+- [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}): representing all samples/aggregations matching the range in reverse chronological order:
+  - Without `AGGREGATION` or with a single aggregator:
+    timestamp-value pairs ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) representing (timestamp, value)
+  - With multiple aggregators:
+    timestamp-value tuples ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) representing (timestamp, value...)
 
 If `GROUPBY label REDUCE reducer` is specified:
 

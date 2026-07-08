@@ -4,52 +4,44 @@ categories:
 - operate
 - stack
 - oss
-linkTitle: AlmaLinux/Rocky 9.5
-title: Build and run Redis Open Source on AlmaLinux/Rocky Linux 9.5
+linkTitle: AlmaLinux/Rocky 9.7+
+title: Build and run Redis Open Source on AlmaLinux/Rocky Linux 9.7+
 weight: 10
 ---
 
-Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running AlmaLinux 9.5 or Rocky Linux 9.5.
+Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running AlmaLinux 9.7 or later or Rocky Linux 9.7 or later.
 
 {{< note >}}
 Docker images used to produce these build notes:
 - AlmaLinux:
-    - almalinux:9.5
-    - almalinux:9.5-minimal
+    - almalinux:9.7
+    - almalinux:9.7-minimal
 - Rocky Linux:
-    - rockylinux/rockylinux:9.5
-    - rockylinux/rockylinux:9.5-minimal
+    - rockylinux/rockylinux:9.7
+    - rockylinux/rockylinux:9.7-minimal
 {{< /note >}}
 
 ## 1. Prepare the system
 
 {{< note >}}
-For 9.5-minimal, you'll need to install `sudo` and `dnf` as follows:
+For 9-minimal, you'll need to install `sudo` and `dnf` as follows:
 
 ```bash
 microdnf install dnf sudo -y
 ```
 
-For 9.5 (regular), you'll need to install `sudo` as follows:
+For 9 (regular), you'll need to install `sudo` as follows:
 
 ```bash
 dnf install sudo -y
 ```
 {{< /note >}}
 
-Clean the package metadata, enable required repositories, and install development tools:
+Enable the required repositories (`epel-release` and CRB provide some of the `-devel` packages):
 
 ```bash
-sudo tee /etc/yum.repos.d/goreleaser.repo > /dev/null <<EOF
-[goreleaser]
-name=GoReleaser
-baseurl=https://repo.goreleaser.com/yum/
-enabled=1
-gpgcheck=0
-EOF
-sudo dnf clean all
-sudo dnf makecache
-sudo dnf update -y
+sudo dnf install -y epel-release
+sudo dnf config-manager --set-enabled crb
 ```
 
 ## 2. Install required dependencies
@@ -57,7 +49,7 @@ sudo dnf update -y
 Update your package lists and install the necessary development tools and libraries:
 
 ```bash
-sudo dnf install -y --nobest --skip-broken \
+sudo dnf install -y \
     pkg-config \
     xz \
     wget \
@@ -74,18 +66,11 @@ sudo dnf install -y --nobest --skip-broken \
     unzip \
     rsync \
     clang \
-    curl \
     libtool \
     automake \
     autoconf \
     jq \
     systemd-devel
-```
-
-Create a Python virtual environment:
-
-```bash
-python3 -m venv /opt/venv
 ```
 
 Enable the GCC toolset:
@@ -147,7 +132,6 @@ cd /usr/src/redis-<version>
 export BUILD_TLS=yes
 export BUILD_WITH_MODULES=yes
 export INSTALL_RUST_TOOLCHAIN=yes
-export DISABLE_WERRORS=yes
 make -j "$(nproc)" all
 ```
 

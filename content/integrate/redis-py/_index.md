@@ -31,7 +31,7 @@ redis-py is the recommended Python client for Redis, providing a comprehensive i
 - **Sentinel Support**: High availability with Redis Sentinel integration
 - **Pipeline Support**: Command batching for improved performance
 - **Pub/Sub**: Real-time messaging with Redis publish/subscribe
-- **Framework Integration**: Seamless integration with Django, Flask, FastAPI, and other Python frameworks
+- **Framework Integration**: Seamless integration with Django, Flask, [FastAPI]({{< relref "/integrate/fastapi" >}}), and other Python frameworks
 
 ## Getting Started
 

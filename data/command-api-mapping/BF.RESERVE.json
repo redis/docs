@@ -70,6 +70,116 @@
         }
       }
     ],
+    "redis_rs_sync": [
+      {
+        "signature": "bf_reserve(key: K, err_rate: f64, capacity: usize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter to create"
+          },
+          {
+            "name": "err_rate",
+            "type": "f64",
+            "description": "The desired false positive rate"
+          },
+          {
+            "name": "capacity",
+            "type": "usize",
+            "description": "The number of items expected in the filter"
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": "Unit on success"
+        }
+      },
+      {
+        "signature": "bf_reserve_options(key: K, err_rate: E, capacity: C, options: BloomFilterScalingOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter to create"
+          },
+          {
+            "name": "err_rate",
+            "type": "E",
+            "description": "The desired false positive rate"
+          },
+          {
+            "name": "capacity",
+            "type": "C",
+            "description": "The number of items expected in the filter"
+          },
+          {
+            "name": "options",
+            "type": "BloomFilterScalingOptions",
+            "description": "Expansion rate and non-scaling options"
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": "Unit on success"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bf_reserve(key: K, err_rate: f64, capacity: usize)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter to create"
+          },
+          {
+            "name": "err_rate",
+            "type": "f64",
+            "description": "The desired false positive rate"
+          },
+          {
+            "name": "capacity",
+            "type": "usize",
+            "description": "The number of items expected in the filter"
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": "Unit on success"
+        }
+      },
+      {
+        "signature": "bf_reserve_options(key: K, err_rate: E, capacity: C, options: BloomFilterScalingOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter to create"
+          },
+          {
+            "name": "err_rate",
+            "type": "E",
+            "description": "The desired false positive rate"
+          },
+          {
+            "name": "capacity",
+            "type": "C",
+            "description": "The number of items expected in the filter"
+          },
+          {
+            "name": "options",
+            "type": "BloomFilterScalingOptions",
+            "description": "Expansion rate and non-scaling options"
+          }
+        ],
+        "returns": {
+          "type": "(())",
+          "description": "Unit on success"
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "String bfReserve(String key, double errorRate, long capacity)",
