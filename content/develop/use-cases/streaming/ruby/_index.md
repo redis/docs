@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/streaming/redis-rb
 categories:
 - docs
 - develop

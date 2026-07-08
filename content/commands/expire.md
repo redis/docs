@@ -106,34 +106,47 @@ will be `del`, not `expired`).
 [del]: /commands/del
 [ntf]: /develop/use/keyspace-notifications
 
-## Options
+## Required arguments
 
-The `EXPIRE` command supports a set of options:
+<details open><summary><code>key</code></summary>
 
-* `NX` -- Set expiry only when the key has no expiry
-* `XX` -- Set expiry only when the key has an existing expiry
-* `GT` -- Set expiry only when the new expiry is greater than current one
-* `LT` -- Set expiry only when the new expiry is less than current one
+The name of the key.
 
-A non-volatile key is treated as an infinite TTL for the purpose of `GT` and `LT`.
-The `GT`, `LT` and `NX` options are mutually exclusive.
+</details>
 
-## Refreshing expires
+<details open><summary><code>seconds</code></summary>
 
-It is possible to call `EXPIRE` using as argument a key that already has an
-existing expire set.
-In this case the time to live of a key is _updated_ to the new value.
-There are many useful applications for this, an example is documented in the
-_Navigation session_ pattern section below.
+The time to live, in seconds. The key is deleted after this many seconds.
 
-## Differences in Redis prior 2.1.3
+</details>
 
-In Redis versions prior **2.1.3** altering a key with an expire set using a
-command altering its value had the effect of removing the key entirely.
-This semantics was needed because of limitations in the replication layer that
-are now fixed.
+## Optional arguments
 
-`EXPIRE` would return 0 and not alter the timeout for a key with a timeout set.
+These options are mutually exclusive.
+
+<details open><summary><code>NX</code></summary>
+
+Set the expiry only when the key has no expiry.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+Set the expiry only when the key already has an expiry.
+
+</details>
+
+<details open><summary><code>GT</code></summary>
+
+Set the expiry only when the new expiry is greater than the current one. A non-volatile key is treated as an infinite TTL for the purpose of `GT`.
+
+</details>
+
+<details open><summary><code>LT</code></summary>
+
+Set the expiry only when the new expiry is less than the current one. A non-volatile key is treated as an infinite TTL for the purpose of `LT`.
+
+</details>
 
 ## Examples
 
@@ -158,21 +171,26 @@ are now fixed.
 (integer) 10
 {{< /clients-example >}}
 
-Give these commands a try in the interactive console:
+## Details
 
-{{% redis-cli %}}
-SET mykey "Hello"
-EXPIRE mykey 10
-TTL mykey
-SET mykey "Hello World"
-TTL mykey
-EXPIRE mykey 10 XX
-TTL mykey
-EXPIRE mykey 10 NX
-TTL mykey
-{{% /redis-cli %}}
+### Refreshing expires
 
-## Pattern: Navigation session
+It is possible to call `EXPIRE` using as argument a key that already has an
+existing expire set.
+In this case the time to live of a key is _updated_ to the new value.
+There are many useful applications for this, an example is documented in the
+_Navigation session_ pattern section below.
+
+### Differences in Redis prior to 2.1.3
+
+In Redis versions prior to 2.1.3 altering a key with an expire set using a
+command altering its value had the effect of removing the key entirely.
+This semantics was needed because of limitations in the replication layer that
+are now fixed.
+
+`EXPIRE` would return 0 and not alter the timeout for a key with a timeout set.
+
+### Pattern: navigation session
 
 Imagine you have a web service and you are interested in the latest N pages
 _recently_ visited by your users, such that each adjacent page view was not
@@ -199,9 +217,9 @@ recorded.
 This pattern is easily modified to use counters using [`INCR`]({{< relref "/commands/incr" >}}) instead of lists
 using [`RPUSH`]({{< relref "/commands/rpush" >}}).
 
-## Appendix: Redis expires
+### Appendix: Redis expires
 
-### Keys with an expire
+#### Keys with an expire
 
 Normally Redis keys are created without an associated time to live.
 The key will simply live forever, unless it is removed by the user in an
@@ -215,14 +233,14 @@ specified amount of time elapsed.
 The key time to live can be updated or entirely removed using the `EXPIRE` and
 [`PERSIST`]({{< relref "/commands/persist" >}}) command (or other strictly related commands).
 
-### Expire accuracy
+#### Expire accuracy
 
 In Redis 2.4 the expire might not be pin-point accurate, and it could be between
 zero to one seconds out.
 
 Since Redis 2.6 the expire error is from 0 to 1 milliseconds.
 
-### Expires and persistence
+#### Expires and persistence
 
 Keys expiring information is stored as absolute Unix timestamps (in milliseconds
 in case of Redis version 2.6 or greater).
@@ -238,7 +256,7 @@ you set a key with a time to live of 1000 seconds, and then set your computer
 time 2000 seconds in the future, the key will be expired immediately, instead of
 lasting for 1000 seconds.
 
-### How Redis expires keys
+#### How Redis expires keys
 
 Redis keys are expired in two ways: a passive way and an active way.
 
@@ -251,7 +269,7 @@ These keys should be expired anyway, so periodically, Redis tests a few keys at
 random amongst the set of keys with an expiration.
 All the keys that are already expired are deleted from the keyspace.
 
-### How expires are handled in the replication link and AOF file
+#### How expires are handled in the replication link and AOF file
 
 In order to obtain a correct behavior without sacrificing consistency, when a
 key expires, a [`DEL`]({{< relref "/commands/del" >}}) operation is synthesized in both the AOF file and gains all
@@ -265,7 +283,7 @@ still take the full state of the expires existing in the dataset, so when a
 replica is elected to master it will be able to expire the keys independently,
 fully acting as a master.
 
-###  Redis Search and expiration
+####  Redis Search and expiration
 
 Starting with Redis 8, Redis Search has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring keys, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
 

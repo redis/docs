@@ -66,6 +66,20 @@ Sets the specified fields to their respective values in the hash stored at `key`
 This command overwrites the values of specified fields that exist in the hash.
 If `key` doesn't exist, a new key holding a hash is created.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field value [field value ...]</code></summary>
+
+One or more field-value pairs to set in the hash.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_hash" step="hset" description="Foundational: Set one or more field-value pairs in a hash using HSET (creates hash if needed, overwrites existing fields, returns count of new fields)" difficulty="beginner" >}}
@@ -87,17 +101,6 @@ If `key` doesn't exist, a new key holding a hash is created.
 5) "field3"
 6) "World"
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-HSET myhash field1 "Hello"
-HGET myhash field1
-HSET myhash field2 "Hi" field3 "World"
-HGET myhash field2
-HGET myhash field3
-HGETALL myhash
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

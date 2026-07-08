@@ -56,6 +56,14 @@ only if the following additional conditions are met:
 
 If the command succeeds the new replica will immediately try to contact its master in order to replicate from it.
 
+## Required arguments
+
+<details open><summary><code>node-id</code></summary>
+
+The ID of the master node that the current node should replicate.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

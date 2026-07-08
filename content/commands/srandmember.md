@@ -64,6 +64,22 @@ The array's length is either `count` or the set's cardinality ([`SCARD`]({{< rel
 If called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.
 In this case, the number of returned elements is the absolute value of the specified `count`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>count</code></summary>
+
+The number of members to return. A positive `count` returns up to that many distinct members; a negative `count` returns exactly `|count|` members and may repeat them.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
@@ -73,7 +89,9 @@ SRANDMEMBER myset 2
 SRANDMEMBER myset -5
 {{% /redis-cli %}}
 
-## Specification of the behavior when count is passed
+## Details
+
+### Specification of the behavior when count is passed
 
 When the `count` argument is a positive value this command behaves as follows:
 
@@ -87,7 +105,7 @@ When the `count` is a negative value, the behavior changes as follows:
 * Exactly `count` elements, or an empty array if the set is empty (non-existing key), are always returned.
 * The order of elements in the reply is truly random.
 
-## Distribution of returned elements
+### Distribution of returned elements
 
 Note: this section is relevant only for Redis 5 or below, as Redis 6 implements a fairer algorithm. 
 

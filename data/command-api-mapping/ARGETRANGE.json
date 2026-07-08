@@ -1,0 +1,191 @@
+{
+  "api_calls": {
+    "node_redis": [
+      {
+        "signature": "arGetRange(key: RedisArgument, start: number | string, end: number | string)",
+        "params": [
+          {
+            "name": "key",
+            "type": "RedisArgument",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "number | string",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "number | string",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "ArrayReply<BlobStringReply | NullReply>",
+          "description": ""
+        }
+      }
+    ],
+    "php": [
+      {
+        "signature": "argetrange(string $key, int $start, int $end)",
+        "params": [
+          {
+            "name": "$key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "$start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "$end",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "array",
+          "description": ""
+        }
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "signature": "List<V> argetrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "List<V>",
+          "description": "a list of values (with null for empty slots)."
+        }
+      }
+    ],
+    "lettuce_async": [
+      {
+        "signature": "RedisFuture<List<V>> argetrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "RedisFuture<List<V>>",
+          "description": "a list of values (with null for empty slots)."
+        }
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "signature": "Flux<Value<V>> argetrange(K key, long start, long end)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "the key of the array."
+          },
+          {
+            "name": "start",
+            "type": "long",
+            "description": "the start index (inclusive)."
+          },
+          {
+            "name": "end",
+            "type": "long",
+            "description": "the end index (inclusive)."
+          }
+        ],
+        "returns": {
+          "type": "Flux<Value<V>>",
+          "description": "a list of values (with null for empty slots)."
+        }
+      }
+    ],
+    "redis_py": [
+      {
+        "signature": "argetrange(name: KeyT, start: int, end: int)",
+        "params": [
+          {
+            "name": "name",
+            "type": "KeyT",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "int",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "int",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "list",
+          "description": ""
+        }
+      }
+    ],
+    "go-redis": [
+      {
+        "signature": "ARGetRange(ctx context.Context, key string, start, end uint64) *SliceCmd",
+        "params": [
+          {
+            "name": "ctx",
+            "type": "context.Context",
+            "description": "Context"
+          },
+          {
+            "name": "key",
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "start",
+            "type": "uint64",
+            "description": ""
+          },
+          {
+            "name": "end",
+            "type": "uint64",
+            "description": ""
+          }
+        ],
+        "returns": {
+          "type": "*SliceCmd",
+          "description": ""
+        }
+      }
+    ]
+  }
+}

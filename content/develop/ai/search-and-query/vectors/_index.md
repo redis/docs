@@ -104,7 +104,7 @@ Choose the `HNSW` index type when you have larger datasets (> 1M documents) or w
 
 **Optional attributes**
 
-[`HNSW`](https://arxiv.org/ftp/arxiv/papers/1603/1603.09320.pdf) supports a number of additional parameters to tune
+[`HNSW`](https://arxiv.org/abs/1603.09320) supports a number of additional parameters to tune
 the accuracy of the queries, while trading off performance.
 
 | Attribute          | Description                                                        | Default value |

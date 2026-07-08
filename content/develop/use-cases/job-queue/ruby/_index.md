@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/job-queue/redis-rb
 categories:
 - docs
 - develop

@@ -49,6 +49,14 @@ title: HKEYS
 ---
 Returns all field names in the hash stored at `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

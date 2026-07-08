@@ -61,6 +61,20 @@ Remove the existing expiration on a hash key's field(s), turning the field(s) fr
 with expiration set) to _persistent_ (a field that will never expire as no TTL (time to live)
 is associated).
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to remove the expiration from. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
 ## Examples
 
 ```

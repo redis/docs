@@ -121,6 +121,11 @@ class NotebookBuilder:
             else:
                 logging.debug(f"Created cell {i} (preamble)")
 
+            # Tag test cells (from REMOVE blocks in keep_tests mode) so they can
+            # be executed for verification and stripped before shipping.
+            if block.get('is_test'):
+                cell.metadata['tags'] = ['test']
+
             cells.append(cell)
 
         logging.info(f"Created {len(cells)} notebook cells")
@@ -138,6 +143,11 @@ class NotebookBuilder:
         """
         nb = new_notebook()
         nb.cells = cells
+
+        # Deterministic cell ids: nbformat assigns random ids otherwise, which
+        # would make every regeneration of an unchanged example produce a diff.
+        for i, cell in enumerate(nb.cells):
+            cell['id'] = f"cell{i}"
 
         # Set kernel metadata
         kernel_spec = get_kernel_spec(self.language)

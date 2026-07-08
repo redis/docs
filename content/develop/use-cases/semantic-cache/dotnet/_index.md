@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/semantic-cache/stackexchange.redis
 categories:
 - docs
 - develop

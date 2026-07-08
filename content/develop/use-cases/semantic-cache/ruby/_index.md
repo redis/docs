@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/semantic-cache/redis-rb
 categories:
 - docs
 - develop
@@ -105,7 +107,7 @@ end
 
 ### Data model
 
-Each cache entry is one Redis Hash. The vector field is raw little-endian `float32` bytes — no JSON wrapping — because the Redis Search vector encoding expects exactly that. The helper packs the `Array<Float>` with Ruby's [`Array#pack`](https://docs.ruby-lang.org/en/master/packed_data_rdoc.html) directive `'e*'`, which is little-endian single-precision float; the resulting `String` is ASCII-8BIT (binary) so `redis-rb` ships the exact bytes without any UTF-8 transcoding.
+Each cache entry is one Redis Hash. The vector field is raw little-endian `float32` bytes — no JSON wrapping — because the Redis Search vector encoding expects exactly that. The helper packs the `Array<Float>` with Ruby's [`Array#pack`](https://docs.ruby-lang.org/en/master/Array.html#method-i-pack) directive `'e*'`, which is little-endian single-precision float; the resulting `String` is ASCII-8BIT (binary) so `redis-rb` ships the exact bytes without any UTF-8 transcoding.
 
 ```text
 cache:7c3f8a1b9e02

@@ -55,6 +55,8 @@ title: XCFGSET
 ---
 Sets the IDMP (Idempotent Message Processing) configuration parameters for a stream. This command configures how long idempotent IDs are retained and the maximum number of idempotent IDs tracked per producer.
 
+For more details, see [Idempotent message processing](../../develop/data-types/streams/idempotency/).
+
 ## Required arguments
 
 <details open><summary><code>key</code></summary>
@@ -67,7 +69,7 @@ The name of the stream key. The stream must already exist.
 
 <details open><summary><code>IDMP-DURATION idmp-duration</code></summary>
 
-Sets the duration in seconds that each idempotent ID (iid) is kept in the stream's IDMP map. Valid range: 1-86,400 seconds. Default: 100 seconds.
+Sets the duration, in seconds, for which each idempotent ID (iid) is retained in the stream's IDMP map. Valid range: 1-86,400 seconds. Default: 100 seconds.
 
 When an idempotent ID expires, it can be reused for new messages. This provides an operational guarantee that Redis will not forget an idempotency ID before the duration elapses (unless capacity is reached).
 
@@ -81,12 +83,24 @@ When the capacity is reached, the oldest idempotent IDs for that producer are ev
 
 </details>
 
-## Behavior
+## Details
+
+### Behavior
 
 - Calling `XCFGSET` clears all existing producer IDMP maps for the stream.
 - At least one of `IDMP-DURATION` or `IDMP-MAXSIZE` must be specified.
 - The stream must exist before calling this command.
 - Configuration changes apply immediately to all future IDMP operations.
+
+### Error conditions
+
+The command returns an error in the following cases:
+
+- `WRONGTYPE`: The key exists but is not a stream.
+- `ERR no such key`: The stream does not exist.
+- `ERR syntax error`: Invalid command syntax or missing required arguments.
+- `ERR invalid duration`: Duration value is outside the valid range (1-86,400).
+- `ERR invalid maxsize`: Maxsize value is outside the valid range (1-10,000).
 
 ## Examples
 
@@ -101,7 +115,7 @@ XCFGSET mystream IDMP-DURATION 600 IDMP-MAXSIZE 500
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
 |:----------------------|:-----------------|:------|
-| <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> | <span title="Not supported">&#x274c; Standard</span><br /><span title="Not supported"><nobr>&#x274c; Active-Active</nobr></span> |  |
+| <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> | <span title="Supported">&#x2705; Standard</span><br /><span title="Supported"><nobr>&#x2705; Active-Active</nobr></span> |  |
 
 ## Return information
 
@@ -116,13 +130,3 @@ XCFGSET mystream IDMP-DURATION 600 IDMP-MAXSIZE 500
 [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the configuration was set successfully.
 
 {{< /multitabs >}}
-
-## Error conditions
-
-The command returns an error in the following cases:
-
-- **WRONGTYPE**: The key exists but is not a stream
-- **ERR no such key**: The stream does not exist
-- **ERR syntax error**: Invalid command syntax or missing required arguments
-- **ERR invalid duration**: Duration value is outside the valid range (1-86,400)
-- **ERR invalid maxsize**: Maxsize value is outside the valid range (1-10,000)

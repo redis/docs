@@ -60,6 +60,14 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 Removes the specified keys.
 A key is ignored if it does not exist.
 
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys to delete.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_generic" step="del" description="Foundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)" difficulty="beginner" >}}
@@ -70,14 +78,6 @@ A key is ignored if it does not exist.
 > DEL key1 key2 key3
 (integer) 2
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET key1 "Hello"
-SET key2 "World"
-DEL key1 key2 key3
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

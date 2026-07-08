@@ -25,7 +25,6 @@ If you suspect your file descriptor limits are below 100,000, you must either ma
 
 The steps below use the following placeholders to indicate command line parameters you must provide:
 
-- `<repo-name>` is the name of the repo holding your Helm chart (example: `redis`).
 - `<release-name>` is the name you give a specific installation of the Helm chart (example: `my-redis-enterprise-operator`)
 - `<chart-version>` is the version of the Helm chart you are installing (example: `7.8.6-2`). Verify that the version you specify is listed in the [Redis Helm repository](https://helm.redis.io/). Using an invalid version number causes installation failures.
 - `<namespace-name>` is the name of the new namespace the Redis operator will run in (example: `ns1`)
@@ -45,13 +44,13 @@ Below are several ways to install the operator using Helm. To create the REC in 
 1. Add the Redis repository.
 
    ```sh
-   helm repo add <repo-name> https://helm.redis.io
+   helm repo add redis https://helm.redis.io
    ```
 
 2. Install the Helm chart into a new namespace.
 
 ```sh
-helm install <release-name> <repo-name>/redis-enterprise-operator \
+helm install <release-name> redis/redis-enterprise-operator \
     --version <chart-version> \
     --namespace <namespace-name> \
     --create-namespace
@@ -63,15 +62,41 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
 ### Install from local directory
 
+If you need a local copy of the chart, for example to inspect it or customize values, use one of the following methods.
+
+**Pull the packaged chart (recommended).** `helm pull` fetches the exact packaged chart the Helm repository serves for the version you specify, matching what `helm install` from the repository would deploy.
+
+1. Add the Redis repository, if you haven't already.
+
+   ```sh
+   helm repo add <repo-name> https://helm.redis.io
+   ```
+
+2. Pull and unpack the chart. This creates a `redis-enterprise-operator` directory in your current location.
+
+   ```sh
+   helm pull <repo-name>/redis-enterprise-operator --version <chart-version> --untar
+   ```
+
+3. Install the Helm chart from the local directory.
+
+   ```sh
+   helm install <release-name> ./redis-enterprise-operator \
+       --namespace <namespace-name> \
+       --create-namespace
+   ```
+
+**Download the source code.** Alternatively, download the chart source from GitHub.
+
 1. Find the latest release on the [redis-enterprise-k8s-docs](https://github.com/RedisLabs/redis-enterprise-k8s-docs/releases) repo and download the `tar.gz` source code into a local directory.
 
 2. Install the Helm chart from your local directory.
 
-```sh
-helm install <release-name> <path-to-chart> \
-    --namespace <namespace-name> \
-    --create-namespace
-```
+   ```sh
+   helm install <release-name> <path-to-chart> \
+       --namespace <namespace-name> \
+       --create-namespace
+   ```
 
 To install with Openshift, add `--set openshift.mode=true`.
 
@@ -79,12 +104,12 @@ To monitor the installation add the `--debug` flag. The installation runs severa
 
 ### Specify values during install
 
-1. View configurable values with `helm show values <repo-name>/redis-enterprise-operator`.
+1. View configurable values with `helm show values redis/redis-enterprise-operator`.
 
 2. Install the Helm chart, overriding specific value defaults using `--set`.
 
 ```sh
-helm install <release-name> <repo-name>/redis-enterprise-operator \
+helm install <release-name> redis/redis-enterprise-operator \
     --version <chart-version> \
     --namespace <namespace-name> \
     --create-namespace
@@ -94,14 +119,14 @@ helm install <release-name> <repo-name>/redis-enterprise-operator \
 
 ### Install with values file
 
-1. View configurable values with `helm show values <repo-name>/redis-enterprise-operator`.
+1. View configurable values with `helm show values redis/redis-enterprise-operator`.
 
 2. Create a YAML file to specify the values you want to configure.
 
 3. Install the chart with the `--values` option.
 
 ```sh
-helm install <release-name> <repo-name>/redis-enterprise-operator \
+helm install <release-name> redis/redis-enterprise-operator \
     --version <chart-version> \
     --namespace <namespace-name> \
     --create-namespace \
@@ -134,7 +159,7 @@ The chart can create the `RedisEnterpriseCluster` (REC) custom resource at insta
 2. Install the chart with the values file.
 
     ```sh
-    helm install <release-name> <repo-name>/redis-enterprise-operator \
+    helm install <release-name> redis/redis-enterprise-operator \
         --version <chart-version> \
         --namespace <namespace-name> \
         --create-namespace \
@@ -162,7 +187,7 @@ To update or uninstall an REC created by the chart, see [Update an REC created b
 To upgrade an existing Helm chart installation:
 
 ```sh
-helm upgrade <release-name> <repo-name>/redis-enterprise-operator --version <chart-version>
+helm upgrade <release-name> redis/redis-enterprise-operator --version <chart-version>
 ```
 
 You can also upgrade from a local directory:
@@ -213,7 +238,7 @@ If you used `cluster.create: true`, change REC settings by editing `cluster.spec
 2. Apply the changes.
 
     ```sh
-    helm upgrade <release-name> <repo-name>/redis-enterprise-operator \
+    helm upgrade <release-name> redis/redis-enterprise-operator \
         --namespace <namespace-name> \
         --values <path-to-values-file>
     ```
@@ -267,7 +292,7 @@ To migrate an existing non-Helm installation of the Redis Enterprise operator to
 2. [Install](#install-the-operator) the Helm chart adding the `--take-ownership` flag:
 
    ```sh
-   helm install <release-name> <repo-name>/redis-enterprise-operator --take-ownership
+   helm install <release-name> redis/redis-enterprise-operator --take-ownership
    ```
 
    - The `--take-ownership` flag is available with Helm versions 3.18 or later.

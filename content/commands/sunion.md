@@ -66,6 +66,14 @@ SUNION key1 key2 key3 = {a,b,c,d,e}
 
 Keys that do not exist are considered to be empty sets.
 
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more set keys to union.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

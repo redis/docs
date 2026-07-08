@@ -68,6 +68,34 @@ Descending lexicographical order is used for elements with equal score.
 
 Apart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]({{< relref "/commands/zrange" >}}).
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>start</code></summary>
+
+The start index, zero-based. Negative values count from the end of the sorted set (`-1` is the member with the highest score).
+
+</details>
+
+<details open><summary><code>stop</code></summary>
+
+The stop index, zero-based and inclusive. Negative values count from the end of the sorted set.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHSCORES</code></summary>
+
+Also return the score of each member.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/recommendation-engine/java
+- /develop/use-cases/recommendation-engine/jedis
 categories:
 - docs
 - develop

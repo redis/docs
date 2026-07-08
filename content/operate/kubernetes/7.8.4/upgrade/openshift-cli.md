@@ -26,7 +26,7 @@ See the [troubleshooting](#troubleshooting) section for details on recovering a 
 
 #### Kubernetes version
 
-Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/7.8.4/reference/supported_k8s_distributions" >}}) to make sure your Kubernetes distribution is supported. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
+Check [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/7.8.4/reference" >}}) to make sure your Kubernetes distribution is supported. If not, upgrade your Kubernetes distribution before upgrading the Redis operator.
 
 #### Redis operator version
 

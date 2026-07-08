@@ -9,6 +9,10 @@
 {{ $cliFooterLinkText := .Scratch.Get "cli_footer_link_text" }}
 {{ $cliFooterLinkUrl := .Scratch.Get "cli_footer_link_url" }}
 {{ $showFooter := .Scratch.Get "show_footer" | default true }}
+{{/* runnable defaults to true; "false" renders a static, non-executable cli tab */}}
+{{ $runnable := ne (.Scratch.Get "runnable") "false" }}
+{{/* try_it defaults to true; "false" hides the external redis.io/cli button but keeps the on-page tab interactive */}}
+{{ $showTryIt := ne (.Scratch.Get "try_it") "false" }}
 
 {{/* Parse buildsUpon parameter into an array */}}
 {{ $buildsUponStr := .Scratch.Get "buildsUpon" }}
@@ -39,35 +43,51 @@
     {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
 {{ end }}
 
+{{/* Extract executable CLI commands (lines starting with "> " or "redis> ") for Try It button */}}
+{{ $tryItCommands := slice }}
+{{ if (ne (trim $redisCommands "\n") "") }}
+    {{ range $line := split (trim $redisCommands "\n") "\n" }}
+        {{ $trimmedLine := trim $line " " }}
+        {{ if hasPrefix $trimmedLine "redis> " }}
+            {{ $tryItCommands = $tryItCommands | append (strings.TrimPrefix "redis> " $trimmedLine) }}
+        {{ else if hasPrefix $trimmedLine "> " }}
+            {{ $tryItCommands = $tryItCommands | append (strings.TrimPrefix "> " $trimmedLine) }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{/* The redis-cli tab is interactive/executable only when the example is runnable
+     AND we extracted at least one prefixed command ("> " / "redis> "). Bare
+     command+output pairs or non-Redis REST/cURL snippets have no such prefix, so
+     they render as a static block (below) and cli.js never auto-runs them. */}}
+{{ $isInteractive := and $runnable (gt (len $tryItCommands) 0) }}
+
 {{ $tabs := slice }}
 {{/* Render redis-cli example from inner content if any */}}
 {{ if (ne (trim $redisCommands "\n") "") }}
-    {{ $redisCommandsLineLimitInt := 0 }}
     {{ $trimmedRedisCommands := trim $redisCommands "\n" }}
-    {{ $redisCommandLines := split $trimmedRedisCommands "\n" }}
-    {{ $redisCommandLineCount := len $redisCommandLines }}
-    {{ $estimatedVisualLineCount := $redisCommandLineCount }}
-    {{ $wrapCharsPerLine := 120 }}
-    {{ $hasCliTrim := false }}
-    {{ if $redisCommandsLineLimit }}
-        {{ $redisCommandsLineLimitInt = int $redisCommandsLineLimit }}
+    {{/* Render the redis-cli tab. It is an interactive terminal (form.redis-cli,
+         picked up and executed inline by cli.js) only when $isInteractive — i.e.
+         the example is runnable AND at least one command was extracted. Otherwise
+         — runnable="false" (e.g. unsafe blocking commands like BRPOP), or content
+         with no "> "/"redis> " lines (bare command+output pairs, REST/cURL
+         snippets) — it renders as a static, non-executable code block with no
+         "Try it" button, so cli.js never auto-runs output or non-Redis text.
+         Only redis-cli is interactive; other language tabs stay static. */}}
+    {{ $redisCliContent := "" }}
+    {{ if $isInteractive }}
+        {{ $cliJoined := delimit $tryItCommands "\n" }}
+        {{ $cliFormInner := htmlEscape $cliJoined }}
+        {{ $cliSourceAttr := replace (htmlEscape $cliJoined) "\n" "&#10;" }}
+        {{ $redisCliContent = printf "<form class=\"redis-cli overflow-y-auto max-h-80\" data-cli-source=\"%s\">\n%s\n</form>" $cliSourceAttr $cliFormInner | safeHTML }}
+    {{ else }}
+        {{/* Mirror the interactive terminal's structure (div.redis-cli > pre) so it
+             inherits the same styling and avoids prose's default <pre> margins.
+             cli.js/codetabs.js only target form.redis-cli, so this stays static. */}}
+        {{ $staticInner := htmlEscape $trimmedRedisCommands }}
+        {{ $redisCliContent = printf "<div class=\"redis-cli redis-cli-static overflow-y-auto max-h-80\"><pre>%s</pre></div>" $staticInner | safeHTML }}
     {{ end }}
-    {{ if gt $redisCommandsLineLimitInt 0 }}
-        {{ $estimatedVisualLineCount = 0 }}
-        {{ range $line := $redisCommandLines }}
-            {{ $lineLength := len $line }}
-            {{ $wrappedLines := 1 }}
-            {{ if gt $lineLength $wrapCharsPerLine }}
-                {{ $wrappedLines = int (math.Ceil (div (float $lineLength) (float $wrapCharsPerLine))) }}
-            {{ end }}
-            {{ $estimatedVisualLineCount = add $estimatedVisualLineCount $wrappedLines }}
-        {{ end }}
-    {{ end }}
-    {{ if and (gt $redisCommandsLineLimitInt 0) (gt $estimatedVisualLineCount $redisCommandsLineLimitInt) }}
-        {{ $hasCliTrim = true }}
-    {{ end }}
-    {{ $redisCliContent := highlight $trimmedRedisCommands "plaintext" "linenos=false" }}
-    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "limitInt" $redisCommandsLineLimitInt "lineCount" $redisCommandLineCount "visualLineCount" $estimatedVisualLineCount "hasCliTrim" $hasCliTrim "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
+    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
     {{ if gt (len $commands) 0 }}
         {{ $cliTab = merge $cliTab (dict "commands" $commands) }}
     {{ end }}
@@ -95,18 +115,78 @@
 
     {{ if and ($example) $langMatches }}
         {{ $examplePath := index $example "target" }}
-        {{ $options := printf "linenos=false" }}
+        {{ if hasPrefix $language "java" }}{{ $language = "java"}}{{ end }}
 
+        {{/* Per-step contiguous line range (from named_steps) drives slicing. */}}
+        {{ $namedRange := "" }}
         {{ if and (ne $step "") (isset $example "named_steps") (isset $example.named_steps $step) }}
-            {{ $options = printf "%s,hl_lines=%s" $options (index $example.named_steps $step) }}
-        {{ else }}
-            {{ if and (isset $example "highlight") (index $example "highlight") }}
-                {{ $options = printf "%s,hl_lines=%s" $options (delimit (index $example "highlight") " ") }}
+            {{ $namedRange = index $example.named_steps $step }}
+        {{ end }}
+        {{/* Slice only for a well-formed, in-bounds "start-end" pair. named_steps is
+             generated from externally-sourced files, so guard against drift: a
+             malformed value (e.g. "5-", "5-x") would crash int and abort the build,
+             and an out-of-bounds start would make source.html fall back to the whole
+             file while the wrapper still emitted a template — double-embedding it. */}}
+        {{ $sliceable := false }}
+        {{ if and (ne $namedRange "") (findRE `^[0-9]+-[0-9]+$` $namedRange) }}
+            {{ $parts := split $namedRange "-" }}
+            {{ $rStart := int (index $parts 0) }}
+            {{ $rEnd := int (index $parts 1) }}
+            {{ if and (ge $rStart 1) (ge $rEnd $rStart) }}
+                {{ $total := len (split (readFile $examplePath) "\n") }}
+                {{ if le $rStart $total }}
+                    {{ $sliceable = true }}
+                {{ end }}
             {{ end }}
         {{ end }}
-        {{ if hasPrefix $language "java" }}{{ $language = "java"}}{{ end }}
-        {{ $params := dict "language" $language "contentPath" $examplePath "options" $options }}
-        {{ $content := partial "tabs/source.html" $params }}
+
+        {{ $content := "" }}
+        {{ $fullFileKey := "" }}
+        {{ $hlRange := "" }}
+        {{ $emitFullTemplate := false }}
+        {{ $fullContent := "" }}
+        {{ $legacySrcKey := "" }}
+        {{ $legacyCloneKey := "" }}
+
+        {{ if $sliceable }}
+            {{/* Default view: only the step's lines, shown in full (no dimming). */}}
+            {{ $sliceParams := dict "language" $language "contentPath" $examplePath "options" "linenos=false" "sliceRange" $namedRange }}
+            {{ $content = partial "tabs/source.html" $sliceParams }}
+            {{ $hlRange = $namedRange }}
+            {{ $fullFileKey = md5 $examplePath }}
+
+            {{/* Embed the full highlighted file once per page, deduped by file path.
+                 .Page.Store persists across a page's output formats; this assumes the
+                 HTML output renders this partial (the .md/.json outputs process raw
+                 content and never invoke it, so they can't mark a file "seen" first). */}}
+            {{ $seen := $.Page.Store.Get "tceFullKeys" }}
+            {{ if not $seen }}{{ $seen = slice }}{{ end }}
+            {{ if not (in $seen $examplePath) }}
+                {{ $emitFullTemplate = true }}
+                {{ $.Page.Store.Set "tceFullKeys" ($seen | append $examplePath) }}
+                {{ $fullParams := dict "language" $language "contentPath" $examplePath "options" "linenos=false" }}
+                {{ $fullContent = partial "tabs/source.html" $fullParams }}
+            {{ end }}
+        {{ else }}
+            {{/* Legacy path: whole file with hl_lines (no contiguous per-step range).
+                 Embed the file inline once per page; repeats are cloned client-side. */}}
+            {{ $legacyKey := md5 $examplePath }}
+            {{ $seenLegacy := $.Page.Store.Get "tceLegacyKeys" }}
+            {{ if not $seenLegacy }}{{ $seenLegacy = slice }}{{ end }}
+            {{ if in $seenLegacy $examplePath }}
+                {{ $legacyCloneKey = $legacyKey }}
+            {{ else }}
+                {{ $.Page.Store.Set "tceLegacyKeys" ($seenLegacy | append $examplePath) }}
+                {{ $legacySrcKey = $legacyKey }}
+                {{ $options := printf "linenos=false" }}
+                {{ if ne $namedRange "" }}
+                    {{ $options = printf "%s,hl_lines=%s" $options $namedRange }}
+                {{ else if and (isset $example "highlight") (index $example "highlight") }}
+                    {{ $options = printf "%s,hl_lines=%s" $options (delimit (index $example "highlight") " ") }}
+                {{ end }}
+                {{ $content = partial "tabs/source.html" (dict "language" $language "contentPath" $examplePath "options" $options) }}
+            {{ end }}
+        {{ end }}
 
         {{/* Extract binderId if it exists */}}
         {{ $binderId := index $example "binderId" }}
@@ -119,7 +199,7 @@
             {{ $displayName = "JavaScript (ioredis)" }}
         {{ end }}
 
-        {{ $clientTab := dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId }}
+        {{ $clientTab := dict "title" $client "displayName" $displayName "language" $client "quickstartSlug" $quickstartSlug "content" $content "sourceUrl" (index $example "sourceUrl") "binderId" $binderId "fullFileKey" $fullFileKey "hlRange" $hlRange "emitFullTemplate" $emitFullTemplate "fullContent" $fullContent "legacySrcKey" $legacySrcKey "legacyCloneKey" $legacyCloneKey }}
         {{ if gt (len $commands) 0 }}
             {{ $clientTab = merge $clientTab (dict "commands" $commands) }}
         {{ end }}
@@ -127,8 +207,21 @@
     {{ end }}
 {{ end }}
 
-{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty }}
+{{ $isPrereq := eq (.Scratch.Get "prereq") "true" }}
+{{ $needsPrereq := eq (.Scratch.Get "needs_prereq") "true" }}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty "exampleSet" $id }}
 {{ if gt (len $buildsUpon) 0 }}
   {{ $params = merge $params (dict "buildsUpon" $buildsUpon) }}
+{{ end }}
+{{ if $isInteractive }}
+  {{/* Pass tryItCommands (drives the interactive form + prereq registration) plus
+       showTryIt, which independently controls only the external "Try it" button. */}}
+  {{ $params = merge $params (dict "tryItCommands" $tryItCommands "showTryIt" $showTryIt) }}
+{{ end }}
+{{ if $isPrereq }}
+  {{ $params = merge $params (dict "isPrereq" true) }}
+{{ end }}
+{{ if $needsPrereq }}
+  {{ $params = merge $params (dict "needsPrereq" true) }}
 {{ end }}
 {{ partial "tabs/wrapper.html" $params }}

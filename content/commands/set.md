@@ -135,50 +135,122 @@ syntax_fmt: "SET key value [NX | XX | IFEQ\_ifeq-value | IFNE\_ifne-value |\n\
   \ | EXAT\_unix-time-seconds |\n  PXAT\_unix-time-milliseconds | KEEPTTL]"
 title: SET
 ---
-
 Set `key` to hold the string `value`.
 If `key` already holds a value, it is overwritten, regardless of its type.
 Any previous time to live associated with the key is discarded on successful `SET` operation.
 
-## Options
+## Required arguments
 
-The `SET` command supports a set of options that modify its behavior:
+<details open><summary><code>key</code></summary>
 
-* `NX` -- Only set the key if it does not already exist.
-* `XX` -- Only set the key if it already exists.
-* `IFEQ ifeq-value` -- Set the key’s value and expiration only if its current value is equal to `ifeq-value`. If the key doesn’t exist, it won’t be created.
-* `IFNE ifne-value` -- Set the key’s value and expiration only if its current value is not equal to `ifne-value`. If the key doesn’t exist, it will be created.
-* `IFDEQ ifeq-digest` -- Set the key’s value and expiration only if the hash digest of its current value is equal to `ifeq-digest`. If the key doesn’t exist, it won’t be created. See the [Hash Digest](#hash-digest) section below for more information.
-* `IFDNE ifne-digest` -- Set the key’s value and expiration only if the hash digest of its current value is not equal to `ifne-digest`. If the key doesn’t exist, it will be created. See the [Hash Digest](#hash-digest) section below for more information.
-* `GET` -- Return the old string stored at key, or nil if key did not exist. An error is returned and `SET` aborted if the value stored at key is not a string.
-* `EX` *seconds* -- Set the specified expire time, in seconds (a positive integer).
-* `PX` *milliseconds* -- Set the specified expire time, in milliseconds (a positive integer).
-* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds (a positive integer).
-* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).
-* `KEEPTTL` -- Retain the time to live associated with the key.
+The name of the key.
+
+</details>
+
+<details open><summary><code>value</code></summary>
+
+The string value to set.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. The condition options (`NX`, `XX`, `IFEQ`, `IFNE`, `IFDEQ`, `IFDNE`) are mutually exclusive, as are the expiration options (`EX`, `PX`, `EXAT`, `PXAT`, `KEEPTTL`).
+
+<details open><summary><code>NX</code></summary>
+
+Only set the key if it does not already exist.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+Only set the key if it already exists.
+
+</details>
+
+<details open><summary><code>IFEQ ifeq-value</code></summary>
+
+Set the key's value and expiration only if its current value is equal to `ifeq-value`. If the key doesn't exist, it won't be created.
+
+</details>
+
+<details open><summary><code>IFNE ifne-value</code></summary>
+
+Set the key's value and expiration only if its current value is not equal to `ifne-value`. If the key doesn't exist, it will be created.
+
+</details>
+
+<details open><summary><code>IFDEQ ifdeq-digest</code></summary>
+
+Set the key's value and expiration only if the hash digest of its current value is equal to `ifdeq-digest`. If the key doesn't exist, it won't be created. See the [Hash Digest](#hash-digest) section below for more information.
+
+</details>
+
+<details open><summary><code>IFDNE ifdne-digest</code></summary>
+
+Set the key's value and expiration only if the hash digest of its current value is not equal to `ifdne-digest`. If the key doesn't exist, it will be created. See the [Hash Digest](#hash-digest) section below for more information.
+
+</details>
+
+<details open><summary><code>GET</code></summary>
+
+Return the old string stored at the key, or nil if the key did not exist. An error is returned and `SET` is aborted if the value stored at the key is not a string.
+
+</details>
+
+<details open><summary><code>EX seconds</code></summary>
+
+Set the specified expire time, in seconds (a positive integer).
+
+</details>
+
+<details open><summary><code>PX milliseconds</code></summary>
+
+Set the specified expire time, in milliseconds (a positive integer).
+
+</details>
+
+<details open><summary><code>EXAT unix-time-seconds</code></summary>
+
+Set the specified Unix time at which the key will expire, in seconds (a positive integer).
+
+</details>
+
+<details open><summary><code>PXAT unix-time-milliseconds</code></summary>
+
+Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).
+
+</details>
+
+<details open><summary><code>KEEPTTL</code></summary>
+
+Retain the time to live associated with the key.
+
+</details>
 
 Note: Since the `SET` command options can replace [`SETNX`]({{< relref "/commands/setnx" >}}), [`SETEX`]({{< relref "/commands/setex" >}}), [`PSETEX`]({{< relref "/commands/psetex" >}}), [`GETSET`]({{< relref "/commands/getset" >}}), it is possible that in future versions of Redis these commands will be deprecated and finally removed.
 
-## Hash Digest
+## Examples
+
+{{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" >}}
+> SET mykey "Hello"
+"OK"
+> GET mykey
+"Hello"
+> SET anotherkey "will expire in a minute" EX 60
+"OK"
+{{< /clients-example >}}
+
+## Details
+
+### Hash digest
 
 A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
 
-## Examples
+### Patterns
 
-{{% redis-cli %}}
-SET mykey "Hello"
-GET mykey
-
-SET anotherkey "will expire in a minute" EX 60
-{{% /redis-cli %}}
-
-### Code examples
-
-{{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" />}}
-
-## Patterns
-
-**Note:** The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref "/develop/clients/patterns/distributed-locks" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
+Note: The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref "/develop/clients/patterns/distributed-locks" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
 
 The command `SET resource-name anystring NX EX max-lock-time` is a simple way to implement a locking system with Redis.
 

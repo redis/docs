@@ -163,6 +163,11 @@ def process_local_examples(local_examples_dir: str = 'local_examples',
     # Process each file in local_examples directory and subdirectories
     for root, _, files in os.walk(local_examples_dir):
         for filename in files:
+            # Skip OS metadata and other dotfiles (e.g. macOS .DS_Store) that
+            # are not examples and have no recognised source extension.
+            if filename.startswith('.'):
+                continue
+
             source_file = os.path.join(root, filename)
 
             # Get language from file extension

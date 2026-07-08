@@ -16,6 +16,76 @@
         }
       }
     ],
+    "redis_rs_sync": [
+      {
+        "signature": "bf_info(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "(HashMap<String, BloomFilterInfoTypeResponse>)",
+          "description": "A map of all available information about the filter"
+        }
+      },
+      {
+        "signature": "bf_info_type(key: K, info_type: BloomFilterInfoType)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "info_type",
+            "type": "BloomFilterInfoType",
+            "description": "The single piece of information to return"
+          }
+        ],
+        "returns": {
+          "type": "(BloomFilterInfoTypeResponse)",
+          "description": "The requested information value (derefs to f64)"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bf_info(key: K)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          }
+        ],
+        "returns": {
+          "type": "(HashMap<String, BloomFilterInfoTypeResponse>)",
+          "description": "A map of all available information about the filter"
+        }
+      },
+      {
+        "signature": "bf_info_type(key: K, info_type: BloomFilterInfoType)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "info_type",
+            "type": "BloomFilterInfoType",
+            "description": "The single piece of information to return"
+          }
+        ],
+        "returns": {
+          "type": "(BloomFilterInfoTypeResponse)",
+          "description": "The requested information value (derefs to f64)"
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "Map<String, Object> bfInfo(String key)",

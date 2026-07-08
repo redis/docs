@@ -113,7 +113,7 @@ system:serviceaccount:<my-project>:redis-enterprise-operator
 
 1. Apply the `RedisEnterpriseCluster` resource file ([rec_rhel.yaml](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/rec_rhel.yaml)).
 
-    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api">}}) for a full list of options.
+    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{< relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api" >}}) for a full list of options.
 
     The REC name cannot be changed after cluster creation.
 
@@ -193,7 +193,7 @@ oc patch ValidatingWebhookConfiguration \
   redb-admission --patch "$(cat modified-webhook.yaml)"
 ```
 
-The 6.4.2-4 release introduces a new `ValidatingWebhookConfiguration` to replace `redb-admission`. See the [6.4.2-4 release notes]({{< relref "/operate/kubernetes/release-notes/6-4-2-releases/" >}}).
+The 6.4.2-4 release introduces a new `ValidatingWebhookConfiguration` to replace `redb-admission`. See the [6.4.2-4 release notes]({{< relref "/operate/kubernetes/release-notes/previous-releases/" >}}).
     {{</note>}}
 
 ### Verify admission controller installation
@@ -244,5 +244,5 @@ The operator uses the instructions in the Redis Enterprise database (REDB) custo
 
 ## More info
 
-- [Redis Enterprise cluster API]({{<relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api">}})
-- [Redis Enterprise database API]({{<relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_database_api">}})
+- [Redis Enterprise cluster API]({{< relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_cluster_api" >}})
+- [Redis Enterprise database API]({{< relref "/operate/kubernetes/7.8.6/reference/redis_enterprise_database_api" >}})

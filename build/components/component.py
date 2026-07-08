@@ -72,8 +72,16 @@ class Component(dict):
                         logging.debug(f'Found latest release tag: {latest_tag}')
                         use_latest_tag = True
                     except Exception as e:
-                        logging.warning(f'Failed to get latest release tag: {str(e)}')
                         use_latest_tag = False
+                        # A 404 just means the repo publishes no GitHub Releases
+                        # (e.g. redis-rb tags without releases). That is an
+                        # expected fallback to a full clone, not a real problem,
+                        # so keep it out of the WARNING-level build log.
+                        status = getattr(getattr(e, 'response', None), 'status_code', None)
+                        if status == 404:
+                            logging.info(f'No GitHub release found for {owner}/{repo_name}; cloning default branch')
+                        else:
+                            logging.warning(f'Failed to get latest release tag: {str(e)}')
                 else:
                     use_latest_tag = False
                     

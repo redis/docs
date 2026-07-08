@@ -89,19 +89,55 @@ timestamp in the past will delete the field immediately.
 
 For the specific semantics of the command, see [`HEXPIRE`]({{< relref "/commands/hexpire" >}}).
 
-## Options
+## Required arguments
 
-The `HEXPIREAT` command supports a set of options:
+<details open><summary><code>key</code></summary>
 
-* `NX` -- For each specified field, set expiration only when the field has no expiration.
-* `XX` -- For each specified field, set expiration only when the field has an existing expiration.
-* `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.
-* `LT` -- For each specified field, set expiration only when the new expiration is less than current one.
+The name of the key that holds the hash.
 
-A non-volatile key is treated as an infinite TTL for the purposes of `GT` and `LT`.
-The `NS`, `XX`, `GT`, and `LT` options are mutually exclusive.
+</details>
 
-## Example
+<details open><summary><code>unix-time-seconds</code></summary>
+
+The absolute Unix expiration timestamp, in seconds since Unix epoch. A timestamp in the past deletes the field immediately.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to set expiration for. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. They are mutually exclusive.
+
+<details open><summary><code>NX</code></summary>
+
+For each specified field, set expiration only when the field has no expiration.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+For each specified field, set expiration only when the field has an existing expiration.
+
+</details>
+
+<details open><summary><code>GT</code></summary>
+
+For each specified field, set expiration only when the new expiration is greater than the current one. A non-volatile key is treated as an infinite TTL for the purposes of `GT`.
+
+</details>
+
+<details open><summary><code>LT</code></summary>
+
+For each specified field, set expiration only when the new expiration is less than the current one. A non-volatile key is treated as an infinite TTL for the purposes of `LT`.
+
+</details>
+
+## Examples
 
 ```
 redis> HSET mykey field1 "hello" field2 "world"

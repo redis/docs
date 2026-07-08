@@ -19,11 +19,11 @@ You can only have one free database per account. If you already have a free data
 
 {{< embed-md "rc-create-db-first-steps.md" >}} 
 
-3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Free**.
+3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Try 30 MB for free**.
 
     {{<image filename="images/rc/create-database-subscription-free.png" alt="The Subscription selection panel with Free selected.">}}
 
-    After you select **Free**, the rest of the database settings will appear.
+    The rest of the database settings will appear.
 
     {{<image filename="images/rc/create-database-free-settings.png" alt="The database name, cloud vendor, and region settings.">}}
 

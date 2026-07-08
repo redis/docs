@@ -49,6 +49,14 @@ Returns the length of the list stored at `key`.
 If `key` does not exist, it is interpreted as an empty list and `0` is returned.
 An error is returned when the value stored at `key` is not a list.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_list" step="llen" description="Foundational: Get the length of a list using LLEN (returns 0 if key doesn't exist, useful for checking list size)" difficulty="beginner" >}}
@@ -59,14 +67,6 @@ redis> LPUSH mylist "Hello"
 redis> LLEN mylist
 (integer) 2
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-LPUSH mylist "World"
-LPUSH mylist "Hello"
-LLEN mylist
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

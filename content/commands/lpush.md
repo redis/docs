@@ -68,6 +68,20 @@ leftmost element to the rightmost element.
 So for instance the command `LPUSH mylist a b c` will result into a list
 containing `c` as first element, `b` as second element and `a` as third element.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>element [element ...]</code></summary>
+
+One or more values to prepend to the list.
+
+</details>
+
 ## Examples
 {{< clients-example set="cmds_list" step="lpush" description="Foundational: Add one or more elements to the head of a list using LPUSH (creates list if needed, returns new list length)" difficulty="beginner" >}}
 redis> LPUSH mylist "world"
@@ -78,14 +92,6 @@ redis> LRANGE mylist 0 -1
 1) "hello"
 2) "world"
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-LPUSH mylist "world"
-LPUSH mylist "hello"
-LRANGE mylist 0 -1
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

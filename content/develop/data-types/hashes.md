@@ -2,6 +2,7 @@
 aliases:
 - /data-types/hashes/
 - /manual/data-types/hashes/
+- /develop/data-types/hash/
 categories:
 - docs
 - develop
@@ -51,7 +52,7 @@ hashes in many different ways inside your application.
 The command [`HSET`]({{< relref "/commands/hset" >}}) sets multiple fields of the hash, while [`HGET`]({{< relref "/commands/hget" >}}) retrieves
 a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET`]({{< relref "/commands/hget" >}}) but returns an array of values:
 
-{{< clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple field values from a hash using HMGET when you need to reduce round trips to the server" buildsUpon="set_get_all" >}}
+{{< clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple field values from a hash using HMGET when you need to reduce round trips to the server" buildsUpon="set_get_all" try_it="false" >}}
 > HMGET bike:1 model price no-such-field
 1) "Deimos"
 2) "4972"
@@ -61,7 +62,7 @@ a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET
 There are commands that are able to perform operations on individual fields
 as well, like [`HINCRBY`]({{< relref "/commands/hincrby" >}}):
 
-{{< clients-example set="hash_tutorial" step="hincrby" description="Increment hash field values for counters using HINCRBY (creates field if missing, initializes to 0)" buildsUpon="set_get_all" >}}
+{{< clients-example set="hash_tutorial" step="hincrby" description="Increment hash field values for counters using HINCRBY (creates field if missing, initializes to 0)" buildsUpon="set_get_all" try_it="false" >}}
 > HINCRBY bike:1 price 100
 (integer) 5072
 > HINCRBY bike:1 price -100

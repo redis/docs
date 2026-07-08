@@ -91,6 +91,40 @@ A `timeout` of zero can be used to block indefinitely.
 
 See [`ZMPOP`]({{< relref "/commands/zmpop" >}}) for more information.
 
+## Required arguments
+
+<details open><summary><code>timeout</code></summary>
+
+The maximum time to block, in seconds. A timeout of `0` blocks indefinitely.
+
+</details>
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more sorted-set keys to pop from.
+
+</details>
+
+<details open><summary><code>MIN | MAX</code></summary>
+
+Pop the members with the lowest scores (`MIN`) or the highest scores (`MAX`).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The number of members to pop. Defaults to 1.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/time-series-dashboard/redis-rb
 categories:
 - docs
 - develop

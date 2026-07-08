@@ -53,6 +53,7 @@ jobs:
             sphinx_favicon==1.1.0 \
             myst_nb==1.4.0 \
             sphinx_markdown_builder==0.6.8 \
+            sphinxcontrib-mermaid==1.0.0 \
             jupyter==1.1.1
 
       - name: 'Fetch redisvl repo'

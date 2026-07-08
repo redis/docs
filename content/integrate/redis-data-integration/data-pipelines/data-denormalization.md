@@ -25,6 +25,21 @@ at the expense of speed.
 A Redis cache, on the other hand, is focused on making *read* queries fast, so RDI provides data
 *denormalization* to help with this.
 
+The supported denormalization techniques are joining
+[one-to-one relationships](#joining-one-to-one-relationships) (using `merge`) and
+joining [one-to-many relationships](#joining-one-to-many-relationships) (using nesting),
+both described below.
+
+{{< note >}}
+The [`redis.lookup`]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-lookup-example" >}})
+transformation is *not* a supported way to denormalize data that RDI ingests. RDI
+can't guarantee that a key written by one job is present or up to date when another
+job looks it up, so lookups against pipeline-populated data can miss or return stale
+values. Use the techniques on this page instead. See
+[Reading Redis data with redis.lookup]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-lookup-example" >}})
+for details.
+{{< /note >}}
+
 ## Joining one-to-one relationships
 
 You can join one-to-one relationships by making more than one job to write to the same Redis key.

@@ -34,7 +34,7 @@ Dump all terms in the given dictionary
 
 [Examples](#examples)
 
-## Required argumemts
+## Required arguments
 
 <details open>
 <summary><code>dict</code></summary>

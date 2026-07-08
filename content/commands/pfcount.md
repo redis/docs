@@ -56,18 +56,26 @@ title: PFCOUNT
 This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
 {{< /note >}}
 
-When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.
+When called with a single key, `PFCOUNT` returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified `key`, which is 0 if the `key` does not exist.
 
-When called with multiple keys, returns the approximated cardinality of the union of the HyperLogLogs passed, by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.
+When called with multiple keys, `PFCOUNT` returns the approximated cardinality of the union of the HyperLogLogs passed by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.
 
-The HyperLogLog data structure can be used in order to count **unique** elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).
+The HyperLogLog data structure can be used in order to count unique elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).
 
 The returned cardinality of the observed set is not exact, but approximated with a standard error of 0.81%.
 
-For example in order to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]({{< relref "/commands/pfadd" >}}) every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.
+For example, to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]({{< relref "/commands/pfadd" >}}) every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.
 
 Note: as a side effect of calling this function, it is possible that the HyperLogLog is modified, since the last 8 bytes encode the latest computed cardinality
 for caching purposes. So `PFCOUNT` is technically a write command.
+
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more HyperLogLog keys. With multiple keys, the command returns the approximated cardinality of their union.
+
+</details>
 
 ## Examples
 
@@ -80,8 +88,9 @@ PFADD some-other-hll 1 2 3
 PFCOUNT hll some-other-hll
 {{% /redis-cli %}}
 
-Performances
----
+## Details
+
+### Performances
 
 When `PFCOUNT` is called with a single key, performances are excellent even if
 in theory constant times to process a dense HyperLogLog are high. This is
@@ -97,8 +106,7 @@ the order of magnitude of the millisecond, and should be not abused.
 The user should take in mind that single-key and multiple-keys executions of
 this command are semantically different and have different performances.
 
-HyperLogLog representation
----
+### HyperLogLog representation
 
 
 

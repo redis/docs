@@ -35,10 +35,21 @@ title: TOPK.LIST
 ---
 Return the full list of items in Top-K sketch.
 
-## Parameters
+## Required arguments
 
-* **key**: the name of the sketch.
-* **WITHCOUNT**: the count of each element is also returned.
+<details open><summary><code>key</code></summary>
+
+the name of the sketch.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHCOUNT</code></summary>
+
+the count of each element is also returned.
+
+</details>
 
 ## Examples
 

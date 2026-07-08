@@ -56,8 +56,8 @@ Redis provides the following features that make it a good fit for a semantic cac
 
 The following libraries, frameworks, and managed services build on Redis for semantic caching:
 
--   **Python**: [RedisVL](https://github.com/redis/redis-vl-python) provides the `SemanticCache` API with built-in embedding, distance thresholds, TTL, and metadata filters. See the [RedisVL LLM cache user guide]({{< relref "/develop/ai/redisvl/user_guide/llmcache" >}}) and the [LangCache integration guide]({{< relref "/develop/ai/redisvl/user_guide/how_to_guides/langcache_semantic_cache" >}}).
--   **Frameworks**: [LangChain](https://python.langchain.com/docs/integrations/llm_caching/#redis-cache) (Redis as an LLM cache and vector store), [LlamaIndex](https://docs.llamaindex.ai/en/stable/examples/vector_stores/RedisIndexDemo/), and [LangGraph](https://langchain-ai.github.io/langgraph/) for agent memory and response caching.
+-   **Python**: [RedisVL](https://github.com/redis/redis-vl-python) provides the `SemanticCache` API with built-in embedding, distance thresholds, TTL, and metadata filters. See the [RedisVL LLM cache user guide]({{< relref "/develop/ai/redisvl/user_guide/how_to_guides/llmcache" >}}) and the [LangCache integration guide]({{< relref "/develop/ai/redisvl/user_guide/how_to_guides/langcache_semantic_cache" >}}).
+-   **Frameworks**: [LangChain](https://python.langchain.com/docs/integrations/llm_caching/#redis-cache) (Redis as an LLM cache and vector store), [LlamaIndex](https://developers.llamaindex.ai/python/examples/vector_stores/redisindexdemo/), and [LangGraph](https://langchain-ai.github.io/langgraph/) for agent memory and response caching.
 -   **Managed**: [Redis LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}) is a fully managed semantic cache with a REST API, configurable distance thresholds, automatic eviction, and built-in metrics — no index management or embedding wiring required.
 
 ## Code examples to build your own Redis semantic cache

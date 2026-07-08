@@ -58,6 +58,26 @@ Sometimes it may be useful to remove old consumers since they are no longer used
 Note, however, that any pending messages that the consumer had will become unclaimable after it was deleted.
 It is strongly recommended, therefore, that any pending messages are claimed or acknowledged prior to deleting the consumer from the group.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
+<details open><summary><code>group</code></summary>
+
+The consumer group name.
+
+</details>
+
+<details open><summary><code>consumer</code></summary>
+
+The name of the consumer to delete.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

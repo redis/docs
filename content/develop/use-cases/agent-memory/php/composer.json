@@ -1,0 +1,25 @@
+{
+    "name": "redis/agent-memory-demo-php",
+    "description": "Redis agent-memory demo (PHP) — working memory in a Hash, long-term memory as JSON+Search, event log in a Stream.",
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": "^8.1",
+        "ext-ffi": "*",
+        "predis/predis": "^3.5",
+        "codewithkyrian/transformers": "^0.6.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "codewithkyrian/platform-package-installer": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Redis\\AgentMemory\\": "src/"
+        }
+    },
+    "scripts": {
+        "download-model": "@php vendor/bin/transformers download-model Xenova/all-MiniLM-L6-v2"
+    }
+}

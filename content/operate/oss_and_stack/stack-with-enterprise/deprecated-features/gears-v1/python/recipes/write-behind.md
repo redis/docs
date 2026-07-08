@@ -52,7 +52,7 @@ If you want to do write-behind with an Oracle database:
     pip install gears-cli
     ```
 
-1. Download [rgsync offline package](https://redislabs.com/download-center/modules/).
+1. Download [rgsync package](https://github.com/RedisGears/rgsync).
 1. Import the requirements:
 
     ```sh

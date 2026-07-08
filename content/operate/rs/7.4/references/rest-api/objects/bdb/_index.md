@@ -109,7 +109,7 @@ An API object that represents a managed database in the cluster.
 | oss_cluster | boolean (default:&nbsp;false); OSS Cluster mode option. Cannot be enabled with `'hash_slots_policy': 'legacy'` |
 | <span class="break-all">oss_cluster_api_preferred_endpoint_type</span> | Endpoint type in the OSS cluster API<br />Values:<br />**‘ip’**<br />‘hostname’ |
 | <span class="break-all">oss_cluster_api_preferred_ip_type</span> | Internal/external IP type in OSS cluster API. Default value for new endpoints<br />Values:<br />**'internal'** <br />'external' |
-| oss_sharding | boolean (default:&nbsp;false); An alternative to `shard_key_regex` for using the common case of the OSS shard hashing policy |
+| oss_sharding | boolean (default: false); This flag is for future use and should not be changed |
 | port | integer; TCP port on which the database is available. Generated automatically if omitted and returned as 0 |
 | proxy_policy | The default policy used for proxy binding to endpoints<br />Values:<br />'single'<br />'all-master-shards'<br />'all-nodes' |
 | rack_aware | boolean (default:&nbsp;false); Require the database to always replicate across multiple racks |
@@ -127,7 +127,7 @@ An API object that represents a managed database in the cluster.
 | shard_block_foreign_keys | boolean (default:&nbsp;true); In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |
 | shard_key_regex | Custom keyname-based sharding rules.<br />`[{"regex": string}, ...]`<br />To use the default rules you should set the value to: <br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |
 | shard_list | array of integers; Cluster unique IDs of all database shards. |
-| sharding | boolean (default:&nbsp;false); Cluster mode (server-side sharding). When true, shard hashing rules must be provided by either `oss_sharding` or `shard_key_regex` |
+| sharding | boolean (default: false); Cluster mode (server-side sharding). When true, shard hashing rules must be provided by `shard_key_regex` |
 | shards_count | integer, <nobr>(range: 1-512)</nobr> (default:&nbsp;1); Number of database server-side shards |
 | shards_placement | Control the density of shards <br />Values:<br />**'dense'**: Shards reside on as few nodes as possible <br /> **'sparse'**: Shards reside on as many nodes as possible |
 | skip_import_analyze | Enable/disable skipping the analysis stage when importing an RDB file<br />Values:<br />'enabled'<br />'disabled' |

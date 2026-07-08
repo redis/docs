@@ -57,6 +57,26 @@ title: ZREMRANGEBYSCORE
 Removes all elements in the sorted set stored at `key` with a score between
 `min` and `max` (inclusive).
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum score. The bound is inclusive unless prefixed with `(`. Use `-inf` for no lower bound.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum score. The bound is inclusive unless prefixed with `(`. Use `+inf` for no upper bound.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

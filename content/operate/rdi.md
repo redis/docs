@@ -13,4 +13,4 @@ Redis Data Integration (RDI) is a [change data capture](https://en.wikipedia.org
 
 See the main [RDI docs section]({{< relref "/integrate/redis-data-integration" >}})
 under [Libraries and tools]({{< relref "/integrate" >}}) to learn how to install and use RDI on your own servers.  See the
-[Redis Cloud RDI guide]({{< relref "/operate/rc/databases/rdi" >}}) to learn how to set up RDI for a cloud database.
+[Redis Cloud RDI guide]({{< relref "/operate/rc/rdi" >}}) to learn how to set up RDI for a cloud database.

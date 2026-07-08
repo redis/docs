@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/go-redis
 categories:
 - docs
 - develop

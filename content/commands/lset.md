@@ -58,6 +58,26 @@ For more information on the `index` argument, see [`LINDEX`]({{< relref "/comman
 
 An error is returned for out of range indexes.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>index</code></summary>
+
+The zero-based index of the element to set. Negative indexes count from the tail.
+
+</details>
+
+<details open><summary><code>element</code></summary>
+
+The new value.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}
