@@ -143,7 +143,7 @@ command_flags:
 complexity: O(numkeys*(n/m+k)) where n = Number of samples, m = Chunk size (samples
   per chunk), k = Number of samples that are in the requested range
 description: Query a range across multiple time series in forward direction, returning
-  the results pivoted by timestamp (one value column per key)
+  the results grouped by timestamp
 group: timeseries
 hidden: false
 key_specs:
@@ -165,14 +165,14 @@ railroad_diagram: /images/railroad/ts.nrange.svg
 since: 8.10.0
 stack_path: docs/data-types/timeseries
 summary: Query a range across multiple time series in forward direction, returning
-  the results pivoted by timestamp (one value column per key)
+  the results grouped by timestamp
 syntax_fmt: "TS.NRANGE numkeys key [key ...] fromTimestamp toTimestamp [LATEST]\n\
   \  [FILTER_BY_TS ts [ts ...]] [FILTER_BY_VALUE min max] [COUNT count]\n  [[ALIGN\
   \ align] AGGREGATION aggregators [aggregators ...] bucketDuration\n  [BUCKETTIMESTAMP <start | - |\
   \ end | + | mid | ~>] [EMPTY]]"
 title: TS.NRANGE
 ---
-Query a range across an explicit list of time series in the forward direction, returning the results pivoted by timestamp: one row per distinct timestamp, ordered by increasing timestamp, with each row listing the keys' values in input order.
+Query a range across an explicit list of time series in the forward direction. `TS.NRANGE` groups results by timestamp: for each timestamp, it returns the timestamp followed by one value per time series, in the order the keys are given. With `AGGREGATION`, a time series can contribute more than one value per timestamp — one for each aggregator requested. A time series with no sample at a given timestamp returns `NaN` for that timestamp.
 
 {{< note >}}
 In a Redis cluster, all specified keys must map to the same hash slot. `TS.NRANGE` is a [single hash slot]({{< relref "/operate/oss_and_stack/reference/cluster-spec#key-distribution-model" >}}) command; it does not split a request across shards or merge replies from multiple hash slots.
@@ -235,7 +235,7 @@ When used together with `AGGREGATION`: samples are filtered before being aggrega
 <details open>
 <summary><code>COUNT count</code></summary>
 
-limits the number of returned pivot rows, keeping the rows with the lowest timestamps. The limit is applied after the per-timestamp merge.
+limits the number of returned entries, keeping those with the lowest timestamps. The limit is applied after the per-timestamp merge.
 </details>
 
 <details open>
@@ -257,9 +257,9 @@ is a time bucket alignment control for `AGGREGATION`. It controls the time bucke
 
 aggregates samples into time buckets.
 
-Supply one aggregation spec per key, as separate, space-separated arguments in the same order as the keys: the spec in position _i_ applies to the key in position _i_, and the number of specs must equal `numkeys`. All keys share the same `bucketDuration`.
+Provide one aggregation per key, as a separate argument in the same order as the keys: the first applies to the first key, and so on. The number of these arguments must equal `numkeys`, and all keys share the same `bucketDuration`.
 
-Each spec is a comma-separated list of one or more aggregators, exactly as in [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) (for example `avg,max`); no whitespace is allowed inside a spec. A key contributes one value for each aggregator in its spec, and these values are concatenated into each pivot row in key order, then in the order the aggregators are listed. To apply several aggregators to one series, give that key a comma-separated spec such as `min,max`.
+Each per-key argument is either a single aggregator or a comma-separated list of aggregators (for example `avg,max`), exactly as in [`TS.RANGE`]({{< relref "commands/ts.range/" >}}); no whitespace is allowed. A key contributes one value for each aggregator you list for it, and a key's values appear together in the reply, in the order you list its aggregators. To compute several aggregations for one series, give that key a comma-separated list such as `min,max`.
 
   - each `aggregator` is one of the following:
 
@@ -337,7 +337,7 @@ OK
 2) (integer) 3000
 {{< / highlight >}}
 
-Query both series and pivot the samples by timestamp. One row is returned for every distinct timestamp produced by at least one key, with the values ordered by input key. A key with no sample at a row's timestamp has a `NaN` value.
+Query both series and group the samples by timestamp. One entry is returned for every distinct timestamp produced by at least one key, with the values ordered by input key. A key with no sample at that timestamp has a `NaN` value.
 
 {{< highlight bash >}}
 127.0.0.1:6379> TS.NRANGE 2 {sensor}:1 {sensor}:2 - +
@@ -356,7 +356,7 @@ Query both series and pivot the samples by timestamp. One row is returned for ev
 <details open>
 <summary><b>Aggregate each series with a per-key aggregator</b></summary>
 
-In aggregation mode, supply one aggregation spec per key, in key order. Here `{sensor}:1` is aggregated with `avg` and `{sensor}:2` with `sum`, both over 1000-millisecond buckets.
+In aggregation mode, supply one aggregator per key, in key order. Here `{sensor}:1` is aggregated with `avg` and `{sensor}:2` with `sum`, both over 1000-millisecond buckets.
 
 {{< highlight bash >}}
 127.0.0.1:6379> TS.MADD {sensor}:1 1000 10 {sensor}:1 1100 20 {sensor}:1 2000 30
@@ -380,7 +380,7 @@ In aggregation mode, supply one aggregation spec per key, in key order. Here `{s
 <details open>
 <summary><b>Apply multiple aggregators to a series</b></summary>
 
-Give a key a comma-separated spec to compute several aggregators for it in one query. Here `{sensor}:1` uses the spec `avg,max` (two values) and `{sensor}:2` uses `sum` (one value). Each row's value array is flat: it holds `{sensor}:1`'s `avg`, then its `max`, then `{sensor}:2`'s `sum`.
+Give a key a comma-separated list of aggregators to compute several of them for it in one query. Here `{sensor}:1` uses `avg,max` (two values) and `{sensor}:2` uses `sum` (one value). Each timestamp's values are a single flat list: `{sensor}:1`'s `avg`, then its `max`, then `{sensor}:2`'s `sum`.
 
 {{< highlight bash >}}
 127.0.0.1:6379> TS.NRANGE 2 {sensor}:1 {sensor}:2 - + AGGREGATION avg,max sum 1000
@@ -403,27 +403,27 @@ Give a key a comma-separated spec to compute several aggregators for it in one q
 
 In raw mode (no `AGGREGATION`):
 
-- One row is returned for every distinct timestamp produced by at least one key.
+- One entry is returned for every distinct timestamp produced by at least one key.
 - If a key has no sample at that timestamp, that key's value is `NaN`.
 
 In aggregation mode (with `AGGREGATION`):
 
-- One aggregation spec applies to each key (spec _i_ maps to key _i_); the number of specs must equal `numkeys`, and all keys share one `bucketDuration`.
-- Each spec is a comma-separated list of one or more aggregators, and a key contributes one value per aggregator in its spec.
-- Each row is a single flat list of values, ordered by key and, within each key, by the order its aggregators are listed. For example, specs `avg,max` for the first key and `sum` for the second produce rows of the form `[avg, max, sum]`.
-- When a key has no data at a row's bucket, all of that key's values are `NaN`.
+- One aggregation applies to each key, in key order; the number of these arguments must equal `numkeys`, and all keys share one `bucketDuration`.
+- Each per-key argument is a single aggregator or a comma-separated list of aggregators, and a key contributes one value per aggregator.
+- Each timestamp's values form a single flat list, ordered by key and, within each key, by the order its aggregators are listed. For example, `avg,max` for the first key and `sum` for the second produce values of the form `[avg, max, sum]`.
+- When a key has no data for a given bucket, all of that key's values are `NaN`.
 - With `EMPTY`, empty buckets can produce rows in which every value is `NaN`.
 
 ### NaN values
 
-A `NaN` value can mean that a key had no sample (or no aggregation bucket) at the row's timestamp, or that the key stored or aggregated to a real `NaN`. These two cases are indistinguishable in the reply.
+A `NaN` value can mean that a key had no sample (or no aggregation bucket) at that timestamp, or that the key stored or aggregated to a real `NaN`. These two cases are indistinguishable in the reply.
 
 | Case                                            | Value                                           |
 | ----------------------------------------------- | ----------------------------------------------- |
-| Key has a raw sample at the row timestamp        | The sample value                                |
-| Key has no raw sample at the row timestamp       | `NaN`                                           |
-| Key has aggregated data for the row bucket       | The aggregated value                            |
-| Key has no data for the row bucket               | `NaN`                                           |
+| Key has a raw sample at that timestamp           | The sample value                                |
+| Key has no raw sample at that timestamp          | `NaN`                                           |
+| Key has aggregated data for that bucket          | The aggregated value                            |
+| Key has no data for that bucket                  | `NaN`                                           |
 | Key stores or aggregates to a real `NaN`         | `NaN`, indistinguishable from no data           |
 
 ## Redis Software and Redis Cloud compatibility
@@ -439,14 +439,14 @@ A `NaN` value can mean that a key had no sample (or no aggregation bucket) at th
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) composed of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator in its spec, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregation specs, unknown aggregation type, wrong key type, etc.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with one entry per timestamp, ordered by increasing timestamp. Each entry is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) composed of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregators, unknown aggregation type, wrong key type, etc.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of pivot rows, ordered by increasing timestamp. Each row is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) composed of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator in its spec, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregation specs, unknown aggregation type, wrong key type, etc.
+* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with one entry per timestamp, ordered by increasing timestamp. Each entry is an [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) composed of an [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) (the timestamp) and a flat [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) values. The values are concatenated across keys in input order; with `AGGREGATION`, each key contributes one value per aggregator, otherwise one value per key. A missing value is reported as `NaN`. The reply is an empty array when no samples match.
+* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong number of aggregators, unknown aggregation type, wrong key type, etc.
 
 {{< /multitabs >}}
 

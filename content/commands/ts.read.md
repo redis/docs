@@ -74,9 +74,9 @@ syntax_fmt: "TS.READ key timestamp [BLOCK\_milliseconds min_count]\n  [MAX_COUNT
   max_count]"
 title: TS.READ
 ---
-Read a batch of time series samples at or after a cursor timestamp, returning up to `max_count` of the oldest qualifying samples ordered by increasing timestamp. By default `TS.READ` returns immediately with whatever is available; add the optional `BLOCK` keyword to wait until at least `min_count` samples exist.
+Read a batch of time series samples at or after a given timestamp, returning up to `max_count` of the oldest qualifying samples ordered by increasing timestamp. By default `TS.READ` returns immediately with whatever is available; add the optional `BLOCK` keyword to wait until at least `min_count` samples exist or `milliseconds` elapse, whichever occurs first.
 
-`TS.READ` lets applications continuously consume historical and newly appended samples without polling [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) manually. The key may be a regular time series or a compaction time series.
+The key may be a regular time series or a compaction time series.
 
 [Examples](#examples)
 
@@ -135,7 +135,7 @@ is the reply cap: the maximum number of samples to return. It must be a positive
 `MAX_COUNT` defaults to unlimited; set it explicitly when consuming large histories to bound the reply size and enable paging.
 </details>
 
-The `BLOCK` and `MAX_COUNT` keywords are optional and independent. Omit `BLOCK` to read without blocking; omit `MAX_COUNT` to leave the reply size unbounded. The keyword tokens are case-insensitive and can be given in any order. A keyword without its values, or any stray trailing token, is rejected as a wrong-arity error.
+The `BLOCK` and `MAX_COUNT` keywords are optional, independent, and can be given in either order. Omit `BLOCK` to read without blocking; omit `MAX_COUNT` to leave the reply size unbounded. A keyword without its values, or any stray trailing token, is rejected as a wrong-arity error.
 
 ## Examples
 
@@ -253,6 +253,12 @@ When nothing qualifies by the timeout, the reply is an empty array.
 </details>
 
 ## Details
+
+### When to use `TS.READ`
+
+Applications often render charts from time series data — metrics, sensor readings, financial prices and volumes, or application telemetry — and need to keep those charts current as new samples arrive. Without `TS.READ`, an application typically either polls [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) at a fixed interval and checks for samples added since the previous request, or listens for keyspace notifications. Both approaches work, but they require periodic polling or additional notification handling.
+
+`TS.READ` replaces that with a single, optionally blocking read: the application issues one call and waits until new samples are available, then appends them and repeats. This suits anything that streams updates continuously — monitoring dashboards, live charts, financial terminals, IoT sensor feeds, or alerting systems — without issuing repeated range queries when no new sample has been added.
 
 ### Blocking and retrieval semantics
 
