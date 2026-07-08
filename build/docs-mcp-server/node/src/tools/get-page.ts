@@ -27,14 +27,9 @@ function collectCandidates(index: DocsIndex, input: GetPageInput): Page[] {
     if (p) byUrl.set(p.url, p);
   };
 
-  if (input.url) {
-    const exact = index.getByUrl(input.url);
-    if (exact) add(exact);
-    else index.matchByUrlSuffix(input.url).forEach(add);
-  }
-  if (input.id) {
-    index.getPagesById(input.id).forEach(add);
-  }
+  // A boundary-suffix url (only reached when there was no exact match) plus id.
+  if (input.url) index.matchByUrlSuffix(input.url).forEach(add);
+  if (input.id) index.getPagesById(input.id).forEach(add);
   return [...byUrl.values()];
 }
 
@@ -45,29 +40,19 @@ function describeHandles(input: GetPageInput): string {
   return parts.join(" and ");
 }
 
-/** Fetch one page, optionally filtered to sections with the given roles. */
-export function getPage(index: DocsIndex, input: GetPageInput) {
-  const candidates = collectCandidates(index, input);
+function ambiguous(input: GetPageInput, candidates: Page[]) {
+  return {
+    error: `Ambiguous lookup: ${describeHandles(input)} matched ${candidates.length} pages. Call get_page again with a single, exact url.`,
+    candidates: candidates.map((p) => ({ title: p.title, url: p.url })),
+  };
+}
 
-  if (candidates.length === 0) {
-    return { error: `Page not found for ${describeHandles(input)}.` };
-  }
-  if (candidates.length > 1) {
-    // Ambiguous (a non-unique id / boundary suffix) or conflicting (url and id
-    // point at different pages) — either way, make the caller pick a url.
-    return {
-      error: `Ambiguous lookup: ${describeHandles(input)} matched ${candidates.length} pages. Call get_page again with a single, exact url.`,
-      candidates: candidates.map((p) => ({ title: p.title, url: p.url })),
-    };
-  }
-
-  const page = candidates[0];
+function render(page: Page, input: GetPageInput) {
   let sections = page.sections ?? [];
   if (input.roles && input.roles.length) {
     const want = new Set(input.roles.map((r) => r.toLowerCase()));
     sections = sections.filter((s) => want.has((s.role ?? "").toLowerCase()));
   }
-
   return {
     id: page.id,
     title: page.title,
@@ -77,4 +62,38 @@ export function getPage(index: DocsIndex, input: GetPageInput) {
     content_hash: page.content_hash,
     sections,
   };
+}
+
+/** Fetch one page, optionally filtered to sections with the given roles. */
+export function getPage(index: DocsIndex, input: GetPageInput) {
+  // An exact url is unique and authoritative. Return it directly rather than
+  // diluting it with a (possibly non-unique) id supplied alongside it — UNLESS
+  // the id points somewhere else entirely, which is a genuine conflict worth
+  // surfacing. A search hit's id is that page's own id, so the common
+  // exact-url + its-own-id case resolves cleanly.
+  if (input.url) {
+    const exact = index.getByUrl(input.url);
+    if (exact) {
+      if (input.id) {
+        const idPages = index.getPagesById(input.id);
+        if (idPages.length > 0 && !idPages.some((p) => p.url === exact.url)) {
+          const byUrl = new Map<string, Page>();
+          [exact, ...idPages].forEach((p) => byUrl.set(p.url, p));
+          return ambiguous(input, [...byUrl.values()]);
+        }
+      }
+      return render(exact, input);
+    }
+  }
+
+  // Otherwise converge across the remaining handles (boundary-suffix url + id)
+  // and resolve only when they point at exactly one page.
+  const candidates = collectCandidates(index, input);
+  if (candidates.length === 0) {
+    return { error: `Page not found for ${describeHandles(input)}.` };
+  }
+  if (candidates.length > 1) {
+    return ambiguous(input, candidates);
+  }
+  return render(candidates[0], input);
 }

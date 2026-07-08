@@ -38,6 +38,14 @@ check("roles filter returns only 'parameters'", (xadd.sections ?? []).every((s: 
 const exact = getPage(index, { url: "https://redis.io/docs/latest/operate/redisinsight/install/" }) as any;
 check("get_page(exact url) resolves the right page", exact.title === "Install Redis Insight");
 
+// exact url is authoritative even when a non-unique id is passed alongside it
+// (Bugbot round-3 High): search hits carry both id + url, and id "install" is ambiguous.
+const exactPlusId = getPage(index, {
+  url: "https://redis.io/docs/latest/operate/redisinsight/install/",
+  id: "install",
+}) as any;
+check("exact url + non-unique id resolves (not ambiguous)", exactPlusId.title === "Install Redis Insight");
+
 const suffixUnique = getPage(index, { url: "/commands/xadd/" }) as any;
 check("get_page(unambiguous partial url) resolves", suffixUnique.id === "commands/xadd");
 
