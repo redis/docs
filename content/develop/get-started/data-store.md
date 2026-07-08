@@ -41,7 +41,7 @@ You can alternatively follow the [installation guides]({{< relref "/operate/oss_
 
 The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
-{{< clients-example set="search_quickstart" step="connect" description="Foundational: Connect to a Redis server" difficulty="beginner" >}}
+{{< clients-example set="search_quickstart" step="connect" description="Foundational: Connect to a Redis server" difficulty="beginner" runnable="false" try_it="false" >}}
 > redis-cli -h 127.0.0.1 -p 6379
 {{< /clients-example>}}
 <br/>
@@ -56,8 +56,8 @@ Redis stands for Remote Dictionary Server. You can use the same data types as in
 Similar to byte arrays, Redis strings store sequences of bytes, including text, serialized objects, counter values, and binary arrays. The following example shows you how to set and get a string value:
 
 {{< clients-example set="set_and_get" step="" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
-SET bike:1 "Process 134"
-GET bike:1
+> SET bike:1 "Process 134"
+> GET bike:1
 {{< /clients-example >}}
 
 Hashes are the equivalent of dictionaries (dicts or hash maps). Among other things, you can use hashes to represent plain objects and to store groupings of counters. The following example explains how to set and access field values of an object:
