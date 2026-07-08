@@ -43,28 +43,40 @@ for (const c of cases) {
       break;
     }
   }
-  rows.push({ q: c.q, rank, top: results[0] });
+  rows.push({ kind: c.kind ?? "command", q: c.q, rank, top: results[0] });
 }
 
-const scored = rows.length;
-const recall = Object.fromEntries(
-  K.map((k) => [k, rows.filter((r) => r.rank && r.rank <= k).length / scored]),
-);
-const mrr = rows.reduce((s, r) => s + (r.rank ? 1 / r.rank : 0), 0) / scored;
+function metrics(set) {
+  const n = set.length || 1;
+  const recall = Object.fromEntries(
+    K.map((k) => [k, set.filter((r) => r.rank && r.rank <= k).length / n]),
+  );
+  const mrr = set.reduce((s, r) => s + (r.rank ? 1 / r.rank : 0), 0) / n;
+  return { recall, mrr };
+}
 
 console.log(
-  `Feed: ${pages.length} pages | cases scored: ${scored}` +
+  `Feed: ${pages.length} pages | cases scored: ${rows.length}` +
     (broken.length ? ` | ${broken.length} BROKEN (expected url not in feed)` : "") +
     "\n",
 );
 for (const r of rows) {
   const tag = r.rank ? `#${r.rank}`.padEnd(5) : "MISS ";
-  console.log(`${tag} ${r.q}${r.rank ? "" : `   [rank-1 was: ${short(r.top)}]`}`);
+  console.log(`${tag} [${r.kind.slice(0, 4)}] ${r.q}${r.rank ? "" : `   [rank-1 was: ${short(r.top)}]`}`);
 }
 
-console.log("\n--- retrieval quality ---");
-for (const k of K) console.log(`recall@${k}: ${(recall[k] * 100).toFixed(0)}%`);
-console.log(`MRR:       ${mrr.toFixed(3)}`);
+const groups = [
+  ["overall", rows],
+  ["command", rows.filter((r) => r.kind === "command")],
+  ["concept", rows.filter((r) => r.kind === "concept")],
+];
+console.log("\n--- retrieval quality (recall@1 / @3 / @5 / @10 | MRR) ---");
+for (const [label, set] of groups) {
+  if (!set.length) continue;
+  const m = metrics(set);
+  const cells = K.map((k) => `${(m.recall[k] * 100).toFixed(0)}%`.padStart(4)).join(" / ");
+  console.log(`${label.padEnd(8)} (n=${String(set.length).padStart(2)}):  ${cells}  | ${m.mrr.toFixed(3)}`);
+}
 
 if (broken.length) {
   console.log("\n--- BROKEN eval cases (fix ground truth) ---");

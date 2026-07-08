@@ -211,6 +211,20 @@ vector-on-Redis as a later upgrade to the **hosted** endpoint only.
   `flushdb` beats `del`) that only vector search closes. Net: stemming+weighting
   **weakened but did not eliminate** the §6 vector-search case — the eval now
   lets that call be made on numbers.
+- **Command boost is command-overfit (found after adding concept cases).** With
+  13 concept/how-to cases added, per-kind numbers diverge sharply: command
+  recall@5 86% / MRR 0.65 vs **concept recall@5 46% / MRR 0.29**. The
+  `/commands/*` ×1.5 boost is the cause — it ranks command pages above the
+  canonical concept page when both compete ("configure persistence" →
+  `bgrewriteaof`; "set up replication" → `cluster-replicate`; "keyspace
+  notifications" → `expire`), and the blanket `/operate/` demotion drags down
+  legitimate concept pages (persistence, replication). Ablation (neutralise the
+  command boost, demote only REST-API/release-notes/references): concept @5
+  46%→62%, MRR 0.29→0.45; command @5 86%→73%. **Open decision:** command-
+  optimised (current) vs balanced weighting — a workload-mix call. A modest
+  command boost (×1.2) helps command none vs neutral, so the command signal
+  should really come from better lexical handling or vectors, not the thumb on
+  the scale.
 - **Section-role vocabulary (found via live MCP test):** the roles the spec
   assumed (`syntax`, `parameters`, `returns`, `example`) do **not** all match
   the feed. Command pages actually carry `content` / `parameters` / `example`

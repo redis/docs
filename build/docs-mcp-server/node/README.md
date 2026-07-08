@@ -71,20 +71,29 @@ check that flags any expected url missing from the feed. The feed is read from
 `DOCS_NDJSON` or a local cache at `test/eval/docs.ndjson.gz` (gitignored;
 `curl -o test/eval/docs.ndjson.gz https://redis.io/docs/latest/docs.ndjson.gz`).
 
-**Results (22 command-lookup cases):**
+Cases are tagged `command` (22) or `concept` (13, how-to / concept pages) so the
+runner reports recall per kind — because command and concept queries behave very
+differently.
 
-| | recall@1 | recall@3 | recall@5 | recall@10 | MRR |
+**Current results (shipped config: Porter stemming + field boosts + page-type
+weighting with `/commands/*` ×1.5, `/operate/` ×0.7, REST-API/release-notes ×0.5):**
+
+| group | recall@1 | @3 | @5 | @10 | MRR |
 |---|---|---|---|---|---|
-| lexical baseline | 32% | 45% | 59% | 73% | 0.42 |
-| + Porter stemming + page-type weighting | 50% | 68% | 86% | 95% | 0.65 |
+| command (22) | 50% | 68% | 86% | 95% | 0.65 |
+| concept (13) | 15% | 31% | 46% | 62% | 0.29 |
+| overall (35) | 37% | 54% | 71% | 83% | 0.52 |
 
-Stemming (append↔appends) and demoting secondary pages (release-notes / REST-API /
-operator) while modestly boosting `/commands/*` lifted recall@5 from 59% → 86%.
-**Caveat:** this eval is command-heavy, so the `/commands/*` boost partly flatters
-it — concept/how-to query cases are not yet covered and should be added before
-concluding lexical is sufficient generally. The remaining case (`del`/`unlink`
-for "remove a key", beaten by `flushdb`) is a genuine lexical limitation and is
-the kind of gap vector search would close (SPEC §6/§10).
+(Un-stemmed, un-weighted lexical baseline on the command set was 59%@5 / 0.42.)
+
+**Finding:** command retrieval is good, but **concept/how-to retrieval is about
+half as good** — and the `/commands/*` boost is the cause: it lifts command
+queries but pushes command pages *above* the canonical concept page when both
+compete (e.g. "configure persistence" → `bgrewriteaof`; "set up replication" →
+`cluster-replicate`). An ablation neutralising the command boost moves concept
+@5 46%→62% and MRR 0.29→0.45, at the cost of command @5 86%→73%. That trade-off
+(command-optimised vs balanced) is a product call; the residual misses are pure
+semantic gaps that motivate vector search (SPEC §6/§10).
 
 ## Known limitations (v0)
 
