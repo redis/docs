@@ -38,6 +38,9 @@ extends PredisTestCase
         // REMOVE_END
 
         // STEP_START setnx_xx
+        // Recreate the bike:1 key so this example runs on its own.
+        $r->set('bike:1', 'Deimos');
+
         $res3 = $r->set('bike:1', 'bike', 'nx');
         echo "$res3" . PHP_EOL;
         // >>> (null)
