@@ -63,13 +63,13 @@ Similar to byte arrays, Redis strings store sequences of bytes, including text, 
 Hashes are the equivalent of dictionaries (dicts or hash maps). Among other things, you can use hashes to represent plain objects and to store groupings of counters. The following example explains how to set and access field values of an object:
 
 {{< clients-example set="hash_tutorial" step="set_get_all" description="Foundational: Store and retrieve hash data structures using HSET to set multiple fields, HGET to retrieve individual fields, and HGETALL to retrieve all fields at once" difficulty="beginner" >}}
-> HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972
+> HSET bike:2 model Deimos brand Ergonom type 'Enduro bikes' price 4972
 (integer) 4
-> HGET bike:1 model
+> HGET bike:2 model
 "Deimos"
-> HGET bike:1 price
+> HGET bike:2 price
 "4972"
-> HGETALL bike:1
+> HGETALL bike:2
 1) "model"
 2) "Deimos"
 3) "brand"
