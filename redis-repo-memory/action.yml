@@ -1,0 +1,70 @@
+name: 'Redis Repo Memory'
+description: >
+  Surfaces semantically related PRs, issues, and commits from repository
+  history using Redis vector search and OpenAI embeddings. Posts results
+  as a PR comment or commit status so your team never loses context.
+
+branding:
+  icon: 'database'
+  color: 'red'
+
+inputs:
+  redis-url:
+    description: >
+      Redis connection URL for the memory store.
+      e.g. redis://default:<password>@<host>:<port>
+      A Redis Cloud free-tier database works fine — https://redis.io/try-free/
+    required: true
+
+  openai-api-key:
+    description: >
+      OpenAI API key used to generate text embeddings (text-embedding-3-small).
+      Only the Embeddings API is called, so a low-usage key is sufficient.
+    required: true
+
+  github-token:
+    description: >
+      GitHub token for posting PR comments and commit statuses.
+      The default ${{ github.token }} works as long as the workflow grants
+      pull-requests: write and statuses: write permissions.
+    required: false
+    default: ${{ github.token }}
+
+  upstream-repo:
+    description: >
+      Optional upstream repository to include in memory search results,
+      in "owner/repo" format (e.g. redis/docs). Useful when running in a
+      fork so the action can surface context from the upstream repo's history.
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}/scripts
+      run: npm install
+
+    - name: Collect context
+      shell: bash
+      run: node ${{ github.action_path }}/scripts/collect_context.js
+
+    - name: Retrieve and store memory
+      shell: bash
+      env:
+        REDIS_URL: ${{ inputs.redis-url }}
+        OPENAI_API_KEY: ${{ inputs.openai-api-key }}
+        UPSTREAM_REPO: ${{ inputs.upstream-repo }}
+      run: node ${{ github.action_path }}/scripts/retrieve_memory.js
+
+    - name: Post results
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: node ${{ github.action_path }}/scripts/post_comment.js

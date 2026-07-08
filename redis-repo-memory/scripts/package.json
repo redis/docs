@@ -1,0 +1,13 @@
+{
+  "name": "redis-repo-memory",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Actions scripts for Redis-backed repository memory",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "openai": "^4.77.0",
+    "redis": "^4.7.0"
+  }
+}
