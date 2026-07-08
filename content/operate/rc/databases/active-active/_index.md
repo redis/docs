@@ -43,7 +43,7 @@ The availability of each region depends on the number of availability zones it p
 An Active-Active database can combine regions with different availability zone counts. When it does, the availability of the entire deployment is determined by the least resilient region. For example, an Active-Active database that spans a region with three availability zones and a region with fewer than three availability zones provides 99.99% (four-nines) availability overall.
 
 {{< note >}}
-Regions with fewer than three availability zones are not available when you create an Active-Active database in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}). 
+Regions with fewer than three availability zones are not available when you create an Active-Active database in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}). You'll be able to manage these databases using the Redis Cloud console after they're created.
 {{< /note >}}
 
 ### Local latency with unique endpoints

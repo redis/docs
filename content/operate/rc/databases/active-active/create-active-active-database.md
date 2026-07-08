@@ -100,7 +100,7 @@ In the **Advanced options** section, you can:
 {{< note >}}
 Multi-AZ replication is required for all Active-Active databases.
 
-Regions with fewer than three availability zones are not available in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the REST API to [create a Pro subscription]({{< relref "/operate/rc/api/examples/manage-subscriptions#create-a-pro-subscription" >}}). Active-Active databases in these regions use single-zone replication and provide 99.99% (four-nines) availability instead of 99.999%. For more information, see [Active-Active Redis]({{< relref "/operate/rc/databases/active-active#multi-zone" >}}).
+Regions with fewer than three availability zones are not available in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the REST API to [create a Pro subscription]({{< relref "/operate/rc/api/examples/manage-subscriptions#create-a-pro-subscription" >}}). You'll be able to manage these subscriptions and databases using the Redis Cloud console after they're created. Active-Active databases in these regions use single-zone replication and provide 99.99% (four-nines) availability instead of 99.999%. For more information, see [Active-Active Redis]({{< relref "/operate/rc/databases/active-active#multi-zone" >}}).
 {{< /note >}}
 
 When finished, choose **Continue** to determine your size requirements.
