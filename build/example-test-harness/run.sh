@@ -55,6 +55,17 @@ src_path() {
     hash_tutorial:lettuce-reactive)echo local_examples/tmp/lettuce-reactive/HashExample.java ;;
     hash_tutorial:php)           echo local_examples/php/DtHashTest.php ;;
     hash_tutorial:dotnet)        echo local_examples/tmp/datatypes/hashes/HashExample.cs ;;
+    sets_tutorial:python)        echo local_examples/tmp/datatypes/sets/dt_set.py ;;
+    sets_tutorial:node)          echo local_examples/tmp/datatypes/sets/dt-set.js ;;
+    sets_tutorial:go)            echo local_examples/tmp/datatypes/sets/sets_example_test.go ;;
+    sets_tutorial:jedis)         echo local_examples/tmp/datatypes/sets/SetsExample.java ;;
+    sets_tutorial:ruby)          echo local_examples/ruby/dt_sets.rb ;;
+    sets_tutorial:rust-sync)     echo local_examples/rust-sync/dt-sets.rs ;;
+    sets_tutorial:rust-async)    echo local_examples/rust-async/dt-sets.rs ;;
+    sets_tutorial:lettuce-async) echo local_examples/tmp/lettuce-async/SetExample.java ;;
+    sets_tutorial:lettuce-reactive)echo local_examples/tmp/lettuce-reactive/SetExample.java ;;
+    sets_tutorial:php)           echo local_examples/php/DtSetsTest.php ;;
+    sets_tutorial:dotnet)        echo local_examples/tmp/datatypes/sets/SetsTutorial.cs ;;
     time_series_tutorial:python) echo local_examples/time_series_tutorial/redis-py/dt_time_series.py ;;
     time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
