@@ -52,7 +52,7 @@ For geographic availability, create [Active-Active databases]({{< relref "/opera
 
 - **Geographic distribution**: Data is replicated across multiple regions and availability zones. Applications can read from and write to the nearest region, reducing latency for users worldwide.
 
-- **99.999% availability**: Higher availability than single-region deployments by protecting against regional outages.
+- **99.999% availability**: Higher availability than single-region deployments by protecting against regional outages. Regions with fewer than three availability zones use single-zone replication and provide 99.99% (four-nines) availability instead. When an Active-Active database spans regions with different availability zone counts, the availability of the entire deployment is determined by the least resilient region.
 
 - **Automatic conflict resolution**: Uses conflict-free replicated data types (CRDTs) to handle concurrent writes across regions.
 
