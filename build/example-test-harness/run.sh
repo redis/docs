@@ -71,12 +71,11 @@ src_path() {
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
     time_series_tutorial:node)   echo local_examples/time_series_tutorial/node-redis/dt-time-series.js ;;
     time_series_tutorial:dotnet) echo local_examples/time_series_tutorial/nredisstack/TimeSeriesTutorial.cs ;;
-    # search_quickstart / geoindex: python, go, dotnet PASS. Known gaps (DOC-6823):
-    #   - jedis: examples use the jedis 8.x RedisClient API; the shared pom is 5.2,
-    #     so they don't compile here (same one-off 8.x need as the timeseries jedis).
-    #   - node search_quickstart: its wildcard assertion is RediSearch-version-order-
-    #     dependent (documents[0].id) and fails on Redis 8.8 — a test-only REMOVE-block
-    #     assert, not docs-visible.
+    # search_quickstart / geoindex: python, go, jedis, dotnet PASS (pom-jedis.xml is
+    # 7.5.3, which has both the RedisClient API these examples use and the older
+    # UnifiedJedis API). One known gap (DOC-6823): node search_quickstart's wildcard
+    # assertion is RediSearch-version-order-dependent (documents[0].id) and fails on
+    # Redis 8.8 — a test-only REMOVE-block assert, not docs-visible.
     search_quickstart:python)    echo local_examples/search_quickstart/redis-py/search_quickstart.py ;;
     search_quickstart:node)      echo local_examples/search_quickstart/node-redis/search-quickstart.js ;;
     search_quickstart:go)        echo local_examples/search_quickstart/go-redis/search_quickstart_test.go ;;
