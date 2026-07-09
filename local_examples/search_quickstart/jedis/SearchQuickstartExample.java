@@ -168,8 +168,8 @@ public class SearchQuickstartExample {
             " for money."
         ),
         new Bicycle(
-            "ThrillCycle",
             "BikeShind",
+            "ThrillCycle",
             new BigDecimal(815),
             "refurbished",
             "An artsy,  retro-inspired bicycle that’s as functional as it is" +
