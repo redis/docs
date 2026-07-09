@@ -44,12 +44,9 @@ is key name for a Bloom filter.
 ## Examples
 
 {{% redis-cli %}}
-redis> BF.ADD bf1 item_foo
-(integer) 1
-redis> BF.CARD bf1
-(integer) 1
-redis> BF.CARD bf_new
-(integer) 0
+BF.ADD bf1 item_foo
+BF.CARD bf1
+BF.CARD bf_new
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

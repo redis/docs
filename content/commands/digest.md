@@ -59,10 +59,8 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-> SET key1 "Hello world"
-OK
-> DIGEST key1
-"b6acb9d84a38ff74"
+SET key1 "Hello world"
+DIGEST key1
 {{% /redis-cli %}}
 
 ## Details
