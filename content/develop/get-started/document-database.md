@@ -65,25 +65,17 @@ You can copy and paste the connection details from the Redis Cloud database conf
 {{% /alert  %}}
 
 
-## Create an index
+## Create an index and add documents
 
 As explained in the [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) quick start guide, Redis allows you to access an item directly via its key. You also learned how to scan the keyspace. Whereby you can use other data structures (e.g., hashes and sorted sets) as secondary indexes, your application would need to maintain those indexes manually. Redis is a document database that allows you to declare which fields are auto-indexed. Redis currently supports secondary index creation on the [hashes]({{< relref "/develop/data-types/hashes" >}}) and [JSON]({{< relref "/develop/data-types/json" >}}) documents.
 
-The following example shows an [FT.CREATE]({{< relref "commands/ft.create" >}}) command that creates an index with some text fields, a numeric field (price), and a tag field (condition). The text fields have a weight of 1.0, meaning they have the same relevancy in the context of full-text searches. The field names follow the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) notion. Each such index field maps to a property within the JSON document.
-
-
-{{< clients-example set="search_quickstart" step="create_index" description="Foundational: Create an index on JSON documents using FT.CREATE with text, numeric, and tag fields" difficulty="beginner" >}}
-> FT.CREATE idx:bicycle ON JSON PREFIX 1 bicycle: SCORE 1.0 SCHEMA $.brand AS brand TEXT WEIGHT 1.0 $.model AS model TEXT WEIGHT 1.0 $.description AS description TEXT WEIGHT 1.0 $.price AS price NUMERIC $.condition AS condition TAG SEPARATOR ,
-OK
-{{< /clients-example >}}
+The following example uses an [FT.CREATE]({{< relref "commands/ft.create" >}}) command to create an index with some text fields, a numeric field (price), and a tag field (condition). The text fields have a weight of 1.0, meaning they have the same relevancy in the context of full-text searches. The field names follow the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) notion. Each such index field maps to a property within the JSON document. The example then uses the [JSON.SET]({{< relref "commands/json.set" >}}) command to add the JSON documents that the index tracks.
 
 Any pre-existing JSON documents with a key prefix `bicycle:` are automatically added to the index. Additionally, any JSON documents with that prefix created or modified after index creation are added or re-added to the index.
 
-## Add JSON documents
-
-The example below shows you how to use the [JSON.SET]({{< relref "commands/json.set" >}}) command to create new JSON documents:
-
-{{< clients-example set="search_quickstart" step="add_documents" description="Foundational: Add JSON documents to Redis using JSON.SET" difficulty="beginner" max_lines="2" try_it="false" >}}
+{{< clients-example set="search_quickstart" step="create_index" description="Foundational: Create an index on JSON documents with FT.CREATE, then add the documents with JSON.SET" difficulty="beginner" max_lines="2" prereq="true" >}}
+> FT.CREATE idx:bicycle ON JSON PREFIX 1 bicycle: SCORE 1.0 SCHEMA $.brand AS brand TEXT WEIGHT 1.0 $.model AS model TEXT WEIGHT 1.0 $.description AS description TEXT WEIGHT 1.0 $.price AS price NUMERIC $.condition AS condition TAG SEPARATOR ,
+OK
 > JSON.SET "bicycle:0" "." "{\"brand\": \"Velorim\", \"model\": \"Jigger\", \"price\": 270, \"description\": \"Small and powerful, the Jigger is the best ride for the smallest of tikes! This is the tiniest kids\\u2019 pedal bike on the market available without a coaster brake, the Jigger is the vehicle of choice for the rare tenacious little rider raring to go.\", \"condition\": \"new\"}"
 OK
 > JSON.SET "bicycle:1" "." "{\"brand\": \"Bicyk\", \"model\": \"Hillcraft\", \"price\": 1200, \"description\": \"Kids want to ride with as little weight as possible. Especially on an incline! They may be at the age when a 27.5\\\" wheel bike is just too clumsy coming off a 24\\\" bike. The Hillcraft 26 is just the solution they need!\", \"condition\": \"used\"}"
@@ -151,7 +143,7 @@ You can retrieve all indexed documents using the [FT.SEARCH]({{< relref "command
 
 The following command shows a simple single-term query for finding all bicycles with a specific model:
 
-{{< clients-example set="search_quickstart" step="query_single_term" description="Foundational: Perform a single-term full-text query using FT.SEARCH to find documents matching a specific field value" difficulty="beginner" try_it="false" >}}
+{{< clients-example set="search_quickstart" step="query_single_term" description="Foundational: Perform a single-term full-text query using FT.SEARCH to find documents matching a specific field value" difficulty="beginner" needs_prereq="true" >}}
 > FT.SEARCH "idx:bicycle" "@model:Jigger" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:0"
@@ -163,7 +155,7 @@ The following command shows a simple single-term query for finding all bicycles 
 
 Below is a command to perform an exact match query that finds all bicycles with the brand name `Noka Bikes`. You must use double quotes around the search term when constructing an exact match query on a  text field.
 
-{{< clients-example set="search_quickstart" step="query_exact_matching" description="Foundational: Perform an exact match query using FT.SEARCH with double quotes to find documents with precise field values" difficulty="beginner" try_it="false" >}}
+{{< clients-example set="search_quickstart" step="query_exact_matching" description="Foundational: Perform an exact match query using FT.SEARCH with double quotes to find documents with precise field values" difficulty="beginner" needs_prereq="true" >}}
 > FT.SEARCH "idx:bicycle" "@brand:\"Noka Bikes\"" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:4"
