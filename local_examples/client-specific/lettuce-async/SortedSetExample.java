@@ -96,7 +96,7 @@ public class SortedSetExample {
 
             // STEP_START zrangebyscore
             CompletableFuture<Void> zrangebyscore = asyncCommands
-                    .zrangebyscore("racer_scores", Range.create(Double.MIN_VALUE, 10))
+                    .zrangebyscore("racer_scores", Range.create(Double.NEGATIVE_INFINITY, 10))
                     // REMOVE_START
                     .thenApply(res -> {
                         assertThat(res.toString()).isEqualTo("[Ford, Sam-Bodden, Norem, Royce]");
@@ -116,7 +116,7 @@ public class SortedSetExample {
                 assertThat(res4).isEqualTo(1);
                 // REMOVE_END
 
-                return asyncCommands.zremrangebyscore("racer_scores", Range.create(Double.MIN_VALUE, 9));
+                return asyncCommands.zremrangebyscore("racer_scores", Range.create(Double.NEGATIVE_INFINITY, 9));
             }).thenCompose(res5 -> {
                 System.out.println(res5); // >>> 2
                 // REMOVE_START

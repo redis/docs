@@ -83,7 +83,7 @@ public class SortedSetExample {
 
             // STEP_START zrangebyscore
             Mono<Void> zrangebyscore = reactiveCommands
-                    .zrangebyscore("racer_scores", Range.create(Double.MIN_VALUE, 10)).collectList().doOnNext(result -> {
+                    .zrangebyscore("racer_scores", Range.create(Double.NEGATIVE_INFINITY, 10)).collectList().doOnNext(result -> {
                         System.out.println(result); // >>> [Ford, Sam-Bodden, Norem, Royce]
                         // REMOVE_START
                         assertThat(result.toString()).isEqualTo("[Ford, Sam-Bodden, Norem, Royce]");
@@ -98,7 +98,7 @@ public class SortedSetExample {
                 // REMOVE_START
                 assertThat(result).isEqualTo(1);
                 // REMOVE_END
-            }).flatMap(v -> reactiveCommands.zremrangebyscore("racer_scores", Range.create(Double.MIN_VALUE, 9)))
+            }).flatMap(v -> reactiveCommands.zremrangebyscore("racer_scores", Range.create(Double.NEGATIVE_INFINITY, 9)))
                     .doOnNext(result -> {
                         System.out.println(result); // >>> 2
                         // REMOVE_START

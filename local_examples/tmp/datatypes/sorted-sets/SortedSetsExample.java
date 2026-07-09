@@ -58,7 +58,7 @@ public class SortedSetsExample {
     //STEP_END
 
     //STEP_START zrangebyscore
-    List<String> res7 = jedis.zrangeByScore("racer_scores", Double.MIN_VALUE, 10d);
+    List<String> res7 = jedis.zrangeByScore("racer_scores", Double.NEGATIVE_INFINITY, 10d);
     System.out.println(res7); // >>> [Ford, Sam-Bodden, Norem, Royce]
     //STEP_END
 
@@ -66,7 +66,7 @@ public class SortedSetsExample {
     long res8 = jedis.zrem("racer_scores", "Castilla");
     System.out.println(res8); // >>> 1
 
-    long res9 = jedis.zremrangeByScore("racer_scores", Double.MIN_VALUE, 9d);
+    long res9 = jedis.zremrangeByScore("racer_scores", Double.NEGATIVE_INFINITY, 9d);
     System.out.println(res9); // >>> 2
 
     List<String> res10 = jedis.zrange("racer_scores", 0, -1);
