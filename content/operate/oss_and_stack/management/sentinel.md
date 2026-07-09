@@ -835,7 +835,7 @@ Because of this, do not grant broad Pub/Sub access on Sentinel-monitored Redis n
 
 * No user needs access to all channels (`allchannels` / `&*`). The Sentinel `auth-user`
   needs access only to the `__sentinel__:hello` channel (`&__sentinel__:hello`), and no
-  other user should be able to publish to or subscribe to it. Since Redis 7.0 the default
+  other user should be able to publish to or subscribe to it. Since Redis 7.0, the default
   value of `acl-pubsub-default` is `resetchannels`, so newly created ACL users have no
   channel access unless you grant it explicitly. Be especially careful with the legacy
   `default` user, which may still have broad access.
