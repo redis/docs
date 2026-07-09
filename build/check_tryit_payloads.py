@@ -118,8 +118,13 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--content-dir", default="content")
-    ap.add_argument("--limit", type=int, default=8192,
-                    help="max base64 payload bytes (default 8192)")
+    ap.add_argument("--limit", type=int, default=4094,
+                    help="max HTTP request-line bytes for redis.io/cli "
+                         "(observed server cap: 4094)")
+    ap.add_argument("--overhead", type=int, default=40,
+                    help="bytes added to the base64 payload to form the request "
+                         "line: 'GET /cli?commands=' + '&autorun=true HTTP/1.1' "
+                         "(~40; observed ~24, so 40 is conservative)")
     ap.add_argument("--warn-frac", type=float, default=0.85,
                     help="warn when payload exceeds this fraction of the limit")
     ap.add_argument("--quiet", action="store_true",
@@ -133,25 +138,28 @@ def main():
         # Only blocks whose external button is actually shown are subject to the limit.
         if b["try_it"] == "false" or b["runnable"] == "false" or not b["cmds"]:
             continue
-        size = _payload_b64_len(payload_for(b, set_prereq))
+        b64 = _payload_b64_len(payload_for(b, set_prereq))
+        size = b64 + args.overhead  # estimated HTTP request-line length
         if size > args.limit:
-            over.append((size, b))
+            over.append((size, b64, b))
         elif size > args.limit * args.warn_frac:
-            near.append((size, b))
+            near.append((size, b64, b))
 
-    for size, b in sorted(near, key=lambda x: x[0], reverse=True):
-        print(f"WARN  {size:6d} B ({100*size/args.limit:.0f}% of {args.limit})  "
-              f"{b['set']}/{b['step']}  ({b['file']})")
-    for size, b in sorted(over, key=lambda x: x[0], reverse=True):
-        print(f"OVER  {size:6d} B (> {args.limit})  "
-              f"{b['set']}/{b['step']}  ({b['file']})  "
-              f"-- set try_it=\"false\"")
+    for size, b64, b in sorted(near, key=lambda x: x[0], reverse=True):
+        print(f"WARN  req-line ~{size} B ({100*size/args.limit:.0f}% of "
+              f"{args.limit}, b64={b64})  {b['set']}/{b['step']}  ({b['file']})")
+    for size, b64, b in sorted(over, key=lambda x: x[0], reverse=True):
+        print(f"OVER  req-line ~{size} B (> {args.limit}, b64={b64})  "
+              f"{b['set']}/{b['step']}  ({b['file']})  -- set try_it=\"false\" "
+              f"or trim to b64 <= {args.limit - args.overhead}")
 
     if not args.quiet:
         interactive = sum(1 for b in blocks
-                          if b["try_it"] != "false" and b["runnable"] != "false" and b["cmds"])
+                          if b["try_it"] != "false" and b["runnable"] != "false"
+                          and b["cmds"])
         print(f"\nScanned {len(blocks)} blocks ({interactive} interactive) under "
-              f"{args.content_dir}/. Limit={args.limit} B (base64 URL payload). "
+              f"{args.content_dir}/. Request-line limit={args.limit} B "
+              f"(base64 payload + {args.overhead} B scaffolding). "
               f"{len(over)} over, {len(near)} near.")
 
     return 1 if over else 0
