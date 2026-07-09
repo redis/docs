@@ -164,6 +164,16 @@ func ExampleClient_search_qs() {
 			As:        "description",
 			FieldType: redis.SearchFieldTypeText,
 		},
+		{
+			FieldName: "$.price",
+			As:        "price",
+			FieldType: redis.SearchFieldTypeNumeric,
+		},
+		{
+			FieldName: "$.condition",
+			As:        "condition",
+			FieldType: redis.SearchFieldTypeTag,
+		},
 	}
 
 	_, err := rdb.FTCreate(ctx, "idx:bicycle",
