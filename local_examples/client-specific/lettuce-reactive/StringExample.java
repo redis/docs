@@ -97,7 +97,9 @@ public class StringExample {
                     }).then();
             // STEP_END
 
-            Mono.when(setAndGet, setnx, setxx, mset, incrby).block();
+            // Run the steps sequentially: several of them mutate bike:1, so a
+            // shared Mono.when() would race them against each other's reads.
+            setAndGet.then(setnx).then(setxx).then(mset).then(incrby).block();
 
         } finally {
             redisClient.shutdown();
