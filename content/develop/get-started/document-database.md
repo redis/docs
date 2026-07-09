@@ -73,7 +73,12 @@ The following example uses an [FT.CREATE]({{< relref "commands/ft.create" >}}) c
 
 Any pre-existing JSON documents with a key prefix `bicycle:` are automatically added to the index. Additionally, any JSON documents with that prefix created or modified after index creation are added or re-added to the index.
 
-{{< clients-example set="search_quickstart" step="create_index" description="Foundational: Create an index on JSON documents with FT.CREATE, then add the documents with JSON.SET" difficulty="beginner" max_lines="2" prereq="true" >}}
+<!-- The external "Try it" button is disabled (try_it="false") on this page's
+runnable blocks because the create+load command set base64-encodes to ~8.6 KB,
+over the redis.io/cli ~8192-byte URL limit. The on-page terminal still runs them
+(shared session, top-to-bottom). The prereq/needs_prereq wiring is kept so the
+button can be re-enabled if that limit is ever raised. -->
+{{< clients-example set="search_quickstart" step="create_index" description="Foundational: Create an index on JSON documents with FT.CREATE, then add the documents with JSON.SET" difficulty="beginner" max_lines="2" prereq="true" try_it="false" >}}
 > FT.CREATE idx:bicycle ON JSON PREFIX 1 bicycle: SCORE 1.0 SCHEMA $.brand AS brand TEXT WEIGHT 1.0 $.model AS model TEXT WEIGHT 1.0 $.description AS description TEXT WEIGHT 1.0 $.price AS price NUMERIC $.condition AS condition TAG SEPARATOR ,
 OK
 > JSON.SET "bicycle:0" "." "{\"brand\": \"Velorim\", \"model\": \"Jigger\", \"price\": 270, \"description\": \"Small and powerful, the Jigger is the best ride for the smallest of tikes! This is the tiniest kids\\u2019 pedal bike on the market available without a coaster brake, the Jigger is the vehicle of choice for the rare tenacious little rider raring to go.\", \"condition\": \"new\"}"
@@ -143,7 +148,7 @@ You can retrieve all indexed documents using the [FT.SEARCH]({{< relref "command
 
 The following command shows a simple single-term query for finding all bicycles with a specific model:
 
-{{< clients-example set="search_quickstart" step="query_single_term" description="Foundational: Perform a single-term full-text query using FT.SEARCH to find documents matching a specific field value" difficulty="beginner" needs_prereq="true" >}}
+{{< clients-example set="search_quickstart" step="query_single_term" description="Foundational: Perform a single-term full-text query using FT.SEARCH to find documents matching a specific field value" difficulty="beginner" needs_prereq="true" try_it="false" >}}
 > FT.SEARCH "idx:bicycle" "@model:Jigger" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:0"
@@ -155,7 +160,7 @@ The following command shows a simple single-term query for finding all bicycles 
 
 Below is a command to perform an exact match query that finds all bicycles with the brand name `Noka Bikes`. You must use double quotes around the search term when constructing an exact match query on a  text field.
 
-{{< clients-example set="search_quickstart" step="query_exact_matching" description="Foundational: Perform an exact match query using FT.SEARCH with double quotes to find documents with precise field values" difficulty="beginner" needs_prereq="true" >}}
+{{< clients-example set="search_quickstart" step="query_exact_matching" description="Foundational: Perform an exact match query using FT.SEARCH with double quotes to find documents with precise field values" difficulty="beginner" needs_prereq="true" try_it="false" >}}
 > FT.SEARCH "idx:bicycle" "@brand:\"Noka Bikes\"" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:4"
