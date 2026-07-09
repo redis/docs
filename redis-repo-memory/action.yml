@@ -45,11 +45,13 @@ runs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: ${{ github.action_path }}/scripts/package-lock.json
 
     - name: Install dependencies
       shell: bash
       working-directory: ${{ github.action_path }}/scripts
-      run: npm install
+      run: npm ci
 
     - name: Collect context
       shell: bash

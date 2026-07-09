@@ -15,7 +15,7 @@ On every pull request, the action posts a comment like this:
 
 ---
 
-**🧠 Redis Memory**
+**🧠 Redis Repo Memory**
 
 Found **3** related items from repository history:
 
@@ -39,7 +39,7 @@ On pushes to non-main branches, results appear as a commit status and in the Act
 Any Redis instance with the Search module works. The easiest option is a free Redis Cloud database:
 
 1. Sign up at [redis.io/try-free](https://redis.io/try-free/)
-2. Create a database — choose any cloud provider and region; all defaults are fine and the free tier is sufficient
+2. Create a database — choose any cloud provider and region; all defaults are fine. The free tier (30 MB) is enough to get started, but a repo with ~150 PRs/month will outgrow it within a year. The Essentials plan (~$5/month, 250 MB) comfortably handles several years of history.
 3. On the database details page, click **Connect** and copy the connection string (format: `redis://default:<password>@<host>:<port>`)
 
 **Step 2 — Get an OpenAI API key**
@@ -87,10 +87,13 @@ jobs:
           fetch-depth: 2
 
       - uses: redis/redis-repo-memory@v1
+        continue-on-error: true
         with:
           redis-url: ${{ secrets.MEMORY_REDIS_URL }}
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
 ```
+
+`continue-on-error: true` prevents a Redis Cloud or OpenAI outage from blocking PR merges. The action is informational — a failed run should never be a merge blocker.
 
 **First run:** the action stores the current PR or commit in memory but returns no results yet — the index starts empty. Results improve as more PRs and pushes are stored. To pre-populate with existing history, see [Seeding existing history](#seeding-existing-history) below.
 
@@ -194,6 +197,25 @@ post_comment.js      — posts PR comment (PRs) or commit status + step summary 
 ```
 
 Memories are stored as Redis hashes with a `FLOAT32` HNSW vector index. The index is created automatically on first run. Each memory stores the title, a body summary, source URL, repo, and embedding.
+
+## Known limitations
+
+**Fork PRs on public repositories**
+
+GitHub does not pass secrets to `pull_request` workflows triggered by forks of public repos (this is a GitHub security feature, not specific to this action). If your repo is public and a contributor opens a PR from their fork, the action will fail because `MEMORY_REDIS_URL` and `OPENAI_API_KEY` are unavailable.
+
+`continue-on-error: true` (included in the quick start workflow above) prevents this from blocking the PR, but the memory step will show as failed for fork contributors. This is expected behaviour — the action simply has no results to post for those runs.
+
+If you want the action to run silently on fork PRs instead of showing a failed step, add a check for the secrets being present:
+
+```yaml
+      - uses: redis/redis-repo-memory@v1
+        continue-on-error: true
+        if: ${{ secrets.MEMORY_REDIS_URL != '' }}
+        with:
+          redis-url: ${{ secrets.MEMORY_REDIS_URL }}
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+```
 
 ## Using with a fork
 
