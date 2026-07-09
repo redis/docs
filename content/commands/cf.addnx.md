@@ -58,12 +58,10 @@ is an item to add.
 
 ## Examples
 
-{{< highlight bash >}}
-redis> CF.ADDNX cf item
-(integer) 1
-redis> CF.ADDNX cf item
-(integer) 0
-{{< / highlight >}}
+{{% redis-cli %}}
+CF.ADDNX cf item
+CF.ADDNX cf item
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

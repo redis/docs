@@ -121,21 +121,21 @@ Otherwise, use an `expansion` of `1` to reduce memory consumption. The default v
 
 Add three items to a filter, then create the filter with default parameters if it does not already exist.
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 BF.INSERT filter ITEMS foo bar baz
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 Add one item to a filter, then create the filter with a capacity of 10000 if it does not already exist.
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 BF.INSERT filter CAPACITY 10000 ITEMS hello
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 Add two items to a filter, then return error if the filter does not already exist.
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 BF.INSERT filter NOCREATE ITEMS foo bar
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

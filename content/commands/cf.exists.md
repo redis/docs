@@ -50,14 +50,11 @@ is an item to check.
 
 ## Examples
 
-{{< highlight bash >}}
-redis> CF.ADD cf item1
-(integer) 1
-redis> CF.EXISTS cf item1
-(integer) 1
-redis> CF.EXISTS cf item2
-(integer) 0
-{{< / highlight >}}
+{{% redis-cli %}}
+CF.ADD cf item1
+CF.EXISTS cf item1
+CF.EXISTS cf item2
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

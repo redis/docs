@@ -97,25 +97,21 @@ Otherwise, you use an `expansion` of `1` to reduce memory consumption. The defau
 
 ## Examples
 
-{{< highlight bash >}}
-redis> BF.RESERVE bf 0.01 1000
-OK
-{{< / highlight >}}
+{{% redis-cli %}}
+BF.RESERVE bf 0.01 1000
+{{% /redis-cli %}}
 
-{{< highlight bash >}}
-redis> BF.RESERVE bf 0.01 1000
-(error) ERR item exists
-{{< / highlight >}}
+{{% redis-cli %}}
+BF.RESERVE bf 0.01 1000
+{{% /redis-cli %}}
 
-{{< highlight bash >}}
-redis> BF.RESERVE bf_exp 0.01 1000 EXPANSION 2
-OK
-{{< / highlight >}}
+{{% redis-cli %}}
+BF.RESERVE bf_exp 0.01 1000 EXPANSION 2
+{{% /redis-cli %}}
 
-{{< highlight bash >}}
-redis> BF.RESERVE bf_non 0.01 1000 NONSCALING
-OK
-{{< / highlight >}}
+{{% redis-cli %}}
+BF.RESERVE bf_non 0.01 1000 NONSCALING
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

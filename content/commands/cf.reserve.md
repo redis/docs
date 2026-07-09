@@ -108,16 +108,11 @@ Expansion is rounded to the next `2^n` number.
 
 ## Examples
 
-{{< highlight bash >}}
-redis> CF.RESERVE cf 1000
-OK
-
-redis> CF.RESERVE cf 1000
-(error) ERR item exists
-
-redis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2
-OK
-{{< / highlight >}}
+{{% redis-cli %}}
+CF.RESERVE cf 1000
+CF.RESERVE cf 1000
+CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

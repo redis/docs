@@ -93,23 +93,17 @@ This option is mutually exclusive with `CAPACITY`.
 
 ## Examples
 
-{{< highlight bash >}}
-redis> CF.INSERTNX cf CAPACITY 1000 ITEMS item1 item2 
-1) (integer) 1
-2) (integer) 1
-{{< / highlight >}}
+{{% redis-cli %}}
+CF.INSERTNX cf CAPACITY 1000 ITEMS item1 item2
+{{% /redis-cli %}}
 
-{{< highlight bash >}}
-redis> CF.INSERTNX cf CAPACITY 1000 ITEMS item1 item2 item3
-1) (integer) 0
-2) (integer) 0
-3) (integer) 1
-{{< / highlight >}}
+{{% redis-cli %}}
+CF.INSERTNX cf CAPACITY 1000 ITEMS item1 item2 item3
+{{% /redis-cli %}}
 
-{{< highlight bash >}}
-redis> CF.INSERTNX cf_new CAPACITY 1000 NOCREATE ITEMS item1 item2 
-(error) ERR not found
-{{< / highlight >}}
+{{% redis-cli %}}
+CF.INSERTNX cf_new CAPACITY 1000 NOCREATE ITEMS item1 item2
+{{% /redis-cli %}}
 
 ## Details
 

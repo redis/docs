@@ -59,12 +59,10 @@ The filter attempts to `Cuckoo` swap items up to `maxIterations` times.
 
 ## Examples
 
-{{< highlight bash >}}
-redis> CF.ADD cf item1
-(integer) 1
-redis> CF.ADD cf item1
-(integer) 1
-{{< / highlight >}}
+{{% redis-cli %}}
+CF.ADD cf item1
+CF.ADD cf item1
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 
