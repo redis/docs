@@ -105,7 +105,7 @@ public class GeoIndexExample {
         String geomIndexCreateResult = jedis.ftCreate("geomidx",
             FTCreateParams.createParams()
                     .on(IndexDataType.JSON)
-                    .addPrefix("shape"),
+                    .addPrefix("shape:"),
             geomSchema
         );
         System.out.println(geomIndexCreateResult); // >>> OK

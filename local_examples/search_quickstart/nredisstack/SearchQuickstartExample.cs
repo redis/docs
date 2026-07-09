@@ -59,7 +59,7 @@ public class SearchQuickstartExample
                             " a coaster brake, the Jigger is the vehicle of " +
                             "choice for the rare tenacious little rider " +
                             "raring to go.",
-            Condition = "used"
+            Condition = "new"
         };
         // STEP_END
 
@@ -277,8 +277,8 @@ public class SearchQuickstartExample
 
         // Prints:
         // refurbished - 1
-        // used - 5
-        // new - 4
+        // used - 4
+        // new - 5
         // STEP_END
         // REMOVE_START
         Assert.Equal(3, result.TotalResults);

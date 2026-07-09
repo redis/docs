@@ -250,9 +250,11 @@ public class SearchQuickstartExample {
     }
     // Prints:
     // refurbished - 1
-    // used - 5
-    // new - 4
+    // used - 4
+    // new - 5
+    // REMOVE_START
     assertEquals(3, ar.getTotalResults(), "Validate aggregation results");
+    // REMOVE_END
     // STEP_END
 
     jedis.close();

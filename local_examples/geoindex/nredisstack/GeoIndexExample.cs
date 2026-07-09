@@ -145,7 +145,7 @@ public class GeoIndexExample
         };
 
         bool gmJsonRes2 = db.JSON().Set("shape:2", "$", shape2);
-        Console.WriteLine(gmJsonRes1); // >>> True
+        Console.WriteLine(gmJsonRes2); // >>> True
 
         var shape3 = new
         {
@@ -163,7 +163,7 @@ public class GeoIndexExample
         };
 
         bool gmJsonRes4 = db.JSON().Set("shape:4", "$", shape4);
-        Console.WriteLine(gmJsonRes3); // >>> True
+        Console.WriteLine(gmJsonRes4); // >>> True
         // REMOVE_START
         Assert.True(gmJsonRes1);
         Assert.True(gmJsonRes2);
@@ -178,6 +178,7 @@ public class GeoIndexExample
                 new Query("(-@name:(Green Square) @geom:[WITHIN $qshape])")
                     .AddParam("qshape", "POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1))")
                     .Limit(0, 1)
+                    .Dialect(2)
             );
 
             Console.WriteLine(geomQueryResult.Documents.Count); // >>> 1

@@ -224,6 +224,6 @@ console.log(JSON.stringify(result, null, 2));
 
 // REMOVE_START
 assert.equal(result.documents[0].id, 'bicycle:4');
-// REMOVE END
+// REMOVE_END
 
 await client.close();
