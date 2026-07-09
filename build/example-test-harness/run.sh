@@ -177,12 +177,23 @@ PHP
 
 # --- drive --------------------------------------------------------------------
 log "=== TCE sweep: $SET  (redis @ localhost:6379) ==="
+# Fail fast if the scratch Redis is unreachable — every run FLUSHes it and relies
+# on a clean db, so silently proceeding would give misleading pass/fail results.
+if ! redis-cli ping >/dev/null 2>&1; then
+  log "ERROR: no Redis responding on localhost:6379 — start a throwaway Redis first."
+  exit 1
+fi
 mkdir -p "$HARNESS/results"
 for c in "${CLIENTS[@]}"; do
   rel="$(src_path "$SET" "$c")"
   if [ -z "$rel" ] || [ ! -f "$REPO/$rel" ]; then SUMMARY+=("$c	SKIP (no source)"); log ">> $c: SKIP"; continue; fi
   LOG="$HARNESS/results/${SET}_${c}.log"; rc=1
-  redis-cli flushall >/dev/null 2>&1
+  # A failed flush means stale keys leak into the next example -> unreliable
+  # results, so abort loudly rather than test against leftover state.
+  if ! redis-cli flushall >/dev/null 2>&1; then
+    log "ERROR: 'redis-cli flushall' failed before $c — aborting to avoid testing against stale keys."
+    exit 1
+  fi
   log ">> $c: running..."
   "run_${c//-/_}" "$REPO/$rel"
   if [ "${rc:-1}" -eq 0 ]; then SUMMARY+=("$c	PASS"); log ">> $c: PASS"
