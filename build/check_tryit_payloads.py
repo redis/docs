@@ -8,9 +8,7 @@ base64 of a JSON array of the block's CLI commands. The server rejects the
 request with "Request Line is too large (N > 4094)" once the **HTTP request
 line** exceeds ~4094 bytes. The request line is `GET /cli?commands=<base64>&
 autorun=true HTTP/1.1`, i.e. the base64 payload plus ~40 bytes of scaffolding,
-so the base64 must be ≲ 4054 bytes. (An early guess of 8192 on the payload was
-wrong — the real cap is ~half that, on the request line.) Two subtleties this
-checker accounts for:
+so the base64 must be ≲ 4054 bytes. Two subtleties this checker accounts for:
 
   * The cap is on the request line / URL, not the raw typed command text.
     Sizes are computed to match the browser exactly: base64 of
