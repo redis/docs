@@ -13,14 +13,15 @@ namespace NRedisStack.Tests
 
     public class AbstractNRedisStackTest : IDisposable
     {
+        private ConnectionMultiplexer? _muxer;
         protected AbstractNRedisStackTest(EndpointsFixture fixture) { }
         protected void SkipIfTargetConnectionDoesNotExist(EndpointsFixture.Env env) { }
         protected IDatabase GetCleanDatabase(EndpointsFixture.Env env)
         {
-            var muxer = ConnectionMultiplexer.Connect("localhost:6379");
-            return muxer.GetDatabase();
+            _muxer ??= ConnectionMultiplexer.Connect("localhost:6379");
+            return _muxer.GetDatabase();
         }
-        public void Dispose() { }
+        public void Dispose() { _muxer?.Dispose(); }
     }
 
     // The examples annotate the test method [SkippableFact]; make it a plain Fact.
