@@ -156,7 +156,8 @@ console.log(JSON.stringify(result, null, 2));
 // STEP_END
 
 // REMOVE_START
-assert.equal(result.documents[0].id, 'bicycle:0');
+// FT.SEARCH "*" order is not guaranteed; assert the full result count instead.
+assert.equal(result.total, 10);
 // REMOVE_END
 
 // STEP_START query_single_term
