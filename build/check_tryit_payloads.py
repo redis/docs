@@ -71,9 +71,15 @@ def _cli_cmds(body):
 
 
 def _payload_b64_len(cmds):
-    """Bytes of the URL-safe base64 payload the button would send (no padding)."""
-    js = json.dumps(cmds)
-    b64 = base64.b64encode(js.encode()).decode().rstrip("=")
+    """Bytes of the URL-safe base64 payload the button would send (no padding).
+
+    Mirrors the browser's btoa(unescape(encodeURIComponent(JSON.stringify(cmds)))):
+    JSON.stringify emits compact JSON (no spaces after ',' / ':') and keeps real
+    Unicode, so use compact separators and ensure_ascii=False + UTF-8 bytes.
+    Default json.dumps (spaces, \\uXXXX escapes) would overstate the size.
+    """
+    js = json.dumps(cmds, separators=(",", ":"), ensure_ascii=False)
+    b64 = base64.b64encode(js.encode("utf-8")).decode().rstrip("=")
     return len(b64)
 
 
