@@ -4,11 +4,17 @@ Check interactive "Try it" payload sizes across the docs.
 
 The external "Try it" button on a `clients-example` block opens
 `redis.io/cli?commands=<base64>&autorun=true`, where <base64> is the URL-safe
-base64 of a JSON array of the block's CLI commands. That URL payload is capped
-at roughly 8192 bytes. Two subtleties this checker accounts for:
+base64 of a JSON array of the block's CLI commands. The server rejects the
+request with "Request Line is too large (N > 4094)" once the **HTTP request
+line** exceeds ~4094 bytes. The request line is `GET /cli?commands=<base64>&
+autorun=true HTTP/1.1`, i.e. the base64 payload plus ~40 bytes of scaffolding,
+so the base64 must be ≲ 4054 bytes. (An early guess of 8192 on the payload was
+wrong — the real cap is ~half that, on the request line.) Two subtleties this
+checker accounts for:
 
-  * The cap is on the **base64 payload**, not the raw typed command text
-    (base64 inflates by ~33%, so ~6 KB of commands can exceed the cap).
+  * The cap is on the request line / URL, not the raw typed command text.
+    Sizes are computed to match the browser exactly: base64 of
+    JSON.stringify(cmds) (compact separators, real UTF-8) — see _payload_b64_len.
   * A block with `needs_prereq="true"` has its set's `prereq="true"` block
     prepended by the button, so it inherits the prereq's payload size.
 
@@ -18,10 +24,10 @@ A block is only subject to the limit if its external button is actually shown:
 the URL). See the DOC-6823 work on content/develop/get-started/document-database.md.
 
 Usage:
-    python build/check_tryit_payloads.py [--content-dir content] [--limit 8192]
-                                         [--warn-frac 0.85] [--quiet]
+    python build/check_tryit_payloads.py [--content-dir content] [--limit 4094]
+                                         [--overhead 40] [--warn-frac 0.85] [--quiet]
 
-Exit status: 1 if any interactive block's payload exceeds the limit, else 0
+Exit status: 1 if any interactive block's request line exceeds the limit, else 0
 (so it can gate CI). Stdlib only; run from the repo root.
 """
 
