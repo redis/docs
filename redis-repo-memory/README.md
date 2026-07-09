@@ -39,7 +39,7 @@ On pushes to non-main branches, results appear as a commit status and in the Act
 Any Redis instance with the Search module works. The easiest option is a free Redis Cloud database:
 
 1. Sign up at [redis.io/try-free](https://redis.io/try-free/)
-2. Create a database — choose any cloud provider and region; all defaults are fine. The free tier (30 MB) is enough to get started, but a repo with ~150 PRs/month will outgrow it within a year. The Essentials plan (~$5/month, 250 MB) comfortably handles several years of history.
+2. Create a database — choose any cloud provider and region; all defaults are fine. The free tier (30 MB) is enough to get started, but a repo with about 150 PRs/month will outgrow it within a year. The Essentials plan (about $5/month, 250 MB) comfortably handles several years of history.
 3. On the database details page, click **Connect** and copy the connection string (format: `redis://default:<password>@<host>:<port>`)
 
 **Step 2 — Get an OpenAI API key**
