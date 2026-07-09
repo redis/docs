@@ -1,5 +1,5 @@
 ---
-Title: Redis Software release notes 7.22.2-tba (June 2026)
+Title: Redis Software release notes 7.22.2-tba (July 2026)
 alwaysopen: false
 categories:
 - docs
@@ -7,7 +7,7 @@ categories:
 - rs
 compatibleOSSVersion: Redis 7.4.3, 7.2.7, 6.2.13
 description: Bug fix for a node join failures due to misidentified IPv6 addresses. Internal fixes and improvements.
-linkTitle: 7.22.2-tba (June 2026)
+linkTitle: 7.22.2-tba (July 2026)
 weight: 78
 ---
 
@@ -97,7 +97,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 The following table shows the SHA256 checksums for the available packages:
 
-| Package | SHA256 checksum (7.22.2-tba June release) |
+| Package | SHA256 checksum (7.22.2-tba July release) |
 |---------|---------------------------------------|
 | Ubuntu 20 | <span class="break-all"></span> |
 | Ubuntu 22 | <span class="break-all"></span> |
