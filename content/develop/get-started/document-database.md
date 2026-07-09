@@ -73,12 +73,7 @@ The following example uses an [FT.CREATE]({{< relref "commands/ft.create" >}}) c
 
 Any pre-existing JSON documents with a key prefix `bicycle:` are automatically added to the index. Additionally, any JSON documents with that prefix created or modified after index creation are added or re-added to the index.
 
-<!-- The external "Try it" button is disabled (try_it="false") on this page's
-runnable blocks because the create+load command set base64-encodes to ~8.6 KB,
-over the redis.io/cli ~8192-byte URL limit. The on-page terminal still runs them
-(shared session, top-to-bottom). The prereq/needs_prereq wiring is kept so the
-button can be re-enabled if that limit is ever raised. -->
-{{< clients-example set="search_quickstart" step="create_index" description="Foundational: Create an index on JSON documents with FT.CREATE, then add the documents with JSON.SET" difficulty="beginner" max_lines="2" prereq="true" try_it="false" >}}
+{{< clients-example set="search_quickstart" step="create_index" description="Foundational: Create an index on JSON documents with FT.CREATE, then add the documents with JSON.SET" difficulty="beginner" max_lines="2" prereq="true" >}}
 > FT.CREATE idx:bicycle ON JSON PREFIX 1 bicycle: SCORE 1.0 SCHEMA $.brand AS brand TEXT WEIGHT 1.0 $.model AS model TEXT WEIGHT 1.0 $.description AS description TEXT WEIGHT 1.0 $.price AS price NUMERIC $.condition AS condition TAG SEPARATOR ,
 OK
 > JSON.SET "bicycle:0" "." "{\"brand\": \"Velorim\", \"model\": \"Jigger\", \"price\": 270, \"description\": \"Small and powerful, the Jigger is the best ride for the smallest of tikes! This is the tiniest kids\\u2019 pedal bike on the market available without a coaster brake, the Jigger is the vehicle of choice for the rare tenacious little rider raring to go.\", \"condition\": \"new\"}"
@@ -93,9 +88,9 @@ OK
 OK
 > JSON.SET "bicycle:5" "." "{\"brand\": \"Breakout\", \"model\": \"XBN 2.1 Alloy\", \"price\": 810, \"description\": \"The XBN 2.1 Alloy is our entry-level road bike \\u2013 but that\\u2019s not to say that it\\u2019s a basic machine. With an internal weld aluminium frame, a full carbon fork, and the slick-shifting Claris gears from Shimano\\u2019s, this is a bike which doesn\\u2019t break the bank and delivers craved performance.\", \"condition\": \"new\"}"
 OK
-> JSON.SET "bicycle:6" "." "{\"brand\": \"ScramBikes\", \"model\": \"WattBike\", \"price\": 2300, \"description\": \"The WattBike is the best e-bike for people who still feel young at heart. It has a Bafang 1000W mid-drive system and a 48V 17.5AH Samsung Lithium-Ion battery, allowing you to ride for more than 60 miles on one charge. It\\u2019s great for tackling hilly terrain or if you just fancy a more leisurely ride. With three working modes, you can choose between E-bike, assisted bicycle, and normal bike modes.\", \"condition\": \"new\"}"
+> JSON.SET "bicycle:6" "." "{\"brand\": \"ScramBikes\", \"model\": \"WattBike\", \"price\": 2300, \"description\": \"An e-bike with a 1000W mid-drive and a 48V battery, offering over 60 miles per charge and three riding modes.\", \"condition\": \"new\"}"
 OK
-> JSON.SET "bicycle:7" "." "{\"brand\": \"Peaknetic\", \"model\": \"Secto\", \"price\": 430, \"description\": \"If you struggle with stiff fingers or a kinked neck or back after a few minutes on the road, this lightweight, aluminum bike alleviates those issues and allows you to enjoy the ride. From the ergonomic grips to the lumbar-supporting seat position, the Roll Low-Entry offers incredible comfort. The rear-inclined seat tube facilitates stability by allowing you to put a foot on the ground to balance at a stop, and the low step-over frame makes it accessible for all ability and mobility levels. The saddle is very soft, with a wide back to support your hip joints and a cutout in the center to redistribute that pressure. Rim brakes deliver satisfactory braking control, and the wide tires provide a smooth, stable ride on paved roads and gravel. Rack and fender mounts facilitate setting up the Roll Low-Entry as your preferred commuter, and the BMX-like handlebar offers space for mounting a flashlight, bell, or phone holder.\", \"condition\": \"new\"}"
+> JSON.SET "bicycle:7" "." "{\"brand\": \"Peaknetic\", \"model\": \"Secto\", \"price\": 430, \"description\": \"A lightweight aluminum commuter bike with ergonomic grips, a lumbar-supporting seat, and a low step-over frame for comfort and easy mounting.\", \"condition\": \"new\"}"
 OK
 > JSON.SET "bicycle:8" "." "{\"brand\": \"nHill\", \"model\": \"Summit\", \"price\": 1200, \"description\": \"This budget mountain bike from nHill performs well both on bike paths and on the trail. The fork with 100mm of travel absorbs rough terrain. Fat Kenda Booster tires give you grip in corners and on wet trails. The Shimano Tourney drivetrain offered enough gears for finding a comfortable pace to ride uphill, and the Tektro hydraulic disc brakes break smoothly. Whether you want an affordable bike that you can take to work, but also take trail in mountains on the weekends or you\\u2019re just after a stable, comfortable ride for the bike path, the Summit gives a good value for money.\", \"condition\": \"new\"}"
 OK
@@ -129,10 +124,10 @@ You can retrieve all indexed documents using the [FT.SEARCH]({{< relref "command
     2) "{\"brand\":\"Velorim\",\"model\":\"Jigger\",\"price\":270,\"description\":\"Small and powerful, the Jigger is the best ride for the smallest of tikes! This is the tiniest kids\xe2\x80\x99 pedal bike on the market available without a coaster brake, the Jigger is the vehicle of choice for the rare tenacious little rider raring to go.\",\"condition\":\"new\"}"
 12) "bicycle:6"
 13) 1) "$"
-    2) "{\"brand\":\"ScramBikes\",\"model\":\"WattBike\",\"price\":2300,\"description\":\"The WattBike is the best e-bike for people who still feel young at heart. It has a Bafang 1000W mid-drive system and a 48V 17.5AH Samsung Lithium-Ion battery, allowing you to ride for more than 60 miles on one charge. It\xe2\x80\x99s great for tackling hilly terrain or if you just fancy a more leisurely ride. With three working modes, you can choose between E-bike, assisted bicycle, and normal bike modes.\",\"condition\":\"new\"}"
+    2) "{\"brand\":\"ScramBikes\",\"model\":\"WattBike\",\"price\":2300,\"description\":\"An e-bike with a 1000W mid-drive and a 48V battery, offering over 60 miles per charge and three riding modes.\",\"condition\":\"new\"}"
 14) "bicycle:7"
 15) 1) "$"
-    2) "{\"brand\":\"Peaknetic\",\"model\":\"Secto\",\"price\":430,\"description\":\"If you struggle with stiff fingers or a kinked neck or back after a few minutes on the road, this lightweight, aluminum bike alleviates those issues and allows you to enjoy the ride. From the ergonomic grips to the lumbar-supporting seat position, the Roll Low-Entry offers incredible comfort. The rear-inclined seat tube facilitates stability by allowing you to put a foot on the ground to balance at a stop, and the low step-over frame makes it accessible for all ability and mobility levels. The saddle is very soft, with a wide back to support your hip joints and a cutout in the center to redistribute that pressure. Rim brakes deliver satisfactory braking control, and the wide tires provide a smooth, stable ride on paved roads and gravel. Rack and fender mounts facilitate setting up the Roll Low-Entry as your preferred commuter, and the BMX-like handlebar offers space for mounting a flashlight, bell, or phone holder.\",\"condition\":\"new\"}"
+    2) "{\"brand\":\"Peaknetic\",\"model\":\"Secto\",\"price\":430,\"description\":\"A lightweight aluminum commuter bike with ergonomic grips, a lumbar-supporting seat, and a low step-over frame for comfort and easy mounting.\",\"condition\":\"new\"}"
 16) "bicycle:9"
 17) 1) "$"
     2) "{\"model\":\"ThrillCycle\",\"brand\":\"BikeShind\",\"price\":815,\"description\":\"An artsy,  retro-inspired bicycle that\xe2\x80\x99s as functional as it is pretty: The ThrillCycle steel frame offers a smooth ride. A 9-speed drivetrain has enough gears for coasting in the city, but we wouldn\xe2\x80\x99t suggest taking it to the mountains. Fenders protect you from mud, and a rear basket lets you transport groceries, flowers and books. The ThrillCycle comes with a limited lifetime warranty, so this little guy will last you long past graduation.\",\"condition\":\"refurbished\"}"
@@ -148,7 +143,7 @@ You can retrieve all indexed documents using the [FT.SEARCH]({{< relref "command
 
 The following command shows a simple single-term query for finding all bicycles with a specific model:
 
-{{< clients-example set="search_quickstart" step="query_single_term" description="Foundational: Perform a single-term full-text query using FT.SEARCH to find documents matching a specific field value" difficulty="beginner" needs_prereq="true" try_it="false" >}}
+{{< clients-example set="search_quickstart" step="query_single_term" description="Foundational: Perform a single-term full-text query using FT.SEARCH to find documents matching a specific field value" difficulty="beginner" needs_prereq="true" >}}
 > FT.SEARCH "idx:bicycle" "@model:Jigger" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:0"
@@ -160,7 +155,7 @@ The following command shows a simple single-term query for finding all bicycles 
 
 Below is a command to perform an exact match query that finds all bicycles with the brand name `Noka Bikes`. You must use double quotes around the search term when constructing an exact match query on a  text field.
 
-{{< clients-example set="search_quickstart" step="query_exact_matching" description="Foundational: Perform an exact match query using FT.SEARCH with double quotes to find documents with precise field values" difficulty="beginner" needs_prereq="true" try_it="false" >}}
+{{< clients-example set="search_quickstart" step="query_exact_matching" description="Foundational: Perform an exact match query using FT.SEARCH with double quotes to find documents with precise field values" difficulty="beginner" needs_prereq="true" >}}
 > FT.SEARCH "idx:bicycle" "@brand:\"Noka Bikes\"" LIMIT 0 10
 1) (integer) 1
 2) "bicycle:4"

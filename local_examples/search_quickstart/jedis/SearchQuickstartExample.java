@@ -142,34 +142,14 @@ public class SearchQuickstartExample {
             "WattBike",
             new BigDecimal(2300),
             "new",
-            "The WattBike is the best e-bike for people who still feel young" +
-            " at heart. It has a Bafang 1000W mid-drive system and a 48V" +
-            " 17.5AH Samsung Lithium-Ion battery, allowing you to ride for" +
-            " more than 60 miles on one charge. It’s great for tackling hilly" +
-            " terrain or if you just fancy a more leisurely ride. With three" +
-            " working modes, you can choose between E-bike, assisted bicycle," +
-            " and normal bike modes."
+            "An e-bike with a 1000W mid-drive and a 48V battery, offering over 60 miles per charge and three riding modes."
         ),
         new Bicycle(
             "Peaknetic",
             "Secto",
             new BigDecimal(430),
             "new",
-            "If you struggle with stiff fingers or a kinked neck or back after" +
-            " a few minutes on the road, this lightweight, aluminum bike" +
-            " alleviates those issues and allows you to enjoy the ride. From" +
-            " the ergonomic grips to the lumbar-supporting seat position, the" +
-            " Roll Low-Entry offers incredible comfort. The rear-inclined seat" +
-            " tube facilitates stability by allowing you to put a foot on the" +
-            " ground to balance at a stop, and the low step-over frame makes it" +
-            " accessible for all ability and mobility levels. The saddle is" +
-            " very soft, with a wide back to support your hip joints and a" +
-            " cutout in the center to redistribute that pressure. Rim brakes" +
-            " deliver satisfactory braking control, and the wide tires provide" +
-            " a smooth, stable ride on paved roads and gravel. Rack and fender" +
-            " mounts facilitate setting up the Roll Low-Entry as your preferred" +
-            " commuter, and the BMX-like handlebar offers space for mounting a" +
-            " flashlight, bell, or phone holder."
+            "A lightweight aluminum commuter bike with ergonomic grips, a lumbar-supporting seat, and a low step-over frame for comfort and easy mounting."
         ),
         new Bicycle(
             "nHill",
