@@ -819,6 +819,24 @@ Where `<username>` and `<password>` are the username and password for accessing 
 
     127.0.0.1:6379> ACL SETUSER sentinel-user ON >somepassword allchannels +multi +slaveof +ping +exec +subscribe +config|rewrite +role +publish +info +client|setname +client|kill +script|kill
 
+{{< warning >}}
+Sentinel discovery relies on the reserved `__sentinel__:hello` Pub/Sub channel on each
+monitored master and replica. Sentinels periodically publish their presence there and
+subscribe to it to discover other Sentinels and learn the current topology. The messages
+carry no authentication and are trusted by receiving Sentinels, so any client that can
+publish to this channel on a monitored node can inject forged topology information and
+trigger spurious failovers or a denial of service.
+
+Because of this, do not grant broad Pub/Sub access on Sentinel-monitored Redis nodes:
+
+* Avoid `allchannels` (equivalently `&*`) for any user other than the Sentinel `auth-user`
+  itself. Since Redis 7.0 the default `acl-pubsub-default` is `resetchannels`, so new ACL
+  users have no channel access unless you explicitly grant it. Be especially careful with
+  the legacy `default` user, which may retain broad access.
+* Treat the `__sentinel__:` channel prefix as reserved. Grant access to it only to the
+  Sentinel `auth-user`, and only where Sentinel functionality requires it.
+{{< /warning >}}
+
 ### Redis password-only authentication
 
 Until Redis 6, authentication is achieved using the following configuration directives:
