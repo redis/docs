@@ -62,11 +62,10 @@ PR, machine-locatable by its markers.
 5. **On pickup, then** — when the trigger fires, run `/pickup <PR>`. It reconciles the docs
    against the now-settled source and takes the PR through the normal `/reflect` → `/finalize`
    pipeline to merge, lifting the `parked` / `do not merge yet` labels only after `/finalize`.
-   **The exact closing sequence — reconcile, rebase, commit, push, and their ordering — lives
-   in `/pickup` Steps 4–5, which are authoritative; this manifest deliberately does not restate
-   it.** (A hand-copied step list here drifted from `/pickup` on every review round — label
-   order, push-before-`/reflect`, missing rebase — so it was replaced by this pointer. Don't
-   re-add one.) The one guarantee this section makes: the `do not merge yet` guard holds until
+   **The closing sequence and its ordering live solely in `/pickup` Steps 4–5, which are
+   authoritative; this manifest deliberately does not restate them — not even as a list.** (A
+   hand-copied step list here drifted from `/pickup` on every review round, so it was replaced by
+   this pointer. Don't re-add one, in any order.) The one guarantee this section makes: the `do not merge yet` guard holds until
    `/finalize` completes.
 
 ## Relationship to commit trailers

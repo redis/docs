@@ -93,6 +93,9 @@ required sections (per the shared spec). The page itself should already carry a 
 
 ## Step 5 — Land it
 
+- **Commit any working-tree edits first** — including a `bannerText` you added in Step 4 — and
+  confirm a clean tree before pushing. The parked PR must not get its manifest and labels while a
+  required edit lingers only in the local working tree.
 - Push the branch.
 - Open the PR, or update an existing one in place. For a new PR:
   ```
