@@ -19,10 +19,6 @@ Context Retriever is distributed as container images on Docker Hub plus a Helm c
 This guide is for system administrators deploying Context Retriever on a self-managed Kubernetes cluster.
 {{< /note >}}
 
-{{< note >}}
-Self-managed Context Retriever is a private preview and requires a license key. Contact your Redis representative or [contact sales](https://redis.io/contact/) to request access.
-{{< /note >}}
-
 ## What you need
 
 | Item | Where it comes from |
@@ -182,6 +178,10 @@ Context Retriever supports air-gapped clusters by mirroring the published images
 
 Mirror the images and download the chart (steps 1 and 2) on a host with internet access, then transfer them into your air-gapped environment before installing (step 3).
 
+{{< note >}}
+These commands assume the image tag matches the chart version (`$CR_VERSION`). If the images use a different tag, check the chart defaults with `helm show values redis-ai/redis-context-retriever` and set `admin.image.tag` and `mcp.image.tag` accordingly.
+{{< /note >}}
+
 1. Mirror both images to your internal registry:
 
    ```bash
@@ -218,7 +218,7 @@ Mirror the images and download the chart (steps 1 and 2) on a host with internet
      --set mcp.image.repository=registry.internal.example.com/context-retriever \
      --set admin.image.tag="${CR_VERSION}" \
      --set mcp.image.tag="${CR_VERSION}" \
-     --set-json 'imagePullSecrets=[{"name":"regcred"}]'
+     --set imagePullSecrets[0].name=regcred
    ```
 
 Your Redis database is separate and must likewise be reachable from the air-gapped cluster.
@@ -251,21 +251,21 @@ Your Redis database is separate and must likewise be reachable from the air-gapp
 # authMode: local
 #
 # admin:
-# replicaCount: 1
-# image:
-#   repository: redislabs/context-retriever-admin
-#   tag: '' # set to the release version
-# service: { type: NodePort, port: 8080, nodePort: 30080 }
-
+#   replicaCount: 1
+#   image:
+#     repository: redislabs/context-retriever-admin
+#     tag: '' # set to the release version
+#   service: { type: NodePort, port: 8080, nodePort: 30080 }
+#
 # mcp:
-# replicaCount: 1
-# image:
-#   repository: redislabs/context-retriever
-# tag: '' # set to the release version
-# service: { type: NodePort, port: 8081, nodePort: 30081 }
+#   replicaCount: 1
+#   image:
+#     repository: redislabs/context-retriever
+#     tag: '' # set to the release version
+#   service: { type: NodePort, port: 8081, nodePort: 30081 }
 
 redis:
-  addr: <admin db address>
+  addr: '<admin db address>'
   tlsEnabled: false
 
 secrets:
