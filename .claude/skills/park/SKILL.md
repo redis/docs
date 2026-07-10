@@ -84,10 +84,15 @@ required sections (per the shared spec). The page itself should already carry a 
 ## Step 5 — Land it
 
 - Push the branch.
-- Open the PR (or update an existing one — replace any prior manifest block in place):
+- Open the PR, or update an existing one in place. For a new PR:
   ```
   gh pr create --title "DOC-XXXX <summary> [PARKED]" --body-file <body> \
     --label parked --label "do not merge yet" --base main
+  ```
+  When the branch already has a PR (re-parking — `gh pr create` would fail), replace the body
+  and ensure the labels instead:
+  ```
+  gh pr edit <n> --body-file <body> --add-label parked --add-label "do not merge yet"
   ```
 - Verify the labels stuck (`gh pr view <n> --json labels`).
 - **Do not run `/finalize`.** State explicitly that it's deferred until pickup — the manifest

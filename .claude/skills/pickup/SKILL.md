@@ -41,9 +41,9 @@ to "what's waiting, and is any of it ready?"
 gh pr list --label parked --json number,title,url,updatedAt
 ```
 
-For each, read the manifest's `Trigger to pick up:` and test it against the source's current
-state (Step 1 below, snapshot only). Output a table: PR / trigger / **fired?** / one-line
-delta. Recommend which to pick up, which are still waiting, and which look abandoned (source
+For each, read the manifest's `Trigger to pick up:`, snapshot the current source state (Step 1's
+re-fetch only — don't do the full reconcile), then apply Step 2's trigger-met check to decide
+**fired?**. Output a table: PR / trigger / **fired?** / one-line delta. Recommend which to pick up, which are still waiting, and which look abandoned (source
 closed-unmerged, or long dead). Then stop — picking one up is Mode B.
 
 ## Mode B — pick up one PR (PR number given)

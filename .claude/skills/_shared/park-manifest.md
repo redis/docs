@@ -59,8 +59,10 @@ PR, machine-locatable by its markers.
    *are* the loose ends. Add anything predicted-to-change not already captured. Mark the
    highest-risk items.
 
-5. **On pickup, then** — the closing steps: reconcile docs, remove the `bannerText` warning,
-   drop the labels, run `/reflect` then `/finalize`.
+5. **On pickup, then** — the closing steps, in order: reconcile docs, remove the `bannerText`
+   warning, run `/reflect` then `/finalize`, and **only then** drop the labels. The
+   `do not merge yet` guard must hold until the durable commit is done — never lift it before
+   `/finalize` completes (this ordering is authoritative; it matches `/pickup` Step 5).
 
 ## Relationship to commit trailers
 
