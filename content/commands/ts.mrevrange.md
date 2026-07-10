@@ -101,6 +101,11 @@ arguments:
   name: groupby
   optional: true
   type: block
+- name: EXCLUDEEMPTY
+  optional: true
+  since: 8.10.0
+  token: EXCLUDEEMPTY
+  type: pure-token
 categories:
 - docs
 - develop
@@ -125,13 +130,13 @@ summary: Query a range across multiple time-series by filters in reverse directi
 syntax: "TS.MREVRANGE fromTimestamp toTimestamp\n  [LATEST]\n  [FILTER_BY_TS ts...]\n\
   \  [FILTER_BY_VALUE min max]\n  [WITHLABELS | <SELECTED_LABELS label...>]\n  [COUNT\
   \ count]\n  [[ALIGN align] AGGREGATION aggregators bucketDuration [BUCKETTIMESTAMP\
-  \ bt] [EMPTY]]\n  FILTER filterExpr...\n  [GROUPBY label REDUCE reducer]\n"
+  \ bt] [EMPTY]]\n  FILTER filterExpr...\n  [GROUPBY label REDUCE reducer]\n  [EXCLUDEEMPTY]\n"
 syntax_fmt: "TS.MREVRANGE fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS\_Timestamp\
   \ [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [WITHLABELS | SELECTED_LABELS label1\
   \ [label1 ...]] [COUNT\_count]\n  [[ALIGN\_value] AGGREGATION\ aggregators bucketDuration\n\
   \  [BUCKETTIMESTAMP] [EMPTY]] FILTER\_<l=v | l!=v | l= | l!= |\n  l=(v1,v2,...)\
   \ | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |\n  l=(v1,v2,...) | l!=(v1,v2,...) ...]>\
-  \ [GROUPBY label REDUCE\n  reducer]"
+  \ [GROUPBY label REDUCE\n  reducer] [EXCLUDEEMPTY]"
 title: TS.MREVRANGE
 ---
 {{< note >}}
@@ -346,6 +351,16 @@ When combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregat
 </note>
 </details>
 
+<details open>
+<summary><code>EXCLUDEEMPTY</code> (since Redis 8.10)</summary>
+
+excludes from the reply any time series that has no samples in the requested range. By default, every time series that passes `FILTER filterExpr...` is reported, even those with no samples in the range (reported with an empty samples list).
+
+A time series whose only samples in the range are NaN is not considered empty and is still reported.
+
+`EXCLUDEEMPTY` cannot be used together with `GROUPBY label REDUCE reducer`; combining them replies with an error.
+</details>
+
 <note><b>Note:</b> An `MREVRANGE` command cannot be part of a transaction when running on a Redis cluster.</note>
 
 ## Examples
@@ -539,6 +554,73 @@ Query all time series with the metric label equal to `cpu`, but only return the 
          2) (nil)
    3) 1) 1) (integer) 1548149180000
          2) 99
+{{< / highlight >}}
+</details>
+
+<details open>
+<summary><b>Exclude empty time series from the reply</b></summary>
+
+Create three time series that share the label `s=1`, then add samples so that only two of them have data in the `- 500` range.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.CREATE s LABELS s 1 t 1
+OK
+127.0.0.1:6379> TS.CREATE t LABELS s 1 t 1
+OK
+127.0.0.1:6379> TS.CREATE u LABELS s 1 t 1
+OK
+127.0.0.1:6379> TS.MADD s 100 100 t 100 100 s 200 200 t 300 300 s 400 400 t 400 400 u 2000 2000
+1) (integer) 100
+2) (integer) 100
+3) (integer) 200
+4) (integer) 300
+5) (integer) 400
+6) (integer) 400
+7) (integer) 2000
+{{< / highlight >}}
+
+Query the `- 500` range with `EXCLUDEEMPTY`. Time series `u`, whose only sample is at timestamp `2000`, has no samples in the range and is omitted from the reply.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.MREVRANGE - 500 WITHLABELS EXCLUDEEMPTY FILTER s=1
+1) 1) "s"
+   2) 1) 1) "s"
+         2) "1"
+      2) 1) "t"
+         2) "1"
+   3) 1) 1) (integer) 400
+         2) 400
+      2) 1) (integer) 200
+         2) 200
+      3) 1) (integer) 100
+         2) 100
+2) 1) "t"
+   2) 1) 1) "s"
+         2) "1"
+      2) 1) "t"
+         2) "1"
+   3) 1) 1) (integer) 400
+         2) 400
+      2) 1) (integer) 300
+         2) 300
+      3) 1) (integer) 100
+         2) 100
+{{< / highlight >}}
+
+Without `EXCLUDEEMPTY`, `u` is also reported, with an empty samples list.
+
+{{< highlight bash >}}
+127.0.0.1:6379> TS.MREVRANGE - 500 WITHLABELS FILTER s=1
+1) 1) "s"
+   ...
+2) 1) "t"
+   ...
+3) 1) "u"
+   2) 1) 1) "s"
+         2) "1"
+      2) 1) "t"
+         2) "1"
+   3) (empty array)
 {{< / highlight >}}
 </details>
 
