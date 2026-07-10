@@ -76,8 +76,8 @@ new or renamed tables and columns.
 Sometimes the Debezium log will contain a message saying that RDI is out of
 memory. This is not an error but an informative message to say that RDI
 is applying *backpressure* to Debezium. See
-[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/architecture#backpressure-mechanism" >}})
-in the Architecture guide for more information.
+[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/data-pipelines#backpressure-mechanism" >}})
+in the Data pipelines guide for more information.
 
 ## What happens when RDI can't write to the target Redis database?
 

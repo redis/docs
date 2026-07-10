@@ -54,8 +54,8 @@ log analysis tools can use.
 saying RDI is out of
 memory. This is not an error but an informative message to say that RDI
 is applying *backpressure* to the collector. See
-[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/architecture#backpressure-mechanism" >}})
-in the Architecture guide for more information.
+[Backpressure mechanism]({{< relref "/integrate/redis-data-integration/data-pipelines#backpressure-mechanism" >}})
+in the Data pipelines guide for more information.
 {{< /note >}}
 
 ## Dump support package

@@ -42,11 +42,21 @@ including cloud providers' K8s managed clusters.
 You can configure the RDI Helm chart to pull the RDI images from [dockerhub](https://hub.docker.com/u/redis) 
 or from your own [private image registry](#using-a-private-image-registry).
 
-## Before you install
+## Prerequisites
 
-Complete the following steps before installing the RDI Helm chart:
+Before you install:
 
--   [Create the RDI database](#create-the-rdi-database) on your Redis Enterprise cluster.
+-   Check that your version of Kubernetes or OpenShift is supported. See
+    [Kubernetes/OpenShift supported versions]({{< relref "/integrate/redis-data-integration/installation/reqsummary#kubernetesopenshift-supported-versions" >}})
+    in the requirements summary.
+
+-   Create the RDI database on your Redis Enterprise cluster, which RDI uses to
+    store its state information. Use the Redis Enterprise Cluster Manager UI to
+    create it, and see
+    [RDI database requirements]({{< relref "/integrate/redis-data-integration/installation/reqsummary#rdi-database-requirements" >}})
+    in the requirements summary for the configuration it needs. You will provide
+    the connection details for this database in the [`values.yaml`](#the-valuesyaml-file)
+    file as described below.
 
 -   Create a [user]({{< relref "/operate/rs/security/access-control/create-users" >}})
     for the RDI database if you prefer not to use the default password (see
@@ -64,18 +74,13 @@ Complete the following steps before installing the RDI Helm chart:
 -   If you want to use a private image registry,
     [prepare it with the RDI images](#using-a-private-image-registry).
 
-### Create the RDI database
+Before you run RDI:
 
-RDI uses a database on your Redis Enterprise cluster to store its state
-information. Use the Redis Enterprise Cluster Manager UI to create the RDI database with the following
-requirements:
+-   Prepare your source database to enable change data capture (CDC). See
+    [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
+    to learn how to do this.
 
-{{< embed-md "rdi-db-reqs.md" >}}
-
-You should then provide the details of this database in the [`values.yaml`](#the-valuesyaml-file)
-file as described below.
-
-### Using a private image registry
+## Using a private image registry
 
 Add the RDI images from [dockerhub](https://hub.docker.com/u/redis) to your local registry.
 You need the following RDI images with tags matching the RDI version you want to install:
@@ -145,10 +150,6 @@ To pull images from a private image registry, you must provide the image pull se
 -   [Amazon Elastic Kubernetes Service (EKS)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/ECR_on_EKS.html)
 -   [Google Kubernetes Engine (GKE)](https://cloud.google.com/artifact-registry/docs/pull-cached-dockerhub-images)
 -   [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/cluster-container-registry-integration?tabs=azure-cli)
-
-## Supported versions of Kubernetes and OpenShift
-
-{{< embed-md "rdi-k8s-reqs.md" >}}
 
 ## Install the RDI Helm chart
 
@@ -380,12 +381,6 @@ Specifically, ensure that one or both of the following Helm chart values is set:
 
 - `controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz`
 - `controller.service.externalTrafficPolicy=Local`
-
-## Prepare your source database
-
-Before deploying a pipeline, you must configure your source database to enable CDC. See the
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
-section to learn how to do this.
 
 ## Deploy a pipeline
 

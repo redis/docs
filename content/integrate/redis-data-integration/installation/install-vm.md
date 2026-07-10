@@ -23,20 +23,26 @@ your source database. You can also
 {{< note >}}We recommend you always use the latest version, which is RDI v{{< rdi-version >}}.
 {{< /note >}}
 
-## Create the RDI database
+## Prerequisites
 
-RDI uses a database on your Redis Enterprise cluster to store its state
-information. Use the Redis Enterprise Cluster Manager UI to create the RDI database with the following
-requirements:
+Before you install:
 
-{{< embed-md "rdi-db-reqs.md" >}}
+-   Create the RDI database on your Redis Enterprise cluster, which RDI uses to
+    store its state information. Use the Redis Enterprise Cluster Manager UI to
+    create it, and see
+    [RDI database requirements]({{< relref "/integrate/redis-data-integration/installation/reqsummary#rdi-database-requirements" >}})
+    in the requirements summary for the configuration it needs.
 
-## Hardware sizing
+-   Check that each RDI VM meets the
+    [hardware requirements]({{< relref "/integrate/redis-data-integration/installation/reqsummary#hardware-requirements-for-vm-installation" >}})
+    (RDI is mainly CPU and network bound) and runs a
+    [supported operating system]({{< relref "/integrate/redis-data-integration/installation/reqsummary#os-requirements-for-vm-installation" >}}).
 
-RDI is mainly CPU and network bound. 
-Each of the RDI VMs should have at least:
+Before you run RDI:
 
-{{< embed-md "rdi-vm-reqs.md" >}}
+-   Prepare your source database to enable change data capture (CDC). See
+    [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
+    to learn how to do this.
 
 ## VM Installation Requirements
 
@@ -69,10 +75,6 @@ Also, `iptables` versions 1.8.0-1.8.4 have known issues that can prevent RDI
 from working, especially on RHEL 8. Ideally, use `iptables` v1.8.8, which is
 known to work correctly with RDI.
 {{< /note >}}
-
-The supported OS versions for RDI are:
-
-{{< embed-md "rdi-os-reqs.md" >}}
 
 You must run the RDI installer as a privileged user because it installs
 [containerd](https://containerd.io/) and registers services. However, you don't
@@ -270,12 +272,6 @@ will take place. After the failover, the secondary instance will become the prim
 and the RDI pipeline will be active on that VM.
 
 You may find it useful to trigger a failover deliberately to check that RDI is correctly configured to handle it. See [Test HA failover]({{< relref "/integrate/redis-data-integration/installation/ha-test" >}}) to learn how to do this.
-
-## Prepare your source database
-
-Before deploying a pipeline, you must configure your source database to enable CDC. See the
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
-section to learn how to do this.
 
 ## Deploy a pipeline
 
