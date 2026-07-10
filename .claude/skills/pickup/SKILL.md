@@ -79,15 +79,19 @@ tested examples where the tooling now allows. Then clear the staleness:
 
 ### Step 5 — Resume the pipeline & hand off
 
-Pickup **reconciles; it does not merge.**
+Pickup **reconciles; it does not merge.** Run the closing sequence in **exactly this order** —
+each step depends on the previous one, and `/reflect` / `/finalize` act on **committed history
+only**, so anything left uncommitted is silently excluded from the squash:
 
-- Run **`/reflect`** on the reconciliation commit — record *predicted-vs-actual*: what the park
-  snapshot got right, what the source changed. That's a high-value note (it closes the loop and
-  calibrates future preemptive docs).
-- Run **`/finalize`** — the durable squash deferred at park time, now that the source has
-  settled. It reconciles the whole arc (park notes + pickup findings + any review).
-- Remove the `parked` and `do not merge yet` labels; strip the manifest block from the PR body
-  (or mark it resolved).
+1. **Commit the reconciliation.** The Step 4 edits must be in branch history before anything
+   downstream runs — an uncommitted working tree never reaches the squash merge.
+2. **`/reflect`** on that commit — record *predicted-vs-actual*: what the park snapshot got
+   right, what the source changed. High-value (it closes the loop and calibrates future
+   preemptive docs). `/reflect` may fold its note into the commit from step 1 or amend it.
+3. **`/finalize`** — the durable squash deferred at park time, now that the source has settled.
+   It reconciles the whole arc (park notes + pickup findings + any review).
+4. **Only now, remove** the `parked` and `do not merge yet` labels and strip the manifest block
+   from the PR body (or mark it resolved). The merge guard holds until `/finalize` is done.
 
 Present: the delta report, the doc changes, the finalize output + `gh pr merge … --body-file`
 command, then stop. The human triggers the merge.

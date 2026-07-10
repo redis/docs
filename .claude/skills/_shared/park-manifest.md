@@ -60,9 +60,10 @@ PR, machine-locatable by its markers.
    highest-risk items.
 
 5. **On pickup, then** — the closing steps, in order: reconcile docs, remove the `bannerText`
-   warning, run `/reflect` then `/finalize`, and **only then** drop the labels. The
-   `do not merge yet` guard must hold until the durable commit is done — never lift it before
-   `/finalize` completes (this ordering is authoritative; it matches `/pickup` Step 5).
+   warning, **commit the reconciliation**, run `/reflect` then `/finalize`, and **only then**
+   drop the labels. The `do not merge yet` guard must hold until the durable commit is done —
+   never lift it before `/finalize` completes. This is a summary; **`/pickup` Steps 4–5 are the
+   authoritative sequence** (keep this list in step with them).
 
 ## Relationship to commit trailers
 
