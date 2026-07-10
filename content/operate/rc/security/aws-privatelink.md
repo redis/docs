@@ -194,3 +194,19 @@ To disassociate a PrivateLink connection:
 1. Select **Disassociate VPC endpoint** or **Disassociate service network** to confirm.
 
 After disassociating the connection, you can delete the VPC resource endpoint or service network in the AWS console.
+
+## Remove PrivateLink
+
+To remove PrivateLink as a connectivity option from your database:
+
+1. Go to the **Connectivity > PrivateLink** tab in your Redis Cloud subscription. 
+
+1. Select **More Actions > Remove Private Link**.
+
+    {{<image filename="images/rc/privatelink-remove-menu.png" width="200px" alt="The Remove Private Link option in the More Actions menu." >}}
+
+1. Select the **Remove Private Link** button to confirm.
+
+    {{<image filename="images/rc/privatelink-remove-confirm.png" width="50%" alt="The Remove Private Link confirmation pop-up." >}}
+
+All connections that depend on PrivateLink will be immediately rejected as when you remove it from your subscription.

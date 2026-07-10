@@ -68,6 +68,9 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411
         with:
+          # Pin the lychee binary: the action's own default lags, and the
+          # host_concurrency / host_request_interval keys in .lychee.toml need >= 0.24.
+          lycheeVersion: v0.24.2
           args: --config .lychee.toml --cache --max-cache-age 1d external-urls.txt
           output: lychee-report.md
           fail: false   # decide pass/fail ourselves from the exit code below

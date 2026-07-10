@@ -68,11 +68,15 @@ The `replication_oom_threshold_percent` setting works as follows:
 
 - If memory reaches `maxmemory` despite the client block, the standard out-of-memory behavior applies to all operations, including replication.
 
-`replication_oom_threshold_percent` defaults to `5`, which means 5% of `maxmemory` is reserved. To adjust the reserved percentage, use an [update database configuration]({{<relref "operate/rs/references/rest-api/requests/bdbs#put-bdbs">}}) REST API request:
+`replication_oom_threshold_percent` defaults to `5`, which means 5% of `maxmemory` is reserved. To adjust the reserved percentage in all participating clusters, use an [update Active-Active database configuration]({{<relref "/operate/rs/references/rest-api/requests/crdbs#patch-crdbs">}}) REST API request:
 
 ```sh
-PUT https://<host>:<port>/v1/bdbs/<database_id>
-{ "replication_oom_threshold_percent": <integer from 0 to 20> }
+PATCH https://<host>:<port>/v1/crdbs/<crdb_guid>
+{ 
+  "default_db_config": { 
+    "replication_oom_threshold_percent": <integer from 0 to 20> 
+  }
+}
 ```
 
 ## Networking
@@ -96,11 +100,31 @@ This is critical to avoid problems with internal cluster communications that can
 
 See [Synchronizing cluster node clocks]({{< relref "/operate/rs/clusters/configure/sync-clocks.md" >}}) for more information.
 
+## Data compression
+
+Active-Active databases replicate data between participating clusters over the network. When clusters are geographically distributed, compressing the replicated data can:
+
+- Reduce network traffic.
+
+- Resolve throughput issues.
+
+- Reduce network traffic costs.
+
+The compression level is an integer between 0 and 6 where:
+
+- `0` turns off compression. This compression level is recommended only when throughput is low, because compression can lead to high lag in such scenarios.
+
+- `6` provides the highest compression but uses the most resources.
+
+- The default compression level is `3`.
+
+To change the compression level, use the `--compression` option when you [create]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/create" >}}) or [update]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update" >}}) an Active-Active database with [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}).
+
 ## Redis modules {#redis-modules}
 
 Several Redis modules are compatible with Active-Active databases. Find the list of [compatible Redis modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities" >}}).
 
-Active-Active databases created with or upgraded to Redis version 8 or later automatically enable [search and query]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}}) and [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), which allows you to index, query, and perform full-text searches of nested JSON documents.
+Active-Active databases created with or upgraded to Redis version 8 or later automatically enable [Redis Search]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active">}}) and [JSON]({{<relref "/operate/oss_and_stack/stack-with-enterprise/json">}}), which allows you to index, query, and perform full-text searches of nested JSON documents.
 
 
 ## Limitations

@@ -18,7 +18,7 @@ The lifecycle model for modules changed with Redis 8.0. This page is organized i
 
 ## Redis 8.0 and later
 
-Starting with Redis 8.0, the capabilities that were previously distributed as separate modules—Search and query (RediSearch), JSON (RedisJSON), Time series (RedisTimeSeries), and Probabilistic (RedisBloom)—are built into Redis Open Source. [Redis 8 in Redis Open Source replaces Redis Stack]({{< relref "/operate/oss_and_stack" >}}), so there is no separate module to install or version.
+Starting with Redis 8.0, the capabilities that were previously distributed as separate modules—Redis Search (RediSearch), JSON (RedisJSON), Time series (RedisTimeSeries), and Probabilistic (RedisBloom)—are built into Redis Open Source. [Redis 8 in Redis Open Source replaces Redis Stack]({{< relref "/operate/oss_and_stack" >}}), so there is no separate module to install or version.
 
 As a result:
 

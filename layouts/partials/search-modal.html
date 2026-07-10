@@ -125,13 +125,23 @@
       }
   
       function sortData(data) {
+        // Override the natural category for results coming from specific sites
+        const deriveCategory = (record) => {
+          const url = (record && record.url) || ''
+          if (/^https?:\/\/(www\.)?redis\.io\/blog(\/|$|\?|#)/i.test(url)) return 'Blog'
+          if (/^https?:\/\/(www\.)?redis\.io\/tutorials(\/|$|\?|#)/i.test(url)) return 'Tutorials'
+          if (/^https?:\/\/support\.redislabs\.com(\/|$|\?|#)/i.test(url)) return 'Support'
+          return record.hierarchy && record.hierarchy[0]
+        }
+
         // Get a list of unique times
         const getCategories = (data) =>
           data.reduce((a, c) => {
-            if (!a.includes(c.hierarchy[0])) {
-              a.push(c.hierarchy[0])
+            const cat = deriveCategory(c)
+            if (!a.includes(cat)) {
+              a.push(cat)
             }
-  
+
             return a
           }, [])
 
@@ -151,7 +161,7 @@
             obj.category = category
   
             data.forEach((record) => {
-              if (record.hierarchy[0] === category) {
+              if (deriveCategory(record) === category) {
                 obj[record.title] = {
                   path: constructSectionTitle(record),
                   product: record.hierarchy[2],

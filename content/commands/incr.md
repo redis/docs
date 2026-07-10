@@ -84,14 +84,6 @@ The name of the key.
 "11"
 {{< /clients-example >}}
 
-Give this command a try in the interactive console:
-
-{{% redis-cli %}}
-SET mykey "10"
-INCR mykey
-GET mykey
-{{% /redis-cli %}}
-
 ## Details
 
 ### Pattern: counter

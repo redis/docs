@@ -9,7 +9,7 @@ async function createCli(cli) {
     [input, prompt] = createPrompt(cli),
     dbid = cli.getAttribute('dbid');
 
-  drawTerminal(cli);  
+  drawTerminal(cli);
   handleHistory(pre, input);
 
   try {
@@ -218,25 +218,35 @@ async function executeInputCommand(dbid, pre, input, command) {
   }
 }
 
-let id;
+// One shared session for the whole page so every widget (tabbed examples and
+// standalone snippets alike) reads and writes the same database. Requests are
+// serialized through a queue so the auto-runs don't fork into separate sessions
+// by all sending id=undefined at once: the first request establishes the
+// session id and every subsequent request reuses it.
+let session = { id: undefined };
+let executeQueue = Promise.resolve();
 
 async function execute(commands, dbid = '') {
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      commands,
-      id
-    })
+  const run = executeQueue.then(async () => {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        commands,
+        id: session.id
+      })
+    });
+    const reply = await response.json();
+    session.id = reply.id;
+    return reply;
   });
-  const reply = await response.json();
-  id = reply.id;
-  return reply;
+  executeQueue = run.then(() => {}, () => {});
+  return run;
 }
 
 // Quote and escape a bulk string exactly like redis-cli's sdscatrepr: operate
