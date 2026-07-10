@@ -62,11 +62,21 @@ in the manifest checklist now (see [`../_shared/park-manifest.md`](../_shared/pa
 ## Step 3 — Snapshot each pinned source
 
 Identify the external sources the docs depend on (URLs in the ticket, commit bodies, the page's
-`bannerText`). For each, capture its live state. For a GitHub PR/issue:
+`bannerText`). For each, capture its live state with the endpoint that matches the source type.
+
+For a GitHub **pull request**:
 
 ```
 gh api repos/<owner>/<repo>/pulls/<n> \
   --jq '{state, merged, head_sha: .head.sha, base: .base.ref, milestone: .milestone.title, updated_at}'
+```
+
+For a GitHub **issue** — a feature-request or GA-tracking issue, say — the `pulls` endpoint and
+its `merged` / `head` / `base` fields don't exist, so use `issues/<n>`:
+
+```
+gh api repos/<owner>/<repo>/issues/<n> \
+  --jq '{state, state_reason, milestone: .milestone.title, updated_at, closed_at}'
 ```
 
 Record URL + snapshot in the sources table, and the re-fetch command for pickup. Add a

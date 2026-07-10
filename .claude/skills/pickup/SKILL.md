@@ -72,10 +72,9 @@ the park-time assumption (which was often LOW-confidence by design).
 
 Apply the corrections: fix signatures/config, fill version placeholders, add sections for
 pieces that landed after park (e.g. a deferred API), convert provisional inline examples to
-tested examples where the tooling now allows. Then clear the staleness:
-
-- Remove the page's `bannerText` "not yet released" warning.
-- Rebase / merge `main`; re-run link checks; confirm `relref` targets still resolve.
+tested examples where the tooling now allows, and remove the page's `bannerText` "not yet
+released" warning. This step is only *what to change* — the git operations that make those
+changes land (including the rebase and link checks) come next, in order.
 
 ### Step 5 — Resume the pipeline & hand off
 
@@ -83,25 +82,29 @@ Pickup **reconciles; it does not merge.** `/finalize` prepares a squash that ope
 **pushed remote PR head**, so the invariant governing this whole step is:
 
 > Before the `gh pr merge` hand-off, the remote PR branch must already contain **everything
-> that must land** — the reconciliation commit, Step 4's rebased/merged-`main` history, and any
+> that must land** — the reconciliation commit, the rebased/merged-`main` history, and any
 > later amend. The squash sees only what has been pushed; anything left local is silently
 > dropped from the merge.
 
-Everything below just drives the branch to that end state, re-pushing whenever local history
-changes:
+Run these steps in **exactly this order** — the ordering is load-bearing (notably `git rebase`
+refuses to run on a dirty tree, so the commit must precede it), re-pushing whenever local
+history changes:
 
-1. **Commit the reconciliation.** `/reflect` and `/finalize` act on committed history only — an
-   uncommitted working tree never reaches the merge.
-2. **`/reflect`** on that commit — record *predicted-vs-actual*: what the park snapshot got
-   right, what the source changed (it closes the loop and calibrates future preemptive docs).
-   `/reflect` may fold its note into the commit or amend it.
-3. **Push the branch** — and re-push after any amend in step 2. This is the step that makes the
-   remote head match local; skip it and the squash merges *without* the reconciliation (and
-   without Step 4's rebase), which is the gap that keeps reappearing here.
-4. **`/finalize`** — the durable squash deferred at park time, now that the source has settled.
+1. **Commit** the Step 4 reconciliation. Nothing downstream sees an uncommitted tree, and the
+   rebase in step 2 needs a clean one.
+2. **Rebase / merge `main`** into the branch, then re-run link checks and confirm `relref`
+   targets still resolve. The tree is clean now, so the rebase proceeds; resolve any conflicts
+   here.
+3. **`/reflect`** on the reconciliation commit — record *predicted-vs-actual*: what the park
+   snapshot got right, what the source changed (it closes the loop and calibrates future
+   preemptive docs). `/reflect` may fold its note into the commit or amend it.
+4. **Push** the branch — and re-push after any amend in step 3. This makes the remote head match
+   local; skip it and the squash merges *without* the reconciliation and rebase — the gap that
+   kept reappearing here.
+5. **`/finalize`** — the durable squash deferred at park time, now that the source has settled.
    It reconciles the whole arc (park notes + pickup findings + any review) and prepares the
    `gh pr merge … --body-file` command.
-5. **Only now, remove** the `parked` and `do not merge yet` labels and strip the manifest block
+6. **Only now, remove** the `parked` and `do not merge yet` labels and strip the manifest block
    from the PR body (or mark it resolved). The merge guard holds until `/finalize` is done.
 
 Before handing off, **confirm the remote head matches local** (working tree clean, branch not
