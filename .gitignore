@@ -35,3 +35,6 @@ package-lock.json
 # Link checker (link_check workflow) working files
 /external-urls.txt
 /.lycheecache
+
+# Claude Code per-machine memory store (belongs in ~/.claude, never committed)
+/.claude/projects/
