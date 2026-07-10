@@ -280,6 +280,17 @@ rule fires and distinguishes fixed from still-broken.
   — strong on procedure-completeness, which is why the fix must widen the boundary, not chase
   the next seam. Meta-flag: if even the invariant rewrite draws an r4, the closing sequence
   likely needs to leave prose for an actual checklist/script the skill references.
+  **It did (r5/bugbot-r4, 2026-07-10): `3558867168` "Manifest omits rebase step"** — the
+  *third* finding on the manifest-summary-vs-`pickup` drift (after r1 label-order and Codex's
+  push-order P2). Root cause finally clear: the manifest kept a hand-maintained **copy** of
+  pickup's closing sequence, and a copy drifts from its source every round — each fix matched
+  one more element, the next round found the next omission (rebase, this time). Ended not by
+  patching in "rebase" but by **eliminating the duplication**: manifest §5 now defers entirely
+  to `/pickup` Steps 4–5 (the single authoritative sequence) and restates *no* steps, so there
+  is nothing left to drift. Lesson (generalises the #3536-r6 "widen the boundary" rule): when a
+  *summary/duplicate* of a procedure keeps drawing drift findings, the boundary to widen is
+  "stop duplicating" — collapse to one source and point at it, don't keep re-syncing the copy.
+  The 5-round arc (3 of them manifest-copy drift) is the textbook case for it.
 - **#3604 `@Test`/`[Fact]` "leak" ignores the build's marker stripping, 2026-07-09 (3rd FP flavour).**
   Bugbot Low `3552548353` flagged a Lettuce override for leaving `@Test` on `run()` *outside*
   any `REMOVE_START`/`REMOVE_END` region, concluding it would "expose JUnit markup in the client
