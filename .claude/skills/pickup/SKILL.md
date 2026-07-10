@@ -42,8 +42,10 @@ gh pr list --label parked --json number,title,url,updatedAt
 ```
 
 For each, read the manifest's `Trigger to pick up:`, snapshot the current source state (Step 1's
-re-fetch only — don't do the full reconcile), then apply Step 2's trigger-met check to decide
-**fired?**. Output a table: PR / trigger / **fired?** / one-line delta. Recommend which to pick up, which are still waiting, and which look abandoned (source
+re-fetch only — don't do the full reconcile), then compare that state to the trigger condition to
+decide **fired?**. Use only Step 2's *comparison* — **not** its stop-and-report rule: in scan mode
+a not-met trigger is recorded as `fired?=no` and you continue to the next PR, never aborting the
+loop. Output a table: PR / trigger / **fired?** / one-line delta. Recommend which to pick up, which are still waiting, and which look abandoned (source
 closed-unmerged, or long dead). Then stop — picking one up is Mode B.
 
 ## Mode B — pick up one PR (PR number given)
@@ -86,26 +88,23 @@ Pickup **reconciles; it does not merge.** `/finalize` prepares a squash that ope
 > later amend. The squash sees only what has been pushed; anything left local is silently
 > dropped from the merge.
 
-Run these steps in **exactly this order** — the ordering is load-bearing (notably `git rebase`
-refuses to run on a dirty tree, so the commit must precede it), re-pushing whenever local
-history changes:
+The checklist below is the **intent** — *what must be true*, in this order — before the
+`gh pr merge` hand-off. It is **not** a command script: achieve each state with normal git, minding
+the edge cases of an already-pushed, rebased branch (a rebase needs a clean tree; pushing
+rewritten history needs `--force-with-lease`). Stating intent rather than commands is deliberate —
+enumerating the exact git steps here drifted out of date every review round.
 
-1. **Commit** the Step 4 reconciliation. Nothing downstream sees an uncommitted tree, and the
-   rebase in step 2 needs a clean one.
-2. **Rebase / merge `main`** into the branch, then re-run link checks and confirm `relref`
-   targets still resolve. The tree is clean now, so the rebase proceeds; resolve any conflicts
-   here.
-3. **`/reflect`** on the reconciliation commit — record *predicted-vs-actual*: what the park
-   snapshot got right, what the source changed (it closes the loop and calibrates future
-   preemptive docs). `/reflect` may fold its note into the commit or amend it.
-4. **Push** the branch — and re-push after any amend in step 3. This makes the remote head match
-   local; skip it and the squash merges *without* the reconciliation and rebase — the gap that
-   kept reappearing here.
-5. **`/finalize`** — the durable squash deferred at park time, now that the source has settled.
-   It reconciles the whole arc (park notes + pickup findings + any review) and prepares the
-   `gh pr merge … --body-file` command.
-6. **Only now, remove** the `parked` and `do not merge yet` labels and strip the manifest block
-   from the PR body (or mark it resolved). The merge guard holds until `/finalize` is done.
+1. **Reconciliation committed**, the branch **up to date with `main`**, link checks and `relref`
+   targets re-verified.
+2. **`/reflect`** recorded on that commit — *predicted-vs-actual*: what the park snapshot got
+   right, what the source changed (closes the loop; calibrates future preemptive docs).
+3. **Remote head == local** — everything above pushed. This is the invariant made true; nothing
+   reaches the squash until it is.
+4. **`/finalize`** run — the durable squash deferred at park time, now that the source has
+   settled; it reconciles the whole arc (park notes + pickup findings + any review) and prepares
+   the `gh pr merge … --body-file` command.
+5. **Labels dropped last** — remove `parked` / `do not merge yet` and strip the manifest block
+   only after `/finalize`. The merge guard holds until then.
 
 Before handing off, **confirm the remote head matches local** (working tree clean, branch not
 ahead of `origin`). Then present: the delta report, the doc changes, the finalize output + the
