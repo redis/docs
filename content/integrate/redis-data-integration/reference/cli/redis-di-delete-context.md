@@ -8,50 +8,26 @@ categories: ["redis-di"]
 aliases:
 ---
 
+Deletes a context from the `~/.redis-di` context file. Because this is destructive, the command asks
+for confirmation unless you pass `--force`.
+
 ## Usage
 
 ```
-Usage: redis-di delete-context [OPTIONS] CONTEXT_NAME
+redis-di delete-context <name> [flags]
 ```
 
 ## Options
 
-- `log_level`:
-  - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
-  - Default: `info`
-  - Usage: `--log-level
--l`
+| Option | Description |
+| :-- | :-- |
+| `--force` | Skip the confirmation prompt. |
 
-- `context_name` (REQUIRED):
-  - Type: STRING
-  - Default: `none`
-  - Usage: `context-name`
+This command also accepts the
+[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
 
-- `force`:
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--force
--f`
+## Example
 
-  Force operation. Skips verification prompts
-
-- `help`:
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--help`
-
-  Show this message and exit.
-
-## CLI help
-
-```
-Usage: redis-di delete-context [OPTIONS] CONTEXT_NAME
-
-  Deletes a context
-
-Options:
-  -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
-                                  [default: INFO]
-  -f, --force                     Force operation. Skips verification prompts
-  --help                          Show this message and exit.
+```bash
+redis-di delete-context dev --force
 ```

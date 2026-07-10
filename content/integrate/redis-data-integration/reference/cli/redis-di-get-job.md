@@ -1,22 +1,21 @@
 ---
-Title: redis-di list-jobs
-linkTitle: redis-di list-jobs
-description: Lists the jobs of a pipeline
+Title: redis-di get-job
+linkTitle: redis-di get-job
+description: Gets a job of a pipeline
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Lists the jobs of a pipeline, one row per job with its source, its transformation and output counts,
-and the target connections of its outputs. Use
+Gets a single job of a pipeline and prints it in the compact `list-jobs` table format. Use
 [`describe-job`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe-job" >}})
-for the full view of a single job.
+for the full job view with its transformations and outputs.
 
 ## Usage
 
 ```
-redis-di list-jobs [flags]
+redis-di get-job <name> [flags]
 ```
 
 ## Options
@@ -32,5 +31,5 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di list-jobs
+redis-di get-job customers_hash_job
 ```

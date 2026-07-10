@@ -1,22 +1,20 @@
 ---
-Title: redis-di list-jobs
-linkTitle: redis-di list-jobs
-description: Lists the jobs of a pipeline
+Title: redis-di list-secrets
+linkTitle: redis-di list-secrets
+description: Lists the secrets of a pipeline
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Lists the jobs of a pipeline, one row per job with its source, its transformation and output counts,
-and the target connections of its outputs. Use
-[`describe-job`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe-job" >}})
-for the full view of a single job.
+Lists the secrets of a pipeline. The API never returns secret values, so the output shows only the
+secret keys and whether each one is set, not the stored values.
 
 ## Usage
 
 ```
-redis-di list-jobs [flags]
+redis-di list-secrets [flags]
 ```
 
 ## Options
@@ -32,5 +30,6 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di list-jobs
+redis-di list-secrets
+redis-di list-secrets -p my-pipeline
 ```

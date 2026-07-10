@@ -39,7 +39,7 @@ for an introduction to these concepts.
 
 {{< note >}}If you don't use Prometheus or Grafana, you can still see
 RDI metrics with the RDI monitoring screen in Redis Insight or with the
-[`redis-di status`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
+[`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
 command from the CLI.{{< /note >}}
 
 ## Accessing the metrics

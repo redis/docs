@@ -1,22 +1,20 @@
 ---
-Title: redis-di list-jobs
-linkTitle: redis-di list-jobs
-description: Lists the jobs of a pipeline
+Title: redis-di get-dlq
+linkTitle: redis-di get-dlq
+description: Gets a dead-letter queue of a pipeline
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Lists the jobs of a pipeline, one row per job with its source, its transformation and output counts,
-and the target connections of its outputs. Use
-[`describe-job`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe-job" >}})
-for the full view of a single job.
+Gets a single dead-letter queue (DLQ) of a pipeline and prints it in the compact `list-dlqs` table
+format.
 
 ## Usage
 
 ```
-redis-di list-jobs [flags]
+redis-di get-dlq <name> [flags]
 ```
 
 ## Options
@@ -32,5 +30,5 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di list-jobs
+redis-di get-dlq inventory.customers
 ```

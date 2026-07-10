@@ -1,21 +1,20 @@
 ---
-Title: redis-di reset
-linkTitle: redis-di reset
-description: Resets a pipeline
+Title: redis-di delete
+linkTitle: redis-di delete
+description: Deletes a pipeline
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Resets a pipeline into initial full-sync mode, so it reloads a snapshot of the source data before
-resuming change data capture. By default, the command waits for the pipeline to reach a terminal
-state before returning.
+Deletes a pipeline. Because this is destructive, the command asks for confirmation unless you pass
+`--force`.
 
 ## Usage
 
 ```
-redis-di reset [pipeline] [flags]
+redis-di delete [pipeline] [flags]
 ```
 
 The pipeline name is an optional argument that defaults to `default`.
@@ -24,6 +23,7 @@ The pipeline name is an optional argument that defaults to `default`.
 
 | Option | Description |
 | :-- | :-- |
+| `--force` | Skip the confirmation prompt. |
 | `--wait` | Wait for the pipeline to reach the expected state (default `true`). |
 | `--timeout` | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
 
@@ -33,5 +33,5 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di reset
+redis-di delete my-pipeline --force
 ```
