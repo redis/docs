@@ -59,11 +59,13 @@ PR, machine-locatable by its markers.
    *are* the loose ends. Add anything predicted-to-change not already captured. Mark the
    highest-risk items.
 
-5. **On pickup, then** — the closing steps, in order: reconcile docs, remove the `bannerText`
-   warning, **commit the reconciliation**, run `/reflect` then `/finalize`, and **only then**
-   drop the labels. The `do not merge yet` guard must hold until the durable commit is done —
-   never lift it before `/finalize` completes. This is a summary; **`/pickup` Steps 4–5 are the
-   authoritative sequence** (keep this list in step with them).
+5. **On pickup, then** — the closing steps, in the exact order `/pickup` Step 5 defines:
+   reconcile docs, remove the `bannerText` warning, **commit** the reconciliation, run
+   **`/reflect`**, **push** (so the remote head carries the final history, including any
+   `/reflect` amend — the squash merges only what has been pushed), run **`/finalize`**, and
+   **only then** drop the labels. The `do not merge yet` guard must hold until `/finalize`
+   completes. This is a summary; **`/pickup` Steps 4–5 are the authoritative sequence** — keep
+   it in that order (commit → `/reflect` → push → `/finalize` → drop labels).
 
 ## Relationship to commit trailers
 

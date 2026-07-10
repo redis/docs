@@ -79,22 +79,34 @@ tested examples where the tooling now allows. Then clear the staleness:
 
 ### Step 5 — Resume the pipeline & hand off
 
-Pickup **reconciles; it does not merge.** Run the closing sequence in **exactly this order** —
-each step depends on the previous one, and `/reflect` / `/finalize` act on **committed history
-only**, so anything left uncommitted is silently excluded from the squash:
+Pickup **reconciles; it does not merge.** `/finalize` prepares a squash that operates on the
+**pushed remote PR head**, so the invariant governing this whole step is:
 
-1. **Commit the reconciliation.** The Step 4 edits must be in branch history before anything
-   downstream runs — an uncommitted working tree never reaches the squash merge.
+> Before the `gh pr merge` hand-off, the remote PR branch must already contain **everything
+> that must land** — the reconciliation commit, Step 4's rebased/merged-`main` history, and any
+> later amend. The squash sees only what has been pushed; anything left local is silently
+> dropped from the merge.
+
+Everything below just drives the branch to that end state, re-pushing whenever local history
+changes:
+
+1. **Commit the reconciliation.** `/reflect` and `/finalize` act on committed history only — an
+   uncommitted working tree never reaches the merge.
 2. **`/reflect`** on that commit — record *predicted-vs-actual*: what the park snapshot got
-   right, what the source changed. High-value (it closes the loop and calibrates future
-   preemptive docs). `/reflect` may fold its note into the commit from step 1 or amend it.
-3. **`/finalize`** — the durable squash deferred at park time, now that the source has settled.
-   It reconciles the whole arc (park notes + pickup findings + any review).
-4. **Only now, remove** the `parked` and `do not merge yet` labels and strip the manifest block
+   right, what the source changed (it closes the loop and calibrates future preemptive docs).
+   `/reflect` may fold its note into the commit or amend it.
+3. **Push the branch** — and re-push after any amend in step 2. This is the step that makes the
+   remote head match local; skip it and the squash merges *without* the reconciliation (and
+   without Step 4's rebase), which is the gap that keeps reappearing here.
+4. **`/finalize`** — the durable squash deferred at park time, now that the source has settled.
+   It reconciles the whole arc (park notes + pickup findings + any review) and prepares the
+   `gh pr merge … --body-file` command.
+5. **Only now, remove** the `parked` and `do not merge yet` labels and strip the manifest block
    from the PR body (or mark it resolved). The merge guard holds until `/finalize` is done.
 
-Present: the delta report, the doc changes, the finalize output + `gh pr merge … --body-file`
-command, then stop. The human triggers the merge.
+Before handing off, **confirm the remote head matches local** (working tree clean, branch not
+ahead of `origin`). Then present: the delta report, the doc changes, the finalize output + the
+`gh pr merge … --body-file` command, and stop. The human triggers the merge.
 
 ## Limits (read honestly)
 
