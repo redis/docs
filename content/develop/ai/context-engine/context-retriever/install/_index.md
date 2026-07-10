@@ -201,7 +201,7 @@ These commands assume the image tag matches the chart version (`$CR_VERSION`). I
    # unpacks to ./redis-context-retriever/
    ```
 
-3. In the air-gapped environment, create an image pull secret (if your registry requires authentication) and install from the local chart directory, pointing the image repositories at your registry:
+3. In the air-gapped environment, create an image pull secret for your registry and install from the local chart directory, pointing the image repositories at your registry:
 
    ```bash
    kubectl create secret docker-registry regcred \
@@ -218,8 +218,12 @@ These commands assume the image tag matches the chart version (`$CR_VERSION`). I
      --set mcp.image.repository=registry.internal.example.com/context-retriever \
      --set admin.image.tag="${CR_VERSION}" \
      --set mcp.image.tag="${CR_VERSION}" \
-     --set imagePullSecrets[0].name=regcred
+     --set 'imagePullSecrets[0].name=regcred'
    ```
+
+{{< note >}}
+If your registry allows unauthenticated pulls, skip creating `regcred` and remove the `--set 'imagePullSecrets[0].name=regcred'` line from the command above.
+{{< /note >}}
 
 Your Redis database is separate and must likewise be reachable from the air-gapped cluster.
 
