@@ -59,13 +59,15 @@ PR, machine-locatable by its markers.
    *are* the loose ends. Add anything predicted-to-change not already captured. Mark the
    highest-risk items.
 
-5. **On pickup, then** — the closing steps, in the exact order `/pickup` Step 5 defines:
-   reconcile docs, remove the `bannerText` warning, **commit** the reconciliation, run
-   **`/reflect`**, **push** (so the remote head carries the final history, including any
-   `/reflect` amend — the squash merges only what has been pushed), run **`/finalize`**, and
-   **only then** drop the labels. The `do not merge yet` guard must hold until `/finalize`
-   completes. This is a summary; **`/pickup` Steps 4–5 are the authoritative sequence** — keep
-   it in that order (commit → `/reflect` → push → `/finalize` → drop labels).
+5. **On pickup, then** — when the trigger fires, run `/pickup <PR>`. It reconciles the docs
+   against the now-settled source and takes the PR through the normal `/reflect` → `/finalize`
+   pipeline to merge, lifting the `parked` / `do not merge yet` labels only after `/finalize`.
+   **The exact closing sequence — reconcile, rebase, commit, push, and their ordering — lives
+   in `/pickup` Steps 4–5, which are authoritative; this manifest deliberately does not restate
+   it.** (A hand-copied step list here drifted from `/pickup` on every review round — label
+   order, push-before-`/reflect`, missing rebase — so it was replaced by this pointer. Don't
+   re-add one.) The one guarantee this section makes: the `do not merge yet` guard holds until
+   `/finalize` completes.
 
 ## Relationship to commit trailers
 
