@@ -25,7 +25,7 @@ if you want to apply custom transformations to the captured data.
 
 Below is an example of a `config.yaml` file. Note that the values of the
 form "`${name}`" refer to secrets that you should set as described in 
-[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}). 
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/set-secrets" >}}). 
 In particular, you should normally use secrets as shown to set the source
 and target username and password rather than storing them in plain text in this file.
 
@@ -210,7 +210,7 @@ configuration contains the following data:
     to the source database, you may need to specify additional properties in the
     `advanced` section with references to the corresponding certificates depending 
     on the source database type. Note that these properties **must** be references to 
-    secrets that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}).
+    secrets that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/set-secrets" >}}).
 - `databases`: List of all databases to collect data from for source database types
   that support multiple databases, such as `mysql` and `mariadb`.
 - `schemas`: List of all schemas to collect data from for source database types
@@ -253,7 +253,7 @@ or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect
 to the target database, you must specify the CA certificate (for TLS), 
 and the client certificate and private key (for mTLS) in `cacert`, `cert`, and `key`.
 Note that these certificates **must** be references to secrets
-that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/set-secrets" >}})
 (it is not possible to include these certificates as plain text in the file).
 
 {{< note >}}If you specify `localhost` as the address of either the source or target server during
