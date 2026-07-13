@@ -15,7 +15,7 @@ HARNESS="$(cd "$(dirname "$0")" && pwd)"
 WORK="$HARNESS/work"; mkdir -p "$WORK"
 SET="${1:?usage: run.sh <example_set> [client...]}"; shift || true
 
-CLIENTS_ALL=(python node go jedis ruby rust-sync rust-async lettuce-async lettuce-reactive php dotnet)
+CLIENTS_ALL=(python node ioredis go jedis ruby rust-sync rust-async lettuce-async lettuce-reactive php dotnet)
 CLIENTS=("$@"); [ ${#CLIENTS[@]} -eq 0 ] && CLIENTS=("${CLIENTS_ALL[@]}")
 
 # --- example_set + client -> repo-relative source path -----------------------
@@ -66,6 +66,13 @@ src_path() {
     sets_tutorial:lettuce-reactive)echo local_examples/tmp/lettuce-reactive/SetExample.java ;;
     sets_tutorial:php)           echo local_examples/php/DtSetsTest.php ;;
     sets_tutorial:dotnet)        echo local_examples/tmp/datatypes/sets/SetsTutorial.cs ;;
+    cmds_sorted_set:ioredis)          echo local_examples/cmds_sorted_set/ioredis/cmds-sorted-set.js ;;
+    cmds_sorted_set:ruby)             echo local_examples/cmds_sorted_set/ruby/cmds_sorted_set.rb ;;
+    cmds_sorted_set:rust-sync)        echo local_examples/cmds_sorted_set/rust-sync/cmds_sorted_set.rs ;;
+    cmds_sorted_set:rust-async)       echo local_examples/cmds_sorted_set/rust-async/cmds_sorted_set.rs ;;
+    cmds_sorted_set:lettuce-async)    echo local_examples/cmds_sorted_set/lettuce-async/CmdsSortedSetExample.java ;;
+    cmds_sorted_set:lettuce-reactive) echo local_examples/cmds_sorted_set/lettuce-reactive/CmdsSortedSetExample.java ;;
+    cmds_sorted_set:php)              echo local_examples/cmds_sorted_set/predis/CmdsSortedSetTest.php ;;
     time_series_tutorial:python) echo local_examples/time_series_tutorial/redis-py/dt_time_series.py ;;
     time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
@@ -102,6 +109,11 @@ run_ruby() {
 run_node() {
   local d="$WORK/node"; mkdir -p "$d"
   [ -d "$d/node_modules/redis" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s redis >/dev/null 2>&1); }
+  cp "$1" "$d/example.mjs"; (cd "$d" && node example.mjs) >"$LOG" 2>&1; rc=$?
+}
+run_ioredis() {
+  local d="$WORK/ioredis"; mkdir -p "$d"
+  [ -d "$d/node_modules/ioredis" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s ioredis >/dev/null 2>&1); }
   cp "$1" "$d/example.mjs"; (cd "$d" && node example.mjs) >"$LOG" 2>&1; rc=$?
 }
 run_go() {
@@ -153,6 +165,7 @@ run_php() {
   [ -d "$d/vendor/predis" ] || { printf '{}\n' >"$d/composer.json"; (cd "$d" && composer -q require predis/predis >/dev/null 2>&1); }
   cat >"$d/bootstrap.php" <<'PHP'
 <?php
+require __DIR__ . '/vendor/autoload.php';
 class PredisTestCase {
   function assertEquals($e,$a,$m=''){ if($e!=$a) throw new Exception("assertEquals: expected ".var_export($e,true)." got ".var_export($a,true)); }
   function assertSame($e,$a,$m=''){ if($e!==$a) throw new Exception("assertSame failed"); }

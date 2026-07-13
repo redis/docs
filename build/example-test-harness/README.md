@@ -15,8 +15,11 @@ but reusable for any example set.
 ./run.sh set_tutorial rust-sync dotnet
 ```
 
-`example_set` ∈ { `ss_tutorial`, `set_tutorial` } today. Results print as a matrix;
-per-run logs land in `results/<set>_<client>.log`.
+`example_set` covers the data-type tutorials (`ss_tutorial`, `set_tutorial`,
+`hash_tutorial`, `sets_tutorial`, `time_series_tutorial`), the search sets
+(`search_quickstart`, `geoindex`), and the per-command sets (e.g. `cmds_sorted_set`) —
+add more in `src_path()`. Results print as a matrix; per-run logs land in
+`results/<set>_<client>.log`.
 
 ⚠️ Several examples call `FLUSHALL`/`FLUSHDB`, and the harness flushes before each run.
 Point it only at a scratch Redis.
@@ -27,13 +30,14 @@ Point it only at a scratch Redis.
 |---|---|---|
 | python | venv + `redis` | run script directly (`assert`) |
 | node | `npm i redis`, ESM | run as `.mjs` |
+| ioredis | `npm i ioredis`, ESM | run as `.mjs` (separate `work/ioredis` dir from node-redis) |
 | go | module + `go-redis` | `go test`; needs a sibling `package example_commands` stub |
 | jedis | Maven + `jedis:5.2.0` | surefire include `**/*Example.java` (classes aren't `*Test`) |
 | lettuce-async / -reactive | Maven + `lettuce-core:6.5.5.RELEASE` | same surefire include |
 | ruby | `redis` gem | run script (`raise`/local `assert_equal`) |
 | rust-sync | Cargo + `redis = "1.3"` | file is `#[cfg(test)]` → dropped in `src/lib.rs`, `cargo test` |
 | rust-async | Cargo + `redis` (tokio-comp) + `tokio` | `#[tokio::test]` |
-| php | Composer + `predis/predis` | `bootstrap.php` stubs `PredisTestCase` asserts; reflection finds the `test*` method |
+| php | Composer + `predis/predis` | `bootstrap.php` requires `vendor/autoload.php` (so `Predis\Client` resolves without an in-file `require`) and stubs `PredisTestCase` asserts; reflection finds the `test*` method |
 | dotnet | `dotnet test` + xunit + `StackExchange.Redis` | `dotnet/stubs.cs` stands in for NRedisStack's `AbstractNRedisStackTest`/`EndpointsFixture`/`[SkippableFact]`/`DocsTests` collection |
 
 ## Gotchas learned
