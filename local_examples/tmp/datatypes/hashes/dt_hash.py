@@ -49,6 +49,18 @@ assert res4 == {
 # REMOVE_END
 
 # STEP_START hmget
+# Recreate the bike:1 hash so this example runs on its own.
+r.delete("bike:1")
+r.hset(
+    "bike:1",
+    mapping={
+        "model": "Deimos",
+        "brand": "Ergonom",
+        "type": "Enduro bikes",
+        "price": 4972,
+    },
+)
+
 res5 = r.hmget("bike:1", ["model", "price"])
 print(res5)
 # >>> ['Deimos', '4972']
@@ -59,6 +71,18 @@ assert res5 == ["Deimos", "4972"]
 # REMOVE_END
 
 # STEP_START hincrby
+# Recreate the bike:1 hash so this example runs on its own.
+r.delete("bike:1")
+r.hset(
+    "bike:1",
+    mapping={
+        "model": "Deimos",
+        "brand": "Ergonom",
+        "type": "Enduro bikes",
+        "price": 4972,
+    },
+)
+
 res6 = r.hincrby("bike:1", "price", 100)
 print(res6)
 # >>> 5072

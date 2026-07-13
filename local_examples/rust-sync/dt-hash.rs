@@ -93,6 +93,13 @@ mod hash_tests {
         // STEP_END
 
         // STEP_START hmget
+        // Recreate the bike:1 hash so this example runs on its own.
+        let _: () = r.del("bike:1").expect("Failed to del");
+        let _: () = r.hset_multiple(
+            "bike:1",
+            &[("model", "Deimos"), ("brand", "Ergonom"), ("type", "Enduro bikes"), ("price", "4972")],
+        ).expect("Failed to hset");
+
         match r.hmget("bike:1", &["model", "price"]) {
             Ok(res) => {
                 let res: Vec<String> = res;
@@ -111,6 +118,13 @@ mod hash_tests {
         // STEP_END
 
         // STEP_START hincrby
+        // Recreate the bike:1 hash so this example runs on its own.
+        let _: () = r.del("bike:1").expect("Failed to del");
+        let _: () = r.hset_multiple(
+            "bike:1",
+            &[("model", "Deimos"), ("brand", "Ergonom"), ("type", "Enduro bikes"), ("price", "4972")],
+        ).expect("Failed to hset");
+
         if let Ok(res) = r.hincr("bike:1", "price", 100) {
             let res: i32 = res;
             println!("{res}");    // >>> 5072
