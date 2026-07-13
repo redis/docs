@@ -1008,6 +1008,7 @@ Usage: redis-cli [OPTIONS] [cmd [arg [arg ...]]]
                      This interval is also used in --scan and --stat per cycle.
                      and in --bigkeys, --memkeys, --keystats, and --hotkeys per 100 cycles.
   -n <db>            Database number.
+  --name <name>      Set the client name.
   -2                 Start session in RESP2 protocol mode.
   -3                 Start session in RESP3 protocol mode.
   -x                 Read last argument from STDIN (see example below).
@@ -1029,16 +1030,31 @@ Usage: redis-cli [OPTIONS] [cmd [arg [arg ...]]]
                      STDOUT is a tty but can be overridden with --show-pushes no.
   --stat             Print rolling stats about server: mem, clients, ...
   --latency          Enter a special mode continuously sampling latency.
-                     If you use this mode in an interactive session it runs
-                     forever displaying real-time stats. Otherwise if --raw or
-                     --csv is specified, or if you redirect the output to a non
-                     TTY, it samples the latency for 1 second (you can use
-                     -i to change the interval), then produces a single output
-                     and exits.
+                     Stats (min/max/avg) are reported in milliseconds with
+                     sub-millisecond precision. If you use this mode in an
+                     interactive session it runs forever displaying real-time
+                     stats. Otherwise if --raw or --csv is specified, or if you
+                     redirect the output to a non TTY, it samples the latency
+                     for 1 second (you can use -i to change the interval), then
+                     produces a single output and exits.
   --latency-history  Like --latency but tracking latency changes over time.
                      Default time interval is 15 sec. Change it using -i.
+  --latency-percentiles <p1,p2,...>
+                     Also report the given latency percentiles in milliseconds
+                     (e.g. 50,99,99.9) in --latency and --latency-history modes.
+                     Resolution is limited by the sample count: a percentile
+                     finer than 100/samples resolves to the maximum, so use a
+                     longer interval (-i) for meaningful high percentiles.
   --latency-dist     Shows latency as a spectrum, requires xterm 256 colors.
                      Default time interval is 1 sec. Change it using -i.
+  --vset-recall <key> Enable VSIM recall test mode for the specified key
+                     (that must be a vector set). Random vectors are created
+                     mixing components from other elements. A VSIM is then
+                     executed and checked against ground truth.
+  --vset-recall-count <count> How many top elements to fetch per query.
+  --vset-recall-ef <ef> HSNW EF (search effort) to use. Default 500.
+  --vset-recall-ele <count> Number of elements used to compose query vectors
+                            Default 1.
   --lru-test <keys>  Simulate a cache workload with an 80-20 distribution.
   --replica          Simulate a replica showing commands received from the master.
   --rdb <filename>   Transfer an RDB dump from remote server to local file.
