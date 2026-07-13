@@ -1,82 +1,41 @@
 ---
 Title: redis-di scaffold
 linkTitle: redis-di scaffold
-description: Generates configuration files for RDI
+description: Generates pipeline configuration files
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
+Generates a starter pipeline configuration for the given source database type. With `--dir`, the
+command writes a `config.yaml` file into that directory, prompting before overwriting an existing
+file unless `--force` is set. Without `--dir`, it prints the configuration to standard output.
+
 ## Usage
 
 ```
-Usage: redis-di scaffold [OPTIONS]
+redis-di scaffold [flags]
 ```
 
 ## Options
 
-- `log_level`:
-  - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
-  - Default: `info`
-  - Usage: `--log-level
--l`
+| Option | Description |
+| :-- | :-- |
+| `--db-type` | Source database type (required): `mariadb`, `mongodb`, `mysql`, `oracle`, `postgresql`, `snowflake`, `sqlserver`, or `spanner`. |
+| `--db-flavor` | Source database flavor: `mongodb-atlas`, `mongodb-replica-set`, or `mongodb-sharded-cluster`. |
+| `--dir` | Directory to write `config.yaml` to; prints to standard output when omitted. |
+| `--force` | Skip the confirmation prompt when overwriting an existing file. |
 
-- `db_type` (REQUIRED):
-  - Type: Choice([<DbType.CASSANDRA: 'cassandra'>, <DbType.MARIADB: 'mariadb'>, <DbType.MONGODB: 'mongodb'>, <DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.SNOWFLAKE: 'snowflake'>, <DbType.SQLSERVER: 'sqlserver'>, <DbType.SPANNER: 'spanner'>])
-  - Default: `none`
-  - Usage: `--db-type`
+This command also accepts the
+[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
 
-  DB type
+## Example
 
-- `db_flavor`:
-  - Type: Choice([<DbFlavor.MONGODB_ATLAS: 'mongodb-atlas'>, <DbFlavor.MONGODB_REPLICA_SET: 'mongodb-replica-set'>, <DbFlavor.MONGODB_SHARDED_CLUSTER: 'mongodb-sharded-cluster'>])
-  - Default: `none`
-  - Usage: `--db-flavor`
+```bash
+# Print a PostgreSQL configuration to stdout
+redis-di scaffold --db-type postgresql
 
-  DB flavor
-
-  Output to directory or stdout
-
-- `directory`:
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--dir`
-
-  Directory containing RDI configuration
-
-- `preview`:
-  - Type: STRING
-  - Default: `none`
-  - Usage: `--preview`
-
-  Print the content of the scaffolded config file to CLI output
-
-- `help`:
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--help`
-
-  Show this message and exit.
-
-## CLI help
-
-```
-Usage: redis-di scaffold [OPTIONS]
-
-  Generates configuration files for RDI
-
-Options:
-  -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
-                                  [default: INFO]
-  --db-type [cassandra|mariadb|mongodb|mysql|oracle|postgresql|snowflake|sqlserver|spanner]
-                                  DB type  [required]
-  --db-flavor [mongodb-atlas|mongodb-replica-set|mongodb-sharded-cluster]
-                                  DB flavor
-  Output formats: [mutually_exclusive, required]
-                                  Output to directory or stdout
-    --dir TEXT                    Directory containing RDI configuration
-    --preview TEXT                Print the content of the scaffolded config
-                                  file to CLI output
-  --help                          Show this message and exit.
+# Write a MySQL configuration into a directory
+redis-di scaffold --db-type mysql --dir /opt/rdi/config
 ```

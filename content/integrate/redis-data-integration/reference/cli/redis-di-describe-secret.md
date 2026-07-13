@@ -1,20 +1,20 @@
 ---
-Title: redis-di describe-job
-linkTitle: redis-di describe-job
-description: Describes a job of a pipeline
+Title: redis-di describe-secret
+linkTitle: redis-di describe-secret
+description: Describes a secret of a pipeline
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Describes a single job of a pipeline, printing its source properties followed by tables that
-summarize its transformations and outputs.
+Describes a single secret of a pipeline. The API never returns secret values, so the output shows
+only the key and whether it is set, not the stored value.
 
 ## Usage
 
 ```
-redis-di describe-job <name> [flags]
+redis-di describe-secret <key> [flags]
 ```
 
 ## Options
@@ -29,5 +29,5 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di describe-job customers_hash_job
+redis-di describe-secret TARGET_DB_PASSWORD
 ```

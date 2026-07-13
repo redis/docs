@@ -100,7 +100,7 @@ job then RDI can't transform the data. When this happens, RDI will store the ori
 in a "dead letter queue" along with a message to say why it was rejected. The dead letter
 queue is stored as a capped stream in the RDI staging database. You can see its contents
 with Redis Insight or with the
-[`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
+[`redis-di list-dlq-records`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlq-records" >}})
 command from the CLI.
 
 See [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}) for more information about DLQ.

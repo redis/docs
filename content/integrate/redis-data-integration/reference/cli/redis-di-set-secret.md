@@ -1,73 +1,51 @@
 ---
 Title: redis-di set-secret
 linkTitle: redis-di set-secret
-description: Creates a secret of a specified key
+description: Creates or updates a secret of a pipeline
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
+Creates or updates a secret of a pipeline. Secrets hold the credentials and certificates that the
+pipeline uses to connect to the source and target databases (see
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+for the list of secret names). You can then refer to a secret in the `config.yaml` file with the
+syntax `${SECRET_NAME}`.
+
+The secret value comes from the `[value]` argument, the `--file` option, or the `--literal` option.
+If you provide none of these on an interactive terminal, the command prompts for the value without
+echoing it.
+
 ## Usage
 
 ```
-Usage: redis-di set-secret [OPTIONS] {RDI_REDIS_USERNAME|RDI_REDIS_PASSWORD|RD
-                           I_REDIS_CACERT|RDI_REDIS_CERT|RDI_REDIS_KEY|RDI_RED
-                           IS_KEY_PASSPHRASE|SOURCE_DB_USERNAME|SOURCE_DB_PASS
-                           WORD|SOURCE_DB_CACERT|SOURCE_DB_CERT|SOURCE_DB_KEY|
-                           SOURCE_DB_KEY_PASSWORD|TARGET_DB_USERNAME|TARGET_DB
-                           _PASSWORD|TARGET_DB_CACERT|TARGET_DB_CERT|TARGET_DB
-                           _KEY|TARGET_DB_KEY_PASSWORD|JWT_SECRET_KEY} [VALUE]
+redis-di set-secret <key> [value] [flags]
 ```
 
 ## Options
 
-- `log_level`:
-  - Type: Choice(['TRACE', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'])
-  - Default: `info`
-  - Usage: `--log-level
--l`
+| Option | Description |
+| :-- | :-- |
+| `-p`, `--pipeline` | Pipeline to target (default `default`). |
+| `--file` | Read the secret value from the file at this path. |
+| `--literal` | Use this literal string as the secret value. |
+| `--wait` | Wait for the pipeline to reach the expected state (default `true`). |
+| `--timeout` | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
 
-- `rdi_namespace`:
-  - Type: STRING
-  - Default: `rdi`
-  - Usage: `--rdi-namespace`
+This command also accepts the
+[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
 
-  RDI Kubernetes namespace
+## Example
 
-- `key` (REQUIRED):
-  - Type: Choice(['RDI_REDIS_USERNAME', 'RDI_REDIS_PASSWORD', 'RDI_REDIS_CACERT', 'RDI_REDIS_CERT', 'RDI_REDIS_KEY', 'RDI_REDIS_KEY_PASSPHRASE', 'SOURCE_DB_USERNAME', 'SOURCE_DB_PASSWORD', 'SOURCE_DB_CACERT', 'SOURCE_DB_CERT', 'SOURCE_DB_KEY', 'SOURCE_DB_KEY_PASSWORD', 'TARGET_DB_USERNAME', 'TARGET_DB_PASSWORD', 'TARGET_DB_CACERT', 'TARGET_DB_CERT', 'TARGET_DB_KEY', 'TARGET_DB_KEY_PASSWORD', 'JWT_SECRET_KEY'])
-  - Default: `none`
-  - Usage: `key`
+```bash
+# Value from an argument
+redis-di set-secret SOURCE_DB_USERNAME myuser
 
-- `value`:
-  - Type: STRING
-  - Default: `none`
-  - Usage: `value`
+# Value from a file (for example, a certificate)
+redis-di set-secret SOURCE_DB_CACERT --file /path/to/myca.crt
 
-- `help`:
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--help`
-
-  Show this message and exit.
-
-## CLI help
-
-```
-Usage: redis-di set-secret [OPTIONS] {RDI_REDIS_USERNAME|RDI_REDIS_PASSWORD|RD
-                           I_REDIS_CACERT|RDI_REDIS_CERT|RDI_REDIS_KEY|RDI_RED
-                           IS_KEY_PASSPHRASE|SOURCE_DB_USERNAME|SOURCE_DB_PASS
-                           WORD|SOURCE_DB_CACERT|SOURCE_DB_CERT|SOURCE_DB_KEY|
-                           SOURCE_DB_KEY_PASSWORD|TARGET_DB_USERNAME|TARGET_DB
-                           _PASSWORD|TARGET_DB_CACERT|TARGET_DB_CERT|TARGET_DB
-                           _KEY|TARGET_DB_KEY_PASSWORD|JWT_SECRET_KEY} [VALUE]
-
-  Creates a secret of a specified key
-
-Options:
-  -l, --log-level [TRACE|DEBUG|INFO|WARNING|ERROR|CRITICAL]
-                                  [default: INFO]
-  --rdi-namespace TEXT            RDI Kubernetes namespace  [default: rdi]
-  --help                          Show this message and exit.
+# Value read from an interactive prompt
+redis-di set-secret SOURCE_DB_PASSWORD
 ```

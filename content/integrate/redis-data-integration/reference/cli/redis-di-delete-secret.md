@@ -1,29 +1,28 @@
 ---
-Title: redis-di reset
-linkTitle: redis-di reset
-description: Resets a pipeline
+Title: redis-di delete-secret
+linkTitle: redis-di delete-secret
+description: Deletes a secret of a pipeline
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
-Resets a pipeline into initial full-sync mode, so it reloads a snapshot of the source data before
-resuming change data capture. By default, the command waits for the pipeline to reach a terminal
-state before returning.
+Deletes a secret of a pipeline. Because this is destructive, the command asks for confirmation unless
+you pass `--force`.
 
 ## Usage
 
 ```
-redis-di reset [pipeline] [flags]
+redis-di delete-secret <key> [flags]
 ```
-
-The pipeline name is an optional argument that defaults to `default`.
 
 ## Options
 
 | Option | Description |
 | :-- | :-- |
+| `-p`, `--pipeline` | Pipeline to target (default `default`). |
+| `--force` | Skip the confirmation prompt. |
 | `--wait` | Wait for the pipeline to reach the expected state (default `true`). |
 | `--timeout` | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
 
@@ -33,5 +32,5 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di reset
+redis-di delete-secret SOURCE_DB_CACERT --force
 ```

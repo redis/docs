@@ -288,6 +288,12 @@ using [Redis Insight]({{< relref "/develop/tools/insight" >}}). See
 [RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
 for full details on how to connect to RDI and deploy pipelines.
 
+{{< note >}}The [`redis-di` CLI]({{< relref "/integrate/redis-data-integration/reference/cli" >}})
+is bundled with the VM installer, so it is already available on the VM where RDI is installed. If you
+prefer to run it from your own laptop or desktop instead, you can
+[download it separately]({{< relref "/integrate/redis-data-integration/installation/install-k8s#download-the-rdi-cli" >}})
+for your platform.{{< /note >}}
+
 ## Uninstall RDI
 
 If you want to remove your RDI installation, go to the installation folder and run

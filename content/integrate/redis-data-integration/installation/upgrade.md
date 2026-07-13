@@ -51,7 +51,10 @@ If the previous version is v1.4.4 or later, go to the `rdi_install/<PREVIOUS_VER
 directory and run `sudo ./upgrade.sh` to revert to that version, as described in the section
 [Upgrading a VM installation](#upgrading-a-vm-installation) above.
 
-If the version you are replacing is earlier than v1.4.4, follow these steps:
+If the version you are replacing is earlier than v1.4.4, follow these steps. These steps restore and
+run the CLI binary of the previous RDI version, which still provided the `redis-di upgrade` command.
+(On current versions, upgrades are performed with the `upgrade.sh` script as described above, and
+`redis-di upgrade` is no longer a CLI command.)
 
 1.  Run `redis-di --version` to check the current version.
 
