@@ -254,6 +254,27 @@
           "description": "The toggled boolean value."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_toggle(key, path)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a JSONPath to the target boolean(s)"
+          }
+        ],
+        "returns": {
+          "type": "Array, Object, nil",
+          "description": "1/0 for the new true/false value(s): an Array for a JSONPath, a single value for a legacy path; nil for a non-boolean match"
+        }
+      }
     ]
   }
 }

@@ -349,6 +349,37 @@
           "description": "The length of the array after trimming."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_arrtrim(key, path, start, stop)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a JSONPath to the target array"
+          },
+          {
+            "name": "start",
+            "type": "Integer",
+            "description": "inclusive index of the first element to keep"
+          },
+          {
+            "name": "stop",
+            "type": "Integer",
+            "description": "inclusive index of the last element to keep"
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>, Integer",
+          "description": "the new array length(s)"
+        }
+      }
     ]
   }
 }
