@@ -60,7 +60,7 @@ Each entry from the slow log is comprised of the following seven values:
 4. The array composing the arguments of the command.
 5. Client IP address and port.
 6. Client name if set via the [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}) command.
-7. The total number of arguments in the command, including the command name.
+7. The total number of arguments in the command, including the command name. Added in Redis 8.10.
 
 The logged argument array (value 4) is truncated when the command has more arguments than the `slowlog-max-argc` configuration directive allows (32 by default). In that case, the last logged element is replaced with a string of the form `... (N more arguments)`. The total argument count (value 7) always reflects the command's original argument count, captured before truncation, so it can be read directly without parsing that string.
 
