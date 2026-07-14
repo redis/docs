@@ -277,8 +277,7 @@ configuration above contains the following properties:
   The options are `classic` (the default) for the Python-based classic processor
   and `flink` for the
   [Apache Flink](https://flink.apache.org/)-based processor.
-  The Flink processor runs on Kubernetes only and supports the `hash` and `json`
-  target data types. See
+  The Flink processor supports the `hash` and `json` target data types. See
   [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
   for an overview, and
   [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})

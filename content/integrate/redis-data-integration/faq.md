@@ -145,10 +145,8 @@ apply:
 
 -   **Output `data_type` other than `hash` or `json`** (for example,
     `set`, `sorted_set`, `stream`, or `string`).
--   **VM installations.** The Flink processor currently runs on
-    Kubernetes only.
 
-Both limitations are expected to be lifted in a future release. See
+This limitation is expected to be lifted in a future release. See
 [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
 for a side-by-side comparison and
 [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})

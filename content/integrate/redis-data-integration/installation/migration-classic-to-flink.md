@@ -19,16 +19,13 @@ weight: 35
 RDI ships with two stream processor implementations. The default *classic*
 processor is implemented in Python and runs on both VMs and Kubernetes. The
 *Flink* processor is built on top of [Apache Flink](https://flink.apache.org/)
-and currently runs on Kubernetes only. It can achieve much higher throughput
+and runs on both VMs and Kubernetes. It can achieve much higher throughput
 during snapshots, scales horizontally by changing the number of TaskManager replicas,
 and uses Flink checkpointing for fault tolerance. See [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
 for an overview.
 
 This page describes how to migrate an existing pipeline from the classic
 processor to the Flink processor.
-
-{{< note >}}The Flink processor is currently supported on Kubernetes only. VM
-installations must continue to use the classic processor.{{< /note >}}
 
 ## Before you migrate
 
@@ -42,12 +39,12 @@ Confirm that your pipeline is compatible with the Flink processor:
     [`use_native_json_merge`]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
     The Flink processor always uses the native `JSON.MERGE` command when the
     target database supports it.
--   Ensure your Kubernetes cluster has enough capacity for the Flink JobManager
-    and TaskManager pods (see
+-   Ensure your RDI host or Kubernetes cluster has enough capacity for the
+    Flink JobManager and TaskManager workloads. For Helm installations, see
     [Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}})
     for the default sizing).
 
-## Step 1: Configure the Flink processor at the Helm chart level
+## Step 1: Configure the Flink processor at the Helm chart level (Helm installations only)
 
 The Flink processor is always available — no opt-in is required at the Helm
 chart level. The defaults are sized for typical workloads, so you can skip
@@ -57,6 +54,9 @@ your `rdi-values.yaml` file and run `helm upgrade` as described in
 [Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}}).
 Existing pipelines continue to run on the classic processor until you switch
 them in step 2.
+
+For VM installations, skip this step. You can configure per-pipeline Flink
+resources in step 4.
 
 ## Step 2: Switch the pipeline to the Flink processor
 
@@ -107,10 +107,6 @@ processors:
     source:
       # Time between checks for new input streams.
       discovery.interval.ms: 1000
-    target:
-      # Verify writes are replicated before acknowledging.
-      wait.enabled: true
-      wait.write.timeout.ms: 1000
     flink:
       # Number of parallel task slots per TaskManager pod.
       taskmanager.numberOfTaskSlots: 2
@@ -125,6 +121,44 @@ processors:
 See the
 [`processors.advanced` reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
 for the full set of available properties.
+
+### Optional replica acknowledgement
+
+Enable `processors.advanced.target.wait.enabled` only when replication is
+enabled for the target Redis database and at least one replica is available
+and healthy:
+
+```yaml
+processors:
+  type: flink
+  advanced:
+    target:
+      wait.enabled: true
+      wait.write.timeout.ms: 1000
+```
+
+{{< warning >}}
+If target database replication is disabled, don't enable `wait.enabled` with
+the default `wait.retry.enabled: true`.
+The writes can reach the target, but Redis returns `WAIT failed: 0/1 replicas`
+because no replica can acknowledge them. The Flink processor retries
+indefinitely. Records
+remain pending instead of being rejected because this is a batch durability
+failure, not a record-level error. The target can appear as disconnected,
+checkpoints fail, the job can alternate between retrying and restarting, the
+initial snapshot does not complete, and later records accumulate behind the
+blocked sink batches.
+
+To recover, enable target database replication or remove `wait.enabled` (or
+set it to `false`) and redeploy the pipeline. You don't need to reset the
+pipeline. RDI replays and acknowledges the pending records after a successful
+checkpoint. Some target writes can be repeated during recovery, consistent
+with RDI's at-least-once delivery guarantee.
+
+Setting `wait.retry.enabled: false` lets processing continue after a failed
+replica acknowledgement, so it does not provide the durability guarantee that
+`wait.enabled` is intended to enforce.
+{{< /warning >}}
 
 ## Step 5: Update observability
 
