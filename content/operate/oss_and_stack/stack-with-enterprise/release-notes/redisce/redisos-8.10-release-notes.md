@@ -131,5 +131,3 @@ Redis 8.10 introduces new features and performance improvements.
 - [#15352](https://github.com/redis/redis/pull/15352) Adds `--latency-percentiles <p1,p2,...>` to `--latency` / `--latency-history`: reporting user-chosen percentiles
 - [#15262](https://github.com/redis/redis/pull/15262) `redis-cli --cluster rebalance` - CROSSSLOT error when using `-user` without `-a`
 - [#15338](https://github.com/redis/redis/pull/15338) `redis-cli --cluster reshard` and `rebalance` now move slots with server-side atomic slot migration
-</content>
-</invoke>
