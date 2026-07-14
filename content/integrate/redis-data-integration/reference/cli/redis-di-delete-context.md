@@ -19,8 +19,8 @@ redis-di delete-context <name> [flags]
 
 ## Options
 
-| Option | Description |
-| :-- | :-- |
+| Option    | Description                   |
+| :-------- | :---------------------------- |
 | `--force` | Skip the confirmation prompt. |
 
 This command also accepts the

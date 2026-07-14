@@ -51,7 +51,7 @@ Passwords and user keys are secrets and are never stored on disk.
 
 ## Contexts
 
-Instead of passing the connection options on every command, you can save them in a *context*.
+Instead of passing the connection options on every command, you can save them in a _context_.
 Contexts are stored in a `~/.redis-di` file that holds a map of named contexts and the active one,
 similar to a `kubeconfig` file. Each context sets an `api-url`, an optional `user` or `account-key`,
 and either a `cacert` or `insecure: true`. Secrets (the password and user key) are never stored, so

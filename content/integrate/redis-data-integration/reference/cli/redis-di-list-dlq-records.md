@@ -24,22 +24,22 @@ redis-di list-dlq-records <dlq-name> [flags]
 
 ## Options
 
-| Option | Description |
-| :-- | :-- |
-| `-p`, `--pipeline` | Pipeline to target (default `default`). |
-| `--limit` | Maximum number of records to return (default `20`). |
-| `--offset` | Number of records to skip (default `0`). |
-| `--sort-order` | Sort order: `asc` (oldest first) or `desc` (newest first, default). |
-| `-o`, `--output` | Output format: `table` (default), `json`, or `yaml`. |
+| Option             | Description                                                         |
+| :----------------- | :------------------------------------------------------------------ |
+| `-p`, `--pipeline` | Pipeline to target (default `default`).                             |
+| `--limit`          | Maximum number of records to return (default `20`).                 |
+| `--offset`         | Number of records to skip (default `0`).                            |
+| `--sort-order`     | Sort order: `asc` (oldest first) or `desc` (newest first, default). |
+| `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`.                |
 
 The following options are kept for backward compatibility with the `get-rejected` command and are
 deprecated:
 
-| Deprecated option | Use instead |
-| :-- | :-- |
-| `--dlq-name` | Pass the DLQ name as an argument. |
-| `--max-records` | `--limit` |
-| `--oldest` | `--sort-order asc` |
+| Deprecated option | Use instead                       |
+| :---------------- | :-------------------------------- |
+| `--dlq-name`      | Pass the DLQ name as an argument. |
+| `--max-records`   | `--limit`                         |
+| `--oldest`        | `--sort-order asc`                |
 
 This command also accepts the
 [global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
