@@ -249,19 +249,21 @@ In addition, the following fields may also appear in audit event notifications:
 
 ## Status result codes
 
-The `status` field reports the results of an authentication request as an integer.  Here's what different values mean:
+The `status` field reports the result of an auditing request as a numeric code:
 
-| Error&nbsp;value | Error code | Description | 
-|:-------------:|------------|-------------|
-| `0` | AUTHENTICATION_FAILED | Invalid username and/or password. |
-| `1` | AUTHENTICATION_FAILED_TOO_LONG | Username or password are too long. |
-| `2` | AUTHENTICATION_NOT_REQUIRED | Client tried to authenticate, but authentication isn't necessary. | 
-| `3` | AUTHENTICATION_DIRECTORY_PENDING | Attempting to receive authentication info from the directory in async mode. |
-| `4` | AUTHENTICATION_DIRECTORY_ERROR | Authentication attempt failed because there was a directory connection error. |
-| `5` | AUTHENTICATION_SYNCER_IN_PROGRESS | Syncer SASL handshake. Return SASL response and wait for the next request. | 
-| `6` | AUTHENTICATION_SYNCER_FAILED | Syncer SASL handshake. Returned SASL response and closed the connection. |
-| `7` | AUTHENTICATION_SYNCER_OK | Syncer authenticated. Returned SASL response. |
-| `8` | AUTHENTICATION_OK | Client successfully authenticated. |
+| Status code | Description |
+|-------------|-------------|
+| `0` | AUTHENTICATION_FAILED: Invalid username and/or password. |
+| `1` | AUTHENTICATION_FAILED_TOO_LONG: Username or password are too long. |
+| `2` | AUTHENTICATION_NOT_REQUIRED: Client tried to authenticate, but authentication isn't necessary. |
+| `3` | AUTHENTICATION_DIRECTORY_PENDING: Attempting to receive authentication info from the directory in async mode. |
+| `4` | AUTHENTICATION_DIRECTORY_ERROR: Authentication attempt failed due to a directory connection error. |
+| `5` | AUTHENTICATION_SYNCER_IN_PROGRESS: Syncer SASL handshake; return SASL response and wait for the next request. |
+| `6` | AUTHENTICATION_SYNCER_FAILED: Syncer SASL handshake; returned SASL response and closed the connection. |
+| `7` | AUTHENTICATION_SYNCER_OK: Syncer authenticated; returned SASL response. |
+| `8` | AUTHENTICATION_OK: Client successfully authenticated. |
+| `9` | CRUD command executed successfully. |
+| `10` | CRUD command execution failed. The `error` field is populated with the Redis error. |
 
 ## Monitor auditing metrics
 
