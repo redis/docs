@@ -50,7 +50,7 @@ complexity: O(n) where n is the number of time-series that match the filters (al
   indexed series when FILTER is omitted)
 description: Get all label names, or all values of a given label, for time series
   matching a filter list, or all series
-group: module
+group: timeseries
 hidden: false
 hints:
 - dont_cache
@@ -103,8 +103,8 @@ Each filter expression has one of the following syntaxes:
 
   <note><b>Notes:</b>
    - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.
-   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.
-   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x="y y"` or `x='(y y,z z)'`.
+   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that `type=temperature` AND `room=study`.
+   - Whitespace is not allowed in a filter expression except between quotes or double quotes in values - for example, `x="y y"` or `x='(y y,z z)'`.
    </note>
 </details>
 
