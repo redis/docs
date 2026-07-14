@@ -25,7 +25,7 @@ RDI is a good fit when:
 
 {{< note >}}The throughput and data-size limits above assume the
 [classic processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}).
-The Flink processor (currently in Preview) roughly doubles each limit.{{< /note >}}
+The Flink processor roughly doubles each limit.{{< /note >}}
 
 ### When not to use RDI
 

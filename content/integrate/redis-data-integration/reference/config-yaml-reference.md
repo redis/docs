@@ -622,7 +622,7 @@ Settings that control how data is processed, including batch sizes, error handli
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
-|**type**<br/>(Processor type)|`string`|Processor implementation to run. `classic` runs the classic processor; `flink` runs the Apache Flink-based processor (Kubernetes deployments only).<br/>Default: `"classic"`<br/>Enum: `"classic"`, `"flink"`<br/>||
+|**type**<br/>(Processor type)|`string`|Processor implementation to run. `classic` runs the classic processor; `flink` runs the Apache Flink-based processor.<br/>Default: `"classic"`<br/>Enum: `"classic"`, `"flink"`<br/>||
 |**read\_batch\_size**|`integer`, `string`|Maximum number of records read from the source streams in a single batch.<br/>Default: `2000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
 |**read\_batch\_timeout\_ms**<br/>(Read batch timeout)|`integer`|Maximum time in milliseconds to wait for a batch to fill before processing it.<br/>Default: `100`<br/>Minimum: `1`<br/>||
 |**duration**<br/>(Batch duration limit)|`integer`, `string`|(DEPRECATED)<br/>This property has no effect; use `read_batch_timeout_ms` instead.<br/>Default: `100`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
