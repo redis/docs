@@ -263,3 +263,27 @@ The `status` field reports the results of an authentication request as an intege
 | `7` | AUTHENTICATION_SYNCER_OK | Syncer authenticated. Returned SASL response. |
 | `8` | AUTHENTICATION_OK | Client successfully authenticated. |
 
+## Monitor auditing metrics
+
+You can use the following metrics exported by Redis Software to monitor your database auditing pipeline. For more information about monitoring Redis Software, see the [monitoring v2 documentation]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}).
+
+| Metric | Description |
+|--------|---|
+| audit_sink_sent_messages | Count of audit records sent to the audit sink. Does not guarantee the remote consumer received them. |
+| audit_sink_sent_bytes | Total size, in bytes, of audit data sent to the audit sink. Does not guarantee the remote consumer received it. |
+| audit_sink_dropped_messages | Count of audit records discarded before they could be delivered to the sink. |
+| audit_sink_dropped_bytes | Total size, in bytes, of audit data discarded before delivery to the sink. |
+| audit_sink_pending_bytes | Current amount of audit data waiting in the outgoing queue to be sent to the sink. |
+| audit_sink_connect_events | Count of times a connection to the sink was successfully established. |
+| audit_sink_disconnect_events | Count of times the connection to the sink was disconnected. |
+| audit_sink_reconnect_attempts | Count of attempts to create or re-create a connection to the sink, successful or not. |
+| audit_sink_reconnect_attempts_exhausted | Count of times the system gave up reconnecting after reaching the configured maximum number of attempts. |
+| audit_sink_disconnect_loss_events | Total disconnect events that lost buffered audit data. |
+| audit_sink_disconnect_loss_bytes | Total buffered audit bytes lost due to disconnect events. |
+| audit_sink_dropped_queue_full_messages | Count of audit records discarded because an individual worker's queue had no more capacity. |
+| audit_sink_dropped_record_too_large_messages | Count of audit records discarded because a single record was larger than the allowed queue byte limit. |
+| audit_sink_dropped_disconnected_messages | Count of audit records discarded because there was no active connection to the sink when delivery was needed. |
+| audit_sink_dropped_queue_disabled_messages | Count of audit records discarded because queuing was disabled. |
+| audit_sink_dropped_send_failed_messages | Count of audit records discarded because an attempt to send them to the sink failed. |
+| audit_sink_connected_workers | Number of workers that currently have an active connection to the sink. |
+| audit_sink_queue_high_watermark_bytes | Sum of each worker's highest observed pending-buffer size since the process started. |
