@@ -45,8 +45,8 @@ The classic processor runs as a single pod managed by the operator
 and can be deployed on either VMs or Kubernetes through the RDI Helm
 chart.
 
-The Flink processor runs as an Apache Flink application cluster: one
-JobManager pod plus one or more TaskManager pods. Source,
+The Flink processor runs as an Apache Flink application cluster managed by
+RDI: one JobManager pod plus one or more TaskManager pods. Source,
 transformation, and sink operators run as parallel subtasks across
 all task slots in the cluster. The Flink processor scales
 horizontally by changing the number of TaskManager replicas

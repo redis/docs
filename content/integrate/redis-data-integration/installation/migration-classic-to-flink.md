@@ -57,6 +57,9 @@ your `rdi-values.yaml` file and run `helm upgrade` as described in
 Existing pipelines continue to run on the classic processor until you switch
 them in step 2.
 
+For VM installations, skip this step. You can configure per-pipeline Flink
+resources in step 4.
+
 ## Step 2: Switch the pipeline to the Flink processor
 
 In the pipeline's `config.yaml`, set
@@ -106,10 +109,6 @@ processors:
     source:
       # Time between checks for new input streams.
       discovery.interval.ms: 1000
-    target:
-      # Verify writes are replicated before acknowledging.
-      wait.enabled: true
-      wait.write.timeout.ms: 1000
     flink:
       # Number of parallel task slots per TaskManager pod.
       taskmanager.numberOfTaskSlots: 2

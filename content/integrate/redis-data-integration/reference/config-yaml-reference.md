@@ -645,7 +645,7 @@ Settings that control how data is processed, including batch sizes, error handli
 |**retry\_max\_attempts**<br/>(Maximum retry attempts)|`integer`, `string`|Maximum number of attempts for a failed write to the target Redis database before giving up.<br/>Default: `5`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
 |**retry\_initial\_delay\_ms**<br/>(Initial retry delay)|`integer`, `string`|Initial delay in milliseconds before the first retry of a failed write.<br/>Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
 |**retry\_max\_delay\_ms**<br/>(Maximum retry delay)|`integer`, `string`|Maximum delay in milliseconds between retry attempts.<br/>Default: `10000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
-|**wait\_enabled**<br/>(Enable replica wait)|`boolean`|When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it.<br/>Default: `false`<br/>||
+|**wait\_enabled**<br/>(Enable replica wait)|`boolean`|When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it. Enable this only when target database replication is enabled and a healthy replica is available. For the Flink processor, `processors.advanced.target.wait.enabled` takes priority.<br/>Default: `false`<br/>||
 |**wait\_timeout**<br/>(Replica wait timeout)|`integer`, `string`|Maximum time in milliseconds to wait for replica write verification on the target database.<br/>Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
 |**retry\_on\_replica\_failure**|`boolean`|When `true`, RDI keeps retrying a write until replica replication is confirmed; when `false`, it gives up after the first failure.<br/>Default: `true`<br/>||
 |**on\_failed\_retry\_interval**<br/>(Retry interval on failure)|`integer`, `string`|(DEPRECATED)<br/>This property has no effect; remove it from the configuration.<br/>Default: `5`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
@@ -807,10 +807,16 @@ Advanced configuration properties for the target Redis client and sink. **Flink 
 |**retry\.initial\.delay\.ms**<br/>(Target retry initial delay)|`integer`|Initial delay in milliseconds before the first retry of a failed target Redis operation. Alias for `processors.retry_initial_delay_ms`; takes priority when both are set.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
 |**retry\.max\.delay\.ms**<br/>(Target retry max delay)|`integer`|Maximum delay in milliseconds between retry attempts for target Redis operations. Alias for `processors.retry_max_delay_ms`; takes priority when both are set.<br/>Default: `10000`<br/>Minimum: `1`<br/>||
 |**retry\.backoff\.multiplier**<br/>(Target retry backoff multiplier)|`number`|Exponential backoff multiplier between retry attempts for target Redis operations.<br/>Default: `2`<br/>Minimum: `1`<br/>||
-|**wait\.enabled**<br/>(Target replica wait enabled)|`boolean`|When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it. Alias for `processors.wait_enabled`; takes priority when both are set.<br/>Default: `false`<br/>||
+|**wait\.enabled**<br/>(Target replica wait enabled)|`boolean`|When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it. Enable this only when target database replication is enabled and a healthy replica is available. Alias for `processors.wait_enabled`; takes priority when both are set.<br/>Default: `false`<br/>||
 |**wait\.write\.timeout\.ms**<br/>(Target replica wait timeout)|`integer`|Maximum time in milliseconds to wait for target replica write verification. Alias for `processors.wait_timeout`; takes priority when both are set.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
-|**wait\.retry\.enabled**<br/>(Target replica wait retry enabled)|`boolean`|When `true`, RDI keeps retrying a target write until replica replication is confirmed; when `false`, it gives up after the first failure. Alias for `processors.retry_on_replica_failure`; takes priority when both are set. When enabled, the Flink processor retries indefinitely until the checkpoint timeout, unlike the classic processor which retries once.<br/>Default: `true`<br/>||
+|**wait\.retry\.enabled**<br/>(Target replica wait retry enabled)|`boolean`|When `true`, RDI keeps retrying a target write until replica replication is confirmed; when `false`, it gives up after the first failure. Alias for `processors.retry_on_replica_failure`; takes priority when both are set. When enabled, the Flink processor retries indefinitely. Failed checkpoints can restart the job, after which the retries resume. The classic processor retries once.<br/>Default: `true`<br/>||
 |**wait\.retry\.delay\.ms**<br/>(Target replica wait retry delay)|`integer`|Delay in milliseconds between target replica wait retry attempts.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
+
+{{< warning >}}
+If target database replication is disabled, setting `wait.enabled: true` with the
+default `wait.retry.enabled: true` prevents the processor from making progress.
+To recover, enable target database replication or remove `wait.enabled` and redeploy.
+{{< /warning >}}
 
 **Additional Properties**
 
