@@ -151,20 +151,20 @@ Audit event notifications are reported as JSON objects.
 
 This example reports a new connection for a database:
 
-``` json
+```json
 {
-    "ts":1655821384,
-    "new_conn":
-    {
-        "id":2285001002 ,
-        "srcip":"127.0.0.1",
-        "srcp":"39338",
-        "trgip":"127.0.0.1",
-        "trgp":"12635",
-        "hname":"",
-        "bdb_name":"DB1",
-        "bdb_uid":"5"
-    }
+    "ts": 1779874366,
+    "new_conn": {
+        "id": 13001000,
+        "srcip": "127.0.0.1",
+        "srcp": "46252",
+        "trgip": "127.0.0.1",
+        "trgp": "12000",
+        "bdb_name": "D1",
+        "bdb_uid": "1"
+    },
+    "audit_worker_id": 0,
+    "audit_seq": 0
 }
 ```
 
@@ -172,51 +172,102 @@ This example reports a new connection for a database:
 
 Here is a sample authentication request for a database:
 
-``` json
+```json
 {
-    "ts":1655821384,
-    "action":"auth",
-    "id":2285001002 ,
-    "srcip":"127.0.0.1",
-    "srcp":"39338",
-    "trgip":"127.0.0.1",
-    "trgp":"12635",
-    "hname":"",
-    "bdb_name":"DB1",
-    "bdb_uid":"5",
-    "status":2,
-    "username":"user_one",
-    "identity":"user:1",
-    "acl-rules":"~* +@all"
+    "ts": 1779874366,
+    "action": "auth",
+    "id": 13001000,
+    "srcip": "127.0.0.1",
+    "srcp": "46252",
+    "trgip": "127.0.0.1",
+    "trgp": "12000",
+    "bdb_name": "D1",
+    "bdb_uid": "1",
+    "status": 2,
+    "username": "default",
+    "identity": "user:default",
+    "acl-rules": "allkeys +@all allchannels",
+    "audit_worker_id": 0,
+    "audit_seq": 1
 }
 ```
 
-The `status` field reports the following: 
+### Successful command
 
-- Values of 2, 7, or 8 indicate success.
+The following example shows the audit notification for a successful command, such as `GET myKey`:
 
-- Values of 3 or 5 indicate that the client authentication is in progress and should conclude later.
+```json
+{
+    "ts": 1779874374,
+    "action": "command",
+    "id": 13001000,
+    "srcip": "127.0.0.1",
+    "srcp": "46252",
+    "trgip": "127.0.0.1",
+    "trgp": "12000",
+    "bdb_name": "D1",
+    "bdb_uid": "1",
+    "status": 9,
+    "command": "get",
+    "keys": ["myKey"],
+    "full_key_size_bytes": 3,
+    "captured_key_size_bytes": 3,
+    "total_keys_count": 1,
+    "key_truncated": false,
+    "affected_count": null,
+    "audit_worker_id": 0,
+    "audit_seq": 3
+}
+```
 
-- Other values indicate failures.
+### Failed command
 
-### Database disconnect
+The following example shows the audit notification for a failed command, such as when you run `SET` without a key:
+
+```json
+{
+    "ts": 1779874378,
+    "action": "command",
+    "id": 13001000,
+    "srcip": "127.0.0.1",
+    "srcp": "46252",
+    "trgip": "127.0.0.1",
+    "trgp": "12000",
+    "bdb_name": "D1",
+    "bdb_uid": "1",
+    "status": 10,
+    "command": "set",
+    "keys": [],
+    "full_key_size_bytes": 0,
+    "captured_key_size_bytes": 0,
+    "total_keys_count": 0,
+    "key_truncated": false,
+    "affected_count": null,
+    "error": "ERR wrong number of arguments for 'set' command",
+    "error_truncated": false,
+    "audit_worker_id": 0,
+    "audit_seq": 4
+}
+```
+
+### Close connection
 
 Here's what's reported when a database connection is closed:
 
-``` json
+```json
 {
-    "ts":1655821384,
-    "close_conn":
-    {
-        "id":2285001002,
-        "srcip":"127.0.0.1",
-        "srcp":"39338",
-        "trgip":"127.0.0.1",
-        "trgp":"12635",
-        "hname":"",
-        "bdb_name":"DB1",
-        "bdb_uid":"5"
-    }
+    "ts": 1779874380,
+    "close_conn": {
+        "id": 13001000,
+        "srcip": "127.0.0.1",
+        "srcp": "46252",
+        "trgip": "127.0.0.1",
+        "trgp": "12000",
+        "bdb_name": "D1",
+        "bdb_uid": "1"
+    },
+    "audit_worker_id": 0,
+    "audit_seq": 5
 }
 ```
 
