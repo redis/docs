@@ -77,7 +77,7 @@ Redis 8.10 introduces new features and performance improvements.
 - [#15447](https://github.com/redis/redis/pull/15447) Full sync under heavy write load
 - [#15412](https://github.com/redis/redis/pull/15412) Unit mismatch disables the FAST expire cycle stale trigger
 - [#15392](https://github.com/redis/redis/pull/15392) Crash on `VRANDMEMBER` with `LLONG_MIN` count
-- [#15409](https://github.com/redis/redis/pull/15409) `CONFIG SET` - crash on of TLS options in non-TLS builds
+- [#15409](https://github.com/redis/redis/pull/15409) `CONFIG SET` - crash on TLS options in non-TLS builds
 - [#15371](https://github.com/redis/redis/pull/15371) ACL key-name leak in BCAST client-side caching invalidations
 - [#15433](https://github.com/redis/redis/pull/15433) Signed overflow in `BITFIELD` offset parsing
 - [#15446](https://github.com/redis/redis/pull/15446) The select-based event loop backend enqueues registered file descriptors that `select()` did not mark ready
@@ -129,7 +129,7 @@ Redis 8.10 introduces new features and performance improvements.
 ### CLI tools
 
 - [#15352](https://github.com/redis/redis/pull/15352) Adds `--latency-percentiles <p1,p2,...>` to `--latency` / `--latency-history`: reporting user-chosen percentiles
-- [#15262](https://github.com/redis/redis/pull/15262) `redis-cli --cluster rebalance` - CROSSSLOT error on when using `-user` without `-a`
+- [#15262](https://github.com/redis/redis/pull/15262) `redis-cli --cluster rebalance` - CROSSSLOT error when using `-user` without `-a`
 - [#15338](https://github.com/redis/redis/pull/15338) `redis-cli --cluster reshard` and `rebalance` now move slots with server-side atomic slot migration
 </content>
 </invoke>
