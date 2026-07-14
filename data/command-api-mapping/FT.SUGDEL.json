@@ -157,6 +157,27 @@
           "description": "1 if deleted, 0 if not found"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_sugdel(key, string)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": "the suggestion dictionary key"
+          },
+          {
+            "name": "string",
+            "type": "String",
+            "description": "the suggestion text to delete"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "1 if the suggestion existed and was deleted, 0 otherwise"
+        }
+      }
     ]
   }
 }

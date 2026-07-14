@@ -196,6 +196,51 @@
           "description": "The aggregation results"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "aggregate(query, *args)",
+        "params": [
+          {
+            "name": "query",
+            "type": "Search::AggregateRequest, Search::Cursor, String",
+            "description": "an aggregate request, a cursor to read, or a raw query string followed by raw pipeline args"
+          },
+          {
+            "name": "args",
+            "type": "Array",
+            "description": "raw pipeline tokens when query is a String"
+          }
+        ],
+        "returns": {
+          "type": "Search::AggregateResult",
+          "description": "the result rows (each a Hash) and the cursor id (or nil)"
+        }
+      },
+      {
+        "signature": "ft_aggregate(index_name, query, *args)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "Search::AggregateRequest, Search::Cursor, String",
+            "description": "an aggregate request, a cursor to read, or a raw query string followed by raw pipeline args"
+          },
+          {
+            "name": "args",
+            "type": "Array",
+            "description": "raw pipeline tokens when query is a String, e.g. \"GROUPBY\", 1, \"@x\", \"REDUCE\", \"COUNT\", 0, \"AS\", \"n\""
+          }
+        ],
+        "returns": {
+          "type": "Search::AggregateResult",
+          "description": "the result rows (each a Hash) and the cursor id (or nil)"
+        }
+      }
     ]
   }
 }
