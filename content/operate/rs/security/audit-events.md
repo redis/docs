@@ -222,32 +222,88 @@ Here's what's reported when a database connection is closed:
 
 ## Notification field reference
 
-The field value that appears immediately after the timestamp describes the action that triggered the notification.  The following values may appear:
+All audit records follow a unified JSON structure that is backward compatibible with the existing authentication request format used for connection auditing.
 
-- `new_conn` indicates a new external connection
-- `new_int_conn` indicates a new internal connection 
-- `close_conn` occurs when a connection is closed
-- `"action":"auth"` indicates an authentication request and can refer to new authentication requests or authorization checks on existing connections
+{{<note>}}
+Command audit records never include the payload value associated with a key. Only the key name is recorded.
+{{</note>}}
+
+### Record types
+
+The field that appears immediately after the timestamp (`"ts"`) describes the action that triggered the notification:
+
+| Type | Description |
+|------|-------------|
+| new_conn | Emitted when a new client connection is established. |
+| auth | `"action": "auth"` indicates an authentication request and can refer to new authentication requests or authorization checks on existing connections. |
+| command | `"action": "command"` indicates CRUD requests. Emitted for audited database commands. |
+| close_conn | Emitted when a client connection is closed. |
+
+### Notification fields
 
 In addition, the following fields may also appear in audit event notifications:
 
-| Field&nbsp;name | Description |
-|:---------:|-------------|
-| `acl-rules` | ACL rules associated with the connection, which includes a rule for the `default` user. |
-| `bdb_name` | Destination database name - The name of the database being accessed. | 
-| `bdb_uid` | Destination database ID - The cluster ID of the database being accessed. | 
-| `hname` | Client hostname - The hostname of the client.  Currently empty; reserved for future use. |
-| `id` | Connection ID - Unique connection ID assigned by the proxy. |
-| `identity` | Identity - A unique ID the proxy assigned to the user for the current connection. |
-| `srcip` | Source IP address - Source TCP/IP address of the client accessing the Redis database. |
-| `srcp` | Source port - Port associated with the source IP address accessing the Redis database. Combine the port with the address to uniquely identify the socket. |
-| `status` | Status result code - An integer representing the result of an authentication request. |
-| `trgip` | Target IP address - The IP address of the destination being accessed by the action. |
-| `trgp` | Target port - The port of the destination being accessed by the action.  Combine the port with the destination IP address to uniquely identify the database being accessed. |
-| `ts`  | Timestamp - The date and time of the event, in [Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) (UTC).  Granularity is within one second. |
-| `username` | Authentication username  - Username associated with the connection; can include `default` for databases that allow default access.  (Passwords are _not_ recorded). |
+| Field | Type | Description |
+|---|---|---|
+| ts | integer | Unix timestamp of the event, in UTC. Granularity is within one second. |
+| action | string | `auth` for authentication requests; `command` for CRUD requests. (Not present on `new_conn`/`close_conn` records, which are identified by their own key instead.) |
+| id | integer | Unique connection ID assigned by the proxy. |
+| srcip | string | Source IP address of the client. |
+| srcp | string | Source port of the client connection. |
+| trgip | string | Target IP address (the Redis endpoint). |
+| trgp | string | Target port. |
+| hname | string | Client hostname, if available. Currently empty; reserved for future use. |
+| bdb_name | string | Name of the database. |
+| bdb_uid | string | Unique cluster ID of the database. |
+| status | integer | Result code. See [Status result codes](#status-result-codes). |
+| username | string | Authentication username associated with the connection. |
+| identity | string | A unique ID the proxy assigned to the user for the current connection. |
+| acl-rules | string | ACL rules associated with the user. |
+| command | string | The Redis command name for CRUD requests. |
+| keys | array[string] | The key(s) associated with the command. Empty when no keys are captured. |
+| full_key_size_bytes | integer | Byte size of the full key payload before truncation. |
+| captured_key_size_bytes | integer | Byte size of the key payload actually captured in the audit record. |
+| total_keys_count | integer | Total number of keys referenced by the command. |
+| key_truncated | boolean | Whether the captured key list was truncated. |
+| affected_count | integer / null | Number of keys or elements affected by the command, when applicable. |
+| error` | string | Error text for failed command execution (present on failure only). |
+| error_truncated | boolean | Whether the error text was truncated (present on failure only). |
+| audit_worker_id | integer | ID of the proxy worker thread that produced the audit record. For debugging purposes only. |
+| audit_seq | integer | Per-worker sequence number of the audit report. Useful for debugging and detecting dropped audit reports. |
 
-## Status result codes
+### Fields by record type
+
+The following table shows which fields can appear in each record type:
+
+| Field | new_conn / close_conn | auth | command |
+|---|---|---|---|
+| ts | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| action | | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| id | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| srcip | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| srcp | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| trgip | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| trgp | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| hname | <span title="Supported">:white_check_mark:</span> | | |
+| bdb_name | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| bdb_uid | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| status | | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| username | | <span title="Supported">:white_check_mark:</span> | |
+| identity | | <span title="Supported">:white_check_mark:</span> | |
+| acl-rules | | <span title="Supported">:white_check_mark:</span> | |
+| command | | | <span title="Supported">:white_check_mark:</span> |
+| keys | | | <span title="Supported">:white_check_mark:</span> |
+| full_key_size_bytes | | | <span title="Supported">:white_check_mark:</span> |
+| captured_key_size_bytes | | | <span title="Supported">:white_check_mark:</span> |
+| total_keys_count | | | <span title="Supported">:white_check_mark:</span> |
+| key_truncated | | | <span title="Supported">:white_check_mark:</span> |
+| affected_count | | | <span title="Supported">:white_check_mark:</span> |
+| error | | | <span title="Supported">:white_check_mark:</span> |
+| error_truncated | | | <span title="Supported">:white_check_mark:</span> |
+| audit_worker_id | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+| audit_seq | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
+
+### Status result codes
 
 The `status` field reports the result of an auditing request as a numeric code:
 
