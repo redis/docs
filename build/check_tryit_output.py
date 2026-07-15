@@ -56,8 +56,8 @@ import re
 import subprocess
 import sys
 
-# API_DEFAULT = "https://redis.io/cli"
-API_DEFAULT = "http://localhost:5000"
+API_DEFAULT = "https://redis.io/cli"
+
 BATCH_MAX = 20  # redis.io/cli rejects requests with more than 20 commands
 
 # --- reply formatting: faithful port of static/js/cli.js formatReply/reprString ---
