@@ -88,6 +88,8 @@ src_path() {
     cmds_list:ruby)                   echo local_examples/cmds_list/ruby/cmds_list.rb ;;
     cmds_list:rust-sync)              echo local_examples/cmds_list/rust-sync/cmds_list.rs ;;
     cmds_list:rust-async)             echo local_examples/cmds_list/rust-async/cmds_list.rs ;;
+    cmds_stream:ioredis)              echo local_examples/cmds_stream/ioredis/cmds-stream.js ;;
+    cmds_stream:ruby)                 echo local_examples/cmds_stream/ruby/cmds_stream.rb ;;
     time_series_tutorial:python) echo local_examples/time_series_tutorial/redis-py/dt_time_series.py ;;
     time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
