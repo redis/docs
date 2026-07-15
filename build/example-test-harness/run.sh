@@ -80,6 +80,10 @@ src_path() {
     cmds_servermgmt:lettuce-async)    echo local_examples/cmds_servermgmt/lettuce-async/CmdsServerMgmtExample.java ;;
     cmds_servermgmt:lettuce-reactive) echo local_examples/cmds_servermgmt/lettuce-reactive/CmdsServerMgmtExample.java ;;
     cmds_servermgmt:php)              echo local_examples/cmds_servermgmt/predis/CmdsServerMgmtTest.php ;;
+    cmds_set:ioredis)                 echo local_examples/cmds_set/ioredis/cmds-set.js ;;
+    cmds_set:ruby)                    echo local_examples/cmds_set/ruby/cmds_set.rb ;;
+    cmds_set:rust-sync)               echo local_examples/cmds_set/rust-sync/cmds_set.rs ;;
+    cmds_set:rust-async)              echo local_examples/cmds_set/rust-async/cmds_set.rs ;;
     time_series_tutorial:python) echo local_examples/time_series_tutorial/redis-py/dt_time_series.py ;;
     time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
