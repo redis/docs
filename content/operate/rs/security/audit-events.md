@@ -253,6 +253,20 @@ To deactivate this policy, set `db_conns_auditing` to `disabled`.
 
 {{< /multitabs >}} 
 
+## Auditing validation errors
+
+| Error code | Cause |
+|---|---|
+| `audit_settings_config_missing` | Attempted to enable auditing before configuring `/v1/cluster/auditing/db_conns`. |
+| `audit_settings_empty_filter_list` | Enabled username or source IP filter has no entries. |
+| `audit_settings_invalid_ip_address` | Invalid value in `source_ip_filter.ip_addresses`. |
+| `audit_settings_invalid_cidr_range` | Invalid value in `source_ip_filter.cidr_ranges`. |
+| `audit_settings_filter_list_too_large` | Combined source IP and CIDR entries exceed 512. |
+| `invalid_schema` | Request violates schema constraints, such as an invalid enum, negative size, extra fields, or an over-limit array. |
+| `db_conns_auditing_missing_config` | TCP audit sink is missing required configuration, such as `audit_port`. |
+| `db_conns_auditing_bad_config` | Invalid sink field combination, such as `audit_port` with `local`. |
+| `db_conns_auditing_bad_address` | Invalid sink address for the selected protocol. |
+
 ## Turn off auditing
 
 To turn off auditing for a specific database:
