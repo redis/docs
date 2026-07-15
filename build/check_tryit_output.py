@@ -199,6 +199,9 @@ UNORDERED_CMDS = {
     "HKEYS", "HVALS", "HGETALL", "HRANDFIELD",
     # sorted-set random pick
     "ZRANDMEMBER",
+    # vector set similarity: ranked by score, but equal-score ties break in any
+    # order (compared as a multiset, so tied elements may swap places)
+    "VSIM",
 }
 
 _IDX = re.compile(r'^\s*\d+\)\s+')  # a redis-cli "N) " list index
