@@ -66,6 +66,9 @@ public class CmdsSortedSetExample {
             // REMOVE_END
 
             // STEP_START zrange1
+            // REMOVE_START
+            asyncCommands.del("myzset").toCompletableFuture().join();
+            // REMOVE_END
             CompletableFuture<Void> zRange1Example = asyncCommands.zadd("myzset",
                     ScoredValue.just(1d, "one"), ScoredValue.just(2d, "two"), ScoredValue.just(3d, "three"))
                     .thenCompose(res5 -> {
@@ -100,6 +103,9 @@ public class CmdsSortedSetExample {
             // REMOVE_END
 
             // STEP_START zrange2
+            // REMOVE_START
+            asyncCommands.del("myzset").toCompletableFuture().join();
+            // REMOVE_END
             CompletableFuture<Void> zRange2Example = asyncCommands.zadd("myzset",
                     ScoredValue.just(1d, "one"), ScoredValue.just(2d, "two"), ScoredValue.just(3d, "three"))
                     .thenCompose(res9 -> {
@@ -123,6 +129,9 @@ public class CmdsSortedSetExample {
             // REMOVE_END
 
             // STEP_START zrange3
+            // REMOVE_START
+            asyncCommands.del("myzset").toCompletableFuture().join();
+            // REMOVE_END
             CompletableFuture<Void> zRange3Example = asyncCommands.zadd("myzset",
                     ScoredValue.just(1d, "one"), ScoredValue.just(2d, "two"), ScoredValue.just(3d, "three"))
                     .thenCompose(res11 -> {

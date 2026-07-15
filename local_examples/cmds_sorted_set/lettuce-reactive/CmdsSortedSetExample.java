@@ -71,6 +71,9 @@ public class CmdsSortedSetExample {
             // REMOVE_END
 
             // STEP_START zrange1
+            // REMOVE_START
+            reactiveCommands.del("myzset").block();
+            // REMOVE_END
             Mono<Void> zRange1Example = reactiveCommands.zadd("myzset",
                     ScoredValue.just(1d, "one"), ScoredValue.just(2d, "two"), ScoredValue.just(3d, "three"))
                     .doOnNext(res5 -> {
@@ -109,6 +112,9 @@ public class CmdsSortedSetExample {
             // REMOVE_END
 
             // STEP_START zrange2
+            // REMOVE_START
+            reactiveCommands.del("myzset").block();
+            // REMOVE_END
             Mono<Void> zRange2Example = reactiveCommands.zadd("myzset",
                     ScoredValue.just(1d, "one"), ScoredValue.just(2d, "two"), ScoredValue.just(3d, "three"))
                     .then(reactiveCommands.zrangeWithScores("myzset", 0, 1).collectList())
@@ -129,6 +135,9 @@ public class CmdsSortedSetExample {
             // REMOVE_END
 
             // STEP_START zrange3
+            // REMOVE_START
+            reactiveCommands.del("myzset").block();
+            // REMOVE_END
             Mono<Void> zRange3Example = reactiveCommands.zadd("myzset",
                     ScoredValue.just(1d, "one"), ScoredValue.just(2d, "two"), ScoredValue.just(3d, "three"))
                     .then(reactiveCommands.zrangebyscore("myzset",

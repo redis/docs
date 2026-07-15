@@ -69,6 +69,9 @@ mod cmds_sorted_set_tests {
         // STEP_END
 
         // STEP_START zrange1
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("myzset").await;
+        // REMOVE_END
         if let Ok(res5) = r.zadd_multiple("myzset", &[(1, "one"), (2, "two"), (3, "three")]).await {
             let res5: i32 = res5;
             println!("{res5}"); // >>> 3
@@ -106,6 +109,9 @@ mod cmds_sorted_set_tests {
         // STEP_END
 
         // STEP_START zrange2
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("myzset").await;
+        // REMOVE_END
         let _: Result<i32, _> = r.zadd_multiple("myzset", &[(1, "one"), (2, "two"), (3, "three")]).await;
 
         if let Ok(res9) = r.zrange_withscores("myzset", 0, 1).await {
@@ -124,6 +130,9 @@ mod cmds_sorted_set_tests {
         // STEP_END
 
         // STEP_START zrange3
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("myzset").await;
+        // REMOVE_END
         let _: Result<i32, _> = r.zadd_multiple("myzset", &[(1, "one"), (2, "two"), (3, "three")]).await;
 
         if let Ok(res10) = r.zrangebyscore_limit("myzset", "(1", "+inf", 1, 1).await {
