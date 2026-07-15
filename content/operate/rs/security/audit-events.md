@@ -28,11 +28,9 @@ Example external listeners include:
 
 For development and testing environments, notifications can be saved to a local file; however, this is neither supported nor intended for production environments.
 
-For performance reasons, auditing is not enabled by default.  In addition, auditing occurs in the background (asynchronously) and is non-blocking by design.  That is, the action that triggered the notification continues without regard to the status of the notification or the listening tool.  
+For performance reasons, auditing is not enabled by default.  In addition, auditing occurs in the background (asynchronously) and is non-blocking by design.  That is, the action that triggered the notification continues without regard to the status of the notification or the listening tool.
 
-## Enable audit notifications
-
-### Configure cluster audit destination
+## Configure cluster audit destination
 
 Before enabling auditing on any database, configure the audit destination using one of the following methods:
 
@@ -79,7 +77,7 @@ rladmin cluster config auditing db_conns \
     
 - _audit\_reconnect\_max\_attempts_ defines the maximum number of attempts to reconnect. Default is 0. (infinite)
 
-#### Local socket for testing
+### Local socket for testing
 
 Development systems can set _audit\_protocol_ to `local` for testing and training purposes; however, this setting is _not_ supported for production use.  
     
@@ -112,7 +110,7 @@ rladmin cluster config auditing db_conns \
 
 The socket file and path must be accessible by the user and group running Redis Software.
 
-### Enable command and connection auditing
+## Enable command and connection auditing
 
 After you configure the audit destination for your cluster, you can enable command (CRUD) and connection auditing for individual databases using an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
 
@@ -125,7 +123,7 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
 }
 ```
 
-### Enable connection auditing only
+## Enable connection auditing only
 
 After you configure the audit destination for your cluster, you can enable connection auditing only for individual databases using one of the following methods:
 
@@ -154,7 +152,7 @@ rladmin tune db db:<id|name> db_conns_auditing enabled
 
 {{< /multitabs >}}
 
-### Set policy defaults for new databases
+## Set policy defaults for new databases
 
 To audit connections for new databases by default, use of the following methods:
 
