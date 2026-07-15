@@ -90,6 +90,13 @@ src_path() {
     cmds_list:rust-async)             echo local_examples/cmds_list/rust-async/cmds_list.rs ;;
     cmds_stream:ioredis)              echo local_examples/cmds_stream/ioredis/cmds-stream.js ;;
     cmds_stream:ruby)                 echo local_examples/cmds_stream/ruby/cmds_stream.rb ;;
+    set_and_get:ioredis)              echo local_examples/set_and_get/ioredis/set-get.js ;;
+    set_and_get:ruby)                 echo local_examples/set_and_get/ruby/set_get.rb ;;
+    set_and_get:rust-sync)            echo local_examples/set_and_get/rust-sync/set_get.rs ;;
+    set_and_get:rust-async)           echo local_examples/set_and_get/rust-async/set_get.rs ;;
+    set_and_get:lettuce-async)        echo local_examples/set_and_get/lettuce-async/SetGetExample.java ;;
+    set_and_get:lettuce-reactive)     echo local_examples/set_and_get/lettuce-reactive/SetGetExample.java ;;
+    set_and_get:php)                  echo local_examples/set_and_get/predis/SetGetTest.php ;;
     time_series_tutorial:python) echo local_examples/time_series_tutorial/redis-py/dt_time_series.py ;;
     time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
