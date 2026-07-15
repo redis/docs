@@ -26,6 +26,7 @@ An API object that represents a managed database in the cluster.
 | active_defrag_threshold_upper | integer, (range: 0-1000) (default: 100); Maximum percentage of fragmentation at which maximum effort is used |
 | activedefrag | Enable or turn off active defragmentation functionality.<br />Values:<br />'yes'<br />**'no'** |
 | aof_policy | Policy for Append-Only File data persistence<br />Values:<br />**'appendfsync-every-sec'** <br />'appendfsync-always' |
+| audit_settings | [complex object](https://redis.io/docs/latest/operate/rs/references/rest-api/objects/bdb/audit_settings/); Configures per-database connection and CRUD auditing mode, username/source-IP filtering, and key-byte capture limits. See [Audit database events](https://redis.io/docs/latest/operate/rs/security/audit-events/). |
 | authentication_admin_pass | string; Password for administrative access to the BDB (used for SYNC from the BDB) |
 | authentication_redis_pass | string; Redis AUTH password authentication.  <br/>Use for Redis databases only.  Ignored for memcached databases. (deprecated as of Redis Software v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | authentication_sasl_pass | string; Binary memcache SASL password |
@@ -77,7 +78,7 @@ An API object that represents a managed database in the cluster.
 | data_internode_encryption | boolean;  Should the data plane internode communication for this database be encrypted |
 | data_persistence | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided<br />Values:<br />**'disabled'** <br />'snapshot'<br />'aof' |
 | dataset_import_sources | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}});  Array of source file location description objects to import from when performing an import action. This is write-only and cannot be read after set. <br />Call `GET /v1/jsonschema` to retrieve the object's structure. |
-| db_conns_auditing | boolean;  Enables/deactivates [database connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) |
+| db_conns_auditing | boolean; deprecated as of Redis Software 8.2.0; use `audit_settings.audit_mode` instead. Enables/deactivates [database connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) |
 | default_user | boolean (default:&nbsp;true); Allow/disallow a default user to connect |
 | disabled_commands | string (default: ); Redis commands which are disabled in db |
 | <span class="break-all">disconnect_clients_on_password_removal</span> | boolean (default: false); Controls whether client connections using removed, revoked, or rotated passwords are actively disconnected |
