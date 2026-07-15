@@ -10,13 +10,14 @@ title: Audit database commands and connections
 weight: 15
 ---
 
-Redis Software lets you audit database connection and authentication events.  This helps you track and troubleshoot connection activity.
+Redis Software lets you audit database connection, authentication, and command (CRUD) events. This helps you track and troubleshoot connection and data-access activity.
 
-The following events are tracked:
+The following events can be tracked, depending on the configured audit mode:
 
 - Database connection attempts
 - Authentication requests, including requests for new and existing connections
 - Database disconnects
+- Individual database commands (CRUD operations) if command auditing is enabled
 
 When tracked events are triggered, notifications are sent via TCP to an address and port defined when auditing is enabled.  Notifications appear in near real time and are intended to be consumed by an external listener, such as a TCP listener, third-party service, or related utility.
 
@@ -26,9 +27,13 @@ Example external listeners include:
 
 - Imperva Sonar: a third-party service available for purchase separately from Redis Software. See [Redis Onboarding Steps](https://docs.imperva.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Onboarding-Steps_48368215.html) for more information.
 
+- IBM Guardium
+
+- Other SIEM or DAM platforms
+
 For development and testing environments, notifications can be saved to a local file; however, this is neither supported nor intended for production environments.
 
-For performance reasons, auditing is not enabled by default.  In addition, auditing occurs in the background (asynchronously) and is non-blocking by design.  That is, the action that triggered the notification continues without regard to the status of the notification or the listening tool.
+For performance reasons, auditing is not enabled by default.  In addition, auditing occurs asynchronously in the background and is non-blocking by design. That is, the action that triggered the notification continues without regard to the status of the notification or the listening tool.
 
 ## Configure cluster audit destination
 
