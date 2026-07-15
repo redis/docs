@@ -112,16 +112,83 @@ The socket file and path must be accessible by the user and group running Redis 
 
 ## Enable command and connection auditing
 
-After you configure the audit destination for your cluster, you can enable command (CRUD) and connection auditing for individual databases using an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
+After you configure the audit destination for your cluster, you can enable command (CRUD) and connection auditing for individual databases.
+
+When command auditing is enabled, you can filter by usernames, source IP addresses, or both to manage data volume and avoid capturing irrelevant traffic. If both filters are configured, only requests matching both criteria are audited.
+
+{{<note>}}
+Filter changes affect new client connections only. Existing connections continue to be audited based on the filters that were active when the connection was established.
+{{</note>}}
+
+To enable command and connection auditing and configure filters, use an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
 
 ```
 PUT https://<host>:<port>/v1/bdbs/<database-id>
 {
     "audit_settings": {
-        "audit_mode": "connection_and_crud"
+        "audit_mode": "connection_and_crud",
+        "username_filter": {
+            "enabled": true,
+            "usernames": ["application-user"],
+            "filter_type": "inclusive",
+            "allow_while_username_unknown": false
+        },
+        "source_ip_filter": {
+            "enabled": true,
+            "ip_addresses": [],
+            "cidr_ranges": ["10.20.0.0/16"],
+            "filter_type": "inclusive"
+        },
+        "max_total_key_bytes": 131072
     }
 }
 ```
+
+### Inclusive versus exclusive filters
+
+For full CRUD auditing with clear scoping, use `inclusive` filters to audit only known application users or networks.
+
+Use `exclusive` filters when the goal is to audit everything except specific users or networks.
+
+### Username filtering
+
+Username filtering controls which client usernames are included in or excluded from command audit records.
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `enabled` | boolean | `false` | Enables the username filter. |
+| `usernames` | string array | `[]` | Usernames to include or exclude. Maximum 512 entries. |
+| `filter_type` | string | `inclusive` | Either `inclusive` (audit only listed usernames) or `exclusive` (audit all except listed usernames). |
+| `allow_while_username_unknown` | boolean | `false` | Allows command auditing before the username is known. |
+
+**Username validation:**
+
+- Each username must be 1–255 characters.
+- Each username must use printable ASCII characters only.
+- Usernames must not contain `&`, `<`, `>`, or double-quote characters.
+- If `username_filter.enabled` is `true`, `usernames` must not be empty.
+
+### Source IP filtering
+
+Source IP filtering controls which client IP addresses are included in or excluded from command audit records.
+
+| Field | Type | Default | Description |
+|---|---|---|---|
+| `enabled` | boolean | `false` | Enables the source IP filter. |
+| `ip_addresses` | string array | `[]` | Bare IPv4 or IPv6 addresses. |
+| `cidr_ranges` | string array | `[]` | IPv4 or IPv6 CIDR ranges. |
+| `filter_type` | string | `inclusive` | Either `inclusive` (audit only listed IPs) or `exclusive` (audit all except listed IPs). |
+
+**Source IP validation:**
+
+- `ip_addresses` must contain only bare IPv4 or IPv6 addresses and no ranges.
+- `cidr_ranges` must contain only valid IPv4 or IPv6 CIDR ranges.
+- If `source_ip_filter.enabled` is `true`, at least one `ip_addresses` or `cidr_ranges` entry is required.
+- The combined number of `ip_addresses` and `cidr_ranges` entries cannot exceed 512.
+
+### Key byte limit
+
+You can set the `max_total_key_bytes` to control how much key data is captured per command audit record. The default value is `131072` and the minimum is `0`.
 
 ## Enable connection auditing only
 
