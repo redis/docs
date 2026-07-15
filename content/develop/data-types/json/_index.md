@@ -71,7 +71,7 @@ OK
 > JSON.NUMINCRBY crashes $ -0.75
 "[1.75]"
 > JSON.NUMMULTBY crashes $ 24
-"[42]"
+"[42.0]"
 {{< /clients-example >}}
 
 Here's a more interesting example that includes JSON arrays and objects:

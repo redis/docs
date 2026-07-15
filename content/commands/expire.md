@@ -152,13 +152,13 @@ Set the expiry only when the new expiry is less than the current one. A non-vola
 
 {{< clients-example set="cmds_generic" step="expire" description="Foundational: Set key expiration time using EXPIRE (supports conditional options NX/XX/GT/LT, returns 1 if set or 0 if not)" difficulty="beginner" >}}
 > SET mykey "Hello"
-"OK"
+OK
 > EXPIRE mykey 10
 (integer) 1
 > TTL mykey
 (integer) 10
 > SET mykey "Hello World"
-"OK"
+OK
 > TTL mykey
 (integer) -1
 > EXPIRE mykey 10 XX

@@ -78,9 +78,9 @@ multiple sets, and so forth.
 > SADD bikes:racing:france bike:1 bike:2 bike:3
 (integer) 3
 > SMEMBERS bikes:racing:france
-1) bike:3
-2) bike:1
-3) bike:2
+1) "bike:3"
+2) "bike:1"
+3) "bike:2"
 {{< /clients-example >}}
 
 Here I've added three elements to my set and told Redis to return all the

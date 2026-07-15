@@ -95,7 +95,7 @@ is applied to improve performance.
 > VEMB points pt:A
 1) "0.9999999403953552"
 2) "0.9999999403953552"
-9> VEMB points pt:B
+> VEMB points pt:B
 1) "-0.9999999403953552"
 2) "-0.9999999403953552"
 > VEMB points pt:C
