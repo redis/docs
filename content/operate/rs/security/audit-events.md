@@ -32,116 +32,169 @@ For performance reasons, auditing is not enabled by default.  In addition, audit
 
 ## Enable audit notifications
 
-### Cluster audits
+### Configure cluster audit destination
 
-To enable auditing for your cluster, use:
+Before enabling auditing on any database, configure the audit destination using one of the following methods:
 
-- `rladmin`
+{{< multitabs id="config-cluster-audit-dest"
+    tab1="REST API"
+    tab2="rladmin" >}}
 
-    ```
-    rladmin cluster config auditing db_conns \
-       audit_protocol <TCP|local> \
-       audit_address <address> \
-       audit_port <port> \
-       audit_reconnect_interval <interval in seconds> \
-       audit_reconnect_max_attempts <number of attempts>
-    ```
+To configure the audit destination using the REST API, use an [update database auditing]({{< relref "/operate/rs/references/rest-api/requests/cluster/auditing-db-conns#put-cluster-audit-db-conns" >}}) cluster request:
 
-    where:
+```sh
+PUT https://<host>:<port>/v1/cluster/auditing/db_conns
+{
+    "audit_protocol": "TCP",
+    "audit_address": "audit-sink.example.com",
+    "audit_port": <port>,
+    "audit_reconnect_interval": <seconds>,
+    "audit_reconnect_max_attempts": <integer>,
+    "audit_queue_max_bytes": <bytes>
+}
+```
 
-    - _audit\_protocol_ indicates the protocol used to process notifications.  For production systems, _TCP_ is the only value. 
+-tab-sep-
 
-    - _audit\_address_ defines the TCP/IP address where one can listen for notifications
+To configure the audit destination using `rladmin`, run the following command:
 
-    - _audit\_port_ defines the port where one can listen for notifications
+```
+rladmin cluster config auditing db_conns \
+    audit_protocol <TCP|local> \
+    audit_address <address> \
+    audit_port <port> \
+    audit_reconnect_interval <interval in seconds> \
+    audit_reconnect_max_attempts <number of attempts>
+```
+
+{{< /multitabs >}}
+
+- _audit\_protocol_ indicates the protocol used to process notifications.  For production systems, _TCP_ is the only value. 
+
+- _audit\_address_ defines the TCP/IP address where one can listen for notifications
+
+- _audit\_port_ defines the port where one can listen for notifications
    
-    - _audit\_reconnect\_interval_ defines the interval (in seconds) between attempts to reconnect to the listener. Default is 1 second.
+- _audit\_reconnect\_interval_ defines the interval (in seconds) between attempts to reconnect to the listener. Default is 1 second.
     
-    - _audit\_reconnect\_max\_attempts_ defines the maximum number of attempts to reconnect. Default is 0. (infinite)
+- _audit\_reconnect\_max\_attempts_ defines the maximum number of attempts to reconnect. Default is 0. (infinite)
 
-    Development systems can set _audit\_protocol_ to `local` for testing and training purposes; however, this setting is _not_ supported for production use.  
+#### Local socket for testing
+
+Development systems can set _audit\_protocol_ to `local` for testing and training purposes; however, this setting is _not_ supported for production use.  
     
-    When `audit_protocol` is set to `local`, `<address>` should be set to a [stream socket](https://man7.org/linux/man-pages/man7/unix.7.html) defined on the machine running Redis Software and _`<port>`_ should not be specified:
+When `audit_protocol` is set to `local`, `<address>` should be set to a [stream socket](https://man7.org/linux/man-pages/man7/unix.7.html) defined on the machine running Redis Software and _`<port>`_ should not be specified.
 
-    ```
-    rladmin cluster config auditing db_conns \
-       audit_protocol local audit_address <socket-file>
-    ```
+{{< multitabs id="config-cluster-audit-dest-local"
+    tab1="REST API"
+    tab2="rladmin" >}}
 
-    The socket file (and path) must be accessible by the user and group running Redis Software.
+To configure a local audit destination using the REST API:
 
-- the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster/auditing-db-conns#put-cluster-audit-db-conns" >}})
+```sh
+PUT https://<host>:<port>/v1/cluster/auditing/db_conns
+{
+    "audit_protocol": "local",
+    "audit_address": "/var/opt/redislabs/run/db-audit.sock"
+}
+```
 
-    ```
-    PUT /v1/cluster/auditing/db_conns
-    { 
-        "audit_address": "<address>", 
-        "audit_port": <port>, 
-        "audit_protocol": "TCP",
-        "audit_reconnect_interval": <interval>,
-        "audit_reconnect_max_attempts": <max attempts>
+-tab-sep-
+
+To configure a local audit destination using `rladmin`:
+
+```
+rladmin cluster config auditing db_conns \
+    audit_protocol local audit_address <socket-file>
+```
+
+{{< /multitabs >}}
+
+The socket file and path must be accessible by the user and group running Redis Software.
+
+### Enable command and connection auditing
+
+After you configure the audit destination for your cluster, you can enable command (CRUD) and connection auditing for individual databases using an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
+
+```
+PUT https://<host>:<port>/v1/bdbs/<database-id>
+{
+    "audit_settings": {
+        "audit_mode": "connection_and_crud"
     }
-    ```
+}
+```
 
-    where `<address>` is a string containing the TCP/IP address, `<port>` is a numeric value representing the port, `<interval>` is a numeric value representing the interval in seconds, and `<max attempts>` is a numeric value representing the maximum number of attempts to execute.
+### Enable connection auditing only
 
-### Database audits
+After you configure the audit destination for your cluster, you can enable connection auditing only for individual databases using one of the following methods:
 
-Once auditing is enabled for your cluster, you can audit individual databases.  To do so, use:
+{{< multitabs id="config-db-audit-connections-only"
+    tab1="REST API"
+    tab2="rladmin" >}}
 
-- `rladmin`
+To enable connection auditing only using the REST API, use an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) request:
 
-    ```
-    rladmin tune db db:<id|name> db_conns_auditing enabled
-    ```
+```
+PUT https://<host>:<port>/v1/bdbs/<database-id>
+{
+    "audit_settings": {
+        "audit_mode": "connection"
+    }
+}
+```
 
-    where the value of the _db:_ parameter is either the cluster ID of the database or the database name.
+-tab-sep-
 
-    To deactivate auditing, set `db_conns_auditing` to `disabled`.
+To enable connection auditing only using `rladmin`:
 
-    Use `rladmin info` to retrieve additional details:
+```
+rladmin tune db db:<id|name> db_conns_auditing enabled
+```
 
-    ```
-    rladmin info db <id|name>
-    rladmin info cluster
-    ```
+{{< /multitabs >}}
 
-- the [REST API]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}})
+### Set policy defaults for new databases
 
-    ```
-    PUT /v1/bdbs/1
-    { "db_conns_auditing": true }
-    ```
+To audit connections for new databases by default, use of the following methods:
 
-    To deactivate auditing, set `db_conns_auditing` to `false`.
+{{< multitabs id="set-audit-policy-defaults"
+    tab1="REST API"
+    tab2="rladmin" >}}
 
-You must enable auditing for your cluster before auditing a database; otherwise, an error appears:
+To enable auditing connections for new databases by default using the REST AI, use an [update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) request:
 
->  _Error setting description: Unable to enable DB Connections Auditing before feature configurations are set.                                                                                                  
->  Error setting error_code: db_conns_auditing_config_missing_
+```
+PUT /v1/cluster/policy
+{ "db_conns_auditing": true }
+```
 
-To resolve this error, enable the protocol for your cluster _before_ attempting to audit a database.
+To deactivate this policy, set `db_conns_auditing` to `false`.
 
-### Policy defaults for new databases
+-tab-sep-
 
-To audit connections for new databases by default, use:
+To enable auditing connections for new databases by default using `rladmin`:
 
-- `rladmin`
+```sh
+rladmin tune cluster db_conns_auditing enabled
+```
 
-    ```
-    rladmin tune cluster db_conns_auditing enabled
-    ```
+To deactivate this policy, set `db_conns_auditing` to `disabled`.
 
-    To deactivate this policy, set `db_conns_auditing` to `disabled`.
+{{< /multitabs >}} 
 
-- the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}})
+## Turn off auditing
 
-    ```
-    PUT /v1/cluster/policy
-    { "db_conns_auditing": true }
-    ```
+To turn off auditing for a specific database:
 
-    To deactivate this policy, set `db_conns_auditing` to `false`.
+```sh
+PUT https://<host>:<port>/v1/bdbs/<database-id>
+{
+    "audit_settings": {
+        "audit_mode": "disabled"
+    }
+}
+```
 
 ## Notification examples
 
