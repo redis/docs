@@ -73,6 +73,13 @@ src_path() {
     cmds_sorted_set:lettuce-async)    echo local_examples/cmds_sorted_set/lettuce-async/CmdsSortedSetExample.java ;;
     cmds_sorted_set:lettuce-reactive) echo local_examples/cmds_sorted_set/lettuce-reactive/CmdsSortedSetExample.java ;;
     cmds_sorted_set:php)              echo local_examples/cmds_sorted_set/predis/CmdsSortedSetTest.php ;;
+    cmds_servermgmt:ioredis)          echo local_examples/cmds_servermgmt/ioredis/cmds-servermgmt.js ;;
+    cmds_servermgmt:ruby)             echo local_examples/cmds_servermgmt/ruby/cmds_servermgmt.rb ;;
+    cmds_servermgmt:rust-sync)        echo local_examples/cmds_servermgmt/rust-sync/cmds_servermgmt.rs ;;
+    cmds_servermgmt:rust-async)       echo local_examples/cmds_servermgmt/rust-async/cmds_servermgmt.rs ;;
+    cmds_servermgmt:lettuce-async)    echo local_examples/cmds_servermgmt/lettuce-async/CmdsServerMgmtExample.java ;;
+    cmds_servermgmt:lettuce-reactive) echo local_examples/cmds_servermgmt/lettuce-reactive/CmdsServerMgmtExample.java ;;
+    cmds_servermgmt:php)              echo local_examples/cmds_servermgmt/predis/CmdsServerMgmtTest.php ;;
     time_series_tutorial:python) echo local_examples/time_series_tutorial/redis-py/dt_time_series.py ;;
     time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
