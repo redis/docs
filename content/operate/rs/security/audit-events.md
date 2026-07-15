@@ -4,13 +4,13 @@ categories:
 - docs
 - operate
 - rs
-description: Describes how to audit connection events.
-linkTitle: Audit events
-title: Audit connection events
+description: Describes how to audit commands and connection events.
+linkTitle: Audit databases
+title: Audit database commands and connections
 weight: 15
 ---
 
-Starting with version 6.2.18, Redis Software lets you audit database connection and authentication events.  This helps you track and troubleshoot connection activity.
+Redis Software lets you audit database connection and authentication events.  This helps you track and troubleshoot connection activity.
 
 The following events are tracked:
 
