@@ -119,7 +119,9 @@ The socket file and path must be accessible by the user and group running Redis 
 
 After you configure the audit destination for your cluster, you can enable command (CRUD) and connection auditing for individual databases.
 
-When command auditing is enabled, you can filter by usernames, source IP addresses, or both to manage data volume and avoid capturing irrelevant traffic. If both filters are configured, only requests matching both criteria are audited.
+Enabling command auditing introduces additional processing overhead compared to connection-only auditing. The performance impact is workload-dependent and varies based on hardware, operation mix (read-heavy vs. write-heavy), throughput, and the volume of audited events.
+
+However, you can filter by usernames, source IP addresses, or both to manage data volume, avoid capturing irrelevant traffic, and minimize the performance impact. If both filters are configured, only requests matching both criteria are audited.
 
 {{<note>}}
 Filter changes affect new client connections only. Existing connections continue to be audited based on the filters that were active when the connection was established.
