@@ -1,4 +1,5 @@
 ---
+bannerText: The redis-rb Query Engine support shown here is not yet available in a released gem and is subject to change.
 categories:
 - docs
 - develop
