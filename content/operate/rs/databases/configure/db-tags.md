@@ -85,7 +85,7 @@ Count limit:
 
 ### Backward compatibility for existing tags
 
-The current validation rules were introduced in Redis Software version 8.0.20, when database tags became eligible to be exposed as labels in [v2 metrics]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}). In particular, tag keys must follow the [Prometheus label name rules](https://prometheus.io/docs/concepts/data_model/#metric-names-and-labels). Tags created before version 8.0.20 might not meet these rules.
+The current validation rules were introduced in Redis Software version 8.2.0, when database tags became eligible to be exposed as labels in [v2 metrics]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}). In particular, tag keys must follow the [Prometheus label name rules](https://prometheus.io/docs/concepts/data_model/#metric-names-and-labels). Tags created before version 8.2.0 might not meet these rules.
 
 Existing tags that do not meet the current validation rules can remain on a database for backward compatibility, as long as they are unchanged. A tag is considered unchanged only when both its key and its value stay exactly the same.
 
