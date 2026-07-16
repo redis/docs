@@ -283,6 +283,7 @@ Certificates are mounted read-only and picked up automatically; the default empt
 | -------- | ----------- | -------- |
 | `AUTH_MODE` | `local` for self-managed (API-key auth only) | Yes |
 | `REDIS_ADDR` | Redis database endpoint | Yes |
+| `REDIS_USERNAME` | Redis ACL username (Redis 6+). Omit to authenticate as the default user. | No |
 | `REDIS_PASSWORD` | Redis password | If your DB requires auth |
 | `SECRET_ENCRYPTION_KEY` | AES-256 key (base64) for stored secrets | Yes |
 | `LICENSE_KEY` | License key string (`CS-LICENSE...`) | Yes |
@@ -310,6 +311,7 @@ Certificates are mounted read-only and picked up automatically; the default empt
 
 redis:
   addr: '<admin db address>'
+  # username: ''      # optional Redis ACL username (Redis 6+); omit to use the default user
   tlsEnabled: false
 
 secrets:
