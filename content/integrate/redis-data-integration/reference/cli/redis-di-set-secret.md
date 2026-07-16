@@ -26,13 +26,13 @@ redis-di set-secret <key> [value] [flags]
 
 ## Options
 
-| Option | Description |
-| :-- | :-- |
-| `-p`, `--pipeline` | Pipeline to target (default `default`). |
-| `--file` | Read the secret value from the file at this path. |
-| `--literal` | Use this literal string as the secret value. |
-| `--wait` | Wait for the pipeline to reach the expected state (default `true`). |
-| `--timeout` | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
+| Option             | Description                                                                       |
+| :----------------- | :-------------------------------------------------------------------------------- |
+| `-p`, `--pipeline` | Pipeline to target (default `default`).                                           |
+| `--file`           | Read the secret value from the file at this path.                                 |
+| `--literal`        | Use this literal string as the secret value.                                      |
+| `--wait`           | Wait for the pipeline to reach the expected state (default `true`).               |
+| `--timeout`        | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
 
 This command also accepts the
 [global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
