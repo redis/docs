@@ -25,7 +25,13 @@ This version offers:
 
 ### Database-scoped management roles
 
-- TBA
+You can now scope the `db_member` and `db_viewer` [management roles]({{<relref "/operate/rs/security/access-control/create-cluster-roles">}}) to specific databases instead of granting access to every database in the cluster. This lets you give application or tenant teams management access to only their own databases in a shared cluster.
+
+- To scope a role, specify the databases it applies to using the new `resources` field when you create or update a [role]({{<relref "/operate/rs/references/rest-api/objects/role">}}). For example, `"resources": [{"type": "db", "uids": ["1", "2"]}]` scopes the role to databases `1` and `2`.
+
+- Roles without a `resources` scope continue to apply to all databases, so existing roles are unaffected.
+
+- Users assigned a database-scoped role see only their authorized databases in the Cluster Manager UI and REST API responses, including database lists, metrics, alerts, and event logs. Other databases are hidden.
 
 ### Data path command auditing
 
