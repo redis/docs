@@ -312,6 +312,18 @@ def main():
             total += len(items)
             continue
 
+        # The API returns one reply per command; if it returns fewer (partial
+        # batch, dropped tail), zip() below would silently skip the trailing
+        # commands and the run could still exit 0. Count the shortfall as errors
+        # so it gates instead of passing unverified.
+        if len(replies) < len(items):
+            missing = len(items) - len(replies)
+            print("ERROR  %s  (API returned %d replies for %d commands; "
+                  "%d trailing command(s) unverified)"
+                  % (f, len(replies), len(items), missing))
+            errored += missing
+            total += missing
+
         for (cmd, exp, setn, step), rep in zip(items, replies):
             total += 1
             if exp == "":            # command has no documented output to check
