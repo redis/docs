@@ -93,11 +93,12 @@ This is a partial update: only the fields included in the request are changed, a
 {
     "key_distribution_enabled": true,
     "local_storage_retention_days": 14,
+    "expose_db_tags": true,
     "metrics_tag_keys_exposed": ["env", "team"]
 }
 ```
 
-The above request enables the key distribution histograms, sets local metrics retention to 14 days, and exposes the `env` and `team` database tag keys in metrics.
+The above request enables the key distribution histograms, sets local metrics retention to 14 days, enables database tags in metrics, and exposes the `env` and `team` tag keys.
 
 #### Request headers
 
@@ -123,7 +124,7 @@ Returns the complete [metrics configuration object]({{< relref "/operate/rs/refe
     "key_items_buckets": "",
     "local_storage_max_size_mb": 1024,
     "local_storage_retention_days": 14,
-    "expose_db_tags": false,
+    "expose_db_tags": true,
     "metrics_tag_keys_exposed": ["env", "team"],
     "max_requests_in_flight": 2
 }
