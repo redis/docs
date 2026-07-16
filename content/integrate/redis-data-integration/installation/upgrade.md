@@ -51,7 +51,10 @@ If the previous version is v1.4.4 or later, go to the `rdi_install/<PREVIOUS_VER
 directory and run `sudo ./upgrade.sh` to revert to that version, as described in the section
 [Upgrading a VM installation](#upgrading-a-vm-installation) above.
 
-If the version you are replacing is earlier than v1.4.4, follow these steps:
+If the version you are replacing is earlier than v1.4.4, follow these steps. These steps restore and
+run the CLI binary of the previous RDI version, which still provided the `redis-di upgrade` command.
+(On current versions, upgrades are performed with the `upgrade.sh` script as described above, and
+`redis-di upgrade` is no longer a CLI command.)
 
 1.  Run `redis-di --version` to check the current version.
 
@@ -150,26 +153,6 @@ you must adapt your `rdi-values.yaml` file to the following changes:
     `rdiMetricsExporter.service.port`, `rdiMetricsExporter.serviceMonitor.path`,
     `api.service.name`.
 
-### Enabling the Flink processor
-
-The
-[Apache Flink](https://flink.apache.org/)-based stream processor is
-available after upgrading to RDI 1.18.0 or later. Once the upgrade
-completes, it is always available — no Helm-level opt-in is required, and
-the chart defaults are sized for typical workloads. Upgrading the Helm
-chart does not change the processor used by existing pipelines, which keep
-running on the classic processor until you explicitly switch them by
-setting
-[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink` in their `config.yaml`.
-
-To override the Flink processor defaults, add an
-`operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file as
-described in
-[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}}).
-For the per-pipeline migration steps, see
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
-
 ### Verifying the upgrade
 
 Check that all pods have `Running` status:
@@ -189,6 +172,28 @@ will not work. If you need to perform such an upgrade, uninstall RDI completely 
 described in [Uninstall RDI]({{< relref "/integrate/redis-data-integration/installation/install-k8s#uninstall-rdi" >}}),
 and then install the old version.
 {{< /note >}}
+
+## Enabling the Flink processor
+
+The
+[Apache Flink](https://flink.apache.org/)-based stream processor is
+fully supported on both VM and Kubernetes installations after upgrading to
+RDI 1.19.0. Once the upgrade completes, it is always available —
+no opt-in is required, and the defaults are sized for typical workloads.
+Upgrading does not change the processor used by existing pipelines, which keep
+running on the classic processor until you explicitly switch them by
+setting
+[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+to `flink` in their `config.yaml`.
+
+On Kubernetes, to override the Flink processor defaults, add an
+`operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file as
+described in
+[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}}).
+On VMs, see
+[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-vm#configure-the-flink-processor" >}}).
+For the per-pipeline migration steps, see
+[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
 
 ## What happens during the upgrade?
 

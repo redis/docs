@@ -48,6 +48,9 @@ mod strings_tests {
         // STEP_END
 
         // STEP_START setnx_xx
+        // Recreate the bike:1 key so this example runs on its own.
+        let _: () = r.set("bike:1", "Deimos").expect("Failed to set");
+
         if let Ok(res) = r.set_options("bike:1", "bike", redis::SetOptions::default().conditional_set(ExistenceCheck::NX)) {
             let res: bool = res;
             println!("{res}");    // >>> false

@@ -1,35 +1,30 @@
 ---
 Title: redis-di list-contexts
 linkTitle: redis-di list-contexts
-description: Lists all saved contexts
+description: Lists all contexts
 weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
 ---
 
+Lists all contexts from the `~/.redis-di` context file and indicates which one is active. See the
+[CLI reference overview]({{< relref "/integrate/redis-data-integration/reference/cli#contexts" >}})
+for more about contexts.
+
 ## Usage
 
 ```
-Usage: redis-di list-contexts [OPTIONS]
+redis-di list-contexts [flags]
 ```
 
 ## Options
 
-- `help`:
-  - Type: BOOL
-  - Default: `false`
-  - Usage: `--help`
+This command takes only the
+[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
 
-  Show this message and exit.
+## Example
 
-## CLI help
-
-```
-Usage: redis-di list-contexts [OPTIONS]
-
-  Lists all saved contexts
-
-Options:
-  --help  Show this message and exit.
+```bash
+redis-di list-contexts
 ```

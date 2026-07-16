@@ -288,6 +288,33 @@ using [Redis Insight]({{< relref "/develop/tools/insight" >}}). See
 [RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
 for full details on how to connect to RDI and deploy pipelines.
 
+{{< note >}}The [`redis-di` CLI]({{< relref "/integrate/redis-data-integration/reference/cli" >}})
+is bundled with the VM installer, so it is already available on the VM where RDI is installed. If you
+prefer to run it from your own laptop or desktop instead, you can
+[download it separately]({{< relref "/integrate/redis-data-integration/installation/install-k8s#download-the-rdi-cli" >}})
+for your platform.{{< /note >}}
+
+## Configure the Flink processor
+
+RDI ships with two stream processor implementations: the default *classic*
+processor and the
+[Apache Flink](https://flink.apache.org/)-based *Flink* processor. 
+See
+[Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
+for an overview of the differences and
+[Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+for a side-by-side comparison.
+
+To run a specific pipeline on the Flink processor, set
+[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+to `flink` in that pipeline's `config.yaml` and redeploy it. Pipelines without
+this setting continue to use the classic processor. Fine-tune the Flink runtime
+through the `processors.advanced` section of `config.yaml` (see the
+[configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
+
+For migrating existing pipelines to the Flink processor, see
+[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
+
 ## Uninstall RDI
 
 If you want to remove your RDI installation, go to the installation folder and run
