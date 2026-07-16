@@ -449,6 +449,7 @@ In addition, the following fields may also appear in audit event notifications:
 | username | string | Authentication username associated with the connection. |
 | identity | string | A unique ID the proxy assigned to the user for the current connection. |
 | acl-rules | string | ACL rules associated with the user. |
+| group | string | LDAP group name associated with the user. Present only when the user has an associated LDAP group. |
 | command | string | The Redis command name for CRUD requests. |
 | keys | array[string] | The key(s) associated with the command. Empty when no keys are captured. |
 | full_key_size_bytes | integer | Byte size of the full key payload before truncation. |
@@ -456,7 +457,7 @@ In addition, the following fields may also appear in audit event notifications:
 | total_keys_count | integer | Total number of keys referenced by the command. |
 | key_truncated | boolean | Whether the captured key list was truncated. |
 | affected_count | integer / null | Number of keys or elements affected by the command, when applicable. |
-| error` | string | Error text for failed command execution (present on failure only). |
+| error | string | Error text for failed command execution (present on failure only). |
 | error_truncated | boolean | Whether the error text was truncated (present on failure only). |
 | audit_worker_id | integer | ID of the proxy worker thread that produced the audit record. For debugging purposes only. |
 | audit_seq | integer | Per-worker sequence number of the audit report. Useful for debugging and detecting dropped audit reports. |
@@ -481,6 +482,7 @@ The following table shows which fields can appear in each record type:
 | username | | <span title="Supported">:white_check_mark:</span> | |
 | identity | | <span title="Supported">:white_check_mark:</span> | |
 | acl-rules | | <span title="Supported">:white_check_mark:</span> | |
+| group | | <span title="Supported">:white_check_mark:</span> | |
 | command | | | <span title="Supported">:white_check_mark:</span> |
 | keys | | | <span title="Supported">:white_check_mark:</span> |
 | full_key_size_bytes | | | <span title="Supported">:white_check_mark:</span> |
@@ -500,7 +502,6 @@ The `status` field reports the result of an auditing request as a numeric code:
 | Status code | Description |
 |-------------|-------------|
 | `0` | AUTHENTICATION_FAILED: Invalid username and/or password. |
-| `1` | AUTHENTICATION_FAILED_TOO_LONG: Username or password are too long. |
 | `2` | AUTHENTICATION_NOT_REQUIRED: Client tried to authenticate, but authentication isn't necessary. |
 | `3` | AUTHENTICATION_DIRECTORY_PENDING: Attempting to receive authentication info from the directory in async mode. |
 | `4` | AUTHENTICATION_DIRECTORY_ERROR: Authentication attempt failed due to a directory connection error. |
@@ -508,8 +509,8 @@ The `status` field reports the result of an auditing request as a numeric code:
 | `6` | AUTHENTICATION_SYNCER_FAILED: Syncer SASL handshake; returned SASL response and closed the connection. |
 | `7` | AUTHENTICATION_SYNCER_OK: Syncer authenticated; returned SASL response. |
 | `8` | AUTHENTICATION_OK: Client successfully authenticated. |
-| `9` | CRUD command executed successfully. |
-| `10` | CRUD command execution failed. The `error` field is populated with the Redis error. |
+| `9` | AUTHENTICATION_ENTRAID_ERROR: Authentication attempt failed due to an EntraID connection error. |
+| `10` | AUTHENTICATION_CBA_PENDING: Certificate-based authentication (CBA) pending; waiting for the external authentication service response. |
 
 ## Monitor auditing metrics
 
