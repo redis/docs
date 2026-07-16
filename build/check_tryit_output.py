@@ -30,9 +30,12 @@ Outcomes and CI gating:
                 unavoidable non-determinism (auto stream IDs, unordered
                 SMEMBERS/HGETALL, timestamps, cumulative session state).
 
-Commands whose reply order Redis does not guarantee (KEYS, SMEMBERS, HGETALL,
-scans, set algebra, random picks — see UNORDERED_CMDS) are compared as an
-unordered multiset, so a different element order is not a mismatch.
+Commands whose reply *order* Redis does not guarantee (KEYS, SMEMBERS, HGETALL,
+scans, set algebra, FT.SEARCH/FT.AGGREGATE without SORTBY — see UNORDERED_CMDS)
+are compared as an unordered multiset, so a different element order is not a
+mismatch. Commands whose *output itself* is random rather than merely unordered
+(SPOP, SRANDMEMBER, ZRANDMEMBER, HRANDFIELD — see NONDETERMINISTIC_CMDS) can't
+be verified at all: any example using one is auto-skipped, with a logged notice.
 
 No content annotations are required. Volatile values are masked by default
 (--raw to disable); anything you want to permanently exclude goes in a build-side
@@ -193,16 +196,22 @@ def normalize(s, on):
 UNORDERED_CMDS = {
     # keyspace / scan
     "KEYS", "SCAN", "HSCAN", "SSCAN", "ZSCAN",
-    # sets (membership order undefined; set-algebra results unordered; random picks)
-    "SMEMBERS", "SINTER", "SUNION", "SDIFF", "SRANDMEMBER", "SPOP",
-    # hashes (field order undefined for hashtable-encoded hashes)
-    "HKEYS", "HVALS", "HGETALL", "HRANDFIELD",
-    # sorted-set random pick
-    "ZRANDMEMBER",
+    # sets: membership order undefined; set-algebra results unordered
+    "SMEMBERS", "SINTER", "SUNION", "SDIFF",
+    # hashes: field order undefined for hashtable-encoded hashes
+    "HKEYS", "HVALS", "HGETALL",
+    # search/aggregate without SORTBY: result order is not guaranteed
+    "FT.SEARCH", "FT.AGGREGATE",
     # vector set similarity: ranked by score, but equal-score ties break in any
     # order (compared as a multiset, so tied elements may swap places)
     "VSIM",
 }
+
+# Commands whose *output itself* is non-deterministic (random element(s)), not
+# merely unordered — the result can't be verified against a fixed transcript.
+# Any example that uses one is auto-skipped (with a logged notice); it still
+# runs, so later examples that build on it see the same cumulative state.
+NONDETERMINISTIC_CMDS = {"SPOP", "SRANDMEMBER", "ZRANDMEMBER", "HRANDFIELD"}
 
 _IDX = re.compile(r'^\s*\d+\)\s+')  # a redis-cli "N) " list index
 
@@ -294,10 +303,20 @@ def main():
         if "clients-example" not in text:
             continue
 
-        items = []  # (cmd, expected, set, step) in document order
+        items = []        # (cmd, expected, set, step) in document order
+        autoskip = set()  # (set, step) of examples auto-skipped as non-deterministic
         for blk in parse_page(text):
             if not args.include_nonrunnable and blk["runnable"] == "false":
                 continue
+            nondet = sorted({c.split()[0].upper() for c, _ in blk["pairs"]
+                             if c.split() and c.split()[0].upper() in NONDETERMINISTIC_CMDS})
+            if nondet:
+                # Random-output commands can't be verified against a transcript;
+                # skip the whole example (but still run it, below, so cumulative
+                # state stays correct for later examples that build on it).
+                autoskip.add((blk["set"], blk["step"]))
+                print("SKIP   %s  [%s/%s]  (non-deterministic: %s)"
+                      % (f, blk["set"], blk["step"], ", ".join(nondet)))
             for cmd, exp in blk["pairs"]:
                 items.append((cmd, exp, blk["set"], blk["step"]))
         if not items:
@@ -328,7 +347,7 @@ def main():
             total += 1
             if exp == "":            # command has no documented output to check
                 continue
-            if is_skipped(f, setn, step):
+            if (setn, step) in autoskip or is_skipped(f, setn, step):
                 skipped_ct += 1
                 continue
             a = normalize(render(rep), normalize_on)
