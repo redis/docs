@@ -35,11 +35,21 @@ You can now scope the `db_member` and `db_viewer` [management roles]({{<relref "
 
 ### Data path command auditing
 
-- TBA
+Redis Software now supports auditing of data path commands (CRUD operations), in addition to the existing connection auditing. This lets you record which commands run against a database, along with the connection and authentication context, and stream the audit records to an external audit destination for security monitoring and compliance.
+
+- Enable auditing per database with the new `audit_settings` configuration, choosing to audit connection events only (`connection`) or both connection events and commands (`connection_and_crud`).
+
+- Filter audited commands by username, source IP address, or both to control the volume of audit data.
+
+- Monitor the auditing pipeline with new `audit_sink_*` metrics.
+
+For more information, see [Audit events]({{<relref "/operate/rs/security/audit-events">}}).
 
 ### Enhancements
 
-- TBA
+- **Disable Basic authentication for the REST API.** You can now disable Basic and Digest authentication for the cluster management REST API using the new `control_plane_basic_authentication` cluster setting. Basic authentication remains enabled by default; when you disable it, the cluster rejects Basic and Digest authentication on inbound REST API requests. Configure it with [`rladmin tune cluster`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune">}}) or an [update cluster settings]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request.
+
+- **Expose database tags in metrics.** You can now expose selected [database tags]({{<relref "/operate/rs/databases/configure/db-tags">}}) as labels in [v2 metrics]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}) through a new `db_tags` metric, so you can group, filter, and alert on database metrics by your own tags. Enable it in the cluster's metrics configuration using the `expose_db_tags` and `metrics_tag_keys_exposed` settings.
 
 ### Redis database versions and feature sets
 
