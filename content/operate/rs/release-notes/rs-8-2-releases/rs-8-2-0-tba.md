@@ -11,7 +11,7 @@ linkTitle: 8.2.0-tba (July 2026)
 weight: 80
 ---
 
-​Redis Software version 8.2.0](https://redis.io/downloads/#Redis_Software) is now available!
+​[Redis Software version 8.2.0](https://redis.io/downloads/#Redis_Software) is now available!
 
 ## Highlights
 
@@ -65,6 +65,30 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ## Version changes
 
+### Breaking changes
+
+Redis Software version 8.2.0 introduces the following breaking changes:
+
+- **Local import from Redis Software system directories is no longer supported.** To improve security, database imports that use the `mount_point` source can no longer read files from Redis Software system directories, including `/opt/redislabs`, `/var/opt/redislabs`, `/etc/opt/redislabs`, and any of their subdirectories.
+
+    - Import operations that reference files in these directories now fail.
+
+    - Store import files in a non-system location accessible to Redis Software before you start the import.
+
+- **`smtp_password` is now a write-only field in the Cluster API.** To improve security, the API no longer returns the SMTP password in responses to `GET /v1/cluster`, and the Cluster Manager UI no longer reads or displays the existing password.
+
+    - Applications or scripts that previously expected `smtp_password` to be returned by the Cluster API no longer receive this field.
+
+    - When you update SMTP settings, the existing password cannot be retrieved. To change the SMTP password, provide a new password as part of the update request.
+
+- **Custom module upload is disabled by default.** To improve security, custom (user-defined) module uploads are now disabled by default. A new cluster setting, `allow_modules_upload`, controls access to the custom module upload APIs. When this setting is disabled (the default), requests to `POST /v2/modules/user-defined` and `POST /v2/local/modules/user-defined/artifacts` return `403 modules_upload_disabled`, regardless of user role.
+
+    - To enable custom module uploads, set `allow_modules_upload` to `true` with a `PUT /v1/cluster` request.
+
+    - Applications or automation that call the custom module upload APIs directly receive a `403 modules_upload_disabled` response until the setting is enabled.
+
+    - Existing functionality for listing, deleting, and loading modules is unchanged.
+
 ### OpenSSL version
 
 Redis Software version 8.0.16 and later requires OpenSSL 3.3 or later.
@@ -102,6 +126,16 @@ Ports reserved as of Redis Software version 7.8.2:
 | 9125 | statsd_exporter | Reports push metrics related to the DMC and syncer, and some cluster and node metrics |
 
 See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software">}}) for a complete list.
+
+### Deprecations
+
+- The `db_conns_auditing` cluster policy and database configuration field is deprecated. Use the `audit_settings.audit_mode` field instead. Setting `db_conns_auditing` to `true` is equivalent to setting `audit_mode` to `connection`. See [Audit events]({{<relref "/operate/rs/security/audit-events">}}) for the current auditing configuration.
+
+- The following REST API fields, deprecated since Redis Software version 6.4.2, are removed in this release:
+
+    - `use_ipv6` (cluster object) — use `use_external_ipv6` instead.
+
+    - `redis_cleanup_job_settings` (job scheduler object) — use `persistence_cleanup_scan_interval` instead.
 
 ### Supported platforms
 
@@ -167,6 +201,14 @@ The following table shows the SHA256 checksums for the available packages:
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
 ## Known limitations
+
+#### Increased memory usage in FIPS mode
+
+FIPS-enabled builds use more memory than non-FIPS builds. Each Go-based control-plane service uses roughly 34 MB more when running in FIPS mode, which adds up to approximately 210 MB of additional memory per node. Account for this overhead when sizing FIPS-enabled deployments. This limitation affects FIPS-enabled builds only.
+
+#### SFTP storage not supported in FIPS mode
+
+FIPS-enabled builds do not support SFTP as a storage location for backups, imports, or exports, because the SFTP library is not FIPS-compliant. In FIPS mode, use a different storage location. This limitation affects FIPS-enabled builds only.
 
 #### Redis Search query failures during rolling upgrades across the 8.4 version boundary
 
