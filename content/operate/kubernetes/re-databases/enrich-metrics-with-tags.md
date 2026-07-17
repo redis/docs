@@ -71,14 +71,17 @@ Tag key allowlist entries (`metricsTagKeysExposed`) must follow these rules:
 - Keys are lowercased on the cluster.
 - Each key must be 1–64 characters and cannot be whitespace only.
 - Keys may contain ASCII letters, digits, spaces, and the characters `-`, `_`, `.`, `+`, `@`, and `:`.
+- Duplicate keys are rejected. The operator rejects the resource if the same key appears more than once, ignoring case.
 - A maximum of 50 keys is allowed.
 
-<!-- TODO(SME Q1): Confirm whether the six non-tag fields (maxRequestsInFlight, keyDistributionEnabled,
-     keySizeBuckets, keyItemsBuckets, localStorageMaxSizeMb, localStorageRetentionDays) are GA and
-     intended for customer documentation in Duckburg, or advanced/internal tuning. If advanced-only,
-     reduce this section to the two tag fields and move the rest to a brief reference note.
-     TODO(SME Q2): Confirm valid units/suffixes and any ordering constraints for keySizeBuckets /
-     keyItemsBuckets before finalizing the bucket-format guidance. -->
+<!-- REVIEWER QUESTION: are these allowlist key rules correct for 8.2.0? The "lowercased" and "may contain
+     spaces, -, ., +, @, :" bullets above come from the v8.2.0-8 CRD field comment, but the metrics discussion
+     indicates the cluster tightened validation to the Prometheus label regex [a-zA-Z_][a-zA-Z0-9_]* (no
+     hyphens/spaces/dots, and lowercasing removed, so mixed case is allowed). If the regex form is right, these two
+     bullets need rewriting.
+
+     REVIEWER QUESTION: for keySizeBuckets / keyItemsBuckets, what are the valid units/suffixes (does "128M" mean
+     megabytes and "1M" mean one million items?) and must the boundaries be in ascending order? -->
 
 ## Tag a database
 
@@ -135,19 +138,19 @@ When you upgrade to a release with this feature, `status.managedTags` starts emp
 
 ## View tagged metrics in Prometheus
 
-<!-- TODO(SME Q3, Q4): BLOCKED — needs SME confirmation before drafting.
-     Q3 (label format): exact Prometheus label name for an exposed tag (raw key like env="prod" vs a
-         prefixed form), and which metrics carry the label (all DB metrics or a subset).
-     Q4 (endpoint): whether tag labels and the new histogram metrics appear on the existing
-         port-8070 Prometheus endpoint documented in connect-prometheus-operator, or only on the
-         v2 metrics stream (and whether a separate v2 integration path is needed).
-     Once answered: show an example scraped metric with the tag label, and cross-link to
-     /operate/kubernetes/re-clusters/connect-prometheus-operator. -->
+<!-- REVIEWER QUESTIONS for this section (needed before it can be written):
+
+     Endpoint: are exposed tags (and the key-distribution histogram metrics) available on the /v2 metrics endpoint
+     only, or also on the legacy v1 / port-8070 stream? The discussion points to /v2. If it's /v2-only, the
+     connect-prometheus-operator cross-link below is the v1 path and is wrong for this feature.
+
+     Label model: confirm that exposed tags appear on a single db_tags metric queried via PromQL joins, not as a
+     label on every DB metric. Please provide the exact db_tags metric name, its label set, and a canonical PromQL
+     join example. Label names must match the Prometheus regex [a-zA-Z_][a-zA-Z0-9_]*. -->
 
 For instructions on connecting Prometheus to Redis Enterprise for Kubernetes, see [Export metrics to Prometheus]({{< relref "/operate/kubernetes/re-clusters/connect-prometheus-operator" >}}).
 
 ## Limitations
 
-<!-- TODO(SME Q5): Add cardinality guidance if the SME recommends a limit/warning on the number of
-     tag keys or tagged databases beyond the max-50 allowlist.
-     TODO(SME Q6): Note effect timing (immediate on next reconciliation vs requiring a restart/re-scrape). -->
+- **Allowlist size.** The cluster allows at most 50 tag keys in `metricsTagKeysExposed`. The operator doesn't cap the list itself; the cluster enforces the limit. Keep the allowlist small: each exposed key adds a label dimension to the affected metrics, which increases cardinality in your monitoring stack.
+- **When changes take effect.** Changes to `metricsConfig`, `spec.tags`, and `spec.globalConfigurations.tags` apply on the operator's next reconciliation of the resource. No pod or cluster restart is required. Exposed tag labels appear in metrics on the next scrape after the cluster applies the change.
