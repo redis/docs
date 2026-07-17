@@ -22,10 +22,20 @@ p res2 # >>> ["Hyperion"]
 
 res3 = r.json_type('bike', '$')
 p res3 # >>> ["string"]
+
+# With raw: true, json_set accepts an already-encoded JSON string (skipping
+# serialization) and json_get returns the unparsed JSON string rather than a
+# Ruby object — useful when you store or forward plain JSON.
+res_raw1 = r.json_set('bike', '$', '"Hyperion"', raw: true)
+puts res_raw1 # >>> OK
+
+res_raw2 = r.json_get('bike', '$', raw: true)
+puts res_raw2 # >>> ["Hyperion"]  (a JSON string, not a Ruby array)
 # STEP_END
 
 # REMOVE_START
 assert_equal(['Hyperion'], res2)
+assert_equal('["Hyperion"]', res_raw2)
 # REMOVE_END
 
 # STEP_START str
@@ -76,10 +86,15 @@ p res14 # >>> 1
 
 res15 = r.json_get('newbike', '$')
 p res15 # >>> [["Deimos", {"crashes"=>0}]]
+
+# The same raw: true option returns the array as unparsed JSON text.
+res_raw3 = r.json_get('newbike', '$', raw: true)
+puts res_raw3 # >>> [["Deimos",{"crashes":0}]]  (a JSON string)
 # STEP_END
 
 # REMOVE_START
 assert_equal([['Deimos', { 'crashes' => 0 }]], res15)
+assert_equal('[["Deimos",{"crashes":0}]]', res_raw3)
 # REMOVE_END
 
 # STEP_START arr2
@@ -109,10 +124,15 @@ p res23 # >>> ["Prickett"]
 
 res24 = r.json_arrpop('riders', '$')
 p res24 # >>> [nil]
+
+# json_arrappend also takes a pre-encoded JSON value with raw: true.
+res_raw4 = r.json_arrappend('riders', '$', '"Castilla"', raw: true)
+p res_raw4 # >>> [1]
 # STEP_END
 
 # REMOVE_START
 assert_equal([nil], res24)
+assert_equal([1], res_raw4)
 # REMOVE_END
 
 # STEP_START obj
@@ -124,10 +144,15 @@ p res26 # >>> [3]
 
 res27 = r.json_objkeys('bike:1', '$')
 p res27 # >>> [["model", "brand", "price"]]
+
+# raw: true returns the object as unparsed JSON text.
+res_raw5 = r.json_get('bike:1', '$', raw: true)
+puts res_raw5 # >>> [{"model":"Deimos","brand":"Ergonom","price":4972}]  (a JSON string)
 # STEP_END
 
 # REMOVE_START
 assert_equal([%w[model brand price]], res27)
+assert_equal('[{"model":"Deimos","brand":"Ergonom","price":4972}]', res_raw5)
 # REMOVE_END
 
 # STEP_START set_bikes
