@@ -1,9 +1,9 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "MemoryDataPlaneServer",
+        "title": "Redis Agent Memory API",
         "version": "1.0.0",
-        "description": "API for managing Redis Agent Memory (RAM) data plane operations.\n\nAuthentication:\n- Cloud deployments require `Authorization: Bearer <store-api-key>`, where the store API key is obtained from [Redis Cloud Agent Memory](https://cloud.redis.io/#/agent-memory).\n- On-prem deployments run with authentication disabled.\n"
+        "description": "API for storing, retrieving, and searching Redis Agent Memory session memory and long-term memory.\n\nAuthentication depends on your deployment. Use the credential issued for your Agent Memory service or store. For self-managed deployments, see the self-managed Agent Memory guide for authentication options.\n"
     },
     "paths": {
         "/health": {
