@@ -170,6 +170,8 @@ To iterate only the elements that exist and retrieve their indexes alongside the
 This is particularly useful when an array stores line-indexed text such as a log file, where each element holds one line:
 
 {{< clients-example set="arrays_tutorial" step="argrep" description="Find elements matching textual predicates (EXACT, MATCH, GLOB, RE) with ARGREP, combined with AND or OR" >}}
+> DEL log
+(integer) 1
 > ARMSET log 0 "boot: ok" 1 "warn: disk" 2 "ERROR: cpu" 3 "info: ready" 4 "error: net"
 (integer) 5
 > ARGREP log - + MATCH "error" NOCASE

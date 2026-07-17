@@ -107,6 +107,8 @@ We can also find the difference between two sets. For instance, we may want
 to know which bikes are racing in France but not in the USA:
 
 {{< clients-example set="sets_tutorial" step="sdiff" description="Set difference: Find members in one set but not in others using SDIFF when you need to exclude items (warning: argument order matters)" difficulty="intermediate" buildsUpon="sadd" needs_prereq="true" >}}
+> DEL bikes:racing:usa
+(integer) 1
 > SADD bikes:racing:usa bike:1 bike:4
 (integer) 2
 > SDIFF bikes:racing:france bikes:racing:usa
