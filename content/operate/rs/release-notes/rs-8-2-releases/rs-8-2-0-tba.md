@@ -21,6 +21,8 @@ This version offers:
 
 - Data path command auditing
 
+- FIPS 140-3 support
+
 ## New in this release
 
 ### Database-scoped management roles
@@ -45,11 +47,29 @@ Redis Software now supports auditing of data path commands (CRUD operations), in
 
 For more information, see [Audit events]({{<relref "/operate/rs/security/audit-events">}}).
 
+### FIPS 140-3 support
+
+Redis Software version 8.2.0 supports running in FIPS 140-3 mode on RHEL 9, so you can deploy it where FIPS 140-3 validated cryptography is required.
+
+- Install Redis Software on a RHEL 9 host that has FIPS mode enabled. See [Supported platforms](#supported-platforms) for the platforms validated for FIPS mode.
+
+- In FIPS mode, Redis Software uses only FIPS-approved cryptographic algorithms and cipher suites; non-approved ciphers and algorithms are blocked.
+
+- Because FIPS mode fixes the allowed cipher suites, you cannot change the cluster's TLS cipher suites while FIPS mode is enabled. Requests to update them return a `tls_cipher_update_not_allowed` error.
+
+For FIPS-mode limitations, see [Increased memory usage in FIPS mode](#increased-memory-usage-in-fips-mode) and [SFTP storage not supported in FIPS mode](#sftp-storage-not-supported-in-fips-mode).
+
+<!-- TODO(confirm before GA — RED-191162 is "Awaiting Verification"): (1) confirm FIPS 140-3 (not 140-2) ships in the 8.2.0 GA build; (2) scope — RHEL 9 only in this RN? K8s/GKE/GCP COS are tracked separately; (3) whether to list validated crypto-module names + NIST cert numbers. Owner: Guy Cohen. -->
+
 ### Enhancements
 
 - **Disable Basic authentication for the REST API.** You can now disable Basic and Digest authentication for the cluster management REST API using the new `control_plane_basic_authentication` cluster setting. Basic authentication remains enabled by default; when you disable it, the cluster rejects Basic and Digest authentication on inbound REST API requests. Configure it with [`rladmin tune cluster`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune">}}) or an [update cluster settings]({{<relref "/operate/rs/references/rest-api/requests/cluster#put-cluster">}}) REST API request.
 
 - **Expose database tags in metrics.** You can now expose selected [database tags]({{<relref "/operate/rs/databases/configure/db-tags">}}) as labels in [v2 metrics]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}) through a new `db_tags` metric, so you can group, filter, and alert on database metrics by your own tags. Enable it in the cluster's metrics configuration using the `expose_db_tags` and `metrics_tag_keys_exposed` settings.
+
+- **Faster replica synchronization.** Replica bootstrap is now faster in multi-node and multi-shard deployments, such as during upgrades and scaling events, because Redis Software uses improved default settings for gradual (parallel) synchronization. Small deployments are unaffected. Some legacy gradual-sync `rladmin` parameters are deprecated in favor of policy parameters you can set through the REST API.
+
+    <!-- TODO(confirm — RED-187556): exact deprecated rladmin param names + the new API policy params/defaults (source shows `gradual_sync_max_shards_per_source`, `max_slave_full_syncs`). If the rladmin params are formally deprecated this release, add them to the Deprecations section too. -->
 
 ### Redis database versions and feature sets
 
@@ -157,6 +177,8 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 
 The following table provides a snapshot of supported platforms as of this Redis Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
 
+**Amazon Linux 2 is no longer supported.** Starting with Redis Software version 8.0.22, Redis Software no longer builds or publishes Amazon Linux 2 (`amzn2`) packages. Use Amazon Linux 2023 instead.
+
 {{< collapsible "Show supported platforms" >}}
 
 <span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Software and Redis Stack modules.
@@ -208,7 +230,6 @@ The following table shows the SHA256 checksums for the available packages:
 | Red Hat Enterprise Linux (RHEL) 8 | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 9 (amd64) | <span class="break-all"></span> |
 | Red Hat Enterprise Linux (RHEL) 9 (arm64) | <span class="break-all"></span> |
-| Amazon Linux 2 | <span class="break-all"></span> |
 | Amazon Linux 2023 (amd64) | <span class="break-all"></span> |
 | Amazon Linux 2023 (arm64) | <span class="break-all"></span> |
 
@@ -225,6 +246,12 @@ FIPS-enabled builds use more memory than non-FIPS builds. Each Go-based control-
 #### SFTP storage not supported in FIPS mode
 
 FIPS-enabled builds do not support SFTP as a storage location for backups, imports, or exports, because the SFTP library is not FIPS-compliant. In FIPS mode, use a different storage location. This limitation affects FIPS-enabled builds only.
+
+#### Certificate uploads must be compatible with the configured cipher suites
+
+When you upload a cluster certificate, Redis Software validates that the certificate is compatible with the configured cipher suites and rejects it if it is not. For example, uploading an ECDSA certificate while only RSA-authenticated cipher suites are configured fails at upload time. This check applies to the control-plane certificates (such as `api`, `cm`, and `metrics_exporter`) and to the proxy certificate against the data-path cipher suites. If an upload is rejected, update either the certificate or the configured cipher suites so they are compatible.
+
+<!-- TODO(confirm framing — RED-197557): release board 2112 classifies this as a Known limitation, but it reads as added validation (an enhancement). Confirm placement with Mariana/PM before merge. -->
 
 #### Redis Search query failures during rolling upgrades across the 8.4 version boundary
 
