@@ -19,7 +19,11 @@ The following events can be tracked, depending on the configured audit mode:
 - Database disconnects
 - Individual database commands (CRUD operations) if command auditing is enabled
 
-When tracked events are triggered, notifications are sent via TCP to an address and port defined when auditing is enabled.  Notifications appear in near real time and are intended to be consumed by an external listener, such as a TCP listener, third-party service, or related utility.
+{{<note>}}
+Auditing never includes replication traffic on internal connections, such as data synchronization from a primary to a replica or between Active-Active clusters, regardless of the audit configuration.
+{{</note>}}
+
+When a tracked event occurs, Redis Software sends a notification over TCP to the address and port you configure when you enable auditing. Notifications arrive in near real time for an external listener to consume, such as a TCP listener, third-party service, or related utility.
 
 Example external listeners include:
 
@@ -31,9 +35,11 @@ Example external listeners include:
 
 - Other SIEM or DAM platforms
 
-For development and testing environments, notifications can be saved to a local file; however, this is neither supported nor intended for production environments.
+In development and testing environments, you can save notifications to a local file. This is neither supported nor intended for production.
 
-For performance reasons, auditing is not enabled by default.  In addition, auditing occurs asynchronously in the background and is non-blocking by design. That is, the action that triggered the notification continues without regard to the status of the notification or the listening tool.
+Auditing is turned off by default for performance reasons. It runs asynchronously in the background and is non-blocking: the action that triggered a notification continues regardless of the notification's status or the listener's availability.
+
+Redis Software always favors database availability over audit completeness. If auditing fails—for example, because an internal buffer overflows or the audit destination is unreachable—database operations continue uninterrupted. Audit buffers are size-limited to prevent memory exhaustion, and dropped records are reported through the [auditing metrics](#monitor-auditing-metrics).
 
 ## Configure cluster audit destination
 
@@ -72,19 +78,19 @@ rladmin cluster config auditing db_conns \
 
 {{< /multitabs >}}
 
-- _audit\_protocol_ indicates the protocol used to process notifications.  For production systems, _TCP_ is the only value. 
+- _audit\_protocol_ sets the protocol used to send notifications. For production systems, _TCP_ is the only supported value.
 
-- _audit\_address_ defines the TCP/IP address where one can listen for notifications
+- _audit\_address_ sets the address where the listener receives notifications.
 
-- _audit\_port_ defines the port where one can listen for notifications
+- _audit\_port_ sets the port where the listener receives notifications.
    
-- _audit\_reconnect\_interval_ defines the interval (in seconds) between attempts to reconnect to the listener. Default is 1 second.
+- _audit\_reconnect\_interval_ sets the interval, in seconds, between reconnection attempts. Default is 1 second.
     
-- _audit\_reconnect\_max\_attempts_ defines the maximum number of attempts to reconnect. Default is 0. (infinite)
+- _audit\_reconnect\_max\_attempts_ sets the maximum number of reconnection attempts. Default is 0 (infinite).
 
 ### Local socket for testing
 
-Development systems can set _audit\_protocol_ to `local` for testing and training purposes; however, this setting is _not_ supported for production use.  
+For testing and training, development systems can set _audit\_protocol_ to `local`. This setting is _not_ supported for production use.  
     
 When `audit_protocol` is set to `local`, `<address>` should be set to a [stream socket](https://man7.org/linux/man-pages/man7/unix.7.html) defined on the machine running Redis Software and _`<port>`_ should not be specified.
 
@@ -197,6 +203,21 @@ Source IP filtering controls which client IP addresses are included in or exclud
 
 You can set the `max_total_key_bytes` to control how much key data is captured per command audit record. The default value is `131072` and the minimum is `0`.
 
+### Partial updates
+
+Updates to `audit_settings` merge with the database's existing audit configuration, so you can change one setting without resending the others. For example, the following request disables the username filter while preserving its username list and filter type:
+
+```sh
+PUT https://<host>:<port>/v1/bdbs/<database-id>
+{
+    "audit_settings": {
+        "username_filter": {
+            "enabled": false
+        }
+    }
+}
+```
+
 ## Enable connection auditing only
 
 After you configure the audit destination for your cluster, you can enable connection auditing only for individual databases using one of the following methods:
@@ -226,15 +247,19 @@ rladmin tune db db:<id|name> db_conns_auditing enabled
 
 {{< /multitabs >}}
 
+{{<note>}}
+The legacy `db_conns_auditing` field enables connection auditing only; it does not enable command (CRUD) auditing. To audit commands, set `audit_settings.audit_mode` to `connection_and_crud`. If both are set, `audit_settings.audit_mode` takes precedence.
+{{</note>}}
+
 ## Set policy defaults for new databases
 
-To audit connections for new databases by default, use of the following methods:
+To audit connections for new databases by default, use one of the following methods:
 
 {{< multitabs id="set-audit-policy-defaults"
     tab1="REST API"
     tab2="rladmin" >}}
 
-To enable auditing connections for new databases by default using the REST AI, use an [update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) request:
+To enable auditing connections for new databases by default using the REST API, use an [update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) request:
 
 ```
 PUT /v1/cluster/policy
@@ -412,7 +437,7 @@ Here's what's reported when a database connection is closed:
 
 ## Notification field reference
 
-All audit records follow a unified JSON structure that is backward compatibible with the existing authentication request format used for connection auditing.
+All audit records follow a unified JSON structure that is backward compatible with the existing authentication request format used for connection auditing.
 
 {{<note>}}
 Command audit records never include the payload value associated with a key. Only the key name is recorded.
@@ -431,7 +456,7 @@ The field that appears immediately after the timestamp (`"ts"`) describes the ac
 
 ### Notification fields
 
-In addition, the following fields may also appear in audit event notifications:
+The following fields can appear in audit event notifications:
 
 | Field | Type | Description |
 |---|---|---|
@@ -451,7 +476,7 @@ In addition, the following fields may also appear in audit event notifications:
 | acl-rules | string | ACL rules associated with the user. |
 | group | string | LDAP group name associated with the user. Present only when the user has an associated LDAP group. |
 | command | string | The Redis command name for CRUD requests. |
-| keys | array[string] | The key(s) associated with the command. Empty when no keys are captured. |
+| keys | array[string] | The key or keys associated with the command. Empty when no keys are captured. |
 | full_key_size_bytes | integer | Byte size of the full key payload before truncation. |
 | captured_key_size_bytes | integer | Byte size of the key payload actually captured in the audit record. |
 | total_keys_count | integer | Total number of keys referenced by the command. |
@@ -475,7 +500,6 @@ The following table shows which fields can appear in each record type:
 | srcp | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
 | trgip | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
 | trgp | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
-| hname | <span title="Supported">:white_check_mark:</span> | | |
 | bdb_name | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
 | bdb_uid | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
 | status | | <span title="Supported">:white_check_mark:</span> | <span title="Supported">:white_check_mark:</span> |
@@ -497,7 +521,11 @@ The following table shows which fields can appear in each record type:
 
 ### Status result codes
 
-The `status` field reports the result of an auditing request as a numeric code:
+The `status` field reports a numeric result code. Its meaning depends on the record type: authentication requests (`"action": "auth"`) and commands (`"action": "command"`) use separate sets of codes.
+
+#### Authentication request status codes
+
+For authentication request records, `status` reports the result of the authentication attempt:
 
 | Status code | Description |
 |-------------|-------------|
@@ -511,6 +539,15 @@ The `status` field reports the result of an auditing request as a numeric code:
 | `8` | AUTHENTICATION_OK: Client successfully authenticated. |
 | `9` | AUTHENTICATION_ENTRAID_ERROR: Authentication attempt failed due to an EntraID connection error. |
 | `10` | AUTHENTICATION_CBA_PENDING: Certificate-based authentication (CBA) pending; waiting for the external authentication service response. |
+
+#### Command status codes
+
+For command records, `status` reports whether the command completed successfully:
+
+| Status code | Description |
+|-------------|-------------|
+| `9` | The command completed successfully. |
+| `10` | The command failed. The `error` field contains the returned error message. |
 
 ## Monitor auditing metrics
 
