@@ -235,6 +235,46 @@ Your Redis database is separate and must likewise be reachable from the air-gapp
 | Replicas | Run more than one replica of each service: `--set admin.replicaCount=2 --set mcp.replicaCount=2`. |
 | Encryption key | Store `SECRET_ENCRYPTION_KEY` securely. It is required to decrypt stored credentials and has no recovery path. |
 
+## Trust a custom Redis CA certificate
+
+If your Redis presents a TLS certificate signed by a private or self-signed certificate authority (CA) — common with Redis Enterprise — Context Retriever must trust that CA, or the connection fails certificate verification. Use `redis.tlsCA.existingSecrets` to mount one or more CA certificates; the chart adds them to the system trust store of both the Admin and MCP services, so they are trusted automatically with no application configuration. The image's built-in public CA bundle stays trusted — your CAs are added on top.
+
+{{< note >}}
+This requires `redis.tlsEnabled: true`, and each CA Secret must already exist in the release namespace before you install or upgrade.
+{{< /note >}}
+
+### Create a Secret with the CA certificate
+
+```bash
+kubectl create secret generic my-redis-ca \
+  --from-file=ca.crt=/path/to/redis-ca.pem \
+  --namespace $NS
+```
+
+The Secret key is the file's basename, so `--from-file=ca.crt=...` produces the key `ca.crt`. If you use a different key (for example, `--from-file=root.pem=...`), set `key` accordingly in the values below.
+
+### Reference the Secret in your values
+
+```yaml
+redis:
+  tlsEnabled: true
+  tlsCA:
+    existingSecrets:
+      - secretName: my-redis-ca          # key defaults to "ca.crt"
+      - secretName: another-redis-ca     # list as many CAs as you need
+        key: tls.crt                     # override when the Secret uses another key
+```
+
+### Values
+
+| Key | Default | Description |
+| --- | --- | --- |
+| `redis.tlsCA.existingSecrets` | `[]` | CA certificates to trust for Redis TLS. Empty mounts nothing (the default). |
+| `redis.tlsCA.existingSecrets[].secretName` | — | **Required.** Name of a pre-created Secret holding the CA certificate in PEM format. |
+| `redis.tlsCA.existingSecrets[].key` | `ca.crt` | Key within the Secret whose value is the PEM certificate. |
+
+Certificates are mounted read-only and picked up automatically; the default empty list mounts nothing, so existing installs are unaffected. This affects only Context Retriever's own connection to Redis.
+
 ## Configuration reference
 
 ### Environment variables (set by the chart)
@@ -243,6 +283,7 @@ Your Redis database is separate and must likewise be reachable from the air-gapp
 | -------- | ----------- | -------- |
 | `AUTH_MODE` | `local` for self-managed (API-key auth only) | Yes |
 | `REDIS_ADDR` | Redis database endpoint | Yes |
+| `REDIS_USERNAME` | Redis ACL username (Redis 6+). Omit to authenticate as the default user. | No |
 | `REDIS_PASSWORD` | Redis password | If your DB requires auth |
 | `SECRET_ENCRYPTION_KEY` | AES-256 key (base64) for stored secrets | Yes |
 | `LICENSE_KEY` | License key string (`CS-LICENSE...`) | Yes |
@@ -270,6 +311,7 @@ Your Redis database is separate and must likewise be reachable from the air-gapp
 
 redis:
   addr: '<admin db address>'
+  # username: ''      # optional Redis ACL username (Redis 6+); omit to use the default user
   tlsEnabled: false
 
 secrets:
