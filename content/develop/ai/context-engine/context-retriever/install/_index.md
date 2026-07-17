@@ -251,7 +251,7 @@ kubectl create secret generic my-redis-ca \
   --namespace $NS
 ```
 
-The Secret key is the file's basename, so `--from-file=ca.crt=...` produces the key `ca.crt`. If you use a different key (for example, `--from-file=root.pem=...`), set `key` accordingly in the values below.
+The `--from-file=<key>=<path>` syntax sets the Secret key explicitly — `ca.crt` in this example. If you omit the key (`--from-file=/path/to/file`), kubectl uses the file's basename instead. If you use a different key name (for example, `--from-file=root.pem=...`), set `key` accordingly in the values below.
 
 ### Reference the Secret in your values
 
