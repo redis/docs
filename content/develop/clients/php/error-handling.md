@@ -34,6 +34,10 @@ Predis groups its exceptions under `PredisException`:
     "ClientException":
     "ServerException":
     "AbortedMultiExecException":
+    "...":
+        _meta:
+            ellipsis: true
+            description: "Other Predis exception types"
 ```
 
 ### Key exceptions

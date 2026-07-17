@@ -49,7 +49,10 @@ raise "Assertion failed: #{trans_results}" unless trans_results == [1, 2, 3]
 # STEP_START trans_watch
 r.set('shellpath', '/usr/syscmds/')
 
-r.watch('shellpath') do |client|
+# Watch the key, read its current value, then queue the update in a
+# transaction. `multi` returns `nil` if the watched key changed before
+# `EXEC` ran, in which case you would retry with the latest value.
+result = r.watch('shellpath') do |client|
   current_path = client.get('shellpath')
   new_path = current_path + ':/usr/mycmds/'
 
@@ -58,10 +61,15 @@ r.watch('shellpath') do |client|
   end
 end
 
-puts r.get('shellpath')
-# >>> /usr/syscmds/:/usr/mycmds/
+if result.nil?
+  puts 'Transaction aborted; retry with the latest value'
+else
+  puts r.get('shellpath')
+  # >>> /usr/syscmds/:/usr/mycmds/
+end
 # STEP_END
 
 # REMOVE_START
+raise "Assertion failed: #{result}" unless result == ['OK']
 raise 'Assertion failed' unless r.get('shellpath') == '/usr/syscmds/:/usr/mycmds/'
 # REMOVE_END

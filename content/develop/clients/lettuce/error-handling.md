@@ -115,8 +115,13 @@ for (int attempt = 0; attempt < maxRetries; attempt++) {
         if (attempt == maxRetries - 1) {
             throw e;
         }
-        Thread.sleep(delayMs);
-        delayMs *= 2;
+        try {
+            Thread.sleep(delayMs);
+            delayMs *= 2;  // Exponential backoff
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException(ie);
+        }
     }
 }
 

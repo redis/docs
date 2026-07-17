@@ -37,10 +37,8 @@ public class TransPipeExample {
             // once you subscribe (here, by calling `block()`).
             List<String> seats = Flux.range(0, 5)
                     .flatMap(i -> reactive.set("seat:" + i, "#" + i))
-                    .thenMany(Flux.concat(
-                            reactive.get("seat:0"),
-                            reactive.get("seat:3"),
-                            reactive.get("seat:4")))
+                    .thenMany(Flux.just("seat:0", "seat:3", "seat:4")
+                            .flatMapSequential(reactive::get))
                     .collectList()
                     .block();
 
