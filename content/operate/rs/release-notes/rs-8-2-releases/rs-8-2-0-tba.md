@@ -125,6 +125,12 @@ Redis Software version 8.2.0 introduces the following breaking changes:
 
     - Existing functionality for listing, deleting, and loading modules is unchanged.
 
+- **The `old_password` field is no longer used when adding or resetting a user password.** The `POST /v1/users/password` and `PUT /v1/users/password` requests no longer accept the deprecated `old_password` field. It was never required to add or reset a password, so remove it from these requests. Requests that still include it return `400 Bad Request` with error code `invalid_schema` and the message `can't decode JSON body: json: unknown field "old_password"`.
+
+    - `old_password` is still required for `DELETE /v1/users/password`, which uses it to identify the password to delete.
+
+    <!-- TODO(confirm GA behavior — DOC-6037 / RED-164478): the v8.2.0-25 API spec still marks `old_password` on PUT/POST as `deprecated: true` and "Ignored and will be removed in 8.2.0" — i.e. accepted-but-ignored, NOT rejected. Confirm whether the 8.2.0 GA build actually rejects it (400 invalid_schema, per the ticket) or still silently ignores it. If it only ignores it, move this from Breaking changes to Deprecations. Also confirm PUT is in scope — the ticket names only POST. -->
+
 ### OpenSSL version
 
 Redis Software version 8.0.16 and later requires OpenSSL 3.3 or later.
