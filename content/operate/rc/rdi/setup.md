@@ -85,7 +85,8 @@ Select the steps for your database setup.
 
 {{< multitabs id="rdi-cloud-connectivity"
       tab1="EC2 instance"
-      tab2="AWS RDS or Aurora" >}}
+      tab2="AWS RDS or Aurora"
+      tab3="MongoDB Atlas" >}}
 
 To set up PrivateLink for a database hosted on an EC2 instance:
 
@@ -316,6 +317,49 @@ See the [AWS RDS PrivateLink Failover Example](https://github.com/redis/rdi-clou
 
 For custom implementations, refer to the AWS documentation:
 [Access Amazon RDS across VPCs using AWS PrivateLink and Network Load Balancer](https://aws.amazon.com/blogs/database/access-amazon-rds-across-vpcs-using-aws-privatelink-and-network-load-balancer/)
+
+--tab-sep--
+
+To set up Private Link for a MongoDB Atlas source database:
+
+MongoDB Atlas manages its own endpoint service. The flow is a two-way handshake — you get an endpoint service ID from Atlas, give it to Redis Cloud, and then take the VPC Endpoint ID that Redis Cloud returns back to Atlas to complete the connection.
+
+{{< note >}}
+Create the Atlas private endpoint in the same AWS region as your Redis Cloud target database.
+{{< /note >}}
+
+### Create a private endpoint in MongoDB Atlas
+
+1. In the [MongoDB Atlas UI](https://cloud.mongodb.com/), go to **Security** > **Network Access**.
+1. Select the **Private Endpoint** tab, then select **Dedicated Cluster**.
+1. Select **Add Private Endpoint**.
+    - Select **AWS** as the cloud provider.
+    - Select the AWS region that matches your Redis Cloud target database.
+    - Select **Next**.
+1. Atlas displays an **Endpoint Service ID** (for example, `vpce-svc-xxxxxxxxxxxxxxxxx`). Copy this value.
+
+### Register the endpoint service with Redis Cloud
+
+1. In the Redis Cloud console, in the pipeline creation flow, go to the **Source connectivity** step.
+1. In the **Private Link service name** field, paste the Endpoint Service ID you copied from Atlas.
+1. Redis Cloud creates a VPC endpoint and displays a **VPC Endpoint ID** (for example, `vpce-xxxxxxxxxxxxxxxxx`). Copy this value.
+
+### Complete the connection in MongoDB Atlas
+
+1. Return to the **Add Private Endpoint** page in the Atlas UI. In the **Your VPC Endpoint ID** field, enter the VPC Endpoint ID you copied from the Redis Cloud console. Select **Create**.
+1. Wait for the endpoint status to show as **Available**. This can take a few minutes.
+1. In the Atlas UI, go to your cluster and select **Connect** > **Private Endpoint**.
+1. Choose the private endpoint you just registered (the `vpce-` ID you entered above).
+1. Choose a connection method, then select **Shell**.
+1. Copy the connection string shown.
+
+    {{< note >}}
+Copy the connection string from the **Private Endpoint** connection method only. The standard connection string does not route traffic through the private endpoint.
+    {{< /note >}}
+
+### Finish pipeline setup
+
+1. Return to the Redis Cloud pipeline creation flow and paste the connection string into the **Source configuration** section.
 
 {{< /multitabs >}}
 
