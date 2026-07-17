@@ -59,7 +59,7 @@ Redis Software version 8.2.0 supports running in FIPS 140-3 mode on RHEL 9, so y
 
 For FIPS-mode limitations, see [Increased memory usage in FIPS mode](#increased-memory-usage-in-fips-mode) and [SFTP storage not supported in FIPS mode](#sftp-storage-not-supported-in-fips-mode).
 
-<!-- TODO(confirm before GA — RED-191162 is "Awaiting Verification"): (1) confirm FIPS 140-3 (not 140-2) ships in the 8.2.0 GA build; (2) scope — RHEL 9 only in this RN? K8s/GKE/GCP COS are tracked separately; (3) whether to list validated crypto-module names + NIST cert numbers. Owner: Guy Cohen. -->
+<!-- TODO(confirm with Guy Cohen — RED-191162 is "Awaiting Verification"): scope and standard are confirmed in source (CI FIPS build = rhel9/amd64 only; `-fips140-3` artifact convention; build.sh notes RHEL 9 only), so those are settled. Still to confirm: (1) whether we can claim FIPS 140-3 *validated* (NIST certificate issued) vs. just "FIPS 140-3 mode"; (2) whether to publish crypto-module names + NIST cert numbers. -->
 
 ### Enhancements
 
@@ -67,9 +67,9 @@ For FIPS-mode limitations, see [Increased memory usage in FIPS mode](#increased-
 
 - **Expose database tags in metrics.** You can now expose selected [database tags]({{<relref "/operate/rs/databases/configure/db-tags">}}) as labels in [v2 metrics]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}) through a new `db_tags` metric, so you can group, filter, and alert on database metrics by your own tags. Enable it in the cluster's metrics configuration using the `expose_db_tags` and `metrics_tag_keys_exposed` settings.
 
-- **Faster replica synchronization.** Replica bootstrap is now faster in multi-node and multi-shard deployments, such as during upgrades and scaling events, because Redis Software uses improved default settings for gradual (parallel) synchronization. Small deployments are unaffected. Some legacy gradual-sync `rladmin` parameters are deprecated in favor of policy parameters you can set through the REST API.
+- **Faster replica synchronization.** Redis Software now manages gradual (parallel) synchronization through a `gradual_sync_policy` that applies tuned defaults for common scenarios, such as migration, adding a replica, and Active-Active. This speeds up replica bootstrap in multi-node and multi-shard deployments, such as during upgrades and scaling events, while leaving small deployments unaffected. You can select a policy or set custom parameters with [`rladmin tune db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune">}}) or the REST API.
 
-    <!-- TODO(confirm — RED-187556): exact deprecated rladmin param names + the new API policy params/defaults (source shows `gradual_sync_max_shards_per_source`, `max_slave_full_syncs`). If the rladmin params are formally deprecated this release, add them to the Deprecations section too. -->
+    <!-- TODO(confirm — RED-187556 / Eran Hadad): which legacy gradual-sync rladmin params are formally deprecated this release. Source at v8.2.0-25 shows no `deprecated` markers on the `gradual_sync_*` params, so none are named here yet. If any are deprecated, add them to the Deprecations section. -->
 
 ### Redis database versions and feature sets
 
@@ -125,12 +125,6 @@ Redis Software version 8.2.0 introduces the following breaking changes:
 
     - Existing functionality for listing, deleting, and loading modules is unchanged.
 
-- **The `old_password` field is no longer used when adding or resetting a user password.** The `POST /v1/users/password` and `PUT /v1/users/password` requests no longer accept the deprecated `old_password` field. It was never required to add or reset a password, so remove it from these requests. Requests that still include it return `400 Bad Request` with error code `invalid_schema` and the message `can't decode JSON body: json: unknown field "old_password"`.
-
-    - `old_password` is still required for `DELETE /v1/users/password`, which uses it to identify the password to delete.
-
-    <!-- TODO(confirm GA behavior — DOC-6037 / RED-164478): the v8.2.0-25 API spec still marks `old_password` on PUT/POST as `deprecated: true` and "Ignored and will be removed in 8.2.0" — i.e. accepted-but-ignored, NOT rejected. Confirm whether the 8.2.0 GA build actually rejects it (400 invalid_schema, per the ticket) or still silently ignores it. If it only ignores it, move this from Breaking changes to Deprecations. Also confirm PUT is in scope — the ticket names only POST. -->
-
 ### OpenSSL version
 
 Redis Software version 8.0.16 and later requires OpenSSL 3.3 or later.
@@ -172,6 +166,10 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 ### Deprecations
 
 - The `db_conns_auditing` cluster policy and database configuration field is deprecated. Use the `audit_settings.audit_mode` field instead. Setting `db_conns_auditing` to `true` is equivalent to setting `audit_mode` to `connection`. See [Audit events]({{<relref "/operate/rs/security/audit-events">}}) for the current auditing configuration.
+
+- The `old_password` field in `POST /v1/users/password` and `PUT /v1/users/password` requests is deprecated and ignored. It was optional and had no effect when adding or resetting a password, so you can remove it from these requests. `old_password` is still required for `DELETE /v1/users/password`, which uses it to identify the password to delete.
+
+    <!-- TODO(team decision — DOC-6037 / RED-164478): current 8.2.0 code (v8.2.0-25 and master) keeps `old_password` in the PUT/POST schema and ignores it — verified in cnm-go passwords.go (AddUserPassword/ResetUserPassword read only NewPassword) — so this is a deprecation, not the 400 "unknown field" rejection the ticket describes. The rejection has NOT shipped. Keep as a deprecation unless the removal lands in the GA build. -->
 
 - The following REST API fields, deprecated since Redis Software version 6.4.2, are removed in this release:
 
