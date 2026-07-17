@@ -15,7 +15,7 @@ HARNESS="$(cd "$(dirname "$0")" && pwd)"
 WORK="$HARNESS/work"; mkdir -p "$WORK"
 SET="${1:?usage: run.sh <example_set> [client...]}"; shift || true
 
-CLIENTS_ALL=(python node go jedis ruby rust-sync rust-async lettuce-async lettuce-reactive php dotnet)
+CLIENTS_ALL=(python node go jedis ruby rust-sync rust-async lettuce-sync lettuce-async lettuce-reactive php dotnet)
 CLIENTS=("$@"); [ ${#CLIENTS[@]} -eq 0 ] && CLIENTS=("${CLIENTS_ALL[@]}")
 
 # --- example_set + client -> repo-relative source path -----------------------
@@ -33,6 +33,10 @@ src_path() {
     ss_tutorial:lettuce-reactive)echo local_examples/client-specific/lettuce-reactive/SortedSetExample.java ;;
     ss_tutorial:php)             echo local_examples/php/DtSortedSetsTest.php ;;
     ss_tutorial:dotnet)          echo local_examples/tmp/datatypes/sorted-sets/SortedSetExample.cs ;;
+    pipe_trans_tutorial:ruby)            echo local_examples/client-specific/ruby/transpipe.rb ;;
+    pipe_trans_tutorial:lettuce-sync)    echo local_examples/client-specific/lettuce-sync/TransPipeExample.java ;;
+    pipe_trans_tutorial:lettuce-async)   echo local_examples/client-specific/lettuce-async/TransPipeExample.java ;;
+    pipe_trans_tutorial:lettuce-reactive)echo local_examples/client-specific/lettuce-reactive/TransPipeExample.java ;;
     set_tutorial:python)         echo local_examples/tmp/datatypes/strings/dt_string.py ;;
     set_tutorial:node)           echo local_examples/tmp/datatypes/strings/dt-string.js ;;
     set_tutorial:go)             echo local_examples/tmp/datatypes/strings/string_example_test.go ;;
@@ -138,6 +142,7 @@ run_maven_java() { # $1=src $2=workdir $3=package-relpath
   (cd "$d" && mvn -q -B test) >"$LOG" 2>&1; rc=$?
 }
 run_jedis()            { run_maven_java "$1" "$WORK/jedis"    io/redis/examples ; }
+run_lettuce_sync()     { run_maven_java "$1" "$WORK/lettuce-sync"    io/redis/examples/sync ; }
 run_lettuce_async()    { run_maven_java "$1" "$WORK/lettuce-async"   io/redis/examples/async ; }
 run_lettuce_reactive() { run_maven_java "$1" "$WORK/lettuce-reactive" io/redis/examples/reactive ; }
 run_dotnet() { # stubs NRedisStack.Tests fixtures so the file runs under plain xunit
