@@ -1,5 +1,5 @@
 ---
-alwaysopen: false
+alwaysopen: true
 categories:
 - docs
 - operate
