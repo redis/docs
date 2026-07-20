@@ -35,36 +35,34 @@ The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` w
 | `POST /api/v1/pipelines/stop` | `POST /api/v2/pipelines/{name}/stop` |
 | `POST /api/v1/pipelines/reset` | `POST /api/v2/pipelines/{name}/reset` |
 | `GET /api/v1/monitoring/statistics` | `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` |
+| `GET /api/v1/pipelines/config/schemas` | `GET /api/v2/schemas/config` |
+| `GET /api/v1/pipelines/config/templates/ingest/{db_type}` | `GET /api/v2/config-templates/{name}` |
+| `GET /api/v1/pipelines/jobs/functions` | `GET /api/v2/functions` |
+| `GET /api/v1/pipelines/jobs/schemas` | `GET /api/v2/schemas/jobs` |
+| `GET /api/v1/pipelines/jobs/templates/ingest` | `GET /api/v2/job-templates/{name}` |
 | `PUT /api/v1/pipelines/sources` and source subresources | `PATCH /api/v2/pipelines/{name}` with `sources` in the payload |
 | `PUT /api/v1/pipelines/targets` and target subresources | `PATCH /api/v2/pipelines/{name}` with `targets` in the payload |
+| `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | `PATCH /api/v2/pipelines/{name}` with `processors` in the payload |
 | Secret provider endpoints | `POST`, `PUT`, or `DELETE /api/v2/pipelines/{name}/secrets[/{key}]` |
 | Source metadata, schemas, databases, tables, and columns endpoints | `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` with the appropriate filters |
 | `POST /api/v1/pipelines/sources/dry-run` | `POST /api/v2/pipelines/{name}?dry_run=true` |
 | `POST /api/v1/pipelines/targets/dry-run` | `POST /api/v2/pipelines/{name}?dry_run=true` |
+| `POST /api/v1/pipelines/undeploy` | `DELETE /api/v2/pipelines/{name}` |
+| `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
 | `GET /api/v1/actions/{action_id}` | No replacement. v2 operations return pipeline state; do not poll action IDs. |
 
 API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the generated [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the complete list.
 
 ## v1 endpoints without a v2 equivalent
 
-Not every v1 endpoint has moved to v2. The following endpoints remain available under v1 because there is currently no corresponding v2 endpoint:
+Most v1 endpoints have a v2 replacement. The following endpoints remain available under v1 because the current API v2 design does not define a corresponding endpoint:
 
 | v1 endpoint | Notes |
 | --- | --- |
-| `POST /api/v1/login` | Authentication endpoint. |
 | `GET /api/v1/me` | Returns the authenticated user. |
-| `GET /api/v1/pipelines/config/schemas` | Returns the pipeline configuration schema. |
-| `GET /api/v1/pipelines/config/templates/ingest/{db_type}` | Returns a configuration template. |
-| `GET /api/v1/pipelines/jobs/functions` | Returns available job functions. |
-| `GET /api/v1/pipelines/jobs/schemas` | Returns the jobs schema. |
-| `GET /api/v1/pipelines/jobs/templates/ingest` | Returns the jobs template. |
-| `POST /api/v1/pipelines/jobs/dry-run` | Validates jobs. |
-| `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | Processor properties are managed as part of the v2 pipeline configuration instead. |
 | `GET /api/v1/pipelines/strategies` | Returns pipeline strategies. |
-| `POST /api/v1/pipelines/undeploy` | There is no v2 undeploy operation. |
-| `POST /api/v1/trace/start` | There is no v2 trace-start endpoint in the current API implementation. |
 
-These endpoints are not part of the API v2 migration described above. Continue calling them through v1 unless your use case has an alternative in the v2 API or in the `redis-di` CLI. The v1 action endpoint is different: it is only used by the v1 operation-polling model and should be removed when migrating those operations to v2.
+Authentication continues to use `POST /api/v1/login`; the Confluence design defines the v2 login endpoint with the same path. The v1 action endpoint is different: it is only used by the v1 operation-polling model and should be removed when migrating those operations to v2. For all other endpoints, use the v2 mappings above or the generated API reference.
 
 ## Replace action polling with pipeline-status polling
 
