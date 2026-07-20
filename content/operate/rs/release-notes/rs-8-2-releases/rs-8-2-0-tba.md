@@ -71,6 +71,8 @@ For FIPS-mode limitations, see [Increased memory usage in FIPS mode](#increased-
 
     <!-- TODO(confirm — RED-187556 / Eran Hadad): which legacy gradual-sync rladmin params are formally deprecated this release. Source at v8.2.0-25 shows no `deprecated` markers on the `gradual_sync_*` params, so none are named here yet. If any are deprecated, add them to the Deprecations section. -->
 
+- **Certificate–cipher suite validation.** When you upload a cluster certificate, Redis Software now validates that the certificate is compatible with the configured cipher suites and rejects incompatible certificates at upload time, so mismatches are caught early instead of surfacing later. For example, uploading an ECDSA certificate while only RSA-authenticated cipher suites are configured now fails at upload. The check applies to the control-plane certificates (such as `api`, `cm`, and `metrics_exporter`) and to the proxy certificate against the data-path cipher suites. If an upload is rejected, update either the certificate or the configured cipher suites so they are compatible.
+
 ### Redis database versions and feature sets
 
 Redis Software version 8.2.0 includes the following Redis database versions: 8.6.2, 8.4.0, 8.2.1, 8.0.2, 7.4.3, 7.2.7, and 6.2.13.
@@ -304,12 +306,6 @@ FIPS-enabled builds use more memory than non-FIPS builds. Each Go-based control-
 #### SFTP storage not supported in FIPS mode
 
 FIPS-enabled builds do not support SFTP as a storage location for backups, imports, or exports, because the SFTP library is not FIPS-compliant. In FIPS mode, use a different storage location. This limitation affects FIPS-enabled builds only.
-
-#### Certificate uploads must be compatible with the configured cipher suites
-
-When you upload a cluster certificate, Redis Software validates that the certificate is compatible with the configured cipher suites and rejects it if it is not. For example, uploading an ECDSA certificate while only RSA-authenticated cipher suites are configured fails at upload time. This check applies to the control-plane certificates (such as `api`, `cm`, and `metrics_exporter`) and to the proxy certificate against the data-path cipher suites. If an upload is rejected, update either the certificate or the configured cipher suites so they are compatible.
-
-<!-- TODO(confirm framing — RED-197557): release board 2112 classifies this as a Known limitation, but it reads as added validation (an enhancement). Confirm placement with Mariana/PM before merge. -->
 
 #### Redis Search query failures during rolling upgrades across the 8.4 version boundary
 
