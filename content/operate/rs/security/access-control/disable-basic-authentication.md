@@ -23,14 +23,18 @@ This setting applies only to the cluster management REST API. It does not change
 ## Before you begin
 
 {{<warning>}}
-Before you disable basic authentication, set up an alternative authentication method for every client and tool that calls the REST API. If you disable basic authentication without a working certificate or JWT method in place, you lose REST API access to the cluster.
+Before you disable basic authentication, make sure every client and tool that calls the REST API can still authenticate another way. If you disable basic authentication without another working method in place, you lose REST API access to the cluster.
 {{</warning>}}
 
-Set up at least one of the following:
+When basic authentication is disabled, other configured authentication methods—such as certificate-based (mTLS), JWT, and LDAP—continue to work. Set up at least one before you disable basic authentication:
 
-- **Certificate-based (mTLS) authentication** — see [Certificate-based authentication]({{<relref "/operate/rs/security/certificates/certificate-based-authentication">}}).
+- **Certificate-based (mTLS) authentication** (recommended) — see [Certificate-based authentication]({{<relref "/operate/rs/security/certificates/certificate-based-authentication">}}).
 
 - **JWT authentication** — obtain a token with an [authorize user]({{<relref "/operate/rs/references/rest-api/requests/users/authorize">}}) request, then send it as a bearer token on subsequent requests.
+
+Some cluster-management flows require **certificate-based authentication** specifically when basic authentication is disabled—they don't use JWT or LDAP:
+
+- **Joining a node to the cluster** and **Active-Active (CRDB) management.** Configure these flows to use certificate credentials (client certificate, client key, and trusted CA) instead of a username and password. The client certificate's signing CA must be present in the cluster's `mtls_trusted_ca`. See [Certificate-based authentication]({{<relref "/operate/rs/security/certificates/certificate-based-authentication">}}).
 
 ## Disable basic authentication
 
@@ -75,6 +79,10 @@ curl -k --cert <client-cert> --key <client-key> https://<host>:<port>/v1/cluster
 ```
 
 ## Re-enable basic authentication
+
+{{<note>}}
+If disabling basic authentication left you without cluster access, use the `rladmin` method below. It runs locally on a cluster node and doesn't require REST API access.
+{{</note>}}
 
 To re-enable basic authentication, use one of the following methods:
 
