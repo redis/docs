@@ -71,10 +71,6 @@ The following port was added as a reserved port in Redis Software version 8.0.18
 |------|--------------|-------|
 | 3357 | reconciliation_tree_grpc | Internal communication |
 
-| Port | Process name | Usage | 
-|------|--------------|-------|
-| 3357 | reconciliation_tree_grpc | Internal communication |
-
 Ports reserved as of Redis Software version 7.22.0:
 
 | Port | Process name | Usage | 
