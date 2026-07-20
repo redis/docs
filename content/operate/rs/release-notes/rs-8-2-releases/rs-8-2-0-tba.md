@@ -97,7 +97,61 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- TBA
+- RS200909: Fixed an issue where alert emails were not sent when the SMTP server was configured with STARTTLS and username/password authentication.
+
+- RS199037: Fixed an issue where Active-Active (CRDB) shard creation could fail with an invalid CRDT key type error.
+
+- RS199021: Fixed an issue where LDAP authentication could fail when a user's mapped group appeared beyond roughly the 100th entry in the group query results.
+
+- RS199012: Fixed a memory leak in `dmcproxy` that could occur when a multi-key command received a local `MOVED` or `CROSSSLOT` response.
+
+- RS198858: Added a readiness endpoint to the `envoy_control_plane` service to improve health reporting.
+
+- RS197703: Fixed an issue where an exception during first-node bootstrap could leave a cluster partially created without its modules.
+
+- RS196975: Fixed an issue where deleting and updating a user at the same time could corrupt the user record stored on the cluster, which was the underlying cause of cluster-wide ACL authentication failures.
+
+- RS196954: Fixed an issue where a user configuration could become corrupted if it was deleted and updated concurrently, which broke ACL authentication for all databases on the cluster and prevented users from connecting.
+
+- RS196903: Fixed an issue where upgrading a module could leave the shard manager stuck unless replica shards were stopped first.
+
+- RS196225: Fixed an issue where LDAP filters that use an `OR` clause to match multiple attributes could fail to find a unique DN for some users after upgrading to Redis Software version 8.0.x.
+
+- RS195811: Fixed an issue where the `search-workers-priority-bias-threshold` configuration could not be set at runtime.
+
+- RS195106: Fixed a cluster upgrade issue where adding multiple nodes with a new version simultaneously to a cluster could cause node configuration data to be incorrectly deleted and lead to node addition failures.
+
+- RS195089: Fixed an issue where a major reconfiguration of an Active-Active database could cause an unnecessary full synchronization across all participating clusters.
+
+- RS194243: Fixed a memory leak in the Active-Active database syncer that could occur when a participating cluster became unavailable but was not removed from the CRDB configuration.
+
+- RS193861: Fixed an issue where a cluster could become unresponsive after a node was redeployed.
+
+- RS192993: Fixed an issue where creating a new user with just-in-time (JIT) provisioning could cause authentication to fail for all databases that use ACL-only authentication.
+
+- RS192582: Fixed an issue where the creation of Redis 8.x Active-Active databases could fail when no modules were specified due to missing module semantic versions in requests.
+
+- RS192405: Improved `dmcproxy` SSL handshake error messages to provide actionable context when a TLS version mismatch occurs.
+
+- RS192048: Fixed an issue where a feature set incompatibility could cause a database upgrade to fail.
+
+- RS191757: Fixed an issue where a replica shard could fail to replicate and block failover for an extended period.
+
+- RS191347: Fixed an issue where an orphaned shard on a node could block maintenance mode and leave a database in an active-change-pending state.
+
+- RS190875: Fixed an issue where ciphers that use SHA-1 could not be removed when FIPS mode was enabled. FIPS mode now excludes SHA and CHACHA20 from `control_cipher_suites`.
+
+- RS188659: Fixed an issue where a valid IPv6 address could be misidentified as the localhost loopback address.
+
+- RS181161: Fixed an issue where access control users in an error state could not be deleted.
+
+- RS177787: Reduced the volume of message logs included in support packages.
+
+- RS176225: Fixed an issue where a backup exported from a Memcached database could not be imported.
+
+- RS148518: Fixed an issue where an SMTP server could not be configured to send email alerts.
+
+- RS144017: Fixed an issue where synchronization could fail with a `-BUSYKEY Target key name already exists` error.
 
 ## Version changes
 
