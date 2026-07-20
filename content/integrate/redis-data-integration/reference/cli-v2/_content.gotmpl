@@ -1,0 +1,59 @@
+{{/*
+  RDI CLI reference content adapter.
+
+  Reads the Click-introspection schema in data/rdi-reference/cli.json and
+  emits one page per command (the root `redis-di` plus each subcommand).
+
+  Each emitted page mirrors the frontmatter of the legacy hand-authored
+  pages in ../cli/ (Title, linkTitle, description, weight, categories).
+  The body is rendered by `rdi/cli-page-body.html`.
+*/}}
+
+{{- $cli := index .Site.Data "rdi-reference" "cli" -}}
+
+{{/* Root page: `redis-di` itself. */}}
+{{- $rootBody := partial "rdi/cli-page-body.html" (dict
+    "cmd"  $cli
+    "name" "redis-di"
+) -}}
+{{- $.AddPage (dict
+    "kind"  "page"
+    "path"  "redis-di"
+    "title" "redis-di"
+    "params" (dict
+        "linkTitle"   "redis-di"
+        "description" $cli.help
+        "weight"      10
+        "alwaysopen"  false
+        "categories"  (slice "redis-di")
+    )
+    "content" (dict
+        "mediaType" "text/markdown"
+        "value"     $rootBody
+    )
+) -}}
+
+{{/* One page per subcommand. */}}
+{{- range $name, $cmd := $cli.commands -}}
+  {{- $fullName := printf "redis-di %s" $name -}}
+  {{- $body := partial "rdi/cli-page-body.html" (dict
+      "cmd"  $cmd
+      "name" $fullName
+  ) -}}
+  {{- $.AddPage (dict
+      "kind"  "page"
+      "path"  (printf "redis-di-%s" $name)
+      "title" $fullName
+      "params" (dict
+          "linkTitle"   $fullName
+          "description" $cmd.help
+          "weight"      10
+          "alwaysopen"  false
+          "categories"  (slice "redis-di")
+      )
+      "content" (dict
+          "mediaType" "text/markdown"
+          "value"     $body
+      )
+  ) -}}
+{{- end -}}
