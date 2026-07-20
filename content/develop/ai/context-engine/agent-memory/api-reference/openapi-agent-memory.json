@@ -756,6 +756,27 @@
                             "type": "string",
                             "description": "Opaque token from a previous response for the next page."
                         }
+                    },
+                    {
+                        "name": "filterOwnerId",
+                        "in": "query",
+                        "description": "Filter sessions by owner. Matching is case-sensitive. Mutually exclusive with includeAll.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Filter sessions by owner. Matching is case-sensitive. Mutually exclusive with includeAll."
+                        }
+                    },
+                    {
+                        "name": "includeAll",
+                        "in": "query",
+                        "description": "Set to true to list all sessions. Required when no filter is given; mutually exclusive with filters.",
+                        "schema": {
+                            "type": "boolean",
+                            "description": "Set to true to list all sessions. Required when no filter is given; mutually exclusive with filters."
+                        }
                     }
                 ],
                 "responses": {
@@ -1161,6 +1182,15 @@
                             "description": "The session ID."
                         },
                         "required": true
+                    },
+                    {
+                        "name": "includeSummarisedEvents",
+                        "in": "query",
+                        "description": "When true, the response includes events that have already been covered by the session summary and have not yet been cleaned up. This flag is not expected to be set under normal usage.",
+                        "schema": {
+                            "type": "boolean",
+                            "description": "When true, the response includes events that have already been covered by the session summary and have not yet been cleaned up. This flag is not expected to be set under normal usage."
+                        }
                     }
                 ],
                 "responses": {
@@ -1859,7 +1889,11 @@
                         "description": "The memory content (1-50000 chars)."
                     },
                     "memoryType": {
-                        "$ref": "#/components/schemas/MemoryType"
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Type of memory."
                     },
                     "sessionId": {
                         "type": "string",
@@ -1896,6 +1930,7 @@
                 },
                 "required": [
                     "id",
+                    "ownerId",
                     "text"
                 ]
             },
@@ -2056,7 +2091,11 @@
                         "description": "The memory content."
                     },
                     "memoryType": {
-                        "$ref": "#/components/schemas/MemoryType"
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Type of memory."
                     },
                     "sessionId": {
                         "type": "string",
@@ -2143,7 +2182,10 @@
                         "items": {
                             "$ref": "#/components/schemas/SessionEvent"
                         },
-                        "description": "Events stored in this session."
+                        "description": "Conversation events retained for this session. When summarization is enabled, events already covered by the summary are excluded unless `includeSummarisedEvents` is set; the compacted summary is returned separately in `summary`."
+                    },
+                    "summary": {
+                        "$ref": "#/components/schemas/SessionSummary"
                     }
                 },
                 "required": [
@@ -2241,7 +2283,11 @@
                         "description": "The memory content."
                     },
                     "memoryType": {
-                        "$ref": "#/components/schemas/MemoryType"
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Type of memory."
                     },
                     "sessionId": {
                         "type": "string",
@@ -2293,18 +2339,9 @@
                     "updatedAt"
                 ]
             },
-            "MemoryType": {
-                "type": "string",
-                "description": "Type of long-term memory.",
-                "enum": [
-                    "semantic",
-                    "episodic",
-                    "message"
-                ]
-            },
             "MemoryTypeFilter": {
                 "type": "object",
-                "description": "Filter by memory type.",
+                "description": "Filter by memory type. Matching is case-insensitive.",
                 "properties": {
                     "eq": {
                         "type": "string",
@@ -2341,7 +2378,7 @@
             },
             "NamespaceFilter": {
                 "type": "object",
-                "description": "Filter by namespace.",
+                "description": "Filter by namespace. Matching is case-insensitive.",
                 "properties": {
                     "eq": {
                         "type": "string",
@@ -2422,7 +2459,7 @@
             },
             "OwnerIdFilter": {
                 "type": "object",
-                "description": "Filter by the long-term memory ownerId field.",
+                "description": "Filter by the long-term memory ownerId field. Matching is case-sensitive.",
                 "properties": {
                     "eq": {
                         "type": "string",
@@ -2617,7 +2654,7 @@
             },
             "SessionIdFilter": {
                 "type": "object",
-                "description": "Filter by the long-term memory sessionId field.",
+                "description": "Filter by the long-term memory sessionId field. Matching is case-sensitive.",
                 "properties": {
                     "eq": {
                         "type": "string",
@@ -2656,6 +2693,43 @@
                         "description": "Matches all of the given values."
                     }
                 }
+            },
+            "SessionSummary": {
+                "type": "object",
+                "description": "Compacted summary of older session history for a session.\n\nThis is derived session state maintained by the background summarization workflow, not a conversation event. It is present only after at least one summarization cycle has completed.",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "description": "The summary text, a single coherent block."
+                    },
+                    "summarizedUpToEventId": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 32,
+                        "pattern": "^[a-zA-Z0-9]+$",
+                        "description": "Boundary event ID. This event and all events before it (by array position) are covered by the summary; `events` contains the retained turns after this boundary."
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "description": "Timestamp when the summary was first created (UTC). Preserved across re-summarization cycles.",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "description": "Timestamp when the summary was last regenerated (UTC). Updated on every summarization cycle. Equal to createdAt on the first cycle.",
+                        "format": "date-time"
+                    },
+                    "metadata": {
+                        "description": "Metadata as a JSON object (e.g., model name, token count). Always present; defaults to an empty object when no metadata was supplied."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "metadata",
+                    "summarizedUpToEventId",
+                    "text",
+                    "updatedAt"
+                ]
             },
             "TimeoutErrorResponseContent": {
                 "type": "object",
@@ -2737,7 +2811,7 @@
             },
             "TopicsFilter": {
                 "type": "object",
-                "description": "Filter by topics.",
+                "description": "Filter by topics. Matching is case-insensitive.",
                 "properties": {
                     "eq": {
                         "type": "string",
@@ -2813,7 +2887,11 @@
                         "description": "Updated text content (1-50000 chars)."
                     },
                     "memoryType": {
-                        "$ref": "#/components/schemas/MemoryType"
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Updated memory type."
                     },
                     "topics": {
                         "type": "array",
@@ -2832,7 +2910,7 @@
                     },
                     "ownerId": {
                         "type": "string",
-                        "description": "Updated owner ID. When provided, must be 1-64 chars alphanumeric and dashes; omit the field or send an empty string to clear."
+                        "description": "Updated owner ID. When provided, must be 1-64 chars alphanumeric and dashes and non-empty; omit the field to leave unchanged. Clearing is not supported because ownerId is required."
                     },
                     "sessionId": {
                         "type": "string",
@@ -2856,7 +2934,11 @@
                         "description": "The memory content."
                     },
                     "memoryType": {
-                        "$ref": "#/components/schemas/MemoryType"
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Type of memory."
                     },
                     "sessionId": {
                         "type": "string",
