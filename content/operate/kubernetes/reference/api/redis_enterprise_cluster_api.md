@@ -83,6 +83,13 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </tr>
     </thead>
     <tbody><tr>
+        <td><a href="#specaccesscontrol">accessControl</a></td>
+        <td>object</td>
+        <td>
+          Access control configuration for the cluster.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specactiveactive">activeActive</a></td>
         <td>object</td>
         <td>
@@ -183,6 +190,13 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         </td>
         <td>false</td>
       </tr><tr>
+        <td>dmcExternalCBAAuthentication</td>
+        <td>boolean</td>
+        <td>
+          Whether Certificate-Based Authentication (CBA) for client connections to databases is delegated to an external gRPC authentication service, instead of being handled locally inside DMC (the data-path management proxy). If omitted, this field is evaluated as false. Possible values: true/false<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td>encryptPkeys</td>
         <td>boolean</td>
         <td>
@@ -243,6 +257,13 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td>string</td>
         <td>
           K8s secret or Vault Secret Name/Path to use for Cluster License. When left blank, the license is read from the "license" field. Note that you can't specify non-empty values in both "license" and "licenseSecretName", only one of these fields can be used to pass the license string. The license needs to be stored under the key "license".<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><a href="#specmetricsconfig">metricsConfig</a></td>
+        <td>object</td>
+        <td>
+          Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Enterprise metrics.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -512,6 +533,15 @@ the operator does not validate that.<br/>
         </td>
         <td>false</td>
       </tr><tr>
+        <td>usageReportFields</td>
+        <td>enum</td>
+        <td>
+          Controls which fields are included in the usage (call-home) report. "all" also includes node count and hostname; "restricted" sends the reduced report. Default is "restricted". Should not be changed unless instructed by Redis support.<br/>
+          <br/>
+            <i>Enum</i>: all, restricted<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specuserdefinedmodules">userDefinedModules</a></td>
         <td>[]object</td>
         <td>
@@ -537,6 +567,56 @@ the operator does not validate that.<br/>
         <td>[]object</td>
         <td>
           additional volumes<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.accessControl
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Access control configuration for the cluster.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><a href="#specaccesscontrolpolicy">policy</a></td>
+        <td>object</td>
+        <td>
+          Policy settings for access control behavior.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.accessControl.policy
+<sup><sup>[↩ Parent](#specaccesscontrol)</sup></sup>
+
+Policy settings for access control behavior.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>allowREDBRolesPermissions</td>
+        <td>boolean</td>
+        <td>
+          Controls whether the deprecated REDB spec.rolesPermissions field is reconciled. When enabled (default): both spec.rolesPermissions and RedisEnterpriseRole objects are reconciled. When disabled: only RedisEnterpriseRole objects are reconciled, spec.rolesPermissions is ignored.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1371,6 +1451,80 @@ Address of an LDAP server.
           Port number of the LDAP server. If unspecified, defaults to 389 for LDAP and STARTTLS protocols, and 636 for LDAPS protocol.<br/>
           <br/>
             <i>Format</i>: int32<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.metricsConfig
+<sup><sup>[↩ Parent](#spec)</sup></sup>
+
+Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Enterprise metrics.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>exposeDatabaseTags</td>
+        <td>boolean</td>
+        <td>
+          Master switch for tag-derived metrics. When true, database tag keys listed in metricsTagKeysExposed may be used as labels by metrics consumers. When false, no database tag keys are exposed as metric labels, even if listed in metricsTagKeysExposed. Defaults to false if unset.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>keyDistributionEnabled</td>
+        <td>boolean</td>
+        <td>
+          When true, emit Prometheus classic histogram metrics for key size/items distributions. Defaults to false if unset.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>keyItemsBuckets</td>
+        <td>string</td>
+        <td>
+          Comma-separated bucket boundaries for key items distribution histograms (e.g., "1M,8M"). Defaults to empty string if unset.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>keySizeBuckets</td>
+        <td>string</td>
+        <td>
+          Comma-separated bucket boundaries for key size distribution histograms (e.g., "128M,512M"). Defaults to empty string if unset.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>localStorageMaxSizeMb</td>
+        <td>integer</td>
+        <td>
+          Maximum size in MB for local metrics storage. Defaults to 1024 if unset.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>localStorageRetentionDays</td>
+        <td>integer</td>
+        <td>
+          Number of days to retain local metrics data. Defaults to 8 if unset.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>maxRequestsInFlight</td>
+        <td>integer</td>
+        <td>
+          Maximum number of concurrent master_aggregator scrape requests. Set to 0 to disable the limit. Defaults to 2 if unset.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>metricsTagKeysExposed</td>
+        <td>[]string</td>
+        <td>
+          Allowlist of database tag keys that may be exposed as metric labels when exposeDatabaseTags is true. Keys not listed here are never exposed as metric labels even if they appear on a database. Keys are lowercased on the cluster, must be 1-64 characters and not whitespace-only, and may contain ASCII letters, digits, spaces, '-', '_', '.', '+', '@', and ':'. At most 50 keys are allowed. Defaults to empty list if unset.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -2595,6 +2749,13 @@ The security configuration that will be applied to RS pods.
         </tr>
     </thead>
     <tbody><tr>
+        <td><a href="#specsecuritycontextfips">fips</a></td>
+        <td>object</td>
+        <td>
+          FIPS-140 compliance mode settings.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><a href="#specsecuritycontextreadonlyrootfilesystempolicy">readOnlyRootFilesystemPolicy</a></td>
         <td>object</td>
         <td>
@@ -2606,6 +2767,31 @@ The security configuration that will be applied to RS pods.
         <td>object</td>
         <td>
           Settings pertaining to resource limits management by the Redis Enterprise node container.<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### spec.securityContext.fips
+<sup><sup>[↩ Parent](#specsecuritycontext)</sup></sup>
+
+FIPS-140 compliance mode settings.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td>enabled</td>
+        <td>boolean</td>
+        <td>
+          Toggles whether FIPS-140 compliance mode is enabled or not. Defaults to false.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
