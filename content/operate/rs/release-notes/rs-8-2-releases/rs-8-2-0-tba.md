@@ -59,7 +59,7 @@ Redis Software version 8.2.0 supports running in FIPS 140-3 mode on RHEL 9, so y
 
 For FIPS-mode limitations, see [Increased memory usage in FIPS mode](#increased-memory-usage-in-fips-mode) and [SFTP storage not supported in FIPS mode](#sftp-storage-not-supported-in-fips-mode).
 
-<!-- TODO(confirm with Guy Cohen — RED-191162 is "Awaiting Verification"): scope and standard are confirmed in source (CI FIPS build = rhel9/amd64 only; `-fips140-3` artifact convention; build.sh notes RHEL 9 only), so those are settled. Still to confirm: (1) whether we can claim FIPS 140-3 *validated* (NIST certificate issued) vs. just "FIPS 140-3 mode"; (2) whether to publish crypto-module names + NIST cert numbers. -->
+<!-- TODO(confirm with SME — Aharon/Guy Cohen, RED-191162): claim level only — can we state Redis Software is "FIPS 140-3 validated," or only that it runs in "FIPS 140-3 mode" using RHEL 9's FIPS-validated modules? Prose stays in the safe "mode" framing until confirmed. (NIST cert numbers + crypto-module names: decided OUT of docs, Jul 20.) -->
 
 ### Enhancements
 
