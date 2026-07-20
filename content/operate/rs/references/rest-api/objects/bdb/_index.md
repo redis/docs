@@ -26,7 +26,7 @@ An API object that represents a managed database in the cluster.
 | active_defrag_threshold_upper | integer, (range: 0-1000) (default: 100); Maximum percentage of fragmentation at which maximum effort is used |
 | activedefrag | Enable or turn off active defragmentation functionality.<br />Values:<br />'yes'<br />**'no'** |
 | aof_policy | Policy for Append-Only File data persistence<br />Values:<br />**'appendfsync-every-sec'** <br />'appendfsync-always' |
-| audit_settings | [complex object](https://redis.io/docs/latest/operate/rs/references/rest-api/objects/bdb/audit_settings/); Configures per-database connection and CRUD auditing mode, username/source-IP filtering, and key-byte capture limits. See [Audit database events](https://redis.io/docs/latest/operate/rs/security/audit-events/). |
+| audit_settings | Complex object. Configures per-database connection and CRUD auditing mode, username/source-IP filtering, and key-byte capture limits. See [Audit database events]({{< relref "/operate/rs/security/audit-events" >}}). |
 | authentication_admin_pass | string; Password for administrative access to the BDB (used for SYNC from the BDB) |
 | authentication_redis_pass | string; Redis AUTH password authentication.  <br/>Use for Redis databases only.  Ignored for memcached databases. (deprecated as of Redis Software v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | authentication_sasl_pass | string; Binary memcache SASL password |

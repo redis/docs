@@ -19,11 +19,9 @@ The following events can be tracked, depending on the configured audit mode:
 - Database disconnects
 - Individual database commands (CRUD operations) if command auditing is enabled
 
-{{<note>}}
-Auditing never includes replication traffic on internal connections, such as data synchronization from a primary to a replica or between Active-Active clusters, regardless of the audit configuration.
-{{</note>}}
+When a tracked event occurs, Redis Software sends a notification over TCP to the address and port you configure when you enable auditing. Notifications arrive in near real time for an external listener to consume, such as a TCP listener, third-party service, or related utility. Successfully sending a record to the configured endpoint doesn't guarantee that the downstream consumer received, stored, or processed it.
 
-When a tracked event occurs, Redis Software sends a notification over TCP to the address and port you configure when you enable auditing. Notifications arrive in near real time for an external listener to consume, such as a TCP listener, third-party service, or related utility.
+Redis Software doesn't require or enforce any particular SIEM or DAM vendor. Any listener that can consume the TCP notification stream works.
 
 Example external listeners include:
 
@@ -40,6 +38,16 @@ In development and testing environments, you can save notifications to a local f
 Auditing is turned off by default for performance reasons. It runs asynchronously in the background and is non-blocking: the action that triggered a notification continues regardless of the notification's status or the listener's availability.
 
 Redis Software always favors database availability over audit completeness. If auditing fails—for example, because an internal buffer overflows or the audit destination is unreachable—database operations continue uninterrupted. Audit buffers are size-limited to prevent memory exhaustion, and dropped records are reported through the [auditing metrics](#monitor-auditing-metrics).
+
+## Performance considerations
+
+Enabling command (CRUD) auditing adds processing overhead compared to connection-only auditing. Before you enable it:
+
+- Performance impact is workload-dependent. It varies with hardware, operation mix (read-heavy vs. write-heavy), throughput, and the volume of audited events.
+- Evaluate command auditing in a non-production environment before enabling it in production.
+- Apply username or source IP filters to reduce the volume of audited commands and limit the performance impact.
+- Allocate enough hardware resources to keep CPU utilization at a reasonable level.
+- Auditing never includes replication traffic on internal connections, such as data synchronization from a primary to a replica or between Active-Active clusters, regardless of the audit configuration.
 
 ## Configure cluster audit destination
 
@@ -78,7 +86,7 @@ rladmin cluster config auditing db_conns \
 
 {{< /multitabs >}}
 
-- _audit\_protocol_ sets the protocol used to send notifications. For production systems, _TCP_ is the only supported value.
+- _audit\_protocol_ sets the protocol used to send notifications. For production systems, _TCP_ is the only supported value. Use _local_ only for development and testing.
 
 - _audit\_address_ sets the address where the listener receives notifications.
 
@@ -87,6 +95,8 @@ rladmin cluster config auditing db_conns \
 - _audit\_reconnect\_interval_ sets the interval, in seconds, between reconnection attempts. Default is 1 second.
     
 - _audit\_reconnect\_max\_attempts_ sets the maximum number of reconnection attempts. Default is 0 (infinite).
+
+- _audit\_queue\_max\_bytes_ sets the maximum amount of audit data, in bytes, that can wait in the outgoing audit queue. Default is `524288` (512 KB). When the queue has no remaining capacity, new audit records can be dropped.
 
 ### Local socket for testing
 
@@ -121,13 +131,23 @@ rladmin cluster config auditing db_conns \
 
 The socket file and path must be accessible by the user and group running Redis Software.
 
+## Audit modes
+
+Auditing is configured independently for each database with `audit_settings.audit_mode`:
+
+| Value | Description |
+|---|---|
+| `disabled` | Disables connection, authentication, and command audit records for the database. This is the default mode. |
+| `connection` | Audits database connection, disconnection, and authentication events only. |
+| `connection_and_crud` | Audits connection and authentication events plus individual database commands. |
+
+Command auditing can't be enabled without connection auditing. `connection_and_crud` always includes the connection and authentication events that `connection` mode generates.
+
 ## Enable command and connection auditing
 
 After you configure the audit destination for your cluster, you can enable command (CRUD) and connection auditing for individual databases.
 
-Enabling command auditing introduces additional processing overhead compared to connection-only auditing. The performance impact is workload-dependent and varies based on hardware, operation mix (read-heavy vs. write-heavy), throughput, and the volume of audited events.
-
-However, you can filter by usernames, source IP addresses, or both to manage data volume, avoid capturing irrelevant traffic, and minimize the performance impact. If both filters are configured, only requests matching both criteria are audited.
+You can filter by usernames, source IP addresses, or both to manage data volume and avoid capturing irrelevant traffic. If both filters are configured, only requests matching both criteria are audited.
 
 {{<note>}}
 Filter changes affect new client connections only. Existing connections continue to be audited based on the filters that were active when the connection was established.
@@ -550,6 +570,14 @@ For command records, `status` reports whether the command completed successfully
 | `10` | The command failed. The `error` field contains the returned error message. |
 
 ## Monitor auditing metrics
+
+### Audit delivery during sink interruptions
+
+If the audit destination becomes unavailable, Redis Software keeps serving database traffic and reconnects according to `audit_reconnect_interval` and `audit_reconnect_max_attempts`. Records can wait in the outgoing queue (bounded by `audit_queue_max_bytes`) while delivery is unavailable.
+
+Audit delivery is best effort—database operations are never delayed or rejected because a record can't be delivered. Redis Software can discard records when the queue is full, a single record exceeds the size limit, no connection to the destination is available, a send attempt fails, or queuing is disabled. Use the `audit_sink_*` metrics to detect these conditions.
+
+### Available metrics
 
 You can use the following metrics exported by Redis Software to monitor your database auditing pipeline. For more information about monitoring Redis Software, see the [monitoring v2 documentation]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}).
 
