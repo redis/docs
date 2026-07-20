@@ -6,7 +6,7 @@ categories:
 - operate
 - rs
 compatibleOSSVersion: Redis 8.6, 8.4, 8.2, 8.0, 7.4, 7.2, 6.2
-description: TBA
+description: Database-scoped management roles. Data path command auditing.
 hideListLinks: true
 linkTitle: 8.2.x releases
 toc: 'true'
@@ -19,7 +19,11 @@ weight: 66
 
 This version offers:
 
-- TBA
+- Database-scoped management roles
+
+- Data path command auditing
+
+- FIPS 140-3 support
 
 ## Detailed release notes
 
@@ -29,7 +33,29 @@ For more detailed release notes, select a build version from the following table
 
 ## Version changes
 
-- TBA
+### Breaking changes
+
+Redis Software version 8.2.0 introduces the following breaking changes:
+
+- **Local import from Redis Software system directories is no longer supported.** To improve security, database imports that use the `mount_point` source can no longer read files from Redis Software system directories, including `/opt/redislabs`, `/var/opt/redislabs`, `/etc/opt/redislabs`, and any of their subdirectories.
+
+    - Import operations that reference files in these directories now fail.
+
+    - Store import files in a non-system location accessible to Redis Software before you start the import.
+
+- **`smtp_password` is now a write-only field in the Cluster API.** To improve security, the API no longer returns the SMTP password in responses to `GET /v1/cluster`, and the Cluster Manager UI no longer reads or displays the existing password.
+
+    - Applications or scripts that previously expected `smtp_password` to be returned by the Cluster API no longer receive this field.
+
+    - When you update SMTP settings, the existing password cannot be retrieved. To change the SMTP password, provide a new password as part of the update request.
+
+- **Custom module upload is disabled by default.** To improve security, custom (user-defined) module uploads are now disabled by default. A new cluster setting, `allow_modules_upload`, controls access to the custom module upload APIs. When this setting is disabled (the default), requests to `POST /v2/modules/user-defined` and `POST /v2/local/modules/user-defined/artifacts` return `403 modules_upload_disabled`, regardless of user role.
+
+    - To enable custom module uploads, set `allow_modules_upload` to `true` with a `PUT /v1/cluster` request.
+
+    - Applications or automation that call the custom module upload APIs directly receive a `403 modules_upload_disabled` response until the setting is enabled.
+
+    - Existing functionality for listing, deleting, and loading modules is unchanged.
 
 ### OpenSSL version
 
@@ -77,7 +103,17 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 
 #### API deprecations
 
-- TBA
+- The `db_conns_auditing` cluster policy and database configuration field is deprecated. Use the `audit_settings.audit_mode` field instead. Setting `db_conns_auditing` to `true` is equivalent to setting `audit_mode` to `connection`. See [Audit events]({{<relref "/operate/rs/security/audit-events">}}) for the current auditing configuration.
+
+- The `gradual_src_mode`, `gradual_sync_mode`, and `gradual_sync_max_shards_per_source` parameters are deprecated. Use `gradual_sync_policy` instead. You can set it with [`rladmin tune db`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune">}}) or the REST API.
+
+- The `old_password` field in `POST /v1/users/password` and `PUT /v1/users/password` requests is deprecated and ignored. It was optional and had no effect when adding or resetting a password, so you can remove it from these requests. `old_password` is still required for `DELETE /v1/users/password`, which uses it to identify the password to delete.
+
+- The following REST API fields, deprecated since Redis Software version 6.4.2, are removed in this release:
+
+    - `use_ipv6` (cluster object) — use `use_external_ipv6` instead.
+
+    - `redis_cleanup_job_settings` (job scheduler object) — use `persistence_cleanup_scan_interval` instead.
 
 #### Internal monitoring and v1 Prometheus metrics deprecation
 
