@@ -374,7 +374,7 @@ The typical workflow on a node is:
 2. [`BACKUP LIST`](/commands/backup-list) — get the absolute paths of the immutable files pinned so far. The data plane can begin copying the BASE file while Redis keeps accumulating INCR data.
 3. [`BACKUP SEAL`](/commands/backup-seal) — freeze the backup, hard-linking the INCR and writing the manifest. After sealing, `BACKUP LIST` also includes the INCR and manifest files.
 4. Copy the sealed files reported by `BACKUP LIST` to your backup storage.
-5. [`BACKUP CLEANUP`](/commands/backup-cleanup) — remove the sealed files and release the pinned artifacts once the copy is complete.
+5. [`BACKUP CLEANUP`](/commands/backup-cleanup) — remove the sealed files and release the pinned artifacts after the copy is complete.
 
 Use [`BACKUP STATUS`](/commands/backup-status) at any point to inspect the current backup state, and [`BACKUP ABORT`](/commands/backup-abort) to cancel a backup that has not been sealed yet.
 

@@ -50,7 +50,7 @@ After [`BACKUP SEAL`]({{< relref "/commands/backup-seal" >}}), the INCR file and
 
 ## Details
 
-`BACKUP LIST` reports the absolute paths of the files that have been pinned by hard links so far. This lets the data plane start uploading the BASE snapshot while Redis is still accumulating incremental writes, before the backup is sealed. Once the backup is sealed, the list also includes the INCR file and the manifest.
+`BACKUP LIST` reports the absolute paths of the files that have been pinned by hard links so far. This lets the data plane start uploading the BASE snapshot while Redis is still accumulating incremental writes, before the backup is sealed. After the backup is sealed, the list also includes the INCR file and the manifest.
 
 For the full workflow, see [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}#online-backups-with-the-backup-command-family).
 

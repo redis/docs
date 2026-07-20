@@ -26,7 +26,7 @@ summary: Return helpful text about BACKUP command parameters.
 syntax_fmt: BACKUP HELP
 title: BACKUP HELP
 ---
-The `BACKUP HELP` command returns a helpful text describing the different subcommands.
+The `BACKUP HELP` command returns helpful text describing the different subcommands.
 
 ## Redis Software and Redis Cloud compatibility
 

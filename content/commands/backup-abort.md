@@ -39,7 +39,7 @@ OK
 
 ## Details
 
-`BACKUP ABORT` cancels an in-progress backup and moves the backup state machine to `failed`. It is valid from the `pending`, `snapshotting`, and `incrementing` states. Once the backup has been sealed, use [`BACKUP CLEANUP`]({{< relref "/commands/backup-cleanup" >}}) instead.
+`BACKUP ABORT` cancels an in-progress backup and moves the backup state machine to `failed`. It is valid from the `pending`, `snapshotting`, and `incrementing` states. After the backup has been sealed, use [`BACKUP CLEANUP`]({{< relref "/commands/backup-cleanup" >}}) instead.
 
 After aborting, you can start a new backup with [`BACKUP START`]({{< relref "/commands/backup-start" >}}).
 

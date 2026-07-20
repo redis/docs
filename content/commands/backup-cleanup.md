@@ -28,7 +28,7 @@ summary: Remove a sealed backup's files and return to idle.
 syntax_fmt: BACKUP CLEANUP
 title: BACKUP CLEANUP
 ---
-Removes a sealed backup's files and returns the backup state machine to idle.
+Removes sealed backup files and returns the backup state machine to idle.
 
 ## Examples
 
