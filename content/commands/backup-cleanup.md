@@ -18,13 +18,13 @@ command_flags:
 - admin
 - noscript
 complexity: O(1)
-description: Remove a sealed backup's files and return to idle.
+description: Remove sealed backup files and return to idle.
 group: server
 hidden: false
 linkTitle: BACKUP CLEANUP
 railroad_diagram: /images/railroad/backup-cleanup.svg
 since: 8.10.0
-summary: Remove a sealed backup's files and return to idle.
+summary: Remove sealed backup files and return to idle.
 syntax_fmt: BACKUP CLEANUP
 title: BACKUP CLEANUP
 ---
