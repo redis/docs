@@ -5,9 +5,10 @@ categories:
 - docs
 - operate
 - kubernetes
+aliases: [/operate/kubernetes/security/sso/]
 description: Enable SAML-based SSO authentication for Redis Enterprise for Kubernetes.
 linkTitle: Enable SSO
-weight: 94
+weight: 40
 ---
 
 
