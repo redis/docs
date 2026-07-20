@@ -12,7 +12,7 @@ weight: 50
 ---
 
 
-Agents use Redis for data storage, vector search, and conversation memory. The interactive builder generates code in your preferred programming language with your choice of model.
+Agents use Redis for data storage, [vector search]({{< relref "/develop/get-started/vector-database" >}}), and [conversation memory]({{< relref "/develop/get-started/rag" >}}). The interactive builder generates code in your preferred programming language with your choice of model.
 
 ## Get started
 
@@ -67,6 +67,13 @@ The generated code includes detailed setup instructions and best practices to ge
 - [Redis Streams](/develop/data-types/streams/) - Real-time data and conversation history
 - [AI Notebooks Collection]({{< relref "/develop/ai/notebook-collection" >}}) - Interactive tutorials and examples 
 - [Ecosystem Integrations]({{< relref "/develop/ai/ecosystem-integrations" >}}) - Redis with AI frameworks
+
+### For experienced developers
+
+If you're ready to go beyond the agent builder, these resources cover production-grade managed services and cutting-edge Redis AI projects:
+
+- [Redis Context Engine]({{< relref "/develop/ai/context-engine" >}}) — Managed services for agent memory, semantic caching, and structured data access (Redis Iris)
+- [Redis AI Incubator](https://redis.io/ai-incubator/) — Early-stage AI projects and experiments from the Redis team
 
 ### Community and support
 
