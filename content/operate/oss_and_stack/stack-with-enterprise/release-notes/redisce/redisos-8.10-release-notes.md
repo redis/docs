@@ -12,6 +12,17 @@ min-version-rs: blah
 weight: 10
 ---
 
+## Redis Open Source 8.10-RC2 (July 2026)
+
+This is the second Release Candidate of Redis 8.10 in Redis Open Source.
+
+Release Candidates are feature-complete pre-releases. Pre-releases are not suitable for production use.
+
+### Bug fixes (compared to 8.10-RC1)
+
+- A user can manipulate data read by a connection by injecting `\r\n` sequences into a Redis error reply
+- A typo in `release.h` that could cause build failures
+
 ## Redis Open Source 8.10-RC1 (July 2026)
 
 This is the first Release Candidate of Redis 8.10 in Redis Open Source.
@@ -33,10 +44,12 @@ Redis 8.10 introduces new features and performance improvements.
 
 ### New Features (compared to 8.8)
 
-- Hash templates
+- [#15364](https://github.com/redis/redis/pull/15364) Compact hashes - a new hash encoding that reduces memory usage by storing hash field names just once for keys that share a schema
+- [#15364](https://github.com/redis/redis/pull/15364) New command: `HIMPORT` - high-throughput compact hash bulk insertion
 - [#15405](https://github.com/redis/redis/pull/15405) New commands: `LMOVEM`, `BLMOVEM` - move multiple elements between lists
 - [#14893](https://github.com/redis/redis/pull/14893) New command: `SUNIONCARD` - get the cardinality of the union of multiple sets
 - [#15278](https://github.com/redis/redis/pull/15278) New command: `SDIFFCARD` - get the cardinality of the difference between sets
+- [#15441](https://github.com/redis/redis/pull/15441) New command: `BACKUP` - node-side implementation for backup and restore based on multi-part AOF (MP-AOF)
 - [#15282](https://github.com/redis/redis/pull/15282) `XREAD`, `XREADGROUP` - new `MAXCOUNT` and `MAXSIZE` arguments to cap the cumulative reply entries and size
 - [#15337](https://github.com/redis/redis/pull/15337) New `SCRIPT_RUNNER` command flag: flag commands that execute scripts or functions
 - [#15347](https://github.com/redis/redis/pull/15347) `SLOWLOG GET` - new reply argument: total argument count
@@ -74,6 +87,10 @@ Redis 8.10 introduces new features and performance improvements.
 
 ### Bug fixes (compared to 8.8.0)
 
+- [#15478](https://github.com/redis/redis/pull/15478) `SORT`, `GEORADIUS`, `GEORADIUSBYMEMBER`, `XREAD`, `XREADGROUP` - ACL permission bypass
+- [#15329](https://github.com/redis/redis/pull/15329), [#15467](https://github.com/redis/redis/pull/15467) I/O thread busy looping for replica clients
+- [#15466](https://github.com/redis/redis/pull/15466) Duplicate KeyMeta restoration in `RESTORE`-based AOF rewrites
+- [#15462](https://github.com/redis/redis/pull/15462) `MEMORY USAGE` over-reports memory consumption
 - [#15447](https://github.com/redis/redis/pull/15447) Full sync under heavy write load
 - [#15412](https://github.com/redis/redis/pull/15412) Unit mismatch disables the FAST expire cycle stale trigger
 - [#15392](https://github.com/redis/redis/pull/15392) Crash on `VRANDMEMBER` with `LLONG_MIN` count
@@ -84,7 +101,7 @@ Redis 8.10 introduces new features and performance improvements.
 - [#15309](https://github.com/redis/redis/pull/15309) `mem_clients_normal` drift when a replica drops its cached master after a failed partial resync
 - [#15357](https://github.com/redis/redis/pull/15357) Crash on missing module numeric config
 - [#15377](https://github.com/redis/redis/pull/15377) In-progress atomic slot migration tasks keep running on `RM_ResetDataset` and `RM_RdbLoad`
-- [#15391](https://github.com/redis/redis/pull/15391), [#15356](https://github.com/redis/redis/pull/15356) NULL dereference
+- [#15391](https://github.com/redis/redis/pull/15391), [#15356](https://github.com/redis/redis/pull/15356), [#15436](https://github.com/redis/redis/pull/15436) NULL dereference
 - [#15390](https://github.com/redis/redis/pull/15390) Overflow on memory unit conversions
 - [#15291](https://github.com/redis/redis/pull/15291) `SET` does not enforce mutually exclusive `NX`/`XX` and `IF*` options
 - [#15322](https://github.com/redis/redis/pull/15322) `CONFIG SET` does not reject duplicate arguments when using both primary name and alias
@@ -93,6 +110,11 @@ Redis 8.10 introduces new features and performance improvements.
 - [#15263](https://github.com/redis/redis/pull/15263) Tighter cluster bus parsing for `PING`, `PONG`, and `MEET` packets
 - [#15247](https://github.com/redis/redis/pull/15247) Partial crash log on LoongArch architecture
 - [#15270](https://github.com/redis/redis/pull/15270) `VADD ... CAS SETATTR` - wrong attributes count
+- [#Q10375](https://github.com/RediSearch/RediSearch/pull/10375) `FT.CURSOR READ`: crash after the underlying index was dropped (MOD-16703)
+- [#Q10408](https://github.com/RediSearch/RediSearch/pull/10408) `FT.SEARCH` with `LIMIT` returns too many results in cluster mode over RESP3 (MOD-16767)
+- [#Q10420](https://github.com/RediSearch/RediSearch/pull/10420) `FT.INFO` could report incorrect values for multi-value TAG fields after document updates (MOD-16745)
+- [#Q10488](https://github.com/RediSearch/RediSearch/pull/10488) `FT.INFO` reports a negative `num_records` after garbage collection on indexes with an `INDEXMISSING` field (MOD-16940)
+- [#Q10392](https://github.com/RediSearch/RediSearch/pull/10392) Vector search: crash (SIGSEGV) in FP32/L2 distance computation on x86 without AVX support, affecting certain vector dimensions (MOD-16730)
 - [#Q9963](https://github.com/RediSearch/RediSearch/pull/9963) Range query returns incomplete results when the lower bound is an excluded empty string (MOD-15897)
 - [#Q10066](https://github.com/RediSearch/RediSearch/pull/10066) `FT.AGGREGATE .. WITHCOUNT` coordinator leaks resources on timeout (MOD-16210)
 - [#Q10247](https://github.com/RediSearch/RediSearch/pull/10247) Local `FT.HYBRID` ignores `ON_TIMEOUT RETURN_STRICT` and continues execution past the deadline (MOD-16492)
@@ -104,6 +126,9 @@ Redis 8.10 introduces new features and performance improvements.
 - [#T2067](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2067) `TS.INFO` - inaccurate memory usage calculation (MOD-6409)
 - [#T2036](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2036), [#T2053](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2053), [#T2056](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2056), [#T2074](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2074) Aggregation fixes (MOD-8187, MOD-16224, MOD-15565)
 - [#T2004](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2004), [#T2051](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2051) Improve RDB load robustness
+- [#T2104](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2104) Issues after cluster topology changes
+- [#T2122](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2122) Error on the first cross-shard command (TLS)
+- [#T2109](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/2109) `TS.INCRBY` with `TIMESTAMP *` replication timestamp drift
 - [#P1014](https://github.com/RedisBloom/RedisBloom/pull/1014) `CF.LOADCHUNK` partial replication (MOD-16050)
 - [#P1026](https://github.com/RedisBloom/RedisBloom/pull/1026), [#P1027](https://github.com/RedisBloom/RedisBloom/pull/1027) Improve RDB load robustness
 
@@ -117,6 +142,7 @@ Redis 8.10 introduces new features and performance improvements.
 - [#15397](https://github.com/redis/redis/pull/15397) Improve `RESTORE REPLACE` performance for new keys
 - [#14704](https://github.com/redis/redis/pull/14704) Optimizes an internal memory accounting
 - [#Q10246](https://github.com/RediSearch/RediSearch/pull/10246) Write operations block on a read lock held throughout vector range query result collection (MOD-16437)
+- [#Q10392](https://github.com/RediSearch/RediSearch/pull/10392) Vector search: reduce HNSW index memory usage with one-byte per-node locks (MOD-16696)
 - [#J1617](https://github.com/RedisJSON/RedisJSON/pull/1617) JSON - memory object footprint improvements (MOD-16608)
 
 ### Modules API
@@ -125,6 +151,22 @@ Redis 8.10 introduces new features and performance improvements.
 - [#15327](https://github.com/redis/redis/pull/15327) `REDISMODULE_SUBEVENT_FORK_CHILD_*` - allow multi-threaded modules can quiesce background work before `fork()`
 - [#15373](https://github.com/redis/redis/pull/15373) `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE_END` - inject commands after ASM replication stream
 - [#15242](https://github.com/redis/redis/pull/15242) `RedisModule_AddPostNotificationJobForKey` - binds deferred work to a specific key from a keyspace-notification handler
+
+### Configuration parameters
+
+- [#15364](https://github.com/redis/redis/pull/15364) Compact hashes:
+  - `hash-rdb-load-min-template-entries`: minimum field count to convert a plain hash to a template during load
+  - `hash-rdb-load-max-template-entries`: maximum field count for load-time conversion
+  - `hash-rdb-load-template-disassembly-threshold`: minimum number of keys a converted template must end up with to be kept
+
+### Metrics
+
+- [#15364](https://github.com/redis/redis/pull/15364) Compact hashes:
+  - `INFO STATS` - `hash_templates`: number of distinct compact hash templates
+  - `INFO STATS` - `hash_template_keys`: total number of keys backed by a compact hash template
+  - `INFO MEMORY` - `used_memory_hash_templates`: total memory used by all compact hash templates
+  - `MEMORY STATS` - `hash.templates`: total memory used by all compact hash templates
+  - `MEMORY USAGE <key>` reports the key's own memory plus its share of a compact hash template's cost
 
 ### CLI tools
 
