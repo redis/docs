@@ -42,3 +42,9 @@ Configure external secret management systems:
 Configure security-related resource settings:
 
 - [Allow resource adjustment]({{< relref "/operate/kubernetes/security/allow-resource-adjustment" >}}) - Enable automatic adjustment of system resources for security compliance
+
+## Compliance
+
+Meet regulatory and cryptographic compliance requirements:
+
+- [FIPS compliance]({{< relref "/operate/kubernetes/security/fips" >}}) - Run the Redis Enterprise cluster in FIPS 140-3 compliance mode
