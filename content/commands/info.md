@@ -179,6 +179,7 @@ Here is the meaning of all fields in the **memory** section:
 *   `used_memory_functions`: Number of bytes overhead by Function scripts (part of used_memory). Added in Redis 7.0
 *   `used_memory_scripts`: `used_memory_scripts_eval` + `used_memory_functions` (part of used_memory). Added in Redis 7.0
 *   `used_memory_scripts_human`: Human readable representation of previous value
+*   `used_memory_hash_templates`: Total memory in bytes used by all compact hash templates (the shared template registry). Added in Redis 8.10.
 *   `maxmemory`: The value of the `maxmemory` configuration directive
 *   `maxmemory_human`: Human readable representation of previous value
 *   `maxmemory_policy`: The value of the `maxmemory-policy` configuration
@@ -346,6 +347,8 @@ Here is the meaning of all fields in the **stats** section:
 *   `current_eviction_exceeded_time`: The time passed since `used_memory` last rose above `maxmemory`, in milliseconds
 *   `keyspace_hits`: Number of successful lookup of keys in the main dictionary
 *   `keyspace_misses`: Number of failed lookup of keys in the main dictionary
+*   `hash_templates`: Number of distinct compact hash templates in the shared registry. Added in Redis 8.10.
+*   `hash_template_keys`: Total number of keys backed by a compact hash template. Added in Redis 8.10.
 *   `pubsub_channels`: Global number of pub/sub channels with client
      subscriptions
 *   `pubsub_patterns`: Global number of pub/sub pattern with client
