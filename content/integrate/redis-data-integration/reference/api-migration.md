@@ -15,13 +15,13 @@ type: integration
 weight: 61
 ---
 
-RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for compatibility, but Redis recommends migrating all clients to API v2. Use the [RDI API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the current request and response schemas.
+RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for compatibility, but Redis recommends moving all integrations to API v2. See the [RDI API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the current request and response schemas.
 
 ## What changes in API v2
 
-API v2 uses the pipeline resource as the source of truth. Pipeline operations update that resource and return its current state instead of returning an action ID that clients must poll. API v2 also supports named pipelines and groups related operations under a pipeline path.
+API v2 uses the pipeline resource to represent the current state of a pipeline. Operations update that resource and return its current state, so applications no longer need to poll a separate action ID. API v2 also supports named pipelines and groups related operations under a pipeline path.
 
-The API version is part of the URL. Change `/api/v1` to `/api/v2` only where an equivalent v2 endpoint exists; the request and response models can also differ.
+The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` where a corresponding v2 endpoint is available. Review the request and response models as well, because they can differ between versions.
 
 ## Endpoint mapping
 
@@ -45,13 +45,74 @@ The API version is part of the URL. Change `/api/v1` to `/api/v2` only where an 
 
 API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the generated [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the complete list.
 
+## v1 endpoints without a v2 equivalent
+
+Not every v1 endpoint has moved to v2. The following endpoints remain available under v1 because there is currently no corresponding v2 endpoint:
+
+| v1 endpoint | Notes |
+| --- | --- |
+| `POST /api/v1/login` | Authentication endpoint. |
+| `GET /api/v1/me` | Returns the authenticated user. |
+| `GET /api/v1/pipelines/config/schemas` | Returns the pipeline configuration schema. |
+| `GET /api/v1/pipelines/config/templates/ingest/{db_type}` | Returns a configuration template. |
+| `GET /api/v1/pipelines/jobs/functions` | Returns available job functions. |
+| `GET /api/v1/pipelines/jobs/schemas` | Returns the jobs schema. |
+| `GET /api/v1/pipelines/jobs/templates/ingest` | Returns the jobs template. |
+| `POST /api/v1/pipelines/jobs/dry-run` | Validates jobs. |
+| `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | Processor properties are managed as part of the v2 pipeline configuration instead. |
+| `GET /api/v1/pipelines/strategies` | Returns pipeline strategies. |
+| `POST /api/v1/pipelines/undeploy` | There is no v2 undeploy operation. |
+| `POST /api/v1/trace/start` | There is no v2 trace-start endpoint in the current API implementation. |
+
+These endpoints are not part of the API v2 migration described above. Continue calling them through v1 unless your use case has an alternative in the v2 API or in the `redis-di` CLI. The v1 action endpoint is different: it is only used by the v1 operation-polling model and should be removed when migrating those operations to v2.
+
+## Replace action polling with pipeline-status polling
+
+In API v1, a pipeline operation returns an action ID. The client then repeatedly requests that action until it finishes:
+
+```bash
+# Start a pipeline with API v1
+action=$(curl -sS -X POST "$RDI_URL/api/v1/pipelines/start" \
+  -H "Authorization: Bearer $RDI_TOKEN" \
+  | jq -r '.action_id')
+
+# Poll the action until it completes
+curl -sS "$RDI_URL/api/v1/actions/$action" \
+  -H "Authorization: Bearer $RDI_TOKEN"
+```
+
+With API v2, include the pipeline name in the operation URL and read the pipeline status. The operation response contains the current pipeline state; if the pipeline is still changing, poll its status endpoint:
+
+```bash
+pipeline=default
+
+# Start the pipeline with API v2
+curl -sS -X POST "$RDI_URL/api/v2/pipelines/$pipeline/start" \
+  -H "Authorization: Bearer $RDI_TOKEN"
+
+# Poll the pipeline status while the operation is in progress
+while true; do
+  status=$(curl -sS "$RDI_URL/api/v2/pipelines/$pipeline/status" \
+    -H "Authorization: Bearer $RDI_TOKEN")
+  phase=$(printf '%s' "$status" | jq -r '.status')
+  printf '%s\n' "$status"
+
+  case "$phase" in
+    started|error) break ;;
+    *) sleep 2 ;;
+  esac
+done
+```
+
+For a stop operation, wait for `stopped` instead of `started`. For a reset, update, or create operation, wait for the corresponding successful state returned by the API. Always handle `error` as a failed operation. Use the status values documented by the API response for the operation you are performing; do not expect an action ID from API v2.
+
 ## Migration steps
 
-1. Inventory clients that call `/api/v1`, including custom scripts and generated SDKs.
-2. Add the pipeline name to v2 requests. The default installation pipeline is named `default` unless your installation uses another supported name.
-3. Replace action polling with checks of the pipeline response or `GET /api/v2/pipelines/{name}/status`.
-4. Combine source, target, processor, and secret-provider changes into the v2 pipeline request where appropriate. Preserve the existing configuration sections that are not being changed when using `PATCH`.
-5. Replace v1 monitoring and source-introspection calls with the v2 metric-collection and source-schema endpoints.
-6. Test create, update, dry-run, start, stop, reset, and delete flows against a non-production RDI 1.19.0 or later installation before switching production clients.
+1. Find the applications, scripts, and SDKs in your environment that use `/api/v1`.
+2. Add the pipeline name to each v2 request. The default pipeline is named `default`, unless your installation uses another supported name.
+3. Check the pipeline response, or call `GET /api/v2/pipelines/{name}/status`, instead of polling an action ID.
+4. Use the v2 pipeline request to update source, target, processor, and secret-provider settings as needed. When using `PATCH`, keep the configuration sections that you do not want to change.
+5. Use the v2 metric-collection and source-schema endpoints for monitoring and source metadata.
+6. Test creating, updating, validating, starting, stopping, resetting, and deleting a pipeline on a non-production RDI 1.19.0 or later installation before updating production applications.
 
-Authentication and the API base URL are unchanged. Only the versioned endpoint paths, resource scoping, request models, and operation-status handling need to be updated.
+Authentication and the API base URL do not change. The migration requires updates to the endpoint paths, pipeline scoping, request models, and operation-status handling.
