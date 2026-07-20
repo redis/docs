@@ -49,7 +49,7 @@ For more information, see [Audit events]({{<relref "/operate/rs/security/audit-e
 
 ### FIPS 140-3 support
 
-Redis Software version 8.2.0 supports running in FIPS 140-3 mode on RHEL 9, so you can deploy it where FIPS 140-3 validated cryptography is required.
+Redis supports deployments on RHEL 9 VMs and RHEL 9 containerized Redis on GKE using cryptographic libraries based on FIPS 140-3 validated modules, enabling the use of FIPS-approved cryptographic algorithms in supported environments.
 
 - Install Redis Software on a RHEL 9 host that has FIPS mode enabled. See [Supported platforms](#supported-platforms) for the platforms validated for FIPS mode.
 
@@ -58,8 +58,6 @@ Redis Software version 8.2.0 supports running in FIPS 140-3 mode on RHEL 9, so y
 - Because FIPS mode fixes the allowed cipher suites, you cannot change the cluster's TLS cipher suites while FIPS mode is enabled. Requests to update them return a `tls_cipher_update_not_allowed` error.
 
 For FIPS-mode limitations, see [Increased memory usage in FIPS mode](#increased-memory-usage-in-fips-mode) and [SFTP storage not supported in FIPS mode](#sftp-storage-not-supported-in-fips-mode).
-
-<!-- TODO(confirm with SME — Aharon/Guy Cohen, RED-191162): claim level only — can we state Redis Software is "FIPS 140-3 validated," or only that it runs in "FIPS 140-3 mode" using RHEL 9's FIPS-validated modules? Prose stays in the safe "mode" framing until confirmed. (NIST cert numbers + crypto-module names: decided OUT of docs, Jul 20.) -->
 
 ### Enhancements
 
