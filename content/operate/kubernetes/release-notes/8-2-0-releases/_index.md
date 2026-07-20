@@ -11,7 +11,7 @@ title: Redis Enterprise for Kubernetes 8.2.0 release notes
 weight: 83
 ---
 
-Redis Enterprise for Kubernetes 8.2.0 (Duckburg) includes new features, bug fixes, enhancements, and support for Redis Software 8.2.0. The latest release is 8.2.0-8 with support for Redis Software version 8.2.0-23.
+Redis Enterprise for Kubernetes 8.2.0 includes new features, bug fixes, enhancements, and support for Redis Software 8.2.0. The latest release is 8.2.0-8 with support for Redis Software version 8.2.0-23.
 
 ## Detailed release notes
 
