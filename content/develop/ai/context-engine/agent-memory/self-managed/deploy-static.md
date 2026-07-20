@@ -45,13 +45,27 @@ kubectl -n <namespace-name> create secret generic ram-config \
 
 ## Create Helm values
 
-Create checksums for externally managed Secrets. Change these values whenever
-the license or config changes so the pods roll automatically:
+Create SHA-256 checksums for externally managed Secrets. These values are used
+by Helm values to roll pods after Secret changes; they are not used to validate
+Secret integrity.
+
+{{< multitabs id="agent-memory-static-secret-checksums"
+tab1="Linux"
+tab2="macOS" >}}
 
 ```bash
-LICENSE_CHECKSUM="$(shasum ./license | awk '{print $1}')"
-CONFIG_CHECKSUM="$(shasum ./memory-dataplane.config.yaml | awk '{print $1}')"
+LICENSE_CHECKSUM="$(sha256sum ./license | awk '{print $1}')"
+CONFIG_CHECKSUM="$(sha256sum ./memory-dataplane.config.yaml | awk '{print $1}')"
 ```
+
+-tab-sep-
+
+```bash
+LICENSE_CHECKSUM="$(shasum -a 256 ./license | awk '{print $1}')"
+CONFIG_CHECKSUM="$(shasum -a 256 ./memory-dataplane.config.yaml | awk '{print $1}')"
+```
+
+{{< /multitabs >}}
 
 Create `ram-values.yaml`:
 
@@ -74,7 +88,7 @@ image:
 Add the Helm repository when installing from the public repository:
 
 ```bash
-helm repo add redis-ai https://helm.redis.io/ai --force-update
+helm repo add redis-ai https://helm.redis.io/ai
 helm repo update redis-ai
 helm search repo redis-ai/redis-agent-memory --versions
 ```

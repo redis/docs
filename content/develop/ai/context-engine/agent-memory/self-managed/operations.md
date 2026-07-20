@@ -59,9 +59,27 @@ kubectl -n <namespace-name> create secret generic ram-license \
   --from-file=license=./license \
   --dry-run=client \
   -o yaml | kubectl apply -f -
-
-LICENSE_CHECKSUM="$(shasum ./license | awk '{print $1}')"
 ```
+
+Calculate the new SHA-256 checksum. This value is used by Helm values to roll
+pods after the license Secret changes; it is not used to validate Secret
+integrity.
+
+{{< multitabs id="agent-memory-license-secret-checksum"
+tab1="Linux"
+tab2="macOS" >}}
+
+```bash
+LICENSE_CHECKSUM="$(sha256sum ./license | awk '{print $1}')"
+```
+
+-tab-sep-
+
+```bash
+LICENSE_CHECKSUM="$(shasum -a 256 ./license | awk '{print $1}')"
+```
+
+{{< /multitabs >}}
 
 ```yaml
 license:
