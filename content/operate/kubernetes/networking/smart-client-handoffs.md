@@ -53,9 +53,11 @@ The REST API service uses a `ClusterIP` and is reachable only from within the Ku
 kubectl port-forward service/<cluster-name> 9443:9443
 ```
 
-## Verify the handshake
+## Verify SCH is active
 
-When a client connects with SCH enabled, the server sends a `CLIENT MAINT_NOTIFICATIONS` handshake command. You can observe it with the [`MONITOR`]({{< relref "/commands/monitor" >}}) command.
+The most reliable way to confirm that SCH is active is to inspect your client's logs. With SCH enabled and the client's log level set to `DEBUG`, a supporting client reports the maintenance notifications it receives from the server. For example, a Lettuce client reports its moving-endpoint address type as `INTERNAL_IP`, and a redis-py client logs the notification messages directly.
+
+When a client connects with SCH enabled, the server negotiates a `CLIENT MAINT_NOTIFICATIONS` handshake. The expected handshake depends on the connection mode.
 
 For a standalone (Enterprise cluster mode) client, the handshake includes the moving-endpoint type:
 
@@ -72,6 +74,8 @@ CLIENT MAINT_NOTIFICATIONS ON
 ```
 
 The handshake differs because OSS Cluster API mode aligns with the configuration that determines the output of [`CLUSTER SHARDS`]({{< relref "/commands/cluster-shards" >}}), which contains the internal node IP addresses by default. In this mode, the server pushes `SMIGRATING` and `SMIGRATED` messages to the client. The `SMIGRATED` message carries information about topology changes, including the updated internal IP addresses.
+
+You can also observe the handshake server-side with the [`MONITOR`]({{< relref "/commands/monitor" >}}) command.
 
 ## Validate SCH during an upgrade
 
