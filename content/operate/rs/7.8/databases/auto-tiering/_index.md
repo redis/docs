@@ -39,10 +39,11 @@ Auto Tiering is ideal when your:
 
 Auto Tiering is not recommended for:
 
-- Long key names (all key names are stored in RAM)
-- Broad access patterns (any value could be pulled into RAM)
-- Large working sets (working set is stored in RAM)
-- Frequently moved data (moving to and from RAM too often can impact performance)
+- A large number of keys or long key names. All key names are stored in RAM regardless of whether their values are on flash. High key count alone can exhaust the RAM limit even when individual key names are short.
+- Broad access patterns (any value could be pulled into RAM).
+- Large working sets (working set is stored in RAM).
+- Frequently moved data (moving to and from RAM too often can impact performance).
+- Large collection types (hashes, sets, or lists with millions of elements) whose total serialized size approaches or exceeds the RAM limit. Unlike scalar values, large collections cannot be partially offloaded to flash and must fit in RAM when accessed.
 
 Auto Tiering is not intended to be used for persistent storage. Redis Enterprise Software database persistent and ephemeral storage should be on different disks, either local or attached.
 
@@ -109,6 +110,18 @@ On-premises environments support more deployment options than other environments
 {{<note>}} Enabling Auto Tiering for Active-Active distributed databases requires validating and getting the Redis technical team's approval first . {{</note>}}
 
 {{<warning>}} Auto Tiering is not supported running on network attached storage (NAS), storage area network (SAN), or with local HDD drives. {{</warning>}}
+
+## Size limits for keys and values
+
+Auto Tiering databases cannot store keys or values larger than 4GB in flash storage.
+
+Keys or values larger than 4GB will be stored in RAM only, and warnings will appear in the Redis logs similar to:
+
+```sh
+# WARNING: key too big for disk driver, size: 4703717276, key: subactinfo:htable
+```
+
+If oversized keys consume the shard's available RAM, the shard can return out-of-memory errors even when flash storage has free space remaining.
 
 ## Next steps
 
