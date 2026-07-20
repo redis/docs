@@ -358,6 +358,43 @@ Just make sure to re-enable automatic rewrites when done (step 4) and persist it
 Prior to version 7.0.0 backing up the AOF file can be done simply by copying the aof file (like backing up the RDB snapshot). The file may lack the final part
 but Redis will still be able to load it (see the previous sections about [truncated AOF files](#what-should-i-do-if-my-aof-gets-truncated)).
 
+### Online backups with the BACKUP command family
+
+Since Redis 8.10.0, the [`BACKUP`](/commands/backup) command family produces a self-contained, restorable backup without stopping writes or manually managing AOF rewrites. A backup reuses the [multi-part AOF](#append-only-file) format, so it is an MP-AOF–compatible artifact set consisting of three files:
+
+* **BASE** — a point-in-time snapshot (`appendonly.aof.N.base.rdb`).
+* **INCR** — the incremental writes appended after the snapshot (`appendonly.aof.N.incr.aof`).
+* **Manifest** — a standalone manifest describing the file set (`appendonly.aof.manifest`).
+
+Because backup creation is separated from backup finalization, a control plane can stagger [`BACKUP START`](/commands/backup-start) across the nodes of a cluster so that they do not all `fork` at the same time. Each node produces its BASE independently, keeps appending to its INCR, and is later frozen with [`BACKUP SEAL`](/commands/backup-seal). A restore loads `BASE + INCR`, so the restored dataset reflects the state at the seal boundary, not merely the earlier BASE snapshot.
+
+The typical workflow on a node is:
+
+1. [`BACKUP START`](/commands/backup-start) — open a backup window and produce a fresh BASE snapshot. This works whether or not AOF persistence is enabled.
+2. [`BACKUP LIST`](/commands/backup-list) — get the absolute paths of the immutable files pinned so far. The data plane can begin copying the BASE file while Redis keeps accumulating INCR data.
+3. [`BACKUP SEAL`](/commands/backup-seal) — freeze the backup, hard-linking the INCR and writing the manifest. After sealing, `BACKUP LIST` also includes the INCR and manifest files.
+4. Copy the sealed files reported by `BACKUP LIST` to your backup storage.
+5. [`BACKUP CLEANUP`](/commands/backup-cleanup) — remove the sealed files and release the pinned artifacts once the copy is complete.
+
+Use [`BACKUP STATUS`](/commands/backup-status) at any point to inspect the current backup state, and [`BACKUP ABORT`](/commands/backup-abort) to cancel a backup that has not been sealed yet.
+
+The backup files are written to the directory named by the `backupdirname` configuration setting (default `backupdir`), resolved under the Redis working directory `dir`. `backupdirname` is a startup-only setting. The `backup-sealed-ttl` setting controls how long, in seconds, Redis keeps a sealed backup before cleaning it up automatically; a value of `0` (the default) disables automatic cleanup so the files remain pinned until `BACKUP CLEANUP` is called.
+
+#### Restoring a backup
+
+To restore a backup, use the startup-only `preload-file` configuration setting, which loads a specific file or manifest during server startup. It is specified as `<type>:<path>`, where `<type>` is either `aof` or `rdb`. To restore a sealed backup, point it at the manifest:
+
+```conf
+preload-file aof:/tmp/restore-backup/appendonly.aof.manifest
+```
+
+You can also preload a single RDB file:
+
+```conf
+preload-file rdb:/tmp/backup-to-recover.rdb
+```
+
+When `preload-file` is set, Redis loads only the specified file or manifest and its associated files. It skips the normal `appenddirname` and `dump.rdb` loading, even if AOF or RDB persistence is enabled. If the preload target is missing or cannot be loaded, startup aborts. After the preload finishes, Redis continues with its normally configured persistence mode.
 
 ## Disaster recovery
 
