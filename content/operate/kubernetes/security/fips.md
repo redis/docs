@@ -10,19 +10,6 @@ linkTitle: FIPS compliance
 weight: 60
 ---
 
-<!--
-DRAFT FOR HEINRICH REVIEW — remove this comment block before merge.
-Verified against operator v8.2.0-10/-11 source (rec_crd.yaml, pkg/controller/rec/versions.go, docs/design/fips_spec.md).
-Open questions:
-  1. Platforms: OpenShift-in-FIPS-mode only, or also GKE/EKS/AKS with FIPS-configured nodes?
-     (Design doc hinted non-OpenShift may need an env var/configmap hint — did that ship?)
-  2. Host prerequisites: what must customers do on the nodes beyond the flag? Link to the Red Hat FIPS doc.
-  3. Scope: is compliance scoped to the Redis Enterprise cluster workload only, not the operator itself?
-     (Operator CSV still sets features.operators.openshift.io/fips-compliant: "false".)
-  4. arm64: the FIPS RE image is amd64-only. Does enabling on arm64 fail, or do we just document "don't"?
-  5. Verification: recommended way for a customer to confirm the cluster is actually running in FIPS mode?
--->
-
 You can run your Redis Software for Kubernetes cluster in FIPS 140-3 compliance mode, where cryptographic operations use validated, FIPS-approved algorithms. FIPS mode is available starting with operator version 8.2.0.
 
 When you enable FIPS mode, the operator deploys a FIPS-compatible image in place of the standard one.
