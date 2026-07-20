@@ -199,6 +199,12 @@ print(expire_time)
 # prints [1717668041] # your actual value may vary
 ```
 
+## Bulk import
+
+Redis 8.10 introduced the [`HIMPORT`]({{< relref "/commands/himport" >}}) command family for importing many similarly-shaped hashes efficiently. When your keys share the same field names (for example, one hash per user, each with `name`, `email`, and `age`), you declare the shared field names once and then create each key by sending only its values. This reduces the network traffic and per-command work compared with running [`HSET`]({{< relref "/commands/hset" >}}) once per key, and lets Redis store the keys with an internal encoding that keeps a single copy of the shared field names, reducing memory when many keys share the same layout.
+
+See [`HIMPORT`]({{< relref "/commands/himport" >}}) for the full workflow and its subcommands.
+
 ## Performance
 
 Most Redis hash commands are O(1).
