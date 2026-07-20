@@ -49,7 +49,9 @@ For more information, see [Audit events]({{<relref "/operate/rs/security/audit-e
 
 ### FIPS 140-3 support
 
-Redis supports deployments on RHEL 9 VMs and RHEL 9 containerized Redis on GKE using cryptographic libraries based on FIPS 140-3 validated modules, enabling the use of FIPS-approved cryptographic algorithms in supported environments.
+Redis supports deployments on RHEL 9 VMs using cryptographic libraries based on FIPS 140-3 validated modules, enabling the use of FIPS-approved cryptographic algorithms in supported environments.
+
+<!-- FIPS support for RHEL 9 containerized Redis on GKE is documented in the Redis Software for Kubernetes (Duckburg) release notes. -->
 
 - Install Redis Software on a RHEL 9 host that has FIPS mode enabled. See [Supported platforms](#supported-platforms) for the platforms validated for FIPS mode.
 
