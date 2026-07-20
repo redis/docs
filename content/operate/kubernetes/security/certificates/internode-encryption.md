@@ -4,9 +4,10 @@ categories:
 - docs
 - operate
 - kubernetes
+aliases: [/operate/kubernetes/security/internode-encryption/]
 description: Enable encryption for communication between REC nodes and configure custom certificates.
 linkTitle: Internode encryption
-weight: 99
+weight: 40
 ---
 
 Internode encryption provides added security by encrypting communication between nodes in your Redis Enterprise cluster (REC).
@@ -130,6 +131,6 @@ When you remove a certificate secret reference from the REC specification, the o
 
 ## More info
 
-- [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}}) - General certificate management for Redis Enterprise clusters
-- [Configuration secrets]({{< relref "/operate/kubernetes/security/configuration-secrets" >}}) - Best practices for storing configuration in Kubernetes secrets
+- [Manage REC certificates]({{< relref "/operate/kubernetes/security/certificates/manage-rec-certificates" >}}) - General certificate management for Redis Enterprise clusters
+- [Configuration secrets]({{< relref "/operate/kubernetes/security/authentication/configuration-secrets" >}}) - Best practices for storing configuration in Kubernetes secrets
 - [Internode encryption for Redis Enterprise Software]({{< relref "/operate/rs/security/encryption/internode-encryption.md" >}}) - Detailed information about how internode encryption works
