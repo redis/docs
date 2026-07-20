@@ -141,7 +141,12 @@ Get started with Redis Agent Memory on Redis Cloud, join the private preview for
 
 -tab-sep-
 
-Contact your Redis representative or [contact sales](https://redis.io/contact/) to join the private preview on Redis Software.
+Redis Agent Memory is available for self-managed deployment on Kubernetes as a private
+preview. See
+[Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}).
+
+You need a license key to deploy. Contact your Redis representative or
+[contact sales](https://redis.io/contact/).
 
 -tab-sep-
 
