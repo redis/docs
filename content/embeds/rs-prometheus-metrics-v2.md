@@ -46,6 +46,7 @@
 | endpoint_write_responses | counter | count | Number of write responses |
 | db_config | gauge | — | This is an information metric that holds database configuration within labels such as: db_name, db_version, db_port, tls_mode |
 | db_status | gauge | — | This is a status metric that reports on various database statuses: 0 = active, 1 = active-change-pending, 2 = pending, 3 = import-pending, 4 = delete-pending, 5 = recovery, 99 = unknown |
+| db_tags | gauge | — | Information metric that exposes database tags as labels; the value is always `1`. See [Database tags in metrics]({{< relref "/operate/rs/monitoring/metrics_stream_engine/db-tags-in-metrics" >}}). |
 
 ## Node metrics
 
