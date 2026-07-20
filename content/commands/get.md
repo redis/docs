@@ -65,7 +65,7 @@ The name of the key.
 > GET nonexisting
 (nil)
 > SET mykey "Hello"
-"OK"
+OK
 > GET mykey
 "Hello"
 {{< /clients-example >}}
