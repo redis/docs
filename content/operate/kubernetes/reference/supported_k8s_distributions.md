@@ -34,13 +34,11 @@ The tables below use the following status icons:
 
 ### Latest release
 
-Operator release **8.2.0-10** supports the following Kubernetes and OpenShift versions.
-
-<!-- TODO (verify w/ K8s team AM Jul 21): operator platforms.md lists OpenShift only to 4.22 (K8s 1.35) and 1.36 as K8s-only — confirm whether OpenShift 4.23/1.36 is supported, plus the OpenShift 4.22 known limitation Yuval flagged. -->
+Operator release **8.2.0-12** supports the following Kubernetes and OpenShift versions.
 
 | OpenShift | Kubernetes | Support status |
 |---|---|---|
-| 4.23 | 1.36 | <span title="Supported">&#x2705;</span> Supported |
+| &mdash; | 1.36 | <span title="Supported">&#x2705;</span> Supported |
 | 4.22 | 1.35 | <span title="Supported">&#x2705;</span> Supported |
 | 4.21 | 1.34 | <span title="Supported">&#x2705;</span> Supported |
 | 4.20 | 1.33 | <span title="Supported">&#x2705;</span> Supported |
@@ -50,11 +48,11 @@ Operator release **8.2.0-10** supports the following Kubernetes and OpenShift ve
 
 The following table lists the Kubernetes versions supported by every operator version. Operator versions run from newest (left) to oldest (right).
 
-{{<table-scrollable>}}|  | Redis operator | **<nobr>8.2.0-10</nobr>** | **<nobr>8.0.20-21</nobr>** | **<nobr>8.0.18-11</nobr>** | **<nobr>8.0.10-15</nobr>** | **<nobr>8.0.6-6</nobr>** | **<nobr>8.0.2-2</nobr>** | **<nobr>7.22.2-21</nobr>** | **<nobr>7.22.0-15</nobr>** | **<nobr>7.22.0-7</nobr>** | **<nobr>7.8.6-1</nobr>** | **<nobr>7.8.4-9</nobr>** | **<nobr>7.8.4-8</nobr>** | **<nobr>7.8.2-6</nobr>** | **<nobr>7.4.6-2</nobr>** | **<nobr>7.4.2-12</nobr>** | **<nobr>7.4.2-2</nobr>** | **<nobr>7.2.4-12</nobr>** | **<nobr>7.2.4-7</nobr>** | **<nobr>7.2.4-2</nobr>** | **<nobr>6.4.2-8</nobr>** | **<nobr>6.4.2-6</nobr>** | **<nobr>6.4.2-5</nobr>** | **<nobr>6.4.2-4</nobr>** | **<nobr>6.2.18-41</nobr>** | **<nobr>6.2.18-3</nobr>** | **<nobr>6.2.12-1</nobr>** | **<nobr>6.2.10-45</nobr>** | **<nobr>6.2.10-34</nobr>** | **<nobr>6.2.10-4</nobr>** | **<nobr>6.2.8-15</nobr>** | **<nobr>6.2.8-11</nobr>** | **<nobr>6.2.8-2</nobr>** | **<nobr>6.2.4-1</nobr>** |
+{{<table-scrollable>}}|  | Redis operator | **<nobr>8.2.0-12</nobr>** | **<nobr>8.0.20-21</nobr>** | **<nobr>8.0.18-11</nobr>** | **<nobr>8.0.10-15</nobr>** | **<nobr>8.0.6-6</nobr>** | **<nobr>8.0.2-2</nobr>** | **<nobr>7.22.2-21</nobr>** | **<nobr>7.22.0-15</nobr>** | **<nobr>7.22.0-7</nobr>** | **<nobr>7.8.6-1</nobr>** | **<nobr>7.8.4-9</nobr>** | **<nobr>7.8.4-8</nobr>** | **<nobr>7.8.2-6</nobr>** | **<nobr>7.4.6-2</nobr>** | **<nobr>7.4.2-12</nobr>** | **<nobr>7.4.2-2</nobr>** | **<nobr>7.2.4-12</nobr>** | **<nobr>7.2.4-7</nobr>** | **<nobr>7.2.4-2</nobr>** | **<nobr>6.4.2-8</nobr>** | **<nobr>6.4.2-6</nobr>** | **<nobr>6.4.2-5</nobr>** | **<nobr>6.4.2-4</nobr>** | **<nobr>6.2.18-41</nobr>** | **<nobr>6.2.18-3</nobr>** | **<nobr>6.2.12-1</nobr>** | **<nobr>6.2.10-45</nobr>** | **<nobr>6.2.10-34</nobr>** | **<nobr>6.2.10-4</nobr>** | **<nobr>6.2.8-15</nobr>** | **<nobr>6.2.8-11</nobr>** | **<nobr>6.2.8-2</nobr>** | **<nobr>6.2.4-1</nobr>** |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 |  |  | July 2026 | May 2026 | March 2026 | Jan 2026 | Dec 2025 | Oct 2025 | Oct 2025 | July 2025 | April 2025 | March 2025 | March 2025 | Feb 2025 | Nov 2024 | July 2024 | May 2024 | March 2024 | Dec 2023 | Oct 2023 | Aug 2023 | July 2023 | June 2023 | April 2023 | March 2023 | Jan 2023 | Nov 2022 | Sept 2022 | July 2022 | May 2022 | March 2022 | Jan 2022 | Jan 2022 | Nov 2021 | Sept 2021 |
 | OpenShift | Kubernetes |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| 4.23 | 1.36 | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| &mdash; | 1.36 | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | 4.22 | 1.35 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | 4.21 | 1.34 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 | 4.20 | 1.33 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
