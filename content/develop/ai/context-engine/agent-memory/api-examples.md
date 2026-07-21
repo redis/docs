@@ -27,7 +27,7 @@ To access the Agent Memory API, you need:
 
 When you call the API, you need to pass the Agent Memory API key in the `Authorization` header as a Bearer token and the store ID as the `storeId` path parameter.
 
-The examples expect the following variables from the [REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory#save-the-connection-values" >}}):
+The [REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory#save-the-connection-values" >}}) uses the following environment variables:
 
 - **$AGENT_MEMORY_URL** - the complete Agent Memory API base URL
 - **$STORE_ID** - the Store ID of your Agent Memory service
