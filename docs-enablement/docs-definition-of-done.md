@@ -17,7 +17,7 @@ A change is **docs-done** when the matching row is satisfied:
 - **Docs team provides** the templates, style, tooling, and final review — *not* enforcement. (If docs chases every PR, the bottleneck just moves.)
 
 ## The bar for a docs PR
-See [CONTRIBUTING.md](./CONTRIBUTING.md) — template used, placed coverage-aware, builds clean, technically accurate.
+See [CONTRIBUTING.md](../CONTRIBUTING.md) — template used, placed coverage-aware, builds clean, technically accurate.
 
 ## Division of labor
 **Author** owns technical accuracy + a solid first draft. **Docs team** owns voice, structure, and placement.
