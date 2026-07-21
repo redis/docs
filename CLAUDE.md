@@ -17,7 +17,10 @@ Base style: **Google developer documentation style**; fall back to the **Microso
 
 ## Terminology & accessible language
 
-- Use official **product / feature / UI names** exactly. <!-- TODO: link the canonical product/feature name list once confirmed -->
+- Use official **product / feature / UI names** exactly. The ones writers most often get wrong:
+  - **Redis Software** (standalone) and **Redis Software for Kubernetes** (the operator-based product) — not "Redis Enterprise" in prose.
+  - **Redis Feature Form** on first use per page, then **Feature Form** — never "Featureform."
+  - In prose, write **databases**, not "BDB"/"BDBs." The literal `bdb` API value and the `REC`/`REDB` abbreviations stay as-is, and CRD identifiers (`RedisEnterpriseCluster`, `RedisEnterpriseDatabase`, `RedisEnterpriseUser`) keep their exact casing.
 - Prefer plain, inclusive terms: **replica** (not slave/master), **turn off** (not disable), **end** (not kill), **allowlist/denylist**.
 - Spell out an acronym on first use.
 
