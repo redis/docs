@@ -53,8 +53,13 @@ One or more items to check.
 ## Examples
 
 {{% redis-cli %}}
-CF.INSERT cf ITEMS item1 item2
-CF.MEXISTS cf item1 item2 item3
+redis> CF.INSERT cf ITEMS item1 item2
+1) (integer) 1
+2) (integer) 1
+redis> CF.MEXISTS cf item1 item2 item3
+1) (integer) 1
+2) (integer) 1
+3) (integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -87,9 +87,21 @@ Return the expansion rate.
 ## Examples
 
 {{% redis-cli %}}
-BF.ADD bf1 observation1
-BF.INFO bf1
-BF.INFO bf1 CAPACITY
+redis> BF.ADD bf1 observation1
+(integer) 1
+redis> BF.INFO bf1
+ 1) Capacity
+ 2) (integer) 100
+ 3) Size
+ 4) (integer) 240
+ 5) Number of filters
+ 6) (integer) 1
+ 7) Number of items inserted
+ 8) (integer) 1
+ 9) Expansion rate
+10) (integer) 2
+redis> BF.INFO bf1 CAPACITY
+1) (integer) 100
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

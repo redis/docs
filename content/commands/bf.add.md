@@ -52,8 +52,10 @@ is an item to add.
 ## Examples
 
 {{% redis-cli %}}
-BF.ADD bf item1
-BF.ADD bf item1
+redis> BF.ADD bf item1
+(integer) 1
+redis> BF.ADD bf item1
+(integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

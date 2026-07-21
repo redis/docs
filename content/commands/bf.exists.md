@@ -51,9 +51,12 @@ is an item to check.
 ## Examples
 
 {{% redis-cli %}}
-BF.ADD bf item1
-BF.EXISTS bf item1
-BF.EXISTS bf item2
+redis> BF.ADD bf item1
+(integer) 1
+redis> BF.EXISTS bf item1
+(integer) 1
+redis> BF.EXISTS bf item2
+(integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

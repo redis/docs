@@ -53,8 +53,13 @@ One or more items to check.
 ## Examples
 
 {{% redis-cli %}}
-BF.MADD bf item1 item2
-BF.MEXISTS bf item1 item2 item3
+redis> BF.MADD bf item1 item2
+1) (integer) 1
+2) (integer) 1
+redis> BF.MEXISTS bf item1 item2 item3
+1) (integer) 1
+2) (integer) 1
+3) (integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

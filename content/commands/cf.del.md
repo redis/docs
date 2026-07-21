@@ -59,12 +59,20 @@ checked on all `sub-filters`.
 ## Examples
 
 {{% redis-cli %}}
-CF.INSERT cf ITEMS item1 item2 item2
-CF.DEL cf item1
-CF.DEL cf item1
-CF.DEL cf item2
-CF.DEL cf item2
-CF.DEL cf item2
+redis> CF.INSERT cf ITEMS item1 item2 item2
+1) (integer) 1
+2) (integer) 1
+3) (integer) 1
+redis> CF.DEL cf item1
+(integer) 1
+redis> CF.DEL cf item1
+(integer) 0
+redis> CF.DEL cf item2
+(integer) 1
+redis> CF.DEL cf item2
+(integer) 1
+redis> CF.DEL cf item2
+(integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -51,9 +51,14 @@ is an item to check.
 ## Examples
 
 {{% redis-cli %}}
-CF.INSERT cf ITEMS item1 item2 item2
-CF.COUNT cf item1
-CF.COUNT cf item2
+redis> CF.INSERT cf ITEMS item1 item2 item2
+1) (integer) 1
+2) (integer) 1
+3) (integer) 1
+redis> CF.COUNT cf item1
+(integer) 1
+redis> CF.COUNT cf item2
+(integer) 2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

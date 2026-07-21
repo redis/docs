@@ -122,19 +122,25 @@ Otherwise, use an `expansion` of `1` to reduce memory consumption. The default v
 Add three items to a filter, then create the filter with default parameters if it does not already exist.
 
 {{% redis-cli %}}
-BF.INSERT filter ITEMS foo bar baz
+redis> BF.INSERT filter ITEMS foo bar baz
+1) (integer) 1
+2) (integer) 1
+3) (integer) 1
 {{% /redis-cli %}}
 
 Add one item to a filter, then create the filter with a capacity of 10000 if it does not already exist.
 
 {{% redis-cli %}}
-BF.INSERT filter CAPACITY 10000 ITEMS hello
+redis> BF.INSERT filter CAPACITY 10000 ITEMS hello
+1) (integer) 1
 {{% /redis-cli %}}
 
 Add two items to a filter, then return error if the filter does not already exist.
 
 {{% redis-cli %}}
-BF.INSERT filter NOCREATE ITEMS foo bar
+redis> BF.INSERT filter NOCREATE ITEMS foo bar
+1) (integer) 0
+2) (integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
