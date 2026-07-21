@@ -5,8 +5,11 @@ layout: apireference
 type: page
 ---
 
-{{< note >}}
-RDI API v1 is deprecated as of RDI 1.19.0. Use [RDI API v2]({{< relref "/integrate/redis-data-integration/reference/api-migration" >}}) for new integrations and migrate existing clients.
-{{< /note >}}
+<!--
+This page uses the `apireference` layout, which renders a standalone Redoc page
+from ./api-reference/openapi.json and does NOT render this markdown body.
+The deprecation note is set in the spec's `info.description` field so Redoc
+displays it at the top of the page. Note: openapi.json is auto-generated from
+upstream RDI, so the note must also be set upstream to survive the next sync.
+-->
 
-See the [RDI API migration guide]({{< relref "/integrate/redis-data-integration/reference/api-migration" >}}) for endpoint mappings and migration guidance.
