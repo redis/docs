@@ -28,7 +28,7 @@ Each binding references exactly one role through `roleRef` and lists up to 100 s
 
 ## Before you start
 
-- Requires Redis Software for Kubernetes operator 8.0.24-TBD or later.
+- Requires Redis Software for Kubernetes operator 8.2.0-12 or later.
 - The binding resource, the role it references, and any `RedisEnterpriseUser` subjects must all live in the operator namespace.
 - Create the role before the binding when possible. The operator still admits a binding that references a missing role — the binding stays unresolved until the role lands.
 

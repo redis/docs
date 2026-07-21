@@ -16,7 +16,7 @@ This page covers moving an existing database from `rolesPermissions` to the CRD 
 
 ## Before you start
 
-- Requires Redis Software for Kubernetes operator 8.0.24-TBD or later.
+- Requires Redis Software for Kubernetes operator 8.2.0-12 or later.
 - Every user who currently holds access through `rolesPermissions` must exist as a `RedisEnterpriseUser` resource before you can bind a CRD role to them. If you created users through the Redis Software REST API or Cluster Manager UI, migrate them first. See [Manage users]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}).
 - List which Redis Software users hold each role. The CRD inventory only captures the database side of the assignment; the user-to-role mapping lives in Redis Software. Pull it from the Cluster Manager UI or the [Redis Software users REST API]({{< relref "/operate/rs/references/rest-api/objects/user" >}}).
 
