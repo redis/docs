@@ -15,11 +15,15 @@ type: integration
 weight: 61
 ---
 
-RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for compatibility, but Redis recommends moving all integrations to API v2. See the [RDI API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the current request and response schemas.
+RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for backward compatibility, but Redis recommends moving all integrations to API v2. API v1 will not be extended with new RDI features and may be removed in a future RDI version. See the [RDI API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the current request and response schemas.
 
 ## What changes in API v2
 
-API v2 uses the pipeline resource to represent the current state of a pipeline. Operations update that resource and return its current state, so applications no longer need to poll a separate action ID. API v2 also supports named pipelines and groups related operations under a pipeline path.
+API v2 uses the pipeline resource to represent the current state of a pipeline. Operations update that resource and return its current state, so applications no longer need to poll a separate action ID. API v2 scopes related operations under a pipeline name in the request path.
+
+{{< note >}}
+RDI 1.19.0 supports only one pipeline, which must be named `default`. Support for other pipeline names will be added in a future version.
+{{< /note >}}
 
 The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` where a corresponding v2 endpoint is available. Review the request and response models as well, because they can differ between versions.
 
@@ -45,8 +49,8 @@ The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` w
 | `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | `PATCH /api/v2/pipelines/{name}` with `processors` in the payload |
 | Secret provider endpoints | `POST`, `PUT`, or `DELETE /api/v2/pipelines/{name}/secrets[/{key}]` |
 | Source metadata, schemas, databases, tables, and columns endpoints | `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` with the appropriate filters |
-| `POST /api/v1/pipelines/sources/dry-run` | `POST /api/v2/pipelines/{name}?dry_run=true` |
-| `POST /api/v1/pipelines/targets/dry-run` | `POST /api/v2/pipelines/{name}?dry_run=true` |
+| `POST /api/v1/pipelines/sources/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
+| `POST /api/v1/pipelines/targets/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
 | `POST /api/v1/pipelines/undeploy` | `DELETE /api/v2/pipelines/{name}` |
 | `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
 
@@ -61,7 +65,6 @@ Most v1 endpoints have a v2 replacement. The following endpoints remain availabl
 | `GET /api/v1/me` | Returns the authenticated user. |
 | `GET /api/v1/pipelines/strategies` | Returns pipeline strategies. |
 | `POST /api/v1/login` | API v2 continues to use this endpoint for authentication. |
-| `GET /api/v1/actions/{action_id}` | No replacement. v2 operations return pipeline state; do not poll action IDs. |
 
 ## Replace action polling with pipeline-status polling
 
@@ -92,24 +95,25 @@ while true; do
   status=$(curl -sS "$RDI_URL/api/v2/pipelines/$pipeline/status" \
     -H "Authorization: Bearer $RDI_TOKEN")
   phase=$(printf '%s' "$status" | jq -r '.status')
+  current=$(printf '%s' "$status" | jq -r '.current')
   printf '%s\n' "$status"
 
-  case "$phase" in
-    started|error) break ;;
+  case "$current:$phase" in
+    true:started|true:error) break ;;
     *) sleep 2 ;;
   esac
 done
 ```
 
-For a stop operation, wait for `stopped` instead of `started`. For a reset, update, or create operation, wait for the corresponding successful state returned by the API. Always handle `error` as a failed operation. Use the status values documented by the API response for the operation you are performing; do not expect an action ID from API v2.
+For a stop operation, wait for `stopped` instead of `started`. For a reset, update, or create operation, wait for the corresponding successful state returned by the API. Only accept a terminal status when `current` is `true`; when it is `false`, the status is outdated and the client should continue polling. Always handle `error` as a failed operation. Use the status values documented by the API response for the operation you are performing; do not expect an action ID from API v2.
 
 ## Migration steps
 
 1. Find the applications, scripts, and SDKs in your environment that use `/api/v1`.
-2. Add the pipeline name to each v2 request. The default pipeline is named `default`, unless your installation uses another supported name.
+2. Add the pipeline name to each v2 request. The only pipeline in 1.19.0 is always named `default`.
 3. Check the pipeline response, or call `GET /api/v2/pipelines/{name}/status`, instead of polling an action ID.
-4. Use the v2 pipeline request to update source, target, processor, and secret-provider settings as needed. When using `PATCH`, keep the configuration sections that you do not want to change.
-5. Use the v2 metric-collection and source-schema endpoints for monitoring and source metadata.
+4. Use `POST /api/v2/pipelines`, `PUT /api/v2/pipelines/{name}`, or `PATCH /api/v2/pipelines/{name}` to update source, target, processor, and secret-provider settings as needed. When using `PATCH`, omit the configuration sections that you do not want to change.
+5. Use `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` for monitoring and `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` for source metadata.
 6. Test creating, updating, validating, starting, stopping, resetting, and deleting a pipeline on a non-production RDI 1.19.0 or later installation before updating production applications.
 
-Authentication and the API base URL do not change. The migration requires updates to the endpoint paths, pipeline scoping, request models, and operation-status handling.
+Authentication and the API base URL do not change. The migration requires updates to the endpoint paths, pipeline scoping, request models, and operation status handling.
