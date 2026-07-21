@@ -45,4 +45,4 @@ HIMPORT SET user:1 u alice a@example.com 30
 HIMPORT SET user:2 u bob b@example.com 25
 ```
 
-Because every key created this way shares one fixed set of field names, `HIMPORT` reduces the network traffic and per-command work compared with running [`HSET`]({{< relref "/commands/hset" >}}) once per key. Redis also uses the shared field names as a hint to store the keys with an internal encoding that keeps a single copy of the field names, which reduces memory when many keys share the same layout. This encoding is internal and does not change the behavior or replies of any existing hash command.
+Because every key created this way shares one fixed set of field names, `HIMPORT` reduces the network traffic and per-command work compared with running [`HSET`]({{< relref "/commands/hset" >}}) once per key. Redis also uses the shared field names as a hint to store the keys as [compact hashes]({{< relref "/develop/data-types/hashes#compact-hashes" >}}), an internal encoding that keeps a single copy of the field names and reduces memory when many keys share the same layout. This encoding does not change the behavior or replies of any existing hash command.

@@ -100,7 +100,7 @@ OK
 
 The command returns an error if the fieldset has not been prepared on the current connection, or if the number of values does not match the fieldset's field count.
 
-Keys created this way behave exactly like any other hash and work with all existing hash commands. Because they share a fixed set of field names, Redis can store them with an internal encoding that keeps a single copy of the field names, reducing memory when many keys share the same layout.
+Keys created this way behave exactly like any other hash and work with all existing hash commands. Because they share a fixed set of field names, Redis can store them as [compact hashes]({{< relref "/develop/data-types/hashes#compact-hashes" >}}), keeping a single copy of the field names to reduce memory when many keys share the same layout.
 
 ## Redis Software and Redis Cloud compatibility
 

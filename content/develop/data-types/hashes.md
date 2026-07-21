@@ -199,11 +199,42 @@ print(expire_time)
 # prints [1717668041] # your actual value may vary
 ```
 
-## Bulk import
+## Compact hashes
 
-Redis 8.10 introduced the [`HIMPORT`]({{< relref "/commands/himport" >}}) command family for importing many similarly-shaped hashes efficiently. When your keys share the same field names (for example, one hash per user, each with `name`, `email`, and `age`), you declare the shared field names once and then create each key by sending only its values. This reduces the network traffic and per-command work compared with running [`HSET`]({{< relref "/commands/hset" >}}) once per key, and lets Redis store the keys with an internal encoding that keeps a single copy of the shared field names, reducing memory when many keys share the same layout.
+Redis 8.10 introduced *compact hashes*, a way to reduce the memory used by hashes that share the same field names. When many hashes have the same layout (for example, one hash per user, each with `name`, `email`, and `age`), Redis can store the shared set of field names once and keep only the values, plus a small reference to that set, in each key. This is an internal encoding: existing hash commands keep working exactly as before, with the same semantics and replies. The hash just uses less memory.
 
-See [`HIMPORT`]({{< relref "/commands/himport" >}}) for the full workflow and its subcommands.
+Compact hashes work best when many keys share the same, mostly stable set of field names. They are a poor fit when field names change often or are unique per key, or for very large hashes. There are two ways to opt in.
+
+### Bulk import with HIMPORT
+
+The [`HIMPORT`]({{< relref "/commands/himport" >}}) command family lets a client import many similarly-shaped hashes efficiently. You declare the shared field names once with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}), then create each key with [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}) by sending only its values. This reduces network traffic and per-command work compared with running [`HSET`]({{< relref "/commands/hset" >}}) once per key, and hints Redis to store the new keys as compact hashes. See [`HIMPORT`]({{< relref "/commands/himport" >}}) for the full workflow and its subcommands.
+
+### Automatic conversion
+
+For workloads that can't adopt a new command, Redis can convert eligible hashes to compact hashes on its own, with no code change. All the following settings default to `0` (off) and can be changed at runtime with [`CONFIG SET`]({{< relref "/commands/config-set" >}}).
+
+#### On the write path
+
+These convert hashes created or modified by normal commands (such as [`HSET`]({{< relref "/commands/hset" >}})), so an existing application gains the memory saving with no code change. They take effect lazily, like `hash-max-listpack-entries`: a change applies to a given hash only on its next write, not the moment you run [`CONFIG SET`]({{< relref "/commands/config-set" >}}).
+
+| Config | Meaning |
+|---|---|
+| `hash-min-template-entries` | Minimum field count for a hash to be auto-converted to a compact hash on its next write. `0` disables auto-conversion. |
+| `hash-max-template-entries` | Maximum field count for auto-conversion: a hash wider than this is left a plain hash (keeps very wide hashes out of the shared registry). `0` means no upper bound. |
+
+A hash is not converted if it uses [field expiration](#field-expiration), even when its field count meets the minimum. After a hash has been converted, it stays a compact hash even if its field count later grows beyond `hash-max-template-entries`.
+
+#### On RDB load
+
+An RDB saved before this feature contains only plain hashes. These configs let Redis convert them to compact hashes *as the RDB loads*, so an upgrade reclaims memory without rewriting data. They apply only to RDBs without compact hashes; an RDB that already contains them is loaded as-is, with no load-time conversion. In effect these are one-time upgrade configs: they have no effect once the RDB contains at least one compact hash.
+
+| Config | Meaning |
+|---|---|
+| `hash-rdb-load-min-template-entries` | Minimum field count to convert a plain hash to a compact hash during load. `0` disables load-time conversion. |
+| `hash-rdb-load-max-template-entries` | Maximum field count for load-time conversion. `0` means no upper bound. |
+| `hash-rdb-load-template-disassembly-threshold` | Minimum number of keys that must end up sharing a converted field-name set for it to be kept. `0` keeps every converted set. |
+
+The disassembly threshold avoids wasting memory on field-name sets shared by only a few keys: at the end of the load, if a set is used by fewer keys than the threshold, those keys are converted back to plain hashes and the shared set is freed. It also acts as a safety valve during the load. Redis tracks how many converted sets are still below the threshold; once at least 1,000 have been created, if more than half of them are still below the threshold, Redis assumes the dataset is a poor fit for compact hashes and stops creating new ones partway through the load. From that point, only hashes whose field set matches one already created during this load are converted; the rest stay plain.
 
 ## Performance
 
