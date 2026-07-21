@@ -49,7 +49,6 @@ The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` w
 | `POST /api/v1/pipelines/targets/dry-run` | `POST /api/v2/pipelines/{name}?dry_run=true` |
 | `POST /api/v1/pipelines/undeploy` | `DELETE /api/v2/pipelines/{name}` |
 | `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
-| `GET /api/v1/actions/{action_id}` | No replacement. v2 operations return pipeline state; do not poll action IDs. |
 
 API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the generated [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the complete list.
 
@@ -61,8 +60,8 @@ Most v1 endpoints have a v2 replacement. The following endpoints remain availabl
 | --- | --- |
 | `GET /api/v1/me` | Returns the authenticated user. |
 | `GET /api/v1/pipelines/strategies` | Returns pipeline strategies. |
-
-Authentication continues to use `POST /api/v1/login`; the Confluence design defines the v2 login endpoint with the same path. The v1 action endpoint is different: it is only used by the v1 operation-polling model and should be removed when migrating those operations to v2. For all other endpoints, use the v2 mappings above or the generated API reference.
+| `POST /api/v1/login` | API v2 continues to use this endpoint for authentication. |
+| `GET /api/v1/actions/{action_id}` | No replacement. v2 operations return pipeline state; do not poll action IDs. |
 
 ## Replace action polling with pipeline-status polling
 
