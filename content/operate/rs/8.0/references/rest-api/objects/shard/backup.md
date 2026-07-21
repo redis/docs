@@ -1,0 +1,18 @@
+---
+Title: Backup object
+alwaysopen: false
+categories:
+- docs
+- operate
+- rs
+description: Documents the backup object used with Redis Software REST
+  API calls.
+linkTitle: backup
+weight: $weight
+url: '/operate/rs/8.0/references/rest-api/objects/shard/backup/'
+---
+
+| Name | Type/Value | Description |
+|------|------------|-------------|
+| progress  | number, (range: 0-100) | Shard backup progress (percentage) |
+| status    | 'exporting'<br />'succeeded'<br />'failed' | Status of scheduled periodic backup process |
