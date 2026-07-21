@@ -263,7 +263,7 @@ RedisEnterpriseClusterSpec defines the desired state of RedisEnterpriseCluster
         <td><a href="#specmetricsconfig">metricsConfig</a></td>
         <td>object</td>
         <td>
-          Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Enterprise metrics.<br/>
+          Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Software metrics.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1460,7 +1460,7 @@ Address of an LDAP server.
 ### spec.metricsConfig
 <sup><sup>[↩ Parent](#spec)</sup></sup>
 
-Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Enterprise metrics.
+Cluster-level configuration for metrics. Currently controls which database tag keys may be exposed as labels on Redis Software metrics.
 
 <table>
     <thead>

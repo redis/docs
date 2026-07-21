@@ -74,7 +74,7 @@ While the role is missing, the affected user's `RolesBound` condition is `False`
 kubectl get redisenterpriseuser alice -o jsonpath='{.status.conditions[?(@.type=="RolesBound")]}'
 ```
 
-The condition flips to `True` once the missing role exists and reconciles.
+The condition flips to `True` after the missing role exists and reconciles.
 
 ## Create a cluster role binding
 
@@ -169,5 +169,5 @@ For full field details, see the [`RedisEnterpriseRoleBinding`]({{< relref "/oper
 ## Related topics
 
 - [Roles and bindings]({{< relref "/operate/kubernetes/security/access-control/_index#roles-and-bindings" >}}) — the conceptual model and an end-to-end example.
-- [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) — create the roles a binding references.
-- [Manage users]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}) — create the users a binding lists as subjects.
+- [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) — create the roles that a binding references.
+- [Manage users]({{< relref "/operate/kubernetes/security/access-control/manage-users" >}}) — create the users that a binding lists as subjects.
