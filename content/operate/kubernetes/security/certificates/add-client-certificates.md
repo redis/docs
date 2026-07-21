@@ -3,10 +3,11 @@ categories:
 - docs
 - operate
 - kubernetes
+aliases: [/operate/kubernetes/security/add-client-certificates/]
 description: Add client certificates to your REDB custom resource.
 linkTitle: Add client certificates
 title: Add client certificates
-weight: 95
+weight: 30
 ---
 
 For each client certificate you want to use with your database, you need to create a Kubernetes secret to hold it. You can then reference that secret in your Redis Enterprise database (REDB) custom resource spec.

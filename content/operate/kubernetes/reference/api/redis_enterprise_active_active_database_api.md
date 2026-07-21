@@ -241,7 +241,7 @@ Global configurations for the Active-Active database. Contains the global proper
         <td>evictionPolicy</td>
         <td>string</td>
         <td>
-          Database eviction policy. see more https://redis.io/docs/latest/operate/rs/databases/memory-performance/eviction-policy/<br/>
+          Database eviction policy. See more https://redis.io/docs/latest/rs/administering/database-operations/eviction-policy/<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -306,7 +306,7 @@ Global configurations for the Active-Active database. Contains the global proper
         <td>rackAware</td>
         <td>boolean</td>
         <td>
-          Whether database should be rack aware. This improves availability - more information: https://redis.io/docs/latest/operate/rs/clusters/configure/rack-zone-awareness/<br/>
+          Whether database should be rack aware. This improves availability - more information: https://redis.io/docs/latest/rs/concepts/high-availability/rack-zone-awareness/<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -394,6 +394,13 @@ Global configurations for the Active-Active database. Contains the global proper
         <td>string</td>
         <td>
           Control the density of shards - should they reside on as few or as many nodes as possible. Available options are "dense" or "sparse". If left unset, defaults to "dense".<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>tags</td>
+        <td>map[string]string</td>
+        <td>
+          Tags to apply to the Active-Active database, as a map of key to value. The same set is merged into the BDB tags array of the default config and every participating-cluster instance. On key collision with an existing BDB tag, the value here wins. Removing a key after it was previously synced (recorded in status.managedTags) removes it from every BDB. Operator-reserved keys (managed_by, redb_name, redb_namespace, db_service_port, oss_cluster_access, redb_resource, redb_resource_name, global_configurations_spec, replication_endpoint_port, rerc_name, and the secret-tracking keys redis.io/db-sec-name, redis.io/db-sec-latest, redis.io/certs-latest, redis.io/bu-sec-name, redis.io/bu-sec-latest) are not allowed and will be rejected.<br/>
         </td>
         <td>false</td>
       </tr><tr>
@@ -1078,7 +1085,13 @@ Database auditing configuration.
         <td>dbConnsAuditing</td>
         <td>boolean</td>
         <td>
-          Enables auditing of database connection and authentication events. When enabled, connection, authentication, and disconnection events are tracked and sent to the configured audit listener (configured at the cluster level). The cluster-level auditing configuration must be set before enabling this on a database.<br/>
+          Deprecated: use auditMode instead.
+Enables auditing of database connection and authentication events.
+When enabled, connection, authentication, and disconnection events are tracked and sent
+to the configured audit listener (configured at the cluster level).
+The cluster-level auditing configuration must be set before enabling this on a database.
+Setting dbConnsAuditing to true is equivalent to auditMode "connection".
+If both dbConnsAuditing and auditMode are set, auditMode takes precedence.<br/>
         </td>
         <td>false</td>
       </tr></tbody>
@@ -1758,6 +1771,13 @@ Defines the observed state of RedisEnterpriseActiveActiveDatabase.
         <td>[]string</td>
         <td>
           List of linked REDBs.<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td>managedTags</td>
+        <td>[]string</td>
+        <td>
+          List of user-declared tag keys (from spec.globalConfigurations.tags) that were last successfully reconciled to the Active-Active database's BDBs (default config and every participating-cluster instance). Used to detect tag deletions on the next reconcile: keys present here but absent from the current spec.globalConfigurations.tags are removed from all BDB tag sets. Operator-internal keys (managed_by, redb_resource, global_configurations_spec, etc.) are not tracked here.<br/>
         </td>
         <td>false</td>
       </tr><tr>
