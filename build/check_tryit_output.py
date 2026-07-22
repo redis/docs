@@ -261,6 +261,9 @@ UNORDERED_CMDS = {
     "HKEYS", "HVALS", "HGETALL",
     # search/aggregate without SORTBY: result order is not guaranteed
     "FT.SEARCH", "FT.AGGREGATE",
+    # COMMAND INFO/DOCS: a command's subcommands list is in registration/hash
+    # order, not guaranteed (e.g. config|set, config|get, ... may reshuffle)
+    "COMMAND",
     # vector set similarity: ranked by score, but equal-score ties break in any
     # order (compared as a multiset, so tied elements may swap places)
     "VSIM",
