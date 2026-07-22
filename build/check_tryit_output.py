@@ -178,7 +178,25 @@ def _pairs_from_body(body):
     return pairs
 
 
-def parse_page(text):
+def _block_body(text, start, close_re):
+    """Locate a block's body given that its content starts at `start`.
+
+    Returns (body, next_pos, closed). A block is "closed" only if its close tag
+    appears BEFORE the next block opener; then body runs up to the close and
+    next_pos is just past it (so openers inside the body are skipped by the
+    caller). Otherwise the block is malformed — close missing, or belonging to a
+    later block — so bound the body at the next opener (never the rest of the
+    file) and leave next_pos at `start`, so every later block is still parsed
+    instead of being silently swallowed."""
+    close = close_re.search(text, start)
+    nxt = _BLOCK.search(text, start)
+    if close and (nxt is None or close.start() <= nxt.start()):
+        return text[start:close.start()], close.end(), True
+    end = nxt.start() if nxt else len(text)
+    return text[start:end], start, False
+
+
+def parse_page(text, source=""):
     """Yield {runnable, try_it, set, step, pairs} per transcript block, in document order."""
     rc_step = 0
     pos = 0
@@ -196,19 +214,21 @@ def parse_page(text):
                 yield {**base, "pairs": []}
                 pos = m.end()
                 continue
-            close = _CE_CLOSE.search(text, m.end())
-            body = text[m.end():close.start()] if close else text[m.end():]
+            body, pos, closed = _block_body(text, m.end(), _CE_CLOSE)
+            if not closed:
+                print("WARN   %s: unclosed clients-example (no {{< /clients-example >}}); "
+                      "later blocks still parsed" % (source or "?"))
             yield {**base, "pairs": _pairs_from_body(body)}
-            pos = close.end() if close else len(text)
         else:
             # {{% redis-cli %}} — standalone, always interactive
             rc_step += 1
-            close = _RC_CLOSE.search(text, m.end())
-            body = text[m.end():close.start()] if close else text[m.end():]
+            body, pos, closed = _block_body(text, m.end(), _RC_CLOSE)
+            if not closed:
+                print("WARN   %s: unclosed redis-cli block (no {{%% /redis-cli %%}}); "
+                      "later blocks still parsed" % (source or "?"))
             yield {"runnable": None, "try_it": None,
                    "set": "redis-cli", "step": str(rc_step),
                    "pairs": _pairs_from_body(body)}
-            pos = close.end() if close else len(text)
 
 
 # --- normalization for volatile values ---
@@ -344,7 +364,7 @@ def main():
 
         items = []        # (cmd, expected, set, step) in document order
         autoskip = set()  # (set, step) skipped from verification (non-det output or try_it opt-out)
-        for blk in parse_page(text):
+        for blk in parse_page(text, f):
             if not args.include_nonrunnable and blk["runnable"] == "false":
                 continue
             # try_it="false": the author opted this example out of the interactive
