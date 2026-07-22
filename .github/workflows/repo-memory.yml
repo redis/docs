@@ -1,0 +1,29 @@
+name: Repo Memory
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+permissions:
+  pull-requests: write
+  contents: read
+  statuses: write
+
+jobs:
+  memory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: redis/redis-repo-memory@v1
+        continue-on-error: true
+        with:
+          redis-url: ${{ secrets.MEMORY_REDIS_URL }}
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
