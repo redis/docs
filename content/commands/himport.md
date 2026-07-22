@@ -24,7 +24,7 @@ summary: A container for session-based hash import commands using fieldsets.
 syntax_fmt: HIMPORT
 title: HIMPORT
 ---
-`HIMPORT` is a container command for session-based bulk hash import. Its subcommands let a client import many similarly-shaped hashes efficiently by declaring the shared field names once and then sending only the values for each key.
+`HIMPORT` is a container command for session-based bulk hash import. Its subcommands let a client import many hashes that share the same field names efficiently by declaring those field names once and then sending only the values for each key.
 
 The subcommands are:
 

@@ -203,11 +203,22 @@ print(expire_time)
 
 Redis 8.10 introduced *compact hashes*, a way to reduce the memory used by hashes that share the same field names. When many hashes have the same layout (for example, one hash per user, each with `name`, `email`, and `age`), Redis can store the shared set of field names once and keep only the values, plus a small reference to that set, in each key. This is an internal encoding: existing hash commands keep working exactly as before, with the same semantics and replies. The hash just uses less memory.
 
-Compact hashes work best when many keys share the same, mostly stable set of field names. They are a poor fit when field names change often or are unique per key, or for very large hashes. There are two ways to opt in.
+**Compact hashes work well when:**
+
+- Many keys share the same, mostly stable set of field names — classic object mapping, such as one hash per user, order, or session. The more keys that share a field set, the greater the memory saving.
+- Reads and value updates stay as fast as on a regular hash. Reading any field (for example, [`HGET`]({{< relref "/commands/hget" >}}), [`HGETALL`]({{< relref "/commands/hgetall" >}}), or [`HRANDFIELD`]({{< relref "/commands/hrandfield" >}})) and overwriting an existing field's value (`HSET key field value` where `field` already exists) are unaffected.
+
+**Compact hashes are not a good fit when:**
+
+- **Field names change often.** Adding a new field with [`HSET`]({{< relref "/commands/hset" >}}) or removing one with [`HDEL`]({{< relref "/commands/hdel" >}}) detaches the key from its shared field-name set and re-resolves it against the new set, creating a new one if that layout hasn't been seen before. A workload that constantly adds or removes field names erodes the benefit. Note also that once a hash becomes a compact hash, it stays one for the life of the key: it moves between field-name sets as its fields change, but never reverts to a plain hash.
+- **Field names are unique or highly dynamic per key.** With little sharing, a key ends up with its own field-name set, which carries some metadata overhead. A set used by only a few keys can therefore consume more memory than a plain hash. Compact hashes pay off when hundreds or thousands of keys share a set.
+- **Hashes are very large.** Because a compact hash is transferred as a single blob during replication and slot migration, very large hash keys may reduce or negate the benefit.
+
+There are two ways to opt in.
 
 ### Bulk import with HIMPORT
 
-The [`HIMPORT`]({{< relref "/commands/himport" >}}) command family lets a client import many similarly-shaped hashes efficiently. You declare the shared field names once with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}), then create each key with [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}) by sending only its values. This reduces network traffic and per-command work compared with running [`HSET`]({{< relref "/commands/hset" >}}) once per key, and hints Redis to store the new keys as compact hashes. See [`HIMPORT`]({{< relref "/commands/himport" >}}) for the full workflow and its subcommands.
+The [`HIMPORT`]({{< relref "/commands/himport" >}}) command family lets a client import many hashes that share the same field names efficiently. You declare the shared field names once with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}), then create each key with [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}) by sending only its values. This reduces network traffic and per-command work compared with running [`HSET`]({{< relref "/commands/hset" >}}) once per key, and hints Redis to store the new keys as compact hashes. See [`HIMPORT`]({{< relref "/commands/himport" >}}) for the full workflow and its subcommands.
 
 ### Automatic conversion
 

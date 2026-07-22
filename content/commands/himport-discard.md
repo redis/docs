@@ -51,6 +51,12 @@ OK
 (integer) 0
 ```
 
+## Details
+
+Discarding a fieldset only removes the fieldset itself; it does not affect any hashes already created from it with [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}).
+
+Use `HIMPORT DISCARD` to free up resources on the connection once a bulk-ingestion job that used a given fieldset has finished. If you don't discard it, the fieldset stays allocated on the connection until the connection closes or the client issues the [`RESET`]({{< relref "/commands/reset" >}}) command.
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
