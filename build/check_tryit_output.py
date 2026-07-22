@@ -8,9 +8,9 @@ gone stale, reference a command the sandbox can't run, or depend on setup that
 no longer happens.
 
 What it does, per page:
-  * Parse every `clients-example` block into (command, expected-output) pairs
-    from its `> ` / `redis> ` transcript (the command line plus the output lines
-    that follow it, up to the next command).
+  * Parse every `clients-example` and `{{% redis-cli %}}` block into
+    (command, expected-output) pairs from its `> ` / `redis> ` transcript (the
+    command line plus the output lines that follow it, up to the next command).
   * Run that page's commands in ONE redis.io/cli session, in document order,
     mirroring the live page's shared session (static/js/cli.js). The API caps a
     request at 20 commands, so commands are sent in <=20-command batches with the
@@ -52,12 +52,14 @@ missing-CA issue). Hits the live redis.io/cli, which runs commands in a
 throwaway sandbox session, so run it sparingly / in CI, not on every save.
 """
 import argparse
+import base64
 import glob
 import json
 import os
 import re
 import subprocess
 import sys
+
 
 API_DEFAULT = "https://redis.io/cli"
 
@@ -68,10 +70,10 @@ _ESC = {0x5c: "\\\\", 0x22: '\\"', 0x0a: "\\n", 0x0d: "\\r",
         0x09: "\\t", 0x07: "\\a", 0x08: "\\b"}
 
 
-def _repr_string(s):
-    """Quote/escape a bulk string byte-for-byte the way redis-cli's sdscatrepr does."""
+def _repr_bytes(raw):
+    """Quote/escape a byte string byte-for-byte the way redis-cli's sdscatrepr does."""
     out = ['"']
-    for b in s.encode("utf-8"):
+    for b in raw:
         if b in _ESC:
             out.append(_ESC[b])
         elif 0x20 <= b <= 0x7e:
@@ -80,6 +82,11 @@ def _repr_string(s):
             out.append("\\x%02x" % b)
     out.append('"')
     return "".join(out)
+
+
+def _repr_string(s):
+    """A text bulk string: its UTF-8 bytes are what redis-cli would see."""
+    return _repr_bytes(s.encode("utf-8"))
 
 
 def format_reply(reply, indent="", status=False):
@@ -91,6 +98,11 @@ def format_reply(reply, indent="", status=False):
         # RESP simple-string element inside an array (e.g. CMS.INFO field names);
         # rendered unquoted like a top-level status reply.
         return reply["$status"]
+    if isinstance(reply, dict) and isinstance(reply.get("$bin"), str):
+        # Binary bulk string (BF.SCANDUMP, DUMP, ...) base64-encoded by the
+        # backend because its bytes aren't valid UTF-8; decode and repr the raw
+        # bytes byte-for-byte like redis-cli.
+        return _repr_bytes(base64.b64decode(reply["$bin"]))
     if isinstance(reply, bool):
         return "(integer) %d" % (1 if reply else 0)
     if isinstance(reply, str):
@@ -122,54 +134,81 @@ def render(reply):
 
 
 # --- parsing ---
-_OPEN = re.compile(r'\{\{<\s*clients-example\s+(.*?)>\}\}', re.S)
-_CLOSE = "{{< /clients-example"
+# Two shortcode block types carry a redis-cli transcript we can verify:
+#   {{< clients-example [attrs] >}} … {{< /clients-example >}}  (tabbed; has set/step/runnable)
+#   {{% redis-cli %}} … {{% /redis-cli %}}                       (standalone; always interactive)
+# Both are parsed uniformly and yielded in document order, so the page still runs
+# as one session. redis-cli blocks carry no set/step, so we synthesize
+# set="redis-cli" with a per-file 1-based step counter.
+_BLOCK = re.compile(
+    r'\{\{<\s*clients-example\s+(?P<ce>.*?)>\}\}'   # clients-example open (attrs in group)
+    r'|'
+    r'\{\{%\s*redis-cli\b(?P<rc>[^%]*?)%\}\}',      # redis-cli open
+    re.S)
+_CE_CLOSE = re.compile(r'\{\{<\s*/clients-example\s*>\}\}')
+_RC_CLOSE = re.compile(r'\{\{%\s*/redis-cli\s*%\}\}')
 
 
-def _attr(tag, name):
+def _attr(attrs, name):
     # negative lookbehind so prereq="..." doesn't match inside needs_prereq="..."
-    m = re.search(r'(?<![\w])' + re.escape(name) + r'="([^"]*)"', tag)
+    m = re.search(r'(?<![\w])' + re.escape(name) + r'="([^"]*)"', attrs)
     return m.group(1) if m else None
 
 
-def parse_page(text):
-    """Yield {runnable, try_it, set, step, pairs:[(cmd, expected_str)]} per block, in order."""
-    parts = re.split(r'(' + _OPEN.pattern + r')', text, flags=re.S)
-    # parts = [pre, fulltag, attrs, body, fulltag, attrs, body, ...]
-    i = 1
-    while i < len(parts):
-        tag = parts[i]
-        pairs = []
-        # Self-closing tags ("... />}}") are data-driven (content from examples.json)
-        # and have no inline "> "-transcript. Skip body parsing for them: otherwise the
-        # "body" runs to the next tag and we'd treat following prose — including markdown
-        # "> " blockquotes — as redis commands (e.g. "unknown command 'The'").
-        if not tag.rstrip().endswith("/>}}"):
-            body = parts[i + 2] if i + 2 < len(parts) else ""
-            end = body.find(_CLOSE)
-            if end >= 0:
-                body = body[:end]
-            cur, out = None, []
-            for line in body.split("\n"):
-                s = line.strip()
-                if s.startswith("redis> ") or s.startswith("> "):
-                    if cur is not None:
-                        pairs.append((cur, "\n".join(out).strip("\n")))
-                    cur = s[len("redis> "):] if s.startswith("redis> ") else s[2:]
-                    out = []
-                elif cur is not None:
-                    # Discard doc comment lines (e.g. "# Retrieve data points ...") —
-                    # they describe the example, they're not part of any reply. A redis
-                    # reply never renders as a standalone "#"-prefixed line (INFO comes
-                    # back as one quoted bulk string), so this only strips prose.
-                    if line.strip().startswith("#"):
-                        continue
-                    out.append(line.rstrip())
+def _pairs_from_body(body):
+    """Extract (command, expected-output) pairs from a "> "/"redis> " transcript."""
+    pairs, cur, out = [], None, []
+    for line in body.split("\n"):
+        s = line.strip()
+        if s.startswith("redis> ") or s.startswith("> "):
             if cur is not None:
                 pairs.append((cur, "\n".join(out).strip("\n")))
-        yield {"runnable": _attr(tag, "runnable"), "try_it": _attr(tag, "try_it"),
-               "set": _attr(tag, "set"), "step": _attr(tag, "step"), "pairs": pairs}
-        i += 3
+            cur = s[len("redis> "):] if s.startswith("redis> ") else s[2:]
+            out = []
+        elif cur is not None:
+            # Discard doc comment lines (e.g. "# Retrieve data points ...") — they
+            # describe the example, not part of any reply. A redis reply never
+            # renders as a standalone "#"-prefixed line (INFO is one quoted bulk
+            # string), so this only strips prose.
+            if line.strip().startswith("#"):
+                continue
+            out.append(line.rstrip())
+    if cur is not None:
+        pairs.append((cur, "\n".join(out).strip("\n")))
+    return pairs
+
+
+def parse_page(text):
+    """Yield {runnable, try_it, set, step, pairs} per transcript block, in document order."""
+    rc_step = 0
+    pos = 0
+    for m in _BLOCK.finditer(text):
+        if m.start() < pos:
+            continue  # an opener sitting inside a block we've already consumed
+        if m.group("ce") is not None:
+            # {{< clients-example >}}
+            attrs = m.group("ce")
+            base = {"runnable": _attr(attrs, "runnable"), "try_it": _attr(attrs, "try_it"),
+                    "set": _attr(attrs, "set"), "step": _attr(attrs, "step")}
+            # Self-closing tags ("... />}}") are data-driven (examples.json) and have
+            # no inline "> "-transcript — no body to parse, and no closing tag.
+            if m.group(0).rstrip().endswith("/>}}"):
+                yield {**base, "pairs": []}
+                pos = m.end()
+                continue
+            close = _CE_CLOSE.search(text, m.end())
+            body = text[m.end():close.start()] if close else text[m.end():]
+            yield {**base, "pairs": _pairs_from_body(body)}
+            pos = close.end() if close else len(text)
+        else:
+            # {{% redis-cli %}} — standalone, always interactive
+            rc_step += 1
+            close = _RC_CLOSE.search(text, m.end())
+            body = text[m.end():close.start()] if close else text[m.end():]
+            yield {"runnable": None, "try_it": None,
+                   "set": "redis-cli", "step": str(rc_step),
+                   "pairs": _pairs_from_body(body)}
+            pos = close.end() if close else len(text)
 
 
 # --- normalization for volatile values ---
@@ -300,14 +339,19 @@ def main():
             text = open(f, encoding="utf-8").read()
         except (OSError, UnicodeDecodeError):
             continue
-        if "clients-example" not in text:
+        if "clients-example" not in text and "redis-cli" not in text:
             continue
 
         items = []        # (cmd, expected, set, step) in document order
-        autoskip = set()  # (set, step) of examples auto-skipped as non-deterministic
+        autoskip = set()  # (set, step) skipped from verification (non-det output or try_it opt-out)
         for blk in parse_page(text):
             if not args.include_nonrunnable and blk["runnable"] == "false":
                 continue
+            # try_it="false": the author opted this example out of the interactive
+            # "Try it" button, so opt it out of verification too. Its commands still
+            # run (below), keeping cumulative state correct for later examples.
+            if blk["try_it"] == "false":
+                autoskip.add((blk["set"], blk["step"]))
             nondet = sorted({c.split()[0].upper() for c, _ in blk["pairs"]
                              if c.split() and c.split()[0].upper() in NONDETERMINISTIC_CMDS})
             if nondet:
