@@ -40,10 +40,8 @@ The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` w
 | `POST /api/v1/pipelines/reset` | `POST /api/v2/pipelines/{name}/reset` |
 | `GET /api/v1/monitoring/statistics` | `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` |
 | `GET /api/v1/pipelines/config/schemas` | `GET /api/v2/schemas/config` |
-| `GET /api/v1/pipelines/config/templates/ingest/{db_type}` | `GET /api/v2/config-templates/{name}` |
 | `GET /api/v1/pipelines/jobs/functions` | `GET /api/v2/functions` |
 | `GET /api/v1/pipelines/jobs/schemas` | `GET /api/v2/schemas/jobs` |
-| `GET /api/v1/pipelines/jobs/templates/ingest` | `GET /api/v2/job-templates/{name}` |
 | `PUT /api/v1/pipelines/sources` and source subresources | `PATCH /api/v2/pipelines/{name}` with `sources` in the payload |
 | `PUT /api/v1/pipelines/targets` and target subresources | `PATCH /api/v2/pipelines/{name}` with `targets` in the payload |
 | `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | `PATCH /api/v2/pipelines/{name}` with `processors` in the payload |
@@ -65,6 +63,8 @@ Most v1 endpoints have a v2 replacement. The following endpoints remain availabl
 | `GET /api/v1/me` | Returns the authenticated user. |
 | `GET /api/v1/pipelines/strategies` | Returns pipeline strategies. |
 | `POST /api/v1/login` | API v2 continues to use this endpoint for authentication. |
+| `GET /api/v1/pipelines/config/templates/ingest/{db_type}` | Used by the CLI to scaffold pipeline configuration and will remain available. |
+| `GET /api/v1/pipelines/jobs/templates/ingest` | Used to scaffold jobs and will remain available. |
 
 ## Replace action polling with pipeline-status polling
 
