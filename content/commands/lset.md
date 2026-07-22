@@ -81,12 +81,20 @@ The new value.
 ## Examples
 
 {{% redis-cli %}}
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LSET mylist 0 "four"
-LSET mylist -2 "five"
-LRANGE mylist 0 -1
+redis> RPUSH mylist "one"
+(integer) 1
+redis> RPUSH mylist "two"
+(integer) 2
+redis> RPUSH mylist "three"
+(integer) 3
+redis> LSET mylist 0 "four"
+OK
+redis> LSET mylist -2 "five"
+OK
+redis> LRANGE mylist 0 -1
+1) "four"
+2) "five"
+3) "three"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

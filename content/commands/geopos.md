@@ -73,8 +73,14 @@ One or more members whose longitude and latitude to return.
 ## Examples
 
 {{% redis-cli %}}
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEOPOS Sicily Palermo Catania NonExisting
+redis> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+redis> GEOPOS Sicily Palermo Catania NonExisting
+1) 1) "13.361389338970184"
+   2) "38.1155563954963"
+2) 1) "15.087267458438873"
+   2) "37.50266842333162"
+3) (nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

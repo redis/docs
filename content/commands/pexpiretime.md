@@ -59,9 +59,12 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-PEXPIREAT mykey 33177117420000
-PEXPIRETIME mykey
+redis> SET mykey "Hello"
+OK
+redis> PEXPIREAT mykey 33177117420000
+(integer) 1
+redis> PEXPIRETIME mykey
+(integer) 33177117420000
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

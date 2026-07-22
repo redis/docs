@@ -80,11 +80,19 @@ The maximum score. The bound is inclusive unless prefixed with `(`. Use `+inf` f
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREMRANGEBYSCORE myzset -inf (2
-ZRANGE myzset 0 -1 WITHSCORES
+redis> ZADD myzset 1 "one"
+(integer) 1
+redis> ZADD myzset 2 "two"
+(integer) 1
+redis> ZADD myzset 3 "three"
+(integer) 1
+redis> ZREMRANGEBYSCORE myzset -inf (2
+(integer) 1
+redis> ZRANGE myzset 0 -1 WITHSCORES
+1) "two"
+2) "2"
+3) "three"
+4) "3"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

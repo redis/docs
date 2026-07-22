@@ -272,6 +272,12 @@ UNORDERED_CMDS = {
 # runs, so later examples that build on it see the same cumulative state.
 NONDETERMINISTIC_CMDS = {"SPOP", "SRANDMEMBER", "ZRANDMEMBER", "HRANDFIELD"}
 
+# Commands whose reply is volatile — it depends on wall-clock time, a millisecond
+# TTL that ticks down, or the specific client connection — so a captured value
+# never reproduces exactly. Auto-skipped the same way (the example still shows a
+# representative value and runs live in the terminal).
+VOLATILE_CMDS = {"TIME", "PTTL", "PEXPIRETIME", "EXPIRETIME", "LASTSAVE", "CLIENT"}
+
 _IDX = re.compile(r'^\s*\d+\)\s+')  # a redis-cli "N) " list index
 
 
@@ -372,15 +378,16 @@ def main():
             # run (below), keeping cumulative state correct for later examples.
             if blk["try_it"] == "false":
                 autoskip.add((blk["set"], blk["step"]))
-            nondet = sorted({c.split()[0].upper() for c, _ in blk["pairs"]
-                             if c.split() and c.split()[0].upper() in NONDETERMINISTIC_CMDS})
-            if nondet:
-                # Random-output commands can't be verified against a transcript;
-                # skip the whole example (but still run it, below, so cumulative
-                # state stays correct for later examples that build on it).
+            unverifiable = sorted({c.split()[0].upper() for c, _ in blk["pairs"]
+                                   if c.split() and c.split()[0].upper()
+                                   in (NONDETERMINISTIC_CMDS | VOLATILE_CMDS)})
+            if unverifiable:
+                # Random or volatile output can't be verified against a fixed
+                # transcript; skip the whole example (but still run it, below, so
+                # cumulative state stays correct for later examples).
                 autoskip.add((blk["set"], blk["step"]))
-                print("SKIP   %s  [%s/%s]  (non-deterministic: %s)"
-                      % (f, blk["set"], blk["step"], ", ".join(nondet)))
+                print("SKIP   %s  [%s/%s]  (unverifiable output: %s)"
+                      % (f, blk["set"], blk["step"], ", ".join(unverifiable)))
             for cmd, exp in blk["pairs"]:
                 items.append((cmd, exp, blk["set"], blk["step"]))
         if not items:

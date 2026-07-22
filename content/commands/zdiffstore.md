@@ -105,13 +105,21 @@ One or more sorted-set keys. The difference is the members of the first set that
 ## Examples
 
 {{% redis-cli %}}
-ZADD zset1 1 "one"
-ZADD zset1 2 "two"
-ZADD zset1 3 "three"
-ZADD zset2 1 "one"
-ZADD zset2 2 "two"
-ZDIFFSTORE out 2 zset1 zset2
-ZRANGE out 0 -1 WITHSCORES
+redis> ZADD zset1 1 "one"
+(integer) 1
+redis> ZADD zset1 2 "two"
+(integer) 1
+redis> ZADD zset1 3 "three"
+(integer) 1
+redis> ZADD zset2 1 "one"
+(integer) 1
+redis> ZADD zset2 2 "two"
+(integer) 1
+redis> ZDIFFSTORE out 2 zset1 zset2
+(integer) 1
+redis> ZRANGE out 0 -1 WITHSCORES
+1) "three"
+2) "3"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

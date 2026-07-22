@@ -32,7 +32,8 @@ Returns [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >
 ## Examples
 
 {{% redis-cli %}}
-COMMAND COUNT
+redis> COMMAND COUNT
+(integer) 436
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

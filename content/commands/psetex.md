@@ -84,9 +84,12 @@ The value to set.
 ## Examples
 
 {{% redis-cli %}}
-PSETEX mykey 1000 "Hello"
-PTTL mykey
-GET mykey
+redis> PSETEX mykey 1000 "Hello"
+OK
+redis> PTTL mykey
+(integer) 1000
+redis> GET mykey
+"Hello"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

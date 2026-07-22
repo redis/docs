@@ -93,9 +93,12 @@ The new key name. An existing key with this name is overwritten.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-RENAME mykey myotherkey
-GET myotherkey
+redis> SET mykey "Hello"
+OK
+redis> RENAME mykey myotherkey
+OK
+redis> GET myotherkey
+"Hello"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

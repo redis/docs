@@ -91,9 +91,12 @@ The value to set.
 ## Examples
 
 {{% redis-cli %}}
-SETEX mykey 10 "Hello"
-TTL mykey
-GET mykey
+redis> SETEX mykey 10 "Hello"
+OK
+redis> TTL mykey
+(integer) 10
+redis> GET mykey
+"Hello"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

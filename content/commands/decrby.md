@@ -77,8 +77,10 @@ The integer amount to subtract from the value.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "10"
-DECRBY mykey 3
+redis> SET mykey "10"
+OK
+redis> DECRBY mykey 3
+(integer) 7
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -99,9 +99,12 @@ The bit value to set: `0` or `1`.
 ## Examples
 
 {{% redis-cli %}}
-SETBIT mykey 7 1
-SETBIT mykey 7 0
-GET mykey
+redis> SETBIT mykey 7 1
+(integer) 0
+redis> SETBIT mykey 7 0
+(integer) 1
+redis> GET mykey
+"\x00"
 {{% /redis-cli %}}
 
 ## Details
