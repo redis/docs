@@ -74,16 +74,21 @@
       {{ partial "navbar.html" . }}
     </header>  */}}
 
-    {{ partial "header.html" }}
+    {{/* .site-shell owns the sticky-footer grid (header / main / footer). The
+         grid lives on this wrapper rather than on <body> on purpose: on the
+         live site the Qualified chat widget (js.qualified.com/docking.js)
+         injects `body { display: block !important }` at runtime, which
+         overrides a grid set on <body> and lets the footer float up on short
+         pages (issue #3691). The widget only targets <body>, not this div, so
+         the grid survives here. See assets/scss/style.scss. */}}
+    <div class="site-shell">
+      {{ partial "header.html" }}
 
-    {{ block "main" . }}{{ end }}
+      {{ block "main" . }}{{ end }}
 
-    {{/*  <footer class="bg-midnight-700 relative z-50">
       {{ partial "footer.html" . }}
-      {{ partial "toc-js.html" . }}
-    </footer>  */}}
+    </div>
 
-    {{ partial "footer.html" . }}
     {{ partial "toc-js.html" . }}
 
     {{ partial "search-modal.html" . }}
