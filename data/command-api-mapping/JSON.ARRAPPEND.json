@@ -505,6 +505,37 @@
           "description": "The array length after the append operation."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_arrappend(key, path, *values, raw: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a JSONPath to the target array"
+          },
+          {
+            "name": "*values",
+            "type": "Array<Object>",
+            "description": "one or more JSON values to append"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "treat each value as an already-encoded JSON string"
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>, Integer",
+          "description": "the new array length(s); an Array for a JSONPath, a single Integer for a legacy path (nil for a match that is not an array)"
+        }
+      }
     ]
   }
 }

@@ -335,6 +335,32 @@
           "description": "The JSON values found at the requested path across the requested keys."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_mget(*keys, path, raw: false)",
+        "params": [
+          {
+            "name": "*keys",
+            "type": "Array<String>",
+            "description": "one or more keys to read"
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a single JSONPath applied to every key"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "return the unparsed JSON strings instead of parsed Ruby objects"
+          }
+        ],
+        "returns": {
+          "type": "Array",
+          "description": "one value per key (nil for a missing key/path)"
+        }
+      }
     ]
   }
 }
