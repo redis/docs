@@ -38,9 +38,22 @@ gitignored (venv, caches, `lexical.json`). Note: embedding runs slowly here
 2. **With strong section-level embeddings, vanilla equal-weight RRF hurts the
    top ranks**: pure vector is best by MRR / @1–@3, hybrid is best by recall@5/@10.
    Fusing a strong retriever with a weaker one dilutes its confident top hits.
-3. **Direction:** build section-level embeddings + a **weighted** fusion
-   (favour vector), or ship pure vector. Tune against this eval before hosting.
-   See `../SPEC.md` §6/§10.
+3. **Direction:** build section-level embeddings + **weighted RRF favouring
+   vector ~2–3×** (`fusion_sweep.py`). Weighted RRF recovers the top-1 precision
+   that equal-weight RRF lost while keeping top-k recall — overall MRR .73 (vs
+   .72 pure vector, .69 equal RRF), concept @5 92% / @10 100%. The dilution was
+   *equal* weighting, not fusion per se. See `../SPEC.md` §6/§10.
+
+## Fusion sweep (section-level, cached embeddings)
+
+`python fusion_sweep.py section` — resolves which fusion to build:
+
+| system | overall MRR | command MRR | concept @5 / @10 |
+|---|---|---|---|
+| lexical | .53 | .57 | 62 / 77 |
+| pure vector | .72 | .76 | 69 / 85 |
+| equal RRF (1:1) | .69 | .76 | 92 / 100 |
+| **weighted RRF (3:1)** | **.73** | **.80** | **92 / 100** |
 
 Limitations: small eval (35 cases, 13 concept — directional, not definitive);
 sections truncated to ~1200 chars; single small model (bge-small).

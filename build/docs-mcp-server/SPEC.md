@@ -209,11 +209,13 @@ vector-on-Redis as a later upgrade to the **hosted** endpoint only.
     best by recall@5/@10** (concept @5 92% / @10 100%; overall @5 91%). Vanilla
     equal-weight RRF now *dilutes* the top ranks because it fuses the strong
     vector retriever with the weaker lexical one.
-  - **Decision:** build **section-level embeddings** + a **weighted** fusion
-    (favour vector) rather than equal-weight RRF, to keep vector's top-1
-    precision *and* hybrid's top-k recall. Test weighted RRF / score fusion
-    against this eval before finalising. Pure vector is a viable fallback if
-    fusion tuning isn't worth it.
+  - **Decision (measured — fusion sweep):** build **section-level embeddings** +
+    **weighted RRF favouring vector ~2–3×**. The sweep (`fusion_sweep.py`) shows
+    vector-weighted RRF recovers the top-1 precision equal-weight RRF lost *and*
+    keeps the top-k recall: overall MRR **.73** (vs .72 pure vector, .69 equal
+    RRF), command MRR **.80**, concept @5 **92%** / @10 **100%**. So the dilution
+    was specifically *equal* weighting. (n=35 is small, so treat the 2× vs 3×
+    choice as noise — just weight vector above lexical.)
 - **Ranking quality (measured via the eval harness):** lexical BM25 with
   Porter stemming, stopword removal, title/summary/slug field boosts, and
   balanced page-type weighting (demote release-notes/REST-API/references only)
