@@ -14,7 +14,7 @@ weight: 100
 
 ## Redis Community Edition 7.4.10 (July 2026)
 
-Update urgency: `SECURITY`: There are security fixes in the release.
+Update urgency: `SECURITY`: There is a security fix in the release.
 
 ### Security fixes
 
