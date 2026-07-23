@@ -57,7 +57,7 @@ To configure Istio to work with the Redis Kubernetes operator, we will use two c
 1. On a different namespace from `istio-system`, create a `Gateway` custom resource file (`redis-gateway.yaml` in this example).
 
     - Replace `.istio.k8s.my.example.com` with the domain that matches your DNS record.
-    - Replace `<selector-label>` with the label set on your Istio ingress gateway pod (most common is `istio: ingress`).
+    - Replace `<selector-label>` with the label set on your Istio ingress gateway pod. A default `istioctl install` deploys the gateway with label `istio: ingressgateway`.
     - TLS passthrough mode is required to allow secure access to the database.
 
     ```yaml
@@ -72,9 +72,9 @@ To configure Istio to work with the Redis Kubernetes operator, we will use two c
       - hosts:
         - '*.istio.k8s.my.example.com'
         port:
-          name: https
+          name: tls
           number: 443
-          protocol: HTTPS
+          protocol: TLS
         tls:
           mode: PASSTHROUGH
     ```

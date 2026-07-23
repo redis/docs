@@ -56,35 +56,37 @@ An error is returned if the key contains a value of the wrong type or contains a
 string that can not be represented as integer.
 This operation is limited to 64 bit signed integers.
 
-**Note**: this is a string operation because Redis does not have a dedicated
+Note: this is a string operation because Redis does not have a dedicated
 integer type.
-The string stored at the key is interpreted as a base-10 **64 bit signed
-integer** to execute the operation.
+The string stored at the key is interpreted as a base-10 64-bit signed
+integer to execute the operation.
 
 Redis stores integers in their integer representation, so for string values
 that actually hold an integer, there is no overhead for storing the string
 representation of the integer.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_string" step="incr" description="Foundational: Increment the integer value of a key by one using INCR (initializes to 0 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "10"
-"OK"
+OK
 > INCR mykey
 (integer) 11
 > GET mykey
 "11"
 {{< /clients-example >}}
 
-Give this command a try in the interactive console:
+## Details
 
-{{% redis-cli %}}
-SET mykey "10"
-INCR mykey
-GET mykey
-{{% /redis-cli %}}
-
-## Pattern: Counter
+### Pattern: counter
 
 The counter pattern is the most obvious thing you can do with Redis atomic
 increment operations.
@@ -109,18 +111,16 @@ This simple pattern can be extended in many ways:
   operations performed by the user.
   Imagine for instance the score of different users in an online game.
 
-## Pattern: Rate limiter
+### Pattern: rate limiter
 
 The rate limiter pattern is a special counter that is used to limit the rate at
 which an operation can be performed.
 The classical materialization of this pattern involves limiting the number of
 requests that can be performed against a public API.
 
-We provide two implementations of this pattern using `INCR`, where we assume
-that the problem to solve is limiting the number of API calls to a maximum of
-_ten requests per second per IP address_.
+You can implement this pattern with INCR in two ways. Both examples limit API calls to a maximum of ten requests per second per IP address.
 
-## Pattern: Rate limiter 1
+#### Pattern: rate limiter 1
 
 The more simple and direct implementation of this pattern is the following:
 
@@ -140,7 +140,7 @@ ELSE
 END
 ```
 
-Basically we have a counter for every IP, for every different second.
+In this example, there is a counter for every IP, for every different second.
 But these counters are always incremented setting an expire of 10 seconds so that
 they'll be removed by Redis automatically when the current second is a different
 one.
@@ -148,7 +148,7 @@ one.
 Note the used of [`MULTI`]({{< relref "/commands/multi" >}}) and [`EXEC`]({{< relref "/commands/exec" >}}) in order to make sure that we'll both
 increment and set the expire at every API call.
 
-## Pattern: Rate limiter 2
+#### Pattern: rate limiter 2
 
 An alternative implementation uses a single counter, but is a bit more complex
 to get it right without race conditions.

@@ -18,7 +18,7 @@ description: 'HyperLogLog is a probabilistic data structure that estimates the c
   '
 linkTitle: HyperLogLog
 title: HyperLogLog
-weight: 1
+weight: 40
 ---
 
 {{< command-group group="hyperloglog" title="HyperLogLog command summary" show_link=true >}}

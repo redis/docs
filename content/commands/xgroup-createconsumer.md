@@ -52,10 +52,30 @@ summary: Creates a consumer in a consumer group.
 syntax_fmt: XGROUP CREATECONSUMER key group consumer
 title: XGROUP CREATECONSUMER
 ---
-Create a consumer named `<consumername>` in the consumer group `<groupname>` of the stream that's stored at `<key>`.
+Create a consumer named `consumername` in the consumer group `groupname` of the stream that's stored at `key`.
 
 Consumers are also created automatically whenever an operation, such as [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), references a consumer that doesn't exist.
 This is valid for [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) only when there is data in the stream.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The stream key.
+
+</details>
+
+<details open><summary><code>group</code></summary>
+
+The consumer group name.
+
+</details>
+
+<details open><summary><code>consumer</code></summary>
+
+The name of the consumer to create.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

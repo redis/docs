@@ -89,9 +89,10 @@ schema = IndexSchema.from_dict({
 })
 ```
 
-#### `NOTE`
+{{< note >}}
 The fields attribute in the schema must contain unique field names to ensure
 correct and unambiguous field references.
+{{< /note >}}
 
 Create a new model by parsing and validating input data from keyword arguments.
 

@@ -49,7 +49,7 @@ This is the only time the value of the user key is available. Save it to a secur
 If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/rc/context-engine/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
     {{</warning>}}
 
-    After your service is created, you can [use the Agent Memory API]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) from your client app.
+    After Redis Cloud creates your service, [continue with the REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}).
 
 - If you want to customize your Agent Memory service, select **Create custom**. 
 
@@ -58,7 +58,7 @@ If you lose the service key value, you will need to [generate a new service key]
     This takes you to the **Create Agent Memory Service** page. This page is divided into the following sections:
 
     1. The [General settings](#general-settings) section defines basic properties of your service.
-    1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories.
+    1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
 
 ### General settings
 
@@ -74,7 +74,7 @@ The **General settings** section defines basic properties of your service.
 
 ### Memory configuration
 
-The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories.
+The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
 
 {{<image filename="images/rc/agent-memory-memory-configuration.png" alt="The General settings section." >}}
 
@@ -82,6 +82,20 @@ The **Memory configuration** section allows you to define the time-to-live (TTL)
 |:----------------------|:----------|
 | **Short-term TTL** | Defines the time-to-live (TTL) of your agent's **short-term memory** (also known as **session memory**). You can define this TTL in seconds, minutes, hours, or days. Default: 1 hour |
 | **Long-term TTL** | Defines the time-to-live (TTL) of your agent's **long-term memory**. You can define this TTL in seconds, minutes, hours, or days. Default: 365 days |
+| **Extraction cadence** | How often the extraction pipeline runs while a session is active. Leave this blank to use the default of 5 minutes, or set a value between 60 and 600 seconds to override it. |
+
+#### Automatic summarization
+
+Automatic summarization keeps your agent sharp during long conversations by compressing older messages in a session into a summary, while keeping the most recent messages in full. This helps control the size of session memory without losing important context.
+
+Use the **Automatic summarization** toggle to enable or disable this behavior. When it is enabled, you can configure the following settings:
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized. When a session exceeds this threshold, the oldest messages beyond the **Keep most recent** count are compressed into a summary. |
+| **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. |
+
+For example, with **Summarize after** set to 20 and **Keep most recent** set to 10, once a session reaches 20 messages, the oldest 10 messages are summarized automatically and the 10 most recent are kept in full.
 
 ### Create service
 
@@ -103,6 +117,6 @@ If an error occurs, verify that your database is active. For help, [contact supp
 
 ## Next steps
 
-After your service is created, you can [use the Agent Memory API]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) from your client app.
+After Redis Cloud creates your service, [continue with the REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}).
 
 You can also [view and edit the service]({{< relref "/operate/rc/context-engine/agent-memory/view-service" >}}).

@@ -25,7 +25,7 @@ RDI is a good fit when:
 
 {{< note >}}The throughput and data-size limits above assume the
 [classic processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}).
-The Flink processor (currently in Preview) roughly doubles each limit.{{< /note >}}
+The Flink processor roughly doubles each limit.{{< /note >}}
 
 ### When not to use RDI
 
@@ -35,7 +35,6 @@ RDI is not a good fit when:
 - Your app needs *immediate* cache consistency (or a hard limit on latency) rather
   than *eventual* consistency.
 - You need *transactional* consistency between the source and target databases.
-- The data is ingested from two replicas of Active-Active at the same time.
 - The app must *write* data to the Redis cache, which then updates the source database
   (write-behind/write-through patterns).
 - Your data set will only ever be small.

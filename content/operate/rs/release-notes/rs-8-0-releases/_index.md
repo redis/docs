@@ -113,11 +113,19 @@ The following changes affect behavior and validation in Redis Search:
 
 - Improved handling of expired records, memory constraints, and malformed fields.
 
+### OpenSSL version
+
+Redis Software version 8.0.16 and later requires OpenSSL 3.3 or later.
+
 ### Reserved ports
 
 Make sure the following ports are open before upgrading Redis Software.
 
-Ports reserved as of Redis Software version 8.0.18:
+The following port was added as a reserved port in Redis Software version 8.0.18; however, it is optional instead of reserved in Redis Software version 8.0.20-44:
+
+| Port | Process name | Usage |
+|------|--------------|-------|
+| 3357 | reconciliation_tree_grpc | Internal communication |
 
 | Port | Process name | Usage | 
 |------|--------------|-------|
@@ -173,7 +181,7 @@ See [Ports and port ranges used by Redis Software]({{<relref "/operate/rs/networ
 
 The existing [internal monitoring engine]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) is deprecated. We recommend transitioning to the new [metrics stream engine]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for improved performance, enhanced integration capabilities, and modernized metrics streaming.
 
-V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) or use [new preconfigured dashboards]({{<relref "/integrate/prometheus-with-redis-enterprise#v2-metrics-dashboards">}}).
+V1 Prometheus metrics are deprecated but still available. To transition to the new metrics stream engine, either migrate your existing dashboards using [this guide]({{<relref "/operate/rs/references/metrics/prometheus-metrics-v1-to-v2">}}) or use [new preconfigured dashboards]({{<relref "/integrate/prometheus-with-redis-enterprise#grafana-dashboards-for-redis-software">}}).
 
 As part of the transition to the metrics stream engine, some internal cluster manager alerts were deprecated in favor of external monitoring solutions. See the [alerts transition plan]({{<relref "/operate/rs/references/alerts/alerts-v1-to-v2">}}) for guidance.
 
@@ -215,6 +223,10 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 ## Known issues
 
+- RS196225: After upgrading to Redis Software version 8.0.x, previously working LDAP filters that use an `OR` clause to match multiple attributes can fail to find a unique DN for some users.
+
+    This issue was fixed in Redis Software version 8.0.20-44.
+
 - RS193156: Active Directory LDAP authentication can fail in the Cluster Manager UI after upgrading to Redis Software version 8.0.16-33 due to an issue with LDAP TLS client certificate handling. Users previously authenticated through Active Directory can no longer sign in to the Cluster Manager UI after the upgrade.
 
     As a workaround, configure an LDAP client certificate using an [update cluster certificates]({{<relref "/operate/rs/references/rest-api/requests/cluster/certificates">}}) REST API request:
@@ -247,6 +259,10 @@ The following table provides a snapshot of supported platforms as of this Redis 
 - RS155734: Endpoint availability metrics do not work as expected due to a calculation error.
 
 ## Known limitations
+
+#### Redis Search query failures during rolling upgrades across the 8.4 version boundary
+
+Redis Search queries can fail during a rolling upgrade when a cluster contains shards running Redis versions earlier than 8.4 and shards running Redis version 8.4 or later, due to an internal protocol change introduced in version 8.4. This issue affects only clusters where `parallel_shards_upgrade` has been changed from its default value of `0`. If both conditions apply, expect Redis Search downtime until all nodes are upgraded.
 
 #### Trim ACKED not supported for Active-Active 8.4 databases
 

@@ -114,13 +114,13 @@ controls the search effort. Higher values explore more nodes, improving recall a
 <details open>
 <summary><code>FILTER expression</code></summary>
 
-applies a filter expression to restrict matching elements. See the filtered search section for syntax details.
+applies a filter expression to restrict matching elements. See [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}}) for syntax details.
 </details>
 
 <details open>
 <summary><code>FILTER-EF max-filtering-effort</code></summary>
 
-limits the number of filtering attempts for the `FILTER` expression. See the filtered search section for more.
+limits the number of filtering attempts for the `FILTER` expression. See [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}}) for more information.
 </details>
 
 <details open>
@@ -134,10 +134,6 @@ forces an exact linear scan of all elements, bypassing the HNSW graph. Use for b
 
 executes the search in the main thread instead of a background thread. Useful for small vector sets or benchmarks. This may block the server during execution.
 </details>
-
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -168,3 +164,8 @@ One of the following:
 * With the `WITHSCORES` and `WITHATTRIBS` options, a [Map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) elements (keys), and an additional array (values) with the following elements: (1) a [double reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}})  for the score and (2) a [bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) representing the JSON attribute associated with the element or [null]({{< relref "/develop/reference/protocol-spec#nulls" >}}) for the elements missing an attribute.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+- [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})

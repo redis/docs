@@ -27,8 +27,9 @@ The following table shows supported Kubernetes versions at the time of this rele
 |---|---|
 | 1.35 | Supported |
 | 1.34 | Supported |
-| 1.33 | Deprecated |
-| 1.32 | Removed |
+| 1.33 | Supported |
+| 1.32 | Deprecated |
+| 1.31 | Deprecated |
 
 ## Known limitations
 

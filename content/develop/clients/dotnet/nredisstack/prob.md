@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/clients/dotnet/prob
 categories:
 - docs
 - develop

@@ -71,15 +71,31 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 
 
 Merge multiple HyperLogLog values into a unique value that will approximate
-the cardinality of the union of the observed Sets of the source HyperLogLog
+the cardinality of the union of the observed sets of the source HyperLogLog
 structures.
 
 The computed merged HyperLogLog is set to the destination variable, which is
-created if does not exist (defaulting to an empty HyperLogLog).
+created if it does not exist (defaulting to an empty HyperLogLog).
 
 If the destination variable exists, it is treated as one of the source sets 
 and its cardinality will be included in the cardinality of the computed
 HyperLogLog.
+
+## Required arguments
+
+<details open><summary><code>destkey</code></summary>
+
+The destination HyperLogLog key in which to store the merged result.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>sourcekey [sourcekey ...]</code></summary>
+
+One or more source HyperLogLog keys to merge into `destkey`. `destkey` itself is also included in the merge.
+
+</details>
 
 ## Examples
 

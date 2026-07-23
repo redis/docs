@@ -66,6 +66,15 @@ public class HashExample
         //REMOVE_END
 
         //STEP_START hmget
+        // Recreate the bike:1 hash so this example runs on its own.
+        db.KeyDelete("bike:1");
+        db.HashSet("bike:1", [
+            new("model", "Deimos"),
+            new("brand", "Ergonom"),
+            new("type", "Enduro bikes"),
+            new("price", 4972)
+        ]);
+
         var values = db.HashGet("bike:1", ["model", "price"]);
         Console.WriteLine(string.Join(" ", values));
         // Deimos 4972
@@ -76,6 +85,15 @@ public class HashExample
         //STEP_END
 
         //STEP_START hincrby
+        // Recreate the bike:1 hash so this example runs on its own.
+        db.KeyDelete("bike:1");
+        db.HashSet("bike:1", [
+            new("model", "Deimos"),
+            new("brand", "Ergonom"),
+            new("type", "Enduro bikes"),
+            new("price", 4972)
+        ]);
+
         var newPrice = db.HashIncrement("bike:1", "price", 100);
         Console.WriteLine($"New price: {newPrice}");
         //REMOVE_START

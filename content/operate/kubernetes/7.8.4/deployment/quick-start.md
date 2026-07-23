@@ -18,13 +18,13 @@ To deploy Redis Enterprise Software for Kubernetes and start your Redis Enterpri
 - Apply the operator bundle and verify it's running.
 - Create a Redis Enterprise cluster (REC).
 
-This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/7.8.4/deployment/openshift" >}}). For details on what is currently supported, see [supported distributions]({{< relref "/operate/kubernetes/7.8.4/reference/supported_k8s_distributions.md" >}}).
+This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/7.8.4/deployment/openshift" >}}). For details on what is currently supported, see [supported distributions]({{< relref "/operate/kubernetes/7.8.4/reference" >}}).
 
 ## Prerequisites
 
 To deploy Redis Enterprise for Kubernetes, you'll need:
 
-- Kubernetes cluster in a [supported distribution]({{< relref "/operate/kubernetes/7.8.4/reference/supported_k8s_distributions.md" >}})
+- Kubernetes cluster in a [supported distribution]({{< relref "/operate/kubernetes/7.8.4/reference" >}})
 - minimum of three worker nodes
 - Kubernetes client (kubectl)
 - access to DockerHub, RedHat Container Catalog, or a private repository that can hold the required images.

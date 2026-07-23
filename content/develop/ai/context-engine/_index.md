@@ -4,14 +4,82 @@ categories:
 - docs
 - develop
 - ai
-description: Redis Iris is a suite of fully-managed services that give AI agents the context engine they need to reliably act on business data.
+description: Redis Iris is a suite of fully-managed services.
 hideListLinks: true
-linktitle: Context engine
-title: Context engine
+linktitle: Redis Iris context engine
+title: Redis Iris context engine
 weight: 30
 ---
 
-Context engine includes four services:
+Give your AI agents the context layer they need to reliably act on business data.
+
+Redis Iris eliminates the infrastructure burden of building context-aware AI agents — persistent memory, semantic caching, governed data access, and live data sync, all on Redis Cloud.
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  {{< image-card image="images/ai-brain.svg" alt="Agent Memory icon" title="Agent Memory — Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
+  {{< image-card image="images/ai-LLM-memory.svg" alt="LangCache icon" title="LangCache — Semantic caching to reduce LLM costs and improve response times" url="/develop/ai/context-engine/langcache" >}}
+  {{< image-card image="images/ai-cube.svg" alt="Context Retriever icon" title="Context Retriever — Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
+</div>
+
+## What is Redis Iris?
+
+Redis Iris is a production-ready context engine for AI agents that:
+
+<ul class="my-4 space-y-2">
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Reduces LLM costs</strong> — Semantic caching returns cached responses for similar queries in milliseconds</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Adds persistent memory</strong> — Agents remember past interactions and user preferences across sessions</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Structures business data access</strong> — Context Retriever generates governed tools agents can safely call at runtime</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Keeps data fresh</strong> — Data Integration streams live changes from relational databases into Redis within seconds</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Requires no database management</strong> — All four services are fully managed on Redis Cloud via REST API</span></li>
+</ul>
+
+## Why use Redis Iris?
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">For AI applications</h3>
+    <ul class="space-y-1 text-redis-pen-600">
+      <li>Agents that remember context across sessions and users</li>
+      <li>Faster responses and lower costs through semantic caching</li>
+      <li>Reliable, structured access to live business data</li>
+      <li>No stale data — near real-time sync from your source databases</li>
+    </ul>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">For developers</h3>
+    <ul class="space-y-1 text-redis-pen-600">
+      <li>Four fully-managed services — no infrastructure to build or maintain</li>
+      <li>REST API and Python/JS SDKs for all services</li>
+      <li>Define your data model once, reuse it across all agents</li>
+      <li>Available on Redis Cloud with no database setup required</li>
+    </ul>
+  </div>
+</div>
+
+## Quick example
+
+Search LangCache before calling your LLM — return a cached response in milliseconds if a semantically similar prompt has been seen before:
+
+```json
+POST /v1/caches/{cacheId}/entries/search
+{
+    "prompt": "What are the features of Product A?"
+}
+```
+
+If the response is empty (cache miss), call your LLM and store the result:
+
+```json
+POST /v1/caches/{cacheId}/entries
+{
+    "prompt": "What are the features of Product A?",
+    "response": "Product A includes X, Y, and Z features..."
+}
+```
+
+See [LangCache API examples]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) and [Agent Memory API examples]({{< relref "/develop/ai/context-engine/agent-memory/api-examples" >}}) for more.
+
+Redis Iris context engine includes four services:
 
 - **[LangCache]({{< relref "/develop/ai/context-engine/langcache" >}})**: A semantic caching service that stores and reuses LLM responses for similar queries, reducing API costs and improving response latency.
 - **[Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})**: A persistent memory service that maintains short-term session memory and long-term memory across agent interactions.
@@ -65,7 +133,7 @@ You define your data model once, specifying the entities that matter (such as cu
 
 ## Data integration
 
-AI agents are only as reliable as the data they work with. [Redis Data Integration (RDI)]({{< relref "/operate/rc/databases/rdi" >}}) keeps your Redis Cloud database in sync with your existing relational databases, including Oracle, MySQL, PostgreSQL, and SQL Server, so agents always have access to current, accurate business data without querying slow primary databases directly.
+AI agents are only as reliable as the data they work with. [Redis Data Integration (RDI)]({{< relref "/operate/rc/rdi" >}}) keeps your Redis Cloud database in sync with your existing relational databases, including Oracle, MySQL, PostgreSQL, and SQL Server, so agents always have access to current, accurate business data without querying slow primary databases directly.
 
 RDI uses a data pipeline that performs an initial sync of your source data into Redis, then captures changes in real time. Updates from your primary database appear in Redis within seconds, eliminating stale data and cache misses. Your agents interact only with Redis, which provides fast and predictable query performance.
 

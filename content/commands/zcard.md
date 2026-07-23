@@ -48,6 +48,14 @@ title: ZCARD
 Returns the sorted set cardinality (number of elements) of the sorted set stored
 at `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

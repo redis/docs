@@ -109,7 +109,13 @@ PATCH /v1/crdbs/{crdb_guid}
 
 Update an Active-Active database's configuration.
 
-In order to add or remove instances, use [<nobr>`POST crdbs/{crdb_guid}/updates`</nobr>]({{< relref "/operate/rs/references/rest-api/requests/crdbs/updates#post-crdbs-updates" >}}) instead.
+Updating `default_db_config` affects both existing and new instances.
+
+When you update `db_config`, it changes the configuration of the specified database instance. This field overrides any corresponding fields in `default_db_config`.
+
+For a list of which settings must be identical across all instances and which to set per instance, see the [CRDB database config object]({{<relref "/operate/rs/references/rest-api/objects/crdb/database_config">}}) reference.
+
+To add or remove instances, use [<nobr>`POST crdbs/{crdb_guid}/updates`</nobr>]({{< relref "/operate/rs/references/rest-api/requests/crdbs/updates#post-crdbs-updates" >}}) instead.
 
 ### Request {#patch-request}
 
@@ -157,6 +163,8 @@ POST /v1/crdbs
 ```
 
 Create a new Active-Active database.
+
+For a list of which settings must be identical across all instances and which to set per instance, see the [CRDB database config object]({{<relref "/operate/rs/references/rest-api/objects/crdb/database_config">}}) reference.
 
 ### Request {#post-request}
 

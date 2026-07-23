@@ -1,17 +1,17 @@
 ---
-Title: Search and query configuration compatibility with Redis Software
+Title: Redis Search configuration compatibility with Redis Software
 alwaysopen: false
 categories:
 - docs
 - operate
 - stack
-description: Search and query configuration settings supported by Redis Software and Redis Cloud.
+description: Redis Search configuration settings supported by Redis Software and Redis Cloud.
 linkTitle: Configuration
 toc: 'false'
 weight: 15
 ---
 
-To configure RediSearch in [Redis Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}), use one of the following methods instead of [`FT.CONFIG SET`]({{< relref "commands/ft.config-set" >}}).
+To configure Redis Search in [Redis Software]({{< relref "/operate/rs" >}}) or [Redis Cloud]({{< relref "/operate/rc" >}}), use one of the following methods instead of [`FT.CONFIG SET`]({{< relref "commands/ft.config-set" >}}).
 
 ## Configure search in Redis Cloud
 
@@ -19,7 +19,7 @@ For Redis Cloud:
 
 - _Flexible or Annual [subscriptions]({{< relref "/operate/rc/subscriptions" >}})_: contact [support](https://redis.com/company/support/) to request a configuration change.
     
-- _Free or Fixed subscriptions_: you cannot change RediSearch configuration.
+- _Free or Fixed subscriptions_: you cannot change Redis Search configuration.
 
 ## Configure search in Redis Software
 

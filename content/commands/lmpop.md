@@ -87,6 +87,34 @@ See [`BLMPOP`]({{< relref "/commands/blmpop" >}}) for the blocking variant of th
 Elements are popped from either the left or right of the first non-empty list based on the passed argument.
 The number of returned elements is limited to the lower between the non-empty list's length, and the count argument (which defaults to 1).
 
+## Required arguments
+
+<details open><summary><code>numkeys</code></summary>
+
+The number of keys that follow.
+
+</details>
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys of lists to operate on.
+
+</details>
+
+<details open><summary><code>LEFT | RIGHT</code></summary>
+
+The end of the list to pop elements from: `LEFT` (head) or `RIGHT` (tail).
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>COUNT count</code></summary>
+
+The number of elements to pop. Defaults to 1.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

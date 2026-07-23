@@ -56,8 +56,16 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 {{< /note >}}
 
 
-Alters the last access time of a key(s).
+Alters the last access time of one or more keys.
 A key is ignored if it does not exist.
+
+## Required arguments
+
+<details open><summary><code>key [key ...]</code></summary>
+
+One or more keys whose last-access time to update.
+
+</details>
 
 ## Examples
 

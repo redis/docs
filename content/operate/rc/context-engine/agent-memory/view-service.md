@@ -44,11 +44,11 @@ The **General settings** section provides section provides the connection detail
 
 Select the **Copy** button next to the Store ID and API Base URL to copy them to the clipboard.
 
-See [use the Agent Memory API]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) for more information on how to use the connection information and API keys.
+Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) to use the connection information and API key.
 
 ### Memory configuration
 
-The **Memory configuration** section shows the time-to-live (TTL) for memory storage.
+The **Memory configuration** section shows the time-to-live (TTL) for memory storage, the extraction cadence, and the automatic summarization settings for session memory.
 
 {{<image filename="images/rc/agent-memory-view-memory-configuration.png" alt="The general settings for the Agent Memory service." >}}
 
@@ -56,6 +56,10 @@ The **Memory configuration** section shows the time-to-live (TTL) for memory sto
 |:----------------------|:----------|
 | **Short-term TTL** | The time-to-live (TTL) of your agent's **short-term memory** (also known as **session memory**). _(Editable)_ |
 | **Long-term TTL** | The time-to-live (TTL) of your agent's **long-term memory**. _(Editable)_ |
+| **Extraction cadence** | How often the extraction pipeline runs while a session is active. Defaults to 5 minutes; can be set to a value between 60 and 600 seconds. _(Editable)_ |
+| **Automatic summarization** | Whether older messages in a session are automatically compressed into a summary to keep session memory concise during long conversations. _(Editable)_ |
+| **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
+| **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
 
 ### Actions
 

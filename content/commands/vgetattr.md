@@ -41,10 +41,6 @@ is the name of the key that holds the vector set.
 is the name of the element whose attributes you want to retrieve.
 </details>
 
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -68,3 +64,8 @@ One of the following:
 * [Null reply](../../develop/reference/protocol-spec#nulls) for unknown key or element, or when no attributes exist for the given key/element pair.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+- [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})

@@ -67,10 +67,10 @@ Set up globally distributed [Active-Active databases]({{< relref "/operate/kuber
 
 Manage [secure connections]({{< relref "/operate/kubernetes/security" >}}) and access control for your Redis Enterprise deployment.
 
-- [Manage credentials]({{< relref "/operate/kubernetes/security/manage-credentials" >}})
-- [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}})
-- [Internode encryption]({{< relref "/operate/kubernetes/security/internode-encryption" >}})
-- [LDAP authentication]({{< relref "/operate/kubernetes/security/ldap" >}})
+- [Manage REC credentials]({{< relref "/operate/kubernetes/security/authentication/manage-rec-credentials" >}})
+- [Manage REC certificates]({{< relref "/operate/kubernetes/security/certificates/manage-rec-certificates" >}})
+- [Internode encryption]({{< relref "/operate/kubernetes/security/certificates/internode-encryption" >}})
+- [LDAP authentication]({{< relref "/operate/kubernetes/security/authentication/ldap" >}})
 
 ## Reference
 

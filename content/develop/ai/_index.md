@@ -19,6 +19,41 @@ Redis stores and indexes vector embeddings that semantically represent unstructu
   {{< image-card image="images/ai-brain.svg" alt="AI Redis icon" title="Give AI agents the context engine they need with Redis Iris." url="/develop/ai/context-engine/" >}}
 </div>
 
+## What is Redis for AI and search?
+
+Redis is an in-memory data platform purpose-built for the speed and structure that AI applications demand. It stores and indexes vector embeddings alongside structured metadata, enabling semantic search, real-time retrieval, and agent memory at millisecond latency — at any scale.
+
+<ul class="my-4 space-y-2">
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Vector search</strong> — Store and query vector embeddings using KNN and range queries with metadata filters, across hashes and JSON documents</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Semantic caching</strong> — Reduce LLM API costs by reusing cached responses for semantically similar prompts with LangCache</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Agent memory</strong> — Give agents short-term session memory and long-term persistent memory that survives across interactions</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Structured data access</strong> — Turn your business data into governed tools agents can reliably query with Context Retriever</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Live data sync</strong> — Stream changes from relational databases into Redis in near real time so agents always work with current information</span></li>
+</ul>
+
+## Why use Redis for AI and search?
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">For AI applications</h3>
+    <ul class="space-y-1 text-redis-pen-600">
+      <li>Sub-millisecond vector search at production scale</li>
+      <li>Agents that remember context across sessions and users</li>
+      <li>Lower LLM costs through semantic caching of repeated queries</li>
+      <li>Reliable access to fresh, structured business data for every agent step</li>
+    </ul>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">For developers</h3>
+    <ul class="space-y-1 text-redis-pen-600">
+      <li>Redis Search available in Python, JavaScript, Java, Go, .NET, and PHP client libraries</li>
+      <li>Managed Context Engine services — no infrastructure to build or maintain</li>
+      <li>Works with LangChain, LlamaIndex, LangGraph, and other AI frameworks</li>
+      <li>From local development to Redis Cloud with the same API</li>
+    </ul>
+  </div>
+</div>
+
 ## Redis Feature Form
 
 Use [Redis Feature Form]({{< relref "/develop/ai/featureform/" >}}) to define, manage, and serve machine learning features on top of your existing data systems. The Feature Form docs cover the Python SDK workflow from provider registration through feature serving.

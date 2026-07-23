@@ -51,6 +51,20 @@ title: HGET
 ---
 Returns the value associated with `field` in the hash stored at `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field</code></summary>
+
+The field whose value to retrieve.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_hash" step="hget" description="Foundational: Retrieve a single field value from a hash using HGET (returns nil if field or key doesn't exist)" difficulty="beginner" >}}
@@ -61,14 +75,6 @@ Returns the value associated with `field` in the hash stored at `key`.
 > HGET myhash field2
 (nil)
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-HSET myhash field1 "foo"
-HGET myhash field1
-HGET myhash field2
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

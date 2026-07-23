@@ -34,6 +34,9 @@ public class StringExample {
       // REMOVE_END
 
       // STEP_START setnx_xx
+      // Recreate the bike:1 key so this example runs on its own.
+      jedis.set("bike:1", "Deimos");
+
       Long res3 = jedis.setnx("bike:1", "bike");
       System.out.println(res3); // 0 (because key already exists)
       System.out.println(jedis.get("bike:1")); // Deimos (value is unchanged)

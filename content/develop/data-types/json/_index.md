@@ -16,7 +16,7 @@ description: JSON support for Redis
 linkTitle: JSON
 stack: true
 title: JSON
-weight: 11
+weight: 60
 ---
 
 {{< command-group group="json" title="JSON command summary" show_link=true >}}
@@ -37,7 +37,7 @@ The JSON capability of Redis Open Source provides JavaScript Object Notation (JS
 
 The first JSON command to try is [`JSON.SET`]({{< relref "commands/json.set/" >}}), which sets a Redis key with a JSON value. [`JSON.SET`]({{< relref "commands/json.set/" >}}) accepts all JSON value types. This example creates a JSON string:
 
-{{< clients-example set="json_tutorial" step="set_get" description="Foundational: Set and retrieve JSON values using JSON.SET and JSON.GET to store and access JSON documents" >}}
+{{< clients-example set="json_tutorial" step="set_get" description="Foundational: Set and retrieve JSON values using JSON.SET and JSON.GET to store and access JSON documents" prereq="true" >}}
 > JSON.SET bike $ '"Hyperion"'
 OK
 > JSON.GET bike $
@@ -50,7 +50,7 @@ Note how the commands include the dollar sign character `$`. This is the [path](
 
 Here are a few more string operations. [`JSON.STRLEN`]({{< relref "commands/json.strlen/" >}}) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< relref "commands/json.strappend/" >}}).
 
-{{< clients-example set="json_tutorial" step="str" description="String operations: Manipulate JSON strings using JSON.STRLEN to get length and JSON.STRAPPEND to concatenate values" buildsUpon="set_get" >}}
+{{< clients-example set="json_tutorial" step="str" description="String operations: Manipulate JSON strings using JSON.STRLEN to get length and JSON.STRAPPEND to concatenate values" buildsUpon="set_get" needs_prereq="true" >}}
 > JSON.STRLEN bike $
 1) (integer) 8
 > JSON.STRAPPEND bike $ '" (Enduro bikes)"'
@@ -71,7 +71,7 @@ OK
 > JSON.NUMINCRBY crashes $ -0.75
 "[1.75]"
 > JSON.NUMMULTBY crashes $ 24
-"[42]"
+"[42.0]"
 {{< /clients-example >}}
 
 Here's a more interesting example that includes JSON arrays and objects:
@@ -88,6 +88,15 @@ OK
 > JSON.GET newbike $
 "[[\"Deimos\",{\"crashes\":0}]]"
 {{< /clients-example >}}
+
+Beginning with Redis 8.8, the JSON data type supports the ability to force a particular type when storing floating point homogeneous arrays (FPHAs)using the `FPHA BF16|FP16|FP32|FP64` option to the [`JSON.SET`]({{< relref "/commands/json.set" >}}) command. Here's an example:
+
+```
+> JSON.SET fp_array $ '[[1,2,3,4e3],[5,6.0,7,8]]' FPHA FP16
+OK
+> JSON.GET fp_array $
+"[[[1.0,2.0,3.0,4000.0],[5.0,6.0,7.0,8.0]]]"
+```
 
 The [`JSON.DEL`]({{< relref "commands/json.del/" >}}) command deletes any JSON value you specify with the `path` parameter.
 

@@ -45,9 +45,10 @@ v = VectorQuery(
 )
 ```
 
-#### `NOTE`
+{{< note >}}
 Filter expressions are typically not called directly. Instead they are
 built by combining filter statements using the & and | operators.
+{{< /note >}}
 
 * **Parameters:**
   * **\_filter** (*str* *|* *None*)

@@ -38,13 +38,17 @@ summary: Returns information about one, multiple or all commands.
 syntax_fmt: COMMAND INFO [command-name [command-name ...]]
 title: COMMAND INFO
 ---
-Returns [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of details about multiple Redis commands.
+Returns details about multiple Redis commands using the same format as [`COMMAND`]({{< relref "/commands/command" >}}), except you can specify which commands are inspected.
 
-Same result format as [`COMMAND`]({{< relref "/commands/command" >}}) except you can specify which commands
-get returned.
+If you request details about non-existing commands, nil is returned.
 
-If you request details about non-existing commands, their return
-position will be nil.
+## Optional arguments
+
+<details open><summary><code>command-name [command-name ...]</code></summary>
+
+One or more command names to return details for. If omitted, details for all commands are returned.
+
+</details>
 
 ## Examples
 

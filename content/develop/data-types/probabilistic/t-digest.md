@@ -17,7 +17,7 @@ description: t-digest is a probabilistic data structure that allows you to estim
 linkTitle: t-digest
 stack: true
 title: t-digest
-weight: 40
+weight: 50
 ---
 
 {{< command-group group="tdigest" title="t-digest command summary" show_link=true >}}
@@ -100,13 +100,13 @@ Another helpful feature in t-digest is CDF (definition of rank) which gives us t
 
 Here's an example. Given a set of biker's ages, you can ask a question like "What's the percentage of bike racers that are younger than 50 years?"
 
-{{< clients-example set="tdigest_tutorial" step="tdig_cdf" description="Percentile rank estimation: Use TDIGEST.CDF to estimate the fraction of values below a threshold and TDIGEST.RANK to estimate the rank of values when you need to determine percentile positions" difficulty="intermediate" buildsUpon="tdig_start" >}}
+{{< clients-example set="tdigest_tutorial" step="tdig_cdf" description="Percentile rank estimation: Use TDIGEST.CDF to estimate the fraction of values below a threshold and TDIGEST.RANK to estimate the rank of values when you need to determine percentile positions" difficulty="intermediate" buildsUpon="tdig_start" prereq="true" >}}
 > TDIGEST.CREATE racer_ages
 OK
 > TDIGEST.ADD racer_ages 45.88 44.2 58.03 19.76 39.84 69.28 50.97 25.41 19.27 85.71 42.63
 OK
 > TDIGEST.CDF racer_ages 50
-1) "0.63636363636363635"
+1) "0.6363636363636364"
 > TDIGEST.RANK racer_ages 50
 1) (integer) 7
 > TDIGEST.RANK racer_ages 50 40
@@ -122,11 +122,11 @@ And lastly, `TDIGEST.REVRANK key value...` is similar to [TDIGEST.RANK]({{< relr
 
 `TDIGEST.QUANTILE key fraction...` returns, for each input fraction, an estimation of the value (floating point) that is smaller than the given fraction of observations. `TDIGEST.BYRANK key rank...` returns, for each input rank, an estimation of the value (floating point) with that rank.
 
-{{< clients-example set="tdigest_tutorial" step="tdig_quant" description="Quantile and rank value estimation: Use TDIGEST.QUANTILE to find values at specific percentiles and TDIGEST.BYRANK to find values by rank when you need to retrieve percentile values from a sketch" difficulty="intermediate" buildsUpon="tdig_cdf" >}}
+{{< clients-example set="tdigest_tutorial" step="tdig_quant" description="Quantile and rank value estimation: Use TDIGEST.QUANTILE to find values at specific percentiles and TDIGEST.BYRANK to find values by rank when you need to retrieve percentile values from a sketch" difficulty="intermediate" buildsUpon="tdig_cdf" needs_prereq="true" >}}
 > TDIGEST.QUANTILE racer_ages .5
-1) "44.200000000000003"
+1) "44.2"
 > TDIGEST.BYRANK racer_ages 4
-1) "42.630000000000003"
+1) "42.63"
 {{< /clients-example >}}
 
 `TDIGEST.BYREVRANK key rank...` returns, for each input **reverse rank**, an estimation of the **value** (floating point) with that reverse rank.
@@ -151,11 +151,11 @@ If `destKey` is an existing sketch, its values are merged with the values of the
 
 Use [`TDIGEST.MIN`]({{< relref "commands/tdigest.min/" >}}) and [`TDIGEST.MAX`]({{< relref "commands/tdigest.max/" >}}) to retrieve the minimal and maximal values in the sketch, respectively.
 
-{{< clients-example set="tdigest_tutorial" step="tdig_min" description="Sketch metadata retrieval: Use TDIGEST.MIN and TDIGEST.MAX to retrieve the minimum and maximum values in a sketch when you need to inspect the bounds of your data" buildsUpon="tdig_cdf" >}}
+{{< clients-example set="tdigest_tutorial" step="tdig_min" description="Sketch metadata retrieval: Use TDIGEST.MIN and TDIGEST.MAX to retrieve the minimum and maximum values in a sketch when you need to inspect the bounds of your data" buildsUpon="tdig_cdf" needs_prereq="true" >}}
 > TDIGEST.MIN racer_ages
 "19.27"
 > TDIGEST.MAX racer_ages
-"85.709999999999994"
+"85.71"
 {{< /clients-example >}}
 
 Both return `nan` when the sketch is empty.
@@ -166,7 +166,7 @@ Use `TDIGEST.INFO racer_ages` to retrieve some additional information about the 
 
 #### Resetting a sketch
 
-{{< clients-example set="tdigest_tutorial" step="tdig_reset" description="Sketch reset: Use TDIGEST.RESET to clear all data from a sketch when you need to reuse a sketch for new data" buildsUpon="tdig_cdf" >}}
+{{< clients-example set="tdigest_tutorial" step="tdig_reset" description="Sketch reset: Use TDIGEST.RESET to clear all data from a sketch when you need to reuse a sketch for new data" buildsUpon="tdig_cdf" needs_prereq="true" >}}
 > TDIGEST.RESET racer_ages
 OK
 {{< /clients-example >}}

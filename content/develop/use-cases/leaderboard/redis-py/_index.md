@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/leaderboard/python
 categories:
 - docs
 - develop

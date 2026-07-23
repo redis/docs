@@ -35,6 +35,7 @@ The following table summarizes the considerations to prepare a MongoDB database 
 | Pre/Post Images     | Enable on collections **only if using a custom key**                        |
 | Connection String   | Must include all hosts, replicaSet (if applicable), authSource, credentials |
 | MongoDB Atlas       | **[SSL required](https://debezium.io/documentation/reference/stable/connectors/mongodb.html#mongodb-property-mongodb-ssl-enabled)**, provide root CA as `SOURCE_DB_CACERT` secret in RDI       |
+| MongoDB mTLS        | X.509 authentication requires source TLS secrets and MongoDB SSL properties |
 | Network             | RDI Collector must reach all MongoDB nodes on required ports                |
 
 The following checklist shows the steps to prepare a MongoDB database for RDI,
@@ -48,7 +49,8 @@ complete each step.
 - [ ] [Connection string format](#3-connection-string-format)
 - [ ] [Enable change streams and pre/post images (only if using a custom key)](#4-enable-change-streams-and-prepost-images-only-if-using-a-custom-key)
 - [ ] [MongoDB Atlas specific requirements](#5-mongodb-atlas-specific-requirements)
-- [ ] [Network and security](#6-network-and-security)
+- [ ] [Self-hosted MongoDB mTLS and X.509 authentication](#6-self-hosted-mongodb-mtls-and-x509-authentication)
+- [ ] [Network and security](#7-network-and-security)
 ```
 
 ## 1. Configure oplog size
@@ -128,12 +130,40 @@ Example connection string for Atlas:
 mongodb+srv://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@cluster0.mongodb.net/?authSource=admin
 ```
 
-## 6. Network and security
+## 6. Self-hosted MongoDB mTLS and X.509 authentication
+
+For self-hosted MongoDB deployments that require TLS, set the source CA certificate
+as the `SOURCE_DB_CACERT` secret. For X.509 client certificate authentication, also
+set the `SOURCE_DB_CERT` and `SOURCE_DB_KEY` secrets. See
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+for the full list of source database TLS and mTLS secrets.
+
+When you use MongoDB X.509 authentication, include all of the following
+properties in the source `advanced.source` section:
+
+```yaml
+advanced:
+  source:
+    mongodb.ssl.enabled: true
+    mongodb.ssl.keystore: /debezium/certs/source_db_keystore
+    mongodb.ssl.keystore.password: debezium
+```
+
+The RDI Collector builds `/debezium/certs/source_db_keystore` from the source
+database client certificate and private key secrets. Debezium requires the
+`mongodb.ssl.keystore` and `mongodb.ssl.keystore.password` properties to present
+the client certificate to MongoDB.
+
+For X.509 authentication, the MongoDB connection string must also include the
+required authentication options, such as `authMechanism=MONGODB-X509` and
+`authSource=%24external`.
+
+## 7. Network and security
 
 - Ensure the RDI Collector can connect to all MongoDB nodes on the required ports (default: 27017, or as provided by Atlas).
 - If using TLS/SSL, provide the necessary certificates and connection options in the connection string.
 
-## 7. Configuration is complete
+## 8. Configuration is complete
 Once you have followed the steps above, your MongoDB database is ready for Debezium to use.
 
 ## See also

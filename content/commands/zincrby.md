@@ -67,6 +67,26 @@ The `score` value should be the string representation of a numeric value, and
 accepts double precision floating point numbers.
 It is possible to provide a negative value to decrement the score.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>increment</code></summary>
+
+The amount to add to the member's current score.
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member whose score to increment. It is added with the increment as its score if it does not exist.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

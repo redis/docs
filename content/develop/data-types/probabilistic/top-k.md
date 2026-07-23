@@ -17,7 +17,7 @@ description: Top-K is a probabilistic data structure that allows you to find the
 linkTitle: Top-K
 stack: true
 title: Top-K
-weight: 50
+weight: 60
 ---
 
 {{< command-group group="topk" title="Top-K command summary" show_link=true >}}
@@ -70,15 +70,15 @@ OK
 3) (nil)
 4) (nil)
 5) (nil)
-6) handlebars
+6) "handlebars"
 7) (nil)
 8) (nil)
 > TOPK.LIST bikes:keywords
-1) store
-2) seat
-3) pedals
-4) tires
-5) handles
+1) "store"
+2) "seat"
+3) "pedals"
+4) "tires"
+5) "handles"
 > TOPK.QUERY bikes:keywords store handlebars
 1) (integer) 1
 2) (integer) 0

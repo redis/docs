@@ -91,7 +91,24 @@ You can use one of the optional subcommands to filter the list. The `TYPE type` 
 
 The `ID` filter only returns entries for clients with IDs matching the `client-id` arguments.
 
-Here is the meaning of the fields:
+
+## Optional arguments
+
+<details open><summary><code>TYPE NORMAL | MASTER | REPLICA | PUBSUB</code></summary>
+
+List only clients of the given type.
+
+</details>
+
+<details open><summary><code>ID client-id [client-id ...]</code></summary>
+
+List only the clients with the given IDs.
+
+</details>
+
+## Details
+
+### Returned information
 
 * `id`: a unique 64-bit client ID.
 * `addr`: address/port of the client.
@@ -124,10 +141,13 @@ Here is the meaning of the fields:
 * `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0.
 * `lib-name` - the name of the client library that is being used.
 * `lib-ver` - the version of the client library.
-* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0
+* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0.
 * `tot-net-in`: total network input bytes read from this client.
 * `tot-net-out`: total network output bytes sent to this client.
 * `tot-cmds`: total count of commands this client executed.
+* `read-events`: number of read events for this client. Added in Redis 8.8
+* `parse-batch-cmd-sum`: cumulative number of commands parsed across all parsing batches for this client. Added in Redis 8.8
+* `parse-batch-cnt`: total number of parsing batches for this client. Divide `parse-batch-cmd-sum` by this value to get the client’s average commands per batch. Added in Redis 8.8
 
 The client flags can be a combination of:
 
@@ -161,8 +181,6 @@ The file descriptor events can be:
 r: the client socket is readable (event loop)
 w: the client socket is writable (event loop)
 ```
-
-## Notes
 
 New fields are regularly added for debugging purpose. Some could be removed
 in the future. A version safe Redis client using this command should parse

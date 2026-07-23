@@ -1,4 +1,7 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/java
+- /develop/use-cases/rate-limiter/jedis
 categories:
 - docs
 - develop

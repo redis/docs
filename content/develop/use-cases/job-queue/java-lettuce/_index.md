@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/job-queue/lettuce
 categories:
 - docs
 - develop

@@ -50,6 +50,14 @@ Returns the absolute Unix timestamp (since January 1, 1970) in seconds at which 
 
 See also the [`PEXPIRETIME`]({{< relref "/commands/pexpiretime" >}}) command which returns the same information with milliseconds resolution.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

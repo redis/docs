@@ -41,6 +41,14 @@ Note that it is valid to call this command without channels, in this case it wil
 
 Cluster note: in a Redis Cluster, [`PUBSUB`]({{< relref "/commands/pubsub" >}})'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.
 
+## Optional arguments
+
+<details open><summary><code>shardchannel [shardchannel ...]</code></summary>
+
+One or more shard channels to report the subscriber count for.
+
+</details>
+
 ## Examples
 
 ```

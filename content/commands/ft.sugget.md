@@ -95,11 +95,7 @@ also returns the score of each suggestion. This can be used to merge results fro
 returns optional payloads saved along with the suggestions. If no payload is present for an entry, it returns a null reply.
 </details>
 
-## Return
-
-FT.SUGGET returns an array reply, which is a list of the top suggestions matching the prefix, optionally with score after each entry.
-
-## Example
+## Examples
 
 <details open>
 <summary><b>Get completion suggestions for a prefix</b></summary>

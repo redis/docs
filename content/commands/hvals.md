@@ -49,6 +49,14 @@ title: HVALS
 ---
 Returns all values in the hash stored at `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_hash" step="hvals" description="Foundational: Retrieve all values from a hash using HVALS (returns only values without field names, useful when you only need the data)" difficulty="beginner" >}}
@@ -60,14 +68,6 @@ redis> HVALS myhash
 1) "Hello"
 2) "World"
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HVALS myhash
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

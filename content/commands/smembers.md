@@ -51,6 +51,14 @@ Returns all the members of the set value stored at `key`.
 
 This has the same effect as running [`SINTER`]({{< relref "/commands/sinter" >}}) with one argument `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_set" step="smembers" description="Foundational: Retrieve all members of a set using SMEMBERS (returns unordered collection, useful for iterating all set members)" difficulty="beginner" >}}
@@ -62,14 +70,6 @@ redis> SMEMBERS myset
 1) "Hello"
 2) "World"
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SADD myset "Hello"
-SADD myset "World"
-SMEMBERS myset
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

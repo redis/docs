@@ -21,12 +21,14 @@ The opcode is only available in the [full row format]({{< relref "/integrate/red
 
 It has one of the following values:
 
-- r - Read (applies to only snapshots)
-- c - Create
-- u - Update
-- d - Delete
-- t = Truncate (PostgreSQL specific)
-- m = Message (PostgreSQL specific)
+| Opcode | Operation | Notes |
+|--------|-----------|-------|
+| `c` | Create row |  |
+| `u` | Update row |  |
+| `d` | Delete row |  |
+| `r` | Read row (snapshot) | Applies only to snapshots. |
+| `t` | Truncate table | PostgreSQL specific. |
+| `m` | Message event | PostgreSQL specific. |
 
 
 You can add the value of the operation code to the output, and also use it in a conditional expression to modify the behavior of the job. The following examples demonstrate the different use-cases.

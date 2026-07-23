@@ -45,7 +45,7 @@ Then, register the following configuration files:
 
 ### Register rghibernate JAR
 
-1. Download the rghibernate JAR from the [download center](https://redis.com/redis-enterprise-software/download-center/modules/).
+1. Download the rghibernate JAR from the [rghibernate repository](https://github.com/RedisGears/rghibernate).
 
 1. Upload the JAR to a Redis node.
 

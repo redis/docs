@@ -116,8 +116,9 @@ Async drop specific entries from the cache by ID or Redis key.
 * **Return type:**
   None
 
-#### `NOTE`
+{{< note >}}
 At least one of ids or keys must be provided.
+{{< /note >}}
 
 * **Raises:**
   **ValueError** – If neither ids nor keys is provided.
@@ -139,9 +140,10 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-#### `NOTE`
+{{< note >}}
 If neither the provided TTL nor the default TTL is set (both are None),
 this method will have no effect.
+{{< /note >}}
 
 #### `async astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
@@ -270,8 +272,9 @@ Drop specific entries from the cache by ID or Redis key.
 * **Return type:**
   None
 
-#### `NOTE`
+{{< note >}}
 At least one of ids or keys must be provided.
+{{< /note >}}
 
 * **Raises:**
   **ValueError** – If neither ids nor keys is provided.
@@ -293,9 +296,10 @@ Set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-#### `NOTE`
+{{< note >}}
 If neither the provided TTL nor the default TTL is set (both are None),
 this method will have no effect.
+{{< /note >}}
 
 #### `set_threshold(distance_threshold)`
 
@@ -539,9 +543,10 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-#### `NOTE`
+{{< note >}}
 If neither the provided TTL nor the default TTL is set (both are None),
 this method will have no effect.
+{{< /note >}}
 
 #### `async astore(prompt, response, vector=None, metadata=None, filters=None, ttl=None)`
 
@@ -659,9 +664,10 @@ Set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-#### `NOTE`
+{{< note >}}
 If neither the provided TTL nor the default TTL is set (both are None),
 this method will have no effect.
+{{< /note >}}
 
 #### `set_ttl(ttl=None)`
 
@@ -977,9 +983,10 @@ Asynchronously set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-#### `NOTE`
+{{< note >}}
 If neither the provided TTL nor the default TTL is set (both are None),
 this method will have no effect.
+{{< /note >}}
 
 #### `async aget(content, model_name)`
 
@@ -1295,9 +1302,10 @@ Set or refresh the expiration time for a key in the cache.
 * **Return type:**
   None
 
-#### `NOTE`
+{{< note >}}
 If neither the provided TTL nor the default TTL is set (both are None),
 this method will have no effect.
+{{< /note >}}
 
 #### `get(content, model_name)`
 

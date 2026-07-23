@@ -12,6 +12,12 @@ hideListLinks: true
 weight: 10
 ---
 
+## Q2 2026 (April - June) Updates
+
+### Redis Version Updates
+
+- [Redis 8.8]({{< relref "/develop/whats-new/8-8" >}}) - New Array data structure, `INCREX` rate limiter, in-group sorting reducer for `FT.AGGREGATE`, Rust iterators and devirtualized vector hot paths in Search, HyperLogLog and `MGET`/`MSET`/`HGETALL` performance improvements.
+
 ## Q1 2026 (January - March) Updates
 
 ### Tools
@@ -40,7 +46,7 @@ weight: 10
   - [Lists]({{< relref "/develop/data-types/lists" >}})
   - [Sets]({{< relref "/develop/data-types/sets" >}})
   - [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
-  - [Bitmaps]({{< relref "/develop/data-types/bitmaps" >}})
+  - [Bitmaps]({{< relref "/develop/data-types/strings/bitmaps" >}})
   - [Geospatial]({{< relref "/develop/data-types/geospatial" >}})
   - [JSON]({{< relref "/develop/data-types/json" >}})
   - [Time series]({{< relref "/develop/data-types/timeseries" >}})
@@ -174,7 +180,7 @@ weight: 10
 
 ### Data Types
 
-- [Bitmaps]({{< relref "/develop/data-types/bitmaps" >}}):
+- [Bitmaps]({{< relref "/develop/data-types/strings/bitmaps" >}}):
   - Added BITOP documentation with Python testable code examples
   - Added bit operation diagrams
 

@@ -25,9 +25,9 @@ Redis Cloud supports three levels of replication:
 
 - _No replication_ means that you will have a single copy of your database.
 
-- _Single-zone replication_ means that your database will have a primary and a replica located in the same cloud zone. If anything happens to the primary, the replica takes over and becomes the new primary.
+- _Single-zone replication_ means that your database will have a primary and a replica located in the same cloud zone. If anything happens to the primary, the replica takes over and becomes the new primary. Regions with fewer than three availability zones can only use single-zone replication.
 
-- _Multi-zone replication_ means that the primary and its replicas are stored in different zones. This means that your database can remain online even if an entire zone becomes unavailable.
+- _Multi-zone replication_ means that the primary and its replicas are stored in different zones. This means that your database can remain online even if an entire zone becomes unavailable. Multi-zone replication requires a region with three or more availability zones.
 
 Your replication options depend on your [subscription plan]({{< relref "/operate/rc/subscriptions/_index.md" >}}):
 

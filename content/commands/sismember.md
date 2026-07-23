@@ -50,6 +50,20 @@ title: SISMEMBER
 ---
 Returns if `member` is a member of the set stored at `key`.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the set.
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member to check for.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

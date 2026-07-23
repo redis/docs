@@ -12,30 +12,33 @@ How-to guides are **task-oriented** recipes that help you accomplish specific go
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
 <div class="p-5 border border-redis-pen-300 rounded-lg"><h3 class="mt-0 mb-2">🤖 LLM Extensions</h3><ul>
-<li><a href="llmcache/">Cache LLM Responses</a> — semantic caching to reduce costs and latency</li>
-<li><a href="langcache_semantic_cache/">Use LangCache as the LLM cache</a> — managed cache service with LangCache</li>
-<li><a href="message_history/">Manage LLM Message History</a> — persistent chat history with relevancy retrieval</li>
-<li><a href="semantic_router/">Route Queries with SemanticRouter</a> — classify intents and route queries</li>
+<li><a href="llmcache/">Cache LLM Responses</a>: semantic caching to reduce costs and latency</li>
+<li><a href="langcache_semantic_cache/">Use LangCache as the LLM cache</a>: managed cache service with LangCache</li>
+<li><a href="message_history/">Manage LLM Message History</a>: persistent chat history with relevancy retrieval</li>
+<li><a href="semantic_router/">Route Queries with SemanticRouter</a>: classify intents and route queries</li>
 </ul></div>
 <div class="p-5 border border-redis-pen-300 rounded-lg"><h3 class="mt-0 mb-2">🔍 Querying</h3><ul>
-<li><a href="complex_filtering/">Query and Filter Data</a> — combine tag, numeric, geo, and text filters</li>
-<li><a href="advanced_queries/">Use Advanced Query Types</a> — hybrid, multi-vector, range, and text queries</li>
-<li><a href="sql_to_redis_queries/">Write SQL Queries for Redis</a> — translate SQL to Redis query syntax</li>
+<li><a href="complex_filtering/">Query and Filter Data</a>: combine tag, numeric, geo, and text filters</li>
+<li><a href="advanced_queries/">Use Advanced Query Types</a>: hybrid, multi-vector, range, and text queries</li>
+<li><a href="sql_to_redis_queries/">Write SQL Queries for Redis</a>: translate SQL to Redis query syntax</li>
 </ul></div>
 <div class="p-5 border border-redis-pen-300 rounded-lg"><h3 class="mt-0 mb-2">🧮 Embeddings</h3><ul>
-<li><a href="vectorizers/">Create Embeddings with Vectorizers</a> — OpenAI, Cohere, HuggingFace, and more</li>
-<li><a href="embeddings_cache/">Cache Embeddings</a> — reduce costs by caching embedding vectors</li>
+<li><a href="vectorizers/">Create Embeddings with Vectorizers</a>: OpenAI, Cohere, HuggingFace, and more</li>
+<li><a href="embeddings_cache/">Cache Embeddings</a>: reduce costs by caching embedding vectors</li>
 </ul></div>
 <div class="p-5 border border-redis-pen-300 rounded-lg"><h3 class="mt-0 mb-2">⚡ Optimization</h3><ul>
-<li><a href="rerankers/">Rerank Search Results</a> — improve relevance with cross-encoders and rerankers</li>
-<li><a href="svs_vamana/">Optimize Indexes with SVS-VAMANA</a> — graph-based vector search with compression</li>
+<li><a href="rerankers/">Rerank Search Results</a>: improve relevance with cross-encoders and rerankers</li>
+<li><a href="svs_vamana/">Optimize Indexes with SVS-VAMANA</a>: graph-based vector search with compression</li>
 </ul></div>
 <div class="p-5 border border-redis-pen-300 rounded-lg"><h3 class="mt-0 mb-2">💾 Storage</h3><ul>
-<li><a href="hash_vs_json/">Choose a Storage Type</a> — Hash vs JSON formats and nested data</li>
+<li><a href="hash_vs_json/">Choose a Storage Type</a>: Hash vs JSON formats and nested data</li>
+<li><a href="migrate-indexes/">Migrate an Index</a>: use the migrator helper, wizard, plan, apply, and validate workflow</li>
+<li><a href="index_migration/">Migrate an Index: Quantization, Resume, Backup, Wizard</a>: hands-on notebook for vector quantization with crash-safe resume, rollback, and wizard flow</li>
 </ul></div>
 <div class="p-5 border border-redis-pen-300 rounded-lg"><h3 class="mt-0 mb-2">💻 CLI Operations</h3><ul>
-<li><a href="../cli/">Manage Indices with the CLI</a> — create, inspect, and delete indices from your terminal</li>
-<li><a href="mcp/">Run RedisVL MCP</a> — expose an existing Redis index to MCP clients</li>
+<li><a href="../cli/">Manage Indices with the CLI</a>: create, inspect, and delete indices from your terminal</li>
+<li><a href="mcp/">Run RedisVL MCP</a>: expose an existing Redis index to MCP clients</li>
+<li><a href="mcp_authentication/">Authenticate RedisVL MCP</a>: require JWT bearer tokens and gate read vs write</li>
 </ul></div>
 </div>
 
@@ -57,3 +60,6 @@ How-to guides are **task-oriented** recipes that help you accomplish specific go
 | Decide on storage format | [Choose a Storage Type](hash_vs_json/) |
 | Manage indices from terminal | [Manage Indices with the CLI](../cli/) |
 | Expose an index through MCP | [Run RedisVL MCP](mcp/) |
+| Authenticate the MCP server | [Authenticate RedisVL MCP](mcp_authentication/) |
+| Plan and run a supported index migration | [Migrate an Index](migrate-indexes/) |
+| Quantize vectors with resume, rollback, and the wizard | [Migrate an Index: Quantization, Resume, Backup, Wizard](index_migration/) |

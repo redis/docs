@@ -64,6 +64,8 @@ Complete the following steps before installing the RDI Helm chart:
 -   If you want to use a private image registry,
     [prepare it with the RDI images](#using-a-private-image-registry).
 
+-   [Download the RDI CLI](#download-the-rdi-cli), which you use to deploy and manage pipelines.
+
 ### Create the RDI database
 
 RDI uses a database on your Redis Enterprise cluster to store its state
@@ -145,6 +147,41 @@ To pull images from a private image registry, you must provide the image pull se
 -   [Amazon Elastic Kubernetes Service (EKS)](https://docs.aws.amazon.com/AmazonECR/latest/userguide/ECR_on_EKS.html)
 -   [Google Kubernetes Engine (GKE)](https://cloud.google.com/artifact-registry/docs/pull-cached-dockerhub-images)
 -   [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/cluster-container-registry-integration?tabs=azure-cli)
+
+### Download the RDI CLI
+
+You manage RDI with the [`redis-di` CLI]({{< relref "/integrate/redis-data-integration/reference/cli" >}}),
+which you use to deploy pipelines, set secrets, and inspect status. Unlike the VM installation, which
+bundles the CLI, a Kubernetes installation requires you to download it separately from the Redis
+download center.
+
+The CLI is currently built for the following platforms. Download the binary that matches the operating
+system and architecture of the machine you will run it from. On Linux and macOS, if you are not sure
+which to choose, run `uname -sm`: `Linux x86_64` is Linux amd64, `Linux aarch64` is Linux arm64,
+`Darwin x86_64` is macOS on Intel, and `Darwin arm64` is macOS on Apple silicon.
+
+| Platform | Download |
+| :-- | :-- |
+| Linux, x86-64 (amd64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/linux-amd64/redis-di) |
+| Linux, ARM64 (aarch64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/linux-arm64/redis-di) |
+| macOS, Intel (amd64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/darwin-amd64/redis-di) |
+| macOS, Apple silicon (arm64) | [`redis-di`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/darwin-arm64/redis-di) |
+| Windows, x86-64 (amd64) | [`redis-di.exe`](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/{{< rdi-version >}}/bin/windows-amd64/redis-di.exe) |
+
+For example, to download the CLI for Linux amd64, make it executable, and put it on your `PATH`:
+
+```bash
+export RDI_VERSION={{< rdi-version >}}
+wget https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/cli/$RDI_VERSION/bin/linux-amd64/redis-di
+chmod +x redis-di
+sudo mv redis-di /usr/local/bin/
+```
+
+{{< note >}}The macOS and Windows binaries are not currently signed or notarized, so the operating
+system may block them the first time you run them. On macOS, allow the binary to run in
+**System Settings > Privacy & Security**, or remove the quarantine attribute with
+`xattr -d com.apple.quarantine ./redis-di`, and then run it again. On Windows, if Microsoft Defender
+SmartScreen blocks it, choose **More info > Run anyway**.{{< /note >}}
 
 ## Supported versions of Kubernetes and OpenShift
 
@@ -290,7 +327,9 @@ processor and the
 [Apache Flink](https://flink.apache.org/)-based *Flink* processor.
 See
 [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
-for an overview of the differences.
+for an overview of the differences and
+[Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+for a side-by-side comparison.
 
 To configure the Flink processor at the Helm chart level, add the
 `operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file. The
@@ -320,7 +359,9 @@ that the operator will use when deploying the JobManager and TaskManager workloa
 To run a specific pipeline on the Flink processor, set
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
 to `flink` in that pipeline's `config.yaml`. Pipelines without this setting
-continue to use the classic processor.
+continue to use the classic processor. Fine-tune the Flink runtime
+through the `processors.advanced` section of `config.yaml` (see the
+[configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
 
 For migrating existing pipelines to the Flink processor, see
 [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
@@ -350,12 +391,13 @@ kubectl get pod -n rdi
 NAME                      READY  STATUS  	RESTARTS  AGE
 collector-api-<id>        1/1    Running  0         29m
 rdi-api-<id>              1/1 	 Running 	0      	  29m
-rdi-metric-exporter-<id>  1/1    Running 	0      	  29m
 rdi-operator-<id>         1/1 	 Running 	0      	  29m
 rdi-reloader-<id>         1/1 	 Running 	0      	  29m
 ```
 
-You can verify that the RDI API works by adding a connection to the RDI API server to
+You can verify that the RDI API works by running
+[`redis-di info`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-info" >}})
+against it, or by adding a connection to the RDI API server to
 [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
 
 ## Using ingress controllers
@@ -390,13 +432,13 @@ section to learn how to do this.
 ## Deploy a pipeline
 
 When the Helm installation is complete and you have prepared the source database for CDC,
-you are ready to start using RDI.
-Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to
+you are ready to start using RDI. See the guides on how to
 [configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
-your pipeline (see
+RDI pipelines for more information. You can also configure and deploy a pipeline
+using [Redis Insight]({{< relref "/develop/tools/insight" >}}). See
 [RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
-for full details on how to do this).
+for full details on how to connect to RDI and deploy pipelines.
 
 ## Uninstall RDI
 

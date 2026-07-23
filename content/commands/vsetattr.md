@@ -55,10 +55,6 @@ is the name of the element whose attributes you want to set or remove.
 is a valid JSON string. Use an empty string (`""`) to delete the attributes.
 </details>
 
-## Related topics
-
-- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
-
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |
@@ -82,3 +78,8 @@ One of the following:
 * [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string.
 
 {{< /multitabs >}}
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+- [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})

@@ -3,6 +3,7 @@ aliases:
 - /develop/connect/clients/go
 - /connect/clients/go/
 - /clients/go/
+- /develop/clients/go-redis
 categories:
 - docs
 - develop

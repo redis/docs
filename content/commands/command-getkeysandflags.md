@@ -36,15 +36,28 @@ summary: Extracts the key names and access flags for an arbitrary command.
 syntax_fmt: COMMAND GETKEYSANDFLAGS command [arg [arg ...]]
 title: COMMAND GETKEYSANDFLAGS
 ---
-Returns [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of keys from a full Redis command and their usage flags.
 
-`COMMAND GETKEYSANDFLAGS` is a helper command to let you find the keys from a full Redis command together with flags indicating what each key is used for.
+`COMMAND GETKEYSANDFLAGS` is a helper command to let you find the keys from a full Redis `command`, together with flags that indicate what each key is used for.
 
-[`COMMAND`]({{< relref "/commands/command" >}}) provides information on how to find the key names of each command (see `firstkey`, [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}), and `movablekeys`),
-but in some cases it's not possible to find keys of certain commands and then the entire command must be parsed to discover some / all key names.
-You can use [`COMMAND GETKEYS`]({{< relref "/commands/command-getkeys" >}}) or `COMMAND GETKEYSANDFLAGS` to discover key names directly from how Redis parses the commands.
+[COMMAND]({{< relref "/commands/command" >}}) describes how Redis identifies key names for each command, including `firstkey`, [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}), and `movablekeys`. For some commands, Redis can identify the keys only by parsing the full command. Use [COMMAND GETKEYS]({{< relref "/commands/command-getkeys" >}}) or COMMAND GETKEYSANDFLAGS to get key names directly from the Redis command parser.
 
 Refer to [key specifications]({{< relref "develop/reference/key-specs#logical-operation-flags" >}}) for information about the meaning of the key flags.
+
+## Required arguments
+
+<details open><summary><code>command</code></summary>
+
+The name of the command to analyze.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>arg [arg ...]</code></summary>
+
+The arguments that would be passed to the command.
+
+</details>
 
 ## Examples
 

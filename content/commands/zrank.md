@@ -67,6 +67,28 @@ The optional `WITHSCORE` argument supplements the command's reply with the score
 Use [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) to get the rank of an element with the scores ordered from high
 to low.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>member</code></summary>
+
+The member whose rank to return.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WITHSCORE</code></summary>
+
+Also return the member's score along with its rank.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

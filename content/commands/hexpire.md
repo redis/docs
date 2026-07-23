@@ -95,17 +95,53 @@ You can clear the TTL using the [`HPERSIST`]({{< relref "/commands/hpersist" >}}
 Note that calling `HEXPIRE`/[`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) with a zero TTL or
 [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}})/[`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) with a time in the past will result in the hash field being deleted.
 
-## Options
+## Required arguments
 
-The `HEXPIRE` command supports a set of options:
+<details open><summary><code>key</code></summary>
 
-* `NX` -- For each specified field, set expiration only when the field has no expiration.
-* `XX` -- For each specified field, set expiration only when the field has an existing expiration.
-* `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.
-* `LT` -- For each specified field, set expiration only when the new expiration is less than current one.
+The name of the key that holds the hash.
 
-A non-volatile field is treated as an infinite TTL for the purpose of `GT` and `LT`.
-The `NX`, `XX`, `GT`, and `LT` options are mutually exclusive.
+</details>
+
+<details open><summary><code>seconds</code></summary>
+
+The time to live, in seconds. Each specified field is deleted after this many seconds.
+
+</details>
+
+<details open><summary><code>FIELDS numfields field [field ...]</code></summary>
+
+The hash fields to set expiration for. `numfields` is the number of fields, followed by that many field names.
+
+</details>
+
+## Optional arguments
+
+The following options modify the command's behavior. They are mutually exclusive.
+
+<details open><summary><code>NX</code></summary>
+
+For each specified field, set expiration only when the field has no expiration.
+
+</details>
+
+<details open><summary><code>XX</code></summary>
+
+For each specified field, set expiration only when the field has an existing expiration.
+
+</details>
+
+<details open><summary><code>GT</code></summary>
+
+For each specified field, set expiration only when the new expiration is greater than the current one. A non-volatile field is treated as an infinite TTL for the purposes of `GT`.
+
+</details>
+
+<details open><summary><code>LT</code></summary>
+
+For each specified field, set expiration only when the new expiration is less than the current one. A non-volatile field is treated as an infinite TTL for the purposes of `LT`.
+
+</details>
 
 ## Refreshing expires
 
@@ -120,25 +156,17 @@ Starting with Redis 8, Redis Search has enhanced behavior when handling expiring
 ## Examples
 
 {{< clients-example set="cmds_hash" step="hexpire" description="Field expiration: Set TTL on individual hash fields using HEXPIRE with conditional options (NX, XX, GT, LT) when you need fine-grained control over field lifecycle" difficulty="intermediate" >}}
-HEXPIRE no-key 20 NX FIELDS 2 field1 field2
-(nil)
-HSET mykey field1 "hello" field2 "world"
+> HEXPIRE no-key 20 NX FIELDS 2 field1 field2
+1) (integer) -2
+2) (integer) -2
+> HSET mykey field1 "hello" field2 "world"
 (integer) 2
-HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
+> HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
 1) (integer) 1
 2) (integer) 1
 3) (integer) -2
-HGETALL mykey
+> HGETALL mykey
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-HEXPIRE no-key 20 NX FIELDS 2 field1 field2
-HSET mykey field1 "hello" field2 "world"
-HEXPIRE mykey 10 FIELDS 3 field1 field2 field3
-HGETALL mykey
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

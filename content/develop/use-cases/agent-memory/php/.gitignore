@@ -1,0 +1,5 @@
+vendor/
+.transformers-cache/
+models/
+*.log
+.DS_Store

@@ -11,7 +11,7 @@ title: Redis Enterprise for Kubernetes 8.0.20 release notes
 weight: 84
 ---
 
-Redis Enterprise for Kubernetes 8.0.20-21 is a maintenance release of [Redis Enterprise for Kubernetes 8.0.18]({{<relref "/operate/kubernetes/release-notes/8-0-18-releases/">}}). The latest release is 8.0.20-21 with support for Redis Enterprise Software version 8.0.20-19.
+Redis Enterprise for Kubernetes 8.0.20 is a maintenance release of [Redis Enterprise for Kubernetes 8.0.18]({{<relref "/operate/kubernetes/release-notes/8-0-18-releases/">}}). The latest release is 8.0.20-25 with support for Redis Enterprise Software version 8.0.20-68.
 
 ## Detailed release notes
 

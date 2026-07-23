@@ -69,6 +69,22 @@ Since Redis 6.2, the `BITFIELD_RO` variant was introduced in order to allow [`BI
 
 See original [`BITFIELD`]({{< relref "/commands/bitfield" >}}) for more details.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the string.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>GET encoding offset</code></summary>
+
+Return the value at `offset`, interpreted with `encoding` (for example `u8` or `i16`). May be given multiple times.
+
+</details>
+
 ## Examples
 
 ```

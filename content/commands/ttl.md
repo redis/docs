@@ -64,24 +64,24 @@ Starting with Redis 2.8 the return value in case of error changed:
 
 See also the [`PTTL`]({{< relref "/commands/pttl" >}}) command that returns the same information with milliseconds resolution (Only available in Redis 2.6 or greater).
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
 {{< clients-example set="cmds_generic" step="ttl" description="Foundational: Check remaining time-to-live of a key using TTL (returns seconds remaining, -1 if no expiry, -2 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "Hello"
-"OK"
+OK
 > EXPIRE mykey 10
 (integer) 1
 > TTL mykey
 (integer) 10
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET mykey "Hello"
-EXPIRE mykey 10
-TTL mykey
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

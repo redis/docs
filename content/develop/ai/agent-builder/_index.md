@@ -12,7 +12,7 @@ weight: 50
 ---
 
 
-Agents use Redis for data storage, vector search, and conversation memory. The interactive builder generates code in your preferred programming language with your choice of model.
+Agents use Redis for data storage, [vector search]({{< relref "/develop/get-started/vector-database" >}}), and [conversation memory]({{< relref "/develop/get-started/rag" >}}). The interactive builder generates code in your preferred programming language with your choice of model.
 
 ## Get started
 
@@ -30,16 +30,17 @@ Redis powers these capabilities with fast, reliable data storage and retrieval t
 
 ## What you can build
 
-Choose from two types of intelligent agents:
+Choose from three types of intelligent agents:
 
 - **Recommendation engines**: Personalized product and content recommendations
 - **Conversational assistants**: Chatbots with memory and context awareness
+- **Knowledge assistants**: RAG agents that ingest documents, answer questions with citations, and use semantic caching
 
 The agent builder will generate complete, working code examples for your chosen agent type.
 
 ## Features
 
-- **Multiple programming languages**: Generate code in Python, with JavaScript (Node.js), Java, and C# coming soon
+- **Multiple programming languages**: Generate code in Python and JavaScript (Node.js), with Java and C# coming soon
 - **LLM integration**: Support for OpenAI, Anthropic Claude, and Llama 2
 - **Redis optimized**: Uses Redis data structures for optimal performance
 
@@ -66,6 +67,13 @@ The generated code includes detailed setup instructions and best practices to ge
 - [Redis Streams](/develop/data-types/streams/) - Real-time data and conversation history
 - [AI Notebooks Collection]({{< relref "/develop/ai/notebook-collection" >}}) - Interactive tutorials and examples 
 - [Ecosystem Integrations]({{< relref "/develop/ai/ecosystem-integrations" >}}) - Redis with AI frameworks
+
+### For experienced developers
+
+If you're ready to go beyond the agent builder, these resources cover production-grade managed services and cutting-edge Redis AI projects:
+
+- [Redis Context Engine]({{< relref "/develop/ai/context-engine" >}}) — Managed services for agent memory, semantic caching, and structured data access (Redis Iris)
+- [Redis AI Incubator](https://redis.io/ai-incubator/) — Early-stage AI projects and experiments from the Redis team
 
 ### Community and support
 

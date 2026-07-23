@@ -22,7 +22,7 @@ description: Ingest and query time series data with Redis
 linkTitle: Time series
 stack: true
 title: Time series
-weight: 150
+weight: 120
 ---
 
 {{< command-group group="timeseries" title="Time series command summary" show_link=true >}}
@@ -33,7 +33,7 @@ weight: 150
 The Redis time series data type lets you store real-valued data points
 along with the time they were collected. You can combine the values from a selection
 of time series and query them by time or value range. You can also compute
-aggregate functions of the data over periods of time and create new time series
+aggregators of the data over periods of time and create new time series
 from the results. When you create a time series, you can specify a maximum
 retention period for the data, relative to the last reported timestamp, to
 prevent the time series from growing indefinitely.
@@ -71,8 +71,32 @@ TSDB-TYPE
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 0
-    .
-    .
+ 3) memoryUsage
+ 4) (integer) 4424
+ 5) firstTimestamp
+ 6) (integer) 0
+ 7) lastTimestamp
+ 8) (integer) 0
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 The timestamp for each data point is a 64-bit integer value. The value
@@ -87,12 +111,34 @@ the data does not expire.
 > TS.ADD thermometer:2 1 10.8 RETENTION 100
 (integer) 1
 > TS.INFO thermometer:2
-    .
-    .
+ 1) totalSamples
+ 2) (integer) 1
+ 3) memoryUsage
+ 4) (integer) 4424
+ 5) firstTimestamp
+ 6) (integer) 1
+ 7) lastTimestamp
+ 8) (integer) 1
  9) retentionTime
 10) (integer) 100
-    .
-    .
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 You can also add one or more *labels* to a time series when you create it. Labels
@@ -107,16 +153,34 @@ for queries and aggregations.
  1) totalSamples
  2) (integer) 1
  3) memoryUsage
- 4) (integer) 5000
-    .
-    .
+ 4) (integer) 4568
+ 5) firstTimestamp
+ 6) (integer) 1
+ 7) lastTimestamp
+ 8) (integer) 1
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
 19) labels
 20) 1) 1) "location"
        2) "UK"
     2) 1) "type"
        2) "Mercury"
-    .
-    .
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 ## Add data points
@@ -130,6 +194,13 @@ If you use the `*` character as the timestamp, Redis will record the current
 Unix time, as reported by the server's clock.
 
 {{< clients-example set="time_series_tutorial" step="madd" description="Batch operations: Add multiple data points to one or more time series using TS.MADD when you need to reduce round trips to the server" difficulty="beginner" buildsUpon="create" >}}
+# Recreate the thermometer series so this example runs on its own.
+> DEL thermometer:1 thermometer:2
+(integer) 2
+> TS.CREATE thermometer:1
+OK
+> TS.ADD thermometer:2 1 10.8
+(integer) 1
 > TS.MADD thermometer:1 1 9.2 thermometer:1 2 9.9 thermometer:2 2 10.3
 1) (integer) 1
 2) (integer) 2
@@ -142,6 +213,13 @@ Use [`TS.GET`]({{< relref "commands/ts.get/" >}}) to retrieve the data point
 with the highest timestamp in a time series. This returns both the timestamp and the value.
 
 {{< clients-example set="time_series_tutorial" step="get" description="Foundational: Use TS.GET to get the latest value and timestamp" difficulty="beginner" buildsUpon="madd" >}}
+# Recreate the thermometer:2 series so this example runs on its own.
+> DEL thermometer:2
+(integer) 1
+> TS.ADD thermometer:2 1 10.8
+(integer) 1
+> TS.ADD thermometer:2 2 10.3
+(integer) 2
 # The last recorded temperature for thermometer:2
 # was 10.3 at time 2ms.
 > TS.GET thermometer:2
@@ -225,6 +303,17 @@ samples within that range. The value range is inclusive and you can
 use the same value for the minimum and maximum to filter for a single value.
 
 {{< clients-example set="time_series_tutorial" step="range_filter" description="Filtering results: Use FILTER_BY_TS and FILTER_BY_VALUE options with range queries when you need to select specific timestamps or value ranges" difficulty="intermediate" buildsUpon="range" >}}
+# Recreate the rg:1 series so this example runs on its own.
+> DEL rg:1
+(integer) 1
+> TS.CREATE rg:1
+OK
+> TS.MADD rg:1 0 18 rg:1 1 14 rg:1 2 22 rg:1 3 18 rg:1 4 24
+1) (integer) 0
+2) (integer) 1
+3) (integer) 2
+4) (integer) 3
+5) (integer) 4
 > TS.RANGE rg:1 - + FILTER_BY_TS 0 2 4
 1) 1) (integer) 0
    2) 18
@@ -353,7 +442,7 @@ OK
       3) 1) (integer) 1
          2) 2.1
 2) 1) "rg:4"
-2) 1) 1) "location"
+   2) 1) 1) "location"
          2) "uk"
    3) 1) 1) (integer) 3
          2) 19
@@ -373,30 +462,43 @@ bucket by an aggregate value, such as the average or maximum value.
 For example, if you expect to collect more than one billion data points in a day, you could aggregate the data using buckets of one minute. Since each bucket is represented by a single value, this reduces 
 the dataset size to 1,440 data points (24 hours x 60 minutes = 1,440 minutes).
 
-The range query commands let you specify an aggregation function and bucket size.
-The available aggregation functions are:
+The range query commands let you specify one or more aggregators and bucket size.
+The available aggregators are:
 
-- `avg`: Arithmetic mean of all values
-- `sum`: Sum of all values
-- `min`: Minimum value
-- `max`: Maximum value
-- `range`: Difference between the highest and the lowest value
-- `count`: Number of values
-- `countNaN`: Number of NaN values (since Redis 8.6)
-- `countAll`: Number of all values, both NaN and non-NaN (since Redis 8.6)
-- `first`: Value with lowest timestamp in the bucket
-- `last`:  Value with highest timestamp in the bucket
-- `std.p`: Population standard deviation of the values
-- `std.s`: Sample standard deviation of the values
-- `var.p`: Population variance of the values
-- `var.s`: Sample variance of the values
-- `twa`: Time-weighted average over the bucket's timeframe (since RedisTimeSeries v1.8)
+| aggregator   | Description                                                     |
+| ------------ | --------------------------------------------------------------- |
+| `avg`        | Arithmetic mean of all non-NaN values                           |
+| `sum`        | Sum of all non-NaN values                                       |
+| `min`        | Minimum non-NaN value                                           |
+| `max`        | Maximum non-NaN value                                           |
+| `range`      | Difference between the maximum and the minimum non-NaN values   |
+| `count`      | Number of non-NaN values                                        |
+| `countNaN`   | Number of NaN values (since Redis 8.6)                          |
+| `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |
+| `first`      | The non-NaN value with the lowest timestamp in the bucket       |
+| `last`       | The non-NaN value with the highest timestamp in the bucket      |
+| `std.p`      | Population standard deviation of the non-NaN values             |
+| `std.s`      | Sample standard deviation of the non-NaN values                 |
+| `var.p`      | Population variance of the non-NaN values                       |
+| `var.s`      | Sample variance of the non-NaN values                           |
+| `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |
 
-For example, the example below shows an aggregation with the `avg` function over all
+For example, the example below shows an aggregation with the `avg` aggregator over all
 five data points in the `rg:2` time series. The bucket size is 2ms, so there are three
 aggregated values with only one value used to calculate the average for the last bucket.
 
 {{< clients-example set="time_series_tutorial" step="agg" description="Aggregation: Use AGGREGATION option with range queries to compute statistics such as avg, sum, min, and max over time buckets when you need to reduce large datasets" difficulty="intermediate" buildsUpon="madd" >}}
+# Recreate the rg:2 series so this example runs on its own.
+> DEL rg:2
+(integer) 1
+> TS.CREATE rg:2
+OK
+> TS.MADD rg:2 0 1.8 rg:2 1 2.1 rg:2 2 2.3 rg:2 3 1.9 rg:2 4 1.78
+1) (integer) 0
+2) (integer) 1
+3) (integer) 2
+4) (integer) 3
+5) (integer) 4
 > TS.RANGE rg:2 - + AGGREGATION avg 2
 1) 1) (integer) 0
    2) 1.9500000000000002
@@ -406,13 +508,19 @@ aggregated values with only one value used to calculate the average for the last
    2) 1.78
 {{< /clients-example >}}
 
-<note><b>NaN Handling (Redis 8.6+):</b> Starting from Redis 8.6, all existing aggregation functions ignore NaN values when computing results. For example, if a bucket contains values [1.0, NaN, 3.0], the `avg` aggregator will return 2.0 (average of 1.0 and 3.0), and the `count` aggregator will return 2. Use the new `countNaN` and `countAll` aggregators to count NaN values and total values respectively.</note>
+To use multiple aggregators in a single query, separate the aggregators with comma characters as in the following example.
+
+```bash
+TS.RANGE rg:2 - + AGGREGATION min,avg,max 2
+```
+
+<note><b>NaN Handling (Redis 8.6+):</b> Starting from Redis 8.6, all existing aggregators ignore NaN values when computing results. For example, if a bucket contains values [1.0, NaN, 3.0], the `avg` aggregator will return 2.0 (average of 1.0 and 3.0), and the `count` aggregator will return 2. Use the new `countNaN` and `countAll` aggregators to count NaN values and total values respectively.</note>
 
 ### Bucket alignment
 
 The sequence of buckets has a reference timestamp, which is the timestamp where
 the first bucket in the sequence starts. By default, the reference timestamp is zero.
-For example, the following commands create a time series and apply a `min` aggregation
+For example, the following commands create a time series and apply a `min` aggregator
 with a bucket size of 25 milliseconds at the default zero alignment.
 
 {{< clients-example set="time_series_tutorial" step="agg_bucket" description="Bucket alignment: Use AGGREGATION with default zero alignment to group data into fixed-size time buckets when you need consistent time-based aggregations" difficulty="intermediate" buildsUpon="agg" >}}
@@ -450,6 +558,19 @@ Bucket(25ms): |_________________________||_________________________||___________
 You can also align the buckets to the start or end of the query range. For example, the following command aligns the buckets to the start of the query range at time 10.
 
 {{< clients-example set="time_series_tutorial" step="agg_align" description="Custom alignment: Use ALIGN option with aggregations to align buckets to query range start/end when you need aggregations relative to specific time boundaries" difficulty="advanced" buildsUpon="agg_bucket" >}}
+# Recreate the sensor3 series so this example runs on its own.
+> DEL sensor3
+(integer) 1
+> TS.CREATE sensor3
+OK
+> TS.MADD sensor3 10 1000 sensor3 20 2000 sensor3 30 3000 sensor3 40 4000 sensor3 50 5000 sensor3 60 6000 sensor3 70 7000
+1) (integer) 10
+2) (integer) 20
+3) (integer) 30
+4) (integer) 40
+5) (integer) 50
+6) (integer) 60
+7) (integer) 70
 > TS.RANGE sensor3 10 70 AGGREGATION min 25 ALIGN start
 1) 1) (integer) 10
    2) 1000
@@ -479,7 +600,7 @@ that have the same timestamp and the same label value (this feature is available
 
 For example, the following commands create four time series, two for the UK and two for the US, and add some data points. The first `TS.MRANGE` command groups the results by country and applies a `max` aggregation to find the maximum sample value in each country at each timestamp. The second `TS.MRANGE` command uses the same grouping, but applies an `avg` aggregation.
 
-{{< clients-example set="time_series_tutorial" step="agg_multi" description="Cross-series aggregation: Use GROUPBY and REDUCE with TS.MRANGE to aggregate data across multiple time series by label when you need to compute statistics across groups" difficulty="advanced" buildsUpon="agg, create_labels" >}}
+{{< clients-example set="time_series_tutorial" step="agg_multi" description="Cross-series aggregation: Use GROUPBY and REDUCE with TS.MRANGE to aggregate data across multiple time series by label when you need to compute statistics across groups" difficulty="advanced" buildsUpon="agg, create_labels" runnable="false" >}}
 > TS.CREATE wind:1 LABELS country uk
 OK
 > TS.CREATE wind:2 LABELS country uk
@@ -560,7 +681,7 @@ NaN values are useful in scenarios where you need to distinguish between:
 
 - **Adding NaN values**: Use [`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}}) to insert NaN values
 - **Querying NaN values**: All raw measurement queries ([`TS.GET`]({{< relref "commands/ts.get/" >}}), [`TS.RANGE`]({{< relref "commands/ts.range/" >}}), etc.) include NaN values in results
-- **Aggregation with NaN**: All existing aggregation functions except `countNaN` and `countAll` ignore NaN values. Use `countNaN` and `countAll` to count NaN and total values
+- **Aggregation with NaN**: All existing aggregators except `countNaN` and `countAll` ignore NaN values. Use `countNaN` and `countAll` to count NaN and total values
 - **Increment/Decrement**: [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}) and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) return errors when the current value or operand is NaN
 - **Duplicate policies**: Special handling for `MIN`, `MAX`, and `SUM` policies when mixing NaN and non-NaN values
 - **Filtering**: [`FILTER_BY_VALUE`]({{< relref "commands/ts.range#filter_by_value-min-max-since-redistimeseries-v16" >}}) parameters cannot be NaN values
@@ -621,8 +742,8 @@ aggregation buckets are stored in a separate time series, leaving the original
 series unchanged.
 
 Use [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}}) to create a
-compaction rule, specifying the source and destination time series keys, the
-aggregation function, and the bucket duration. Note that the destination time
+compaction rule, specifying the source and destination time series keys, an
+aggregator, and the bucket duration. Note that the destination time
 series must already exist when you create the rule and also that the compaction will
 only process data that is added to the source series after you create the rule.
 
@@ -640,22 +761,37 @@ OK
 > TS.CREATERULE hyg:1 hyg:compacted AGGREGATION min 3
 OK
 > TS.INFO hyg:1
-    .
-    .
+ 1) totalSamples
+ 2) (integer) 0
+ 3) memoryUsage
+ 4) (integer) 4520
+ 5) firstTimestamp
+ 6) (integer) 0
+ 7) lastTimestamp
+ 8) (integer) 0
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
 23) rules
 24) 1) 1) "hyg:compacted"
        2) (integer) 3
        3) MIN
        4) (integer) 0
-    .
-    .
-> TS.INFO hyg:compacted
-    .
-    .
-21) sourceKey
-22) "hyg:1"
-    .
-    .
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 Adding data points within the first 3ms (the first bucket) doesn't
@@ -664,6 +800,15 @@ time 4 (in the second bucket), the compaction rule computes the minimum
 value for the first bucket and adds it to the compacted series.
 
 {{< clients-example set="time_series_tutorial" step="comp_add" description="Compaction behavior: Understand how compaction rules process data incrementally, computing aggregates for completed buckets when new data arrives" difficulty="intermediate" buildsUpon="create_compaction" >}}
+# Recreate the compaction rule so this example runs on its own.
+> DEL hyg:1 hyg:compacted
+(integer) 2
+> TS.CREATE hyg:1
+OK
+> TS.CREATE hyg:compacted
+OK
+> TS.CREATERULE hyg:1 hyg:compacted AGGREGATION min 3
+OK
 > TS.MADD hyg:1 0 75 hyg:1 1 77 hyg:1 2 78
 1) (integer) 0
 2) (integer) 1
@@ -695,50 +840,135 @@ samples whose timestamp equals the start or end of the range are deleted.
 If you want to delete a single timestamp, use it as both the start and end of the range.
 
 {{< clients-example set="time_series_tutorial" step="del" description="Deleting data: Use TS.DEL to remove data points within a timestamp range when you need to clean up or correct historical data" difficulty="beginner" buildsUpon="create" >}}
+# Recreate the thermometer:1 series so this example runs on its own.
+> DEL thermometer:1
+(integer) 1
+> TS.ADD thermometer:1 1 9.2
+(integer) 1
+> TS.ADD thermometer:1 2 9.9
+(integer) 2
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 2
  3) memoryUsage
- 4) (integer) 4856
+ 4) (integer) 4424
  5) firstTimestamp
  6) (integer) 1
  7) lastTimestamp
  8) (integer) 2
-    .
-    .
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 > TS.ADD thermometer:1 3 9.7
 (integer) 3
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 3
  3) memoryUsage
- 4) (integer) 4856
+ 4) (integer) 4424
  5) firstTimestamp
  6) (integer) 1
  7) lastTimestamp
  8) (integer) 3
-    .
-    .
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 > TS.DEL thermometer:1 1 2
 (integer) 2
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 1
  3) memoryUsage
- 4) (integer) 4856
+ 4) (integer) 4424
  5) firstTimestamp
  6) (integer) 3
  7) lastTimestamp
  8) (integer) 3
-    .
-    .
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 > TS.DEL thermometer:1 3 3
 (integer) 1
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 0
-    .
-    .
+ 3) memoryUsage
+ 4) (integer) 4424
+ 5) firstTimestamp
+ 6) (integer) 0
+ 7) lastTimestamp
+ 8) (integer) 0
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 ## Use time series with other metrics tools

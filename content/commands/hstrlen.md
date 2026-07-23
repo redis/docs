@@ -50,6 +50,20 @@ title: HSTRLEN
 ---
 Returns the string length of the value associated with `field` in the hash stored at `key`. If the `key` or the `field` do not exist, 0 is returned.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the hash.
+
+</details>
+
+<details open><summary><code>field</code></summary>
+
+The field whose value length to return.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

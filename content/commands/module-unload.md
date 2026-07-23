@@ -43,6 +43,14 @@ Known limitations:
 
 *   Modules that register custom data types can not be unloaded.
 
+## Required arguments
+
+<details open><summary><code>name</code></summary>
+
+The name of the module to unload, as reported by `MODULE LIST`.
+
+</details>
+
 ## Redis Software and Redis Cloud compatibility
 
 | Redis<br />Software | Redis<br />Cloud | <span style="min-width: 9em; display: table-cell">Notes</span> |

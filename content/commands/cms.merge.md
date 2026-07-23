@@ -51,12 +51,33 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 
 Merges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1. 
 
-### Parameters:
+## Required arguments
 
-* **dest**: The name of destination sketch. Must be initialized. 
-* **numKeys**: Number of sketches to be merged.
-* **src**: Names of source sketches to be merged.
-* **weight**: Multiple of each sketch. Default =1.
+<details open><summary><code>destination</code></summary>
+
+The name of the destination sketch. Must be initialized.
+
+</details>
+
+<details open><summary><code>numKeys</code></summary>
+
+Number of sketches to be merged.
+
+</details>
+
+<details open><summary><code>source [source ...]</code></summary>
+
+Names of source sketches to be merged.
+
+</details>
+
+## Optional arguments
+
+<details open><summary><code>WEIGHTS weight [weight ...]</code></summary>
+
+Multiple of each sketch. Default is 1.
+
+</details>
 
 ## Examples
 

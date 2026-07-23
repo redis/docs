@@ -480,6 +480,172 @@ The first form lets a caller pass `0` to bypass the bonus entirely (and a downst
 
 ---
 
+## 29. Embedder Predictor / Session is not always thread-safe on a shared instance
+
+**What to scan for:** the embedding wrapper's `encodeOne` / `encode_many` / `EncodeInternal` methods, and how the wrapper is reached from the HTTP handler. Particularly look at the handler executor (cached thread pool, `Executors.newCachedThreadPool`, async runtime with multiple workers, `HttpListener` callback) — does the wrapper hold any mutable state across calls, and is the underlying library documented as thread-safe?
+
+**Pass criterion:** the embedder is either (a) documented as thread-safe and used without synchronisation (e.g. ONNX Runtime's `InferenceSession`), (b) documented as not-thread-safe and the wrapper serialises every call (e.g. DJL `Predictor` wrapped in `synchronized` methods), or (c) the handler dispatcher is single-threaded so concurrency never arises. The wrapper's code or docstring should state which case applies so the reader doesn't have to derive it.
+
+This is **distinct from row 1** (which is about Redis connections and `MULTI/EXEC` interleaving). Row 1 is about transaction state on a shared Redis connection; this row is about model-inference state on a shared ML client.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate the embedding wrapper and the HTTP server's request executor. For each port, classify (a) thread-safe library with no app-level locking needed, (b) not-thread-safe library with explicit serialisation in the wrapper, or (c) single-threaded dispatcher so the question doesn't arise. Cite the line numbers. Flag any port where the wrapper shares mutable state across calls and the handler executor is multi-threaded but no synchronisation is in place. Verify by reading the library's docs / source for the underlying `Predictor` / `Pipeline` / `Session` type's thread-safety contract — don't trust the agent's choice without a citation.
+
+**Why on list:** Semantic-cache use case. The Jedis port shipped with a DJL `Predictor` shared across an `Executors.newCachedThreadPool` HTTP server, no synchronisation — Codex caught it. Jedis's `LocalEmbedder` was fixed by marking `encodeOne` / `encodeMany` `synchronized`. The Lettuce port (built after the Jedis lesson) included the synchronization from the start. The .NET port correctly uses an `InferenceSession` without locking because ONNX Runtime documents `Run` as thread-safe; the docstring calls that contract out so the reader knows why no lock is present. ([PR #3354 Codex review])
+
+---
+
+## 30. Library config keys that look real but don't take effect
+
+**What to scan for:** any place the demo configures a server-side limit (body size cap, connection timeout, max request bytes, max headers, etc.) by passing a named option to a library constructor. Check the **library's documented option names** — not what looks like it should work.
+
+**Pass criterion:** every limit the demo *advertises* in prose is actually enforced. The way to verify is to test the limit — send a request that should be rejected, confirm the response shape — not just look at the code. If the library doesn't expose the limit you need, the demo enforces the limit explicitly in user code (e.g. read at most N bytes, then check) and the prose accurately describes that path.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, identify every server-side limit the demo claims to enforce (POST body size, request timeout, connection cap, etc.). For each one, find the line of code that's supposed to enforce it. Then verify the option name against the library's current documentation (e.g. WEBrick's actual config keys, `com.sun.net.httpserver` knobs, `http.Server` fields, Express middleware names). Flag any limit whose enforcement relies on an option name the library doesn't recognise — those are silent no-ops.
+
+**Why on list:** Semantic-cache use case. The Ruby port passed `MaxRequestBodySize: MAX_BODY_BYTES` to `WEBrick::HTTPServer.new` — but `MaxRequestBodySize` is not a valid WEBrick option. The handler's `req.body` then read whatever the client sent. Codex flagged it ("the body cap is effectively a no-op") and the fix was an explicit `body_too_large?` check that examines `Content-Length` before reading the body. The class of bug is broader: any library configuration knob that's accepted as a keyword arg or property setter without validation can silently be ignored.
+
+---
+
+## 31. Lockfile pins a newer runtime than the manifest declares
+
+**What to scan for:** the manifest's declared minimum runtime version (PHP `^8.2` in `composer.json`, Ruby `>= 3.0` in `Gemfile`, Rust `rust-version = "1.74"` in `Cargo.toml`, Node `engines.node` in `package.json`) versus the actual transitive dependency requirements in the lockfile (`composer.lock`, `Gemfile.lock`, `Cargo.lock`, `package-lock.json`).
+
+**Pass criterion:** either (a) the lockfile resolves transitively to versions compatible with the manifest's declared minimum, or (b) the manifest declares the higher minimum that the lockfile actually requires. A common form of this bug: a transitive dependency bumps its own minimum-version requirement; lock resolution picks up the new transitive; the lockfile now demands a higher runtime than the manifest advertises, and `composer install` / `bundle install` fails for users on the declared minimum.
+
+For PHP specifically, the fix is to add `"platform": {"php": "8.2.0"}` (or whichever minimum) under `composer.json`'s `config` block — this pins Composer to resolve transitives compatible with that version. Other ecosystems have equivalents (Bundler's `ruby` directive in `Gemfile`, Cargo's `rust-version`, npm's `engines` enforcement via `engine-strict`).
+
+**Sample audit prompt:**
+
+> For each port that ships a lockfile under `content/develop/use-cases/{{USE_CASE_NAME}}/`, identify the manifest's declared minimum runtime version. Then grep the lockfile for transitive dependencies that declare their own minimum (`"php": ">=X"`, `required_ruby_version`, `rust-version`, etc.). Confirm the highest transitive minimum is ≤ the manifest's declared minimum. Flag any port where the lockfile demands a higher runtime than the manifest — that port's `*install` step fails for users on the documented minimum.
+
+**Why on list:** Semantic-cache use case. The PHP port's `composer.json` declared `"php": "^8.2"` while `composer.lock` resolved `symfony/string` v8.0.x, which requires `php >= 8.4`. Users on PHP 8.2 or 8.3 hit `composer install` failures. Fixed by adding `"platform": {"php": "8.2.0"}` to `composer.json`. Caught by Codex review. ([PR #3354])
+
+---
+
+## 32. NaN / Inf parsing via language-specific quirks
+
+**What to scan for:** every place a floating-point parameter is parsed from user-controlled input (CLI flag, environment variable, HTTP form field, JSON body). Look at the parsing function (`float()`, `parseFloat()`, `strconv.ParseFloat`, `(float)$x`, `Float()`, etc.).
+
+**Pass criterion:** strings like `"nan"`, `"inf"`, `"+infinity"`, `"-inf"` must not produce a value that bypasses downstream comparisons. The cross-language quirks:
+
+- **Python** `float("nan")` → actual NaN (IEEE-754); `is_finite` catches it.
+- **JavaScript** `parseFloat("nan")` → NaN; `Number.isFinite` catches it.
+- **Go** `strconv.ParseFloat("nan", 64)` → NaN; `math.IsNaN` catches it.
+- **PHP** `(float)"nan"` returns `0.0`, **not** NaN. `is_finite(0.0)` is true. The textual NaN reaches downstream code as `0.0` and silently corrupts any comparison.
+- **Rust** `"nan".parse::<f64>()` → `Ok(NaN)`; `is_finite` catches it.
+- **Java** `Double.parseDouble("NaN")` → actual NaN; `Double.isFinite` catches it.
+- **C#** `double.Parse("NaN", CultureInfo.InvariantCulture)` → NaN; `double.IsFinite` catches it.
+
+The robust pattern is **textual rejection before parsing**: lowercase the input, check membership in the set `{"nan", "inf", "infinity", "+inf", "-inf", "+infinity", "-infinity"}`, and only then call the language-native parser. The Python reference does this; the textual-rejection branch is what the PHP port needed and what Codex flagged when the env-var path bypassed it.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate every place a floating-point parameter is parsed from external input (CLI flag, env var, HTTP form field). For each parser, mentally run it against the inputs `"nan"`, `"inf"`, `"-inf"`, `"infinity"`, `"junk"`. Confirm each input is rejected (falls back to default, returns error, or clamps out of the meaningful range). Pay special attention to PHP's `(float)` cast and any other language where the implicit cast silently returns `0.0` on garbage input. Flag any path that admits a non-finite value to a downstream comparison.
+
+**Why on list:** Semantic-cache use case. PHP's `load_config()` parsed `SEMCACHE_THRESHOLD` with a bare `(float)` cast — `(float)"nan"` returned `0.0` silently, the `is_finite` check immediately downstream passed, and the cache's default threshold landed at `0.0`. Every paraphrase lookup became a miss. Codex flagged it; the fix was to route the env-var value through the same `clamp_threshold` helper the HTTP boundary already used (which textually rejects "nan" / "inf" before parsing). ([PR #3354 Codex review])
+
+---
+
+## 33. Per-language strings in HTML that's shared across language demos
+
+**What to scan for:** in any use case that copies the same `index.html` across all language demos verbatim (the standard pattern in `redis-use-case-ports`), audit the HTML for **hardcoded language-specific strings**: stack badge text (`"redis-py + sentence-transformers + ..."`), default values that the server should be authoritative on (default threshold, default port displayed in copy), code-block snippets that reference one language's syntax.
+
+**Pass criterion:** every per-language string in the shared HTML is populated at request time via `/state` (or equivalent boot-up handshake) rather than baked into the HTML literal. The handshake returns enough info that the JS can render: a `stack_label` string, a `default_threshold` number, any per-language config the badge / lede / placeholders need. The HTML opens with placeholder content (`"loading…"`) and the first call to `/state` overwrites it.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, diff `index.html` against the reference's `index.html` byte-for-byte. They should be identical. Then audit the reference's `index.html` for any string that names a specific language, library, model, or config default — those are exactly the strings that need to be populated from `/state` at runtime, not baked into the HTML. Flag any hardcoded per-language string in the reference HTML. Then verify the server's `/state` response includes the field the HTML reads, and that the JS sets the value on first render (typically inside a `refreshState` or equivalent on page load).
+
+**Why on list:** Semantic-cache use case. Codex caught a hardcoded `"redis-py + sentence-transformers + Python standard library HTTP server"` badge in the Node.js port's `index.html` — the agent had copied the reference HTML verbatim and the badge was telling Node.js users they were running Python. The fix was to add `stack_label` and `default_threshold` to `/state` and have the JS render both on first load. Same fix propagated to all 7 sibling demos. ([PR #3354 Codex review])
+
+---
+
+## 34. Docs wire-form snippets must show escaped TAG values
+
+**What to scan for:** every code block in the use case's `_index.md` that shows a literal `FT.SEARCH` (or `FT.AGGREGATE`) query string with a TAG predicate (`@tenant:{...}`, `@category:{...}`, `@brand:{...}`). Check whether the TAG value contains any character that Redis Search treats as TAG-value syntax: `.` `-` `,` `<` `>` `{` `}` `[` `]` `"` `'` `:` `;` `!` `@` `#` `$` `%` `^` `&` `*` `(` `)` `+` `=` `~` `|` space, backslash.
+
+**Pass criterion:** TAG values that contain any of those characters are shown **escaped** with a leading backslash on each special character. Wire-form blocks (in `text` code fences) show single backslashes (`gpt\-4\.5\-2026`); in-language source blocks (where the demo code is shown verbatim) show the right number of backslashes for that language's string-literal escape rules (double backslashes inside double-quoted Go / Java / Rust / C# strings; single backslashes inside PHP / Ruby single-quoted strings; etc.). Either way, the snippet a reader could paste into `redis-cli` works.
+
+**Sample audit prompt:**
+
+> For each `_index.md` under `content/develop/use-cases/{{USE_CASE_NAME}}/`, find every code block that contains a `FT.SEARCH` or `FT.AGGREGATE` query string with a `@<field>:{<value>}` TAG predicate. For each value, identify whether it contains any TAG-syntax character (`.`, `-`, `,`, `:`, `@`, `#`, `$`, space, backslash, etc.). Confirm those characters are backslash-escaped in the snippet at the right level for the code fence's surrounding context (single backslashes in `text` fences; whatever the language requires in source-code fences). Flag any snippet that shows an unescaped special character in a TAG value — that snippet would parse as multiple tokens if a reader pasted it into `redis-cli`.
+
+**Why on list:** Semantic-cache use case. Codex caught `@model_version:{gpt-4.5-2026}` in the .NET `_index.md` — the unescaped hyphens and dot mean a parser would see three tokens (`gpt`, `4`, `5-2026`) rather than one. The same defect was present in all 8 sibling `_index.md` files (inherited from the Python reference). A reader pasting the snippet into `redis-cli` would get a confused response and not know the docs were wrong. ([PR #3354 Codex review])
+
+---
+
+## 35. HEXPIRE / HTTL per-field reply-code checking
+
+**What to scan for:** every call site of `HEXPIRE`, `HEXPIREAT`, `HPEXPIRE`, `HPEXPIREAT`, `HTTL`, `HPTTL`, or any client-library typed wrapper around them. Look at how the per-field array reply is consumed.
+
+**Pass criterion:** `HEXPIRE`-family commands return one status code per requested field, not a single success/failure. Each code is:
+
+* `1` — TTL set / updated.
+* `2` — the expiry was `0` or in the past, so Redis deleted the field instead of attaching a TTL.
+* `0` — an `NX | XX | GT | LT` conditional flag was specified and not met.
+* `-2` — no such field, or no such key.
+
+The helper must **iterate the reply array and raise/throw on any code other than `1`** (when no conditional flag is in use), so the "every streaming write renews its TTL" invariant fails loudly rather than silently leaving a field with no expiry attached. A naked `await client.hexpire(...)` (or `pipe.hexpire(...)` whose result is discarded) is the wrong shape — the call can "succeed" at the RESP level and still have left every field un-TTL'd.
+
+`HTTL` returns the same array shape (per-field integer seconds, with `-2` for missing fields and `-1` for fields with no TTL). When the key is missing entirely, some libraries return a list-of-`-2` of the right length, others return `nil` / `None` / `null`. The helper must normalise to a per-field array of integers, defaulting missing/short replies to `-2` so callers never index out of range.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate every `HEXPIRE` (or family) call site and every `HTTL` call site. For HEXPIRE: confirm the helper iterates the per-field array and raises / throws on any code other than `1` (or documents why a specific non-`1` code is acceptable). A discarded reply or a check that only looks at the first element is a bug. For HTTL: confirm the helper normalises the reply to a per-field array even when the key is missing, with `-2` as the default for missing slots. Flag any port where a partial or `null` reply could cause an index-out-of-range error, a silent loss of the dead-letter signal, or a per-field TTL that never actually got set.
+
+**Why on list:** Feature-store use case, Codex independent review. The Python reference originally awaited `hexpire(...)` and discarded the per-field reply; for the streaming-feature-store pattern to work, every streaming write **must** renew the per-field TTL on every call. A single code of `2` (which means "Redis deleted the field because the expiry was already in the past") looks like success but is actually data loss. The defensive shim for HTTL was needed because redis-rs's typed wrapper, redis-rb's `call`-style return, and several of the pipelined clients all surface partial / `nil` arrays differently when the key has expired between the caller's check and the HTTL itself.
+
+---
+
+## 36. Pause-and-wait-idle race in worker-thread reset paths
+
+**What to scan for:** every worker-thread tick loop that supports `pause()` plus an external `reset` / `clear` / `purge` path. Look at where the in-flight flag (`tick_in_flight`, `_tickInFlight`, `Volatile.Read(ref _tickInFlight)`, etc.) is set relative to the `paused` check inside the tick loop.
+
+**Pass criterion:** the in-flight flag must be set to `true` (or `1`) **before** the pause check, with a `finally` / `defer` / `ensure` block clearing it on every exit path. The combination lets an external caller do:
+
+```
+worker.pause()           # stop future ticks
+worker.wait_for_idle()   # wait for the current tick to drain
+store.reset()            # safe to delete keys now
+worker.resume()
+```
+
+If the in-flight flag is set **inside** the `if not paused: ...` branch, there is a window between the pause check and the actual tick where a concurrent `pause()` + `wait_for_idle()` observes `tick_in_flight=false` AND `paused=true`, falls straight through, and runs the `DEL` sweep while the tick is mid-write. The streaming write then recreates a hash entry that was just enumerated for deletion — leaving a streaming-only hash with no key-level TTL. Symptom: "0 leftover keys" smoke test fails sporadically, often only under load.
+
+The lifecycle flags (`running`, `tick_in_flight`) must be cleared in an **outer** `try/finally` / `defer` (around the whole tick loop, not just one iteration) so a thread that exits via an uncaught exception or a panic leaves the worker in a state where `start()` can spin a fresh thread. Without the outer clear, the demo's "is the worker running?" indicator gets stuck on, and a subsequent `start()` becomes a no-op.
+
+**Sample audit prompt:**
+
+> Audit every worker-thread tick loop in the 9 client implementations under `content/develop/use-cases/{{USE_CASE_NAME}}/`. For each, verify (a) the in-flight flag is set to true BEFORE the `paused` check, not inside the `not paused` branch; (b) a finally / defer / ensure clears the in-flight flag on every exit path including the paused-and-skipped path; (c) an outer try/finally around the whole tick loop clears both `running` and the in-flight flag so a panic / uncaught exception doesn't strand the lifecycle state. Run a quick stress test: 5x `reset` + `bulk-load` against an active streaming worker; the final keyspace must contain 0 leftover streaming-only hashes. Flag any port where (a), (b), or (c) is missing — those ports can produce ghost entries under concurrent reset.
+
+**Why on list:** Feature-store use case. Codex flagged the bug first on the Go port; once articulated, the same shape needed fixing in 7 of the 8 sibling ports (only Node.js's single-threaded event loop was immune). The reference Python implementation **shipped without the fix** — Codex caught it on a later client, and Python was retrofitted to match (the in-flight `threading.Event`, the pre-flight set, and the `wait_for_idle()` recovery now match the other 8 ports). Future Phase 1 reference implementations of streaming-worker-style use cases must adopt the pattern from the start.
+
+---
+
+## 37. Worker stop with bounded join + silent thread abandonment
+
+**What to scan for:** every `stop()` / `Stop()` / `StopAsync()` / shutdown method on a worker that owns a thread, task, or goroutine. Look at how the parent waits for the worker to exit.
+
+**Pass criterion:** if the wait is bounded (`thread.join(timeout=2.0)`, `worker.join(2000)`, `task.Wait(2000)`, etc.), the timeout-expired path must escalate, not silently move on. Acceptable shapes:
+
+* **Warn + indefinite wait.** Log a warning and call `thread.join()` (no timeout) so the parent at least observes that the stop took longer than the budget but never returns while the thread is still alive. This is the right shape for demos and well-behaved workers.
+* **Force-interrupt + wait.** Cancel the task's cancellation token, send `Thread.interrupt()`, send `SIGTERM`, etc., and only then return. The right shape for production code where the worker might be stuck in a blocking I/O call.
+* **Recovery via the in-flight flag.** Pair the bounded join with a `waitForIdle()` (polling the in-flight flag) that runs after the join. The in-flight flag's lifecycle (per row 36) is the eventual truth — even if the thread is still alive, once `tick_in_flight=false` the worker is safe to operate on. This is how Jedis and Lettuce ship in the feature-store ports.
+
+A bare `thread.join(timeout=N); self._thread = None` (drop the handle, move on) is the wrong shape. The thread is still running, holding a Redis connection, potentially writing during the next bulk-load. The demo "works" because Python daemon threads die when the process exits — but `stop()` was supposed to be a clean shutdown, and silently abandoning the thread defeats every test that relies on it.
+
+**Sample audit prompt:**
+
+> For each port under `content/develop/use-cases/{{USE_CASE_NAME}}/`, locate the worker's stop / shutdown method. If it uses a bounded join / wait (any timeout, any unit), verify one of these three recovery paths is present: (a) on timeout, log a warning and join indefinitely; (b) on timeout, force-interrupt the worker and then wait; (c) on timeout, fall through to a `waitForIdle()` (or equivalent in-flight-flag poll) that provides the actual safety guarantee. Flag any port where the timeout path is "set the handle to null and return" — that's silent thread abandonment, regardless of how the demo behaves under normal load.
+
+**Why on list:** Feature-store use case, Codex independent review of the Ruby port. The same shape was already in the Python reference (`thread.join(timeout=2.0)` then `self._thread = None`) but no earlier audit flagged it; Codex caught it on Ruby and the Python retrofit followed. Jedis / Lettuce had the bounded join but were saved by an explicit `waitForIdle()` after it — that's recovery shape (c) above, and it's the reason the bug never surfaced in those clients. Go / .NET / Rust / Node.js / PHP all use unbounded waits and are fine. The bug class is real even when masked by the in-flight-flag recovery; future ports should pick one shape and apply it consistently.
+
+---
+
 ## How to add a new row
 
 When a bug class is identified after this skill has been used:

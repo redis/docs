@@ -89,15 +89,30 @@
     {{ partial "search-modal.html" . }}
 
     {{ if .Store.Get "hasMermaid" }}
+    <style>
+      /* Let each diagram fill its container width instead of stopping at
+         mermaid's natural max-width. The SVG scales uniformly (boxes and text
+         together), so nothing overflows. */
+      .mermaid svg { width: 100%; max-width: 100%; height: auto; }
+    </style>
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+      // Use mermaid's default font. A custom fontFamily (e.g. the wider "Space
+      // Mono") makes label boxes overflow, because sequence diagrams size their
+      // actor/note boxes from font metrics that don't reliably match the
+      // rendered font. The default font's box padding is tuned to fit it.
       mermaid.initialize({
         startOnLoad: true,
         theme: 'base',
         themeVariables: {
-          fontFamily: 'Space Mono',
           primaryColor: '#ffffff',
-          primaryBorderColor: '#ee0000'
+          primaryBorderColor: '#ee0000',
+          // Subgraph "cluster" boxes: pale-yellow fill + olive border, matching
+          // mermaid's default theme (the look the upstream RedisVL docs render
+          // with). The base theme otherwise derives these from primaryColor and
+          // draws them white.
+          clusterBkg: '#ffffde',
+          clusterBorder: '#aaaa33'
         }
       });
     </script>

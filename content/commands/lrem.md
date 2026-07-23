@@ -62,10 +62,30 @@ The `count` argument influences the operation in the following ways:
 * `count = 0`: Remove all elements equal to `element`.
 
 For example, `LREM list -2 "hello"` will remove the last two occurrences of
-`"hello"` in the list stored at `list`.
+`"hello"` in the list stored at `key`.
 
 Note that non-existing keys are treated like empty lists, so when `key` does not
 exist, the command will always return `0`.
+
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the list.
+
+</details>
+
+<details open><summary><code>count</code></summary>
+
+The number of matching elements to remove and the direction: a positive value removes from the head, a negative value from the tail, and `0` removes all matches.
+
+</details>
+
+<details open><summary><code>element</code></summary>
+
+The value to remove.
+
+</details>
 
 ## Examples
 

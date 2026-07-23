@@ -1,4 +1,6 @@
 ---
+aliases:
+- /develop/use-cases/rate-limiter/lettuce
 categories:
 - docs
 - develop

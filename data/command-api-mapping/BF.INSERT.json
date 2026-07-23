@@ -46,6 +46,96 @@
         }
       }
     ],
+    "redis_rs_sync": [
+      {
+        "signature": "bf_insert(key: K, items: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "V",
+            "description": "The items to add to the filter"
+          }
+        ],
+        "returns": {
+          "type": "(Vec<bool>)",
+          "description": "For each item, true if newly added, false if it may have existed previously"
+        }
+      },
+      {
+        "signature": "bf_insert_options(key: K, items: V, options: BloomFilterInsertOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "V",
+            "description": "The items to add to the filter"
+          },
+          {
+            "name": "options",
+            "type": "BloomFilterInsertOptions",
+            "description": "Capacity, error rate, expansion and creation options for the filter"
+          }
+        ],
+        "returns": {
+          "type": "(Vec<bool>)",
+          "description": "For each item, true if newly added, false if it may have existed previously"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bf_insert(key: K, items: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "V",
+            "description": "The items to add to the filter"
+          }
+        ],
+        "returns": {
+          "type": "(Vec<bool>)",
+          "description": "For each item, true if newly added, false if it may have existed previously"
+        }
+      },
+      {
+        "signature": "bf_insert_options(key: K, items: V, options: BloomFilterInsertOptions)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "items",
+            "type": "V",
+            "description": "The items to add to the filter"
+          },
+          {
+            "name": "options",
+            "type": "BloomFilterInsertOptions",
+            "description": "Capacity, error rate, expansion and creation options for the filter"
+          }
+        ],
+        "returns": {
+          "type": "(Vec<bool>)",
+          "description": "For each item, true if newly added, false if it may have existed previously"
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "List<Boolean> bfInsert(String key, String... items)",

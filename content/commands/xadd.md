@@ -140,7 +140,6 @@ syntax_fmt: "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED]\n \
   \ field value [field value ...]"
 title: XADD
 ---
-
 Appends the specified stream entry to the stream at the specified `key`.
 If the key does not exist, `XADD` will create a new key with the given stream value as a side effect of running this command.
 You can turn off key creation with the `NOMKSTREAM` option.
@@ -250,7 +249,48 @@ other commands, such as [`XDEL`]({{< relref "/commands/xdel" >}}) and [`XTRIM`](
 remove data from a stream.
 {{< /note >}}
 
-## Specifying a Stream ID as an argument
+## Examples
+
+{{< clients-example set="cmds_stream" step="xadd1" description="Basic XADD: Add entries to a stream with auto-generated IDs, check stream the stream size, and read entries" difficulty="beginner" >}}
+> XADD mystream * name Sara surname OConnor
+"4378417975-0"
+> XADD mystream * field1 value1 field2 value2 field3 value3
+"4378417976-0"
+> XLEN mystream
+(integer) 2
+> XRANGE mystream - +
+1) 1) "1774378417975-0"
+   2) 1) "name"
+      2) "Sara"
+      3) "surname"
+      4) "OConnor"
+2) 1) "1774378417976-0"
+   2) 1) "field1"
+      2) "value1"
+      3) "field2"
+      4) "value2"
+      5) "field3"
+      6) "value3"
+{{< /clients-example >}}
+
+### Idempotent message processing examples
+
+{{< clients-example set="cmds_stream" step="xadd2" description="Idempotent XADD (Redis 8.6+): Use IDMP and IDMPAUTO for at-most-once message delivery, preventing duplicate entries" difficulty="intermediate" >}}
+> XADD mystream IDMP producer1 msg1 * field value
+"1774378417976-0"
+> XADD mystream IDMP producer1 msg1 * field different_value
+"1774378417976-0"
+> XADD mystream IDMPAUTO producer2 * field value
+"1774378417977-0"
+> XADD mystream IDMPAUTO producer2 * field value
+"1774378417977-0"
+> XCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000
+OK
+{{< /clients-example >}}
+
+## Details
+
+### Specifying a Stream ID as an argument
 
 A stream entry ID identifies a specific entry inside a stream.
 
@@ -279,7 +319,7 @@ Redis guarantees that IDs are always incremental: the ID of any entry you insert
 
 When you specify an explicit ID to `XADD`, the minimum valid ID is `0-1`, and you *must* specify an ID that is greater than any other ID currently inside the stream, otherwise the command fails and returns an error. Specifying explicit IDs is usually useful only if you have another system generating unique IDs (for instance an SQL table) and you want the Redis stream IDs to match those from your other system.
 
-## Capped streams
+### Capped streams
 
 `XADD` incorporates the same semantics as the [`XTRIM`]({{< relref "/commands/xtrim" >}}) command - refer to its documentation page for more information.
 This allows you to add new entries and keep the stream's size in check with a single call to `XADD`, effectively capping the stream with an arbitrary threshold.
@@ -291,49 +331,10 @@ For example, calling `XADD` in the following form:
 
 This adds a new entry but also evicts old entries so that the stream contains only 1000 entries, or at most a few tens more.
 
-## Additional information about streams
+### Additional information about streams
 
 For more information about Redis streams, see the
 [introduction to Redis Streams document]({{< relref "/develop/data-types/streams" >}}).
-
-## Examples
-
-{{< clients-example set="cmds_stream" step="xadd1" description="Basic XADD: Add entries to a stream with auto-generated IDs, check stream the stream size, and read entries" difficulty="beginner" >}}
-> XADD mystream * name Sara surname OConnor
-4378417975-0"
-> XADD mystream * field1 value1 field2 value2 field3 value3
-4378417976-0"
-> XLEN mystream
-eger) 2
-> XRANGE mystream - +
-1) 1) "1774378417975-0"
-   2) 1) "name"
-      2) "Sara"
-      3) "surname"
-      4) "OConnor"
-2) 1) "1774378417976-0"
-   2) 1) "field1"
-      2) "value1"
-      3) "field2"
-      4) "value2"
-      5) "field3"
-      6) "value3"
-{{< /clients-example >}}
-
-### Idempotent message processing examples
-
-{{< clients-example set="cmds_stream" step="xadd2" description="Idempotent XADD (Redis 8.6+): Use IDMP and IDMPAUTO for at-most-once message delivery, preventing duplicate entries" difficulty="intermediate" >}}
-> XADD mystream IDMP producer1 msg1 * field value
-"1774378417976-0"
-> XADD mystream IDMP producer1 msg1 * field different_value
-"1774378417976-0"
-> XADD mystream IDMPAUTO producer2 * field value
-"1774378417977-0"
-> XADD mystream IDMPAUTO producer2 * field value
-"1774378417977-0"
-> XCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000
-"OK"
-{{< /clients-example >}}
 
 ## Redis Software and Redis Cloud compatibility
 

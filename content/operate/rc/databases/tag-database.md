@@ -23,7 +23,7 @@ After you open the [tag manager](#tag-manager), you can use it to add, edit, or 
 
 ### Open tag manager from the Configuration tab {#configuration-tab}
 
-To learn how to navigate to your database, see [View and edit databases]({{< relref "/operate/rc/databases/view-edit-database" >}}). Select the **Configuration** tab and go to the **General** section to view the tags that are set for your database.
+To learn how to navigate to your database, see [View and edit databases]({{< relref "/operate/rc/databases/view-edit-database" >}}). Select the **Configuration** tab to view the tags that are set for your database. For Essentials databases, the **Manage tags** button is at the top of the tab; for Pro databases, go to the **General** section.
 
 {{<image filename="images/rc/database-details-configuration-tab-general-flexible.png" alt="The Configuration tab of the Database details screen." >}}
 

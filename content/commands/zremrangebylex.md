@@ -58,6 +58,26 @@ When all the elements in a sorted set are inserted with the same score, in order
 
 The meaning of `min` and `max` are the same of the [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) command. Similarly, this command actually removes the same elements that [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) would return if called with the same `min` and `max` arguments.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>min</code></summary>
+
+The minimum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `-` for the lowest possible value.
+
+</details>
+
+<details open><summary><code>max</code></summary>
+
+The maximum member, compared lexicographically. Prefix with `[` for an inclusive bound or `(` for an exclusive bound; use `+` for the highest possible value.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

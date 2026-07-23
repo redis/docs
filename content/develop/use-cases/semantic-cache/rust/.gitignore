@@ -1,0 +1,9 @@
+# Cargo build artefacts.
+target/
+
+# Candle / hf-hub download the all-MiniLM-L6-v2 weights into a local
+# cache directory on first run. The weights are ~87 MB and we don't
+# want them in the repo. The exact location depends on whether the
+# caller exported HF_HOME; the demo defaults to ./models so both the
+# Go example and this one share the same gitignore shape.
+models/

@@ -27,6 +27,9 @@ complexity: O(N) where N is the number of channels to subscribe to.
 description: Listens for messages published to channels.
 group: pubsub
 hidden: false
+history:
+- - 6.2.0
+  - RESET can be called to exit the subscribed state.
 linkTitle: SUBSCRIBE
 railroad_diagram: /images/railroad/subscribe.svg
 since: 2.0.0
@@ -43,9 +46,13 @@ However, if RESP3 is used (see [`HELLO`]({{< relref "/commands/hello" >}})) it i
 
 For more information, see [Pub/sub]({{< relref "/develop/pubsub" >}}).
 
-## Behavior change history
+## Required arguments
 
-*   `>= 6.2.0`: [`RESET`]({{< relref "/commands/reset" >}}) can be called to exit subscribed state.
+<details open><summary><code>channel [channel ...]</code></summary>
+
+One or more channels to subscribe to.
+
+</details>
 
 ## Redis Software and Redis Cloud compatibility
 

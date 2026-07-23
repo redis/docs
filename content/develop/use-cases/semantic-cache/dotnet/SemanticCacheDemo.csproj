@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>SemanticCacheDemo</RootNamespace>
+    <AssemblyName>SemanticCacheDemo</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Redis client. NRedisStack adds search, JSON, etc. on top of
+         StackExchange.Redis; the cache only needs the search + hash
+         APIs from this package. -->
+    <PackageReference Include="NRedisStack" Version="1.4.0" />
+
+    <!-- ONNX Runtime to run the sentence-transformers MiniLM model
+         locally. The .Managed package ships the CPU EP that works on
+         macOS/Linux/Windows without native install steps. -->
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.20.1" />
+
+    <!-- BertTokenizer reads the standard MiniLM vocab.txt; this is the
+         shortest path to producing the exact input_ids the ONNX export
+         expects. -->
+    <PackageReference Include="Microsoft.ML.Tokenizers" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Ship index.html next to the binary so the HttpListener can
+         load it from disk at startup; the demo expects the file to
+         sit beside SemanticCacheDemo.dll. -->
+    <None Include="index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

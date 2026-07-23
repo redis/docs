@@ -61,6 +61,20 @@ Non existing members are ignored.
 
 An error is returned when `key` exists and does not hold a sorted set.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key that holds the sorted set.
+
+</details>
+
+<details open><summary><code>member [member ...]</code></summary>
+
+One or more members to remove from the sorted set.
+
+</details>
+
 ## Examples
 
 {{% redis-cli %}}

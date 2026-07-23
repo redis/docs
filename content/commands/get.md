@@ -47,21 +47,28 @@ syntax_fmt: GET key
 title: GET
 ---
 Get the value of `key`.
-If the key does not exist the special value `nil` is returned.
+If the key does not exist, `nil` is returned.
 An error is returned if the value stored at `key` is not a string, because `GET`
 only handles string values.
 
+## Required arguments
+
+<details open><summary><code>key</code></summary>
+
+The name of the key.
+
+</details>
+
 ## Examples
 
-{{% redis-cli %}}
-GET nonexisting
-SET mykey "Hello"
-GET mykey
-{{% /redis-cli %}}
-
-### Code examples
-
-{{< clients-example set="set_and_get" step="get" description="Foundational: Retrieve the string value of a key using GET (returns nil if key doesn't exist)" difficulty="beginner" />}}
+{{< clients-example set="set_and_get" step="get" description="Foundational: Retrieve the string value of a key using GET (returns nil if key doesn't exist)" difficulty="beginner" >}}
+> GET nonexisting
+(nil)
+> SET mykey "Hello"
+OK
+> GET mykey
+"Hello"
+{{< /clients-example >}}
 
 ## Redis Software and Redis Cloud compatibility
 
