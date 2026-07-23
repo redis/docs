@@ -26,12 +26,12 @@ Default (no argument) runs all steps below, including the external reconciles.
 
 1. **Identify the current project.**
    - Run `pwd` and `git -C "$PWD" branch --show-current` to get the working dir and branch.
-   - Match the branch (or its ticket key, e.g. `DOC-6645`) to a plan file: `grep -rl --exclude-dir=archive "<branch-or-ticket>" ~/claude-overview/plans/`. That plan file is the target. (Exclude `archive/` — standup skips it too, so an archived plan must not shadow the active one.)
+   - Match the branch (or its ticket key, e.g. `DOC-6645`) to a plan file: `grep -rli --exclude-dir=archive "<branch-or-ticket>" ~/claude-overview/plans/`. That plan file is the target. (Case-insensitive `-i` to match `/startwork`, so a lowercase branch name still matches `DOC-`/`RED-` keys. Exclude `archive/` — standup skips it too, so an archived plan must not shadow the active one.)
    - If exactly one plan matches, use it. If none or several match, **ask the user which project** this checkpoint is for (list the candidates).
 
 2. **Capture the resume pointer.**
    - Branch = the current branch.
-   - Session id = the current session. Find it as the most-recently-modified `.jsonl` in `~/.claude/projects/<cwd-slug>/` (the slug is the cwd with `/` → `-`, e.g. `-Users-you-repos-docs`). Use its filename minus `.jsonl`.
+   - Session id = the current session. Prefer the `$CLAUDE_CODE_SESSION_ID` env var — it's the running session's exact id (matches `~/.claude/projects/<cwd-slug>/<id>.jsonl`). Only if it's unset, fall back to the most-recently-modified `.jsonl` in `~/.claude/projects/<cwd-slug>/` (the slug is the cwd with `/` → `-`, e.g. `-Users-you-repos-docs`), using its filename minus `.jsonl` — but note this fallback can pick another tab's session if two run in the same repo.
 
 3. **Gather what changed this session.**
    - From the conversation: what got completed, what's now next, any new blockers or decisions.
