@@ -24,14 +24,29 @@ Redis Enterprise shards (primary and replica) for the staging database.
 
 ## How does RDI track data changes in the source database?
 
-RDI uses mechanisms that are specific for each of the supported
-source databases:
+RDI uses change data capture (CDC) mechanisms that are specific to each of the
+supported source databases:
 
-- **Oracle**:  RDI uses `logminer` to parse the Oracle `binary log` and `archive logs`. This
-  lists any changes in a database view that RDI can query.
-- **MySQL/MariaDB**: RDI uses `binary log replication` to get all the commits.
-- **PostgreSQL**:  RDI uses the `pgoutput` plugin.
-- **SQL Server**: RDI uses the CDC mechanism.
+- **Oracle**: RDI uses `LogMiner` to read Oracle's `redo logs` and `archive logs`,
+  or, alternatively, `XStream`.
+- **MySQL/MariaDB**: RDI uses `binary log` (binlog) replication to capture all commits.
+- **PostgreSQL**: RDI uses the `pgoutput` logical decoding plugin. The same
+  applies to the PostgreSQL-compatible databases that RDI supports, including
+  Supabase, AlloyDB for PostgreSQL, Amazon Aurora/RDS for PostgreSQL, and Neon.
+- **SQL Server**: RDI uses the database's built-in CDC feature.
+- **MongoDB**: RDI uses `change streams` to read the `oplog`. The source must be
+  a replica set, sharded cluster, or MongoDB Atlas deployment, because a
+  standalone MongoDB server has no oplog.
+- **Google Cloud Spanner**: RDI uses `Spanner change streams` for the streaming
+  phase and the JDBC driver for the initial snapshot. Spanner is supported only
+  when RDI is deployed on Kubernetes with Helm.
+- **Snowflake** (preview): RDI uses `Snowflake Streams`. Snowflake is supported
+  only when RDI is deployed on Kubernetes with Helm.
+
+For the complete list of supported source databases and versions, see
+[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}}):
+
+{{< embed-md "rdi-supported-source-versions.md" >}}
 
 ## How much data can RDI process?
 
