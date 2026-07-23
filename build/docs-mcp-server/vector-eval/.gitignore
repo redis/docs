@@ -1,5 +1,5 @@
 .venv/
 __pycache__/
-embeddings.npz
+embeddings*.npz
 lexical.json
 *.log

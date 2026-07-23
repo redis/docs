@@ -198,14 +198,22 @@ vector-on-Redis as a later upgrade to the **hosted** endpoint only.
 - **Search backend:** resolved for v1 — lexical (BM25 over NDJSON), no
   datastore, runs in both stdio and hosted modes (see §6). **v2 vector: measured
   and justified.** A measure-first experiment (`vector-eval/`, no Redis:
-  bge-small embeddings + numpy cosine, scored on the same 35-case eval) showed
-  **hybrid lexical+vector (RRF) clearly beats lexical alone** — overall recall@5
-  69%→86%, MRR 0.53→0.66; command @5 73%→91%. Vector *alone* only modestly beats
-  lexical, so fusion is the win. → Build the hosted RediSearch/RedisVL path with
-  a **hybrid** ranker (not pure vector). Caveat: concept queries stay weak
-  (vector ties lexical at @5; hybrid lifts @5 62%→77% but not top-1/3) — likely
-  because the experiment used coarse *page-level* chunks; **section-level
-  chunking** (the feed's `sections[]`) is the next lever, being measured next.
+  bge-small embeddings + numpy cosine, scored on the same 35-case eval) shows
+  vector/hybrid clearly beats lexical → build the hosted RediSearch/RedisVL path.
+  Two rounds:
+  - *Page-level chunks (coarse):* hybrid best (overall recall@5 69%→86%, MRR
+    0.53→0.66); vector alone only modest; **concept stayed weak** (hybrid @5 77%).
+  - *Section-level chunks (feed `sections[]`):* the big lift, and it fixed
+    concept. **Vector alone becomes the strongest by MRR** (overall 0.72 vs
+    hybrid 0.67; concept 0.64 vs 0.47 page-level) and best @1/@3; **hybrid RRF is
+    best by recall@5/@10** (concept @5 92% / @10 100%; overall @5 91%). Vanilla
+    equal-weight RRF now *dilutes* the top ranks because it fuses the strong
+    vector retriever with the weaker lexical one.
+  - **Decision:** build **section-level embeddings** + a **weighted** fusion
+    (favour vector) rather than equal-weight RRF, to keep vector's top-1
+    precision *and* hybrid's top-k recall. Test weighted RRF / score fusion
+    against this eval before finalising. Pure vector is a viable fallback if
+    fusion tuning isn't worth it.
 - **Ranking quality (measured via the eval harness):** lexical BM25 with
   Porter stemming, stopword removal, title/summary/slug field boosts, and
   balanced page-type weighting (demote release-notes/REST-API/references only)
