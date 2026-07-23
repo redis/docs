@@ -26,3 +26,4 @@ The pages in this section describe recipes for using Redis from Spring Data Redi
 
 - [Use Redis with the Spring cache abstraction]({{< relref "/integrate/spring-framework-cache/cache" >}}) shows how to use Redis as the storage for Spring's cache abstraction.
 - [Client-side geographic failover]({{< relref "/integrate/spring-framework-cache/geo-failover" >}}) shows how to configure resilient connections that automatically fail over between Redis endpoints.
+- [Use JSON documents with Spring Data Redis]({{< relref "/integrate/spring-framework-cache/json" >}}) shows how to store, retrieve, and update JSON documents with the template-based JSON API.
