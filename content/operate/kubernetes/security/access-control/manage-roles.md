@@ -19,7 +19,7 @@ For details on how roles and bindings work together, see [Roles and bindings]({{
 
 ## Before you start
 
-- Requires Redis Software for Kubernetes operator 8.0.24-TBD or later.
+- Requires Redis Software for Kubernetes operator 8.2.0-12 or later.
 - The role resource must live in the operator namespace. Database scopes resolve to REDBs in that namespace.
 - Decide whether you need [management permissions](#choose-a-management-role), [data-path permissions](#attach-an-acl), or both.
 - If the role references one or more `RedisEnterpriseACL` resources, create those first. See [Manage ACLs]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}).

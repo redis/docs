@@ -1,6 +1,6 @@
 ---
 name: park
-description: "Freeze a release-ready-pending-upstream branch as a parked PR — open (or update) the PR with a machine-diffable pickup manifest, apply the parked / do-not-merge labels, and deliberately defer /finalize so the episodic re-check notes survive. Use when docs are written against an unreleased or still-changing external source (an upstream PR, a preview feature) and must wait for it to ship before merging. Pairs with /pickup."
+description: "Freeze a release-ready-pending-upstream branch as a parked PR — open (or update) the PR with a machine-diffable unpark manifest, apply the parked / do-not-merge labels, and deliberately defer /finalize so the episodic re-check notes survive. Use when docs are written against an unreleased or still-changing external source (an upstream PR, a preview feature) and must wait for it to ship before merging. Pairs with /unpark."
 ---
 
 # Park — freeze a PR that's waiting on the world
@@ -27,16 +27,16 @@ you'll harvest. This file is *how to build and land the manifest*.
         ↓  THIS SKILL — when the work can't merge yet
 /park             →  parked PR + manifest           [frozen; /finalize DEFERRED]
         ↓  (wait for the upstream trigger)
-/pickup           →  reconcile docs vs source        [thaw + delta]
+/unpark           →  reconcile docs vs source        [thaw + delta]
         ↓
 /reflect+/finalize → durable squash commit           [resume the normal pipeline]
 ```
 
 ## The one principle: snapshot the source, not just a pointer
 
-A note that says "watch upstream PR X" is nearly useless on pickup — it tells you where to
+A note that says "watch upstream PR X" is nearly useless on unpark — it tells you where to
 look but not *what changed*. The manifest must capture the source's **state at park time**
-(merge status, head SHA, milestone, the observed API shape) so pickup is a **diff**, not a
+(merge status, head SHA, milestone, the observed API shape) so unpark is a **diff**, not a
 fresh read. Recording the snapshot is the whole value of parking; everything else is
 plumbing.
 
@@ -79,7 +79,7 @@ gh api repos/<owner>/<repo>/issues/<n> \
   --jq '{state, state_reason, milestone: .milestone.title, updated_at, closed_at}'
 ```
 
-Record URL + snapshot in the sources table, and the re-fetch command for pickup. Add a
+Record URL + snapshot in the sources table, and the re-fetch command for unpark. Add a
 **confidence-tagged** summary of the API/behaviour the page assumes (LOW for docs written
 against an unmerged diff — and say *why* it's low, e.g. "signatures differed between two reads
 of the diff").
@@ -108,7 +108,7 @@ required sections (per the shared spec). The page itself should already carry a 
   gh pr edit <n> --body-file <body> --add-label parked --add-label "do not merge yet"
   ```
 - Verify the labels stuck (`gh pr view <n> --json labels`).
-- **Do not run `/finalize`.** State explicitly that it's deferred until pickup — the manifest
+- **Do not run `/finalize`.** State explicitly that it's deferred until unpark — the manifest
   records this, but say it in your handoff too.
 
 Present the PR URL, the trigger condition, and the checklist, then stop. Opening a PR is
@@ -117,13 +117,13 @@ outward-facing — if the branch isn't pushed or the user hasn't asked, confirm 
 ## Limits (read honestly)
 
 - **A stale snapshot is worse than none** — if you record a head SHA or API shape you didn't
-  actually verify, pickup diffs against fiction. Snapshot only what you checked; leave the
+  actually verify, unpark diffs against fiction. Snapshot only what you checked; leave the
   rest out and flag it in the checklist.
 - Park **cannot judge whether the source will ship.** It records a trigger; it doesn't predict
-  the future. A parked PR that never triggers is dead weight — `/pickup`'s scan mode is how you
+  the future. A parked PR that never triggers is dead weight — `/unpark`'s scan mode is how you
   find and close those.
 - It **defers, never distills.** If you're tempted to "just finalize while it's fresh," don't:
-  you'll squash away the very notes pickup needs. Freshness is preserved *in the manifest*, not
+  you'll squash away the very notes unpark needs. Freshness is preserved *in the manifest*, not
   in a premature durable commit.
 - The manifest is only as good as the checklist. If Step 2's harvest is skipped, the loose ends
-  live only in scattered trailers and the pickup starts blind.
+  live only in scattered trailers and the unparking starts blind.

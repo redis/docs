@@ -229,13 +229,19 @@
       }
     }
 
-    window.addEventListener('scroll', function() {
+    function adjustSidebarHeight() {
       const scrolledHeight = window.scrollY + window.innerHeight;
       if (scrolledHeight >= footer.offsetTop) {
           sidebar.style.maxHeight = `calc(100vh - 7rem - ${scrolledHeight - footer.offsetTop}px)`;
         } else {
         sidebar.style.maxHeight = 'calc(100vh - 7rem)';
       }
-    });
+    }
+
+    window.addEventListener('scroll', adjustSidebarHeight);
+    window.addEventListener('resize', adjustSidebarHeight);
+    // Run once on load so short (non-scrolling) pages don't leave the
+    // fixed sidebar overlapping the footer (issue #3691).
+    adjustSidebarHeight();
   })
 </script>
