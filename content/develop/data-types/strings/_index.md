@@ -48,6 +48,9 @@ arguments. For example, I may ask [`SET`]({{< relref "/commands/set" >}}) to fai
 or the opposite, that it only succeed if the key already exists:
 
 {{< clients-example set="set_tutorial" step="setnx_xx" description="Conditional SET operations: Use NX and XX options to control key existence when you need atomic compare-and-set behavior" difficulty="intermediate" buildsUpon="set_get" >}}
+# Recreate the bike:1 key so this example runs on its own.
+> SET bike:1 Deimos
+OK
 > SET bike:1 bike NX
 (nil)
 > SET bike:1 bike XX

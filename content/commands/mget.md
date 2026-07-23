@@ -69,22 +69,14 @@ One or more keys whose values to retrieve.
 
 {{< clients-example set="cmds_string" step="mget" description="Returns the values of all specified keys." difficulty="beginner" >}}
 > SET key1 "Hello"
-"OK"
+OK
 > SET key2 "World"
-"OK"
+OK
 > MGET key1 key2 nonexisting
 1) "Hello"
 2) "World"
 3) (nil)
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET key1 "Hello"
-SET key2 "World"
-MGET key1 key2 nonexisting
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

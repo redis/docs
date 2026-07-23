@@ -24,14 +24,27 @@ Redis Enterprise shards (primary and replica) for the staging database.
 
 ## How does RDI track data changes in the source database?
 
-RDI uses mechanisms that are specific for each of the supported
-source databases:
+RDI uses change data capture (CDC) mechanisms that are specific to each of the
+supported source databases:
 
-- **Oracle**:  RDI uses `logminer` to parse the Oracle `binary log` and `archive logs`. This
-  lists any changes in a database view that RDI can query.
-- **MySQL/MariaDB**: RDI uses `binary log replication` to get all the commits.
-- **PostgreSQL**:  RDI uses the `pgoutput` plugin.
-- **SQL Server**: RDI uses the CDC mechanism.
+- **Oracle**: RDI uses `LogMiner` to read Oracle's `redo logs` and `archive logs`,
+  or, alternatively, `XStream`.
+- **MySQL/MariaDB**: RDI uses `binary log` (binlog) replication to capture all commits.
+- **PostgreSQL**: RDI uses the `pgoutput` logical decoding plugin. The same
+  applies to the PostgreSQL-compatible databases that RDI supports, including
+  Supabase, AlloyDB for PostgreSQL, Amazon Aurora/RDS for PostgreSQL, and Neon.
+- **SQL Server**: RDI uses the database's built-in CDC feature.
+- **MongoDB**: RDI uses `change streams` to read the `oplog`. The source must be
+  a replica set, sharded cluster, or MongoDB Atlas deployment, because a
+  standalone MongoDB server has no oplog.
+- **Google Cloud Spanner**: RDI uses `Spanner change streams` for the streaming
+  phase and the JDBC driver for the initial snapshot. Spanner is supported only
+  when RDI is deployed on Kubernetes with Helm.
+- **Snowflake** (preview): RDI uses `Snowflake Streams`. Snowflake is supported
+  only when RDI is deployed on Kubernetes with Helm.
+
+For the complete list of supported source databases and versions, see
+[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}}).
 
 ## How much data can RDI process?
 
@@ -100,8 +113,10 @@ job then RDI can't transform the data. When this happens, RDI will store the ori
 in a "dead letter queue" along with a message to say why it was rejected. The dead letter
 queue is stored as a capped stream in the RDI staging database. You can see its contents
 with Redis Insight or with the
-[`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
+[`redis-di list-dlq-records`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlq-records" >}})
 command from the CLI.
+
+See [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}) for more information about DLQ.
 
 ## Can I use RDI without persistence enabled?
 
@@ -125,28 +140,31 @@ This option is available in RDI 1.16.2 and later.
 ## Which processor should I use? {#which-processor-should-i-use}
 
 RDI ships with two stream processor implementations: the *classic*
-processor and the *Flink* processor. The classic processor is the
-production-supported default. The Flink processor was introduced in
-RDI 1.18.0 as a **Preview** and is not yet supported for production
-use; we encourage you to try it on new, non-production pipelines and
-share feedback so we can prioritize improvements before general
-availability. Regular preview terms apply.
+processor and the *Flink* processor. Both are fully supported for
+production on VM and Kubernetes installations. The Flink processor
+is generally available as of RDI 1.19.0 and is enabled per pipeline.
 
 The Flink processor delivers significantly higher snapshot throughput,
 lower end-to-end latency, horizontal scaling, and Flink checkpointing
 on top of the same at-least-once delivery guarantees as the classic
-processor.
+processor. It also adds optional expression and `redis.lookup` result
+caching.
 
-Continue to use the classic processor for production pipelines, and
-in any of the following cases where the Flink processor does not yet
-apply:
+**We strongly recommend using the Flink processor** for new pipelines and
+migrating existing pipelines to it, to benefit from these improvements. The
+*classic* processor is still the default, so pipelines keep using it until
+you opt in, and it remains a fully supported choice — for example, when you
+want to ensure your pipelines continue to work as before until you have
+consciously migrated them. In a future release, however, the Flink processor
+will become the default and the classic processor may be deprecated, so adopting
+the Flink processor now avoids a later migration.
 
--   **Output `data_type` other than `hash` or `json`** (for example,
-    `set`, `sorted_set`, `stream`, or `string`).
--   **VM installations.** The Flink processor currently runs on
-    Kubernetes only.
+Switch a pipeline to the Flink processor by setting
+[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+to `flink` (`classic` is the default). You can adopt it per pipeline without
+changing the others.
 
-Both limitations are expected to be lifted in a future release. See
+See
 [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
 for a side-by-side comparison and
 [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})

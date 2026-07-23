@@ -35,6 +35,17 @@ Active-Active subscriptions on Redis Cloud are limited to a maximum of 10 region
 
 Geo-distributed replication maintains copies of both primary and replica shards in multiple clusters. These clusters can be spread across multiple availability zones. Active-Active Redis uses zone awareness to spread your primary and replica shards across zones, which helps protect against data loss from regional outages.
 
+The availability of each region depends on the number of availability zones it provides:
+
+- Regions with three or more availability zones use multi-zone replication and provide **99.999%** (five-nines) availability.
+- Regions with fewer than three availability zones use single-zone replication and provide **99.99%** (four-nines) availability.
+
+An Active-Active database can combine regions with different availability zone counts. When it does, the availability of the entire deployment is determined by the least resilient region. For example, an Active-Active database that spans a region with three availability zones and a region with fewer than three availability zones provides 99.99% (four-nines) availability overall.
+
+{{< note >}}
+Regions with fewer than three availability zones are not available when you create an Active-Active database in the Redis Cloud console. To create an Active-Active database that includes one of these regions, use the [Redis Cloud REST API]({{< relref "/operate/rc/api" >}}). You'll be able to manage these databases using the Redis Cloud console after they're created.
+{{< /note >}}
+
 ### Local latency with unique endpoints
 
 Applications can connect to a specific copy of an Active-Active database using its unique endpoint. For local latency, configure your application to use a database endpoint in the closest region.
@@ -60,3 +71,11 @@ However, Active-Active databases do not have a built-in [failover](https://en.wi
 For more information and guidance on which disaster recovery strategy to implement, see [Disaster recovery strategies for Active-Active databases]({{< relref "/operate/rs/databases/active-active/disaster-recovery" >}}).
 
 Data automatically syncs to a recovered cluster when it returns to a healthy state.
+
+## Sizing and memory
+
+Active-Active databases consume more memory than standalone databases. Because Active-Active requires replication, and Active-Active replication doubles memory consumption on top of that, the memory limit impact can be as large as four times (4x) the original data size.
+
+Active-Active databases also begin evicting keys earlier than standalone databases, at 80% of an instance's memory limit, and reserve additional memory for replication backlogs. Account for these factors when you size your database.
+
+For more information, see [Memory limits and sizing]({{< relref "/operate/rc/databases/configuration/sizing#dataset-size" >}}).

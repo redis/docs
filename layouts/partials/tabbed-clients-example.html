@@ -9,6 +9,10 @@
 {{ $cliFooterLinkText := .Scratch.Get "cli_footer_link_text" }}
 {{ $cliFooterLinkUrl := .Scratch.Get "cli_footer_link_url" }}
 {{ $showFooter := .Scratch.Get "show_footer" | default true }}
+{{/* runnable defaults to true; "false" renders a static, non-executable cli tab */}}
+{{ $runnable := ne (.Scratch.Get "runnable") "false" }}
+{{/* try_it defaults to true; "false" hides the external redis.io/cli button but keeps the on-page tab interactive */}}
+{{ $showTryIt := ne (.Scratch.Get "try_it") "false" }}
 
 {{/* Parse buildsUpon parameter into an array */}}
 {{ $buildsUponStr := .Scratch.Get "buildsUpon" }}
@@ -39,35 +43,51 @@
     {{ warnf "[tabbed-clients-example] Example not found %q for %q" $id $.Page }}
 {{ end }}
 
+{{/* Extract executable CLI commands (lines starting with "> " or "redis> ") for Try It button */}}
+{{ $tryItCommands := slice }}
+{{ if (ne (trim $redisCommands "\n") "") }}
+    {{ range $line := split (trim $redisCommands "\n") "\n" }}
+        {{ $trimmedLine := trim $line " " }}
+        {{ if hasPrefix $trimmedLine "redis> " }}
+            {{ $tryItCommands = $tryItCommands | append (strings.TrimPrefix "redis> " $trimmedLine) }}
+        {{ else if hasPrefix $trimmedLine "> " }}
+            {{ $tryItCommands = $tryItCommands | append (strings.TrimPrefix "> " $trimmedLine) }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{/* The redis-cli tab is interactive/executable only when the example is runnable
+     AND we extracted at least one prefixed command ("> " / "redis> "). Bare
+     command+output pairs or non-Redis REST/cURL snippets have no such prefix, so
+     they render as a static block (below) and cli.js never auto-runs them. */}}
+{{ $isInteractive := and $runnable (gt (len $tryItCommands) 0) }}
+
 {{ $tabs := slice }}
 {{/* Render redis-cli example from inner content if any */}}
 {{ if (ne (trim $redisCommands "\n") "") }}
-    {{ $redisCommandsLineLimitInt := 0 }}
     {{ $trimmedRedisCommands := trim $redisCommands "\n" }}
-    {{ $redisCommandLines := split $trimmedRedisCommands "\n" }}
-    {{ $redisCommandLineCount := len $redisCommandLines }}
-    {{ $estimatedVisualLineCount := $redisCommandLineCount }}
-    {{ $wrapCharsPerLine := 120 }}
-    {{ $hasCliTrim := false }}
-    {{ if $redisCommandsLineLimit }}
-        {{ $redisCommandsLineLimitInt = int $redisCommandsLineLimit }}
+    {{/* Render the redis-cli tab. It is an interactive terminal (form.redis-cli,
+         picked up and executed inline by cli.js) only when $isInteractive — i.e.
+         the example is runnable AND at least one command was extracted. Otherwise
+         — runnable="false" (e.g. unsafe blocking commands like BRPOP), or content
+         with no "> "/"redis> " lines (bare command+output pairs, REST/cURL
+         snippets) — it renders as a static, non-executable code block with no
+         "Try it" button, so cli.js never auto-runs output or non-Redis text.
+         Only redis-cli is interactive; other language tabs stay static. */}}
+    {{ $redisCliContent := "" }}
+    {{ if $isInteractive }}
+        {{ $cliJoined := delimit $tryItCommands "\n" }}
+        {{ $cliFormInner := htmlEscape $cliJoined }}
+        {{ $cliSourceAttr := replace (htmlEscape $cliJoined) "\n" "&#10;" }}
+        {{ $redisCliContent = printf "<form class=\"redis-cli overflow-y-auto max-h-80\" data-cli-source=\"%s\">\n%s\n</form>" $cliSourceAttr $cliFormInner | safeHTML }}
+    {{ else }}
+        {{/* Mirror the interactive terminal's structure (div.redis-cli > pre) so it
+             inherits the same styling and avoids prose's default <pre> margins.
+             cli.js/codetabs.js only target form.redis-cli, so this stays static. */}}
+        {{ $staticInner := htmlEscape $trimmedRedisCommands }}
+        {{ $redisCliContent = printf "<div class=\"redis-cli redis-cli-static overflow-y-auto max-h-80\"><pre>%s</pre></div>" $staticInner | safeHTML }}
     {{ end }}
-    {{ if gt $redisCommandsLineLimitInt 0 }}
-        {{ $estimatedVisualLineCount = 0 }}
-        {{ range $line := $redisCommandLines }}
-            {{ $lineLength := len $line }}
-            {{ $wrappedLines := 1 }}
-            {{ if gt $lineLength $wrapCharsPerLine }}
-                {{ $wrappedLines = int (math.Ceil (div (float $lineLength) (float $wrapCharsPerLine))) }}
-            {{ end }}
-            {{ $estimatedVisualLineCount = add $estimatedVisualLineCount $wrappedLines }}
-        {{ end }}
-    {{ end }}
-    {{ if and (gt $redisCommandsLineLimitInt 0) (gt $estimatedVisualLineCount $redisCommandsLineLimitInt) }}
-        {{ $hasCliTrim = true }}
-    {{ end }}
-    {{ $redisCliContent := highlight $trimmedRedisCommands "plaintext" "linenos=false" }}
-    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "limit" $redisCommandsLineLimit "limitInt" $redisCommandsLineLimitInt "lineCount" $redisCommandLineCount "visualLineCount" $estimatedVisualLineCount "hasCliTrim" $hasCliTrim "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
+    {{ $cliTab := dict "title" "redis-cli" "displayName" $cliTabName "content" $redisCliContent "customFooterLinkText" $cliFooterLinkText "customFooterLinkUrl" $cliFooterLinkUrl }}
     {{ if gt (len $commands) 0 }}
         {{ $cliTab = merge $cliTab (dict "commands" $commands) }}
     {{ end }}
@@ -187,8 +207,21 @@
     {{ end }}
 {{ end }}
 
-{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty }}
+{{ $isPrereq := eq (.Scratch.Get "prereq") "true" }}
+{{ $needsPrereq := eq (.Scratch.Get "needs_prereq") "true" }}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty "exampleSet" $id }}
 {{ if gt (len $buildsUpon) 0 }}
   {{ $params = merge $params (dict "buildsUpon" $buildsUpon) }}
+{{ end }}
+{{ if $isInteractive }}
+  {{/* Pass tryItCommands (drives the interactive form + prereq registration) plus
+       showTryIt, which independently controls only the external "Try it" button. */}}
+  {{ $params = merge $params (dict "tryItCommands" $tryItCommands "showTryIt" $showTryIt) }}
+{{ end }}
+{{ if $isPrereq }}
+  {{ $params = merge $params (dict "isPrereq" true) }}
+{{ end }}
+{{ if $needsPrereq }}
+  {{ $params = merge $params (dict "needsPrereq" true) }}
 {{ end }}
 {{ partial "tabs/wrapper.html" $params }}

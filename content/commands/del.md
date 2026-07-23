@@ -72,20 +72,12 @@ One or more keys to delete.
 
 {{< clients-example set="cmds_generic" step="del" description="Foundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)" difficulty="beginner" >}}
 > SET key1 "Hello"
-"OK"
+OK
 > SET key2 "World"
-"OK"
+OK
 > DEL key1 key2 key3
 (integer) 2
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET key1 "Hello"
-SET key2 "World"
-DEL key1 key2 key3
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

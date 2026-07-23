@@ -152,13 +152,13 @@ Set the expiry only when the new expiry is less than the current one. A non-vola
 
 {{< clients-example set="cmds_generic" step="expire" description="Foundational: Set key expiration time using EXPIRE (supports conditional options NX/XX/GT/LT, returns 1 if set or 0 if not)" difficulty="beginner" >}}
 > SET mykey "Hello"
-"OK"
+OK
 > EXPIRE mykey 10
 (integer) 1
 > TTL mykey
 (integer) 10
 > SET mykey "Hello World"
-"OK"
+OK
 > TTL mykey
 (integer) -1
 > EXPIRE mykey 10 XX
@@ -170,20 +170,6 @@ Set the expiry only when the new expiry is less than the current one. A non-vola
 > TTL mykey
 (integer) 10
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET mykey "Hello"
-EXPIRE mykey 10
-TTL mykey
-SET mykey "Hello World"
-TTL mykey
-EXPIRE mykey 10 XX
-TTL mykey
-EXPIRE mykey 10 NX
-TTL mykey
-{{% /redis-cli %}}
 
 ## Details
 

@@ -46,6 +46,15 @@ assert_equal({
 # REMOVE_END
 
 # STEP_START hmget
+# Recreate the bike:1 hash so this example runs on its own.
+r.del('bike:1')
+r.hset('bike:1', {
+  'model' => 'Deimos',
+  'brand' => 'Ergonom',
+  'type' => 'Enduro bikes',
+  'price' => 4972
+})
+
 res5 = r.hmget('bike:1', 'model', 'price', 'no-such-field')
 puts res5.inspect # ["Deimos", "4972", nil]
 # STEP_END
@@ -55,6 +64,15 @@ assert_equal(['Deimos', '4972', nil], res5)
 # REMOVE_END
 
 # STEP_START hincrby
+# Recreate the bike:1 hash so this example runs on its own.
+r.del('bike:1')
+r.hset('bike:1', {
+  'model' => 'Deimos',
+  'brand' => 'Ergonom',
+  'type' => 'Enduro bikes',
+  'price' => 4972
+})
+
 res6 = r.hincrby('bike:1', 'price', 100)
 puts res6 # 5072
 

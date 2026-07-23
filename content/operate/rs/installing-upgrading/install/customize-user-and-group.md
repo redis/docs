@@ -26,6 +26,8 @@ During installation, you can specify the user and group that own all Redis Softw
 
 - If you specify the user only, then installation is run with the primary group that the user belongs to.
 
+- The custom group must be the user's primary group. If the user's primary group differs from the custom group, database backups can fail because the installation user cannot change backup file ownership to a different group.
+
 ## Install with custom user or group
 
 To customize the user or group during [installation]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}), include the `--os-user` or `--os-group` [command-line options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) when you run the `install.sh` script.

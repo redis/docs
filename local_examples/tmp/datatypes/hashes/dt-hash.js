@@ -50,6 +50,18 @@ assert.deepEqual(res4, {
 // REMOVE_END
 
 // STEP_START hmGet
+// Recreate the bike:1 hash so this example runs on its own.
+await client.del('bike:1')
+await client.hSet(
+  'bike:1',
+  {
+    'model': 'Deimos',
+    'brand': 'Ergonom',
+    'type': 'Enduro bikes',
+    'price': 4972,
+  }
+)
+
 const res5 = await client.hmGet('bike:1', ['model', 'price'])
 console.log(res5)  // ['Deimos', '4972']
 // STEP_END
@@ -59,6 +71,18 @@ assert.deepEqual(Object.values(res5), ['Deimos', '4972'])
 // REMOVE_END
 
 // STEP_START hIncrBy
+// Recreate the bike:1 hash so this example runs on its own.
+await client.del('bike:1')
+await client.hSet(
+  'bike:1',
+  {
+    'model': 'Deimos',
+    'brand': 'Ergonom',
+    'type': 'Enduro bikes',
+    'price': 4972,
+  }
+)
+
 const res6 = await client.hIncrBy('bike:1', 'price', 100)
 console.log(res6)  // 5072
 const res7 = await client.hIncrBy('bike:1', 'price', -100)

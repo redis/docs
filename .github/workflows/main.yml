@@ -55,9 +55,7 @@ jobs:
       id: set-paths
       run: |
         if [[ "${{ github.ref_name }}" == "main" ]]; then
-          echo "hugo_root_path=docs/staging/dev" >> $GITHUB_OUTPUT
-          echo "bucket_path=staging/dev" >> $GITHUB_OUTPUT
-        elif [[ "${{ github.ref_name }}" == "latest" ]]; then
+          # main is the production branch: merges publish straight to /latest.
           echo "hugo_root_path=docs/latest" >> $GITHUB_OUTPUT
           echo "bucket_path=latest" >> $GITHUB_OUTPUT
         elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]; then
@@ -566,7 +564,7 @@ jobs:
           done
         }
 
-        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+        if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/kubernetes "gs://${BUCKET}/kubernetes-${version}/operate/kubernetes"
           gsutil -m rsync -r -c -j html -d "output/operate/kubernetes/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/kubernetes/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
@@ -630,7 +628,7 @@ jobs:
           done
         }
 
-        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+        if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/rs "gs://${BUCKET}/rs-${version}/operate/rs"
           gsutil -m rsync -r -c -j html -d "output/operate/rs/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/rs/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
@@ -694,7 +692,7 @@ jobs:
           done
         }
 
-        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+        if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/integrate/redis-data-integration "gs://${BUCKET}/redis-data-integration-${version}/integrate/redis-data-integration"
           gsutil -m rsync -r -c -j html -d "output/integrate/redis-data-integration/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/redis-data-integration/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
@@ -758,7 +756,7 @@ jobs:
           done
         }
 
-        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+        if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/develop/ai/redisvl "gs://${BUCKET}/redisvl-${version}/develop/ai/redisvl"
           gsutil -m rsync -r -c -j html -d "output/develop/ai/redisvl/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/redisvl/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
@@ -768,11 +766,11 @@ jobs:
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
-  # Deploy custom 404 page (only on latest branch)
+  # Deploy custom 404 page (only for the production latest build)
   deploy_404:
     name: Deploy 404 page
     needs: setup_and_build_latest
-    if: ${{ github.ref_name == 'latest' }}
+    if: ${{ needs.setup_and_build_latest.outputs.bucket_path == 'latest' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'

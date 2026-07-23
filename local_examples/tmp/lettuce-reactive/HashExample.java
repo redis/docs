@@ -73,7 +73,10 @@ public class HashExample {
             // STEP_END
 
             // STEP_START hmget
-            Mono<List<KeyValue<String, String>>> hmGet = reactiveCommands.hmget("bike:1", "model", "price").collectList()
+            // Recreate the bike:1 hash so this example runs on its own.
+            Mono<List<KeyValue<String, String>>> hmGet = reactiveCommands.del("bike:1")
+                    .then(reactiveCommands.hset("bike:1", bike1))
+                    .then(reactiveCommands.hmget("bike:1", "model", "price").collectList())
                     .doOnNext(result -> {
                         System.out.println(result);
                         // >>> [KeyValue[model, Deimos], KeyValue[price, 4972]]
@@ -85,10 +88,15 @@ public class HashExample {
                     });
             // STEP_END
 
-            Mono.when(getModel, getPrice, getAll, hmGet).block();
+            // Run the set_get_all reads together, then the self-contained hmget.
+            Mono.when(getModel, getPrice, getAll).block();
+            hmGet.block();
 
             // STEP_START hincrby
-            Mono<Void> hIncrBy = reactiveCommands.hincrby("bike:1", "price", 100).doOnNext(result -> {
+            // Recreate the bike:1 hash so this example runs on its own.
+            Mono<Void> hIncrBy = reactiveCommands.del("bike:1")
+                    .then(reactiveCommands.hset("bike:1", bike1))
+                    .then(reactiveCommands.hincrby("bike:1", "price", 100)).doOnNext(result -> {
                 System.out.println(result); // >>> 5072
                 // REMOVE_START
                 assertThat(result).isEqualTo(5072L);

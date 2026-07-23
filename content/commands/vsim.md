@@ -114,13 +114,13 @@ controls the search effort. Higher values explore more nodes, improving recall a
 <details open>
 <summary><code>FILTER expression</code></summary>
 
-applies a filter expression to restrict matching elements. See the filtered search section for syntax details.
+applies a filter expression to restrict matching elements. See [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}}) for syntax details.
 </details>
 
 <details open>
 <summary><code>FILTER-EF max-filtering-effort</code></summary>
 
-limits the number of filtering attempts for the `FILTER` expression. See the filtered search section for more.
+limits the number of filtering attempts for the `FILTER` expression. See [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}}) for more information.
 </details>
 
 <details open>
@@ -168,3 +168,4 @@ One of the following:
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+- [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})

@@ -37,7 +37,7 @@ The JSON capability of Redis Open Source provides JavaScript Object Notation (JS
 
 The first JSON command to try is [`JSON.SET`]({{< relref "commands/json.set/" >}}), which sets a Redis key with a JSON value. [`JSON.SET`]({{< relref "commands/json.set/" >}}) accepts all JSON value types. This example creates a JSON string:
 
-{{< clients-example set="json_tutorial" step="set_get" description="Foundational: Set and retrieve JSON values using JSON.SET and JSON.GET to store and access JSON documents" >}}
+{{< clients-example set="json_tutorial" step="set_get" description="Foundational: Set and retrieve JSON values using JSON.SET and JSON.GET to store and access JSON documents" prereq="true" >}}
 > JSON.SET bike $ '"Hyperion"'
 OK
 > JSON.GET bike $
@@ -50,7 +50,7 @@ Note how the commands include the dollar sign character `$`. This is the [path](
 
 Here are a few more string operations. [`JSON.STRLEN`]({{< relref "commands/json.strlen/" >}}) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< relref "commands/json.strappend/" >}}).
 
-{{< clients-example set="json_tutorial" step="str" description="String operations: Manipulate JSON strings using JSON.STRLEN to get length and JSON.STRAPPEND to concatenate values" buildsUpon="set_get" >}}
+{{< clients-example set="json_tutorial" step="str" description="String operations: Manipulate JSON strings using JSON.STRLEN to get length and JSON.STRAPPEND to concatenate values" buildsUpon="set_get" needs_prereq="true" >}}
 > JSON.STRLEN bike $
 1) (integer) 8
 > JSON.STRAPPEND bike $ '" (Enduro bikes)"'
@@ -71,7 +71,7 @@ OK
 > JSON.NUMINCRBY crashes $ -0.75
 "[1.75]"
 > JSON.NUMMULTBY crashes $ 24
-"[42]"
+"[42.0]"
 {{< /clients-example >}}
 
 Here's a more interesting example that includes JSON arrays and objects:

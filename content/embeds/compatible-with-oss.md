@@ -16,7 +16,7 @@ That said, the following Redis features are not applicable in the context of our
     - [SLAVEOF](http://redis.io/commands/SLAVEOF)
     - [SYNC](http://redis.io/commands/SYNC)/[PSYNC](http://redis.io/commands/PSYNC)
 - Redis Enterprise clustering technology is different than the Redis Open Source Cluster and supports clustering in a seamless manner that works with all standard Redis clients. As a result, [all Cluster related commands](http://redis.io/commands#cluster) are blocked and show an error when used.
-- Redis Enterprise clustering technology allows [multiple active proxies](http://docs.redislabs.com/latest/rs/databases/configure/proxy-policy.md). As a result, the CLIENT ID command cannot guarantee incremental IDs between clients who connect to different nodes under multi proxy policies.
+- Redis Enterprise clustering technology allows [multiple active proxies](https://redis.io/docs/latest/operate/rs/databases/configure/proxy-policy/). As a result, the CLIENT ID command cannot guarantee incremental IDs between clients who connect to different nodes under multi proxy policies.
 - Commands that aren’t relevant for a hosted Redis service are blocked:
     - [CONFIG RESETSTAT](http://redis.io/commands/CONFIG-RESETSTAT)
     - [DEBUG OBJECT](http://redis.io/commands/DEBUG-OBJECT)/[SEGFAULT](http://redis.io/commands/DEBUG-SEGFAULT)

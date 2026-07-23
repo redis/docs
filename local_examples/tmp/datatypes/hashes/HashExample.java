@@ -53,6 +53,10 @@ public class HashExample {
       // REMOVE_END
 
       // STEP_START hmget
+      // Recreate the bike:1 hash so this example runs on its own.
+      jedis.del("bike:1");
+      jedis.hset("bike:1", bike1);
+
       List<String> res5 = jedis.hmget("bike:1", "model", "price");
       System.out.println(res5); // [Deimos, 4972]
       // STEP_END
@@ -62,6 +66,10 @@ public class HashExample {
       // REMOVE_END
 
       // STEP_START hincrby
+      // Recreate the bike:1 hash so this example runs on its own.
+      jedis.del("bike:1");
+      jedis.hset("bike:1", bike1);
+
       Long res6 = jedis.hincrBy("bike:1", "price", 100);
       System.out.println(res6); // 5072
       Long res7 = jedis.hincrBy("bike:1", "price", -100);

@@ -26,6 +26,7 @@ An API object that represents a managed database in the cluster.
 | active_defrag_threshold_upper | integer, (range: 0-1000) (default: 100); Maximum percentage of fragmentation at which maximum effort is used |
 | activedefrag | Enable or turn off active defragmentation functionality.<br />Values:<br />'yes'<br />**'no'** |
 | aof_policy | Policy for Append-Only File data persistence<br />Values:<br />**'appendfsync-every-sec'** <br />'appendfsync-always' |
+| audit_settings | Complex object. Configures per-database connection and CRUD auditing mode, username/source-IP filtering, and key-byte capture limits. See [Audit database events]({{< relref "/operate/rs/security/audit-events" >}}). |
 | authentication_admin_pass | string; Password for administrative access to the BDB (used for SYNC from the BDB) |
 | authentication_redis_pass | string; Redis AUTH password authentication.  <br/>Use for Redis databases only.  Ignored for memcached databases. (deprecated as of Redis Software v7.2, replaced with multiple passwords feature in version 6.0.X) |
 | authentication_sasl_pass | string; Binary memcache SASL password |
@@ -77,7 +78,7 @@ An API object that represents a managed database in the cluster.
 | data_internode_encryption | boolean;  Should the data plane internode communication for this database be encrypted |
 | data_persistence | Database on-disk persistence policy. For snapshot persistence, a [snapshot_policy]({{< relref "/operate/rs/references/rest-api/objects/bdb/snapshot_policy" >}}) must be provided<br />Values:<br />**'disabled'** <br />'snapshot'<br />'aof' |
 | dataset_import_sources | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}});  Array of source file location description objects to import from when performing an import action. This is write-only and cannot be read after set. <br />Call `GET /v1/jsonschema` to retrieve the object's structure. |
-| db_conns_auditing | boolean;  Enables/deactivates [database connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) |
+| db_conns_auditing | boolean; deprecated as of Redis Software 8.2.0; use `audit_settings.audit_mode` instead. Enables/deactivates [database connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) |
 | default_user | boolean (default:&nbsp;true); Allow/disallow a default user to connect |
 | disabled_commands | string (default: ); Redis commands which are disabled in db |
 | <span class="break-all">disconnect_clients_on_password_removal</span> | boolean (default: false); Controls whether client connections using removed, revoked, or rotated passwords are actively disconnected |
@@ -97,6 +98,8 @@ An API object that represents a managed database in the cluster.
 | gradual_src_mode | Indicates if gradual sync (of sync sources) should be activated<br />Values:<br />'enabled'<br />'disabled' |
 | gradual_sync_max_shards_per_source | integer (default:&nbsp;1); Sync a maximum of N shards per source in parallel (gradual_sync_mode should be enabled for this to take effect) |
 | gradual_sync_mode | Indicates if gradual sync (of source shards) should be activated ('auto' for automatic decision)<br />Values:<br />'enabled'<br />'disabled'<br />'auto' |
+| gradual_sync_policy | string (default: default); Managed gradual (parallel) full sync policy for replica synchronization. Non-custom policies own and normalize the limit fields in `gradual_sync_policy_parameters`.<br />Values:<br />'default'<br />'non-gradual'<br />'migration'<br />'replica'<br />'active-active'<br />'custom' |
+| <span class="break-all">gradual_sync_policy_parameters</span> | object; Gradual full sync limits, applied when `gradual_sync_policy` is `custom`. Each limit accepts `-1` (no limit) or a positive integer; `0` is not valid. Includes `src_endpoint_limit` (default: 1), `dst_endpoint_limit`, `dst_shard_limit`, and `src_node_limit` (default: -1). |
 | hash_slots_policy | The policy used for hash slots handling<br />Values:<br/> **'legacy'**: slots range is '1-4096'<br /> **'16k'**: slots range is '0-16383' |
 | implicit_shard_key | boolean (default:&nbsp;false); Controls the behavior of what happens in case a key does not match any of the regex rules. <br /> **true**: if a key does not match any of the rules, the entire key will be used for the hashing function <br /> **false**: if a key does not match any of the rules, an error will be returned. |
 | import_failure_reason | Import failure reason (read-only)<br />Values:<br />'download-error'<br />'file-corrupted'<br />'general-error'<br />'file-larger-than-mem-limit:\<n bytes of expected dataset>:\<n bytes configured bdb limit>'<br />'key-too-long'<br />'invalid-bulk-length'<br />'out-of-memory' |
@@ -147,7 +150,7 @@ An API object that represents a managed database in the cluster.
 | resp3 | boolean (default:&nbsp;true); Enables or deactivates RESP3 support |
 | roles_permissions | {{<code>}}[{<br />  "role_uid": integer,<br />  "redis_acl_uid": integer<br />}, ...]{{</code>}} |
 | sched_policy | Controls how server-side connections are used when forwarding traffic to shards.<br />Values:<br />**cmp**: Closest to max_pipelined policy. Pick the connection with the most pipelined commands that has not reached the max_pipelined limit.<br />**mru**: Try to use most recently used connections.<br />**spread**: Try to use all connections.<br />**mnp**: Minimal pipeline policy. Pick the connection with the least pipelined commands. |
-| search | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/search" >}}); Configuration fields for search and query. |
+| search | [complex object]({{< relref "/operate/rs/references/rest-api/objects/bdb/search" >}}); Configuration fields for Redis Search. |
 | search_on_bigstore | boolean (default: false); Include search module in Redis on flash v2 (Flex databases) |
 | shard_block_crossslot_keys | boolean (default:&nbsp;false); In Lua scripts, prevent use of keys from different hash slots within the range owned by the current shard |
 | shard_block_foreign_keys | boolean (default:&nbsp;true); In Lua scripts, `foreign_keys` prevent use of keys which could reside in a different shard (foreign keys) |

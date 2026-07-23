@@ -21,6 +21,48 @@
         }
       }
     ],
+    "redis_rs_sync": [
+      {
+        "signature": "bf_exists(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "The item to check for"
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": "true if the item may exist, false if it definitely does not"
+        }
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "signature": "bf_exists(key: K, value: V)",
+        "params": [
+          {
+            "name": "key",
+            "type": "K",
+            "description": "The name of the Bloom filter"
+          },
+          {
+            "name": "value",
+            "type": "V",
+            "description": "The item to check for"
+          }
+        ],
+        "returns": {
+          "type": "(bool)",
+          "description": "true if the item may exist, false if it definitely does not"
+        }
+      }
+    ],
     "jedis": [
       {
         "signature": "boolean bfExists(String key, String item)",

@@ -76,20 +76,12 @@ The name of the key.
 
 {{< clients-example set="cmds_generic" step="ttl" description="Foundational: Check remaining time-to-live of a key using TTL (returns seconds remaining, -1 if no expiry, -2 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "Hello"
-"OK"
+OK
 > EXPIRE mykey 10
 (integer) 1
 > TTL mykey
 (integer) 10
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET mykey "Hello"
-EXPIRE mykey 10
-TTL mykey
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

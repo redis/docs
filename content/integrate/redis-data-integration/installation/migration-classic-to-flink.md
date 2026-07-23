@@ -17,37 +17,36 @@ weight: 35
 ---
 
 RDI ships with two stream processor implementations. The default *classic*
-processor is implemented in Python and runs on both VMs and Kubernetes. The
-*Flink* processor is built on top of [Apache Flink](https://flink.apache.org/)
-and currently runs on Kubernetes only. It can achieve much higher throughput
+processor is implemented in Python. The *Flink* processor is built on top of
+[Apache Flink](https://flink.apache.org/). Both run on VM and Kubernetes
+installations. The Flink processor can achieve much higher throughput
 during snapshots, scales horizontally by changing the number of TaskManager replicas,
 and uses Flink checkpointing for fault tolerance. See [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
 for an overview.
 
 This page describes how to migrate an existing pipeline from the classic
-processor to the Flink processor.
-
-{{< note >}}The Flink processor is currently supported on Kubernetes only. VM
-installations must continue to use the classic processor.{{< /note >}}
+processor to the Flink processor. The steps are the same on VMs and Kubernetes,
+except for the optional Helm-level tuning in [Step 1](#step-1-configure-the-flink-processor-at-the-helm-chart-level-kubernetes),
+which applies to Kubernetes only.
 
 ## Before you migrate
 
 Confirm that your pipeline is compatible with the Flink processor:
 
--   The Flink processor supports `hash` and `json` target data types only. If
-    any of your jobs use the `set`, `sorted_set`, `stream`, or `string` data
-    types, those jobs must be rewritten or kept on the classic processor.
 -   `JSON.MERGE` semantics differ from the classic processor's Lua-based merge
     when null values are involved (see
     [`use_native_json_merge`]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
     The Flink processor always uses the native `JSON.MERGE` command when the
     target database supports it.
--   Ensure your Kubernetes cluster has enough capacity for the Flink JobManager
+-   Ensure your Kubernetes cluster or VM has enough capacity for the Flink JobManager
     and TaskManager pods (see
     [Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}})
     for the default sizing).
 
-## Step 1: Configure the Flink processor at the Helm chart level
+## Step 1: Configure the Flink processor at the Helm chart level (Kubernetes)
+
+This step applies to **Kubernetes** installations only. On VM installations,
+skip it and enable the Flink processor per pipeline in step 2.
 
 The Flink processor is always available — no opt-in is required at the Helm
 chart level. The defaults are sized for typical workloads, so you can skip
@@ -57,6 +56,9 @@ your `rdi-values.yaml` file and run `helm upgrade` as described in
 [Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}}).
 Existing pipelines continue to run on the classic processor until you switch
 them in step 2.
+
+For VM installations, skip this step. You can configure per-pipeline Flink
+resources in step 4.
 
 ## Step 2: Switch the pipeline to the Flink processor
 
@@ -107,10 +109,6 @@ processors:
     source:
       # Time between checks for new input streams.
       discovery.interval.ms: 1000
-    target:
-      # Verify writes are replicated before acknowledging.
-      wait.enabled: true
-      wait.write.timeout.ms: 1000
     flink:
       # Number of parallel task slots per TaskManager pod.
       taskmanager.numberOfTaskSlots: 2

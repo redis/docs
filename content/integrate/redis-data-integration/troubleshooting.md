@@ -27,8 +27,7 @@ If the installer fails with an error, then try installing again with the
 log level set to `DEBUG`:
 
 ```bash
-./install.sh -l DEBUG   # Installer script
-redis-di install -l DEBUG    # Install command
+./install.sh --log-level DEBUG
 ```
 
 This gives you more detail about the installation steps and can often
@@ -72,8 +71,6 @@ This command gathers the following data:
 - List of secret names used by RDI components (but not the secrets themselves)
 - RDI logs
 - RDI component versions
-- Output from the [`redis-di status`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}}) command
 - Text of the `config.yaml` file
 - Text of the Job configuration files
-- [optional] RDI DLQ streams content
 - Rejected records along with the reason for their rejection (should not exist in production)

@@ -72,27 +72,12 @@ One or more keys to check for existence. A repeated key is counted once per occu
 ## Examples
 
 {{< clients-example set="cmds_generic" step="exists" description="Foundational: Check if one or more keys exist using EXISTS (returns count of existing keys, useful for conditional logic)" difficulty="beginner" >}}
-SET key1 "Hello"
-"OK"
-EXISTS key1
-(integer) 1
-EXISTS nosuchkey
-(integer) 0
-SET key2 "World"
-"OK"
-EXISTS key1 key2 nosuchkey
-(integer) 2
+> SET key1 "Hello"
+> EXISTS key1
+> EXISTS nosuchkey
+> SET key2 "World"
+> EXISTS key1 key2 nosuchkey
 {{< /clients-example >}}
-
-Give these commands a try in the interactive console:
-
-{{% redis-cli %}}
-SET key1 "Hello"
-EXISTS key1
-EXISTS nosuchkey
-SET key2 "World"
-EXISTS key1 key2 nosuchkey
-{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 
