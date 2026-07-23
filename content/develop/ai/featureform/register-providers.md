@@ -123,7 +123,7 @@ ff provider register demo_redis \
   --redis-port 12345
 ```
 
-In the quickstart definitions file, the feature view references this provider with `inference_store="demo_redis"`. See the [Redis documentation](https://redis.io/docs/latest/) for deployment options.
+In the quickstart definitions file, the feature view references this provider with `inference_store="demo_redis"`. To provision a managed Redis deployment, see the [Redis Cloud quick start]({{< relref "/operate/rc/rc-quickstart" >}}).
 
 ## Register S3 as an offline store
 

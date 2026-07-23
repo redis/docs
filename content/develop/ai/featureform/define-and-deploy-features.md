@@ -12,22 +12,23 @@ A feature workflow starts with a Python [definitions file]({{< relref "/develop/
 
 ## Author a definitions file
 
-Redis Feature Form treats a Python definitions file as the source of a desired resource graph. The example below declares a single workflow end to end, from a Postgres dataset through to a Redis-backed feature view.
+Redis Feature Form treats a Python definitions file as the source of a desired resource graph. The example below declares one complete workflow end to end: a Postgres dataset, a SQL rollup transformation, a feature with a 7-day aggregation, and a Redis-backed feature view.
 
 ```python
 import featureform as ff
 from datetime import timedelta
 
-postgres = ff.get_postgres("demo_postgres")
+postgres = ff.get_postgres("demo_postgres")      # Look up a provider already registered in the workspace
 
-customer = ff.Entity(name="customer")
+customer = ff.Entity(name="customer")            # Entity: the real-world object features describe
 
-transactions = postgres.dataset(
+transactions = postgres.dataset(                 # Dataset: registers an existing table with the graph
     name="transactions_raw",
     table="transactions",
     timestamp_column="timestamp",
 )
 
+# Transformation: derives a new dataset from existing ones via SQL
 @postgres.sql_transformation(name="customer_daily_rollups", inputs=[transactions])
 def customer_daily_rollups() -> str:
     return """
@@ -38,6 +39,7 @@ def customer_daily_rollups() -> str:
         GROUP BY 1, 2
     """
 
+# Feature: an aggregated value served to models at inference time
 customer_total_amount_7d = (
     ff.Feature(name="customer_total_amount_7d")
     .from_dataset(customer_daily_rollups, entity="customer",
@@ -46,13 +48,14 @@ customer_total_amount_7d = (
     .aggregate(function=ff.AggregateFunction.SUM, window=timedelta(days=7))
 )
 
-customer_risk_view = ff.FeatureView(
+customer_risk_view = ff.FeatureView(             # Feature view: groups features behind a serving contract
     name="customer_risk_feature_view",
     entity="customer",
     features=[customer_total_amount_7d],
     inference_store="demo_redis",
 )
 
+# Export every resource so ff apply registers them as the desired graph
 resources = [
     customer,
     transactions,

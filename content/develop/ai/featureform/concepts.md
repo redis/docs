@@ -54,14 +54,15 @@ The following example definitions file shows how the vocabulary above appears as
 import featureform as ff
 from datetime import timedelta
 
-customer = ff.Entity(name="customer")
+customer = ff.Entity(name="customer")            # Entity: the real-world object features describe
 
-transactions = postgres.dataset(
+transactions = postgres.dataset(                 # Dataset: registers an existing table with the graph
     name="transactions_raw",
     table="transactions",
     timestamp_column="timestamp",
 )
 
+# Transformation: derives a new dataset from existing ones via SQL
 @postgres.sql_transformation(name="customer_daily_rollups", inputs=[transactions])
 def customer_daily_rollups() -> str:
     return """
@@ -72,6 +73,7 @@ def customer_daily_rollups() -> str:
         GROUP BY 1, 2
     """
 
+# Feature: an aggregated value served to models at inference time
 customer_total_amount_7d = (
     ff.Feature(name="customer_total_amount_7d")
     .from_dataset(customer_daily_rollups, entity="customer",
@@ -80,7 +82,7 @@ customer_total_amount_7d = (
     .aggregate(function=ff.AggregateFunction.SUM, window=timedelta(days=7))
 )
 
-customer_risk_view = ff.FeatureView(
+customer_risk_view = ff.FeatureView(             # Feature view: groups features behind a serving contract
     name="customer_risk_feature_view",
     entity="customer",
     features=[customer_total_amount_7d],
