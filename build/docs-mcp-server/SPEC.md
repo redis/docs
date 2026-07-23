@@ -196,10 +196,16 @@ vector-on-Redis as a later upgrade to the **hosted** endpoint only.
 ## 10. Open questions
 
 - **Search backend:** resolved for v1 — lexical (BM25 over NDJSON), no
-  datastore, runs in both stdio and hosted modes (see §6). Open: do we add
-  vector search as a v2 upgrade to the hosted endpoint, backed by RediSearch /
-  RedisVL, and is the retrieval gain worth the added infra given how
-  well-structured the corpus already is?
+  datastore, runs in both stdio and hosted modes (see §6). **v2 vector: measured
+  and justified.** A measure-first experiment (`vector-eval/`, no Redis:
+  bge-small embeddings + numpy cosine, scored on the same 35-case eval) showed
+  **hybrid lexical+vector (RRF) clearly beats lexical alone** — overall recall@5
+  69%→86%, MRR 0.53→0.66; command @5 73%→91%. Vector *alone* only modestly beats
+  lexical, so fusion is the win. → Build the hosted RediSearch/RedisVL path with
+  a **hybrid** ranker (not pure vector). Caveat: concept queries stay weak
+  (vector ties lexical at @5; hybrid lifts @5 62%→77% but not top-1/3) — likely
+  because the experiment used coarse *page-level* chunks; **section-level
+  chunking** (the feed's `sections[]`) is the next lever, being measured next.
 - **Ranking quality (measured via the eval harness):** lexical BM25 with
   Porter stemming, stopword removal, title/summary/slug field boosts, and
   balanced page-type weighting (demote release-notes/REST-API/references only)
