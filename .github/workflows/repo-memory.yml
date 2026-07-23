@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - uses: redis-learn/redis-repo-memory@v1.0.2
+      - uses: redis-learn/redis-repo-memory@v1.0.3
         continue-on-error: true
         with:
           redis-url: ${{ secrets.MEMORY_REDIS_URL }}
