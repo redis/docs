@@ -26,7 +26,7 @@ Default (no argument) runs all steps below, including the external reconciles.
 
 1. **Identify the current project.**
    - Run `pwd` and `git -C "$PWD" branch --show-current` to get the working dir and branch.
-   - Match the branch (or its ticket key, e.g. `DOC-6645`) to a plan file: `grep -rl "<branch-or-ticket>" ~/claude-overview/plans/`. That plan file is the target.
+   - Match the branch (or its ticket key, e.g. `DOC-6645`) to a plan file: `grep -rl --exclude-dir=archive "<branch-or-ticket>" ~/claude-overview/plans/`. That plan file is the target. (Exclude `archive/` — standup skips it too, so an archived plan must not shadow the active one.)
    - If exactly one plan matches, use it. If none or several match, **ask the user which project** this checkpoint is for (list the candidates).
 
 2. **Capture the resume pointer.**
