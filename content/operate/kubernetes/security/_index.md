@@ -32,3 +32,7 @@ Configure security settings for Redis for Kubernetes. Security covers access con
 ## Resource management
 
 - [Allow resource adjustment]({{< relref "/operate/kubernetes/security/allow-resource-adjustment" >}}) — enable automatic adjustment of system resources for security compliance.
+
+## Compliance
+
+- [FIPS compliance]({{< relref "/operate/kubernetes/security/fips" >}}) — run your cluster in FIPS 140-3 compliance mode.
