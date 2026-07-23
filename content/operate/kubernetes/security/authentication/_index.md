@@ -40,6 +40,7 @@ The underlying Redis Software behavior is unchanged. For concepts and reference 
 ## In this section
 
 - [Manage REC credentials]({{< relref "/operate/kubernetes/security/authentication/manage-rec-credentials" >}}) — retrieve and update the cluster admin credentials Secret.
+- [Manage REDB passwords]({{< relref "/operate/kubernetes/security/authentication/manage-redb-credentials" >}}) — retrieve and rotate database passwords through the database Secret.
 - [Configuration secrets]({{< relref "/operate/kubernetes/security/authentication/configuration-secrets" >}}) — store config items in Kubernetes Secrets and reconcile updates automatically.
 - [LDAP authentication]({{< relref "/operate/kubernetes/security/authentication/ldap" >}}) — configure LDAP for Cluster Manager and database access.
 - [SSO authentication]({{< relref "/operate/kubernetes/security/authentication/sso" >}}) — configure SAML single sign-on for the Cluster Manager UI.
