@@ -4,6 +4,8 @@ description: Learn how to develop with Redis as an AI agent
 linkTitle: AI Agent Resources
 ---
 
+foo
+
 ## `llms.txt` index of documentation
 
 Redis provides a comprehensive index of all documentation in Markdown format at [llms.txt](https://redis.io/llms.txt). This index is specifically designed for AI agents to discover available documentation.
