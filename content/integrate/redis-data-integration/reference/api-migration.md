@@ -25,7 +25,7 @@ API v2 uses the pipeline resource to represent the current state of a pipeline. 
 RDI 1.19.0 supports only one pipeline, which must be named `default`. Support for other pipeline names will be added in a future version.
 {{< /note >}}
 
-The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` where a corresponding v2 endpoint is available. Review the request and response models as well, because they can differ between versions.
+The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` where a corresponding v2 endpoint is available. You should also review the request and response models, because they can differ between versions.
 
 ## Endpoint mapping
 
@@ -52,11 +52,11 @@ The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` w
 | `POST /api/v1/pipelines/undeploy` | `DELETE /api/v2/pipelines/{name}` |
 | `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
 
-API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the generated [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the complete list.
+API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the complete list.
 
 ## v1 endpoints without a v2 equivalent
 
-Most v1 endpoints have a v2 replacement. The following endpoints remain available under v1 because the current API v2 design does not define a corresponding endpoint:
+Most v1 endpoints have a v2 replacement. However, the following endpoints remain available under v1 because the current API v2 design does not define a corresponding endpoint:
 
 | v1 endpoint | Notes |
 | --- | --- |
@@ -81,7 +81,7 @@ curl -sS "$RDI_URL/api/v1/actions/$action" \
   -H "Authorization: Bearer $RDI_TOKEN"
 ```
 
-With API v2, include the pipeline name in the operation URL and read the pipeline status. The operation response contains the current pipeline state; if the pipeline is still changing, poll its status endpoint:
+With API v2, you should instead include the pipeline name in the operation URL to read its status. The operation response contains the current pipeline state. You can check the pipeline's status by polling its status endpoint, as shown below:
 
 ```bash
 pipeline=default
@@ -105,7 +105,12 @@ while true; do
 done
 ```
 
-For a stop operation, wait for `stopped` instead of `started`. For a reset, update, or create operation, wait for the corresponding successful state returned by the API. Only accept a terminal status when `current` is `true`; when it is `false`, the status is outdated and the client should continue polling. Always handle `error` as a failed operation. Use the status values documented by the API response for the operation you are performing; do not expect an action ID from API v2.
+Note:
+
+- The successful state depends on the operation. For a stop, reset, update, or create operation, wait for the corresponding successful state returned by the API. For example, wait for `stopped` instead of `started` for a stop operation.
+- Only accept a terminal status when `current` is `true`. When it is `false`, the status is outdated, so continue polling.
+- Always handle `error` as a failed operation. Use the status values documented by the API response for the operation you are performing to check for errors.
+- Do not expect an action ID from API v2.
 
 ## Migration steps
 
