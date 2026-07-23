@@ -55,5 +55,14 @@ gitignored (venv, caches, `lexical.json`). Note: embedding runs slowly here
 | equal RRF (1:1) | .69 | .76 | 92 / 100 |
 | **weighted RRF (3:1)** | **.73** | **.80** | **92 / 100** |
 
+## Model comparison (bge-small vs bge-base)
+
+`EMBED_MODEL=BAAI/bge-base-en-v1.5 python eval_vector.py section` (per-model
+cache). At weighted RRF 3:1: bge-base overall MRR .74 vs bge-small .73,
+command .82 vs .80, concept .61 vs .62 — **recall@5 identical** (91/91/92).
+The only real gain is command (already strong); concept (the weak spot) is
+flat. **Kept bge-small**: bge-base costs ~2× vector size + compute (and embeds
+at half the speed here) for a rounding-error overall gain.
+
 Limitations: small eval (35 cases, 13 concept — directional, not definitive);
-sections truncated to ~1200 chars; single small model (bge-small).
+sections truncated to ~1200 chars.
