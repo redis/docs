@@ -117,7 +117,7 @@ the specific upgrade method you use, as detailed in the table below.
 
 ### Redis Enterprise for Kubernetes
 
-SCH is not currently supported for [Kubernetes]({{< relref "/operate/kubernetes" >}}) clusters.
+SCH is supported for [Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes" >}}) when your application and the Redis Enterprise cluster run within the same Kubernetes pod network. As with Redis Software, you enable SCH using the REST API. See [Enable smart client handoffs (SCH)]({{< relref "/operate/kubernetes/networking/smart-client-handoffs" >}}) for instructions.
 
 ### Redis Open Source
 
