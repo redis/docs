@@ -22,8 +22,9 @@ jobs:
         with:
           fetch-depth: 2
 
-      - uses: redis-learn/redis-repo-memory@v1
+      - uses: redis-learn/redis-repo-memory@v1.0.1
         continue-on-error: true
         with:
           redis-url: ${{ secrets.MEMORY_REDIS_URL }}
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          github-token: ${{ github.token }}
