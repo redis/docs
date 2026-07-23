@@ -1,5 +1,10 @@
 import type { Page } from "./types.js";
-import { stem } from "./stem.js";
+import { stem as stemPorter } from "./stem.js";
+import { stem as stemPaice } from "./stem-paice.js";
+
+// Stemmer is switchable for the eval bake-off (STEMMER=paice|porter). Porter is
+// the default/shipped analyzer.
+const stem = (process.env.STEMMER ?? "porter").toLowerCase() === "paice" ? stemPaice : stemPorter;
 
 // Self-contained BM25 lexical index. No external search dependency: at
 // ~4,100 docs the whole index builds in-memory in well under a second, which

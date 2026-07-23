@@ -95,6 +95,15 @@ concept @5 46%→62% for command @5 86%→73% (SPEC §10). The residual misses a
 pure semantic gaps that motivate vector search (SPEC §6/§10) — the right lever
 for lifting both, rather than a bigger thumb on the scale.
 
+**Stemmer:** Porter (`src/stem.ts`) is the default. A Paice/Lancaster stemmer
+(`src/stem-paice.ts`) is available behind `STEMMER=paice` for comparison. Bake-off
+on this eval: Porter wins or ties — Porter overall @5 69% / MRR 0.53 vs Paice
+63% / 0.52; Paice edges @1 (its aggressive conflation occasionally nabs the exact
+top hit) but is worse at @3–@10 and on concept, and over-stems (e.g.
+`organization → org`). Kept Porter. (Small margins at n=35, and the stemmer only
+really matters for the pure-lexical deployment — in the hybrid recipe lexical is
+the minority signal.)
+
 ## Known limitations (v0)
 
 - **Ranking is lexical (BM25 + Porter stemming + field/page-type weighting).**
