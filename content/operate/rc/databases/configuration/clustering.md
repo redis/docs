@@ -100,7 +100,7 @@ The Redis hashing policy is identical to the [hashing policy used by Redis Open 
 - Your application does not use hashtags in database key names.
 - Your application uses binary data as key names.
 
-The Redis hashing policy allows for [faster scaling](#smooth-scaling) where available.
+The Redis hashing policy allows for [Smooth Scaling](#smooth-scaling) where available.
 
 ### Standard hashing policy
 
@@ -192,29 +192,26 @@ The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enab
 
 After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database.
 
-The OSS Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy).
+The OSS Cluster API is supported when a database uses the [standard hashing policy](#standard-hashing-policy) or the [Redis hashing policy](#redis-hashing-policy).
 
 Review [OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
 
 ## Smooth scaling {#smooth-scaling}
 
-Smooth scaling is an improved resharding method for Redis Cloud Pro databases. Compared to legacy resharding, it is significantly faster, reduces latency spikes and disconnects during scaling, and supports scaling down (decreasing shard count). Legacy resharding always doubles the shard count and does not support scale-down.
+Smooth scaling is an improved resharding method for Redis Cloud Pro databases. Compared to traditional resharding, it is significantly faster and reduces latency spikes and disconnects during scaling.
 
 {{< note >}}
-Smooth scaling is only available for new databases. Existing databases continue to use legacy resharding.
+Smooth scaling is available for databases that meet the following prerequisites. Other databases continue to use traditional scaling.
 {{< /note >}}
 
 ### Prerequisites
 
-All of the following conditions must be met to use smooth scaling:
+Smooth scaling is used automatically when a database meets all of the following conditions:
 
 | Requirement | Detail |
 |---|---|
-| New database | Smooth scaling cannot be enabled on an existing database. |
-| Hashing policy | Must use the [Redis hashing policy](#redis-hashing-policy). Standard and Custom hashing policies are not supported. |
+| Hashing policy | Must use the [Redis hashing policy](#redis-hashing-policy). Databases using the Standard or Custom hashing policy use traditional scaling instead. |
 | Database version | Redis 8.4 or later. |
-| Cluster version | Redis Cloud cluster version 8.0.18 or later. |
-| High availability | HA must be enabled. Without HA, a database restart during scaling risks data loss. |
 
 ### Not supported
 
@@ -226,11 +223,4 @@ Smooth scaling is not available for:
 
 ### Backward compatibility
 
-Enabling smooth scaling puts shards into cluster mode, which enforces the same-slot requirement for multi-key commands. For most new databases this is safe to enable immediately, but there are cases where you should wait:
-
-| Database configuration | Recommendation |
-|---|---|
-| Created with multiple shards | Safe to enable immediately. |
-| Created with OSS Cluster API enabled | Safe to enable immediately. |
-| Created with a single shard | Wait until after the first scale operation before enabling, to ensure slot-aware behavior is introduced gradually. |
-| HA disabled | Do not enable until HA is turned on. |
+You do not need to make any changes to your application code. The changes related to smooth scaling are implemented internally and do not affect RESP commands or how clients connect to and communicate with the database.
