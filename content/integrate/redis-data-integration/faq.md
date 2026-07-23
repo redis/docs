@@ -44,9 +44,7 @@ supported source databases:
   only when RDI is deployed on Kubernetes with Helm.
 
 For the complete list of supported source databases and versions, see
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}}):
-
-{{< embed-md "rdi-supported-source-versions.md" >}}
+[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}}).
 
 ## How much data can RDI process?
 
