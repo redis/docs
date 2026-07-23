@@ -106,7 +106,9 @@ This section edits the secrets under the REAADB `.spec.globalConfigurations` sec
 
 ## Configure role permissions
 
-You can configure role-based access control (RBAC) permissions for Active-Active databases using the `rolesPermissions` field in the REAADB `.spec.globalConfigurations` section. The role permissions configuration is propagated across all participating clusters, but the underlying roles and Redis ACLs must be manually created on each cluster.
+You can configure role-based access control (RBAC) permissions for Active-Active databases using the `rolesPermissions` field in the REAADB `.spec.globalConfigurations` section. The role permissions configuration is propagated across all participating clusters, but the underlying roles and Redis ACLs must be created on each cluster.
+
+You can define those roles and ACLs as Kubernetes resources with the [`RedisEnterpriseRole`]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) and [`RedisEnterpriseACL`]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}) custom resources, or create them directly through the Redis Enterprise admin console or REST API. For an overview of the Kubernetes-native model, see [Access control]({{< relref "/operate/kubernetes/security/access-control" >}}).
 
 {{<note>}}You must manually create the specified roles and Redis ACLs on all participating clusters before configuring role permissions. The operator only propagates the role permissions configuration—it does not create the underlying roles and ACLs. If roles or ACLs are missing on any cluster, the operator will log errors and dispatch an Event associated with the REAADB object until they are manually created.{{</note>}}
 
@@ -114,7 +116,7 @@ You can configure role-based access control (RBAC) permissions for Active-Active
 
 Before configuring role permissions:
 
-1. Manually create the required roles and Redis ACLs on all participating clusters using the Redis Enterprise admin console or REST API.
+1. Create the required roles and Redis ACLs on all participating clusters, either as [`RedisEnterpriseRole`]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) and [`RedisEnterpriseACL`]({{< relref "/operate/kubernetes/security/access-control/manage-acls" >}}) resources or through the Redis Enterprise admin console or REST API.
 2. Ensure role and ACL names match exactly across all clusters (names are case-sensitive).
 3. Verify that roles and ACLs are properly configured on each cluster.
 
