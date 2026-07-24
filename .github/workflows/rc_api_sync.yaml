@@ -2,8 +2,8 @@ name: rc_api_sync
 
 on:
   schedule:
-    - cron: '0 0 * * *' # run every day at midnight UTC time
-  workflow_dispatch: # or run on manual trigger
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 jobs:
   rc_api_sync:
@@ -11,60 +11,115 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      actions: write
     steps:
-      - name: 'Checkout'
-        uses: 'actions/checkout@v3'
+      - name: Check out the docs repository
+        uses: actions/checkout@v4
 
-      - name: 'Fetch openapi json file'
+      - name: Test the OpenAPI tools
+        run: |
+          python3 -m unittest \
+            scripts/tests/test_validate_openapi.py \
+            scripts/tests/test_openapi_change_summary.py
+
+      - name: Download and test the Redis Cloud OpenAPI file
+        id: openapi
+        run: |
+          set -euo pipefail
+
+          raw_file="$(mktemp)"
+          normalized_file="$(mktemp)"
+
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --location \
+            --retry 3 \
+            --retry-all-errors \
+            --output "${raw_file}" \
+            https://api.redislabs.com/v1/cloud-api-docs
+
+          jq '(.. | .example? | try select(test("^{"))) |= fromjson' \
+            "${raw_file}" > "${normalized_file}"
+
+          test -s "${normalized_file}"
+          python3 scripts/validate_openapi.py "${normalized_file}" --require-rdi
+          mv "${normalized_file}" /tmp/redis-cloud-openapi.json
+
+          sources=$(jq -c '.["x-openapi-sources"] // {}' /tmp/redis-cloud-openapi.json)
+          echo "sources=${sources}" >> "${GITHUB_OUTPUT}"
+
+      - name: Summarize the OpenAPI changes
+        run: |
+          python3 scripts/openapi_change_summary.py \
+            content/operate/rc/api/api-reference/openapi.json \
+            /tmp/redis-cloud-openapi.json \
+            --output /tmp/rc-api-sync-change-summary.md
+
+      - name: Open or update the docs pull request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAPI_SOURCES: ${{ steps.openapi.outputs.sources }}
         run: |
+          set -euo pipefail
+
           branch="rc_api_sync"
-          spec_change=false
+          target_file="content/operate/rc/api/api-reference/openapi.json"
 
-          # check if remote branch already exists
-          git fetch --all
-          set +e
-          git ls-remote --exit-code --heads origin "refs/heads/${branch}"
-          if [ "$?" -eq 0 ]; then
-            set -e
-            # if it does, create local branch off existing remote branch
-            git checkout -b "${branch}" "origin/${branch}"
-            git branch --set-upstream-to="origin/${branch}" "${branch}"
-            git pull
+          git fetch origin main
+          git fetch origin "${branch}" || true
+          git switch -C "${branch}" origin/main
+          cp /tmp/redis-cloud-openapi.json "${target_file}"
+
+          if git diff --quiet -- "${target_file}"; then
+            echo "The Redis Cloud OpenAPI file has not changed."
+            exit 0
+          fi
+
+          git add "${target_file}"
+          git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
+          git config user.name "redisdocsapp[bot]"
+          git commit -m "Update Redis Cloud OpenAPI file"
+
+          if git show-ref --verify --quiet "refs/remotes/origin/${branch}"; then
+            git push --force-with-lease origin "HEAD:${branch}"
           else
-            set -e
-            # otherwise, create local branch from main
-            git checkout -b "${branch}"
+            git push --set-upstream origin "HEAD:${branch}"
           fi
 
-          curl -Ls https://api.redislabs.com/v1/cloud-api-docs \
-            | jq '(.. | .example? | try select(test("^{"))) |= fromjson' > content/operate/rc/api/api-reference/openapi.json
+          pull_request=$(
+            gh pr list \
+              --repo redis/docs \
+              --head "${branch}" \
+              --base main \
+              --state open \
+              --json number \
+              --jq '.[0].number // empty'
+          )
 
-          spec_is_different=$(git diff content/operate/rc/api/api-reference/openapi.json)
+          {
+            echo "This PR updates the Redis Cloud OpenAPI file from the deployed API."
+            echo
+            cat /tmp/rc-api-sync-change-summary.md
+            echo
+            printf 'Source metadata: `%s`\n' "${OPENAPI_SOURCES}"
+          } > /tmp/rc-api-sync-pr-body.md
 
-          if [[ ! -z $spec_is_different ]]; then
-            spec_change=true
-
-            git add "content/operate/rc/api/api-reference/openapi.json"
-            git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
-            git config user.name "redisdocsapp[bot]"
-            git commit -m "Update content/operate/rc/api/api-reference/openapi.json"
-          fi
-
-          if [ "$spec_change" = true ] ; then
-            git push origin "${branch}"
-
-            # If a pr is not already open, create one
-            set +e
-            gh search prs -R redis/docs --state open --match title "update rc openapi spec" | grep -q "update rc openapi spec"
-            if [ "$?" -eq 1 ]; then
-              set -e
-              gh pr create \
-                --body "update rc openapi spec" \
-                --title "update rc openapi spec" \
-                --head "$branch" \
-                --base "main"
-            fi
+          if [[ -z "${pull_request}" ]]; then
+            gh pr create \
+              --repo redis/docs \
+              --title "Update Redis Cloud OpenAPI file" \
+              --body-file /tmp/rc-api-sync-pr-body.md \
+              --head "${branch}" \
+              --base main
+          else
+            jq -n \
+              --rawfile body /tmp/rc-api-sync-pr-body.md \
+              '{body: $body}' > /tmp/rc-api-sync-pr-update.json
+            gh api \
+              --method PATCH \
+              "repos/redis/docs/pulls/${pull_request}" \
+              --input /tmp/rc-api-sync-pr-update.json \
+              --silent
+            echo "Updated pull request #${pull_request} and its change summary."
           fi
