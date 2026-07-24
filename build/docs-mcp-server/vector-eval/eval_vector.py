@@ -35,8 +35,8 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 FEED = os.path.join(HERE, "..", "node", "test", "eval", "docs.ndjson.gz")
 LEXICAL = os.path.join(HERE, "lexical.json")
-MODEL = "BAAI/bge-small-en-v1.5"
-DIM = 384  # bge-small-en-v1.5
+DEFAULT_MODEL = "BAAI/bge-small-en-v1.5"
+MODEL = os.environ.get("EMBED_MODEL", DEFAULT_MODEL)  # e.g. BAAI/bge-base-en-v1.5
 BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 LEAD_CHARS = 1200
 MAX_SECTIONS = 8
@@ -44,7 +44,13 @@ CKPT_EVERY = 1024
 KS = [1, 3, 5, 10]
 
 MODE = (sys.argv[1] if len(sys.argv) > 1 else "section").lower()
-CACHE = os.path.join(HERE, f"embeddings-{MODE}.npz")
+# Default model keeps its original cache name (back-compat); other models get a
+# per-model cache so runs don't clobber each other.
+_SLUG = MODEL.split("/")[-1]
+CACHE = os.path.join(
+    HERE,
+    f"embeddings-{MODE}.npz" if MODEL == DEFAULT_MODEL else f"embeddings-{MODE}-{_SLUG}.npz",
+)
 
 
 def norm_url(u):
@@ -116,7 +122,7 @@ def embed_batch(model, texts, is_query=False):
 
 def get_corpus_embeddings(texts, owners):
     total = len(texts)
-    emb = np.zeros((total, DIM), dtype=np.float32)
+    emb = None  # allocated once we know the model's embedding dimension
     start = 0
     if os.path.exists(CACHE):
         d = np.load(CACHE, allow_pickle=True)
@@ -131,7 +137,10 @@ def get_corpus_embeddings(texts, owners):
     t0 = time.time()
     for s in range(start, total, CKPT_EVERY):
         e = min(s + CKPT_EVERY, total)
-        emb[s:e] = embed_batch(model, texts[s:e])
+        batch = embed_batch(model, texts[s:e])
+        if emb is None:
+            emb = np.zeros((total, batch.shape[1]), dtype=np.float32)
+        emb[s:e] = batch
         rate = (e - start) / (time.time() - t0)
         print(f"    {e}/{total} chunks ({rate:.0f}/s)", flush=True)
         np.savez(CACHE, emb=emb, owners=owners, total=total, n_done=e)
