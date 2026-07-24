@@ -27,23 +27,23 @@ whether to commit the change.
 
 | Capability | Confidence | Real encounters | Last verified | Evidence |
 |---|---|---|---|---|
-| Branch/PR identification + arg handling | 🟢 corroborated | 8 | 2026-07-02 | #3415, #3507, #3374, #3536, #3542, #3543, #3573, #2531 |
-| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 9 | 2026-07-02 | #3415, #3507, #3510, #3374, #3536, #3542, #3543, #3573, #2531 |
-| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 7 | 2026-07-02 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3542 (3 resolved/1 open), #3543 (1/1 open), #3573 (2/2 open), #2531 (r1: 11 open/2 res-outdated/1 open; r2: 11 of 14 outdated after fixes + APPROVED) |
-| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 8 | 2026-07-02 | #3415, #3507, #3374, #3536, #3542, #3543, #3573, #2531 |
-| Open/resolved split | 🟢 corroborated | 7 | 2026-07-02 | #3510, #3374, #3536 (0 resolved/2 open), #3542 (3 resolved/1 open), #3543, #3573 (r1/r2 mixed), #2531 (11 open / 3 resolved) |
-| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 5 | 2026-07-02 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #3542 (xargs+guard, narrowed exclude, SHA pin landed), #3573 (relpath + `--add` dedup landed), #2531 (r1 found decimal thread 2619563419 reverted; r2 doc fixes landed + engineer ZdravkoDonev **APPROVED**) |
+| Branch/PR identification + arg handling | 🟢 corroborated | 9 | 2026-07-24 | #3415, #3507, #3374, #3536, #3542, #3543, #3573, #2531, #3585 |
+| Multi-source collection (inline + top-level + reviews) | 🟢 corroborated | 10 | 2026-07-24 | #3415, #3507, #3510, #3374, #3536, #3542, #3543, #3573, #2531, #3585 |
+| GraphQL thread-resolution pull (`isResolved`/`isOutdated`) | 🟢 corroborated | 8 | 2026-07-24 | #3510 (12/12 resolved), #3374 (15/15), #3536 (2/2 open), #3542 (3 resolved/1 open), #3543 (1/1 open), #3573 (2/2 open), #2531 (r1: 11 open/2 res-outdated/1 open; r2: 11 of 14 outdated after fixes + APPROVED), #3585 (10 threads: 2 open / 8 resolved, of which 1 resolved+not-outdated) |
+| Source-role tagging (bugbot/security/history/summary/ci/human) | 🟢 corroborated | 9 | 2026-07-24 | #3415, #3507, #3374, #3536, #3542, #3543, #3573, #2531, #3585 (bugbot + Jit security + CLA/Jira ci + **Redis Memory history bot** + Cursor summary) |
+| Open/resolved split | 🟢 corroborated | 8 | 2026-07-24 | #3510, #3374, #3536 (0 resolved/2 open), #3542 (3 resolved/1 open), #3543, #3573 (r1/r2 mixed), #2531 (11 open / 3 resolved), #3585 (2 open / 8 resolved) |
+| Fix-quality spot-check (genuinely fixed vs silenced) | 🟢 corroborated | 6 | 2026-07-24 | #3510 (term removals landed), #3374 (`num_docs`, dropIndex landed), #3542 (xargs+guard, narrowed exclude, SHA pin landed), #3573 (relpath + `--add` dedup landed), #2531 (r1 found decimal thread 2619563419 reverted; r2 doc fixes landed + engineer ZdravkoDonev **APPROVED**), #3585 (dup-id High genuinely fixed in get-page.ts via ambiguous()+candidates; EMBED_MODEL fix landed 85e1d0d17 — both real, not silenced; r2: the 2 prior-open findings confirmed genuinely fixed — empty-index guard added to index.ts main() [now resolved+not-outdated, Medium], matchingSections deferred past top-k with lexical/hybrid MRR .525/.704 unchanged) |
 | "Resolved ≠ fixed" flag — **legitimate deferral** variant | 🟡 seen once | 1 | 2026-06-23 | #3510 (TS.BGET:122 left pending eng) |
 | "Resolved ≠ fixed" flag — **still-broken / reverted** variant | 🟡 seen once | 1 | 2026-06-30 | #2531 (resolved+outdated thread 2619563419 said decimal default=`string`; a later rewrite reverted current code to `precise`, so the resolved fix is no longer in the code — engineer re-raised it as 3496835587). Regression flavour; see worked examples |
-| Cross-tool **agreement** | 🟡 seen once | 1 | 2026-06-23 | #3374 (Claude + bugbot independently on `num_docs`) |
+| Cross-tool **agreement** | 🟢 corroborated | 2 | 2026-07-24 | #3374 (Claude + bugbot independently on `num_docs`); #3585 (bugbot finding 3639447417 "EMBED_MODEL documented but never read" independently matched the orphaned diff the author had already identified & committed as 85e1d0d17 — both flagged the parametrization missing from committed code) |
 | **Contradiction** detection | 🟢 corroborated | 2 | 2026-07-02 | #3415 (approval vs open bugbot finding); #2531 (RDI engineer's repo ground truth contradicts the page's Debezium-docs claims on ≥4 points — version, decimal default, temporal pass-through, MariaDB connector — **and** engineer-vs-existing-doc on temporal normalization). *(#3507 was an off-branch manual demo — not counted.)* |
 | **Ping-pong loop** detection | ❓ untested | 0 | 2026-07-02 | still no true tool A↔B loop across #3536 (4 rounds), #3542 (r2 "empty-scope"), #3573 (r1 fixed point; r2 independent), or #2531. #3542/#3573 were churn not loops; #2531's nearest reopened-concern was the decimal regression (resolved Dec → reverted by a June rewrite → re-raised) — a regression across one rewrite, not a cycle |
 | **Subsystem churn** detection (repeated findings on one patched area) | 🟢 corroborated | 3 PRs | 2026-07-02 | 3 distinct PRs. #3536 — 3 instances (review-handling / churn-feature / cap↔report contract). #3542 — 2 instances on the extraction *fail-loud-on-empty* contract (r1 ARG_MAX silent-green → r2 sibling zero-files `exit 0`). #3573 — 2 instances on the `--add` virtual-merge mechanism (r1 dup-vs-disk → r2 dropped-under-collapse). Worked examples below |
 | Approval-over-open-finding cross-check | 🟢 corroborated | 6 | 2026-07-02 | #3415 (dwdougherty), #3374 (low-confidence over open HIGH), #3536 (high-confidence over 2 open Mediums: benign), #3542 (paoloredis "yep go ahead" 7 min after open Medium #3498159511; unacknowledged), #3573 (dwdougherty "Sure, why not?" APPROVED 13:41 over open findings; 2 bot findings landed 13:49 after), #2531 (run1 correct **negative** — no approval; run2 **positive** — ZdravkoDonev APPROVED 13:13 then bugbot finding 3499796857 landed 15:08, and he approved over 2-3 of his own still-open findings incl. the temporal one) |
 | Depth cap / prioritisation under load | 🟢 corroborated | 2 | 2026-07-02 | #3374 (19 candidate findings → 4 deep-verified); #2531 (r1: 14 threads → 5 deep-verified, 6 deferred). *(#3542/#3573 were under cap — not load tests)* |
-| Mandatory deep-verify of resolved+not-outdated HIGH | 🟡 seen once | 1 | 2026-07-02 | #3542 #3467309496 (High "Grep failure skips link check", resolved + isOutdated:false) — deep-verified against current code: xargs+guard genuinely present, so legitimately fixed (not still-broken). First real firing of the rule |
-| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 6 | 2026-07-02 | #3374 (bugbot mostly accepted); #3536 (5/5 valid); #3542 (3/3 valid — 2 fixed, 1 open); #3543 (1/1 valid; Jit 0); #3573 (4/4 valid; Jit 0); #2531 (r1 bugbot 0 findings; r2 bugbot 1/1 valid — caught the ledger duplicate-rows defect 3499796857; Jit 0) |
-| Codex second-opinion availability gate | 🟢 corroborated | 6 | 2026-07-02 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review), #3542, #3543, #3573, #2531 (codex on PATH) |
+| Mandatory deep-verify of resolved+not-outdated HIGH | 🟢 corroborated | 2 | 2026-07-24 | #3542 #3467309496 (High "Grep failure skips link check", resolved + isOutdated:false) — xargs+guard genuinely present, legitimately fixed. #3585 3513924736 (High "Duplicate page IDs break get_page", resolved + isOutdated:false) — deep-verified get-page.ts: non-unique id now returns ambiguous()+candidates, search hits carry unique url; genuinely fixed *elsewhere* than the flagged line (hence not outdated). 2nd distinct PR |
+| Bot calibration (fixed-vs-dismissed ratio) | 🟢 corroborated | 7 | 2026-07-24 | #3374 (bugbot mostly accepted); #3536 (5/5 valid); #3542 (3/3 valid — 2 fixed, 1 open); #3543 (1/1 valid; Jit 0); #3573 (4/4 valid; Jit 0); #2531 (r1 bugbot 0 findings; r2 bugbot 1/1 valid — caught ledger dup-rows 3499796857; Jit 0); #3585 (bugbot 13/13 valid across ≥5 rounds — r1 8 fixed incl. all 3 High; then empty-index + matchingSections fixed; r2 normalizeUrl dup 3644535220 + eager native import 3644667453 fixed; r3 Float32Array misaligned-buffer 3644788302 Low, valid, open; Jit 0; consistently high trust) |
+| Codex second-opinion availability gate | 🟢 corroborated | 7 | 2026-07-24 | #3415, #3374 (CLI on PATH; #3374 had a real Codex review), #3542, #3543, #3573, #2531, #3585 (codex on PATH) |
 | Ledger self-integrity after `main` merge (no duplicate rows) | 🟡 seen twice | 2 | 2026-07-02 | #2531 r2 — bugbot 3499796857 caught the shared ledger gaining duplicate rows when `main` (carrying a #3573-era ledger) merged in and git kept both blocks. **2026-07-02**: merging `main` again produced a real conflict as #3542/#3573 edited the same rows — union-merged per capability. Recurring shared-file hazard; see worked examples + step-11 refinement |
 
 ## Worked examples library
@@ -70,6 +70,35 @@ cycle.
 pushed, and bugbot's next re-scan came back **clean — no comments**. A real loop
 would have spawned another round; this settled. So the "not a loop" judgement is
 borne out by what happened next: assess → fix → re-scan reached a fixed point.
+
+**Near-miss (NOT a loop) — #3585, 2026-07-24.** Bugbot Low #3638621205
+(`matchingSections` eager compute) landed in `search.ts` — a file the author had
+just edited in Step 4 (added `hitForUrl`, which also calls `matchingSections`).
+Superficially loop-shaped (finding in a freshly-edited file). But round-1 search.ts
+findings were all *correctness* (dup-ids, suffix match, version) and were resolved;
+this is a *new, independent perf* observation, not the same concern reopened or an
+A↔B cycle. Normal iteration → fresh cluster, not ping-pong. Also NOT churn: distinct
+concern class (perf vs correctness), not repeated patching of one under-specified area.
+
+*Round-2 re-confirmation (2026-07-24):* fixing the 2 open findings triggered a
+re-scan that surfaced 2 **new, independent** findings in the Step-4 code
+(normalizeUrl dup across 4 files 3644535220; eager native import 3644667453) —
+again the fix→rescan→new-findings-in-changed-files pattern, NOT a loop (no reopened
+concern, no A↔B). The prior findings stayed resolved. Consistent with the near-miss
+rule; still no true ping-pong on this PR.
+
+*Round-3 (2026-07-24):* fixing those 2 triggered a 3rd re-scan → 1 new independent
+finding (Float32Array misaligned-buffer in load-index.mjs 3644788302). **New
+distinction worth naming: DRIP-FEED, not churn.** 3 consecutive rounds of findings
+in the *same newly-added feature* (the ~7-file Step-4 hybrid code), but each on a
+**different file** (index.ts → hybrid.ts+3 → load-index.mjs), each an independent
+well-understood nit (import strategy / DRY / buffer alignment), each fix clean &
+non-reopening. That is NOT churn (churn = repeated patches to the *same
+under-specified area*, each exposing the next adjacent gap in that spot) and NOT
+ping-pong (no reopened concern, no A↔B). It's Bugbot draining a backlog from a large
+new diff, ~1-2 findings/scan. Right move is NOT redesign but a **proactive
+self-review sweep** of the remaining new files to get ahead of the drip. See
+step-11 refinement suggestion.
 
 **Near-miss (NOT a loop) — #3542, 2026-07-01.** Round-1 bugbot High #3467309496
 (ARG_MAX / `|| true` silent-green) was fixed (commit `21f079e1d`: xargs +
