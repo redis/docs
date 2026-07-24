@@ -7,7 +7,9 @@ import {
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 import { loadFeed } from "./feed.js";
-import { DocsIndex } from "./search.js";
+import { DocsIndex, type Searcher } from "./search.js";
+import { HybridSearcher } from "./hybrid.js";
+import { VectorStore } from "./vector-store.js";
 import { searchDocs, SearchDocsInput } from "./tools/search-docs.js";
 import { getPage, GetPageInput } from "./tools/get-page.js";
 import { toolResult, fail } from "./response.js";
@@ -15,6 +17,12 @@ import { toolResult, fail } from "./response.js";
 // Feed source: local path or http(s) URL, gzip-aware. Defaults to production.
 const FEED_SOURCE =
   process.env.DOCS_NDJSON ?? "https://redis.io/docs/latest/docs.ndjson";
+
+// Hosted hybrid mode activates only when a Redis backend is configured. Without
+// REDIS_URL the server stays lexical-only, which needs no datastore and runs
+// client-side over stdio (SPEC §6). The vector index must be pre-loaded by
+// `npm run load-index` against the same REDIS_URL.
+const REDIS_URL = process.env.REDIS_URL;
 
 const TOOLS = [
   {
@@ -69,6 +77,19 @@ async function main() {
   // Log to stderr — stdout is reserved for the MCP protocol.
   console.error(`[redis-docs-mcp] indexed ${index.size} pages from ${FEED_SOURCE}`);
 
+  // search_docs backend: hybrid when Redis is configured, else lexical-only.
+  // get_page always uses the lexical index (feed lookup, no ranking).
+  let searcher: Searcher = index;
+  if (REDIS_URL) {
+    const store = new VectorStore(REDIS_URL);
+    await store.connect();
+    await store.ensureIndex();
+    searcher = new HybridSearcher(index, store);
+    console.error(`[redis-docs-mcp] hybrid mode: vector KNN via ${REDIS_URL}`);
+  } else {
+    console.error("[redis-docs-mcp] lexical-only mode (no REDIS_URL)");
+  }
+
   const server = new Server(
     { name: "redis-docs-mcp", version: "0.0.1" },
     { capabilities: { tools: {} } },
@@ -81,7 +102,7 @@ async function main() {
     try {
       switch (name) {
         case "search_docs":
-          return toolResult(searchDocs(index, SearchDocsInput.parse(args ?? {})));
+          return toolResult(await searchDocs(searcher, SearchDocsInput.parse(args ?? {})));
         case "get_page":
           return toolResult(getPage(index, GetPageInput.parse(args ?? {})));
         default:

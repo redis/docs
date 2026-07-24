@@ -12,7 +12,9 @@
     "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts",
     "smoke": "tsx src/smoke.ts",
-    "eval": "npm run build && node test/eval/run.mjs"
+    "eval": "npm run build && node test/eval/run.mjs",
+    "eval:hybrid": "npm run build && node test/eval/run-hybrid.mjs",
+    "load-index": "npm run build && node scripts/load-index.mjs"
   },
   "keywords": [
     "redis",
@@ -22,11 +24,12 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
+    "fastembed": "^2.1.0",
+    "redis": "^6.1.0",
     "zod": "^3.22.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "fastembed": "^2.1.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0"
   }

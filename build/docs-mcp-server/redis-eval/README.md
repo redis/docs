@@ -146,11 +146,22 @@ native RRF still unable to do the weighted fusion. The conclusion holds either
 way. (The eval's vector side here is numpy `rank_pages`; Step 1 already showed
 Redis KNN ≈ numpy to tie-breaking, so this isolates fusion + lexical cleanly.)
 
-## Next
+## Step 4 — wired into the MCP server  ✅ (vertical slice)
 
-- **Step 4 — wire the winning path into the MCP `search_docs` handler:** Redis
-  KNN for vector + the existing Node BM25, fused with weighted RRF (vector ~3×).
-  This is the first change to the shipped server; scope with Andy first.
+Implemented in `../node/` behind a `REDIS_URL` feature flag: hybrid `search_docs`
+= app-side BM25 + Redis vector KNN, fused with weighted RRF (vector 3×), query
+embedded in-process via fastembed-js. Loader `node/scripts/load-index.mjs` builds
+the `docs_vec` FLAT/COSINE index (embeds with fastembed-js, or `--vectors
+<dir>` to seed from `dump_vectors_bin.py` output — used here to skip a ~1h local
+re-embed, valid because Step 2 proved Node ≡ Python vectors).
+
+Live eval through the real `search_docs` tool (`npm run eval:hybrid`): overall
+MRR **.704**, command **.783**, concept **.570** (concept @10 **100%**) — within
+tie-break noise of the offline .731 (stacks the Step 1 KNN + Step 2 embedding
+tie-breaks). Lexical-only default is unchanged (overall .525) and smoke passes.
+Payoff: hybrid lifts overall MRR **.53 → .70**, concept @10 **77% → 100%**. See
+`../node/README.md` (Hybrid mode). Stopped here for review — no HTTP endpoint /
+rate-limiting / deploy yet.
 
 ## Run
 

@@ -1,21 +1,25 @@
-// AI-answer eval (retrieval quality) for the docs MCP server.
-// Runs each question in cases.json through search_docs and measures whether the
-// expected canonical page is retrieved (recall@k, MRR). A data-integrity check
-// flags any expected url that isn't in the feed, so a bad ground-truth entry is
-// reported rather than silently scored as a miss.
+// Hybrid retrieval eval (DOC-6809 Step 4 acceptance). Runs the 35 cases through
+// the REAL search_docs tool function backed by HybridSearcher — the exact path
+// index.ts calls — so this exercises query embedding (fastembed-js) + Redis KNN
+// + app-side weighted RRF end to end. Confirms the shipped hybrid mode
+// reproduces the offline recipe (overall MRR ~.73).
 //
-//   node test/eval/run.mjs                 # uses cached test/eval/docs.ndjson.gz
-//   DOCS_NDJSON=<path|url> node test/eval/run.mjs
+// Prereq: load the vector index first, against the same REDIS_URL:
+//   REDIS_URL=redis://localhost:6379 node scripts/load-index.mjs --vectors ../redis-eval/vecdump
+//   REDIS_URL=redis://localhost:6379 node test/eval/run-hybrid.mjs
 //
-// Imports the BUILT server (dist/), so run `npm run build` first.
+// Imports the BUILT server (dist/) — run `npm run build` first (eval:hybrid does).
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { loadFeed } from "../../dist/feed.js";
 import { DocsIndex } from "../../dist/search.js";
+import { HybridSearcher } from "../../dist/hybrid.js";
+import { VectorStore } from "../../dist/vector-store.js";
 import { searchDocs } from "../../dist/tools/search-docs.js";
 
 const K = [1, 3, 5, 10];
 const LIMIT = 10;
+const REDIS_URL = process.env.REDIS_URL ?? "redis://localhost:6379";
 const norm = (u) => u.trim().toLowerCase().replace(/\/+$/, "");
 const short = (u) => (u ? u.replace("https://redis.io/docs/latest", "") : "—");
 
@@ -27,6 +31,11 @@ const pages = await loadFeed(feedSrc);
 const index = new DocsIndex(pages);
 const feedUrls = new Set(pages.map((p) => norm(p.url)));
 
+const store = new VectorStore(REDIS_URL);
+await store.connect();
+await store.ensureIndex();
+const hybrid = new HybridSearcher(index, store);
+
 const broken = [];
 const rows = [];
 for (const c of cases) {
@@ -35,16 +44,18 @@ for (const c of cases) {
     broken.push({ q: c.q, missing: expected });
     continue;
   }
-  const results = (await searchDocs(index, { query: c.q, limit: LIMIT })).results.map((r) => norm(r.url));
+  const { results } = await searchDocs(hybrid, { query: c.q, limit: LIMIT });
+  const urls = results.map((r) => norm(r.url));
   let rank = null;
-  for (let i = 0; i < results.length; i++) {
-    if (expected.includes(results[i])) {
+  for (let i = 0; i < urls.length; i++) {
+    if (expected.includes(urls[i])) {
       rank = i + 1;
       break;
     }
   }
-  rows.push({ kind: c.kind ?? "command", q: c.q, rank, top: results[0] });
+  rows.push({ kind: c.kind ?? "command", q: c.q, rank, top: urls[0] });
 }
+await store.close();
 
 function metrics(set) {
   const n = set.length || 1;
@@ -56,8 +67,8 @@ function metrics(set) {
 }
 
 console.log(
-  `Feed: ${pages.length} pages | cases scored: ${rows.length}` +
-    (broken.length ? ` | ${broken.length} BROKEN (expected url not in feed)` : "") +
+  `Hybrid via ${REDIS_URL} | ${pages.length} pages | cases scored: ${rows.length}` +
+    (broken.length ? ` | ${broken.length} BROKEN` : "") +
     "\n",
 );
 for (const r of rows) {
@@ -70,7 +81,7 @@ const groups = [
   ["command", rows.filter((r) => r.kind === "command")],
   ["concept", rows.filter((r) => r.kind === "concept")],
 ];
-console.log("\n--- retrieval quality (recall@1 / @3 / @5 / @10 | MRR) ---");
+console.log("\n--- hybrid retrieval quality (recall@1 / @3 / @5 / @10 | MRR) ---");
 for (const [label, set] of groups) {
   if (!set.length) continue;
   const m = metrics(set);
@@ -79,6 +90,6 @@ for (const [label, set] of groups) {
 }
 
 if (broken.length) {
-  console.log("\n--- BROKEN eval cases (fix ground truth) ---");
-  for (const b of broken) console.log(`  "${b.q}" -> not in feed: ${b.missing.map(short).join(", ")}`);
+  console.log("\n--- BROKEN eval cases ---");
+  for (const b of broken) console.log(`  "${b.q}" -> ${b.missing.map(short).join(", ")}`);
 }

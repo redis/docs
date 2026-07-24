@@ -26,7 +26,7 @@ const index = new DocsIndex(pages);
 console.log(`loaded ${index.size} pages from ${feed}\n`);
 
 // --- search_docs ---
-const stream = searchDocs(index, { query: "append an entry to a stream" });
+const stream = await searchDocs(index, { query: "append an entry to a stream" });
 check("search returns hits", stream.count > 0);
 check("search hits carry a url", Boolean(stream.results[0]?.url));
 

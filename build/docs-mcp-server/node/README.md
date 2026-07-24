@@ -47,6 +47,40 @@ Add to a Claude Code / Cursor MCP config after `npm run build`:
 }
 ```
 
+## Hybrid mode (hosted) — DOC-6809 Step 4 prototype
+
+`search_docs` has two backends, chosen by whether `REDIS_URL` is set:
+
+- **Lexical-only (default):** in-memory BM25, no datastore — the stdio mode above.
+- **Hybrid (hosted):** when `REDIS_URL` is set, fuses the same BM25 lexical ranker
+  with **vector KNN from Redis** using weighted reciprocal-rank fusion (vector
+  ~3× lexical). The query is embedded in-process with `fastembed-js`
+  (bge-small-en-v1.5). This is the recipe the measure-first work settled on;
+  Redis is the vector backend only — lexical + fusion stay in-process, because
+  native `FT.HYBRID` can't express the weighted recipe (see `../redis-eval/`).
+
+Load the vector index once (rebuild whenever `docs.ndjson` changes), then run:
+
+```bash
+# 1. build the vector index in Redis (embeds all section chunks with fastembed-js)
+REDIS_URL=redis://localhost:6379 npm run load-index
+
+# 2. start the server in hybrid mode
+REDIS_URL=redis://localhost:6379 DOCS_NDJSON=<feed> npm run start
+```
+
+`npm run eval:hybrid` scores the hybrid path through the real `search_docs` tool.
+**Measured (local Redis 8.8, same 35-case eval), hybrid vs lexical-only:**
+
+| group | lexical MRR | **hybrid MRR** | hybrid @5 / @10 |
+|---|---|---|---|
+| overall | 0.53 | **0.70** | 91% / 94% |
+| command | 0.57 | **0.78** | 91% / 91% |
+| concept | 0.45 | **0.57** | 92% / 100% |
+
+(Hybrid sits within tie-break noise of the offline recipe's .73; the small gap is
+FLOAT32 KNN + embedding tie-breaks, not a ranking difference — see `../redis-eval/`.)
+
 ## Tools
 
 | Tool | Inputs | Returns |

@@ -104,6 +104,12 @@ export interface SearchHit {
   matching_section_ids: string[];
 }
 
+/** A ranking backend for search_docs. DocsIndex (lexical) is sync; the hosted
+ * HybridSearcher is async — the tool awaits either. */
+export interface Searcher {
+  search(query: string, opts?: SearchOptions): SearchHit[] | Promise<SearchHit[]>;
+}
+
 export class DocsIndex {
   readonly pages: Page[];
   // The feed's `id` is the last URL path segment (e.g. "config", "acl") and is
@@ -179,6 +185,29 @@ export class DocsIndex {
     // and we compare against the end of the string.
     const anchored = target.startsWith("/") ? target : `/${target}`;
     return this.pages.filter((p) => normalizeUrl(p.url).endsWith(anchored));
+  }
+
+  /**
+   * Build a SearchHit for a page by url, for hybrid fusion — a page surfaced by
+   * vector KNN may not appear in the lexical results, so it has no hit yet. The
+   * caller supplies the fused score; matching sections are computed from the
+   * query with the same analyzer as search().
+   */
+  hitForUrl(url: string, query: string, score: number): SearchHit | undefined {
+    const p = this.getByUrl(url);
+    if (!p) return undefined;
+    const raw = [...new Set(tokenize(query))].filter((t) => !STOPWORDS.has(t));
+    const base = raw.length ? raw : [...new Set(tokenize(query))];
+    const qset = new Set(base.map(stem));
+    return {
+      id: p.id,
+      title: p.title,
+      url: p.url,
+      summary: p.summary ?? "",
+      page_type: p.page_type ?? "content",
+      score: Number(score.toFixed(4)),
+      matching_section_ids: matchingSections(p, qset),
+    };
   }
 
   search(query: string, opts: SearchOptions = {}): SearchHit[] {

@@ -16,11 +16,15 @@ const cases = JSON.parse(await readFile(fileURLToPath(new URL("./cases.json", im
 
 const index = new DocsIndex(await loadFeed(feedSrc));
 
-const out = cases.map((c) => ({
-  q: c.q,
-  kind: c.kind ?? "command",
-  expected: c.expected.map(norm),
-  lexical: searchDocs(index, { query: c.q, limit: TOPN }).results.map((r) => norm(r.url)),
-}));
+const out = [];
+for (const c of cases) {
+  const { results } = await searchDocs(index, { query: c.q, limit: TOPN });
+  out.push({
+    q: c.q,
+    kind: c.kind ?? "command",
+    expected: c.expected.map(norm),
+    lexical: results.map((r) => norm(r.url)),
+  });
+}
 
 process.stdout.write(JSON.stringify(out, null, 2) + "\n");
