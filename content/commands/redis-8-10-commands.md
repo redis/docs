@@ -527,6 +527,71 @@ Hash commands operate on hash data structures, which map string fields to string
 </details>
 
 <details>
+<summary><strong><a href="/commands/himport/">HIMPORT</a></strong> - A container for session-based hash import commands using fieldsets. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `HIMPORT`
+
+**Description:** A container for session-based hash import commands using fieldsets.
+
+**Complexity:** Depends on subcommand.
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/himport-discard/">HIMPORT DISCARD</a></strong> - Removes a single session-local fieldset by name. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `HIMPORT DISCARD fieldset-name`
+
+**Description:** Removes a single session-local fieldset by name.
+
+**Complexity:** O(N) where N is the number of session-local fieldsets.
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/himport-discardall/">HIMPORT DISCARDALL</a></strong> - Removes all session-local fieldsets for the connection. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `HIMPORT DISCARDALL`
+
+**Description:** Removes all session-local fieldsets for the connection.
+
+**Complexity:** O(N) where N is the number of session-local fieldsets.
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/himport-prepare/">HIMPORT PREPARE</a></strong> - Defines a session-local fieldset that maps a name to a sorted set of field names. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `HIMPORT PREPARE fieldset-name field [field ...]`
+
+**Description:** Defines a session-local fieldset that maps a name to a sorted set of field names.
+
+**Complexity:** O(N*log(N)) where N is the number of fields.
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/himport-set/">HIMPORT SET</a></strong> - Creates a fieldset-based hash from values supplied in the order matching a previously prepared fieldset. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `HIMPORT SET key fieldset-name value [value ...]`
+
+**Description:** Creates a fieldset-based hash from values supplied in the order matching a previously prepared fieldset.
+
+**Complexity:** O(N) where N is the number of fields in the fieldset.
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
 <summary><strong><a href="/commands/hincrby/">HINCRBY</a></strong> - Increments the integer value of a field in a hash by a number. Uses 0 as initial value if the field doesn't exist.</summary>
 
 **Syntax:** `HINCRBY key field increment`
@@ -4934,6 +4999,84 @@ Server commands provide server management and introspection.
 </details>
 
 <details>
+<summary><strong><a href="/commands/backup-abort/">BACKUP ABORT</a></strong> - Cancel a backup that has not been sealed yet. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `BACKUP ABORT`
+
+**Description:** Cancel a backup that has not been sealed yet.
+
+**Complexity:** O(1)
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/backup-cleanup/">BACKUP CLEANUP</a></strong> - Remove sealed backup files and return to idle. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `BACKUP CLEANUP`
+
+**Description:** Remove sealed backup files and return to idle.
+
+**Complexity:** O(1)
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/backup-list/">BACKUP LIST</a></strong> - List the immutable backup file paths pinned so far. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `BACKUP LIST`
+
+**Description:** List the immutable backup file paths pinned so far.
+
+**Complexity:** O(1)
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/backup-seal/">BACKUP SEAL</a></strong> - Freeze the current backup (BASE + INCR + manifest). <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `BACKUP SEAL`
+
+**Description:** Freeze the current backup (BASE + INCR + manifest).
+
+**Complexity:** O(1)
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/backup-start/">BACKUP START</a></strong> - Start a new backup into the configured 'backupdirname'. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `BACKUP START`
+
+**Description:** Start a new backup into the configured 'backupdirname'.
+
+**Complexity:** O(1)
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
+<summary><strong><a href="/commands/backup-status/">BACKUP STATUS</a></strong> - Report the current backup state. <span style="color: #e74c3c;">⭐ New in 8.10</span></summary>
+
+**Syntax:** `BACKUP STATUS`
+
+**Description:** Report the current backup state.
+
+**Complexity:** O(1)
+
+**Since:** 8.10.0
+
+</details>
+
+<details>
 <summary><strong><a href="/commands/bgrewriteaof/">BGREWRITEAOF</a></strong> - Asynchronously rewrites the append-only file to disk.</summary>
 
 **Syntax:** `BGREWRITEAOF`
@@ -6379,110 +6522,6 @@ Generic commands work across all data types.
 **Complexity:** O(1) to create the new key and additional O(N*M) to reconstruct the serialized value, where N is the number of Redis objects composing the value and M their average size. For small string values the time complexity is thus O(1)+O(1*M) where M is small, so simply O(1). However for sorted set values the complexity is O(N*M*log(N)) because inserting values into sorted sets is O(log(N)).
 
 **Since:** 2.6.0
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/redis-6-2-commands/">Redis 6.2 Commands Reference</a></strong> - Complete list of all Redis commands available in version 6.2, organized by functional group</summary>
-
-**Syntax:** ``
-
-**Description:** Complete list of all Redis commands available in version 6.2, organized by functional group
-
-**Complexity:** 
-
-**Since:** 
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/redis-7-2-commands/">Redis 7.2 Commands Reference</a></strong> - Complete list of all Redis commands available in version 7.2, organized by functional group</summary>
-
-**Syntax:** ``
-
-**Description:** Complete list of all Redis commands available in version 7.2, organized by functional group
-
-**Complexity:** 
-
-**Since:** 
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/redis-7-4-commands/">Redis 7.4 Commands Reference</a></strong> - Complete list of all Redis commands available in version 7.4, organized by functional group</summary>
-
-**Syntax:** ``
-
-**Description:** Complete list of all Redis commands available in version 7.4, organized by functional group
-
-**Complexity:** 
-
-**Since:** 
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/redis-8-0-commands/">Redis 8.0 Commands Reference</a></strong> - Complete list of all Redis commands available in version 8.0, organized by functional group</summary>
-
-**Syntax:** ``
-
-**Description:** Complete list of all Redis commands available in version 8.0, organized by functional group
-
-**Complexity:** 
-
-**Since:** 
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/redis-8-2-commands/">Redis 8.2 Commands Reference</a></strong> - Complete list of all Redis commands available in version 8.2, organized by functional group</summary>
-
-**Syntax:** ``
-
-**Description:** Complete list of all Redis commands available in version 8.2, organized by functional group
-
-**Complexity:** 
-
-**Since:** 
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/redis-8-4-commands/">Redis 8.4 Commands Reference</a></strong> - Complete list of all Redis commands available in version 8.4, organized by functional group</summary>
-
-**Syntax:** ``
-
-**Description:** Complete list of all Redis commands available in version 8.4, organized by functional group
-
-**Complexity:** 
-
-**Since:** 
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/redis-8-6-commands/">Redis 8.6 Commands Reference</a></strong> - Complete list of all Redis commands available in version 8.6, organized by functional group</summary>
-
-**Syntax:** ``
-
-**Description:** Complete list of all Redis commands available in version 8.6, organized by functional group
-
-**Complexity:** 
-
-**Since:** 
-
-</details>
-
-<details>
-<summary><strong><a href="/commands/redis-8-8-commands/">Redis 8.8 Commands Reference</a></strong> - Complete list of all Redis commands available in version 8.8, organized by functional group</summary>
-
-**Syntax:** ``
-
-**Description:** Complete list of all Redis commands available in version 8.8, organized by functional group
-
-**Complexity:** 
-
-**Since:** 
 
 </details>
 
