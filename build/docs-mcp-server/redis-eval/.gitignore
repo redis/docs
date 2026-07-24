@@ -1,0 +1,4 @@
+# Regenerable parity artifacts (export_texts.py / embed-dump.mjs)
+parity_texts.json
+node_vectors.json
+__pycache__/

@@ -50,12 +50,44 @@ because their section anchor text is templated the same across clients — the
 embedding can't distinguish redis-py from ioredis for a "Python" query. A
 chunking/corpus tuning candidate for later.
 
+## Step 2 — Node ONNX embedding parity  ✅ PASS
+
+**Question:** does embedding in Node (`fastembed` npm, ONNX via `onnxruntime-node`)
+reproduce Python `fastembed` vectors closely enough to (a) embed queries
+in-process in the Node MCP server and (b) keep the cached Python corpus vectors +
+offline numbers valid? `fastembed` npm is the Node port of the same Qdrant
+fastembed the Python side uses (same `@anush008/tokenizers`, same HF model files).
+
+Design: Python exports the exact query + 510-chunk corpus-sample strings
+(`export_texts.py` → `parity_texts.json`); Node embeds them with plain `embed()`
+prepending the same BGE query prefix (`node/test/embed-dump.mjs` →
+`node_vectors.json`); Python re-embeds the identical strings and compares
+(`embed_parity.py`). Using plain `embed()` (not `queryEmbed`/`passageEmbed`) keeps
+the only variable the ONNX embedding itself, not prefix wording.
+
+**Result:**
+
+| check | result |
+|---|---|
+| cosine(node, python), 35 queries | min/p50/mean **1.00000** |
+| cosine(node, python), 510 corpus chunks | min/p50/mean **1.00000** |
+| texts below 0.999 cosine | **0 / 545** |
+| eval, pure-vector MRR (Node vs Python queries) | identical (.717 / .763 / .638) |
+| eval, wrrf-v3 command MRR | .795 → .789 |
+
+**Verdict:** the Node embeddings are identical to Python's (cosine 1.0), so
+embedding in-process in the Node server is safe and the cached corpus vectors
+remain valid. The lone wrrf-v3 delta (command MRR .795→.789, one query) is the
+same tie-break sensitivity seen in Step 1: cosine-1.0 is not bit-identical, so a
+couple of near-tied corpus chunks reorder in the tail and RRF — sensitive to
+exact rank positions — flips one fused rank, even though the vector-only metric
+is unchanged. Noise at n=22, not an embedding discrepancy.
+
+Node embedding ran ~4 texts/s here (unoptimised local ONNX, same caveat as the
+Python side — not a production latency signal; the Step 1 KNN latency is).
+
 ## Next
 
-- **Step 2 — Node ONNX embedding parity:** embed corpus + queries in Node
-  (fastembed-js / onnxruntime-node), confirm cosine ≈ 1.0 vs Python fastembed and
-  that re-running this eval on Node vectors lands on the same numbers. Guards the
-  "embed in-process in the Node server" decision.
 - **Step 3 — Redis-native hybrid** vs this app-layer weighted RRF: does the
   built-in hybrid query reproduce the ranking with vector-favoured weighting?
 - **Step 4 (later):** wire the winning path into the MCP `search_docs` handler.
@@ -63,6 +95,10 @@ chunking/corpus tuning candidate for later.
 ## Run
 
 ```
-../vector-eval/.venv/bin/python parity.py section     # Step 1
+../vector-eval/.venv/bin/python parity.py section         # Step 1
 ../vector-eval/.venv/bin/python diag_divergence.py section
+
+../vector-eval/.venv/bin/python export_texts.py           # Step 2
+(cd ../node && node test/embed-dump.mjs)                   #   (downloads model 1st run)
+../vector-eval/.venv/bin/python embed_parity.py section
 ```

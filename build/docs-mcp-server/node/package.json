@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "fastembed": "^2.1.0",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0"
   }
