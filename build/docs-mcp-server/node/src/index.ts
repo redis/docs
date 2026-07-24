@@ -85,6 +85,9 @@ async function main() {
   // search_docs backend: hybrid when Redis is configured, else lexical-only.
   // get_page always uses the lexical index (feed lookup, no ranking).
   let searcher: Searcher = index;
+  // Cleanup for the hybrid backend (no-op in lexical-only mode). Called on
+  // shutdown so an open Redis socket can't keep the stdio process alive.
+  let closeBackend: () => Promise<void> = async () => {};
   if (REDIS_URL) {
     // Load the hybrid path lazily: it pulls in fastembed (native onnxruntime)
     // and the redis client, which the default lexical-only stdio mode never
@@ -93,8 +96,20 @@ async function main() {
     const { VectorStore } = await import("./vector-store.js");
     const { HybridSearcher } = await import("./hybrid.js");
     const store = new VectorStore(REDIS_URL);
-    await store.connect();
-    await store.ensureIndex();
+    try {
+      await store.connect();
+      // TODO (deferred — Codex review): ensureIndex creates a missing index but
+      // accepts any existing one without checking it. Verify via FT.INFO (dim,
+      // metric, prefix, non-zero doc count) so a misconfig can't advertise
+      // hybrid over an empty/mismatched index — or explicitly fall back to
+      // lexical. Operator runs load-index before serving today, so deferred.
+      await store.ensureIndex();
+    } catch (e) {
+      // Don't leak the socket if startup fails partway through.
+      await store.close().catch(() => {});
+      throw e;
+    }
+    closeBackend = () => store.close();
     searcher = new HybridSearcher(index, store);
     console.error(`[redis-docs-mcp] hybrid mode: vector KNN via ${REDIS_URL}`);
   } else {
@@ -123,6 +138,20 @@ async function main() {
       return fail(e instanceof Error ? e.message : String(e));
     }
   });
+
+  // Close the Redis backend on shutdown so a live socket can't keep the process
+  // alive after the client disconnects (stdio EOF fires the connection close).
+  let shuttingDown = false;
+  const shutdown = async (reason: string) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    console.error(`[redis-docs-mcp] shutting down (${reason})`);
+    await closeBackend().catch(() => {});
+    process.exit(0);
+  };
+  server.onclose = () => void shutdown("connection closed");
+  process.on("SIGINT", () => void shutdown("SIGINT"));
+  process.on("SIGTERM", () => void shutdown("SIGTERM"));
 
   const transport = new StdioServerTransport();
   await server.connect(transport);

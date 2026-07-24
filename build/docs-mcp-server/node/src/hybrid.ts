@@ -38,10 +38,23 @@ export class HybridSearcher {
   async search(query: string, opts: SearchOptions = {}): Promise<SearchHit[]> {
     const limit = opts.limit ?? 10;
 
-    // Lexical side (already page-type filtered) + vector side, in parallel.
+    // Lexical side (already page-type filtered) is computed first and always
+    // usable. The vector side (query embedding + Redis KNN) can fail transiently
+    // — if it does, degrade to lexical-only rather than failing the whole tool
+    // call, since hybrid is meant to be an enhancement over a working lexical base.
     const lexHits = this.index.search(query, { limit: LEXICAL_POOL, pageType: opts.pageType });
-    const qvec = await embedQuery(query);
-    const vecUrls = await this.store.knn(qvec, VECTOR_POOL, LEXICAL_POOL);
+    let vecUrls: string[];
+    try {
+      const qvec = await embedQuery(query);
+      vecUrls = await this.store.knn(qvec, VECTOR_POOL, LEXICAL_POOL);
+    } catch (e) {
+      console.error(
+        `[redis-docs-mcp] vector search failed, returning lexical-only: ${
+          e instanceof Error ? e.message : String(e)
+        }`,
+      );
+      return lexHits.slice(0, limit);
+    }
 
     const lexByUrl = new Map(lexHits.map((h) => [normalizeUrl(h.url), h]));
     const lexUrls = lexHits.map((h) => normalizeUrl(h.url));

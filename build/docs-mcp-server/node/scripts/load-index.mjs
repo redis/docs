@@ -17,6 +17,7 @@ import { loadFeed } from "../dist/feed.js";
 import { buildChunks } from "../dist/chunk.js";
 import { embedPassages } from "../dist/embed.js";
 import { VectorStore } from "../dist/vector-store.js";
+import { EMBED_DIM } from "../dist/constants.js";
 
 const REDIS_URL = process.env.REDIS_URL ?? "redis://localhost:6379";
 const FEED =
@@ -34,12 +35,27 @@ async function fromSeed(dir) {
   const meta = JSON.parse(await readFile(new URL("meta.json", base), "utf8"));
   const owners = JSON.parse(await readFile(new URL("owners.json", base), "utf8"));
   const buf = await readFile(new URL("vectors.f32", base));
+  // Validate the seed before trusting it: mismatched/truncated vectors would
+  // otherwise "load" but be silently rejected or misindexed by Redis while the
+  // loader reports success.
+  const { n, dim } = meta;
+  if (!Number.isInteger(n) || !Number.isInteger(dim) || n <= 0 || dim <= 0) {
+    throw new Error(`seed meta.json invalid: n=${n} dim=${dim}`);
+  }
+  if (dim !== EMBED_DIM) {
+    throw new Error(`seed dim ${dim} != expected EMBED_DIM ${EMBED_DIM}`);
+  }
+  if (!Array.isArray(owners) || owners.length !== n) {
+    throw new Error(`seed owners length ${owners?.length} != n ${n}`);
+  }
+  if (buf.byteLength !== n * dim * 4) {
+    throw new Error(`seed vectors.f32 is ${buf.byteLength} bytes, expected ${n * dim * 4} (n*dim*4)`);
+  }
   // Copy into a fresh 0-offset ArrayBuffer before the Float32Array view: a
   // pooled Node Buffer's byteOffset isn't guaranteed 4-byte aligned, and an
   // unaligned offset makes `new Float32Array(buffer, offset)` throw RangeError.
   const ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
   const floats = new Float32Array(ab);
-  const { n, dim } = meta;
   const chunks = [];
   for (let i = 0; i < n; i++) {
     chunks.push({ owner: owners[i], vec: floats.subarray(i * dim, (i + 1) * dim) });
@@ -72,6 +88,12 @@ async function main() {
 
   const store = new VectorStore(REDIS_URL);
   await store.connect();
+  // TODO (production hardening, deferred — Codex review): this drops the live
+  // index before loading, so a hosted server reloading under traffic would see
+  // an absent/partial corpus mid-load (and a partial index if loading fails).
+  // For zero-downtime reloads, build under a versioned index+prefix, verify it,
+  // then atomically switch an alias. Fine for the current offline,
+  // single-instance prototype.
   await store.dropIndex();
   await store.ensureIndex(chunks[0].vec.length);
   const t0 = Date.now();

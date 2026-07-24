@@ -11,7 +11,7 @@ import {
   SCHEMA_VECTOR_FIELD_ALGORITHM,
   type RedisClientType,
 } from "redis";
-import { EMBED_DIM } from "./embed.js";
+import { EMBED_DIM } from "./constants.js";
 import { normalizeUrl } from "./url.js";
 
 const INDEX = "docs_vec";
@@ -62,8 +62,12 @@ export class VectorStore {
   async dropIndex(): Promise<void> {
     try {
       await this.client.ft.dropIndex(INDEX, { DD: true });
-    } catch {
-      // no index — nothing to drop
+    } catch (e) {
+      // Swallow ONLY "index doesn't exist" (nothing to drop). Auth, permission,
+      // or network errors must propagate — otherwise a failed drop is silently
+      // ignored and the loader reuses/mixes into a stale index.
+      const msg = e instanceof Error ? e.message : String(e);
+      if (!/unknown index|no such index|not exist/i.test(msg)) throw e;
     }
   }
 

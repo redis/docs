@@ -5,6 +5,7 @@
 // manually for queries — do NOT use fastembed's queryEmbed/passageEmbed, whose
 // built-in prefix wording differs and silently breaks parity (Step 2 finding).
 import { FlagEmbedding, EmbeddingModel } from "fastembed";
+import { EMBED_DIM } from "./constants.js";
 
 const QUERY_PREFIX = "Represent this sentence for searching relevant passages: ";
 
@@ -55,4 +56,4 @@ export async function embedPassages(texts: string[]): Promise<Float32Array[]> {
   return embedAll(texts);
 }
 
-export const EMBED_DIM = 384;
+export { EMBED_DIM };
