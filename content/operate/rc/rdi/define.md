@@ -131,7 +131,11 @@ You can add collector source properties in the **Collector source properties** s
 
 ## Dataset
 
-In this step, you'll select the data that you want to import and synchronize with your primary database. 
+In this step, you'll select the data that you want to import and synchronize with your primary database.
+
+{{< warning >}}
+Do not write data directly to the target database outside of RDI. Writing to the target database from other sources can cause transformation failures and data inconsistencies. If you need to reset the pipeline and resync from the source, any data written to the target outside of RDI will be lost.
+{{< /warning >}} 
 
 {{< note >}}
 This step may change depending on your source database.
