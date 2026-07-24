@@ -51,6 +51,9 @@ async function fromSeed(dir) {
 async function fromEmbed() {
   const pages = await loadFeed(FEED);
   const chunks = buildChunks(pages);
+  // Bail before loading the embedder: no point spinning up native ONNX to embed
+  // nothing (main() guards too, but this avoids the wasted model init on empty).
+  if (chunks.length === 0) return chunks;
   console.error(`[load-index] ${pages.length} pages -> ${chunks.length} chunks; embedding (fastembed-js) ...`);
   const vecs = await embedPassages(chunks.map((c) => c.text));
   return chunks.map((c, i) => ({ owner: c.owner, vec: vecs[i] }));
@@ -59,6 +62,13 @@ async function fromEmbed() {
 async function main() {
   const seedDir = arg("--vectors");
   const chunks = seedDir ? await fromSeed(seedDir) : await fromEmbed();
+  // Guard before chunks[0]: an empty/invalid feed or seed would otherwise throw
+  // an opaque "Cannot read properties of undefined" on the ensureIndex line.
+  if (chunks.length === 0) {
+    throw new Error(
+      `No chunks to load from ${seedDir ?? FEED} — aborting (empty or invalid source).`,
+    );
+  }
 
   const store = new VectorStore(REDIS_URL);
   await store.connect();

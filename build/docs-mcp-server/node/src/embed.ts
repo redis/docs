@@ -11,9 +11,19 @@ const QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 let modelPromise: Promise<FlagEmbedding> | null = null;
 
 function model(): Promise<FlagEmbedding> {
-  return (modelPromise ??= FlagEmbedding.init({
-    model: EmbeddingModel.BGESmallENV15,
-  }));
+  // Memoize the loaded model, but DON'T cache a rejected init: a transient
+  // failure (first-run download timeout, fs perms) must not poison the singleton
+  // and break hybrid mode until restart. Clear the cache on failure so the next
+  // call retries.
+  if (!modelPromise) {
+    modelPromise = FlagEmbedding.init({ model: EmbeddingModel.BGESmallENV15 }).catch(
+      (e) => {
+        modelPromise = null;
+        throw e;
+      },
+    );
+  }
+  return modelPromise;
 }
 
 function l2normalize(v: number[]): Float32Array {
