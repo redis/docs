@@ -34,7 +34,11 @@ async function fromSeed(dir) {
   const meta = JSON.parse(await readFile(new URL("meta.json", base), "utf8"));
   const owners = JSON.parse(await readFile(new URL("owners.json", base), "utf8"));
   const buf = await readFile(new URL("vectors.f32", base));
-  const floats = new Float32Array(buf.buffer, buf.byteOffset, buf.byteLength / 4);
+  // Copy into a fresh 0-offset ArrayBuffer before the Float32Array view: a
+  // pooled Node Buffer's byteOffset isn't guaranteed 4-byte aligned, and an
+  // unaligned offset makes `new Float32Array(buffer, offset)` throw RangeError.
+  const ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
+  const floats = new Float32Array(ab);
   const { n, dim } = meta;
   const chunks = [];
   for (let i = 0; i < n; i++) {
