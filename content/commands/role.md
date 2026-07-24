@@ -104,7 +104,10 @@ The sentinel output is composed of the following parts:
 ## Examples
 
 {{% redis-cli %}}
-ROLE
+redis> ROLE
+1) "master"
+2) (integer) 0
+3) (empty array)
 {{% /redis-cli %}}
 
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.

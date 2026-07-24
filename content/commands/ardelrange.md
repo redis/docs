@@ -75,11 +75,16 @@ One or more `start end` pairs, each defining an inclusive range of indices to de
 ## Examples
 
 {{% redis-cli %}}
-ARMSET myarray 0 "a" 1 "b" 2 "c" 3 "d" 4 "e"
-ARDELRANGE myarray 1 3
-ARCOUNT myarray
-ARGET myarray 0
-ARGET myarray 4
+redis> ARMSET myarray 0 "a" 1 "b" 2 "c" 3 "d" 4 "e"
+(integer) 5
+redis> ARDELRANGE myarray 1 3
+(integer) 3
+redis> ARCOUNT myarray
+(integer) 2
+redis> ARGET myarray 0
+"a"
+redis> ARGET myarray 4
+"e"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

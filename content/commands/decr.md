@@ -69,10 +69,14 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "10"
-DECR mykey
-SET mykey "234293482390480948029348230948"
-DECR mykey
+redis> SET mykey "10"
+OK
+redis> DECR mykey
+(integer) 9
+redis> SET mykey "234293482390480948029348230948"
+OK
+redis> DECR mykey
+(error) value is not an integer or out of range
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

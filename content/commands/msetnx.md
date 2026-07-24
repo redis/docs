@@ -83,9 +83,14 @@ One or more key-value pairs to set. No keys are set if any of them already exist
 ## Examples
 
 {{% redis-cli %}}
-MSETNX key1 "Hello" key2 "there"
-MSETNX key2 "new" key3 "world"
-MGET key1 key2 key3
+redis> MSETNX key1 "Hello" key2 "there"
+(integer) 1
+redis> MSETNX key2 "new" key3 "world"
+(integer) 0
+redis> MGET key1 key2 key3
+1) "Hello"
+2) "there"
+3) (nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

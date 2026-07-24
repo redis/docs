@@ -73,9 +73,12 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-EXPIRE mykey 1
-PTTL mykey
+redis> SET mykey "Hello"
+OK
+redis> EXPIRE mykey 1
+(integer) 1
+redis> PTTL mykey
+(integer) 1000
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

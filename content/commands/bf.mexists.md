@@ -52,7 +52,7 @@ One or more items to check.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.MADD bf item1 item2
 1) (integer) 1
 2) (integer) 1
@@ -60,7 +60,7 @@ redis> BF.MEXISTS bf item1 item2 item3
 1) (integer) 1
 2) (integer) 1
 3) (integer) 0
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 
