@@ -225,7 +225,10 @@ export class DocsIndex {
     }
 
     const qset = new Set(qterms);
-    const hits: SearchHit[] = [];
+    // Score first; defer the expensive per-section matchingSections() until
+    // after the top-k slice, so we only re-analyze section text for the handful
+    // of pages we actually return, not every positive-score page in the corpus.
+    const scored: Array<{ page: Page; score: number }> = [];
     for (const d of this.docs) {
       if (opts.pageType && (d.page.page_type ?? "content") !== opts.pageType) continue;
 
@@ -243,19 +246,18 @@ export class DocsIndex {
         if (d.summaryTok.has(t)) score += termIdf * W_SUMMARY;
       }
       if (score > 0) {
-        score *= pageWeight(d.page.url);
-        hits.push({
-          id: d.page.id,
-          title: d.page.title,
-          url: d.page.url,
-          summary: d.page.summary ?? "",
-          page_type: d.page.page_type ?? "content",
-          score: Number(score.toFixed(4)),
-          matching_section_ids: matchingSections(d.page, qset),
-        });
+        scored.push({ page: d.page, score: Number((score * pageWeight(d.page.url)).toFixed(4)) });
       }
     }
-    hits.sort((a, b) => b.score - a.score);
-    return hits.slice(0, opts.limit ?? 10);
+    scored.sort((a, b) => b.score - a.score);
+    return scored.slice(0, opts.limit ?? 10).map(({ page, score }) => ({
+      id: page.id,
+      title: page.title,
+      url: page.url,
+      summary: page.summary ?? "",
+      page_type: page.page_type ?? "content",
+      score,
+      matching_section_ids: matchingSections(page, qset),
+    }));
   }
 }

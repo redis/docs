@@ -73,6 +73,13 @@ const TOOLS = [
 
 async function main() {
   const pages = await loadFeed(FEED_SOURCE);
+  // Refuse to start on an empty index (empty file, bad path, or no valid NDJSON
+  // lines) rather than advertising readiness and serving only empty results.
+  if (pages.length === 0) {
+    throw new Error(
+      `No documents loaded from ${FEED_SOURCE} — refusing to start with an empty index.`,
+    );
+  }
   const index = new DocsIndex(pages);
   // Log to stderr — stdout is reserved for the MCP protocol.
   console.error(`[redis-docs-mcp] indexed ${index.size} pages from ${FEED_SOURCE}`);
