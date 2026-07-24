@@ -122,6 +122,22 @@
           "description": "OK on success"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_aliasdel(alias_name)",
+        "params": [
+          {
+            "name": "alias_name",
+            "type": "String",
+            "description": "the alias"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
     ]
   }
 }

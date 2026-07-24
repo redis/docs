@@ -122,6 +122,22 @@
           "description": "All terms in the dictionary"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_dictdump(dict_name)",
+        "params": [
+          {
+            "name": "dict_name",
+            "type": "String",
+            "description": "the dictionary name"
+          }
+        ],
+        "returns": {
+          "type": "Array<String>",
+          "description": "the terms in the dictionary"
+        }
+      }
     ]
   }
 }
