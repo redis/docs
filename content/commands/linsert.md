@@ -102,10 +102,16 @@ The value to insert.
 ## Examples
 
 {{% redis-cli %}}
-RPUSH mylist "Hello"
-RPUSH mylist "World"
-LINSERT mylist BEFORE "World" "There"
-LRANGE mylist 0 -1
+redis> RPUSH mylist "Hello"
+(integer) 1
+redis> RPUSH mylist "World"
+(integer) 2
+redis> LINSERT mylist BEFORE "World" "There"
+(integer) 3
+redis> LRANGE mylist 0 -1
+1) "Hello"
+2) "There"
+3) "World"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

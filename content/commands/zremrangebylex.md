@@ -81,11 +81,28 @@ The maximum member, compared lexicographically. Prefix with `[` for an inclusive
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 0 aaaa 0 b 0 c 0 d 0 e
-ZADD myzset 0 foo 0 zap 0 zip 0 ALPHA 0 alpha
-ZRANGE myzset 0 -1
-ZREMRANGEBYLEX myzset [alpha [omega
-ZRANGE myzset 0 -1
+redis> ZADD myzset 0 aaaa 0 b 0 c 0 d 0 e
+(integer) 5
+redis> ZADD myzset 0 foo 0 zap 0 zip 0 ALPHA 0 alpha
+(integer) 5
+redis> ZRANGE myzset 0 -1
+ 1) "ALPHA"
+ 2) "aaaa"
+ 3) "alpha"
+ 4) "b"
+ 5) "c"
+ 6) "d"
+ 7) "e"
+ 8) "foo"
+ 9) "zap"
+10) "zip"
+redis> ZREMRANGEBYLEX myzset [alpha [omega
+(integer) 6
+redis> ZRANGE myzset 0 -1
+1) "ALPHA"
+2) "aaaa"
+3) "zap"
+4) "zip"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

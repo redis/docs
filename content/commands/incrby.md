@@ -78,8 +78,10 @@ The integer amount to add to the value.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "10"
-INCRBY mykey 5
+redis> SET mykey "10"
+OK
+redis> INCRBY mykey 5
+(integer) 15
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

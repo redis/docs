@@ -61,9 +61,12 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-EXPIREAT mykey 33177117420
-EXPIRETIME mykey
+redis> SET mykey "Hello"
+OK
+redis> EXPIREAT mykey 33177117420
+(integer) 1
+redis> EXPIRETIME mykey
+(integer) 33177117420
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

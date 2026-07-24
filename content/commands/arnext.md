@@ -65,9 +65,12 @@ The name of the key that holds the array.
 ## Examples
 
 {{% redis-cli %}}
-ARINSERT myarray "a"
-ARINSERT myarray "b"
-ARNEXT myarray
+redis> ARINSERT myarray "a"
+(integer) 0
+redis> ARINSERT myarray "b"
+(integer) 1
+redis> ARNEXT myarray
+(integer) 2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

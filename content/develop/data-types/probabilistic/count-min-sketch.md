@@ -43,7 +43,7 @@ Assume you select an error rate of 0.1% (0.001) with a certainty of 99.8% (0.998
 > CMS.INITBYPROB bikes:profit 0.001 0.002
 OK
 > CMS.INCRBY bikes:profit "Smokey Mountain Striker" 100
-(integer) 100
+1) (integer) 100
 > CMS.INCRBY bikes:profit "Rocky Mountain Racer" 200 "Cloudy City Cruiser" 150
 1) (integer) 200
 2) (integer) 150

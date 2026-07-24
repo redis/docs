@@ -87,15 +87,23 @@ The number of members to pop. Without it, a single member is popped.
 ## Examples
 
 {{% redis-cli %}}
-SADD myset "one"
-SADD myset "two"
-SADD myset "three"
-SPOP myset
-SMEMBERS myset
-SADD myset "four"
-SADD myset "five"
-SPOP myset 3
-SMEMBERS myset
+redis> SADD myset "one"
+(integer) 1
+redis> SADD myset "two"
+(integer) 1
+redis> SADD myset "three"
+(integer) 1
+redis> SPOP myset
+redis> SMEMBERS myset
+1) "one"
+2) "three"
+redis> SADD myset "four"
+(integer) 1
+redis> SADD myset "five"
+(integer) 1
+redis> SPOP myset 3
+redis> SMEMBERS myset
+1) "three"
 {{% /redis-cli %}}
 
 ## Details

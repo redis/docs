@@ -67,10 +67,14 @@ The field whose value length to return.
 ## Examples
 
 {{% redis-cli %}}
-HSET myhash f1 HelloWorld f2 99 f3 -256
-HSTRLEN myhash f1
-HSTRLEN myhash f2
-HSTRLEN myhash f3
+redis> HSET myhash f1 HelloWorld f2 99 f3 -256
+(integer) 3
+redis> HSTRLEN myhash f1
+(integer) 10
+redis> HSTRLEN myhash f2
+(integer) 2
+redis> HSTRLEN myhash f3
+(integer) 4
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

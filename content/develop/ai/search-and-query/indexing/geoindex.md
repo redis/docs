@@ -50,7 +50,7 @@ OK
 > JSON.SET product:46886 $ '{"description": "Bright Green Socks","price": 25.50,"city": "Fort Collins","location": "-105.0618814,40.5150098"}'
 OK
 > FT.SEARCH productidx '@location:[-104.800644 38.846127 100 mi]'
-1) "1"
+1) (integer) 1
 2) "product:46885"
 3) 1) "$"
    2) "{\"description\":\"Navy Blue Slippers\",\"price\":45.99,\"city\":\"Denver\",\"location\":\"-104.991531, 39.742043\"}"
@@ -82,11 +82,10 @@ OK
 > JSON.SET shape:4 $ '{"name": "Purple Point", "geom": "POINT (2 2)"}'
 OK
 > FT.SEARCH geomidx "(-@name:(Green Square) @geom:[WITHIN $qshape])" PARAMS 2 qshape "POLYGON ((1 1, 1 3, 3 3, 3 1, 1 1))" RETURN 1 name DIALECT 2
-
 1) (integer) 1
 2) "shape:4"
 3) 1) "name"
-   2) "[\"Purple Point\"]"
+   2) "Purple Point"
 {{< /clients-example >}}
 
 You can also run queries to find whether shapes in the index completely contain

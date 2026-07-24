@@ -4,6 +4,10 @@ HUGO_BUILD=--gc
 
 # ndjson implicitly depends on json_transform -> hugo
 all: clean deps components ndjson
+
+# CI build: the workspace is a fresh checkout, so skip `clean` (which would
+# delete the node_modules installed by the workflow's `make deps` step).
+ci: components ndjson
 serve: clean deps components serve_hugo
 localserve: clean deps components_local serve_hugo
 

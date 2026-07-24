@@ -76,7 +76,7 @@ The name of the key.
 
 {{< clients-example set="cmds_generic" step="ttl" description="Foundational: Check remaining time-to-live of a key using TTL (returns seconds remaining, -1 if no expiry, -2 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "Hello"
-"OK"
+OK
 > EXPIRE mykey 10
 (integer) 1
 > TTL mykey

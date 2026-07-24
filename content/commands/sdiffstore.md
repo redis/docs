@@ -90,14 +90,23 @@ One or more set keys. The difference is the members of the first set that are no
 ## Examples
 
 {{% redis-cli %}}
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SDIFFSTORE key key1 key2
-SMEMBERS key
+redis> SADD key1 "a"
+(integer) 1
+redis> SADD key1 "b"
+(integer) 1
+redis> SADD key1 "c"
+(integer) 1
+redis> SADD key2 "c"
+(integer) 1
+redis> SADD key2 "d"
+(integer) 1
+redis> SADD key2 "e"
+(integer) 1
+redis> SDIFFSTORE key key1 key2
+(integer) 2
+redis> SMEMBERS key
+1) "a"
+2) "b"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

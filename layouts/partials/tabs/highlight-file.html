@@ -1,0 +1,8 @@
+{{/* Read a source file and run it through Chroma once. Chroma highlighting is the
+     single most expensive step in the build, so callers invoke this via
+     partialCached keyed on (contentPath, language, options): the same file at the
+     same language/options is highlighted only once for the entire site build,
+     however many steps, tabs, or pages embed it. Returns the full-file template.HTML;
+     tabs/source.html slices this result when a per-step range is requested. */}}
+{{ $rawContent := readFile .contentPath }}
+{{ return (highlight $rawContent .language .options) }}

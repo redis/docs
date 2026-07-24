@@ -75,9 +75,12 @@ One or more keys to delete asynchronously.
 ## Examples
 
 {{% redis-cli %}}
-SET key1 "Hello"
-SET key2 "World"
-UNLINK key1 key2 key3
+redis> SET key1 "Hello"
+OK
+redis> SET key2 "World"
+OK
+redis> UNLINK key1 key2 key3
+(integer) 2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

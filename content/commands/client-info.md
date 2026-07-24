@@ -37,7 +37,7 @@ The reply format is identical to that of [`CLIENT LIST`]({{< relref "/commands/c
 ## Examples
 
 {{% redis-cli %}}
-CLIENT INFO
+redis> CLIENT INFO
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

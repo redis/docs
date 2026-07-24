@@ -234,7 +234,7 @@ want to worry about the 3 that have been on the list the longest:
 
 {{< clients-example set="list_tutorial" step="ltrim" description="Capped lists: Use LTRIM with positive indexes to keep a range of elements from the beginning when you need to maintain a fixed-size list" difficulty="intermediate" buildsUpon="lpush_rpush" >}}
 > DEL bikes:repairs
-(integer) 1
+(integer) 0
 > RPUSH bikes:repairs bike:1 bike:2 bike:3 bike:4 bike:5
 (integer) 5
 > LTRIM bikes:repairs 0 2
@@ -400,7 +400,7 @@ Example of rule 3:
 
 {{< clients-example set="list_tutorial" step="rule_3" description="Nil handling: Read-only commands on non-existent keys return empty results (0 or nil) instead of errors, treating them as empty lists" >}}
 > DEL bikes:repairs
-(integer) 0
+(integer) 1
 > LLEN bikes:repairs
 (integer) 0
 > LPOP bikes:repairs

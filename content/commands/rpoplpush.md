@@ -106,12 +106,19 @@ The key of the destination list.
 ## Examples
 
 {{% redis-cli %}}
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-RPOPLPUSH mylist myotherlist
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+redis> RPUSH mylist "one"
+(integer) 1
+redis> RPUSH mylist "two"
+(integer) 2
+redis> RPUSH mylist "three"
+(integer) 3
+redis> RPOPLPUSH mylist myotherlist
+"three"
+redis> LRANGE mylist 0 -1
+1) "one"
+2) "two"
+redis> LRANGE myotherlist 0 -1
+1) "three"
 {{% /redis-cli %}}
 
 ## Details
