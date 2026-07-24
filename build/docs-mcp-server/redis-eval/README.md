@@ -86,11 +86,71 @@ is unchanged. Noise at n=22, not an embedding discrepancy.
 Node embedding ran ~4 texts/s here (unoptimised local ONNX, same caveat as the
 Python side — not a production latency signal; the Step 1 KNN latency is).
 
+## Step 3 — Redis-native FT.HYBRID vs app-layer weighted RRF  ✅ (resolves the fork)
+
+**Question:** does Redis's native `FT.HYBRID` (8.4.4+) reproduce our validated
+app-layer weighted-RRF recipe (vector ~3× lexical, overall MRR .73)?
+
+Two structural facts, found in the command spec:
+- `COMBINE RRF` exposes only `CONSTANT` + `WINDOW` — **no per-retriever weights**.
+  Native RRF is equal-weight, the variant the fusion sweep already found dilutes
+  the top ranks.
+- `COMBINE LINEAR` takes `ALPHA`/`BETA` but fuses raw **scores** linearly — a
+  different algorithm from our rank-based weighted RRF.
+- Native hybrid also uses Redis's **own** BM25 over an indexed TEXT field, not our
+  Porter-stemmed / field-boosted Node lexical (`lexical.json`).
+
+`native_hybrid.py` decomposes both axes (fusion + lexical) on the 35-case eval.
+Working `FT.HYBRID` invocation (gotchas noted for reuse):
+`FT.HYBRID <idx> SEARCH "<terms>" SCORER BM25 VSIM @vec $qv KNN 2 K 200
+[COMBINE RRF 2 CONSTANT 60 | COMBINE LINEAR 4 ALPHA a BETA b] LOAD 1 @owner
+LIMIT 0 200 PARAMS 2 qv <blob>` — `VSIM @field $param`; KNN/COMBINE counts are
+**k/v-pair counts** not the k value; **no `DIALECT`**; project with `LOAD`, not
+`RETURN`.
+
+**Results (overall MRR):**
+
+| system | overall | command | concept |
+|---|---|---|---|
+| redis bm25 only | 0.117 | 0.032 | 0.262 |
+| our lexical only | 0.530 | 0.571 | 0.461 |
+| native rrf (equal-weight) | 0.425 | 0.448 | 0.387 |
+| native linear α.2/β.8 | 0.501 | 0.527 | 0.458 |
+| app wrrf, Redis BM25 + vec | 0.431 | 0.396 | 0.491 |
+| **app wrrf, our lexical + vec (recipe)** | **0.731** | **0.795** | **0.621** |
+
+**Verdict — resolves the "showcase vs control" fork toward app-layer fusion:**
+native `FT.HYBRID` does **not** reproduce the recipe, for two independent reasons.
+(1) Its RRF is equal-weight-only; LINEAR weights but underperforms weighted-RRF.
+(2) More decisively, its lexical side (Redis raw BM25, MRR .117; **0% command
+recall@5**) is far weaker than our Node ranker (.530) — command queries like
+"append an entry to a stream" carry no `xadd` token, so a plain body-text BM25
+ranks streams *tutorials* above the *XADD command page*; our title/slug field
+boosts + page-type weighting are what fix that, and a plain Redis TEXT index
+doesn't carry that signal. A subtle corollary: RRF gives every list fixed
+rank-reciprocal mass regardless of quality, so it injects a bad retriever's
+distractors (hence app-wrrf-over-Redis-BM25 .431 < native-linear .501); RRF wins
+only when both retrievers are good, which they are with our Node lexical (.731).
+
+**Architecture conclusion (matches SPEC §6):** use **Redis for vector KNN**
+(proven in Step 1, ~4 ms), keep **lexical BM25 + weighted-RRF fusion in the app
+(Node) layer** — where the lexical path already has to live for the stdio
+no-datastore mode. `FT.HYBRID`'s all-in-Redis showcase costs ~0.23 MRR and can't
+express the weighted fusion, so it's not the path.
+
+*Honest caveat:* native BM25's showing is depressed partly by a deliberately
+naive OR-of-terms query and by indexing only the section body (no boosted
+title/slug fields). A Redis index mirroring the Node analyzer would narrow the
+lexical gap — but that is re-implementing our lexical ranker inside Redis, with
+native RRF still unable to do the weighted fusion. The conclusion holds either
+way. (The eval's vector side here is numpy `rank_pages`; Step 1 already showed
+Redis KNN ≈ numpy to tie-breaking, so this isolates fusion + lexical cleanly.)
+
 ## Next
 
-- **Step 3 — Redis-native hybrid** vs this app-layer weighted RRF: does the
-  built-in hybrid query reproduce the ranking with vector-favoured weighting?
-- **Step 4 (later):** wire the winning path into the MCP `search_docs` handler.
+- **Step 4 — wire the winning path into the MCP `search_docs` handler:** Redis
+  KNN for vector + the existing Node BM25, fused with weighted RRF (vector ~3×).
+  This is the first change to the shipped server; scope with Andy first.
 
 ## Run
 
@@ -101,4 +161,6 @@ Python side — not a production latency signal; the Step 1 KNN latency is).
 ../vector-eval/.venv/bin/python export_texts.py           # Step 2
 (cd ../node && node test/embed-dump.mjs)                   #   (downloads model 1st run)
 ../vector-eval/.venv/bin/python embed_parity.py section
+
+../vector-eval/.venv/bin/python native_hybrid.py section   # Step 3
 ```
