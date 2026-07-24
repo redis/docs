@@ -12,16 +12,13 @@ import {
   type RedisClientType,
 } from "redis";
 import { EMBED_DIM } from "./embed.js";
+import { normalizeUrl } from "./url.js";
 
 const INDEX = "docs_vec";
 const PREFIX = "docvec:";
 
 function vecBuffer(v: Float32Array): Buffer {
   return Buffer.from(v.buffer, v.byteOffset, v.byteLength);
-}
-
-function normalizeUrl(u: string): string {
-  return u.trim().toLowerCase().replace(/\/+$/, "");
 }
 
 export class VectorStore {

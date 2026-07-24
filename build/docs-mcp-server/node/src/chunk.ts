@@ -7,6 +7,7 @@
 //   - owner of every chunk is the page's normalized url
 // Section-level chunking is what fixed the concept-query gap (DOC-6809 SPEC §10).
 import type { Page } from "./types.js";
+import { normalizeUrl } from "./url.js";
 
 const LEAD_CHARS = 1200;
 const MAX_SECTIONS = 8;
@@ -14,10 +15,6 @@ const MAX_SECTIONS = 8;
 export interface Chunk {
   text: string;
   owner: string; // normalized page url
-}
-
-function normalizeUrl(u: string): string {
-  return u.trim().toLowerCase().replace(/\/+$/, "");
 }
 
 export function buildChunks(pages: Page[]): Chunk[] {

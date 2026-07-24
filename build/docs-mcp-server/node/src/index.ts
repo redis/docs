@@ -8,8 +8,6 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 
 import { loadFeed } from "./feed.js";
 import { DocsIndex, type Searcher } from "./search.js";
-import { HybridSearcher } from "./hybrid.js";
-import { VectorStore } from "./vector-store.js";
 import { searchDocs, SearchDocsInput } from "./tools/search-docs.js";
 import { getPage, GetPageInput } from "./tools/get-page.js";
 import { toolResult, fail } from "./response.js";
@@ -88,6 +86,12 @@ async function main() {
   // get_page always uses the lexical index (feed lookup, no ranking).
   let searcher: Searcher = index;
   if (REDIS_URL) {
+    // Load the hybrid path lazily: it pulls in fastembed (native onnxruntime)
+    // and the redis client, which the default lexical-only stdio mode never
+    // needs and which would otherwise crash startup on platforms lacking the
+    // native ONNX binary. Keep the no-REDIS_URL path dependency-free.
+    const { VectorStore } = await import("./vector-store.js");
+    const { HybridSearcher } = await import("./hybrid.js");
     const store = new VectorStore(REDIS_URL);
     await store.connect();
     await store.ensureIndex();

@@ -1,6 +1,7 @@
 import type { Page } from "./types.js";
 import { stem as stemPorter } from "./stem.js";
 import { stem as stemPaice } from "./stem-paice.js";
+import { normalizeUrl } from "./url.js";
 
 // Stemmer is switchable for the eval bake-off (STEMMER=paice|porter). Porter is
 // the default/shipped analyzer.
@@ -58,10 +59,6 @@ function tokenize(text: string): string[] {
  * forms conflate. Stopwords are filtered on RAW tokens before this (see search). */
 function analyze(text: string): string[] {
   return tokenize(text).map(stem);
-}
-
-function normalizeUrl(u: string): string {
-  return u.trim().toLowerCase().replace(/\/+$/, "");
 }
 
 /** Everything worth matching against for a page: slug, title, summary, section text. */

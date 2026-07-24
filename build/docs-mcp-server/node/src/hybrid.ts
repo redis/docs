@@ -8,15 +8,12 @@
 import type { DocsIndex, SearchHit, SearchOptions } from "./search.js";
 import type { VectorStore } from "./vector-store.js";
 import { embedQuery } from "./embed.js";
+import { normalizeUrl } from "./url.js";
 
 const RRF_K = 60;
 const DEFAULT_VECTOR_WEIGHT = 3;
 const LEXICAL_POOL = 50; // lexical candidates fused
 const VECTOR_POOL = 200; // vector chunks fetched (deduped to <=50 pages)
-
-function normalizeUrl(u: string): string {
-  return u.trim().toLowerCase().replace(/\/+$/, "");
-}
 
 /** Weighted reciprocal-rank fusion. Returns url -> fused score. */
 function weightedRrf(
