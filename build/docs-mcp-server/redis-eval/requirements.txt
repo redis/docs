@@ -1,0 +1,4 @@
+# Reuses ../vector-eval/.venv (fastembed + numpy). Adds the Redis client.
+# Local Redis 8 with the `search` module must be reachable on localhost:6379.
+-r ../vector-eval/requirements.txt
+redis>=8.0

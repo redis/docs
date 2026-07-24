@@ -1,0 +1,6 @@
+# Regenerable parity artifacts (export_texts.py / embed-dump.mjs)
+parity_texts.json
+node_vectors.json
+__pycache__/
+# Portable vector dump for the Step 4 loader seed (dump_vectors_bin.py)
+vecdump/

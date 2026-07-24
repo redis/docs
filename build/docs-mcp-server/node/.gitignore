@@ -1,0 +1,5 @@
+node_modules/
+dist/
+*.log
+test/eval/docs.ndjson*
+local_cache/
