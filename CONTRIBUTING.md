@@ -7,6 +7,7 @@ Thanks for helping keep our docs accurate and useful. Docs are part of a feature
 ## Do I need to write docs for this change?
 
 - **No user-facing change** (refactor, internal, tests, CI) → **no docs.** Note "no docs needed" on your PR.
+- **New product or feature area** → **yes** — start with the docs team on where it lives before writing.
 - **New feature, behavior, or setting** → **yes** — a short task or concept page.
 - **New or changed API / config field** → **update the reference** (often auto-generated — check with the docs team first).
 

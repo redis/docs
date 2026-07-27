@@ -10,12 +10,12 @@ The idea: **one flow, dialed to how much help a team needs** — from us draftin
 
 ## One change, start to finish
 
-**Scenario:** an engineer (the **contributor / SME**) ships a new user-facing setting → it needs a short task or concept page. A **writer** owns voice, structure, placement, and the merge. `main` is always publish-ready; **a merge to `main` fast-forwards to `latest`, so merge = live.** Work-in-progress and embargoed content stay on branches.
+**Scenario:** an engineer (the **contributor / SME**) is developing a new user-facing setting → it needs a short task or concept page. A **writer** owns voice, structure, placement, and the merge. `main` is always publish-ready; **a merge to `main` fast-forwards to `latest`, so merge = live.** Work-in-progress and embargoed content stay on branches.
 
 ### Part 1 — the contributor (SME)
 
-0. **Get access (one-time).** Requests write access; added as a **repo collaborator directly** — contributors work **in the repo, not a fork**. The clone already carries our conventions via the committed root `CLAUDE.md`.
-   - *Tooling:* ✅ repo write-access flow (already in use for cloud-docs contributors) · 🟡 committed root `CLAUDE.md` · ❌ `AGENTS.md` pointer for Codex users
+0. **Get access.** Fork the repo and open PRs from your fork — that works out of the box. Prefer to work directly in the repo instead? Ask in **#ask-docs** and we'll add you as a collaborator. Either way the clone carries our conventions via the committed root `CLAUDE.md`.
+   - *Tooling:* ✅ fork + PR flow (works today) · ✅ repo write-access flow (already in use for cloud-docs contributors) · 🟡 committed root `CLAUDE.md` · ❌ `AGENTS.md` pointer for Codex users
 1. **Track it.** Opens a "draft docs for &lt;feature&gt;" ticket (part of *their* definition of done), product-labeled, linked to the feature PR. For substantial work it pairs with a docs-team "review & publish" ticket.
    - *Tooling:* ✅ Jira DOC project + `docs-rs`/`docs-k8s` labels + PR↔Jira autolink + Slack↔Jira sync · ❌ two-ticket automation
 2. **Check what exists first.** Searches the docs; if a related page exists, **folds into / cross-links** it rather than making an orphan or duplicate.
@@ -37,11 +37,9 @@ The idea: **one flow, dialed to how much help a team needs** — from us draftin
    - *Tooling:* ✅ `/standup`·`/checkpoint`·`/pickup` suite (proven prototype) · ❌ team-adapted, queue-aware version
 2. **Reviews at the right tier.** Routine additive → light lane (releases / security / API refs get the deep track). The human pass is **judgment-only** — voice, structure, placement, cross-links — because the gates handled the mechanics. Edits *from* the draft.
    - *Tooling:* ✅ Andy's `.claude/commands/docs/*` (pattern to build on) · ❌ review-tier policy · ❌ review agent (structured-review comment)
-3. **Readiness signal.** Until sign-off the page publishes as **"contributor-authored, pending docs-team review,"** upgraded to `reviewed` on approval — fast merge and honest signaling coexist.
-   - *Tooling:* ❌ `review_status` frontmatter field · ❌ page banner
-4. **Merges → publishes.** Merges to `main`; protected paths require a human reviewer first; on merge `main` fast-forwards to `latest` → live, no manual publish step.
+3. **Merges → publishes.** Merges to `main`; protected paths require a human reviewer first; on merge `main` fast-forwards to `latest` → live, no manual publish step.
    - *Tooling:* ✅ existing deploy pipeline · ✅ `main`+`latest` branches · ❌ CODEOWNERS · ❌ branch protection · ❌ `main → latest` auto-ff Action · ❌ gated auto-merge
-5. **If something's wrong post-publish.** Publish is instant, so safety = **fast rollback**: a `revert` on `main` re-publishes the good state.
+4. **If something's wrong post-publish.** Publish is instant, so safety = **fast rollback**: a `revert` on `main` re-publishes the good state.
    - *Tooling:* ✅ `git revert` (+ the auto-ff Action, once built) · ❌ rollback runbook step
 
 **Embargoed variant:** for a timed release, content sits on a **release branch** and merges to `main` at go-time, then auto-publishes.
@@ -50,14 +48,14 @@ The idea: **one flow, dialed to how much help a team needs** — from us draftin
 
 ## Same flow, three levels of support
 
-The flow above is the **machinery**. What changes per team is only **how much of it we do vs. the SME**, the **entry-point bar**, and the **review depth** — never the quality bar or the gates. New teams start at ①; the default trajectory is *toward* ③.
+The flow above is the **machinery**, and the whole point of it is that documenting a change gets **faster and simpler for everyone** — not that the work just moves onto the SME. What changes per team is only **how much we do together vs. the SME alone**, the **entry-point bar**, and the **review depth** — never the quality bar or the gates. New teams start at ①; the default trajectory is *toward* ③.
 
 **① High-touch / hand-holding** — *new team, or complex / high-stakes content. This is the floor — the most support we offer.*
-- **The dev reaches out** about a change that needs documenting **and provides source material** (accurate notes / a spec / a working config) — *not* a finished PR, but the initiation and the raw material are theirs.
-- **We draft** from that material and own placement from the start; deep review; first few PRs reviewed regardless.
-- **Manual merge**, "pending review" banner until sign-off.
+- **We gather the material and use automated change-detection** — a dev-repo scan surfaces docs-relevant PRs so changes don't slip, and we pull together the notes / spec / working config with the dev and draft from there.
+- **We draft** and own placement from the start; deep review; first few PRs reviewed regardless.
+- **Manual merge** after sign-off.
 - *Graduates once the team reliably supplies accurate, complete raw material.*
-- ⚠️ **What this replaces:** some teams today expect **us to monitor the repo for changes and reach out to them** about what needs documenting — we carry the detection *and* the drafting. That's the piece that doesn't survive the new model: **the dev owns "there's a change → here's the material,"** not us. If change-detection happens at all, it's via **automated tooling** (a dev-repo scan surfacing PRs of docs interest), never a writer manually watching — and even then the dev still confirms and supplies the material.
+- ⚠️ **What this replaces:** the old status quo where **a writer manually watches the repo** for changes. Detection is now **automated** (the dev-repo scan), and the dev still confirms and supplies the material — the piece that goes away is the writer monitoring by hand.
 
 **② Light-touch** — *the walkthrough above; a team contributing steadily.*
 - SME opens a **draft PR from a template**; we coach, review closely, own IA.
@@ -66,14 +64,14 @@ The flow above is the **machinery**. What changes per team is only **how much of
 
 **③ Self-serve** — *goal state (e.g. a matured Iris).*
 - Team **drafts + self-reviews + opens ready PRs**; we do a **light final review** only.
-- **Gated auto-merge** (gates green + no Bugbot issues + self-review clean + a readiness label) — the Iris semi-automation ask, *earned*. Protected-path content still always gets a human.
+- **Gated auto-merge** for routine content (gates green + no Bugbot issues + self-review clean + a readiness label) — the Iris semi-automation ask, *earned*. **Security-relevant changes always get a human reviewer before publish, on every path** — no auto-merge exceptions.
 - *Can move back to light-touch if quality slips (reviewed each quarter / per N PRs).*
 
 ---
 
 ## What we'd need to build, in order
 
-1. 🔴 **Make the gates PR-blocking** — link-check on `pull_request`, Vale-in-CI, shortcode hook → CI, frontmatter validator. *(Everything else rests on this.)*
+1. 🔴 **Add the PR gates, tiered by strictness.** **Blocking:** valid frontmatter + Hugo build + shortcode paths — a broken build is a broken live page, so these stop a merge. **Advisory (non-blocking):** link-check and Vale style — surfaced on the PR to fix, never a merge-blocker. *(Everything else rests on this.)*
 2. **Merge the staged contributor kit** — `CLAUDE.md` + per-type archetypes + CONTRIBUTING + PR template + DoD.
 3. `/docs:review-doc` self-review skill.
 4. CODEOWNERS + branch protection (the protected-path floor).

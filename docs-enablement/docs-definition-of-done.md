@@ -7,6 +7,7 @@ A change is **docs-done** when the matching row is satisfied:
 | Change type | What's required |
 |---|---|
 | No user-facing impact (refactor, internal, tests, CI) | Assert **"no docs needed"** on the PR. |
+| New **product or major feature area** | A net-new docs section — **coordinate with the docs team on structure and placement first**, then contribute pages from the templates. |
 | New or changed user-facing **feature, behavior, setting, or default** | A **docs PR** — a task or concept page from the template, meeting the contribution bar, **tested (steps/commands actually run)**. |
 | New or changed **API, CRD, or config field** | The relevant **reference updated** (often auto-generated — coordinate with docs). |
 | **Deprecation or removal** | A **release-note entry** + affected pages updated. |
