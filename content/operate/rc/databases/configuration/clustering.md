@@ -100,7 +100,7 @@ The Redis hashing policy is identical to the [hashing policy used by Redis Open 
 - Your application does not use hashtags in database key names.
 - Your application uses binary data as key names.
 
-The Redis hashing policy allows for faster scaling where available.
+The Redis hashing policy allows for [Smooth Scaling](#smooth-scaling) where available.
 
 ### Standard hashing policy
 
@@ -192,6 +192,35 @@ The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enab
 
 After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database.
 
-The OSS Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy).
+The OSS Cluster API is supported when a database uses the [standard hashing policy](#standard-hashing-policy) or the [Redis hashing policy](#redis-hashing-policy).
 
 Review [OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+
+## Smooth scaling {#smooth-scaling}
+
+Smooth scaling is an improved resharding method for Redis Cloud Pro databases. Compared to traditional resharding, it is significantly faster and reduces latency spikes and disconnects during scaling.
+
+{{< note >}}
+Smooth scaling is available for databases that meet the following prerequisites. Other databases continue to use traditional scaling.
+{{< /note >}}
+
+### Prerequisites
+
+Smooth scaling is used automatically when a database meets all of the following conditions:
+
+| Requirement | Detail |
+|---|---|
+| Hashing policy | Must use the [Redis hashing policy](#redis-hashing-policy). Databases using the Standard or Custom hashing policy use traditional scaling instead. |
+| Database version | Redis 8.4 or later. |
+
+### Not supported
+
+Smooth scaling is not available for:
+
+- Active-Active databases
+- Flex (Auto Tiering) databases
+- Existing databases that use the Standard or Custom hashing policy
+
+### Backward compatibility
+
+You do not need to make any changes to your application code. The changes related to smooth scaling are implemented internally and do not affect RESP commands or how clients connect to and communicate with the database.
