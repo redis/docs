@@ -11,7 +11,7 @@ Thanks for helping keep our docs accurate and useful. Docs are part of a feature
 - **New feature, behavior, or setting** → **yes** — a short task or concept page.
 - **New or changed API / config field** → **update the reference** (often auto-generated — check with the docs team first).
 
-Full policy: [Definition of Done: Docs](./docs-enablement/docs-definition-of-done.md). When unsure, ask in **#docs** — a 30-second question beats a missed page.
+When unsure, ask in **#docs** — a 30-second question beats a missed page.
 
 ## The golden path
 
