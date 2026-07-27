@@ -23,7 +23,5 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) — template used, placed coverage-awa
 ## Division of labor
 **Author** owns technical accuracy + a solid first draft. **Docs team** owns voice, structure, and placement.
 
-## Open for leadership / eng leads
-- Ratify this definition and **re-broadcast it with these specifics** (the original message lacked them).
-- Agree **where the tripwire lives**: PR-template checkbox (light) vs. a merge gate (strict). <!-- TODO: decide -->
-- Confirm the change-type rows match how teams actually ship.
+## A note on enforcement
+The exact enforcement mechanism (a self-attested PR checkbox versus a required merge gate) is still being finalized with engineering leadership. For now, treat the table above as the working definition — and if a row doesn't match how your team actually ships, flag it in **#ask-docs** so we can adjust it.

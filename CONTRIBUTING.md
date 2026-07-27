@@ -19,7 +19,7 @@ Full policy: [Definition of Done: Docs](./docs-enablement/docs-definition-of-don
 2. **Copy the template** for your doc type from `archetypes/` (`task` / `concept` / `reference`), or run `hugo new content/<path>/<page>.md --kind task`.
 3. **Draft with AI in the repo.** Claude inherits our style from the committed `CLAUDE.md` — give it your notes and ask it to draft in our conventions.
 4. **Self-check.** Run `/docs:review-doc` (or at least Vale + the link check + a local `hugo` build) and fix what it flags.
-5. **Open a PR** and fill the docs checklist. A docs teammate reviews for voice and structure, then merges.
+5. **Open a PR** and fill the docs checklist. A docs teammate reviews for voice, structure, and placement, then merges. Merging to `main` publishes to the live site automatically — so review happens *before* merge, and changes to sensitive areas (security, release notes) always get a human reviewer first.
 
 ## Templates
 
