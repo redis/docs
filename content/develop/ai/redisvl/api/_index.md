@@ -47,6 +47,7 @@ Reference documentation for the RedisVL API.
   * [OpenAITextVectorizer](vectorizer/#openaitextvectorizer)
   * [AzureOpenAITextVectorizer](vectorizer/#azureopenaitextvectorizer)
   * [VertexAIVectorizer](vectorizer/#vertexaivectorizer)
+  * [GoogleGenAIVectorizer](vectorizer/#googlegenaivectorizer)
   * [CohereTextVectorizer](vectorizer/#coheretextvectorizer)
   * [BedrockVectorizer](vectorizer/#bedrockvectorizer)
   * [CustomVectorizer](vectorizer/#customvectorizer)
