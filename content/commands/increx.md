@@ -183,61 +183,97 @@ Only sets the TTL/expiration if the key currently has no TTL/expiration. If the 
 Default increment (by 1), starting from 0 if the key does not exist:
 
 {{% redis-cli %}}
-DEL mykey1
-INCREX mykey1
-INCREX mykey1
+redis> DEL mykey1
+(integer) 0
+redis> INCREX mykey1
+1) (integer) 1
+2) (integer) 1
+redis> INCREX mykey1
+1) (integer) 2
+2) (integer) 1
 {{% /redis-cli %}}
 
 Increment by a specific integer using `BYINT`, including a negative increment to decrement:
 
 {{% redis-cli %}}
-SET mykey2 100
-INCREX mykey2 BYINT 5
-INCREX mykey2 BYINT -10
+redis> SET mykey2 100
+OK
+redis> INCREX mykey2 BYINT 5
+1) (integer) 105
+2) (integer) 5
+redis> INCREX mykey2 BYINT -10
+1) (integer) 95
+2) (integer) -10
 {{% /redis-cli %}}
 
 Increment by a floating-point number using `BYFLOAT`:
 
 {{% redis-cli %}}
-SET mykey3 1.5
-INCREX mykey3 BYFLOAT 0.25
+redis> SET mykey3 1.5
+OK
+redis> INCREX mykey3 BYFLOAT 0.25
+1) "1.75"
+2) "0.25"
 {{% /redis-cli %}}
 
 Set an expiration on every increment with `EX`:
 
 {{% redis-cli %}}
-DEL mykey4
-INCREX mykey4 BYINT 1 EX 100
-TTL mykey4
+redis> DEL mykey4
+(integer) 0
+redis> INCREX mykey4 BYINT 1 EX 100
+1) (integer) 1
+2) (integer) 1
+redis> TTL mykey4
+(integer) 100
 {{% /redis-cli %}}
 
 Use `ENX` to set an expiration only when the key has no existing TTL. The increment is always applied regardless:
 
 {{% redis-cli %}}
-SET mykey5 10
-INCREX mykey5 BYINT 1 EX 100 ENX
-TTL mykey5
-SET mykey5 10 EX 500
-INCREX mykey5 BYINT 1 EX 10 ENX
-TTL mykey5
+redis> SET mykey5 10
+OK
+redis> INCREX mykey5 BYINT 1 EX 100 ENX
+1) (integer) 11
+2) (integer) 1
+redis> TTL mykey5
+(integer) 100
+redis> SET mykey5 10 EX 500
+OK
+redis> INCREX mykey5 BYINT 1 EX 10 ENX
+1) (integer) 11
+2) (integer) 1
+redis> TTL mykey5
+(integer) 500
 {{% /redis-cli %}}
 
 Use `PERSIST` to remove the key's expiration while incrementing:
 
 {{% redis-cli %}}
-SET mykey6 5 EX 1000
-TTL mykey6
-INCREX mykey6 BYINT 1 PERSIST
-TTL mykey6
+redis> SET mykey6 5 EX 1000
+OK
+redis> TTL mykey6
+(integer) 1000
+redis> INCREX mykey6 BYINT 1 PERSIST
+1) (integer) 6
+2) (integer) 1
+redis> TTL mykey6
+(integer) -1
 {{% /redis-cli %}}
 
 Compare the default out-of-bounds behavior with `SATURATE` when the result would exceed `UBOUND`. By default the key is left untouched and the reply reports a zero delta; with `SATURATE` the result is capped at the bound and the reply reflects the saturated delta:
 
 {{% redis-cli %}}
-SET mykey7 99
-INCREX mykey7 BYINT 5 UBOUND 100
-SET mykey7 99
-INCREX mykey7 BYINT 5 UBOUND 100 SATURATE
+redis> SET mykey7 99
+OK
+redis> INCREX mykey7 BYINT 5 UBOUND 100
+1) (integer) 99
+2) (integer) 0
+redis> SET mykey7 99
+OK
+redis> INCREX mykey7 BYINT 5 UBOUND 100 SATURATE
+1) (integer) 100
+2) (integer) 1
 {{% /redis-cli %}}
 
 ## Details

@@ -1,8 +1,15 @@
+{{- /* Keep only command lines ("> " / "redis> "), stripped of their prompt.
+       Output and comment lines are dropped: cli.js runs the commands live and
+       renders their real output, so feeding it the printed output — or the
+       "redis> " prompt itself — makes it try to execute those as commands (the
+       terminal was showing "redis> redis> BF.ADD ..." / "unknown command 'redis>'"). */ -}}
 {{- $commands := slice -}}
 {{- range split (trim .Inner " \n\t\r") "\n" -}}
   {{- $line := trim . " \t\r" -}}
-  {{- if $line -}}
-    {{- $commands = $commands | append $line -}}
+  {{- if hasPrefix $line "redis> " -}}
+    {{- $commands = $commands | append (strings.TrimPrefix "redis> " $line) -}}
+  {{- else if hasPrefix $line "> " -}}
+    {{- $commands = $commands | append (strings.TrimPrefix "> " $line) -}}
   {{- end -}}
 {{- end -}}
 {{- $id := printf "redis-cli-%s" (substr (.Inner | md5) 0 8) -}}
@@ -15,9 +22,17 @@
   <button tabindex="1" type="button" class="tryit-button ml-auto flex items-center gap-1 text-slate-300 hover:text-white bg-red-700 hover:bg-red-600 h-7 px-3 rounded text-xs font-medium transition duration-150 ease-in-out" title="Run these commands in the Redis CLI" data-codetabs-id="{{ $id }}" onclick="openTryItCli(this)" aria-label="Try these Redis commands in an interactive CLI"><svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Try it</span></button>
   {{- end -}}
 </div>
-<form class="redis-cli overflow-y-auto max-h-80">
-  {{- .Inner -}}
-</form>
+{{- if $commands -}}
+  {{- /* Interactive terminal: cli.js reads these bare commands from textContent,
+         runs them, and renders the live output. */ -}}
+  {{- $cliJoined := delimit $commands "\n" -}}
+  {{- $cliSourceAttr := replace (htmlEscape $cliJoined) "\n" "&#10;" -}}
+  {{- printf "<form class=\"redis-cli overflow-y-auto max-h-80\" data-cli-source=\"%s\">\n%s\n</form>" $cliSourceAttr (htmlEscape $cliJoined) | safeHTML -}}
+{{- else -}}
+  {{- /* No "> "/"redis> " command lines — render the inner content as a static,
+         non-executable block (cli.js/codetabs.js only target form.redis-cli). */ -}}
+  {{- printf "<div class=\"redis-cli redis-cli-static overflow-y-auto max-h-80\"><pre>%s</pre></div>" (htmlEscape (trim .Inner " \n\t\r")) | safeHTML -}}
+{{- end -}}
 {{- if $commands -}}
 <script>
   window._tryItCommands = window._tryItCommands || {};

@@ -12,6 +12,14 @@ min-version-rs: blah
 weight: 100
 ---
 
+## Redis Community Edition 7.4.10 (July 2026)
+
+Update urgency: `SECURITY`: There is a security fix in the release.
+
+### Security fixes
+
+- A crafted stream `RESTORE` payload can make two consumers share the same NACK, leading to a use-after-free that may result in Remote Code Execution.
+
 ## Redis Community Edition 7.4.9 (May 2026):
 
 Update urgency: `SECURITY`: There are security fixes in the release.

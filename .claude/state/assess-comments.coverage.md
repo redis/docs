@@ -223,6 +223,20 @@ rule fires and distinguishes fixed from still-broken.
   ("Wrong FT.INFO document count field", inline, 06-17) independently flagged
   the same `info.numDocs` → `num_docs` bug. Verified fixed in current code.
 
+### Approval-over-open-finding — benign variants
+
+- **#3312 dwdougherty, 2026-05-12.** Review state `COMMENTED` (not `APPROVED`)
+  with body *"Apart from the issues already identified by Bugbot, LGTM."* sat
+  over 3 open bugbot findings. **Explicit carveout** — the human deliberately
+  excluded the bot's findings from the LGTM. Over the following months, 1
+  finding (3228632453 raw-md → relref) was substantively fixed by the author and
+  2 (3228632434 streaming.md empty page; 3228632444 manage-workspace.md empty
+  frontmatter) became *stale via the broader restructure* (streaming.md
+  deleted; manage-workspace.md fully populated with frontmatter). Pattern: the
+  approval-over-open-finding signal *did* fire, but the carveout language made
+  it benign and the open findings were later defanged by unrelated work. Distinct
+  from the dangerous variant where an "LGTM" silently rides over a real bug.
+
 ### Bot false positives (calibration signatures)
 - **#3604 async fire-on-call mis-modeled, 2026-07-08 (first adjudicated bugbot FP).**
   Bugbot raised two Medium concurrency findings on new Lettuce doc examples, same

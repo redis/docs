@@ -111,11 +111,17 @@ list.
 
 
 {{% redis-cli %}}
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LTRIM mylist 1 -1
-LRANGE mylist 0 -1
+redis> RPUSH mylist "one"
+(integer) 1
+redis> RPUSH mylist "two"
+(integer) 2
+redis> RPUSH mylist "three"
+(integer) 3
+redis> LTRIM mylist 1 -1
+OK
+redis> LRANGE mylist 0 -1
+1) "two"
+2) "three"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

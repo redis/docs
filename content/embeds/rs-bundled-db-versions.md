@@ -1,5 +1,6 @@
 | Redis Software<br />cluster version | Bundled Redis<br />DB versions | Default DB version<br />(upgraded/new databases) |
 |-------|----------|-----|
+| 8.2.0 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4, 8.6 | 8.6 |
 | 8.0.20 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4, 8.6 | 8.6 |
 | 8.0.18 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4, 8.6 | 8.6 |
 | 8.0.16 | 6.2, 7.2, 7.4, 8.0, 8.2, 8.4 | 8.4 |

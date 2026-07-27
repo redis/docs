@@ -58,7 +58,7 @@ checked on all `sub-filters`.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> CF.INSERT cf ITEMS item1 item2 item2
 1) (integer) 1
 2) (integer) 1
@@ -73,7 +73,7 @@ redis> CF.DEL cf item2
 (integer) 1
 redis> CF.DEL cf item2
 (integer) 0
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

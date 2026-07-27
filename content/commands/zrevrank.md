@@ -92,13 +92,21 @@ Also return the member's score along with its rank.
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZREVRANK myzset "one"
-ZREVRANK myzset "four"
-ZREVRANK myzset "three" WITHSCORE
-ZREVRANK myzset "four" WITHSCORE
+redis> ZADD myzset 1 "one"
+(integer) 1
+redis> ZADD myzset 2 "two"
+(integer) 1
+redis> ZADD myzset 3 "three"
+(integer) 1
+redis> ZREVRANK myzset "one"
+(integer) 2
+redis> ZREVRANK myzset "four"
+(nil)
+redis> ZREVRANK myzset "three" WITHSCORE
+1) (integer) 0
+2) "3"
+redis> ZREVRANK myzset "four" WITHSCORE
+(nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

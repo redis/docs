@@ -96,16 +96,27 @@ Stop counting once the cardinality reaches `limit`. `0` (the default) means no l
 ## Examples
 
 {{% redis-cli %}}
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key1 "d"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SINTER key1 key2
-SINTERCARD 2 key1 key2
-SINTERCARD 2 key1 key2 LIMIT 1
+redis> SADD key1 "a"
+(integer) 1
+redis> SADD key1 "b"
+(integer) 1
+redis> SADD key1 "c"
+(integer) 1
+redis> SADD key1 "d"
+(integer) 1
+redis> SADD key2 "c"
+(integer) 1
+redis> SADD key2 "d"
+(integer) 1
+redis> SADD key2 "e"
+(integer) 1
+redis> SINTER key1 key2
+1) "c"
+2) "d"
+redis> SINTERCARD 2 key1 key2
+(integer) 2
+redis> SINTERCARD 2 key1 key2 LIMIT 1
+(integer) 1
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

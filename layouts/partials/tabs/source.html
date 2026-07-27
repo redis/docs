@@ -1,17 +1,19 @@
-{{ $rawContent := readFile .contentPath }}
+{{/* Full-file syntax highlight, cached per (contentPath, language, options) so a
+     file used across many steps, tabs, or pages is run through Chroma only once for
+     the whole build. Slicing below operates on this cached HTML. */}}
+{{ $full := partialCached "tabs/highlight-file.html" . .contentPath .language .options }}
 {{ $result := "" }}
 {{ $sliced := false }}
-{{/* When a contiguous "start-end" sliceRange is given, highlight the WHOLE file
-     first (so Chroma keeps full lexer context) and then slice the rendered line
-     spans. Slicing the raw text before highlighting would mis-colour a snippet
-     that begins inside a multi-line string or comment. */}}
+{{/* When a contiguous "start-end" sliceRange is given, we slice the WHOLE
+     highlighted file (rather than highlighting the raw slice) so Chroma keeps full
+     lexer context. Slicing the raw text before highlighting would mis-colour a
+     snippet that begins inside a multi-line string or comment. */}}
 {{ with .sliceRange }}
   {{ $bounds := split . "-" }}
   {{ if eq (len $bounds) 2 }}
     {{ $start := int (index $bounds 0) }}
     {{ $end := int (index $bounds 1) }}
-    {{ $full := highlight $rawContent $.language $.options | string }}
-    {{ $body := replaceRE `</code></pre></div>\s*$` "" $full }}
+    {{ $body := replaceRE `</code></pre></div>\s*$` "" ($full | string) }}
     {{ $segs := split $body `<span class="line">` }}
     {{ $lineSegs := after 1 $segs }}
     {{ $total := len $lineSegs }}
@@ -26,6 +28,6 @@
   {{ end }}
 {{ end }}
 {{ if not $sliced }}
-  {{ $result = highlight $rawContent .language .options }}
+  {{ $result = $full }}
 {{ end }}
 {{ return $result }}

@@ -83,10 +83,14 @@ The maximum member, compared lexicographically. Prefix with `[` for an inclusive
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 0 a 0 b 0 c 0 d 0 e
-ZADD myzset 0 f 0 g
-ZLEXCOUNT myzset - +
-ZLEXCOUNT myzset [b [f
+redis> ZADD myzset 0 a 0 b 0 c 0 d 0 e
+(integer) 5
+redis> ZADD myzset 0 f 0 g
+(integer) 2
+redis> ZLEXCOUNT myzset - +
+(integer) 7
+redis> ZLEXCOUNT myzset [b [f
+(integer) 5
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

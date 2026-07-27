@@ -94,10 +94,11 @@ Also return the value of each selected field. Can only be used together with `co
 ## Examples
 
 {{% redis-cli %}}
-HSET coin heads obverse tails reverse edge null
-HRANDFIELD coin
-HRANDFIELD coin
-HRANDFIELD coin -5 WITHVALUES
+redis> HSET coin heads obverse tails reverse edge null
+(integer) 3
+redis> HRANDFIELD coin
+redis> HRANDFIELD coin
+redis> HRANDFIELD coin -5 WITHVALUES
 {{% /redis-cli %}}
 
 ## Specification of the behavior when count is passed

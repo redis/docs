@@ -66,10 +66,14 @@ The stream key.
 ## Examples
 
 {{% redis-cli %}}
-XADD mystream * item 1
-XADD mystream * item 2
-XADD mystream * item 3
-XLEN mystream
+redis> XADD mystream * item 1
+"1784722083902-0"
+redis> XADD mystream * item 2
+"1784722083903-0"
+redis> XADD mystream * item 3
+"1784722083904-0"
+redis> XLEN mystream
+(integer) 3
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

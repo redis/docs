@@ -44,7 +44,7 @@ The **General settings** section provides section provides the connection detail
 
 Select the **Copy** button next to the Store ID and API Base URL to copy them to the clipboard.
 
-See [use the Agent Memory API]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) for more information on how to use the connection information and API keys.
+Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) to use the connection information and API key.
 
 ### Memory configuration
 

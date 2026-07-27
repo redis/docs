@@ -78,13 +78,21 @@ One or more set keys. The result is the members of the first set that are not pr
 ## Examples
 
 {{% redis-cli %}}
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SDIFF key1 key2
+redis> SADD key1 "a"
+(integer) 1
+redis> SADD key1 "b"
+(integer) 1
+redis> SADD key1 "c"
+(integer) 1
+redis> SADD key2 "c"
+(integer) 1
+redis> SADD key2 "d"
+(integer) 1
+redis> SADD key2 "e"
+(integer) 1
+redis> SDIFF key1 key2
+1) "a"
+2) "b"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
