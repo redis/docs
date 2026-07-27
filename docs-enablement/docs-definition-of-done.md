@@ -24,4 +24,4 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) — template used, placed coverage-awa
 **Author** owns technical accuracy + a solid first draft. **Docs team** owns voice, structure, and placement.
 
 ## A note on enforcement
-The exact enforcement mechanism (a self-attested PR checkbox versus a required merge gate) is still being finalized with engineering leadership. For now, treat the table above as the working definition — and if a row doesn't match how your team actually ships, flag it in **#ask-docs** so we can adjust it.
+The exact enforcement mechanism (a self-attested PR checkbox versus a required merge gate) is still being finalized with engineering leadership. For now, treat the table above as the working definition — and if a row doesn't match how your team actually ships, flag it in **#docs** so we can adjust it.
