@@ -39,6 +39,7 @@ You have several options for installing or using `redis-cli`.
     `$ make redis-cli`.
     
     The `redis-cli` utility will be built in the `/path/to/redis-source/src` directory as `/path/to/redis-source/src/redis-cli`.
+- [Install the standalone `redis-cli` binary]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}) for Linux or macOS.
 
 If you prefer not to install Redis, you can also run `redis-cli` in Docker. See the [Run `redis-cli` using Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker/#connect-with-redis-cli" >}}) page for instructions.
 
