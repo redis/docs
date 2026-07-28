@@ -59,7 +59,7 @@ extends PredisTestCase
         // STEP_START hmget
         // Recreate the bike:1 hash so this example runs on its own.
         $r->del('bike:1');
-        $r->hset('bike:1', [
+        $r->hmset('bike:1', [
             'model' => 'Deimos',
             'brand' => 'Ergonom',
             'type' => 'Enduro bikes',
@@ -77,7 +77,7 @@ extends PredisTestCase
         // STEP_START hincrby
         // Recreate the bike:1 hash so this example runs on its own.
         $r->del('bike:1');
-        $r->hset('bike:1', [
+        $r->hmset('bike:1', [
             'model' => 'Deimos',
             'brand' => 'Ergonom',
             'type' => 'Enduro bikes',
@@ -139,7 +139,7 @@ extends PredisTestCase
         // STEP_START hexpire
         // Recreate the sensor:sensor1 hash so this example runs on its own.
         $r->del('sensor:sensor1');
-        $r->hset('sensor:sensor1', [
+        $r->hmset('sensor:sensor1', [
             'air_quality' => 256,
             'battery_level' => 89,
         ]);
@@ -155,14 +155,14 @@ extends PredisTestCase
         // >>> 2
         // STEP_END
         // REMOVE_START
-        $this->assertCount(2, $res15);
-        $this->assertCount(2, $res16);
+        $this->assertEquals(2, count($res15));
+        $this->assertEquals(2, count($res16));
         // REMOVE_END
 
         // STEP_START hpexpire
         // Recreate the sensor:sensor1 hash so this example runs on its own.
         $r->del('sensor:sensor1');
-        $r->hset('sensor:sensor1', [
+        $r->hmset('sensor:sensor1', [
             'air_quality' => 256,
             'battery_level' => 89,
         ]);
@@ -178,14 +178,14 @@ extends PredisTestCase
         // >>> 1
         // STEP_END
         // REMOVE_START
-        $this->assertCount(1, $res17);
-        $this->assertCount(1, $res18);
+        $this->assertEquals(1, count($res17));
+        $this->assertEquals(1, count($res18));
         // REMOVE_END
 
         // STEP_START hexpireat
         // Recreate the sensor:sensor1 hash so this example runs on its own.
         $r->del('sensor:sensor1');
-        $r->hset('sensor:sensor1', [
+        $r->hmset('sensor:sensor1', [
             'air_quality' => 256,
             'battery_level' => 89,
         ]);
@@ -201,8 +201,8 @@ extends PredisTestCase
         // >>> 1
         // STEP_END
         // REMOVE_START
-        $this->assertCount(1, $res19);
-        $this->assertCount(1, $res20);
+        $this->assertEquals(1, count($res19));
+        $this->assertEquals(1, count($res20));
         // REMOVE_END
     }
 }
