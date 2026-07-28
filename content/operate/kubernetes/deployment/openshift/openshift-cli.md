@@ -79,9 +79,9 @@ Versions 7.22.0-6 and later run in without permissions to [allow automatic resou
 
 ## Create a Redis Enterprise cluster custom resource
 
-1. Apply the `RedisEnterpriseCluster` resource file ([rec_rhel.yaml](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/openshift/rec_rhel.yaml)).
+1. Download the `RedisEnterpriseCluster` resource file ([rec.yaml](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/examples/v1/rec.yaml)).
 
-    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `<rec_rhel>.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) for a full list of options.
+    You can rename the file to `<your_cluster_name>.yaml`, but it is not required. Examples below use `rec.yaml`. [Options for Redis Enterprise clusters]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) has more info about the Redis Enterprise cluster (REC) custom resource, or see the [Redis Enterprise cluster API]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) for a full list of options.
 
     {{<note>}}
 If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
@@ -100,7 +100,7 @@ If you enabled automatic resource adjustment in your configuration, this step wi
     {{</note>}}
 
     ```sh
-    oc apply -f <rec_rhel>.yaml
+    oc apply -f rec.yaml
     ```
 
     The operator typically creates the REC within a few minutes.
