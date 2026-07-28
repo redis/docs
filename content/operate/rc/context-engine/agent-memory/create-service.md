@@ -58,8 +58,8 @@ If you lose the service key value, you will need to [generate a new service key]
     This takes you to the **Create Agent Memory Service** page. This page is divided into the following sections:
 
     1. The [General settings](#general-settings) section defines basic properties of your service.
-    1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories and control automatic summarization of session memory.
-    1. The [Memory types & extraction](#memory-types-and-extraction) section allows you to set how often memories are extracted and define custom memory types with their own extraction strategies.
+    1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
+    1. The [Memory types & extraction](#memory-types-and-extraction) section allows you to define custom memory types with their own extraction strategies.
 
 ### General settings
 
@@ -75,7 +75,7 @@ The **General settings** section defines basic properties of your service.
 
 ### Memory configuration
 
-The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories and control automatic summarization of session memory.
+The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
 
 {{<image filename="images/rc/agent-memory-memory-configuration.png" alt="The Memory configuration section." >}}
 
@@ -83,6 +83,7 @@ The **Memory configuration** section allows you to define the time-to-live (TTL)
 |:----------------------|:----------|
 | **Short-term TTL** | Defines the time-to-live (TTL) of your agent's **short-term memory** (also known as **session memory**). You can define this TTL in seconds, minutes, hours, or days. Default: 1 hour |
 | **Long-term TTL** | Defines the time-to-live (TTL) of your agent's **long-term memory**. You can define this TTL in seconds, minutes, hours, or days. Default: 365 days |
+| **Extraction cadence** | How often the extraction pipeline runs while a session is active. Leave this blank to use the default of 5 minutes, or set a value between 60 and 600 seconds to override it. |
 
 #### Automatic summarization
 
@@ -99,19 +100,15 @@ For example, with **Summarize after** set to 20 and **Keep most recent** set to 
 
 ### Memory types & extraction {#memory-types-and-extraction}
 
-The **Memory types & extraction** section allows you to set how often memories are extracted and define custom memory types with their own extraction strategies.
+The **Memory types & extraction** section allows you to define custom long-term memory types with structured fields and an optional extraction strategy. Each enabled type runs independently.
 
 {{<image filename="images/rc/agent-memory-memory-types.png" alt="The Memory types & extraction section." >}}
-
-| Setting name          |Description|
-|:----------------------|:----------|
-| **Extraction cadence** | How often the extraction pipeline runs while a session is active. Leave this blank to use the default of 5 minutes, or set a value between 60 and 600 seconds to override it. |
 
 #### Custom memory types
 
 In addition to the built-in memory types, you can define **custom memory types** to capture structured, domain-specific information from your agent's conversations. Each custom type describes a category of information you want to extract, the fields that make up that information, and an optional extraction strategy that tells the extraction pipeline how to populate it.
 
-You can define up to **3 custom memory types** that carry an extraction strategy. Once you reach this limit, the **Add type** button is disabled.
+You can define up to **3 custom memory types**. Once you reach this limit, the **Add type** button is disabled.
 
 To add a custom memory type, select **Add type** and configure the following settings:
 
@@ -123,7 +120,7 @@ To add a custom memory type, select **Add type** and configure the following set
 
 ##### Fields
 
-Each custom memory type has one or more fields that define its structured attributes. For each field, configure the following:
+Each custom memory type can have one or more fields that define its structured attributes. For each field, configure the following:
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -137,7 +134,7 @@ Each custom memory type can have an **extraction strategy** that controls how th
 
 | Setting name          |Description|
 |:----------------------|:----------|
-| **Prompt** | A natural-language prompt (up to 10,000 characters) that instructs the extraction pipeline how to identify and extract this memory type from a conversation. |
+| **Extraction prompt** | A natural-language prompt (up to 10,000 characters) that instructs the extraction pipeline how to identify and extract this memory type from a conversation. |
 | **Enabled** | Whether the extraction strategy is active. Enabled by default. Disable it to keep the type defined without extracting new memories for it. |
 
 ### Create service
