@@ -153,6 +153,108 @@ public class HashExample
         //REMOVE_END
         // Bike stats: crashes=1, owners=1
         //STEP_END
+
+        //STEP_START hexpire
+        // Recreate the sensor:sensor1 hash so this example runs on its own.
+        db.KeyDelete("sensor:sensor1");
+        db.HashSet("sensor:sensor1", [
+            new("air_quality", 256),
+            new("battery_level", 89)
+        ]);
+
+        // Set a TTL of 60 seconds on two fields of the hash.
+        ExpireResult[] hexpireResult = db.HashFieldExpire(
+            "sensor:sensor1",
+            new RedisValue[] { "air_quality", "battery_level" },
+            TimeSpan.FromSeconds(60)
+        );
+        Console.WriteLine(string.Join(", ", hexpireResult));
+        // Success, Success
+        //REMOVE_START
+        Assert.Equal(2, hexpireResult.Length);
+        Assert.All(hexpireResult, r => Assert.Equal(ExpireResult.Success, r));
+        //REMOVE_END
+
+        // Retrieve the remaining TTL for those fields.
+        long[] httlResult = db.HashFieldGetTimeToLive(
+            "sensor:sensor1",
+            new RedisValue[] { "air_quality", "battery_level" }
+        );
+        Console.WriteLine(httlResult.Length);
+        // 2
+        //REMOVE_START
+        Assert.Equal(2, httlResult.Length);
+        Assert.All(httlResult, t => Assert.True(t > 0));
+        //REMOVE_END
+        //STEP_END
+
+        //STEP_START hpexpire
+        // Recreate the sensor:sensor1 hash so this example runs on its own.
+        db.KeyDelete("sensor:sensor1");
+        db.HashSet("sensor:sensor1", [
+            new("air_quality", 256),
+            new("battery_level", 89)
+        ]);
+
+        // Set the TTL of the 'air_quality' field, expressed in milliseconds.
+        ExpireResult[] hpexpireResult = db.HashFieldExpire(
+            "sensor:sensor1",
+            new RedisValue[] { "air_quality" },
+            TimeSpan.FromMilliseconds(60000)
+        );
+        Console.WriteLine(string.Join(", ", hpexpireResult));
+        // Success
+        //REMOVE_START
+        Assert.Single(hpexpireResult);
+        Assert.Equal(ExpireResult.Success, hpexpireResult[0]);
+        //REMOVE_END
+
+        // Retrieve the remaining TTL.
+        long[] hpttlResult = db.HashFieldGetTimeToLive(
+            "sensor:sensor1",
+            new RedisValue[] { "air_quality" }
+        );
+        Console.WriteLine(hpttlResult.Length);
+        // 1
+        //REMOVE_START
+        Assert.Single(hpttlResult);
+        Assert.All(hpttlResult, t => Assert.True(t > 0));
+        //REMOVE_END
+        //STEP_END
+
+        //STEP_START hexpireat
+        // Recreate the sensor:sensor1 hash so this example runs on its own.
+        db.KeyDelete("sensor:sensor1");
+        db.HashSet("sensor:sensor1", [
+            new("air_quality", 256),
+            new("battery_level", 89)
+        ]);
+
+        // Set the expiration of 'air_quality' to a time 24 hours from now.
+        ExpireResult[] hexpireAtResult = db.HashFieldExpire(
+            "sensor:sensor1",
+            new RedisValue[] { "air_quality" },
+            DateTime.UtcNow.AddHours(24)
+        );
+        Console.WriteLine(string.Join(", ", hexpireAtResult));
+        // Success
+        //REMOVE_START
+        Assert.Single(hexpireAtResult);
+        Assert.Equal(ExpireResult.Success, hexpireAtResult[0]);
+        //REMOVE_END
+
+        // Retrieve the expiration time as a Unix timestamp.
+        long[] hexpireTimeResult = db.HashFieldGetExpireDateTime(
+            "sensor:sensor1",
+            new RedisValue[] { "air_quality" }
+        );
+        Console.WriteLine(hexpireTimeResult.Length);
+        // 1
+        //REMOVE_START
+        Assert.Single(hexpireTimeResult);
+        Assert.All(hexpireTimeResult, t => Assert.True(t > 0));
+        //REMOVE_END
+        //STEP_END
         //HIDE_START
     }
 }

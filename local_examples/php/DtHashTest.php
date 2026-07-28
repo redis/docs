@@ -135,5 +135,74 @@ extends PredisTestCase
         $this->assertEquals(3, $res13);
         $this->assertEquals([1, 1], $res14);
         // REMOVE_END
+
+        // STEP_START hexpire
+        // Recreate the sensor:sensor1 hash so this example runs on its own.
+        $r->del('sensor:sensor1');
+        $r->hset('sensor:sensor1', [
+            'air_quality' => 256,
+            'battery_level' => 89,
+        ]);
+
+        // Set a TTL of 60 seconds on two fields of the hash.
+        $res15 = $r->hexpire('sensor:sensor1', 60, ['air_quality', 'battery_level']);
+        echo json_encode($res15) . PHP_EOL;
+        // >>> [1,1]
+
+        // Retrieve the remaining TTL for those fields.
+        $res16 = $r->httl('sensor:sensor1', ['air_quality', 'battery_level']);
+        echo count($res16) . PHP_EOL;
+        // >>> 2
+        // STEP_END
+        // REMOVE_START
+        $this->assertCount(2, $res15);
+        $this->assertCount(2, $res16);
+        // REMOVE_END
+
+        // STEP_START hpexpire
+        // Recreate the sensor:sensor1 hash so this example runs on its own.
+        $r->del('sensor:sensor1');
+        $r->hset('sensor:sensor1', [
+            'air_quality' => 256,
+            'battery_level' => 89,
+        ]);
+
+        // Set the TTL of the 'air_quality' field in milliseconds.
+        $res17 = $r->hpexpire('sensor:sensor1', 60000, ['air_quality']);
+        echo json_encode($res17) . PHP_EOL;
+        // >>> [1]
+
+        // Retrieve the remaining TTL in milliseconds.
+        $res18 = $r->hpttl('sensor:sensor1', ['air_quality']);
+        echo count($res18) . PHP_EOL;
+        // >>> 1
+        // STEP_END
+        // REMOVE_START
+        $this->assertCount(1, $res17);
+        $this->assertCount(1, $res18);
+        // REMOVE_END
+
+        // STEP_START hexpireat
+        // Recreate the sensor:sensor1 hash so this example runs on its own.
+        $r->del('sensor:sensor1');
+        $r->hset('sensor:sensor1', [
+            'air_quality' => 256,
+            'battery_level' => 89,
+        ]);
+
+        // Set the expiration of 'air_quality' to a Unix time 24 hours from now.
+        $res19 = $r->hexpireat('sensor:sensor1', time() + 24 * 60 * 60, ['air_quality']);
+        echo json_encode($res19) . PHP_EOL;
+        // >>> [1]
+
+        // Retrieve the expiration time as a Unix timestamp in seconds.
+        $res20 = $r->hexpiretime('sensor:sensor1', ['air_quality']);
+        echo count($res20) . PHP_EOL;
+        // >>> 1
+        // STEP_END
+        // REMOVE_START
+        $this->assertCount(1, $res19);
+        $this->assertCount(1, $res20);
+        // REMOVE_END
     }
 }

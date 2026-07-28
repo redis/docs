@@ -147,57 +147,70 @@ Redis 8.0 introduced the following commands:
 
 ### Field expiration examples
 
-Support for hash field expiration in the official client libraries is not yet available, but you can test hash field expiration now with beta versions of the [Python (redis-py)](https://github.com/redis/redis-py) and [Java (Jedis)](https://github.com/redis/jedis) client libraries.
+Hash field expiration is supported by the official client libraries. The examples below
+demonstrate the field expiration commands using a hash that stores sensor data with the
+following structure:
 
-Following are some Python examples that demonstrate how to use field expiration.
+| Field           | Value |
+| :-------------- | :---- |
+| `air_quality`   | 256   |
+| `battery_level` | 89    |
 
-Consider a hash data set for storing sensor data that has the following structure:
+Because the fields expire, each example recreates the `sensor:sensor1` hash first so that
+it runs on its own.
 
-```python
-event = {
-    'air_quality': 256,
-    'battery_level':89
-}
+Set a TTL of 60 seconds for two fields of a hash and then retrieve the remaining TTL for
+those fields:
 
-r.hset('sensor:sensor1', mapping=event)
-```
+{{< clients-example set="hash_tutorial" step="hexpire" description="Field expiration: Set a TTL in seconds on individual hash fields using HEXPIRE, then read the remaining TTL with HTTL" difficulty="intermediate" buildsUpon="set_get_all" >}}
+# Recreate the sensor:sensor1 hash so this example runs on its own.
+> DEL sensor:sensor1
+(integer) 1
+> HSET sensor:sensor1 air_quality 256 battery_level 89
+(integer) 2
+> HEXPIRE sensor:sensor1 60 FIELDS 2 air_quality battery_level
+1) (integer) 1
+2) (integer) 1
+> HTTL sensor:sensor1 FIELDS 2 air_quality battery_level
+1) (integer) 60
+2) (integer) 60
+{{< /clients-example >}}
 
-In the examples below, you will likely need to refresh the `sensor:sensor1` key after its fields expire.
+Set a hash field's TTL in milliseconds and then retrieve the remaining TTL in milliseconds:
 
-Set and retrieve the TTL for multiple fields in a hash:
+{{< clients-example set="hash_tutorial" step="hpexpire" description="Field expiration: Set a TTL in milliseconds on a hash field using HPEXPIRE, then read the remaining TTL with HPTTL" difficulty="intermediate" buildsUpon="set_get_all" >}}
+# Recreate the sensor:sensor1 hash so this example runs on its own.
+> DEL sensor:sensor1
+(integer) 1
+> HSET sensor:sensor1 air_quality 256 battery_level 89
+(integer) 2
+> HPEXPIRE sensor:sensor1 60000 FIELDS 1 air_quality
+1) (integer) 1
+> HPTTL sensor:sensor1 FIELDS 1 air_quality
+1) (integer) 59994
+{{< /clients-example >}}
 
-```python
-# set the TTL for two hash fields to 60 seconds
-r.hexpire('sensor:sensor1', 60, 'air_quality', 'battery_level')
-ttl = r.httl('sensor:sensor1', 'air_quality', 'battery_level')
-print(ttl)
-# prints [60, 60]
-```
+Set a hash field's expiration to a specific timestamp and then retrieve that expiration
+time (both as a Unix time in seconds):
 
-Set and retrieve a hash field's TTL in milliseconds:
+{{< clients-example set="hash_tutorial" step="hexpireat" lang_filter="Python, Node.js, Java-Sync, Java-Async, Java-Reactive, Go, C#-Sync (SE.Redis), PHP, Rust-Sync, Rust-Async" description="Field expiration: Set an absolute expiration timestamp on a hash field using HEXPIREAT, then read it back with HEXPIRETIME" difficulty="intermediate" buildsUpon="set_get_all" >}}
+# Recreate the sensor:sensor1 hash so this example runs on its own.
+> DEL sensor:sensor1
+(integer) 1
+> HSET sensor:sensor1 air_quality 256 battery_level 89
+(integer) 2
+# Set the expiration to a Unix time in the future
+# (1719855517 is just an example; use a timestamp appropriate for your use case).
+> HEXPIREAT sensor:sensor1 1719855517 FIELDS 1 air_quality
+1) (integer) 1
+> HEXPIRETIME sensor:sensor1 FIELDS 1 air_quality
+1) (integer) 1719855517
+{{< /clients-example >}}
 
-```python
-# set the TTL of the 'air_quality' field in milliseconds
-r.hpexpire('sensor:sensor1', 60000, 'air_quality')
-# and retrieve it
-pttl = r.hpttl('sensor:sensor1', 'air_quality')
-print(pttl)
-# prints [59994] # your actual value may vary
-```
-
-Set and retrieve a hash field’s expiration timestamp:
-
-```python
-# set the expiration of 'air_quality' to now + 24 hours
-# (similar to setting the TTL to 24 hours)
-r.hexpireat('sensor:sensor1', 
-    datetime.now() + timedelta(hours=24), 
-    'air_quality')
-# and retrieve it
-expire_time = r.hexpiretime('sensor:sensor1', 'air_quality')
-print(expire_time)
-# prints [1717668041] # your actual value may vary
-```
+{{< note >}}
+The Ruby (redis-rb) client does not yet support the timestamp-based `HEXPIREAT` and
+`HEXPIRETIME` commands, so it is omitted from the last example above.
+{{< /note >}}
 
 ## Performance
 

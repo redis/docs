@@ -116,5 +116,43 @@ assert_equal(1, res11)
 assert_equal(1, res12)
 assert_equal('3', res13)
 assert_equal(['1', '1'], res14)
+# REMOVE_END
+
+# STEP_START hexpire
+# Recreate the sensor:sensor1 hash so this example runs on its own.
+r.del('sensor:sensor1')
+r.hset('sensor:sensor1', { 'air_quality' => 256, 'battery_level' => 89 })
+
+# Set a TTL of 60 seconds on two fields of the hash.
+res15 = r.hexpire('sensor:sensor1', 60, 'air_quality', 'battery_level')
+puts res15.inspect # [1, 1]
+
+# Retrieve the remaining TTL for those fields.
+res16 = r.httl('sensor:sensor1', 'air_quality', 'battery_level')
+puts res16.length # 2 (each value is close to 60)
+# STEP_END
+
+# REMOVE_START
+assert_equal([1, 1], res15)
+raise 'Unexpected TTL' unless res16.length == 2 && res16.all? { |ttl| ttl > 0 && ttl <= 60 }
+# REMOVE_END
+
+# STEP_START hpexpire
+# Recreate the sensor:sensor1 hash so this example runs on its own.
+r.del('sensor:sensor1')
+r.hset('sensor:sensor1', { 'air_quality' => 256, 'battery_level' => 89 })
+
+# Set the TTL of the 'air_quality' field in milliseconds.
+res17 = r.hpexpire('sensor:sensor1', 60000, 'air_quality')
+puts res17.inspect # [1]
+
+# Retrieve the remaining TTL in milliseconds.
+res18 = r.hpttl('sensor:sensor1', 'air_quality')
+puts res18.length # 1 (the value is close to 60000)
+# STEP_END
+
+# REMOVE_START
+assert_equal([1], res17)
+raise 'Unexpected PTTL' unless res18.length == 1 && res18.all? { |pttl| pttl > 0 && pttl <= 60000 }
 r.close
 # REMOVE_END
