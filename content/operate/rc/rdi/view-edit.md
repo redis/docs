@@ -75,7 +75,6 @@ The **Metrics** tab shows the following metrics for each data stream:
 | **Filtered** | Number of records from the source table that were filtered from being inserted into the target database. |
 | **Rejected** | Number of records from the source table that could not be parsed or inserted into the target database. Select a rejected count to open the [Rejected records](#rejected-records) view for that table. |
 
-<!--
 ### View metrics endpoints
 
 You can use [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) to track and display metrics for the data pipeline. 
@@ -84,8 +83,11 @@ To view the metrics endpoints for the source collector and pipeline processor, s
 
 Prometheus endpoints are exposed on Redis Cloud's internal network. To access this network, enable [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}). See [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}}) for more information.
 
+{{< note >}}
+VPC peering and AWS Transit Gateway are the tested and supported methods for accessing Prometheus endpoints. AWS PrivateLink support for this feature is under evaluation and is not currently supported.
+{{< /note >}}
+
 For more information about available RDI metrics, see [Observability]({{< relref "/integrate/redis-data-integration/observability" >}}).
--->
 
 ## Rejected records
 
