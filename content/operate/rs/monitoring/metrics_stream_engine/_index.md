@@ -43,7 +43,7 @@ Filter [Libraries and tools]({{<relref "/integrate">}}) by "observability" for a
 
 For a list of all available v2 metrics, see [Prometheus metrics v2]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}).
 
-The v2 scraping endpoint also exposes metrics for `node_exporter` version 1.8.1. For more information, see the [Prometheus node_exporter GitHub repository](https://github.com/prometheus/node_exporter).
+The v2 scraping endpoint also exposes metrics for `node_exporter`. For more information, see the [Prometheus node_exporter GitHub repository](https://github.com/prometheus/node_exporter).
 
 ## Transition from Prometheus v1 to Prometheus v2
 

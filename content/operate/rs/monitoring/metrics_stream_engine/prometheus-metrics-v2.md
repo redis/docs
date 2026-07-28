@@ -18,6 +18,6 @@ You can integrate Redis Software with Prometheus and tools such as [Grafana]({{<
 
 The v2 metrics in the following tables are available as of Redis Software version 7.8.0. For help transitioning from v1 metrics to v2 PromQL, see [Prometheus v1 metrics and equivalent v2 PromQL]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v1-to-v2">}}).
 
-The v2 scraping endpoint also exposes metrics for `node_exporter` version 1.8.1. For more information, see the [Prometheus node_exporter GitHub repository](https://github.com/prometheus/node_exporter).
+The v2 scraping endpoint also exposes metrics for `node_exporter`. For more information, see the [Prometheus node_exporter GitHub repository](https://github.com/prometheus/node_exporter).
 
 {{<embed-md "rs-prometheus-metrics-v2.md">}}
