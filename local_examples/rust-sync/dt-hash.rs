@@ -215,7 +215,6 @@ mod hash_tests {
         // STEP_END
 
         // STEP_START hexpire
-        // Recreate the sensor:sensor1 hash so this example runs on its own.
         let _: () = r.del("sensor:sensor1").expect("Failed to del");
         let _: () = r.hset_multiple(
             "sensor:sensor1",
@@ -255,7 +254,6 @@ mod hash_tests {
         // STEP_END
 
         // STEP_START hpexpire
-        // Recreate the sensor:sensor1 hash so this example runs on its own.
         let _: () = r.del("sensor:sensor1").expect("Failed to del");
         let _: () = r.hset_multiple(
             "sensor:sensor1",
@@ -295,7 +293,6 @@ mod hash_tests {
         // STEP_END
 
         // STEP_START hexpireat
-        // Recreate the sensor:sensor1 hash so this example runs on its own.
         let _: () = r.del("sensor:sensor1").expect("Failed to del");
         let _: () = r.hset_multiple(
             "sensor:sensor1",

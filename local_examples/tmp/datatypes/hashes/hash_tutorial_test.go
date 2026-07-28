@@ -297,7 +297,6 @@ func ExampleClient_hexpire() {
 	// REMOVE_END
 
 	// STEP_START hexpire
-	// Recreate the sensor:sensor1 hash so this example runs on its own.
 	rdb.Del(ctx, "sensor:sensor1")
 	rdb.HSet(ctx, "sensor:sensor1", "air_quality", 256, "battery_level", 89)
 
@@ -341,7 +340,6 @@ func ExampleClient_hpexpire() {
 	// REMOVE_END
 
 	// STEP_START hpexpire
-	// Recreate the sensor:sensor1 hash so this example runs on its own.
 	rdb.Del(ctx, "sensor:sensor1")
 	rdb.HSet(ctx, "sensor:sensor1", "air_quality", 256, "battery_level", 89)
 
@@ -385,7 +383,6 @@ func ExampleClient_hexpireat() {
 	// REMOVE_END
 
 	// STEP_START hexpireat
-	// Recreate the sensor:sensor1 hash so this example runs on its own.
 	rdb.Del(ctx, "sensor:sensor1")
 	rdb.HSet(ctx, "sensor:sensor1", "air_quality", 256, "battery_level", 89)
 

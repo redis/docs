@@ -163,7 +163,6 @@ public class HashExample {
             Mono.when(getRides, getCrashesOwners).block();
 
             // STEP_START hexpire
-            // Recreate the sensor:sensor1 hash so this example runs on its own.
             Map<String, String> sensor1 = new HashMap<>();
             sensor1.put("air_quality", "256");
             sensor1.put("battery_level", "89");
@@ -197,7 +196,6 @@ public class HashExample {
             // STEP_END
 
             // STEP_START hpexpire
-            // Recreate the sensor:sensor1 hash so this example runs on its own.
             // Set the TTL of the 'air_quality' field in milliseconds.
             Mono<List<Long>> hpExpire = reactiveCommands.del("sensor:sensor1")
                     .then(reactiveCommands.hset("sensor:sensor1", sensor1))
@@ -227,7 +225,6 @@ public class HashExample {
             // STEP_END
 
             // STEP_START hexpireat
-            // Recreate the sensor:sensor1 hash so this example runs on its own.
             long expireAtSeconds = System.currentTimeMillis() / 1000L + 24 * 60 * 60;
 
             // Set the expiration of 'air_quality' to a Unix time 24 hours from now.

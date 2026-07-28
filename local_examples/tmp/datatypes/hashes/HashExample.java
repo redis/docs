@@ -109,7 +109,6 @@ public class HashExample {
       // REMOVE_END
 
       // STEP_START hexpire
-      // Recreate the sensor:sensor1 hash so this example runs on its own.
       jedis.del("sensor:sensor1");
       Map<String, String> sensor1 = new HashMap<>();
       sensor1.put("air_quality", "256");
@@ -132,7 +131,6 @@ public class HashExample {
       // REMOVE_END
 
       // STEP_START hpexpire
-      // Recreate the sensor:sensor1 hash so this example runs on its own.
       jedis.del("sensor:sensor1");
       jedis.hset("sensor:sensor1", sensor1);
 
@@ -151,7 +149,6 @@ public class HashExample {
       // REMOVE_END
 
       // STEP_START hexpireat
-      // Recreate the sensor:sensor1 hash so this example runs on its own.
       jedis.del("sensor:sensor1");
       jedis.hset("sensor:sensor1", sensor1);
 

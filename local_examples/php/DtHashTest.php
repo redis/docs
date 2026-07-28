@@ -137,7 +137,6 @@ extends PredisTestCase
         // REMOVE_END
 
         // STEP_START hexpire
-        // Recreate the sensor:sensor1 hash so this example runs on its own.
         $r->del('sensor:sensor1');
         $r->hmset('sensor:sensor1', [
             'air_quality' => 256,
@@ -160,7 +159,6 @@ extends PredisTestCase
         // REMOVE_END
 
         // STEP_START hpexpire
-        // Recreate the sensor:sensor1 hash so this example runs on its own.
         $r->del('sensor:sensor1');
         $r->hmset('sensor:sensor1', [
             'air_quality' => 256,
@@ -183,7 +181,6 @@ extends PredisTestCase
         // REMOVE_END
 
         // STEP_START hexpireat
-        // Recreate the sensor:sensor1 hash so this example runs on its own.
         $r->del('sensor:sensor1');
         $r->hmset('sensor:sensor1', [
             'air_quality' => 256,

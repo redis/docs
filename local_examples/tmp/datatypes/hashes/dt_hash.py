@@ -133,7 +133,6 @@ assert res17 == ["1", "1"]
 # REMOVE_END
 
 # STEP_START hexpire
-# Recreate the sensor:sensor1 hash so this example runs on its own.
 r.delete("sensor:sensor1")
 r.hset("sensor:sensor1", mapping={"air_quality": 256, "battery_level": 89})
 
@@ -155,7 +154,6 @@ assert all(0 < ttl <= 60 for ttl in res19)
 # REMOVE_END
 
 # STEP_START hpexpire
-# Recreate the sensor:sensor1 hash so this example runs on its own.
 r.delete("sensor:sensor1")
 r.hset("sensor:sensor1", mapping={"air_quality": 256, "battery_level": 89})
 
@@ -177,7 +175,6 @@ assert all(0 < pttl <= 60000 for pttl in res21)
 # REMOVE_END
 
 # STEP_START hexpireat
-# Recreate the sensor:sensor1 hash so this example runs on its own.
 r.delete("sensor:sensor1")
 r.hset("sensor:sensor1", mapping={"air_quality": 256, "battery_level": 89})
 

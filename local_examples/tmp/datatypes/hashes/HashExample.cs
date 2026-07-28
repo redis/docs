@@ -155,7 +155,6 @@ public class HashExample
         //STEP_END
 
         //STEP_START hexpire
-        // Recreate the sensor:sensor1 hash so this example runs on its own.
         db.KeyDelete("sensor:sensor1");
         db.HashSet("sensor:sensor1", [
             new("air_quality", 256),
@@ -189,7 +188,6 @@ public class HashExample
         //STEP_END
 
         //STEP_START hpexpire
-        // Recreate the sensor:sensor1 hash so this example runs on its own.
         db.KeyDelete("sensor:sensor1");
         db.HashSet("sensor:sensor1", [
             new("air_quality", 256),
@@ -223,7 +221,6 @@ public class HashExample
         //STEP_END
 
         //STEP_START hexpireat
-        // Recreate the sensor:sensor1 hash so this example runs on its own.
         db.KeyDelete("sensor:sensor1");
         db.HashSet("sensor:sensor1", [
             new("air_quality", 256),

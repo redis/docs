@@ -122,7 +122,6 @@ assert.deepEqual(res17, ['1', '1']);
 // REMOVE_END
 
 // STEP_START hExpire
-// Recreate the sensor:sensor1 hash so this example runs on its own.
 await client.del('sensor:sensor1')
 await client.hSet('sensor:sensor1', { 'air_quality': 256, 'battery_level': 89 })
 
@@ -141,7 +140,6 @@ assert(res19.every(ttl => ttl > 0 && ttl <= 60));
 // REMOVE_END
 
 // STEP_START hpExpire
-// Recreate the sensor:sensor1 hash so this example runs on its own.
 await client.del('sensor:sensor1')
 await client.hSet('sensor:sensor1', { 'air_quality': 256, 'battery_level': 89 })
 
@@ -160,7 +158,6 @@ assert(res21.every(pttl => pttl > 0 && pttl <= 60000));
 // REMOVE_END
 
 // STEP_START hExpireAt
-// Recreate the sensor:sensor1 hash so this example runs on its own.
 await client.del('sensor:sensor1')
 await client.hSet('sensor:sensor1', { 'air_quality': 256, 'battery_level': 89 })
 
