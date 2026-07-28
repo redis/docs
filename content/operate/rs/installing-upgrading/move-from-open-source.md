@@ -56,10 +56,10 @@ Use this checklist to plan a move from Redis Open Source to Redis Software:
 
 Moving to Redis Software follows this sequence. Reviewing it before you install helps you plan the whole flow, not just the software install.
 
-1. [Plan your deployment]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment" >}}) — choose platforms, size hardware, and plan networking.
-2. [Prepare to install]({{< relref "/operate/rs/installing-upgrading/install/prepare-install" >}}) — meet OS and system requirements on each node.
+1. [Plan your deployment]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment" >}}) to choose platforms, size hardware, and plan networking.
+2. [Prepare to install]({{< relref "/operate/rs/installing-upgrading/install/prepare-install" >}}) by meeting OS and system requirements on each node.
 3. [Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}}) on each node.
-4. [Set up the cluster]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) — create a new cluster on the first node and join the remaining nodes.
+4. [Set up the cluster]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) by creating a new cluster on the first node and joining the remaining nodes.
 5. [Create a database]({{< relref "/operate/rs/databases/create" >}}) and configure its settings.
 6. Connect your clients to the new database endpoint.
 
@@ -78,6 +78,6 @@ Importing data erases all existing content in the target database. Replica Of al
 
 ## Next steps
 
-- [Redis Open Source compatibility]({{< relref "/operate/rs/references/compatibility" >}}) — the full compatibility reference.
-- [Create a database]({{< relref "/operate/rs/databases/create" >}}) — create and configure your first database.
-- [Redis Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) — try Redis Software before you plan a full deployment.
+- See [Redis Open Source compatibility]({{< relref "/operate/rs/references/compatibility" >}}) for the full compatibility reference.
+- [Create a database]({{< relref "/operate/rs/databases/create" >}}) to configure your first database.
+- Try the [Redis Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) before you plan a full deployment.
