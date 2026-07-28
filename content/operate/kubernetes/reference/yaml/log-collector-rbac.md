@@ -7,7 +7,7 @@ categories:
 - kubernetes
 description: YAML examples for configuring RBAC permissions for the Redis Enterprise log collector tool in `restricted` and `all` modes.
 linkTitle: Log collector RBAC
-weight: 50
+weight: 60
 ---
 
 This page provides YAML examples for configuring RBAC permissions for the Redis Enterprise log collector tool. The log collector requires different permission levels depending on the collection mode you choose.
