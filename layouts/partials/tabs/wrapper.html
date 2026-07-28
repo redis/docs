@@ -13,6 +13,7 @@
 {{ $isPrereq := .isPrereq }}
 {{ $needsPrereq := .needsPrereq }}
 {{ $exampleSet := .exampleSet }}
+{{ $tryItSource := .tryItSource }}
 
 {{- /* Build metadata map for each language/client combination */ -}}
 {{- $codetabsMeta := dict -}}
@@ -114,6 +115,7 @@
                     class="tryit-button flex items-center gap-1 text-slate-300 hover:text-white bg-red-700 hover:bg-red-600 h-7 px-3 rounded text-xs font-medium transition duration-150 ease-in-out"
                     title="Run these commands in the Redis CLI"
                     data-codetabs-id="{{ $id }}"
+                    {{ if $tryItSource }}data-tryit-source="{{ $tryItSource }}"{{ end }}
                     onclick="openTryItCli(this)"
                     aria-label="Try these Redis commands in an interactive CLI">
                 <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -315,7 +317,13 @@ window.openTryItCli = window.openTryItCli || function(button) {
     const json = JSON.stringify(commands);
     const b64 = btoa(unescape(encodeURIComponent(json)))
         .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-    const url = 'https://redis.io/cli?commands=' + b64 + '&autorun=true';
+    // Attribution: which docs page + snippet launched this run. snippet is the
+    // codetabs id (stable, already on the button); source is the page path.
+    // Kept out of the base64 so the backend can read them without decoding.
+    const source = button.getAttribute('data-tryit-source') || '';
+    let url = 'https://redis.io/cli?commands=' + b64 + '&autorun=true'
+        + '&snippet=' + encodeURIComponent(codetabsId);
+    if (source) url += '&source=' + encodeURIComponent(source);
     window.open(url, '_blank', 'noopener,noreferrer');
 };
 
