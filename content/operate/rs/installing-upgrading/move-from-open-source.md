@@ -50,9 +50,7 @@ Use this checklist to plan a move from Redis Open Source to Redis Software:
 2. **Check compatibility.** Confirm that the [commands]({{< relref "/operate/rs/references/compatibility/commands" >}}), [configuration settings]({{< relref "/operate/rs/references/compatibility/config-settings" >}}), and [RESP version]({{< relref "/operate/rs/references/compatibility/resp" >}}) your application uses are supported.
 3. **Choose a database topology.** Decide whether each database is a standard database or an [Active-Active database]({{< relref "/operate/rs/databases/active-active" >}}) for geo-distributed writes.
 4. **Size your deployment.** Review [hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}) and [supported platforms]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/supported-platforms" >}}) for the cluster.
-5. **Plan your data import.** Decide how you'll move existing data into the new database. See [Import your data](#import-your-data).
-
-<!-- TODO(SME): confirm the recommended/complete list of OSS→RS data-migration paths and tooling against v8.2.1-2 before publishing. -->
+5. **Plan your data migration.** Decide whether to sync from a running source with Replica Of or import from a file. See [Migrate your data](#migrate-your-data).
 
 ## Installation and configuration flow
 
@@ -67,12 +65,15 @@ Moving to Redis Software follows this sequence. Reviewing it before you install 
 
 If you plan to deploy on Kubernetes, the flow maps to the same concepts through [Redis Software for Kubernetes]({{< relref "/operate/kubernetes" >}}): you declare the cluster and databases as custom resources, and the operator provisions them. Planning the configuration model up front matters most for Kubernetes deployments, where you define these objects declaratively rather than through the Cluster Manager UI.
 
-## Import your data
+## Migrate your data
 
-After you create a database, [import your data]({{< relref "/operate/rs/databases/import-export/import-data" >}}) from a backup or export file.
+Redis Software offers two ways to move your existing data into a new database:
+
+- **Sync from a running source with Replica Of.** [Replica Of]({{< relref "/operate/rs/databases/import-export/replica-of" >}}) (also called Active-Passive) synchronizes a Redis Software database with one or more source databases, including a Redis Open Source database that's external to the cluster. Point the replica at your source's `redis://` endpoint, wait for the initial sync to finish, then cut your applications over to the new database. Use this path to migrate a running deployment with minimal downtime.
+- **Import from a file.** If you have an RDB or backup file, [import it]({{< relref "/operate/rs/databases/import-export/import-data" >}}) into the new database.
 
 {{< warning >}}
-Importing data erases all existing content in the target database.
+Importing data erases all existing content in the target database. Replica Of also overwrites the destination database during synchronization, so use an empty destination.
 {{< /warning >}}
 
 ## Next steps
