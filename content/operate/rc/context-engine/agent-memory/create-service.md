@@ -58,7 +58,7 @@ If you lose the service key value, you will need to [generate a new service key]
     This takes you to the **Create Agent Memory Service** page. This page is divided into the following sections:
 
     1. The [General settings](#general-settings) section defines basic properties of your service.
-    1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
+    1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, control automatic summarization of session memory, and define custom memory types with their own extraction strategies.
 
 ### General settings
 
@@ -74,7 +74,7 @@ The **General settings** section defines basic properties of your service.
 
 ### Memory configuration
 
-The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
+The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, control automatic summarization of session memory, and define custom memory types with their own extraction strategies.
 
 {{<image filename="images/rc/agent-memory-memory-configuration.png" alt="The General settings section." >}}
 
@@ -96,6 +96,39 @@ Use the **Automatic summarization** toggle to enable or disable this behavior. W
 | **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. |
 
 For example, with **Summarize after** set to 20 and **Keep most recent** set to 10, once a session reaches 20 messages, the oldest 10 messages are summarized automatically and the 10 most recent are kept in full.
+
+#### Custom memory types
+
+In addition to the built-in memory types, you can define **custom memory types** to capture structured, domain-specific information from your agent's conversations. Each custom type describes a category of information you want to extract, the fields that make up that information, and an optional extraction strategy that tells the extraction pipeline how to populate it.
+
+You can define up to **3 custom memory types** that carry an extraction strategy. Once you reach this limit, the **Add type** button is disabled.
+
+To add a custom memory type, select **Add type** and configure the following settings:
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Name** | A unique name for the custom memory type. Must start with a letter and contain only letters, numbers, hyphens, or underscores (1–64 characters). The name must be unique within the service and cannot match a built-in memory type (`semantic`, `episodic`, `message`, or `session_summary_view`). |
+| **Description** | A short description of what the memory type represents (1–200 characters). |
+| **Fields** | The structured fields that make up the memory type. See [Fields](#fields) below. |
+
+##### Fields
+
+Each custom memory type has one or more fields that define its structured attributes. For each field, configure the following:
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Name** | The field name. Follows the same rules as the memory type name: must start with a letter and contain only letters, numbers, hyphens, or underscores. |
+| **Type** | The field's data type. Choose from `str`, `int`, `float`, `bool`, `list[str]`, `list[float]`, or `object`. |
+| **Description** | A description of the field (1–200 characters). This description is used to guide extraction, so make it clear and specific. |
+
+##### Extraction strategy
+
+Each custom memory type can have an **extraction strategy** that controls how the extraction pipeline populates it from session messages.
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Prompt** | A natural-language prompt (up to 10,000 characters) that instructs the extraction pipeline how to identify and extract this memory type from a conversation. |
+| **Enabled** | Whether the extraction strategy is active. Enabled by default. Disable it to keep the type defined without extracting new memories for it. |
 
 ### Create service
 

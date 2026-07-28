@@ -48,7 +48,7 @@ Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/co
 
 ### Memory configuration
 
-The **Memory configuration** section shows the time-to-live (TTL) for memory storage, the extraction cadence, and the automatic summarization settings for session memory.
+The **Memory configuration** section shows the time-to-live (TTL) for memory storage, the extraction cadence, the automatic summarization settings for session memory, and any custom memory types defined for the service.
 
 {{<image filename="images/rc/agent-memory-view-memory-configuration.png" alt="The general settings for the Agent Memory service." >}}
 
@@ -60,6 +60,21 @@ The **Memory configuration** section shows the time-to-live (TTL) for memory sto
 | **Automatic summarization** | Whether older messages in a session are automatically compressed into a summary to keep session memory concise during long conversations. _(Editable)_ |
 | **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
 | **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
+
+#### Custom memory types
+
+If your service defines [custom memory types]({{< relref "/operate/rc/context-engine/agent-memory/create-service#custom-memory-types" >}}), each one is listed here with its name, fields, and extraction strategy.
+
+Because a custom memory type's structure is fixed after creation, only some settings can be changed when you edit the service:
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Name** | The name of the custom memory type. _(Read-only)_ |
+| **Fields** | The fields that make up the custom memory type, with their names, types, and descriptions. _(Read-only)_ |
+| **Prompt** | The extraction strategy prompt for the custom memory type. _(Editable)_ |
+| **Enabled** | Whether the extraction strategy is active. _(Editable)_ |
+
+To change a custom memory type's name or fields, you must create a new service. You can, however, add a new custom memory type when editing the service, up to the limit of 3 custom memory types that carry an extraction strategy.
 
 ### Actions
 
