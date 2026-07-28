@@ -7,6 +7,6 @@ categories:
 description: Deploy AI agents with Redis Cloud.
 hideListLinks: false
 linktitle: Context Engine
-title: Context Engine on Redis Cloud
+title: Redis Iris context engine on Redis Cloud
 weight: 36
 ---
