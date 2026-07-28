@@ -25,6 +25,7 @@ The **Configuration** tab lets you view the details of your Agent Memory service
 
 - The **General settings** section provides the connection details and general settings for your Agent Memory service.
 - The **Memory configuration** section provides the service settings for your Agent Memory service.
+- The **Memory types & extraction** section shows the extraction cadence and any custom memory types defined for your service.
 - The **Actions** section lets you flush or delete your Agent Memory service.
 
 Some of these settings can be changed after service creation. To do so, select the **Edit** button.
@@ -48,18 +49,27 @@ Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/co
 
 ### Memory configuration
 
-The **Memory configuration** section shows the time-to-live (TTL) for memory storage, the extraction cadence, the automatic summarization settings for session memory, and any custom memory types defined for the service.
+The **Memory configuration** section shows the time-to-live (TTL) for memory storage and the automatic summarization settings for session memory.
 
-{{<image filename="images/rc/agent-memory-view-memory-configuration.png" alt="The general settings for the Agent Memory service." >}}
+{{<image filename="images/rc/agent-memory-view-memory-configuration.png" alt="The Memory configuration section for the Agent Memory service." >}}
 
 | Setting name          |Description|
 |:----------------------|:----------|
 | **Short-term TTL** | The time-to-live (TTL) of your agent's **short-term memory** (also known as **session memory**). _(Editable)_ |
 | **Long-term TTL** | The time-to-live (TTL) of your agent's **long-term memory**. _(Editable)_ |
-| **Extraction cadence** | How often the extraction pipeline runs while a session is active. Defaults to 5 minutes; can be set to a value between 60 and 600 seconds. _(Editable)_ |
 | **Automatic summarization** | Whether older messages in a session are automatically compressed into a summary to keep session memory concise during long conversations. _(Editable)_ |
 | **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
 | **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
+
+### Memory types & extraction {#memory-types-and-extraction}
+
+The **Memory types & extraction** section shows the extraction cadence and any custom memory types defined for the service.
+
+{{<image filename="images/rc/agent-memory-view-memory-types.png" alt="The Memory types & extraction section for the Agent Memory service." >}}
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Extraction cadence** | How often the extraction pipeline runs while a session is active. Defaults to 5 minutes; can be set to a value between 60 and 600 seconds. _(Editable)_ |
 
 #### Custom memory types
 

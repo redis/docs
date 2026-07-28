@@ -58,7 +58,8 @@ If you lose the service key value, you will need to [generate a new service key]
     This takes you to the **Create Agent Memory Service** page. This page is divided into the following sections:
 
     1. The [General settings](#general-settings) section defines basic properties of your service.
-    1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, control automatic summarization of session memory, and define custom memory types with their own extraction strategies.
+    1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories and control automatic summarization of session memory.
+    1. The [Memory types & extraction](#memory-types-and-extraction) section allows you to set how often memories are extracted and define custom memory types with their own extraction strategies.
 
 ### General settings
 
@@ -74,15 +75,14 @@ The **General settings** section defines basic properties of your service.
 
 ### Memory configuration
 
-The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, control automatic summarization of session memory, and define custom memory types with their own extraction strategies.
+The **Memory configuration** section allows you to define the time-to-live (TTL) of your agent's memories and control automatic summarization of session memory.
 
-{{<image filename="images/rc/agent-memory-memory-configuration.png" alt="The General settings section." >}}
+{{<image filename="images/rc/agent-memory-memory-configuration.png" alt="The Memory configuration section." >}}
 
 | Setting name          |Description|
 |:----------------------|:----------|
 | **Short-term TTL** | Defines the time-to-live (TTL) of your agent's **short-term memory** (also known as **session memory**). You can define this TTL in seconds, minutes, hours, or days. Default: 1 hour |
 | **Long-term TTL** | Defines the time-to-live (TTL) of your agent's **long-term memory**. You can define this TTL in seconds, minutes, hours, or days. Default: 365 days |
-| **Extraction cadence** | How often the extraction pipeline runs while a session is active. Leave this blank to use the default of 5 minutes, or set a value between 60 and 600 seconds to override it. |
 
 #### Automatic summarization
 
@@ -96,6 +96,16 @@ Use the **Automatic summarization** toggle to enable or disable this behavior. W
 | **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. |
 
 For example, with **Summarize after** set to 20 and **Keep most recent** set to 10, once a session reaches 20 messages, the oldest 10 messages are summarized automatically and the 10 most recent are kept in full.
+
+### Memory types & extraction {#memory-types-and-extraction}
+
+The **Memory types & extraction** section allows you to set how often memories are extracted and define custom memory types with their own extraction strategies.
+
+{{<image filename="images/rc/agent-memory-memory-types.png" alt="The Memory types & extraction section." >}}
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Extraction cadence** | How often the extraction pipeline runs while a session is active. Leave this blank to use the default of 5 minutes, or set a value between 60 and 600 seconds to override it. |
 
 #### Custom memory types
 
