@@ -135,7 +135,8 @@ In this step, you'll select the data that you want to import and synchronize wit
 
 {{< warning >}}
 Do not write data directly to the target database outside of RDI. Writing to the target database from other sources can cause transformation failures and data inconsistencies. If you need to reset the pipeline and resync from the source, any data written to the target outside of RDI will be lost.
-{{< /warning >}} 
+{{< /warning >}}
+&nbsp;
 
 {{< note >}}
 This step may change depending on your source database.
