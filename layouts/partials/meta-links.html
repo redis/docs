@@ -31,6 +31,10 @@
   {{ $filename = printf "%s.md" (replaceRE "[^a-zA-Z0-9-]+" "-" .Title | lower) }}
 {{ end }}
 
+{{/* Build the "Ask Copilot about this page" link (opens the redis.io/chat bot) */}}
+{{ $chatPrompt := printf "Explain this Redis documentation page: %q (%s)" .Title .Permalink }}
+{{ $chatURL := printf "/chat?%s" (querify "q" $chatPrompt) }}
+
 <nav class="flex flex-col gap-3 pb-3 w-52 text-redis-pencil-600 border-b border-b-redis-pen-700 border-opacity-50">
   {{ if not .Params.hideEditLinks }}
   <a {{ printf "href=%q" $editURL | safeHTMLAttr }} target="_blank" class="group inline-flex items-center gap-1  hover:text-redis-pen-400 mt-auto self-start">
@@ -72,5 +76,9 @@
   }
   </script>
   {{ end }}
+  <a {{ printf "href=%q" $chatURL | safeHTMLAttr }} class="group inline-flex items-center gap-1  hover:text-redis-pen-400 mt-auto self-start">
+    {{ partial "icons/sparkles.html" }}
+    Ask Copilot about this page
+  </a>
 </nav>
 
