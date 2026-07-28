@@ -98,14 +98,7 @@ Redis objects can be encoded in different ways:
 
   - `stream`, encoded as a radix tree of listpacks.
 
-* Native bitmaps are encoded as:
-
-  - `bitmap-roaring`, a compressed Roaring bitmap encoding. See
-    [Roaring-compressed bitmaps]({{< relref "/develop/data-types/strings/bitmaps#roaring-compressed-bitmaps" >}}).
-
-Collection types that have both compact and general encodings are automatically
-converted to the general encoding once you perform an operation that makes it
-impossible for Redis to retain the compact encoding.
+All the specially encoded types are automatically converted to the general type once you perform an operation that makes it impossible for Redis to retain the space saving encoding.
 
 ## Redis Software and Redis Cloud compatibility
 
