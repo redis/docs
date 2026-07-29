@@ -32,7 +32,7 @@ Some of these settings can be changed after service creation. To do so, select t
 
 ### General settings
 
-The **General settings** section provides section provides the connection details and general settings for your Agent Memory service.
+The **General settings** section provides the connection details and general settings for your Agent Memory service.
 
 {{<image filename="images/rc/agent-memory-view-general.png" alt="The General settings for the Agent Memory service." >}}
 
