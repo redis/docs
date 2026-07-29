@@ -12,6 +12,61 @@ min-version-rs: blah
 weight: 10
 ---
 
+## 8.10.0 (July 2026)
+
+This is the General Availability release of Redis 8.10 in Redis Open Source.
+
+### Major changes compared to 8.8
+
+- Compact hashes - a new hash encoding that reduces memory usage by storing hash field names just once for keys that share a schema
+- New command: `HIMPORT` - high-throughput compact hash bulk insertion
+- TLS peer certificate-based server-to-server authentication
+- New commands: `LMOVEM`, `BLMOVEM` - move multiple elements between lists
+- New command: `SUNIONCARD` - get the cardinality of the union of multiple sets
+- New command: `SDIFFCARD` - get the cardinality of the difference between sets
+- New command: `BACKUP` - node-side implementation for backup and restore based on multi-part AOF (MP-AOF)
+- `XREAD`, `XREADGROUP` - new `MAXCOUNT` and `MAXSIZE` arguments to cap the cumulative reply entries and size
+- New command: `FT.ALIASLIST` - get all aliases for the index 
+- Stemmer support for Malay and Tagalog languages 
+- JSONPath extensions
+- New commands: `TS.NRANGE`, `TS.NREVRANGE` - Query a range across multiple time series; group results by timestamp 
+- New command: `TS.READ` - optionally blocking read
+- New command: `TS.QUERYLABELS` - Get a list of labels and label-values 
+- New command: `TS.MRANGE`, `TS.MREVRANGE` - new `EXCLUDEEMPTY` argument to exclude series with no reported samples 
+- Performance improvements 
+
+### Binary distributions
+
+- Alpine and Debian Docker images - https://hub.docker.com/_/redis
+- Install using snap - see https://github.com/redis/redis-snap
+- Install using brew - see https://github.com/redis/homebrew-redis
+- Install using RPM - see https://github.com/redis/redis-rpm
+- Install using Debian APT - see https://github.com/redis/redis-debian
+
+
+### Operating systems we test Redis 8.10 on
+
+- Ubuntu 22.04 (Jammy Jellyfish), 24.04 (Noble Numbat), 26.04 (Resolute Raccoon)
+- Rocky Linux 8.10, 9.7, 10.1
+- AlmaLinux 8.10, 9.7, 10.1
+- Debian 12.13 (Bookworm), Debian 13.4 (Trixie)
+- Alpine 3.23
+- macOS 14.8.4 (Sonoma), 15.7.4 (Sequoia), 26.3 (Tahoe) - for both Intel and ARM
+
+### Bug fixes (compared to 8.10-RC2)
+
+- [#15513](https://github.com/redis/redis/pull/15513) Prevented a division-by-zero error when active defragmentation thresholds are configured with equal or reversed value.
+- [#15453](https://github.com/redis/redis/pull/15453) Clients blocked on `BLPOP`, `BLMOVE`, or `BLMOVEM` could remain blocked after `SORT` with `STORE` replaced the target key with a list.
+- [#15499](https://github.com/redis/redis/pull/15499) Memory usage reported for compressed replication clients could be lower than the actual memory consumed.
+- [#15518](https://github.com/redis/redis/pull/15518) notify modules when node's own ip/port changes.
+- [#15539](https://github.com/redis/redis/pull/15539) Loading an AOF file with an RDB preamble could fail when active defragmentation was enabled.
+- RediSearch/RediSearch[#10528](https://github.com/redisearch/redisearch/pull/10528) Crash in the numeric range tree when background garbage collection encounters an empty leaf during active indexing on a numeric field. (MOD-16877)
+- RediSearch/RediSearch[#10605](https://github.com/redisearch/redisearch/pull/10605) FT.CREATE and FT.ALTER now reject an empty string as a field name, preventing a crash loop in the fork-GC on indexes with an empty TAG field. (MOD-17034)
+- RediSearch/RediSearch[#10488](https://github.com/redisearch/redisearch/pull/10488) FT.INFO reports a negative num_records after garbage collection on indexes that include an INDEXMISSING field. (MOD-16940)
+- RediSearch/RediSearch[#10568](https://github.com/redisearch/redisearch/pull/10568) Cluster FT.AGGREGATE fails with SEARCH_FIELD_DUP when a GROUPBY contains multiple REDUCE COLLECT calls over the same field differing only in option-keyword casing. (MOD-16365)
+- RediSearch/RediSearch[#10605](https://github.com/redisearch/redisearch/pull/10605) FT.CREATE and FT.ALTER now return an error when a field name is an empty string; previously such schemas were accepted silently. (MOD-17034)
+- RediSearch/RediSearch[#10522](https://github.com/redisearch/redisearch/pull/10522) coord_total_query_warnings_timeout double-counts timeout warnings for FT.SEARCH queries that use a hybrid (vector + filter) execution path. (MOD-15973)
+
 ## Redis Open Source 8.10-RC2 (July 2026)
 
 This is the second Release Candidate of Redis 8.10 in Redis Open Source.
