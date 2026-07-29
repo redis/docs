@@ -77,13 +77,13 @@ List the aliases for `idx:bicycle`
 One of the following:
 
 * An [array]({{< relref "/develop/reference/protocol-spec#array" >}}) of [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), the names of existing index aliases, or an empty array if no aliases exist.
-* A [simple error]{{< relref "/develop/reference/protocol-spec#simple-errors" >}} when the provided index doesn't exist.
+* A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) when the provided index doesn't exist.
 
 -tab-sep-
 
 One of the following:
 
 * A [set]({{< relref "/develop/reference/protocol-spec#sets" >}}) of [bulk strings]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}), the names of index aliases, or an empty set if no aliases exist.
-* A [simple error]{{< relref "/develop/reference/protocol-spec#simple-errors" >}} when the provided index doesn't exist.
+* A [simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) when the provided index doesn't exist.
 
 {{< /multitabs >}}
