@@ -36,7 +36,6 @@ An object that represents the database configuration. This configuration object 
 | port | integer | TCP port for database access |
 | proxy_policy | 'single'<br />'all-master-shards'<br />'all-nodes' | The policy used for proxy binding to the endpoint |
 | rack_aware | boolean (default: false) | Require the database to be always replicated across multiple racks |
-| redis_version | string | Version of the redis-server processes used to create the Active-Active database, for example `7.4` |
 | replication | boolean (default: true) | Database replication |
 | sharding | boolean (default:&nbsp;false) | Cluster mode (server-side sharding). When true, shard hashing rules must be provided by either `oss_sharding` or `shard_key_regex` |
 | shard_key_regex | `[{ "regex": string }, ...]` | Custom keyname-based sharding rules (required if sharding is enabled)<br /><br />To use the default rules you should set the value to:<br />`[{"regex": ".*\\{(?<tag>.*)\\}.*"}, {"regex": "(?<tag>.*)"}]` |
