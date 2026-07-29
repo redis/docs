@@ -25,13 +25,14 @@ The **Configuration** tab lets you view the details of your Agent Memory service
 
 - The **General settings** section provides the connection details and general settings for your Agent Memory service.
 - The **Memory configuration** section provides the service settings for your Agent Memory service.
+- The **Memory types & extraction** section shows any custom memory types defined for your service.
 - The **Actions** section lets you flush or delete your Agent Memory service.
 
 Some of these settings can be changed after service creation. To do so, select the **Edit** button.
 
 ### General settings
 
-The **General settings** section provides section provides the connection details and general settings for your Agent Memory service.
+The **General settings** section provides the connection details and general settings for your Agent Memory service.
 
 {{<image filename="images/rc/agent-memory-view-general.png" alt="The General settings for the Agent Memory service." >}}
 
@@ -50,7 +51,7 @@ Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/co
 
 The **Memory configuration** section shows the time-to-live (TTL) for memory storage, the extraction cadence, and the automatic summarization settings for session memory.
 
-{{<image filename="images/rc/agent-memory-view-memory-configuration.png" alt="The general settings for the Agent Memory service." >}}
+{{<image filename="images/rc/agent-memory-view-memory-configuration.png" alt="The Memory configuration section for the Agent Memory service." >}}
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -60,6 +61,25 @@ The **Memory configuration** section shows the time-to-live (TTL) for memory sto
 | **Automatic summarization** | Whether older messages in a session are automatically compressed into a summary to keep session memory concise during long conversations. _(Editable)_ |
 | **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
 | **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
+
+### Memory types & extraction {#memory-types-and-extraction}
+
+The **Memory types & extraction** section shows any [custom memory types]({{< relref "/operate/rc/context-engine/agent-memory/create-service#custom-memory-types" >}}) defined for the service, each listed with its name, fields, and extraction strategy.
+
+{{<image filename="images/rc/agent-memory-view-memory-types.png" alt="The Memory types & extraction section for the Agent Memory service." >}}
+
+#### Custom memory types
+
+Because a custom memory type's structure is fixed after creation, only some settings can be changed when you edit the service:
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Name** | The name of the custom memory type. _(Read-only)_ |
+| **Fields** | The fields that make up the custom memory type, with their names, types, and descriptions. _(Read-only)_ |
+| **Extraction prompt** | The extraction strategy prompt for the custom memory type. _(Editable)_ |
+| **Enabled** | Whether the extraction strategy is active. _(Editable)_ |
+
+To change a custom memory type's name or fields, you must create a new service. You can, however, add a new custom memory type when editing the service, up to the limit of 3 custom memory types.
 
 ### Actions
 
