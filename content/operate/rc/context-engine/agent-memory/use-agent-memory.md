@@ -13,10 +13,6 @@ weight: 10
 
 Use this quickstart to create an Agent Memory service on Redis Cloud and make your first REST API requests.
 
-{{< note >}}
-Redis Agent Memory on Redis Cloud is available as a public preview. Features and behavior can change before general availability.
-{{< /note >}}
-
 ## Before you begin
 
 To complete this quickstart, you need:
