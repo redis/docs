@@ -37,8 +37,15 @@
     {{- if $target -}}
       <a href="{{ $target.RelPermalink }}{{ $anchor }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
     {{- else -}}
-      {{- warnf "render-link: unresolved link %q on page %q" $dest .Page.Path -}}
-      <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+      {{- /* Not a content page: try a page-bundle resource (e.g. the source
+             files linked with [source](cache.rs) in the use-case demos). */ -}}
+      {{- $res := .Page.Resources.GetMatch $path -}}
+      {{- if $res -}}
+        <a href="{{ $res.RelPermalink }}{{ $anchor }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+      {{- else -}}
+        {{- warnf "render-link: unresolved link %q on page %q" $dest .Page.Path -}}
+        <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}

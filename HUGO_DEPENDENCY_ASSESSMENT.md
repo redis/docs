@@ -135,6 +135,14 @@ warning per un-migrated `relref` (26,847 in this repository), which would bury
 the genuine broken-link warnings. Remove the guard once every `relref` has been
 migrated.
 
+**Internal links are not only content pages.** The use-case demos link to
+companion source files that ship in the page bundle, e.g. `[source](cache.rs)`.
+These are page resources, not pages, so `GetPage` cannot see them; the hook
+resolves them with `.Page.Resources.GetMatch` before reporting a link as
+unresolved. With that in place the remaining build warnings are mostly genuine
+signal — real dead links, alias/redirect targets that `GetPage` cannot resolve,
+and static-directory files.
+
 **Installing the hook is the atomic event, not the content migration.** The
 hook is global, so on the day it lands it reprocesses every plain Markdown link
 that already exists in the repository — for example the reply-type links in the
