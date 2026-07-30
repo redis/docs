@@ -82,12 +82,11 @@ Add a user event to session memory:
 
 ```sh
 curl --fail-with-body --silent --show-error \
-  --write-out '\nHTTP status: %{http_code}\n' \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON | jq
 {
   "sessionId": "$SESSION_ID",
   "actorId": "$OWNER_ID",
@@ -113,7 +112,7 @@ Retrieve the session event that you added:
 ```sh
 curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID"
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/$SESSION_ID" | jq
 ```
 
 A successful request returns `200 OK`. The response contains the session ID, owner ID, and stored events.
@@ -128,7 +127,7 @@ The next step creates a long-term memory directly. This approach lets you verify
 
 ## Create a long-term memory
 
-Create a long-term memory for the same owner and session:
+Create two long-term memories for the same owner and session:
 
 ```sh
 curl --fail-with-body --silent --show-error \
@@ -136,12 +135,19 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory" <<JSON
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory" <<JSON | jq
 {
   "memories": [
     {
-      "id": "$MEMORY_ID",
-      "text": "The user prefers vegetarian restaurants.",
+      "id": "$MEMORY_ID-0",
+      "text": "The user prefers cozy restaurants.",
+      "memoryType": "semantic",
+      "sessionId": "$SESSION_ID",
+      "ownerId": "$OWNER_ID"
+    },
+    {
+      "id": "$MEMORY_ID-1",
+      "text": "The user prefers spicy food.",
       "memoryType": "semantic",
       "sessionId": "$SESSION_ID",
       "ownerId": "$OWNER_ID"
@@ -153,7 +159,7 @@ JSON
 
 A successful request returns `201 Created`. The `created` array in the response contains the value of `MEMORY_ID`.
 
-For request and response details, see [`BulkCreateLongTermMemories`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/long-term-memory/operation/BulkCreateLongTermMemories" >}}).
+For request and response details, see [`BulkCreateLongTermMemories`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference/#tag/Long-Term-Memory/operation/BulkCreateLongTermMemories" >}}).
 
 ## Search long-term memory
 
@@ -165,22 +171,22 @@ curl --fail-with-body --silent --show-error \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
   --data @- \
-  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory/search" <<JSON | jq
 {
-  "text": "What food does the user prefer?",
+  "text": "What type of meal does the user prefer?",
   "filter": {
     "ownerId": {
       "eq": "$OWNER_ID"
     }
   },
-  "limit": 5
+  "limit": 1
 }
 JSON
 ```
 
 A successful request returns `200 OK`. The `items` array contains matching long-term memories, including the memory that you created.
 
-For request and response details, see [`SearchLongTermMemory`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/long-term-memory/operation/SearchLongTermMemory" >}}).
+For request and response details, see [`SearchLongTermMemory`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference/#tag/Long-Term-Memory/operation/SearchLongTermMemory" >}}).
 
 ## Next steps
 
