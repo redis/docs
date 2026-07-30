@@ -197,9 +197,18 @@ path and `/operate/rc/databases/active-active/develop/data-types/` under the
 Cloud path — matching `relref` exactly on both. This relies on resolving with
 `.PageInner`.
 
-Versioned trees such as `operate/rs/<version>` were not included in this pass
-and should be checked separately, because version-specific links also interact
-with the archiving tool described below.
+A versioned tree (`operate/rs/7.8`, 326 files) was converted separately. All
+435 of its pages carry a `url:` front-matter override, and `GetPage`'s
+`.RelPermalink` honours those overrides identically to `relref`: parity was
+exact apart from the cosmetic external-parenthesis encoding. This pass also
+surfaced and fixed the last render-hook edge case — a malformed link whose
+anchor contained an embedded URL with its own `#`. Composing the resolved href
+without `safeURL` made Go's template autoescaper blank it to `ZgotmplZ`, and
+splitting the anchor on every `#` truncated it. The hook now applies `safeURL`
+to the composed URL and splits on the first `#` only, so such anchors are
+preserved intact and match the baseline.
+
+Version-specific links also interact with the archiving tool described below.
 
 ### Tooling that assumes `relref`
 
