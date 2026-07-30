@@ -171,6 +171,36 @@ or failed the build:
 Before a migration, run the hook site-wide and fix pre-existing malformed links,
 which a hook converts from silently-wrong output into hard build failures.
 
+### Scaling across diverse sections
+
+To check that parity was not specific to one section, the conversion was
+repeated across four structurally different areas at once — 825 files and about
+5,000 `relref` calls — each chosen to exercise a distinct feature:
+
+| Section | Feature exercised |
+|---|---|
+| `operate/rs/databases/active-active` | Content mounted under two URL paths |
+| `operate/rc` | Image-heavy pages; the target of that mount |
+| `operate/kubernetes` | Mixed-case paths and generated API-reference pages |
+| `integrate` | Cross-tree links |
+
+The build produced no errors, dropped no pages, and added no new warnings.
+Every rendered-link difference against the `relref` baseline was benign
+normalisation (relative to absolute, `.md` stripped, trailing slash added).
+
+The mounted Active-Active tree is the most demanding case, because the same
+source file is published under both `/operate/rs/…` and `/operate/rc/…`. The
+hook resolves each relative link to the mount-appropriate permalink — for
+example `develop/data-types` renders as
+`/operate/rs/databases/active-active/develop/data-types/` under the Software
+path and `/operate/rc/databases/active-active/develop/data-types/` under the
+Cloud path — matching `relref` exactly on both. This relies on resolving with
+`.PageInner`.
+
+Versioned trees such as `operate/rs/<version>` were not included in this pass
+and should be checked separately, because version-specific links also interact
+with the archiving tool described below.
+
 ### Tooling that assumes `relref`
 
 Several build and authoring tools treat `relref` as a literal string — they
