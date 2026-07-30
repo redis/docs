@@ -62,15 +62,12 @@ The following checklist summarizes the setup:
 ## 1. Create or select a Supabase project
 
 Create a project in the [Supabase dashboard](https://supabase.com/dashboard)
-or select an existing project. In the SQL editor, check its PostgreSQL version:
+or select an existing project. You can find its PostgreSQL version in the
+Supabase dashboard or run the following query in the SQL editor:
 
 ```sql
 SELECT version();
 ```
-
-The integration was validated with hosted Supabase PostgreSQL 17.6. Other
-supported Supabase PostgreSQL versions use the same PostgreSQL connection and
-logical replication mechanism.
 
 ## 2. Configure direct network access
 
