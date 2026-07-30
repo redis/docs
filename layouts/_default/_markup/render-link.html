@@ -8,6 +8,9 @@
   pre-existing plain links are normalised (relative -> absolute, `.md` stripped,
   trailing slash added). See HUGO_DEPENDENCY_ASSESSMENT.md.
 
+  Resolution uses .PageInner, not .Page, so relative links resolve against the
+  page whose Markdown contains the link even when content is transcluded.
+
   NOTE: assumes at most one `#` per destination (true for the whole corpus
   bar pre-existing typos). Remove the placeholder transition guard once every
   `relref` has been migrated to a plain Markdown link.
@@ -19,36 +22,36 @@
   {{- /* A relref/shortcode has not been substituted yet; leave the placeholder
          for Hugo to fill in and do not attempt to resolve or warn. */ -}}
   <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
-{{- else -}}
-  {{- /* Match a URL scheme, protocol-relative, or fragment link. Uses findRE
+{{- else if strings.HasPrefix $dest "#" -}}
+  {{- /* Fragment-only: a same-page internal link, emitted unchanged. */ -}}
+  <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+{{- else if or (findRE "^[a-zA-Z][a-zA-Z0-9+.\\-]*:" $dest) (strings.HasPrefix $dest "//") -}}
+  {{- /* External: a URL scheme or protocol-relative link. Detected with findRE
          rather than urls.Parse, which hard-errors on malformed destinations. */ -}}
-  {{- $isExternal := or (findRE "^[a-zA-Z][a-zA-Z0-9+.\\-]*:" $dest) (strings.HasPrefix $dest "//") (strings.HasPrefix $dest "#") -}}
-  {{- if $isExternal -}}
-    <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+  <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+{{- else -}}
+  {{- $path := $dest -}}
+  {{- $anchor := "" -}}
+  {{- if strings.Contains $path "#" -}}
+    {{- $parts := split $path "#" -}}
+    {{- $path = index $parts 0 -}}
+    {{- $anchor = printf "#%s" (index $parts 1) -}}
+  {{- end -}}
+  {{- /* Strip a leading `./` so explicit same-directory links resolve; leave
+         `../` alone, which GetPage resolves relative to the current page. */ -}}
+  {{- $path = strings.TrimPrefix "./" $path -}}
+  {{- $target := .PageInner.GetPage (strings.TrimSuffix ".md" $path) -}}
+  {{- if $target -}}
+    <a href="{{ $target.RelPermalink }}{{ $anchor }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
   {{- else -}}
-    {{- $path := $dest -}}
-    {{- $anchor := "" -}}
-    {{- if strings.Contains $path "#" -}}
-      {{- $parts := split $path "#" -}}
-      {{- $path = index $parts 0 -}}
-      {{- $anchor = printf "#%s" (index $parts 1) -}}
-    {{- end -}}
-    {{- /* Strip a leading `./` so explicit same-directory links resolve; leave
-           `../` alone, which GetPage resolves relative to the current page. */ -}}
-    {{- $path = strings.TrimPrefix "./" $path -}}
-    {{- $target := .Page.GetPage (strings.TrimSuffix ".md" $path) -}}
-    {{- if $target -}}
-      <a href="{{ $target.RelPermalink }}{{ $anchor }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+    {{- /* Not a content page: try a page-bundle resource (e.g. the source
+           files linked with [source](cache.rs) in the use-case demos). */ -}}
+    {{- $res := .PageInner.Resources.GetMatch $path -}}
+    {{- if $res -}}
+      <a href="{{ $res.RelPermalink }}{{ $anchor }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
     {{- else -}}
-      {{- /* Not a content page: try a page-bundle resource (e.g. the source
-             files linked with [source](cache.rs) in the use-case demos). */ -}}
-      {{- $res := .Page.Resources.GetMatch $path -}}
-      {{- if $res -}}
-        <a href="{{ $res.RelPermalink }}{{ $anchor }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
-      {{- else -}}
-        {{- warnf "render-link: unresolved link %q on page %q" $dest .Page.Path -}}
-        <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
-      {{- end -}}
+      {{- warnf "render-link: unresolved link %q on page %q" $dest .PageInner.Path -}}
+      <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
     {{- end -}}
   {{- end -}}
 {{- end -}}
