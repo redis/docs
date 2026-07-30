@@ -31,7 +31,7 @@ jobs:
       env:
         BRANCH_NAME: ${{ github.ref_name }}
       run: |
-        if [[ "$BRANCH_NAME" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
+        if [[ "$BRANCH_NAME" =~ ^[a-zA-Z0-9_./-]+$ ]]; then
           echo "The branch name $BRANCH_NAME is valid."
         else
           echo "ERROR: Invalid branch name $BRANCH_NAME!"
