@@ -33,6 +33,9 @@
       {{- $path = index $parts 0 -}}
       {{- $anchor = printf "#%s" (index $parts 1) -}}
     {{- end -}}
+    {{- /* Strip a leading `./` so explicit same-directory links resolve; leave
+           `../` alone, which GetPage resolves relative to the current page. */ -}}
+    {{- $path = strings.TrimPrefix "./" $path -}}
     {{- $target := .Page.GetPage (strings.TrimSuffix ".md" $path) -}}
     {{- if $target -}}
       <a href="{{ $target.RelPermalink }}{{ $anchor }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
