@@ -26,7 +26,7 @@ letting `redis-entra-id` fetch and renew the authentication tokens for you autom
 
 ## Install
 
-Install [`redis-py`]({{< relref "/develop/clients/redis-py#install" >}}) first,
+Install [`redis-py`](/develop/clients/redis-py#install) first,
 if you have not already done so. Then, install `redis-entra-id` with the
 following command:
 
@@ -137,7 +137,7 @@ The example below shows how to pass the instance as a parameter to the standard
 {{< note >}} Azure requires you to use
 [Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security)
 when you connect (see
-[Connect with TLS]({{< relref "/develop/clients/redis-py/connect#connect-to-your-production-redis-with-tls" >}}) for more information).
+[Connect with TLS](/develop/clients/redis-py/connect#connect-to-your-production-redis-with-tls) for more information).
 {{< /note >}}
 
 ```python
