@@ -82,6 +82,7 @@ Add a user event to session memory:
 
 ```sh
 curl --fail-with-body --silent --show-error \
+  --write-out '\nHTTP status: %{http_code}\n' \
   --request POST \
   --header "Authorization: Bearer $API_KEY" \
   --header 'Content-Type: application/json' \
@@ -103,7 +104,7 @@ JSON
 
 A successful request returns `201 Created`. The response contains the stored event and its server-generated event ID.
 
-For request and response details, see [`AddSessionEvent`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/session-memory/operation/AddSessionEvent" >}}).
+For request and response details, see [`AddSessionEvent`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference/#tag/Session-Memory/operation/AddSessionEvent" >}}).
 
 ## Retrieve the session
 
