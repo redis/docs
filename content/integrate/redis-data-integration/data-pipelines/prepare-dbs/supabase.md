@@ -15,8 +15,9 @@ weight: 11
 ---
 
 [Supabase](https://supabase.com/docs/guides/database/overview) is a hosted
-PostgreSQL platform. RDI supports hosted Supabase projects through the public
-direct database endpoint.
+PostgreSQL platform. Software RDI can connect to a hosted Supabase project
+through any direct PostgreSQL endpoint that is reachable from the RDI
+deployment and supports logical replication.
 
 {{< note >}}
 RDI supports hosted Supabase projects running an
@@ -73,25 +74,28 @@ logical replication mechanism.
 
 ## 2. Configure direct network access
 
-In the Supabase dashboard, select **Connect** and copy the **Direct
-connection** hostname. It has the following form:
+For a public connection, select **Connect** in the Supabase dashboard and copy
+the **Direct connection** hostname. It has the following form:
 
 ```text
 db.<project-ref>.supabase.co
 ```
 
-Use this hostname and port `5432` for RDI. Don't use a Supavisor transaction or
-session pooler connection string.
+Use port `5432`. You can instead use a private hostname or address if you have
+configured private connectivity between the RDI deployment and Supabase.
+Don't use a Supavisor transaction or session pooler connection string because
+these endpoints don't support logical replication.
 
 Supabase direct connections use IPv6 by default. If your RDI deployment
 doesn't have IPv6 egress, enable the
 [dedicated IPv4 add-on](https://supabase.com/docs/guides/platform/ipv4-address).
 The add-on requires a paid Supabase plan.
 
-If you enable
+If you use the public endpoint and enable
 [Supabase Network Restrictions](https://supabase.com/docs/guides/platform/network-restrictions),
 add the public egress address of the RDI host or cluster to the allowlist. Use
-a `/32` CIDR for an individual IPv4 address.
+a `/32` CIDR for an individual IPv4 address. For private connectivity, make
+sure the RDI host or cluster can resolve and route to the private endpoint.
 
 ## 3. Create a dedicated RDI role
 
