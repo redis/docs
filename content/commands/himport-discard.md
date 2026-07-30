@@ -42,7 +42,7 @@ The name of the fieldset to remove from the current connection.
 
 ## Examples
 
-```shell
+```
 > HIMPORT PREPARE u name email age
 OK
 > HIMPORT DISCARD u

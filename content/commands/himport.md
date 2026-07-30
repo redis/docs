@@ -39,7 +39,7 @@ A *fieldset* is a named, ordered list of field names that is scoped to the clien
 
 The typical workflow is to declare a fieldset once with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}), then create many keys from it with [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}), sending only the values each time:
 
-```shell
+```
 HIMPORT PREPARE u name email age
 HIMPORT SET user:1 u alice a@example.com 30
 HIMPORT SET user:2 u bob b@example.com 25

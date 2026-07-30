@@ -56,7 +56,7 @@ One or more field names to store under the fieldset, in the order you intend to 
 
 ## Examples
 
-```shell
+```
 > HIMPORT PREPARE u name email age
 OK
 ```

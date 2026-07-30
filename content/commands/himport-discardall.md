@@ -30,7 +30,7 @@ Removes every fieldset held by the current connection, discarding all definition
 
 ## Examples
 
-```shell
+```
 > HIMPORT PREPARE u name email age
 OK
 > HIMPORT PREPARE o id total

@@ -184,16 +184,30 @@ The two orderings differ only in the resulting arrangement of elements. See
 
 ## Examples
 
-{{% redis-cli %}}
-RPUSH mylist 1 2 3 4
-LMOVEM mylist myotherlist LEFT LEFT COUNT 2 OBO
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
-LMOVEM mylist myotherlist LEFT LEFT EXACTLY 5 BULK
-RPUSH samelist a b c
-LMOVEM samelist samelist LEFT LEFT EXACTLY 2 OBO
-LRANGE samelist 0 -1
-{{% /redis-cli %}}
+```
+> rpush mylist 1 2 3 4
+(integer) 4
+> LMOVEM mylist myotherlist LEFT LEFT COUNT 2 OBO
+1) "2"
+2) "1"
+> LRANGE mylist 0 -1
+1) "3"
+2) "4"
+> LRANGE myotherlist 0 -1
+1) "2"
+2) "1"
+> LMOVEM mylist myotherlist LEFT LEFT EXACTLY 5 BULK
+(nil)
+> RPUSH somelist a b c
+(integer) 3
+> LMOVEM somelist somelist LEFT LEFT EXACTLY 2 OBO
+1) "b"
+2) "a"
+> LRANGE somelist 0 -1
+1) "b"
+2) "a"
+3) "c"
+```
 
 ## Details
 

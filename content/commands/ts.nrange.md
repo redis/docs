@@ -324,7 +324,7 @@ Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is report
 
 Create two time series and add samples at partially overlapping timestamps.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.CREATE {sensor}:1
 OK
 127.0.0.1:6379> TS.CREATE {sensor}:2
@@ -335,11 +335,11 @@ OK
 127.0.0.1:6379> TS.MADD {sensor}:2 1000 20 {sensor}:2 3000 25
 1) (integer) 1000
 2) (integer) 3000
-{{< / highlight >}}
+```
 
 Query both series and group the samples by timestamp. One entry is returned for every distinct timestamp produced by at least one key, with the values ordered by input key. A key with no sample at that timestamp has a `NaN` value.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.NRANGE 2 {sensor}:1 {sensor}:2 - +
 1) 1) (integer) 1000
    2) 1) 10
@@ -350,7 +350,7 @@ Query both series and group the samples by timestamp. One entry is returned for 
 3) 1) (integer) 3000
    2) 1) NaN
       2) 25
-{{< / highlight >}}
+```
 </details>
 
 <details open>
@@ -358,7 +358,7 @@ Query both series and group the samples by timestamp. One entry is returned for 
 
 In aggregation mode, supply one aggregator per key, in key order. Here `{sensor}:1` is aggregated with `avg` and `{sensor}:2` with `sum`, both over 1000-millisecond buckets.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.MADD {sensor}:1 1000 10 {sensor}:1 1100 20 {sensor}:1 2000 30
 1) (integer) 1000
 2) (integer) 1100
@@ -374,7 +374,7 @@ In aggregation mode, supply one aggregator per key, in key order. Here `{sensor}
 2) 1) (integer) 2000
    2) 1) 30
       2) 25
-{{< / highlight >}}
+```
 </details>
 
 <details open>
@@ -382,7 +382,7 @@ In aggregation mode, supply one aggregator per key, in key order. Here `{sensor}
 
 To compute several aggregators for a single key, pass them as a comma-separated list. Here `{sensor}:1` uses `avg,max` (two values) and `{sensor}:2` uses `sum` (one value). Each timestamp's values are a single flat list: `{sensor}:1`'s `avg`, then its `max`, then `{sensor}:2`'s `sum`.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.NRANGE 2 {sensor}:1 {sensor}:2 - + AGGREGATION avg,max sum 1000
 1) 1) (integer) 1000
    2) 1) 15
@@ -392,7 +392,7 @@ To compute several aggregators for a single key, pass them as a comma-separated 
    2) 1) 30
       2) 30
       3) 25
-{{< / highlight >}}
+```
 </details>
 
 ## Details

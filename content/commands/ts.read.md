@@ -144,7 +144,7 @@ The `BLOCK` and `MAX_COUNT` keywords are optional, independent, and can be given
 
 Create a time series and add three samples.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.CREATE sensor:1
 OK
 127.0.0.1:6379> TS.ADD sensor:1 100 1.0
@@ -153,11 +153,11 @@ OK
 (integer) 200
 127.0.0.1:6379> TS.ADD sensor:1 300 3.0
 (integer) 300
-{{< / highlight >}}
+```
 
 Read all historical samples without blocking. With no `BLOCK` keyword the command returns immediately, and `max_count` is unlimited.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.READ sensor:1 0
 1) 1) (integer) 100
    2) 1
@@ -165,13 +165,13 @@ Read all historical samples without blocking. With no `BLOCK` keyword the comman
    2) 2
 3) 1) (integer) 300
    2) 3
-{{< / highlight >}}
+```
 
 The `-` sentinel is equivalent for a full read from the earliest sample.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.READ sensor:1 -
-{{< / highlight >}}
+```
 </details>
 
 <details open>
@@ -179,7 +179,7 @@ The `-` sentinel is equivalent for a full read from the earliest sample.
 
 Read at most two samples per call, advancing the cursor to `last_returned_timestamp + 1` on each subsequent call.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.READ sensor:1 - MAX_COUNT 2
 1) 1) (integer) 100
    2) 1
@@ -188,7 +188,7 @@ Read at most two samples per call, advancing the cursor to `last_returned_timest
 127.0.0.1:6379> TS.READ sensor:1 201 MAX_COUNT 2
 1) 1) (integer) 300
    2) 3
-{{< / highlight >}}
+```
 </details>
 
 <details open>
@@ -196,17 +196,17 @@ Read at most two samples per call, advancing the cursor to `last_returned_timest
 
 Start from the current latest sample (inclusive). Without `BLOCK`, this returns immediately.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.READ sensor:1 +
 1) 1) (integer) 300
    2) 3
-{{< / highlight >}}
+```
 
 With `BLOCK 5000 2`, the same `+` call blocks until a second sample with timestamp greater than or equal to 300 arrives, or returns the available samples after 5000 milliseconds.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.READ sensor:1 + BLOCK 5000 2
-{{< / highlight >}}
+```
 </details>
 
 <details open>
@@ -214,9 +214,9 @@ With `BLOCK 5000 2`, the same `+` call blocks until a second sample with timesta
 
 Use `$` to ignore everything that already exists and receive only samples added after the call. `BLOCK 5000 1` waits up to 5000 milliseconds for the first new sample.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.READ sensor:1 $ BLOCK 5000 1
-{{< / highlight >}}
+```
 
 If another client runs `TS.ADD sensor:1 400 4.0` within 5000 milliseconds, the blocked call returns `[[400, 4]]`. If no new sample arrives, it returns an empty array.
 </details>
@@ -226,20 +226,20 @@ If another client runs `TS.ADD sensor:1 400 4.0` within 5000 milliseconds, the b
 
 When `min_count` cannot be reached, the command returns the available samples after the timeout. Here `BLOCK 1000 10` cannot reach 10 samples, so the two qualifying samples are returned after 1000 milliseconds.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.READ sensor:1 101 BLOCK 1000 10
 1) 1) (integer) 200
    2) 2
 2) 1) (integer) 300
    2) 3
-{{< / highlight >}}
+```
 
 When nothing qualifies by the timeout, the reply is an empty array.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.READ sensor:1 301 BLOCK 1000 1
 (empty array)
-{{< / highlight >}}
+```
 </details>
 
 <details open>
@@ -247,9 +247,9 @@ When nothing qualifies by the timeout, the reply is an empty array.
 
 `key` may be a compaction series. The command can return compaction samples and, with `BLOCK`, can wait for future compaction output.
 
-{{< highlight bash >}}
+```
 127.0.0.1:6379> TS.READ sensor:1:avg - BLOCK 10000 1
-{{< / highlight >}}
+```
 </details>
 
 ## Details

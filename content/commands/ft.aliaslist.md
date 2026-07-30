@@ -49,18 +49,17 @@ is the name of the index for which to list aliases.
 
 Add an alias to an index.
 
-{{< highlight bash >}}
+```
 > FT.ALIASADD alias idx:bicycle
 OK
-{{< / highlight >}}
+```
 
 List the aliases for `idx:bicycle`
 
-{{< highlight bash >}}
+```
 > FT.ALIASLIST idx:bicycle
 1) "alias"
-{{< / highlight >}}
-</details>
+```
 
 ## Redis Software and Redis Cloud compatibility
 

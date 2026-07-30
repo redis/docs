@@ -102,7 +102,7 @@ restricts the command to the time series whose labels and label values match all
 
 Create a set of sensors to measure temperature and humidity in your study and kitchen.
 
-{{< highlight bash >}}
+```
 redis> TS.CREATE telemetry:study:temperature LABELS room study type temperature
 OK
 redis> TS.CREATE telemetry:study:humidity LABELS room study type humidity
@@ -111,23 +111,23 @@ redis> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperat
 OK
 redis> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity
 OK
-{{< / highlight >}}
+```
 
 Retrieve the label names used by the time series located in the kitchen.
 
-{{< highlight bash >}}
+```
 redis> TS.QUERYLABELS LABELS FILTER room=kitchen
 1) "room"
 2) "type"
-{{< / highlight >}}
+```
 
 Retrieve the distinct values of the `type` label across all time series.
 
-{{< highlight bash >}}
+```
 redis> TS.QUERYLABELS VALUES type
 1) "humidity"
 2) "temperature"
-{{< / highlight >}}
+```
 </details>
 
 ## Details

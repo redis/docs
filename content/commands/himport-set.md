@@ -79,7 +79,7 @@ The field values, given in the same order as the field names were declared in th
 
 ## Examples
 
-```shell
+```
 > HIMPORT PREPARE u name email age
 OK
 > HIMPORT SET user:1 u alice a@example.com 30
