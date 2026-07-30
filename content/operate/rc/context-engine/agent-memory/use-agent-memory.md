@@ -44,21 +44,31 @@ For screenshots and configuration details, see [create an Agent Memory service](
 ## Save the connection values
 
 1. Open the Agent Memory service in the Redis Cloud console.
-1. On the **Configuration** tab, copy the **API Base URL** and **Store ID**.
-1. Export the values in your shell. Replace each placeholder with the value from Redis Cloud:
+1. On the **Configuration** tab, copy the **Endpoint** and **Store ID**.
+1. Export the connection values in your shell. Replace each placeholder with the value from Redis Cloud:
 
     ```sh
-    export AGENT_MEMORY_URL='<API_BASE_URL>'
+    export AGENT_MEMORY_ENDPOINT='<ENDPOINT>'
     export STORE_ID='<STORE_ID>'
     export API_KEY='<API_KEY>'
     export SESSION_ID='quickstart-session'
     export OWNER_ID='quickstart-user'
     export MEMORY_ID='quickstart-preference'
     ```
+   
+1. Define identifiers for the resources created in this quickstart:
 
-Use the complete API base URL returned by Redis Cloud. Don't add another URL scheme, such as `https://`, to `AGENT_MEMORY_URL`.
+    ```sh
+    export SESSION_ID='quickstart-session'
+    export OWNER_ID='quickstart-user'
+    export MEMORY_ID='quickstart-preference'
+    ```
+   
+`AGENT_MEMORY_URL` must contain the complete endpoint shown in Redis Cloud, including `https://`.
 
-Send the API key as a bearer token in the `Authorization` header. Keep the key out of source control, application logs, and other unsecured locations.
+Send `API_KEY` as a bearer token in the `Authorization` header. Keep API keys out of source control, application logs, and other unsecured locations.
+
+`SESSION_ID`, `OWNER_ID`, and `MEMORY_ID` are example identifiers used throughout this quickstart. You can replace them with identifiers from your application.
 
 ## Add a session event
 
