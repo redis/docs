@@ -65,7 +65,7 @@ Flex does not replace long-term data persistence. For workloads that require dur
 
 ## Flex and Auto Tiering
 
-Flex replaces [Auto Tiering]({{< relref "/operate/rs/8.0/7.22/databases/auto-tiering" >}}) (formerly known as Redis on Flash). Redis Software selects the implementation based on your Redis version:
+Flex replaces [Auto Tiering]({{< relref "/operate/rs/7.22/databases/auto-tiering" >}}) (formerly known as Redis on Flash). Redis Software selects the implementation based on your Redis version:
 
 | Redis database version | Flex | Auto Tiering |
 |------------------------|------|--------------|
@@ -73,7 +73,7 @@ Flex replaces [Auto Tiering]({{< relref "/operate/rs/8.0/7.22/databases/auto-tie
 | 7.4 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span>|
 | 7.2 and earlier | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 
-For Redis Software version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "/operate/rs/8.0/7.22/databases/auto-tiering" >}}).
+For Redis Software version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "/operate/rs/7.22/databases/auto-tiering" >}}).
 
 ### Differences between Flex and Auto Tiering
 
