@@ -104,7 +104,7 @@ Note that calling `EXPIRE`/[`PEXPIRE`]({{< relref "/commands/pexpire" >}}) with 
 will be `del`, not `expired`).
 
 [del]: /commands/del
-[ntf]: /develop/use/keyspace-notifications
+[ntf]: /develop/pubsub/keyspace-notifications
 
 ## Required arguments
 
