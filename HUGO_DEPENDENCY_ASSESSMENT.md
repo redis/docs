@@ -171,6 +171,30 @@ or failed the build:
 Before a migration, run the hook site-wide and fix pre-existing malformed links,
 which a hook converts from silently-wrong output into hard build failures.
 
+### Tooling that assumes `relref`
+
+Several build and authoring tools treat `relref` as a literal string — they
+parse or generate the shortcode directly. These must be updated or retired as
+part of the migration, or they will silently produce wrong output:
+
+- [`build/version_archiver.py`](build/version_archiver.py) rewrites
+  `{{< relref "/…" >}}` with a regular expression to make links version-specific
+  when a versioned documentation snapshot is created. Against plain Markdown
+  links it matches nothing, so archived versions would keep unversioned links.
+- [`build/redisvl_docs_sync.py`](build/redisvl_docs_sync.py) is an importer that
+  *emits* `relref` syntax when converting upstream RedisVL documentation. It
+  would need to emit plain Markdown links instead.
+- [`.claude/hooks/check_shortcode_paths.py`](.claude/hooks/check_shortcode_paths.py)
+  validates `relref` target paths on edit. Once links are plain Markdown, that
+  validation moves to the render hook and an independent link checker.
+- [`layouts/partials/process-markdown-content.html`](layouts/partials/process-markdown-content.html)
+  regex-replaces `relref` when generating the Markdown and JSON outputs (see
+  "Current alternate-output fragility" below); standard links would let the
+  render hook handle this instead.
+
+An audit for `relref` used as a literal string across `build/`, `layouts/`, and
+`.claude/` should be part of migration planning.
+
 ## Callouts
 
 Replace callout shortcodes with GitHub-style blockquote alerts:
