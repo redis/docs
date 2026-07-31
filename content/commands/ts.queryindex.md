@@ -74,32 +74,32 @@ filters time series based on their labels and label values.
 
 Create a set of sensors to measure temperature and humidity in your study and kitchen.
 
-{{< highlight bash >}}
-127.0.0.1:6379> TS.CREATE telemetry:study:temperature LABELS room study type temperature
+{{% redis-cli %}}
+redis> TS.CREATE telemetry:study:temperature LABELS room study type temperature
 OK
-127.0.0.1:6379> TS.CREATE telemetry:study:humidity LABELS room study type humidity
+redis> TS.CREATE telemetry:study:humidity LABELS room study type humidity
 OK
-127.0.0.1:6379> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperature
+redis> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperature
 OK
-127.0.0.1:6379> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity
+redis> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity
 OK
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 Retrieve keys of all time series representing sensors located in the kitchen. 
 
-{{< highlight bash >}}
-127.0.0.1:6379> TS.QUERYINDEX room=kitchen
+{{% redis-cli %}}
+redis> TS.QUERYINDEX room=kitchen
 1) "telemetry:kitchen:humidity"
 2) "telemetry:kitchen:temperature"
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 To retrieve the keys of all time series representing sensors that measure temperature, use this query:
 
-{{< highlight bash >}}
-127.0.0.1:6379> TS.QUERYINDEX type=temperature
+{{% redis-cli %}}
+redis> TS.QUERYINDEX type=temperature
 1) "telemetry:kitchen:temperature"
 2) "telemetry:study:temperature"
-{{< / highlight >}}
+{{% /redis-cli %}}
 </details>
 
 ## Redis Software and Redis Cloud compatibility

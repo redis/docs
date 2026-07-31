@@ -30,14 +30,14 @@ Removes every fieldset held by the current connection, discarding all definition
 
 ## Examples
 
-```
-> HIMPORT PREPARE u name email age
+{{% redis-cli %}}
+redis> HIMPORT PREPARE u name email age
 OK
-> HIMPORT PREPARE o id total
+redis> HIMPORT PREPARE o id total
 OK
-> HIMPORT DISCARDALL
+redis> HIMPORT DISCARDALL
 (integer) 2
-```
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

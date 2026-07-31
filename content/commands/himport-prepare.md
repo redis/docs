@@ -56,10 +56,10 @@ One or more field names to store under the fieldset, in the order you intend to 
 
 ## Examples
 
-```
-> HIMPORT PREPARE u name email age
+{{% redis-cli %}}
+redis> HIMPORT PREPARE u name email age
 OK
-```
+{{% /redis-cli %}}
 
 ## Details
 

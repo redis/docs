@@ -130,27 +130,27 @@ If `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty lis
 
 Create time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.
 
-{{< highlight bash >}}
-127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV
+{{% redis-cli %}}
+redis> TS.CREATE temp:TLV LABELS type temp location TLV
 OK
-127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM
+redis> TS.CREATE temp:JLM LABELS type temp location JLM
 OK
-127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40
+redis> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40
 1) (integer) 1000
 2) (integer) 1010
 3) (integer) 1020
 4) (integer) 1030
-127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40
+redis> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40
 1) (integer) 1005
 2) (integer) 1015
 3) (integer) 1025
 4) (integer) 1035
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 Get all the labels associated with the last sample.
 
-{{< highlight bash >}}
-127.0.0.1:6379> TS.MGET WITHLABELS FILTER type=temp
+{{% redis-cli %}}
+redis> TS.MGET WITHLABELS FILTER type=temp
 1) 1) "temp:JLM"
    2) 1) 1) "type"
          2) "temp"
@@ -165,12 +165,12 @@ Get all the labels associated with the last sample.
          2) "TLV"
    3) 1) (integer) 1030
       2) 40
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 To get only the `location` label for each last sample, use `SELECTED_LABELS`.
 
-{{< highlight bash >}}
-127.0.0.1:6379> TS.MGET SELECTED_LABELS location FILTER type=temp
+{{% redis-cli %}}
+redis> TS.MGET SELECTED_LABELS location FILTER type=temp
 1) 1) "temp:JLM"
    2) 1) 1) "location"
          2) "JLM"
@@ -181,7 +181,7 @@ To get only the `location` label for each last sample, use `SELECTED_LABELS`.
          2) "TLV"
    3) 1) (integer) 1030
       2) 40
-{{< / highlight >}}
+{{% /redis-cli %}}
 </details>
 
 ## Redis Software and Redis Cloud compatibility

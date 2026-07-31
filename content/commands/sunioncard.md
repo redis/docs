@@ -97,30 +97,30 @@ Stop counting once the cardinality reaches `limit`. `0` (the default) means no l
 
 ## Examples
 
-```
-> SADD key1 "a"
+{{% redis-cli %}}
+redis> SADD key1 "a"
 (integer) 1
-> SADD key1 "b"
+redis> SADD key1 "b"
 (integer) 1
-> SADD key1 "c"
+redis> SADD key1 "c"
 (integer) 1
-> SADD key2 "c"
+redis> SADD key2 "c"
 (integer) 1
-> SADD key2 "d"
+redis> SADD key2 "d"
 (integer) 1
-> SADD key2 "e"
+redis> SADD key2 "e"
 (integer) 1
-> SUNION key1 key2
+redis> SUNION key1 key2
 1) "a"
 2) "c"
 3) "d"
 4) "b"
 5) "e"
-> SUNIONCARD 2 key1 key2
+redis> SUNIONCARD 2 key1 key2
 (integer) 5
-> SUNIONCARD 2 key1 key2 LIMIT 3
+redis> SUNIONCARD 2 key1 key2 LIMIT 3
 (integer) 3
-```
+{{% /redis-cli %}}
 
 ## Details
 
