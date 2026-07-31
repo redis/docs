@@ -18,8 +18,8 @@ redis-di list [flags]
 
 ## Options
 
-| Option | Description |
-| :-- | :-- |
+| Option           | Description                                          |
+| :--------------- | :--------------------------------------------------- |
 | `-o`, `--output` | Output format: `table` (default), `json`, or `yaml`. |
 
 This command also accepts the

@@ -20,12 +20,12 @@ redis-di scaffold [flags]
 
 ## Options
 
-| Option | Description |
-| :-- | :-- |
-| `--db-type` | Source database type (required): `mariadb`, `mongodb`, `mysql`, `oracle`, `postgresql`, `snowflake`, `sqlserver`, or `spanner`. |
-| `--db-flavor` | Source database flavor: `mongodb-atlas`, `mongodb-replica-set`, or `mongodb-sharded-cluster`. |
-| `--dir` | Directory to write `config.yaml` to; prints to standard output when omitted. |
-| `--force` | Skip the confirmation prompt when overwriting an existing file. |
+| Option        | Description                                                                                                                     |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------ |
+| `--db-type`   | Source database type (required): `mariadb`, `mongodb`, `mysql`, `oracle`, `postgresql`, `snowflake`, `sqlserver`, or `spanner`. |
+| `--db-flavor` | Source database flavor: `mongodb-atlas`, `mongodb-replica-set`, or `mongodb-sharded-cluster`.                                   |
+| `--dir`       | Directory to write `config.yaml` to; prints to standard output when omitted.                                                    |
+| `--force`     | Skip the confirmation prompt when overwriting an existing file.                                                                 |
 
 This command also accepts the
 [global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).

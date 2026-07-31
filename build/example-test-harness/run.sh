@@ -15,7 +15,7 @@ HARNESS="$(cd "$(dirname "$0")" && pwd)"
 WORK="$HARNESS/work"; mkdir -p "$WORK"
 SET="${1:?usage: run.sh <example_set> [client...]}"; shift || true
 
-CLIENTS_ALL=(python node go jedis ruby rust-sync rust-async lettuce-async lettuce-reactive php dotnet)
+CLIENTS_ALL=(python node ioredis go jedis ruby rust-sync rust-async lettuce-async lettuce-reactive php dotnet)
 CLIENTS=("$@"); [ ${#CLIENTS[@]} -eq 0 ] && CLIENTS=("${CLIENTS_ALL[@]}")
 
 # --- example_set + client -> repo-relative source path -----------------------
@@ -33,6 +33,10 @@ src_path() {
     ss_tutorial:lettuce-reactive)echo local_examples/client-specific/lettuce-reactive/SortedSetExample.java ;;
     ss_tutorial:php)             echo local_examples/php/DtSortedSetsTest.php ;;
     ss_tutorial:dotnet)          echo local_examples/tmp/datatypes/sorted-sets/SortedSetExample.cs ;;
+    pipe_trans_tutorial:ruby)            echo local_examples/client-specific/ruby/transpipe.rb ;;
+    pipe_trans_tutorial:lettuce-sync)    echo local_examples/client-specific/lettuce-sync/TransPipeExample.java ;;
+    pipe_trans_tutorial:lettuce-async)   echo local_examples/client-specific/lettuce-async/TransPipeExample.java ;;
+    pipe_trans_tutorial:lettuce-reactive)echo local_examples/client-specific/lettuce-reactive/TransPipeExample.java ;;
     set_tutorial:python)         echo local_examples/tmp/datatypes/strings/dt_string.py ;;
     set_tutorial:node)           echo local_examples/tmp/datatypes/strings/dt-string.js ;;
     set_tutorial:go)             echo local_examples/tmp/datatypes/strings/string_example_test.go ;;
@@ -66,6 +70,37 @@ src_path() {
     sets_tutorial:lettuce-reactive)echo local_examples/tmp/lettuce-reactive/SetExample.java ;;
     sets_tutorial:php)           echo local_examples/php/DtSetsTest.php ;;
     sets_tutorial:dotnet)        echo local_examples/tmp/datatypes/sets/SetsTutorial.cs ;;
+    cmds_sorted_set:ioredis)          echo local_examples/cmds_sorted_set/ioredis/cmds-sorted-set.js ;;
+    cmds_sorted_set:ruby)             echo local_examples/cmds_sorted_set/ruby/cmds_sorted_set.rb ;;
+    cmds_sorted_set:rust-sync)        echo local_examples/cmds_sorted_set/rust-sync/cmds_sorted_set.rs ;;
+    cmds_sorted_set:rust-async)       echo local_examples/cmds_sorted_set/rust-async/cmds_sorted_set.rs ;;
+    cmds_sorted_set:lettuce-async)    echo local_examples/cmds_sorted_set/lettuce-async/CmdsSortedSetExample.java ;;
+    cmds_sorted_set:lettuce-reactive) echo local_examples/cmds_sorted_set/lettuce-reactive/CmdsSortedSetExample.java ;;
+    cmds_sorted_set:php)              echo local_examples/cmds_sorted_set/predis/CmdsSortedSetTest.php ;;
+    cmds_servermgmt:ioredis)          echo local_examples/cmds_servermgmt/ioredis/cmds-servermgmt.js ;;
+    cmds_servermgmt:ruby)             echo local_examples/cmds_servermgmt/ruby/cmds_servermgmt.rb ;;
+    cmds_servermgmt:rust-sync)        echo local_examples/cmds_servermgmt/rust-sync/cmds_servermgmt.rs ;;
+    cmds_servermgmt:rust-async)       echo local_examples/cmds_servermgmt/rust-async/cmds_servermgmt.rs ;;
+    cmds_servermgmt:lettuce-async)    echo local_examples/cmds_servermgmt/lettuce-async/CmdsServerMgmtExample.java ;;
+    cmds_servermgmt:lettuce-reactive) echo local_examples/cmds_servermgmt/lettuce-reactive/CmdsServerMgmtExample.java ;;
+    cmds_servermgmt:php)              echo local_examples/cmds_servermgmt/predis/CmdsServerMgmtTest.php ;;
+    cmds_set:ioredis)                 echo local_examples/cmds_set/ioredis/cmds-set.js ;;
+    cmds_set:ruby)                    echo local_examples/cmds_set/ruby/cmds_set.rb ;;
+    cmds_set:rust-sync)               echo local_examples/cmds_set/rust-sync/cmds_set.rs ;;
+    cmds_set:rust-async)              echo local_examples/cmds_set/rust-async/cmds_set.rs ;;
+    cmds_list:ioredis)                echo local_examples/cmds_list/ioredis/cmds-list.js ;;
+    cmds_list:ruby)                   echo local_examples/cmds_list/ruby/cmds_list.rb ;;
+    cmds_list:rust-sync)              echo local_examples/cmds_list/rust-sync/cmds_list.rs ;;
+    cmds_list:rust-async)             echo local_examples/cmds_list/rust-async/cmds_list.rs ;;
+    cmds_stream:ioredis)              echo local_examples/cmds_stream/ioredis/cmds-stream.js ;;
+    cmds_stream:ruby)                 echo local_examples/cmds_stream/ruby/cmds_stream.rb ;;
+    set_and_get:ioredis)              echo local_examples/set_and_get/ioredis/set-get.js ;;
+    set_and_get:ruby)                 echo local_examples/set_and_get/ruby/set_get.rb ;;
+    set_and_get:rust-sync)            echo local_examples/set_and_get/rust-sync/set_get.rs ;;
+    set_and_get:rust-async)           echo local_examples/set_and_get/rust-async/set_get.rs ;;
+    set_and_get:lettuce-async)        echo local_examples/set_and_get/lettuce-async/SetGetExample.java ;;
+    set_and_get:lettuce-reactive)     echo local_examples/set_and_get/lettuce-reactive/SetGetExample.java ;;
+    set_and_get:php)                  echo local_examples/set_and_get/predis/SetGetTest.php ;;
     time_series_tutorial:python) echo local_examples/time_series_tutorial/redis-py/dt_time_series.py ;;
     time_series_tutorial:go)     echo local_examples/time_series_tutorial/go-redis/timeseries_tut_test.go ;;
     time_series_tutorial:jedis)  echo local_examples/time_series_tutorial/jedis/TimeSeriesTutorialExample.java ;;
@@ -104,6 +139,11 @@ run_node() {
   [ -d "$d/node_modules/redis" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s redis >/dev/null 2>&1); }
   cp "$1" "$d/example.mjs"; (cd "$d" && node example.mjs) >"$LOG" 2>&1; rc=$?
 }
+run_ioredis() {
+  local d="$WORK/ioredis"; mkdir -p "$d"
+  [ -d "$d/node_modules/ioredis" ] || { printf '{"type":"module"}\n' >"$d/package.json"; (cd "$d" && npm i -s ioredis >/dev/null 2>&1); }
+  cp "$1" "$d/example.mjs"; (cd "$d" && node example.mjs) >"$LOG" 2>&1; rc=$?
+}
 run_go() {
   local d="$WORK/go"; mkdir -p "$d"
   if [ ! -f "$d/go.mod" ]; then
@@ -138,6 +178,7 @@ run_maven_java() { # $1=src $2=workdir $3=package-relpath
   (cd "$d" && mvn -q -B test) >"$LOG" 2>&1; rc=$?
 }
 run_jedis()            { run_maven_java "$1" "$WORK/jedis"    io/redis/examples ; }
+run_lettuce_sync()     { run_maven_java "$1" "$WORK/lettuce-sync"    io/redis/examples/sync ; }
 run_lettuce_async()    { run_maven_java "$1" "$WORK/lettuce-async"   io/redis/examples/async ; }
 run_lettuce_reactive() { run_maven_java "$1" "$WORK/lettuce-reactive" io/redis/examples/reactive ; }
 run_dotnet() { # stubs NRedisStack.Tests fixtures so the file runs under plain xunit
@@ -153,6 +194,7 @@ run_php() {
   [ -d "$d/vendor/predis" ] || { printf '{}\n' >"$d/composer.json"; (cd "$d" && composer -q require predis/predis >/dev/null 2>&1); }
   cat >"$d/bootstrap.php" <<'PHP'
 <?php
+require __DIR__ . '/vendor/autoload.php';
 class PredisTestCase {
   function assertEquals($e,$a,$m=''){ if($e!=$a) throw new Exception("assertEquals: expected ".var_export($e,true)." got ".var_export($a,true)); }
   function assertSame($e,$a,$m=''){ if($e!==$a) throw new Exception("assertSame failed"); }

@@ -109,9 +109,25 @@ When present, includes per-slice statistics in the reply: the number of dense an
 ## Examples
 
 {{% redis-cli %}}
-ARMSET myarray 0 "a" 1 "b" 100 "c"
-ARINSERT myarray "d"
-ARINFO myarray
+redis> ARMSET myarray 0 "a" 1 "b" 100 "c"
+(integer) 3
+redis> ARINSERT myarray "d"
+(integer) 0
+redis> ARINFO myarray
+ 1) "count"
+ 2) (integer) 3
+ 3) "len"
+ 4) (integer) 101
+ 5) "next-insert-index"
+ 6) (integer) 1
+ 7) "slices"
+ 8) (integer) 1
+ 9) "directory-size"
+10) (integer) 1
+11) "super-dir-entries"
+12) (integer) 0
+13) "slice-size"
+14) (integer) 4096
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -12,6 +12,10 @@ weight: 3
 
 ## Install Redis Open Source on Rocky Linux 8 and 9, or AlmaLinux 8 and 9 using RPM
 
+{{< note >}}
+If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, see [Install redis-cli]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}).
+{{< /note >}}
+
 Follow these steps to install Redis Open Source.
 
 1. Create the file `/etc/yum.repos.d/redis.repo` with the following contents.

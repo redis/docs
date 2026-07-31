@@ -83,9 +83,12 @@ One or more field-value pairs to set in the hash.
 ## Examples
 
 {{% redis-cli %}}
-HMSET myhash field1 "Hello" field2 "World"
-HGET myhash field1
-HGET myhash field2
+redis> HMSET myhash field1 "Hello" field2 "World"
+OK
+redis> HGET myhash field1
+"Hello"
+redis> HGET myhash field2
+"World"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

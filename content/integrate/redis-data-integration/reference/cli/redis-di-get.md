@@ -22,8 +22,8 @@ The pipeline name is an optional argument that defaults to `default`.
 
 ## Options
 
-| Option | Description |
-| :-- | :-- |
+| Option           | Description                                          |
+| :--------------- | :--------------------------------------------------- |
 | `-o`, `--output` | Output format: `table` (default), `json`, or `yaml`. |
 
 This command also accepts the

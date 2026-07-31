@@ -290,10 +290,29 @@ Store the results in `key` as a sorted set of distances from the center, instead
 ## Examples
 
 {{% redis-cli %}}
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEORADIUS Sicily 15 37 200 km WITHDIST
-GEORADIUS Sicily 15 37 200 km WITHCOORD
-GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
+redis> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+redis> GEORADIUS Sicily 15 37 200 km WITHDIST
+1) 1) "Palermo"
+   2) "190.4424"
+2) 1) "Catania"
+   2) "56.4413"
+redis> GEORADIUS Sicily 15 37 200 km WITHCOORD
+1) 1) "Palermo"
+   2) 1) "13.361389338970184"
+      2) "38.1155563954963"
+2) 1) "Catania"
+   2) 1) "15.087267458438873"
+      2) "37.50266842333162"
+redis> GEORADIUS Sicily 15 37 200 km WITHDIST WITHCOORD
+1) 1) "Palermo"
+   2) "190.4424"
+   3) 1) "13.361389338970184"
+      2) "38.1155563954963"
+2) 1) "Catania"
+   2) "56.4413"
+   3) 1) "15.087267458438873"
+      2) "37.50266842333162"
 {{% /redis-cli %}}
 
 ## Details

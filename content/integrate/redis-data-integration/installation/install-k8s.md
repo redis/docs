@@ -327,7 +327,9 @@ processor and the
 [Apache Flink](https://flink.apache.org/)-based *Flink* processor.
 See
 [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
-for an overview of the differences.
+for an overview of the differences and
+[Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+for a side-by-side comparison.
 
 To configure the Flink processor at the Helm chart level, add the
 `operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file. The
@@ -357,7 +359,9 @@ that the operator will use when deploying the JobManager and TaskManager workloa
 To run a specific pipeline on the Flink processor, set
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
 to `flink` in that pipeline's `config.yaml`. Pipelines without this setting
-continue to use the classic processor.
+continue to use the classic processor. Fine-tune the Flink runtime
+through the `processors.advanced` section of `config.yaml` (see the
+[configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
 
 For migrating existing pipelines to the Flink processor, see
 [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).

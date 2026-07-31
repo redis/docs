@@ -62,9 +62,22 @@ The arguments that would be passed to the command.
 ## Examples
 
 {{% redis-cli %}}
-COMMAND GETKEYS MSET a b c d e f
-COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
-COMMAND GETKEYSANDFLAGS LMOVE mylist1 mylist2 left left
+redis> COMMAND GETKEYS MSET a b c d e f
+1) "a"
+2) "c"
+3) "e"
+redis> COMMAND GETKEYS EVAL "not consulted" 3 key1 key2 key3 arg1 arg2 arg3 argN
+1) "key1"
+2) "key2"
+3) "key3"
+redis> COMMAND GETKEYSANDFLAGS LMOVE mylist1 mylist2 left left
+1) 1) "mylist1"
+   2) 1) RW
+      2) access
+      3) delete
+2) 1) "mylist2"
+   2) 1) RW
+      2) insert
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
