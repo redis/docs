@@ -67090,6 +67090,37 @@
             "description": "The array length after the append operation."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrappend(key, path, *values, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target array"
+            },
+            {
+              "name": "*values",
+              "type": "Array<Object>",
+              "description": "one or more JSON values to append"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat each value as an already-encoded JSON string"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the new array length(s); an Array for a JSONPath, a single Integer for a legacy path (nil for a match that is not an array)"
+          }
+        }
       ]
     }
   },
@@ -67758,6 +67789,47 @@
             "description": "The index of the first matching element in the requested range."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrindex(key, path, value, start: nil, stop: nil, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target array"
+            },
+            {
+              "name": "value",
+              "type": "Object",
+              "description": "the scalar JSON value to search for"
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": "optional inclusive start index"
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": "optional exclusive stop index"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat value as an already-encoded JSON string"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the index/indices of the first match (-1 if not found)"
+          }
+        }
       ]
     }
   },
@@ -68229,6 +68301,42 @@
             "description": "The array length after the insert operation."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrinsert(key, path, index, *values, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target array"
+            },
+            {
+              "name": "index",
+              "type": "Integer",
+              "description": "the position to insert before"
+            },
+            {
+              "name": "*values",
+              "type": "Array<Object>",
+              "description": "one or more JSON values to insert"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat each value as an already-encoded JSON string"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the new array length(s)"
+          }
+        }
       ]
     }
   },
@@ -68542,6 +68650,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The length of the JSON array at the requested path."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrlen(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root \"$\")"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer, nil",
+            "description": "the array length(s); nil for a match that is not an array, or when the key/path does not exist"
           }
         }
       ]
@@ -69009,6 +69138,37 @@
             "description": "The removed JSON element."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrpop(key, path = nil, index = nil, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath to the target array (defaults to the root \"$\")"
+            },
+            {
+              "name": "index",
+              "type": "Integer",
+              "description": "an optional position to pop from (defaults to -1, the last element)"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "return the unparsed JSON string(s) instead of parsed Ruby objects"
+            }
+          ],
+          "returns": {
+            "type": "Array, Object, nil",
+            "description": "the popped value(s); an Array for a JSONPath, a single value for a legacy path, nil for an empty array or a non-array match"
+          }
+        }
       ]
     }
   },
@@ -69363,6 +69523,37 @@
             "description": "The length of the array after trimming."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_arrtrim(key, path, start, stop)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target array"
+            },
+            {
+              "name": "start",
+              "type": "Integer",
+              "description": "inclusive index of the first element to keep"
+            },
+            {
+              "name": "stop",
+              "type": "Integer",
+              "description": "inclusive index of the last element to keep"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the new array length(s)"
+          }
+        }
       ]
     }
   },
@@ -69692,6 +69883,27 @@
             "description": "The number of values cleared."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_clear(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root \"$\")"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of values cleared"
+          }
+        }
       ]
     }
   },
@@ -69795,6 +70007,27 @@
           "returns": {
             "type": "long",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_debug_memory(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer",
+            "description": "the size(s) in bytes: an Array for a JSONPath, a single integer for a legacy path or when no path is given (0 for a missing key)"
           }
         }
       ]
@@ -70126,6 +70359,27 @@
             "description": "The number of paths deleted."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_del(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root \"$\")"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of values deleted"
+          }
+        }
       ]
     }
   },
@@ -70196,6 +70450,27 @@
           "returns": {
             "type": "int",
             "description": ""
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_forget(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root \"$\")"
+            }
+          ],
+          "returns": {
+            "type": "Integer",
+            "description": "the number of values deleted (alias of json_del)"
           }
         }
       ]
@@ -70625,6 +70900,32 @@
             "description": "The JSON value at the requested path."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_get(key, *paths, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "*paths",
+              "type": "Array<String>",
+              "description": "zero or more JSONPath expressions; with none the whole document is returned"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "return the unparsed JSON string instead of a parsed Ruby object"
+            }
+          ],
+          "returns": {
+            "type": "Object, String, nil",
+            "description": "the parsed JSON value (or the raw JSON string when raw is true), or nil if the key does not exist"
+          }
+        }
       ]
     }
   },
@@ -70998,6 +71299,37 @@
             "description": ""
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_merge(key, path, value, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath (must be \"$\" when creating a new key)"
+            },
+            {
+              "name": "value",
+              "type": "Object",
+              "description": "a JSON-serializable Ruby object, or a pre-encoded JSON string when raw is true"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat value as an already-encoded JSON string and send it as-is"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "the raw \"OK\" reply"
+          }
+        }
       ]
     }
   },
@@ -71338,6 +71670,32 @@
             "description": "The JSON values found at the requested path across the requested keys."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_mget(*keys, path, raw: false)",
+          "params": [
+            {
+              "name": "*keys",
+              "type": "Array<String>",
+              "description": "one or more keys to read"
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a single JSONPath applied to every key"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "return the unparsed JSON strings instead of parsed Ruby objects"
+            }
+          ],
+          "returns": {
+            "type": "Array",
+            "description": "one value per key (nil for a missing key/path)"
+          }
+        }
       ]
     }
   },
@@ -71505,6 +71863,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The status reply for the multi-set operation."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_mset(*args, raw: false)",
+          "params": [
+            {
+              "name": "*args",
+              "type": "Array",
+              "description": "a flat list of key, path, value triplets"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat each value as an already-encoded JSON string"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "the raw \"OK\" reply"
           }
         }
       ]
@@ -71826,6 +72205,32 @@
             "description": "The updated numeric value."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_numincrby(key, path, number)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the numeric value(s)"
+            },
+            {
+              "name": "number",
+              "type": "Numeric",
+              "description": "the amount to add"
+            }
+          ],
+          "returns": {
+            "type": "Array<Numeric>, Numeric, nil",
+            "description": "the new value(s): an Array for a JSONPath, a single number for a legacy path; nil (or nil element) for a non-numeric match"
+          }
+        }
       ]
     }
   },
@@ -72141,6 +72546,27 @@
             "description": "The keys contained in the JSON object at the requested path."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_objkeys(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array",
+            "description": "an array of key-name arrays (JSONPath) or a single array of key names (legacy path); nil for a non-object match"
+          }
+        }
       ]
     }
   },
@@ -72454,6 +72880,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The number of keys in the JSON object at the requested path."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_objlen(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer, nil",
+            "description": "the key count(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-object match"
           }
         }
       ]
@@ -73272,6 +73719,47 @@
             "description": "The status reply for the set operation."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_set(key, path, value, nx: false, xx: false, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath, e.g. \"$\" for the document root"
+            },
+            {
+              "name": "value",
+              "type": "Object",
+              "description": "a JSON-serializable Ruby object, or a pre-encoded JSON string when raw is true"
+            },
+            {
+              "name": "nx",
+              "type": "Boolean",
+              "description": "only set when the path does not already exist"
+            },
+            {
+              "name": "xx",
+              "type": "Boolean",
+              "description": "only set when the path already exists"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat value as an already-encoded JSON string and send it as-is"
+            }
+          ],
+          "returns": {
+            "type": "Boolean, String",
+            "description": "when nx or xx is given, true on success and false when the condition was not met; otherwise the raw \"OK\" reply"
+          }
+        }
       ]
     }
   },
@@ -73796,6 +74284,37 @@
             "description": "The string length after the append operation."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_strappend(key, path, value, raw: false)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target string(s)"
+            },
+            {
+              "name": "value",
+              "type": "String",
+              "description": "the string to append"
+            },
+            {
+              "name": "raw",
+              "type": "Boolean",
+              "description": "treat value as an already-encoded JSON string and send it as-is"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer, nil",
+            "description": "the new string length(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-string match"
+          }
+        }
       ]
     }
   },
@@ -74111,6 +74630,27 @@
             "description": "The length of the JSON string at the requested path."
           }
         }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_strlen(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array<Integer>, Integer, nil",
+            "description": "the string length(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-string match"
+          }
+        }
       ]
     }
   },
@@ -74368,6 +74908,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The toggled boolean value."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_toggle(key, path)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "a JSONPath to the target boolean(s)"
+            }
+          ],
+          "returns": {
+            "type": "Array, Object, nil",
+            "description": "1/0 for the new true/false value(s): an Array for a JSONPath, a single value for a legacy path; nil for a non-boolean match"
           }
         }
       ]
@@ -74683,6 +75244,27 @@
           "returns": {
             "type": "(RV)",
             "description": "The JSON type at the requested path."
+          }
+        }
+      ],
+      "redis_rb": [
+        {
+          "signature": "json_type(key, path = nil)",
+          "params": [
+            {
+              "name": "key",
+              "type": "String",
+              "description": ""
+            },
+            {
+              "name": "path",
+              "type": "String",
+              "description": "an optional JSONPath (defaults to the root)"
+            }
+          ],
+          "returns": {
+            "type": "Array<String>, String, nil",
+            "description": "the type name(s): an Array for a JSONPath, a single string for a legacy path"
           }
         }
       ]
