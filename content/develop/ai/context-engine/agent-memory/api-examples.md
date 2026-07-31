@@ -6,8 +6,8 @@ categories:
 - ai
 description: Learn to use the Redis Agent Memory API for agent memory and semantic memory search.
 hideListLinks: true
-linktitle: API and SDK examples
-title: Use the Redis Agent Memory API and SDK
+linktitle: REST API examples
+title: Use the Redis Agent Memory REST API
 weight: 10
 ---
 
@@ -15,7 +15,7 @@ If you're new to Agent Memory on Redis Cloud, complete the [REST quickstart]({{<
 
 The examples on this page supplement the quickstart. Use the [Agent Memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}) for complete request and response schemas.
 
-You can use any standard REST client or library to access the API. If your app is written in Python, you can also use the [Agent Memory Software Development Kit](https://pypi.org/project/redis-agent-memory/) (SDK) to access the API.
+You can use any standard REST client or library to access the API. To use an SDK, follow the [Python SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}) or [TypeScript SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}).
 
 ## Authentication
 

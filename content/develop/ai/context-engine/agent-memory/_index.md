@@ -19,8 +19,8 @@ Transform your AI agents from simple chatbots into intelligent assistants with R
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< image-card image="images/ai-brain.svg" alt="Quick start icon" title="REST quickstart — Create an Agent Memory service on Redis Cloud and make your first API requests" url="/operate/rc/context-engine/agent-memory/use-agent-memory" >}}
-  {{< image-card image="images/ai-LLM-memory.svg" alt="Use cases icon" title="API and SDK Examples — See real-world usage patterns with session events and long-term memory" url="/develop/ai/context-engine/agent-memory/api-examples" >}}
-  {{< image-card image="images/ai-brain-2.svg" alt="Python SDK icon" title="Python SDK — Install the redis-agent-memory package from PyPI" url="https://pypi.org/project/redis-agent-memory/" >}}
+  {{< image-card image="images/ai-brain-2.svg" alt="Python SDK quickstart icon" title="Python SDK quickstart — Connect to Agent Memory and make your first SDK requests" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
+  {{< image-card image="images/ai-LLM-memory.svg" alt="TypeScript SDK quickstart icon" title="TypeScript SDK quickstart — Connect to Agent Memory and make your first SDK requests" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
 </div>
 
 ## What is Redis Agent Memory?
@@ -59,7 +59,7 @@ Redis Agent Memory is a production-ready memory system for AI agents and applica
 
 ## Quick example
 
-Add a session event to short-term memory:
+Add a session event to session memory:
 
 ```json
 POST /v1/stores/{storeId}/session-memory/events
@@ -103,7 +103,7 @@ Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/co
 
 Redis Agent Memory uses a two-tier memory model:
 
-- **Session memory** (also known as **Short-term memory** or **Working memory**) maintains the current conversation state, session history, and session-specific metadata. You can set a custom time-to-live (TTL) for session memory to control how long session data is retained.
+- **Session memory** (also known as **short-term memory** or **working memory**) maintains the current conversation state, session history, and session-specific metadata. You can set a custom time-to-live (TTL) for session memory to control how long session data is retained.
 - **Long-term memory** stores information extracted from past sessions, including user preferences, learned patterns, and other relevant data.
 
 The promotion from short term memory to long-term memory is automatic. When you store a conversation event in session memory, the Agent Memory service asynchronously extracts important information using the configured extraction strategy (discrete, summary, preferences, or custom). These extracted memories are then stored as long-term memory entries with vector embeddings and metadata.
@@ -111,7 +111,7 @@ The promotion from short term memory to long-term memory is automatic. When you 
 This process is non-blocking: the extraction and promotion happen in the background using a task worker, so the main agent interaction remains responsive. Users do not need to explicitly trigger promotion; it happens as a natural byproduct of storing conversation events in working memory.
 Users can also create long-term memories directly using the API. This is useful for bulk memory creation or for importing knowledge from external sources.
 
-The short-term memory that is not promoted will eventually expire based on its TTL configuration. As a conversation progresses, Redis Agent Memory extracts and asynchronously stores important information into long-term memory. This process ensures responsive interactions while knowledge gradually accumulates.
+The session memory that is not promoted will eventually expire based on its TTL configuration. As a conversation progresses, Redis Agent Memory extracts and asynchronously stores important information into long-term memory. This process ensures responsive interactions while knowledge gradually accumulates.
 
 ### Example: Memory storage during a conversation
 

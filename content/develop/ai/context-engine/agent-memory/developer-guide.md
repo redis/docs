@@ -15,8 +15,8 @@ Everything you need to start building with Redis Agent Memory — REST API refer
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< image-card image="images/ai-brain.svg" alt="REST quickstart icon" title="REST quickstart — Create a service on Redis Cloud and make your first API requests" url="/operate/rc/context-engine/agent-memory/use-agent-memory" >}}
-  {{< image-card image="images/ai-cube.svg" alt="API reference icon" title="API Reference — Full OpenAPI reference for all Agent Memory endpoints" url="/develop/ai/context-engine/agent-memory/api-reference" >}}
-  {{< image-card image="images/ai-lib.svg" alt="Language guides icon" title="Build Your Own — Self-hosted agent memory using Redis client libraries (Python, Node.js, Go, Java, .NET, and more)" url="/develop/use-cases/agent-memory" >}}
+  {{< image-card image="images/ai-lib.svg" alt="Python SDK quickstart icon" title="Python SDK quickstart — Connect to Agent Memory and make your first SDK requests" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
+  {{< image-card image="images/ai-lib.svg" alt="TypeScript SDK quickstart icon" title="TypeScript SDK quickstart — Connect to Agent Memory and make your first SDK requests" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
 </div>
 
 ## What you can build
@@ -53,11 +53,15 @@ Redis Agent Memory gives your agents a two-tier memory layer available through t
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Multiple client options</strong>: Access session and long-term memory through the REST API, Python SDK, or TypeScript SDK, so the same memory service can be used across different application stacks.</span></li>
 </ul>
 
-## REST quickstart
+## Quickstarts
 
-Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) to create a service and run complete `curl` commands for session memory and long-term memory.
+Choose a client and make your first session-memory and long-term-memory requests:
 
-After you finish the quickstart, review the [Agent Memory API examples]({{< relref "/develop/ai/context-engine/agent-memory/api-examples" >}}) and [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
+- [REST API]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}})
+- [Python SDK]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}})
+- [TypeScript SDK]({{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}})
+
+For complete endpoint and schema details, see the [Agent Memory API examples]({{< relref "/develop/ai/context-engine/agent-memory/api-examples" >}}) and [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 
 ## Language guides
 
@@ -66,7 +70,7 @@ The guides below show how to implement agent memory patterns **directly using Re
 
 Use these guides if you prefer to self-host, want full control over the implementation, or use a language that doesn't have an Agent Memory SDK.
 
-For the managed service, follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}).
+For the managed service, use the REST API, Python SDK, or TypeScript SDK quickstart above.
 {{< /note >}}
 
 Step-by-step examples for building agent memory into your application using your preferred Redis client library:
