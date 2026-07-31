@@ -34,24 +34,9 @@
   {{- printf "<div class=\"redis-cli redis-cli-static overflow-y-auto max-h-80\"><pre>%s</pre></div>" (htmlEscape (trim .Inner " \n\t\r")) | safeHTML -}}
 {{- end -}}
 {{- if $commands -}}
-<script>
-  window._tryItCommands = window._tryItCommands || {};
-  window._tryItCommands['{{ $id }}'] = {{ $commands | jsonify | safeJS }};
-  window.openTryItCli = window.openTryItCli || function(button) {
-    const codetabsId = button.getAttribute('data-codetabs-id');
-    const commands = window._tryItCommands[codetabsId];
-    if (!commands || !commands.length) return;
-    const json = JSON.stringify(commands);
-    const b64 = btoa(unescape(encodeURIComponent(json)))
-      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-    // Attribution: which docs page + snippet launched this run. snippet is the
-    // codetabs id (stable, already on the button); source is the page path.
-    // Kept out of the base64 so the backend can read them without decoding.
-    const source = button.getAttribute('data-tryit-source') || '';
-    let url = 'https://redis.io/cli?commands=' + b64 + '&autorun=true'
-      + '&snippet=' + encodeURIComponent(codetabsId);
-    if (source) url += '&source=' + encodeURIComponent(source);
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-</script>
+{{- /* One line, no "//" comments. This shortcode is called with percent
+       delimiters, so Goldmark re-parses its output; html/template strips JS
+       comments to whitespace-only lines, which end the HTML block and turn the
+       rest of the script into a <pre><code> block. See DOC-6918. */ -}}
+<script>window._tryItCommands = window._tryItCommands || {}; window._tryItCommands['{{ $id }}'] = {{ $commands | jsonify | safeJS }}; window.openTryItCli = window.openTryItCli || function(button) { const codetabsId = button.getAttribute('data-codetabs-id'); const commands = window._tryItCommands[codetabsId]; if (!commands || !commands.length) return; const json = JSON.stringify(commands); const b64 = btoa(unescape(encodeURIComponent(json))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); const source = button.getAttribute('data-tryit-source') || ''; let url = 'https://redis.io/cli?commands=' + b64 + '&autorun=true' + '&snippet=' + encodeURIComponent(codetabsId); if (source) url += '&source=' + encodeURIComponent(source); window.open(url, '_blank', 'noopener,noreferrer'); };</script>
 {{- end -}}
