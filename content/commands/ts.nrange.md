@@ -324,23 +324,23 @@ Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is report
 
 Create two time series and add samples at partially overlapping timestamps.
 
-```
-127.0.0.1:6379> TS.CREATE {sensor}:1
+{{% redis-cli %}}
+redis> TS.CREATE {sensor}:1
 OK
-127.0.0.1:6379> TS.CREATE {sensor}:2
+redis> TS.CREATE {sensor}:2
 OK
-127.0.0.1:6379> TS.MADD {sensor}:1 1000 10 {sensor}:1 2000 12
+redis> TS.MADD {sensor}:1 1000 10 {sensor}:1 2000 12
 1) (integer) 1000
 2) (integer) 2000
-127.0.0.1:6379> TS.MADD {sensor}:2 1000 20 {sensor}:2 3000 25
+redis> TS.MADD {sensor}:2 1000 20 {sensor}:2 3000 25
 1) (integer) 1000
 2) (integer) 3000
-```
+{{% /redis-cli %}}
 
 Query both series and group the samples by timestamp. One entry is returned for every distinct timestamp produced by at least one key, with the values ordered by input key. A key with no sample at that timestamp has a `NaN` value.
 
-```
-127.0.0.1:6379> TS.NRANGE 2 {sensor}:1 {sensor}:2 - +
+{{% redis-cli %}}
+redis> TS.NRANGE 2 {sensor}:1 {sensor}:2 - +
 1) 1) (integer) 1000
    2) 1) 10
       2) 20
@@ -350,40 +350,44 @@ Query both series and group the samples by timestamp. One entry is returned for 
 3) 1) (integer) 3000
    2) 1) NaN
       2) 25
-```
+{{% /redis-cli %}}
 </details>
 
 <details open>
 <summary><b>Aggregate each series with a per-key aggregator</b></summary>
 
-In aggregation mode, supply one aggregator per key, in key order. Here `{sensor}:1` is aggregated with `avg` and `{sensor}:2` with `sum`, both over 1000-millisecond buckets.
+In aggregation mode, supply one aggregator per key, in key order. Here `{sensor}:3` is aggregated with `avg` and `{sensor}:4` with `sum`, both over 1000-millisecond buckets.
 
-```
-127.0.0.1:6379> TS.MADD {sensor}:1 1000 10 {sensor}:1 1100 20 {sensor}:1 2000 30
+{{% redis-cli %}}
+redis> TS.CREATE {sensor}:3
+OK
+redis> TS.CREATE {sensor}:4
+OK
+redis> TS.MADD {sensor}:3 1000 10 {sensor}:3 1100 20 {sensor}:3 2000 30
 1) (integer) 1000
 2) (integer) 1100
 3) (integer) 2000
-127.0.0.1:6379> TS.MADD {sensor}:2 1000 5 {sensor}:2 1100 15 {sensor}:2 2000 25
+redis> TS.MADD {sensor}:4 1000 5 {sensor}:4 1100 15 {sensor}:4 2000 25
 1) (integer) 1000
 2) (integer) 1100
 3) (integer) 2000
-127.0.0.1:6379> TS.NRANGE 2 {sensor}:1 {sensor}:2 - + AGGREGATION avg sum 1000
+redis> TS.NRANGE 2 {sensor}:3 {sensor}:4 - + AGGREGATION avg sum 1000
 1) 1) (integer) 1000
    2) 1) 15
       2) 20
 2) 1) (integer) 2000
    2) 1) 30
       2) 25
-```
+{{% /redis-cli %}}
 </details>
 
 <details open>
 <summary><b>Apply multiple aggregators to a series</b></summary>
 
-To compute several aggregators for a single key, pass them as a comma-separated list. Here `{sensor}:1` uses `avg,max` (two values) and `{sensor}:2` uses `sum` (one value). Each timestamp's values are a single flat list: `{sensor}:1`'s `avg`, then its `max`, then `{sensor}:2`'s `sum`.
+To compute several aggregators for a single key, pass them as a comma-separated list. Here `{sensor}:3` uses `avg,max` (two values) and `{sensor}:4` uses `sum` (one value). Each timestamp's values are a single flat list: `{sensor}:3`'s `avg`, then its `max`, then `{sensor}:4`'s `sum`.
 
-```
-127.0.0.1:6379> TS.NRANGE 2 {sensor}:1 {sensor}:2 - + AGGREGATION avg,max sum 1000
+{{% redis-cli %}}
+redis> TS.NRANGE 2 {sensor}:3 {sensor}:4 - + AGGREGATION avg,max sum 1000
 1) 1) (integer) 1000
    2) 1) 15
       2) 20
@@ -392,7 +396,7 @@ To compute several aggregators for a single key, pass them as a comma-separated 
    2) 1) 30
       2) 30
       3) 25
-```
+{{% /redis-cli %}}
 </details>
 
 ## Details

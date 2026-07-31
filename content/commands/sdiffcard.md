@@ -88,27 +88,27 @@ Stop counting once the cardinality reaches `limit`. `0` (the default) means no l
 
 ## Examples
 
-```
-> SADD key1 "a"
+{{% redis-cli %}}
+redis> SADD key1 "a"
 (integer) 1
-> SADD key1 "b"
+redis> SADD key1 "b"
 (integer) 1
-> SADD key1 "c"
+redis> SADD key1 "c"
 (integer) 1
-> SADD key2 "c"
+redis> SADD key2 "c"
 (integer) 1
-> SADD key2 "d"
+redis> SADD key2 "d"
 (integer) 1
-> SADD key2 "e"
+redis> SADD key2 "e"
 (integer) 1
-> SDIFF key1 key2
+redis> SDIFF key1 key2
 1) "b"
 2) "a"
-> SDIFFCARD 2 key1 key2
+redis> SDIFFCARD 2 key1 key2
 (integer) 2
-> SDIFFCARD 2 key1 key2 LIMIT 1
+redis> SDIFFCARD 2 key1 key2 LIMIT 1
 (integer) 1
-```
+{{% /redis-cli %}}
 
 ## Details
 

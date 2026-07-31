@@ -164,7 +164,7 @@ those fields:
 
 {{< clients-example set="hash_tutorial" step="hexpire" lang_filter="Python, Node.js, Java-Sync, Java-Async, Java-Reactive, Go, C#-Sync (SE.Redis), PHP, Rust-Sync, Rust-Async" description="Field expiration: Set a TTL in seconds on individual hash fields using HEXPIRE, then read the remaining TTL with HTTL" difficulty="intermediate" buildsUpon="set_get_all" >}}
 > DEL sensor:sensor1
-(integer) 1
+(integer) 0
 > HSET sensor:sensor1 air_quality 256 battery_level 89
 (integer) 2
 > HEXPIRE sensor:sensor1 60 FIELDS 2 air_quality battery_level
@@ -197,11 +197,11 @@ time (both as a Unix time in seconds):
 > HSET sensor:sensor1 air_quality 256 battery_level 89
 (integer) 2
 # Set the expiration to a Unix time in the future
-# (1719855517 is just an example; use a timestamp appropriate for your use case).
-> HEXPIREAT sensor:sensor1 1719855517 FIELDS 1 air_quality
+# (4102444800 is just an example; use a timestamp appropriate for your use case).
+> HEXPIREAT sensor:sensor1 4102444800 FIELDS 1 air_quality
 1) (integer) 1
 > HEXPIRETIME sensor:sensor1 FIELDS 1 air_quality
-1) (integer) 1719855517
+1) (integer) 4102444800
 {{< /clients-example >}}
 
 ## Compact hashes
