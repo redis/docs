@@ -247,6 +247,18 @@ Hugo v0.143.1 supports the necessary blockquote render hooks and alert
 metadata. Unsupported Markdown processors still display the content as a
 normal blockquote.
 
+A blockquote render hook is prototyped at
+[`layouts/_default/_markup/render-blockquote.html`](layouts/_default/_markup/render-blockquote.html).
+It renders `> [!NOTE]` / `> [!WARNING]` / `> [!TIP]` / `> [!INFO]` and similar
+alerts with the same styling as the current note/warning/tip/info/alert
+shortcodes, and leaves regular blockquotes rendering exactly as before
+(verified byte-identical). Crucially, an alert body is native Markdown, so its
+links are rendered in the page's context and resolve correctly — unlike the
+shortcodes, which `markdownify` their inner content in a page-less context and
+so break relative links. **This makes the blockquote migration a prerequisite
+for portable, source-relative links inside callouts**, not merely a cosmetic
+change.
+
 Migration should use a Markdown- or shortcode-aware parser rather than regular
 expressions. At least 544 existing callouts contain nested shortcodes, and
 some callout bodies are very large. Inner shortcodes should be migrated before
