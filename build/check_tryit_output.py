@@ -266,9 +266,15 @@ UNORDERED_CMDS = {
     "HKEYS", "HVALS", "HGETALL",
     # search/aggregate without SORTBY: result order is not guaranteed
     "FT.SEARCH", "FT.AGGREGATE",
-    # time series index lookups: return the matching keys/labels in index order,
-    # which is not guaranteed (same role as KEYS for the timeseries index)
-    "TS.QUERYINDEX", "TS.QUERYLABELS",
+    # NOTE: the label-index commands (TS.QUERYINDEX, TS.MGET, TS.MRANGE,
+    # TS.MREVRANGE, TS.QUERYLABELS) are deliberately NOT here. They resolve keys
+    # through the same timeseries label index, and it returns them sorted
+    # lexicographically regardless of insertion order (measured across differing
+    # insertion orders), so exact comparison is stable. Listing them would only
+    # weaken it: their replies are nested per key, and the multiset key flattens
+    # a nested reply to sorted lines, which would stop a sample value moving
+    # between keys from registering. If a future module version does reshuffle
+    # them, a MISMATCH is the signal you want, not a silent pass.
     # COMMAND INFO/DOCS: a command's subcommands list is in registration/hash
     # order, not guaranteed (e.g. config|set, config|get, ... may reshuffle)
     "COMMAND",
