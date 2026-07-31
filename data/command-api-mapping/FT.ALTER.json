@@ -191,6 +191,27 @@
           "description": "OK on success"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_alter(index_name, field_or_args)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "field_or_args",
+            "type": "Search::Field, Array",
+            "description": "a Search::Field (rendered via #to_args) or a raw token array"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\""
+        }
+      }
     ]
   }
 }
