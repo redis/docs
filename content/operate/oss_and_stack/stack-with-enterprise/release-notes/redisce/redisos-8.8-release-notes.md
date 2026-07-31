@@ -12,6 +12,14 @@ min-version-rs: blah
 weight: 15
 ---
 
+## Redis Open Source 8.8.1 (July 2026)
+
+SECURITY: There is a security fix in the release.
+
+### Security fixes
+
+- RedisBloom/RedisBloom[#1044](https://github.com/redisbloom/redisbloom/pull/1044) Crafted RESTORE payloads in RedisBloom and TDigest may trigger out-of-bounds writes, potentially leading to remote code execution.
+
 ## Redis Open Source 8.8.0 (May 2026)
 
 This is the General Availability release of Redis 8.8 in Redis Open Source.

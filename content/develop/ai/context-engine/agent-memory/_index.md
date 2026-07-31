@@ -18,7 +18,7 @@ Give your AI agents persistent memory and context that gets smarter over time.
 Transform your AI agents from simple chatbots into intelligent assistants with Redis-powered memory that automatically learns, organizes, and recalls information across conversations and sessions.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/ai-brain.svg" alt="Quick start icon" title="Quick Start — Get up and running in 5 minutes with our step-by-step Cloud setup guide" url="/operate/rc/context-engine/agent-memory/create-service" >}}
+  {{< image-card image="images/ai-brain.svg" alt="Quick start icon" title="REST quickstart — Create an Agent Memory service on Redis Cloud and make your first API requests" url="/operate/rc/context-engine/agent-memory/use-agent-memory" >}}
   {{< image-card image="images/ai-LLM-memory.svg" alt="Use cases icon" title="API and SDK Examples — See real-world usage patterns with session events and long-term memory" url="/develop/ai/context-engine/agent-memory/api-examples" >}}
   {{< image-card image="images/ai-brain-2.svg" alt="Python SDK icon" title="Python SDK — Install the redis-agent-memory package from PyPI" url="https://pypi.org/project/redis-agent-memory/" >}}
 </div>
@@ -97,7 +97,7 @@ POST /v1/stores/{storeId}/long-term-memory
 }
 ```
 
-See the full [API and SDK examples]({{< relref "/develop/ai/context-engine/agent-memory/api-examples" >}}) for more.
+Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) to run complete `curl` commands.
 
 ## Two-tier memory model
 
@@ -141,7 +141,12 @@ Get started with Redis Agent Memory on Redis Cloud, join the private preview for
 
 -tab-sep-
 
-Contact your Redis representative or [contact sales](https://redis.io/contact/) to join the private preview on Redis Software.
+Redis Agent Memory is available for self-managed deployment on Kubernetes as a private
+preview. See
+[Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}).
+
+You need a license key to deploy. Contact your Redis representative or
+[contact sales](https://redis.io/contact/).
 
 -tab-sep-
 

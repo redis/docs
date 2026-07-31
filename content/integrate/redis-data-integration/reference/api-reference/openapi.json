@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Redis Data Integration API",
-    "description": "API for Redis Data Integration services",
+    "description": "> **NOTE:** RDI API v1 is deprecated as of RDI 1.19.0. Use RDI API v2 for new integrations and migrate existing clients. API v1 will not be extended with new RDI features and may be removed in a future RDI version. See the [RDI API migration guide](/integrate/redis-data-integration/reference/api-migration/).\n\nAPI for Redis Data Integration services",
     "version": "1.19.0"
   },
   "paths": {

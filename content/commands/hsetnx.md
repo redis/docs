@@ -81,9 +81,12 @@ The value to set.
 ## Examples
 
 {{% redis-cli %}}
-HSETNX myhash field "Hello"
-HSETNX myhash field "World"
-HGET myhash field
+redis> HSETNX myhash field "Hello"
+(integer) 1
+redis> HSETNX myhash field "World"
+(integer) 0
+redis> HGET myhash field
+"Hello"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

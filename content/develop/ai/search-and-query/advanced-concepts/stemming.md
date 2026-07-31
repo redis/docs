@@ -84,6 +84,7 @@ The following languages are supported and can be passed to the engine when index
 * `armenian`
 * `basque`
 * `catalan`
+* `chinese` (see below)
 * `danish`
 * `dutch`
 * `english`
@@ -97,6 +98,7 @@ The following languages are supported and can be passed to the engine when index
 * `irish`
 * `italian`
 * `lithuanian`
+* `malay`
 * `nepali`
 * `norwegian`
 * `portuguese`
@@ -105,10 +107,10 @@ The following languages are supported and can be passed to the engine when index
 * `serbian`
 * `spanish`
 * `swedish`
+* `tagalog`
 * `tamil`
 * `turkish`
 * `yiddish`
-* `chinese` (see below)
 
 ## Chinese support
 

@@ -77,11 +77,17 @@ One or more values to prepend to the list, only if it already exists.
 ## Examples
 
 {{% redis-cli %}}
-LPUSH mylist "World"
-LPUSHX mylist "Hello"
-LPUSHX myotherlist "Hello"
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+redis> LPUSH mylist "World"
+(integer) 1
+redis> LPUSHX mylist "Hello"
+(integer) 2
+redis> LPUSHX myotherlist "Hello"
+(integer) 0
+redis> LRANGE mylist 0 -1
+1) "Hello"
+2) "World"
+redis> LRANGE myotherlist 0 -1
+(empty array)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

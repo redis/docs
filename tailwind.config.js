@@ -70,6 +70,8 @@ module.exports = {
         		'purple-bubble': '#C795E3',
         		'gray-bubble': '#8A99A0',
         		'red-bubble': '#FD4439',
+        		'indigo-bubble': '#5961ff',
+        		'blue-gray-bubble': '#5C707A',
 				'redis-white': {
 					200: '#FFF',
 				}

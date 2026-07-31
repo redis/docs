@@ -212,6 +212,10 @@ spec:
               key: password
 ```
 
+### Rotate the database password
+
+To rotate a database password, update the `password` key in the database secret. See [Change the REDB password]({{< relref "/operate/kubernetes/security/authentication/manage-redb-credentials#change-the-redb-password" >}}).
+
 ### Default user configuration
 
 By default, databases create a default user with full access. You can disable this behavior:

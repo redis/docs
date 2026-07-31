@@ -209,7 +209,9 @@
 
 {{ $isPrereq := eq (.Scratch.Get "prereq") "true" }}
 {{ $needsPrereq := eq (.Scratch.Get "needs_prereq") "true" }}
-{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty "exampleSet" $id }}
+{{/* tryItSource: the page path, forwarded to the "Try it" link as &source= so the
+     backend can attribute runs to the originating docs page (snippet = codetabs id). */}}
+{{ $params := dict "id" (printf "%s-step%s" $id $step) "tabs" $tabs "showFooter" $showFooter "exampleId" $step "description" $description "difficulty" $difficulty "exampleSet" $id "tryItSource" $.Page.RelPermalink }}
 {{ if gt (len $buildsUpon) 0 }}
   {{ $params = merge $params (dict "buildsUpon" $buildsUpon) }}
 {{ end }}

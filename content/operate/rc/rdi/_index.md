@@ -84,7 +84,8 @@ RDI is not a good fit when:
 - You need complex stream processing of data (aggregations, sliding window processing, complex 
   custom logic).
 - You need to write data to multiple targets from the same pipeline (Redis supports other
-  ways to replicate data across Redis databases such as replicaOf and  Active Active).
+  ways to replicate data across Redis databases such as replicaOf).
+- Your target Redis database is configured with Active-Active topology. Active-Active is not supported as an RDI Cloud target database.
 - Your database administrator has rejected RDI's requirements for the source database.
 <!-- End of embed replacement -->
 
@@ -146,3 +147,9 @@ To create a new data pipeline, you need to:
 1. [Define the source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}) by selecting which tables to sync.
 
 Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.
+
+## Maintenance windows
+
+RDI Cloud maintenance follows the same subscription-wide maintenance window as your Redis Cloud Pro subscription. During a maintenance window, your data pipeline may experience brief interruptions as Redis applies updates.
+
+To control when maintenance occurs, [set a manual maintenance window]({{< relref "/operate/rc/subscriptions/maintenance/set-maintenance-windows" >}}) for your Redis Cloud Pro subscription. Any maintenance window you configure applies to both your databases and your RDI data pipeline.

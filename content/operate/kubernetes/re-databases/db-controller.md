@@ -98,6 +98,8 @@ To modify the database:
 
     When the status is `active`, the database is ready for use.
 
+To add tags to a database and expose them as metric labels, see [Enrich database metrics with tags]({{< relref "/operate/kubernetes/re-databases/enrich-metrics-with-tags" >}}).
+
 ## Delete a database
 
 The database exists as long as the custom resource exists.

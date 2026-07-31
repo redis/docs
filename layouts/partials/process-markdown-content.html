@@ -64,6 +64,8 @@
 
 {{- /* Process multitabs shortcodes to expand tab content */ -}}
 {{- $content = partial "markdown-multitabs.html" (dict "RawContent" $content "Site" .Site) -}}
+{{- /* Process jupyter-example shortcodes into fenced code blocks (interactive Thebe widget is HTML-only, so the code would otherwise be stripped below) */ -}}
+{{- $content = partial "markdown-jupyter-example.html" (dict "RawContent" $content "Site" .Site) -}}
 {{- /* Final unescape of HTML entities */ -}}
 {{- $content = $content | replaceRE "&#34;" "\"" -}}
 {{- $content = $content | replaceRE "&quot;" "\"" -}}

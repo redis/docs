@@ -84,12 +84,12 @@ To iterate only the elements that exist and retrieve their indexes alongside the
 
 {{< clients-example set="arrays_tutorial" step="arscan" description="Iterate only the elements that exist with ARSCAN, retrieving each index alongside its value" buildsUpon="argetrange" >}}
 > ARSCAN seq 0 3
-1) (integer) 0
-2) "a"
-3) (integer) 1
-4) "b"
-5) (integer) 3
-6) "d"
+1) 1) (integer) 0
+   2) "a"
+2) 1) (integer) 1
+   2) "b"
+3) 1) (integer) 3
+   2) "d"
 {{< /clients-example >}}
 
 ## Sequential insertion
@@ -170,16 +170,18 @@ To iterate only the elements that exist and retrieve their indexes alongside the
 This is particularly useful when an array stores line-indexed text such as a log file, where each element holds one line:
 
 {{< clients-example set="arrays_tutorial" step="argrep" description="Find elements matching textual predicates (EXACT, MATCH, GLOB, RE) with ARGREP, combined with AND or OR" >}}
+> DEL log
+(integer) 1
 > ARMSET log 0 "boot: ok" 1 "warn: disk" 2 "ERROR: cpu" 3 "info: ready" 4 "error: net"
 (integer) 5
 > ARGREP log - + MATCH "error" NOCASE
 1) (integer) 2
 2) (integer) 4
 > ARGREP log 0 4 GLOB "warn:*" OR GLOB "error:*" WITHVALUES
-1) (integer) 1
-2) "warn: disk"
-3) (integer) 4
-4) "error: net"
+1) 1) (integer) 1
+   2) "warn: disk"
+2) 1) (integer) 4
+   2) "error: net"
 {{< /clients-example >}}
 
 The special values `-` and `+` denote the first and last index of the array. Combined with [ring buffer mode](#ring-buffer-mode), this lets a fixed-size array hold the most recent *N* log lines and be searched in place.

@@ -399,11 +399,12 @@ Default: `FALSE`
 The response policy for queries that exceed the [`search-timeout`](#search-timeout) setting can be one of the following:
 
 * `RETURN`: this policy will return the top results accumulated by the query until it timed out.
+* `RETURN_STRICT`: like `RETURN`, returns the partial results accumulated when a query exceeds the timeout instead of failing, but strictly enforces the configured timeout as a hard deadline. This matters most in clustered deployments: with `RETURN`, the first shard to time out aborts the whole query early; with `RETURN_STRICT`, the coordinator keeps gathering results from all shards up to the deadline and then returns whatever accumulated at that point. Available in Redis Query Engine 8.10 and later.
 * `FAIL`: will return an error when the query exceeds the timeout value.
 
 Type: string
 
-Valid values: `RETURN`, `FAIL`
+Valid values: `RETURN`, `RETURN_STRICT`, `FAIL`
 
 Default: `RETURN`
 
