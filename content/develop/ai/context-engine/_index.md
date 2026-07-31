@@ -16,7 +16,7 @@ Give your AI agents the context layer they need to reliably act on business data
 Redis Iris eliminates the infrastructure burden of building context-aware AI agents — persistent memory, semantic caching, governed data access, and live data sync, all on Redis Cloud.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/ai-brain.svg" alt="Agent Memory icon" title="Agent Memory — Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
+  {{< image-card image="images/ai-brain.svg" alt="Redis Agent Memory icon" title="Redis Agent Memory — Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
   {{< image-card image="images/ai-LLM-memory.svg" alt="LangCache icon" title="LangCache — Semantic caching to reduce LLM costs and improve response times" url="/develop/ai/context-engine/langcache" >}}
   {{< image-card image="images/ai-cube.svg" alt="Context Retriever icon" title="Context Retriever — Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
 </div>
@@ -77,12 +77,12 @@ POST /v1/caches/{cacheId}/entries
 }
 ```
 
-See [LangCache API examples]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) and [Agent Memory API examples]({{< relref "/develop/ai/context-engine/agent-memory/api-examples" >}}) for more.
+See [LangCache API examples]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) and the [Redis Agent Memory REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}) for more.
 
 Redis Iris context engine includes four services:
 
 - **[LangCache]({{< relref "/develop/ai/context-engine/langcache" >}})**: A semantic caching service that stores and reuses LLM responses for similar queries, reducing API costs and improving response latency.
-- **[Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})**: A persistent memory service that maintains short-term session memory and long-term memory across agent interactions.
+- **[Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})**: A persistent memory service that maintains short-term session memory and long-term memory across agent interactions.
 - **[Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}})**: Turns your business data into structured tools that AI agents can safely and reliably use, defined once and reused across all agents.
 - **[Data integration]({{< relref "/develop/ai/context-engine/data-integration" >}})**: Syncs live data from your existing relational databases into Redis Cloud so agents always have access to fresh, accurate business data.
 
@@ -103,7 +103,7 @@ LangCache works well for AI assistants, chatbots, RAG applications, AI agents, a
 
 [Get started with LangCache]({{< relref "/develop/ai/context-engine/langcache" >}})
 
-## Agent Memory
+## Redis Agent Memory
 
 [Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) gives AI agents a structured, persistent memory layer using a two-tier model:
 
@@ -112,7 +112,7 @@ LangCache works well for AI assistants, chatbots, RAG applications, AI agents, a
 
 Promotion from session memory to long-term memory is automatic and non-blocking. As a conversation progresses, the service asynchronously extracts and stores important information in the background, keeping agent interactions responsive. You can also create long-term memories directly using the API for bulk imports or external knowledge sources.
 
-Agent Memory is available as a REST API and Python SDK.
+Redis Agent Memory is available as a REST API and Python SDK.
 
 [Get started with Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})
 

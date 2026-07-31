@@ -3,7 +3,7 @@
     "info": {
         "title": "Redis Agent Memory API",
         "version": "1.0.0",
-        "description": "API for storing, retrieving, and searching Redis Agent Memory session memory and long-term memory.\n\nAuthentication depends on your deployment. Use the credential issued for your Agent Memory service or store. For self-managed deployments, see the self-managed Agent Memory guide for authentication options.\n"
+        "description": "API for storing, retrieving, and searching Redis Agent Memory session memory and long-term memory.\n\nAuthentication depends on your deployment. Use the credential issued for your Redis Agent Memory service or store. For self-managed deployments, see the self-managed Redis Agent Memory guide for authentication options.\n"
     },
     "paths": {
         "/health": {

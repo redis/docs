@@ -20,7 +20,7 @@ Use these files to configure a self-managed deployment:
 | `ram-values.yaml` | Helm values for images, replicas, services, Secret names, and optional Control Plane settings. |
 | `memory-dataplane.config.yaml` | Data Plane stores, Redis URLs, auth mode, embedding provider, and worker callback settings. |
 | `controlplane-onprem.config.yaml` | Control Plane metadata Redis, store Redis, admin-token auth, and embedding settings. |
-| `license` | Agent Memory license file provided by Redis. |
+| `license` | Redis Agent Memory license file provided by Redis. |
 
 ### External secret managers
 
@@ -29,7 +29,7 @@ admin-token material to the chart as Kubernetes Secrets and set the chart's
 `existingSecret` values to those Secret names.
 
 Direct CSI file mounts that bypass Kubernetes Secrets are not supported for the
-Agent Memory license, Data Plane config, Control Plane config, or Control Plane
+Redis Agent Memory license, Data Plane config, Control Plane config, or Control Plane
 admin-token paths.
 
 For Secrets Store CSI Driver, use sync-to-Kubernetes-Secret
@@ -44,7 +44,7 @@ CSI-synced Secrets, make sure a Control Plane pod also mounts the corresponding
 | --- | --- | --- |
 | `helm search repo redis-ai/redis-agent-memory --versions` returns no results | Helm repo not added/updated, or the chart version has not been published to the repo yet | Run `helm repo add`, `helm repo update`, or install from the chart package provided by Redis. |
 | Docker pull fails for the configured image tag | Image tag is wrong or has not been published to the configured registry | Use the image tag listed for the release on Docker Hub or provided by Redis. |
-| Pod is stuck in `ImagePullBackOff` or `ErrImagePull` | Cluster cannot pull the configured image, image tag is wrong, registry requires credentials, or `imagePullSecrets` is missing/wrong | Verify `image.repository`, `image.tag`, registry reachability, and `imagePullSecrets`; use the Agent Memory release image tag. |
+| Pod is stuck in `ImagePullBackOff` or `ErrImagePull` | Cluster cannot pull the configured image, image tag is wrong, registry requires credentials, or `imagePullSecrets` is missing/wrong | Verify `image.repository`, `image.tag`, registry reachability, and `imagePullSecrets`; use the Redis Agent Memory release image tag. |
 | `helm install --atomic --wait` times out and rolls back | Cluster is small or image pull/startup takes longer than Helm's default timeout | Install without `--atomic --wait`, or set a longer `--timeout` and ensure enough cluster capacity. |
 | Pods are pending during install or upgrade | CPU/memory capacity is insufficient for default replicas and rollout overlap | Add nodes/headroom or lower replicas for test deployments. |
 | Data Plane health fails | Pod not ready, config invalid, Redis unavailable, or license invalid | Check pod logs and call `/health`, `/health/liveness`, and `/health/readiness`. |
@@ -69,5 +69,5 @@ CSI-synced Secrets, make sure a Control Plane pod also mounts the corresponding
 | NetworkPolicy reference | `deployment/redis-agent-memory/networkpolicy.reference.yaml` |
 | Redis Agent Memory API reference | [Redis Agent Memory API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}) |
 | Control Plane API reference | [Control Plane API reference]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/control-plane-api-reference" >}}) |
-| Agent Memory Data Plane image tags | [Docker Hub: redislabs/agent-memory](https://hub.docker.com/r/redislabs/agent-memory/tags) |
-| Agent Memory Control Plane image tags | [Docker Hub: redislabs/agent-memory-control-plane](https://hub.docker.com/r/redislabs/agent-memory-control-plane/tags) |
+| Redis Agent Memory Data Plane image tags | [Docker Hub: redislabs/agent-memory](https://hub.docker.com/r/redislabs/agent-memory/tags) |
+| Redis Agent Memory Control Plane image tags | [Docker Hub: redislabs/agent-memory-control-plane](https://hub.docker.com/r/redislabs/agent-memory-control-plane/tags) |

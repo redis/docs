@@ -4,14 +4,14 @@ categories:
 - docs
 - develop
 - ai
-description: Connect to Redis Cloud Agent Memory with the Python SDK and make session-memory and long-term-memory requests.
+description: Connect to Redis Agent Memory on Redis Cloud with the Python SDK and make session-memory and long-term-memory requests.
 hideListLinks: true
 linktitle: Python SDK quickstart
 title: Redis Agent Memory Python SDK quickstart
 weight: 7
 ---
 
-Use this quickstart to connect to a Redis Cloud Agent Memory service with the Python SDK. You will add and retrieve a session event, create two long-term memories, and search them by meaning.
+Use this quickstart to connect to a Redis Agent Memory service on Redis Cloud with the Python SDK. You will add and retrieve a session event, create two long-term memories, and search them by meaning.
 
 ## Before you begin
 
@@ -21,13 +21,13 @@ To complete this quickstart, you need:
 
 You also need Python 3.10 or later.
 
-## Create an Agent Memory service
+## Create a Redis Agent Memory service
 
 {{< embed-md "rc-agent-memory-quickstart-create-service.md" >}}
 
 ## Save the connection values
 
-1. Open the Agent Memory service in the Redis Cloud console.
+1. Open the Redis Agent Memory service in the Redis Cloud console.
 1. On the **Configuration** tab, copy the **Endpoint** and **Store ID**.
 1. Copy the API key that Redis Cloud displayed when you created the service. If you no longer have the key, [generate a new API key]({{< relref "/operate/rc/context-engine/agent-memory/view-service#replace-service-api-key" >}}).
 1. Export the API key in your shell:
@@ -85,11 +85,11 @@ if __name__ == "__main__":
     main()
 ```
 
-The health response describes the status of the Agent Memory service. The first store request in the next step validates the Store ID. The context manager closes the SDK client after the requests finish.
+The health response describes the status of the Redis Agent Memory service. The first store request in the next step validates the Store ID. The context manager closes the SDK client after the requests finish.
 
 ## Add a session event
 
-Add a user message to session memory. If the session doesn't exist, Agent Memory creates it when it stores the event.
+Add a user message to session memory. If the session doesn't exist, Redis Agent Memory creates it when it stores the event.
 
 Add this code after the call to `health`:
 
@@ -121,7 +121,7 @@ The response contains the session and its stored events, including the event add
 
 ## Create long-term memories
 
-Create two long-term memories directly. This lets the quickstart demonstrate semantic ranking without waiting for Agent Memory to extract memories from session events. Add this code after the session retrieval:
+Create two long-term memories directly. This lets the quickstart demonstrate semantic ranking without waiting for Redis Agent Memory to extract memories from session events. Add this code after the session retrieval:
 
 ```python
         created = agent_memory.bulk_create_long_term_memories(
@@ -262,5 +262,5 @@ with AgentMemory(
 ## Next steps
 
 - Review the [Python SDK package and reference](https://pypi.org/project/redis-agent-memory/).
-- Review the [Agent Memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
+- Review the [Redis Agent Memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 - Try the [TypeScript SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}).

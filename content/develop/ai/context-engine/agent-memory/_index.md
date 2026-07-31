@@ -6,116 +6,54 @@ categories:
 - develop
 - ai
 description: Store agent memory for AI applications in Redis.
-linkTitle: Agent Memory
+linkTitle: Redis Agent Memory
 hideListLinks: true
 weight: 20
 bannerText: Redis Agent Memory is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
 ---
 
-Give your AI agents persistent memory and context that gets smarter over time.
+Redis Agent Memory stores conversation history and durable information for AI applications. Use session memory to reconstruct a conversation and long-term memory to retrieve relevant information across sessions.
 
-Transform your AI agents from simple chatbots into intelligent assistants with Redis-powered memory that automatically learns, organizes, and recalls information across conversations and sessions.
+Access Redis Agent Memory through its REST API or the Python and TypeScript SDKs. It works with any agent framework or LLM provider.
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/ai-brain.svg" alt="Quick start icon" title="REST quickstart — Create an Agent Memory service on Redis Cloud and make your first API requests" url="/operate/rc/context-engine/agent-memory/use-agent-memory" >}}
-  {{< image-card image="images/ai-brain-2.svg" alt="Python SDK quickstart icon" title="Python SDK quickstart — Connect to Agent Memory and make your first SDK requests" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
-  {{< image-card image="images/ai-LLM-memory.svg" alt="TypeScript SDK quickstart icon" title="TypeScript SDK quickstart — Connect to Agent Memory and make your first SDK requests" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
-</div>
+## Redis Agent Memory capabilities
 
-## What is Redis Agent Memory?
-
-Redis Agent Memory is a production-ready memory system for AI agents and applications that:
-
-<ul class="my-4 space-y-2">
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Remembers everything</strong> — Stores conversation history, user preferences, and important facts across sessions</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Finds relevant context</strong> — Uses semantic, keyword, and hybrid search to surface the right information at the right time</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Gets smarter over time</strong> — Automatically extracts, organizes, and deduplicates memories from interactions</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Works with any AI model</strong> — REST API and Python SDK compatible with any agent framework or LLM provider</span></li>
-</ul>
-
-## Why use Redis Agent Memory?
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">For AI applications</h3>
-    <ul class="space-y-1 text-redis-pen-600">
-      <li>Never lose conversation context across sessions</li>
-      <li>Provide personalized responses based on user history</li>
-      <li>Build agents that learn and improve from interactions</li>
-      <li>Scale from prototypes to production with authentication and multi-tenancy</li>
-    </ul>
-  </div>
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">For developers</h3>
-    <ul class="space-y-1 text-redis-pen-600">
-      <li>Drop-in REST API — no custom infrastructure to build or maintain</li>
-      <li>Python SDK with tool abstractions for OpenAI and Anthropic</li>
-      <li>Automatic memory extraction and promotion in the background</li>
-      <li>Flexible deployment: Redis Cloud, Redis Software, or self-hosted</li>
-    </ul>
-  </div>
-</div>
-
-## Quick example
-
-Add a session event to session memory:
-
-```json
-POST /v1/stores/{storeId}/session-memory/events
-{
-    "sessionId": "abcd-efgh",
-    "actorId": "user-name",
-    "role": "USER",
-    "content": [
-        {
-            "text": "I'm planning a trip to Japan next month."
-        }
-    ],
-    "createdAt": "2026-05-02T18:15:06Z",
-    "metadata": {
-        "browser": "Chrome",
-        "source": "web-chat"
-    }
-}
-```
-
-Add long-term memories directly:
-
-```json
-POST /v1/stores/{storeId}/long-term-memory
-{
-    "memories": [
-        {
-            "id": "cofIXpuMmg",
-            "text": "The user prefers vegetarian food.",
-            "memoryType": "episodic",
-            "sessionId": "abcd-efgh",
-            "ownerId": "user-name"
-        }
-    ]
-}
-```
-
-Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) to run complete `curl` commands.
+* **Context-aware conversations:** Store ordered conversation events with their actor, role, timestamp, and metadata, then retrieve them by session ID. Configure session expiration to control how long the conversation is retained.
+* **Automatic session summarization:** Automatically summarize older conversation events while retaining recent messages in full.
+* **Automatic long-term memory:** Automatically extract durable information from session events in the background. You can also create long-term memories directly from external data.
+* **Relevant retrieval:** Search long-term memory using semantic, keyword, or hybrid search.
+* **Multi-session recall:** Retrieve relevant memories across conversations and filter results by owner, session, namespace, topic, or memory type.
+* **Custom memory types:** Define memory types for your business domain, with structured fields and instructions that control what Redis Agent Memory extracts.
 
 ## Two-tier memory model
 
-Redis Agent Memory uses a two-tier memory model:
+Redis Agent Memory provides two memory tiers:
 
-- **Session memory** (also known as **short-term memory** or **working memory**) maintains the current conversation state, session history, and session-specific metadata. You can set a custom time-to-live (TTL) for session memory to control how long session data is retained.
-- **Long-term memory** stores information extracted from past sessions, including user preferences, learned patterns, and other relevant data.
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">Session memory</h3>
+    <p>Stores the ordered events and metadata for a conversation.</p>
+    <ul class="space-y-2">
+      <li><strong>Configurable retention:</strong> Set a TTL to control how long session events are retained.</li>
+      <li><strong>Automatic summarization:</strong> Condense older events after a configured threshold while retaining recent events in full, reducing the conversation history sent to the model's context window.</li>
+    </ul>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">Long-term memory</h3>
+    <p>Stores durable information that can be retrieved across sessions using semantic, keyword, or hybrid search.</p>
+    <ul class="space-y-2">
+      <li><strong>Automatic extraction:</strong> Process session events asynchronously and store important information with vector embeddings and metadata.</li>
+      <li><strong>Custom memory types:</strong> Define domain-specific memories with structured fields and extraction instructions.</li>
+      <li><strong>Direct memory creation:</strong> Create memories through the API or import knowledge from external sources.</li>
+      <li><strong>Configurable retention:</strong> Set a separate TTL for long-term memories.</li>
+    </ul>
+  </div>
+</div>
 
-The promotion from short term memory to long-term memory is automatic. When you store a conversation event in session memory, the Agent Memory service asynchronously extracts important information using the configured extraction strategy (discrete, summary, preferences, or custom). These extracted memories are then stored as long-term memory entries with vector embeddings and metadata.
+### Example: Travel planning agent
 
-This process is non-blocking: the extraction and promotion happen in the background using a task worker, so the main agent interaction remains responsive. Users do not need to explicitly trigger promotion; it happens as a natural byproduct of storing conversation events in working memory.
-Users can also create long-term memories directly using the API. This is useful for bulk memory creation or for importing knowledge from external sources.
-
-The session memory that is not promoted will eventually expire based on its TTL configuration. As a conversation progresses, Redis Agent Memory extracts and asynchronously stores important information into long-term memory. This process ensures responsive interactions while knowledge gradually accumulates.
-
-### Example: Memory storage during a conversation
-
-Take this conversation between a User and an AI Travel Agent as an example:
+Consider a travel agent helping a user plan a trip:
 
 ```text
 User: I'm planning a trip to Japan next month and need help finding some restaurants for the trip.
@@ -124,32 +62,62 @@ User: I'm going to Tokyo and Kyoto. Also, I'm a vegetarian.
 Agent: Good to know! I'll help you find some vegetarian-friendly restaurants in Tokyo and Kyoto.
 ```
 
-For this conversation, you could store the following information with Redis Agent Memory:
-- Session Memory: The current conversation state, including the user's query, the agent's response, and the user's follow-up question. The session memory also stores session-specific metadata. 
-- Long-term memory: Preference and location information from the conversation, stored as text and as vector embeddings for semantic retrieval. In this case, long-term memory might store "The user is a vegetarian" and "The user is planning a trip to Japan". 
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h4 class="text-redis-ink-900 font-semibold mb-3">Session memory</h4>
+    <p>Stores an ordered sequence of events under a session ID, including each event's role, content, timestamps, and metadata. Before the next agent turn, the application can retrieve the session to reconstruct the conversation context.</p>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h4 class="text-redis-ink-900 font-semibold mb-3">Automatic session summarization</h4>
+    <p>Summarizes older events after the configured threshold while retaining recent messages in full. The application can provide relevant conversation history to the agent without filling the model's context window with every original event.</p>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h4 class="text-redis-ink-900 font-semibold mb-3">Automatic long-term memory extraction</h4>
+    <p>Extracts durable information in the background, such as "The user is vegetarian." Later sessions can retrieve it after the original session expires.</p>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h4 class="text-redis-ink-900 font-semibold mb-3">Custom memory types</h4>
+    <p>Stores domain-specific information in a custom <code>trip_preference</code> type with fields such as <code>destination</code>, <code>travel_period</code>, and <code>dietary_requirement</code>.</p>
+  </div>
+</div>
 
 ## Get started with Redis Agent Memory {#get-started}
 
-Get started with Redis Agent Memory on Redis Cloud, join the private preview for Redis Software, or set up your own open-source Redis Agent Memory instance.
+Get started with Redis Agent Memory on Redis Cloud or join the private preview for Redis Software.
 
-{{< multitabs id="agent-memory-get-started"
-    tab1="Redis Cloud"
-    tab2="Redis Software (private preview)"
-    tab3="Open source" >}}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Cloud</h3>
+    <p>Create a managed Redis Agent Memory service and make your first requests.</p>
+    <p><a href="/operate/rc/context-engine/agent-memory/create-service">Open the Redis Cloud setup guide</a></p>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Software private preview</h3>
+    <p>Deploy Redis Agent Memory on Kubernetes with Redis Software.</p>
+    <p><a href="/develop/ai/context-engine/agent-memory/self-managed">Open the self-managed deployment guide</a></p>
+  </div>
+</div>
 
-{{< embed-md "rc-agent-memory-get-started.md" >}}
+### Choose a quickstart
 
--tab-sep-
+After your Redis Agent Memory service is ready, choose a client to make your first session-memory and long-term-memory requests.
 
-Redis Agent Memory is available for self-managed deployment on Kubernetes as a private
-preview. See
-[Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}).
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">REST API</h3>
+    <p>Use <code>curl</code> to call the Redis Agent Memory API directly.</p>
+    <p><a href="/develop/ai/context-engine/agent-memory/rest-api-quickstart">Open the REST API quickstart</a></p>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">Python SDK</h3>
+    <p>Install the Python SDK and make your first memory requests.</p>
+    <p><a href="/develop/ai/context-engine/agent-memory/python-sdk-quickstart">Open the Python quickstart</a></p>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">TypeScript SDK</h3>
+    <p>Install the TypeScript SDK and make your first memory requests.</p>
+    <p><a href="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart">Open the TypeScript quickstart</a></p>
+  </div>
+</div>
 
-You need a license key to deploy. Contact your Redis representative or
-[contact sales](https://redis.io/contact/).
-
--tab-sep-
-
-The open-source version of Redis Agent Memory is [available on GitHub](https://github.com/redis/agent-memory-server). See [Redis Agent Memory server](https://redis.github.io/agent-memory-server/) for comprehensive docs, quick start guides, and API references.
-
-{{< /multitabs >}}
+For shared integration concepts, identifiers, and authentication, see [Integrate Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}).

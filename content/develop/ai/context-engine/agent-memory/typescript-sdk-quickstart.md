@@ -4,14 +4,14 @@ categories:
 - docs
 - develop
 - ai
-description: Connect to Redis Cloud Agent Memory with the TypeScript SDK and make session-memory and long-term-memory requests.
+description: Connect to Redis Agent Memory on Redis Cloud with the TypeScript SDK and make session-memory and long-term-memory requests.
 hideListLinks: true
 linktitle: TypeScript SDK quickstart
 title: Redis Agent Memory TypeScript SDK quickstart
 weight: 8
 ---
 
-Use this quickstart to connect to a Redis Cloud Agent Memory service with the TypeScript SDK. You will add and retrieve a session event, create two long-term memories, and search them.
+Use this quickstart to connect to a Redis Agent Memory service on Redis Cloud with the TypeScript SDK. You will add and retrieve a session event, create two long-term memories, and search them.
 
 ## Before you begin
 
@@ -21,13 +21,13 @@ To complete this quickstart, you need:
 
 You also need Node.js and npm.
 
-## Create an Agent Memory service
+## Create a Redis Agent Memory service
 
 {{< embed-md "rc-agent-memory-quickstart-create-service.md" >}}
 
 ## Save the connection values
 
-1. Open the Agent Memory service in the Redis Cloud console.
+1. Open the Redis Agent Memory service in the Redis Cloud console.
 1. On the **Configuration** tab, copy the **Endpoint** and **Store ID**.
 1. Copy the API key that Redis Cloud displayed when you created the service. If you no longer have the key, [generate a new API key]({{< relref "/operate/rc/context-engine/agent-memory/view-service#replace-service-api-key" >}}).
 1. Export the API key in your shell:
@@ -40,7 +40,7 @@ Keep the API key out of source control, application logs, and other unsecured lo
 
 ## Install the SDK
 
-Create a project and install the Agent Memory SDK:
+Create a project and install the Redis Agent Memory SDK:
 
 ```sh
 mkdir agent-memory-quickstart
@@ -56,7 +56,7 @@ In the code sample, replace `<ENDPOINT>` and `<STORE_ID>` with the values you co
 
 The session, user, and memory IDs are example identifiers defined in the code. This quickstart uses the same user identifier for the event's `actorId` and the long-term memory's `ownerId`.
 
-Create a file named `quickstart.ts` and initialize an `AgentMemory` client. The client uses the endpoint, Store ID, and API key to send requests to your Agent Memory service.
+Create a file named `quickstart.ts` and initialize an `AgentMemory` client. The client uses the endpoint, Store ID, and API key to send requests to your Redis Agent Memory service.
 
 Call `health` before writing any memory to verify that the service is reachable and accepts the API key:
 
@@ -110,7 +110,7 @@ A session contains an ordered sequence of events. Add the following code inside 
   console.dir(event, { depth: null });
 ```
 
-A successful request returns the stored event, including its generated event ID and system timestamp. If the session does not exist, Agent Memory creates it when the event is added.
+A successful request returns the stored event, including its generated event ID and system timestamp. If the session does not exist, Redis Agent Memory creates it when the event is added.
 
 ## Retrieve the session
 
@@ -281,5 +281,5 @@ run().catch((error) => {
 ## Next steps
 
 - Review the [TypeScript SDK package and reference](https://www.npmjs.com/package/@redis-iris/agent-memory).
-- Review the [Agent Memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
+- Review the [Redis Agent Memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 - Try the [Python SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}).
