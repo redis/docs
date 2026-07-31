@@ -15,8 +15,8 @@ weight: 11
 ---
 
 [Supabase](https://supabase.com/docs/guides/database/overview) is a hosted
-PostgreSQL platform. Software RDI can connect to a hosted Supabase project
-through any direct PostgreSQL endpoint that is reachable from the RDI
+PostgreSQL platform. RDI can connect to a hosted Supabase project
+through any direct PostgreSQL endpoint as long as it is reachable from the RDI
 deployment and supports logical replication.
 
 {{< note >}}
@@ -25,9 +25,6 @@ RDI supports hosted Supabase projects running an
 The integration was validated with RDI 1.19.0 and hosted Supabase PostgreSQL
 17.6. For self-hosted Supabase deployments, follow the general
 [PostgreSQL preparation guide]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql" >}}).
-{{< /note >}}
-
-{{< note >}}
 This page describes Supabase setup for a self-managed RDI deployment. For the
 managed service, see
 [Use Supabase with RDI on Redis Cloud]({{< relref "/operate/rc/rdi/supabase" >}}).
@@ -38,7 +35,7 @@ ways:
 
 - You can't edit `postgresql.conf` or `pg_hba.conf` directly. Supabase enables
   logical replication and manages these settings for you.
-- You must use the direct database endpoint for logical replication.
+- You must use the direct database endpoint for logical replication because
   [Supavisor connection pooler endpoints don't support logical replication](https://supabase.com/docs/guides/database/replication/manual-replication-faq#which-connection-string-should-be-used).
 - The direct endpoint uses IPv6 unless you enable the Supabase dedicated IPv4
   add-on. Enable the add-on if your RDI deployment can't connect over IPv6.
@@ -78,8 +75,9 @@ the **Direct connection** hostname. It has the following form:
 db.<project-ref>.supabase.co
 ```
 
-Use port `5432`. You can instead use a private hostname or address if you have
-configured private connectivity between the RDI deployment and Supabase.
+You should generally use port `5432`, but you can use a private hostname or
+address instead if you have configured private connectivity between the RDI
+deployment and Supabase.
 Don't use a Supavisor transaction or session pooler connection string because
 these endpoints don't support logical replication.
 
@@ -104,8 +102,11 @@ CREATE ROLE rdi_replication
   WITH LOGIN REPLICATION PASSWORD '<strong-password>';
 ```
 
-Don't use the Supabase `postgres` administrator account for the RDI
-connection.
+{{< warning >}}
+Don't use the Supabase `postgres` administrator account for the RDI connection.
+The RDI role's credentials provide continuous access to captured data, so grant
+the role only the permissions it needs.
+{{< /warning >}}
 
 ## 4. Grant access to source tables
 
@@ -137,9 +138,13 @@ dedicated RDI role and protect that role's credentials.
 
 ### Create a publication
 
-RDI uses the PostgreSQL `pgoutput` logical decoding plug-in. As a database
-administrator, create a publication containing only the tables RDI should
-capture:
+By default, RDI uses the PostgreSQL `pgoutput` logical decoding plug-in, a
+publication named `dbz_publication`, and a replication slot named `debezium`.
+These defaults work with Supabase if the RDI role has permission to create the
+publication and manage its source tables.
+
+It is recommended that a database administrator create a publication
+containing only the tables RDI should capture:
 
 ```sql
 CREATE PUBLICATION rdi_publication
@@ -147,13 +152,8 @@ CREATE PUBLICATION rdi_publication
 ```
 
 Creating the publication explicitly avoids granting table ownership or broad
-publication-creation permissions to the RDI role.
-
-By default, RDI uses `pgoutput`, a publication named `dbz_publication`, and a
-replication slot named `debezium`. These defaults also work with Supabase if
-the RDI role has permission to create the publication and manage its source
-tables. The explicit publication in this guide limits the RDI role's
-permissions and the publication's table scope.
+publication-creation permissions to the RDI role and limits the publication's
+table scope.
 
 ## 5. Configure TLS
 
@@ -208,8 +208,9 @@ the project.
 ## 7. Monitor replication slots
 
 RDI creates a logical replication slot that retains write-ahead log (WAL)
-records while the pipeline is stopped or disconnected. Monitor inactive slots
-and retained WAL to prevent unexpected storage growth:
+records while the pipeline is stopped or disconnected. Use a query like the
+following to monitor inactive slots and retained WAL to prevent unexpected
+storage growth:
 
 ```sql
 SELECT
@@ -229,5 +230,5 @@ before a PostgreSQL major-version upgrade. Before upgrading:
 1. Upgrade the Supabase project.
 1. Reset and start the RDI pipeline to create a new slot and initial snapshot.
 
-Plan for the new snapshot and monitor the pipeline until pending records return
-to zero.
+Allow time for the new initial snapshot to complete, and monitor the pipeline
+until pending records return to zero.

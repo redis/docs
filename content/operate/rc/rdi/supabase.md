@@ -40,7 +40,7 @@ You need:
 - An AWS Secrets Manager credentials secret and CA certificate secret shared
   with Redis Cloud.
 
-Follow [Prepare Supabase for RDI]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/supabase" >}})
+Follow the steps in [Prepare Supabase for RDI]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/supabase" >}})
 to create the database role, grant table access, account for Row Level
 Security, and create a publication.
 
@@ -49,10 +49,10 @@ Security, and create a publication.
 Supabase logical replication requires the direct database endpoint. Don't use
 a Supavisor transaction or session pooler endpoint.
 
-The direct endpoint uses IPv6 by default. RDI on Redis Cloud requires an IPv4
-endpoint, so enable the Supabase
-[dedicated IPv4 add-on](https://supabase.com/docs/guides/platform/ipv4-address).
-The add-on requires a paid Supabase plan.
+The direct endpoint uses IPv6 by default, but RDI on Redis Cloud requires an
+IPv4 endpoint, so you must enable the Supabase
+[dedicated IPv4 add-on](https://supabase.com/docs/guides/platform/ipv4-address)
+(you need a paid Supabase plan to do this).
 
 When you create the RDI pipeline:
 
@@ -68,7 +68,7 @@ the old addresses after the new connection succeeds.
 
 ## Configure secrets
 
-Follow [Share source database credentials]({{< relref "/operate/rc/rdi/setup#share-source-database-credentials" >}})
+Follow the steps in [Share source database credentials]({{< relref "/operate/rc/rdi/setup#share-source-database-credentials" >}})
 to create and share:
 
 - A credentials secret containing the dedicated Supabase `username` and
@@ -90,7 +90,8 @@ RDI on Redis Cloud uses TLS and validates the Supabase CA certificate.
 
 ## Configure the source
 
-Enter the following values:
+In the RDI pipeline setup flow, open the source configuration and enter the
+following values:
 
 | Field | Value |
 |:--|:--|
@@ -122,7 +123,7 @@ After deployment:
 1. Insert, update, and delete test records in Supabase.
 1. Confirm the corresponding counters increase in the pipeline metrics.
 
-Supabase logical replication slots retain write-ahead log (WAL) while a
-pipeline is stopped. Follow
+Supabase logical replication slots retain write-ahead log (WAL) while the
+pipeline is stopped. Follow the steps in
 [Monitor replication slots]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/supabase#7-monitor-replication-slots" >}})
 to monitor retained WAL and prepare for Supabase PostgreSQL upgrades.
