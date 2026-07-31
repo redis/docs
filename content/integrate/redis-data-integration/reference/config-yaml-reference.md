@@ -39,7 +39,7 @@ Source collectors that capture changes from upstream databases. Each key is a un
 |[**logging**](#sourceslogging)<br/>(Logging configuration)|`object`|Logging settings for this source collector.<br/>|no|
 |[**tables**](#sourcestables)<br/>(Tables to capture)|`object`|Tables to capture from the source database, keyed by table name. The value configures column selection and key handling for that table.<br/>|no|
 |[**schemas**](#sourcesschemas)<br/>(Schema names)|`string[]`|Schema names to capture from the source database. Maps to the underlying connector's `schema.include.list`.<br/>|no|
-|[**databases**](#sourcesdatabases)<br/>(Database names)|`string[]`|Database names to capture from the source database. Maps to the underlying connector's `database.include.list`.<br/>|no|
+|[**databases**](#sourcesdatabases)<br/>(Database names)|`string[]`|Database names to capture from the source database. Maps to the underlying connector's `database.include.list`. Applies only to MySQL, MariaDB, and MongoDB connections.<br/>|no|
 |[**advanced**](#sourcesadvanced)<br/>(Advanced configuration)|`object`|Advanced configuration that overrides the underlying engine's defaults. Only required for non-standard tuning.<br/>|no|
 
 
@@ -299,15 +299,15 @@ Tables to capture from the source database, keyed by table name. The value confi
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
 |**snapshot\_sql**|`string`|Custom SQL statement used during the initial snapshot, giving fine-grained control over the data captured.<br/>||
-|[**columns**](#sourcestablesadditionalpropertiescolumns)<br/>(Columns to capture)|`string[]`|Specific columns to capture. When omitted, all columns are captured. Not supported for MongoDB connections.<br/>||
+|[**columns**](#sourcestablesadditionalpropertiescolumns)<br/>(Columns to capture)|`string[]`|List of specific columns to capture for changes. If not specified, all columns will be captured. For RIOTX Snowflake sources, this is rendered as per-table `--table-columns` projection. Note: This property cannot be used for MongoDB connections<br/>||
 |[**exclude\_columns**](#sourcestablesadditionalpropertiesexclude_columns)<br/>(Columns to exclude)|`string[]`|Specific columns to exclude from capture. When omitted, no columns are excluded. Only supported for MongoDB connections.<br/>||
-|[**keys**](#sourcestablesadditionalpropertieskeys)<br/>(Message keys)|`string[]`|Columns that together form a unique identifier for each row. Only required when the table lacks a primary key or unique constraint.<br/>||
+|[**keys**](#sourcestablesadditionalpropertieskeys)<br/>(Message keys)|`string[]`|Optional list of columns to use as a composite unique identifier. For RIOTX Snowflake sources, this is rendered as per-table `--table-keys`. Only required when the table lacks a primary key or unique constraint. Must form a unique combination of fields<br/>||
 
 **Additional Properties:** not allowed  
 <a name="sourcestablesadditionalpropertiescolumns"></a>
 ##### sources\.tables\.additionalProperties\.columns\[\]: Columns to capture
 
-Specific columns to capture. When omitted, all columns are captured. Not supported for MongoDB connections.
+List of specific columns to capture for changes. If not specified, all columns will be captured. For RIOTX Snowflake sources, this is rendered as per-table `--table-columns` projection. Note: This property cannot be used for MongoDB connections
 
 
 <a name="sourcestablesadditionalpropertiesexclude_columns"></a>
@@ -319,7 +319,7 @@ Specific columns to exclude from capture. When omitted, no columns are excluded.
 <a name="sourcestablesadditionalpropertieskeys"></a>
 ##### sources\.tables\.additionalProperties\.keys\[\]: Message keys
 
-Columns that together form a unique identifier for each row. Only required when the table lacks a primary key or unique constraint.
+Optional list of columns to use as a composite unique identifier. For RIOTX Snowflake sources, this is rendered as per-table `--table-keys`. Only required when the table lacks a primary key or unique constraint. Must form a unique combination of fields
 
 
 <a name="sourcesschemas"></a>
@@ -331,7 +331,7 @@ Schema names to capture from the source database. Maps to the underlying connect
 <a name="sourcesdatabases"></a>
 ### sources\.databases\[\]: Database names
 
-Database names to capture from the source database. Maps to the underlying connector's `database.include.list`.
+Database names to capture from the source database. Maps to the underlying connector's `database.include.list`. Applies only to MySQL, MariaDB, and MongoDB connections.
 
 
 <a name="sourcesadvanced"></a>
@@ -374,6 +374,16 @@ sink:
   redis.wait.retry.enabled: false
   redis.wait.retry.delay.ms: 1000
 source:
+  snapshot.max.threads: 1
+  poll.interval.ms: 500
+  snapshot.fetch.size: 10000
+  max.batch.size: 2048
+  max.queue.size: 8192
+  heartbeat.interval.ms: 0
+  lob.enabled: false
+  publication.autocreate.mode: all_tables
+  publication.name: dbz_publication
+  slot.name: debezium
   spanner.version.retention.period.hours: 1
   spanner.fetch.timeout.ms: 500
   spanner.fetch.heartbeat.ms: 100
@@ -449,13 +459,26 @@ redis.wait.retry.delay.ms: 1000
 <a name="sourcesadvancedsource"></a>
 #### sources\.advanced\.source: Advanced source settings
 
-Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The properties listed below only apply to the `flink` collector type (Spanner).**
+Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The named properties below cover the most commonly tuned settings: `spanner.*` properties apply to the `flink` collector type, all others apply to the `cdc` collector type. Any other property from the Debezium documentation can still be set as a free-form key-value pair.**
 
 
 **Properties**
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
+|**record\.processing\.threads**<br/>(Record processing threads)|`integer`|Controls how many worker threads process captured records before they are written downstream.<br/>Minimum: `1`<br/>||
+|**snapshot\.max\.threads**<br/>(Snapshot max threads)|`integer`|Sets the maximum number of threads used while taking the initial snapshot.<br/>Default: `1`<br/>Minimum: `1`<br/>||
+|**poll\.interval\.ms**<br/>(Poll interval ms)|`integer`|Defines how often the collector polls the source for new changes.<br/>Default: `500`<br/>Minimum: `1`<br/>||
+|**snapshot\.fetch\.size**<br/>(Snapshot fetch size)|`integer`|Defines how many rows are fetched per batch during the initial snapshot.<br/>Default: `10000`<br/>Minimum: `1`<br/>||
+|**max\.batch\.size**<br/>(Max batch size)|`integer`|Caps how many records are processed together in a single batch.<br/>Default: `2048`<br/>Minimum: `1`<br/>||
+|**max\.queue\.size**<br/>(Max queue size)|`integer`|Limits how many records can be buffered in memory before processing catches up.<br/>Default: `8192`<br/>Minimum: `1`<br/>||
+|**heartbeat\.interval\.ms**<br/>(Heartbeat interval ms)|`integer`|Sets how often heartbeat events are emitted to keep change tracking active. Use 0 to disable them.<br/>Default: `0`<br/>Minimum: `0`<br/>||
+|**heartbeat\.action\.query**<br/>(Heartbeat action query)|`string`|SQL query executed on the source whenever a heartbeat is emitted.<br/>||
+|**lob\.enabled**<br/>(Lob enabled)|`boolean`|Determines whether large object columns are included in change capture.<br/>Default: `false`<br/>||
+|**gtid\.source\.includes**<br/>(GTID source includes)|`string`|Restricts MySQL GTID processing to the listed source UUIDs.<br/>||
+|**publication\.autocreate\.mode**<br/>(Publication autocreate mode)|`string`|Controls whether and how the PostgreSQL publication is created or updated automatically.<br/>Default: `"all_tables"`<br/>Enum: `"all_tables"`, `"filtered"`, `"disabled"`<br/>||
+|**publication\.name**<br/>(Publication name)|`string`|Sets the PostgreSQL logical replication publication name used by the collector.<br/>Default: `"dbz_publication"`<br/>||
+|**slot\.name**<br/>(Slot name)|`string`|Sets the PostgreSQL replication slot name the collector reads from.<br/>Default: `"debezium"`<br/>||
 |**spanner\.version\.retention\.period\.hours**<br/>(Spanner version retention period)|`integer`|Retention period in hours for Spanner change stream versions. Determines how far back the collector can resume after an outage.<br/>Default: `1`<br/>Minimum: `1`<br/>||
 |**spanner\.fetch\.timeout\.ms**<br/>(Spanner fetch timeout)|`integer`|Timeout in milliseconds for a single change stream fetch request to Spanner.<br/>Default: `500`<br/>Minimum: `1`<br/>||
 |**spanner\.fetch\.heartbeat\.ms**<br/>(Spanner fetch heartbeat interval)|`integer`|Interval in milliseconds at which Spanner sends heartbeat records when no data changes are available.<br/>Default: `100`<br/>Minimum: `1`<br/>||
@@ -472,6 +495,16 @@ Advanced configuration properties for the source database connection and CDC beh
 **Example**
 
 ```yaml
+snapshot.max.threads: 1
+poll.interval.ms: 500
+snapshot.fetch.size: 10000
+max.batch.size: 2048
+max.queue.size: 8192
+heartbeat.interval.ms: 0
+lob.enabled: false
+publication.autocreate.mode: all_tables
+publication.name: dbz_publication
+slot.name: debezium
 spanner.version.retention.period.hours: 1
 spanner.fetch.timeout.ms: 500
 spanner.fetch.heartbeat.ms: 100
@@ -550,7 +583,7 @@ Advanced configuration properties for the RIOT-X Snowflake collector. **Only app
 |**snapshot**<br/>(Snapshot mode)|`string`|Initial-load behavior. `INITIAL` performs a one-time snapshot before streaming; `NEVER` skips the snapshot.<br/>Default: `"INITIAL"`<br/>Enum: `"INITIAL"`, `"NEVER"`<br/>||
 |**streamPrefix**<br/>(Redis stream key prefix)|`string`|Prefix used when constructing Redis stream keys, for example `data:`.<br/>Default: `"data:"`<br/>||
 |**streamLimit**<br/>(Maximum stream length)|`integer`|Maximum number of entries kept in each Redis stream before older entries are trimmed.<br/>Minimum: `1`<br/>||
-|[**keyColumns**](#sourcesadvancedriotxkeycolumns)<br/>(Key columns)|`string[]`|Columns whose values form the unique message key for each row.<br/>||
+|[**keyColumns**](#sourcesadvancedriotxkeycolumns)<br/>(Key columns)|`string[]`|Deprecated RIOTX global fallback list of columns to use as message keys for every captured table. Prefer `tables.<schema.table>.keys`<br/>||
 |**clearOffset**<br/>(Clear existing offset)|`boolean`|When `true`, the stored offset is cleared on startup, forcing a fresh read.<br/>Default: `false`<br/>||
 |**count**<br/>(Record count limit)|`integer`|Maximum number of records to process. Set to `0` for unlimited.<br/>Default: `0`<br/>Minimum: `0`<br/>||
 
@@ -570,7 +603,7 @@ count: 0
 <a name="sourcesadvancedriotxkeycolumns"></a>
 ##### sources\.advanced\.riotx\.keyColumns\[\]: Key columns
 
-Columns whose values form the unique message key for each row.
+Deprecated RIOTX global fallback list of columns to use as message keys for every captured table. Prefer `tables.<schema.table>.keys`
 
 
 <a name="targets"></a>
@@ -622,7 +655,7 @@ Settings that control how data is processed, including batch sizes, error handli
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
-|**type**<br/>(Processor type)|`string`|Processor implementation to run. `classic` runs the classic processor; `flink` runs the Apache Flink-based processor (Kubernetes deployments only).<br/>Default: `"classic"`<br/>Enum: `"classic"`, `"flink"`<br/>||
+|**type**<br/>(Processor type)|`string`|Processor implementation to run. `classic` runs the classic processor; `flink` runs the Apache Flink-based processor.<br/>Default: `"classic"`<br/>Enum: `"classic"`, `"flink"`<br/>||
 |**read\_batch\_size**|`integer`, `string`|Maximum number of records read from the source streams in a single batch.<br/>Default: `2000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
 |**read\_batch\_timeout\_ms**<br/>(Read batch timeout)|`integer`|Maximum time in milliseconds to wait for a batch to fill before processing it.<br/>Default: `100`<br/>Minimum: `1`<br/>||
 |**duration**<br/>(Batch duration limit)|`integer`, `string`|(DEPRECATED)<br/>This property has no effect; use `read_batch_timeout_ms` instead.<br/>Default: `100`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
@@ -633,10 +666,10 @@ Settings that control how data is processed, including batch sizes, error handli
 |**dedup**<br/>(Enable deduplication)|`boolean`|When `true`, the processor deduplicates incoming records. **Classic processor only.**<br/>Default: `false`<br/>||
 |**dedup\_max\_size**<br/>(Deduplication set size)|`integer`|Maximum number of entries kept in the deduplication set. **Classic processor only.**<br/>Default: `1024`<br/>Minimum: `1`<br/>||
 |**dedup\_strategy**<br/>(Deduplication strategy)|`string`|(DEPRECATED)<br/>This property has no effect — the only supported strategy is `ignore`. Remove it from the configuration. **Classic processor only.**<br/>Default: `"ignore"`<br/>Enum: `"reject"`, `"ignore"`<br/>||
-|**error\_handling**<br/>(Error handling strategy)|`string`|Strategy for handling failed records. `ignore` silently drops them; `dlq` writes them to the dead-letter queue.<br/>Default: `"dlq"`<br/>Pattern: `^\${.*}$\|ignore\|dlq`<br/>||
+|**error\_handling**<br/>(Error handling strategy)|`string`|Strategy for handling failed records. `ignore` silently drops them; `dlq` writes them to the dead-letter queue.<br/>Default: `"dlq"`<br/>||
 |**dlq\_max\_messages**<br/>(DLQ message limit)|`integer`, `string`|Maximum number of messages stored per dead-letter queue stream.<br/>Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
-|**target\_data\_type**<br/>(Target Redis data type)|`string`|Data type used to store target records in Redis. `hash` writes a Redis Hash; `json` writes a RedisJSON document and requires the RedisJSON module.<br/>Default: `"hash"`<br/>Pattern: `^\${.*}$\|hash\|json`<br/>||
-|**json\_update\_strategy**|`string`|Strategy for updating existing JSON documents in Redis. `replace` overwrites the entire document; `merge` merges incoming fields into it.<br/>Default: `"replace"`<br/>Pattern: `^\${.*}$\|replace\|merge`<br/>||
+|**target\_data\_type**<br/>(Target Redis data type)|`string`|Data type used to store target records in Redis. `hash` writes a Redis Hash; `json` writes a RedisJSON document and requires the RedisJSON module.<br/>Default: `"hash"`<br/>||
+|**json\_update\_strategy**|`string`|Strategy for updating existing JSON documents in Redis. `replace` overwrites the entire document; `merge` merges incoming fields into it.<br/>Default: `"replace"`<br/>||
 |**use\_native\_json\_merge**<br/>(Use native JSON merge from RedisJSON module)|`boolean`|Controls whether JSON merge operations use the native `JSON.MERGE` command (when `true`) or Lua scripts (when `false`). Introduced in RDI 1.15.0. The native command provides 2x performance improvement but handles null values differently:<br/><br/>**Previous behavior (Lua merge)**: When merging `{"field1": "value1", "field2": "value2"}` with `{"field2": null, "field3": "value3"}`, the result was `{"field1": "value1", "field2": null, "field3": "value3"}` (null value is preserved).<br/><br/>**New behavior (JSON.MERGE)**: The same merge produces `{"field1": "value1", "field3": "value3"}` (null value removes the field, following [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396)).<br/><br/>**Note**: The native `JSON.MERGE` command requires RedisJSON 2.6.0 or higher. If the target database has an older version of RedisJSON, RDI automatically falls back to Lua-based merge operations regardless of this setting.<br/><br/>**Impact**: If your application logic distinguishes between a field with a `null` value and a missing field, you may need to adjust your data handling. This follows the JSON Merge Patch RFC standard but differs from the previous Lua implementation. Set to `false` to revert to the previous Lua-based merge behavior if needed.<br/><br/>The Flink processor always uses the native `JSON.MERGE` command when the target database supports it. **Classic processor only.**<br/>Default: `true`<br/>||
 |**initial\_sync\_processes**|`integer`, `string`|Number of parallel processes used to perform the initial data synchronization. For the Flink processor, parallelism is controlled by Flink properties instead. **Classic processor only.**<br/>Default: `4`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `32`<br/>||
 |**idle\_sleep\_time\_ms**<br/>(Idle sleep interval)|`integer`, `string`|Time in milliseconds to sleep between processing batches when idle. **Classic processor only.**<br/>Default: `200`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
@@ -645,7 +678,7 @@ Settings that control how data is processed, including batch sizes, error handli
 |**retry\_max\_attempts**<br/>(Maximum retry attempts)|`integer`, `string`|Maximum number of attempts for a failed write to the target Redis database before giving up.<br/>Default: `5`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
 |**retry\_initial\_delay\_ms**<br/>(Initial retry delay)|`integer`, `string`|Initial delay in milliseconds before the first retry of a failed write.<br/>Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
 |**retry\_max\_delay\_ms**<br/>(Maximum retry delay)|`integer`, `string`|Maximum delay in milliseconds between retry attempts.<br/>Default: `10000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>Maximum: `999999`<br/>||
-|**wait\_enabled**<br/>(Enable replica wait)|`boolean`|When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it.<br/>Default: `false`<br/>||
+|**wait\_enabled**<br/>(Enable replica wait)|`boolean`|When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it. Enable this only when target database replication is enabled and a healthy replica is available. For the Flink processor, `processors.advanced.target.wait.enabled` takes priority.<br/>Default: `false`<br/>||
 |**wait\_timeout**<br/>(Replica wait timeout)|`integer`, `string`|Maximum time in milliseconds to wait for replica write verification on the target database.<br/>Default: `1000`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
 |**retry\_on\_replica\_failure**|`boolean`|When `true`, RDI keeps retrying a write until replica replication is confirmed; when `false`, it gives up after the first failure.<br/>Default: `true`<br/>||
 |**on\_failed\_retry\_interval**<br/>(Retry interval on failure)|`integer`, `string`|(DEPRECATED)<br/>This property has no effect; remove it from the configuration.<br/>Default: `5`<br/>Pattern: `^\${.*}$`<br/>Minimum: `1`<br/>||
@@ -807,9 +840,9 @@ Advanced configuration properties for the target Redis client and sink. **Flink 
 |**retry\.initial\.delay\.ms**<br/>(Target retry initial delay)|`integer`|Initial delay in milliseconds before the first retry of a failed target Redis operation. Alias for `processors.retry_initial_delay_ms`; takes priority when both are set.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
 |**retry\.max\.delay\.ms**<br/>(Target retry max delay)|`integer`|Maximum delay in milliseconds between retry attempts for target Redis operations. Alias for `processors.retry_max_delay_ms`; takes priority when both are set.<br/>Default: `10000`<br/>Minimum: `1`<br/>||
 |**retry\.backoff\.multiplier**<br/>(Target retry backoff multiplier)|`number`|Exponential backoff multiplier between retry attempts for target Redis operations.<br/>Default: `2`<br/>Minimum: `1`<br/>||
-|**wait\.enabled**<br/>(Target replica wait enabled)|`boolean`|When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it. Alias for `processors.wait_enabled`; takes priority when both are set.<br/>Default: `false`<br/>||
+|**wait\.enabled**<br/>(Target replica wait enabled)|`boolean`|When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it. Enable this only when target database replication is enabled and a healthy replica is available. Alias for `processors.wait_enabled`; takes priority when both are set.<br/>Default: `false`<br/>||
 |**wait\.write\.timeout\.ms**<br/>(Target replica wait timeout)|`integer`|Maximum time in milliseconds to wait for target replica write verification. Alias for `processors.wait_timeout`; takes priority when both are set.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
-|**wait\.retry\.enabled**<br/>(Target replica wait retry enabled)|`boolean`|When `true`, RDI keeps retrying a target write until replica replication is confirmed; when `false`, it gives up after the first failure. Alias for `processors.retry_on_replica_failure`; takes priority when both are set. When enabled, the Flink processor retries indefinitely until the checkpoint timeout, unlike the classic processor which retries once.<br/>Default: `true`<br/>||
+|**wait\.retry\.enabled**<br/>(Target replica wait retry enabled)|`boolean`|When `true`, RDI keeps retrying a target write until replica replication is confirmed; when `false`, it gives up after the first failure. Alias for `processors.retry_on_replica_failure`; takes priority when both are set. When enabled, the Flink processor retries indefinitely. Failed checkpoints can restart the job, after which the retries resume. The classic processor retries once.<br/>Default: `true`<br/>||
 |**wait\.retry\.delay\.ms**<br/>(Target replica wait retry delay)|`integer`|Delay in milliseconds between target replica wait retry attempts.<br/>Default: `1000`<br/>Minimum: `1`<br/>||
 
 **Additional Properties**
@@ -1044,5 +1077,14 @@ Optional metadata describing this pipeline, such as a display name and descripti
 |----|----|-----------|--------|
 |**name**<br/>(Pipeline name)|`string`|Human-readable name for the pipeline. Maximum 100 characters.<br/>Maximal Length: `100`<br/>||
 |**description**<br/>(Pipeline description)|`string`|Free-form description of what the pipeline does. Maximum 500 characters.<br/>Maximal Length: `500`<br/>||
+|**revision**<br/>(Pipeline revision)|`integer`|Pipeline revision number. Must be a non-negative integer.<br/>Minimum: `0`<br/>||
+|[**tags**](#metadatatags)<br/>(Pipeline tags)|`string[]`|Array of pipeline tags. Each tag must be a string of up to 50 characters, containing only alphanumeric characters, dots, dashes, or underscores, and must start and end with an alphanumeric character. Tags must be unique.<br/>||
 
 **Additional Properties:** not allowed  
+<a name="metadatatags"></a>
+### metadata\.tags\[\]: Pipeline tags
+
+Array of pipeline tags. Each tag must be a string of up to 50 characters, containing only alphanumeric characters, dots, dashes, or underscores, and must start and end with an alphanumeric character. Tags must be unique.
+
+
+**Unique Items:** yes  

@@ -82,3 +82,4 @@ One of the following:
 ## Related topics
 
 - [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})
+- [Filtered search]({{< relref "/develop/data-types/vector-sets/filtered-search" >}})

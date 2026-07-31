@@ -52,6 +52,7 @@ Create and manage a [Redis database]({{< relref "/operate/rs/databases" >}}) on 
 ## Reference
 Use command-line utilities and the REST API to manage the cluster and databases.
 - [rladmin]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}), [crdb-cli]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}), & [other utilities]({{< relref "/operate/rs/references/cli-utilities" >}})
+- [`redisctl`](https://github.com/redis/redisctl) — a unified CLI for managing Redis Software and Redis Cloud from your terminal
 - [REST API reference]({{< relref "/operate/rs/references/rest-api" >}}) & [examples]({{< relref "/operate/rs/references/rest-api/quick-start" >}})
 - [Redis commands]({{< relref "/commands" >}})
 

@@ -11,7 +11,9 @@ title: Use the Redis Agent Memory API and SDK
 weight: 10
 ---
 
-Use the [Agent Memory API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}) from your client app to store and retrieve agent memory information.
+If you're new to Agent Memory on Redis Cloud, complete the [REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) first. It covers service creation, authentication, and runnable requests.
+
+The examples on this page supplement the quickstart. Use the [Agent Memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}) for complete request and response schemas.
 
 You can use any standard REST client or library to access the API. If your app is written in Python, you can also use the [Agent Memory Software Development Kit](https://pypi.org/project/redis-agent-memory/) (SDK) to access the API.
 
@@ -25,19 +27,11 @@ To access the Agent Memory API, you need:
 
 When you call the API, you need to pass the Agent Memory API key in the `Authorization` header as a Bearer token and the store ID as the `storeId` path parameter.
 
-For example:
+The [REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory#save-the-connection-values" >}}) uses the following environment variables:
 
-```sh
-curl -s -X GET "https://$HOST/v1/stores/$STORE_ID/session-memory" \
-    -H "accept: application/json" \
-    -H "Authorization: Bearer $API_KEY" 
-```
-
-This example expects several variables to be set in the shell:
-
-- **$HOST** - the Agent Memory API endpoint
+- **$AGENT_MEMORY_URL** - the complete Agent Memory API base URL
 - **$STORE_ID** - the Store ID of your Agent Memory service
-- **$API_KEY** - The Agent Memory API token
+- **$API_KEY** - the Agent Memory API key
 
 ## Examples
 
@@ -46,7 +40,6 @@ This example expects several variables to be set in the shell:
 Use [`POST /v1/stores/{storeId}/session-memory/events`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/session-memory/operation/AddSessionEvent" >}}) to add an event to a session in short-term memory. If a session doesn't exist yet, it will be created.
 
 ```json
-POST /v1/stores/{storeId}/session-memory/events
 {
     "sessionId": "abcd-efgh",
     "actorId": "user-name",
@@ -72,10 +65,9 @@ The Agent Memory model will automatically promote relevant short-term memories t
 
 You may want to add one or more long-term memories to add specific preference information.
 
-Use [`POST /v1/stores/{storeId}/long-term-memory/`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/long-term-memory/operation/BulkCreateLongTermMemories" >}}) to add one or more long-term memories to long-term memory storage.
+Use [`POST /v1/stores/{storeId}/long-term-memory`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/long-term-memory/operation/BulkCreateLongTermMemories" >}}) to add one or more long-term memories to long-term memory storage.
 
 ```json
-POST /v1/stores/{storeId}/long-term-memory
 {
     "memories": [
         {
@@ -83,7 +75,7 @@ POST /v1/stores/{storeId}/long-term-memory
             "text": "The user prefers vegetarian food.",
             "memoryType": "episodic",
             "sessionId": "abcd-efgh",
-            "ownerId": "user-name",
+            "ownerId": "user-name"
         }
     ]
 }
@@ -94,7 +86,6 @@ POST /v1/stores/{storeId}/long-term-memory
 Use [`POST /v1/stores/{storeId}/long-term-memory/search`]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/long-term-memory/operation/SearchLongTermMemory" >}}) to search for long-term memories.
 
 ```json
-POST /v1/stores/{storeId}/long-term-memory/search
 {
     "text": "user preferences",
     "similarityThreshold": 0.48725898820184166,
@@ -135,4 +126,4 @@ For all values, you must set only one of these operators:
 | `gt` | Returns memories where the value is greater than the provided value. |
 | `lt` | Returns memories where the value is less than the provided value. |
 | `gte` | Returns memories where the value is greater than or equal to the provided value. |
-| `lte` | Returns memories where the value is less than or equal to the provided value. | 
+| `lte` | Returns memories where the value is less than or equal to the provided value. |

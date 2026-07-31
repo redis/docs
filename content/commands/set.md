@@ -235,11 +235,11 @@ Note: Since the `SET` command options can replace [`SETNX`]({{< relref "/command
 
 {{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" >}}
 > SET mykey "Hello"
-"OK"
+OK
 > GET mykey
 "Hello"
 > SET anotherkey "will expire in a minute" EX 60
-"OK"
+OK
 {{< /clients-example >}}
 
 ## Details

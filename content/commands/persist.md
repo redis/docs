@@ -61,11 +61,16 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-EXPIRE mykey 10
-TTL mykey
-PERSIST mykey
-TTL mykey
+redis> SET mykey "Hello"
+OK
+redis> EXPIRE mykey 10
+(integer) 1
+redis> TTL mykey
+(integer) 10
+redis> PERSIST mykey
+(integer) 1
+redis> TTL mykey
+(integer) -1
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

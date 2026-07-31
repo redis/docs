@@ -122,8 +122,8 @@ The following libraries and platforms use Redis as their online feature store:
 -   **[Redis Feature Form]({{< relref "/develop/ai/featureform" >}})** is
     Redis's own feature-engineering platform. It defines features, labels, and
     feature views in a Python definitions file, materializes them through a
-    [registered provider]({{< relref "/develop/ai/featureform/providers" >}}),
-    and [serves]({{< relref "/develop/ai/featureform/features-and-labels" >}})
+    [registered provider]({{< relref "/develop/ai/featureform/register-providers" >}}),
+    and [serves]({{< relref "/develop/ai/featureform/serve-features" >}})
     them from Redis as the low-latency online store. See the
     [quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}) for an
     end-to-end walkthrough.

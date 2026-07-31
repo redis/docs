@@ -1,10 +1,10 @@
 # Park manifest — format & conventions (shared)
 
-Canonical definition of the **park manifest**: the pickup contract embedded in a parked PR.
-Shared by **`/park`** (which *writes* it) and **`/pickup`** (which *reads and diffs against*
+Canonical definition of the **park manifest**: the unpark contract embedded in a parked PR.
+Shared by **`/park`** (which *writes* it) and **`/unpark`** (which *reads and diffs against*
 it), so the format can't drift between the two. Change it here, once.
 
-> Referenced by `.claude/skills/park/SKILL.md` and `.claude/skills/pickup/SKILL.md`. Not a
+> Referenced by `.claude/skills/park/SKILL.md` and `.claude/skills/unpark/SKILL.md`. Not a
 > skill itself (no `SKILL.md`), so it won't be invoked directly.
 
 ## What a parked PR is
@@ -20,7 +20,7 @@ three in a place a future agent can find with `gh` alone.
 
 ## Where it lives
 
-In the **PR body**, as a markdown block delimited by exact marker lines so `/pickup` can
+In the **PR body**, as a markdown block delimited by exact marker lines so `/unpark` can
 extract it deterministically:
 
 ```
@@ -46,25 +46,25 @@ PR, machine-locatable by its markers.
 2. **Pinned sources (state observed at park time)** — a table, one row per external source.
    Each row records the URL **and a snapshot of its state at park time**: for a GitHub PR,
    `state` / `merged` / `head SHA` / `base` / `milestone` / `updated`. **The snapshot is what
-   makes pickup a diff rather than a re-read** — without it, `/pickup` sees "now" with nothing
+   makes unpark a diff rather than a re-read** — without it, `/unpark` sees "now" with nothing
    to compare against. Include the exact command to re-fetch each source.
 
 3. **Observed shape the page assumes** — a **confidence-tagged** summary of the API/behaviour
    the docs commit to. Tag it (`LOW`/`MEDIUM`/`HIGH`) — preemptive docs written against an
-   unmerged diff are usually LOW, and saying so tells pickup how hard to scrutinise.
+   unmerged diff are usually LOW, and saying so tells unpark how hard to scrutinise.
 
 4. **Re-check checklist** — GitHub task-list (`- [ ]`) of everything to verify or finish on
-   pickup. **Seed it from the branch's commit trailers** — harvest `Recheck:` / `Gaps:` /
+   unpark. **Seed it from the branch's commit trailers** — harvest `Recheck:` / `Gaps:` /
    `Directive:` from `main..HEAD` (see [`commit-trailers.md`](./commit-trailers.md)); those
    *are* the loose ends. Add anything predicted-to-change not already captured. Mark the
    highest-risk items.
 
-5. **On pickup, then** — when the trigger fires, run `/pickup <PR>`. It reconciles the docs
+5. **On unpark, then** — when the trigger fires, run `/unpark <PR>`. It reconciles the docs
    against the now-settled source and takes the PR through the normal `/reflect` → `/finalize`
    pipeline to merge, lifting the `parked` / `do not merge yet` labels only after `/finalize`.
-   **The closing sequence and its ordering live solely in `/pickup` Steps 4–5, which are
+   **The closing sequence and its ordering live solely in `/unpark` Steps 4–5, which are
    authoritative; this manifest deliberately does not restate them — not even as a list.** (A
-   hand-copied step list here drifted from `/pickup` on every review round, so it was replaced by
+   hand-copied step list here drifted from `/unpark` on every review round, so it was replaced by
    this pointer. Don't re-add one, in any order.) The one guarantee this section makes: the `do not merge yet` guard holds until
    `/finalize` completes.
 
@@ -78,8 +78,8 @@ not restate them as trailers.
 ## Finalize is deferred while parked
 
 Critical: **do not run `/finalize` at park time.** Finalize squashes away the episodic
-`Recheck:` / `Gaps:` trailers — exactly what `/pickup` needs. The durable distill happens
-*after* pickup, once the source has settled. The manifest's "On pickup, then" section records
+`Recheck:` / `Gaps:` trailers — exactly what `/unpark` needs. The durable distill happens
+*after* unpark, once the source has settled. The manifest's "On unpark, then" section records
 this so it isn't forgotten.
 
 ## Labels
@@ -88,4 +88,4 @@ this so it isn't forgotten.
   goes ahead."
 - `do not merge yet` — the merge guard.
 
-`/pickup` finds parked PRs with `gh pr list --label parked`.
+`/unpark` finds parked PRs with `gh pr list --label parked`.

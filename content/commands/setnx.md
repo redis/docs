@@ -76,9 +76,12 @@ The value to set, only if the key does not already exist.
 ## Examples
 
 {{% redis-cli %}}
-SETNX mykey "Hello"
-SETNX mykey "World"
-GET mykey
+redis> SETNX mykey "Hello"
+(integer) 1
+redis> SETNX mykey "World"
+(integer) 0
+redis> GET mykey
+"Hello"
 {{% /redis-cli %}}
 
 ## Details

@@ -12,6 +12,20 @@ min-version-rs: blah
 weight: 40
 ---
 
+## Redis Open Source 8.4.5 (July 2026)
+
+SECURITY: There are security fixes in the release.
+
+### Security fixes
+
+- Use-after-free when loading a stream consumer group via `RESTORE` may lead to Remote Code Execution.
+- RedisBloom/RedisBloom[#1039](https://github.com/redisbloom/redisbloom/pull/1039) Crafted RESTORE payloads in RedisBloom and TDigest may trigger out-of-bounds writes, potentially leading to remote code execution.
+
+### Bug fixes
+
+- RedisBloom/RedisBloom[#1020](https://github.com/redisbloom/redisbloom/pull/1020) Replicate `CF.LOADCHUNK` data chunks to prevent silent Cuckoo Filter data loss on failover.
+
+
 ## Redis Open Source 8.4.4 (June 2026)
 
 Update urgency: `HIGH`: There are critical bugs that may affect a subset of users.

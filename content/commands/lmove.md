@@ -141,13 +141,21 @@ The end of `destination` to push the element to: `LEFT` (head) or `RIGHT` (tail)
 ## Examples
 
 {{% redis-cli %}}
-RPUSH mylist "one"
-RPUSH mylist "two"
-RPUSH mylist "three"
-LMOVE mylist myotherlist RIGHT LEFT
-LMOVE mylist myotherlist LEFT RIGHT
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+redis> RPUSH mylist "one"
+(integer) 1
+redis> RPUSH mylist "two"
+(integer) 2
+redis> RPUSH mylist "three"
+(integer) 3
+redis> LMOVE mylist myotherlist RIGHT LEFT
+"three"
+redis> LMOVE mylist myotherlist LEFT RIGHT
+"one"
+redis> LRANGE mylist 0 -1
+1) "two"
+redis> LRANGE myotherlist 0 -1
+1) "three"
+2) "one"
 {{% /redis-cli %}}
 
 ## Details

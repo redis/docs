@@ -71,8 +71,32 @@ TSDB-TYPE
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 0
-    .
-    .
+ 3) memoryUsage
+ 4) (integer) 4424
+ 5) firstTimestamp
+ 6) (integer) 0
+ 7) lastTimestamp
+ 8) (integer) 0
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 The timestamp for each data point is a 64-bit integer value. The value
@@ -87,12 +111,34 @@ the data does not expire.
 > TS.ADD thermometer:2 1 10.8 RETENTION 100
 (integer) 1
 > TS.INFO thermometer:2
-    .
-    .
+ 1) totalSamples
+ 2) (integer) 1
+ 3) memoryUsage
+ 4) (integer) 4424
+ 5) firstTimestamp
+ 6) (integer) 1
+ 7) lastTimestamp
+ 8) (integer) 1
  9) retentionTime
 10) (integer) 100
-    .
-    .
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 You can also add one or more *labels* to a time series when you create it. Labels
@@ -107,16 +153,34 @@ for queries and aggregations.
  1) totalSamples
  2) (integer) 1
  3) memoryUsage
- 4) (integer) 5000
-    .
-    .
+ 4) (integer) 4568
+ 5) firstTimestamp
+ 6) (integer) 1
+ 7) lastTimestamp
+ 8) (integer) 1
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
 19) labels
 20) 1) 1) "location"
        2) "UK"
     2) 1) "type"
        2) "Mercury"
-    .
-    .
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 ## Add data points
@@ -378,7 +442,7 @@ OK
       3) 1) (integer) 1
          2) 2.1
 2) 1) "rg:4"
-2) 1) 1) "location"
+   2) 1) 1) "location"
          2) "uk"
    3) 1) 1) (integer) 3
          2) 19
@@ -536,7 +600,7 @@ that have the same timestamp and the same label value (this feature is available
 
 For example, the following commands create four time series, two for the UK and two for the US, and add some data points. The first `TS.MRANGE` command groups the results by country and applies a `max` aggregation to find the maximum sample value in each country at each timestamp. The second `TS.MRANGE` command uses the same grouping, but applies an `avg` aggregation.
 
-{{< clients-example set="time_series_tutorial" step="agg_multi" description="Cross-series aggregation: Use GROUPBY and REDUCE with TS.MRANGE to aggregate data across multiple time series by label when you need to compute statistics across groups" difficulty="advanced" buildsUpon="agg, create_labels" >}}
+{{< clients-example set="time_series_tutorial" step="agg_multi" description="Cross-series aggregation: Use GROUPBY and REDUCE with TS.MRANGE to aggregate data across multiple time series by label when you need to compute statistics across groups" difficulty="advanced" buildsUpon="agg, create_labels" runnable="false" >}}
 > TS.CREATE wind:1 LABELS country uk
 OK
 > TS.CREATE wind:2 LABELS country uk
@@ -697,22 +761,37 @@ OK
 > TS.CREATERULE hyg:1 hyg:compacted AGGREGATION min 3
 OK
 > TS.INFO hyg:1
-    .
-    .
+ 1) totalSamples
+ 2) (integer) 0
+ 3) memoryUsage
+ 4) (integer) 4520
+ 5) firstTimestamp
+ 6) (integer) 0
+ 7) lastTimestamp
+ 8) (integer) 0
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
 23) rules
 24) 1) 1) "hyg:compacted"
        2) (integer) 3
        3) MIN
        4) (integer) 0
-    .
-    .
-> TS.INFO hyg:compacted
-    .
-    .
-21) sourceKey
-22) "hyg:1"
-    .
-    .
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 Adding data points within the first 3ms (the first bucket) doesn't
@@ -772,46 +851,124 @@ If you want to delete a single timestamp, use it as both the start and end of th
  1) totalSamples
  2) (integer) 2
  3) memoryUsage
- 4) (integer) 4856
+ 4) (integer) 4424
  5) firstTimestamp
  6) (integer) 1
  7) lastTimestamp
  8) (integer) 2
-    .
-    .
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 > TS.ADD thermometer:1 3 9.7
 (integer) 3
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 3
  3) memoryUsage
- 4) (integer) 4856
+ 4) (integer) 4424
  5) firstTimestamp
  6) (integer) 1
  7) lastTimestamp
  8) (integer) 3
-    .
-    .
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 > TS.DEL thermometer:1 1 2
 (integer) 2
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 1
  3) memoryUsage
- 4) (integer) 4856
+ 4) (integer) 4424
  5) firstTimestamp
  6) (integer) 3
  7) lastTimestamp
  8) (integer) 3
-    .
-    .
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 > TS.DEL thermometer:1 3 3
 (integer) 1
 > TS.INFO thermometer:1
  1) totalSamples
  2) (integer) 0
-    .
-    .
+ 3) memoryUsage
+ 4) (integer) 4424
+ 5) firstTimestamp
+ 6) (integer) 0
+ 7) lastTimestamp
+ 8) (integer) 0
+ 9) retentionTime
+10) (integer) 0
+11) chunkCount
+12) (integer) 1
+13) chunkSize
+14) (integer) 4096
+15) chunkType
+16) compressed
+17) duplicatePolicy
+18) block
+19) labels
+20) (empty array)
+21) sourceKey
+22) (nil)
+23) rules
+24) (empty array)
+25) ignoreMaxTimeDiff
+26) (integer) 0
+27) ignoreMaxValDiff
+28) "0"
 {{< /clients-example >}}
 
 ## Use time series with other metrics tools

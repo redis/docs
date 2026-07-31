@@ -6485,7 +6485,7 @@
           ],
           "returns": {
             "type": "*StatusCmd",
-            "description": ""
+            "description": "Call on a connection from rdb.Conn(), not the pooled Client"
           }
         },
         {
@@ -6509,7 +6509,7 @@
           ],
           "returns": {
             "type": "*StatusCmd",
-            "description": ""
+            "description": "Call on a connection from rdb.Conn(), not the pooled Client"
           }
         }
       ],
@@ -6534,9 +6534,111 @@
           }
         }
       ],
-      "lettuce_sync": [],
-      "lettuce_async": [],
-      "lettuce_reactive": [],
+      "lettuce_sync": [
+        {
+          "signature": "String auth(CharSequence password)",
+          "params": [
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "String auth(String username, CharSequence password)",
+          "params": [
+            {
+              "name": "username",
+              "type": "String",
+              "description": "The username"
+            },
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "String",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_async": [
+        {
+          "signature": "RedisFuture<String> auth(CharSequence password)",
+          "params": [
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "RedisFuture<String> auth(String username, CharSequence password)",
+          "params": [
+            {
+              "name": "username",
+              "type": "String",
+              "description": "The username"
+            },
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "RedisFuture<String>",
+            "description": "OK"
+          }
+        }
+      ],
+      "lettuce_reactive": [
+        {
+          "signature": "Mono<String> auth(CharSequence password)",
+          "params": [
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        },
+        {
+          "signature": "Mono<String> auth(String username, CharSequence password)",
+          "params": [
+            {
+              "name": "username",
+              "type": "String",
+              "description": "The username"
+            },
+            {
+              "name": "password",
+              "type": "CharSequence",
+              "description": "The password"
+            }
+          ],
+          "returns": {
+            "type": "Mono<String>",
+            "description": "OK"
+          }
+        }
+      ],
       "nredisstack_sync": [],
       "nredisstack_async": [],
       "php": [

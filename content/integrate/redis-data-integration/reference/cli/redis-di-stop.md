@@ -21,9 +21,9 @@ The pipeline name is an optional argument that defaults to `default`.
 
 ## Options
 
-| Option | Description |
-| :-- | :-- |
-| `--wait` | Wait for the pipeline to reach the expected state (default `true`). |
+| Option      | Description                                                                       |
+| :---------- | :-------------------------------------------------------------------------------- |
+| `--wait`    | Wait for the pipeline to reach the expected state (default `true`).               |
 | `--timeout` | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
 
 This command also accepts the

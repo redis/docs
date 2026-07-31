@@ -12,44 +12,29 @@ bannerText: Feature Form is currently in preview and subject to change. Feature 
 bannerChildren: true
 ---
 
-Feature Form runs as a Kubernetes-based platform for feature engineering and online feature serving. Use this section to prepare your environment, choose a deployment method, install Feature Form, and verify that the platform is ready for application teams.
+Deploy and operate Feature Form on Kubernetes: prepare your environment, install the Helm chart, configure authentication, and verify the platform.
 
-These docs are cloud-neutral in framing. Where Terraform examples are useful, request them from your Redis account team.
+This section is for platform engineers and admins. Building features in Feature Form rather than deploying it? See the [develop docs]({{< relref "/develop/ai/featureform" >}}).
 
-Use this section to decide how you want to install Feature Form before you create workspaces or register providers.
+Start with [Deploy]({{< relref "/operate/featureform/deploy" >}}) for the install steps, and [Configure authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}) for OIDC and roles.
+
+The default install path is cloud-agnostic. For Terraform examples, contact your Redis account team.
 
 ## Deployment model
 
 The Helm chart deploys:
 
-- one shared API server deployment that exposes both REST and gRPC
-- separate services for REST and gRPC
-- an optional dashboard
-- optional addons for Postgres state, provider infrastructure, and observability
+- One shared API server deployment that exposes both REST and gRPC.
+- Separate services for REST and gRPC.
+- An optional dashboard.
+- Optional addons: bundled Postgres state, bundled provider infrastructure (Postgres, Redis, MinIO, LocalStack), and observability (Prometheus, Grafana).
 
-Authentication is required. Standard installs need OIDC configuration.
+Authentication is required. Standard installs use [OIDC]({{< relref "/operate/featureform/configure-auth" >}}).
 
-## State-backend choices
+## Decisions you'll make during install
 
-- External PostgreSQL: the durable default for shared deployments
-- Bundled state PostgreSQL: useful for self-contained evaluation or test installs
-- Memory state: local or CI only, not durable
+- **State backend.** External PostgreSQL (the durable default), the chart's bundled state Postgres, or memory state (CI and local only — not durable). See [Choose auth and state values]({{< relref "/operate/featureform/deploy#2-choose-auth-and-state-values" >}}).
+- **Exposure.** Internal-only services, per-service ingresses, unified ingress, or direct `LoadBalancer` services. See [Configure external access]({{< relref "/operate/featureform/deploy#configure-external-access" >}}).
+- **Helm profile.** Base chart, or one of four bundled profiles for memory state, provider stack, observability, or both. See [Pick the base chart or a profile]({{< relref "/operate/featureform/deploy#3-pick-the-base-chart-or-a-profile" >}}).
 
-With memory state, gRPC and REST do not share one durable graph. Keep that in mind when troubleshooting “missing” workspaces or resources.
-
-## Exposure choices
-
-- internal-only services
-- service-specific ingresses
-- unified ingress
-- direct `LoadBalancer` services
-
-Do not combine unified ingress with service-specific ingress settings.
-
-## Helm profiles
-
-- base chart
-- `profiles/memory.yaml`
-- `profiles/provider-stack.yaml`
-- `profiles/observability-postgres.yaml`
-- `profiles/provider-observability.yaml`
+If workspaces or resources seem to be missing after a restart, memory state is usually the cause — REST and gRPC see different in-memory data.

@@ -19,8 +19,8 @@ redis-di describe-job <name> [flags]
 
 ## Options
 
-| Option | Description |
-| :-- | :-- |
+| Option             | Description                             |
+| :----------------- | :-------------------------------------- |
 | `-p`, `--pipeline` | Pipeline to target (default `default`). |
 
 This command also accepts the

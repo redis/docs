@@ -50,7 +50,7 @@ The way you access the metrics endpoints depends on whether you are using a VM i
 
 For VM installations, the metrics are available by default on the following endpoints:
 - Collector metrics: `https://<RDI_HOST>/collector-source/metrics`
-- Stream processor metrics: `https://<RDI_HOST>/metrics`
+- Stream processor metrics: `https://<RDI_HOST>/processor/metrics`
 - Operator metrics: `https://<RDI_HOST>/operator/metrics`
 
 Please note that for RDI versions prior to 1.16.0 the collector metrics are not accessible.

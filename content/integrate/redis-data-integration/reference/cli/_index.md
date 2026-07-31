@@ -29,6 +29,11 @@ installation types: [VM]({{< relref "/integrate/redis-data-integration/installat
 [Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}), and Redis Cloud.
 Use it to deploy pipelines, manage secrets, inspect status and metrics, and read rejected records.
 
+{{< note >}}RDI 1.19.0 introduced the current API-based CLI. If you are moving from an earlier RDI version,
+see [Compare the previous and current RDI CLI]({{< relref "/integrate/redis-data-integration/reference/cli/previous-cli-comparison" >}})
+for the connection, context, command, and output changes.
+{{< /note >}}
+
 ## Connecting to the API
 
 Most commands connect to the RDI API, which you specify with the `--api-url` option (or the
@@ -51,7 +56,7 @@ Passwords and user keys are secrets and are never stored on disk.
 
 ## Contexts
 
-Instead of passing the connection options on every command, you can save them in a *context*.
+Instead of passing the connection options on every command, you can save them in a _context_.
 Contexts are stored in a `~/.redis-di` file that holds a map of named contexts and the active one,
 similar to a `kubeconfig` file. Each context sets an `api-url`, an optional `user` or `account-key`,
 and either a `cacert` or `insecure: true`. Secrets (the password and user key) are never stored, so

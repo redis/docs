@@ -82,7 +82,6 @@ One or more fields whose values to retrieve.
 1) "Hello"
 2) "World"
 3) (nil)
->
 {{< /clients-example >}}
 
 ## Redis Software and Redis Cloud compatibility

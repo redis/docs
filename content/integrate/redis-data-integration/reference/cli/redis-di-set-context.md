@@ -32,9 +32,9 @@ and `--insecure`.
 
 ## Options
 
-| Option | Description |
-| :-- | :-- |
-| `--unset-user` | Clear the stored user, so the context authenticates without a user. |
+| Option                | Description                                                                                   |
+| :-------------------- | :-------------------------------------------------------------------------------------------- |
+| `--unset-user`        | Clear the stored user, so the context authenticates without a user.                           |
 | `--unset-account-key` | Clear the stored account key, so the context authenticates without a Redis Cloud account key. |
 
 This command also accepts the

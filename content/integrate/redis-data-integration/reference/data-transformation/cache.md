@@ -37,11 +37,11 @@ output expressions:
 
 **Properties**
 
-| Name          | Type      | Description                                                       | Required | Default |
-| ------------- | --------- | ----------------------------------------------------------------- | -------- | ------- |
-| **enabled**   | `boolean` | Set to `true` to enable caching.                                  | no       | `false` |
-| **max_size**  | `integer` | Maximum number of entries kept in the cache. Must be positive.    | no       | `1000`  |
-| **ttl_seconds** | `integer` | Time-to-live for each entry, in seconds. Must be positive.      | no       | `60`    |
+| Name            | Type      | Description                                                    | Required | Default |
+| --------------- | --------- | -------------------------------------------------------------- | -------- | ------- |
+| **enabled**     | `boolean` | Set to `true` to enable caching.                               | no       | `false` |
+| **max_size**    | `integer` | Maximum number of entries kept in the cache. Must be positive. | no       | `1000`  |
+| **ttl_seconds** | `integer` | Time-to-live for each entry, in seconds. Must be positive.     | no       | `60`    |
 
 **Additional Properties:** not allowed
 
