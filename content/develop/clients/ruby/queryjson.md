@@ -1,5 +1,4 @@
 ---
-bannerText: The redis-rb Query Engine support shown here is not yet available in a released gem and is subject to change.
 categories:
 - docs
 - develop
@@ -29,6 +28,9 @@ for [JSON]({{< relref "/develop/data-types/json" >}}) documents and
 run queries against the index. It then goes on to show the slight differences
 in the equivalent code for [hash]({{< relref "/develop/data-types/hashes" >}})
 documents.
+
+{{< note >}}The redis-rb Query Engine requires redis-rb v6.0.0 or later.
+{{< /note >}}
 
 {{< note >}}`redis-rb` uses query dialect 2 by default.
 Redis Search methods such as [`search()`]({{< relref "/commands/ft.search" >}})
