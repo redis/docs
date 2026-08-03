@@ -27,13 +27,17 @@ Both tiers run on either of two backends, selected per service with a `backend` 
 
 | Backend | `backend` value | What it is |
 |---------|-----------------|------------|
-| **Redis Agent Memory** | `redis-agent-memory` (default) | Managed service. Provision a store and pass its endpoint, API key, and store ID. Nothing to run. |
-| **Agent Memory Server** | `opensource-agent-memory` | [Self-hosted](https://github.com/redis/agent-memory-server). You run the server. |
+| **[Redis Agent Memory](https://redis.io/agent-memory/)** | `redis-agent-memory` (default) | Managed service. Provision a store and pass its endpoint, API key, and store ID. Nothing to run. |
+| **Agent Memory Server** (deprecated) | `opensource-agent-memory` | [Self-hosted](https://github.com/redis/agent-memory-server). You run the server. Deprecated: use [Redis Agent Memory](https://redis.io/agent-memory/) for new work. |
 
-Feature availability differs:
+Use [Redis Agent Memory](https://redis.io/agent-memory/) for new work. The
+self-hosted Agent Memory Server backend is deprecated and documented here for
+existing deployments.
 
-| Feature | Managed | Self-hosted |
-|---------|---------|-------------|
+Feature availability differs today:
+
+| Feature | Managed | Self-hosted (deprecated) |
+|---------|---------|--------------------------|
 | Session persistence | Yes | Yes |
 | Long-term memory search | Yes | Yes |
 | Memory tools (REST) | Yes | Yes |
@@ -41,6 +45,10 @@ Feature availability differs:
 | Auto-summarization | No | Yes |
 | Extraction strategies | No | Yes |
 | MCP endpoint | No | Yes |
+
+Some capabilities are currently self-hosted only. If your agent depends on one
+of them, factor that into your migration timing rather than treating the
+self-hosted backend as a long-term target.
 
 The managed backend is the default. If you point a service at a local Agent
 Memory Server without setting `backend="opensource-agent-memory"`, the service

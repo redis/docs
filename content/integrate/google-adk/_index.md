@@ -26,8 +26,8 @@ weight: 30
 adk-redis connects several backend systems to the ADK framework:
 
 - **Memory backends** power the session and long-term memory services. Pick one per service with a `backend` field:
-  - **Redis Agent Memory** (`redis-agent-memory`, the default) is the managed service. You provision a store and supply an endpoint, API key, and store ID. No infrastructure to run.
-  - **[Agent Memory Server](https://github.com/redis/agent-memory-server)** (`opensource-agent-memory`) is the self-hosted option. It adds auto-summarization, extraction strategies, recency-boosted search, and an MCP endpoint.
+  - **[Redis Agent Memory](https://redis.io/agent-memory/)** (`redis-agent-memory`, the default) is the managed service. You provision a store and supply an endpoint, API key, and store ID. No infrastructure to run. Use this for new work.
+  - **[Agent Memory Server](https://github.com/redis/agent-memory-server)** (`opensource-agent-memory`) is the self-hosted option, now deprecated. It is documented for existing deployments and currently remains the only backend offering auto-summarization, extraction strategies, recency-boosted search, and an MCP endpoint.
 - **[RedisVL]({{< relref "/develop/ai/redisvl" >}})** (Redis Vector Library) powers the search tools and local semantic cache provider.
 - **[LangCache](https://redis.io/langcache/)** provides managed semantic caching with server-side embeddings.
 
@@ -37,14 +37,14 @@ See [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >
 
 - **Redis 8.4+** with vector search support, for the search tools and the local semantic cache
 - **A memory backend**, for the session and memory services:
-  - A **Redis Agent Memory** store, which gives you an endpoint, an API key, and a store ID, or
-  - A self-hosted **Agent Memory Server**
+  - A **[Redis Agent Memory](https://redis.io/agent-memory/)** store, which gives you an endpoint, an API key, and a store ID, or
+  - A self-hosted **Agent Memory Server** (deprecated)
 
 ### Managed Redis Agent Memory
 
-This is the default backend. Provision a store, then pass its endpoint, API key, and store ID to the services. There is nothing to run locally.
+This is the default backend and the recommended one. Provision a [Redis Agent Memory](https://redis.io/agent-memory/) store, then pass its endpoint, API key, and store ID to the services. There is nothing to run locally.
 
-### Self-hosted Agent Memory Server
+### Self-hosted Agent Memory Server (deprecated)
 
 ```bash
 # Start Redis
