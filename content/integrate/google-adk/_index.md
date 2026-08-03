@@ -23,16 +23,28 @@ weight: 30
 
 ## Architecture
 
-adk-redis connects three backend systems to the ADK framework:
+adk-redis connects several backend systems to the ADK framework:
 
-- **[Redis Agent Memory Server](https://github.com/redis/agent-memory-server)** handles working memory (sessions), long-term memory (extracted facts), auto-summarization, and memory search.
+- **Memory backends** power the session and long-term memory services. Pick one per service with a `backend` field:
+  - **Redis Agent Memory** (`redis-agent-memory`, the default) is the managed service. You provision a store and supply an endpoint, API key, and store ID. No infrastructure to run.
+  - **[Agent Memory Server](https://github.com/redis/agent-memory-server)** (`opensource-agent-memory`) is the self-hosted option. It adds auto-summarization, extraction strategies, recency-boosted search, and an MCP endpoint.
 - **[RedisVL]({{< relref "/develop/ai/redisvl" >}})** (Redis Vector Library) powers the search tools and local semantic cache provider.
 - **[LangCache](https://redis.io/langcache/)** provides managed semantic caching with server-side embeddings.
 
+See [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) for the feature-by-feature comparison of the two memory backends.
+
 ## Prerequisites
 
-- **Redis 8.4+** with vector search support
-- **Agent Memory Server** for memory and session services
+- **Redis 8.4+** with vector search support, for the search tools and the local semantic cache
+- **A memory backend**, for the session and memory services:
+  - A **Redis Agent Memory** store, which gives you an endpoint, an API key, and a store ID, or
+  - A self-hosted **Agent Memory Server**
+
+### Managed Redis Agent Memory
+
+This is the default backend. Provision a store, then pass its endpoint, API key, and store ID to the services. There is nothing to run locally.
+
+### Self-hosted Agent Memory Server
 
 ```bash
 # Start Redis
@@ -53,10 +65,14 @@ On Linux, `host.docker.internal` does not resolve by default. Use
 `REDIS_URL` at the Docker bridge gateway (typically
 `redis://172.17.0.1:6379`).
 
+Remember to set `backend="opensource-agent-memory"` on each service config when
+you use the self-hosted server. Otherwise the services target the managed
+backend and will not reach your local container.
+
 ## Installation
 
 ```bash
-# Memory and session services (requires Agent Memory Server)
+# Memory and session services (both backends)
 pip install adk-redis[memory]
 
 # Search tools via RedisVL
@@ -75,32 +91,41 @@ pip install adk-redis[all]
 pip install 'redisvl[mcp]>=0.18.2'
 ```
 
+The `memory` extra requires `redis-agent-memory>=0.2.0` for the managed backend
+and `agent-memory-client>=0.14.0` for the self-hosted one.
+
 ## Quick start
 
-Wire up Redis Agent Memory in a few lines:
+Wire up managed Redis Agent Memory in a few lines:
 
 ```python
 from google.adk import Agent
 from google.adk.agents.callback_context import CallbackContext
 from google.adk.runners import Runner
 from adk_redis.sessions import (
-    RedisWorkingMemorySessionService,
-    RedisWorkingMemorySessionServiceConfig,
+    RedisSessionMemoryService,
+    RedisSessionMemoryServiceConfig,
 )
 from adk_redis.memory import (
     RedisLongTermMemoryService,
     RedisLongTermMemoryServiceConfig,
 )
 
-session_service = RedisWorkingMemorySessionService(
-    config=RedisWorkingMemorySessionServiceConfig(
-        api_base_url="http://localhost:8088",
+session_service = RedisSessionMemoryService(
+    config=RedisSessionMemoryServiceConfig(
+        backend="redis-agent-memory",
+        api_base_url="https://your-endpoint.redis.io",
+        api_key="your-api-key",
+        store_id="your-store-id",
         default_namespace="my_app",
     )
 )
 memory_service = RedisLongTermMemoryService(
     config=RedisLongTermMemoryServiceConfig(
-        api_base_url="http://localhost:8088",
+        backend="redis-agent-memory",
+        api_base_url="https://your-endpoint.redis.io",
+        api_key="your-api-key",
+        store_id="your-store-id",
         default_namespace="my_app",
     )
 )
@@ -123,15 +148,20 @@ runner = Runner(
 )
 ```
 
+To run against a self-hosted Agent Memory Server instead, set
+`backend="opensource-agent-memory"`, point `api_base_url` at the server (for
+example `http://localhost:8088`), and drop `api_key` and `store_id` unless your
+server requires them.
+
 ## Capabilities
 
 | Capability | Description | Page |
 |------------|-------------|------|
-| **Redis Agent Memory** | Working and long-term memory via framework services, REST tools, or MCP | [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) |
+| **Redis Agent Memory** | Session and long-term memory on the managed or self-hosted backend, via framework services, REST tools, or MCP | [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) |
 | **Integration patterns** | Framework-managed, LLM-controlled REST, and MCP tools | [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}) |
 | **Search tools** | Vector, hybrid, text, range, and SQL search via RedisVL, plus the `rvl mcp` server over `McpToolset` | [Search tools]({{< relref "/integrate/google-adk/search-tools" >}}) |
-| **Semantic caching** | LLM response and tool result caching | [Semantic caching]({{< relref "/integrate/google-adk/semantic-caching" >}}) |
-| **Examples** | Nine complete examples covering all capabilities | [Examples]({{< relref "/integrate/google-adk/examples" >}}) |
+| **Semantic caching** | LLM response and tool result caching, with stable entry IDs and targeted invalidation | [Semantic caching]({{< relref "/integrate/google-adk/semantic-caching" >}}) |
+| **Examples** | Ten complete examples covering all capabilities | [Examples]({{< relref "/integrate/google-adk/examples" >}}) |
 
 ## More info
 
