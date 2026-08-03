@@ -25,7 +25,7 @@ All examples require:
 
 - **Python 3.10+**
 - **Redis 8.4+**: `docker run -d --name redis -p 6379:6379 redis:8.4-alpine`
-- **Agent Memory Server** (for memory examples): See [setup instructions](https://github.com/redis/agent-memory-server)
+- **Redis Agent Memory Server** (for memory examples): See [setup instructions](https://github.com/redis/agent-memory-server)
 - **API keys**: Most examples need a `GOOGLE_API_KEY` for Gemini
 
 ## `simple_redis_memory`
@@ -56,7 +56,7 @@ Uses REST-based memory tools exclusively, without framework-managed services. Th
 
 **Capability:** MCP memory tools
 
-Demonstrates MCP-based memory integration. The agent connects to the Agent Memory Server via SSE and manages semantic and episodic memories for workout tracking.
+Demonstrates MCP-based memory integration. The agent connects to the Redis Agent Memory Server via SSE and manages semantic and episodic memories for workout tracking.
 
 [View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/fitness_coach_mcp)
 

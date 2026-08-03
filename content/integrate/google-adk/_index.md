@@ -32,13 +32,13 @@ adk-redis connects three backend systems to the ADK framework:
 ## Prerequisites
 
 - **Redis 8.4+** with vector search support
-- **Agent Memory Server** for memory and session services
+- **Redis Agent Memory Server** for memory and session services
 
 ```bash
 # Start Redis
 docker run -d --name redis -p 6379:6379 redis:8.4-alpine
 
-# Start Agent Memory Server
+# Start Redis Agent Memory Server
 docker run -d --name agent-memory-server -p 8088:8088 \
   -e REDIS_URL=redis://host.docker.internal:6379 \
   -e GEMINI_API_KEY=your-key \
@@ -56,7 +56,7 @@ On Linux, `host.docker.internal` does not resolve by default. Use
 ## Installation
 
 ```bash
-# Memory and session services (requires Agent Memory Server)
+# Memory and session services (requires Redis Agent Memory Server)
 pip install adk-redis[memory]
 
 # Search tools via RedisVL
