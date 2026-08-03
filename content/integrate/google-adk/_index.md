@@ -26,8 +26,8 @@ weight: 30
 adk-redis connects several backend systems to the ADK framework:
 
 - **Memory backends** power the session and long-term memory services. Pick one per service with a `backend` field:
-  - **[Redis Agent Memory](https://redis.io/agent-memory/)** (`redis-agent-memory`, the default) is the managed service. You provision a store and supply an endpoint, API key, and store ID. No infrastructure to run. Use this for new work.
-  - **[Agent Memory Server](https://github.com/redis/agent-memory-server)** (`opensource-agent-memory`) is the self-hosted option, now deprecated. It is documented for existing deployments and currently remains the only backend offering auto-summarization, extraction strategies, recency-boosted search, and an MCP endpoint.
+  - **[Redis Agent Memory](https://redis.io/agent-memory/)** (`redis-agent-memory`, the default) is the Agent Memory service. Use this for new work. It runs either on [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory" >}}) or [self-managed]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) on your own Kubernetes cluster; both share one Data Plane API, so you pick a deployment by pointing `api_base_url` at the right endpoint.
+  - **[Agent Memory Server](https://github.com/redis/agent-memory-server)** (`opensource-agent-memory`) is the open source memory server, now deprecated. It is documented for existing deployments and currently remains the only backend offering auto-summarization, extraction strategies, recency-boosted search, and an MCP endpoint.
 - **[RedisVL]({{< relref "/develop/ai/redisvl" >}})** (Redis Vector Library) powers the search tools and local semantic cache provider.
 - **[LangCache](https://redis.io/langcache/)** provides managed semantic caching with server-side embeddings.
 
@@ -37,14 +37,19 @@ See [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >
 
 - **Redis 8.4+** with vector search support, for the search tools and the local semantic cache
 - **A memory backend**, for the session and memory services:
-  - A **[Redis Agent Memory](https://redis.io/agent-memory/)** store, which gives you an endpoint, an API key, and a store ID, or
-  - A self-hosted **Agent Memory Server** (deprecated)
+  - A **[Redis Agent Memory](https://redis.io/agent-memory/)** store, on Redis Cloud or self-managed, which gives you a Data Plane endpoint, an API key, and a store ID, or
+  - An **Agent Memory Server** (deprecated)
 
-### Managed Redis Agent Memory
+### Redis Agent Memory
 
-This is the default backend and the recommended one. Provision a [Redis Agent Memory](https://redis.io/agent-memory/) store, then pass its endpoint, API key, and store ID to the services. There is nothing to run locally.
+This is the default backend and the recommended one. Provision a store, then pass its Data Plane endpoint, API key, and store ID to the services.
 
-### Self-hosted Agent Memory Server (deprecated)
+- On **Redis Cloud**, there is nothing to run. See [Create an Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}).
+- To run it **yourself**, see [Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) for deployment, configuration, and operations on your own Kubernetes cluster.
+
+Both use `backend="redis-agent-memory"`. Only `api_base_url` differs.
+
+### Agent Memory Server (deprecated)
 
 ```bash
 # Start Redis
@@ -66,8 +71,8 @@ On Linux, `host.docker.internal` does not resolve by default. Use
 `redis://172.17.0.1:6379`).
 
 Remember to set `backend="opensource-agent-memory"` on each service config when
-you use the self-hosted server. Otherwise the services target the managed
-backend and will not reach your local container.
+you use Agent Memory Server. Otherwise the services speak the Data Plane API
+and will not reach your local container.
 
 ## Installation
 
@@ -91,12 +96,13 @@ pip install adk-redis[all]
 pip install 'redisvl[mcp]>=0.18.2'
 ```
 
-The `memory` extra requires `redis-agent-memory>=0.2.0` for the managed backend
-and `agent-memory-client>=0.14.0` for the self-hosted one.
+The `memory` extra requires `redis-agent-memory>=0.2.0` for the
+`redis-agent-memory` backend and `agent-memory-client>=0.14.0` for the
+deprecated `opensource-agent-memory` backend.
 
 ## Quick start
 
-Wire up managed Redis Agent Memory in a few lines:
+Wire up Redis Agent Memory in a few lines:
 
 ```python
 from google.adk import Agent
@@ -148,7 +154,7 @@ runner = Runner(
 )
 ```
 
-To run against a self-hosted Agent Memory Server instead, set
+To run against the deprecated Agent Memory Server instead, set
 `backend="opensource-agent-memory"`, point `api_base_url` at the server (for
 example `http://localhost:8088`), and drop `api_key` and `store_id` unless your
 server requires them.
@@ -157,7 +163,7 @@ server requires them.
 
 | Capability | Description | Page |
 |------------|-------------|------|
-| **Redis Agent Memory** | Session and long-term memory on the managed or self-hosted backend, via framework services, REST tools, or MCP | [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) |
+| **Redis Agent Memory** | Session and long-term memory on Redis Cloud, self-managed, or the deprecated Agent Memory Server, via framework services, REST tools, or MCP | [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) |
 | **Integration patterns** | Framework-managed, LLM-controlled REST, and MCP tools | [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}) |
 | **Search tools** | Vector, hybrid, text, range, and SQL search via RedisVL, plus the `rvl mcp` server over `McpToolset` | [Search tools]({{< relref "/integrate/google-adk/search-tools" >}}) |
 | **Semantic caching** | LLM response and tool result caching, with stable entry IDs and targeted invalidation | [Semantic caching]({{< relref "/integrate/google-adk/semantic-caching" >}}) |

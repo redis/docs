@@ -23,14 +23,15 @@ adk-redis offers three distinct approaches for connecting agents to memory. Each
 
 | Approach | Control | Complexity | Protocol | Backends | Best for |
 |----------|---------|-----------|----------|----------|----------|
-| **ADK services** | Framework | Low | HTTP | Managed and self-hosted | Invisible infrastructure |
-| **REST tools** | LLM | Medium | HTTP | Managed and self-hosted | Explicit memory management |
-| **MCP tools** | LLM | Medium | SSE | Self-hosted only | Standardized, portable |
+| **ADK services** | Framework | Low | HTTP | Both backends | Invisible infrastructure |
+| **REST tools** | LLM | Medium | HTTP | Both backends | Explicit memory management |
+| **MCP tools** | LLM | Medium | SSE | Agent Memory Server only | Standardized, portable |
 
 All three approaches select a memory backend with a `backend` field:
-`"redis-agent-memory"` (managed, the default) or `"opensource-agent-memory"`
-(self-hosted). See [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory#choose-a-memory-backend" >}})
-for the feature comparison.
+`"redis-agent-memory"` (the default, on Redis Cloud or self-managed) or the
+deprecated `"opensource-agent-memory"` (Agent Memory Server). See
+[Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory#choose-a-memory-backend" >}})
+for the feature comparison and the deployment options.
 
 ## 1. ADK services (framework-managed)
 
@@ -113,8 +114,8 @@ agent = Agent(
 Point ADK's native `McpToolset` at the Agent Memory Server's SSE endpoint. Tool discovery happens automatically.
 
 {{< note >}}
-The MCP endpoint is a self-hosted Agent Memory Server feature. The managed
-`redis-agent-memory` backend does not expose one.
+The MCP endpoint is an Agent Memory Server feature. The `redis-agent-memory`
+backend does not expose one, on Redis Cloud or self-managed.
 {{< /note >}}
 
 ```python
@@ -178,8 +179,8 @@ The [travel_agent_memory_hybrid](https://github.com/redis-developer/adk-redis/tr
 
 ## More info
 
-- [managed_memory_quickstart](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart): Framework services on the managed backend
-- [simple_redis_memory](https://github.com/redis-developer/adk-redis/tree/main/examples/simple_redis_memory): Framework services on the self-hosted backend
+- [managed_memory_quickstart](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart): Framework services on Redis Agent Memory
+- [simple_redis_memory](https://github.com/redis-developer/adk-redis/tree/main/examples/simple_redis_memory): Framework services on Agent Memory Server
 - [travel_agent_memory_tools](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_tools): REST tools only
 - [fitness_coach_mcp](https://github.com/redis-developer/adk-redis/tree/main/examples/fitness_coach_mcp): MCP tools
 - [Car dealership tutorial](https://redis.io/tutorials/build-a-car-dealership-agent-with-google-adk-and-redis-agent-memory/)

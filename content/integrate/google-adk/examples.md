@@ -25,32 +25,32 @@ All examples require:
 
 - **Python 3.10+**
 - **Redis 8.4+**: `docker run -d --name redis -p 6379:6379 redis:8.4-alpine`
-- **A memory backend** (for memory examples): a managed [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) store, or a self-hosted [Agent Memory Server](https://github.com/redis/agent-memory-server)
+- **A memory backend** (for memory examples): a [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) store on Redis Cloud or self-managed, or a deprecated [Agent Memory Server](https://github.com/redis/agent-memory-server)
 - **API keys**: Most examples need a `GOOGLE_API_KEY` for Gemini
 
 Each memory example is written against a specific backend, noted below. The
 examples that use auto-summarization, extraction strategies, recency-boosted
-search, or MCP require the self-hosted backend.
+search, or MCP require the Agent Memory Server backend.
 
 ## `managed_memory_quickstart`
 
-**Backend:** `redis-agent-memory` (managed) &middot; **Run:** `python main.py`
+**Backend:** `redis-agent-memory` &middot; **Run:** `python main.py`
 
-The smallest memory example, and the counterpart to `simple_redis_memory`. Uses the managed backend, so there is no Agent Memory Server and no Docker to set up. Wires `RedisSessionMemoryService` and `RedisLongTermMemoryService` to an agent with ADK's built-in `preload_memory` and `load_memory` tools. Intentionally avoids self-hosted-only features.
+The smallest memory example, and the counterpart to `simple_redis_memory`. Uses `redis-agent-memory`, so there is no Agent Memory Server and no Docker to set up. Wires `RedisSessionMemoryService` and `RedisLongTermMemoryService` to an agent with ADK's built-in `preload_memory` and `load_memory` tools. Intentionally avoids Agent Memory Server only features.
 
 [View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart)
 
 ## `simple_redis_memory`
 
-**Backend:** `opensource-agent-memory` (self-hosted) &middot; **Run:** `python main.py`
+**Backend:** `opensource-agent-memory` (Agent Memory Server) &middot; **Run:** `python main.py`
 
-Minimal starting point for the self-hosted backend. Wires up `RedisSessionMemoryService` and `RedisLongTermMemoryService` with a basic conversational agent, including auto-summarization and extraction. No search tools, no caching: just memory.
+Minimal starting point for the Agent Memory Server backend. Wires up `RedisSessionMemoryService` and `RedisLongTermMemoryService` with a basic conversational agent, including auto-summarization and extraction. No search tools, no caching: just memory.
 
 [View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/simple_redis_memory)
 
 ## `travel_agent_memory_hybrid`
 
-**Backend:** `opensource-agent-memory` (self-hosted) &middot; **Run:** `python main.py`
+**Backend:** `opensource-agent-memory` (Agent Memory Server) &middot; **Run:** `python main.py`
 
 The most complete example. Combines framework-managed memory services with LLM-controlled memory tools, web search, itinerary planning, and calendar export. Demonstrates the [hybrid integration pattern]({{< relref "/integrate/google-adk/integration-patterns#hybrid-approach" >}}).
 
@@ -58,17 +58,17 @@ The most complete example. Combines framework-managed memory services with LLM-c
 
 ## `travel_agent_memory_tools`
 
-**Backend:** `opensource-agent-memory` (self-hosted), switchable &middot; **Run:** `adk web .`
+**Backend:** `opensource-agent-memory` (Agent Memory Server), switchable &middot; **Run:** `adk web .`
 
-Uses REST-based memory tools exclusively, without framework-managed services. The LLM has full control over when to search, create, update, and delete memories. Set `REDIS_MEMORY_BACKEND` to switch this example to the managed backend.
+Uses REST-based memory tools exclusively, without framework-managed services. The LLM has full control over when to search, create, update, and delete memories. Set `REDIS_MEMORY_BACKEND` to switch this example to `redis-agent-memory`.
 
 [View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_tools)
 
 ## `fitness_coach_mcp`
 
-**Backend:** `opensource-agent-memory` (self-hosted) only &middot; **Run:** `adk web .`
+**Backend:** `opensource-agent-memory` (Agent Memory Server) only &middot; **Run:** `adk web .`
 
-Demonstrates MCP-based memory integration. The agent connects to the Agent Memory Server's SSE endpoint with ADK's native `McpToolset` and manages semantic and episodic memories for workout tracking. The managed backend has no MCP endpoint, so this example is self-hosted only.
+Demonstrates MCP-based memory integration. The agent connects to the Agent Memory Server's SSE endpoint with ADK's native `McpToolset` and manages semantic and episodic memories for workout tracking. `redis-agent-memory` has no MCP endpoint, so this example runs on Agent Memory Server only.
 
 [View on GitHub](https://github.com/redis-developer/adk-redis/tree/main/examples/fitness_coach_mcp)
 
