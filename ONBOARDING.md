@@ -896,23 +896,7 @@ The docs use Hugo shortcodes for formatting. Claude knows all of these — just 
 
 ## Documentation maturity levels
 
-Every feature or product on the docs site has a documentation maturity level. The level tells contributors what documentation is required and how to treat incomplete or unstable content. Match your docs effort to the level — don't over-document a beta, and don't under-document a GA.
-
----
-
-### Beta
-
-The feature is early-stage. APIs and behavior may change before release. Documentation is **best-effort** — cover what exists, but don't invest heavily in completeness.
-
-**Required:**
-- A page or section exists (can be minimal)
-- A beta banner on every affected page:
-  ```yaml
-  bannerText: [Feature name] is in beta and subject to change.
-  bannerChildren: true
-  ```
-
-**Not required at this stage:** complete task coverage, conceptual docs, best practices, troubleshooting, or reference docs.
+Every feature or product on the docs site has a documentation maturity level. The level tells contributors what documentation is required and how to treat incomplete or unstable content. Match your docs effort to the level — don't under-document a GA.
 
 ---
 
@@ -922,13 +906,14 @@ The feature is stabilizing. It's on the public site and customers may be using i
 
 **Required:**
 - All tasks documented (setup, configuration, key workflows)
+- All conceptual documentation — what it is, how it works, when to use it, key architectural concepts
 - A preview banner on every affected page:
   ```yaml
   bannerText: [Feature name] is currently in preview and subject to change.
   bannerChildren: true
   ```
 
-**Not required yet:** full conceptual coverage, best practices, troubleshooting, or reference docs — but these are good to start building.
+**Not required yet:** best practices, troubleshooting, or reference docs — but these are good to start building.
 
 ---
 
@@ -937,7 +922,6 @@ The feature is stabilizing. It's on the public site and customers may be using i
 The feature is fully released and stable. Documentation must be **complete**. This is the full set on top of what Preview required.
 
 **Required (everything in Preview, plus):**
-- All conceptual documentation — what it is, how it works, when to use it, key architectural concepts
 - Best practices
 - Troubleshooting guide
 - Full reference documentation (configuration options, API reference, CLI reference as applicable)
@@ -972,19 +956,19 @@ The page should open with an exciting, welcoming introduction that leads with wh
 
 ### Quick reference
 
-| | Beta | Preview | GA | GA Tier 1 |
-|---|---|---|---|---|
-| Banner | Beta banner | Preview banner | None | None |
-| All tasks documented | No | **Yes** | Yes | Yes |
-| Conceptual docs | No | No | **Yes** | Yes |
-| Best practices | No | No | **Yes** | Yes |
-| Troubleshooting | No | No | **Yes** | Yes |
-| Reference docs | No | No | **Yes** | Yes |
-| Release notes / what's new | No | No | **Yes** | Yes |
-| Supported versions updated | No | No | **Yes** | Yes |
-| Formal landing page with image cards | No | No | No | **Yes** |
-| Welcoming, excitement-generating tone | No | No | No | **Yes** |
-| Cross-linked from related pages | No | No | No | **Yes** |
+| | Preview | GA | GA Tier 1 |
+|---|---|---|---|
+| Banner | Preview banner | None | None |
+| All tasks documented | **Yes** | Yes | Yes |
+| Conceptual docs | **Yes** | Yes | Yes |
+| Best practices | No | **Yes** | Yes |
+| Troubleshooting | No | **Yes** | Yes |
+| Reference docs | No | **Yes** | Yes |
+| Release notes / what's new | No | **Yes** | Yes |
+| Supported versions updated | No | **Yes** | Yes |
+| Formal landing page with image cards | No | No | **Yes** |
+| Welcoming, excitement-generating tone | No | No | **Yes** |
+| Cross-linked from related pages | No | No | **Yes** |
 
 ---
 
