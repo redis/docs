@@ -15,7 +15,9 @@ stack: true
 title: Redis Search tutorial
 aliases:
 - /get-started/search-tutorial/
-weight: 5
+- /get-started/document-database/
+- /develop/get-started/document-database/
+weight: 2
 ---
 
 This tutorial is a guided, hands-on tour of [Redis Search]({{< relref "/develop/ai/search-and-query" >}}). If you have never used Redis before, you are in the right place. You will start with a small dataset and, step by step, build up to running the same kinds of searches that power product catalogs, recommendation systems, and AI applications.
@@ -23,7 +25,7 @@ This tutorial is a guided, hands-on tour of [Redis Search]({{< relref "/develop/
 By the end, you will be able to:
 
 1. **[Model your data]({{< relref "/develop/get-started/search-tutorial/data-modeling" >}})** &mdash; decide how to store records in Redis so they can be searched, and understand the trade-offs between hashes and JSON documents.
-2. **[Create an index]({{< relref "/develop/get-started/search-tutorial/indexing" >}})** &mdash; tell Redis which fields to index and how, so queries are fast.
+2. **[Create an index]({{< relref "/develop/get-started/search-tutorial/indexing" >}})** &mdash; build a *secondary index* that tells Redis which fields to index and how, so queries are fast.
 3. **[Search and filter]({{< relref "/develop/get-started/search-tutorial/search" >}})** &mdash; find and return exactly the records you want with `FT.SEARCH`.
 4. **[Aggregate]({{< relref "/develop/get-started/search-tutorial/aggregation" >}})** &mdash; group and summarize your data with `FT.AGGREGATE`.
 5. **[Search by meaning]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})** &mdash; run vector and hybrid searches to find records by semantic similarity.
@@ -59,7 +61,7 @@ You need a running Redis instance that includes Redis Search and the JSON data t
 - **Local install** &mdash; follow the [install guide]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to run Redis Open Source on your own machine.
 
 {{% alert title="Note" color="info" %}}
-The vector and hybrid search examples in the [last step]({{< relref "/develop/get-started/search-tutorial/vector-search" >}}) use features that require **Redis 8.8 or later**. The earlier steps work on any recent version of Redis with Redis Search.
+The vector and hybrid search examples in the [last step]({{< relref "/develop/get-started/search-tutorial/vector-search" >}}) use features that require Redis 8.8 or later. The earlier steps work on any recent version of Redis with Redis Search.
 {{% /alert %}}
 
 ## Choose your tool

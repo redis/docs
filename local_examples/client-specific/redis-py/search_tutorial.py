@@ -332,6 +332,15 @@ print(res.docs)
 assert res.total == 1 and res.docs[0].id == "product:1"
 # REMOVE_END
 
+# STEP_START search_phrase
+res = index.search(Query('@description:"noise cancelling"').return_field("name"))
+print(res.total, [d.name for d in res.docs])
+# >>> 1 ['Aurora AcousticPro Headphones']
+# STEP_END
+# REMOVE_START
+assert res.total == 1 and res.docs[0].id == "product:1"
+# REMOVE_END
+
 # STEP_START search_tag
 res = index.search(Query("@category:{Audio}").return_fields("name", "price"))
 print(res.total, [d.name for d in res.docs])

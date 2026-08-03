@@ -54,6 +54,20 @@ This finds products whose `name` contains the word *headphones*:
 
 Full-text matching is case-insensitive and word-based, so `headphones` matches `Headphones`. You can also search across all `TEXT` fields at once by leaving off the `@field:` prefix; for example, `FT.SEARCH idx:catalog "wireless"` matches any product with *wireless* in its name or description.
 
+### Match an exact phrase
+
+To match an exact phrase &mdash; several words that must appear together and in order &mdash; wrap the phrase in escaped double quotes. This finds products whose description contains the phrase *noise cancelling*:
+
+{{< clients-example set="search_tutorial" step="search_phrase" description="Exact phrase: Match an ordered, contiguous phrase in a TEXT field by wrapping it in escaped double quotes" difficulty="intermediate" >}}
+> FT.SEARCH idx:catalog "@description:\"noise cancelling\"" RETURN 1 name
+1) (integer) 1
+2) "product:1"
+3) 1) "name"
+   2) "Aurora AcousticPro Headphones"
+{{< /clients-example >}}
+
+Without the quotes, `@description:noise cancelling` matches the two words independently: both must be present, but they can appear anywhere in the field and in any order. The quotes are what require them to sit together as a phrase.
+
 ## Filter by tag
 
 Fields you indexed as `TAG` match on exact values. Tag values go inside curly braces: `@field:{value}`.

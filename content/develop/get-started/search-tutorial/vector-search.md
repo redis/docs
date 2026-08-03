@@ -15,16 +15,28 @@ stack: true
 title: Vector and hybrid search
 aliases:
 - /get-started/search-tutorial/vector-search/
+- /get-started/vector-database/
+- /develop/get-started/vector-database/
 weight: 5
 ---
 
 This is the final step of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). It builds on everything so far: the [catalog]({{< relref "/develop/get-started/search-tutorial/data-modeling" >}}), the [index]({{< relref "/develop/get-started/search-tutorial/indexing" >}}), and the [search]({{< relref "/develop/get-started/search-tutorial/search" >}}) syntax.
 
 {{% alert title="Version requirement" color="warning" %}}
-The hybrid search section uses [FT.HYBRID]({{< relref "/commands/ft.hybrid" >}}), which requires **Redis 8.8 or later**. Vector search with `FT.SEARCH` works on earlier versions with Redis Search.
+The hybrid search section uses [FT.HYBRID]({{< relref "/commands/ft.hybrid" >}}), which requires Redis 8.8 or later. Vector search with `FT.SEARCH` works on earlier versions with Redis Search.
 {{% /alert %}}
 
 So far you have matched products by the words they contain and the exact values of their fields. But a shopper searching for "*something to listen to music on a run*" will not use the word *headphones* or *earbuds*, and a keyword search would miss them. **Vector search** solves this by matching on *meaning* rather than exact words.
+
+{{% alert title="Which client library?" color="info" %}}
+This tutorial performs vector search with `redis-cli` and the core Redis commands, and shows `redis-py` for Python. If you want a higher-level Python experience, [RedisVL]({{< relref "/develop/clients/redis-vl" >}}) is a client library purpose-built for vector workflows. You can also find vector search examples for the other client libraries:
+
+- [`redis-py` (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
+- [`NRedisStack` (C#/.NET)]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
+- [`node-redis` (JavaScript/Node.js)]({{< relref "/develop/clients/nodejs/vecsearch" >}})
+- [`jedis` (Java)]({{< relref "/develop/clients/jedis/vecsearch" >}})
+- [`go-redis` (Go)]({{< relref "/develop/clients/go/vecsearch" >}})
+{{% /alert %}}
 
 ## How vector search works
 
@@ -54,7 +66,7 @@ for key in r.scan_iter(match="product:*"):
     r.json().set(key, "$.embedding", embedding)
 ```
 
-When stored in a JSON document, the embedding is just a JSON array of numbers. Each product now has an `embedding` field alongside its other attributes.
+Redis can store vectors in either hashes or JSON documents. Because this tutorial uses JSON, each embedding is stored as a JSON array of numbers, so every product now has an `embedding` field alongside its other attributes.
 
 ## Add a vector field to the index
 
@@ -131,6 +143,7 @@ Congratulations &mdash; you have gone from an empty database to running hybrid s
 ## Where to go next
 
 - **Go deeper on querying** &mdash; the [query documentation]({{< relref "/develop/ai/search-and-query/query" >}}) covers fuzzy matching, geospatial queries, scoring, and more.
-- **Tune your vectors** &mdash; [vector search concepts]({{< relref "/develop/ai/search-and-query/vectors" >}}) explains the `FLAT` and `HNSW` index types and how to choose between them.
-- **Build an AI application** &mdash; see how Redis powers retrieval-augmented generation in the [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}}) guide and [Redis for AI]({{< relref "/develop/ai" >}}).
+- **Tune your vectors** &mdash; [vector search concepts]({{< relref "/develop/ai/search-and-query/vectors" >}}) explains the `FLAT` and `HNSW` index types, vector range queries, and how to choose between them.
+- **Use a vector-native Python library** &mdash; [RedisVL]({{< relref "/develop/clients/redis-vl" >}}) provides a higher-level API for building vector search and AI applications on Redis.
+- **Build an AI application** &mdash; see how Redis powers retrieval-augmented generation in the [RAG quick start]({{< relref "/develop/get-started/rag" >}}) and [Redis for AI]({{< relref "/develop/ai" >}}).
 - **See also** &mdash; if you need standalone similarity search without a full search index, Redis also offers the [vector sets]({{< relref "/develop/data-types/vector-sets" >}}) data type.
