@@ -420,11 +420,11 @@ if msg:
 Re-subscription happens transparently and is independent of any custom
 event listeners you register (see [Failover callbacks](#failover-callbacks)).
 
-{{< note >}}Message loss can still occur if the failover events happen in
-the reverse order, with the publisher failing over to the new database
-before the subscriber. Messages published during this window may not reach
-a subscriber that is still connected to the previous database.
-{{< /note >}}
+> [!NOTE]
+> Message loss can still occur if the failover events happen in
+> the reverse order, with the publisher failing over to the new database
+> before the subscriber. Messages published during this window may not reach
+> a subscriber that is still connected to the previous database.
 
 ## Behavior when all endpoints are unhealthy
 

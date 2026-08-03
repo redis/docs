@@ -134,11 +134,11 @@ When you have created your `CredentialProvider` instance, you are ready to
 connect to AMR.
 The example below shows how to pass the instance as a parameter to the standard
 `RedisCluster()` connection method.
-{{< note >}} Azure requires you to use
-[Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security)
-when you connect (see
-[Connect with TLS](/develop/clients/redis-py/connect#connect-to-your-production-redis-with-tls) for more information).
-{{< /note >}}
+> [!NOTE]
+> Azure requires you to use
+> [Transport Layer Security (TLS)](https://en.wikipedia.org/wiki/Transport_Layer_Security)
+> when you connect (see
+> [Connect with TLS](/develop/clients/redis-py/connect#connect-to-your-production-redis-with-tls) for more information).
 
 ```python
 from redis import RedisCluster

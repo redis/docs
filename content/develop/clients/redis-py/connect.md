@@ -111,15 +111,15 @@ The example below shows the simplest client-side caching connection to the defau
 All of the connection variants described above accept these parameters, so you can
 use client-side caching with a connection pool or a cluster connection in exactly the same way.
 
-{{< note >}}Client-side caching requires redis-py v5.1.0 or later.
-To maximize compatibility with all Redis products, client-side caching
-is supported by Redis v7.4 or later.
-
-The [Redis server products](/operate) support
-[opt-in/opt-out](/develop/reference/client-side-caching#opt-in-and-opt-out-caching) mode
-and [broadcasting mode](/develop/reference/client-side-caching#broadcasting-mode)
-for CSC, but these modes are not currently implemented by `redis-py`.
-{{< /note >}}
+> [!NOTE]
+> Client-side caching requires redis-py v5.1.0 or later.
+> To maximize compatibility with all Redis products, client-side caching
+> is supported by Redis v7.4 or later.
+>
+> The [Redis server products](/operate) support
+> [opt-in/opt-out](/develop/reference/client-side-caching#opt-in-and-opt-out-caching) mode
+> and [broadcasting mode](/develop/reference/client-side-caching#broadcasting-mode)
+> for CSC, but these modes are not currently implemented by `redis-py`.
 
 ```python
 import redis
@@ -262,10 +262,10 @@ lets a client take action to avoid disruptions in service.
 See [Smart client handoffs](/develop/clients/sch)
 for more information about SCH.
 
-{{< note >}}Using SCH with redis-py requires v7.0.0 or later for
-basic connections, and v7.2.0 or later for
-[OSS Cluster API](/operate/rs/databases/configure/oss-cluster-api) connections.
-{{< /note >}}
+> [!NOTE]
+> Using SCH with redis-py requires v7.0.0 or later for
+> basic connections, and v7.2.0 or later for
+> [OSS Cluster API](/operate/rs/databases/configure/oss-cluster-api) connections.
 
 By default, `redis-py` always attempts to connect via SCH but falls back to
 a non-SCH connection if the server doesn't support it. However, you can configure SCH
@@ -299,9 +299,9 @@ r = redis.Redis(
 )
 ```
 
-{{< note >}}SCH requires the [RESP3](/develop/reference/protocol-spec#resp-versions)
-protocol, so you must set `protocol=3` explicitly when you connect.
-{{< /note >}}
+> [!NOTE]
+> SCH requires the [RESP3](/develop/reference/protocol-spec#resp-versions)
+> protocol, so you must set `protocol=3` explicitly when you connect.
 
 The `MaintNotificationsConfig` constructor accepts the following parameters:
 
@@ -312,10 +312,10 @@ The `MaintNotificationsConfig` constructor accepts the following parameters:
 | `endpoint_type` | `EndpointType` | Auto-detect | The type of endpoint to use for the connection. The options are `EndpointType.EXTERNAL_IP`, `EndpointType.INTERNAL_IP`, `EndpointType.EXTERNAL_FQDN`, `EndpointType.INTERNAL_FQDN`, and `EndpointType.NONE`. |
 | `relaxed_timeout` | `int` | `20` | The timeout (in seconds) to use while the server is performing maintenance. A value of `-1` disables the relax timeout and just uses the normal timeout during maintenance. |
 
-{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
-either [AWS PrivateLink](/operate/rc/security/aws-privatelink) or
-[Google Cloud Private Service Connect](/operate/rc/security/private-service-connect)
-(see [Smart client handoffs](/develop/clients/sch#redis-cloud) for more information).
-To use relaxed timeouts with these services, you should set `endpoint_type=EndpointType.NONE`
-when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
-{{< /note >}}
+> [!NOTE]
+> Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+> either [AWS PrivateLink](/operate/rc/security/aws-privatelink) or
+> [Google Cloud Private Service Connect](/operate/rc/security/private-service-connect)
+> (see [Smart client handoffs](/develop/clients/sch#redis-cloud) for more information).
+> To use relaxed timeouts with these services, you should set `endpoint_type=EndpointType.NONE`
+> when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
