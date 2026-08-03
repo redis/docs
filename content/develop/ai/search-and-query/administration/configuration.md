@@ -325,6 +325,38 @@ Redis Cloud defaults:
 - Flexible & Annual: `1000000`
 - Free & Fixed: `10000`
 
+### search-_max-foreground-timeout-limit
+
+Available in Redis Query Engine 8.10 and later.
+
+Sets the hard upper bound, in milliseconds, for the effective query timeout when
+[`search-workers`](#search-workers) is `0`. The effective timeout is either a query's
+`TIMEOUT` value or, when the query doesn't specify one, the value inherited from
+[`search-timeout`](#search-timeout).
+
+If the effective timeout exceeds this limit, Redis caps it instead of rejecting the query.
+This also applies to `TIMEOUT 0`, which normally means unlimited. RESP3 clients receive a
+`MaxTimeoutCapped` warning when the timeout is capped. The limit applies to
+[`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}),
+[`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}),
+[`FT.CURSOR READ`]({{< relref "/commands/ft.cursor-read/" >}}), and
+[`FT.HYBRID`]({{< relref "/commands/ft.hybrid/" >}}).
+
+Set this parameter to `0` to disable the limit. The limit is also inactive when
+`search-workers` is greater than `0`.
+
+Changes to this parameter, `search-timeout`, and `search-workers` are accepted and logged
+at notice level regardless of their current combination. Redis evaluates the settings and
+applies the limit when each query runs.
+
+The legacy `FT.CONFIG` name is `_MAX_FOREGROUND_TIMEOUT_LIMIT`.
+
+Type: integer
+
+Valid range: `[0 .. 9,223,372,036,854,775,807]`
+
+Default: `60000`
+
 ### search-min-operation-workers
 
 The number of worker threads to use for background tasks when the server is in an operation event.
@@ -396,7 +428,7 @@ Default: `FALSE`
 
 ### search-on-timeout
 
-The response policy for queries that exceed the [`search-timeout`](#search-timeout) setting can be one of the following:
+The response policy for queries that exceed their effective timeout can be one of the following:
 
 * `RETURN`: this policy will return the top results accumulated by the query until it timed out.
 * `RETURN_STRICT`: like `RETURN`, returns the partial results accumulated when a query exceeds the timeout instead of failing, but strictly enforces the configured timeout as a hard deadline. This matters most in clustered deployments: with `RETURN`, the first shard to time out aborts the whole query early; with `RETURN_STRICT`, the coordinator keeps gathering results from all shards up to the deadline and then returns whatever accumulated at that point. Available in Redis Query Engine 8.10 and later.
@@ -461,7 +493,9 @@ Default: `1024`
 
 ### search-timeout
 
-The maximum amount of time in milliseconds that a search query is allowed to run. If this time is exceeded, Redis returns the top results accumulated so far, or an error depending on the policy set with [`search-on-timeout`](#search-on-timeout). The timeout can be disabled by setting it to `0`.
+The default amount of time in milliseconds that a search query is allowed to run when the query doesn't specify its own `TIMEOUT`. A query-specific `TIMEOUT` overrides this value, so `search-timeout` is a default, not a ceiling. When [`search-_max-foreground-timeout-limit`](#search-_max-foreground-timeout-limit) is active, it provides the ceiling for the effective timeout.
+
+If the effective timeout is exceeded, Redis returns the top results accumulated so far, or an error depending on the policy set with [`search-on-timeout`](#search-on-timeout). The timeout can be disabled by setting it to `0`.
 
 {{% alert title="Notes" color="info" %}}
 * `search-timeout` refers to query time only.
