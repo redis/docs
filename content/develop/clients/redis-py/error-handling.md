@@ -17,8 +17,8 @@ shows the "happy path" in code examples and omits error handling for brevity.
 This page explains how
 redis-py's error handling works and how to apply common error handling patterns.
 For an overview of error types and handling strategies, see
-[Error handling](/develop/clients/error-handling).
-See also [Production usage](/develop/clients/redis-py/produsage)
+[Error handling](../error-handling.md).
+See also [Production usage](produsage.md)
 for more information on connection management, timeouts, and other aspects of
 app reliability.
 
@@ -47,7 +47,7 @@ redis-py organizes exceptions in a hierarchy. The base exception is `redis.Redis
 
 The following exceptions are the most commonly encountered in redis-py applications.
 See
-[Categories of errors](/develop/clients/error-handling#categories-of-errors)
+[Categories of errors](../error-handling.md#categories-of-errors)
 for a more detailed discussion of these errors and their causes.
 
 | Exception | When it occurs | Recoverable | Recommended action |
@@ -59,14 +59,14 @@ for a more detailed discussion of these errors and their causes.
 
 ## Applying error handling patterns
 
-The [Error handling](/develop/clients/error-handling) overview
+The [Error handling](../error-handling.md) overview
 describes four main patterns. The sections below show how to implement them in
 redis-py:
 
 ### Pattern 1: Fail fast
 
 Catch specific exceptions that represent unrecoverable errors and re-raise them (see
-[Pattern 1: Fail fast](/develop/clients/error-handling#pattern-1-fail-fast)
+[Pattern 1: Fail fast](../error-handling.md#pattern-1-fail-fast)
 for a full description):
 
 ```python
@@ -84,7 +84,7 @@ except redis.ResponseError:
 ### Pattern 2: Graceful degradation
 
 Catch connection errors and fall back to an alternative (see
-[Pattern 2: Graceful degradation](/develop/clients/error-handling#pattern-2-graceful-degradation)
+[Pattern 2: Graceful degradation](../error-handling.md#pattern-2-graceful-degradation)
 for a full description):
 
 ```python
@@ -102,18 +102,18 @@ return database.get(key)
 ### Pattern 3: Retry with backoff
 
 Retry on temporary errors like timeouts (see
-[Pattern 3: Retry with backoff](/develop/clients/error-handling#pattern-3-retry-with-backoff)
+[Pattern 3: Retry with backoff](../error-handling.md#pattern-3-retry-with-backoff)
 for a full description). redis-py has built-in retry logic
 which is highly configurable. You can customize the retry strategy
 (or supply your own custom strategy) and you can also specify which errors
 should be retried. See
-[Production usage](/develop/clients/redis-py/produsage#retries)
+[Production usage](produsage.md#retries)
 for more information.
 
 ### Pattern 4: Log and continue
 
 Log non-critical errors and continue (see
-[Pattern 4: Log and continue](/develop/clients/error-handling#pattern-4-log-and-continue)
+[Pattern 4: Log and continue](../error-handling.md#pattern-4-log-and-continue)
 for a full description):
 
 ```python
@@ -145,5 +145,5 @@ async def get_with_fallback(key):
 
 ## See also
 
-- [Error handling](/develop/clients/error-handling)
-- [Production usage](/develop/clients/redis-py/produsage)
+- [Error handling](../error-handling.md)
+- [Production usage](produsage.md)

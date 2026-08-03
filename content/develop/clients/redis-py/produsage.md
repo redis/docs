@@ -41,12 +41,12 @@ of them may not apply to your particular use case.
 
 ### Client-side caching
 
-[Client-side caching](/develop/clients/client-side-caching)
+[Client-side caching](../client-side-caching.md)
 involves storing the results from read-only commands in a local cache. If the
 same command is executed again later, the results can be obtained from the cache,
 without contacting the server. This improves command execution time on the client,
 while also reducing network traffic and server load. See
-[Connect using client-side caching](/develop/clients/redis-py/connect#connect-using-client-side-caching)
+[Connect using client-side caching](connect.md#connect-using-client-side-caching)
 for more information and example code.
 
 ### Retries
@@ -128,7 +128,7 @@ Set the `health_check_interval` parameter during
 a connection (with either `Redis` or `ConnectionPool`) to specify
 an integer number of seconds. If the connection remains idle for
 longer than this interval, it will automatically issue a
-[`PING`](/commands/ping) command and check the
+[`PING`](../../../commands/ping.md) command and check the
 response before continuing with any client commands.
 
 ```py
@@ -163,15 +163,15 @@ module. The list below describes some of the most common exceptions.
 - `ResponseError`: Thrown when you attempt an operation that has no valid
   response. Examples include executing a command on the wrong type of key
   (as when you try an
-  ['LPUSH'](/develop/data-types/lists#automatic-creation-and-removal-of-keys)
+  ['LPUSH'](../../data-types/lists.md#automatic-creation-and-removal-of-keys)
   command on a string key), creating an
-  [index](/develop/ai/search-and-query/indexing)
+  [index](../../ai/search-and-query/indexing/_index.md)
   with a name that already exists, and using an invalid ID for a
-  [stream entry](/develop/data-types/streams/#entry-ids).
+  [stream entry](../../data-types/streams/_index.md#entry-ids).
 - `TimeoutError`: Thrown when a timeout persistently happens for a command,
   despite any [retries](#retries).
 - `WatchError`: Thrown when a
-  [watched key](/develop/clients/redis-py/transpipe#watch-keys-for-changes) is
+  [watched key](transpipe.md#watch-keys-for-changes) is
   modified during a transaction.
 
 ### Timeouts
@@ -207,9 +207,9 @@ Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 
-See [Smart client handoffs](/develop/clients/sch)
+See [Smart client handoffs](../sch.md)
 for more information about SCH and
-[Connect using Smart client handoffs](/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch)
+[Connect using Smart client handoffs](connect.md#connect-using-smart-client-handoffs-sch)
 for example code.
 
 ### Monitor performance and errors
@@ -217,5 +217,5 @@ for example code.
 `redis-py` supports [OpenTelemetry](https://opentelemetry.io/). This lets
 you trace command execution and monitor your server's performance.
 You can use this information to detect problems before they are reported
-by users. See [Observability](/develop/clients/redis-py/observability)
+by users. See [Observability](observability.md)
 for more information.

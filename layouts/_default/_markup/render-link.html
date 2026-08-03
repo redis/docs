@@ -41,7 +41,13 @@
   {{- /* Strip a leading `./` so explicit same-directory links resolve; leave
          `../` alone, which GetPage resolves relative to the current page. */ -}}
   {{- $path = strings.TrimPrefix "./" $path -}}
-  {{- $target := .PageInner.GetPage (strings.TrimSuffix ".md" $path) -}}
+  {{- /* Normalise source-relative Markdown links so they resolve in the repo
+         (VS Code, GitHub) and here: drop the `.md`, and a trailing `/_index`
+         or `/index` from links that point at a section or leaf-bundle file. */ -}}
+  {{- $lookup := strings.TrimSuffix ".md" $path -}}
+  {{- $lookup = strings.TrimSuffix "/_index" $lookup -}}
+  {{- $lookup = strings.TrimSuffix "/index" $lookup -}}
+  {{- $target := .PageInner.GetPage $lookup -}}
   {{- if $target -}}
     <a href="{{ printf "%s%s" $target.RelPermalink $anchor | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
   {{- else -}}

@@ -21,7 +21,7 @@ namespace. It mirrors the synchronous client API, so most code patterns
 translate directly — you `await` commands instead of calling them.
 
 Use the async client for I/O-bound workloads, for integration with async web
-frameworks (such as [FastAPI](/integrate/fastapi), [Starlette](https://www.starlette.io/), [aiohttp](https://docs.aiohttp.org/en/stable/), or [Sanic](https://sanic.dev/en/), or when you need
+frameworks (such as [FastAPI](../../../integrate/fastapi/_index.md), [Starlette](https://www.starlette.io/), [aiohttp](https://docs.aiohttp.org/en/stable/), or [Sanic](https://sanic.dev/en/), or when you need
 to run many concurrent Redis operations from a single process. For simple
 scripts, CPU-bound work, or codebases without an existing event loop, the
 synchronous client is usually a better choice.
@@ -50,7 +50,7 @@ which ensures `aclose()` runs even if an exception is raised:
 
 For production usage, you should manage connections with a connection pool
 rather than opening and closing them individually.
-See [Connection pools and multiplexing](/develop/clients/pools-and-muxing)
+See [Connection pools and multiplexing](../pools-and-muxing.md)
 for more information about how this works.
 
 A `Redis` client instance already creates and manages its own connection
@@ -93,7 +93,7 @@ through a single connection instead.)
 ## Pipelines and transactions
 
 Pipelines and transactions work the same way as in the synchronous client
-(see [Pipelines and transactions](/develop/clients/redis-py/transpipe)
+(see [Pipelines and transactions](transpipe.md)
 for the conceptual background). The only difference is that you create the
 pipeline inside an `async with` block and `await pipe.execute()`.
 
@@ -125,7 +125,7 @@ consuming task its own subscription.
 
 To connect to a Redis cluster asynchronously, import `RedisCluster` from
 `redis.asyncio.cluster`. The API matches the synchronous cluster client
-(see [Connect to a Redis cluster](/develop/clients/redis-py/connect#connect-to-a-redis-cluster)),
+(see [Connect to a Redis cluster](connect.md#connect-to-a-redis-cluster)),
 with `await` in front of each command.
 
 {{< clients-example set="async_intro" step="cluster" lang_filter="Python" description="Foundational: Connect to a Redis cluster with the async client" difficulty="beginner" >}}
@@ -139,7 +139,7 @@ Always close clients and pools when you're done:
   single scope.
 - For longer-lived clients, call `await r.aclose()` explicitly. (The older
   `close()` method is deprecated.)
-- For frameworks with startup/shutdown hooks — for example [FastAPI](/integrate/fastapi)'s
+- For frameworks with startup/shutdown hooks — for example [FastAPI](../../../integrate/fastapi/_index.md)'s
   `lifespan` — create the client or pool at startup and close it at
   shutdown so connections aren't leaked between process restarts.
 
@@ -178,6 +178,6 @@ client, apply these rules:
 
 - The [`redis-py` asyncio examples](https://redis.readthedocs.io/en/stable/examples/asyncio_examples.html)
   on Read the Docs cover further patterns.
-- See [Error handling](/develop/clients/redis-py/error-handling) and
-  [Client-side geographic failover](/develop/clients/redis-py/failover) for
+- See [Error handling](error-handling.md) and
+  [Client-side geographic failover](failover.md) for
   resiliency patterns that apply to both sync and async clients.

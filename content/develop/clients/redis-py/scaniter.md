@@ -18,15 +18,15 @@ weight: 60
 Redis has a small family of related commands that retrieve
 keys and, in some cases, their associated values:
 
--   [`SCAN`](/commands/scan) retrieves keys
+-   [`SCAN`](../../../commands/scan.md) retrieves keys
     from the main Redis keyspace.
--   [`HSCAN`](/commands/hscan) retrieves keys and optionally,
+-   [`HSCAN`](../../../commands/hscan.md) retrieves keys and optionally,
     their values from a
-    [hash](/develop/data-types/hashes) object.
--   [`SSCAN`](/commands/sscan) retrieves keys from a
-    [set](/develop/data-types/sets) object.
--   [`ZSCAN`](/commands/zscan) retrieves keys and their score values from a
-    [sorted set](/develop/data-types/sorted-sets) object.
+    [hash](../../data-types/hashes.md) object.
+-   [`SSCAN`](../../../commands/sscan.md) retrieves keys from a
+    [set](../../data-types/sets.md) object.
+-   [`ZSCAN`](../../../commands/zscan.md) retrieves keys and their score values from a
+    [sorted set](../../data-types/sorted-sets.md) object.
 
 These commands can potentially return large numbers of results, so Redis
 provides a paging mechanism to access the results in small, separate batches.
@@ -43,7 +43,7 @@ Each of the commands has its own equivalent iterator. The following example show
 how to use a `SCAN` iterator on the Redis keyspace. Note that, as with the `SCAN`
 command, the results are not sorted into any particular order, . Also, you
 can pass `match`, `count`, and `_type` parameters to `scan_iter()` to constrain
-the set of keys it returns (see the [`SCAN`](/commands/scan)
+the set of keys it returns (see the [`SCAN`](../../../commands/scan.md)
 command page for examples). 
 
 ```py

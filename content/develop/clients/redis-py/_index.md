@@ -26,10 +26,10 @@ weight: 1
 The sections below explain how to install `redis-py` and connect your application
 to a Redis database.
 
-`redis-py` requires a running Redis server. See [here](/operate/oss_and_stack/install/) for Redis Open Source installation instructions.
+`redis-py` requires a running Redis server. See [here](../../../operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 You can also access Redis with an object-mapping client interface. See
-[RedisOM for Python](/integrate/redisom-for-python)
+[RedisOM for Python](../../../integrate/redisom-for-python/_index.md)
 for more information.
 
 ## Install
