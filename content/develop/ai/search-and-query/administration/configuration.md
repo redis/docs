@@ -327,7 +327,7 @@ Redis Cloud defaults:
 
 ### search-_max-foreground-timeout-limit
 
-Available in Redis Query Engine 8.10 and later.
+Available in Redis Search 8.10 and later.
 
 Sets the hard upper bound, in milliseconds, for the effective query timeout when
 [`search-workers`](#search-workers) is `0`. The effective timeout is either a query's
