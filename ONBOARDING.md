@@ -919,7 +919,7 @@ The feature is stabilizing. It's on the public site and customers may be using i
 
 ### GA (General Availability)
 
-The feature is fully released and stable. Documentation must be **complete**. This is the full set on top of what Preview required.
+The feature is fully released and stable. Documentation must be **complete** and should **actively welcome readers**. This is the full set on top of what Preview required.
 
 **Required (everything in Preview, plus):**
 - Best practices
@@ -930,14 +930,6 @@ The feature is fully released and stable. Documentation must be **complete**. Th
 - Updates to any supported versions or compatibility docs that reference this feature
 - Preview banners **removed** from all pages
 - Added to core docs navigation and any relevant index or overview pages
-
----
-
-### GA Tier 1
-
-The highest documentation tier. Everything in GA, plus the docs should **actively welcome readers and generate excitement** about the feature. This tier applies to flagship features and products that deserve a polished, connected documentation experience.
-
-**Required (everything in GA, plus):**
 - A formal **landing page** with `{{</* image-card */>}}` tiles following the current design pattern — see Redis Iris (`content/develop/ai/context-engine/_index.md`) and Redis Feature Form (`content/develop/ai/featureform/_index.md`) as examples
 - The landing page should be **welcoming** — lead with the value proposition and what the reader can do, not just what the feature is
 - All sub-sections linked from the landing page via image cards
@@ -947,7 +939,7 @@ The highest documentation tier. Everything in GA, plus the docs should **activel
 **Landing page pattern:**
 
 ```
-On branch [branch-name], create a GA Tier 1 landing page for [feature] at [path]/_index.md.
+On branch [branch-name], create a GA landing page for [feature] at [path]/_index.md.
 
 The page should open with an exciting, welcoming introduction that leads with what users can build or accomplish. Then add image-card tiles for each key sub-section. Use content/develop/ai/context-engine/_index.md as the structural template.
 ```
@@ -956,19 +948,19 @@ The page should open with an exciting, welcoming introduction that leads with wh
 
 ### Quick reference
 
-| | Preview | GA | GA Tier 1 |
-|---|---|---|---|
-| Banner | Preview banner | None | None |
-| All tasks documented | **Yes** | Yes | Yes |
-| Conceptual docs | **Yes** | Yes | Yes |
-| Best practices | No | **Yes** | Yes |
-| Troubleshooting | No | **Yes** | Yes |
-| Reference docs | No | **Yes** | Yes |
-| Release notes / what's new | No | **Yes** | Yes |
-| Supported versions updated | No | **Yes** | Yes |
-| Formal landing page with image cards | No | No | **Yes** |
-| Welcoming, excitement-generating tone | No | No | **Yes** |
-| Cross-linked from related pages | No | No | **Yes** |
+| | Preview | GA |
+|---|---|---|
+| Banner | Preview banner | None |
+| All tasks documented | **Yes** | Yes |
+| Conceptual docs | **Yes** | Yes |
+| Best practices | No | **Yes** |
+| Troubleshooting | No | **Yes** |
+| Reference docs | No | **Yes** |
+| Release notes / what's new | No | **Yes** |
+| Supported versions updated | No | **Yes** |
+| Formal landing page with image cards | No | **Yes** |
+| Welcoming, excitement-generating tone | No | **Yes** |
+| Cross-linked from related pages | No | **Yes** |
 
 ---
 
