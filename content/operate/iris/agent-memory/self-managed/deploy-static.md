@@ -3,23 +3,24 @@ Title: Deploy with static stores
 alwaysopen: false
 categories:
 - docs
-- develop
-- ai
+- operate
+- iris
 description: Deploy Redis Agent Memory with static stores and no Control Plane.
 linkTitle: Deploy with static stores
 weight: 40
 hideListLinks: true
 aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/install-k8s/
+- /develop/ai/context-engine/agent-memory/self-managed/deploy-static/
 ---
 
 Use static stores for a first install or a private single-store deployment. In
 this mode, stores are declared directly in Data Plane configuration. The
 deployment does not include the Control Plane and does not use Metadata Redis.
 
-Before you begin, review [prerequisites]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/prerequisites" >}})
+Before you begin, review [prerequisites]({{< relref "/operate/iris/agent-memory/self-managed/prerequisites" >}})
 and create `memory-dataplane.config.yaml` from the
-[static stores example]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/data-plane-configuration#static-stores-example" >}}).
+[static stores example]({{< relref "/operate/iris/agent-memory/self-managed/data-plane-configuration#static-stores-example" >}}).
 
 ## Create the namespace
 

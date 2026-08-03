@@ -94,7 +94,7 @@ Get started with Redis Agent Memory on Redis Cloud or join the private preview f
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Software private preview</h3>
     <p>Deploy Redis Agent Memory on Kubernetes with Redis Software.</p>
-    <p><a href="/develop/ai/context-engine/agent-memory/self-managed">Open the self-managed deployment guide</a></p>
+    <p><a href="/operate/iris/agent-memory/self-managed">Open the self-managed deployment guide</a></p>
   </div>
 </div>
 

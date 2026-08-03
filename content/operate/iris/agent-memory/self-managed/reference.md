@@ -3,12 +3,14 @@ Title: Configuration and troubleshooting
 alwaysopen: false
 categories:
 - docs
-- develop
-- ai
+- operate
+- iris
 description: Review self-managed Redis Agent Memory configuration, troubleshooting guidance, and reference links.
 linkTitle: Configuration and troubleshooting
 weight: 100
 hideListLinks: true
+aliases:
+- /develop/ai/context-engine/agent-memory/self-managed/reference/
 ---
 
 ## Configuration reference
@@ -68,6 +70,6 @@ CSI-synced Secrets, make sure a Control Plane pod also mounts the corresponding
 | FIPS values overlay | `deployment/redis-agent-memory/values-fips.yaml` |
 | NetworkPolicy reference | `deployment/redis-agent-memory/networkpolicy.reference.yaml` |
 | Redis Agent Memory API reference | [Redis Agent Memory API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}) |
-| Control Plane API reference | [Control Plane API reference]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/control-plane-api-reference" >}}) |
+| Control Plane API reference | [Control Plane API reference]({{< relref "/operate/iris/agent-memory/self-managed/control-plane-api-reference" >}}) |
 | Redis Agent Memory Data Plane image tags | [Docker Hub: redislabs/agent-memory](https://hub.docker.com/r/redislabs/agent-memory/tags) |
 | Redis Agent Memory Control Plane image tags | [Docker Hub: redislabs/agent-memory-control-plane](https://hub.docker.com/r/redislabs/agent-memory-control-plane/tags) |

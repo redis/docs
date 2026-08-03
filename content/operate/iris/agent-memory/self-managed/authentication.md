@@ -3,20 +3,22 @@ Title: Authentication and authorization
 alwaysopen: false
 categories:
 - docs
-- develop
-- ai
+- operate
+- iris
 description: Configure Redis Agent Memory self-managed Control Plane authentication, Data Plane auth modes, worker callbacks, and gateway integration.
 linkTitle: Authentication and authorization
 weight: 60
 hideListLinks: true
+aliases:
+- /develop/ai/context-engine/agent-memory/self-managed/authentication/
 ---
 
-Self-managed Agent Memory uses separate authentication models for the Control
+Self-managed Redis Agent Memory uses separate authentication models for the Control
 Plane and Data Plane.
 
 The Control Plane uses an admin token for management endpoints. The Data Plane
-can run behind infrastructure controls with Agent Memory auth disabled, or it
-can validate Agent Memory agent keys and enforce store-level grants.
+can run behind infrastructure controls with Redis Agent Memory auth disabled, or it
+can validate Redis Agent Memory agent keys and enforce store-level grants.
 
 ## Control Plane admin token
 
@@ -47,7 +49,7 @@ Choose the Data Plane auth mode based on how callers reach the Data Plane.
 | Mode | Config | Use when |
 | --- | --- | --- |
 | Auth-disabled Data Plane | `auth.method: none` | The Data Plane is reachable only by trusted internal components. |
-| Agent-key authentication | `auth.method: agent_key` | Agent Memory should validate keys and enforce per-store grants. |
+| Agent-key authentication | `auth.method: agent_key` | Redis Agent Memory should validate keys and enforce per-store grants. |
 
 ### Auth-disabled Data Plane
 
@@ -61,7 +63,7 @@ components.
 
 {{< warning >}}
 Do not expose an auth-disabled Data Plane to untrusted callers. In auth-disabled
-mode, Agent Memory does not authenticate or authorize Data Plane requests; any
+mode, Redis Agent Memory does not authenticate or authorize Data Plane requests; any
 caller that can reach the API can read or write memory for configured stores.
 {{< /warning >}}
 
@@ -79,7 +81,7 @@ Starting from static store configuration, make these changes:
 4. Add the `embedding` selection block.
 5. Keep `embedders_connection_details` for the embedder endpoint and
    credentials.
-6. If Agent Memory workers are enabled, configure worker identity as described in
+6. If Redis Agent Memory workers are enabled, configure worker identity as described in
    [Worker callbacks](#worker-callbacks) so worker-to-Data Plane calls carry an
    accepted credential.
 
@@ -120,7 +122,7 @@ embedders_connection_details:
         queue_size: 1000
 ```
 
-When the Data Plane uses `metadata.source: live`, Agent Memory defaults to
+When the Data Plane uses `metadata.source: live`, Redis Agent Memory defaults to
 `auth.method: agent_key` when no auth method is configured. Set it explicitly in
 production values so the intended security posture is visible in review. If
 agent-key auth is enabled without `metadata.source: live`, the Data Plane fails
@@ -136,7 +138,7 @@ Treat agent keys as opaque credentials. Do not parse their contents.
 
 ## Store authorization and grants
 
-For agent-key requests, Agent Memory checks both identity and resource
+For agent-key requests, Redis Agent Memory checks both identity and resource
 authorization:
 
 1. The key exists in metadata Redis and its secret validates.
@@ -161,10 +163,10 @@ Operation mapping:
 
 ## Worker callbacks
 
-Agent Memory workers consume background jobs and call the Data Plane to read
+Redis Agent Memory workers consume background jobs and call the Data Plane to read
 session events and write extracted long-term memories.
 
-For deployments where Agent Memory Data Plane auth is enabled, workers should
+For deployments where Redis Agent Memory Data Plane auth is enabled, workers should
 authenticate with Kubernetes projected service-account tokens. The Helm
 `workerAuth.enabled` preset creates or uses a worker ServiceAccount and mounts a
 projected token into the worker pod. The Data Plane must also be configured to
@@ -223,7 +225,7 @@ Configure worker identity to:
 
 - Trust one or more exact Kubernetes service-account subjects.
 - Validate worker tokens by issuer, JWKS URI, audience, and signing algorithm.
-- Map each trusted subject to an Agent Memory `Principal` with roles, scopes,
+- Map each trusted subject to a Redis Agent Memory `Principal` with roles, scopes,
   and resource grants.
 - Grant store access with resource keys such as `mem-store:<store-id>`.
 - Use `mem-store:*` for a shared worker identity, or use narrower store grants
@@ -232,7 +234,7 @@ Configure worker identity to:
   `write`.
 
 The Helm ServiceAccount/token settings only provide the Kubernetes credential.
-Agent Memory authorization still comes from the server-side
+Redis Agent Memory authorization still comes from the server-side
 `auth.worker_identity` subject grants. If worker auth is not configured, keep
 the Data Plane auth-disabled and reachable only by trusted internal components.
 
@@ -240,7 +242,7 @@ the Data Plane auth-disabled and reachable only by trusted internal components.
 
 Use a gateway when it owns external authentication and coarse policy. For
 example, a gateway can authenticate callers through an identity provider before
-it forwards requests to Agent Memory.
+it forwards requests to Redis Agent Memory.
 
 If the gateway also owns the standard `Authorization` header, forward the Agent
 Memory key in `X-Api-Key`:
@@ -250,15 +252,15 @@ Authorization: Bearer <gateway-token>
 X-Api-Key: <ram-agent-key>
 ```
 
-Agent Memory uses `X-Api-Key` as the Agent Memory credential when present. The
-gateway token is still available to the gateway, but Agent Memory authorizes the
-request from the server-side grants attached to the Agent Memory key.
+Redis Agent Memory uses `X-Api-Key` as the Redis Agent Memory credential when present. The
+gateway token is still available to the gateway, but Redis Agent Memory authorizes the
+request from the server-side grants attached to the Redis Agent Memory key.
 
 Gateway rules:
 
 - The gateway owns external authentication and perimeter policy.
-- Agent Memory owns store-level authorization.
-- Agent Memory keys are stored and forwarded by trusted infrastructure or
+- Redis Agent Memory owns store-level authorization.
+- Redis Agent Memory keys are stored and forwarded by trusted infrastructure or
   trusted applications.
 - Callers must not be able to bypass the gateway and reach the Data Plane
-  directly unless they also present a valid Agent Memory credential.
+  directly unless they also present a valid Redis Agent Memory credential.

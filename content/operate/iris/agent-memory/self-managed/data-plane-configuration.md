@@ -3,12 +3,14 @@ Title: Data Plane configuration
 alwaysopen: false
 categories:
 - docs
-- develop
-- ai
+- operate
+- iris
 description: Configure the Redis Agent Memory Data Plane for static stores or Control Plane managed stores.
 linkTitle: Data Plane configuration
 weight: 30
 hideListLinks: true
+aliases:
+- /develop/ai/context-engine/agent-memory/self-managed/data-plane-configuration/
 ---
 
 The Data Plane reads `memory-dataplane.config.yaml` from a Kubernetes Secret.
@@ -169,8 +171,8 @@ promote_session_memory:
 ```
 
 This Control Plane managed example leaves Data Plane auth disabled at the Agent
-Memory layer. To use Agent Memory agent keys, set `auth.method: agent_key` and
-follow [Authentication and authorization]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/authentication" >}}).
+Memory layer. To use Redis Agent Memory agent keys, set `auth.method: agent_key` and
+follow [Authentication and authorization]({{< relref "/operate/iris/agent-memory/self-managed/authentication" >}}).
 
 ## Secret key
 

@@ -3,23 +3,24 @@ Title: Deploy with Control Plane managed stores
 alwaysopen: false
 categories:
 - docs
-- develop
-- ai
+- operate
+- iris
 description: Deploy Redis Agent Memory with stores managed by the self-managed Control Plane.
 linkTitle: Deploy with Control Plane managed stores
 weight: 50
 hideListLinks: true
 aliases:
 - /develop/ai/context-engine/agent-memory/self-managed/control-plane/
+- /develop/ai/context-engine/agent-memory/self-managed/deploy-control-plane/
 ---
 
 Use Control Plane managed stores when operators need to create stores or agent
 keys at runtime. In this mode, the Data Plane reads store and agent-key records
 from Metadata Redis.
 
-Before you begin, review [prerequisites]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/prerequisites" >}})
+Before you begin, review [prerequisites]({{< relref "/operate/iris/agent-memory/self-managed/prerequisites" >}})
 and create `memory-dataplane.config.yaml` from the
-[Control Plane managed stores example]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/data-plane-configuration#control-plane-managed-stores-example" >}}).
+[Control Plane managed stores example]({{< relref "/operate/iris/agent-memory/self-managed/data-plane-configuration#control-plane-managed-stores-example" >}}).
 
 ## Create the namespace
 
@@ -226,7 +227,7 @@ curl -H "Authorization: Bearer <admin-token>" \
 ```
 
 For the full self-managed admin API schema, see the
-[Control Plane API reference]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/control-plane-api-reference" >}}).
+[Control Plane API reference]({{< relref "/operate/iris/agent-memory/self-managed/control-plane-api-reference" >}}).
 
 After you deploy Control Plane managed stores, configure Data Plane auth in
-[Authentication and authorization]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/authentication" >}}).
+[Authentication and authorization]({{< relref "/operate/iris/agent-memory/self-managed/authentication" >}}).
