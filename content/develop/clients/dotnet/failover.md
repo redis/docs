@@ -40,6 +40,26 @@ using StackExchange.Redis;
 using StackExchange.Redis.Availability;
 ```
 
+{{< note >}}The failover feature is fully supported and intended for production use.
+However, because it is a large, new API surface, the types in the
+`StackExchange.Redis.Availability` namespace are marked with the `[Experimental]`
+attribute so that the library can reserve the right to adjust them without the usual
+backwards-compatibility guarantees. (This marker is expected to be removed in a later
+3.1.x release.) As a result, the compiler reports the `SER007` diagnostic when you use
+these types. Suppressing this diagnostic is the normal way to use the feature. To do so,
+either add the following to your `.csproj` file:
+
+```xml
+<NoWarn>$(NoWarn);SER007</NoWarn>
+```
+
+or suppress it locally in your source file:
+
+```csharp
+#pragma warning disable SER007
+```
+{{< /note >}}
+
 The example below shows a simple case with a list of two servers,
 `redis-east` and `redis-west`, where `redis-east` is the preferred
 target. If `redis-east` fails, StackExchange.Redis should fail over to
