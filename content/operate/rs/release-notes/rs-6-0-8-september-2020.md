@@ -75,8 +75,8 @@ With build 6.0.8-32:
 -RS81463 - A shard may crash when resharding an Active-Active database with Auto Tiering . Specifically, the shard will crash when volatile keys or Active-Active tombstone keys reside in Flash memory.
 
 ### Active-Active databases
-- RS44656 - A bug causing TLS mode for clients connections to toggle between ‘all communication’ to ‘for crdb communication only’ when performing a global configuration change. ***TBD***
-- RS51359 - Active-Active databases, using replication and Append Only File (AOF) for [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}), are suffering from memory leaks on replica shards, causing them to grow bigger than the master shards. Customers are advised to upgrade to RS 6.0.12 ***TBD***. Meanwhile you can use snapshots for database persistence or restart the replica shards ***TBD***.
+- RS44656 - A bug causing TLS mode for clients connections to toggle between ‘all communication’ to ‘for crdb communication only’ when performing a global configuration change.
+- RS51359 - Active-Active databases, using replication and Append Only File (AOF) for [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence.md" >}}), are suffering from memory leaks on replica shards, causing them to grow bigger than the master shards. Customers are advised to upgrade to RS 6.0.12. Meanwhile you can use snapshots for database persistence or restart the replica shards.
 
 ### Installation limitations
 
