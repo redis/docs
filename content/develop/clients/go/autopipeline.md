@@ -141,12 +141,12 @@ The configuration options are:
 | Field | Description |
 | :---- | :---------- |
 | `MaxBatchSize` | Target number of commands the engine coalesces into a single pipeline before flushing. This is a soft threshold rather than a hard cap, so a busy queue can flush a larger batch. Defaults to 200. |
-| `MaxBatchBytes` | Soft limit on the argument bytes in a batch, so that large values flush as several bounded writes instead of one very large one. Defaults to 0, meaning no byte limit. |
+| `MaxBatchBytes` | Soft limit on the total size of arguments (in bytes) for a batch, so that large values flush as several bounded writes instead of one very large one. Defaults to 0, meaning no byte limit. |
 | `MaxFlushDelay` | Maximum time the engine waits to accumulate more commands before flushing a batch. Larger values build deeper pipelines at the cost of latency. Defaults to 0, which adds no accumulation wait. |
-| `AdaptiveDelay` | Scales `MaxFlushDelay` down as the queue fills, so a busy queue flushes sooner. Requires `MaxFlushDelay` greater than 0. Defaults to `false`. |
-| `MaxConcurrentBatches` | Number of batches that may execute at once. Defaults to 1, which gives a single ordered stream. Values greater than 1 require `Unordered` because concurrent batches do not preserve a single ordered stream. |
+| `AdaptiveDelay` | Scales `MaxFlushDelay` down as the queue fills, so a busy queue flushes sooner. Requires `MaxFlushDelay` to be greater than 0. Defaults to `false`. |
+| `MaxConcurrentBatches` | Number of batches that may execute at once. Defaults to 1, which gives a single ordered stream. Values greater than 1 require `Unordered` set to `true` because concurrent batches do not preserve a single ordered stream. |
 | `Unordered` | Allows commands to execute without preserving a single ordered stream, which enables higher concurrency. |
-| `NumShards` | Number of independent command queues, or shards, that the engine flushes separately. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, more than one shard requires `Unordered`. |
+| `NumShards` | Number of independent command queues, or shards, that the engine flushes separately. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, `Unordered` to be set to `true` if `NumShards` is greater than 1. |
 
 `MaxBatchSize` is the one default that differs between the two methods. If you
 set no options at all, `AutoPipeline()` uses a built-in preset that targets 300
@@ -159,11 +159,18 @@ the client's pipeline connections, which you size with the
 `PipelineReadBufferSize`, `PipelineWriteBufferSize`, and `PipelinePoolSize`
 fields of the client's options.
 
-The blocking and asynchronous autopipeliners are cached separately, and each is
-shared by all of its callers: the first call's options win and later calls
-return the same instance. `Close()` stops that instance for every caller, and a
-later call then builds a fresh one. Closing the client stops it permanently,
-after which the methods return `ErrClosed`.
+Each client holds at most two autopipeliners: one for the blocking method and
+one for the asynchronous method. Each of them is a
+[*singleton*](https://en.wikipedia.org/wiki/Singleton_pattern) that the client
+creates on first use and then shares with every later caller.
+
+Options therefore only take effect on the call that creates the singleton. If a
+blocking autopipeliner already exists, a later `AutoPipelineWithOptions()` call
+returns that same instance and ignores the options you passed, because
+`AutoPipeline()` and `AutoPipelineWithOptions()` share one singleton between
+them. `Close()` stops the singleton for every caller and the next call creates a
+fresh one, so closing is also how you apply different options. Closing the
+client is permanent: both methods then return `ErrClosed`.
 
 ## Cluster usage
 
@@ -176,7 +183,7 @@ span many slots. Ordering is per key: same-key commands stay in order, while
 sub-pipelines on different nodes run concurrently.
 
 Commands that must reach every node or shard, such as
-[`FLUSHALL`]({{< relref "/commands/flushall" >}}), cannot ride a pipeline, so
+[`FLUSHALL`]({{< relref "/commands/flushall" >}}), cannot be added to a pipeline, so
 the cluster client rejects them with an error rather than let them spoil a
 batch shared with other callers. Run them on the plain client instead.
 
