@@ -1,5 +1,5 @@
 ---
-bannerText: Automatic pipelining is an experimental feature that is not yet released and may be subject to change.
+bannerText: Automatic pipelining is an experimental feature and may be subject to change.
 categories:
 - docs
 - develop
@@ -18,7 +18,7 @@ weight: 42
 
 {{< note >}}
 Automatic pipelining is an **experimental** feature and its API may still
-change. It requires `github.com/redis/go-redis/v9` v9.XX.0 or later.
+change. It requires `github.com/redis/go-redis/v9` v9.22.0 or later.
 {{< /note >}}
 &nbsp;
 
@@ -51,7 +51,8 @@ Automatic pipelining has two forms that share the same underlying engine:
     window of commands and then drain the results to keep each pipeline as deep
     as possible.
 
-Both methods are available on `Client` and `ClusterClient`.
+Both methods are available on `Client`, `ClusterClient`, and `Ring`. A failover
+client created with `NewFailoverClient()` is a `*Client`, so it has them too.
 
 ## Blocking usage
 
@@ -65,8 +66,8 @@ defer rdb.Close()
 ctx := context.Background()
 
 // Blocking face: a drop-in for a normal client, batched under the hood.
-ap, err := rdb.AutoPipeline(nil)
-if err != nil { // only returned for an invalid AutoPipelineConfig
+ap, err := rdb.AutoPipeline()
+if err != nil { // only returned for invalid AutoPipelineOptions
     log.Fatal(err)
 }
 defer ap.Close()
@@ -93,7 +94,7 @@ you can submit a window of commands and read their results afterwards:
 ```go
 ctx := context.Background()
 
-ap, err := rdb.AsyncAutoPipeline(nil) // ordered by default
+ap, err := rdb.AsyncAutoPipeline() // ordered by default
 if err != nil {
     log.Fatal(err)
 }
@@ -113,42 +114,67 @@ for _, cmd := range cmds {
 
 ## Configuration
 
-Both `AutoPipeline()` and `AsyncAutoPipeline()` take an optional
-`*AutoPipelineConfig` and return `(*AutoPipeliner, error)`. Pass `nil` to use
-the defaults. The error is non-nil only when the configuration is invalid (for
-example, setting `MaxConcurrentBatches` greater than 1 without also setting
-`Unordered`); an invalid config is never a panic.
+`AutoPipeline()` and `AsyncAutoPipeline()` take no arguments. They use the
+`AutoPipelineOptions` set on the client's options, if any, and otherwise the
+built-in default for their face. To pass options for a single autopipeliner,
+use `AutoPipelineWithOptions()` or `AsyncAutoPipelineWithOptions()` instead:
 
 ```go
-ap, err := rdb.AsyncAutoPipeline(&redis.AutoPipelineConfig{
+// On the client, shared by both faces.
+rdb := redis.NewClient(&redis.Options{
+    Addr:                "localhost:6379",
+    AutoPipelineOptions: &redis.AutoPipelineOptions{MaxFlushDelay: 100 * time.Microsecond},
+})
+
+// Or for a single autopipeliner.
+ap, err := rdb.AsyncAutoPipelineWithOptions(&redis.AutoPipelineOptions{
     MaxConcurrentBatches: 80,
     Unordered:            true,
 })
 ```
 
-The main configuration options are:
+All four methods return `(*AutoPipeliner, error)`. The error is non-nil only
+when the options are invalid (for example, setting `MaxConcurrentBatches`
+greater than 1 without also setting `Unordered`); invalid options are never a
+panic, and no instance is cached.
+
+The configuration options are:
 
 | Field | Description |
 | :---- | :---------- |
-| `MaxBatchSize` | Maximum number of commands the engine coalesces into a single pipeline before flushing. |
-| `MaxFlushDelay` | Maximum time the engine waits to accumulate more commands before flushing a batch. Larger values build deeper pipelines at the cost of latency. |
-| `MaxConcurrentBatches` | Number of batches that may be in flight at once. Values greater than 1 require `Unordered` because concurrent batches do not preserve a single ordered stream. |
-| `NumShards` | Number of independent queue-and-flusher shards. The default funnels every caller into one queue so batches stay deep. |
-| `PipelinePoolSize` | Number of pooled pipeline connections shared across batches. Because batches share these connections, automatic pipelining needs far fewer connections than a plain client at the same concurrency. |
+| `MaxBatchSize` | Target number of commands the engine coalesces into a single pipeline before flushing. This is a soft threshold rather than a hard cap, so a busy queue can flush a larger batch. Defaults to 200, or to 300 for the blocking face's built-in default. |
+| `MaxBatchBytes` | Approximate limit on the argument bytes in a batch, so that large values flush as several bounded writes instead of one very large one. Also a soft threshold. Defaults to 0, meaning no byte limit. |
+| `MaxFlushDelay` | Maximum time the engine waits to accumulate more commands before flushing a batch. Larger values build deeper pipelines at the cost of latency. Defaults to 0, which adds no accumulation wait. |
+| `AdaptiveDelay` | Scales `MaxFlushDelay` down as the queue fills, so a busy queue flushes sooner. Requires `MaxFlushDelay` greater than 0. Defaults to `false`. |
+| `MaxConcurrentBatches` | Number of batches that may execute at once. Defaults to 1, which gives a single ordered stream. Values greater than 1 require `Unordered` because concurrent batches do not preserve a single ordered stream. |
 | `Unordered` | Allows commands to execute without preserving a single ordered stream, which enables higher concurrency. |
-| `MaxRetries` | Number of times a whole batch is retried if its connection drops. |
+| `NumShards` | Number of independent queue-and-flusher shards. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. On the async face, more than one shard requires `Unordered`. |
 
-The `AutoPipeliner` instance is cached and shared per client: the first call's
-configuration wins, and `Close()` stops the instance for all callers.
+Connection and buffer tuning is not part of `AutoPipelineOptions`. Batches use
+the client's pipeline connections, which you size with the
+`PipelineReadBufferSize`, `PipelineWriteBufferSize`, and `PipelinePoolSize`
+fields of the client's options.
+
+Each face has its own cached instance, shared by every caller of that method on
+the client: the first call's options win and later calls return the same
+instance. `Close()` stops that instance for all callers, and a later call to the
+same method then builds a fresh one. Closing the client stops it permanently,
+after which the methods return `ErrClosed`.
 
 ## Cluster usage
 
 `AutoPipeline()` and `AsyncAutoPipeline()` also work on `ClusterClient`.
 Commands are routed to the correct shard by key, so the client installs
 slot-based shard routing to keep each shard's batch on a single master node
-(rather than splitting every batch across all nodes at flush time). A single
-batch may span many slots. Ordering is per key: same-key commands stay in
-order, while sub-pipelines on different nodes run concurrently.
+(rather than splitting every batch across all nodes at flush time). This is why
+cluster clients default to several shards instead of one. A single batch may
+span many slots. Ordering is per key: same-key commands stay in order, while
+sub-pipelines on different nodes run concurrently.
+
+Commands that must reach every node or shard, such as
+[`FLUSHALL`]({{< relref "/commands/flushall" >}}), cannot ride a pipeline, so
+the cluster client rejects them with an error rather than let them spoil a
+batch shared with other callers. Run them on the plain client instead.
 
 ## Caveats and limitations
 
@@ -158,10 +184,14 @@ order, while sub-pipelines on different nodes run concurrently.
 -   Blocking commands such as [`BLPOP`]({{< relref "/commands/blpop" >}}) and
     [`WAIT`]({{< relref "/commands/wait" >}}) are never batched and run directly
     on your context.
--   The generic `Do` method bypasses batching and behaves like `Client.Do`.
-    Prefer the typed methods (`ap.Set()`, `ap.Get()`, and so on).
--   On a dropped connection, a batch is retried as a whole (up to
-    `MaxRetries`), so non-idempotent commands may execute twice.
+-   The generic `Do`, `DoRaw`, and `DoRawWriteTo` methods run outside the
+    pipeline, on a normal connection, because an arbitrary command name can
+    carry connection state or block the connection. Prefer the typed methods
+    (`ap.Set()`, `ap.Get()`, and so on), which are always batched.
+-   On a dropped connection, a batch is retried as a whole, up to the client's
+    `MaxRetries`, so non-idempotent commands may execute twice. Set
+    `MaxRetries: -1`, or use a plain client, for commands that must never be
+    retransmitted.
 
 ## More information
 
