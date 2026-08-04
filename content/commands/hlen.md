@@ -58,9 +58,12 @@ The name of the key that holds the hash.
 ## Examples
 
 {{% redis-cli %}}
-HSET myhash field1 "Hello"
-HSET myhash field2 "World"
-HLEN myhash
+redis> HSET myhash field1 "Hello"
+(integer) 1
+redis> HSET myhash field2 "World"
+(integer) 1
+redis> HLEN myhash
+(integer) 2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

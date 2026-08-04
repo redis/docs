@@ -61,10 +61,12 @@ func ExampleClient_setnx_xx() {
 	// REMOVE_START
 	// start with fresh database
 	rdb.FlushDB(ctx)
-	rdb.Set(ctx, "bike:1", "Deimos", 0)
 	// REMOVE_END
 
 	// STEP_START setnx_xx
+	// Recreate the bike:1 key so this example runs on its own.
+	rdb.Set(ctx, "bike:1", "Deimos", 0)
+
 	res3, err := rdb.SetNX(ctx, "bike:1", "bike", 0).Result()
 
 	if err != nil {

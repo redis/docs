@@ -61,9 +61,12 @@ The name of the key to get and then delete.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-GETDEL mykey
-GET mykey
+redis> SET mykey "Hello"
+OK
+redis> GETDEL mykey
+"Hello"
+redis> GET mykey
+(nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -125,6 +125,10 @@ public class SetsExample
 
 
         // STEP_START smismember
+        // Recreate the set so this example runs on its own.
+        db.KeyDelete("bikes:racing:france");
+        db.SetAdd("bikes:racing:france", ["bike:1", "bike:2", "bike:3"]);
+
         bool res14 = db.SetContains("bikes:racing:france", "bike:1");
         Console.WriteLine(res14);   // >>> true
 

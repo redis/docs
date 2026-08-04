@@ -35,7 +35,7 @@ summary: Multiplies the numeric value at path by a value
 syntax_fmt: JSON.NUMMULTBY key path value
 title: JSON.NUMMULTBY
 ---
-Multiply the number value stored at `path` by `number`
+Multiply the number value stored at `path` by `value`
 
 [Examples](#examples)
 

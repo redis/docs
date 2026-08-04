@@ -12,7 +12,7 @@
   },
   "externalDocs": {
     "description": "Redis Cloud API Documentation",
-    "url": "https://redis.io/docs/latest/operate/rc/api/"
+    "url": "https://docs.redislabs.com/latest/rc/api/"
   },
   "servers": [
     {
@@ -46,6 +46,11 @@
       "name": "Databases - Pro",
       "description": "All Pro database operations.",
       "x-order": "20"
+    },
+    {
+      "name": "Endpoint Redirections",
+      "description": "Dynamic endpoint redirection operations.",
+      "x-order": "21"
     },
     {
       "name": "Subscriptions - Essentials",
@@ -86,7 +91,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_1",
+        "operationId": "proxyDataIntegrationWorkspace_4",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -108,11 +113,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -156,7 +161,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_4",
+        "operationId": "proxyDataIntegrationWorkspace",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -179,11 +184,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -227,7 +232,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace",
+        "operationId": "proxyDataIntegrationWorkspace_3",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -250,11 +255,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -298,7 +303,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_2",
+        "operationId": "proxyDataIntegrationWorkspace_1",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -321,11 +326,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -369,7 +374,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_3",
+        "operationId": "proxyDataIntegrationWorkspace_2",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -392,11 +397,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -442,7 +447,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_6",
+        "operationId": "proxyDataIntegrationWorkspace_9",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -464,11 +469,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -512,7 +517,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_9",
+        "operationId": "proxyDataIntegrationWorkspace_5",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -535,11 +540,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -583,7 +588,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_5",
+        "operationId": "proxyDataIntegrationWorkspace_8",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -606,11 +611,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -654,7 +659,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_7",
+        "operationId": "proxyDataIntegrationWorkspace_6",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -677,11 +682,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -725,7 +730,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_8",
+        "operationId": "proxyDataIntegrationWorkspace_7",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -748,11 +753,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -812,11 +817,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -878,11 +883,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -940,11 +945,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -1004,11 +1009,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -1070,11 +1075,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -1132,11 +1137,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -1216,11 +1221,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -1288,11 +1293,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -1363,11 +1368,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -1437,11 +1442,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -1511,11 +1516,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -1585,11 +1590,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -1680,11 +1685,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -1763,11 +1768,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -1849,11 +1854,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -1934,11 +1939,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -2038,11 +2043,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -2130,11 +2135,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -2220,11 +2225,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -2292,11 +2297,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -2386,11 +2391,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -2468,11 +2473,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -2558,11 +2563,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -2630,11 +2635,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -2694,11 +2699,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -2760,11 +2765,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -2836,11 +2841,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -2929,11 +2934,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3001,11 +3006,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3075,11 +3080,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3151,11 +3156,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3233,11 +3238,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3329,11 +3334,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3411,11 +3416,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3515,11 +3520,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3599,11 +3604,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3663,11 +3668,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -3729,11 +3734,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -3814,11 +3819,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -3878,11 +3883,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -3943,11 +3948,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -4005,11 +4010,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4081,11 +4086,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4170,11 +4175,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4242,11 +4247,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4316,11 +4321,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4392,11 +4397,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4474,11 +4479,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4570,11 +4575,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4652,11 +4657,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4717,11 +4722,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4784,11 +4789,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -4847,11 +4852,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4912,11 +4917,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -4978,11 +4983,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -5040,11 +5045,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -5114,11 +5119,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -5176,11 +5181,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -5250,11 +5255,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -5312,11 +5317,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -5364,11 +5369,11 @@
         "description": "Gets a list of all Pro subscriptions in the current account.",
         "operationId": "getAllSubscriptions",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -5461,11 +5466,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -5528,11 +5533,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -5594,11 +5599,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -5666,11 +5671,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -5740,11 +5745,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -5806,11 +5811,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -5881,11 +5886,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -5965,11 +5970,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -6051,11 +6056,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -6129,11 +6134,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -6206,11 +6211,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "No Content",
@@ -6282,11 +6287,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "No Content",
@@ -6367,11 +6372,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "No Content",
@@ -6453,11 +6458,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "No Content",
@@ -6538,11 +6543,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -6602,11 +6607,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -6678,11 +6683,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -6745,11 +6750,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -6801,11 +6806,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -6866,11 +6871,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -6940,11 +6945,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -7016,11 +7021,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -7083,11 +7088,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -7149,11 +7154,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "No Content",
@@ -7214,11 +7219,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "No Content",
@@ -7288,11 +7293,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "No Content",
@@ -7363,11 +7368,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "No Content",
@@ -7437,11 +7442,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -7501,11 +7506,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -7578,11 +7583,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -7668,11 +7673,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -7752,11 +7757,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -7829,11 +7834,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -7905,11 +7910,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -7954,7 +7959,7 @@
           "Databases - Pro"
         ],
         "summary": "Resume Pro database traffic",
-        "description": "Resumes traffic for the specified Pro database.",
+        "description": "Resumes traffic for the specified Pro database. This is available in private preview.",
         "operationId": "resumeBdbTraffic",
         "parameters": [
           {
@@ -7981,11 +7986,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "Traffic resumed"
@@ -8048,11 +8053,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8124,11 +8129,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8207,11 +8212,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8282,11 +8287,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8334,11 +8339,11 @@
         "description": "Gets a list of all Essentials subscriptions in the current account.",
         "operationId": "getAllSubscriptions_1",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8388,11 +8393,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -8478,11 +8483,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8557,11 +8562,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8634,11 +8639,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8710,11 +8715,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8759,7 +8764,7 @@
           "Databases - Essentials"
         ],
         "summary": "Resume Essentials database traffic",
-        "description": "Resumes traffic for the specified Essentials database.",
+        "description": "Resumes traffic for the specified Essentials database. This is available in private preview.",
         "operationId": "resumeBdbTraffic_1",
         "parameters": [
           {
@@ -8786,11 +8791,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "204": {
             "description": "Traffic resumed"
@@ -8853,11 +8858,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -8929,11 +8934,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9003,11 +9008,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9078,11 +9083,11 @@
           }
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9090,6 +9095,143 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TaskStateUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with new updated name)"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/endpoint-redirections": {
+      "post": {
+        "tags": [
+          "Endpoint Redirections"
+        ],
+        "summary": "Create dynamic endpoint redirection",
+        "description": "Initiates a dynamic endpoint redirection from a source database to a target database. Returns a redirection ID that can be used to poll the status. This is available in private preview.",
+        "operationId": "createEndpointsRedirection",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEndpointsRedirectionRequest"
+              },
+              "example": {
+                "sourceDatabaseId": 51404231,
+                "targetDatabaseId": 51404232,
+                "endpointTargetType": "public",
+                "duplicateACLs": true,
+                "migrationProtection": true
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointsRedirectionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to create requested resource (primarily due to not active resource)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "408": {
+            "description": "Request Timeout - The server didn't receive a complete request message within the server's allotted timeout period"
+          },
+          "409": {
+            "description": "Conflict - request could not be processed because of a conflict (primarily due to another resource that exist with the new name"
+          },
+          "422": {
+            "description": "Unprocessable Entity - The server understands the request, and the syntax of the request is correct, but it was unable to process the contained instructions"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/endpoint-redirections/{redirectionId}/revert": {
+      "post": {
+        "tags": [
+          "Endpoint Redirections"
+        ],
+        "summary": "Revert dynamic endpoint redirection",
+        "description": "Reverts a previously completed dynamic endpoint redirection, restoring the original endpoint configuration. This is available in private preview.",
+        "operationId": "revertEndpointsRedirection",
+        "parameters": [
+          {
+            "name": "redirectionId",
+            "in": "path",
+            "description": "Dynamic endpoint redirection ID.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          }
+        ],
+        "responses": {
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointsRedirectionResponse"
                 }
               }
             }
@@ -9140,11 +9282,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -9195,11 +9337,11 @@
         "description": "Gets a list of all configured cloud accounts.",
         "operationId": "getCloudAccounts",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9249,11 +9391,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -9304,11 +9446,11 @@
         "description": "Gets a list of all access control users for this account.",
         "operationId": "getAllUsers_1",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9358,11 +9500,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -9413,11 +9555,11 @@
         "description": "Gets a list of all database access roles for this account.",
         "operationId": "getRoles",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9467,11 +9609,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -9522,11 +9664,11 @@
         "description": "Gets a list of all Redis ACL rules for this account.",
         "operationId": "getAllRedisRules",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9576,11 +9718,11 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -9631,11 +9773,11 @@
         "description": "Gets a list of all account users.",
         "operationId": "getAllUsers",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9677,11 +9819,11 @@
         "description": "Gets a list of all currently running tasks for this account.",
         "operationId": "getAllTasks",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9734,11 +9876,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9792,11 +9934,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9850,11 +9992,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9919,11 +10061,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -9988,11 +10130,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -10076,11 +10218,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -10164,11 +10306,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -10232,11 +10374,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -10310,11 +10452,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -10388,11 +10530,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -10446,11 +10588,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "202": {
             "description": "Accepted",
@@ -10504,11 +10646,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -10547,7 +10689,7 @@
           "Databases - Pro"
         ],
         "summary": "Get Pro database traffic",
-        "description": "Gets traffic information for the specified Pro database. If the database was not a source in a redirect endpoints operation, a not found error will be returned.",
+        "description": "Gets traffic information for the specified Pro database. If the database was not a source in a redirect endpoints operation, a not found error will be returned. This is available in private preview.",
         "operationId": "getDatabaseTraffic",
         "parameters": [
           {
@@ -10574,11 +10716,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -10651,11 +10793,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -10721,11 +10863,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -10789,11 +10931,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -10847,11 +10989,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -10939,11 +11081,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11000,11 +11142,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11046,11 +11188,11 @@
         "description": "Gets a list of available [query performance factors](https://redis.io/docs/latest/operate/rc/databases/configuration/advanced-capabilities/#query-performance-factor).",
         "operationId": "getSupportedSearchScalingFactors",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11092,11 +11234,11 @@
         "description": "Gets a list of all payment methods for this account.",
         "operationId": "getAccountPaymentMethods",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11195,11 +11337,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11238,7 +11380,7 @@
           "Databases - Essentials"
         ],
         "summary": "Get Essentials database traffic",
-        "description": "Gets traffic information for the specified Essentials database. If the database was not a source in a redirect endpoints operation, a not found error will be returned.",
+        "description": "Gets traffic information for the specified Essentials database. If the database was not a source in a redirect endpoints operation, a not found error will be returned. This is available in private preview.",
         "operationId": "getDatabaseTraffic_1",
         "parameters": [
           {
@@ -11265,11 +11407,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11333,11 +11475,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11401,11 +11543,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11459,11 +11601,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11530,11 +11672,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11588,11 +11730,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11646,11 +11788,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11658,6 +11800,65 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/FixedSubscriptionsPlans"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed for requested resource"
+          },
+          "403": {
+            "description": "Forbidden - Not allowed to access requested resource (primarily due to client source IP API Key restrictions)"
+          },
+          "404": {
+            "description": "Not Found - The resource you were trying to reach was not found or does not exist"
+          },
+          "429": {
+            "description": "Too Many Requests - Too many resources are concurrently created / updated / deleted in the account. Please re-submit API requests after resource changes are completed)"
+          },
+          "500": {
+            "description": "Internal system error - If this error persists, please contact customer support"
+          },
+          "503": {
+            "description": "Service Unavailable - Server is temporarily unable to handle the request, please try again later. If this error persists, please contact customer support "
+          }
+        }
+      }
+    },
+    "/v1/endpoint-redirections/{redirectionId}": {
+      "get": {
+        "tags": [
+          "Endpoint Redirections"
+        ],
+        "summary": "Get dynamic endpoint redirection status",
+        "description": "Gets the status of a dynamic endpoint redirection operation by its ID. This is available in private preview.",
+        "operationId": "getEndpointsRedirectionStatus",
+        "parameters": [
+          {
+            "name": "redirectionId",
+            "in": "path",
+            "description": "Dynamic endpoint redirection ID.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          }
+        ],
+        "responses": {
+          "412": {
+            "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EndpointsRedirectionResponse"
                 }
               }
             }
@@ -11692,11 +11893,11 @@
         "description": "Gets a list of Redis [advanced capabilities](https://redis.io/docs/latest/operate/rc/databases/configuration/advanced-capabilities/) (also known as modules) available for databases prior to Redis 8. Advanced capability support may differ based on subscription and database settings.",
         "operationId": "getSupportedDatabaseModules",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11738,11 +11939,11 @@
         "description": "Gets a list of all [data persistence](https://redis.io/docs/latest/operate/rc/databases/configuration/data-persistence/) options for this account.",
         "operationId": "getDataPersistenceOptions",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11784,11 +11985,11 @@
         "description": "Lists all Data Integration workspaces in the current account. Proxied to the Cloud RDI service.",
         "operationId": "getDataIntegrationWorkspaces",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -11842,11 +12043,11 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "Returns the cost report file",
@@ -11884,11 +12085,11 @@
         "description": "Gets information on this account.",
         "operationId": "getCurrentAccount",
         "responses": {
-          "400": {
-            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
-          },
           "412": {
             "description": "Precondition Failed - Feature flag for this flow is off"
+          },
+          "400": {
+            "description": "Bad Request - The server cannot process the request due to something that is perceived to be a client error"
           },
           "200": {
             "description": "OK",
@@ -12448,6 +12649,10 @@
           "lastModified": "2021-08-29T13:03:08Z",
           "publicEndpoint": "redis-17571.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:17571",
           "privateEndpoint": "redis-17571.internal.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:17571",
+          "dynamicEndpoints": {
+            "public": "malleable-ultraquiet-point-31101.db-qa.redis.io:17571",
+            "private": "cherry-cook-turn-91868.db-qa.redis.io:17571"
+          },
           "replica": {
             "syncSources": [
               {
@@ -13791,6 +13996,81 @@
         },
         "description": "RedisLabs data persistence information"
       },
+      "EndpointsRedirectionResponse": {
+        "type": "object",
+        "properties": {
+          "redirectionId": {
+            "type": "string",
+            "description": "Unique identifier of the dynamic endpoint redirection. Use it to poll the redirection status.",
+            "format": "uuid",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the dynamic endpoint redirection.",
+            "example": "in-progress",
+            "enum": [
+              "initiated",
+              "pending",
+              "in-progress",
+              "completed",
+              "failed",
+              "reverted"
+            ]
+          },
+          "sourceDatabaseId": {
+            "type": "integer",
+            "description": "ID of the source database the endpoint is redirected from.",
+            "format": "int32",
+            "example": 51404231
+          },
+          "targetDatabaseId": {
+            "type": "integer",
+            "description": "ID of the target database the endpoint is redirected to.",
+            "format": "int32",
+            "example": 51404232
+          },
+          "isRevert": {
+            "type": "boolean",
+            "description": "Whether this redirection reverts a previously completed redirection.",
+            "example": false
+          },
+          "duplicateACLs": {
+            "type": "boolean",
+            "description": "Whether the source database ACLs were duplicated to the target database.",
+            "example": true
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "Timestamp when the redirection started.",
+            "format": "date-time",
+            "example": "2024-05-01T13:03:08Z"
+          },
+          "completedAt": {
+            "type": "string",
+            "description": "Timestamp when the redirection completed.",
+            "format": "date-time",
+            "example": "2024-05-01T13:05:42Z"
+          },
+          "revertedAt": {
+            "type": "string",
+            "description": "Timestamp when the redirection was reverted, if applicable.",
+            "format": "date-time"
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "Error message describing why the redirection failed, if applicable."
+          },
+          "endpoints": {
+            "type": "array",
+            "description": "Details of the individual endpoint redirections performed.",
+            "items": {
+              "$ref": "#/components/schemas/EndpointRedirectionDTO"
+            }
+          }
+        },
+        "description": "Dynamic endpoint redirection status response message"
+      },
       "CloudAccounts": {
         "type": "object",
         "properties": {
@@ -14504,6 +14784,10 @@
                   "lastModified": "2021-08-29T13:03:08Z",
                   "publicEndpoint": "redis-17571.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:17571",
                   "privateEndpoint": "redis-17571.internal.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:17571",
+                  "dynamicEndpoints": {
+                    "public": "nonstick-pot-wave-27804.db-qa.redis.io:17571",
+                    "private": "mustard-shake-suitable-46756.db-qa.redis.io:17571"
+                  },
                   "replica": {
                     "syncSources": [
                       {
@@ -14573,6 +14857,10 @@
                   "lastModified": "2021-08-29T13:03:27Z",
                   "publicEndpoint": "redis-11836.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:11836",
                   "privateEndpoint": "redis-11836.internal.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:11836",
+                  "dynamicEndpoints": {
+                    "public": "responsible-reason-camp-67293.db-qa.redis.io:11836",
+                    "private": "ultraclear-pocket-mercurial-75326.db-qa.redis.io:11836"
+                  },
                   "replica": {
                     "syncSources": [
                       {
@@ -14642,6 +14930,10 @@
                   "lastModified": "2021-08-29T13:03:26Z",
                   "publicEndpoint": "redis-19708.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:19708",
                   "privateEndpoint": "redis-19708.internal.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:19708",
+                  "dynamicEndpoints": {
+                    "public": "rabbit-colorfast-cheery-91128.db-qa.redis.io:19708",
+                    "private": "sprout-eucalyptus-care-43178.db-qa.redis.io:19708"
+                  },
                   "replica": {
                     "syncSources": [
                       {
@@ -14711,6 +15003,10 @@
                   "lastModified": "2021-08-29T13:03:27Z",
                   "publicEndpoint": "redis-14503.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:14503",
                   "privateEndpoint": "redis-14503.internal.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:14503",
+                  "dynamicEndpoints": {
+                    "public": "connection-stitch-seafoam-17021.db-qa.redis.io:14503",
+                    "private": "pocket-pan-neoswift-58145.db-qa.redis.io:14503"
+                  },
                   "replica": {
                     "syncSources": [
                       {
@@ -14780,6 +15076,10 @@
                   "lastModified": "2021-08-29T13:03:22Z",
                   "publicEndpoint": "redis-11349.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:11349",
                   "privateEndpoint": "redis-11349.internal.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:11349",
+                  "dynamicEndpoints": {
+                    "public": "ecru-measure-theory-32604.db-qa.redis.io:11349",
+                    "private": "error-rosemary-gold-92024.db-qa.redis.io:11349"
+                  },
                   "replica": {
                     "syncSources": [
                       {
@@ -14831,6 +15131,10 @@
                   "lastModified": "2021-08-29T13:03:27Z",
                   "publicEndpoint": "redis-13074.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:13074",
                   "privateEndpoint": "redis-13074.internal.c235866.us-east-1-1.ec2.qa-cloud.rlrcp.com:13074",
+                  "dynamicEndpoints": {
+                    "public": "purebred-saffronish-bird-84456.db-qa.redis.io:13074",
+                    "private": "sparkly-tiger-jovial-96172.db-qa.redis.io:13074"
+                  },
                   "replica": {
                     "syncSources": [
                       {
@@ -16105,6 +16409,10 @@
                 "dataPersistence": "none",
                 "replication": true,
                 "dataEvictionPolicy": "noeviction",
+                "dynamicEndpoints": {
+                  "public": "beautiful-ultralight-board-76526.db-qa.redis.io:12345",
+                  "private": "dog-ball-key-65499.db-qa.redis.io:12345"
+                },
                 "clustering": {
                   "enabled": false,
                   "regexRules": [
@@ -16185,6 +16493,10 @@
                 "dataPersistence": "none",
                 "replication": true,
                 "dataEvictionPolicy": "noeviction",
+                "dynamicEndpoints": {
+                  "public": "morning-easy-volleyball-28510.db-qa.redis.io:12000",
+                  "private": "table-peanut-chin-89928.db-qa.redis.io:12000"
+                },
                 "clustering": {
                   "enabled": false,
                   "regexRules": [
@@ -16367,6 +16679,49 @@
           }
         },
         "description": "Private Service Connect endpoint update request"
+      },
+      "CreateEndpointsRedirectionRequest": {
+        "required": [
+          "endpointTargetType",
+          "migrationProtection",
+          "sourceDatabaseId",
+          "targetDatabaseId"
+        ],
+        "type": "object",
+        "properties": {
+          "sourceDatabaseId": {
+            "type": "integer",
+            "description": "ID of the source database to redirect the endpoint from.",
+            "format": "int32",
+            "example": 51404231
+          },
+          "targetDatabaseId": {
+            "type": "integer",
+            "description": "ID of the target database to redirect the endpoint to.",
+            "format": "int32",
+            "example": 51404232
+          },
+          "endpointTargetType": {
+            "type": "string",
+            "description": "Type of endpoint to redirect.",
+            "example": "public",
+            "enum": [
+              "public",
+              "private"
+            ]
+          },
+          "duplicateACLs": {
+            "type": "boolean",
+            "description": "Whether to duplicate the source database ACLs to the target database.",
+            "example": true
+          },
+          "migrationProtection": {
+            "type": "boolean",
+            "description": "Must be explicitly set to true to start the migration. This is a protective measure to avoid accidental migrations.",
+            "example": true
+          }
+        },
+        "description": "Dynamic endpoint redirection request"
       },
       "DatabaseSlowLogEntries": {
         "type": "object",
@@ -17481,6 +17836,44 @@
         },
         "description": "RedisLabs region information"
       },
+      "EndpointRedirectionDTO": {
+        "type": "object",
+        "properties": {
+          "sourceEndpointName": {
+            "type": "string",
+            "description": "Name of the source endpoint.",
+            "example": "redis-12345"
+          },
+          "targetEndpointName": {
+            "type": "string",
+            "description": "Name of the target endpoint.",
+            "example": "redis-12346"
+          },
+          "sourceEndpointType": {
+            "type": "string",
+            "description": "Type of the source endpoint.",
+            "example": "public",
+            "enum": [
+              "public",
+              "private"
+            ]
+          },
+          "targetEndpointType": {
+            "type": "string",
+            "description": "Type of the target endpoint.",
+            "example": "public",
+            "enum": [
+              "public",
+              "private"
+            ]
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "Error message describing why this endpoint redirection failed, if applicable."
+          }
+        },
+        "description": "Details of a single endpoint redirection."
+      },
       "TasksStateUpdate": {
         "type": "object",
         "properties": {
@@ -18142,6 +18535,7 @@
               "PRIVATE_LINK_PRINCIPAL_ALREADY_EXISTS",
               "PRIVATE_LINK_PRINCIPAL_NOT_FOUND",
               "PRIVATE_LINK_PRINCIPAL_INVALID_PRINCIPLE",
+              "PRIVATE_LINK_PRINCIPAL_CANNOT_BE_OWNER_ACCOUNT",
               "PRIVATE_LINK_CLOUD_PROVIDER_NOT_SUPPORTED",
               "PRIVATE_LINK_GET_A_FLEXIBLE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_AN_ACTIVE_ACTIVE_SUBSCRIPTION",
               "PRIVATE_LINK_GET_AN_ACTIVE_ACTIVE_SUBSCRIPTION_PRIVATE_LINK_IS_NOT_ALLOWED_WITH_A_SINGLE_REGION_SUBSCRIPTION",
@@ -18468,12 +18862,17 @@
         "type": "object",
         "properties": {
           "public": {
-            "type": "string"
+            "type": "string",
+            "description": "Public dynamic endpoint of the database. This is available in private preview.",
+            "example": "accessible-wise-produce-60121.db-qa.redis.io:13427"
           },
           "private": {
-            "type": "string"
+            "type": "string",
+            "description": "Private dynamic endpoint of the database. This is available in private preview.",
+            "example": "effective-ticket-plants-62093.db-qa.redis.io:13427"
           }
-        }
+        },
+        "description": "Database dynamic endpoints. This is available in private preview."
       },
       "CrdbFlushRequest": {
         "type": "object",
@@ -19041,6 +19440,10 @@
           "dataPersistence": "none",
           "replication": true,
           "dataEvictionPolicy": "noeviction",
+          "dynamicEndpoints": {
+            "public": "hyperclear-comparison-purpose-36067.db-qa.redis.io:12037",
+            "private": "mahogany-refined-system-53022.db-qa.redis.io:12037"
+          },
           "clustering": {
             "enabled": false,
             "regexRules": [

@@ -77,11 +77,17 @@ One or more values to append to the list, only if it already exists.
 ## Examples
 
 {{% redis-cli %}}
-RPUSH mylist "Hello"
-RPUSHX mylist "World"
-RPUSHX myotherlist "World"
-LRANGE mylist 0 -1
-LRANGE myotherlist 0 -1
+redis> RPUSH mylist "Hello"
+(integer) 1
+redis> RPUSHX mylist "World"
+(integer) 2
+redis> RPUSHX myotherlist "World"
+(integer) 0
+redis> LRANGE mylist 0 -1
+1) "Hello"
+2) "World"
+redis> LRANGE myotherlist 0 -1
+(empty array)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

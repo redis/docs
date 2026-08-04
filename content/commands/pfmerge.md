@@ -100,10 +100,14 @@ One or more source HyperLogLog keys to merge into `destkey`. `destkey` itself is
 ## Examples
 
 {{% redis-cli %}}
-PFADD hll1 foo bar zap a
-PFADD hll2 a b c foo
-PFMERGE hll3 hll1 hll2
-PFCOUNT hll3
+redis> PFADD hll1 foo bar zap a
+(integer) 1
+redis> PFADD hll2 a b c foo
+(integer) 1
+redis> PFMERGE hll3 hll1 hll2
+OK
+redis> PFCOUNT hll3
+(integer) 6
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

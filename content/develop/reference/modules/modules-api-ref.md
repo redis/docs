@@ -3949,7 +3949,7 @@ Modifies the user that [`RedisModule_Call`](#RedisModule_Call) will use (e.g. fo
 
     const RedisModuleUser *RedisModule_GetContextUser(RedisModuleCtx *ctx);
 
-**Available since:** unreleased
+**Available since:** 8.8.0
 
 Returns the user associated with the context via [`RedisModule_SetContextUser`](#RedisModule_SetContextUser).
 Returns NULL if no user was set on the context.
@@ -4051,7 +4051,9 @@ On success a `RedisModuleCallReply` object is returned, otherwise
 NULL is returned and errno is set to the following values:
 
 * EBADF: wrong format specifier.
-* EINVAL: wrong command arity.
+* EINVAL: wrong command arity, or the command was issued from within a
+          per-key post-notification callback (RedisModule_AddPostNotificationJobForKey),
+          where commands are not allowed.
 * ENOENT: command does not exist.
 * EPERM: operation in Cluster instance with key in non local slot.
 * EROFS: operation in Cluster instance when a write command is sent
@@ -5356,7 +5358,7 @@ Returns:
                                                          int flags,
                                                          RedisModuleNotificationWithSubkeysFunc callback);
 
-**Available since:** unreleased
+**Available since:** 8.8.0
 
 Subscribe to keyspace notifications with subkey information.
 
@@ -5400,7 +5402,7 @@ the callback (e.g. in a [`RedisModule_AddPostNotificationJob`](#RedisModule_AddP
                                                              int flags,
                                                              RedisModuleNotificationWithSubkeysFunc callback);
 
-**Available since:** unreleased
+**Available since:** 8.8.0
 
 Unregister a module's callback from keyspace notifications with subkeys
 for specific event types.
@@ -5423,7 +5425,7 @@ Returns:
 ### `RedisModule_AddPostNotificationJob`
 
     int RedisModule_AddPostNotificationJob(RedisModuleCtx *ctx,
-                                           RedisModulePostNotificationJobFunc callback,
+                                           RedisModulePostNotifyJobFunc callback,
                                            void *privdata,
                                            void (*free_privdata)(void*));
 
@@ -5446,6 +5448,65 @@ and so Redis will make no attempt to protect the module from infinite loops.
 
 Return `REDISMODULE_OK` on success and `REDISMODULE_ERR` if was called while loading data from disk (AOF or RDB) or
 if the instance is a readonly replica.
+
+<span id="RedisModule_AddPostNotificationJobForKey"></span>
+
+### `RedisModule_AddPostNotificationJobForKey`
+
+    int RedisModule_AddPostNotificationJobForKey(RedisModuleCtx *ctx,
+                                                 RedisModulePostNotifyJobPerKeyFunc callback,
+                                                 RedisModuleString *key,
+                                                 void *privdata,
+                                                 void (*free_privdata)(void*));
+
+**Available since:** unreleased
+
+Sibling of [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob) that fires per-key. May only be
+called from within a keyspace-notification handler (the single-key context
+the API is scoped to). Each call binds the job to the caller-supplied
+`key`, so multi-key commands such as MSET (which emit one notification per
+key) may register one job per affected key.
+
+Firing schedule (this is what distinguishes the per-key API from
+[`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob) — choosing this API opts into all of it):
+ - At the tail of every `call()`, so per-key effects are observable between
+   MULTI/EXEC and script (EVAL/FCALL) sub-commands.
+ - During AOF replay, at the tail of every replayed command (single commands
+   and each sub-command of MULTI/EXEC), so per-key state is rebuilt on reload.
+ - At the end of the outermost execution unit, for jobs registered outside a
+   sub-command loop (e.g. by a standalone command).
+The firing happens off the universal afterCommand() hot path — via explicit
+drains in execCommand (multi.c), scriptCall (script.c), and AOF replay — so
+standalone commands that don't use the feature pay nothing.
+
+Jobs fire in submission order. `key` must be a valid `RedisModuleString`; the
+implementation takes its own reference and the caller retains ownership of
+its own reference. `free_pd` may be NULL.
+
+Cross-phase contract:
+ - The callback MUST only touch non-replicated, non-AOF-persisted state,
+   such as module-attached key metadata via [`RedisModule_SetKeyMeta`](#RedisModule_SetKeyMeta) /
+   [`RedisModule_GetKeyMeta`](#RedisModule_GetKeyMeta). The same callback fires on the master, on every
+   replica receiving master-propagated commands, and during AOF replay;
+   each instance maintains its own per-key state independently and they
+   converge because they all run the same callback over the same KSN
+   stream.
+ - Touching the keyspace from inside the callback (e.g.
+   `RedisModule_Call(..., "!...")`) is a contract violation: on AOF replay it
+   amplifies the AOF; on a replica it diverges the replica from its
+   master. The runtime enforces this — [`RedisModule_Call`](#RedisModule_Call) is refused (returns NULL
+   with errno == EINVAL and a warning logged, or a `-ERR` call-reply when
+   `CALL_REPLIES_AS_ERRORS` is requested) while a per-key callback runs.
+ - Firing a keyspace notification from inside the callback
+   ([`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent) / [`RedisModule_NotifyKeyspaceEventWithSubkeys`](#RedisModule_NotifyKeyspaceEventWithSubkeys)) is
+   likewise refused (returns `REDISMODULE_ERR` with a warning logged): a
+   nested notification could enqueue further per-key jobs mid-drain, so the
+   callback is kept free of side effects on the post-notification queue.
+
+Return `REDISMODULE_OK` on success and `REDISMODULE_ERR` if called outside a
+keyspace-notification handler. The API is permitted on read-only replicas
+during AOF replay, so per-key state stays continuously in sync with
+the keyspace events the instance observes.
 
 <span id="RedisModule_GetNotifyKeyspaceEvents"></span>
 
@@ -5480,7 +5541,7 @@ Expose notifyKeyspaceEvent to modules
                                                    const char *event,
                                                    ;
 
-**Available since:** unreleased
+**Available since:** 8.8.0
 
 Like [`RedisModule_NotifyKeyspaceEvent`](#RedisModule_NotifyKeyspaceEvent), but also triggers subkey-level notifications
 when subkeys are provided. Both key-level (keyspace/keyevent) and
@@ -5614,10 +5675,10 @@ or the node ID does not exist from the POV of this local node, `REDISMODULE_ERR`
 is returned.
 
 The arguments `ip`, `master_id`, `port` and `flags` can be NULL in case we don't
-need to populate back certain info. If an `ip` and `master_id` (only populated
+need to populate back certain info. If an `ip` and/or `master_id` (only populated
 if the instance is a slave) are specified, they point to buffers holding
-at least `REDISMODULE_NODE_ID_LEN` bytes. The strings written back as `ip`
-and `master_id` are not null terminated.
+at least INET6_ADDRSTRLEN (46) and `REDISMODULE_NODE_ID_LEN` bytes, respectively.
+The strings written back as `ip` and `master_id` are not null terminated.
 
 The list of flags reported is the following:
 
@@ -5627,6 +5688,24 @@ The list of flags reported is the following:
 * `REDISMODULE_NODE_PFAIL`:        We see the node as failing
 * `REDISMODULE_NODE_FAIL`:         The cluster agrees the node is failing
 * `REDISMODULE_NODE_NOFAILOVER`:   The slave is configured to never failover
+
+<span id="RedisModule_GetClusterNodeSlotRanges"></span>
+
+### `RedisModule_GetClusterNodeSlotRanges`
+
+    RedisModuleSlotRangeArray *RedisModule_GetClusterNodeSlotRanges(RedisModuleCtx *ctx,
+                                                                    const char *nodeid);
+
+**Available since:** unreleased
+
+Returns the slot ranges owned by the cluster node identified by `nodeid`.
+
+An optional `ctx` can be provided to enable auto-memory management.
+An empty array is returned if cluster mode is disabled (no cluster nodes
+exist) or if no node matches `nodeid`.
+If the node is a replica, the slot ranges of its master are returned.
+
+The returned array must be freed with [`RedisModule_ClusterFreeSlotRanges()`](#RedisModule_ClusterFreeSlotRanges).
 
 <span id="RedisModule_SetClusterFlags"></span>
 
@@ -5754,21 +5833,27 @@ Returns 0 for:
 Propagate commands along with slot migration.
 
 This function allows modules to add commands that will be sent to the
-destination node before the actual slot migration begins. It should only be
-called during the `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE` event.
+destination node as part of the slot migration. It should only be called
+during one of the following events:
+
+* `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE`:
+  the commands are delivered before the actual slot data migration begins.
+  This event is fired in the fork child process just before slot snapshot
+  delivery begins.
+* `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE_END`:
+  the commands are delivered at the very end of the migration, just before
+  the STREAM-EOF is sent to the destination. This event is fired in the main
+  process while the slot writes are paused.
 
 This function can be called multiple times within the same event to
-replicate multiple commands. All commands will be sent before the
-actual slot data migration begins.
-
-Note: This function is only available in the fork child process just before
-      slot snapshot delivery begins.
+replicate multiple commands.
 
 On success `REDISMODULE_OK` is returned, otherwise
 `REDISMODULE_ERR` is returned and errno is set to the following values:
 
 * EINVAL: function arguments or format specifiers are invalid.
-* EBADF: not called in the correct context, e.g. not called in the `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE` event.
+* EBADF: not called in the correct context, e.g. not called in one of the
+         events listed above.
 * ENOENT: command does not exist.
 * ENOTSUP: command is cross-slot.
 * ERANGE: command contains keys that are not within the migrating slot range.
@@ -7342,13 +7427,8 @@ The function will return 1 if there are more elements to scan and 0 otherwise,
 possibly setting errno if the call failed.
 It is also possible to restart an existing cursor using [`RedisModule_ScanCursorRestart`](#RedisModule_ScanCursorRestart).
 
-NOTE: Certain operations are unsafe while iterating the object. For instance
-while the API guarantees to return at least one time all the elements that
-are present in the data structure consistently from the start to the end
-of the iteration (see HSCAN and similar commands documentation), the more
-you play with the elements, the more duplicates you may get. In general
-deleting the current element of the data structure is safe, while removing
-the key you are iterating is not safe.
+NOTE: The scan may return an element more than once and you must not  modify
+the key within the callback.
 
 <span id="section-module-fork-api"></span>
 
@@ -7723,7 +7803,10 @@ Here is a list of events you can use as 'eid' and related sub events:
     migration operation to let modules prepare for the ownership change and
     observe the completion of the slot migration. MIGRATE_MODULE_PROPAGATE
     event is triggered in the fork just before snapshot delivery; modules may
-    use it to enqueue commands that will be delivered first. See
+    use it to enqueue commands that will be delivered first. The
+    MIGRATE_MODULE_PROPAGATE_END event is triggered in the main process at the
+    very end of the migration, just before the STREAM-EOF is sent; modules may
+    use it to enqueue commands that will be delivered last. See
     RedisModule_ClusterPropagateForSlotMigration() for details.
 
     * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_IMPORT_STARTED`
@@ -7733,6 +7816,7 @@ Here is a list of events you can use as 'eid' and related sub events:
     * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_FAILED`
     * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_COMPLETED`
     * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE`
+    * `REDISMODULE_SUBEVENT_CLUSTER_SLOT_MIGRATION_MIGRATE_MODULE_PROPAGATE_END`
 
     The data pointer can be casted to a RedisModuleClusterSlotMigrationInfo
     structure with the following fields:
@@ -7766,6 +7850,39 @@ Here is a list of events you can use as 'eid' and related sub events:
     structure with the following fields:
 
         RedisModuleSlotRangeArray *slots;  // Slot ranges
+
+* `RedisModuleEvent_ClusterTopologyChange`
+
+    Called, in cluster mode, when the topology of the cluster changes: when the
+    cluster first becomes ready, when slot ownership or node membership changes
+    (resharding, a node joining or leaving), and when a primary changes (a
+    failover or a replica being promoted). It lets modules that route to other
+    shards (e.g. via slot ranges) refresh their cached view of the cluster
+    without polling or requiring an explicit command. Fires are debounced to at
+    most one per event loop iteration, so a single reshuffle touching many slots
+    yields one event.
+
+    This event has no meaningful sub event (it is always fired with subevent 0).
+
+    The data pointer can be casted to a RedisModuleClusterTopologyChangeInfo
+    structure. Its `change_flags` field is a bitmask of the reasons that
+    contributed to this (possibly debounced) notification:
+
+    * `REDISMODULE_CLUSTER_TOPOLOGY_CHANGE_FLAG_SLOT`:
+        Slot ownership changed.
+    * `REDISMODULE_CLUSTER_TOPOLOGY_CHANGE_FLAG_ROLE`:
+        A node changed its primary/replica role (e.g. a failover).
+    * `REDISMODULE_CLUSTER_TOPOLOGY_CHANGE_FLAG_STATE`:
+        The cluster OK/FAIL state changed (this also covers the cluster
+        first becoming ready at startup).
+    * `REDISMODULE_CLUSTER_TOPOLOGY_CHANGE_FLAG_NODE`:
+        A node joined or left the cluster, or an existing node's address
+        (ip/port) changed.
+
+    More than one bit may be set. Beyond the change reasons, the module reads
+    whatever else it needs about the new topology via the cluster info APIs
+    (e.g. `CLUSTER SLOTS`, RedisModule_GetClusterNodesList /
+    RedisModule_GetClusterNodeInfo / RedisModule_GetClusterSize).
 
 The function returns `REDISMODULE_OK` if the module was successfully subscribed
 for the specified event. If the API is called from a wrong context or unsupported event
@@ -8819,6 +8936,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_AbortBlock`](#RedisModule_AbortBlock)
 * [`RedisModule_AddACLCategory`](#RedisModule_AddACLCategory)
 * [`RedisModule_AddPostNotificationJob`](#RedisModule_AddPostNotificationJob)
+* [`RedisModule_AddPostNotificationJobForKey`](#RedisModule_AddPostNotificationJobForKey)
 * [`RedisModule_Alloc`](#RedisModule_Alloc)
 * [`RedisModule_AuthenticateClientWithACLUser`](#RedisModule_AuthenticateClientWithACLUser)
 * [`RedisModule_AuthenticateClientWithUser`](#RedisModule_AuthenticateClientWithUser)
@@ -8956,6 +9074,7 @@ There is no guarantee that this info is always available, so this may return -1.
 * [`RedisModule_GetClientNameById`](#RedisModule_GetClientNameById)
 * [`RedisModule_GetClientUserNameById`](#RedisModule_GetClientUserNameById)
 * [`RedisModule_GetClusterNodeInfo`](#RedisModule_GetClusterNodeInfo)
+* [`RedisModule_GetClusterNodeSlotRanges`](#RedisModule_GetClusterNodeSlotRanges)
 * [`RedisModule_GetClusterNodesList`](#RedisModule_GetClusterNodesList)
 * [`RedisModule_GetClusterSize`](#RedisModule_GetClusterSize)
 * [`RedisModule_GetCommand`](#RedisModule_GetCommand)

@@ -128,10 +128,14 @@ Set the expiry only when the new expiry is less than the current one. A non-vola
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-EXISTS mykey
-EXPIREAT mykey 1293840000
-EXISTS mykey
+redis> SET mykey "Hello"
+OK
+redis> EXISTS mykey
+(integer) 1
+redis> EXPIREAT mykey 1293840000
+(integer) 1
+redis> EXISTS mykey
+(integer) 0
 {{% /redis-cli %}}
 
 ## Details

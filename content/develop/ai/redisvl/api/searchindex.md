@@ -174,7 +174,57 @@ with the index.
 
 Disconnect from the Redis database.
 
-#### `drop_documents(ids)`
+#### `drop_by_filter(filter_expression, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
+
+Delete every document matching a filter expression.
+
+Redis has no server-side "delete by query", so RedisVL resolves the
+matching document keys and removes them with non-blocking `UNLINK` in
+batches. Matching documents leave the result set as they are deleted, so
+this re-queries from offset 0 each round (the same strategy as
+[clear](#clear)) and is not subject to the `MAXSEARCHRESULTS` limit
+(provided `batch_size` itself does not exceed it).
+
+* **Parameters:**
+  * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Selects the
+    documents to delete. Prefer the escaping builders (`Tag`,
+    `Num`, `Text`…) over raw filter strings; **never
+    string-concatenate untrusted input into a filter** — unlike a
+    read query, an injected predicate here deletes data.
+  * **batch_size** (*int*) – Number of documents to resolve and unlink per
+    round-trip. Defaults to 500.
+  * **dry_run** (*bool*) – If True, report how many documents *would* be
+    deleted (via a count query) without deleting anything.
+  * **allow_all** (*bool*) – Must be True to run against a match-all filter
+    (empty/`"*"`/`None`). Prefer [clear](#clear) to intentionally
+    empty the index.
+  * **on_progress** (*Optional* *[* *Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]* *]*) – Called after each
+    batch with `(processed, matched)` — the cumulative documents
+    deleted and the total matched at the start. Invoked
+    synchronously (do not pass a coroutine); raising from it aborts
+    the run (already-deleted documents stay deleted).
+* **Returns:**
+  `matched`/`processed` counts, plus `completed`
+  (False if the runaway backstop tripped) and `dry_run`. Read the
+  fields explicitly (`result.processed`, `result.completed`).
+* **Return type:**
+  BulkResult
+
+{{< note >}}
+[update_by_filter](#update_by_filter) (bulk partial update), [drop_documents](#drop_documents)
+/ [drop_keys](#drop_keys) (delete by id/key), [clear](#clear) (delete all).
+{{< /note >}}
+
+{{< note >}}
+This operation is **not atomic** across the match set. Each key is
+unlinked atomically, but batches are applied incrementally with no
+rollback, so a crash or connection error mid-run leaves the already
+-deleted documents gone and the rest in place. Deletes are
+idempotent: re-running the same call after a failure removes only
+whatever still matches, converging on the intended state.
+{{< /note >}}
+
+#### `drop_documents(ids, batch_size=500)`
 
 Remove documents from the index by their document IDs.
 
@@ -186,13 +236,19 @@ document IDs and only call this method with documents from a single hash
 tag at a time.
 
 * **Parameters:**
-  **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **batch_size** (*int*) – Number of documents to delete per round-trip
+    (standalone Redis only; cluster deletes in a single call after
+    the shared-hash-tag check).
 * **Returns:**
   Count of documents deleted from Redis.
 * **Return type:**
   int
+* **Raises:**
+  **ValueError** – On Redis Cluster, if the resolved keys do not all share
+      a hash tag (a cross-slot `DELETE` is not permitted).
 
-#### `drop_keys(keys)`
+#### `drop_keys(keys, batch_size=500)`
 
 Remove a specific entry or entries from the index by it’s key ID.
 
@@ -201,8 +257,13 @@ background thread. This avoids blocking the main thread when a large
 number of keys are dropped at once (for example, scope-targeted
 `SemanticCache` invalidation). The returned count is unchanged.
 
+Large key lists are unlinked in chunks of `batch_size`. On Redis
+Cluster, keys are unlinked individually so a chunk that spans hash
+slots does not raise `CROSSSLOT`.
+
 * **Parameters:**
-  **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **batch_size** (*int*) – Number of keys to unlink per round-trip.
 * **Returns:**
   Count of records deleted from Redis.
 * **Return type:**
@@ -466,6 +527,75 @@ custom-configured client is preferred instead of creating a new one.
 * **Raises:**
   **TypeError** – If the provided client is not valid.
 
+#### `update_by_filter(filter_expression, values, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
+
+Set `values` on every document matching a filter expression.
+
+This is a partial update: fields not present in `values` are left
+untouched. For hash indexes the fields are written with `HSET`; for
+JSON indexes they are merged at the document root (`$`) with
+`JSON.MERGE` (RFC 7396), so nested objects merge recursively, arrays
+are replaced wholesale, and a `None` value deletes that path.
+
+Because the read phase (an `FT.AGGREGATE` cursor) cannot safely run
+while the index is being written, all matching keys are resolved into
+memory *before* any write, then updated in batches. Memory use is
+therefore proportional to the match count; for very large match sets,
+narrow the filter and run in partitions (see the user guide).
+
+* **Parameters:**
+  * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Selects the
+    documents to update. Prefer the escaping builders (`Tag`,
+    `Num`…) over raw filter strings; **never string-concatenate
+    untrusted input into a filter** — an injected predicate here
+    mutates data.
+  * **values** (*Dict* *[* *str* *,* *Any* *]*) – Field/value pairs to set on each match.
+    Values are written **as-is with no schema validation** (unlike
+    [load](#load)): callers must pre-encode vectors/bytes and format
+    numerics as the schema expects. For JSON indexes, keys must
+    match the document’s JSON **layout**, not the schema field name
+    — a field indexed at a nested path (e.g. `$.metadata.status`)
+    must be passed nested (`{"metadata": {"status": ...}}`);
+    passing the flat field name writes the wrong path and leaves the
+    indexed field unchanged. Only static values are supported (no
+    callable/expression transforms).
+  * **batch_size** (*int*) – Number of documents to update per round-trip.
+  * **dry_run** (*bool*) – If True, report how many documents *would* be
+    updated without writing anything.
+  * **allow_all** (*bool*) – Must be True to run against a match-all filter.
+  * **on_progress** (*Optional* *[* *Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]* *]*) – Called after each
+    write batch with `(processed, matched)`. Invoked synchronously
+    (do not pass a coroutine); raising from it aborts the run.
+* **Returns:**
+  `matched`/`processed` counts, plus `completed`
+  (always True for update — it runs to completion or raises) and
+  `dry_run`.
+* **Return type:**
+  BulkResult
+
+{{< note >}}
+[drop_by_filter](#drop_by_filter), [load](#load) (validated whole-document
+upsert by key).
+{{< /note >}}
+
+{{< note >}}
+This operation is **not atomic** across the match set. Each
+document is updated atomically (one `HSET`/`JSON.MERGE`), but
+batches use a non-transactional pipeline and are applied
+incrementally with no rollback, so a crash or connection error
+mid-run can leave some documents updated and others not. Because
+the update is a fixed field set, it is idempotent: re-running the
+same call after a failure converges on the intended state.
+{{< /note >}}
+
+Keys are resolved before writing, so a document may be deleted by
+another client in between. Each write is conditional on the key
+still existing (applied atomically), so such a document is
+**skipped rather than recreated** as a partial document; it simply
+isn’t counted in `processed`. `processed` therefore reflects the
+documents actually written, which can be less than `matched` under
+concurrent deletion.
+
 #### `property client: Redis | RedisCluster | None`
 
 The underlying redis-py client object.
@@ -654,7 +784,22 @@ Delete the search index.
 
 Disconnect from the Redis database.
 
-#### `async drop_documents(ids)`
+#### `async drop_by_filter(filter_expression, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
+
+Delete every document matching a filter expression (async).
+
+See [drop_by_filter](#drop_by_filter) for full semantics.
+
+* **Parameters:**
+  * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}))
+  * **batch_size** (*int*)
+  * **dry_run** (*bool*)
+  * **allow_all** (*bool*)
+  * **on_progress** (*Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]*  *|* *None*)
+* **Return type:**
+  *BulkResult*
+
+#### `async drop_documents(ids, batch_size=500)`
 
 Remove documents from the index by their document IDs.
 
@@ -666,13 +811,19 @@ document IDs and only call this method with documents from a single hash
 tag at a time.
 
 * **Parameters:**
-  **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **ids** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **batch_size** (*int*) – Number of documents to delete per round-trip
+    (standalone Redis only; cluster deletes in a single call after
+    the shared-hash-tag check).
 * **Returns:**
   Count of documents deleted from Redis.
 * **Return type:**
   int
+* **Raises:**
+  **ValueError** – On Redis Cluster, if the resolved keys do not all share
+      a hash tag (a cross-slot `DELETE` is not permitted).
 
-#### `async drop_keys(keys)`
+#### `async drop_keys(keys, batch_size=500)`
 
 Remove a specific entry or entries from the index by it’s key ID.
 
@@ -681,8 +832,13 @@ background thread. This avoids blocking the main thread when a large
 number of keys are dropped at once (for example, scope-targeted
 `SemanticCache` invalidation). The returned count is unchanged.
 
+Large key lists are unlinked in chunks of `batch_size`. On Redis
+Cluster, keys are unlinked individually so a chunk that spans hash
+slots does not raise `CROSSSLOT`.
+
 * **Parameters:**
-  **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **keys** (*Union* *[* *str* *,* *List* *[* *str* *]* *]*) – The document ID or IDs to remove from the index.
+  * **batch_size** (*int*) – Number of keys to unlink per round-trip.
 * **Returns:**
   Count of records deleted from Redis.
 * **Return type:**
@@ -955,6 +1111,22 @@ This method is deprecated; please provide connection parameters in \_\_init_\_.
 
 * **Parameters:**
   **redis_client** (*Redis* *|* *RedisCluster* *|* *Redis* *|* *RedisCluster*)
+
+#### `async update_by_filter(filter_expression, values, *, batch_size=500, dry_run=False, allow_all=False, on_progress=None)`
+
+Set `values` on every document matching a filter expression (async).
+
+See [update_by_filter](#update_by_filter) for full semantics.
+
+* **Parameters:**
+  * **filter_expression** (*str* *|* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}))
+  * **values** (*dict* *[* *str* *,* *Any* *]*)
+  * **batch_size** (*int*)
+  * **dry_run** (*bool*)
+  * **allow_all** (*bool*)
+  * **on_progress** (*Callable* *[* *[* *int* *,* *int* *]* *,* *None* *]*  *|* *None*)
+* **Return type:**
+  *BulkResult*
 
 #### `property client: Redis | RedisCluster | None`
 

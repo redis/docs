@@ -310,6 +310,27 @@
           "description": "The number of keys in the JSON object at the requested path."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_objlen(key, path = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "an optional JSONPath (defaults to the root)"
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>, Integer, nil",
+          "description": "the key count(s): an Array for a JSONPath, a single integer for a legacy path; nil for a non-object match"
+        }
+      }
     ]
   }
 }

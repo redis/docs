@@ -34,7 +34,7 @@ summary: Increments the numeric value at path by a value
 syntax_fmt: JSON.NUMINCRBY key path value
 title: JSON.NUMINCRBY
 ---
-Increment the number value stored at `path` by `number`
+Increment the number value stored at `path` by `value`
 
 [Examples](#examples)
 

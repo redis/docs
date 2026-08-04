@@ -82,6 +82,52 @@
           "description": "Hybrid search results"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_hybrid_search(index_name, query:, combine_method: nil, post_processing: nil, params_substitution: nil, timeout: nil, cursor: nil)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "query",
+            "type": "Search::HybridQuery",
+            "description": "the combined SEARCH + VSIM query"
+          },
+          {
+            "name": "combine_method",
+            "type": "Search::CombineResultsMethod",
+            "description": "the fusion strategy (RRF/LINEAR)"
+          },
+          {
+            "name": "post_processing",
+            "type": "Search::HybridPostProcessingConfig",
+            "description": "a post-fusion pipeline"
+          },
+          {
+            "name": "params_substitution",
+            "type": "Hash",
+            "description": "query parameter substitutions (PARAMS)"
+          },
+          {
+            "name": "timeout",
+            "type": "Integer",
+            "description": "query timeout in milliseconds (TIMEOUT)"
+          },
+          {
+            "name": "cursor",
+            "type": "Search::HybridCursorQuery",
+            "description": "cursor/pagination config (WITHCURSOR)"
+          }
+        ],
+        "returns": {
+          "type": "Search::HybridResult",
+          "description": "the fused result rows, total, warnings and execution time (or, for a WITHCURSOR query, the per-leg cursor ids)"
+        }
+      }
     ]
   }
 }

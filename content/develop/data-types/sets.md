@@ -78,9 +78,9 @@ multiple sets, and so forth.
 > SADD bikes:racing:france bike:1 bike:2 bike:3
 (integer) 3
 > SMEMBERS bikes:racing:france
-1) bike:3
-2) bike:1
-3) bike:2
+1) "bike:3"
+2) "bike:1"
+3) "bike:2"
 {{< /clients-example >}}
 
 Here I've added three elements to my set and told Redis to return all the
@@ -89,7 +89,12 @@ elements in any order at every call.
 
 Redis has commands to test for set membership. These commands can be used on single as well as multiple items:
 
-{{< clients-example set="sets_tutorial" step="smismember" description="Batch membership checks: Test multiple items at once using SMISMEMBER when you need to reduce round trips to the server" difficulty="intermediate" buildsUpon="sismember" try_it="false" >}}
+{{< clients-example set="sets_tutorial" step="smismember" description="Batch membership checks: Test multiple items at once using SMISMEMBER when you need to reduce round trips to the server" difficulty="intermediate" buildsUpon="sismember" >}}
+# Recreate the France racing set so this example runs on its own.
+> DEL bikes:racing:france
+(integer) 1
+> SADD bikes:racing:france bike:1 bike:2 bike:3
+(integer) 3
 > SISMEMBER bikes:racing:france bike:1
 (integer) 1
 > SMISMEMBER bikes:racing:france bike:2 bike:3 bike:4
@@ -102,6 +107,8 @@ We can also find the difference between two sets. For instance, we may want
 to know which bikes are racing in France but not in the USA:
 
 {{< clients-example set="sets_tutorial" step="sdiff" description="Set difference: Find members in one set but not in others using SDIFF when you need to exclude items (warning: argument order matters)" difficulty="intermediate" buildsUpon="sadd" needs_prereq="true" >}}
+> DEL bikes:racing:usa
+(integer) 1
 > SADD bikes:racing:usa bike:1 bike:4
 (integer) 2
 > SDIFF bikes:racing:france bikes:racing:usa

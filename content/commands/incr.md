@@ -77,7 +77,7 @@ The name of the key.
 
 {{< clients-example set="cmds_string" step="incr" description="Foundational: Increment the integer value of a key by one using INCR (initializes to 0 if key doesn't exist)" difficulty="beginner" >}}
 > SET mykey "10"
-"OK"
+OK
 > INCR mykey
 (integer) 11
 > GET mykey

@@ -32,7 +32,8 @@ The easiest way to get started with Redis is to use Redis Cloud:
 
 1. Create a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
-    <img src="../img/free-cloud-db.png" width="500px">
+    {{< image filename="/images/dev/free-cloud-db.png" >}}
+
 2. Follow the instructions to create a free database.
 
 You can alternatively follow the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis on your local machine.
@@ -96,8 +97,8 @@ SCAN 0 MATCH "bike:*" COUNT 100
 
 You can address more use cases with Redis by reading these additional quick start guides:
 
-* [Redis as a document database]({{< relref "/develop/get-started/document-database" >}})
-* [Redis as a vector database]({{< relref "/develop/get-started/vector-database" >}})
+* [Redis as a document database]({{< relref "/develop/get-started/search-tutorial" >}})
+* [Redis as a vector database]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})
 
 ## Continue learning with Redis University
 

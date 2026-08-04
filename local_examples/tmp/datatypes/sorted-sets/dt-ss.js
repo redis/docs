@@ -99,6 +99,14 @@ console.assert(count2 === 3);
 // REMOVE_END
 
 // STEP_START zrank
+// Recreate the three remaining racers so this example runs on its own.
+await client.del('racer_scores');
+await client.zAdd('racer_scores', [
+  { score: 10, value: 'Norem' },
+  { score: 10, value: 'Royce' },
+  { score: 14, value: 'Prickett' }
+]);
+
 const res11 = await client.zRank('racer_scores', 'Norem');
 console.log(res11);  // >>> 0
 
