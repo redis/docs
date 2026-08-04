@@ -246,12 +246,8 @@ server, and go-redis applies the invalidation messages in the background.
 Because invalidation is asynchronous, an entry is evicted shortly after the
 data changes rather than at the instant of the write. Use `DrainInterval` to
 control how often invalidations are applied, and `MaxStaleness` to put a hard
-time limit on how long any entry can be served.
-
-Only deterministic read commands are cached. Writes, streaming replies, and
-commands whose results depend on something other than their arguments are
-always sent to the server. `SORT_RO` is cached only without its `BY` and `GET`
-options, which read keys that the client cannot track.
+time limit on how long any entry can be served (see
+[Configuration options](#configuration-options) for more information).
 
 ### Configuration options
 
@@ -265,21 +261,6 @@ cache:
 | `MaxStaleness` | The longest time an entry can be served after it was cached, regardless of invalidation. This is a safety net for a missed invalidation rather than the main way entries are kept fresh, so set it well above the time an invalidation takes to arrive. Zero, the default, disables it. |
 | `DrainInterval` | How often go-redis checks idle connections for invalidation messages and applies them. The default is 5ms and the minimum is 1ms. |
 
-### Commands you can't use while caching
-
-The cache relies on the state of the connection it was populated from, so while
-client-side caching is enabled, go-redis rejects commands that would change
-that state: `SELECT`, `AUTH`, `HELLO` with arguments, `RESET`,
-[`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}), and the raw
-`SUBSCRIBE`, `PSUBSCRIBE`, and `SSUBSCRIBE` commands. One rejected command
-fails the entire pipeline it belongs to. The `Subscribe()`, `PSubscribe()`, and
-`SSubscribe()` methods still work normally because they use their own
-connections.
-
-For the same reason, client-side caching is disabled if you set any of the
-credentials provider options, because the client's permissions could change
-after data is cached. Fixed `Username` and `Password` values are supported.
-
 ### Monitoring the cache
 
 Use the `CSCStats()` method to read the cache statistics for a client:
@@ -290,8 +271,58 @@ fmt.Printf("Cache hits: %d, misses: %d\n", stats.Hits, stats.Misses)
 fmt.Printf("Entries: %d, memory: %d bytes\n", stats.Entries, stats.MemoryUsageBytes)
 ```
 
-{{< note >}}To supply your own cache implementation, or to share one cache
-between several clients, set the `ClientSideCache` option. It takes precedence
-over `ClientSideCacheConfig`. A shared cache is only safe between clients that
-connect to the same server and database.
+### Supplying your own cache
+
+Set the `ClientSideCache` option to use your own cache instead of the built-in
+one. It accepts any value that implements the
+[`Cache`](https://pkg.go.dev/github.com/redis/go-redis/v9#Cache) interface and
+takes precedence over `ClientSideCacheConfig`. You can also use it to share a
+single cache between several clients, but only when those clients connect to the
+same server and database.
+
+The simplest approach is to wrap the built-in cache, which `NewLocalCache()`
+returns, and override only the methods you want to change. The example below
+counts lookups and passes everything else through:
+
+```go
+type countingCache struct {
+    *redis.LocalCache
+    lookups atomic.Int64
+}
+
+func (c *countingCache) Get(ctx context.Context, cacheKey string) ([]byte, bool) {
+    c.lookups.Add(1)
+    return c.LocalCache.Get(ctx, cacheKey)
+}
+
+cache := &countingCache{
+    LocalCache: redis.NewLocalCache(redis.ClientSideCacheConfig{MaxEntries: 1000}),
+}
+
+client := redis.NewClient(&redis.Options{
+    Addr:            "localhost:6379",
+    Protocol:        3,
+    ClientSideCache: cache,
+})
+```
+
+{{< note >}}Embed the concrete `*redis.LocalCache` type, as shown above, rather
+than the `Cache` interface. Cache statistics come from an optional `Stats()`
+method that the `Cache` interface doesn't declare, so a wrapper that embeds the
+interface still compiles but makes `CSCStats()` report zeros.
 {{< /note >}}
+
+To write a cache from scratch, implement all eight `Cache` methods: `Get()` for
+lookups, `Reserve()`, `FulfillOwned()`, and `Cancel()` to ensure that only one
+caller fetches a missing key, and `DeleteByRedisKey()`, `DeleteByCacheKey()`,
+`EvictByConn()`, and `Flush()` to remove entries when invalidation arrives.
+go-redis calls these methods from several goroutines at once, so your
+implementation must be thread-safe, must treat cache keys and Redis keys as
+opaque strings and preserve them exactly, and must stop waiting for an
+in-progress reservation when the context is canceled. Implement
+`Stats() redis.CSCStats` as well if you want `CSCStats()` to keep working.
+
+If you only want to change how the cache estimates the memory an entry uses, you
+don't need your own implementation. Set the `Sizer` field of
+`ClientSideCacheConfig` to a function that returns a size in bytes, and the
+built-in cache uses it in place of its own approximation.
