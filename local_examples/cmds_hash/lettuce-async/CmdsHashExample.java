@@ -250,6 +250,34 @@ public class CmdsHashExample {
             // REMOVE_START
             asyncCommands.del("myhash").toCompletableFuture().join();
             // REMOVE_END
+
+            // STEP_START hlen
+            CompletableFuture<Void> hLenExample = asyncCommands.hset("myhash", "field1", "Hello").thenCompose(res1 -> {
+                // `hset` returns true because `field1` is a new field.
+                System.out.println(res1); // >>> true
+                // REMOVE_START
+                assertThat(res1).isEqualTo(true);
+                // REMOVE_END
+                return asyncCommands.hset("myhash", "field2", "World");
+            }).thenCompose(res2 -> {
+                // `hset` returns true because `field2` is also a new field.
+                System.out.println(res2); // >>> true
+                // REMOVE_START
+                assertThat(res2).isEqualTo(true);
+                // REMOVE_END
+                return asyncCommands.hlen("myhash");
+            }).thenAccept(res3 -> {
+                System.out.println(res3); // >>> 2
+                // REMOVE_START
+                assertThat(res3).isEqualTo(2L);
+                // REMOVE_END
+            }).toCompletableFuture();
+            // STEP_END
+
+            hLenExample.join();
+            // REMOVE_START
+            asyncCommands.del("myhash").toCompletableFuture().join();
+            // REMOVE_END
         } finally {
             redisClient.shutdown();
         }

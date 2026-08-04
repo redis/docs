@@ -1,0 +1,5 @@
+source "https://rubygems.org"
+
+# Ruby TCE examples use the redis-rb client and assert with plain `raise` /
+# a locally-defined assert_equal, so no test framework is needed.
+gem "redis", "~> 5.4"

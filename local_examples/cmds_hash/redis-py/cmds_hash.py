@@ -142,3 +142,24 @@ assert res14 == [-2]
 r.delete("myhash")
 # REMOVE_END
 # STEP_END
+
+# STEP_START hlen
+res15 = r.hset("myhash", "field1", "Hello")
+print(res15)
+# >>> 1
+
+res16 = r.hset("myhash", "field2", "World")
+print(res16)
+# >>> 1
+
+res17 = r.hlen("myhash")
+print(res17)
+# >>> 2
+
+# REMOVE_START
+assert res15 == 1
+assert res16 == 1
+assert res17 == 2
+r.delete("myhash")
+# REMOVE_END
+# STEP_END
