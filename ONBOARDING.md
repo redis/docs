@@ -930,7 +930,7 @@ The feature is fully released and stable. Documentation must be **complete** and
 - Updates to any supported versions or compatibility docs that reference this feature
 - Preview banners **removed** from all pages
 - Added to core docs navigation and any relevant index or overview pages
-- A formal **landing page** with `{{</* image-card */>}}` tiles following the current design pattern — see Redis Iris (`content/develop/ai/context-engine/_index.md`) and Redis Feature Form (`content/develop/ai/featureform/_index.md`) as examples
+- A formal **landing page** with `{{< image-card >}}` tiles following the current design pattern — see Redis Iris (`content/develop/ai/context-engine/_index.md`) and Redis Feature Form (`content/develop/ai/featureform/_index.md`) as examples
 - The landing page should be **welcoming** — lead with the value proposition and what the reader can do, not just what the feature is
 - All sub-sections linked from the landing page via image cards
 - Cross-links from related product and feature pages so the feature is discoverable from multiple entry points
