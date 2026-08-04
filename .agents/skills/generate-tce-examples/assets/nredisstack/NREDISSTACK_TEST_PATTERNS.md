@@ -70,11 +70,11 @@ public class ExampleClassName
 
         // REMOVE_START
         // Test setup/cleanup (completely removed from docs)
-        db.KeyDelete(["mykey", "user:1", "user:2"]);
+        db.KeyDelete(["mykey", "user:1", "user:2", "bike:1", "bike:1:stats"]);
         try { ft.DropIndex("idx:users"); } catch { }
         // REMOVE_END
 
-        // STEP_START basic_string_ops
+        // STEP_START string_ops
         bool setResult = db.StringSet("mykey", "Hello");
         Console.WriteLine(setResult);  // >>> True
 
@@ -91,7 +91,15 @@ public class ExampleClassName
         muxer.Close();
     }
 }
+// HIDE_END
 ```
+
+> **⚠️ Every `HIDE_START` must have a matching `HIDE_END`.** An unclosed hide
+> anchor makes the build abort the example with
+> `Unclosed hidden anchor ... - aborting`, and the example silently produces no
+> output. The same rule applies to `REMOVE_START`/`REMOVE_END` and
+> `STEP_START`/`STEP_END`. Note that the closing braces of the method and class
+> belong *inside* the final hide block, as shown above.
 
 ## Module Command Interfaces
 

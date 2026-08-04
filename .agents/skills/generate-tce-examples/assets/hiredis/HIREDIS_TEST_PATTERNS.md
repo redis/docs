@@ -17,6 +17,7 @@ These test files serve dual purposes:
 | Marker | Purpose |
 |--------|---------|
 | `// EXAMPLE: <name>` | Identifies example name (matches docs folder) |
+| `// BINDER_ID <id>` | Optional identifier for online code runners |
 | `// HIDE_START` / `// HIDE_END` | Code hidden from docs but still executed |
 | `// REMOVE_START` / `// REMOVE_END` | Code completely removed from docs |
 | `// STEP_START <name>` / `// STEP_END` | Named section for targeted doc inclusion |
@@ -51,7 +52,8 @@ int main(int argc, char **argv) {
     // STEP_END
 
     // REMOVE_START
-    redisCommand(c, "DEL mykey");
+    redisReply *del_reply = redisCommand(c, "DEL mykey");
+    freeReplyObject(del_reply);
     // REMOVE_END
 
     // STEP_START string_ops
@@ -181,6 +183,17 @@ cc sample_test.c $(pkg-config --cflags --libs hiredis) -o sample_test
 redisReply *reply = redisCommand(c, "GET key");
 // ... use reply ...
 freeReplyObject(reply);  // Always free!
+```
+
+This applies to cleanup commands inside REMOVE blocks too, even though their
+result is never read — bind the reply and free it rather than discarding the
+return value of `redisCommand`:
+
+```c
+// REMOVE_START
+redisReply *del_reply = redisCommand(c, "DEL mykey");
+freeReplyObject(del_reply);
+// REMOVE_END
 ```
 
 ## Installing hiredis

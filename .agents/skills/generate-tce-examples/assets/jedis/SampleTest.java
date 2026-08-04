@@ -21,17 +21,17 @@
 package io.redis.examples;
 
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 // REMOVE_END
 
+// Imports that the reader needs stay visible.
 import java.util.HashMap;
 import java.util.Map;
 
 // HIDE_START
 import redis.clients.jedis.RedisClient;
 // HIDE_END
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 // HIDE_START
 public class SampleTest {

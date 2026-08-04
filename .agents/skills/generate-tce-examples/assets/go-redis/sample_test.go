@@ -32,7 +32,7 @@ import (
 
 func ExampleClient_string_ops() {
 	ctx := context.Background()
-	
+
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "",
@@ -41,7 +41,6 @@ func ExampleClient_string_ops() {
 
 	// REMOVE_START
 	// start with fresh database
-	rdb.FlushDB(ctx)
 	errFlush := rdb.FlushDB(ctx).Err() // Clear the database before each test
 	if errFlush != nil {
 		panic(errFlush)
@@ -164,4 +163,45 @@ func ExampleClient_hash_tutorial() {
 	// 4
 	// Deimos
 	// 4972
+}
+
+func ExampleClient_hincrby() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	// REMOVE_START
+	// start with fresh database
+	rdb.FlushDB(ctx)
+	rdb.Del(ctx, "bike:1:stats")
+	// REMOVE_END
+
+	// STEP_START hincrby
+	res1, err := rdb.HIncrBy(ctx, "bike:1:stats", "rides", 1).Result()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(res1) // >>> 1
+
+	res2, err := rdb.HIncrBy(ctx, "bike:1:stats", "rides", 1).Result()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(res2) // >>> 2
+
+	res3, err := rdb.HIncrBy(ctx, "bike:1:stats", "crashes", 1).Result()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(res3) // >>> 1
+	// STEP_END
+
+	// Output:
+	// 1
+	// 2
+	// 1
 }

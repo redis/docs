@@ -58,11 +58,11 @@ public class ExampleClassName
 
         // REMOVE_START
         // Test setup/cleanup (completely removed from docs)
-        db.KeyDelete(["mykey", "user:1", "user:2"]);
+        db.KeyDelete(["mykey", "user:1", "user:2", "bike:1", "bike:1:stats"]);
         try { ft.DropIndex("idx:users"); } catch { }
         // REMOVE_END
 
-        // STEP_START basic_string_ops
+        // STEP_START string_ops
         bool setResult = db.StringSet("mykey", "Hello");
         Console.WriteLine(setResult);  // >>> True
 
@@ -93,6 +93,51 @@ public class ExampleClassName
         // REMOVE_START
         Assert.Equal("Alice", name);
         Assert.Equal(3, allFields.Length);
+        // REMOVE_END
+
+        // STEP_START hash_tutorial
+        // Tutorial-style example with bike data
+        db.HashSet("bike:1", [
+            new("model", "Deimos"),
+            new("brand", "Ergonom"),
+            new("type", "Enduro bikes"),
+            new("price", "4972")
+        ]);
+
+        var model = db.HashGet("bike:1", "model");
+        Console.WriteLine(model);  // >>> Deimos
+
+        var price = db.HashGet("bike:1", "price");
+        Console.WriteLine(price);  // >>> 4972
+
+        var bikeFields = db.HashGetAll("bike:1");
+        Console.WriteLine(string.Join(", ", bikeFields.Select(f => $"{f.Name}={f.Value}")));
+        // >>> model=Deimos, brand=Ergonom, type=Enduro bikes, price=4972
+        // STEP_END
+
+        // REMOVE_START
+        Assert.Equal("Deimos", model);
+        Assert.Equal("4972", price);
+        Assert.Equal(4, bikeFields.Length);
+        // REMOVE_END
+
+        // STEP_START hincrby
+        // Numeric operations on hash fields
+        long rides1 = db.HashIncrement("bike:1:stats", "rides", 1);
+        Console.WriteLine(rides1);   // >>> 1
+
+        long rides2 = db.HashIncrement("bike:1:stats", "rides", 1);
+        Console.WriteLine(rides2);   // >>> 2
+
+        long crashes = db.HashIncrement("bike:1:stats", "crashes", 1);
+        Console.WriteLine(crashes);  // >>> 1
+        // STEP_END
+
+        // REMOVE_START
+        Assert.Equal(1, rides1);
+        Assert.Equal(2, rides2);
+        Assert.Equal(1, crashes);
+        db.KeyDelete(["bike:1", "bike:1:stats"]);
         // REMOVE_END
 
         // STEP_START json_ops
@@ -154,3 +199,4 @@ public class ExampleClassName
         muxer.Close();
     }
 }
+// HIDE_END

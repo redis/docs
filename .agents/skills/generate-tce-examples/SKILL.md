@@ -346,7 +346,7 @@ Follow the conventions in `for-ais-only/tcedocs/SPECIFICATION.md` and the `*_TES
 
 Use this checklist before completing:
 
-- [ ] All 10 client examples implemented
+- [ ] All 12 client examples implemented (one per directory in `assets/`)
 - [ ] Client-specific method signatures used correctly (from API mapping)
 - [ ] TCE markers properly placed
 - [ ] Expected output comments included (`// >>> value`)
@@ -370,7 +370,7 @@ The `assets/` directory contains reference implementations for each client:
 │   └── sample_test.js
 ├── jedis/
 │   ├── JEDIS_TEST_PATTERNS.md
-│   └── src/test/java/...
+│   └── SampleTest.java
 ├── lettuce-async/
 │   └── ...
 ├── lettuce-reactive/
@@ -394,6 +394,19 @@ The `assets/` directory contains reference implementations for each client:
 ```
 
 **Always consult** the `*_TEST_PATTERNS.md` file for each language before writing code.
+
+### Using the Samples as Templates
+
+Each `sample_test.*` file opens with a ~18-line banner comment explaining the
+markers. **Do not copy that banner into a generated example.** Comment lines that
+are not inside a `HIDE` or `REMOVE` block are published verbatim, so the banner
+would appear in the rendered documentation. Every real example starts directly
+with `// EXAMPLE: <name>` on line 1 (optionally followed by `BINDER_ID` on
+line 2).
+
+The samples also demonstrate several unrelated steps in one file to show the
+range of patterns. A generated example normally covers one command page, so take
+the structure and conventions from the sample, not its step list.
 
 ## Client Language Quick Reference
 
@@ -563,15 +576,21 @@ public class CmdsHashExample
 // REMOVE_END
 {
     // REMOVE_START
-    public CmdsHashExample(RedisFixture fixture) : base(fixture) { }
+    public CmdsHashExample(EndpointsFixture fixture) : base(fixture) { }
 
     [Fact]
-    public void run()
+    // REMOVE_END
+    public void Run()
     {
-        SkipIfTargetConnectionDoesNotExist();
-        var muxer = GetConnection();
-        var db = GetCleanDatabase(muxer);
+        // REMOVE_START
+        SkipIfTargetConnectionDoesNotExist(EndpointsFixture.Env.Standalone);
+        var _ = GetCleanDatabase(EndpointsFixture.Env.Standalone);
         // REMOVE_END
+
+        // STEP_START connect
+        var muxer = ConnectionMultiplexer.Connect("localhost:6379");
+        var db = muxer.GetDatabase();
+        // STEP_END
 
         // STEP_START hmget
         db.HashSet("myhash", new HashEntry[] {
@@ -589,48 +608,51 @@ public class CmdsHashExample
 
         // HIDE_START
         muxer.Close();
-        // HIDE_END
     }
 }
+// HIDE_END
 ```
 
 ### PHP (Predis)
 
 ```php
 // EXAMPLE: cmds_hash
-<?php
 // BINDER_ID php-sample
+<?php
 
-use PHPUnit\Framework\TestCase;
+require 'vendor/autoload.php';
+
 use Predis\Client as PredisClient;
 
 class CmdHashTest
 // REMOVE_START
-extends TestCase
+extends PredisTestCase
 // REMOVE_END
 {
     public function testHmget(): void
     {
-        $redis = new PredisClient([
-            'scheme' => 'tcp',
-            'host'   => '127.0.0.1',
-            'port'   => 6379,
+        $r = new PredisClient([
+            'scheme'   => 'tcp',
+            'host'     => '127.0.0.1',
+            'port'     => 6379,
+            'password' => '',
+            'database' => 0,
         ]);
 
         // REMOVE_START
-        $redis->del('myhash');
+        $r->del('myhash');
         // REMOVE_END
 
         // STEP_START hmget
-        $redis->hset('myhash', 'field1', 'value1');
-        $redis->hset('myhash', 'field2', 'value2');
-        $result = $redis->hmget('myhash', ['field1', 'field2', 'nofield']);
+        $r->hset('myhash', 'field1', 'value1');
+        $r->hset('myhash', 'field2', 'value2');
+        $result = $r->hmget('myhash', ['field1', 'field2', 'nofield']);
         echo json_encode($result) . PHP_EOL; // >>> ["value1","value2",null]
         // STEP_END
 
         // REMOVE_START
         $this->assertEquals(['value1', 'value2', null], $result);
-        $redis->del('myhash');
+        $r->del('myhash');
         // REMOVE_END
     }
 }

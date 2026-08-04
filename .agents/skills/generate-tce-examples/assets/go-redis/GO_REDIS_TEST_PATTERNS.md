@@ -18,6 +18,7 @@ These test files serve dual purposes:
 | Marker | Purpose |
 |--------|---------|
 | `// EXAMPLE: <name>` | Identifies example name (matches docs folder) |
+| `// BINDER_ID <id>` | Optional identifier for online code runners |
 | `// HIDE_START` / `// HIDE_END` | Code hidden from docs but still executed |
 | `// REMOVE_START` / `// REMOVE_END` | Code completely removed from docs |
 | `// STEP_START <name>` / `// STEP_END` | Named section for targeted doc inclusion |

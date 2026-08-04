@@ -11,13 +11,17 @@ These test files serve dual purposes:
 ## File Locations
 
 - **Original tests**: `/path/to/lettuce/src/test/java/io/redis/examples/reactive/*.java`
-- **Sample template**: `src/test/java/io/redis/examples/reactive/SampleTest.java` (in this directory)
+- **Sample template**: `SampleTest.java` (in this directory)
+- **Generated examples**: must go under
+  `src/test/java/io/redis/examples/reactive/` in the examples project — Maven
+  only discovers tests there.
 
 ## Marker Reference
 
 | Marker | Purpose |
 |--------|---------|
 | `// EXAMPLE: <name>` | Identifies example name (matches docs folder) |
+| `// BINDER_ID <id>` | Optional identifier for online code runners |
 | `// HIDE_START` / `// HIDE_END` | Code hidden from docs but still executed |
 | `// REMOVE_START` / `// REMOVE_END` | Code completely removed from docs |
 | `// STEP_START <name>` / `// STEP_END` | Named section for targeted doc inclusion |
@@ -162,6 +166,7 @@ Maven requires test files to be in a specific directory structure:
 examples/lettuce-reactive/
 ├── pom.xml
 ├── LETTUCE_REACTIVE_TEST_PATTERNS.md
+├── SampleTest.java                 # this template (reference only)
 └── src/
     └── test/
         └── java/
@@ -169,7 +174,7 @@ examples/lettuce-reactive/
                 └── redis/
                     └── examples/
                         └── reactive/
-                            └── SampleTest.java
+                            └── CmdsHashExample.java   # generated examples here
 ```
 
 ## Running Tests
@@ -244,5 +249,6 @@ mvn test -Dtest=SampleTest#run
 
 ## See Also
 
-- Sample template: `src/test/java/io/redis/examples/reactive/SampleTest.java` (in this directory)
+- Sample template: `SampleTest.java` (in this directory)
 - Hash commands: `/path/to/lettuce/src/test/java/io/redis/examples/reactive/HashExample.java`
+- Async counterpart: `../lettuce-async/LETTUCE_ASYNC_TEST_PATTERNS.md`

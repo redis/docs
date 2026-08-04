@@ -11,7 +11,10 @@ These test files serve dual purposes:
 ## File Locations
 
 - **Original tests**: `/path/to/jedis/src/test/java/io/redis/examples/*.java`
-- **Sample template**: `src/test/java/io/redis/examples/SampleTest.java` (in this directory)
+- **Sample template**: `SampleTest.java` (in this directory)
+- **Generated examples**: must go under
+  `src/test/java/io/redis/examples/` in the examples project — Maven only
+  discovers tests there.
 
 ## Marker Reference
 
@@ -25,89 +28,121 @@ These test files serve dual purposes:
 
 ## File Structure Template
 
+The class declaration, `@Test`, the method signature and the connection setup
+are wrapped in one **HIDE** block so the published example reads as a plain
+sequence of statements. The closing `jedis.close()` and the closing braces are
+wrapped in a second HIDE block at the end.
+
 ```java
 // EXAMPLE: example_name
 // REMOVE_START
 package io.redis.examples;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 // REMOVE_END
+
+// Imports the reader needs stay visible.
+import java.util.HashMap;
+import java.util.Map;
 
 // HIDE_START
 import redis.clients.jedis.RedisClient;
-
-import java.util.HashMap;
-import java.util.Map;
 // HIDE_END
 
+// HIDE_START
 public class SampleTest {
 
-    // REMOVE_START
     @Test
-    // REMOVE_END
     public void run() {
-        // HIDE_START
         RedisClient jedis = RedisClient.create("redis://localhost:6379");
-        // HIDE_END
 
         // REMOVE_START
+        // Clean up any existing data before tests
         jedis.del("mykey");
         // REMOVE_END
+// HIDE_END
 
         // STEP_START operation_name
         String res = jedis.set("mykey", "Hello");
-        System.out.println(res); // >>> OK
+        System.out.println(res);    // >>> OK
 
         String value = jedis.get("mykey");
-        System.out.println(value); // >>> Hello
+        System.out.println(value);    // >>> Hello
         // STEP_END
-
         // REMOVE_START
         assertEquals("OK", res);
         assertEquals("Hello", value);
         jedis.del("mykey");
-        jedis.close();
         // REMOVE_END
+
+// HIDE_START
+        jedis.close();
     }
 }
+// HIDE_END
 ```
+
+Note that a REMOVE block nested inside a HIDE block is legal and is used above —
+the two markers track independent state in the build.
+
+`@Test` is stripped from the rendered output automatically, so it does not
+strictly need its own marker here; it sits inside the HIDE block along with the
+rest of the scaffolding.
 
 ## Key Patterns
 
 ### 1. Package and Imports
+
+Three tiers, and the distinction matters:
+
 ```java
+// Test-only — REMOVE, never shown to the reader
 // REMOVE_START
 package io.redis.examples;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 // REMOVE_END
 
-// HIDE_START
-import redis.clients.jedis.UnifiedJedis;
+// Needed to understand the example — left visible
 import java.util.HashMap;
 import java.util.Map;
+
+// Client import — HIDE, available behind the eye button
+// HIDE_START
+import redis.clients.jedis.RedisClient;
 // HIDE_END
 ```
 
-### 2. Connection Setup (in HIDE block)
+> **Do not leave the `import static ...Assertions.*` lines unmarked.** They are
+> test-only scaffolding; if they fall outside both a HIDE and a REMOVE block they
+> are published verbatim into the documentation, where nothing references them.
+
+### 2. Connection Setup
+
+The client is `RedisClient` (not `UnifiedJedis`), created inside the opening HIDE
+block:
+
 ```java
-// HIDE_START
 RedisClient jedis = RedisClient.create("redis://localhost:6379");
-// HIDE_END
 ```
 
 ### 3. Assertions (in REMOVE blocks)
+
 ```java
 // REMOVE_START
 assertEquals("OK", res);
 assertEquals("Hello", value);
 assertEquals(3, map.size());
 jedis.del("mykey");
-jedis.close();
 // REMOVE_END
 ```
+
+`jedis.close()` belongs in the final HIDE block, not in a REMOVE block — the
+connection must still be closed when the file is read as documentation.
 
 ### 4. Console Output Comments
 ```java
@@ -141,13 +176,14 @@ Maven requires test files to be in a specific directory structure:
 examples/jedis/
 ├── pom.xml
 ├── JEDIS_TEST_PATTERNS.md
+├── SampleTest.java             # this template (reference only)
 └── src/
     └── test/
         └── java/
             └── io/
                 └── redis/
                     └── examples/
-                        └── SampleTest.java
+                        └── CmdsHashExample.java   # generated examples go here
 ```
 
 ## Running Tests
@@ -211,5 +247,5 @@ mvn test -Dtest=SampleTest#run
 
 ## See Also
 
-- Sample template: `src/test/java/io/redis/examples/SampleTest.java` (in this directory)
+- Sample template: `SampleTest.java` (in this directory)
 - Hash commands: `/path/to/jedis/src/test/java/io/redis/examples/CmdsHashExample.java`
