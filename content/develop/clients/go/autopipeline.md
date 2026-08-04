@@ -24,10 +24,12 @@ but this means you must know in advance which commands you want to batch.
 
 *Automatic pipelining* removes that requirement. When many goroutines issue
 commands concurrently, `go-redis` coalesces them into deep pipelines for you,
-without any pipeline code in your application. Reach for it in high-throughput,
-high-concurrency, or scale scenarios. At low concurrency, a plain client is
-simpler and just as fast, and a hand-written pipeline is still fastest when you
-can batch by hand. Automatic pipelining requires
+without any pipeline code in your application. This is useful in high-throughput or
+high-concurrency scenarios. At low concurrency, a plain client is
+simpler and just as fast, and a hand-written pipeline is generally faster than
+an auto-generated one.
+
+Automatic pipelining requires
 `github.com/redis/go-redis/v9` v9.22.0 or later.
 
 ## Blocking and asynchronous pipelining
@@ -40,15 +42,13 @@ Automatic pipelining has two methods that share the same underlying engine:
     working unchanged. Under concurrency, the engine batches commands from all
     goroutines into back-to-back pipelines behind the scenes. Per-goroutine
     ordering is preserved.
--   **Asynchronous** (`AsyncAutoPipeline()`) is deferred and offers the highest
-    throughput. Command calls return immediately; reading a result with
+-   **Asynchronous** (`AsyncAutoPipeline()`) offers the highest throughput.
+    Command calls return immediately; reading a result with
     `Val()`, `Result()`, or `Err()` blocks until the batch executes. Submit a
-    window of commands and then drain the results to keep each pipeline as deep
-    as possible.
+    sequence of commands and then read the results afterwards to keep each
+    pipeline as deep as possible.
 
-Both methods are available on `Client`, `ClusterClient`, and `Ring`. A Sentinel
-failover client created with `NewFailoverClient()` is a `*Client`, so it has
-them too.
+Both methods are available on `Client`, `ClusterClient`, and `Ring`.
 
 ## Blocking usage
 
@@ -85,7 +85,7 @@ wg.Wait()
 ## Asynchronous usage
 
 For maximum throughput, use the asynchronous method. Command calls return
-immediately, so you can submit a window of commands and read their results
+immediately, so you can submit a sequence of commands and read their results
 afterwards:
 
 ```go
@@ -146,7 +146,7 @@ The configuration options are:
 | `AdaptiveDelay` | Scales `MaxFlushDelay` down as the queue fills, so a busy queue flushes sooner. Requires `MaxFlushDelay` greater than 0. Defaults to `false`. |
 | `MaxConcurrentBatches` | Number of batches that may execute at once. Defaults to 1, which gives a single ordered stream. Values greater than 1 require `Unordered` because concurrent batches do not preserve a single ordered stream. |
 | `Unordered` | Allows commands to execute without preserving a single ordered stream, which enables higher concurrency. |
-| `NumShards` | Number of independent queue-and-flusher shards. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, more than one shard requires `Unordered`. |
+| `NumShards` | Number of independent command queues, or shards, that the engine flushes separately. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, more than one shard requires `Unordered`. |
 
 Connection and buffer tuning is not part of `AutoPipelineOptions`. Batches use
 the client's pipeline connections, which you size with the
