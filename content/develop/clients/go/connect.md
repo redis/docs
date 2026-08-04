@@ -191,17 +191,18 @@ the client and server, resulting in better performance. See
 [Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
 for more information about how client-side caching works and how to use it effectively.
 
-{{< note >}}This feature is not yet released and its API is subject to change.
-It is being added in [go-redis PR #3851](https://github.com/redis/go-redis/pull/3851).
+{{< note >}}Client-side caching is an experimental feature of go-redis and its
+API may change in a minor release.
 
-Client-side caching requires go-redis v9.<!-- DOC-6831: set on merge -->TBD or later.
+Client-side caching requires go-redis v9.22.0 or later.
 To maximize compatibility with all Redis products, client-side caching
 is supported by Redis v7.4 or later.
 
 Client-side caching requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
 protocol, so you must set `Protocol: 3` explicitly when you connect. On a RESP2
-connection, client-side caching silently does nothing. It also works on logical
-database 0 only; on any other database it is disabled with a log warning.
+connection, client-side caching silently does nothing. It is also limited to
+standalone clients and to logical database 0; on any other database it is
+disabled with a log warning.
 {{< /note >}}
 
 To enable client-side caching, pass a `ClientSideCacheConfig` object when you
@@ -211,7 +212,6 @@ enables caching with the default settings:
 ```go
 import (
     "context"
-    "fmt"
     "github.com/redis/go-redis/v9"
 )
 
@@ -236,31 +236,22 @@ with [`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run the
 the server sees the first `Get("city")` call but not the second, which the
 client satisfies from the cache.
 
-### Caching strategies
+### How invalidation works
 
-go-redis supports three client-side caching strategies, selected with the
-`ClientSideCacheStrategy` option. All three share the same cache interface,
-the same cacheable-command allow-list, and the same RESP3 and database-0
-requirements; they differ in how invalidation messages reach the cache.
+Redis tracks the keys each connection reads and sends an invalidation message
+when one of them changes. go-redis keeps a single cache shared by every
+connection in the client's pool: each connection enables tracking on the
+server, and go-redis applies the invalidation messages in the background.
 
-| Strategy | Cache | Tracking | Best for |
-| :-- | :-- | :-- | :-- |
-| `CSCStrategySharedTracking` (default) | One shared, sharded cache | Every pool connection issues `CLIENT TRACKING ON`; a background drainer applies invalidations | General use. Works wherever RESP3 does (including managed or proxied environments) and needs no extra connection. |
-| `CSCStrategyBroadcast` | One shared, sharded cache | A dedicated out-of-pool "sidecar" connection issues `CLIENT TRACKING ON BCAST` and owns all invalidation traffic | Highest throughput and lowest tail latency, where broadcasting mode is available. Uses one extra connection and receives invalidations for every write in the database. |
-| `CSCStrategyPerConnection` | One private cache per pool connection | Every pool connection issues `CLIENT TRACKING ON` and owns its own cache | Small, long-lived pools (≲10 connections) that want hard isolation between connections. Cache memory multiplies by pool size, so avoid it at high concurrency. |
+Because invalidation is asynchronous, an entry is evicted shortly after the
+data changes rather than at the instant of the write. Use `DrainInterval` to
+control how often invalidations are applied, and `MaxStaleness` to put a hard
+time limit on how long any entry can be served.
 
-If you don't set `ClientSideCacheStrategy`, the zero value
-`CSCStrategySharedTracking` is used. The example below opts into broadcasting
-mode instead:
-
-```go
-client := redis.NewClient(&redis.Options{
-    Addr:                    "localhost:6379",
-    Protocol:                3,
-    ClientSideCacheConfig:   &redis.ClientSideCacheConfig{},
-    ClientSideCacheStrategy: redis.CSCStrategyBroadcast,
-})
-```
+Only deterministic read commands are cached. Writes, streaming replies, and
+commands whose results depend on something other than their arguments are
+always sent to the server. `SORT_RO` is cached only without its `BY` and `GET`
+options, which read keys that the client cannot track.
 
 ### Configuration options
 
@@ -270,29 +261,37 @@ cache:
 | Name | Description |
 | :-- | :-- |
 | `MaxEntries` | The maximum number of entries the cache can hold. Zero or negative means unlimited. If both `MaxEntries` and `MaxMemoryBytes` are unlimited, `MaxEntries` defaults to 10,000 so the cache cannot grow without bound. |
-| `MaxMemoryBytes` | An approximate memory limit for the cache. Zero means unlimited. |
-| `DrainInterval` | (`CSCStrategySharedTracking` only) How often the background drainer scans idle connections and applies buffered invalidations to the shared cache. The default is 5ms and the minimum is 1ms. |
-| `MaxStaleness` | The hard upper bound on how long a cached entry can be served after the underlying data has changed. Zero means no explicit bound (the drain interval still applies). |
+| `MaxMemoryBytes` | An approximate memory limit for the cache. Zero or negative means unlimited. The cache is divided into 16 shards that each enforce a 16th of this limit, so set it to at least 16 times the size of your largest cached reply. |
+| `MaxStaleness` | The longest time an entry can be served after it was cached, regardless of invalidation. This is a safety net for a missed invalidation rather than the main way entries are kept fresh, so set it well above the time an invalidation takes to arrive. Zero, the default, disables it. |
+| `DrainInterval` | How often go-redis checks idle connections for invalidation messages and applies them. The default is 5ms and the minimum is 1ms. |
+
+### Commands you can't use while caching
+
+The cache relies on the state of the connection it was populated from, so while
+client-side caching is enabled, go-redis rejects commands that would change
+that state: `SELECT`, `AUTH`, `HELLO` with arguments, `RESET`,
+[`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}), and the raw
+`SUBSCRIBE`, `PSUBSCRIBE`, and `SSUBSCRIBE` commands. One rejected command
+fails the entire pipeline it belongs to. The `Subscribe()`, `PSubscribe()`, and
+`SSubscribe()` methods still work normally because they use their own
+connections.
+
+For the same reason, client-side caching is disabled if you set any of the
+credentials provider options, because the client's permissions could change
+after data is cached. Fixed `Username` and `Password` values are supported.
 
 ### Monitoring the cache
 
-Use the `CSCStats()` method to read the cumulative cache hit and miss counts
-for a client:
+Use the `CSCStats()` method to read the cache statistics for a client:
 
 ```go
-hits, misses := client.CSCStats()
-fmt.Printf("Cache hits: %d, misses: %d\n", hits, misses)
+stats := client.CSCStats()
+fmt.Printf("Cache hits: %d, misses: %d\n", stats.Hits, stats.Misses)
+fmt.Printf("Entries: %d, memory: %d bytes\n", stats.Entries, stats.MemoryUsageBytes)
 ```
 
-Process-wide totals are also available via the package-level functions
-`redis.CommandStats()` (served-command hits and misses),
-`redis.CacheAdmissionRejects()` (entries rejected on admission), and
-`redis.RESPInvalidationBytesRead()` (bytes of invalidation key names read).
-
-{{< note >}}To supply your own cache implementation, set the `ClientSideCache`
-option instead of `ClientSideCacheConfig`. An explicit `ClientSideCache` is
-honoured by the `CSCStrategySharedTracking` and `CSCStrategyBroadcast`
-strategies. `CSCStrategyPerConnection` always builds a private cache per
-connection from `ClientSideCacheConfig` and ignores an explicit
-`ClientSideCache` (with a log warning).
+{{< note >}}To supply your own cache implementation, or to share one cache
+between several clients, set the `ClientSideCache` option. It takes precedence
+over `ClientSideCacheConfig`. A shared cache is only safe between clients that
+connect to the same server and database.
 {{< /note >}}
