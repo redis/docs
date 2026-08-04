@@ -23,8 +23,6 @@ Redis Enterprise for Kubernetes is compatible with [CNCF-conformant](https://www
 
 The following table shows supported Kubernetes versions at the time of this release. For a list of platforms tested with this release, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
 
-<!-- TODO (DOC-6703): add the full tested-platform list. -->
-
 | Kubernetes | **Redis <nobr>8.2.0</nobr>** |
 |---|---|
 | 1.36 | Supported |
