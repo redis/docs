@@ -93,7 +93,14 @@ console.log(res8); // >>> 4972
 
 const res9 = await redis.hgetall('bike:1');
 console.log(JSON.stringify(res9, null, 2));
-// >>> { model: 'Deimos', brand: 'Ergonom', type: 'Enduro bikes', price: '4972' }
+/* >>>
+{
+  "model": "Deimos",
+  "brand": "Ergonom",
+  "type": "Enduro bikes",
+  "price": "4972"
+}
+*/
 // STEP_END
 
 // REMOVE_START

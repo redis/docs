@@ -153,6 +153,33 @@ mod sample_async_tests {
         }
         // STEP_END
 
+        // STEP_START hincrby
+        // Numeric operations on hash fields (async)
+        if let Ok(res10) = r.hincr("bike:1:stats", "rides", 1).await {
+            let res10: i32 = res10;
+            println!("{res10}"); // >>> 1
+            // REMOVE_START
+            assert_eq!(res10, 1);
+            // REMOVE_END
+        }
+
+        if let Ok(res11) = r.hincr("bike:1:stats", "rides", 1).await {
+            let res11: i32 = res11;
+            println!("{res11}"); // >>> 2
+            // REMOVE_START
+            assert_eq!(res11, 2);
+            // REMOVE_END
+        }
+
+        if let Ok(res12) = r.hincr("bike:1:stats", "crashes", 1).await {
+            let res12: i32 = res12;
+            println!("{res12}"); // >>> 1
+            // REMOVE_START
+            assert_eq!(res12, 1);
+            // REMOVE_END
+        }
+        // STEP_END
+
         // REMOVE_START
         let _: () = r.del(&["bike:1", "bike:1:stats"]).await.unwrap();
         // REMOVE_END

@@ -11,13 +11,17 @@ These test files serve dual purposes:
 ## File Locations
 
 - **Original tests**: `/path/to/lettuce/src/test/java/io/redis/examples/async/*.java`
-- **Sample template**: `src/test/java/io/redis/examples/async/SampleTest.java` (in this directory)
+- **Sample template**: `SampleTest.java` (in this directory)
+- **Generated examples**: must go under
+  `src/test/java/io/redis/examples/async/` in the examples project — Maven only
+  discovers tests there.
 
 ## Marker Reference
 
 | Marker | Purpose |
 |--------|---------|
 | `// EXAMPLE: <name>` | Identifies example name (matches docs folder) |
+| `// BINDER_ID <id>` | Optional identifier for online code runners |
 | `// HIDE_START` / `// HIDE_END` | Code hidden from docs but still executed |
 | `// REMOVE_START` / `// REMOVE_END` | Code completely removed from docs |
 | `// STEP_START <name>` / `// STEP_END` | Named section for targeted doc inclusion |
@@ -52,7 +56,7 @@ public class SampleTest {
             RedisAsyncCommands<String, String> asyncCommands = connection.async();
 
             // REMOVE_START
-            asyncCommands.del("mykey").get();
+            asyncCommands.del("mykey").toCompletableFuture().join();
             // REMOVE_END
 
             // STEP_START operation_name
@@ -111,7 +115,35 @@ chain.join(); // Wait for completion
 // REMOVE_START
 assertThat(result.join()).isEqualTo("Hello");
 assertThat(map).hasSize(3);
-asyncCommands.del("mykey").get();
+asyncCommands.del("mykey").toCompletableFuture().join();
+// REMOVE_END
+```
+
+Use `.toCompletableFuture().join()` rather than `RedisFuture.get()`. `get()`
+throws checked `InterruptedException`/`ExecutionException`, which will not
+compile in a `run()` method that declares no `throws` clause.
+
+Assertions inside a `thenCompose`/`thenAccept` lambda go in a REMOVE block
+around the assertion line only, leaving the surrounding chain visible:
+
+```java
+.thenCompose(res1 -> {
+    System.out.println(res1); // >>> OK
+    // REMOVE_START
+    assertThat(res1).isEqualTo("OK");
+    // REMOVE_END
+    return asyncCommands.get("mykey");
+})
+```
+
+When a whole chain stage exists purely to assert, wrap the entire stage:
+
+```java
+// REMOVE_START
+.thenApply(res -> {
+    assertThat(res.get("field1")).isEqualTo("value1");
+    return res;
+})
 // REMOVE_END
 ```
 
@@ -146,6 +178,7 @@ Maven requires test files to be in a specific directory structure:
 examples/lettuce-async/
 ├── pom.xml
 ├── LETTUCE_ASYNC_TEST_PATTERNS.md
+├── SampleTest.java                 # this template (reference only)
 └── src/
     └── test/
         └── java/
@@ -153,7 +186,7 @@ examples/lettuce-async/
                 └── redis/
                     └── examples/
                         └── async/
-                            └── SampleTest.java
+                            └── CmdsHashExample.java   # generated examples here
 ```
 
 ## Running Tests
@@ -223,5 +256,6 @@ mvn test -Dtest=SampleTest#run
 
 ## See Also
 
-- Sample template: `src/test/java/io/redis/examples/async/SampleTest.java` (in this directory)
+- Sample template: `SampleTest.java` (in this directory)
 - Hash commands: `/path/to/lettuce/src/test/java/io/redis/examples/async/HashExample.java`
+- Reactive counterpart: `../lettuce-reactive/LETTUCE_REACTIVE_TEST_PATTERNS.md`

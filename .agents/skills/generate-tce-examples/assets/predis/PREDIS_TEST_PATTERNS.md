@@ -24,42 +24,50 @@ These test files serve dual purposes:
 
 ## File Structure Template
 
+Note the marker ordering at the top: `EXAMPLE:` is line 1 and `BINDER_ID` is
+line 2, both **before** the `<?php` tag. Everything after `<?php` is a normal PHP
+comment; anything before it would be echoed as raw output when the file runs.
+
 ```php
 // EXAMPLE: example_name
-<?php
 // BINDER_ID php-sample
+<?php
 
-use PHPUnit\Framework\TestCase;
+require 'vendor/autoload.php';
+
 use Predis\Client as PredisClient;
 
 class SampleTest
 // REMOVE_START
-extends TestCase
+extends PredisTestCase
 // REMOVE_END
 {
     public function testSampleExample(): void
     {
-        $redis = new PredisClient([
-            'scheme' => 'tcp',
-            'host'   => '127.0.0.1',
-            'port'   => 6379,
+        $r = new PredisClient([
+            'scheme'   => 'tcp',
+            'host'     => '127.0.0.1',
+            'port'     => 6379,
+            'password' => '',
+            'database' => 0,
         ]);
+
         // REMOVE_START
-        $redis->del('mykey');
+        $r->del('mykey');
         // REMOVE_END
 
         // STEP_START string_ops
-        $res = $redis->set('mykey', 'Hello');
+        $res = $r->set('mykey', 'Hello');
         echo $res . PHP_EOL; // >>> OK
 
-        $value = $redis->get('mykey');
+        $value = $r->get('mykey');
         echo $value . PHP_EOL; // >>> Hello
         // STEP_END
 
         // REMOVE_START
         $this->assertEquals('OK', $res);
         $this->assertEquals('Hello', $value);
-        $redis->del('mykey');
+        $r->del('mykey');
         // REMOVE_END
     }
 }
@@ -68,13 +76,20 @@ extends TestCase
 ## Key Patterns
 
 ### 1. Imports and Test Class
+
+The autoloader is required at the top, and the class extends `PredisTestCase`
+(the examples project's base class) inside a REMOVE block. There is no
+`use PHPUnit\Framework\TestCase;` import — `PredisTestCase` supplies the PHPUnit
+base:
+
 ```php
-use PHPUnit\Framework\TestCase;
+require 'vendor/autoload.php';
+
 use Predis\Client as PredisClient;
 
 class SampleTest
 // REMOVE_START
-extends TestCase
+extends PredisTestCase
 // REMOVE_END
 {
     public function testSampleExample(): void
@@ -82,11 +97,16 @@ extends TestCase
 ```
 
 ### 2. Connection Setup
+
+The client variable is `$r`:
+
 ```php
-$redis = new PredisClient([
-    'scheme' => 'tcp',
-    'host'   => '127.0.0.1',
-    'port'   => 6379,
+$r = new PredisClient([
+    'scheme'   => 'tcp',
+    'host'     => '127.0.0.1',
+    'port'     => 6379,
+    'password' => '',
+    'database' => 0,
 ]);
 ```
 
@@ -96,7 +116,7 @@ $redis = new PredisClient([
 $this->assertEquals('OK', $res);
 $this->assertEquals('Hello', $value);
 $this->assertCount(3, $all);
-$redis->del('mykey');
+$r->del('mykey');
 // REMOVE_END
 ```
 
@@ -109,20 +129,20 @@ echo json_encode($all) . PHP_EOL;
 // >>> {"field1":"value1","field2":"value2"}
 ```
 
-### 6. Hash Operations
+### 5. Hash Operations
 ```php
-// Single field
-$redis->hset('myhash', 'field1', 'value1');
+// Single field — returns the number of new fields
+$r->hset('myhash', 'field1', 'value1');
 
-// Multiple fields
-$redis->hmset('myhash', [
+// Multiple fields — returns the status string "OK"
+$r->hmset('myhash', [
     'field2' => 'value2',
     'field3' => 'value3',
 ]);
 
 // Get operations
-$value = $redis->hget('myhash', 'field1');
-$all = $redis->hgetall('myhash');
+$value = $r->hget('myhash', 'field1');
+$all = $r->hgetall('myhash');
 ```
 
 ## Setup

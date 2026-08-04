@@ -1,4 +1,5 @@
 // EXAMPLE: sample_example
+// BINDER_ID php-sample
 <?php
 // =============================================================================
 // CANONICAL PREDIS TEST FILE TEMPLATE
@@ -18,59 +19,60 @@
 // RUN: phpunit SampleTest.php
 // =============================================================================
 
-// BINDER_ID php-sample
+require 'vendor/autoload.php';
 
-use PHPUnit\Framework\TestCase;
 use Predis\Client as PredisClient;
 
 class SampleTest
 // REMOVE_START
-extends TestCase
+extends PredisTestCase
 // REMOVE_END
 {
     public function testSampleExample(): void
     {
-        $redis = new PredisClient([
-            'scheme' => 'tcp',
-            'host'   => '127.0.0.1',
-            'port'   => 6379,
+        $r = new PredisClient([
+            'scheme'   => 'tcp',
+            'host'     => '127.0.0.1',
+            'port'     => 6379,
+            'password' => '',
+            'database' => 0,
         ]);
 
         // REMOVE_START
         // Clean up any existing data before tests
-        $redis->del('mykey', 'myhash', 'bike:1', 'bike:1:stats');
+        $r->del('mykey', 'myhash', 'bike:1', 'bike:1:stats');
         // REMOVE_END
 
         // STEP_START string_ops
         // Basic string SET/GET operations
-        $res1 = $redis->set('mykey', 'Hello');
+        $res1 = $r->set('mykey', 'Hello');
         echo $res1 . PHP_EOL; // >>> OK
 
-        $res2 = $redis->get('mykey');
+        $res2 = $r->get('mykey');
         echo $res2 . PHP_EOL; // >>> Hello
         // STEP_END
 
         // REMOVE_START
         $this->assertEquals('OK', $res1);
         $this->assertEquals('Hello', $res2);
-        $redis->del('mykey');
+        $r->del('mykey');
         // REMOVE_END
 
         // STEP_START hash_ops
         // Hash operations: HSET, HGET, HGETALL
-        $res3 = $redis->hset('myhash', 'field1', 'value1');
+        $res3 = $r->hset('myhash', 'field1', 'value1');
         echo $res3 . PHP_EOL; // >>> 1
 
-        $res4 = $redis->hmset('myhash', [
+        $res4 = $r->hmset('myhash', [
             'field2' => 'value2',
             'field3' => 'value3'
         ]);
         echo $res4 . PHP_EOL; // >>> OK
 
-        $res5 = $redis->hget('myhash', 'field1');
+        $res5 = $r->hget('myhash', 'field1');
         echo $res5 . PHP_EOL; // >>> value1
 
-        $res6 = $redis->hgetall('myhash');
+        $res6 = $r->hgetall('myhash');
         echo json_encode($res6) . PHP_EOL;
         // >>> {"field1":"value1","field2":"value2","field3":"value3"}
         // STEP_END
@@ -80,7 +82,7 @@ extends TestCase
         $this->assertEquals('OK', $res4);
         $this->assertEquals('value1', $res5);
         $this->assertEquals('value1', $res6['field1']);
-        $redis->del('myhash');
+        $r->del('myhash');
         // REMOVE_END
 
         // STEP_START hash_tutorial
@@ -92,16 +94,16 @@ extends TestCase
             'price' => '4972'
         ];
 
-        $res7 = $redis->hmset('bike:1', $bike1);
+        $res7 = $r->hmset('bike:1', $bike1);
         echo $res7 . PHP_EOL; // >>> OK
 
-        $res8 = $redis->hget('bike:1', 'model');
+        $res8 = $r->hget('bike:1', 'model');
         echo $res8 . PHP_EOL; // >>> Deimos
 
-        $res9 = $redis->hget('bike:1', 'price');
+        $res9 = $r->hget('bike:1', 'price');
         echo $res9 . PHP_EOL; // >>> 4972
 
-        $res10 = $redis->hgetall('bike:1');
+        $res10 = $r->hgetall('bike:1');
         echo json_encode($res10) . PHP_EOL;
         // >>> {"model":"Deimos","brand":"Ergonom","type":"Enduro bikes","price":"4972"}
         // STEP_END
@@ -111,20 +113,20 @@ extends TestCase
         $this->assertEquals('Deimos', $res8);
         $this->assertEquals('4972', $res9);
         $this->assertEquals('Deimos', $res10['model']);
-        $redis->del('bike:1');
+        $r->del('bike:1');
         // REMOVE_END
 
         // STEP_START hincrby
         // Numeric operations on hash fields
-        $redis->hset('bike:1:stats', 'rides', 0);
+        $r->hset('bike:1:stats', 'rides', 0);
 
-        $res11 = $redis->hincrby('bike:1:stats', 'rides', 1);
+        $res11 = $r->hincrby('bike:1:stats', 'rides', 1);
         echo $res11 . PHP_EOL; // >>> 1
 
-        $res12 = $redis->hincrby('bike:1:stats', 'rides', 1);
+        $res12 = $r->hincrby('bike:1:stats', 'rides', 1);
         echo $res12 . PHP_EOL; // >>> 2
 
-        $res13 = $redis->hincrby('bike:1:stats', 'crashes', 1);
+        $res13 = $r->hincrby('bike:1:stats', 'crashes', 1);
         echo $res13 . PHP_EOL; // >>> 1
         // STEP_END
 
@@ -132,7 +134,7 @@ extends TestCase
         $this->assertEquals(1, $res11);
         $this->assertEquals(2, $res12);
         $this->assertEquals(1, $res13);
-        $redis->del('bike:1:stats');
+        $r->del('bike:1:stats');
         // REMOVE_END
     }
 }

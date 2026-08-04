@@ -164,6 +164,42 @@ mod sample_tests {
         }
         // STEP_END
 
+        // STEP_START hincrby
+        // Numeric operations on hash fields
+        match r.hincr("bike:1:stats", "rides", 1) {
+            Ok(res10) => {
+                let res10: i32 = res10;
+                println!("{res10}"); // >>> 1
+                // REMOVE_START
+                assert_eq!(res10, 1);
+                // REMOVE_END
+            }
+            Err(e) => println!("Error: {e}"),
+        }
+
+        match r.hincr("bike:1:stats", "rides", 1) {
+            Ok(res11) => {
+                let res11: i32 = res11;
+                println!("{res11}"); // >>> 2
+                // REMOVE_START
+                assert_eq!(res11, 2);
+                // REMOVE_END
+            }
+            Err(e) => println!("Error: {e}"),
+        }
+
+        match r.hincr("bike:1:stats", "crashes", 1) {
+            Ok(res12) => {
+                let res12: i32 = res12;
+                println!("{res12}"); // >>> 1
+                // REMOVE_START
+                assert_eq!(res12, 1);
+                // REMOVE_END
+            }
+            Err(e) => println!("Error: {e}"),
+        }
+        // STEP_END
+
         // REMOVE_START
         let _: Result<i32, _> = r.del(&["bike:1", "bike:1:stats"]);
         // REMOVE_END

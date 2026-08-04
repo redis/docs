@@ -35,7 +35,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SampleTest {
 
+    // REMOVE_START
     @Test
+    // REMOVE_END
     public void run() {
         RedisClient redisClient = RedisClient.create("redis://localhost:6379");
 
