@@ -283,7 +283,7 @@ Examples on the docs site can be run interactively in the browser. When a reader
 The `buildsUpon` parameter declares those dependencies:
 
 ```
-{{</* clients-example set="hash_tutorial" step="hmget" buildsUpon="set_get_all" */>}}
+{{< clients-example set="hash_tutorial" step="hmget" buildsUpon="set_get_all" >}}
 ```
 
 **Always set `buildsUpon` when your example relies on data or state that a previous example creates.** Without it, an interactive user who runs your example first will hit errors because the required data isn't there.
