@@ -987,7 +987,7 @@ Review the changes on this branch against Google developer documentation style. 
 ```
 
 Key rules to remember:
-- Use **you** and **your** — never "the user", "customers", or "developers" when addressing the reader
+- Use **you** and **your** — never "we", "us", "the user", "customers", or "developers" when addressing the reader
 - Use **active voice** and **present tense** wherever possible
 - Use **sentence case** for headings (capitalize only the first word and proper nouns)
 - Avoid unnecessary words — cut filler phrases like "in order to", "it is important to note that"
