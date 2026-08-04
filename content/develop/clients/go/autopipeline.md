@@ -84,7 +84,7 @@ wg.Wait()
 
 ## Asynchronous usage
 
-For maximum throughput, use the asynchronous method. Command calls return
+For maximum throughput, use asynchronous execution. Command calls return
 immediately, so you can submit a sequence of commands and read their results
 afterwards:
 
@@ -112,8 +112,8 @@ for _, cmd := range cmds {
 ## Configuration
 
 `AutoPipeline()` and `AsyncAutoPipeline()` take no arguments. They use the
-`AutoPipelineOptions` set on the client's options, if any, and otherwise the
-built-in default for the method you called. To pass options for a single
+`AutoPipelineOptions` set on the client's options, if any, and otherwise use
+reasonable default values. To pass options for a single
 autopipeliner, use `AutoPipelineWithOptions()` or
 `AsyncAutoPipelineWithOptions()` instead:
 
@@ -133,20 +133,26 @@ ap, err := rdb.AsyncAutoPipelineWithOptions(&redis.AutoPipelineOptions{
 
 All four methods return `(*AutoPipeliner, error)`. The error is non-nil only
 when the options are invalid (for example, setting `MaxConcurrentBatches`
-greater than 1 without also setting `Unordered`); invalid options are never a
-panic, and no instance is cached.
+greater than one without also setting `Unordered`). Invalid options never cause a
+panic.
 
 The configuration options are:
 
 | Field | Description |
 | :---- | :---------- |
-| `MaxBatchSize` | Target number of commands the engine coalesces into a single pipeline before flushing. This is a soft threshold rather than a hard cap, so a busy queue can flush a larger batch. Defaults to 200, or 300 when `AutoPipeline()` falls back to its built-in default. |
-| `MaxBatchBytes` | Approximate limit on the argument bytes in a batch, so that large values flush as several bounded writes instead of one very large one. Also a soft threshold. Defaults to 0, meaning no byte limit. |
+| `MaxBatchSize` | Target number of commands the engine coalesces into a single pipeline before flushing. This is a soft threshold rather than a hard cap, so a busy queue can flush a larger batch. Defaults to 200. |
+| `MaxBatchBytes` | Soft limit on the argument bytes in a batch, so that large values flush as several bounded writes instead of one very large one. Defaults to 0, meaning no byte limit. |
 | `MaxFlushDelay` | Maximum time the engine waits to accumulate more commands before flushing a batch. Larger values build deeper pipelines at the cost of latency. Defaults to 0, which adds no accumulation wait. |
 | `AdaptiveDelay` | Scales `MaxFlushDelay` down as the queue fills, so a busy queue flushes sooner. Requires `MaxFlushDelay` greater than 0. Defaults to `false`. |
 | `MaxConcurrentBatches` | Number of batches that may execute at once. Defaults to 1, which gives a single ordered stream. Values greater than 1 require `Unordered` because concurrent batches do not preserve a single ordered stream. |
 | `Unordered` | Allows commands to execute without preserving a single ordered stream, which enables higher concurrency. |
 | `NumShards` | Number of independent command queues, or shards, that the engine flushes separately. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, more than one shard requires `Unordered`. |
+
+`MaxBatchSize` is the one default that differs between the two methods. If you
+set no options at all, `AutoPipeline()` uses a built-in preset that targets 300
+commands instead of 200. As soon as you supply `AutoPipelineOptions`, either on
+the client or to `AutoPipelineWithOptions()`, that preset no longer applies, and
+a `MaxBatchSize` you leave unset means 200.
 
 Connection and buffer tuning is not part of `AutoPipelineOptions`. Batches use
 the client's pipeline connections, which you size with the
