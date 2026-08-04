@@ -16,12 +16,6 @@ title: Automatic pipelining
 weight: 42
 ---
 
-{{< note >}}
-Automatic pipelining is an **experimental** feature and its API may still
-change. It requires `github.com/redis/go-redis/v9` v9.22.0 or later.
-{{< /note >}}
-&nbsp;
-
 [Pipelining]({{< relref "/develop/using-commands/pipelining" >}}) sends a batch
 of commands to the server in a single communication, which avoids the network
 and processing overhead of sending each command separately. Normally you build
@@ -33,11 +27,12 @@ commands concurrently, `go-redis` coalesces them into deep pipelines for you,
 without any pipeline code in your application. Reach for it in high-throughput,
 high-concurrency, or scale scenarios. At low concurrency, a plain client is
 simpler and just as fast, and a hand-written pipeline is still fastest when you
-can batch by hand.
+can batch by hand. Automatic pipelining requires
+`github.com/redis/go-redis/v9` v9.22.0 or later.
 
-## The two faces
+## Blocking and asynchronous pipelining
 
-Automatic pipelining has two forms that share the same underlying engine:
+Automatic pipelining has two methods that share the same underlying engine:
 
 -   **Blocking** (`AutoPipeline()`) is a drop-in replacement for a normal
     client. Each command call blocks until it executes and returns its own
@@ -45,14 +40,15 @@ Automatic pipelining has two forms that share the same underlying engine:
     working unchanged. Under concurrency, the engine batches commands from all
     goroutines into back-to-back pipelines behind the scenes. Per-goroutine
     ordering is preserved.
--   **Async** (`AsyncAutoPipeline()`) is deferred and offers the highest
+-   **Asynchronous** (`AsyncAutoPipeline()`) is deferred and offers the highest
     throughput. Command calls return immediately; reading a result with
     `Val()`, `Result()`, or `Err()` blocks until the batch executes. Submit a
     window of commands and then drain the results to keep each pipeline as deep
     as possible.
 
-Both methods are available on `Client`, `ClusterClient`, and `Ring`. A failover
-client created with `NewFailoverClient()` is a `*Client`, so it has them too.
+Both methods are available on `Client`, `ClusterClient`, and `Ring`. A Sentinel
+failover client created with `NewFailoverClient()` is a `*Client`, so it has
+them too.
 
 ## Blocking usage
 
@@ -65,7 +61,7 @@ rdb := redis.NewClient(&redis.Options{Addr: "localhost:6379"})
 defer rdb.Close()
 ctx := context.Background()
 
-// Blocking face: a drop-in for a normal client, batched under the hood.
+// Blocking: a drop-in for a normal client, batched under the hood.
 ap, err := rdb.AutoPipeline()
 if err != nil { // only returned for invalid AutoPipelineOptions
     log.Fatal(err)
@@ -86,10 +82,11 @@ for i := 0; i < 1000; i++ {
 wg.Wait()
 ```
 
-## Windowed usage
+## Asynchronous usage
 
-For maximum throughput, use the async face. Command calls return immediately, so
-you can submit a window of commands and read their results afterwards:
+For maximum throughput, use the asynchronous method. Command calls return
+immediately, so you can submit a window of commands and read their results
+afterwards:
 
 ```go
 ctx := context.Background()
@@ -116,11 +113,12 @@ for _, cmd := range cmds {
 
 `AutoPipeline()` and `AsyncAutoPipeline()` take no arguments. They use the
 `AutoPipelineOptions` set on the client's options, if any, and otherwise the
-built-in default for their face. To pass options for a single autopipeliner,
-use `AutoPipelineWithOptions()` or `AsyncAutoPipelineWithOptions()` instead:
+built-in default for the method you called. To pass options for a single
+autopipeliner, use `AutoPipelineWithOptions()` or
+`AsyncAutoPipelineWithOptions()` instead:
 
 ```go
-// On the client, shared by both faces.
+// On the client, used by both methods.
 rdb := redis.NewClient(&redis.Options{
     Addr:                "localhost:6379",
     AutoPipelineOptions: &redis.AutoPipelineOptions{MaxFlushDelay: 100 * time.Microsecond},
@@ -142,23 +140,23 @@ The configuration options are:
 
 | Field | Description |
 | :---- | :---------- |
-| `MaxBatchSize` | Target number of commands the engine coalesces into a single pipeline before flushing. This is a soft threshold rather than a hard cap, so a busy queue can flush a larger batch. Defaults to 200, or to 300 for the blocking face's built-in default. |
+| `MaxBatchSize` | Target number of commands the engine coalesces into a single pipeline before flushing. This is a soft threshold rather than a hard cap, so a busy queue can flush a larger batch. Defaults to 200, or 300 when `AutoPipeline()` falls back to its built-in default. |
 | `MaxBatchBytes` | Approximate limit on the argument bytes in a batch, so that large values flush as several bounded writes instead of one very large one. Also a soft threshold. Defaults to 0, meaning no byte limit. |
 | `MaxFlushDelay` | Maximum time the engine waits to accumulate more commands before flushing a batch. Larger values build deeper pipelines at the cost of latency. Defaults to 0, which adds no accumulation wait. |
 | `AdaptiveDelay` | Scales `MaxFlushDelay` down as the queue fills, so a busy queue flushes sooner. Requires `MaxFlushDelay` greater than 0. Defaults to `false`. |
 | `MaxConcurrentBatches` | Number of batches that may execute at once. Defaults to 1, which gives a single ordered stream. Values greater than 1 require `Unordered` because concurrent batches do not preserve a single ordered stream. |
 | `Unordered` | Allows commands to execute without preserving a single ordered stream, which enables higher concurrency. |
-| `NumShards` | Number of independent queue-and-flusher shards. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. On the async face, more than one shard requires `Unordered`. |
+| `NumShards` | Number of independent queue-and-flusher shards. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, more than one shard requires `Unordered`. |
 
 Connection and buffer tuning is not part of `AutoPipelineOptions`. Batches use
 the client's pipeline connections, which you size with the
 `PipelineReadBufferSize`, `PipelineWriteBufferSize`, and `PipelinePoolSize`
 fields of the client's options.
 
-Each face has its own cached instance, shared by every caller of that method on
-the client: the first call's options win and later calls return the same
-instance. `Close()` stops that instance for all callers, and a later call to the
-same method then builds a fresh one. Closing the client stops it permanently,
+The blocking and asynchronous autopipeliners are cached separately, and each is
+shared by all of its callers: the first call's options win and later calls
+return the same instance. `Close()` stops that instance for every caller, and a
+later call then builds a fresh one. Closing the client stops it permanently,
 after which the methods return `ErrClosed`.
 
 ## Cluster usage
