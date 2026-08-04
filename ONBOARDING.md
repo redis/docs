@@ -579,7 +579,7 @@ On branch [branch-name], update content/develop/ai/redisvl/[version]/[file] to [
 
 ## Redis Insight
 
-**Location:** `content/develop/tools/insight/`
+**Locations:** `content/develop/tools/insight/` and `content/operate/redisinsight
 
 Redis Insight is a desktop and browser-based GUI client for Redis. It lets you visualize keys, run commands, explore streams, connect to RDI, and more. The section covers installation, feature guides, and release notes.
 
