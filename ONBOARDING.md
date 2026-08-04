@@ -227,7 +227,7 @@ Use an existing page in that guide as a template for frontmatter and structure. 
 
 ## Code examples
 
-Code examples on the docs site are multi-language, tabbed snippets showing the same operation in every supported client library. They appear in data type tutorials, command pages, and client guides using the `{{</* clients-example */>}}` shortcode.
+Code examples on the docs site are multi-language, tabbed snippets showing the same operation in every supported client library. They appear in data type tutorials, command pages, and client guides using the `{{< clients-example >}}` shortcode.
 
 ### Where examples live
 
