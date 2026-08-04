@@ -256,7 +256,7 @@ Examples live in **two places**:
 Use `{{</* clients-example */>}}` to embed a multi-language example in any doc page:
 
 ```
-{{</* clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple hash fields with HMGET to reduce round trips" difficulty="intermediate" buildsUpon="set_get_all" */>}}
+{{< clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple hash fields with HMGET to reduce round trips" difficulty="intermediate" buildsUpon="set_get_all" >}}
 > HGET bike:1 model
 "Deimos"
 {{</* /clients-example */>}}
