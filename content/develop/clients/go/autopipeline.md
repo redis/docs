@@ -146,7 +146,7 @@ The configuration options are:
 | `AdaptiveDelay` | Scales `MaxFlushDelay` down as the queue fills, so a busy queue flushes sooner. Requires `MaxFlushDelay` to be greater than 0. Defaults to `false`. |
 | `MaxConcurrentBatches` | Number of batches that may execute at once. Defaults to 1, which gives a single ordered stream. Values greater than 1 require `Unordered` set to `true` because concurrent batches do not preserve a single ordered stream. |
 | `Unordered` | Allows commands to execute without preserving a single ordered stream, which enables higher concurrency. |
-| `NumShards` | Number of independent command queues, or shards, that the engine flushes separately. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, `Unordered` to be set to `true` if `NumShards` is greater than 1. |
+| `NumShards` | Number of independent command queues, or shards, that the engine flushes separately. Defaults to 0, meaning a single shard, which funnels every caller into one queue so batches stay deep. Cluster clients default to several slot-routed shards instead. With `AsyncAutoPipeline()`, values greater than 1 require `Unordered` to be set to `true`. |
 
 `MaxBatchSize` is the one default that differs between the two methods. If you
 set no options at all, `AutoPipeline()` uses a built-in preset that targets 300
