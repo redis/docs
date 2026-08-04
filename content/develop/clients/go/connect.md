@@ -312,17 +312,17 @@ method that the `Cache` interface doesn't declare, so a wrapper that embeds the
 interface still compiles but makes `CSCStats()` report zeros.
 {{< /note >}}
 
-To write a cache from scratch, implement all eight `Cache` methods: `Get()` for
+To write a cache from scratch, you should implement all eight `Cache` methods: `Get()` for
 lookups, `Reserve()`, `FulfillOwned()`, and `Cancel()` to ensure that only one
 caller fetches a missing key, and `DeleteByRedisKey()`, `DeleteByCacheKey()`,
 `EvictByConn()`, and `Flush()` to remove entries when invalidation arrives.
 go-redis calls these methods from several goroutines at once, so your
-implementation must be thread-safe, must treat cache keys and Redis keys as
-opaque strings and preserve them exactly, and must stop waiting for an
-in-progress reservation when the context is canceled. Implement
-`Stats() redis.CSCStats` as well if you want `CSCStats()` to keep working.
+implementation must be thread-safe, and must treat cache keys and Redis keys as
+opaque strings and preserve them exactly. It must also stop waiting for an
+in-progress reservation when the context is canceled. You should also implement
+`Stats() redis.CSCStats` if you want to use the `CSCStats()` function with your cache.
 
-If you only want to change how the cache estimates the memory an entry uses, you
-don't need your own implementation. Set the `Sizer` field of
-`ClientSideCacheConfig` to a function that returns a size in bytes, and the
-built-in cache uses it in place of its own approximation.
+If you only want to change how the cache estimates the memory used by an entry, you
+don't need a full cache implementation. Instead, set the `Sizer` field of
+`ClientSideCacheConfig` to a function that returns a size in bytes. The
+built-in cache will then use it in place of its own approximation.
