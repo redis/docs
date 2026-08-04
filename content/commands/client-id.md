@@ -40,7 +40,7 @@ introduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK
 ## Examples
 
 {{% redis-cli %}}
-CLIENT ID
+redis> CLIENT ID
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

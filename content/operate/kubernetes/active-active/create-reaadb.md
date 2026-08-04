@@ -116,6 +116,8 @@ reaadb-boeing     active   Valid                        up
   
 In case of errors, review the REAADB custom resource events and the Redis Enterprise operator logs.
 
+To add tags to an Active-Active database and expose them as metric labels, see [Enrich database metrics with tags]({{< relref "/operate/kubernetes/re-databases/enrich-metrics-with-tags" >}}).
+
 ## Example values
 
 This article uses the example values listed below. You can also find them in the [YAML examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) section.

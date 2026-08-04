@@ -185,9 +185,20 @@ Specifying the value 0 as `count` disables the limiting mechanism entirely.
 ## Examples
 
 {{% redis-cli %}}
-XADD mystream * field1 A field2 B field3 C field4 D
-XTRIM mystream MAXLEN 2
-XRANGE mystream - +
+redis> XADD mystream * field1 A field2 B field3 C field4 D
+"1784722085136-0"
+redis> XTRIM mystream MAXLEN 2
+(integer) 0
+redis> XRANGE mystream - +
+1) 1) "1784722085136-0"
+   2) 1) "field1"
+      2) "A"
+      3) "field2"
+      4) "B"
+      5) "field3"
+      6) "C"
+      7) "field4"
+      8) "D"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

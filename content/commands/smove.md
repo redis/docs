@@ -106,12 +106,19 @@ The member to move from the source set to the destination set.
 ## Examples
 
 {{% redis-cli %}}
-SADD myset "one"
-SADD myset "two"
-SADD myotherset "three"
-SMOVE myset myotherset "two"
-SMEMBERS myset
-SMEMBERS myotherset
+redis> SADD myset "one"
+(integer) 1
+redis> SADD myset "two"
+(integer) 1
+redis> SADD myotherset "three"
+(integer) 1
+redis> SMOVE myset myotherset "two"
+(integer) 1
+redis> SMEMBERS myset
+1) "one"
+redis> SMEMBERS myotherset
+1) "three"
+2) "two"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

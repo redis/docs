@@ -253,11 +253,11 @@ remove data from a stream.
 
 {{< clients-example set="cmds_stream" step="xadd1" description="Basic XADD: Add entries to a stream with auto-generated IDs, check stream the stream size, and read entries" difficulty="beginner" >}}
 > XADD mystream * name Sara surname OConnor
-4378417975-0"
+"4378417975-0"
 > XADD mystream * field1 value1 field2 value2 field3 value3
-4378417976-0"
+"4378417976-0"
 > XLEN mystream
-eger) 2
+(integer) 2
 > XRANGE mystream - +
 1) 1) "1774378417975-0"
    2) 1) "name"
@@ -285,7 +285,7 @@ eger) 2
 > XADD mystream IDMPAUTO producer2 * field value
 "1774378417977-0"
 > XCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000
-"OK"
+OK
 {{< /clients-example >}}
 
 ## Details

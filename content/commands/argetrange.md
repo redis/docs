@@ -79,9 +79,18 @@ The zero-based integer index of the last element to return (inclusive). If `end`
 ## Examples
 
 {{% redis-cli %}}
-ARMSET myarray 0 "a" 1 "b" 3 "d"
-ARGETRANGE myarray 0 3
-ARGETRANGE myarray 3 0
+redis> ARMSET myarray 0 "a" 1 "b" 3 "d"
+(integer) 3
+redis> ARGETRANGE myarray 0 3
+1) "a"
+2) "b"
+3) (nil)
+4) "d"
+redis> ARGETRANGE myarray 3 0
+1) "d"
+2) (nil)
+3) "b"
+4) "a"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

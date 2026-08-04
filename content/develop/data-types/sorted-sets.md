@@ -151,7 +151,12 @@ position of an element in the set of ordered elements.
 The [`ZREVRANK`]({{< relref "/commands/zrevrank" >}}) command is also available in order to get the rank, considering
 the elements sorted in a descending way.
 
-{{< clients-example set="ss_tutorial" step="zrank" description="Get member position: Use ZRANK and ZREVRANK to find a member's position in the sorted set (useful for leaderboards)" difficulty="intermediate" buildsUpon="zadd" try_it="false" >}}
+{{< clients-example set="ss_tutorial" step="zrank" description="Get member position: Use ZRANK and ZREVRANK to find a member's position in the sorted set (useful for leaderboards)" difficulty="intermediate" buildsUpon="zadd" >}}
+# Recreate the three remaining racers so this example runs on its own.
+> DEL racer_scores
+(integer) 1
+> ZADD racer_scores 10 "Norem" 10 "Royce" 14 "Prickett"
+(integer) 3
 > ZRANK racer_scores "Norem"
 (integer) 0
 > ZREVRANK racer_scores "Norem"
@@ -172,7 +177,7 @@ The main commands to operate with lexicographical ranges are [`ZRANGEBYLEX`]({{<
 For example, let's add again our list of famous racers, but this time
 using a score of zero for all the elements. We'll see that because of the sorted sets ordering rules, they are already sorted lexicographically. Using [`ZRANGEBYLEX`]({{< relref "/commands/zrangebylex" >}}) we can ask for lexicographical ranges:
 
-{{< clients-example set="ss_tutorial" step="zadd_lex" description="Lexicographical queries: Add members with identical scores and use ZRANGEBYLEX to query by string range (enables generic indexing)" difficulty="intermediate" buildsUpon="zadd" try_it="false" >}}
+{{< clients-example set="ss_tutorial" step="zadd_lex" description="Lexicographical queries: Add members with identical scores and use ZRANGEBYLEX to query by string range (enables generic indexing)" difficulty="intermediate" buildsUpon="zadd" >}}
 > ZADD racer_scores 0 "Norem" 0 "Sam-Bodden" 0 "Royce" 0 "Castilla" 0 "Prickett" 0 "Ford"
 (integer) 3
 > ZRANGE racer_scores 0 -1

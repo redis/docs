@@ -77,7 +77,7 @@ The hash fields to retrieve the expiration time for. `numfields` is the number o
 
 ## Examples
 
-```
+{{% redis-cli %}}
 redis> HSET mykey field1 "hello" field2 "world"
 (integer) 2
 redis> HEXPIRE mykey 300  FIELDS 2 field1 field2
@@ -86,7 +86,7 @@ redis> HEXPIRE mykey 300  FIELDS 2 field1 field2
 redis> HEXPIRETIME mykey FIELDS 2 field1 field2
 1) (integer) 1715705914
 2) (integer) 1715705914
-```
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

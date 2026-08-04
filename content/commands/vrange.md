@@ -130,3 +130,7 @@ One of the following:
 - **Iteration guarantees**: Each range will produce exactly the elements that were present in the range at the moment the `VRANGE` command was executed.
 - **Concurrent modifications**: Elements removed or added during iteration may or may not be returned, depending on when they were modified.
 - **Empty key**: If the key doesn't exist, returns an empty array.
+
+## Related topics
+
+- [Vector sets]({{< relref "/develop/data-types/vector-sets" >}})

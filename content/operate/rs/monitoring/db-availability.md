@@ -29,6 +29,8 @@ GET /v1/bdbs/<database_id>/availability
 
 If the OSS Cluster API is enabled, this request verifies all endpoints for this database are available. Otherwise, it verifies the database has at least one available endpoint.
 
+An endpoint is available only if the database's primary (master) shards are reachable and the endpoint's listener port is bound. If either check fails, the database is reported as unavailable, and the [`error_code` and `description`]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability#get-db-error-codes">}}) identify the specific reason.
+
 Returns the status code 200 OK if the database is available.
 
 If the database is unavailable, returns an error status code and a JSON object that contains [`error_code` and `description` fields]({{<relref "/operate/rs/references/rest-api/requests/bdbs/availability#get-db-error-codes">}}).

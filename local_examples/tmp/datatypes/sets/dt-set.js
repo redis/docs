@@ -97,6 +97,10 @@ assert.deepEqual(res10.sort(), ['bike:1', 'bike:2', 'bike:3'])
 // REMOVE_END
 
 // STEP_START smIsMember
+// Recreate the set so this example runs on its own.
+await client.del('bikes:racing:france')
+await client.sAdd('bikes:racing:france', ['bike:1', 'bike:2', 'bike:3'])
+
 const res11 = await client.sIsMember('bikes:racing:france', 'bike:1')
 console.log(res11)  // >>> 1
 

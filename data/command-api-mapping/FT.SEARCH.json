@@ -220,6 +220,81 @@
           "description": "Search results"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "search(query = nil, return_fields: nil, nocontent: nil, sort_by: nil, asc: nil, dialect: nil, with_scores: nil, params: nil)",
+        "params": [
+          {
+            "name": "query",
+            "type": "String, Search::Query",
+            "description": "a query string or a Search::Query object; a block builds a Query via the predicate DSL"
+          },
+          {
+            "name": "return_fields",
+            "type": "Array<String>",
+            "description": "only return these fields (RETURN)"
+          },
+          {
+            "name": "nocontent",
+            "type": "Boolean",
+            "description": "return ids only (NOCONTENT)"
+          },
+          {
+            "name": "sort_by",
+            "type": "String",
+            "description": "sort field (SORTBY); pair with asc:"
+          },
+          {
+            "name": "asc",
+            "type": "Boolean",
+            "description": "sort ascending (default); pass false for descending"
+          },
+          {
+            "name": "dialect",
+            "type": "Integer",
+            "description": "query dialect version (DIALECT); defaults to 2"
+          },
+          {
+            "name": "with_scores",
+            "type": "Boolean",
+            "description": "include the relevance score on each document (WITHSCORES)"
+          },
+          {
+            "name": "params",
+            "type": "Hash",
+            "description": "query parameter substitutions (PARAMS)"
+          }
+        ],
+        "returns": {
+          "type": "Search::SearchResult",
+          "description": "the total count and the matching Search::Document objects"
+        }
+      },
+      {
+        "signature": "ft_search(index_name, query, **options)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index (or alias) name"
+          },
+          {
+            "name": "query",
+            "type": "String",
+            "description": "the query string"
+          },
+          {
+            "name": "options",
+            "type": "Hash",
+            "description": "search options translated to FT.SEARCH tokens (:no_content, :with_scores, :limit, :sortby, :filter, :geo_filter, :return, :params, :dialect, ...)"
+          }
+        ],
+        "returns": {
+          "type": "Search::SearchResult",
+          "description": "the total count and the matching Search::Document objects"
+        }
+      }
     ]
   }
 }

@@ -109,13 +109,29 @@ The maximum number of entries to return.
 ## Examples
 
 {{% redis-cli %}}
-XADD writers * name Virginia surname Woolf
-XADD writers * name Jane surname Austen
-XADD writers * name Toni surname Morrison
-XADD writers * name Agatha surname Christie
-XADD writers * name Ngozi surname Adichie
-XLEN writers
-XRANGE writers - + COUNT 2
+redis> XADD writers * name Virginia surname Woolf
+"1784722084364-0"
+redis> XADD writers * name Jane surname Austen
+"1784722084364-1"
+redis> XADD writers * name Toni surname Morrison
+"1784722084365-0"
+redis> XADD writers * name Agatha surname Christie
+"1784722084366-0"
+redis> XADD writers * name Ngozi surname Adichie
+"1784722084366-1"
+redis> XLEN writers
+(integer) 5
+redis> XRANGE writers - + COUNT 2
+1) 1) "1784722084364-0"
+   2) 1) "name"
+      2) "Virginia"
+      3) "surname"
+      4) "Woolf"
+2) 1) "1784722084364-1"
+   2) 1) "name"
+      2) "Jane"
+      3) "surname"
+      4) "Austen"
 {{% /redis-cli %}}
 
 ## Details

@@ -54,6 +54,10 @@ require to be stored in RAM.
 The reported usage is the total of memory allocations for data and
 administrative overheads that a key and its value require.
 
+For a hash stored in a compact hash encoding, the reported usage also includes
+the key's share of the shared compact hash template's memory (the template's
+size divided evenly across all keys that reference it). Added in Redis 8.10.
+
 For nested data types, the optional `SAMPLES` option can be provided, where
 `count` is the number of sampled nested values. The samples are averaged to estimate the total size.
 By default, this option is set to `5`. To sample the all of the nested values, use `SAMPLES 0`.

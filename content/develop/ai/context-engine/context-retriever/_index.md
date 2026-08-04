@@ -92,7 +92,9 @@ Get started with Redis Context Retriever on Redis Cloud or join the private prev
 
 -tab-sep-
 
-Contact your Redis representative or [contact sales](https://redis.io/contact/) to join the private preview on Redis Software.
+Redis Context Retriever is available for self-managed deployment on Kubernetes as a private preview. See [Install Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/install" >}}).
+
+You need a license key to deploy — [contact Redis](https://redis.io/contact/) to request access.
 
 {{< /multitabs >}}
 

@@ -155,6 +155,16 @@ mod tests {
         // STEP_END
 
         // STEP_START zrank
+        // Recreate the three remaining racers so this example runs on its own.
+        let _: () = r.del("racer_scores").await.expect("Failed to del");
+        let _: usize = r
+            .zadd_multiple(
+                "racer_scores",
+                &[(10, "Norem"), (10, "Royce"), (14, "Prickett")],
+            )
+            .await
+            .expect("Failed to zadd");
+
         if let Ok(res) = r.zrank("racer_scores", "Norem").await {
             let res: Option<usize> = res;
             if let Some(res) = res {

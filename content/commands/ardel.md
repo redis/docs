@@ -70,13 +70,20 @@ One or more zero-based integer indices of the elements to delete. Deleting an in
 ## Examples
 
 {{% redis-cli %}}
-ARSET myarray 0 "a"
-ARSET myarray 1 "b"
-ARSET myarray 2 "c"
-ARDEL myarray 1
-ARGET myarray 1
-ARDEL myarray 0 2
-ARCOUNT myarray
+redis> ARSET myarray 0 "a"
+(integer) 1
+redis> ARSET myarray 1 "b"
+(integer) 1
+redis> ARSET myarray 2 "c"
+(integer) 1
+redis> ARDEL myarray 1
+(integer) 1
+redis> ARGET myarray 1
+(nil)
+redis> ARDEL myarray 0 2
+(integer) 2
+redis> ARCOUNT myarray
+(integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -961,6 +961,101 @@
         ],
         "type": "object"
       },
+      "Migration": {
+        "description": "Object structure for migration status.",
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/MigrationError"
+          },
+          "flush_counter": {
+            "description": "How many times syncer had to restart.",
+            "nullable": true,
+            "readOnly": true,
+            "type": "integer",
+            "x-omitempty": true
+          },
+          "lag": {
+            "description": "Lag in milliseconds between source and destination (while synced).",
+            "nullable": true,
+            "readOnly": true,
+            "type": "integer",
+            "x-omitempty": true
+          },
+          "rdb_size": {
+            "description": "Number of source bytes.",
+            "nullable": true,
+            "readOnly": true,
+            "type": "integer",
+            "x-omitempty": true
+          },
+          "rdb_transferred": {
+            "description": "Number of source bytes transferred.",
+            "nullable": true,
+            "readOnly": true,
+            "type": "integer",
+            "x-omitempty": true
+          },
+          "run_id": {
+            "description": "Syncer run id.",
+            "nullable": true,
+            "readOnly": true,
+            "type": "string",
+            "x-omitempty": true
+          },
+          "source_shards": {
+            "items": {
+              "$ref": "#/components/schemas/SourceShard"
+            },
+            "readOnly": true,
+            "type": "array"
+          },
+          "status": {
+            "description": "Sync status of this source.",
+            "nullable": true,
+            "readOnly": true,
+            "type": "string",
+            "x-omitempty": true
+          }
+        },
+        "type": "object"
+      },
+      "MigrationError": {
+        "description": "Error information for migration operations",
+        "properties": {
+          "error_code": {
+            "description": "Error code identifying the specific error",
+            "nullable": true,
+            "readOnly": true,
+            "type": "string",
+            "x-omitempty": true
+          },
+          "message": {
+            "description": "Human-readable error message",
+            "nullable": true,
+            "readOnly": true,
+            "type": "string",
+            "x-omitempty": true
+          },
+          "timestamp": {
+            "description": "Timestamp when the error occurred",
+            "format": "date-time",
+            "nullable": true,
+            "readOnly": true,
+            "type": "string",
+            "x-omitempty": true
+          }
+        },
+        "type": "object"
+      },
+      "MigrationResponse": {
+        "description": "Response wrapper for migration endpoint",
+        "properties": {
+          "migration": {
+            "$ref": "#/components/schemas/Migration"
+          }
+        },
+        "type": "object"
+      },
       "NodeHealthReport": {
         "description": "Node information.",
         "properties": {
@@ -1450,6 +1545,23 @@
           "replication",
           "replica_id"
         ],
+        "type": "object"
+      },
+      "SourceShard": {
+        "description": "Replication shard with its metadata",
+        "properties": {
+          "replication_id": {
+            "description": "Replication id",
+            "readOnly": true,
+            "type": "string"
+          },
+          "replication_offset": {
+            "description": "Replication offset",
+            "format": "uint64",
+            "readOnly": true,
+            "type": "integer"
+          }
+        },
         "type": "object"
       },
       "StateMachine": {
@@ -2789,6 +2901,56 @@
         "summary": "Update a Redis Software LDAP mapping",
         "tags": [
           "LDAP Mapping"
+        ],
+        "x-publish-docs": true,
+        "x-stability-level": "stable"
+      }
+    },
+    "/v1/migrations/{uid}": {
+      "get": {
+        "description": "Migration status of a bdb in the cluster",
+        "operationId": "cluster_get_migration",
+        "parameters": [
+          {
+            "description": "The migration unique ID",
+            "example": 1,
+            "in": "path",
+            "name": "uid",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "x-go-type": "json.Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MigrationResponse"
+                }
+              }
+            },
+            "description": "migration information"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        },
+        "security": [
+          {
+            "Auth": [
+              "view_bdb_info"
+            ]
+          }
+        ],
+        "summary": "Get migration status of a bdb in the cluster",
+        "tags": [
+          "Migrations"
         ],
         "x-publish-docs": true,
         "x-stability-level": "stable"

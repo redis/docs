@@ -1,0 +1,1867 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Redis Agent Memory Control Plane API reference",
+    "version": "0.5.3",
+    "description": "Admin API for the Redis Agent Memory self-managed Control Plane.\n\nAuthentication: every endpoint requires `Authorization: Bearer <admin-token>`. This is distinct from the agent keys used by the Data Plane. Operational endpoints (health, build-info) are served separately and are unauthenticated.\n\nSelf-managed deployments use a shared store database. Embedding configuration is resolved server-side from deployment config rather than supplied in Control Plane requests.\n"
+  },
+  "paths": {
+    "/v1/api-keys": {
+      "get": {
+        "description": "List agent-key metadata. Secret values are never returned.",
+        "operationId": "ListAPIKeys",
+        "parameters": [
+          {
+            "name": "nextToken",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maxResults",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ListAPIKeys 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAPIKeysResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "API Keys"
+        ]
+      },
+      "post": {
+        "description": "Mint a new agent key. Every grant must reference an existing resource. The token is returned only in this response.",
+        "operationId": "MintAPIKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MintAPIKeyRequestContent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "MintAPIKey 201 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MintAPIKeyResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "API Keys"
+        ]
+      }
+    },
+    "/v1/api-keys/{keyId}": {
+      "delete": {
+        "description": "Revoke an agent key: deleting the record revokes the key (effective at the data plane within its cache interval).",
+        "operationId": "RevokeAPIKey",
+        "parameters": [
+          {
+            "name": "keyId",
+            "in": "path",
+            "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer).",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{32}$",
+              "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer)."
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "RevokeAPIKey 204 response"
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "API Keys"
+        ]
+      },
+      "get": {
+        "operationId": "GetAPIKey",
+        "parameters": [
+          {
+            "name": "keyId",
+            "in": "path",
+            "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer).",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{32}$",
+              "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer)."
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GetAPIKey 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAPIKeyResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "API Keys"
+        ]
+      },
+      "patch": {
+        "description": "Update an agent key's grants and/or name. Updating grants changes resource/action access without re-issuing the secret. Unknown grant resources return 400.",
+        "operationId": "UpdateAPIKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAPIKeyRequestContent"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "keyId",
+            "in": "path",
+            "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer).",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{32}$",
+              "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer)."
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UpdateAPIKey 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateAPIKeyResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "API Keys"
+        ]
+      }
+    },
+    "/v1/api-keys/{keyId}/rotate": {
+      "post": {
+        "description": "Rotate an agent key, make-before-break: mints a brand-new key (new id + secret, same\nname/scope) and winds the old one down over a grace window (default 3600 s) during which\nboth tokens authenticate. The old key's id is recorded on the new key as rotatedFrom.\n",
+        "operationId": "RotateAPIKey",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RotateAPIKeyRequestContent"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "keyId",
+            "in": "path",
+            "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer).",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{32}$",
+              "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer)."
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "RotateAPIKey 201 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RotateAPIKeyResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "API Keys"
+        ]
+      }
+    },
+    "/v1/stores": {
+      "get": {
+        "operationId": "ListStores",
+        "responses": {
+          "200": {
+            "description": "ListStores 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListStoresResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Memory Stores"
+        ]
+      },
+      "post": {
+        "operationId": "CreateStore",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStoreRequestContent"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "CreateStore 201 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateStoreResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "424": {
+            "description": "FailedDependencyError 424 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Memory Stores"
+        ]
+      }
+    },
+    "/v1/stores/{storeId}": {
+      "delete": {
+        "operationId": "DeleteStore",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+            "schema": {
+              "type": "string",
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9-]+$",
+              "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "DeleteStore 204 response"
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Memory Stores"
+        ]
+      },
+      "get": {
+        "operationId": "GetStore",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+            "schema": {
+              "type": "string",
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9-]+$",
+              "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GetStore 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetStoreResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Memory Stores"
+        ]
+      },
+      "patch": {
+        "operationId": "UpdateStore",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStoreRequestContent"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes.",
+            "schema": {
+              "type": "string",
+              "maxLength": 64,
+              "minLength": 1,
+              "pattern": "^[a-zA-Z0-9-]+$",
+              "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UpdateStore 200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateStoreResponseContent"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BadRequestError 400 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AuthenticationError 401 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "ForbiddenError 403 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NotFoundError 404 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "UnexpectedError 500 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Memory Stores"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Action": {
+        "type": "string",
+        "description": "An action verb a grant authorizes. The data plane maps each endpoint to one of these.",
+        "enum": [
+          "read",
+          "write"
+        ]
+      },
+      "ApiKeyOutput": {
+        "type": "object",
+        "properties": {
+          "keyId": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{32}$",
+            "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer)."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied key label (non-unique)."
+          },
+          "grants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Grant"
+            },
+            "minItems": 1
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "expiresAt": {
+            "type": "integer",
+            "description": "Unix seconds after which the key no longer authenticates; 0 = never. > 0 flags a key winding down after rotation.",
+            "format": "int64"
+          },
+          "rotatedFrom": {
+            "type": "string",
+            "description": "The key id this key replaced, when minted by rotation."
+          }
+        },
+        "required": [
+          "createdAt",
+          "grants",
+          "keyId",
+          "name"
+        ]
+      },
+      "AuthenticationErrorResponseContent": {
+        "type": "object",
+        "description": "Authentication credentials are missing, malformed, or invalid.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+          },
+          "status": {
+            "type": "integer",
+            "default": 401,
+            "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+            "format": "int32"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem."
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+          },
+          "type": {
+            "$ref": "#/components/schemas/AuthenticationErrorType"
+          }
+        },
+        "required": [
+          "status",
+          "title",
+          "type"
+        ]
+      },
+      "AuthenticationErrorType": {
+        "type": "string",
+        "description": "Problem type URI for authentication errors.",
+        "enum": [
+          "/errors/authentication-failed"
+        ]
+      },
+      "BadRequestErrorResponseContent": {
+        "type": "object",
+        "description": "Request validation or input decoding failed.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+          },
+          "status": {
+            "type": "integer",
+            "default": 400,
+            "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+            "format": "int32"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem."
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+          },
+          "type": {
+            "$ref": "#/components/schemas/BadRequestErrorType"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FieldError"
+            },
+            "description": "Optional field-level validation errors."
+          }
+        },
+        "required": [
+          "status",
+          "title",
+          "type"
+        ]
+      },
+      "BadRequestErrorType": {
+        "type": "string",
+        "description": "Problem type URI for bad request errors.",
+        "enum": [
+          "/errors/invalid-data"
+        ]
+      },
+      "CreateStoreRequestContent": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied store name."
+          },
+          "shortMemory": {
+            "$ref": "#/components/schemas/ShortMemoryConfig"
+          },
+          "longTermMemory": {
+            "$ref": "#/components/schemas/LongTermMemoryConfig"
+          },
+          "extractionStrategy": {
+            "$ref": "#/components/schemas/ExtractionStrategy"
+          },
+          "summarization": {
+            "$ref": "#/components/schemas/SummarizationConfig"
+          },
+          "customMemoryTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomMemoryType"
+            },
+            "description": "Custom memory types to register on the store. Optional; when omitted the\nstore uses only built-in memory types."
+          },
+          "extractionCadence": {
+            "$ref": "#/components/schemas/ExtractionCadenceConfig"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "CreateStoreResponseContent": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9-]+$",
+            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+          }
+        },
+        "required": [
+          "storeId"
+        ]
+      },
+      "CustomExtractionStrategy": {
+        "type": "object",
+        "description": "Extraction strategy for a custom memory type.",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "Prompt used to extract memories of this type from session events."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the strategy is active. Defaults to true when omitted."
+          }
+        },
+        "required": [
+          "prompt"
+        ]
+      },
+      "CustomField": {
+        "type": "object",
+        "description": "A structured field within a custom memory type.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+            "description": "Field name. Letters, digits, underscores, and dashes; must start with a letter."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "description": "Human-readable description of the field (1-200 chars)."
+          },
+          "type": {
+            "$ref": "#/components/schemas/CustomFieldType"
+          }
+        },
+        "required": [
+          "description",
+          "name",
+          "type"
+        ]
+      },
+      "CustomFieldType": {
+        "type": "string",
+        "description": "Supported custom field data types. Mirrors the Context Engine\nFieldDescription.type vocabulary exactly.",
+        "enum": [
+          "str",
+          "int",
+          "float",
+          "bool",
+          "list[str]",
+          "list[float]",
+          "object"
+        ]
+      },
+      "CustomMemoryType": {
+        "type": "object",
+        "description": "A custom memory type registered on a store: a named category of long-term\nmemory with its structured fields and, optionally, an extraction strategy.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+            "description": "Unique type name within the store. Must not collide with built-in types\n(semantic, episodic, message, session_summary_view)."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "description": "Human-readable description of what this memory type captures (1-200 chars)."
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomField"
+            },
+            "description": "Structured fields that make up a record of this type. Optional; a type\nwith no fields accepts direct writes carrying no structured attributes."
+          },
+          "extractionStrategy": {
+            "$ref": "#/components/schemas/CustomExtractionStrategy"
+          }
+        },
+        "required": [
+          "description",
+          "name"
+        ]
+      },
+      "ExtractionCadenceConfig": {
+        "type": "object",
+        "description": "Cadence configuration for the extraction pipeline.",
+        "properties": {
+          "activeIntervalSeconds": {
+            "type": "integer",
+            "maximum": 600,
+            "minimum": 60,
+            "description": "Interval in seconds between extraction runs while a session is active (60-600).",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "activeIntervalSeconds"
+        ]
+      },
+      "ExtractionStrategy": {
+        "type": "string",
+        "enum": [
+          "instruct"
+        ]
+      },
+      "FailedDependencyErrorResponseContent": {
+        "type": "object",
+        "description": "A dependent resource required to process the request is unavailable or unhealthy.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+          },
+          "status": {
+            "type": "integer",
+            "default": 424,
+            "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+            "format": "int32"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem."
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+          },
+          "type": {
+            "$ref": "#/components/schemas/FailedDependencyErrorType"
+          }
+        },
+        "required": [
+          "status",
+          "title",
+          "type"
+        ]
+      },
+      "FailedDependencyErrorType": {
+        "type": "string",
+        "description": "Problem type URI for failed-dependency errors.",
+        "enum": [
+          "/errors/resource-unavailable",
+          "/errors/database-out-of-memory"
+        ]
+      },
+      "FieldError": {
+        "type": "object",
+        "description": "Validation error details for a single request field.",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Name of the invalid request field."
+          },
+          "rule": {
+            "type": "string",
+            "description": "Validation rule that was violated."
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable validation error message."
+          }
+        },
+        "required": [
+          "field",
+          "message",
+          "rule"
+        ]
+      },
+      "ForbiddenErrorResponseContent": {
+        "type": "object",
+        "description": "The caller is authenticated but not allowed to access the requested resource.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+          },
+          "status": {
+            "type": "integer",
+            "default": 403,
+            "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+            "format": "int32"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem."
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+          },
+          "type": {
+            "$ref": "#/components/schemas/ForbiddenErrorType"
+          }
+        },
+        "required": [
+          "status",
+          "title",
+          "type"
+        ]
+      },
+      "ForbiddenErrorType": {
+        "type": "string",
+        "description": "Problem type URI for authorization errors.",
+        "enum": [
+          "/errors/insufficient-permissions"
+        ]
+      },
+      "GetAPIKeyResponseContent": {
+        "type": "object",
+        "properties": {
+          "keyId": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{32}$",
+            "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer)."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied key label (non-unique)."
+          },
+          "grants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Grant"
+            },
+            "minItems": 1
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "expiresAt": {
+            "type": "integer",
+            "description": "Unix seconds after which the key no longer authenticates; 0 = never. > 0 flags a key winding down after rotation.",
+            "format": "int64"
+          },
+          "rotatedFrom": {
+            "type": "string",
+            "description": "The key id this key replaced, when minted by rotation."
+          }
+        },
+        "required": [
+          "createdAt",
+          "grants",
+          "keyId",
+          "name"
+        ]
+      },
+      "GetStoreResponseContent": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9-]+$",
+            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied store name."
+          },
+          "status": {
+            "$ref": "#/components/schemas/StoreStatus"
+          },
+          "shortMemory": {
+            "$ref": "#/components/schemas/ShortMemoryConfig"
+          },
+          "longTermMemory": {
+            "$ref": "#/components/schemas/LongTermMemoryConfig"
+          },
+          "extractionStrategy": {
+            "$ref": "#/components/schemas/ExtractionStrategy"
+          },
+          "summarization": {
+            "$ref": "#/components/schemas/SummarizationConfig"
+          },
+          "customMemoryTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomMemoryType"
+            },
+            "description": "Custom memory types registered on the store."
+          },
+          "extractionCadence": {
+            "$ref": "#/components/schemas/ExtractionCadenceConfig"
+          }
+        },
+        "required": [
+          "name",
+          "status",
+          "storeId"
+        ]
+      },
+      "Grant": {
+        "type": "object",
+        "description": "A grant pairs one resource with the actions allowed on it. Use `mem-store` for `resourceType` and `read`, `write`, or both for actions.",
+        "properties": {
+          "resourceType": {
+            "$ref": "#/components/schemas/ResourceType"
+          },
+          "resourceId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9-]+$",
+            "description": "Resource identifier within its type (e.g. a store id)."
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Action"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "actions",
+          "resourceId",
+          "resourceType"
+        ]
+      },
+      "ListAPIKeysResponseContent": {
+        "type": "object",
+        "properties": {
+          "apiKeys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiKeyOutput"
+            }
+          },
+          "nextToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiKeys"
+        ]
+      },
+      "ListStoresResponseContent": {
+        "type": "object",
+        "properties": {
+          "stores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreOutput"
+            }
+          }
+        },
+        "required": [
+          "stores"
+        ]
+      },
+      "LongTermMemoryConfig": {
+        "type": "object",
+        "properties": {
+          "ttlSeconds": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MemoryTypeStrategyUpdate": {
+        "type": "object",
+        "description": "A strategy edit targeting one existing custom memory type. Omitted optional\nfields are left unchanged.",
+        "properties": {
+          "typeName": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+            "description": "Name of the existing custom memory type whose strategy is being edited."
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Replacement extraction prompt. Omit to leave the prompt unchanged."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Replacement enabled flag. Omit to leave the flag unchanged."
+          }
+        },
+        "required": [
+          "typeName"
+        ]
+      },
+      "MintAPIKeyRequestContent": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied key label (non-unique)."
+          },
+          "grants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Grant"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "grants",
+          "name"
+        ]
+      },
+      "MintAPIKeyResponseContent": {
+        "type": "object",
+        "properties": {
+          "keyId": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{32}$",
+            "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer)."
+          },
+          "token": {
+            "type": "string",
+            "description": "Agent-key credential returned when the key is minted or rotated. Store it immediately; it is not returned by list or get operations.\n\nTreat the credential as opaque. Present it on each Data Plane request with `Authorization: Bearer <token>`, or use a custom header such as `X-Api-Key` when the standard Authorization header is reserved for another credential.",
+            "format": "password"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "createdAt",
+          "keyId",
+          "token"
+        ]
+      },
+      "NotFoundErrorResponseContent": {
+        "type": "object",
+        "description": "The requested resource does not exist.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+          },
+          "status": {
+            "type": "integer",
+            "default": 404,
+            "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+            "format": "int32"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem."
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+          },
+          "type": {
+            "$ref": "#/components/schemas/NotFoundErrorType"
+          }
+        },
+        "required": [
+          "status",
+          "title",
+          "type"
+        ]
+      },
+      "NotFoundErrorType": {
+        "type": "string",
+        "description": "Problem type URI for not-found errors.",
+        "enum": [
+          "/errors/resource-not-found"
+        ]
+      },
+      "ResourceType": {
+        "type": "string",
+        "description": "Resource type a grant authorizes. Product-qualified so values stay unique across IRIS products.",
+        "enum": [
+          "mem-store"
+        ]
+      },
+      "RotateAPIKeyRequestContent": {
+        "type": "object",
+        "properties": {
+          "graceSeconds": {
+            "type": "integer",
+            "description": "Grace window in seconds the old key keeps authenticating (min 1; default 3600).",
+            "format": "int64"
+          }
+        }
+      },
+      "RotateAPIKeyResponseContent": {
+        "type": "object",
+        "properties": {
+          "keyId": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{32}$",
+            "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer)."
+          },
+          "token": {
+            "type": "string",
+            "description": "Agent-key credential returned when the key is minted or rotated. Store it immediately; it is not returned by list or get operations.\n\nTreat the credential as opaque. Present it on each Data Plane request with `Authorization: Bearer <token>`, or use a custom header such as `X-Api-Key` when the standard Authorization header is reserved for another credential.",
+            "format": "password"
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "oldExpiresAt": {
+            "type": "integer",
+            "description": "Unix seconds at which the rotated (old) key stops authenticating.",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "createdAt",
+          "keyId",
+          "oldExpiresAt",
+          "token"
+        ]
+      },
+      "ShortMemoryConfig": {
+        "type": "object",
+        "properties": {
+          "ttlSeconds": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "StoreOutput": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9-]+$",
+            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied store name."
+          },
+          "status": {
+            "$ref": "#/components/schemas/StoreStatus"
+          },
+          "shortMemory": {
+            "$ref": "#/components/schemas/ShortMemoryConfig"
+          },
+          "longTermMemory": {
+            "$ref": "#/components/schemas/LongTermMemoryConfig"
+          },
+          "extractionStrategy": {
+            "$ref": "#/components/schemas/ExtractionStrategy"
+          },
+          "summarization": {
+            "$ref": "#/components/schemas/SummarizationConfig"
+          },
+          "customMemoryTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomMemoryType"
+            },
+            "description": "Custom memory types registered on the store."
+          },
+          "extractionCadence": {
+            "$ref": "#/components/schemas/ExtractionCadenceConfig"
+          }
+        },
+        "required": [
+          "name",
+          "status",
+          "storeId"
+        ]
+      },
+      "StoreStatus": {
+        "type": "string",
+        "enum": [
+          "PROVISIONING",
+          "READY",
+          "UNAVAILABLE"
+        ]
+      },
+      "SummarizationConfig": {
+        "type": "object",
+        "description": "Configuration for session summarization.\nWhen enabled, long sessions are periodically condensed into a running summary\nwhile retaining the most recent events.",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether summarization is enabled for this store"
+          },
+          "triggerStrategy": {
+            "$ref": "#/components/schemas/SummarizationTriggerStrategy"
+          },
+          "eventCount": {
+            "$ref": "#/components/schemas/SummarizationThresholdConfig"
+          }
+        },
+        "required": [
+          "enabled"
+        ]
+      },
+      "SummarizationThresholdConfig": {
+        "type": "object",
+        "description": "Configuration for a summarization trigger.",
+        "properties": {
+          "threshold": {
+            "type": "integer",
+            "description": "The threshold value that triggers summarization",
+            "format": "int32"
+          },
+          "retainCount": {
+            "type": "integer",
+            "description": "Number of most recent events to retain after each summarization cycle.",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "retainCount",
+          "threshold"
+        ]
+      },
+      "SummarizationTriggerStrategy": {
+        "type": "string",
+        "description": "Strategy that determines when summarization is triggered.\nAdditional strategies such as token_count can be added later.",
+        "enum": [
+          "event_count"
+        ]
+      },
+      "UnexpectedErrorResponseContent": {
+        "type": "object",
+        "description": "The service failed with an unexpected internal error.",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+          },
+          "status": {
+            "type": "integer",
+            "default": 500,
+            "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+            "format": "int32"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human-readable explanation specific to this occurrence of the problem."
+          },
+          "instance": {
+            "type": "string",
+            "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+          },
+          "type": {
+            "$ref": "#/components/schemas/UnexpectedErrorType"
+          }
+        },
+        "required": [
+          "status",
+          "title",
+          "type"
+        ]
+      },
+      "UnexpectedErrorType": {
+        "type": "string",
+        "description": "Problem type URI for unexpected internal errors.",
+        "enum": [
+          "/errors/unexpected-error"
+        ]
+      },
+      "UpdateAPIKeyRequestContent": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied key label (non-unique)."
+          },
+          "grants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Grant"
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "UpdateAPIKeyResponseContent": {
+        "type": "object",
+        "properties": {
+          "keyId": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{32}$",
+            "description": "Agent-key id: a UUID as 32 lowercase hex chars (the embedded, non-secret part of the bearer)."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied key label (non-unique)."
+          },
+          "grants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Grant"
+            },
+            "minItems": 1
+          },
+          "createdAt": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "expiresAt": {
+            "type": "integer",
+            "description": "Unix seconds after which the key no longer authenticates; 0 = never. > 0 flags a key winding down after rotation.",
+            "format": "int64"
+          },
+          "rotatedFrom": {
+            "type": "string",
+            "description": "The key id this key replaced, when minted by rotation."
+          }
+        },
+        "required": [
+          "createdAt",
+          "grants",
+          "keyId",
+          "name"
+        ]
+      },
+      "UpdateStoreRequestContent": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied store name."
+          },
+          "shortMemory": {
+            "$ref": "#/components/schemas/ShortMemoryConfig"
+          },
+          "longTermMemory": {
+            "$ref": "#/components/schemas/LongTermMemoryConfig"
+          },
+          "summarization": {
+            "$ref": "#/components/schemas/SummarizationConfig"
+          },
+          "addCustomMemoryTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomMemoryType"
+            },
+            "description": "New custom memory types to append. Editing an existing type's prompt or\nenabled flag is done via updateCustomMemoryTypeStrategies; renaming,\nchanging fields, or removing a type is not supported."
+          },
+          "updateCustomMemoryTypeStrategies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemoryTypeStrategyUpdate"
+            },
+            "description": "Strategy edits (prompt / enabled) to apply to existing custom memory types."
+          },
+          "extractionCadence": {
+            "$ref": "#/components/schemas/ExtractionCadenceConfig"
+          }
+        }
+      },
+      "UpdateStoreResponseContent": {
+        "type": "object",
+        "properties": {
+          "storeId": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9-]+$",
+            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated IDs are 32-char UUIDs without dashes."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9._-]+$",
+            "description": "Operator-supplied store name."
+          },
+          "status": {
+            "$ref": "#/components/schemas/StoreStatus"
+          },
+          "shortMemory": {
+            "$ref": "#/components/schemas/ShortMemoryConfig"
+          },
+          "longTermMemory": {
+            "$ref": "#/components/schemas/LongTermMemoryConfig"
+          },
+          "extractionStrategy": {
+            "$ref": "#/components/schemas/ExtractionStrategy"
+          },
+          "summarization": {
+            "$ref": "#/components/schemas/SummarizationConfig"
+          },
+          "customMemoryTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomMemoryType"
+            },
+            "description": "Custom memory types registered on the store."
+          },
+          "extractionCadence": {
+            "$ref": "#/components/schemas/ExtractionCadenceConfig"
+          }
+        },
+        "required": [
+          "name",
+          "status",
+          "storeId"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "admin-token",
+        "description": "Control Plane admin token."
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}

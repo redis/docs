@@ -72,9 +72,12 @@ The zero-based integer index of the element to retrieve.
 ## Examples
 
 {{% redis-cli %}}
-ARSET myarray 0 "hello"
-ARGET myarray 0
-ARGET myarray 1
+redis> ARSET myarray 0 "hello"
+(integer) 1
+redis> ARGET myarray 0
+"hello"
+redis> ARGET myarray 1
+(nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

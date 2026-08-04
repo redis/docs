@@ -108,8 +108,10 @@ for Redis Cloud, or use the appropriate self-managed RDI reset workflow.
 
 ## CLI and API access
 
-For self-managed RDI, use the [`redis-di get-rejected`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-rejected" >}})
-command to inspect rejected records.
+For self-managed RDI, use the [`redis-di list-dlqs`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlqs" >}})
+command to see the dead-letter queues and the
+[`redis-di list-dlq-records`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlq-records" >}})
+command (also available as `redis-di get-rejected`) to inspect the rejected records of a queue.
 
 For Redis Cloud RDI, connect to the RDI database and inspect the corresponding
 DLQ streams directly when you need details that are not shown in the Redis Cloud

@@ -19,6 +19,9 @@ raise "Expected 'Deimos'" unless res2 == 'Deimos'
 # REMOVE_END
 
 # STEP_START setnx_xx
+# Recreate the bike:1 key so this example runs on its own.
+r.set('bike:1', 'Deimos')
+
 res3 = r.set('bike:1', 'bike', nx: true)
 puts res3 # false
 

@@ -120,6 +120,14 @@ public class SortedSetExample
         //REMOVE_END
 
         //STEP_START zrank
+        // Recreate the three remaining racers so this example runs on its own.
+        db.KeyDelete("racer_scores");
+        db.SortedSetAdd("racer_scores", [
+            new("Norem", 10),
+            new("Royce", 10),
+            new("Prickett", 14)
+        ]);
+
         long? res11 = db.SortedSetRank("racer_scores", "Norem");
         Console.WriteLine(res11); // >>> 0
         //REMOVE_START

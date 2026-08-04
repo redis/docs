@@ -157,6 +157,27 @@
           "description": "Number of terms added"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_dictadd(dict_name, *terms)",
+        "params": [
+          {
+            "name": "dict_name",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "Array<String>",
+            "description": "the terms to add"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of new terms added"
+        }
+      }
     ]
   }
 }

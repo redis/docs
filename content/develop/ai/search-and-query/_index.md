@@ -42,7 +42,7 @@ Redis Search features allow you to use Redis as a:
 
 Here are the next steps to get you started:
 
-1. Follow our [quick start guide]({{< relref "/develop/get-started/document-database" >}}) to get some initial hands-on experience.
+1. Follow our [quick start guide]({{< relref "/develop/get-started/search-tutorial" >}}) to get some initial hands-on experience.
 1. Learn how to [create an index]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
 1. Learn how to [query your data]({{< relref "/develop/ai/search-and-query/query/" >}}).
 1. [Install Redis Insight]({{< relref "/operate/redisinsight" >}}), connect it to your Redis database, and then use [Redis Copilot]({{< relref "/develop/tools/insight" >}}#redis-copilot) to help you learn how to execute complex queries against your own data using simple, plain language prompts.

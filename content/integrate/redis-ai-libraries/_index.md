@@ -68,7 +68,7 @@ All major Redis client libraries support vector search operations:
 
 ### Quick Start Guides
 
-- [Redis vector database quick start]({{< relref "/develop/get-started/vector-database" >}})
+- [Redis vector database quick start]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})
 - [RAG quick start guide]({{< relref "/develop/get-started/rag" >}})
 
 ### Tutorials and Examples
