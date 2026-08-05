@@ -97,6 +97,30 @@ const FILTERED_SECTION_IDS = new Set([
 ]);
 
 /**
+ * Make a section id unique within its page.
+ *
+ * The id is the join key for examples[].section_id and the target of
+ * url#section-id deep links, so collisions are not cosmetic: examples from two
+ * sections merge under one id, examples[].id itself stops being unique, and a
+ * consumer keying sections by id silently drops one of them. Headings that
+ * differ only in punctuation collide readily, because slugify() discards it --
+ * "The special `$` ID" and "The special `+` ID" both reduce to the-special-id.
+ *
+ * Disambiguated with Hugo's own -1, -2 suffix convention.
+ */
+function makeUniqueId(base: string, used: Set<string>): string {
+  if (!used.has(base)) {
+    used.add(base);
+    return base;
+  }
+  let n = 1;
+  while (used.has(`${base}-${n}`)) n++;
+  const id = `${base}-${n}`;
+  used.add(id);
+  return id;
+}
+
+/**
  * Extract fenced code blocks from text.
  * Returns the code blocks and the text with code blocks removed.
  */
@@ -115,14 +139,19 @@ function extractCodeBlocks(text: string, sectionId: string): {
     const language = lang || 'plaintext';
     const trimmedCode = code.trim();
 
-    if (trimmedCode) {
-      examples.push({
-        id: `${sectionId}-ex${exampleIndex++}`,
-        language,
-        code: trimmedCode,
-        section_id: sectionId,
-      });
+    // An empty code block yields no example, so a placeholder here would be
+    // unresolvable: the consumer sees [code example] with nothing in examples[]
+    // to substitute back in. Drop it instead.
+    if (!trimmedCode) {
+      return '';
     }
+
+    examples.push({
+      id: `${sectionId}-ex${exampleIndex++}`,
+      language,
+      code: trimmedCode,
+      section_id: sectionId,
+    });
 
     // Replace code block with placeholder to preserve structure
     return '[code example]';
@@ -134,6 +163,8 @@ function extractCodeBlocks(text: string, sectionId: string): {
 function splitContentIntoSections(content: string): { sections: Section[]; examples: CodeExample[] } {
   const rawSections: Section[] = [];
   const allExamples: CodeExample[] = [];
+  // Tracks ids already handed out on this page, so they stay unique
+  const usedIds = new Set<string>();
 
   // First, find all code block ranges to avoid matching headings inside them
   const codeBlockRanges: { start: number; end: number }[] = [];
@@ -174,10 +205,11 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
   if (matches.length === 0) {
     const text = content.trim();
     if (text) {
-      const { examples, textWithoutCode } = extractCodeBlocks(text, 'content');
+      const contentId = makeUniqueId('content', usedIds);
+      const { examples, textWithoutCode } = extractCodeBlocks(text, contentId);
       allExamples.push(...examples);
       rawSections.push({
-        id: 'content',
+        id: contentId,
         title: 'Content',
         role: 'content',
         text: textWithoutCode,
@@ -189,10 +221,11 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
   // Extract text before first heading as intro/overview
   const introText = content.slice(0, matches[0].index).trim();
   if (introText) {
-    const { examples, textWithoutCode } = extractCodeBlocks(introText, 'overview');
+    const overviewId = makeUniqueId('overview', usedIds);
+    const { examples, textWithoutCode } = extractCodeBlocks(introText, overviewId);
     allExamples.push(...examples);
     rawSections.push({
-      id: 'overview',
+      id: overviewId,
       title: 'Overview',
       role: 'overview',
       text: textWithoutCode,
@@ -210,7 +243,7 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
     const headingEnd = newlinePos === -1 ? content.length : newlinePos + 1;
     const sectionText = content.slice(headingEnd, nextIndex).trim();
 
-    const id = slugify(current.title);
+    const id = makeUniqueId(slugify(current.title), usedIds);
     const role = assignRole(current.title, rawSections.length);
 
     // Extract code blocks from section text
