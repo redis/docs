@@ -14,6 +14,11 @@
 
 {{- $sections := slice -}}
 
+{{- /* Ids already used on this page, so duplicates can be suffixed rather than
+       repeated. Keeps the TOC in step with sections[] in the JSON output, which
+       does the same in build/transform_json_sections.ts. */ -}}
+{{- $usedIds := slice -}}
+
 {{- /* Find all ## and ### headers in the raw markdown */ -}}
 {{- /* Pattern matches lines starting with ## or ### followed by space and title */ -}}
 {{- $headerPattern := `(?m)^(#{2,3}) +(.+)$` -}}
@@ -45,6 +50,19 @@
   {{- /* Trim whitespace */ -}}
   {{- $title = $title | strings.TrimSpace -}}
 
+  {{- /* Hugo's explicit heading anchor, "## Title {#custom-id}". Hugo uses the
+         anchor as the rendered heading id and does not display it, so it has to come
+         out of the title and be used verbatim as the id. Matched strictly, because a
+         loose trailing-brace match would eat Python signatures ending in an empty
+         dict and dict defaults such as {'extra': 'ignore'}. */ -}}
+  {{- $explicitId := "" -}}
+  {{- with (findRESubmatch `\s*\{#([A-Za-z0-9][A-Za-z0-9_.:-]*)\}\s*$` $title 1) -}}
+    {{- $explicitId = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- if $explicitId -}}
+    {{- $title = $title | replaceRE `\s*\{#[A-Za-z0-9][A-Za-z0-9_.:-]*\}\s*$` "" | strings.TrimSpace -}}
+  {{- end -}}
+
   {{- /* Generate ID (slug) from title */ -}}
   {{- $id := $title | lower -}}
   {{- /* Replace spaces with hyphens */ -}}
@@ -55,6 +73,24 @@
   {{- $id = $id | replaceRE `-+` "-" -}}
   {{- /* Trim leading/trailing hyphens */ -}}
   {{- $id = $id | replaceRE `^-+|-+$` "" -}}
+
+  {{- /* An explicit anchor overrides the slug entirely */ -}}
+  {{- if $explicitId -}}
+    {{- $id = $explicitId -}}
+  {{- end -}}
+
+  {{- /* Disambiguate a repeated id with Hugo's own -1, -2 suffix convention */ -}}
+  {{- if in $usedIds $id -}}
+    {{- $base := $id -}}
+    {{- range seq 1 50 -}}
+      {{- if in $usedIds $id -}}
+        {{- $id = printf "%s-%d" $base . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $id -}}
+    {{- $usedIds = $usedIds | append $id -}}
+  {{- end -}}
 
   {{- /* Add to sections array */ -}}
   {{- if and $id $title -}}

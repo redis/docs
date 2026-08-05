@@ -55,6 +55,10 @@
          contents and ordering */ -}}
   {{- $children := $page.Pages -}}
   {{- if $from -}}
+    {{- /* Start empty when from= is given: if the target does not resolve, falling
+           back to this page's own children would publish a plausible-looking table
+           of the wrong data into the feed. No rows is the safe answer. */ -}}
+    {{- $children = slice -}}
     {{- with $page.GetPage $from -}}
       {{- $children = .Pages -}}
     {{- end -}}
@@ -104,19 +108,23 @@
       {{- end -}}
     {{- end -}}
 
+    {{- $divider := slice -}}
+    {{- range $headerCells -}}
+      {{- $divider = $divider | append "---" -}}
+    {{- end -}}
+    {{- /* Leading newline is load-bearing: on pages whose entire body is this
+           shortcode, the table would otherwise start on the same line as the
+           closing ``` of the Markdown metadata block, which stops it being a
+           valid closing fence and swallows the table into the code block. */ -}}
+    {{- /* The header is emitted even with no rows, matching the HTML shortcode,
+           which always renders thead. Otherwise a table that filters down to
+           nothing would remove the whole body of a page whose only content is
+           this shortcode. */ -}}
+    {{- $replacement = printf "\n| %s |\n| %s |\n"
+          (delimit $headerCells " | ")
+          (delimit $divider " | ") -}}
     {{- if $rows -}}
-      {{- $divider := slice -}}
-      {{- range $headerCells -}}
-        {{- $divider = $divider | append "---" -}}
-      {{- end -}}
-      {{- /* Leading newline is load-bearing: on pages whose entire body is this
-             shortcode, the table would otherwise start on the same line as the
-             closing ``` of the Markdown metadata block, which stops it being a
-             valid closing fence and swallows the table into the code block. */ -}}
-      {{- $replacement = printf "\n| %s |\n| %s |\n%s\n"
-            (delimit $headerCells " | ")
-            (delimit $divider " | ")
-            (delimit $rows "\n") -}}
+      {{- $replacement = printf "%s%s\n" $replacement (delimit $rows "\n") -}}
     {{- end -}}
   {{- end -}}
 
