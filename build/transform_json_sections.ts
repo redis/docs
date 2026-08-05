@@ -84,6 +84,33 @@ function assignRole(title: string, index: number): string {
   return 'content';
 }
 
+/**
+ * Hugo's explicit heading anchor syntax, e.g. "## Change the socket path {#after-setup}".
+ *
+ * Deliberately strict. Plenty of headings end in a brace that is NOT an anchor --
+ * Python signatures ending "connection_kwargs={}", dict defaults such as
+ * "{'extra': 'ignore'}", and relref shortcodes -- and a loose trailing-brace match
+ * would silently eat them. Requires "{#", then anchor-shaped characters only, then
+ * "}" at end of the heading.
+ */
+const EXPLICIT_ANCHOR = /\s*\{#([A-Za-z0-9][A-Za-z0-9_.:-]*)\}\s*$/;
+
+/**
+ * Split a heading into its display title and its id.
+ *
+ * Hugo takes the explicit anchor as the rendered heading's id verbatim and does not
+ * show it, so the title must have it removed and the id must not be slugified --
+ * slugifying would produce a different string from the anchor on the page and break
+ * url#section-id deep links.
+ */
+function parseHeading(raw: string): { title: string; id: string } {
+  const match = raw.match(EXPLICIT_ANCHOR);
+  if (match) {
+    return { title: raw.replace(EXPLICIT_ANCHOR, '').trim(), id: match[1] };
+  }
+  return { title: raw, id: slugify(raw) };
+}
+
 function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -95,6 +122,30 @@ function slugify(text: string): string {
 const FILTERED_SECTION_IDS = new Set([
   'code-examples-legend',
 ]);
+
+/**
+ * Make a section id unique within its page.
+ *
+ * The id is the join key for examples[].section_id and the target of
+ * url#section-id deep links, so collisions are not cosmetic: examples from two
+ * sections merge under one id, examples[].id itself stops being unique, and a
+ * consumer keying sections by id silently drops one of them. Headings that
+ * differ only in punctuation collide readily, because slugify() discards it --
+ * "The special `$` ID" and "The special `+` ID" both reduce to the-special-id.
+ *
+ * Disambiguated with Hugo's own -1, -2 suffix convention.
+ */
+function makeUniqueId(base: string, used: Set<string>): string {
+  if (!used.has(base)) {
+    used.add(base);
+    return base;
+  }
+  let n = 1;
+  while (used.has(`${base}-${n}`)) n++;
+  const id = `${base}-${n}`;
+  used.add(id);
+  return id;
+}
 
 /**
  * Extract fenced code blocks from text.
@@ -115,14 +166,19 @@ function extractCodeBlocks(text: string, sectionId: string): {
     const language = lang || 'plaintext';
     const trimmedCode = code.trim();
 
-    if (trimmedCode) {
-      examples.push({
-        id: `${sectionId}-ex${exampleIndex++}`,
-        language,
-        code: trimmedCode,
-        section_id: sectionId,
-      });
+    // An empty code block yields no example, so a placeholder here would be
+    // unresolvable: the consumer sees [code example] with nothing in examples[]
+    // to substitute back in. Drop it instead.
+    if (!trimmedCode) {
+      return '';
     }
+
+    examples.push({
+      id: `${sectionId}-ex${exampleIndex++}`,
+      language,
+      code: trimmedCode,
+      section_id: sectionId,
+    });
 
     // Replace code block with placeholder to preserve structure
     return '[code example]';
@@ -134,6 +190,8 @@ function extractCodeBlocks(text: string, sectionId: string): {
 function splitContentIntoSections(content: string): { sections: Section[]; examples: CodeExample[] } {
   const rawSections: Section[] = [];
   const allExamples: CodeExample[] = [];
+  // Tracks ids already handed out on this page, so they stay unique
+  const usedIds = new Set<string>();
 
   // First, find all code block ranges to avoid matching headings inside them
   const codeBlockRanges: { start: number; end: number }[] = [];
@@ -174,10 +232,11 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
   if (matches.length === 0) {
     const text = content.trim();
     if (text) {
-      const { examples, textWithoutCode } = extractCodeBlocks(text, 'content');
+      const contentId = makeUniqueId('content', usedIds);
+      const { examples, textWithoutCode } = extractCodeBlocks(text, contentId);
       allExamples.push(...examples);
       rawSections.push({
-        id: 'content',
+        id: contentId,
         title: 'Content',
         role: 'content',
         text: textWithoutCode,
@@ -186,13 +245,24 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
     return { sections: rawSections, examples: allExamples };
   }
 
+  // Reserve the ids of the real headings BEFORE naming the synthetic intro section.
+  // A real "## Overview" heading has to keep the plain `overview` id, because that is
+  // the anchor Hugo renders for it and the id the metadata tableOfContents uses. If
+  // the intro took `overview` first, the heading would be pushed to `overview-1` and a
+  // #overview deep link would land on the intro instead of the heading.
+  const headings = matches.map(m => {
+    const parsed = parseHeading(m.title);
+    return { ...parsed, id: makeUniqueId(parsed.id, usedIds) };
+  });
+
   // Extract text before first heading as intro/overview
   const introText = content.slice(0, matches[0].index).trim();
   if (introText) {
-    const { examples, textWithoutCode } = extractCodeBlocks(introText, 'overview');
+    const overviewId = makeUniqueId('overview', usedIds);
+    const { examples, textWithoutCode } = extractCodeBlocks(introText, overviewId);
     allExamples.push(...examples);
     rawSections.push({
-      id: 'overview',
+      id: overviewId,
       title: 'Overview',
       role: 'overview',
       text: textWithoutCode,
@@ -210,8 +280,8 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
     const headingEnd = newlinePos === -1 ? content.length : newlinePos + 1;
     const sectionText = content.slice(headingEnd, nextIndex).trim();
 
-    const id = slugify(current.title);
-    const role = assignRole(current.title, rawSections.length);
+    const { title, id } = headings[i];
+    const role = assignRole(title, rawSections.length);
 
     // Extract code blocks from section text
     const { examples, textWithoutCode } = extractCodeBlocks(sectionText, id);
@@ -219,7 +289,7 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
 
     rawSections.push({
       id,
-      title: current.title,
+      title,
       role,
       text: textWithoutCode,
     });
@@ -259,10 +329,20 @@ function computeContentHash(
   return createHash('sha256').update(content, 'utf-8').digest('hex');
 }
 
-function transformJsonFile(filePath: string, dryRun: boolean): boolean {
+type TransformResult = 'transformed' | 'skipped' | 'error';
+
+function transformJsonFile(filePath: string, dryRun: boolean): TransformResult {
   try {
     const fileContent = readFileSync(filePath, 'utf-8');
-    const data: PageJsonInput = JSON.parse(fileContent);
+    const data: PageJsonInput & { page_type?: PageType } = JSON.parse(fileContent);
+
+    // This script consumes `content` and does not write it back, so it is not
+    // safe to run twice over the same output: a second pass finds no content and
+    // would rewrite every content page as an empty index page. A file that has a
+    // page_type but no content has already been transformed, so leave it alone.
+    if (data.content === undefined && data.page_type !== undefined) {
+      return 'skipped';
+    }
 
     // Remove content field from output
     const { content: rawContent, ...rest } = data;
@@ -313,10 +393,10 @@ function transformJsonFile(filePath: string, dryRun: boolean): boolean {
       writeFileSync(filePath, JSON.stringify(newData, null, 2) + '\n');
     }
 
-    return true;
+    return 'transformed';
   } catch (err) {
     console.error(`Error processing ${filePath}:`, err);
-    return false;
+    return 'error';
   }
 }
 
@@ -345,14 +425,15 @@ function main() {
 
   let processed = 0;
   let transformed = 0;
+  let skipped = 0;
 
   if (singlePath) {
     // Process single file
     const fullPath = singlePath.startsWith('/') ? singlePath : join(process.cwd(), singlePath);
     console.log(`Processing single file: ${fullPath}`);
-    if (transformJsonFile(fullPath, dryRun)) {
-      transformed++;
-    }
+    const result = transformJsonFile(fullPath, dryRun);
+    if (result === 'transformed') transformed++;
+    if (result === 'skipped') skipped++;
     processed++;
   } else {
     // Process all JSON files
@@ -360,9 +441,9 @@ function main() {
 
     for (const filePath of walkJsonFiles(publicDir)) {
       processed++;
-      if (transformJsonFile(filePath, dryRun)) {
-        transformed++;
-      }
+      const result = transformJsonFile(filePath, dryRun);
+      if (result === 'transformed') transformed++;
+      if (result === 'skipped') skipped++;
 
       // Progress indicator
       if (processed % 500 === 0) {
@@ -372,6 +453,9 @@ function main() {
   }
 
   console.log(`\nDone! Processed ${processed} files, transformed ${transformed}.`);
+  if (skipped > 0) {
+    console.log(`Skipped ${skipped} already-transformed files. Re-run 'hugo' first if you meant to rebuild them.`);
+  }
   if (dryRun) {
     console.log('(Dry run - no files were modified)');
   }
