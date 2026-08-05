@@ -761,6 +761,7 @@ When adding a new data type, update `content/develop/data-types/_index.md`:
 
 1. Add it to the top-level list under `## Data types`
 2. Add a short description section following the existing format (overview sentence + links to the page and command reference)
+3. Update `content/develop/data-types/compare-data-types.md` to include the features of the new type and a comparision with other similar types, if any. Also update the appropriate decision tree for a document, collection, or sequence type.
 
 ---
 
