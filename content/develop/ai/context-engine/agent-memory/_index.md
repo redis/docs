@@ -120,4 +120,4 @@ After your Redis Agent Memory service is ready, choose a client to make your fir
   </div>
 </div>
 
-For shared integration concepts, identifiers, and authentication, see [Integrate Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}).
+For shared integration concepts, identifiers, and authentication, see the [Redis Agent Memory developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}).

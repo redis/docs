@@ -6,8 +6,8 @@ categories:
 - ai
 description: Connect an application to Redis Agent Memory and work with session memory and long-term memory through REST, Python, or TypeScript.
 hideListLinks: true
-linktitle: Integration guide
-title: Integrate Redis Agent Memory
+linktitle: Developer guide
+title: Redis Agent Memory developer guide
 weight: 5
 ---
 
