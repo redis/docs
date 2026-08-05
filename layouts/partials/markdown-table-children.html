@@ -1,0 +1,126 @@
+{{- /*
+  Expand table-children shortcodes for Markdown/JSON output.
+
+  The HTML shortcode (layouts/shortcodes/table-children.html) renders an HTML
+  <table> listing a page's children, taking each column from a child page
+  param. AI-facing output needs the same data as a Markdown table.
+
+  Without this partial the shortcode is stripped by process-markdown-content.html,
+  and the release-notes index pages -- whose entire body is the table -- lose all
+  their content. The version columns (min-version-db, min-version-rs) appear
+  nowhere else in the JSON feed, so they were being dropped outright.
+
+  Input: dict with:
+    - "RawContent": The Markdown content to process (already HTML-unescaped
+      by the caller, so shortcodes appear as {{< table-children ... >}})
+    - "Page": The current Hugo page (for .Pages and .GetPage)
+
+  Output: Markdown content with table-children shortcodes expanded
+*/ -}}
+
+{{- $content := .RawContent -}}
+{{- $page := .Page -}}
+
+{{- /* Match non-greedily up to the first ">}}". Attribute values legitimately
+       contain ">" -- columnNames uses <br/> to wrap header text -- so a [^>]*
+       class stops at that ">" and never matches the shortcode at all. */ -}}
+{{- $pattern := `(?s)\{\{<\s*table-children.*?>\}\}` -}}
+
+{{- range $match := (findRE $pattern $content) -}}
+
+  {{- /* Pull the shortcode's named parameters out of the matched text */ -}}
+  {{- $names := "" -}}
+  {{- $sources := "" -}}
+  {{- $links := "" -}}
+  {{- $limitTags := "" -}}
+  {{- $from := "" -}}
+
+  {{- with (findRESubmatch `columnNames="([^"]*)"` $match 1) -}}
+    {{- $names = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- with (findRESubmatch `columnSources="([^"]*)"` $match 1) -}}
+    {{- $sources = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- with (findRESubmatch `enableLinks="([^"]*)"` $match 1) -}}
+    {{- $links = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- with (findRESubmatch `limitTags="([^"]*)"` $match 1) -}}
+    {{- $limitTags = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- with (findRESubmatch `from="([^"]*)"` $match 1) -}}
+    {{- $from = index (index . 0) 1 -}}
+  {{- end -}}
+
+  {{- /* Same child selection as the HTML shortcode, so both outputs agree on
+         contents and ordering */ -}}
+  {{- $children := $page.Pages -}}
+  {{- if $from -}}
+    {{- with $page.GetPage $from -}}
+      {{- $children = .Pages -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $replacement := "" -}}
+
+  {{- if and $names $sources -}}
+    {{- $sourceList := split $sources "," -}}
+    {{- $linkList := split $links "," -}}
+
+    {{- /* Header: strip the presentational markup the HTML table relies on
+           (&nbsp; spacers and <br/> line breaks) and collapse the whitespace */ -}}
+    {{- $headerCells := slice -}}
+    {{- range $name := (split $names ",") -}}
+      {{- $clean := $name | replaceRE `&nbsp;?` " " | replaceRE `<br\s*/?>` " " -}}
+      {{- $clean = trim (replaceRE `\s+` " " $clean) " " -}}
+      {{- $headerCells = $headerCells | append $clean -}}
+    {{- end -}}
+
+    {{- $rows := slice -}}
+    {{- range $child := $children -}}
+      {{- $addRow := true -}}
+      {{- if $limitTags -}}
+        {{- $childTags := $child.Param "tags" -}}
+        {{- if not (in $childTags $limitTags) -}}
+          {{- $addRow = false -}}
+        {{- end -}}
+      {{- end -}}
+
+      {{- if $addRow -}}
+        {{- $cells := slice -}}
+        {{- range $source := $sourceList -}}
+          {{- $value := printf "%v" ($child.Param $source | default "") -}}
+          {{- /* Keep each row on one line and don't let a value break out of
+                 its table cell */ -}}
+          {{- $value = trim (replaceRE `\s+` " " $value) " " -}}
+          {{- $value = replace $value "|" `\|` -}}
+          {{- if in $linkList $source -}}
+            {{- if $value -}}
+              {{- $value = printf "[%s](%s)" $value $child.Permalink -}}
+            {{- end -}}
+          {{- end -}}
+          {{- $cells = $cells | append $value -}}
+        {{- end -}}
+        {{- $rows = $rows | append (printf "| %s |" (delimit $cells " | ")) -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if $rows -}}
+      {{- $divider := slice -}}
+      {{- range $headerCells -}}
+        {{- $divider = $divider | append "---" -}}
+      {{- end -}}
+      {{- /* Leading newline is load-bearing: on pages whose entire body is this
+             shortcode, the table would otherwise start on the same line as the
+             closing ``` of the Markdown metadata block, which stops it being a
+             valid closing fence and swallows the table into the code block. */ -}}
+      {{- $replacement = printf "\n| %s |\n| %s |\n%s\n"
+            (delimit $headerCells " | ")
+            (delimit $divider " | ")
+            (delimit $rows "\n") -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- $content = replace $content $match $replacement 1 -}}
+{{- end -}}
+
+{{- return $content -}}
