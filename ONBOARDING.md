@@ -755,10 +755,6 @@ bannerChildren: true
 
 `bannerChildren: true` propagates the banner to all sub-pages of the data type automatically.
 
-### `buildsUpon` is especially important in data type tutorials
-
-Data type pages present a progressive tutorial — each example builds on the data the previous example created. Always set `buildsUpon` on any example that depends on prior state, so readers who run examples interactively in the browser don't hit errors because required keys don't exist yet.
-
 ### Data types index
 
 When adding a new data type, update `content/develop/data-types/_index.md`:
