@@ -22,7 +22,7 @@ Every product has its own directory under `content/`:
 | **Redis Feature Form** | `content/develop/ai/featureform/` | ML feature engineering on Redis (preview) |
 | **Redis Feature Form (operate)** | `content/operate/featureform/` | Deploy and configure Feature Form — quickstart, providers, authentication |
 | **Redis Search** | `content/develop/ai/search-and-query/` | Full-text search, vector search, indexing, and query reference |
-| **RedisVL** | `content/develop/ai/redisvl/` and `content/integrate/redisvl/` | Python vector library — versioned docs (source lives in a separate repo, see below) |
+| **RedisVL** | `content/develop/ai/redisvl/` | Python vector library — versioned docs (source lives in a separate repo, see below) |
 | **Redis Insight** | `content/develop/tools/insight/` | Desktop/browser GUI client — key browser, CLI, streams, search workspace, RDI connector |
 | **Redis for VS Code** | `content/develop/tools/redis-for-vscode/` | VS Code extension for Redis |
 | **Command reference** | `content/commands/` | One page per Redis command — syntax, options, return values, examples |
