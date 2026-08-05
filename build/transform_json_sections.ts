@@ -320,10 +320,20 @@ function computeContentHash(
   return createHash('sha256').update(content, 'utf-8').digest('hex');
 }
 
-function transformJsonFile(filePath: string, dryRun: boolean): boolean {
+type TransformResult = 'transformed' | 'skipped' | 'error';
+
+function transformJsonFile(filePath: string, dryRun: boolean): TransformResult {
   try {
     const fileContent = readFileSync(filePath, 'utf-8');
-    const data: PageJsonInput = JSON.parse(fileContent);
+    const data: PageJsonInput & { page_type?: PageType } = JSON.parse(fileContent);
+
+    // This script consumes `content` and does not write it back, so it is not
+    // safe to run twice over the same output: a second pass finds no content and
+    // would rewrite every content page as an empty index page. A file that has a
+    // page_type but no content has already been transformed, so leave it alone.
+    if (data.content === undefined && data.page_type !== undefined) {
+      return 'skipped';
+    }
 
     // Remove content field from output
     const { content: rawContent, ...rest } = data;
@@ -374,10 +384,10 @@ function transformJsonFile(filePath: string, dryRun: boolean): boolean {
       writeFileSync(filePath, JSON.stringify(newData, null, 2) + '\n');
     }
 
-    return true;
+    return 'transformed';
   } catch (err) {
     console.error(`Error processing ${filePath}:`, err);
-    return false;
+    return 'error';
   }
 }
 
@@ -406,14 +416,15 @@ function main() {
 
   let processed = 0;
   let transformed = 0;
+  let skipped = 0;
 
   if (singlePath) {
     // Process single file
     const fullPath = singlePath.startsWith('/') ? singlePath : join(process.cwd(), singlePath);
     console.log(`Processing single file: ${fullPath}`);
-    if (transformJsonFile(fullPath, dryRun)) {
-      transformed++;
-    }
+    const result = transformJsonFile(fullPath, dryRun);
+    if (result === 'transformed') transformed++;
+    if (result === 'skipped') skipped++;
     processed++;
   } else {
     // Process all JSON files
@@ -421,9 +432,9 @@ function main() {
 
     for (const filePath of walkJsonFiles(publicDir)) {
       processed++;
-      if (transformJsonFile(filePath, dryRun)) {
-        transformed++;
-      }
+      const result = transformJsonFile(filePath, dryRun);
+      if (result === 'transformed') transformed++;
+      if (result === 'skipped') skipped++;
 
       // Progress indicator
       if (processed % 500 === 0) {
@@ -433,6 +444,9 @@ function main() {
   }
 
   console.log(`\nDone! Processed ${processed} files, transformed ${transformed}.`);
+  if (skipped > 0) {
+    console.log(`Skipped ${skipped} already-transformed files. Re-run 'hugo' first if you meant to rebuild them.`);
+  }
   if (dryRun) {
     console.log('(Dry run - no files were modified)');
   }
