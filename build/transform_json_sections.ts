@@ -245,6 +245,16 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
     return { sections: rawSections, examples: allExamples };
   }
 
+  // Reserve the ids of the real headings BEFORE naming the synthetic intro section.
+  // A real "## Overview" heading has to keep the plain `overview` id, because that is
+  // the anchor Hugo renders for it and the id the metadata tableOfContents uses. If
+  // the intro took `overview` first, the heading would be pushed to `overview-1` and a
+  // #overview deep link would land on the intro instead of the heading.
+  const headings = matches.map(m => {
+    const parsed = parseHeading(m.title);
+    return { ...parsed, id: makeUniqueId(parsed.id, usedIds) };
+  });
+
   // Extract text before first heading as intro/overview
   const introText = content.slice(0, matches[0].index).trim();
   if (introText) {
@@ -270,8 +280,7 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
     const headingEnd = newlinePos === -1 ? content.length : newlinePos + 1;
     const sectionText = content.slice(headingEnd, nextIndex).trim();
 
-    const { title, id: baseId } = parseHeading(current.title);
-    const id = makeUniqueId(baseId, usedIds);
+    const { title, id } = headings[i];
     const role = assignRole(title, rawSections.length);
 
     // Extract code blocks from section text
