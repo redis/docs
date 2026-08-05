@@ -147,8 +147,18 @@ EOF
     rust-sync|rust-async) cat <<'EOF'
 #!/bin/bash
 # usage: ./run.sh <staged_file.rs>   (staged into tests/)
+# Cargo builds tests/*.rs as an integration-test target, and compiles it with --test so the
+# file's `#[cfg(test)] mod` is enabled. No src/ target is needed for that to work.
 set -uo pipefail
-cargo test -- --nocapture; rc=$?
+out="$(cargo test -- --nocapture 2>&1)"; rc=$?
+printf '%s\n' "$out"
+# Same false-green class as surefire and dotnet: cargo exits 0 when it runs no tests at all
+# (e.g. the #[cfg(test)] mod was renamed, or the file landed where cargo doesn't scan).
+# Require at least one binary to report a non-zero passed count.
+if [ "$rc" -eq 0 ] && ! printf '%s' "$out" | grep -qE 'test result: ok\. [1-9][0-9]* passed'; then
+  echo "HARNESS ERROR: cargo ran zero tests — check the #[cfg(test)] mod and #[test]/#[tokio::test] markers"
+  rc=1
+fi
 rm -fr Cargo.lock target
 exit $rc
 EOF

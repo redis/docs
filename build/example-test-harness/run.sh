@@ -384,9 +384,16 @@ run_dotnet() { # stubs NRedisStack.Tests fixtures so the file runs under plain x
   rm -f "$d"/Example_*.cs; cp "$1" "$d/Example_src.cs"
   (cd "$d" && dotnet test --nologo) >"$LOG" 2>&1; rc=$?
   # Same false-green class as surefire: if the [Fact] didn't survive outside a REMOVE block,
-  # vstest discovers nothing and still exits 0.
-  if [ "${rc:-1}" -eq 0 ] && ! grep -qE 'Passed!.*Passed: *[1-9]' "$LOG"; then
-    printf '\nHARNESS ERROR: dotnet test discovered no passing tests — check the [Fact] survived outside a REMOVE block\n' >>"$LOG"
+  # the runner discovers nothing and still exits 0.
+  #
+  # Accept both summary shapes, mirroring the generated fidelity wrapper: the classic VSTest
+  # line ("Passed!  - Failed: 0, Passed: 2, ...") and Microsoft.Testing.Platform's
+  # ("succeeded: 2"). Matching only VSTest would reject a genuinely passing MTP run — the
+  # inverse false-negative of the bug this guard exists to prevent.
+  if [ "${rc:-1}" -eq 0 ] \
+     && ! grep -qE 'Passed! *- *Failed: *[0-9]+, *Passed: *[1-9]' "$LOG" \
+     && ! grep -qE '(succeeded|passed): *[1-9]' "$LOG"; then
+    printf '\nHARNESS ERROR: could not confirm any test passed. Neither a VSTest nor an MTP summary with a non-zero pass count was found — check the [Fact] survived outside a REMOVE block, or update this check if dotnet changed its summary format.\n' >>"$LOG"
     rc=1
   fi
 }
