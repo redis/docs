@@ -378,3 +378,54 @@ func ExampleClient_hexpire() {
 	// 2
 	// [-2]
 }
+
+func ExampleClient_hlen() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	// start with fresh database
+	rdb.FlushDB(ctx)
+	rdb.Del(ctx, "myhash")
+	// REMOVE_END
+
+	// STEP_START hlen
+	hlen1, err := rdb.HSet(ctx, "myhash", "field1", "Hello").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(hlen1) // >>> 1
+
+	hlen2, err := rdb.HSet(ctx, "myhash", "field2", "World").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(hlen2) // >>> 1
+
+	hlen3, err := rdb.HLen(ctx, "myhash").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(hlen3) // >>> 2
+	// STEP_END
+
+	// REMOVE_START
+	rdb.Del(ctx, "myhash")
+	// REMOVE_END
+
+	// Output:
+	// 1
+	// 1
+	// 2
+}

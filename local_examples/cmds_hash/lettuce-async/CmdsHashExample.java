@@ -142,7 +142,7 @@ public class CmdsHashExample {
             CompletableFuture<Void> hmgetExample = asyncCommands.hset("myhash", hmgetExampleParams).thenCompose(res1 -> {
                 return asyncCommands.hmget("myhash", "field1", "field2", "nofield");
             }).thenAccept(res2 -> {
-                System.out.println(res2); // >>> [KeyValue[field1, Hello], KeyValue[field2, World], KeyValue[nofield, null]]
+                System.out.println(res2); // >>> [KeyValue[field1, Hello], KeyValue[field2, World], KeyValue[nofield].empty]
                 // REMOVE_START
                 assertThat(res2).hasSize(3);
                 // REMOVE_END
@@ -247,6 +247,34 @@ public class CmdsHashExample {
             // STEP_END
 
             hExpireExample.join();
+            // REMOVE_START
+            asyncCommands.del("myhash").toCompletableFuture().join();
+            // REMOVE_END
+
+            // STEP_START hlen
+            CompletableFuture<Void> hLenExample = asyncCommands.hset("myhash", "field1", "Hello").thenCompose(res1 -> {
+                // `hset` returns true because `field1` is a new field.
+                System.out.println(res1); // >>> true
+                // REMOVE_START
+                assertThat(res1).isEqualTo(true);
+                // REMOVE_END
+                return asyncCommands.hset("myhash", "field2", "World");
+            }).thenCompose(res2 -> {
+                // `hset` returns true because `field2` is also a new field.
+                System.out.println(res2); // >>> true
+                // REMOVE_START
+                assertThat(res2).isEqualTo(true);
+                // REMOVE_END
+                return asyncCommands.hlen("myhash");
+            }).thenAccept(res3 -> {
+                System.out.println(res3); // >>> 2
+                // REMOVE_START
+                assertThat(res3).isEqualTo(2L);
+                // REMOVE_END
+            }).toCompletableFuture();
+            // STEP_END
+
+            hLenExample.join();
             // REMOVE_START
             asyncCommands.del("myhash").toCompletableFuture().join();
             // REMOVE_END

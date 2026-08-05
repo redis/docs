@@ -1,0 +1,14 @@
+source "https://rubygems.org"
+
+# Ruby TCE examples use the redis-rb client and assert with plain `raise` /
+# a locally-defined assert_equal, so no test framework is needed.
+#
+# Version is chosen from the running Ruby, because the two constraints conflict:
+#   * Hash-field TTL commands (HEXPIRE/HTTL, redis-rb `hexpire`/`httl`) landed in
+#     redis-rb 6.0.0 — they do NOT exist in 5.4.1.
+#   * redis-rb 6.x requires Ruby >= 3.2, but macOS still ships system Ruby 2.6.
+# On a modern Ruby we test what the docs actually target; on an old system Ruby we
+# still test every step that 5.4.1 supports rather than failing to install at all.
+# A box on Ruby < 3.2 cannot exercise the hexpire step — that is a toolchain gap,
+# not an example defect, so the harness reports it as a SKIP.
+gem "redis", (RUBY_VERSION >= "3.2" ? "~> 6.0" : "~> 5.4")
