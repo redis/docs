@@ -84,6 +84,33 @@ function assignRole(title: string, index: number): string {
   return 'content';
 }
 
+/**
+ * Hugo's explicit heading anchor syntax, e.g. "## Change the socket path {#after-setup}".
+ *
+ * Deliberately strict. Plenty of headings end in a brace that is NOT an anchor --
+ * Python signatures ending "connection_kwargs={}", dict defaults such as
+ * "{'extra': 'ignore'}", and relref shortcodes -- and a loose trailing-brace match
+ * would silently eat them. Requires "{#", then anchor-shaped characters only, then
+ * "}" at end of the heading.
+ */
+const EXPLICIT_ANCHOR = /\s*\{#([A-Za-z0-9][A-Za-z0-9_.:-]*)\}\s*$/;
+
+/**
+ * Split a heading into its display title and its id.
+ *
+ * Hugo takes the explicit anchor as the rendered heading's id verbatim and does not
+ * show it, so the title must have it removed and the id must not be slugified --
+ * slugifying would produce a different string from the anchor on the page and break
+ * url#section-id deep links.
+ */
+function parseHeading(raw: string): { title: string; id: string } {
+  const match = raw.match(EXPLICIT_ANCHOR);
+  if (match) {
+    return { title: raw.replace(EXPLICIT_ANCHOR, '').trim(), id: match[1] };
+  }
+  return { title: raw, id: slugify(raw) };
+}
+
 function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -243,8 +270,9 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
     const headingEnd = newlinePos === -1 ? content.length : newlinePos + 1;
     const sectionText = content.slice(headingEnd, nextIndex).trim();
 
-    const id = makeUniqueId(slugify(current.title), usedIds);
-    const role = assignRole(current.title, rawSections.length);
+    const { title, id: baseId } = parseHeading(current.title);
+    const id = makeUniqueId(baseId, usedIds);
+    const role = assignRole(title, rawSections.length);
 
     // Extract code blocks from section text
     const { examples, textWithoutCode } = extractCodeBlocks(sectionText, id);
@@ -252,7 +280,7 @@ function splitContentIntoSections(content: string): { sections: Section[]; examp
 
     rawSections.push({
       id,
-      title: current.title,
+      title,
       role,
       text: textWithoutCode,
     });
