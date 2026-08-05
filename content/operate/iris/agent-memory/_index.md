@@ -1,6 +1,6 @@
 ---
 title: Redis Agent Memory
-description: Deploy and operate Redis Agent Memory on your own infrastructure.
+description: Deploy and operate Redis Agent Memory on Redis Cloud or your own infrastructure.
 linkTitle: Redis Agent Memory
 alwaysopen: false
 categories:
@@ -9,6 +9,8 @@ categories:
 - iris
 weight: 10
 hideListLinks: true
+aliases:
+- /operate/rc/context-engine/agent-memory/
 ---
 
 Redis Agent Memory provides persistent session memory and long-term memory for AI agents and applications.
@@ -25,4 +27,4 @@ Deploy, configure, secure, and operate Redis Agent Memory on your own Kubernetes
 
 Use Redis Agent Memory as a managed service on Redis Cloud.
 
-[Open the Redis Cloud setup guide]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}})
+[Create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}) or [view and manage an existing service]({{< relref "/operate/iris/agent-memory/view-service" >}}).

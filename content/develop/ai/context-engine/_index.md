@@ -86,7 +86,7 @@ Redis Iris context engine includes four services:
 - **[Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}})**: Turns your business data into structured tools that AI agents can safely and reliably use, defined once and reused across all agents.
 - **[Data integration]({{< relref "/develop/ai/context-engine/data-integration" >}})**: Syncs live data from your existing relational databases into Redis Cloud so agents always have access to fresh, accurate business data.
 
-All four services are available on [Redis Cloud]({{< relref "/operate/rc/context-engine" >}}) using the REST API, with no database setup or management required.
+All four services are available on [Redis Cloud]({{< relref "/operate/iris" >}}) using the REST API, with no database setup or management required.
 
 ## LangCache
 

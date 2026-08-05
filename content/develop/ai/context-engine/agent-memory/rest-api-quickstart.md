@@ -10,7 +10,7 @@ linktitle: REST quickstart
 title: Redis Agent Memory REST API quickstart
 weight: 8
 aliases:
-- /operate/rc/context-engine/agent-memory/use-agent-memory/
+- /operate/iris/agent-memory/use-agent-memory/
 - /develop/ai/context-engine/agent-memory/api-examples/
 ---
 
@@ -20,7 +20,7 @@ Use this quickstart to connect to a Redis Agent Memory service on Redis Cloud wi
 
 To complete this quickstart, you need:
 
-* A Redis Agent Memory service on Redis Cloud. If you don't have one, [create a Redis Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}).
+* A Redis Agent Memory service on Redis Cloud. If you don't have one, [create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}).
 * The API key for the service.
 * A shell with `curl` and `jq` installed.
 
@@ -170,6 +170,6 @@ For request and response details, see [`SearchLongTermMemory`]({{< relref "/deve
 
 ## Next steps
 
-- Review the [Redis Cloud service setup guide]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}) for service configuration options.
+- Review the [Redis Cloud service setup guide]({{< relref "/operate/iris/agent-memory/create-service" >}}) for service configuration options.
 - Use the [Redis Agent Memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}) for endpoint and schema details.
-- [View and manage the service]({{< relref "/operate/rc/context-engine/agent-memory/view-service" >}}) to update configuration, manage API keys, review metrics, flush memories, or delete the service.
+- [View and manage the service]({{< relref "/operate/iris/agent-memory/view-service" >}}) to update configuration, manage API keys, review metrics, flush memories, or delete the service.

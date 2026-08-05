@@ -3,7 +3,7 @@ alwaysopen: false
 categories:
 - docs
 - operate
-- rc
+- iris
 description: null
 hideListLinks: true
 linktitle: Monitor cache
@@ -11,6 +11,7 @@ title: Monitor a LangCache service
 weight: 20
 aliases:
 - /operate/rc/langcache/monitor-cache
+- /operate/rc/context-engine/langcache/monitor-cache/
 ---
 
 You can monitor a LangCache service's performance from the **Metrics** tab of the service's page.

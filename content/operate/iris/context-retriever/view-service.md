@@ -3,15 +3,17 @@ alwaysopen: false
 categories:
 - docs
 - operate
-- rc
+- iris
 description: View and manage your Context Retriever service in Redis Cloud.
 hideListLinks: true
 linktitle: View service
 title: View and manage Context Retriever service
 weight: 15
+aliases:
+- /operate/rc/context-engine/context-retriever/view-service/
 ---
 
-After you have [created your first Context Retriever service]({{< relref "/operate/rc/context-engine/context-retriever/create-service" >}}), selecting **Context Retriever** from the Redis Cloud Console menu will take you to the **Context Retriever Services** page.
+After you have [created your first Context Retriever service]({{< relref "/operate/iris/context-retriever/create-service" >}}), selecting **Context Retriever** from the Redis Cloud Console menu will take you to the **Context Retriever Services** page.
 
 This page displays a list of all Context Retriever services associated with your account.
 
@@ -75,4 +77,3 @@ To delete your Context Retriever service:
 1. Select **Delete** again to confirm.
 
 Deleting the Context Retriever service is permanent and cannot be undone.
-

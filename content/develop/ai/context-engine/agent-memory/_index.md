@@ -89,7 +89,7 @@ Get started with Redis Agent Memory on Redis Cloud or join the private preview f
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Cloud</h3>
     <p>Create a managed Redis Agent Memory service and make your first requests.</p>
-    <p><a href="/operate/rc/context-engine/agent-memory/create-service">Open the Redis Cloud setup guide</a></p>
+    <p><a href="/operate/iris/agent-memory/create-service">Open the Redis Cloud setup guide</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Software private preview</h3>

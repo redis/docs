@@ -29,7 +29,7 @@ You also need Node.js and npm.
 
 1. Open the Redis Agent Memory service in the Redis Cloud console.
 1. On the **Configuration** tab, copy the **Endpoint** and **Store ID**.
-1. Copy the API key that Redis Cloud displayed when you created the service. If you no longer have the key, [generate a new API key]({{< relref "/operate/rc/context-engine/agent-memory/view-service#replace-service-api-key" >}}).
+1. Copy the API key that Redis Cloud displayed when you created the service. If you no longer have the key, [generate a new API key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}).
 1. Export the API key in your shell:
 
     ```sh

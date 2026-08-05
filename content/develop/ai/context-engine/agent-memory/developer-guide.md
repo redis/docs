@@ -40,7 +40,7 @@ Every client requires:
 
 The Python and TypeScript SDKs accept the endpoint, Store ID, and API key when you create the client. When you use the REST API, send the API key as a bearer token and include the Store ID in request paths.
 
-Follow the [Redis Cloud setup guide]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}) if you don't have a service. After you create one, copy its endpoint and Store ID from the **Configuration** tab and save the API key securely.
+Follow the [Redis Cloud setup guide]({{< relref "/operate/iris/agent-memory/create-service" >}}) if you don't have a service. After you create one, copy its endpoint and Store ID from the **Configuration** tab and save the API key securely.
 
 ## Identify users and conversations
 
@@ -76,7 +76,7 @@ Before an agent turn, retrieve the session by `sessionId` and provide the releva
 
 The session-memory TTL controls how long sessions remain available. Configure it according to the retention requirements of your application. When a session expires, its events are no longer available through session-memory retrieval.
 
-See [memory configuration]({{< relref "/operate/rc/context-engine/agent-memory/create-service#memory-configuration" >}}) to configure the session-memory TTL in Redis Cloud.
+See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}) to configure the session-memory TTL in Redis Cloud.
 
 ### Automatic session summarization
 
@@ -87,7 +87,7 @@ Automatic summarization limits the amount of conversation history that must be a
 
 For example, with **Summarize after** set to 20 and **Keep most recent** set to 10, Redis Agent Memory summarizes the older 10 messages when the session reaches 20 messages and retains the 10 most recent messages in full.
 
-See [automatic summarization]({{< relref "/operate/rc/context-engine/agent-memory/create-service#automatic-summarization" >}}) to enable summarization and configure both thresholds in Redis Cloud.
+See [automatic summarization]({{< relref "/operate/iris/agent-memory/create-service#automatic-summarization" >}}) to enable summarization and configure both thresholds in Redis Cloud.
 
 Follow any of the client quickstarts to add and retrieve a session event. For complete schemas, see the [session-memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/session-memory" >}}).
 
@@ -116,7 +116,7 @@ Redis Agent Memory provides two creation paths:
 
 Configure the long-term-memory TTL separately from the session-memory TTL.
 
-See [memory configuration]({{< relref "/operate/rc/context-engine/agent-memory/create-service#memory-configuration" >}}) to configure the extraction cadence and long-term-memory TTL in Redis Cloud.
+See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}) to configure the extraction cadence and long-term-memory TTL in Redis Cloud.
 
 ### Search long-term memory
 
@@ -150,7 +150,7 @@ For example, a travel application could define a `trip_preference` type with the
 
 When this type is enabled, Redis Agent Memory can extract a structured `trip_preference` memory from relevant session events. Each enabled custom type processes session events independently.
 
-See [custom memory types]({{< relref "/operate/rc/context-engine/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
+See [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
 
 Follow any of the client quickstarts to create and search long-term memory. For complete schemas, see the [long-term-memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference#tag/long-term-memory" >}}).
 

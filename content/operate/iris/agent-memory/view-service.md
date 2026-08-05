@@ -3,15 +3,18 @@ alwaysopen: false
 categories:
 - docs
 - operate
-- rc
+- iris
 description: View and manage your Redis Agent Memory service in Redis Cloud.
 hideListLinks: true
 linktitle: View service
 title: View and manage Redis Agent Memory service
 weight: 15
+bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
+aliases:
+- /operate/rc/context-engine/agent-memory/view-service/
 ---
 
-After you have [created your first Redis Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
+After you have [created your first Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
 
 This page displays a list of all Redis Agent Memory services associated with your account.
 
@@ -64,7 +67,7 @@ The **Memory configuration** section shows the time-to-live (TTL) for memory sto
 
 ### Memory types & extraction {#memory-types-and-extraction}
 
-The **Memory types & extraction** section shows any [custom memory types]({{< relref "/operate/rc/context-engine/agent-memory/create-service#custom-memory-types" >}}) defined for the service, each listed with its name, fields, and extraction strategy.
+The **Memory types & extraction** section shows any [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) defined for the service, each listed with its name, fields, and extraction strategy.
 
 {{<image filename="images/rc/agent-memory-view-memory-types.png" alt="The Memory types & extraction section for the Redis Agent Memory service." >}}
 
