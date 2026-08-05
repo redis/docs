@@ -8,7 +8,7 @@ description: Connect to Redis Agent Memory on Redis Cloud with the Python SDK an
 hideListLinks: true
 linktitle: Python SDK quickstart
 title: Redis Agent Memory Python SDK quickstart
-weight: 7
+weight: 6
 ---
 
 Use this quickstart to connect to a Redis Agent Memory service on Redis Cloud with the Python SDK. You will add and retrieve a session event, create two long-term memories, and search them by meaning.

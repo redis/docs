@@ -15,7 +15,7 @@ bannerChildren: true
 
 Redis Agent Memory stores conversation history and durable information for AI applications. Use session memory to reconstruct a conversation and long-term memory to retrieve relevant information across sessions.
 
-Access Redis Agent Memory through its REST API or the Python and TypeScript SDKs. It works with any agent framework or LLM provider.
+Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
 ## Redis Agent Memory capabilities
 
@@ -104,11 +104,6 @@ After your Redis Agent Memory service is ready, choose a client to make your fir
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
   <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">REST API</h3>
-    <p>Use <code>curl</code> to call the Redis Agent Memory API directly.</p>
-    <p><a href="/develop/ai/context-engine/agent-memory/rest-api-quickstart">Open the REST API quickstart</a></p>
-  </div>
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Python SDK</h3>
     <p>Install the Python SDK and make your first memory requests.</p>
     <p><a href="/develop/ai/context-engine/agent-memory/python-sdk-quickstart">Open the Python quickstart</a></p>
@@ -117,6 +112,11 @@ After your Redis Agent Memory service is ready, choose a client to make your fir
     <h3 class="text-redis-ink-900 font-semibold mb-3">TypeScript SDK</h3>
     <p>Install the TypeScript SDK and make your first memory requests.</p>
     <p><a href="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart">Open the TypeScript quickstart</a></p>
+  </div>
+  <div class="p-5 border border-redis-pen-300 rounded-lg">
+    <h3 class="text-redis-ink-900 font-semibold mb-3">REST API</h3>
+    <p>Use <code>curl</code> to call the Redis Agent Memory API directly.</p>
+    <p><a href="/develop/ai/context-engine/agent-memory/rest-api-quickstart">Open the REST API quickstart</a></p>
   </div>
 </div>
 

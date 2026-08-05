@@ -8,7 +8,7 @@ description: Connect to Redis Agent Memory with the REST API and make session-me
 hideListLinks: true
 linktitle: REST quickstart
 title: Redis Agent Memory REST API quickstart
-weight: 6
+weight: 8
 aliases:
 - /operate/rc/context-engine/agent-memory/use-agent-memory/
 - /develop/ai/context-engine/agent-memory/api-examples/

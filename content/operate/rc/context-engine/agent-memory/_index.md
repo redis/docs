@@ -13,7 +13,7 @@ bannerText: Redis Agent Memory on Redis Cloud is currently available as a public
 bannerChildren: true
 ---
 
-Redis Agent Memory is a memory service for AI Agents available as a REST API and Python SDK. It provides the persistent, structured memory layer that intelligent agents need to store, retrieve, and manage contextual data across interactions. Rather than requiring developers to build custom memory infrastructure from scratch, Redis Agent Memory offers a turnkey solution with dedicated endpoints, secure API key management, configurable memory schemas, and automatic TTL-based lifecycle management.
+Redis Agent Memory is a memory service for AI agents available through Python and TypeScript SDKs and a REST API. It provides the persistent, structured memory layer that intelligent agents need to store, retrieve, and manage contextual data across interactions. Rather than requiring developers to build custom memory infrastructure from scratch, Redis Agent Memory offers a turnkey solution with dedicated endpoints, secure API key management, configurable memory schemas, and automatic TTL-based lifecycle management.
 
 ## Redis Agent Memory overview
 

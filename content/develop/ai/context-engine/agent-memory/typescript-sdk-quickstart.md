@@ -8,7 +8,7 @@ description: Connect to Redis Agent Memory on Redis Cloud with the TypeScript SD
 hideListLinks: true
 linktitle: TypeScript SDK quickstart
 title: Redis Agent Memory TypeScript SDK quickstart
-weight: 8
+weight: 7
 ---
 
 Use this quickstart to connect to a Redis Agent Memory service on Redis Cloud with the TypeScript SDK. You will add and retrieve a session event, create two long-term memories, and search them.

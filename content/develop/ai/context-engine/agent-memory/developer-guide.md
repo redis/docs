@@ -4,14 +4,14 @@ categories:
 - docs
 - develop
 - ai
-description: Connect an application to Redis Agent Memory and work with session memory and long-term memory through REST, Python, or TypeScript.
+description: Connect an application to Redis Agent Memory and work with session memory and long-term memory through Python, TypeScript, or REST.
 hideListLinks: true
 linktitle: Developer guide
 title: Redis Agent Memory developer guide
 weight: 5
 ---
 
-Use the REST API, Python SDK, or TypeScript SDK to add session events, retrieve conversation context, create long-term memories, and search for relevant information.
+Use the Python SDK, TypeScript SDK, or REST API to add session events, retrieve conversation context, create long-term memories, and search for relevant information.
 
 ## Integration workflow
 
@@ -26,9 +26,9 @@ Redis Agent Memory can automatically summarize older session events and extract 
 
 | Client | Use it when | Package and quickstart |
 |:-------|:------------|:-----------------------|
-| REST API | You need language-independent HTTP access or don't want an SDK dependency. | No package required. Follow the [REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}). |
 | Python SDK | Your application or agent uses Python. | Install [`redis-agent-memory`](https://pypi.org/project/redis-agent-memory/) and follow the [Python SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}). |
 | TypeScript SDK | Your application or agent uses JavaScript or TypeScript. | Install [`@redis-iris/agent-memory`](https://www.npmjs.com/package/@redis-iris/agent-memory) and follow the [TypeScript SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}). |
+| REST API | You need language-independent HTTP access or don't want an SDK dependency. | No package required. Follow the [REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}). |
 
 ## Connect to a Redis Agent Memory service
 
@@ -38,7 +38,7 @@ Every client requires:
 * The Store ID.
 * A Redis Agent Memory API key.
 
-Send the API key as a bearer token when you use the REST API. The Store ID appears in REST request paths. The Python and TypeScript SDKs accept the endpoint, Store ID, and API key when you create the client.
+The Python and TypeScript SDKs accept the endpoint, Store ID, and API key when you create the client. When you use the REST API, send the API key as a bearer token and include the Store ID in request paths.
 
 Follow the [Redis Cloud setup guide]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}) if you don't have a service. After you create one, copy its endpoint and Store ID from the **Configuration** tab and save the API key securely.
 
@@ -156,9 +156,9 @@ Follow any of the client quickstarts to create and search long-term memory. For 
 
 ## References
 
-* [REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}})
 * [Python SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}})
 * [TypeScript SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}})
-* [Redis Agent Memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}})
 * [Python SDK reference](https://pypi.org/project/redis-agent-memory/)
 * [TypeScript SDK reference](https://www.npmjs.com/package/@redis-iris/agent-memory)
+* [REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}})
+* [Redis Agent Memory API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}})

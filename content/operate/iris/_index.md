@@ -29,7 +29,7 @@ Redis Iris is a suite of AI context services built on Redis. Two of the services
 - **Session memory**: Holds the current conversation state with configurable TTL-based expiration.
 - **Long-term memory**: Stores information extracted from past sessions as text with vector embeddings for semantic retrieval.
 
-Redis Agent Memory is available as a REST API and Python SDK. You can self-host it on your own infrastructure or use it as a fully managed service on Redis Cloud.
+Redis Agent Memory is available through Python and TypeScript SDKs and a REST API. You can self-host it on your own infrastructure or use it as a fully managed service on Redis Cloud.
 
 [Open the self-managed Redis Agent Memory documentation]({{< relref "/operate/iris/agent-memory/self-managed" >}})
 
