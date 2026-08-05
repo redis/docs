@@ -199,7 +199,7 @@ The client library guides cover how to connect to and use Redis from each suppor
 | Jedis | `clients/jedis/` | Java |
 | Lettuce | `clients/lettuce/` | Java |
 | go-redis | `clients/go/` | Go |
-| NRedisStack / StackExchange | `clients/dotnet/` | C# / .NET |
+| NRedisStack / StackExchange.Redis | `clients/dotnet/` | C# / .NET |
 | Predis | `clients/php/` | PHP |
 | redis-rs | `clients/rust/` | Rust |
 
