@@ -172,6 +172,12 @@ def scan(path):
                     break
                 body.append(lines[j])
                 j += 1
+            if j >= len(lines):
+                # Same failure mode as an unclosed shortcode: the body swallows the rest of
+                # the file and the reported range is meaningless. Warn here too — a silent
+                # bogus range is what makes a Phase 0 work plan quietly wrong.
+                print(f"warning: {path}: unclosed fenced block opened at line {i + 1}",
+                      file=sys.stderr)
             if lang in CLI_FENCE_LANGS:
                 cmds = commands_in(body)
                 if cmds:

@@ -181,7 +181,7 @@ public class CmdsHashExample {
                         System.out.println(result);
                         // >>> KeyValue[field1, Hello]
                         // >>> KeyValue[field2, World]
-                        // >>> KeyValue[nofield, null]
+                        // >>> KeyValue[nofield].empty
                     });
             // STEP_END
 

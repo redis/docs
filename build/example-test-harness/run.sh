@@ -115,6 +115,28 @@ primary_for_portable() {
 # This list exists because path resolution is now convention-based. Under the old hardcoded
 # src_path() these sets simply had no entry, so they were skipped by omission — the intent was
 # invisible and easy to lose. Stating it explicitly is the point.
+# Capability gaps in the LOCAL toolchain, as opposed to defects in the example. An example
+# that is correct for the version the docs target, but unrunnable with what is installed
+# here, must report SKIP with a reason — reporting FAIL would break the rule that a red
+# result always means a real defect.
+toolchain_skip_reason() { # $1 = set, $2 = canonical client key, $3 = repo-relative source
+  case "$2" in
+    ruby)
+      # redis-rb gained native hexpire/httl in 6.0.0, and 6.x requires Ruby >= 3.2. On an
+      # older Ruby (macOS still ships 2.6) the Gemfile resolves 5.4.1, where hexpire falls
+      # through method_missing and omits the FIELDS token: "ERR wrong number of arguments".
+      if grep -qE '\.(hexpire|httl|hpexpire|hpttl)\b' "$REPO/$3" 2>/dev/null; then
+        if ! ruby -e 'exit(RUBY_VERSION >= "3.2" ? 0 : 1)' 2>/dev/null; then
+          printf 'uses hexpire/httl, which need redis-rb >= 6.0 and therefore Ruby >= 3.2; this box has %s' \
+            "$(ruby -e 'print RUBY_VERSION' 2>/dev/null || echo 'no ruby')"
+          return
+        fi
+      fi
+      ;;
+  esac
+  printf ''
+}
+
 illustrative_reason() { # $1 = set, $2 = canonical client key
   case "$1:$2" in
     # Every file in this set contains only auth1/auth2, which call AUTH with a `test-user`
@@ -388,6 +410,13 @@ PHP
     $before=get_declared_classes();
     require "example.php";
     $cls=array_values(array_diff(get_declared_classes(),$before));
+    // An example that declares no class leaves $cls empty; end() then returns false and
+    // `new false()` fatals with a message about the harness rather than the example. Fail
+    // with a diagnostic that names the actual problem.
+    if(!$cls){
+      fwrite(STDERR,"HARNESS ERROR: example.php declared no class — a PHP TCE must define a test class\n");
+      exit(1);
+    }
     $c=end($cls); $o=new $c();
     // setUp/tearDown are protected by PHPUnit convention, so they need reflection.
     $call=function($o,$name){
@@ -438,16 +467,40 @@ run_fidelity() { # $1 = absolute source path, $2 = canonical client key
     cp "$dest/$base" "$saved"
   fi
 
+  # Record what needs undoing BEFORE staging, and install a trap, so an interrupt or a kill
+  # partway through the test still restores the clone. Without this, Ctrl-C during a
+  # multi-minute dotnet/mvn run leaves the clone holding staged content indefinitely.
+  STAGED_PATH="$dest/$base"; STAGED_BACKUP="$saved"
+  trap 'unstage_fidelity; exit 130' INT TERM
+
   cp "$src" "$dest/$base"
   # Pass the staged subdirectory through as the project/working dir. The C# runner needs it
   # to tell tests/Doc from tests/Doc/Async; runners that don't take a second argument ignore it.
   ( cd "$root" && ./run.sh "$base" "$sub" ) >"$LOG" 2>&1; rc=$?
 
-  if [ -n "$saved" ]; then
-    cp "$saved" "$dest/$base"; rm -f "$saved"
+  unstage_fidelity
+  trap - INT TERM
+}
+
+# Undo whatever run_fidelity staged. Idempotent, and safe to call from a signal handler.
+unstage_fidelity() {
+  [ -n "${STAGED_PATH:-}" ] || return 0
+  if [ -n "${STAGED_BACKUP:-}" ]; then
+    # Restore the upstream file, and only drop the backup once the copy has demonstrably
+    # succeeded. Deleting it unconditionally would destroy the sole copy of a tracked
+    # upstream source whenever the restore failed — the exact loss this backup exists to
+    # prevent. If it fails, keep the backup and say where it is.
+    if cp "$STAGED_BACKUP" "$STAGED_PATH"; then
+      rm -f "$STAGED_BACKUP"
+    else
+      printf 'ERROR: could not restore %s — your backup is preserved at %s\n' \
+        "$STAGED_PATH" "$STAGED_BACKUP" >&2
+      log "ERROR: failed to restore $STAGED_PATH; backup kept at $STAGED_BACKUP"
+    fi
   else
-    rm -f "$dest/$base"
+    rm -f "$STAGED_PATH"
   fi
+  STAGED_PATH=""; STAGED_BACKUP=""
 }
 
 # --- list: resolve sources and exit (no Redis, no toolchains) -----------------
@@ -479,6 +532,10 @@ for c in "${CLIENTS[@]}"; do
   fi
   rel="$(src_path "$SET" "$c")"
   if [ -z "$rel" ] || [ ! -f "$REPO/$rel" ]; then SUMMARY+=("$c	SKIP (no source)"); log ">> $c: SKIP"; continue; fi
+  why="$(toolchain_skip_reason "$SET" "$c" "$rel")"
+  if [ -n "$why" ]; then
+    SUMMARY+=("$c	SKIP ($why)"); log ">> $c: SKIP — $why"; continue
+  fi
   LOG="$HARNESS/results/${SET}_${c}.log"; rc=1
   # A failed flush means stale keys leak into the next example -> unreliable
   # results, so abort loudly rather than test against leftover state.

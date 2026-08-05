@@ -191,6 +191,13 @@ if printf '%s' "$out" | grep -qE 'No test (matches|is available)'; then
   echo "HARNESS ERROR: no test matched $cls — check the [Fact] survived outside a REMOVE block"
   rc=1
 fi
+# A negative check alone is not enough: dotnet test can exit 0 having executed nothing
+# without ever printing "No test matches". Require a positive passing count, matching the
+# guard portable run_dotnet uses, so both modes fail the same way on an undiscovered test.
+if [ "$rc" -eq 0 ] && ! printf '%s' "$out" | grep -qE 'Passed!.*Passed: *[1-9]'; then
+  echo "HARNESS ERROR: dotnet test reported no passing tests for $cls"
+  rc=1
+fi
 exit $rc
 EOF
 ;;

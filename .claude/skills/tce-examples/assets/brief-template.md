@@ -130,8 +130,12 @@ Offline checks that touch neither Redis nor shared state are fine and worth aski
 `node --check`, `ruby -c`, `php -l`, `gofmt -e`, `python3 -m py_compile`.
 
 > If you are running a **single** agent rather than a batch, it can test:
-> `build/example-test-harness/run.sh {{CLIENT_KEY}} {{SET_ID}}` (needs a scratch Redis; use
+> `build/example-test-harness/run.sh {{SET_ID}} {{CLIENT_KEY}}` (needs a scratch Redis; use
 > `--list` first if it SKIPs). Only lift the restriction when exactly one agent is running.
+>
+> Argument order is **set first, then client(s)** — `run.sh <example_set> [client ...]`.
+> Reversing them makes the set name be read as a client key, which now exits 2 with
+> "unknown client" rather than doing something subtly wrong.
 
 ### Report back
 

@@ -34,6 +34,16 @@ Look for:
 - **Non-deterministic ordering presented as fixed.** `HGETALL` into a hash map, `SMEMBERS`,
   or an unsorted `ZRANGE` can reorder between runs. A stable `>>>` comment requires the
   example to sort explicitly (`TreeMap`, `sorted()`).
+- **Formatting that varies by language runtime version.** An output comment is pinned to
+  whatever the *authoring* machine printed, which may not be what a reader's runtime prints.
+  The known live case: **Ruby 3.4 changed `Hash#inspect`** to put spaces around the rocket —
+  `{"field1" => "Hello"}` where 3.3 and earlier emit `{"field1"=>"Hello"}`. Every Ruby TCE
+  that inspects a hash carries the no-space form, so on Ruby 3.4+ those comments are one
+  character off. Flag it when reviewing a *new* Ruby example, but note it is a repo-wide
+  exposure: fixing one file in isolation makes it inconsistent with its siblings rather than
+  correct. The same class covers time-sensitive values — an `httl` comment of `[10, 10]`
+  becomes `[9, 10]` on a slow run, which is why such assertions should be range-based even
+  when the published comment is exact.
 
 **Report as:** `output-comment-mismatch`, severity high — the reader copies this and sees
 something else.

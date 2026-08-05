@@ -142,7 +142,7 @@ public class CmdsHashExample {
             CompletableFuture<Void> hmgetExample = asyncCommands.hset("myhash", hmgetExampleParams).thenCompose(res1 -> {
                 return asyncCommands.hmget("myhash", "field1", "field2", "nofield");
             }).thenAccept(res2 -> {
-                System.out.println(res2); // >>> [KeyValue[field1, Hello], KeyValue[field2, World], KeyValue[nofield, null]]
+                System.out.println(res2); // >>> [KeyValue[field1, Hello], KeyValue[field2, World], KeyValue[nofield].empty]
                 // REMOVE_START
                 assertThat(res2).hasSize(3);
                 // REMOVE_END
