@@ -121,6 +121,25 @@ primary_for_portable() {
 # result always means a real defect.
 toolchain_skip_reason() { # $1 = set, $2 = canonical client key, $3 = repo-relative source
   case "$2" in
+    go-redis)
+      # Portable mode copies the pinned fidelity/go-redis.mod, which carries a `go` directive.
+      # If the installed toolchain is older, `go test` dies with "toolchain not available"
+      # before the example runs at all — a FAIL that says nothing about the example. (This is
+      # the failure the unpinned `go get` used to produce; pinning moved it, so guard it.)
+      local need have
+      need="$(awk '/^go [0-9]/ {print $2; exit}' "$HARNESS/fidelity/go-redis.mod" 2>/dev/null)"
+      have="$(go env GOVERSION 2>/dev/null | sed 's/^go//')"
+      if [ -n "$need" ] && [ -n "$have" ]; then
+        # Numeric compare on major.minor only; sort -V orders versions correctly.
+        if [ "$(printf '%s\n%s\n' "$need" "$have" | sort -V | head -1)" != "$need" ]; then
+          printf 'go.mod needs Go >= %s but this box has %s' "$need" "$have"
+          return
+        fi
+      elif [ -z "$have" ]; then
+        printf 'no go toolchain found on PATH'
+        return
+      fi
+      ;;
     ruby)
       # redis-rb gained native hexpire/httl in 6.0.0, and 6.x requires Ruby >= 3.2. On an
       # older Ruby (macOS still ships 2.6) the Gemfile resolves 5.4.1, where hexpire falls

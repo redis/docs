@@ -192,11 +192,24 @@ if printf '%s' "$out" | grep -qE 'No test (matches|is available)'; then
   rc=1
 fi
 # A negative check alone is not enough: dotnet test can exit 0 having executed nothing
-# without ever printing "No test matches". Require a positive passing count, matching the
-# guard portable run_dotnet uses, so both modes fail the same way on an undiscovered test.
-if [ "$rc" -eq 0 ] && ! printf '%s' "$out" | grep -qE 'Passed!.*Passed: *[1-9]'; then
-  echo "HARNESS ERROR: dotnet test reported no passing tests for $cls"
-  rc=1
+# without ever printing "No test matches". Require a positive passing count.
+#
+# Two summary shapes exist and Doc.csproj could produce either: the classic VSTest line
+# ("Passed!  - Failed: 0, Passed: 2, ...") and Microsoft.Testing.Platform's ("succeeded: 2"
+# / "total: 2"), which xunit.v3 uses when built against MTP. Accept both, and if NEITHER is
+# recognised, fail loudly rather than guessing — an unparsed summary is exactly the state
+# where a silent pass would be least justified.
+if [ "$rc" -eq 0 ]; then
+  if printf '%s' "$out" | grep -qE 'Passed! *- *Failed: *[0-9]+, *Passed: *[1-9]'; then
+    : # VSTest summary, at least one test passed
+  elif printf '%s' "$out" | grep -qE '(succeeded|passed): *[1-9]'; then
+    : # Microsoft.Testing.Platform summary
+  else
+    echo "HARNESS ERROR: could not confirm any test passed for $cls."
+    echo "  Neither a VSTest nor an MTP summary with a non-zero pass count was found."
+    echo "  If dotnet's summary format changed, update this check in bootstrap.sh."
+    rc=1
+  fi
 fi
 exit $rc
 EOF

@@ -55,7 +55,19 @@ BLOCK_PATTERNS = [
      re.compile(r"{{<\s*/\s*clients-example\s*>}}")),
 ]
 SELF_CLOSING = re.compile(r"{{<\s*clients-example\b[^>]*/>}}")
-FENCE = re.compile(r"^\s*(`{3,}|~{3,})\s*([\w.+-]*)\s*$")
+
+# An OPENING fence may carry an info string: a language word optionally followed by Hugo
+# attributes — ```checklist {id="x"}, ```mermaid {width="80%"}, ```hierarchy {type="..."}.
+# 60 such openers exist under content/. An earlier pattern anchored at the language word
+# ([\w.+-]*\s*$) matched none of them, so the block's real closing fence was mistaken for an
+# opener and every fence afterwards paired one step out of phase.
+FENCE_OPEN = re.compile(r"^\s*(`{3,}|~{3,})\s*([\w.+-]*)[ \t]*(.*)$")
+
+# A CLOSING fence, per CommonMark: same character, at least as long as the opener, and NO
+# info string. So a ```bash line *inside* a block is content (or a malformed new opener),
+# never a closer — treating it as one would silently truncate any block whose body contains
+# fenced markdown, which is common in docs that document markdown.
+FENCE_CLOSE = re.compile(r"^\s*(`{3,}|~{3,})[ \t]*$")
 
 # set=/step= as named params, and the positional form: {{< clients-example id step ... >}}
 NAMED_SET = re.compile(r'\bset="([^"]*)"')
@@ -162,13 +174,14 @@ def scan(path):
             continue
 
         # Fenced code block.
-        fence = FENCE.match(line)
+        fence = FENCE_OPEN.match(line)
         if fence:
             marker, lang = fence.group(1), fence.group(2).lower()
             body, j = [], i + 1
             while j < len(lines):
-                closing = FENCE.match(lines[j])
-                if closing and closing.group(1)[0] == marker[0] and not closing.group(2):
+                closing = FENCE_CLOSE.match(lines[j])
+                if (closing and closing.group(1)[0] == marker[0]
+                        and len(closing.group(1)) >= len(marker)):
                     break
                 body.append(lines[j])
                 j += 1
