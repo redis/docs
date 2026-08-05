@@ -83,6 +83,23 @@ If you have muscle memory or notes from the pre-`clients.tsv` version:
   ended with `rm -fr <deps>`, so the script's exit status was the `rm`'s — always 0 — and a
   failing example reported success. Generated wrappers capture `rc` before teardown and
   `exit $rc`.
+- **Never stage into a real clone's source tree.** For the C# clients `fid_sub` is
+  `tests/Doc` *inside the NRedisStack clone*, and the staged filename is identical to the
+  upstream one (`CmdsHashExample.cs` is both). A naive stage-then-delete overwrote a tracked
+  upstream file and then removed it, leaving the clone with a deleted source. `run_fidelity`
+  now backs up anything it is about to clobber and restores it afterwards, so a fidelity run
+  is a no-op on the clone.
+- **Both modes need the zero-test guards, not just fidelity.** Portable is the *default*
+  mode, so a guard present only in the generated fidelity wrappers leaves the false green
+  exactly where it is most likely to be hit. `run_maven_java` and `run_dotnet` now fail
+  unless they observe `Tests run: [1-9]` / `Passed: [1-9]`.
+- **`Doc.csproj` multi-targets `net481`, which needs a mono host.** On a plain macOS/Linux box
+  the net8.0 and net10.0 legs pass, then net481 aborts and takes the run's exit code with it —
+  a FAIL that says nothing about the example. The generated C# wrapper now pins the lowest
+  modern TFM the project declares.
+- **The C# project directory can't be hardcoded.** Async examples stage under
+  `tests/Doc/Async`; a wrapper fixed to `tests/Doc` would silently exercise the sync tree.
+  `run_fidelity` passes the staged subdirectory through as a second argument.
 - The test scaffolding lives in `REMOVE_START` blocks; for py/ruby/node/go/rust/jedis/lettuce
   it's self-contained (stdlib asserts / JUnit), but **C# and PHP reference their repo's own
   test base classes**, which is why they need the stubs above.

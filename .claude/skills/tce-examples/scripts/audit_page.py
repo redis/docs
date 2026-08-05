@@ -38,13 +38,21 @@ EXAMPLES_JSON = os.path.join(REPO_ROOT, "data", "examples.json")
 # "> " so extract_cli_commands sees a form it recognises.
 HOSTPORT_PROMPT = re.compile(r"^\s*[\w.\-]+:\d+>\s")
 
-# Block openers. Each entry: (format label, compiled opener, closer literal or None).
-# None closer means the block is self-terminating (handled inline).
+# Block openers. Each entry: (format label, compiled opener, compiled closer).
+#
+# Closers are REGEXES, not literals. Hugo does not require the space before the closing
+# delimiter, and real pages use both forms: 588 use `{{< /clients-example >}}` while
+# content/commands/lpop.md, content/develop/get-started/data-store.md and
+# content/develop/ai/search-and-query/query/exact-match.md use `{{< /clients-example>}}`.
+# Matching a literal meant the block never closed on those pages: the scanner ran to end of
+# file, so it reported a wrong line range and could absorb later CLI blocks' commands.
 BLOCK_PATTERNS = [
-    ("redis-cli", re.compile(r"{{%\s*redis-cli\s*%}}"), "{{% /redis-cli %}}"),
-    ("highlight", re.compile(r"{{<\s*highlight\b[^>]*>}}"), "{{< /highlight >}}"),
+    ("redis-cli", re.compile(r"{{%\s*redis-cli\s*%}}"),
+     re.compile(r"{{%\s*/\s*redis-cli\s*%}}")),
+    ("highlight", re.compile(r"{{<\s*highlight\b[^>]*>}}"),
+     re.compile(r"{{<\s*/\s*highlight\s*>}}")),
     ("clients-example", re.compile(r"{{<\s*clients-example\b[^>]*(?<!/)>}}"),
-     "{{< /clients-example >}}"),
+     re.compile(r"{{<\s*/\s*clients-example\s*>}}")),
 ]
 SELF_CLOSING = re.compile(r"{{<\s*clients-example\b[^>]*/>}}")
 FENCE = re.compile(r"^\s*(`{3,}|~{3,})\s*([\w.+-]*)\s*$")
@@ -134,9 +142,14 @@ def scan(path):
                 continue
             set_id, step = parse_shortcode_args(line) if label == "clients-example" else ("", "")
             body, j = [], i + 1
-            while j < len(lines) and closer not in lines[j]:
+            while j < len(lines) and not closer.search(lines[j]):
                 body.append(lines[j])
                 j += 1
+            if j >= len(lines):
+                # Ran off the end: an unbalanced shortcode, or a closer form this scanner
+                # doesn't recognise. Say so rather than silently reporting a bogus range.
+                print(f"warning: {path}: unclosed {label} block opened at line {i + 1}",
+                      file=sys.stderr)
             blocks.append({
                 "format": label,
                 "start": i + 1, "end": min(j + 1, len(lines)),

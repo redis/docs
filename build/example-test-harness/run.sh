@@ -321,7 +321,15 @@ run_maven_java() { # $1=src $2=workdir $3=package-relpath
   [ -f "$d/pom.xml" ] || cp "$HARNESS/pom-$(basename "$d").xml" "$d/pom.xml"
   rm -f "$d/src/test/java/$3"/*.java
   cp "$1" "$d/src/test/java/$3/"
-  (cd "$d" && mvn -q -B test) >"$LOG" 2>&1; rc=$?
+  (cd "$d" && mvn -B test) >"$LOG" 2>&1; rc=$?
+  # Surefire exits 0 when it matches no tests. These classes are named *Example, not *Test,
+  # so a pom missing the *Example include "passes" having run nothing. The generated fidelity
+  # wrappers guard this; portable mode is the DEFAULT mode, so it needs the same guard or the
+  # false green survives exactly where it is most likely to be hit.
+  if [ "${rc:-1}" -eq 0 ] && ! grep -qE 'Tests run: [1-9]' "$LOG"; then
+    printf '\nHARNESS ERROR: surefire ran zero tests — check the *Example include in pom.xml\n' >>"$LOG"
+    rc=1
+  fi
 }
 run_jedis()            { run_maven_java "$1" "$WORK/jedis"    io/redis/examples ; }
 run_lettuce_sync()     { run_maven_java "$1" "$WORK/lettuce-sync"    io/redis/examples/sync ; }
@@ -334,6 +342,12 @@ run_dotnet() { # stubs NRedisStack.Tests fixtures so the file runs under plain x
   cp "$HARNESS/dotnet/GlobalUsings.cs" "$d/GlobalUsings.cs"
   rm -f "$d"/Example_*.cs; cp "$1" "$d/Example_src.cs"
   (cd "$d" && dotnet test --nologo) >"$LOG" 2>&1; rc=$?
+  # Same false-green class as surefire: if the [Fact] didn't survive outside a REMOVE block,
+  # vstest discovers nothing and still exits 0.
+  if [ "${rc:-1}" -eq 0 ] && ! grep -qE 'Passed!.*Passed: *[1-9]' "$LOG"; then
+    printf '\nHARNESS ERROR: dotnet test discovered no passing tests — check the [Fact] survived outside a REMOVE block\n' >>"$LOG"
+    rc=1
+  fi
 }
 run_php() {
   local d="$WORK/php"; mkdir -p "$d"
@@ -400,21 +414,40 @@ PHP
 # convention, so there is nothing to template here. (The `filename` column in
 # clients.tsv is guidance for *authoring* a new example, not for staging one.)
 run_fidelity() { # $1 = absolute source path, $2 = canonical client key
-  local src="$1" client="$2" dir sub dest
+  local src="$1" client="$2" dir sub root dest base saved=""
   dir="$(tsv_get "$client" 9)"; sub="$(tsv_get "$client" 10)"
   if [ -z "$dir" ] || [ "$dir" = "-" ]; then
     printf 'no fidelity directory for %s in clients.tsv\n' "$client" >"$LOG"; rc=1; return
   fi
-  dest="$FIDELITY_ROOT/$dir"
-  if [ ! -x "$dest/run.sh" ]; then
+  root="$FIDELITY_ROOT/$dir"
+  if [ ! -x "$root/run.sh" ]; then
     printf 'missing %s/run.sh — run build/example-test-harness/bootstrap.sh first\n' \
-      "$dest" >"$LOG"; rc=1; return
+      "$root" >"$LOG"; rc=1; return
   fi
-  [ "$sub" = "." ] || dest="$dest/$sub"
+  dest="$root"; [ "$sub" = "." ] || dest="$root/$sub"
+  base="$(basename "$src")"
   mkdir -p "$dest"
-  cp "$src" "$dest/"
-  ( cd "$FIDELITY_ROOT/$dir" && ./run.sh "$(basename "$src")" ) >"$LOG" 2>&1; rc=$?
-  rm -f "$dest/$(basename "$src")"
+
+  # For the C# clients, fid_sub points at tests/Doc inside a real CLONE of the NRedisStack
+  # repo — not a throwaway scaffold. The staged filename is identical to the upstream one
+  # (CmdsHashExample.cs is both), so a naive stage-then-delete OVERWRITES a tracked upstream
+  # file and then removes it, leaving the clone with a deleted source. Back up anything we
+  # are about to clobber and restore it afterwards, so a run is always a no-op on the clone.
+  if [ -f "$dest/$base" ]; then
+    saved="$(mktemp "${TMPDIR:-/tmp}/tce-staged-XXXXXX")"
+    cp "$dest/$base" "$saved"
+  fi
+
+  cp "$src" "$dest/$base"
+  # Pass the staged subdirectory through as the project/working dir. The C# runner needs it
+  # to tell tests/Doc from tests/Doc/Async; runners that don't take a second argument ignore it.
+  ( cd "$root" && ./run.sh "$base" "$sub" ) >"$LOG" 2>&1; rc=$?
+
+  if [ -n "$saved" ]; then
+    cp "$saved" "$dest/$base"; rm -f "$saved"
+  else
+    rm -f "$dest/$base"
+  fi
 }
 
 # --- list: resolve sources and exit (no Redis, no toolchains) -----------------

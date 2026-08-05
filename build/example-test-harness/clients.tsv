@@ -24,6 +24,16 @@
 #               naming grew organically, so cmds_* sets use NRedisStack/ while geoindex,
 #               search_quickstart, and time_series_tutorial use nredisstack/. Both are
 #               tracked in git. Globbing on a single name silently misses examples.
+#
+#               DO NOT add NRedisStack to the seredis row's aliases. Some SE.Redis-flavoured
+#               files live under a directory named for the other client (e.g.
+#               local_examples/cmds_hash/NRedisStack/CmdsHashExample.cs imports only
+#               StackExchange.Redis, so it feeds the SE.Redis tab). Which tab a .cs file
+#               feeds is decided by its imports, never by its path — see data/components/
+#               seredis_sync.json. Aliasing the directory to both rows would make nredisstack
+#               and seredis resolve the SAME file, so one .cs would be reported as two
+#               passing clients and one file's result would be credited to a tab it never
+#               fed. The file is tested once, under nredisstack; that is intended.
 #   assets      .claude/skills/tce-examples/assets/<assets>/ — patterns file + working sample.
 #   filename    Filename convention. {set} = set id snake_case (cmds_hash), {set-} = kebab
 #               (cmds-hash), {Set} = PascalCase (CmdsHash).

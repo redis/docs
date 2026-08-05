@@ -167,13 +167,25 @@ EOF
 ;;
     nredisstack|seredis|nredisstack-async|seredis-async) cat <<'EOF'
 #!/bin/bash
-# usage: ./run.sh <StagedFile.cs>
-# Runs inside the NRedisStack clone: tests/Doc builds against that repo's own
+# usage: ./run.sh <StagedFile.cs> [project_dir]
+# Runs inside the NRedisStack clone: the Doc project builds against that repo's own
 # Doc.csproj, so both C# flavours (NRedisStack-importing and plain SE.Redis) execute
 # with the real fixtures rather than stubs.
 set -uo pipefail
 cls="$(basename "$1" .cs)"
-out="$(dotnet test tests/Doc --nologo --filter "FullyQualifiedName~$cls" 2>&1)"; rc=$?
+# The async C# examples are staged under tests/Doc/Async, so the project directory can't
+# be hardcoded to tests/Doc or async runs would silently exercise the sync tree instead.
+proj="${2:-tests/Doc}"
+# Doc.csproj multi-targets net8.0;net10.0;net481. The net481 leg needs a mono host, which
+# isn't present on a plain macOS/Linux dev box: the other legs pass, then net481 aborts and
+# takes the whole run's exit code with it. Pin to a modern TFM the project actually declares,
+# preferring the lowest so behaviour matches the oldest supported runtime.
+tfm=""
+for cand in net8.0 net10.0; do
+  if grep -q "$cand" "$proj"/*.csproj 2>/dev/null; then tfm="$cand"; break; fi
+done
+[ -n "$tfm" ] && set -- --framework "$tfm" || set --
+out="$(dotnet test "$proj" --nologo "$@" --filter "FullyQualifiedName~$cls" 2>&1)"; rc=$?
 printf '%s\n' "$out"
 if printf '%s' "$out" | grep -qE 'No test (matches|is available)'; then
   echo "HARNESS ERROR: no test matched $cls — check the [Fact] survived outside a REMOVE block"
