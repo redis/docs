@@ -103,6 +103,7 @@ After upgrading, manually set a unique cluster ID for one of the installations (
 
    ```bash
    sudo nano /etc/rdi/rdi-sys-config.yaml
+   ```
 {{< /warning >}}
 
 ## Upgrading a Kubernetes installation

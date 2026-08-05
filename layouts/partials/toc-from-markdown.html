@@ -19,6 +19,12 @@
        does the same in build/transform_json_sections.ts. */ -}}
 {{- $usedIds := slice -}}
 
+{{- /* Drop fenced code blocks before looking for headings, so a "## comment" inside a
+       code sample does not become a navigation entry. Uses the same simple pairing rule
+       as splitContentIntoSections in build/transform_json_sections.ts, so both agree on
+       what counts as code and their ids stay in step. */ -}}
+{{- $content = $content | replaceRE "(?s)```.*?```" "" -}}
+
 {{- /* Find all ## and ### headers in the raw markdown */ -}}
 {{- /* Pattern matches lines starting with ## or ### followed by space and title */ -}}
 {{- $headerPattern := `(?m)^(#{2,3}) +(.+)$` -}}
@@ -79,10 +85,13 @@
     {{- $id = $explicitId -}}
   {{- end -}}
 
-  {{- /* Disambiguate a repeated id with Hugo's own -1, -2 suffix convention */ -}}
+  {{- /* Disambiguate a repeated id with Hugo's own -1, -2 suffix convention. Bounded by
+         the heading count rather than an arbitrary number, since a page can never need
+         more suffixes than it has headings -- an arbitrary cap would silently leave
+         duplicates on a page that exceeded it. */ -}}
   {{- if in $usedIds $id -}}
     {{- $base := $id -}}
-    {{- range seq 1 50 -}}
+    {{- range seq 1 (len $headerMatches) -}}
       {{- if in $usedIds $id -}}
         {{- $id = printf "%s-%d" $base . -}}
       {{- end -}}
