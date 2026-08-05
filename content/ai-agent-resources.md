@@ -28,7 +28,7 @@ A single file containing all documentation pages in [NDJSON](https://github.com/
 | NDJSON | [docs.ndjson](https://redis.io/docs/latest/docs.ndjson) | ~30 MB |
 | Gzipped | [docs.ndjson.gz](https://redis.io/docs/latest/docs.ndjson.gz) | ~5 MB |
 
-Both files contain ~4,100 documents.
+Both files contain one record per documentation page, currently more than 2,600.
 
 ### Per-page JSON
 
