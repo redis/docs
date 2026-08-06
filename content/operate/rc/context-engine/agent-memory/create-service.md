@@ -140,7 +140,7 @@ Each custom memory type can have an **extraction strategy** that controls how th
 
 ### Sensitive-data exclusions
 
-The **Sensitive-data exclusions** section lets you describe, in plain language, the information that should never be kept in long-term memory. Redis Agent Memory adds your description to the instructions it gives the extraction model, so the model avoids promoting matching details out of session memory.
+The **Sensitive-data exclusions** section lets you describe, in plain language, the information that should never be kept in long-term memory. The extraction pipeline uses your description as guidance when it creates long-term memories from session memory.
 
 {{<image filename="images/rc/agent-memory-sensitive-data-exclusions.png" alt="The Sensitive-data exclusions section." >}}
 
@@ -157,13 +157,7 @@ Semantic exclusions catch concepts that a fixed pattern cannot, such as secrets 
 | **Semantic exclusions** | Whether semantic exclusions are applied when memories are extracted. Disabled by default. |
 | **Exclusion prompt** | A plain-language description, up to 2,000 characters, of what should never be kept in long-term memory. Required when semantic exclusions are enabled. |
 
-For example:
-
-```
-Never keep credit card numbers, government-issued identification numbers, home
-addresses, or account recovery codes. If a conversation includes any of these,
-keep only a general memory that leaves the details out.
-```
+For example, a prompt might tell the pipeline never to keep credit card numbers, government-issued identification numbers, or account recovery codes, and to keep only a general memory when a conversation includes them.
 
 Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
 
