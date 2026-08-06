@@ -25,53 +25,29 @@ weight: 30
 
 adk-redis connects several backend systems to the ADK framework:
 
-[Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) handles working memory (sessions), long-term memory (extracted facts), auto-summarization, and memory search.
-Use the default `redis-agent-memory` for new work. It runs either on [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory" >}}) or [self-managed]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) on your own Kubernetes cluster; both share one Data Plane API, so you pick a deployment by pointing `api_base_url` at the right endpoint.
- 
+- **[Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})** handles working memory (sessions), long-term memory (extracted facts), auto-summarization, and memory search. Use the default `redis-agent-memory` for new work. It runs either on [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory" >}}) or [self-managed]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) on your own Kubernetes cluster; both share one Data Plane API, so you pick a deployment by pointing `api_base_url` at the right endpoint.
 - **[RedisVL]({{< relref "/develop/ai/redisvl" >}})** (Redis Vector Library) powers the search tools and local semantic cache provider.
 - **[LangCache](https://redis.io/langcache/)** provides managed semantic caching with server-side embeddings.
 
+{{< note >}}
+[Agent Memory Server](https://github.com/redis/agent-memory-server)
+(`opensource-agent-memory`) is now deprecated. If you have an existing
+deployment, see
+[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}}),
+which also covers migrating to Redis Agent Memory.
+{{< /note >}}
 
 ## Prerequisites
 
 - **Redis 8.4+** with vector search support, for the search tools and the local semantic cache
-- **A memory backend**, for the session and memory services:
-  - A **[Redis Agent Memory](https://redis.io/agent-memory/)** store, on Redis Cloud or self-managed, which gives you a Data Plane endpoint, an API key, and a store ID, or
-  - An **Agent Memory Server** (deprecated)
+- **A [Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) store**, for the session and memory services, which gives you a Data Plane endpoint, an API key, and a store ID
 
-### Redis Agent Memory
-
-This is the default backend and the recommended one. Provision a store, then pass its Data Plane endpoint, API key, and store ID to the services.
+Provision a store, then pass its Data Plane endpoint, API key, and store ID to the services.
 
 - On **Redis Cloud**, there is nothing to run. See [Create an Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}).
 - To run it **yourself**, see [Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) for deployment, configuration, and operations on your own Kubernetes cluster.
 
 Both use `backend="redis-agent-memory"`. Only `api_base_url` differs.
-
-### Agent Memory Server (deprecated)
-
-```bash
-# Start Redis
-docker run -d --name redis -p 6379:6379 redis:8.4-alpine
-
-# Start Agent Memory Server
-docker run -d --name agent-memory-server -p 8088:8088 \
-  -e REDIS_URL=redis://host.docker.internal:6379 \
-  -e GEMINI_API_KEY=your-key \
-  -e GENERATION_MODEL=gemini/gemini-2.5-flash \
-  -e EMBEDDING_MODEL=gemini/text-embedding-004 \
-  redislabs/agent-memory-server:latest \
-  agent-memory api --host 0.0.0.0 --port 8088 --task-backend=asyncio
-```
-
-On Linux, `host.docker.internal` does not resolve by default. Use
-`--network=host` plus `REDIS_URL=redis://127.0.0.1:6379`, or point
-`REDIS_URL` at the Docker bridge gateway (typically
-`redis://172.17.0.1:6379`).
-
-Remember to set `backend="opensource-agent-memory"` on each service config when
-you use Agent Memory Server. Otherwise the services speak the Data Plane API
-and will not reach your local container.
 
 ## Installation
 
@@ -95,9 +71,7 @@ pip install adk-redis[all]
 pip install 'redisvl[mcp]>=0.18.2'
 ```
 
-The `memory` extra requires `redis-agent-memory>=0.2.0` for the
-`redis-agent-memory` backend and `agent-memory-client>=0.14.0` for the
-deprecated `opensource-agent-memory` backend.
+The `memory` extra requires `redis-agent-memory>=0.2.0`.
 
 ## Quick start
 
@@ -153,26 +127,21 @@ runner = Runner(
 )
 ```
 
-To run against the deprecated Agent Memory Server instead, set
-`backend="opensource-agent-memory"`, point `api_base_url` at the server (for
-example `http://localhost:8088`), and drop `api_key` and `store_id` unless your
-server requires them.
-
 ## Capabilities
 
 | Capability | Description | Page |
 |------------|-------------|------|
-| **Redis Agent Memory** | Session and long-term memory on Redis Cloud, self-managed, or the deprecated Agent Memory Server, via framework services, REST tools, or MCP | [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) |
+| **Redis Agent Memory** | Session and long-term memory on Redis Cloud or self-managed, via framework services or REST tools | [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) |
 | **Integration patterns** | Framework-managed, LLM-controlled REST, and MCP tools | [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}) |
 | **Search tools** | Vector, hybrid, text, range, and SQL search via RedisVL, plus the `rvl mcp` server over `McpToolset` | [Search tools]({{< relref "/integrate/google-adk/search-tools" >}}) |
 | **Semantic caching** | LLM response and tool result caching, with stable entry IDs and targeted invalidation | [Semantic caching]({{< relref "/integrate/google-adk/semantic-caching" >}}) |
-| **Examples** | Ten complete examples covering all capabilities | [Examples]({{< relref "/integrate/google-adk/examples" >}}) |
+| **Examples** | Complete examples covering all capabilities | [Examples]({{< relref "/integrate/google-adk/examples" >}}) |
+| **Agent Memory Server** (deprecated) | Reference for the deprecated `opensource-agent-memory` backend, and how to migrate off it | [Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}}) |
 
 ## More info
 
 - [adk-redis on GitHub](https://github.com/redis-developer/adk-redis)
 - [adk-redis on PyPI](https://pypi.org/project/adk-redis/)
 - [Car dealership tutorial](https://redis.io/tutorials/build-a-car-dealership-agent-with-google-adk-and-redis-agent-memory/)
-- [Redis Agent Memory Server](https://github.com/redis/agent-memory-server)
 - [RedisVL documentation]({{< relref "/develop/ai/redisvl" >}})
 - [Google ADK documentation](https://google.github.io/adk-docs/)

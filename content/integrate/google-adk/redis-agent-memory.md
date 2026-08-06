@@ -8,10 +8,10 @@ categories:
 - oss
 - rs
 - rc
-description: Session and long-term memory for Google ADK agents using Redis Agent Memory or the deprecated Agent Memory Server.
+description: Session and long-term memory for Google ADK agents using Redis Agent Memory.
 group: ai
 stack: true
-summary: Add persistent session and long-term memory to ADK agents via framework services, REST tools, or MCP.
+summary: Add persistent session and long-term memory to ADK agents via framework services or REST tools.
 type: integration
 weight: 1
 ---
@@ -21,64 +21,35 @@ Redis Agent Memory gives ADK agents two tiers of persistent memory:
 - **Session memory**: session-scoped storage for the current conversation.
 - **Long-term memory**: facts extracted from past conversations, stored as vectors in Redis and searchable by semantic similarity with recency boosting.
 
-## Choose a memory backend
+## Choose a deployment
 
-Both tiers run on either of two backends, selected per service with a `backend` field:
+Set `backend="redis-agent-memory"`, the default, on every service and tool
+config. Redis Cloud and self-managed Agent Memory share one
+[Data Plane API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}),
+so you select a deployment by pointing `api_base_url` at the right Data Plane,
+not by changing `backend`:
 
-| Backend | `backend` value | What it is |
-|---------|-----------------|------------|
-| **[Redis Agent Memory](https://redis.io/agent-memory/)** | `redis-agent-memory` (default) | The Agent Memory service, on [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory" >}}) or [self-managed]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) on your own Kubernetes cluster. |
-| **Agent Memory Server** (deprecated) | `opensource-agent-memory` | The [open source memory server](https://github.com/redis/agent-memory-server). Deprecated: use `redis-agent-memory` for new work. |
-
-Use `redis-agent-memory` for new work. It covers both deployment models, because
-Redis Cloud and self-managed Agent Memory share one
-[Data Plane API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
-You select a deployment by pointing `api_base_url` at the right Data Plane, not
-by changing `backend`:
-
-| Deployment | `backend` | `api_base_url` | Setup |
-|------------|-----------|----------------|-------|
-| Redis Cloud | `redis-agent-memory` | Your Redis Cloud Agent Memory endpoint | [Create an Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}) |
-| Self-managed | `redis-agent-memory` | Your own Data Plane URL | [Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) |
-| Agent Memory Server (deprecated) | `opensource-agent-memory` | Your server URL, for example `http://localhost:8088` | [Agent Memory Server](https://github.com/redis/agent-memory-server) |
+| Deployment | `api_base_url` | Setup |
+|------------|----------------|-------|
+| Redis Cloud | Your Redis Cloud Agent Memory endpoint | [Create an Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}) |
+| Self-managed | Your own Data Plane URL | [Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) |
 
 {{< note >}}
-If you want to run Agent Memory yourself, use self-managed Agent Memory with
-`backend="redis-agent-memory"`. Do not reach for the deprecated
-`opensource-agent-memory` backend just because a deployment is self-hosted. The
-two are different systems: `opensource-agent-memory` targets the open source
-Agent Memory Server, not the Agent Memory Data Plane.
+Running Agent Memory yourself does not mean using the deprecated
+`opensource-agent-memory` backend. Self-managed Agent Memory is supported and
+maintained, and uses `backend="redis-agent-memory"` like Redis Cloud. The
+deprecated backend targets a different system, the open source Agent Memory
+Server, which does not speak the Data Plane API. See
+[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}})
+if you have an existing deployment to migrate.
 {{< /note >}}
 
-Feature availability differs between the two backends today:
-
-| Feature | Redis Agent Memory | Agent Memory Server (deprecated) |
-|---------|--------------------|----------------------------------|
-| Session persistence | Yes | Yes |
-| Long-term memory search | Yes | Yes |
-| Memory tools (REST) | Yes | Yes |
-| Recency-boosted search | No | Yes |
-| Auto-summarization | No | Yes |
-| Extraction strategies | No | Yes |
-| MCP endpoint | No | Yes |
-
-These differences follow the backend, not the deployment model. Self-managed
-Agent Memory has the same feature set as Redis Cloud because both speak the same
-Data Plane API. If your agent depends on one of the capabilities that is
-currently Agent Memory Server only, factor that into your migration timing
-rather than treating the deprecated backend as a long-term target.
-
-`redis-agent-memory` is the default. If you point a service at an Agent Memory
-Server without setting `backend="opensource-agent-memory"`, the service still
-speaks the Data Plane API and will not reach your server.
-
-You can wire either backend into an ADK agent three ways:
+Wire memory into an ADK agent one of two ways:
 
 | Approach | Control | Best for |
 |----------|---------|----------|
 | **Framework services** | ADK Runner (automatic) | Invisible infrastructure |
 | **REST tools** | LLM (explicit) | Agent autonomy over memory |
-| **MCP tools** | LLM via MCP protocol | Portable, standardized (Agent Memory Server only) |
 
 See [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}) for detailed tradeoff comparison.
 
@@ -92,7 +63,6 @@ from adk_redis.sessions import (
     RedisSessionMemoryServiceConfig,
 )
 
-# Redis Agent Memory (default)
 session_service = RedisSessionMemoryService(
     config=RedisSessionMemoryServiceConfig(
         backend="redis-agent-memory",
@@ -100,17 +70,6 @@ session_service = RedisSessionMemoryService(
         api_key="your-api-key",
         store_id="your-store-id",
         default_namespace="my_app",
-    )
-)
-
-# Agent Memory Server backend, with auto-summarization
-session_service = RedisSessionMemoryService(
-    config=RedisSessionMemoryServiceConfig(
-        backend="opensource-agent-memory",
-        api_base_url="http://localhost:8088",
-        default_namespace="my_app",
-        model_name="gemini-2.5-flash",
-        context_window_max=8000,
     )
 )
 ```
@@ -128,22 +87,14 @@ deprecated aliases that emit a `DeprecationWarning` and will be removed in
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `backend` | `redis-agent-memory` or `opensource-agent-memory` | `redis-agent-memory` |
-| `api_base_url` | Memory backend URL | `http://localhost:8000` |
-| `api_key` | API key. Redis Agent Memory only. | `None` |
-| `store_id` | Store ID. Redis Agent Memory only. | `None` |
+| `backend` | Memory backend | `redis-agent-memory` |
+| `api_base_url` | Data Plane endpoint | `http://localhost:8000` |
+| `api_key` | API key | `None` |
+| `store_id` | Store ID | `None` |
 | `default_namespace` | Isolates data between applications | `None` |
 | `timeout` | Request timeout in seconds | `30.0` |
 | `timeout_ms` | Request timeout in milliseconds. Overrides `timeout`. | `None` |
 | `session_ttl_seconds` | Expiry for stored sessions | `None` |
-| `model_name` | LLM used for summarization. Agent Memory Server only. | `None` |
-| `context_window_max` | Token limit that triggers summarization. Agent Memory Server only. | `None` |
-| `extraction_strategy` | `discrete`, `summary`, `preferences`, or `custom`. Agent Memory Server only. | `discrete` |
-| `extraction_strategy_config` | Extra options for the strategy | `{}` |
-
-### Auto-summarization
-
-Auto-summarization is an Agent Memory Server feature. When the token count of stored messages crosses `context_window_max`, the server uses the model specified in `model_name` to summarize older turns. Recent messages are preserved in full. This avoids the hard tradeoff between truncating context (losing information) and sending the full conversation (hitting token limits and costs).
 
 ### Incremental appends
 
@@ -168,7 +119,6 @@ from adk_redis.memory import (
     RedisLongTermMemoryServiceConfig,
 )
 
-# Redis Agent Memory (default)
 memory_service = RedisLongTermMemoryService(
     config=RedisLongTermMemoryServiceConfig(
         backend="redis-agent-memory",
@@ -178,29 +128,16 @@ memory_service = RedisLongTermMemoryService(
         default_namespace="my_app",
     )
 )
-
-# Agent Memory Server backend, with extraction and recency boosting
-memory_service = RedisLongTermMemoryService(
-    config=RedisLongTermMemoryServiceConfig(
-        backend="opensource-agent-memory",
-        api_base_url="http://localhost:8088",
-        default_namespace="my_app",
-        extraction_strategy="discrete",
-        recency_boost=True,
-        semantic_weight=0.8,
-        recency_weight=0.2,
-    )
-)
 ```
 
 ### Configuration
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `backend` | `redis-agent-memory` or `opensource-agent-memory` | `redis-agent-memory` |
-| `api_base_url` | Memory backend URL | `http://localhost:8000` |
-| `api_key` | API key. Redis Agent Memory only. | `None` |
-| `store_id` | Store ID. Redis Agent Memory only. | `None` |
+| `backend` | Memory backend | `redis-agent-memory` |
+| `api_base_url` | Data Plane endpoint | `http://localhost:8000` |
+| `api_key` | API key | `None` |
+| `store_id` | Store ID | `None` |
 | `default_namespace` | Namespace for data isolation | `None` |
 | `timeout` | Request timeout in seconds | `30.0` |
 | `search_top_k` | Maximum memories returned per search | `10` |
@@ -209,30 +146,6 @@ memory_service = RedisLongTermMemoryService(
 | `store_events_as_messages` | Store session events as chat messages | `True` |
 | `default_memory_type` | Memory type applied to new memories | `semantic` |
 | `default_topics` | Topics applied to new memories | `[]` |
-| `extraction_strategy` | `discrete`, `summary`, `preferences`, or `custom`. Agent Memory Server only. | `discrete` |
-| `extraction_strategy_config` | Extra options for the strategy | `{}` |
-| `recency_boost` | Enable recency-weighted search. Agent Memory Server only. | `True` |
-| `semantic_weight` | Weight for vector similarity (0-1) | `0.8` |
-| `recency_weight` | Weight for recency signal (0-1) | `0.2` |
-| `freshness_weight` | Weight for the freshness component of the recency signal | `0.6` |
-| `novelty_weight` | Weight for the novelty component of the recency signal | `0.4` |
-| `half_life_last_access_days` | Half-life for last-access decay, in days | `7.0` |
-| `half_life_created_days` | Half-life for creation-time decay, in days | `30.0` |
-
-### Extraction strategies
-
-Extraction strategies apply to the Agent Memory Server backend.
-
-- **`discrete`**: Extracts individual facts as separate memories, making them independently searchable. This is the default.
-- **`summary`**: Creates a narrative summary of the conversation.
-- **`preferences`**: Focuses on user preferences and settings.
-- **`custom`**: Uses the prompt and options you supply in `extraction_strategy_config`.
-
-### Recency boosting
-
-Raw semantic similarity often isn't enough. A user might have said "I love Italian food" three years ago and "I've been getting into Japanese cuisine" last week. Both are semantically relevant, but the recent one matters more.
-
-Recency boosting combines semantic similarity with time-based signals so that recent preferences outweigh stale ones. It is enabled by default and takes effect on the Agent Memory Server backend.
 
 ## Framework services
 
@@ -268,11 +181,10 @@ runner = Runner(
 3. User messages are appended to session memory incrementally.
 4. The LLM generates a response using session context plus retrieved memories.
 5. `after_agent_callback` triggers `add_session_to_memory()` for background extraction.
-6. On the Agent Memory Server backend, if the conversation grows long, session memory auto-summarizes older turns.
 
 ## REST tools
 
-Give the agent explicit memory tools that the LLM calls like any other function. The LLM decides when to search memory, what to store, and what to update. No framework services required. The tools work against either backend and share a single `MemoryToolConfig`.
+Give the agent explicit memory tools that the LLM calls like any other function. The LLM decides when to search memory, what to store, and what to update. No framework services required. The tools share a single `MemoryToolConfig`.
 
 adk-redis ships six memory tools:
 
@@ -328,53 +240,15 @@ The memory tools resolve the acting user from the ADK `tool_context` before fall
 
 ## MCP tools
 
-Point ADK's native `McpToolset` at the Agent Memory Server's SSE endpoint. Tool discovery happens automatically, so no manual tool wiring is required.
-
-{{< note >}}
-The MCP endpoint is an Agent Memory Server feature. The `redis-agent-memory`
-backend does not expose one, on Redis Cloud or self-managed. Use the REST
-memory tools above with `redis-agent-memory`.
-{{< /note >}}
-
-```python
-import os
-
-from google.adk import Agent
-from google.adk.tools.mcp_tool import McpToolset
-from google.adk.tools.mcp_tool.mcp_session_manager import SseConnectionParams
-
-# The MCP server runs on a separate port from the REST API
-memory_mcp_url = os.getenv("MEMORY_MCP_URL", "http://localhost:9000")
-
-memory_tools = McpToolset(
-    connection_params=SseConnectionParams(
-        url=f"{memory_mcp_url.rstrip('/')}/sse",
-    ),
-    tool_filter=[
-        "search_long_term_memory",
-        "create_long_term_memories",
-        "memory_prompt",
-    ],
-)
-
-agent = Agent(
-    model="gemini-2.5-flash",
-    name="mcp_agent",
-    tools=[memory_tools],
-)
-```
-
-Available MCP tools: `search_long_term_memory`, `create_long_term_memories`, `get_long_term_memory`, `edit_long_term_memory`, `delete_long_term_memories`, `memory_prompt`, and `set_working_memory`.
-
-This is the most portable approach: swap memory backends without changing agent code. It requires the Agent Memory Server running with MCP support on a separate port.
+MCP memory tools are only available on the deprecated
+[Agent Memory Server]({{< relref "/integrate/google-adk/agent-memory-server#mcp-tools" >}})
+backend. The `redis-agent-memory` backend does not expose an MCP endpoint, on
+Redis Cloud or self-managed; use the REST tools above.
 
 ## More info
 
-- [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}): Detailed tradeoff comparison of all three approaches
-- [managed_memory_quickstart](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart): Redis Agent Memory, no Docker
-- [simple_redis_memory](https://github.com/redis-developer/adk-redis/tree/main/examples/simple_redis_memory): Agent Memory Server with framework services
+- [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}): Detailed tradeoff comparison of the approaches
+- [managed_memory_quickstart](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart): Framework services, no Docker
 - [travel_agent_memory_tools](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_tools): REST tools only
-- [fitness_coach_mcp](https://github.com/redis-developer/adk-redis/tree/main/examples/fitness_coach_mcp): MCP tools
-- [travel_agent_memory_hybrid](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_hybrid): Framework services + REST tools combined
-- [Agent Memory Server documentation](https://github.com/redis/agent-memory-server)
-
+- [Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}): run Agent Memory on your own Kubernetes cluster
+- [Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}}): existing deployments and migration
