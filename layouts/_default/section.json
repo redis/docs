@@ -22,10 +22,12 @@
 {{- end -}}
 
 {
+  "schema_version": {{ site.Params.aiSchemaVersion | jsonify }},
   "id": {{ $id | jsonify }},
   "title": {{ .Title | jsonify }},
   "url": {{ .Permalink | jsonify }},
-  "summary": {{ $summary | jsonify }},
+  "summary": {{ $summary | jsonify }},{{ with .Params.since }}
+  "since": {{ . | jsonify }},{{ end }}
   "content": {{ $content | jsonify }},
   "tags": {{ $tags | jsonify }},
   "last_updated": {{ $lastUpdated | jsonify }},

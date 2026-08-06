@@ -47,10 +47,16 @@ interface CodeExample {
 }
 
 interface PageJsonInput {
+  // Emitted by the Hugo templates and carried through untouched. Declared so the
+  // spread below preserves them explicitly rather than by accident: schema_version is
+  // what consumers gate re-parsing on, and since is the only version information the
+  // feed carries.
+  schema_version?: number;
   id: string;
   title: string;
   url: string;
   summary: string;
+  since?: string;
   content?: string;
   tags: string[];
   last_updated: string;
@@ -60,10 +66,12 @@ interface PageJsonInput {
 type PageType = 'content' | 'index';
 
 interface PageJsonOutput {
+  schema_version?: number;
   id: string;
   title: string;
   url: string;
   summary: string;
+  since?: string;
   page_type: PageType;
   content_hash?: string;
   tags: string[];

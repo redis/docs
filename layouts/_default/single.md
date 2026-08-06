@@ -2,6 +2,7 @@
 
 ```json metadata
 {
+  "schema_version": {{ site.Params.aiSchemaVersion | jsonify }},
   "title": {{ .Title | jsonify }},
   "description": {{ (.Params.description | default .Description) | plainify | replaceRE "\\s+" " " | strings.TrimSpace | jsonify }},
   "categories": {{ .Params.categories | jsonify }}{{ if .Params.arguments }},
