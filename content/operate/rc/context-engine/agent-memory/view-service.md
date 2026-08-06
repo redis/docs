@@ -26,6 +26,7 @@ The **Configuration** tab lets you view the details of your Agent Memory service
 - The **General settings** section provides the connection details and general settings for your Agent Memory service.
 - The **Memory configuration** section provides the service settings for your Agent Memory service.
 - The **Memory types & extraction** section shows any custom memory types defined for your service.
+- The **Sensitive-data exclusions** section shows the sensitive-data exclusions configured for your service.
 - The **Actions** section lets you flush or delete your Agent Memory service.
 
 Some of these settings can be changed after service creation. To do so, select the **Edit** button.
@@ -80,6 +81,21 @@ Because a custom memory type's structure is fixed after creation, only some sett
 | **Enabled** | Whether the extraction strategy is active. _(Editable)_ |
 
 To change a custom memory type's name or fields, you must create a new service. You can, however, add a new custom memory type when editing the service, up to the limit of 3 custom memory types.
+
+### Sensitive-data exclusions
+
+The **Sensitive-data exclusions** section shows the [sensitive-data exclusions]({{< relref "/operate/rc/context-engine/agent-memory/create-service#sensitive-data-exclusions" >}}) configured for the service.
+
+{{<image filename="images/rc/agent-memory-view-sensitive-data-exclusions.png" alt="The Sensitive-data exclusions section for the Agent Memory service." >}}
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Semantic exclusions** | Whether semantic exclusions are applied when memories are extracted. _(Editable)_ |
+| **Exclusion prompt** | The plain-language description of what should never be kept in long-term memory. Required when semantic exclusions are enabled. _(Editable)_ |
+
+Turning semantic exclusions off keeps the exclusion prompt you saved, so you can turn them back on later without retyping it.
+
+Changing exclusions affects memories extracted after you save. Memories already in long-term memory are not re-evaluated. To remove memories that were stored before you configured exclusions, [flush the service](#flush-memory-entries).
 
 ### Actions
 

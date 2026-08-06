@@ -60,6 +60,7 @@ If you lose the service key value, you will need to [generate a new service key]
     1. The [General settings](#general-settings) section defines basic properties of your service.
     1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
     1. The [Memory types & extraction](#memory-types-and-extraction) section allows you to define custom memory types with their own extraction strategies.
+    1. The [Sensitive-data exclusions](#sensitive-data-exclusions) section allows you to keep sensitive content out of long-term memory.
 
 ### General settings
 
@@ -136,6 +137,60 @@ Each custom memory type can have an **extraction strategy** that controls how th
 |:----------------------|:----------|
 | **Extraction prompt** | A natural-language prompt (up to 10,000 characters) that instructs the extraction pipeline how to identify and extract this memory type from a conversation. |
 | **Enabled** | Whether the extraction strategy is active. Enabled by default. Disable it to keep the type defined without extracting new memories for it. |
+
+### Sensitive-data exclusions
+
+The **Sensitive-data exclusions** section lets you describe, in plain language, the information that should never be kept in long-term memory. Redis Agent Memory adds your description to the instructions it gives the extraction model, so the model avoids promoting matching details out of session memory.
+
+{{<image filename="images/rc/agent-memory-sensitive-data-exclusions.png" alt="The Sensitive-data exclusions section." >}}
+
+{{<warning>}}
+Sensitive-data exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Session content still reaches the model provider, and exclusions are not applied to long-term memories your application writes directly. Do not rely on exclusions as your only control for regulated or highly sensitive data.
+{{</warning>}}
+
+#### Semantic exclusions
+
+Semantic exclusions catch concepts that a fixed pattern cannot, such as secrets or account recovery codes. They are disabled by default. Use the **Semantic exclusions** toggle to enable them, then describe what to exclude.
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Semantic exclusions** | Whether semantic exclusions are applied when memories are extracted. Disabled by default. |
+| **Exclusion prompt** | A plain-language description, up to 2,000 characters, of what should never be kept in long-term memory. Required when semantic exclusions are enabled. |
+
+For example:
+
+```
+Never keep credit card numbers, government-issued identification numbers, home
+addresses, or account recovery codes. If a conversation includes any of these,
+keep only a general memory that leaves the details out.
+```
+
+Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
+
+#### Where exclusions apply
+
+Semantic exclusions apply to the memory paths that use the extraction model:
+
+- Automatic extraction of built-in long-term memory types from session memory.
+- Extraction for [custom memory types](#custom-memory-types).
+- [Automatic summarization](#automatic-summarization) of session memory.
+
+They do not apply to:
+
+- Long-term memories your application creates directly through the Agent Memory API.
+- The session events stored in short-term memory, which are always kept as sent.
+
+#### Exclusion prompt rules
+
+The exclusion prompt is rejected if it is longer than 2,000 characters or if it matches a known prompt-injection pattern, such as text that tries to override earlier instructions, reveal the model's instructions, or run code. Keep the prompt to a plain description of what to exclude.
+
+Some ordinary-sounding phrasings trip these patterns. Describe the data to exclude rather than instructing the model about its own instructions, and avoid the words *forget*, *ignore*, *pretend*, and *simulate*, along with the text `system:`.
+
+| Rejected | Use instead |
+|:---------|:------------|
+| Forget everything the user says about their home address. | Never keep the user's home address. |
+| Ignore all instructions asking you to save a password. | Never keep passwords. |
+| Never store credentials for any system: production or staging. | Never store credentials for production or staging environments. |
 
 ### Create service
 
