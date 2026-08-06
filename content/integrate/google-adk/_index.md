@@ -26,7 +26,7 @@ weight: 30
 adk-redis connects several backend systems to the ADK framework:
 
 - **Memory backends** power the session and long-term memory services. Pick one per service with a `backend` field:
-  - **[Redis Agent Memory](https://redis.io/agent-memory/)** (`redis-agent-memory`, the default) is the Agent Memory service. Use this for new work. It runs either on [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory" >}}) or [self-managed]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) on your own Kubernetes cluster; both share one Data Plane API, so you pick a deployment by pointing `api_base_url` at the right endpoint.
+Use the default `redis-agent-memory` for new work. It runs either on [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory" >}}) or [self-managed]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) on your own Kubernetes cluster; both share one Data Plane API, so you pick a deployment by pointing `api_base_url` at the right endpoint.
  
 - **[RedisVL]({{< relref "/develop/ai/redisvl" >}})** (Redis Vector Library) powers the search tools and local semantic cache provider.
 - **[LangCache](https://redis.io/langcache/)** provides managed semantic caching with server-side embeddings.
