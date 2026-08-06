@@ -165,26 +165,28 @@ Where useful context remains, the extraction model prefers a generalized memory 
 
 Semantic exclusions apply to the memory paths that use the extraction model:
 
-- Automatic extraction of built-in long-term memory types from session memory.
+- Automatic extraction of built-in long-term memory types from session memory, including the `session_summary_view` recap kept for each session.
 - Extraction for [custom memory types](#custom-memory-types).
-- [Automatic summarization](#automatic-summarization) of session memory.
 
 They do not apply to:
 
 - Long-term memories your application creates directly through the Agent Memory API.
 - The session events stored in short-term memory, which are always kept as sent.
+- [Automatic summarization](#automatic-summarization), which compresses older messages within a session and does not write to long-term memory.
 
 #### Exclusion prompt rules
 
-The exclusion prompt is rejected if it is longer than 2,000 characters or if it matches a known prompt-injection pattern, such as text that tries to override earlier instructions, reveal the model's instructions, or run code. Keep the prompt to a plain description of what to exclude.
+The exclusion prompt is rejected if it is longer than 2,000 characters or if it matches a known prompt-injection pattern: text that appears to override earlier instructions, ask for the model's own instructions, adopt a different persona, or run code. Keep the prompt to a plain description of what to exclude.
 
-Some ordinary-sounding phrasings trip these patterns. Describe the data to exclude rather than instructing the model about its own instructions, and avoid the words *forget*, *ignore*, *pretend*, and *simulate*, along with the text `system:`.
+These patterns match particular phrasings rather than individual words, so a plain description almost always passes. The phrasings most likely to trip up an ordinary prompt are *forget everything*, *ignore all instructions*, *override system*, and *run scripts*, along with the text `system:` or `system=` anywhere in the prompt. Describe the data you want excluded rather than telling the model what to do with its own instructions.
 
 | Rejected | Use instead |
 |:---------|:------------|
 | Forget everything the user says about their home address. | Never keep the user's home address. |
 | Ignore all instructions asking you to save a password. | Never keep passwords. |
 | Never store credentials for any system: production or staging. | Never store credentials for production or staging environments. |
+| Never keep passwords used to override system settings. | Never keep passwords for administrative settings. |
+| Never keep credentials used to run scripts. | Never keep credentials for automation. |
 
 ### Create service
 
