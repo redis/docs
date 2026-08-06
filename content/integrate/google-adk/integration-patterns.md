@@ -139,7 +139,7 @@ runner = Runner(
 )
 ```
 
-The pattern works on `redis-agent-memory`, since both halves of it do. The
+The pattern works on `redis-agent-memory`. The
 example that demonstrates it,
 [travel_agent_memory_hybrid](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_hybrid),
 is currently written against the deprecated backend; see
