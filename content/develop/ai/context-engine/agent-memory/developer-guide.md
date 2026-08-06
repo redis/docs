@@ -118,6 +118,18 @@ Configure the long-term-memory TTL separately from the session-memory TTL.
 
 See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}) to configure the extraction cadence and long-term-memory TTL in Redis Cloud.
 
+### Exclude sensitive data from automatic extraction
+
+Semantic exclusions guide Redis Agent Memory away from storing specified information in long-term memory during automatic extraction. Define an exclusion prompt in the service configuration using plain-language categories such as passwords, access tokens, recovery codes, payment card information, or booking confirmation codes.
+
+Exclusions apply to automatic extraction from session events. They do not apply when an application creates long-term memories directly.
+
+{{< warning >}}
+Semantic exclusions are advisory and do not guarantee exclusion. Sensitive session content still reaches the extraction model provider. Use appropriate controls before sending sensitive information to Redis Agent Memory or the model provider.
+{{< /warning >}}
+
+See [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) to configure the feature in Redis Cloud.
+
 ### Search long-term memory
 
 Search long-term memory using semantic, keyword, or hybrid retrieval. Scope results with filters for owners, sessions, namespaces, topics, and memory types.

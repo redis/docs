@@ -140,6 +140,25 @@ Each custom memory type can have an **extraction strategy** that controls how th
 | **Extraction prompt** | A natural-language prompt (up to 10,000 characters) that instructs the extraction pipeline how to identify and extract this memory type from a conversation. |
 | **Enabled** | Whether the extraction strategy is active. Enabled by default. Disable it to keep the type defined without extracting new memories for it. |
 
+### Sensitive-data exclusions {#sensitive-data-exclusions}
+
+The **Sensitive-data exclusions** section lets you guide automatic extraction away from information that should not be stored in long-term memory. Semantic exclusions can match concepts that a literal pattern might not cover, such as secrets, recovery codes, and similar information.
+
+| Setting name | Description |
+|:-------------|:------------|
+| **Semantic exclusions** | Whether the extraction model applies the exclusion prompt when creating long-term memories from session events. |
+| **Exclusion prompt** | Plain-language instructions describing information that should not be kept in long-term memory. Maximum length: 2,000 characters. |
+
+For example:
+
+```text
+Do not keep passwords, access tokens, recovery codes, payment card information, or booking confirmation codes in long-term memory.
+```
+
+{{< warning >}}
+Sensitive-data exclusions are advisory and do not guarantee that information is excluded. Sensitive session content still reaches the extraction model provider. Exclusions do not apply to long-term memories created directly through the API or an SDK.
+{{< /warning >}}
+
 ### Create service
 
 When you are done setting the details of your Redis Agent Memory service, select **Create** to create it.

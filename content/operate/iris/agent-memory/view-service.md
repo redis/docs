@@ -84,6 +84,17 @@ Because a custom memory type's structure is fixed after creation, only some sett
 
 To change a custom memory type's name or fields, you must create a new service. You can, however, add a new custom memory type when editing the service, up to the limit of 3 custom memory types.
 
+### Sensitive-data exclusions {#sensitive-data-exclusions}
+
+The **Sensitive-data exclusions** section shows whether semantic exclusions are enabled and the prompt used to guide automatic extraction away from sensitive information.
+
+| Setting name | Description |
+|:-------------|:------------|
+| **Semantic exclusions** | Whether the exclusion prompt is applied during automatic extraction. _(Editable)_ |
+| **Exclusion prompt** | Plain-language instructions describing information that should not be kept in long-term memory. _(Editable)_ |
+
+Sensitive-data exclusions are advisory. They do not guarantee exclusion, sensitive session content still reaches the extraction model provider, and the prompt does not apply to directly created long-term memories.
+
 ### Actions
 
 The **Actions** section lets you flush or delete your Redis Agent Memory service.

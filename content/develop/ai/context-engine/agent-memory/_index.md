@@ -22,6 +22,7 @@ Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API
 * **Context-aware conversations:** Store ordered conversation events with their actor, role, timestamp, and metadata, then retrieve them by session ID. Configure session expiration to control how long the conversation is retained.
 * **Automatic session summarization:** Automatically summarize older conversation events while retaining recent messages in full.
 * **Automatic long-term memory:** Automatically extract durable information from session events in the background. You can also create long-term memories directly from external data.
+* **Sensitive-data exclusions:** Guide automatic extraction away from specified categories of information that should not be kept in long-term memory.
 * **Relevant retrieval:** Search long-term memory using semantic, keyword, or hybrid search.
 * **Multi-session recall:** Retrieve relevant memories across conversations and filter results by owner, session, namespace, topic, or memory type.
 * **Custom memory types:** Define memory types for your business domain, with structured fields and instructions that control what Redis Agent Memory extracts.
@@ -45,6 +46,7 @@ Redis Agent Memory provides two memory tiers:
     <ul class="space-y-2">
       <li><strong>Automatic extraction:</strong> Process session events asynchronously and store important information with vector embeddings and metadata.</li>
       <li><strong>Custom memory types:</strong> Define domain-specific memories with structured fields and extraction instructions.</li>
+      <li><strong>Sensitive-data exclusions:</strong> Guide automatic extraction away from specified sensitive information.</li>
       <li><strong>Direct memory creation:</strong> Create memories through the API or import knowledge from external sources.</li>
       <li><strong>Configurable retention:</strong> Set a separate TTL for long-term memories.</li>
     </ul>
@@ -100,22 +102,22 @@ Get started with Redis Agent Memory on Redis Cloud or join the private preview f
 
 ### Choose a quickstart
 
-After your Redis Agent Memory service is ready, choose a client to make your first session-memory and long-term-memory requests.
+After your Redis Agent Memory service is ready, choose a client. Each quickstart follows the same travel planning scenario through session memory, automatic extraction, summarization, custom memory types, and sensitive-data exclusions.
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Python SDK</h3>
-    <p>Install the Python SDK and make your first memory requests.</p>
+    <p>Explore the Redis Agent Memory workflow with the Python SDK.</p>
     <p><a href="/develop/ai/context-engine/agent-memory/python-sdk-quickstart">Open the Python quickstart</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">TypeScript SDK</h3>
-    <p>Install the TypeScript SDK and make your first memory requests.</p>
+    <p>Explore the Redis Agent Memory workflow with the TypeScript SDK.</p>
     <p><a href="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart">Open the TypeScript quickstart</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">REST API</h3>
-    <p>Use <code>curl</code> to call the Redis Agent Memory API directly.</p>
+    <p>Explore the Redis Agent Memory workflow with <code>curl</code>.</p>
     <p><a href="/develop/ai/context-engine/agent-memory/rest-api-quickstart">Open the REST API quickstart</a></p>
   </div>
 </div>
