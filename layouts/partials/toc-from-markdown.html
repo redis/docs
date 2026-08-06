@@ -85,18 +85,35 @@
          emphasis, so snake_case survives whether or not it sits in a code span. RenderString
          rather than markdownify because markdownify renders the string as a block. plainify
          then strips the inline markup and htmlUnescape restores literal text. */ -}}
+  {{- /* Keep the raw heading for the id, because Hugo slugs the heading's own text, which
+         preserves whitespace runs where rendering collapses them: a heading with a double
+         space anchors as "choosing-the-capacity--capacity", and slugging the rendered title
+         would give one hyphen. Slugging the raw text costs nothing, because the markup
+         characters it still contains are discarded by the slug rules anyway, and no heading
+         in this repo contains a Markdown link -- the one case where the two would diverge.
+
+         Whitespace-trimmed, but hyphens are not: a trailing space would otherwise become a
+         trailing hyphen, where Hugo slugs the trimmed heading text. Those are not the same
+         thing -- "Negation !" trims to itself, and the space left behind when the "!" is
+         discarded still becomes the trailing hyphen Hugo emits. */ -}}
+  {{- $rawTitle := $title | strings.TrimSpace -}}
+
   {{- $title = $page.RenderString (dict "display" "inline") $title | plainify | htmlUnescape | strings.TrimSpace -}}
 
-  {{- /* Generate ID (slug) from title */ -}}
-  {{- $id := $title | lower -}}
-  {{- /* Replace spaces with hyphens */ -}}
-  {{- $id = $id | replaceRE `\s+` "-" -}}
-  {{- /* Remove special characters except hyphens */ -}}
-  {{- $id = $id | replaceRE `[^a-z0-9-]` "" -}}
-  {{- /* Remove consecutive hyphens */ -}}
-  {{- $id = $id | replaceRE `-+` "-" -}}
-  {{- /* Trim leading/trailing hyphens */ -}}
-  {{- $id = $id | replaceRE `^-+|-+$` "" -}}
+  {{- /* Slug the title the way Hugo does, so the id matches the anchor on the page.
+         Goldmark's default "github" style: lowercase, discard anything that is not a
+         letter, number, whitespace, underscore or hyphen, then turn each remaining
+         whitespace character into one hyphen.
+
+         Underscores and runs of hyphens are kept, whitespace runs are NOT collapsed, and
+         leading and trailing hyphens are NOT trimmed -- "Negation !" really does anchor as
+         "negation-". The previous version stripped underscores, collapsed runs and trimmed,
+         so it disagreed with the page anchor three ways. Slugged from the raw heading, not
+         the rendered title, and kept identical to slugify in
+         build/transform_json_sections.ts -- change the two together. */ -}}
+  {{- $id := $rawTitle | lower -}}
+  {{- $id = $id | replaceRE `[^\p{L}\p{Nd}\s_-]` "" -}}
+  {{- $id = $id | replaceRE `\s` "-" -}}
 
   {{- /* An explicit anchor overrides the slug entirely */ -}}
   {{- if $explicitId -}}
