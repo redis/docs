@@ -25,6 +25,15 @@
        what counts as code and their ids stay in step. */ -}}
 {{- $content = $content | replaceRE "(?s)```.*?```" "" -}}
 
+{{- /* Drop HTML-comment blocks too, so prose an author has parked does not appear in the
+       navigation. develop/clients/observability comments out a whole "Tracing overview"
+       section, which was published here as a real entry pointing at an anchor that does
+       not exist on the page, because Hugo renders no heading for commented-out text.
+       Line-anchored open delimiter, matching process-markdown-content.html -- change the
+       two together. Safe to run after the code strip above, which has already removed any
+       comment living inside a code sample. */ -}}
+{{- $content = $content | replaceRE "(?ms)^<!--.*?-->" "" -}}
+
 {{- /* Find all ## and ### headers in the raw markdown */ -}}
 {{- /* Pattern matches lines starting with ## or ### followed by space and title */ -}}
 {{- $headerPattern := `(?m)^(#{2,3}) +(.+)$` -}}
