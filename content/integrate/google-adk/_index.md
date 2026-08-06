@@ -31,7 +31,6 @@ adk-redis connects several backend systems to the ADK framework:
 - **[RedisVL]({{< relref "/develop/ai/redisvl" >}})** (Redis Vector Library) powers the search tools and local semantic cache provider.
 - **[LangCache](https://redis.io/langcache/)** provides managed semantic caching with server-side embeddings.
 
-See [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}) for the feature-by-feature comparison of the two memory backends.
 
 ## Prerequisites
 
