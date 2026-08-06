@@ -25,7 +25,7 @@ Configuration details for a cluster that is part of an Active-Active database.
   "username": string,
   "password": string
 } {{</code>}} | Cluster access credentials. Required unless you use `certificate_auth`; a request that includes both for the same cluster fails. |
-| name | string | Cluster fully qualified name, used to uniquely identify the cluster. Typically this is the same as the hostname used in the URL, although in some configruations the URL may point to a different name/address. (required) |
+| name | string | Cluster fully qualified name, used to uniquely identify the cluster. Typically this is the same as the hostname used in the URL, although in some configurations the URL may point to a different name/address. (required) |
 | replication_endpoint | string | Address to use for peer replication. If not specified, it is assumed that standard cluster naming conventions apply. |
 | replication_tls_sni | string | Cluster SNI for TLS connections |
 | url | string | Cluster access URL (required) |
