@@ -241,7 +241,7 @@ The memory tools resolve the acting user from the ADK `tool_context` before fall
 ## MCP tools
 
 MCP memory tools are only available on the deprecated
-[Agent Memory Server]({{< relref "/integrate/google-adk/agent-memory-server#mcp-tools" >}})
+[Agent Memory Server]({{< relref "/integrate/google-adk/agent-memory-server" >}})
 backend. The `redis-agent-memory` backend does not expose an MCP endpoint, on
 Redis Cloud or self-managed; use the REST tools above.
 

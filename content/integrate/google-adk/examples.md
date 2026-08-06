@@ -101,7 +101,7 @@ python main.py
 Three examples are written against the deprecated `opensource-agent-memory`
 backend: `simple_redis_memory`, `travel_agent_memory_hybrid`, and
 `fitness_coach_mcp`. They are listed under
-[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server#examples" >}}).
+[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server#examples-still-on-this-backend" >}}).
 For a `redis-agent-memory` starting point, use `managed_memory_quickstart` above.
 
 ## More info

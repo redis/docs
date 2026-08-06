@@ -33,7 +33,7 @@ for the deployment options.
 
 {{< note >}}
 A third approach, MCP memory tools, is only available on the deprecated
-[Agent Memory Server]({{< relref "/integrate/google-adk/agent-memory-server#mcp-tools" >}})
+[Agent Memory Server]({{< relref "/integrate/google-adk/agent-memory-server" >}})
 backend.
 {{< /note >}}
 
@@ -143,7 +143,7 @@ The pattern works on `redis-agent-memory`, since both halves of it do. The
 example that demonstrates it,
 [travel_agent_memory_hybrid](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_hybrid),
 is currently written against the deprecated backend; see
-[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server#examples" >}}).
+[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server#examples-still-on-this-backend" >}}).
 
 ## More info
 
