@@ -43,7 +43,7 @@ Each document contains:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `id` | string | URL slug identifier |
+| `id` | string | Unique identifier, the page's path without a file extension (for example `develop/clients/redis-py`) |
 | `title` | string | Page title |
 | `url` | string | Canonical URL |
 | `summary` | string | Short description |
