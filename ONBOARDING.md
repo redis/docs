@@ -290,7 +290,7 @@ The `buildsUpon` parameter declares those dependencies:
 Multiple dependencies:
 
 ```
-{{</* clients-example set="list_tutorial" step="advanced_ops" buildsUpon="lpush_rpush, lpop_rpop" */>}}
+{{< clients-example set="list_tutorial" step="advanced_ops" buildsUpon="lpush_rpush, lpop_rpop" >}}
 ```
 
 ### Markers in example source files
@@ -325,6 +325,10 @@ The set name is [set] and the step is [step].
 
 If the example doesn't exist in the client repos yet, add it to `local_examples/` in this repo as a temporary measure, then open PRs to each client library to add it there permanently.
 
+### Adding new examples for all supported client libraries
+
+Use the `tce-examples` skill to generate command examples in all supported client languages.
+
 ---
 
 ## Redis command reference pages
@@ -342,13 +346,27 @@ On branch [branch-name], update content/commands/set.md to document the new EX o
 
 ### Adding a new command page
 
-For new commands, use the skill instead of editing by hand. It reads the upstream source and drafts the full page for you:
+The first step is to use the `build/cmd_tools.py` script to generate the page skeleton(s) and railroad diagram(s). Usage is:
+
+```
+(venv) $ python build/cmd_tools.py add <json file> --output-dir /tmp/docs
+```
+
+The `cmd_tools.py` Python script requires the following 3rd party libraries:
+
+PyYAML==6.0.1
+pytoml==0.1.21
+railroad-diagrams==1.1.1
+
+Copy the resulting markdown file (`/tmp/docs/commands/<command>.md`) to `content/commands`, and copy the resulting railroad diagram (`/tmp/docs/images/railroad/<command>.svg`) to `static/images/railroad`.
+
+Then, use the `new-command-page` skill command. It reads the upstream source and drafts the full page for you:
 
 ```
 /docs:new-command-page SET https://github.com/redis/redis/pull/1234 https://redislabs.atlassian.net/browse/DOC-1234
 ```
 
-Pass the command name(s) and a link to the GitHub PR in `redis/redis`. A Jira ticket URL is optional but helps. You can pass multiple commands at once:
+Pass the command name(s) and a link to the GitHub PR(s) in `redis/redis`. A Jira ticket URL is optional but helps. You can pass multiple commands at once:
 
 ```
 /docs:new-command-page LMPOP ZMPOP https://github.com/redis/redis/pull/1234
@@ -618,42 +636,17 @@ If the new page should be discoverable from the landing page, also add an image 
 
 ## Redis Open Source releases
 
-Redis Open Source releases follow a two-stage documentation process: **RC1 first, then final**. We publish docs for RC1 (release candidate 1) before the final release is available to developers, so the documentation is ready when the GA release ships.
-
-### RC1 documentation
-
-When RC1 is available, create the what's new page for the new version and mark it as RC1:
-
-```
-On branch [branch-name], create content/develop/whats-new/[version].md for Redis [version] RC1.
-
-Here are the new features, commands, and changes in this release:
-[paste RC1 changelog or release notes]
-
-Mark this as RC1 in the page content — note that APIs and behaviors may change before GA.
-```
-
-In the frontmatter, add an alias for the RC1 URL so the page is discoverable under both paths:
-
-```yaml
-aliases:
-- /develop/whats-new/[version]-rc-1/
-```
-
-For new data types or commands in RC1 that are not yet final, add `bannerText` to the frontmatter of the affected pages:
-
-```yaml
-bannerText: [Feature name] is currently in preview and subject to change.
-bannerChildren: true
-```
+Redis Open Source issues new releases approximately once per quarter.
 
 ### GA release
 
 When the final release ships:
 
-1. **Update the what's new page** — remove the RC1 designation from the content and description. Keep the alias so existing links stay valid.
-2. **Remove preview banners** — delete `bannerText` from the frontmatter of any pages that were marked preview/RC.
-3. **Update the what's new index** — add an entry to `content/develop/whats-new/_index.md` noting the update (for example: "Updated documentation (removed RC1 designation)").
+1. **Update the what's new page**.
+2. **Update the what's new index** — add an entry to `content/develop/whats-new/_index.md` noting the update.
+3. Update the modules API page using the `redis/redis:utils/generate-module-api-doc.rb` Ruby script.
+4. Update the `content/operate/oss_and_stack/management/config.md` page with a link to the `redis/redis:redis.conf file`.
+5. Run the `build/generate_version_commands_page.py` to generate a new Redis X.Y Command Reference page.
 
 ---
 
