@@ -10,7 +10,7 @@ linktitle: REST quickstart
 title: Redis Agent Memory REST API quickstart
 weight: 8
 aliases:
-- /operate/iris/agent-memory/use-agent-memory/
+- /operate/rc/context-engine/agent-memory/use-agent-memory/
 - /develop/ai/context-engine/agent-memory/api-examples/
 ---
 
