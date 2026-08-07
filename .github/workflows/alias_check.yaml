@@ -9,10 +9,9 @@ name: alias_check
 # the window in which an old URL 404s down to minutes, rather than the days a
 # scheduled-only sweep would imply.
 #
-# The PR it opens is the only output, and it always represents the same thing:
-# current main plus every alias that is currently missing. That makes repeated
-# runs idempotent -- the branch is regenerated from scratch each time, so it can
-# never accumulate a stale half-fix.
+# The PR it opens always represents the same thing: current main plus every alias
+# that is currently missing. That makes repeated runs idempotent -- the branch is
+# regenerated from scratch each time, so it can never accumulate a stale half-fix.
 #
 # Closing the PR is a perfectly good answer when a page was retired on purpose
 # rather than moved. Nothing else depends on it, and the next run will simply
@@ -29,6 +28,15 @@ on:
     - cron: '0 4 1 * *'   # 04:00 UTC on the 1st of each month
   workflow_dispatch:
 
+# One run at a time. Overlapping runs both force-push the same branch, and the
+# loser could replace a newer commit with an older one built from an earlier main.
+# The newest run is always the one whose answer we want, so an in-flight older run
+# is cancelled rather than queued. A run cancelled between the push and the PR
+# creation is self-healing: the next run force-pushes again and finds no open PR.
+concurrency:
+  group: alias_check
+  cancel-in-progress: true
+
 # Minimal default; the job widens what it needs.
 permissions:
   contents: read
@@ -36,6 +44,10 @@ permissions:
 env:
   FIX_BRANCH: auto/missing-aliases
   PR_TITLE: Add aliases for pages that moved without one
+  # GitHub rejects a PR body over 65,536 characters. A full report on a large
+  # backlog runs to about 118,000, so it is trimmed well below the cap and the
+  # untrimmed version stays in the run log.
+  BODY_REPORT_LIMIT: 40000
 
 jobs:
   alias_check:
@@ -45,9 +57,13 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - name: Check out the repo with full history
+      - name: Check out main with full history
         uses: actions/checkout@v4
         with:
+          # Always main, whatever ref triggered the run. A manual dispatch from
+          # another branch would otherwise scan that branch and open a PR whose
+          # head carried its unrelated commits.
+          ref: main
           # Required, not merely preferred. The scanner reads git rename records,
           # and in a shallow clone it finds none, reports zero moves and exits 0
           # -- a permanent green tick that never examines anything. Verified
@@ -58,19 +74,36 @@ jobs:
         run: pip3 install "PyYAML==6.0.1"
 
       - name: Scan for missing aliases and add them
+        id: scan
         run: |
-          set -euo pipefail
-          # --fail is deliberately not passed. The PR is the signal; a red tick
-          # on main would be noise for something no build depends on.
-          python3 build/check_missing_aliases.py --all --fix 2>&1 | tee alias-report.txt
+          set -uo pipefail
+          # --fail is passed so that a file the fixer *refused* to edit becomes
+          # visible. With --fix, it exits 1 only when some actionable file was
+          # skipped, which is otherwise invisible: the working tree would look
+          # clean for those pages and the run would report nothing to do.
+          python3 build/check_missing_aliases.py --all --fix --fail 2>&1 | tee alias-report.txt
+          status="${PIPESTATUS[0]}"
+          echo "skipped=${status}" >> "$GITHUB_OUTPUT"
+          if [ "${status}" -gt 1 ]; then
+            echo "::error::check_missing_aliases failed with exit ${status}"
+            exit "${status}"
+          fi
 
       - name: Open or update the fix PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKIPPED: ${{ steps.scan.outputs.skipped }}
         run: |
           set -euo pipefail
 
           if [ -z "$(git status --porcelain -- content)" ]; then
+            if [ "${SKIPPED}" = "1" ]; then
+              # Nothing to open a PR with, yet the fixer declined some files. A
+              # red run is the only channel anyone would notice, and the report
+              # above names the files.
+              echo "::error::Missing aliases were found but could not be added automatically. See the report above."
+              exit 1
+            fi
             echo "No missing aliases. Nothing to do."
             exit 0
           fi
@@ -99,6 +132,14 @@ jobs:
             exit 0
           fi
 
+          if [ "$(wc -c < alias-report.txt)" -gt "${BODY_REPORT_LIMIT}" ]; then
+            head -c "${BODY_REPORT_LIMIT}" alias-report.txt > report-for-body.txt
+            printf '\n\n[Trimmed at %s characters. The full report is in the workflow run log.]\n' \
+              "${BODY_REPORT_LIMIT}" >> report-for-body.txt
+          else
+            cp alias-report.txt report-for-body.txt
+          fi
+
           {
             echo "Adds aliases for pages that were renamed without one, so their old URLs stop returning 404."
             echo
@@ -106,19 +147,25 @@ jobs:
             echo
             echo "**If a page here was retired on purpose rather than moved, close this PR.** Nothing depends on it."
             echo
-            echo "Cases needing a human decision are reported below rather than changed: an old URL that is a live page today, a URL another page already claims as its alias, or a move onto a draft."
+            echo "Cases needing a human decision are reported below rather than changed: an old URL that is a live page today, a URL another page already claims as its alias, a page that was split into a section, or a move onto a draft."
             echo
             echo '<details><summary>Scanner report</summary>'
             echo
             echo '```'
-            cat alias-report.txt
+            cat report-for-body.txt
             echo '```'
             echo
             echo '</details>'
           } > pr-body.md
 
-          gh pr create \
-            --title "${PR_TITLE}" \
-            --body-file pr-body.md \
-            --head "${FIX_BRANCH}" \
-            --base main
+          # A run cancelled or overlapping despite the concurrency group could
+          # have opened the PR between the check above and this call. Losing that
+          # race is not a failure: the force push already updated the branch.
+          if ! gh pr create --title "${PR_TITLE}" --body-file pr-body.md \
+                 --head "${FIX_BRANCH}" --base main; then
+            if [ -n "$(gh pr list --head "${FIX_BRANCH}" --state open --json number --jq '.[].number')" ]; then
+              echo "A concurrent run opened the PR first; the force push has updated it."
+            else
+              exit 1
+            fi
+          fi
