@@ -62,6 +62,17 @@ anchor = "smart"
 tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
+# Schema version for the AI-facing JSON and Markdown outputs. Emitted as
+# `schema_version` in each per-page JSON record and in the Markdown metadata block.
+#
+# Increment this ONLY when the shape of a record changes: a field added, removed or
+# renamed, or a new value entering the `role` vocabulary. It must NOT change when page
+# content changes -- consumers gate re-parsing on it, and a version that moves with
+# content is a second content hash, which they will learn to ignore.
+#
+# Changing what a field *contains* is not a shape change and does not bump this.
+aiSchemaVersion = 1
+
 # Display and sort order for client examples
 clientsExamples = ["Python", "Node.js", "ioredis", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync (NRedisStack)", "C#-Async (NRedisStack)", "C#-Sync (SE.Redis)", "C#-Async (SE.Redis)", "RedisVL", "PHP", "Ruby", "Rust-Sync", "Rust-Async"]
 searchService = "/convai/api/search-service"

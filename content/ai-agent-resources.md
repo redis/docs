@@ -65,16 +65,29 @@ Two consequences worth knowing if you diff the feed against the sitemap:
 - Both figures move. The feed is rebuilt at least daily and the corpus grows, so treat any
   page count as a snapshot.
 
+### Schema version
+
+Every record carries a `schema_version` integer, and the same value appears in the
+`json metadata` block of the Markdown output. It is currently **1**.
+
+It increments only when the **shape** of a record changes: a field added, removed or
+renamed, or a new value entering the [role vocabulary](#section-roles). It does **not**
+change when page content changes, and it does not change when the value inside a field
+changes without the field itself changing. Use `content_hash` to detect content changes;
+use `schema_version` to detect when your parser might need attention.
+
 ### JSON schema
 
 Each document contains:
 
 | Field | Type | Description |
 |-------|------|-------------|
+| `schema_version` | integer | Version of the record format. See [Schema version](#schema-version). |
 | `id` | string | Unique identifier, the page's path without a file extension (for example `develop/clients/redis-py`) |
 | `title` | string | Page title |
 | `url` | string | Canonical URL |
 | `summary` | string | Short description |
+| `since` | string | Redis version the command was introduced in. Present on command pages only. |
 | `page_type` | string | `"content"` (has prose) or `"index"` (navigation only) |
 | `content_hash` | string | SHA256 hash for cache invalidation (content pages only) |
 | `sections` | array | Content split by headings with semantic roles |
