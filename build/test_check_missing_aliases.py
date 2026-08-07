@@ -36,8 +36,9 @@ def test_to_url_strips_both_bundle_names():
     # the containing directory's URL, so renaming between them changes nothing.
     assert to_url("content/commands/lpushx/index.md") == "commands/lpushx"
     assert to_url("content/commands/lpushx.md") == "commands/lpushx"
-    assert to_url("content/develop/data-types/strings/_index.md") == "develop/data-types/strings"
-    assert to_url("content/develop/data-types/strings.md") == "develop/data-types/strings"
+    strings = "develop/data-types/strings"
+    assert to_url("content/develop/data-types/strings/_index.md") == strings
+    assert to_url("content/develop/data-types/strings.md") == strings
 
 
 def test_to_url_handles_site_root():

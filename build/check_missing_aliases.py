@@ -2,7 +2,7 @@
 
 Renaming a content file changes its published URL, and the old URL dies unless
 the page declares an ``aliases:`` entry for it. That entry is author-declared
-and therefore unreliable: measured over this repo's history, only 302 of 611
+and therefore unreliable: measured over this repo's history, only 290 of 598
 URL-changing moves carry a matching alias, and it fails inconsistently even
 within a single commit (``155277839`` moved LangCache and Agent Memory together;
 LangCache got an alias, Agent Memory did not, and its old URL 404s today).
@@ -12,8 +12,9 @@ published URL, and reports those with no alias. ``--fix`` writes the missing
 aliases into frontmatter.
 
 Seven things make a naive version of this worse than useless -- a first attempt
-reported 961 missing aliases against a true 259, two thirds noise, and every
-false positive looked plausible in a list -- so each is handled explicitly:
+reported 961 missing aliases against a true 258, nearly three quarters of it
+noise, and every false positive looked plausible in a list -- so each of the
+seven is handled explicitly:
 
 1. **Hugo bundles.** ``index.md`` (leaf) and ``_index.md`` (branch) both publish
    at the containing directory's URL, so neither name appears in the URL and
@@ -67,7 +68,7 @@ CONTENT = "content"
 VERSIONED = re.compile(r"/[0-9]+\.[0-9]+(\.[0-9]+)?/")
 
 # git's default rename-detection similarity. Measured on this repo: 20% finds
-# 633 URL-changing moves, 50% finds 611, 90% finds 489 -- so the default is
+# 617 URL-changing moves, 50% finds 598, 90% finds 477 -- so the default is
 # close to the ceiling, and the tail that reads as delete-plus-add rather than a
 # rename (a file renamed and heavily rewritten at once) is about 3.5%.
 DEFAULT_THRESHOLD = 50
@@ -306,7 +307,17 @@ def find_moves(rev_range: str | None, threshold: int) -> list[Move]:
         _, old, new = parts
         if not (eligible(old) and eligible(new)):
             continue
-        history[new] = history.pop(old, set()) | {(old, date, commit)}
+        # Merge rather than assign. If a second file later renames onto a path
+        # that already carries a chain -- possible once the first occupant has
+        # been deleted rather than moved -- assigning would drop the earlier
+        # records silently. That happens once in this repo's history, and in a
+        # degenerate form where the dropped record has the same old_path, so
+        # merging changes nothing today. It is here because the loss would be
+        # invisible, and any real ambiguity it surfaces is caught downstream by
+        # the collision check rather than acted on.
+        carried = history.pop(old, set())
+        history.setdefault(new, set()).update(carried)
+        history[new].add((old, date, commit))
 
     tracked = set(git("ls-files", CONTENT).splitlines())
     moves: list[Move] = []
@@ -321,8 +332,21 @@ def find_moves(rev_range: str | None, threshold: int) -> list[Move]:
             moves.append(Move(old_path=old_path, new_path=new_path,
                               old_url=old_url, new_url=new_url,
                               date=date, commit=commit[:9]))
+
+    # A redirect is identified by where it comes from and where it goes, so the
+    # same pair reached by two routes -- a page moved away and back, or a
+    # recurring rename like the monthly changelog -- is one redirect, not two.
+    # 14 pairs in this repo's history arrive twice. Keep the earliest.
     moves.sort(key=lambda m: (m.date, m.old_url))
-    return moves
+    seen: set[tuple[str, str]] = set()
+    unique: list[Move] = []
+    for move in moves:
+        fingerprint = (norm(move.old_url), move.new_path)
+        if fingerprint in seen:
+            continue
+        seen.add(fingerprint)
+        unique.append(move)
+    return unique
 
 
 def published_urls() -> set[str]:
@@ -350,8 +374,8 @@ def classify(moves: list[Move]) -> None:
     A collision is the trap that has no safe automatic answer: Hugo resolves two
     pages claiming the same alias by picking one and emitting a warning, so
     adding the alias would quietly make the redirect ambiguous rather than fix
-    it. 26 of this repo's gaps are collisions -- 24 where another page already
-    claims the URL, and 2 where two moved pages both want it.
+    it. 28 of this repo's gaps are collisions -- 24 where another page already
+    claims the URL, and 4 where two moved pages both want it.
     """
     current = published_urls()
     owners = alias_owners()
@@ -457,7 +481,8 @@ def insert_aliases(lines: list[str], new_aliases: list[str]) -> list[str] | None
                 continue
             else:
                 break
-        item_indent = re.match(r"[ \t]*", lines[last]).group(0) if last != key else indent
+        item_indent = (re.match(r"[ \t]*", lines[last]).group(0)
+                       if last != key else indent)
         block = [f"{item_indent}- {a}\n" for a in new_aliases]
         return lines[:last + 1] + block + lines[last + 1:]
 
@@ -471,8 +496,13 @@ def insert_aliases(lines: list[str], new_aliases: list[str]) -> list[str] | None
     return lines
 
 
-def apply_fixes(moves: list[Move]) -> tuple[int, int]:
-    """Write missing aliases into frontmatter. Returns (files, aliases) changed."""
+def apply_fixes(moves: list[Move]) -> tuple[int, int, list[str]]:
+    """Write missing aliases into frontmatter.
+
+    Returns (files changed, aliases added, files that still need a manual fix).
+    The third value matters to callers: a sweep that reports success while some
+    aliases could not be placed would claim a complete fix it did not make.
+    """
     by_file: dict[str, FileFix] = {}
     for move in moves:
         if not move.actionable:
@@ -483,9 +513,11 @@ def apply_fixes(moves: list[Move]) -> tuple[int, int]:
             fix.aliases.append(alias)
 
     files = aliases = 0
+    skipped: list[str] = []
     for fix in by_file.values():
         if not os.path.exists(fix.path):
             logger.warning("  ! %s no longer exists, skipping", fix.path)
+            skipped.append(fix.path)
             continue
         existing = declared_aliases(fix.path)
         wanted = [a for a in fix.aliases if norm(a) not in existing]
@@ -495,6 +527,7 @@ def apply_fixes(moves: list[Move]) -> tuple[int, int]:
         updated = insert_aliases(lines, wanted)
         if updated is None:
             logger.warning("  ! %s: could not place aliases, skipping", fix.path)
+            skipped.append(fix.path)
             continue
         with open(fix.path, "w", encoding="utf-8") as handle:
             handle.writelines(updated)
@@ -503,7 +536,7 @@ def apply_fixes(moves: list[Move]) -> tuple[int, int]:
         logger.info("  + %s", fix.path)
         for alias in wanted:
             logger.info("      %s", alias)
-    return files, aliases
+    return files, aliases, skipped
 
 
 # --------------------------------------------------------------------------- #
@@ -513,7 +546,8 @@ def apply_fixes(moves: list[Move]) -> tuple[int, int]:
 def report(moves: list[Move], github: bool, fix_hint: str) -> list[Move]:
     missing = [m for m in moves if m.actionable]
     occupied = [m for m in moves if not m.aliased and m.occupied]
-    collisions = [m for m in moves if not m.aliased and not m.occupied and m.collides_with]
+    collisions = [m for m in moves
+                  if not m.aliased and not m.occupied and m.collides_with]
     aliased = [m for m in moves if m.aliased]
 
     logger.info("check_missing_aliases: %d URL-changing move(s) found.", len(moves))
@@ -564,7 +598,8 @@ def main() -> int:
     classify(moves)
 
     fix_hint = ("make check_aliases_fix" if args.all else
-                f"python3 build/check_missing_aliases.py --range {args.rev_range} --fix")
+                "python3 build/check_missing_aliases.py "
+                f"--range {args.rev_range} --fix")
     missing = report(moves, args.github, fix_hint)
 
     if args.json_out:
@@ -574,10 +609,15 @@ def main() -> int:
 
     if args.fix and missing:
         logger.info("Adding %d alias(es):", len(missing))
-        files, aliases = apply_fixes(moves)
+        files, aliases, skipped = apply_fixes(moves)
         logger.info("check_missing_aliases: added %d alias(es) across %d file(s).",
                     aliases, files)
-        return 0
+        if skipped:
+            logger.warning("check_missing_aliases: could not place aliases in %d "
+                           "file(s), which still need fixing by hand:", len(skipped))
+            for path in skipped:
+                logger.warning("  %s", path)
+        return 1 if (skipped and args.fail) else 0
 
     return 1 if (missing and args.fail) else 0
 
