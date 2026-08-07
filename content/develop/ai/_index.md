@@ -83,7 +83,7 @@ The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) i
 1. [**Configure vector queries at runtime**]({{< relref "develop/ai/search-and-query/vectors#runtime-query-parameters" >}}): Select the best filter mode to optimize query execution.
 1. [**Build an AI agent**]({{< relref "/develop/ai/agent-builder" >}}): Use the interactive agent builder to generate complete working code for conversational assistants and recommendation engines.
 1. [**Add semantic caching**]({{< relref "/develop/ai/context-engine/langcache" >}}): Reduce LLM API calls by caching and reusing responses for semantically similar queries.
-1. [**Add agent memory**]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Give your agent persistent session and long-term memory using the Redis Agent Memory REST API.
+1. [**Add agent memory**]({{< relref "/develop/ai/context-engine/agent-memory" >}}): Give your agent persistent session and long-term memory using the Agent Memory REST API.
 1. [**Access structured business data**]({{< relref "/develop/ai/context-engine/context-retriever" >}}): Use Context Retriever to define your business data as governed tools that any agent can query reliably.
 1. [**Sync live data to Redis**]({{< relref "/develop/ai/context-engine/data-integration" >}}): Use Data Integration to keep your Redis Cloud database in sync with your primary relational database using Change Data Capture.
 
@@ -140,7 +140,7 @@ AI agents can act autonomously to plan and execute tasks for the user.
 The Context Engine provides managed services for agent memory and data access.
 
 * [Get started with LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}) — Add semantic caching to reduce LLM costs in minutes.
-* [Get started with Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — Add persistent two-tier memory to any agent using the REST API.
+* [Get started with Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — Add persistent two-tier memory to any agent using the REST API.
 * [Get started with Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}}) — Expose your business data as governed tools that agents can reliably query.
 * [Get started with Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}) — Keep Redis in sync with your primary database so agents always have fresh data.
 

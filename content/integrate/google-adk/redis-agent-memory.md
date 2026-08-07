@@ -55,14 +55,14 @@ session_service = RedisWorkingMemorySessionService(
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `api_base_url` | Redis Agent Memory Server URL | Required |
+| `api_base_url` | Agent Memory Server URL | Required |
 | `default_namespace` | Isolates data between applications | Required |
 | `model_name` | LLM used for summarization | `None` |
 | `context_window_max` | Token limit that triggers summarization | `None` |
 
 ### Auto-summarization
 
-When the token count of stored messages crosses `context_window_max`, the Redis Agent Memory Server uses the model specified in `model_name` to summarize older turns. Recent messages are preserved in full. This avoids the hard tradeoff between truncating context (losing information) and sending the full conversation (hitting token limits and costs).
+When the token count of stored messages crosses `context_window_max`, the Agent Memory Server uses the model specified in `model_name` to summarize older turns. Recent messages are preserved in full. This avoids the hard tradeoff between truncating context (losing information) and sending the full conversation (hitting token limits and costs).
 
 ### Incremental appends
 
@@ -79,7 +79,7 @@ The service implements all of ADK's session methods:
 
 ## Long-term memory
 
-`RedisLongTermMemoryService` implements ADK's `BaseMemoryService`. After each conversation, the Redis Agent Memory Server extracts structured information (facts, preferences, episodic events), embeds them as vectors, and stores them in Redis for semantic search across all past sessions.
+`RedisLongTermMemoryService` implements ADK's `BaseMemoryService`. After each conversation, the Agent Memory Server extracts structured information (facts, preferences, episodic events), embeds them as vectors, and stores them in Redis for semantic search across all past sessions.
 
 ```python
 from adk_redis.memory import (
@@ -103,7 +103,7 @@ memory_service = RedisLongTermMemoryService(
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `api_base_url` | Redis Agent Memory Server URL | Required |
+| `api_base_url` | Agent Memory Server URL | Required |
 | `default_namespace` | Namespace for data isolation | Required |
 | `extraction_strategy` | How conversations are broken into memories: `discrete`, `summary`, or `preferences` | `None` |
 | `recency_boost` | Enable recency-weighted search | `False` |
@@ -193,7 +193,7 @@ Requires prompt engineering to teach the LLM memory management strategy, but giv
 
 ## MCP tools
 
-Point ADK's `McpToolset` at the Redis Agent Memory Server's SSE endpoint. Tool discovery happens automatically — no manual tool wiring required.
+Point ADK's `McpToolset` at the Agent Memory Server's SSE endpoint. Tool discovery happens automatically — no manual tool wiring required.
 
 ```python
 from adk_redis.tools.mcp_memory import create_memory_mcp_toolset
@@ -212,7 +212,7 @@ agent = Agent(
 
 Available MCP tools: `search_long_term_memory`, `create_long_term_memories`, `get_long_term_memory`, `edit_long_term_memory`, `delete_long_term_memories`, `memory_prompt`, `set_working_memory`.
 
-The most portable approach — swap memory backends without changing agent code. Requires the Redis Agent Memory Server running with MCP support on a separate port.
+The most portable approach — swap memory backends without changing agent code. Requires the Agent Memory Server running with MCP support on a separate port.
 
 ## More info
 
@@ -222,4 +222,3 @@ The most portable approach — swap memory backends without changing agent code.
 - [fitness_coach_mcp](https://github.com/redis-developer/adk-redis/tree/main/examples/fitness_coach_mcp): MCP tools
 - [travel_agent_memory_hybrid](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_hybrid): Framework services + REST tools combined
 - [Redis Agent Memory Server documentation](https://github.com/redis/agent-memory-server)
-

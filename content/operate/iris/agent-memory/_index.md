@@ -1,7 +1,7 @@
 ---
 title: Redis Agent Memory
 description: Deploy and operate Redis Agent Memory on Redis Cloud or your own infrastructure.
-linkTitle: Redis Agent Memory
+linkTitle: Agent Memory
 alwaysopen: false
 categories:
 - docs

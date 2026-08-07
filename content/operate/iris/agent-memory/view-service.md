@@ -4,29 +4,29 @@ categories:
 - docs
 - operate
 - iris
-description: View and manage your Redis Agent Memory service in Redis Cloud.
+description: View and manage your Agent Memory service in Redis Cloud.
 hideListLinks: true
 linktitle: View service
-title: View and manage Redis Agent Memory service
+title: View and manage Agent Memory service
 weight: 15
 bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
 aliases:
 - /operate/rc/context-engine/agent-memory/view-service/
 ---
 
-After you have [created your first Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
+After you have [created your first Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
 
-This page displays a list of all Redis Agent Memory services associated with your account.
+This page displays a list of all Agent Memory services associated with your account.
 
-{{<image filename="images/rc/agent-memory-service-list.png" alt="The Redis Agent Memory service in the Redis Agent Memory service list." >}}
+{{<image filename="images/rc/agent-memory-service-list.png" alt="The Agent Memory service in the Agent Memory service list." >}}
 
-Select your Redis Agent Memory service from the list to view the service's details.
+Select your Agent Memory service from the list to view the service's details.
 
 ## Configuration tab
 
-The **Configuration** tab lets you view the details of your Redis Agent Memory service. It contains the following sections:
+The **Configuration** tab lets you view the details of your Agent Memory service. It contains the following sections:
 
-- The **General settings** section provides the connection details and general settings for your Redis Agent Memory service.
+- The **General settings** section provides the connection details and general settings for your Agent Memory service.
 - The **Memory configuration** section provides the service settings for your Redis Agent Memory service.
 - The **Memory types & extraction** section shows any custom memory types defined for your service.
 - The **Actions** section lets you flush or delete your Redis Agent Memory service.
@@ -35,16 +35,16 @@ Some of these settings can be changed after service creation. To do so, select t
 
 ### General settings
 
-The **General settings** section provides the connection details and general settings for your Redis Agent Memory service.
+The **General settings** section provides the connection details and general settings for your Agent Memory service.
 
-{{<image filename="images/rc/agent-memory-view-general.png" alt="The General settings for the Redis Agent Memory service." >}}
+{{<image filename="images/rc/agent-memory-view-general.png" alt="The General settings for the Agent Memory service." >}}
 
 | Setting name          |Description|
 |:----------------------|:----------|
 | **Service name** | The name of your agent memory service. _(Editable)_ |
 | **Database** | The name of the database your service uses. |
-| **Store ID** | The unique ID of your Redis Agent Memory store. |
-| **Endpoint** | The base URL for any Redis Agent Memory requests. |
+| **Store ID** | The unique ID of your Agent Memory store. |
+| **Endpoint** | The base URL for any Agent Memory requests. |
 
 Select the **Copy** button next to the Store ID and API Base URL to copy them to the clipboard.
 
@@ -54,7 +54,7 @@ Follow the [Redis Agent Memory REST API quickstart]({{< relref "/develop/ai/cont
 
 The **Memory configuration** section shows the time-to-live (TTL) for memory storage, the extraction cadence, and the automatic summarization settings for session memory.
 
-{{<image filename="images/rc/agent-memory-view-memory-configuration.png" alt="The Memory configuration section for the Redis Agent Memory service." >}}
+{{<image filename="images/rc/agent-memory-view-memory-configuration.png" alt="The Memory configuration section for the Agent Memory service." >}}
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -69,7 +69,7 @@ The **Memory configuration** section shows the time-to-live (TTL) for memory sto
 
 The **Memory types & extraction** section shows any [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) defined for the service, each listed with its name, fields, and extraction strategy.
 
-{{<image filename="images/rc/agent-memory-view-memory-types.png" alt="The Memory types & extraction section for the Redis Agent Memory service." >}}
+{{<image filename="images/rc/agent-memory-view-memory-types.png" alt="The Memory types & extraction section for the Agent Memory service." >}}
 
 #### Custom memory types
 
@@ -97,9 +97,9 @@ Sensitive-data exclusions are advisory. They do not guarantee exclusion, sensiti
 
 ### Actions
 
-The **Actions** section lets you flush or delete your Redis Agent Memory service.
+The **Actions** section lets you flush or delete your Agent Memory service.
 
-{{<image filename="images/rc/agent-memory-view-actions.png" alt="The actions for the Redis Agent Memory service." >}}
+{{<image filename="images/rc/agent-memory-view-actions.png" alt="The actions for the Agent Memory service." >}}
 
 #### Flush memory entries
 
@@ -115,9 +115,9 @@ Flushing the service is permanent and cannot be undone, and will result in empty
 
 #### Delete service
 
-Deleting your Redis Agent Memory service permanently deletes all associated memory data, the service configuration, and the Redis Agent Memory search index. It also immediately terminates all API keys associated with the service. Data stored in other indexes within the same database will remain unaffected.
+Deleting your Agent Memory service permanently deletes all associated memory data, the service configuration, and the Agent Memory search index. It also immediately terminates all API keys associated with the service. Data stored in other indexes within the same database will remain unaffected.
 
-To delete your Redis Agent Memory service:
+To delete your Agent Memory service:
 
 1. Select **Delete**.
 
@@ -125,11 +125,11 @@ To delete your Redis Agent Memory service:
 
 1. Select **Delete** again to confirm.
 
-Deleting the Redis Agent Memory service is permanent and cannot be undone.
+Deleting the Agent Memory service is permanent and cannot be undone.
 
 ## Metrics tab
 
-The **Metrics** tab provides a series of graphs showing performance data for your Redis Agent Memory service.
+The **Metrics** tab provides a series of graphs showing performance data for your Agent Memory service.
 
 | Metric | Description |
 |--------|-------------|
@@ -140,7 +140,7 @@ The **Metrics** tab provides a series of graphs showing performance data for you
 
 The **API keys** tab shows a list of all API keys for your service.
 
-{{<image filename="images/rc/agent-memory-view-api-keys.png" alt="The actions for the Redis Agent Memory service." >}}
+{{<image filename="images/rc/agent-memory-view-api-keys.png" alt="The actions for the Agent Memory service." >}}
 
 Here, you can generate a new API key or remove any keys that are no longer in use. You can generate or remove service API keys at any time.
 
@@ -160,7 +160,7 @@ To generate a new service key:
 
 1. The new key will appear in a dialog box. Select **Copy** to copy the key to the clipboard.
 
-    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Redis Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
+    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
 
     {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>

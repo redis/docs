@@ -97,7 +97,7 @@ agent = Agent(
 
 ## 3. MCP tools (Model Context Protocol)
 
-Point ADK's `McpToolset` at the Redis Agent Memory Server's SSE endpoint. Tool discovery happens automatically.
+Point ADK's `McpToolset` at the Agent Memory Server's SSE endpoint. Tool discovery happens automatically.
 
 ```python
 from adk_redis.tools.mcp_memory import create_memory_mcp_toolset
@@ -116,7 +116,7 @@ agent = Agent(
 
 Available MCP tools: `search_long_term_memory`, `create_long_term_memories`, `get_long_term_memory`, `edit_long_term_memory`, `delete_long_term_memories`, `memory_prompt`, `set_working_memory`.
 
-**Tradeoffs:** Most standardized and portable approach. Swap memory backends without changing agent code. Requires Redis Agent Memory Server with MCP support on a separate port.
+**Tradeoffs:** Most standardized and portable approach. Swap memory backends without changing agent code. Requires Agent Memory Server with MCP support on a separate port.
 
 ## Hybrid approach
 
