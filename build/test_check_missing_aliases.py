@@ -324,6 +324,37 @@ def test_declared_aliases_reads_every_shape():
             assert declared_aliases(path) == expected[name], name
 
 
+def test_scalar_aliases_are_split_on_whitespace_like_hugo():
+    """Hugo casts a scalar `aliases` with cast.ToStringSlice, i.e. strings.Fields.
+
+    So a folded multi-line scalar publishes *two* working aliases, even though
+    PyYAML reads it as the single string "/a/ /b/". Trusting the YAML library
+    here produced a false positive against a page whose aliases both work.
+    Verified against Hugo 0.143.1.
+    """
+    import tempfile
+
+    folded = """---
+title: QPF
+aliases: /operate/search/scalable-search/
+         /operate/search/query-performance-factor/
+---
+body
+"""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "folded.md")
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write(folded)
+        assert declared_aliases(path) == {
+            "operate/search/scalable-search",
+            "operate/search/query-performance-factor",
+        }
+        # A single-valued scalar must still read as exactly one alias.
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write("---\naliases: /a/b/\n---\nx\n")
+        assert declared_aliases(path) == {"a/b"}
+
+
 def test_round_trip_every_shape():
     """Whatever we insert must be readable back as an alias."""
     import tempfile

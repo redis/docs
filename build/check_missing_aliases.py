@@ -2,7 +2,7 @@
 
 Renaming a content file changes its published URL, and the old URL dies unless
 the page declares an ``aliases:`` entry for it. That entry is author-declared
-and therefore unreliable: measured over this repo's history, only 290 of 598
+and therefore unreliable: measured over this repo's history, only 291 of 598
 URL-changing moves carry a matching alias, and it fails inconsistently even
 within a single commit (``155277839`` moved LangCache and Agent Memory together;
 LangCache got an alias, Agent Memory did not, and its old URL 404s today).
@@ -12,7 +12,7 @@ published URL, and reports those with no alias. ``--fix`` writes the missing
 aliases into frontmatter.
 
 Seven things make a naive version of this worse than useless -- a first attempt
-reported 961 missing aliases against a true 258, nearly three quarters of it
+reported 961 missing aliases against a true 257, nearly three quarters of it
 noise, and every false positive looked plausible in a list -- so each of the
 seven is handled explicitly:
 
@@ -32,9 +32,12 @@ seven is handled explicitly:
    must never be redirected (22 cases).
 6. **Declared-but-not-a-list aliases.** 88 files declare the key with no value
    (49 spelled ``null``, 39 bare) and 104 give it a bare scalar rather than a
-   list, so a check that assumes a list silently under-reports. One more uses a
-   folded multi-line scalar, which is valid YAML that silently folds two
-   intended aliases into one string, so ``--fix`` declines that file.
+   list, so a check that assumes a list silently under-reports. A scalar is
+   also whitespace-separated, because Hugo casts it with ``cast.ToStringSlice``:
+   one file folds a scalar across two lines and Hugo publishes both halves as
+   working aliases, where PyYAML reads the single string ``"/a/ /b/"``. Trusting
+   the YAML library over Hugo there cost a false positive against a page that
+   was never broken.
 7. **Collisions.** 28 of the gaps name a URL another page already claims as its
    own alias. Hugo resolves that by picking one arbitrarily and warning, so
    adding the alias unattended would make the redirect ambiguous rather than
@@ -270,7 +273,18 @@ def declared_aliases(path: str) -> set[str]:
     if values is None:
         return set()
     if isinstance(values, str):
-        values = [values]
+        # Hugo casts a scalar `aliases` value with cast.ToStringSlice, which runs
+        # strings.Fields, so a bare string is split on whitespace into several
+        # aliases. That is not what a YAML library does -- PyYAML folds
+        #
+        #     aliases: /a/
+        #              /b/
+        #
+        # into the single string "/a/ /b/" -- and taking the library's reading
+        # cost a false positive here, because Hugo publishes both of those as
+        # working aliases. Verified against Hugo 0.143.1. List items are *not*
+        # split, so only the scalar case gets this treatment.
+        values = values.split()
     if not isinstance(values, list):
         return set()
     return {norm(str(v)) for v in values if v is not None and str(v).strip()}
