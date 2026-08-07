@@ -27,7 +27,7 @@ Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API
   {{< image-card image="images/rest-api-mark.svg" alt="REST API mark" title="REST API quickstart — Explore Redis Agent Memory with curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}
 </div>
 
-## Capabilities
+## Why use Redis Agent Memory?
 
 * **Context-aware conversations:** Store ordered conversation events with their actor, role, timestamp, and metadata, then retrieve them by session ID. Configure session expiration to control how long the conversation is retained.
 * **Automatic session summarization:** Automatically summarize older conversation events while retaining recent messages in full.
