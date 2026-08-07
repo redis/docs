@@ -30,8 +30,16 @@ json_transform: hugo
 	@echo "Transforming JSON files for RAG..."
 	@npx tsx build/transform_json_sections.ts
 
+# Tombstones need public/redirects.json, which hugo renders, and must run before
+# ndjson so that generate_ndjson.py can filter them back out of the feed. They are
+# written after json_transform only for tidiness -- the transform skips a record
+# that has a page_type and no content, so either order is safe.
+redirect_tombstones: json_transform
+	@echo "Writing redirect tombstones..."
+	@python3 build/write_redirect_tombstones.py public
+
 # ndjson requires json_transform to have processed the JSON files
-ndjson: json_transform
+ndjson: redirect_tombstones
 	@echo "Generating NDJSON feed..."
 	@python3 build/generate_ndjson.py
 	@echo "Compressing NDJSON feed..."

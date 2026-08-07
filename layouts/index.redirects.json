@@ -1,0 +1,60 @@
+{{- /* Site-wide redirect map, published as /redirects.json.
+
+  Every alias any published page declares, mapped to the page it resolves to.
+  Rendered from `.Aliases`, which is the same data Hugo uses to emit its own
+  redirect stubs, so the map and the site's real behavior cannot drift and there
+  is no generated file to keep in step.
+
+  Ambiguity is separated out rather than resolved. Two pages can declare the same
+  alias -- 40 do in a production build, 12 of them pointing somewhere different --
+  and Hugo settles that by emitting one stub and picking a winner arbitrarily.
+  Publishing one of those targets as though it were the answer would hand
+  consumers data the site does not honour, so those keys go in `ambiguous` with
+  every candidate listed, and `redirects` contains only keys with exactly one
+  target. An alias declared twice with the same target is simply deduplicated.
+
+  Two caveats a consumer needs, both documented on ai-agent-resources:
+
+  - `from` is normalized to a leading slash and no trailing slash. Authors write
+    both forms -- 918 of 929 entries carry a leading slash, and the trailing slash
+    is an even split -- so normalizing here saves every consumer doing it. `to` is
+    absolute, matching the `url` field every per-page record already publishes.
+  - This is an *alias* map, not a move log. Many entries are vanity or legacy paths
+    that were never a page's location, and it carries no date, because frontmatter
+    does not record when a page moved.
+
+  Only pages Hugo publishes appear, so drafts contribute nothing -- which matches
+  the site, since Hugo emits no stub for a draft's aliases either.
+
+  See DOC-6951.
+*/ -}}
+{{- $seen := newScratch -}}
+{{- range .Site.Pages -}}
+  {{- $to := .Permalink -}}
+  {{- range .Aliases -}}
+    {{- $from := . | strings.TrimSuffix "/" -}}
+    {{- if not (hasPrefix $from "/") -}}
+      {{- $from = printf "/%s" $from -}}
+    {{- end -}}
+    {{- $targets := index ($seen.Get "map" | default dict) $from | default slice -}}
+    {{- $seen.SetInMap "map" $from ($targets | append $to | uniq) -}}
+  {{- end -}}
+{{- end -}}
+{{- $redirects := slice -}}
+{{- $ambiguous := slice -}}
+{{- range $from, $targets := ($seen.Get "map" | default dict) -}}
+  {{- if eq (len $targets) 1 -}}
+    {{- $redirects = $redirects | append (dict "from" $from "to" (index $targets 0)) -}}
+  {{- else -}}
+    {{- $ambiguous = $ambiguous | append (dict "from" $from "candidates" (sort $targets)) -}}
+  {{- end -}}
+{{- end -}}
+{{ dict
+     "schema_version" site.Params.aiSchemaVersion
+     "base_url" site.BaseURL
+     "generated" (now.Format "2006-01-02T15:04:05Z07:00")
+     "count" (len $redirects)
+     "ambiguous_count" (len $ambiguous)
+     "redirects" (sort $redirects "from")
+     "ambiguous" (sort $ambiguous "from")
+   | jsonify (dict "indent" "  ") }}
