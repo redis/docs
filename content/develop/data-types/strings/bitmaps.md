@@ -21,7 +21,8 @@ weight: 20
 
 {{< command-group group="bitmap" title="Bitmap/bitfield command summary" show_link=true >}}
 
-Redis can store bitmaps in two representations:
+Starting with Redis Open Source 8.12, Redis can store bitmaps in two
+representations:
 
 * By default, a bitmap is a set of bit-oriented operations defined on a
   string, which is treated like a bit vector.
