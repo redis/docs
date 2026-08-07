@@ -96,6 +96,10 @@ jobs:
         run: |
           set -euo pipefail
 
+          # `gh pr list --head` is an exact lookup. `gh search prs` goes through an
+          # eventually-consistent index and can miss a PR opened moments ago.
+          existing="$(gh pr list --head "${FIX_BRANCH}" --state open --json number --jq '.[].number' | head -1)"
+
           if [ -z "$(git status --porcelain -- content)" ]; then
             if [ "${SKIPPED}" = "1" ]; then
               # Nothing to open a PR with, yet the fixer declined some files. A
@@ -103,6 +107,18 @@ jobs:
               # above names the files.
               echo "::error::Missing aliases were found but could not be added automatically. See the report above."
               exit 1
+            fi
+            if [ -n "${existing}" ]; then
+              # Nothing is missing any more, but a fix PR is still open -- the
+              # aliases reached main some other way, by hand or in someone else's
+              # PR. Its diff is now redundant, and leaving it open invites someone
+              # to merge a stale set of edits. Close it rather than let it rot; the
+              # next run reopens one if anything is missing again.
+              echo "No missing aliases, but PR #${existing} is still open. Closing it."
+              gh pr comment "${existing}" --body \
+                "Closing automatically: a scan of current \`main\` finds no missing aliases, so these changes are no longer needed. A new PR will open if any page moves without one."
+              gh pr close "${existing}" --delete-branch
+              exit 0
             fi
             echo "No missing aliases. Nothing to do."
             exit 0
@@ -124,13 +140,6 @@ jobs:
           # A plain force push: this branch is bot-owned and regenerated from
           # main on every run, so there is no history worth preserving on it.
           git push --quiet --force origin "${FIX_BRANCH}"
-
-          # `gh pr list --head` is an exact lookup. `gh search prs` goes through
-          # an eventually-consistent index and can miss a PR opened moments ago.
-          if [ -n "$(gh pr list --head "${FIX_BRANCH}" --state open --json number --jq '.[].number')" ]; then
-            echo "Force push updated the PR already open for ${FIX_BRANCH}."
-            exit 0
-          fi
 
           if [ "$(wc -c < alias-report.txt)" -gt "${BODY_REPORT_LIMIT}" ]; then
             head -c "${BODY_REPORT_LIMIT}" alias-report.txt > report-for-body.txt
@@ -158,13 +167,26 @@ jobs:
             echo '</details>'
           } > pr-body.md
 
+          if [ -n "${existing}" ]; then
+            # The force push has already updated the diff, but the description
+            # holds the previous run's report -- including its skip and collision
+            # notes, which may no longer be what a reviewer needs to decide. Rewrite
+            # it so the body always describes the diff below it.
+            echo "Refreshing the description of PR #${existing}."
+            gh pr edit "${existing}" --body-file pr-body.md
+            exit 0
+          fi
+
           # A run cancelled or overlapping despite the concurrency group could
-          # have opened the PR between the check above and this call. Losing that
-          # race is not a failure: the force push already updated the branch.
+          # have opened the PR between the lookup above and this call. Losing that
+          # race is not a failure: the force push already updated the branch, and
+          # the winner's body describes the same commit.
           if ! gh pr create --title "${PR_TITLE}" --body-file pr-body.md \
                  --head "${FIX_BRANCH}" --base main; then
-            if [ -n "$(gh pr list --head "${FIX_BRANCH}" --state open --json number --jq '.[].number')" ]; then
-              echo "A concurrent run opened the PR first; the force push has updated it."
+            raced="$(gh pr list --head "${FIX_BRANCH}" --state open --json number --jq '.[].number' | head -1)"
+            if [ -n "${raced}" ]; then
+              echo "A concurrent run opened PR #${raced} first; refreshing its description."
+              gh pr edit "${raced}" --body-file pr-body.md
             else
               exit 1
             fi
