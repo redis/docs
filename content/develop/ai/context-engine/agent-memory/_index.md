@@ -6,7 +6,7 @@ categories:
 - develop
 - ai
 description: Store agent memory for AI applications in Redis.
-linkTitle: Redis Agent Memory
+linkTitle: Agent Memory
 hideListLinks: true
 weight: 20
 bannerText: Redis Agent Memory is currently available in preview. Features and behavior are subject to change.
