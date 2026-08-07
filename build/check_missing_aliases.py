@@ -11,10 +11,10 @@ This scans git history for renames, works out which ones actually changed a
 published URL, and reports those with no alias. ``--fix`` writes the missing
 aliases into frontmatter.
 
-Seven things make a naive version of this worse than useless -- a first attempt
-reported 961 missing aliases against a true 257, nearly three quarters of it
+Eight things make a naive version of this worse than useless -- a first attempt
+reported 961 missing aliases against a true 256, nearly three quarters of it
 noise, and every false positive looked plausible in a list -- so each of the
-seven is handled explicitly:
+eight is handled explicitly:
 
 1. **Hugo bundles.** ``index.md`` (leaf) and ``_index.md`` (branch) both publish
    at the containing directory's URL, so neither name appears in the URL and
@@ -42,6 +42,12 @@ seven is handled explicitly:
    own alias. Hugo resolves that by picking one arbitrarily and warning, so
    adding the alias unattended would make the redirect ambiguous rather than
    fix it. Those are reported for a human and never auto-fixed.
+8. **Drafts.** 31 files are drafts, and production builds pass no
+   ``--buildDrafts``, so a draft publishes nothing at all -- *including its
+   aliases*. An alias added to one is a silent no-op, and counting a draft as
+   occupying a URL would suppress a real redirect. Caught by building the
+   corpus and finding two stubs Hugo declined to emit, which is the only reason
+   this is here rather than still latent.
 
 Warn-only by default (exit 0), like check_page_sizes; pass ``--fail`` to make CI
 block on offenders.
@@ -99,12 +105,14 @@ class Move:
     commit: str
     aliased: bool = False
     occupied: bool = False
+    target_draft: bool = False
     collides_with: list[str] = field(default_factory=list)
 
     @property
     def actionable(self) -> bool:
         """True when the alias can be added safely and without a judgment call."""
-        return not (self.aliased or self.occupied or self.collides_with)
+        return not (self.aliased or self.occupied or self.target_draft
+                    or self.collides_with)
 
 
 @dataclass
@@ -203,6 +211,51 @@ def render_never_roots() -> set[str]:
             roots.add(os.path.dirname(path)[len(CONTENT) + 1:] + "/")
     _render_never = roots
     return roots
+
+
+_drafts: set[str] | None = None
+
+
+def draft_paths() -> set[str]:
+    """Content files Hugo will not publish, because they are drafts.
+
+    Production runs plain ``hugo`` with no ``--buildDrafts``, so a draft page
+    emits nothing at all -- **including its aliases**. That matters in both
+    directions: an alias added to a draft is silently a no-op, and treating a
+    draft as occupying a URL would wrongly suppress a real redirect. 31 files
+    today. Found by grep first so this does not parse all 5,867 content files.
+    """
+    global _drafts
+    if _drafts is not None:
+        return _drafts
+
+    import yaml
+
+    found: set[str] = set()
+    try:
+        candidates = git("grep", "-l", "-E", r"^draft:[ \t]*true", "--",
+                         CONTENT).splitlines()
+    except subprocess.CalledProcessError:
+        candidates = []
+    for path in candidates:
+        try:
+            lines = read_lines(path)
+        except OSError:
+            continue
+        bounds = frontmatter_bounds(lines)
+        if not bounds:
+            continue
+        try:
+            data = yaml.safe_load("".join(lines[1:bounds[1]])) or {}
+        except yaml.YAMLError:
+            continue
+        if not isinstance(data, dict):
+            continue
+        keyed = {str(k).lower(): v for k, v in data.items()}
+        if keyed.get("draft") in (True, "true"):
+            found.add(path)
+    _drafts = found
+    return found
 
 
 def is_published(path: str) -> bool:
@@ -364,9 +417,10 @@ def find_moves(rev_range: str | None, threshold: int) -> list[Move]:
 
 
 def published_urls() -> set[str]:
-    """Normalized URLs of every page published today."""
+    """Normalized URLs of every page published today. Drafts do not count."""
+    drafts = draft_paths()
     return {norm(to_url(p)) for p in git("ls-files", CONTENT).splitlines()
-            if eligible(p)}
+            if eligible(p) and p not in drafts}
 
 
 def alias_owners() -> dict[str, set[str]]:
@@ -393,6 +447,7 @@ def classify(moves: list[Move]) -> None:
     """
     current = published_urls()
     owners = alias_owners()
+    drafts = draft_paths()
     alias_cache: dict[str, set[str]] = {}
 
     for move in moves:
@@ -400,6 +455,7 @@ def classify(moves: list[Move]) -> None:
             alias_cache[move.new_path] = declared_aliases(move.new_path)
         move.aliased = norm(move.old_url) in alias_cache[move.new_path]
         move.occupied = norm(move.old_url) in current
+        move.target_draft = move.new_path in drafts
         if not (move.aliased or move.occupied):
             claimed = owners.get(norm(move.old_url), set()) - {move.new_path}
             move.collides_with = sorted(claimed)
@@ -560,20 +616,30 @@ def apply_fixes(moves: list[Move]) -> tuple[int, int, list[str]]:
 def report(moves: list[Move], github: bool, fix_hint: str) -> list[Move]:
     missing = [m for m in moves if m.actionable]
     occupied = [m for m in moves if not m.aliased and m.occupied]
-    collisions = [m for m in moves
-                  if not m.aliased and not m.occupied and m.collides_with]
+    drafted = [m for m in moves
+               if not m.aliased and not m.occupied and m.target_draft]
+    collisions = [m for m in moves if not m.aliased and not m.occupied
+                  and not m.target_draft and m.collides_with]
     aliased = [m for m in moves if m.aliased]
 
     logger.info("check_missing_aliases: %d URL-changing move(s) found.", len(moves))
     if moves:
         logger.info("  %d already aliased, %d missing an alias, %d skipped "
-                    "(old URL is a live page), %d need a decision (collision).",
-                    len(aliased), len(missing), len(occupied), len(collisions))
+                    "(old URL is a live page), %d skipped (target is a draft), "
+                    "%d need a decision (collision).",
+                    len(aliased), len(missing), len(occupied), len(drafted),
+                    len(collisions))
 
     if occupied:
         logger.info("Skipped -- old URL currently resolves, so must not redirect:")
         for move in occupied:
             logger.info("  %s  %s", move.date, move.old_url)
+
+    if drafted:
+        logger.info("Skipped -- the page moved to is a draft, so it publishes "
+                    "nothing and an alias on it would do nothing:")
+        for move in drafted:
+            logger.info("  %s  %s -> %s", move.date, move.old_url, move.new_path)
 
     if collisions:
         logger.warning("Needs a human decision -- another page already claims "

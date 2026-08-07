@@ -3,9 +3,10 @@
 
 The interesting logic is ``insert_aliases``, which edits frontmatter line by
 line rather than round-tripping the YAML. It has to cope with every alias shape
-already in the repo -- block lists (490 files), single-line inline lists (44),
-multi-line inline lists (19), the key declared with no value (192), and no key
-at all -- while leaving every other line untouched.
+already in the repo -- block lists (490 files), bare scalars (104), the key
+spelled ``null`` (49), single-line inline lists (44), the key left bare (39),
+multi-line inline lists (19), one folded multi-line scalar, and no key at all --
+while leaving every other line untouched.
 
 Run with ``pytest build/test_check_missing_aliases.py`` or directly.
 """
@@ -16,8 +17,8 @@ import sys
 sys.path.insert(0, os.path.dirname(__file__))
 
 from check_missing_aliases import (  # noqa: E402
-    Move, declared_aliases, eligible, insert_aliases, is_published, is_versioned,
-    render_never_roots, to_url,
+    Move, declared_aliases, draft_paths, eligible, insert_aliases, is_published,
+    is_versioned, norm, published_urls, render_never_roots, to_url,
 )
 
 
@@ -84,6 +85,19 @@ def test_only_safe_moves_are_actionable():
     # A collision has no safe automatic answer: Hugo would pick one of the two
     # claimants arbitrarily, so the alias must not be added unattended.
     assert not move(collides_with=["content/other.md"]).actionable
+    # A draft publishes nothing, aliases included, so writing one is a no-op.
+    assert not move(target_draft=True).actionable
+
+
+def test_drafts_are_detected_and_excluded_from_published_urls():
+    drafts = draft_paths()
+    assert drafts, "expected this repo to contain drafts"
+    assert all(p.startswith("content/") and p.endswith(".md") for p in drafts)
+    # The draft that made this trap visible: Hugo declined to emit its two
+    # alias stubs during a full build, because the page itself is a draft.
+    assert "content/integrate/write-behind/_index.md" in drafts
+    published = published_urls()
+    assert norm(to_url("content/integrate/write-behind/_index.md")) not in published
 
 
 # --------------------------------------------------------------------------- #
@@ -153,7 +167,7 @@ Body.
 
 
 def test_empty_aliases_key_gains_the_first_item():
-    # 192 files in the repo declare the key with no value.
+    # 39 files in the repo leave the key bare like this.
     before = """---
 aliases:
 categories:
