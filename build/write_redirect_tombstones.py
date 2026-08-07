@@ -29,9 +29,11 @@ cannot disagree with the map or with the site.
 
 Two things it will not do, both load-bearing:
 
-- **Never overwrite an existing ``index.json``.** An alias whose path a real page
-  occupies gets no tombstone; Hugo does not emit a stub there either, and
-  clobbering a real record would be far worse than a 404.
+- **Never overwrite a real page's ``index.json``.** An alias whose path a real page
+  occupies gets no tombstone; Hugo does not emit a stub there either, and clobbering
+  a real record would be far worse than a 404. A file that is recognisably one of
+  our own tombstones *is* rewritten, so an incremental build cannot keep serving a
+  ``moved_to`` that has since changed, and one the map no longer names is removed.
 - **Only write where a stub exists.** An alias declared on a draft, or one Hugo
   dropped because the URL was taken, produces no stub and so gets no tombstone.
 
@@ -73,7 +75,16 @@ def main() -> int:
     base_url = (redirect_map.get("base_url") or "").rstrip("/")
     entries = redirect_map.get("redirects") or []
 
-    written = no_stub = occupied = 0
+    def is_tombstone(path: str) -> bool:
+        """True if this index.json is one of ours rather than a real page record."""
+        try:
+            with open(path, encoding="utf-8") as existing:
+                return json.load(existing).get("page_type") == "moved"
+        except (OSError, json.JSONDecodeError):
+            return False
+
+    written = refreshed = no_stub = occupied = 0
+    expected: set[str] = set()
     for entry in entries:
         source = (entry.get("from") or "").strip()
         target = (entry.get("to") or "").strip()
@@ -81,7 +92,8 @@ def main() -> int:
             continue
 
         rel = source.lstrip("/")
-        directory = os.path.join(args.public_dir, *rel.split("/")) if rel else args.public_dir
+        directory = (os.path.join(args.public_dir, *rel.split("/")) if rel
+                     else args.public_dir)
 
         # Only where Hugo actually emitted a stub. A missing directory or missing
         # index.html means the alias was dropped -- the URL was already taken, or
@@ -92,10 +104,12 @@ def main() -> int:
             continue
 
         tombstone_path = os.path.join(directory, "index.json")
-        if os.path.exists(tombstone_path):
+        already = os.path.exists(tombstone_path)
+        if already and not is_tombstone(tombstone_path):
             # A real page lives here. Never clobber a real record.
             occupied += 1
             continue
+        expected.add(os.path.realpath(tombstone_path))
 
         record = {
             "schema_version": schema_version,
@@ -109,10 +123,41 @@ def main() -> int:
             with open(tombstone_path, "w", encoding="utf-8") as handle:
                 json.dump(record, handle, indent=2)
                 handle.write("\n")
-        written += 1
+        if already:
+            # One of ours from a previous run. Rewritten rather than left alone, or
+            # an incremental build would keep serving a moved_to that has since
+            # changed. CI always builds into a fresh tree, so this only shows up
+            # locally -- but "correct because CI starts clean" is not correct.
+            refreshed += 1
+        else:
+            written += 1
 
+    # Sweep tombstones that no longer belong: the alias was removed, or it became
+    # ambiguous and is now published as a candidate list instead. Only files that
+    # are recognisably ours are ever removed, and only when the map no longer names
+    # them, so a real page record can never be caught by this.
+    removed = 0
+    for root, _dirs, files in os.walk(args.public_dir):
+        if "index.json" not in files:
+            continue
+        path = os.path.join(root, "index.json")
+        if os.path.realpath(path) in expected:
+            continue
+        if not is_tombstone(path):
+            continue
+        if not args.dry_run:
+            os.remove(path)
+        removed += 1
+
+    verb = "would be written" if args.dry_run else "written"
     logger.info("write_redirect_tombstones: %d tombstone(s) %s from %d map entries.",
-                written, "would be written" if args.dry_run else "written", len(entries))
+                written, verb, len(entries))
+    if refreshed:
+        logger.info("  %d existing tombstone(s) %s.", refreshed,
+                    "would be refreshed" if args.dry_run else "refreshed")
+    if removed:
+        logger.info("  %d obsolete tombstone(s) %s -- no longer in the map.", removed,
+                    "would be removed" if args.dry_run else "removed")
     if no_stub:
         logger.info("  %d alias(es) had no stub, so were skipped -- the URL is taken "
                     "by a real page, or the alias is on a draft.", no_stub)
