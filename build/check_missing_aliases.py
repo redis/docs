@@ -11,10 +11,10 @@ This scans git history for renames, works out which ones actually changed a
 published URL, and reports those with no alias. ``--fix`` writes the missing
 aliases into frontmatter.
 
-Eight things make a naive version of this worse than useless -- a first attempt
-reported 961 missing aliases against a true 256, nearly three quarters of it
+Nine things make a naive version of this worse than useless -- a first attempt
+reported 961 missing aliases against a true 253, nearly three quarters of it
 noise, and every false positive looked plausible in a list -- so each of the
-eight is handled explicitly:
+nine is handled explicitly:
 
 1. **Hugo bundles.** ``index.md`` (leaf) and ``_index.md`` (branch) both publish
    at the containing directory's URL, so neither name appears in the URL and
@@ -38,7 +38,7 @@ eight is handled explicitly:
    working aliases, where PyYAML reads the single string ``"/a/ /b/"``. Trusting
    the YAML library over Hugo there cost a false positive against a page that
    was never broken.
-7. **Collisions.** 28 of the gaps name a URL another page already claims as its
+7. **Collisions.** 25 of the gaps name a URL another page already claims as its
    own alias. Hugo resolves that by picking one arbitrarily and warning, so
    adding the alias unattended would make the redirect ambiguous rather than
    fix it. Those are reported for a human and never auto-fixed.
@@ -48,6 +48,14 @@ eight is handled explicitly:
    occupying a URL would suppress a real redirect. Caught by building the
    corpus and finding two stubs Hugo declined to emit, which is the only reason
    this is here rather than still latent.
+9. **Pages split into a section.** ``X.md`` becoming ``X/<child>.md`` turns the
+   old URL into a section URL while the file becomes one page inside it, so
+   redirecting the old landing page to that one child is usually wrong -- a
+   reader holding the old link wants the new landing page. git records lineage,
+   and lineage is not equivalence. 6 such splits exist here and 6 aliases reach
+   their target through one, so they are reported for a person rather than
+   guessed at. A split to ``X/_index.md`` is fine and not counted, because the
+   URL does not change.
 
 Warn-only by default (exit 0), like check_page_sizes; pass ``--fail`` to make CI
 block on offenders.
@@ -106,13 +114,14 @@ class Move:
     aliased: bool = False
     occupied: bool = False
     target_draft: bool = False
+    split_at: str = ""
     collides_with: list[str] = field(default_factory=list)
 
     @property
     def actionable(self) -> bool:
         """True when the alias can be added safely and without a judgment call."""
         return not (self.aliased or self.occupied or self.target_draft
-                    or self.collides_with)
+                    or self.split_at or self.collides_with)
 
 
 @dataclass
@@ -347,6 +356,28 @@ def declared_aliases(path: str) -> set[str]:
 # finding moves
 # --------------------------------------------------------------------------- #
 
+def order_renames(pending: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    """Order one commit's renames so a chain resolves whatever order git listed.
+
+    A commit can contain both A->B and B->C, and the chain only resolves if A->B
+    is applied first. git's ordering is not guaranteed to oblige, so an edge waits
+    while any other edge in the same commit still renames *into* its source. No
+    commit in this repo's history contains such a chain today, so this changes
+    nothing here -- but getting it wrong loses a move silently, which is the
+    failure mode this whole script exists to avoid.
+    """
+    remaining = list(pending)
+    ordered: list[tuple[str, str]] = []
+    while remaining:
+        ready = [(o, n) for o, n in remaining
+                 if not any(n2 == o for o2, n2 in remaining if (o2, n2) != (o, n))]
+        if not ready:
+            ready = list(remaining)  # a rename cycle; apply as listed and move on
+        ordered.extend(ready)
+        remaining = [e for e in remaining if e not in ready]
+    return ordered
+
+
 def find_moves(rev_range: str | None, threshold: int) -> list[Move]:
     """Renames in the given range, chained so each page resolves to its final home."""
     args = ["log", "--reverse", f"--find-renames={threshold}%", "--diff-filter=R",
@@ -363,17 +394,11 @@ def find_moves(rev_range: str | None, threshold: int) -> list[Move]:
 
     # path-as-it-stands-now -> the (old_path, date, commit) records behind it
     history: dict[str, set[tuple[str, str, str]]] = {}
+    edges: dict[str, str] = {}
+    pending: list[tuple[str, str]] = []
     commit = date = ""
-    for line in out.splitlines():
-        if line.startswith("COMMIT\t"):
-            _, commit, date = line.split("\t")
-            continue
-        parts = line.split("\t")
-        if len(parts) != 3 or not parts[0].startswith("R"):
-            continue
-        _, old, new = parts
-        if not (eligible(old) and eligible(new)):
-            continue
+
+    def absorb(old: str, new: str) -> None:
         # Merge rather than assign. If a second file later renames onto a path
         # that already carries a chain -- possible once the first occupant has
         # been deleted rather than moved -- assigning would drop the earlier
@@ -385,6 +410,50 @@ def find_moves(rev_range: str | None, threshold: int) -> list[Move]:
         carried = history.pop(old, set())
         history.setdefault(new, set()).update(carried)
         history[new].add((old, date, commit))
+        edges[old] = new
+
+    def flush() -> None:
+        """Apply one commit's renames in dependency order, then clear the buffer."""
+        for old, new in order_renames(pending):
+            absorb(old, new)
+        pending.clear()
+
+    for line in out.splitlines():
+        if line.startswith("COMMIT\t"):
+            flush()
+            _, commit, date = line.split("\t")
+            continue
+        parts = line.split("\t")
+        if len(parts) != 3 or not parts[0].startswith("R"):
+            continue
+        _, old, new = parts
+        if not (eligible(old) and eligible(new)):
+            continue
+        pending.append((old, new))
+    flush()
+
+    # A "demoting split" is X.md -> X/<named child>.md: a page broken up into a
+    # section, so its old URL becomes the section's URL while the file itself
+    # becomes one page inside it. Redirecting the old URL to that one child is
+    # usually wrong -- someone holding a link to the old landing page should
+    # arrive at the new landing page, not at whichever child inherited the file.
+    # A split to X/_index.md is fine and not counted, because the URL is
+    # unchanged. 6 such splits exist here, and 3 aliases reach a target through
+    # one; git records lineage, and lineage is not the same as equivalence, so
+    # these are reported for a person rather than guessed at.
+    demoting = {old for old, new in edges.items()
+                if os.path.dirname(new) + ".md" == old
+                and not new.endswith("_index.md")}
+
+    def crosses_a_split(start: str) -> str:
+        seen: set[str] = set()
+        path = start
+        while path in edges and path not in seen:
+            seen.add(path)
+            if path in demoting:
+                return f"{path} -> {edges[path]}"
+            path = edges[path]
+        return ""
 
     tracked = set(git("ls-files", CONTENT).splitlines())
     moves: list[Move] = []
@@ -398,7 +467,8 @@ def find_moves(rev_range: str | None, threshold: int) -> list[Move]:
                 continue  # a bundle rename, or otherwise URL-preserving
             moves.append(Move(old_path=old_path, new_path=new_path,
                               old_url=old_url, new_url=new_url,
-                              date=date, commit=commit[:9]))
+                              date=date, commit=commit[:9],
+                              split_at=crosses_a_split(old_path)))
 
     # A redirect is identified by where it comes from and where it goes, so the
     # same pair reached by two routes -- a page moved away and back, or a
@@ -531,7 +601,8 @@ def insert_aliases(lines: list[str], new_aliases: list[str]) -> list[str] | None
     # leave the continuation dangling and break the frontmatter outright, so
     # refuse it and let a human fix the underlying content bug. One file today.
     following = lines[key + 1] if key + 1 < close else ""
-    if (following[:1] in (" ", "\t")
+    if (following.strip()                       # a blank line is not a continuation
+            and following[:1] in (" ", "\t")
             and not re.match(r"[ \t]*-[ \t]*\S", following)
             and not re.match(r"[ \t]*\S+[ \t]*:", following)):
         return None
@@ -628,17 +699,20 @@ def report(moves: list[Move], github: bool, fix_hint: str) -> list[Move]:
     occupied = [m for m in moves if not m.aliased and m.occupied]
     drafted = [m for m in moves
                if not m.aliased and not m.occupied and m.target_draft]
+    splits = [m for m in moves if not m.aliased and not m.occupied
+              and not m.target_draft and m.split_at]
     collisions = [m for m in moves if not m.aliased and not m.occupied
-                  and not m.target_draft and m.collides_with]
+                  and not m.target_draft and not m.split_at and m.collides_with]
     aliased = [m for m in moves if m.aliased]
 
     logger.info("check_missing_aliases: %d URL-changing move(s) found.", len(moves))
     if moves:
         logger.info("  %d already aliased, %d missing an alias, %d skipped "
                     "(old URL is a live page), %d skipped (target is a draft), "
-                    "%d need a decision (collision).",
+                    "%d need a decision (page split), %d need a decision "
+                    "(collision).",
                     len(aliased), len(missing), len(occupied), len(drafted),
-                    len(collisions))
+                    len(splits), len(collisions))
 
     if occupied:
         logger.info("Skipped -- old URL currently resolves, so must not redirect:")
@@ -650,6 +724,15 @@ def report(moves: list[Move], github: bool, fix_hint: str) -> list[Move]:
                     "nothing and an alias on it would do nothing:")
         for move in drafted:
             logger.info("  %s  %s -> %s", move.date, move.old_url, move.new_path)
+
+    if splits:
+        logger.warning("Needs a human decision -- the old page was split into a "
+                       "section, so the right target is probably its new landing "
+                       "page rather than the child that inherited the file:")
+        for move in splits:
+            logger.warning("  %s  %s", move.date, move.old_url)
+            logger.warning("      lineage ends at %s", move.new_url)
+            logger.warning("      split at       %s", move.split_at)
 
     if collisions:
         logger.warning("Needs a human decision -- another page already claims "

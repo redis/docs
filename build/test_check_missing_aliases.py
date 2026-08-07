@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 from check_missing_aliases import (  # noqa: E402
     Move, declared_aliases, draft_paths, eligible, insert_aliases, is_published,
-    is_versioned, norm, published_urls, render_never_roots, to_url,
+    is_versioned, norm, order_renames, published_urls, render_never_roots, to_url,
 )
 
 
@@ -87,6 +87,47 @@ def test_only_safe_moves_are_actionable():
     assert not move(collides_with=["content/other.md"]).actionable
     # A draft publishes nothing, aliases included, so writing one is a no-op.
     assert not move(target_draft=True).actionable
+
+
+def test_renames_in_one_commit_are_ordered_so_chains_resolve():
+    # A commit holding both A->B and B->C only resolves if A->B goes first.
+    # git's listing order is not guaranteed to oblige, and getting it wrong
+    # loses the A move silently.
+    ab, bc = ("content/a.md", "content/b.md"), ("content/b.md", "content/c.md")
+    assert order_renames([bc, ab]) == [ab, bc]
+    assert order_renames([ab, bc]) == [ab, bc]
+    # Independent renames keep their order and none are dropped.
+    xy, pq = ("content/x.md", "content/y.md"), ("content/p.md", "content/q.md")
+    assert order_renames([xy, pq]) == [xy, pq]
+    # A cycle must terminate rather than spin, and must not lose an edge.
+    cycle = [("content/a.md", "content/b.md"), ("content/b.md", "content/a.md")]
+    assert sorted(order_renames(cycle)) == sorted(cycle)
+    # A three-link chain listed backwards.
+    cd = ("content/c.md", "content/d.md")
+    assert order_renames([cd, bc, ab]) == [ab, bc, cd]
+
+
+def test_a_move_split_into_a_section_is_not_auto_fixed():
+    def move(**kwargs):
+        return Move(old_path="content/a.md", new_path="content/b/c.md",
+                    old_url="a", new_url="b/c", date="2026-01-01", commit="abc",
+                    **kwargs)
+
+    # git says this file descends from the old page, but the old URL was a
+    # landing page and its lineage ends at one child, so a person decides.
+    assert not move(split_at="content/a.md -> content/a/c.md").actionable
+    assert move().actionable
+
+
+def test_a_whitespace_only_line_is_not_a_folded_continuation():
+    # The folded-scalar guard must not be tripped by trailing whitespace on the
+    # line after a perfectly ordinary single-value scalar.
+    before = "---\naliases: /old/thing/\n   \ntitle: T\n---\nBody.\n"
+    after = insert_aliases(before.splitlines(keepends=True), ["/new/thing/"])
+    assert after is not None, "a blank line should not block the fix"
+    joined = "".join(after)
+    assert "- /old/thing/\n" in joined
+    assert "- /new/thing/\n" in joined
 
 
 def test_drafts_are_detected_and_excluded_from_published_urls():
