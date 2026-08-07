@@ -556,14 +556,24 @@ def insert_aliases(lines: list[str], new_aliases: list[str]) -> list[str] | None
         block = [f"{item_indent}- {a}\n" for a in new_aliases]
         return lines[:last + 1] + block + lines[last + 1:]
 
-    # A scalar value (aliases: /a/) -- 104 files. Promote it to an inline list.
-    # Some of those carry a stray trailing comma from an author writing a list
-    # without brackets, which would otherwise become an empty list entry.
-    existing = rest.rstrip(",").strip()
-    items = ([existing] if existing else []) + new_aliases
+    # A scalar value (aliases: /a/) -- 104 files. Promote it to a *block* list,
+    # never an inline one, and keep each existing token byte-for-byte.
+    #
+    # Inline promotion silently changes what the page publishes. One file holds
+    # `aliases: /operate/kubernetes/release-notes/7-4-6-2, ` -- an author writing
+    # a list without brackets -- and Hugo publishes an alias whose path ends in a
+    # comma, which is live and returns 200 today. Written inline, that comma
+    # becomes the list separator and the alias silently changes to the
+    # comma-free path, turning a working URL into a 404. A block list has no
+    # separator to be confused with, so the value survives exactly.
+    #
+    # Splitting on whitespace matches Hugo's cast.ToStringSlice, so a scalar
+    # holding several aliases becomes several list items rather than one.
     lines = list(lines)
-    lines[key] = f"{indent}aliases: [{', '.join(items)}]\n"
-    return lines
+    lines[key] = f"{indent}aliases:\n"
+    items = rest.split() + new_aliases
+    block = [f"{indent}- {a}\n" for a in items]
+    return lines[:key + 1] + block + lines[key + 1:]
 
 
 def apply_fixes(moves: list[Move]) -> tuple[int, int, list[str]]:

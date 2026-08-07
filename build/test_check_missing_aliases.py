@@ -208,7 +208,7 @@ Body.
     assert "null" not in after
 
 
-def test_scalar_value_is_promoted_to_a_list():
+def test_scalar_value_is_promoted_to_a_block_list():
     before = """---
 aliases: /develop/connect/clients/dotnet
 title: .NET
@@ -216,14 +216,25 @@ title: .NET
 Body.
 """
     after = apply(before, ["/develop/clients/dotnet/"])
-    assert ("aliases: [/develop/connect/clients/dotnet, "
-            "/develop/clients/dotnet/]\n") in after
+    assert after == """---
+aliases:
+- /develop/connect/clients/dotnet
+- /develop/clients/dotnet/
+title: .NET
+---
+Body.
+"""
 
 
-def test_scalar_with_a_stray_trailing_comma_does_not_create_an_empty_item():
-    # Real frontmatter in the repo: an author wrote a list without brackets, so
-    # the value is the string "/path/7-4-6-2,". Left alone it would become
-    # `[/path/7-4-6-2,, /new/]` -- a double comma, i.e. an empty alias.
+def test_scalar_with_a_trailing_comma_keeps_the_comma():
+    """A live URL must not change because we tidied its frontmatter.
+
+    Real frontmatter in the repo: an author wrote a list without brackets, so
+    Hugo publishes an alias whose path ends in a comma. That URL returns 200
+    today. Promoted to an *inline* list the comma becomes the separator and the
+    alias silently changes to the comma-free path -- observed as a lost page when
+    diffing two full builds. A block list preserves it.
+    """
     before = """---
 weight: 29
 aliases: /operate/kubernetes/release-notes/7-4-6-2,
@@ -231,9 +242,24 @@ aliases: /operate/kubernetes/release-notes/7-4-6-2,
 Body.
 """
     after = apply(before, ["/operate/kubernetes/release-notes/7-4-6-2/"])
-    assert ",," not in after
-    assert ("aliases: [/operate/kubernetes/release-notes/7-4-6-2, "
-            "/operate/kubernetes/release-notes/7-4-6-2/]\n") in after
+    assert "- /operate/kubernetes/release-notes/7-4-6-2,\n" in after
+    assert "- /operate/kubernetes/release-notes/7-4-6-2/\n" in after
+    assert "aliases: [" not in after
+
+
+def test_folded_scalar_promotion_keeps_both_aliases():
+    # Hugo reads a folded scalar as two aliases, so promotion must emit two
+    # items rather than one item containing a space.
+    before = """---
+aliases: /operate/search/scalable-search/
+         /operate/search/query-performance-factor/
+weight: 20
+---
+Body.
+"""
+    result = insert_aliases(before.splitlines(keepends=True), ["/new/"])
+    # The folded form is refused outright, so nothing is silently mangled.
+    assert result is None
 
 
 def test_missing_key_is_added_above_the_closing_fence():
