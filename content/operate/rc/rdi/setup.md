@@ -20,6 +20,7 @@ Before using the pipeline, you must first prepare your source database to use th
 See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type:
 - [MongoDB Atlas]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/mongodb">}})
 - [Snowflake]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/snowflake">}})
+- [Supabase]({{<relref "/operate/rc/rdi/supabase">}})
 - Hosted on an AWS EC2 instance:
     - [MySQL and mariaDB]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/my-sql-mariadb">}})
     - [Oracle]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/oracle">}})

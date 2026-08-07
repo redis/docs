@@ -12,7 +12,7 @@ weight: 50
 ---
 
 
-Agents use Redis for data storage, [vector search]({{< relref "/develop/get-started/vector-database" >}}), and [conversation memory]({{< relref "/develop/get-started/rag" >}}). The interactive builder generates code in your preferred programming language with your choice of model.
+Agents use Redis for data storage, [vector search]({{< relref "/develop/get-started/search-tutorial/vector-search" >}}), and [conversation memory]({{< relref "/develop/get-started/rag" >}}). The interactive builder generates code in your preferred programming language with your choice of model.
 
 ## Get started
 

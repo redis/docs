@@ -69,7 +69,7 @@ You can only use the legacy path syntax to access JSON keys if they follow these
 
 You can index, search, and query stored JSON documents.
 
-For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/get-started/document-database" >}}).
+For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/get-started/search-tutorial" >}}).
 
 ## JSON in Active-Active databases
 

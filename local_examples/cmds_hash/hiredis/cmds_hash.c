@@ -72,6 +72,45 @@ int main(int argc, char **argv) {
     redisCommand(c, "DEL myhash");
     // REMOVE_END
 
+    // STEP_START hlen
+    // Add two new fields to the hash
+    reply = redisCommand(c, "HSET %s %s %s", "myhash", "field1", "Hello");
+    printf("HSET myhash field1 Hello: %lld\n", reply->integer); // >>> 1
+    // REMOVE_START
+    if (reply->integer != 1) {
+        printf("ASSERTION FAILED: Expected 1, got %lld\n", reply->integer);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "HSET %s %s %s", "myhash", "field2", "World");
+    printf("HSET myhash field2 World: %lld\n", reply->integer); // >>> 1
+    // REMOVE_START
+    if (reply->integer != 1) {
+        printf("ASSERTION FAILED: Expected 1, got %lld\n", reply->integer);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+
+    // Count the fields in the hash
+    reply = redisCommand(c, "HLEN %s", "myhash");
+    printf("HLEN myhash: %lld\n", reply->integer); // >>> 2
+    // REMOVE_START
+    if (reply->type != REDIS_REPLY_INTEGER) {
+        printf("ASSERTION FAILED: Expected an integer reply for HLEN\n");
+    }
+    if (reply->integer != 2) {
+        printf("ASSERTION FAILED: Expected 2, got %lld\n", reply->integer);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    // REMOVE_START
+    redisReply *del_reply = redisCommand(c, "DEL myhash");
+    freeReplyObject(del_reply);
+    // REMOVE_END
+
     // STEP_START disconnect
     redisFree(c);
     // STEP_END

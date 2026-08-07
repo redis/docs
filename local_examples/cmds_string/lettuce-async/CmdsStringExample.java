@@ -34,10 +34,10 @@ public class CmdsStringExample {
                     .thenCompose(res2 -> asyncCommands.mget("key1", "key2", "nonexisting"))
                     .thenAccept(res3 -> {
                         System.out.println(res3);
-                        // >>> [KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting, null]]
+                        // >>> [KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting].empty]
                         // REMOVE_START
                         assertThat(res3.toString()).isEqualTo(
-                                "[KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting, null]]");
+                                "[KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting].empty]");
                         // REMOVE_END
                     })
                     .toCompletableFuture();

@@ -127,6 +127,7 @@ redis> COMMAND INFO get set eval
        3) skip_monitor
        4) no_mandatory_keys
        5) movablekeys
+       6) script_runner
     4) (integer) 0
     5) (integer) 0
     6) (integer) 0
@@ -165,6 +166,7 @@ redis> COMMAND INFO foo evalsha config bar
        3) skip_monitor
        4) no_mandatory_keys
        5) movablekeys
+       6) script_runner
     4) (integer) 0
     5) (integer) 0
     6) (integer) 0

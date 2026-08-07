@@ -116,3 +116,7 @@ redis> SINTER key1 key2
 [Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SINTERCARD`]({{< relref "commands/sintercard" >}}) | [`SINTERSTORE`]({{< relref "commands/sinterstore" >}})

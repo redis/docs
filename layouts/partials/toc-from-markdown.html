@@ -2,6 +2,7 @@
 {{- /* This parses ## and ### headers directly from .RawContent */ -}}
 {{- /* since Hugo's .TableOfContents may be empty for custom templates */ -}}
 
+{{- $page := . -}}
 {{- $content := .RawContent -}}
 
 {{- /* Unescape HTML entities that may be present in .RawContent */ -}}
@@ -13,6 +14,26 @@
 {{- $content = $content | replaceRE "&amp;" "&" -}}
 
 {{- $sections := slice -}}
+
+{{- /* Ids already used on this page, so duplicates can be suffixed rather than
+       repeated. Keeps the TOC in step with sections[] in the JSON output, which
+       does the same in build/transform_json_sections.ts. */ -}}
+{{- $usedIds := slice -}}
+
+{{- /* Drop fenced code blocks before looking for headings, so a "## comment" inside a
+       code sample does not become a navigation entry. Uses the same simple pairing rule
+       as splitContentIntoSections in build/transform_json_sections.ts, so both agree on
+       what counts as code and their ids stay in step. */ -}}
+{{- $content = $content | replaceRE "(?s)```.*?```" "" -}}
+
+{{- /* Drop HTML-comment blocks too, so prose an author has parked does not appear in the
+       navigation. develop/clients/observability comments out a whole "Tracing overview"
+       section, which was published here as a real entry pointing at an anchor that does
+       not exist on the page, because Hugo renders no heading for commented-out text.
+       Line-anchored open delimiter, matching process-markdown-content.html -- change the
+       two together. Safe to run after the code strip above, which has already removed any
+       comment living inside a code sample. */ -}}
+{{- $content = $content | replaceRE "(?ms)^<!--.*?-->" "" -}}
 
 {{- /* Find all ## and ### headers in the raw markdown */ -}}
 {{- /* Pattern matches lines starting with ## or ### followed by space and title */ -}}
@@ -36,25 +57,93 @@
     {{- $title = replaceRE `^## +` "" $headerMatch -}}
   {{- end -}}
 
-  {{- /* Remove inline code markers */ -}}
-  {{- $title = replaceRE "`([^`]+)`" "$1" $title -}}
-  {{- /* Remove other inline formatting */ -}}
-  {{- $title = replaceRE `\*\*([^*]+)\*\*` "$1" $title -}}
-  {{- $title = replaceRE `\*([^*]+)\*` "$1" $title -}}
-  {{- $title = replaceRE `_([^_]+)_` "$1" $title -}}
-  {{- /* Trim whitespace */ -}}
-  {{- $title = $title | strings.TrimSpace -}}
+  {{- /* Hugo's explicit heading anchor, "## Title {#custom-id}". Hugo uses the anchor as the
+         rendered heading id and does not display it, so it has to come out of the title and
+         be used verbatim as the id. Matched strictly, because a loose trailing-brace match
+         would eat Python signatures ending in an empty dict and dict defaults such as
+         {'extra': 'ignore'}.
 
-  {{- /* Generate ID (slug) from title */ -}}
-  {{- $id := $title | lower -}}
-  {{- /* Replace spaces with hyphens */ -}}
-  {{- $id = $id | replaceRE `\s+` "-" -}}
-  {{- /* Remove special characters except hyphens */ -}}
-  {{- $id = $id | replaceRE `[^a-z0-9-]` "" -}}
-  {{- /* Remove consecutive hyphens */ -}}
-  {{- $id = $id | replaceRE `-+` "-" -}}
-  {{- /* Trim leading/trailing hyphens */ -}}
-  {{- $id = $id | replaceRE `^-+|-+$` "" -}}
+         Lifted off the RAW heading, before any rendering. Doing it afterwards means the
+         anchor has to survive whatever the renderer does to it, and the emphasis regexes
+         this used to sit behind ate the underscores out of anchors such as
+         {#redis.error_reply}, yielding redis.errorreply and a dead deep link. */ -}}
+  {{- $explicitId := "" -}}
+  {{- with (findRESubmatch `\s*\{#([A-Za-z0-9][A-Za-z0-9_.:-]*)\}\s*$` $title 1) -}}
+    {{- $explicitId = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- if $explicitId -}}
+    {{- $title = $title | replaceRE `\s*\{#[A-Za-z0-9][A-Za-z0-9_.:-]*\}\s*$` "" -}}
+  {{- end -}}
+
+  {{- /* Escape a leading ordered-list marker before rendering. Even with display "inline"
+         the renderer reads "1. Launch the app" as a list item and drops the number, where
+         the rendered page heading keeps it -- and Hugo's anchor includes it, so dropping it
+         breaks the deep link too. 299 headings start this way; none starts with -, + or *. */ -}}
+  {{- $title = $title | replaceRE `^(\d+)([.)])(\s)` `${1}\${2}${3}` -}}
+
+  {{- /* Reduce the heading to plain text with Hugo's own Markdown renderer rather than
+         hand-rolled regexes.
+
+         What this replaces stripped inline code markers first and then treated any remaining
+         * or _ as emphasis, so by that point there was no way to tell that a character had
+         come from inside a code span. Code-formatted headings therefore lost characters:
+         "**kwargs" became "*kwargs" and "redis_url" became "redisurl", which published
+         incorrect API signatures on the redisvl reference pages.
+
+         Goldmark applies the real CommonMark rules, including the ban on intraword underscore
+         emphasis, so snake_case survives whether or not it sits in a code span. RenderString
+         rather than markdownify because markdownify renders the string as a block. plainify
+         then strips the inline markup and htmlUnescape restores literal text. */ -}}
+  {{- /* Keep the raw heading for the id, because Hugo slugs the heading's own text, which
+         preserves whitespace runs where rendering collapses them: a heading with a double
+         space anchors as "choosing-the-capacity--capacity", and slugging the rendered title
+         would give one hyphen. Slugging the raw text costs nothing, because the markup
+         characters it still contains are discarded by the slug rules anyway, and no heading
+         in this repo contains a Markdown link -- the one case where the two would diverge.
+
+         Whitespace-trimmed, but hyphens are not: a trailing space would otherwise become a
+         trailing hyphen, where Hugo slugs the trimmed heading text. Those are not the same
+         thing -- "Negation !" trims to itself, and the space left behind when the "!" is
+         discarded still becomes the trailing hyphen Hugo emits. */ -}}
+  {{- $rawTitle := $title | strings.TrimSpace -}}
+
+  {{- $title = $page.RenderString (dict "display" "inline") $title | plainify | htmlUnescape | strings.TrimSpace -}}
+
+  {{- /* Slug the title the way Hugo does, so the id matches the anchor on the page.
+         Goldmark's default "github" style: lowercase, discard anything that is not a
+         letter, number, whitespace, underscore or hyphen, then turn each remaining
+         whitespace character into one hyphen.
+
+         Underscores and runs of hyphens are kept, whitespace runs are NOT collapsed, and
+         leading and trailing hyphens are NOT trimmed -- "Negation !" really does anchor as
+         "negation-". The previous version stripped underscores, collapsed runs and trimmed,
+         so it disagreed with the page anchor three ways. Slugged from the raw heading, not
+         the rendered title, and kept identical to slugify in
+         build/transform_json_sections.ts -- change the two together. */ -}}
+  {{- $id := $rawTitle | lower -}}
+  {{- $id = $id | replaceRE `[^\p{L}\p{Nd}\s_-]` "" -}}
+  {{- $id = $id | replaceRE `\s` "-" -}}
+
+  {{- /* An explicit anchor overrides the slug entirely */ -}}
+  {{- if $explicitId -}}
+    {{- $id = $explicitId -}}
+  {{- end -}}
+
+  {{- /* Disambiguate a repeated id with Hugo's own -1, -2 suffix convention. Bounded by
+         the heading count rather than an arbitrary number, since a page can never need
+         more suffixes than it has headings -- an arbitrary cap would silently leave
+         duplicates on a page that exceeded it. */ -}}
+  {{- if in $usedIds $id -}}
+    {{- $base := $id -}}
+    {{- range seq 1 (len $headerMatches) -}}
+      {{- if in $usedIds $id -}}
+        {{- $id = printf "%s-%d" $base . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $id -}}
+    {{- $usedIds = $usedIds | append $id -}}
+  {{- end -}}
 
   {{- /* Add to sections array */ -}}
   {{- if and $id $title -}}

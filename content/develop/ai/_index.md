@@ -112,7 +112,7 @@ Quickstarts or recipes are useful when you are trying to build specific function
 
 Get started with these foundational guides:
 
-* [Redis vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}})
+* [Redis vector database quick start guide]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})
 * [Retrieval-Augmented Generation quick start guide]({{< relref "/develop/get-started/rag" >}})
 
 #### RAG

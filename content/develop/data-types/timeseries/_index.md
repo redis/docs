@@ -72,7 +72,7 @@ TSDB-TYPE
  1) totalSamples
  2) (integer) 0
  3) memoryUsage
- 4) (integer) 4424
+ 4) (integer) 4504
  5) firstTimestamp
  6) (integer) 0
  7) lastTimestamp
@@ -114,7 +114,7 @@ the data does not expire.
  1) totalSamples
  2) (integer) 1
  3) memoryUsage
- 4) (integer) 4424
+ 4) (integer) 4504
  5) firstTimestamp
  6) (integer) 1
  7) lastTimestamp
@@ -153,7 +153,7 @@ for queries and aggregations.
  1) totalSamples
  2) (integer) 1
  3) memoryUsage
- 4) (integer) 4568
+ 4) (integer) 5472
  5) firstTimestamp
  6) (integer) 1
  7) lastTimestamp
@@ -764,7 +764,7 @@ OK
  1) totalSamples
  2) (integer) 0
  3) memoryUsage
- 4) (integer) 4520
+ 4) (integer) 4592
  5) firstTimestamp
  6) (integer) 0
  7) lastTimestamp
@@ -851,7 +851,7 @@ If you want to delete a single timestamp, use it as both the start and end of th
  1) totalSamples
  2) (integer) 2
  3) memoryUsage
- 4) (integer) 4424
+ 4) (integer) 4504
  5) firstTimestamp
  6) (integer) 1
  7) lastTimestamp
@@ -882,7 +882,7 @@ If you want to delete a single timestamp, use it as both the start and end of th
  1) totalSamples
  2) (integer) 3
  3) memoryUsage
- 4) (integer) 4424
+ 4) (integer) 4504
  5) firstTimestamp
  6) (integer) 1
  7) lastTimestamp
@@ -913,7 +913,7 @@ If you want to delete a single timestamp, use it as both the start and end of th
  1) totalSamples
  2) (integer) 1
  3) memoryUsage
- 4) (integer) 4424
+ 4) (integer) 4504
  5) firstTimestamp
  6) (integer) 3
  7) lastTimestamp
@@ -944,7 +944,7 @@ If you want to delete a single timestamp, use it as both the start and end of th
  1) totalSamples
  2) (integer) 0
  3) memoryUsage
- 4) (integer) 4424
+ 4) (integer) 4504
  5) firstTimestamp
  6) (integer) 0
  7) lastTimestamp

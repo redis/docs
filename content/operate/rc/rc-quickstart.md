@@ -159,8 +159,8 @@ See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with th
 
 See the following guides to get started with different Redis use cases:
 - [Data structure store]({{< relref "/develop/get-started/data-store" >}})
-- [Document database]({{< relref "/develop/get-started/document-database" >}})
-- [Vector database]({{< relref "/develop/get-started/vector-database" >}})
+- [Document database]({{< relref "/develop/get-started/search-tutorial" >}})
+- [Vector database]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})
 - [RAG with Redis]({{< relref "/develop/get-started/rag" >}})
 - [Redis for AI]({{< relref "/develop/ai" >}})
 

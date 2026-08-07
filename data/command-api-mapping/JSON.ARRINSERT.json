@@ -466,6 +466,42 @@
           "description": "The array length after the insert operation."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_arrinsert(key, path, index, *values, raw: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "a JSONPath to the target array"
+          },
+          {
+            "name": "index",
+            "type": "Integer",
+            "description": "the position to insert before"
+          },
+          {
+            "name": "*values",
+            "type": "Array<Object>",
+            "description": "one or more JSON values to insert"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "treat each value as an already-encoded JSON string"
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>, Integer",
+          "description": "the new array length(s)"
+        }
+      }
     ]
   }
 }

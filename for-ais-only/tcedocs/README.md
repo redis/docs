@@ -8,8 +8,14 @@ There are two sections that need to updated when new languages are added.
 1. In the `[params]` section:
 
     ```toml
-    clientsExamples = ["Python", "Node.js", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync", "C#-Async", "RedisVL", "PHP", "Rust-Sync", "Rust-Async"]
+    clientsExamples = ["Python", "Node.js", "ioredis", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync (NRedisStack)", "C#-Async (NRedisStack)", "C#-Sync (SE.Redis)", "C#-Async (SE.Redis)", "RedisVL", "PHP", "Ruby", "Rust-Sync", "Rust-Async"]
     ```
+
+    > The authoritative list — display names alongside component ids, API-mapping keys,
+    > `local_examples` directory names, and filename conventions — is
+    > [`build/example-test-harness/clients.tsv`](../../build/example-test-harness/clients.tsv).
+    > Read it with `column -t -s$'\t'`. The snippets in this file are illustrative and can
+    > fall behind; that table is validated against `config.toml` and `data/components/`.
 
     The order of the `clientsExamples` list matters: it's the order in which the language tabs are presented for each code example.
 1. In the `[params.clientsConfig]` section:
@@ -104,6 +110,7 @@ TEST_MARKER = {
 PREFIXES = {
     'python': '#',
     'node.js': '//',
+    'ioredis': '//',
     'java': '//',
     'java-sync': '//',
     'java-async': '//',
@@ -111,11 +118,19 @@ PREFIXES = {
     'go': '//',
     'c': '//',
     'c#': '//',
+    'c#-sync': '//',
+    'c#-async': '//',
     'redisvl': '#',
     'php': '//',
-    'rust': '//'
+    'ruby': '#',
+    'rust': '//',
+    'rust-sync': '//',
+    'rust-async': '//'
 }
 ```
+
+Check these against [`build/components/example.py`](../../build/components/example.py) rather
+than trusting the excerpt above — it is a copy and can drift.
 
 The `TEST_MARKER` dictionary maps programming languages to test framework annotations, which allows the parser to filter such source code lines out. The `PREFIXES` dictionary maps each language to its comment prefix. Python, for example, uses a hashtag (`#`) to start a comment.
 

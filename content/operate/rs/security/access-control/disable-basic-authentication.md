@@ -18,8 +18,6 @@ When you disable basic authentication, the cluster rejects Basic and Digest auth
 This setting applies only to the cluster management REST API. It does not change how clients authenticate to databases.
 {{</note>}}
 
-<!-- TODO(confirm — RED-201786 / Iren Friedland + Aharon): does the Cluster Manager UI still work when basic authentication is disabled, or does it also require certificate/JWT auth? Source (cluster schema @ v8.2.0-26) only states inbound REST API requests reject Basic/Digest. Confirm UI impact before GA. -->
-
 ## Before you begin
 
 {{<warning>}}

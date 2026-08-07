@@ -57,14 +57,14 @@ The name of the key that holds the hash.
 
 ## Examples
 
-{{% redis-cli %}}
+{{< clients-example set="cmds_hash" step="hlen" description="Foundational: Count the fields in a hash with HLEN when you need a hash's size without transferring its contents" difficulty="beginner" >}}
 redis> HSET myhash field1 "Hello"
 (integer) 1
 redis> HSET myhash field2 "World"
 (integer) 1
 redis> HLEN myhash
 (integer) 2
-{{% /redis-cli %}}
+{{< /clients-example >}}
 
 ## Redis Software and Redis Cloud compatibility
 

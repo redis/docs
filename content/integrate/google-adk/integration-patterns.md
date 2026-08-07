@@ -8,16 +8,16 @@ categories:
 - oss
 - rs
 - rc
-description: Three approaches for connecting Google ADK agents to Redis memory.
+description: Approaches for connecting Google ADK agents to Redis memory.
 group: ai
 stack: true
-summary: Choose between framework-managed services, LLM-controlled REST tools, and
-  MCP protocol tools for memory integration.
+summary: Choose between framework-managed services and LLM-controlled REST tools for
+  memory integration.
 type: integration
 weight: 2
 ---
 
-adk-redis offers three distinct approaches for connecting agents to memory. Each has different tradeoffs around control, complexity, and standardization.
+adk-redis offers two approaches for connecting agents to memory. Each has different tradeoffs around control and complexity.
 
 ## Comparison
 
@@ -25,17 +25,27 @@ adk-redis offers three distinct approaches for connecting agents to memory. Each
 |----------|---------|-----------|----------|----------|
 | **ADK services** | Framework | Low | HTTP | Invisible infrastructure |
 | **REST tools** | LLM | Medium | HTTP | Explicit memory management |
-| **MCP tools** | LLM | Medium | SSE | Standardized, portable |
+
+Both use `backend="redis-agent-memory"`, the default, on Redis Cloud or
+self-managed. See
+[Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory#choose-a-deployment" >}})
+for the deployment options.
+
+{{< note >}}
+A third approach, MCP memory tools, is only available on the deprecated
+[Agent Memory Server]({{< relref "/integrate/google-adk/agent-memory-server" >}})
+backend.
+{{< /note >}}
 
 ## 1. ADK services (framework-managed)
 
-Configure `RedisWorkingMemorySessionService` and `RedisLongTermMemoryService`, pass them to the `Runner`, and the framework handles everything automatically. Memory extraction happens in the background. Search happens before each agent turn. The agent code never directly interacts with memory.
+Configure `RedisSessionMemoryService` and `RedisLongTermMemoryService`, pass them to the `Runner`, and the framework handles everything automatically. Memory extraction happens in the background. Search happens before each agent turn. The agent code never directly interacts with memory.
 
 ```python
 from google.adk.runners import Runner
 from adk_redis.sessions import (
-    RedisWorkingMemorySessionService,
-    RedisWorkingMemorySessionServiceConfig,
+    RedisSessionMemoryService,
+    RedisSessionMemoryServiceConfig,
 )
 from adk_redis.memory import (
     RedisLongTermMemoryService,
@@ -45,15 +55,21 @@ from adk_redis.memory import (
 runner = Runner(
     agent=agent,
     app_name="my_app",
-    session_service=RedisWorkingMemorySessionService(
-        config=RedisWorkingMemorySessionServiceConfig(
-            api_base_url="http://localhost:8088",
+    session_service=RedisSessionMemoryService(
+        config=RedisSessionMemoryServiceConfig(
+            backend="redis-agent-memory",
+            api_base_url="https://your-endpoint.redis.io",
+            api_key="your-api-key",
+            store_id="your-store-id",
             default_namespace="my_app",
         )
     ),
     memory_service=RedisLongTermMemoryService(
         config=RedisLongTermMemoryServiceConfig(
-            api_base_url="http://localhost:8088",
+            backend="redis-agent-memory",
+            api_base_url="https://your-endpoint.redis.io",
+            api_key="your-api-key",
+            store_id="your-store-id",
             default_namespace="my_app",
         )
     ),
@@ -76,9 +92,11 @@ from adk_redis.tools.memory import (
 )
 
 config = MemoryToolConfig(
-    api_base_url="http://localhost:8088",
+    backend="redis-agent-memory",
+    api_base_url="https://your-endpoint.redis.io",
+    api_key="your-api-key",
+    store_id="your-store-id",
     default_namespace="my_app",
-    recency_boost=True,
 )
 
 agent = Agent(
@@ -94,29 +112,6 @@ agent = Agent(
 ```
 
 **Tradeoffs:** Requires prompt engineering to teach the LLM memory management strategy, but gives the agent genuine autonomy over its own memory.
-
-## 3. MCP tools (Model Context Protocol)
-
-Point ADK's `McpToolset` at the Agent Memory Server's SSE endpoint. Tool discovery happens automatically.
-
-```python
-from adk_redis.tools.mcp_memory import create_memory_mcp_toolset
-
-memory_tools = create_memory_mcp_toolset(
-    server_url="http://localhost:9000",
-    tool_filter=["search_long_term_memory", "create_long_term_memories"],
-)
-
-agent = Agent(
-    model="gemini-2.5-flash",
-    name="mcp_agent",
-    tools=[memory_tools],
-)
-```
-
-Available MCP tools: `search_long_term_memory`, `create_long_term_memories`, `get_long_term_memory`, `edit_long_term_memory`, `delete_long_term_memories`, `memory_prompt`, `set_working_memory`.
-
-**Tradeoffs:** Most standardized and portable approach. Swap memory backends without changing agent code. Requires Agent Memory Server with MCP support on a separate port.
 
 ## Hybrid approach
 
@@ -144,11 +139,15 @@ runner = Runner(
 )
 ```
 
-The [travel_agent_memory_hybrid](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_hybrid) example demonstrates this pattern.
+The pattern works on `redis-agent-memory`. The
+example that demonstrates it,
+[travel_agent_memory_hybrid](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_hybrid),
+is currently written against the deprecated backend; see
+[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server#examples-still-on-this-backend" >}}).
 
 ## More info
 
-- [simple_redis_memory](https://github.com/redis-developer/adk-redis/tree/main/examples/simple_redis_memory): Framework-managed services
+- [managed_memory_quickstart](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart): Framework services on Redis Agent Memory
 - [travel_agent_memory_tools](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_tools): REST tools only
-- [fitness_coach_mcp](https://github.com/redis-developer/adk-redis/tree/main/examples/fitness_coach_mcp): MCP tools
+- [Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}}): MCP tools and other deprecated-backend patterns
 - [Car dealership tutorial](https://redis.io/tutorials/build-a-car-dealership-agent-with-google-adk-and-redis-agent-memory/)

@@ -21,7 +21,7 @@ weight: 8
 
 Redis includes a [high-performance vector database](https://redis.io/blog/benchmarking-results-for-vector-databases/) that lets you perform semantic searches over vector embeddings. You can augment these searches with filtering over text, numerical, geospatial, and tag metadata.
 
-To quickly get started, check out the [Redis vector quickstart guide]({{< relref "develop/get-started/vector-database" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
+To quickly get started, check out the [Redis vector quickstart guide]({{< relref "develop/get-started/search-tutorial/vector-search" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
 
 
 ## Overview
@@ -476,7 +476,7 @@ Optional runtime parameters for SVS-VAMANA indexes are:
 
 ## Vector search examples
 
-Below are a number of examples to help you get started. For more comprehensive walkthroughs, see the [Redis vector quickstart guide]({{< relref "develop/get-started/vector-database" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
+Below are a number of examples to help you get started. For more comprehensive walkthroughs, see the [Redis vector quickstart guide]({{< relref "develop/get-started/search-tutorial/vector-search" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
 
 ### KNN vector search examples
 

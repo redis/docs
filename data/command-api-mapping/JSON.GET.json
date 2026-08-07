@@ -422,6 +422,32 @@
           "description": "The JSON value at the requested path."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_get(key, *paths, raw: false)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "*paths",
+            "type": "Array<String>",
+            "description": "zero or more JSONPath expressions; with none the whole document is returned"
+          },
+          {
+            "name": "raw",
+            "type": "Boolean",
+            "description": "return the unparsed JSON string instead of a parsed Ruby object"
+          }
+        ],
+        "returns": {
+          "type": "Object, String, nil",
+          "description": "the parsed JSON value (or the raw JSON string when raw is true), or nil if the key does not exist"
+        }
+      }
     ]
   }
 }

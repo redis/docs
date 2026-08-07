@@ -1,0 +1,64 @@
+# TCE client table — the single source of truth for client identity in this repo.
+#
+# Read it: column -t -s$'\t' build/example-test-harness/clients.tsv
+# Parse it: skip blank lines and lines starting with '#'; fields are tab-separated.
+#
+# Before this file existed the same mapping was duplicated across five tables in
+# .agents/skills/generate-tce-examples/SKILL.md, and they had drifted out of sync with
+# config.toml, data/components/, and the files actually on disk. Every consumer now reads
+# this one file: run.sh, bootstrap.sh, and .claude/skills/tce-examples/.
+#
+# COLUMNS
+#   key         Canonical client key. What you pass to run.sh and name in a fan-out brief.
+#   display     config.toml [params] clientsExamples entry. Exact match; this is the tab label
+#               and what clients-example lang_filter matches against.
+#   component   data/components/<component>.json, registered in that dir's index.json.
+#               NB: index.json registers by FILENAME. go_redis.json and redis_vl.json declare
+#               internal ids ("go-redis", "redisvl") that differ from their filename — do not
+#               "fix" one to match the other without checking build/components/component.py.
+#   mapping     mappingClientId, the key into data/command-api-mapping/<COMMAND>.json.
+#               Both SE.Redis rows deliberately reuse the NRedisStack ids (see config.toml).
+#               "-" means the command-API mapping has no entry for this client.
+#   local_dirs  Accepted subdirectory names under local_examples/<set>/. Pipe-separated,
+#               preferred name first. These are aliases for ONE client, not variants: the
+#               naming grew organically, so cmds_* sets use NRedisStack/ while geoindex,
+#               search_quickstart, and time_series_tutorial use nredisstack/. Both are
+#               tracked in git. Globbing on a single name silently misses examples.
+#
+#               DO NOT add NRedisStack to the seredis row's aliases. Some SE.Redis-flavoured
+#               files live under a directory named for the other client (e.g.
+#               local_examples/cmds_hash/NRedisStack/CmdsHashExample.cs imports only
+#               StackExchange.Redis, so it feeds the SE.Redis tab). Which tab a .cs file
+#               feeds is decided by its imports, never by its path — see data/components/
+#               seredis_sync.json. Aliasing the directory to both rows would make nredisstack
+#               and seredis resolve the SAME file, so one .cs would be reported as two
+#               passing clients and one file's result would be credited to a tab it never
+#               fed. The file is tested once, under nredisstack; that is intended.
+#   assets      .claude/skills/tce-examples/assets/<assets>/ — patterns file + working sample.
+#   filename    Filename convention. {set} = set id snake_case (cmds_hash), {set-} = kebab
+#               (cmds-hash), {Set} = PascalCase (CmdsHash).
+#   repo_path   Path within the client repo where merged examples live (the source of truth
+#               the build fetches from). "-" = this client has no upstream doctests yet.
+#   fid_dir     Directory under tmp/clients/examples/ for fidelity-mode testing.
+#   fid_sub     Path within fid_dir where the staged file goes. "." = directory root.
+#   portable    Runner key in run.sh --portable. "-" = no portable runner; fidelity only.
+#
+# key	display	component	mapping	local_dirs	assets	filename	repo_path	fid_dir	fid_sub	portable
+redis-py	Python	redis_py	redis_py	redis-py	redis-py	{set}.py	doctests	redis-py	.	python
+node-redis	Node.js	node_redis	node_redis	node-redis|nodejs	node-redis	{set-}.js	doctests	node-redis	.	node
+ioredis	ioredis	ioredis	ioredis	ioredis	ioredis	{set-}.js	examples	ioredis	.	ioredis
+jedis	Java-Sync	jedis	jedis	jedis	jedis	{Set}Example.java	src/test/java/io/redis/examples	jedis	src/test/java/io/redis/examples	jedis
+lettuce-sync	Lettuce-Sync	lettuce_sync	lettuce_sync	lettuce-sync	lettuce-sync	{Set}Example.java	src/test/java/io/redis/examples/sync	lettuce-sync	src/test/java/io/redis/examples/sync	lettuce-sync
+lettuce-async	Java-Async	lettuce_async	lettuce_async	lettuce-async	lettuce-async	{Set}Example.java	src/test/java/io/redis/examples/async	lettuce-async	src/test/java/io/redis/examples/async	lettuce-async
+lettuce-reactive	Java-Reactive	lettuce_reactive	lettuce_reactive	lettuce-reactive	lettuce-reactive	{Set}Example.java	src/test/java/io/redis/examples/reactive	lettuce-reactive	src/test/java/io/redis/examples/reactive	lettuce-reactive
+go-redis	Go	go_redis	go-redis	go-redis|go	go-redis	{set}_test.go	doctests	go-redis	.	go
+hiredis	C	hi_redis	-	hiredis|c	hiredis	{set}.c	examples	hiredis	.	-
+nredisstack	C#-Sync (NRedisStack)	nredisstack_sync	nredisstack_sync	NRedisStack|nredisstack|dotnet-sync	nredisstack	{Set}Example.cs	tests/Doc	NRedisStack	tests/Doc	dotnet
+nredisstack-async	C#-Async (NRedisStack)	nredisstack_async	nredisstack_async	dotnet-async	nredisstack	{Set}Example.cs	tests/Doc/Async	NRedisStack	tests/Doc/Async	dotnet
+seredis	C#-Sync (SE.Redis)	seredis_sync	nredisstack_sync	seredis	seredis	{Set}Example.cs	tests/Doc	NRedisStack	tests/Doc	dotnet
+seredis-async	C#-Async (SE.Redis)	seredis_async	nredisstack_async	-	seredis	{Set}Example.cs	tests/Doc/Async	NRedisStack	tests/Doc/Async	dotnet
+redis-vl	RedisVL	redis_vl	redis_vl	-	-	{set}.py	doctests	-	-	-
+predis	PHP	php	php	predis|php	predis	{Set}Test.php	examples	predis	.	php
+ruby	Ruby	redis_rb	redis_rb	ruby	ruby	{set}.rb	examples	ruby	.	ruby
+rust-sync	Rust-Sync	redis_rs_sync	redis_rs_sync	rust-sync	rust-sync	{set}.rs	redis/examples	rust-sync	tests	rust-sync
+rust-async	Rust-Async	redis_rs_async	redis_rs_async	rust-async	rust-async	{set}.rs	redis/examples	rust-async	tests	rust-async

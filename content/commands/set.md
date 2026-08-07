@@ -34,12 +34,12 @@ arguments:
     name: ifdeq-digest
     since: 8.4.0
     token: IFDEQ
-    type: integer
+    type: string
   - display_text: ifdne-digest
     name: ifdne-digest
     since: 8.4.0
     token: IFDNE
-    type: integer
+    type: string
   name: condition
   optional: true
   since: 2.6.12

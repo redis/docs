@@ -100,6 +100,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_debug_memory(key, path = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "an optional JSONPath (defaults to the root)"
+          }
+        ],
+        "returns": {
+          "type": "Array<Integer>, Integer",
+          "description": "the size(s) in bytes: an Array for a JSONPath, a single integer for a legacy path or when no path is given (0 for a missing key)"
+        }
+      }
     ]
   }
 }

@@ -8,61 +8,93 @@ categories:
 - oss
 - rs
 - rc
-description: Working and long-term memory for Google ADK agents using the Redis Agent Memory Server.
+description: Session and long-term memory for Google ADK agents using Redis Agent Memory.
 group: ai
 stack: true
-summary: Add persistent working and long-term memory to ADK agents via framework services, REST tools, or MCP.
+summary: Add persistent session and long-term memory to ADK agents via framework services or REST tools.
 type: integration
 weight: 1
 ---
 
-Redis Agent Memory gives ADK agents two tiers of persistent memory, backed by the [Redis Agent Memory Server](https://github.com/redis/agent-memory-server):
+Redis Agent Memory gives ADK agents two tiers of persistent memory:
 
-- **Working memory** — session-scoped storage for the current conversation, with automatic summarization when context grows long.
-- **Long-term memory** — facts extracted from past conversations, stored as vectors in Redis and searchable by semantic similarity with optional recency boosting.
+- **Session memory**: session-scoped storage for the current conversation.
+- **Long-term memory**: facts extracted from past conversations, stored as vectors in Redis and searchable by semantic similarity with recency boosting.
 
-You can wire these tiers into an ADK agent three ways:
+## Choose a deployment
+
+Set `backend="redis-agent-memory"`, the default, on every service and tool
+config. Redis Cloud and self-managed Agent Memory share one
+[Data Plane API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}),
+so you select a deployment by pointing `api_base_url` at the right Data Plane,
+not by changing `backend`:
+
+| Deployment | `api_base_url` | Setup |
+|------------|----------------|-------|
+| Redis Cloud | Your Redis Cloud Agent Memory endpoint | [Create an Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}) |
+| Self-managed | Your own Data Plane URL | [Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) |
+
+{{< note >}}
+Running Agent Memory yourself does not mean using the deprecated
+`opensource-agent-memory` backend. Self-managed Agent Memory is supported and
+maintained, and uses `backend="redis-agent-memory"` like Redis Cloud. The
+deprecated backend targets a different system, the open source Agent Memory
+Server, which does not speak the Data Plane API. See
+[Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}})
+if you have an existing deployment to migrate.
+{{< /note >}}
+
+Wire memory into an ADK agent one of two ways:
 
 | Approach | Control | Best for |
 |----------|---------|----------|
 | **Framework services** | ADK Runner (automatic) | Invisible infrastructure |
 | **REST tools** | LLM (explicit) | Agent autonomy over memory |
-| **MCP tools** | LLM via MCP protocol | Portable, standardized |
 
 See [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}) for detailed tradeoff comparison.
 
-## Working memory
+## Session memory
 
-`RedisWorkingMemorySessionService` implements ADK's `BaseSessionService`. It stores the current conversation in the Redis Agent Memory Server and automatically summarizes older messages when the context window limit is approached.
+`RedisSessionMemoryService` implements ADK's `BaseSessionService`. It stores the current conversation in the configured memory backend.
 
 ```python
 from adk_redis.sessions import (
-    RedisWorkingMemorySessionService,
-    RedisWorkingMemorySessionServiceConfig,
+    RedisSessionMemoryService,
+    RedisSessionMemoryServiceConfig,
 )
 
-session_service = RedisWorkingMemorySessionService(
-    config=RedisWorkingMemorySessionServiceConfig(
-        api_base_url="http://localhost:8088",
+session_service = RedisSessionMemoryService(
+    config=RedisSessionMemoryServiceConfig(
+        backend="redis-agent-memory",
+        api_base_url="https://your-endpoint.redis.io",
+        api_key="your-api-key",
+        store_id="your-store-id",
         default_namespace="my_app",
-        model_name="gemini-2.5-flash",
-        context_window_max=8000,
     )
 )
 ```
+
+{{< note >}}
+`RedisWorkingMemorySessionService` and `RedisWorkingMemorySessionServiceConfig`
+were renamed to `RedisSessionMemoryService` and
+`RedisSessionMemoryServiceConfig` in adk-redis 0.0.8. The old names remain as
+deprecated aliases that emit a `DeprecationWarning` and will be removed in
+0.1.0. The module `adk_redis.sessions.working_memory` also moved to
+`adk_redis.sessions.session_memory`.
+{{< /note >}}
 
 ### Configuration
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `api_base_url` | Agent Memory Server URL | Required |
-| `default_namespace` | Isolates data between applications | Required |
-| `model_name` | LLM used for summarization | `None` |
-| `context_window_max` | Token limit that triggers summarization | `None` |
-
-### Auto-summarization
-
-When the token count of stored messages crosses `context_window_max`, the Agent Memory Server uses the model specified in `model_name` to summarize older turns. Recent messages are preserved in full. This avoids the hard tradeoff between truncating context (losing information) and sending the full conversation (hitting token limits and costs).
+| `backend` | Memory backend | `redis-agent-memory` |
+| `api_base_url` | Data Plane endpoint | `http://localhost:8000` |
+| `api_key` | API key | `None` |
+| `store_id` | Store ID | `None` |
+| `default_namespace` | Isolates data between applications | `None` |
+| `timeout` | Request timeout in seconds | `30.0` |
+| `timeout_ms` | Request timeout in milliseconds. Overrides `timeout`. | `None` |
+| `session_ttl_seconds` | Expiry for stored sessions | `None` |
 
 ### Incremental appends
 
@@ -79,7 +111,7 @@ The service implements all of ADK's session methods:
 
 ## Long-term memory
 
-`RedisLongTermMemoryService` implements ADK's `BaseMemoryService`. After each conversation, the Agent Memory Server extracts structured information (facts, preferences, episodic events), embeds them as vectors, and stores them in Redis for semantic search across all past sessions.
+`RedisLongTermMemoryService` implements ADK's `BaseMemoryService`. After each conversation, the memory backend extracts structured information (facts, preferences, episodic events), embeds them as vectors, and stores them in Redis for semantic search across all past sessions.
 
 ```python
 from adk_redis.memory import (
@@ -89,12 +121,11 @@ from adk_redis.memory import (
 
 memory_service = RedisLongTermMemoryService(
     config=RedisLongTermMemoryServiceConfig(
-        api_base_url="http://localhost:8088",
+        backend="redis-agent-memory",
+        api_base_url="https://your-endpoint.redis.io",
+        api_key="your-api-key",
+        store_id="your-store-id",
         default_namespace="my_app",
-        extraction_strategy="discrete",
-        recency_boost=True,
-        semantic_weight=0.7,
-        recency_weight=0.3,
     )
 )
 ```
@@ -103,28 +134,22 @@ memory_service = RedisLongTermMemoryService(
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| `api_base_url` | Agent Memory Server URL | Required |
-| `default_namespace` | Namespace for data isolation | Required |
-| `extraction_strategy` | How conversations are broken into memories: `discrete`, `summary`, or `preferences` | `None` |
-| `recency_boost` | Enable recency-weighted search | `False` |
-| `semantic_weight` | Weight for vector similarity (0-1) | `0.7` |
-| `recency_weight` | Weight for recency signal (0-1) | `0.3` |
-
-### Extraction strategies
-
-- **`discrete`**: Extracts individual facts as separate memories, making them independently searchable.
-- **`summary`**: Creates a narrative summary of the conversation.
-- **`preferences`**: Focuses on user preferences and settings.
-
-### Recency boosting
-
-Raw semantic similarity often isn't enough. A user might have said "I love Italian food" three years ago and "I've been getting into Japanese cuisine" last week. Both are semantically relevant, but the recent one matters more.
-
-Recency boosting combines semantic similarity with time-based signals so that recent preferences outweigh stale ones.
+| `backend` | Memory backend | `redis-agent-memory` |
+| `api_base_url` | Data Plane endpoint | `http://localhost:8000` |
+| `api_key` | API key | `None` |
+| `store_id` | Store ID | `None` |
+| `default_namespace` | Namespace for data isolation | `None` |
+| `timeout` | Request timeout in seconds | `30.0` |
+| `search_top_k` | Maximum memories returned per search | `10` |
+| `similarity_threshold` | Minimum similarity for a match (0-1) | `None` |
+| `distance_threshold` | Maximum vector distance for a match (0-1) | `None` |
+| `store_events_as_messages` | Store session events as chat messages | `True` |
+| `default_memory_type` | Memory type applied to new memories | `semantic` |
+| `default_topics` | Topics applied to new memories | `[]` |
 
 ## Framework services
 
-Pass both services to an ADK `Runner`. The framework handles memory automatically: sessions are persisted via working memory, long-term memory is searched before each agent turn, and an `after_agent_callback` triggers extraction in the background.
+Pass both services to an ADK `Runner`. The framework handles memory automatically: sessions are persisted via session memory, long-term memory is searched before each agent turn, and an `after_agent_callback` triggers extraction in the background.
 
 ```python
 from google.adk import Agent
@@ -151,30 +176,44 @@ runner = Runner(
 
 ### Runtime flow
 
-1. ADK creates or retrieves a session via `RedisWorkingMemorySessionService`.
+1. ADK creates or retrieves a session via `RedisSessionMemoryService`.
 2. Long-term memory is searched for context relevant to the current conversation.
-3. User messages are appended to working memory incrementally.
+3. User messages are appended to session memory incrementally.
 4. The LLM generates a response using session context plus retrieved memories.
 5. `after_agent_callback` triggers `add_session_to_memory()` for background extraction.
-6. If the conversation grows long, working memory auto-summarizes older turns.
 
 ## REST tools
 
-Give the agent explicit memory tools that the LLM calls like any other function. The LLM decides when to search memory, what to store, and what to update. No framework services required.
+Give the agent explicit memory tools that the LLM calls like any other function. The LLM decides when to search memory, what to store, and what to update. No framework services required. The tools share a single `MemoryToolConfig`.
+
+adk-redis ships six memory tools:
+
+| Tool | Description |
+|------|-------------|
+| `SearchMemoryTool` | Search long-term memories by query |
+| `CreateMemoryTool` | Store new long-term memories |
+| `GetMemoryTool` | Fetch a single memory by ID |
+| `UpdateMemoryTool` | Update an existing memory by ID |
+| `DeleteMemoryTool` | Delete memories by ID |
+| `MemoryPromptTool` | Enrich the agent prompt with relevant memories |
 
 ```python
 from adk_redis.tools.memory import (
     SearchMemoryTool,
     CreateMemoryTool,
+    GetMemoryTool,
     UpdateMemoryTool,
     DeleteMemoryTool,
+    MemoryPromptTool,
     MemoryToolConfig,
 )
 
 config = MemoryToolConfig(
-    api_base_url="http://localhost:8088",
+    backend="redis-agent-memory",
+    api_base_url="https://your-endpoint.redis.io",
+    api_key="your-api-key",
+    store_id="your-store-id",
     default_namespace="my_app",
-    recency_boost=True,
 )
 
 agent = Agent(
@@ -183,42 +222,34 @@ agent = Agent(
     tools=[
         SearchMemoryTool(config=config),
         CreateMemoryTool(config=config),
+        GetMemoryTool(config=config),
         UpdateMemoryTool(config=config),
         DeleteMemoryTool(config=config),
+        MemoryPromptTool(config=config),
     ],
 )
 ```
 
 Requires prompt engineering to teach the LLM memory management strategy, but gives the agent genuine autonomy over its own memory.
 
+### Invocation-scoped users
+
+The memory tools resolve the acting user from the ADK `tool_context` before falling back to the user configured on `MemoryToolConfig`. A single shared `Runner` therefore stays scoped to the user of each invocation, with no per-user tool instances.
+
+`CreateMemoryTool.run_async()` also accepts an application-supplied `id` for idempotent writes against Redis Agent Memory. IDs are derived with namespace and user scope to prevent cross-tenant collisions, and are never exposed to the LLM.
+
 ## MCP tools
 
-Point ADK's `McpToolset` at the Agent Memory Server's SSE endpoint. Tool discovery happens automatically — no manual tool wiring required.
-
-```python
-from adk_redis.tools.mcp_memory import create_memory_mcp_toolset
-
-memory_tools = create_memory_mcp_toolset(
-    server_url="http://localhost:9000",
-    tool_filter=["search_long_term_memory", "create_long_term_memories"],
-)
-
-agent = Agent(
-    model="gemini-2.5-flash",
-    name="mcp_agent",
-    tools=[memory_tools],
-)
-```
-
-Available MCP tools: `search_long_term_memory`, `create_long_term_memories`, `get_long_term_memory`, `edit_long_term_memory`, `delete_long_term_memories`, `memory_prompt`, `set_working_memory`.
-
-The most portable approach — swap memory backends without changing agent code. Requires the Agent Memory Server running with MCP support on a separate port.
+MCP memory tools are only available on the deprecated
+[Agent Memory Server]({{< relref "/integrate/google-adk/agent-memory-server" >}})
+backend. The `redis-agent-memory` backend does not expose an MCP endpoint, on
+Redis Cloud or self-managed; use the REST tools above.
 
 ## More info
 
-- [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}): Detailed tradeoff comparison of all three approaches
-- [simple_redis_memory](https://github.com/redis-developer/adk-redis/tree/main/examples/simple_redis_memory): Minimal framework services setup
+- [Integration patterns]({{< relref "/integrate/google-adk/integration-patterns" >}}): Detailed tradeoff comparison of the approaches
+- [managed_memory_quickstart](https://github.com/redis-developer/adk-redis/tree/main/examples/managed_memory_quickstart): Framework services, no Docker
 - [travel_agent_memory_tools](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_tools): REST tools only
-- [fitness_coach_mcp](https://github.com/redis-developer/adk-redis/tree/main/examples/fitness_coach_mcp): MCP tools
-- [travel_agent_memory_hybrid](https://github.com/redis-developer/adk-redis/tree/main/examples/travel_agent_memory_hybrid): Framework services + REST tools combined
-- [Redis Agent Memory Server documentation](https://github.com/redis/agent-memory-server)
+- [Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}): run Agent Memory on your own Kubernetes cluster
+- [Agent Memory Server (deprecated)]({{< relref "/integrate/google-adk/agent-memory-server" >}}): existing deployments and migration
+
