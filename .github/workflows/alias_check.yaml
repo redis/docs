@@ -78,9 +78,11 @@ jobs:
         run: |
           set -uo pipefail
           # --fail is passed so that a file the fixer *refused* to edit becomes
-          # visible. With --fix, it exits 1 only when some actionable file was
-          # skipped, which is otherwise invisible: the working tree would look
-          # clean for those pages and the run would report nothing to do.
+          # visible. With --fix it exits 1 only when some actionable file was
+          # skipped, which is otherwise invisible: the working tree would look clean
+          # for those pages and the run would report nothing to do. Exit 2 means the
+          # scan itself failed and is handled separately below, so a broken scan is
+          # never reported as a content problem.
           python3 build/check_missing_aliases.py --all --fix --fail 2>&1 | tee alias-report.txt
           status="${PIPESTATUS[0]}"
           echo "skipped=${status}" >> "$GITHUB_OUTPUT"
@@ -100,6 +102,18 @@ jobs:
           # eventually-consistent index and can miss a PR opened moments ago.
           existing="$(gh pr list --head "${FIX_BRANCH}" --state open --json number --jq '.[].number' | head -1)"
 
+          # This job takes minutes, and someone can merge or close the fix PR inside
+          # that window. Acting on the number we looked up at the start would then
+          # either fail outright -- closing a merged PR is an error, and `set -e`
+          # would redden a run on main for something harmless -- or quietly edit a
+          # PR nobody will read again. So confirm it is still open immediately before
+          # each use, and treat "no longer open" as "there is no PR", which lets the
+          # normal paths take over: create a fresh one, or do nothing.
+          still_open() {
+            [ -n "${existing}" ] || return 1
+            [ "$(gh pr view "${existing}" --json state --jq .state 2>/dev/null)" = "OPEN" ]
+          }
+
           if [ -z "$(git status --porcelain -- content)" ]; then
             if [ "${SKIPPED}" = "1" ]; then
               # Nothing to open a PR with, yet the fixer declined some files. A
@@ -108,16 +122,21 @@ jobs:
               echo "::error::Missing aliases were found but could not be added automatically. See the report above."
               exit 1
             fi
-            if [ -n "${existing}" ]; then
+            if still_open; then
               # Nothing is missing any more, but a fix PR is still open -- the
               # aliases reached main some other way, by hand or in someone else's
               # PR. Its diff is now redundant, and leaving it open invites someone
               # to merge a stale set of edits. Close it rather than let it rot; the
               # next run reopens one if anything is missing again.
               echo "No missing aliases, but PR #${existing} is still open. Closing it."
+              # Both calls tolerate failure: the state check above narrows the race
+              # window but cannot close it, and neither a missing comment nor an
+              # already-closed PR is worth reddening a run on main for.
               gh pr comment "${existing}" --body \
-                "Closing automatically: a scan of current \`main\` finds no missing aliases, so these changes are no longer needed. A new PR will open if any page moves without one."
-              gh pr close "${existing}" --delete-branch
+                "Closing automatically: a scan of current \`main\` finds no missing aliases, so these changes are no longer needed. A new PR will open if any page moves without one." \
+                || echo "::warning::Could not comment on PR #${existing}."
+              gh pr close "${existing}" --delete-branch \
+                || echo "::warning::Could not close PR #${existing}; it may have just been merged or closed."
               exit 0
             fi
             echo "No missing aliases. Nothing to do."
@@ -167,14 +186,16 @@ jobs:
             echo '</details>'
           } > pr-body.md
 
-          if [ -n "${existing}" ]; then
+          if still_open; then
             # The force push has already updated the diff, but the description
             # holds the previous run's report -- including its skip and collision
             # notes, which may no longer be what a reviewer needs to decide. Rewrite
             # it so the body always describes the diff below it.
             echo "Refreshing the description of PR #${existing}."
-            gh pr edit "${existing}" --body-file pr-body.md
-            exit 0
+            if gh pr edit "${existing}" --body-file pr-body.md; then
+              exit 0
+            fi
+            echo "::warning::Could not update PR #${existing}; falling through to open a new one."
           fi
 
           # A run cancelled or overlapping despite the concurrency group could
