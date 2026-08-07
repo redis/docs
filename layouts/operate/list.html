@@ -69,16 +69,10 @@
         {{ else }}
           <!-- Iterate through the page's ancestors to determine if a 
             section-wide banner is enabled by a parent page's front matter -->
-          {{ $ancestorDirs := slice }}
-          {{ with .File }}
-            {{ $ancestorDirs = split .Dir "/" }}
-          {{ end }}
-          {{ $currPage := .Page }}
-          {{ range $i, $page := $ancestorDirs }}
-            {{ if and $currPage.Params.bannerText $currPage.Params.bannerChildren }}
-              {{ partial "banner-article.html" $currPage }}
+          {{ range .Ancestors }}
+            {{ if and .Params.bannerText .Params.bannerChildren }}
+              {{ partial "banner-article.html" . }}
             {{ end }}
-            {{ $currPage = $currPage.Parent }}
           {{ end }}
         {{ end }}
         

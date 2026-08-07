@@ -3,15 +3,18 @@ alwaysopen: false
 categories:
 - docs
 - operate
-- rc
+- iris
 description: View and manage your Agent Memory service in Redis Cloud.
 hideListLinks: true
 linktitle: View service
 title: View and manage Agent Memory service
 weight: 15
+bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
+aliases:
+- /operate/rc/context-engine/agent-memory/view-service/
 ---
 
-After you have [created your first Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
+After you have [created your first Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
 
 This page displays a list of all Agent Memory services associated with your account.
 
@@ -24,9 +27,9 @@ Select your Agent Memory service from the list to view the service's details.
 The **Configuration** tab lets you view the details of your Agent Memory service. It contains the following sections:
 
 - The **General settings** section provides the connection details and general settings for your Agent Memory service.
-- The **Memory configuration** section provides the service settings for your Agent Memory service.
+- The **Memory configuration** section provides the service settings for your Redis Agent Memory service.
 - The **Memory types & extraction** section shows any custom memory types defined for your service.
-- The **Actions** section lets you flush or delete your Agent Memory service.
+- The **Actions** section lets you flush or delete your Redis Agent Memory service.
 
 Some of these settings can be changed after service creation. To do so, select the **Edit** button.
 
@@ -45,7 +48,7 @@ The **General settings** section provides the connection details and general set
 
 Select the **Copy** button next to the Store ID and API Base URL to copy them to the clipboard.
 
-Follow the [Redis Cloud Agent Memory REST quickstart]({{< relref "/operate/rc/context-engine/agent-memory/use-agent-memory" >}}) to use the connection information and API key.
+Follow the [Redis Agent Memory REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}) to use the connection information and API key.
 
 ### Memory configuration
 
@@ -64,7 +67,7 @@ The **Memory configuration** section shows the time-to-live (TTL) for memory sto
 
 ### Memory types & extraction {#memory-types-and-extraction}
 
-The **Memory types & extraction** section shows any [custom memory types]({{< relref "/operate/rc/context-engine/agent-memory/create-service#custom-memory-types" >}}) defined for the service, each listed with its name, fields, and extraction strategy.
+The **Memory types & extraction** section shows any [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) defined for the service, each listed with its name, fields, and extraction strategy.
 
 {{<image filename="images/rc/agent-memory-view-memory-types.png" alt="The Memory types & extraction section for the Agent Memory service." >}}
 
@@ -80,6 +83,17 @@ Because a custom memory type's structure is fixed after creation, only some sett
 | **Enabled** | Whether the extraction strategy is active. _(Editable)_ |
 
 To change a custom memory type's name or fields, you must create a new service. You can, however, add a new custom memory type when editing the service, up to the limit of 3 custom memory types.
+
+### Sensitive-data exclusions {#sensitive-data-exclusions}
+
+The **Sensitive-data exclusions** section shows whether semantic exclusions are enabled and the prompt used to guide automatic extraction away from sensitive information.
+
+| Setting name | Description |
+|:-------------|:------------|
+| **Semantic exclusions** | Whether the exclusion prompt is applied during automatic extraction. _(Editable)_ |
+| **Exclusion prompt** | Plain-language instructions describing information that should not be kept in long-term memory. _(Editable)_ |
+
+Sensitive-data exclusions are advisory. They do not guarantee exclusion, sensitive session content still reaches the extraction model provider, and the prompt does not apply to directly created long-term memories.
 
 ### Actions
 
@@ -115,7 +129,7 @@ Deleting the Agent Memory service is permanent and cannot be undone.
 
 ## Metrics tab
 
-The **Metrics** tab provides a series of graphs showing performance data for your Agent Memory service. 
+The **Metrics** tab provides a series of graphs showing performance data for your Agent Memory service.
 
 | Metric | Description |
 |--------|-------------|

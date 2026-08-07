@@ -3,15 +3,17 @@ alwaysopen: false
 categories:
 - docs
 - operate
-- rc
+- iris
 description: View and manage Context Retriever admin keys in Redis Cloud.
 hideListLinks: true
 linktitle: View admin keys
 title: View and manage Context Retriever admin keys
 weight: 25
+aliases:
+- /operate/rc/context-engine/context-retriever/view-admin-keys/
 ---
 
-After you have [created your first Context Retriever service]({{< relref "/operate/rc/context-engine/context-retriever/create-service" >}}), you can view and manage your admin keys from the **Admin keys** tab in the **Context Retriever** section of the Redis Cloud console.
+After you have [created your first Context Retriever service]({{< relref "/operate/iris/context-retriever/create-service" >}}), you can view and manage your admin keys from the **Admin keys** tab in the **Context Retriever** section of the Redis Cloud console.
 
 A Context Retriever **admin key** authorizes administrative operations against Context Retriever in your Redis Cloud account, such as creating, updating, or deleting services and their entity models. You can use it with the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/) and `cxtctl` CLI to create an Agent key and call your tools.
 

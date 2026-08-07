@@ -3,12 +3,14 @@ alwaysopen: false
 categories:
 - docs
 - operate
-- rc
+- iris
 description: Create a Context Retriever service in Redis Cloud to expose schema-first retrieval tools to AI agents.
 hideListLinks: true
 linktitle: Create service
 title: Create a Context Retriever service
 weight: 5
+aliases:
+- /operate/rc/context-engine/context-retriever/create-service/
 ---
 
 Redis Context Retriever helps teams expose operational context to AI agents through schema-first retrieval. This guide walks you through creating and configuring a Context Retriever service in Redis Cloud.
@@ -18,7 +20,7 @@ Redis Context Retriever helps teams expose operational context to AI agents thro
 To create a Redis Context Retriever service, you will need a Redis Cloud database that already has relevant data. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}). If your source data lives in a relational database, use [Redis Data Integration (RDI)]({{< relref "/operate/rc/rdi" >}}) to ingest it into a Redis Cloud database first.
 
 {{< note >}}
-Agent Memory does not support the following databases during public preview:
+Redis Context Retriever does not support the following databases during public preview:
 - [Redis Flex]({{< relref "operate/rc/databases/create-database/create-flex-database">}}) databases
 - [Active-Active]({{< relref "/operate/rc/databases/active-active" >}}) databases
 {{< /note >}}
@@ -111,4 +113,4 @@ After you set all fields for all of your entities, select **Create** to create y
 
 After your service is created, you can call the MCP tools Context Retriever exposes from your agent. See the [Context Surfaces Python Client](https://pypi.org/project/redis-context-retriever/) for more information on how to call your tools.
 
-You can also [view your service]({{< relref "/operate/rc/context-engine/context-retriever/view-service" >}}).
+You can also [view your service]({{< relref "/operate/iris/context-retriever/view-service" >}}).

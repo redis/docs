@@ -3,23 +3,25 @@ Title: Self-managed API examples
 alwaysopen: false
 categories:
 - docs
-- develop
-- ai
+- operate
+- iris
 description: Use curl examples with the Redis Agent Memory self-managed Control Plane and Data Plane APIs.
 linkTitle: Self-managed API examples
 weight: 70
 hideListLinks: true
+aliases:
+- /develop/ai/context-engine/agent-memory/self-managed/api-examples/
 ---
 
 These examples show self-managed Control Plane and Data Plane requests.
 
 They assume either an auth-disabled private Data Plane or agent-key auth
-configured as described in [Authentication and authorization]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/authentication" >}}).
+configured as described in [Authentication and authorization]({{< relref "/operate/iris/agent-memory/self-managed/authentication" >}}).
 
 For the complete shared Data Plane schema, see the
 [Redis Agent Memory API]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}).
 For the self-managed admin schema, see the
-[Control Plane API reference]({{< relref "/develop/ai/context-engine/agent-memory/self-managed/control-plane-api-reference" >}}).
+[Control Plane API reference]({{< relref "/operate/iris/agent-memory/self-managed/control-plane-api-reference" >}}).
 
 ## Control Plane API examples
 
@@ -136,7 +138,7 @@ Request body fields:
 | `role` | Required. Use `USER`, `ASSISTANT`, or `SYSTEM`. |
 | `content` | Required. For text, use a content object such as `{"text": "..."}`. |
 | `createdAt` | Required. Use an RFC 3339 timestamp, for example `2026-06-25T18:00:00Z`. |
-| `sessionId` | Optional. If omitted, Agent Memory generates one. |
+| `sessionId` | Optional. If omitted, Redis Agent Memory generates one. |
 
 ### Read session memory
 

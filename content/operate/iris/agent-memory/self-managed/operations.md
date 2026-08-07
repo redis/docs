@@ -3,12 +3,14 @@ Title: Operations
 alwaysopen: false
 categories:
 - docs
-- develop
-- ai
+- operate
+- iris
 description: Operate Redis Agent Memory with backups, secret rotation, updates, FIPS posture, and network policy.
 linkTitle: Operations
 weight: 90
 hideListLinks: true
+aliases:
+- /develop/ai/context-engine/agent-memory/self-managed/operations/
 ---
 
 ## Backups
@@ -28,7 +30,7 @@ hideListLinks: true
 
 ## Secret rotation
 
-Rotate Agent Memory agent keys through the Control Plane API:
+Rotate Redis Agent Memory agent keys through the Control Plane API:
 
 ```bash
 curl -sS -X POST "$CP_URL/v1/api-keys/<key-id>/rotate" \
@@ -49,9 +51,9 @@ kubectl -n <namespace-name> create secret generic ram-controlplane-admin-token \
   -o yaml | kubectl apply -f -
 ```
 
-Rotate the Agent Memory license by updating the license Secret and changing
+Rotate the Redis Agent Memory license by updating the license Secret and changing
 `license.existingSecretChecksum` so Helm rolls the Data Plane and worker pods.
-Agent Memory reads and validates the license file during process startup; updating only
+Redis Agent Memory reads and validates the license file during process startup; updating only
 the Secret data is not sufficient.
 
 ```bash
@@ -194,10 +196,10 @@ When the posture is active, the Data Plane and worker reject config that:
 The Control Plane runs under the same posture and rejects non-`rediss://`
 `metadata.urls` or `store_db.urls`.
 
-The Agent Memory API listener itself speaks HTTP inside the cluster. Edge TLS termination
+The Redis Agent Memory API listener itself speaks HTTP inside the cluster. Edge TLS termination
 is owned by the hosting environment, such as ingress, service mesh, or external
 load balancer. Outbound TLS to Redis, embedding providers, LLM providers, and
-worker callback endpoints is configured through Agent Memory config and is covered by the
+worker callback endpoints is configured through Redis Agent Memory config and is covered by the
 posture checks.
 
 Verify the runtime posture with:
@@ -216,7 +218,7 @@ override the container command to configure it.
 
 For auth-disabled Data Plane deployments, restrict access to trusted callers.
 For agent-key deployments behind a gateway, prevent direct bypass paths unless
-the direct caller also has a valid Agent Memory credential.
+the direct caller also has a valid Redis Agent Memory credential.
 
 The chart includes `deployment/redis-agent-memory/networkpolicy.reference.yaml`
 as a reference manifest. It is not templated because allowed callers are
@@ -224,15 +226,15 @@ environment-specific.
 
 Customize the placeholders before applying it:
 
-- `<namespace>`: namespace where Agent Memory is installed.
+- `<namespace>`: namespace where Redis Agent Memory is installed.
 - `redis-agent-memory`: Helm release name used in this guide. If you use a
   different release name, update release-derived service and deployment names.
   `nameOverride` and `fullnameOverride` change rendered resource names, but the
   `app.kubernetes.io/instance` selector remains the Helm release name.
 - `<caller-namespace>` and caller pod labels: ingress controller, service mesh
-  gateway, application pod, or approved internal caller allowed to call Agent Memory.
+  gateway, application pod, or approved internal caller allowed to call Redis Agent Memory.
 
-The reference policy default-denies ingress to Agent Memory chart pods, then allows TCP
+The reference policy default-denies ingress to Redis Agent Memory chart pods, then allows TCP
 traffic to server pods on port `9000` from approved callers and the worker
 Deployment. It also includes a Control Plane stanza for port `9100` when
 `controlplane.enabled=true`. Review the manifest against the customer's CNI,
