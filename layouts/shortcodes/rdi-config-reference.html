@@ -1,0 +1,361 @@
+{{/*
+  rdi-config-reference
+
+  Renders the RDI config-file reference from data/rdi-reference/config.json.
+
+  Use the percent shortcode form so the emitted markdown is processed:
+
+      {{% rdi-config-reference %}}
+
+  Page layout:
+    1. Sticky filter/search bar — free-text filter, jump-to autocomplete,
+       toggles for required-only / hide-deprecated.
+    2. Quick-nav list linking the five top-level sections in domain
+       order (sources → processors → targets → secret-providers →
+       metadata).
+    3. Per top-level section: <h2> heading + section description, then
+       a single flat list of every property at every depth below,
+       rendered by `rdi/render-tree.html` (leaves first, alphabetical;
+       then containers, alphabetical, each followed inline by its own
+       descendants).
+*/}}
+
+{{- $root := index site.Data "rdi-reference" "config" -}}
+{{- $order := slice "sources" "processors" "targets" "secret-providers" "metadata" -}}
+{{- $collections := index site.Data "rdi-reference" "collections" -}}
+
+<div class="rdi-config-toolbar sticky top-0 z-10 -mx-4 px-4 py-3 mb-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200 dark:border-slate-700">
+  <div class="flex flex-wrap items-center gap-3">
+    <div class="relative flex-1 min-w-[200px] max-w-md">
+      <input type="search"
+             id="rdi-config-search"
+             placeholder="Search properties…"
+             autocomplete="off"
+             class="w-full px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-redis-red-500" />
+      <div id="rdi-config-suggestions"
+           class="hidden absolute left-0 right-0 top-full mt-1 max-h-72 overflow-y-auto bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded shadow-lg z-20"></div>
+    </div>
+    <label class="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-300">
+      <span>Collection:</span>
+      <select id="rdi-config-collection" class="text-xs px-1.5 py-1 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800">
+        <option value="">All properties</option>
+        {{- range $collections }}
+        <option value="{{ .id }}">{{ .name }}</option>
+        {{- end }}
+      </select>
+    </label>
+    <label class="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-300">
+      <span>Processor:</span>
+      <select id="rdi-config-processor" class="text-xs px-1.5 py-1 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800">
+        <option value="">Any</option>
+        <option value="classic">Classic</option>
+        <option value="flink">Flink</option>
+      </select>
+    </label>
+    <label class="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-300">
+      <span>Collector:</span>
+      <select id="rdi-config-collector" class="text-xs px-1.5 py-1 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800">
+        <option value="">Any</option>
+        <option value="cdc">CDC</option>
+        <option value="flink">Flink</option>
+      </select>
+    </label>
+    <label class="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-300">
+      <span>Database:</span>
+      <select id="rdi-config-database" class="text-xs px-1.5 py-1 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-800">
+        <option value="">Any</option>
+        <option value="mariadb">MariaDB</option>
+        <option value="mysql">MySQL</option>
+        <option value="oracle">Oracle</option>
+        <option value="postgresql">PostgreSQL</option>
+      </select>
+    </label>
+    <label class="flex items-center gap-1.5 text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
+      <input type="checkbox" id="rdi-config-required" class="rounded" />
+      Required only
+    </label>
+    <label class="flex items-center gap-1.5 text-sm text-slate-700 dark:text-slate-300 cursor-pointer">
+      <input type="checkbox" id="rdi-config-hide-deprecated" class="rounded" />
+      Hide deprecated
+    </label>
+    <span id="rdi-config-counter" class="text-xs text-slate-500 dark:text-slate-400 ml-auto"></span>
+  </div>
+  <div id="rdi-config-collection-desc"
+       class="hidden mt-2 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/50 border-l-2 border-redis-red-500 rounded-r"></div>
+</div>
+
+<script id="rdi-collections-data" type="application/json">
+{{ $collections | jsonify | safeJS }}
+</script>
+
+{{ $root.description | safeHTML }}
+
+**Jump to a section:**
+
+{{ range $sectionName := $order -}}
+{{- $sectionNode := index $root.properties $sectionName -}}
+- [`{{ $sectionName }}`](#{{ $sectionName }}) — {{ $sectionNode.title }}
+{{ end }}
+
+{{ range $sectionName := $order }}
+{{- $sectionNode := index $root.properties $sectionName -}}
+{{- $sectionTitle := $sectionNode.title -}}
+
+<a name="{{ $sectionName }}"></a>
+
+## {{ $sectionName }}: {{ $sectionTitle }}
+
+{{ with $sectionNode.description }}{{ . | safeHTML }}{{ end }}
+
+{{ partial "rdi/render-tree.html" (dict
+    "node"             $sectionNode
+    "path"             $sectionName
+    "slug"             $sectionName
+    "isTopLevel"       true
+    "parentRequired"   slice
+    "parentHasReqList" false
+) }}
+
+{{ end }}
+
+<script>
+(function () {
+  const props      = Array.from(document.querySelectorAll('[data-rdi-prop="true"]'));
+  const searchEl   = document.getElementById('rdi-config-search');
+  const reqEl      = document.getElementById('rdi-config-required');
+  const depEl      = document.getElementById('rdi-config-hide-deprecated');
+  const collxnEl   = document.getElementById('rdi-config-collection');
+  const procEl     = document.getElementById('rdi-config-processor');
+  const collEl     = document.getElementById('rdi-config-collector');
+  const dbEl       = document.getElementById('rdi-config-database');
+  const counterEl  = document.getElementById('rdi-config-counter');
+  const suggestEl  = document.getElementById('rdi-config-suggestions');
+  const collDescEl = document.getElementById('rdi-config-collection-desc');
+
+  if (!props.length || !searchEl) return;
+
+  /* ---------- collections index ----------
+     The collections data block is emitted by the shortcode as a JSON
+     <script>. Build a lookup of { id → { paths Set, ancestors Set,
+     description string } } so the filter can quickly decide whether a
+     property belongs to (or is an ancestor of) a chosen collection. */
+  const collectionsRaw = (() => {
+    try { return JSON.parse(document.getElementById('rdi-collections-data').textContent); }
+    catch (e) { return []; }
+  })();
+  const collectionsById = {};
+  for (const c of collectionsRaw) {
+    const paths = new Set(c.properties || []);
+    const ancestors = new Set();
+    for (const p of paths) {
+      const parts = p.split('.');
+      for (let i = 1; i < parts.length; i++) ancestors.add(parts.slice(0, i).join('.'));
+    }
+    collectionsById[c.id] = { paths, ancestors, description: c.description || '', name: c.name || c.id };
+  }
+
+  /* A property is "in" a collection if it's listed explicitly, OR it's
+     a descendant of a listed container, OR it's an ancestor of a
+     listed property (so the container context still appears). */
+  function inCollection(propPath, c) {
+    if (c.paths.has(propPath)) return true;
+    if (c.ancestors.has(propPath)) return true;
+    // Descendant-of-listed-container check
+    const parts = propPath.split('.');
+    for (let i = parts.length - 1; i > 0; i--) {
+      if (c.paths.has(parts.slice(0, i).join('.'))) return true;
+    }
+    return false;
+  }
+
+  /* ---------- section index ----------
+     Identify the five top-level sections by the bare <a name="..."> tags
+     emitted next to each H2. For each section, capture:
+       headerEls — the elements between this anchor and the first
+                   `.rdi-prop` (the <p>-wrapped anchor itself, the <h2>,
+                   and the section description). Hidden when the
+                   section has no visible properties under the current
+                   filter, so empty sections don't leave dangling
+                   headings on the page.
+       props     — the property entries that belong to this section
+                   (everything up to the next section's anchor).
+       tocLink   — the corresponding "Jump to a section" markdown link
+                   at the top of the page; dimmed when empty. */
+  const sectionNames = ['sources', 'processors', 'targets', 'secret-providers', 'metadata'];
+  const sections = [];
+  for (let i = 0; i < sectionNames.length; i++) {
+    const name = sectionNames[i];
+    const anchor = document.querySelector(`a[name="${name}"]`);
+    if (!anchor) continue;
+    const startNode = anchor.closest('p') || anchor;
+    const nextAnchor = i + 1 < sectionNames.length
+      ? document.querySelector(`a[name="${sectionNames[i + 1]}"]`)
+      : null;
+    const endNode = nextAnchor ? (nextAnchor.closest('p') || nextAnchor) : null;
+
+    const headerEls = [];
+    const sectionProps = [];
+    let node = startNode;
+    let seenProp = false;
+    while (node && node !== endNode) {
+      if (node.matches && node.matches('[data-rdi-prop="true"]')) {
+        seenProp = true;
+        sectionProps.push(node);
+      } else if (!seenProp) {
+        headerEls.push(node);
+      }
+      node = node.nextElementSibling;
+    }
+    sections.push({
+      name,
+      headerEls,
+      props: sectionProps,
+      tocLink: document.querySelector(`a[href="#${name}"]`)
+    });
+  }
+
+  /* ---------- filter ---------- */
+
+  /* x-ui-expose mixes two dimensions ("processor:*" and "collector:*").
+     A property that has *no* tags in a dimension is considered universal
+     for that dimension. A property that *does* have tags in a dimension
+     only shows when the user's picked value is in that tag set. */
+  function appliesInDimension(rawTags, dimension, picked) {
+    if (!picked) return true;
+    if (!rawTags) return true;
+    const inDim = rawTags.split(' ').filter(t => t.startsWith(dimension + ':'));
+    if (!inDim.length) return true;            // universal in this dim
+    return inDim.includes(dimension + ':' + picked);
+  }
+
+  function appliesToDatabase(rawTypes, picked) {
+    if (!picked) return true;
+    if (!rawTypes) return true;
+    const types = rawTypes.split(' ').filter(Boolean);
+    if (!types.length) return true;            // universal across DBs
+    return types.includes(picked);
+  }
+
+  function applyFilter() {
+    const q             = (searchEl.value || '').toLowerCase().trim();
+    const requiredOnly  = reqEl.checked;
+    const hideDep       = depEl.checked;
+    const collxn        = collxnEl.value;
+    const proc          = procEl.value;
+    const coll          = collEl.value;
+    const db            = dbEl.value;
+    const activeColl    = collxn ? collectionsById[collxn] : null;
+    let visible = 0;
+
+    for (const p of props) {
+      const name = (p.dataset.name || '').toLowerCase();
+      const path = (p.dataset.path || '').toLowerCase();
+      let show = true;
+
+      if (q) {
+        const haystack = name + ' ' + path;
+        if (!haystack.includes(q)) {
+          const text = (p.textContent || '').toLowerCase();
+          if (!text.includes(q)) show = false;
+        }
+      }
+      if (activeColl && !inCollection(p.dataset.path, activeColl)) show = false;
+      if (requiredOnly && p.dataset.required !== 'yes') show = false;
+      if (hideDep && p.dataset.deprecated === 'true')   show = false;
+      if (show) {
+        const expose = p.dataset.expose;
+        if (!appliesInDimension(expose, 'processor', proc)) show = false;
+        if (show && !appliesInDimension(expose, 'collector', coll)) show = false;
+        if (show && !appliesToDatabase(p.dataset.sourceTypes, db)) show = false;
+      }
+
+      p.style.display = show ? '' : 'none';
+      if (show) visible++;
+    }
+
+    /* Surface the active collection's description below the toolbar. */
+    if (activeColl && activeColl.description) {
+      collDescEl.innerHTML = '<strong>' + activeColl.name + ':</strong> ' + activeColl.description;
+      collDescEl.classList.remove('hidden');
+    } else {
+      collDescEl.classList.add('hidden');
+      collDescEl.innerHTML = '';
+    }
+
+    const filtering = q || requiredOnly || hideDep || collxn || proc || coll || db;
+    counterEl.textContent = filtering
+      ? `${visible} of ${props.length} shown`
+      : `${props.length} properties`;
+
+    /* Hide section headings + descriptions for sections that have no
+       visible properties under the current filter. Also dim the TOC
+       entry so the "Jump to" list reflects what's available. */
+    for (const section of sections) {
+      const anyVisible = section.props.some(p => p.style.display !== 'none');
+      const hide = filtering && !anyVisible;
+      for (const el of section.headerEls) {
+        el.style.display = hide ? 'none' : '';
+      }
+      if (section.tocLink) {
+        section.tocLink.style.opacity = hide ? '0.4' : '';
+        section.tocLink.style.pointerEvents = hide ? 'none' : '';
+      }
+    }
+  }
+
+  applyFilter();
+  searchEl.addEventListener('input', applyFilter);
+  reqEl.addEventListener('change', applyFilter);
+  depEl.addEventListener('change', applyFilter);
+  collxnEl.addEventListener('change', applyFilter);
+  procEl.addEventListener('change', applyFilter);
+  collEl.addEventListener('change', applyFilter);
+  dbEl.addEventListener('change', applyFilter);
+
+  /* ---------- jump-to autocomplete ---------- */
+
+  function renderSuggestions(matches) {
+    if (!matches.length) {
+      suggestEl.classList.add('hidden');
+      suggestEl.innerHTML = '';
+      return;
+    }
+    suggestEl.innerHTML = matches.map(p => `
+      <a href="#${p.id}"
+         data-target="${p.id}"
+         class="block px-3 py-1.5 text-sm hover:bg-slate-100 dark:hover:bg-slate-700 no-underline border-b border-slate-100 dark:border-slate-700 last:border-b-0">
+        <code class="text-xs font-mono text-redis-ink-900 dark:text-redis-pen-200">${p.dataset.path}</code>
+      </a>
+    `).join('');
+    suggestEl.classList.remove('hidden');
+  }
+
+  searchEl.addEventListener('input', () => {
+    const q = (searchEl.value || '').toLowerCase().trim();
+    if (q.length < 2) { renderSuggestions([]); return; }
+    const matches = props
+      .filter(p =>
+        (p.dataset.name || '').toLowerCase().includes(q) ||
+        (p.dataset.path || '').toLowerCase().includes(q)
+      )
+      .slice(0, 30);
+    renderSuggestions(matches);
+  });
+
+  searchEl.addEventListener('focus', () => {
+    if (searchEl.value.trim().length >= 2) {
+      searchEl.dispatchEvent(new Event('input'));
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!suggestEl.contains(e.target) && e.target !== searchEl) {
+      suggestEl.classList.add('hidden');
+    }
+  });
+
+  suggestEl.addEventListener('click', () => {
+    suggestEl.classList.add('hidden');
+  });
+})();
+</script>

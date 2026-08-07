@@ -1,0 +1,2227 @@
+{
+  "title": "Redis Data Integration Configuration File",
+  "description": "Configuration file for Redis Data Integration (RDI) source collectors and target connections.",
+  "type": ["object", "null"],
+  "errorMessage": {
+    "type": "Configuration must be either an object or null"
+  },
+  "properties": {
+    "sources": {
+      "title": "Source collectors",
+      "description": "Source collectors that capture changes from upstream databases. Each key is a unique source identifier; the value configures one collector.",
+      "type": "object",
+      "errorMessage": {
+        "type": "Sources configuration must be an object containing named source collectors"
+      },
+      "patternProperties": {
+        ".*": {
+          "properties": {
+            "connection": {
+              "title": "Source database connection",
+              "description": "Connection configuration for a non-Redis source database. The exact set of properties depends on the database type.",
+              "properties": {
+                "SQL database": {
+                  "title": "SQL database",
+                  "description": "Connection configuration for a supported SQL database.",
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "title": "Database type",
+                      "description": "SQL database engine.",
+                      "type": "string",
+                      "enum": [
+                        "mariadb",
+                        "mysql",
+                        "oracle",
+                        "postgresql",
+                        "sqlserver"
+                      ],
+                      "errorMessage": "Database type must be one of: db2, mariadb, mysql, oracle, postgresql, sqlserver"
+                    },
+                    "host": {
+                      "title": "Database host",
+                      "description": "Hostname or IP address of the SQL database server.",
+                      "type": "string",
+                      "errorMessage": "Host must be a valid hostname or IP address"
+                    },
+                    "port": {
+                      "title": "Database port",
+                      "description": "Network port on which the SQL database server is listening.",
+                      "errorMessage": {
+                        "oneOf": "Port must be either a number between 1-65535 or an environment variable reference",
+                        "pattern": "Environment variable reference must be in ${VAR_NAME} format",
+                        "minimum": "Port number must be at least 1",
+                        "maximum": "Port number cannot exceed 65535"
+                      },
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 65535
+                    },
+                    "database": {
+                      "title": "Database name",
+                      "description": "Name of the database to connect to.",
+                      "type": "string",
+                      "errorMessage": "Database name must be a valid string"
+                    },
+                    "user": {
+                      "title": "Database user",
+                      "description": "Username for authentication to the SQL database.",
+                      "type": "string",
+                      "errorMessage": "Database user must be a valid string"
+                    },
+                    "password": {
+                      "title": "Database password",
+                      "description": "Password for authentication to the SQL database.",
+                      "type": "string",
+                      "errorMessage": "Database password must be a valid string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "errorMessage": {
+                    "oneOf": "Invalid database connection configuration"
+                  },
+                  "examples": [
+                    {
+                      "hr": {
+                        "type": "postgresql",
+                        "host": "localhost",
+                        "port": 5432,
+                        "database": "postgres",
+                        "user": "postgres",
+                        "password": "postgres"
+                      }
+                    },
+                    {
+                      "my-oracle": {
+                        "type": "oracle",
+                        "host": "172.17.0.4",
+                        "port": 1521,
+                        "user": "c##dbzuser",
+                        "password": "dbz"
+                      }
+                    }
+                  ]
+                },
+                "MongoDB": {
+                  "title": "MongoDB",
+                  "description": "Connection configuration for a MongoDB database.",
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "title": "Database type",
+                      "description": "Database type identifier. Always `mongodb` for this connection.",
+                      "type": "string",
+                      "const": "mongodb"
+                    },
+                    "connection_string": {
+                      "title": "Connection string",
+                      "description": "MongoDB connection URI including host, port, and any connection options.",
+                      "type": "string"
+                    },
+                    "user": {
+                      "title": "MongoDB user",
+                      "description": "Username for authentication to MongoDB.",
+                      "type": "string"
+                    },
+                    "password": {
+                      "title": "MongoDB password",
+                      "description": "Password for authentication to MongoDB.",
+                      "type": "string"
+                    },
+                    "database": {
+                      "title": "MongoDB databases",
+                      "description": "Comma-separated list of MongoDB databases to monitor.",
+                      "type": "string"
+                    }
+                  },
+                  "required": ["type", "connection_string"],
+                  "additionalProperties": false,
+                  "errorMessage": {
+                    "required": "MongoDB connection string must be provided"
+                  },
+                  "examples": [
+                    {
+                      "mongodb-source": {
+                        "type": "mongodb",
+                        "connection_string": "mongodb://localhost:27017/?replicaSet=rs0",
+                        "user": "debezium",
+                        "password": "dbz",
+                        "database": "db1,db2"
+                      }
+                    }
+                  ]
+                },
+                "Spanner": {
+                  "title": "Spanner",
+                  "description": "Connection configuration for a Google Cloud Spanner database.",
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "title": "Database type",
+                      "description": "Database type identifier. Always `spanner` for this connection.",
+                      "type": "string",
+                      "const": "spanner"
+                    },
+                    "project_id": {
+                      "title": "Spanner project ID",
+                      "description": "Google Cloud project ID that hosts the Spanner instance.",
+                      "type": "string"
+                    },
+                    "instance_id": {
+                      "title": "Spanner instance ID",
+                      "description": "Spanner instance identifier within the project.",
+                      "type": "string"
+                    },
+                    "database_id": {
+                      "title": "Spanner database ID",
+                      "description": "Spanner database identifier within the instance.",
+                      "type": "string"
+                    },
+                    "emulator_host": {
+                      "title": "Spanner emulator host",
+                      "description": "Host and port of the Spanner emulator. Used for local development; leave unset against real Spanner.",
+                      "type": "string"
+                    },
+                    "use_credentials_file": {
+                      "title": "Use credentials file",
+                      "description": "When `true`, RDI authenticates using a service account credentials file; when `false`, it uses application default credentials.",
+                      "type": "boolean",
+                      "default": false,
+                      "errorMessage": "Use credentials file flag must be a boolean value (true/false)"
+                    },
+                    "change_streams": {
+                      "title": "Change streams configuration",
+                      "description": "Spanner change streams to capture, keyed by change stream name.",
+                      "type": "object",
+                      "minProperties": 1,
+                      "additionalProperties": {
+                        "type": ["object", "null"],
+                        "properties": {
+                          "retention_period_hours": {
+                            "title": "Change stream retention period hours",
+                            "description": "Retention period for the change stream, in hours.",
+                            "type": ["integer", "string"],
+                            "minimum": 1,
+                            "pattern": "^\\${.*}$"
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      "errorMessage": {
+                        "minProperties": "Change streams configuration cannot be empty"
+                      }
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "project_id",
+                    "instance_id",
+                    "database_id",
+                    "change_streams"
+                  ],
+                  "additionalProperties": false,
+                  "examples": [
+                    {
+                      "spanner-source": {
+                        "type": "spanner",
+                        "project_id": "example-12345",
+                        "instance_id": "example",
+                        "database_id": "example",
+                        "change_streams": {
+                          "change_stream_all": {
+                            "retention_period_hours": 24
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                "Snowflake": {
+                  "title": "Snowflake",
+                  "description": "Connection configuration for a Snowflake database.",
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "title": "Database type",
+                      "description": "Database type identifier. Always `snowflake` for this connection.",
+                      "type": "string",
+                      "const": "snowflake"
+                    },
+                    "url": {
+                      "title": "JDBC URL",
+                      "description": "Snowflake JDBC connection URL, for example `jdbc:snowflake://account.snowflakecomputing.com/`.",
+                      "type": "string",
+                      "errorMessage": "URL must be a valid Snowflake JDBC connection string"
+                    },
+                    "user": {
+                      "title": "Snowflake user",
+                      "description": "Username for authentication to Snowflake.",
+                      "type": "string",
+                      "errorMessage": "User must be a valid string"
+                    },
+                    "password": {
+                      "title": "Snowflake password",
+                      "description": "Password for authentication to Snowflake. For key-pair authentication, omit this field and provide the private key via the `source-db-ssl` secret (`client.key` field).",
+                      "type": "string",
+                      "errorMessage": "Password must be a valid string"
+                    },
+                    "database": {
+                      "title": "Snowflake database",
+                      "description": "Name of the Snowflake database to connect to.",
+                      "type": "string",
+                      "errorMessage": "Database name must be a valid string"
+                    },
+                    "warehouse": {
+                      "title": "Snowflake warehouse",
+                      "description": "Name of the Snowflake warehouse used for compute.",
+                      "type": "string",
+                      "errorMessage": "Warehouse name must be a valid string"
+                    },
+                    "role": {
+                      "title": "Snowflake role",
+                      "description": "Snowflake role used for the connection.",
+                      "type": "string",
+                      "errorMessage": "Role name must be a valid string"
+                    },
+                    "cdcDatabase": {
+                      "title": "CDC database",
+                      "description": "Database hosting the CDC streams. Defaults to the main `database` if not set.",
+                      "type": "string",
+                      "errorMessage": "CDC database name must be a valid string"
+                    },
+                    "cdcSchema": {
+                      "title": "CDC schema",
+                      "description": "Schema hosting the CDC streams. Defaults to the main schema if not set.",
+                      "type": "string",
+                      "errorMessage": "CDC schema name must be a valid string"
+                    }
+                  },
+                  "required": ["type", "url", "user", "warehouse", "database"],
+                  "additionalProperties": false,
+                  "errorMessage": {
+                    "required": "Snowflake connection must include type, url, user, warehouse, and database."
+                  },
+                  "examples": [
+                    {
+                      "snowflake": {
+                        "type": "snowflake",
+                        "url": "jdbc:snowflake://myaccount.snowflakecomputing.com/",
+                        "user": "myuser",
+                        "password": "mypassword",
+                        "database": "MYDB",
+                        "warehouse": "COMPUTE_WH"
+                      }
+                    }
+                  ]
+                }
+              },
+              "type": "object"
+            },
+            "name": {
+              "title": "Source name",
+              "description": "Human-readable name for the source collector. Maximum 100 characters.",
+              "type": "string",
+              "maxLength": 100,
+              "errorMessage": {
+                "type": "Source name must be a string",
+                "maxLength": "Source name must be at most 100 characters"
+              }
+            },
+            "type": {
+              "title": "Collector type",
+              "description": "Type of the source collector. Use `cdc` (default) for change data capture using [Debezium](https://debezium.io/). Use `flink` for Spanner change streams using the Apache Flink-based collector. Use `riotx` for Snowflake CDC using [RIOT-X](https://redis.github.io/riotx/).",
+              "type": "string",
+              "enum": ["cdc", "flink", "riotx"],
+              "default": "cdc",
+              "errorMessage": "Source collector type must be one of: cdc, flink, external, riotx"
+            },
+            "active": {
+              "title": "Collector enabled",
+              "description": "When `true`, the collector runs; when `false`, the collector is disabled and produces no events.",
+              "type": "boolean",
+              "default": true,
+              "errorMessage": "Active flag must be a boolean value (true/false)"
+            },
+            "logging": {
+              "title": "Logging configuration",
+              "description": "Logging settings for this source collector.",
+              "type": "object",
+              "properties": {
+                "level": {
+                  "title": "Logging level",
+                  "description": "Log verbosity for the source collector.",
+                  "type": "string",
+                  "enum": ["trace", "debug", "info", "warn", "error"],
+                  "default": "info",
+                  "errorMessage": "Logging level must be one of: trace, debug, info, warn, error"
+                }
+              },
+              "additionalProperties": false,
+              "errorMessage": {
+                "additionalProperties": "Unknown logging configuration properties. Only 'level' is allowed"
+              }
+            },
+            "tables": {
+              "title": "Tables to capture",
+              "description": "Tables to capture from the source database, keyed by table name. The value configures column selection and key handling for that table.",
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": ["object", "null"],
+                "properties": {
+                  "snapshot_sql": {
+                    "title": "Snapshot SQL",
+                    "description": "Custom SQL statement used during the initial snapshot, giving fine-grained control over the data captured.",
+                    "type": "string",
+                    "errorMessage": "Snapshot SQL must be a valid SQL query string"
+                  },
+                  "columns": {
+                    "title": "Columns to capture",
+                    "description": "List of specific columns to capture for changes. If not specified, all columns will be captured. For RIOTX Snowflake sources, this is rendered as per-table `--table-columns` projection. Note: This property cannot be used for MongoDB connections",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "errorMessage": "Columns must be an array of column names"
+                  },
+                  "exclude_columns": {
+                    "title": "Columns to exclude",
+                    "description": "Specific columns to exclude from capture. When omitted, no columns are excluded. Only supported for MongoDB connections.",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "errorMessage": "Exclude columns must be an array of column names"
+                  },
+                  "keys": {
+                    "title": "Message keys",
+                    "description": "Optional list of columns to use as a composite unique identifier. For RIOTX Snowflake sources, this is rendered as per-table `--table-keys`. Only required when the table lacks a primary key or unique constraint. Must form a unique combination of fields",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "errorMessage": "Keys must be an array of column names that form a unique identifier"
+                  }
+                },
+                "additionalProperties": false,
+                "errorMessage": {
+                  "additionalProperties": "Unknown table properties detected"
+                }
+              },
+              "errorMessage": {
+                "minProperties": "Tables configuration cannot be empty"
+              }
+            },
+            "schemas": {
+              "title": "Schema names",
+              "description": "Schema names to capture from the source database. Maps to the underlying connector's `schema.include.list`.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "errorMessage": {
+                "type": "Schemas must be an array of schema names",
+                "items": "Each schema name must be a valid string"
+              }
+            },
+            "databases": {
+              "title": "Database names",
+              "description": "Database names to capture from the source database. Maps to the underlying connector's `database.include.list`.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "errorMessage": {
+                "type": "Databases must be an array of database names",
+                "items": "Each database name must be a valid string"
+              }
+            },
+            "advanced": {
+              "title": "Advanced configuration",
+              "description": "Advanced configuration that overrides the underlying engine's defaults. Only required for non-standard tuning.",
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "sink": {
+                  "title": "RDI Collector stream writer configuration",
+                  "description": "Advanced configuration properties for the RDI Collector stream writer connection and behaviour. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, see the full list of properties at [Debezium Server — Redis Stream sink](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream). When using a property from that page, omit the `debezium.sink.` prefix.<br/><br/>**The properties listed below only apply to the `flink` collector type.**",
+                  "type": "object",
+                  "minProperties": 1,
+                  "properties": {
+                    "redis.batch.size": {
+                      "title": "Sink batch size",
+                      "description": "Maximum number of records the collector sink writes to Redis in a single batch.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 1000,
+                      "x-ui-expose": ["collector:cdc", "collector:flink"]
+                    },
+                    "redis.flush.interval.ms": {
+                      "title": "Sink flush interval",
+                      "description": "Maximum time in milliseconds the collector sink waits to fill a batch before flushing it to Redis.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 100,
+                      "x-ui-expose": ["collector:cdc", "collector:flink"]
+                    },
+                    "redis.connection.timeout.ms": {
+                      "title": "Sink connection timeout",
+                      "description": "Connection timeout in milliseconds for the target Redis client used by the collector sink.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 2000
+                    },
+                    "redis.socket.timeout.ms": {
+                      "title": "Sink socket timeout",
+                      "description": "Socket read/write timeout in milliseconds for the target Redis client used by the collector sink.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 2000
+                    },
+                    "redis.retry.max.attempts": {
+                      "title": "Sink retry max attempts",
+                      "description": "Maximum number of retry attempts for failed Redis operations.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 5
+                    },
+                    "redis.retry.initial.delay.ms": {
+                      "title": "Sink retry initial delay",
+                      "description": "Initial delay in milliseconds before the first retry of a failed Redis operation.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 100
+                    },
+                    "redis.retry.max.delay.ms": {
+                      "title": "Sink retry max delay",
+                      "description": "Maximum delay in milliseconds between retry attempts for failed Redis operations.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 3000
+                    },
+                    "redis.retry.backoff.multiplier": {
+                      "title": "Sink retry backoff multiplier",
+                      "description": "Exponential backoff multiplier between retry attempts for failed Redis operations.",
+                      "type": "number",
+                      "minimum": 1,
+                      "default": 2
+                    },
+                    "redis.oom.retry.initial.delay.ms": {
+                      "title": "Sink OOM retry initial delay",
+                      "description": "Initial delay in milliseconds before the first retry after a Redis out-of-memory error.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 1000
+                    },
+                    "redis.oom.retry.max.delay.ms": {
+                      "title": "Sink OOM retry max delay",
+                      "description": "Maximum delay in milliseconds between retry attempts after a Redis out-of-memory error.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 10000
+                    },
+                    "redis.oom.retry.backoff.multiplier": {
+                      "title": "Sink OOM retry backoff multiplier",
+                      "description": "Exponential backoff multiplier between retry attempts after a Redis out-of-memory error.",
+                      "type": "number",
+                      "minimum": 1,
+                      "default": 2
+                    },
+                    "redis.wait.enabled": {
+                      "title": "Sink replica wait enabled",
+                      "description": "When `true`, the collector verifies that each write has been replicated to the configured number of Redis replica shards before acknowledging it.",
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "redis.wait.write.timeout.ms": {
+                      "title": "Sink replica wait timeout",
+                      "description": "Maximum time in milliseconds to wait for replica write acknowledgements.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 1000
+                    },
+                    "redis.wait.retry.enabled": {
+                      "title": "Sink replica wait retry enabled",
+                      "description": "When `true`, the collector keeps retrying a write until replica acknowledgement succeeds; when `false`, it gives up after the first failure.",
+                      "type": "boolean",
+                      "default": false
+                    },
+                    "redis.wait.retry.delay.ms": {
+                      "title": "Sink replica wait retry delay",
+                      "description": "Delay in milliseconds between replica wait retry attempts.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 1000
+                    }
+                  },
+                  "additionalProperties": {
+                    "type": ["string", "number", "boolean"]
+                  },
+                  "errorMessage": {
+                    "minProperties": "Sink configuration cannot be empty",
+                    "additionalProperties": "Sink configuration values must be strings, numbers, or booleans"
+                  }
+                },
+                "source": {
+                  "title": "Advanced source settings",
+                  "description": "Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The named properties below cover the most commonly tuned settings: `spanner.*` properties apply to the `flink` collector type, all others apply to the `cdc` collector type. Any other property from the Debezium documentation can still be set as a free-form key-value pair.**",
+                  "type": "object",
+                  "minProperties": 1,
+                  "properties": {
+                    "record.processing.threads": {
+                      "title": "Record processing threads",
+                      "description": "Controls how many worker threads process captured records before they are written downstream.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "x-ui-expose": ["collector:cdc"]
+                    },
+                    "snapshot.max.threads": {
+                      "title": "Snapshot max threads",
+                      "description": "Sets the maximum number of threads used while taking the initial snapshot.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 1,
+                      "x-ui-expose": ["collector:cdc"]
+                    },
+                    "poll.interval.ms": {
+                      "title": "Poll interval ms",
+                      "description": "Defines how often the collector polls the source for new changes.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 500,
+                      "x-ui-expose": ["collector:cdc"]
+                    },
+                    "snapshot.fetch.size": {
+                      "title": "Snapshot fetch size",
+                      "description": "Defines how many rows are fetched per batch during the initial snapshot.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 10000,
+                      "x-ui-expose": ["collector:cdc"]
+                    },
+                    "max.batch.size": {
+                      "title": "Max batch size",
+                      "description": "Caps how many records are processed together in a single batch.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 2048,
+                      "x-ui-expose": ["collector:cdc"]
+                    },
+                    "max.queue.size": {
+                      "title": "Max queue size",
+                      "description": "Limits how many records can be buffered in memory before processing catches up.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 8192,
+                      "x-ui-expose": ["collector:cdc"]
+                    },
+                    "heartbeat.interval.ms": {
+                      "title": "Heartbeat interval ms",
+                      "description": "Sets how often heartbeat events are emitted to keep change tracking active. Use 0 to disable them.",
+                      "type": "integer",
+                      "minimum": 0,
+                      "default": 0,
+                      "x-ui-expose": ["collector:cdc"]
+                    },
+                    "heartbeat.action.query": {
+                      "title": "Heartbeat action query",
+                      "description": "SQL query executed on the source whenever a heartbeat is emitted.",
+                      "type": "string",
+                      "x-ui-expose": ["collector:cdc"]
+                    },
+                    "lob.enabled": {
+                      "title": "Lob enabled",
+                      "description": "Determines whether large object columns are included in change capture.",
+                      "type": "boolean",
+                      "default": false,
+                      "x-ui-expose": ["collector:cdc"],
+                      "x-ui-source-types": ["oracle"]
+                    },
+                    "gtid.source.includes": {
+                      "title": "GTID source includes",
+                      "description": "Restricts MySQL GTID processing to the listed source UUIDs.",
+                      "type": "string",
+                      "x-ui-expose": ["collector:cdc"],
+                      "x-ui-source-types": ["mysql", "mariadb"]
+                    },
+                    "publication.autocreate.mode": {
+                      "title": "Publication autocreate mode",
+                      "description": "Controls whether and how the PostgreSQL publication is created or updated automatically.",
+                      "type": "string",
+                      "enum": ["all_tables", "filtered", "disabled"],
+                      "default": "all_tables",
+                      "x-ui-expose": ["collector:cdc"],
+                      "x-ui-source-types": ["postgresql"]
+                    },
+                    "publication.name": {
+                      "title": "Publication name",
+                      "description": "Sets the PostgreSQL logical replication publication name used by the collector.",
+                      "type": "string",
+                      "default": "dbz_publication",
+                      "x-ui-expose": ["collector:cdc"],
+                      "x-ui-source-types": ["postgresql"]
+                    },
+                    "slot.name": {
+                      "title": "Slot name",
+                      "description": "Sets the PostgreSQL replication slot name the collector reads from.",
+                      "type": "string",
+                      "default": "debezium",
+                      "x-ui-expose": ["collector:cdc"],
+                      "x-ui-source-types": ["postgresql"]
+                    },
+                    "spanner.version.retention.period.hours": {
+                      "title": "Spanner version retention period",
+                      "description": "Retention period in hours for Spanner change stream versions. Determines how far back the collector can resume after an outage.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 1
+                    },
+                    "spanner.fetch.timeout.ms": {
+                      "title": "Spanner fetch timeout",
+                      "description": "Timeout in milliseconds for a single change stream fetch request to Spanner.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 500
+                    },
+                    "spanner.fetch.heartbeat.ms": {
+                      "title": "Spanner fetch heartbeat interval",
+                      "description": "Interval in milliseconds at which Spanner sends heartbeat records when no data changes are available.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 100
+                    },
+                    "spanner.max.rows.per.partition": {
+                      "title": "Spanner max rows per partition",
+                      "description": "Maximum number of rows the collector reads from a single Spanner change stream partition before yielding.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 10000
+                    },
+                    "spanner.dialect": {
+                      "title": "Spanner SQL dialect",
+                      "description": "SQL dialect of the Spanner database. Use `GOOGLESQL` for Google Standard SQL or `POSTGRESQL` for the PostgreSQL interface.",
+                      "type": "string",
+                      "enum": ["GOOGLESQL", "POSTGRESQL"],
+                      "default": "GOOGLESQL"
+                    }
+                  },
+                  "additionalProperties": {
+                    "type": ["string", "number", "boolean"]
+                  },
+                  "errorMessage": {
+                    "minProperties": "Source configuration cannot be empty",
+                    "additionalProperties": "Source configuration values must be strings, numbers, or booleans"
+                  }
+                },
+                "quarkus": {
+                  "title": "Quarkus runtime settings",
+                  "description": "Advanced configuration properties for the Quarkus runtime that hosts Debezium Server. **Only applies to the `cdc` collector type.** See the [Debezium Server documentation](https://debezium.io/documentation/reference/stable/operations/debezium-server.html) for runtime configuration options. When using a property from that page, omit the `quarkus.` prefix.",
+                  "type": "object",
+                  "minProperties": 1,
+                  "additionalProperties": {
+                    "type": ["string", "number", "boolean"]
+                  },
+                  "errorMessage": {
+                    "minProperties": "Quarkus configuration cannot be empty",
+                    "additionalProperties": "Quarkus configuration values must be strings, numbers, or booleans"
+                  }
+                },
+                "flink": {
+                  "title": "Advanced Flink settings",
+                  "description": "Advanced configuration properties forwarded to the Flink runtime that hosts the collector. Any property listed in the [Flink configuration documentation](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/deployment/config/) can be set here and will override the RDI default. **Only applies to the `flink` collector type.**<br/><br/>The properties listed below are the ones most likely to require adjustment. **Changing any other Flink property is not recommended unless instructed by Redis support.**",
+                  "type": "object",
+                  "minProperties": 1,
+                  "properties": {
+                    "parallelism.default": {
+                      "title": "Default parallelism",
+                      "description": "Default parallelism for Flink jobs and operators. When unset, Flink uses the number of available task slots across all task managers (`taskManager.replicas × taskmanager.numberOfTaskSlots`). See [parallel execution](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/dev/datastream/execution/parallel/).",
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "taskmanager.numberOfTaskSlots": {
+                      "title": "Task slots per task manager",
+                      "description": "Number of parallel task slots per task manager pod. Each slot can run one parallel pipeline instance, so this caps the parallelism a single task manager can absorb. See [task slots and resources](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/concepts/flink-architecture/#task-slots-and-resources).",
+                      "type": "integer",
+                      "minimum": 1,
+                      "default": 1
+                    },
+                    "taskmanager.memory.process.size": {
+                      "title": "Task manager process memory",
+                      "description": "Total memory budget for each task manager JVM process, expressed with a unit suffix such as `2048m` or `4g`. See [task manager memory configuration](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/deployment/memory/mem_setup_tm/).",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": {
+                    "type": ["string", "number", "boolean"]
+                  },
+                  "errorMessage": {
+                    "minProperties": "Flink configuration cannot be empty",
+                    "additionalProperties": "Flink configuration values must be strings, numbers, or booleans"
+                  }
+                },
+                "resources": {
+                  "title": "Collector resource settings",
+                  "description": "Compute resources allocated to the collector. **Only applies to the `cdc` collector type.**",
+                  "type": "object",
+                  "minProperties": 1,
+                  "properties": {
+                    "cpu": {
+                      "title": "CPU resource value",
+                      "description": "CPU request for the collector container, for example `1` or `500m`.",
+                      "type": "string",
+                      "errorMessage": "CPU resource value must be a valid Kubernetes quantity string"
+                    },
+                    "memory": {
+                      "title": "Memory resource value",
+                      "description": "Memory request for the collector container, for example `1024Mi` or `2Gi`.",
+                      "type": "string",
+                      "errorMessage": "Memory resource value must be a valid Kubernetes quantity string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "errorMessage": {
+                    "minProperties": "Resources configuration cannot be empty",
+                    "additionalProperties": "Unknown resources properties. Only 'cpu' and 'memory' are allowed"
+                  }
+                },
+                "riotx": {
+                  "title": "Advanced RIOT-X settings",
+                  "description": "Advanced configuration properties for the RIOT-X Snowflake collector. **Only applies to the `riotx` collector type.**",
+                  "type": "object",
+                  "minProperties": 1,
+                  "properties": {
+                    "poll": {
+                      "title": "Polling interval",
+                      "description": "Interval between polls for new stream changes, for example `30s` or `PT30S`.",
+                      "type": "string",
+                      "default": "30s",
+                      "errorMessage": "Poll interval must be a valid duration string"
+                    },
+                    "snapshot": {
+                      "title": "Snapshot mode",
+                      "description": "Initial-load behavior. `INITIAL` performs a one-time snapshot before streaming; `NEVER` skips the snapshot.",
+                      "type": "string",
+                      "enum": ["INITIAL", "NEVER"],
+                      "default": "INITIAL",
+                      "errorMessage": "Snapshot mode must be either 'INITIAL' or 'NEVER'"
+                    },
+                    "streamPrefix": {
+                      "title": "Redis stream key prefix",
+                      "description": "Prefix used when constructing Redis stream keys, for example `data:`.",
+                      "type": "string",
+                      "default": "data:",
+                      "errorMessage": "Stream prefix must be a valid string"
+                    },
+                    "streamLimit": {
+                      "title": "Maximum stream length",
+                      "description": "Maximum number of entries kept in each Redis stream before older entries are trimmed.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "errorMessage": "Stream limit must be a positive integer"
+                    },
+                    "keyColumns": {
+                      "title": "Key columns",
+                      "description": "Deprecated RIOTX global fallback list of columns to use as message keys for every captured table. Prefer `tables.<schema.table>.keys`",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "errorMessage": "Key columns must be an array of column names"
+                    },
+                    "clearOffset": {
+                      "title": "Clear existing offset",
+                      "description": "When `true`, the stored offset is cleared on startup, forcing a fresh read.",
+                      "type": "boolean",
+                      "default": false,
+                      "errorMessage": "Clear offset must be a boolean value"
+                    },
+                    "count": {
+                      "title": "Record count limit",
+                      "description": "Maximum number of records to process. Set to `0` for unlimited.",
+                      "type": "integer",
+                      "minimum": 0,
+                      "default": 0,
+                      "errorMessage": "Count must be a non-negative integer"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "errorMessage": {
+                    "minProperties": "RIOTX configuration cannot be empty",
+                    "additionalProperties": "Unknown RIOTX configuration properties detected"
+                  }
+                },
+                "java_options": {
+                  "title": "Advanced Java options",
+                  "description": "These Java options will be passed to the command line command when launching the source collector. **Only applies to the `cdc` collector type.**",
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "errorMessage": {
+                "type": "Advanced configuration must be an object",
+                "minProperties": "Advanced configuration cannot be empty"
+              }
+            }
+          },
+          "required": ["type", "connection"],
+          "additionalProperties": false,
+          "errorMessage": {
+            "required": "Source collector must include 'type' and 'connection' properties",
+            "additionalProperties": "Unknown source collector properties detected"
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "not": {
+                          "enum": [
+                            "oracle",
+                            "postgresql",
+                            "sqlserver",
+                            "spanner",
+                            "snowflake"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "schemas": false
+                }
+              },
+              "errorMessage": "Schemas can only be defined for Oracle, PostgreSQL, SQL Server, Spanner, or Snowflake connections"
+            },
+            {
+              "if": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "not": {
+                          "enum": ["mariadb", "mysql", "mongodb"]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "databases": false
+                }
+              },
+              "errorMessage": "Databases can only be defined for MariaDB, MySQL, or MongoDB connections"
+            },
+            {
+              "if": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "const": "snowflake"
+                      }
+                    },
+                    "required": ["type"]
+                  }
+                },
+                "required": ["connection"]
+              },
+              "then": {
+                "properties": {
+                  "databases": false
+                }
+              },
+              "errorMessage": "Snowflake does not support source-level 'databases'; use 'schemas' instead"
+            },
+            {
+              "if": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "const": "snowflake"
+                      }
+                    },
+                    "required": ["type"]
+                  }
+                },
+                "required": ["connection"]
+              },
+              "then": {
+                "required": ["schemas"],
+                "properties": {
+                  "schemas": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "errorMessage": "Snowflake source requires 'schemas' at the source level"
+            },
+            {
+              "if": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "database": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["database"]
+                  }
+                },
+                "required": ["connection", "databases"]
+              },
+              "then": false,
+              "errorMessage": "Cannot specify both 'database' in connection and 'databases' list - use one or the other"
+            },
+            {
+              "if": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "enum": ["mongodb"]
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "tables": {
+                    "additionalProperties": {
+                      "properties": {
+                        "columns": false
+                      }
+                    }
+                  }
+                }
+              },
+              "errorMessage": "'columns' cannot be defined for MongoDB connections"
+            },
+            {
+              "if": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "not": {
+                          "enum": ["mongodb"]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "tables": {
+                    "additionalProperties": {
+                      "properties": {
+                        "exclude_columns": false
+                      }
+                    }
+                  }
+                }
+              },
+              "errorMessage": "'exclude_columns' can only be defined for MongoDB connections"
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "riotx"
+                  }
+                },
+                "required": ["type"]
+              },
+              "then": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "const": "snowflake"
+                      }
+                    },
+                    "required": ["type"]
+                  }
+                }
+              },
+              "errorMessage": "RIOTX collector type requires a Snowflake connection"
+            },
+            {
+              "if": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "const": "snowflake"
+                      }
+                    },
+                    "required": ["type"]
+                  }
+                },
+                "required": ["connection"]
+              },
+              "then": {
+                "properties": {
+                  "type": {
+                    "const": "riotx"
+                  }
+                },
+                "required": ["type"]
+              },
+              "errorMessage": "Snowflake connection type requires RIOTX collector type"
+            },
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "flink"
+                  }
+                },
+                "required": ["type"]
+              },
+              "then": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "const": "spanner"
+                      }
+                    },
+                    "required": ["type"]
+                  }
+                }
+              },
+              "errorMessage": "Flink collector type requires a Spanner connection"
+            },
+            {
+              "if": {
+                "properties": {
+                  "connection": {
+                    "properties": {
+                      "type": {
+                        "const": "spanner"
+                      }
+                    },
+                    "required": ["type"]
+                  }
+                },
+                "required": ["connection"]
+              },
+              "then": {
+                "properties": {
+                  "type": {
+                    "const": "flink"
+                  }
+                },
+                "required": ["type"]
+              },
+              "errorMessage": "Spanner connection type requires Flink collector type"
+            }
+          ]
+        }
+      }
+    },
+    "targets": {
+      "title": "Target connections",
+      "description": "Target Redis databases where processed records are written. Each key is a target identifier; the value configures the connection.",
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "connection": {
+                  "title": "Database connection",
+                  "description": "Connection configuration for a Redis database.",
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "title": "Database type",
+                      "description": "Database type identifier. Always `redis` for this connection.",
+                      "const": "redis",
+                      "errorMessage": "Connection type must be 'redis'"
+                    },
+                    "host": {
+                      "title": "Database host",
+                      "description": "Hostname or IP address of the Redis server.",
+                      "type": "string",
+                      "errorMessage": "Host must be a valid hostname or IP address"
+                    },
+                    "port": {
+                      "title": "Database port",
+                      "description": "Network port on which the Redis server is listening.",
+                      "errorMessage": {
+                        "oneOf": "Port must be either a number between 1-65535 or an environment variable reference",
+                        "pattern": "Environment variable reference must be in ${VAR_NAME} format",
+                        "minimum": "Port number must be at least 1",
+                        "maximum": "Port number cannot exceed 65535"
+                      },
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 65535
+                    },
+                    "user": {
+                      "title": "Database user",
+                      "description": "Username for authentication to the Redis database.",
+                      "type": "string",
+                      "errorMessage": "Database user must be a valid string"
+                    },
+                    "password": {
+                      "title": "Database password",
+                      "description": "Password for authentication to the Redis database.",
+                      "type": "string",
+                      "errorMessage": "Database password must be a valid string"
+                    },
+                    "key": {
+                      "title": "Private key file",
+                      "description": "Path to the private key file used for SSL/TLS client authentication.",
+                      "type": "string",
+                      "errorMessage": "Private key file path must be a valid string"
+                    },
+                    "key_password": {
+                      "title": "Private key password",
+                      "description": "Password used to decrypt the private key file.",
+                      "type": "string",
+                      "errorMessage": "Private key password must be a valid string"
+                    },
+                    "cert": {
+                      "title": "Client certificate",
+                      "description": "Path to the client certificate file used for SSL/TLS client authentication.",
+                      "type": "string",
+                      "errorMessage": "Client certificate path must be a valid string"
+                    },
+                    "cacert": {
+                      "title": "CA certificate",
+                      "description": "Path to the Certificate Authority (CA) certificate file used to verify the server's TLS certificate.",
+                      "type": "string",
+                      "errorMessage": "CA certificate path must be a valid string"
+                    }
+                  },
+                  "required": ["type", "host", "port"],
+                  "minProperties": 3,
+                  "dependentRequired": {
+                    "key": ["cert"],
+                    "cert": ["key"],
+                    "key_password": ["key"]
+                  },
+                  "errorMessage": {
+                    "minProperties": "Connection must include required properties",
+                    "required": "Connection must include type, host, and port",
+                    "dependentRequired": {
+                      "key": "When using key authentication, both key and cert must be provided",
+                      "cert": "When using certificate authentication, both key and cert must be provided",
+                      "key_password": "Key password can only be specified when a key is provided"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "name": {
+                  "title": "Target name",
+                  "description": "Human-readable name for the target connection. Maximum 100 characters.",
+                  "type": "string",
+                  "maxLength": 100,
+                  "errorMessage": {
+                    "type": "Target name must be a string",
+                    "maxLength": "Target name must be at most 100 characters"
+                  }
+                }
+              },
+              "required": ["connection"],
+              "additionalProperties": false,
+              "errorMessage": {
+                "required": "Target must include a connection configuration",
+                "additionalProperties": "Unknown target properties detected"
+              }
+            },
+            {
+              "title": "Database connection",
+              "description": "Connection configuration for a Redis database.",
+              "type": "object",
+              "properties": {
+                "type": {
+                  "title": "Database type",
+                  "description": "Database type identifier. Always `redis` for this connection.",
+                  "const": "redis",
+                  "errorMessage": "Connection type must be 'redis'"
+                },
+                "host": {
+                  "title": "Database host",
+                  "description": "Hostname or IP address of the Redis server.",
+                  "type": "string",
+                  "errorMessage": "Host must be a valid hostname or IP address"
+                },
+                "port": {
+                  "title": "Database port",
+                  "description": "Network port on which the Redis server is listening.",
+                  "errorMessage": {
+                    "oneOf": "Port must be either a number between 1-65535 or an environment variable reference",
+                    "pattern": "Environment variable reference must be in ${VAR_NAME} format",
+                    "minimum": "Port number must be at least 1",
+                    "maximum": "Port number cannot exceed 65535"
+                  },
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "user": {
+                  "title": "Database user",
+                  "description": "Username for authentication to the Redis database.",
+                  "type": "string",
+                  "errorMessage": "Database user must be a valid string"
+                },
+                "password": {
+                  "title": "Database password",
+                  "description": "Password for authentication to the Redis database.",
+                  "type": "string",
+                  "errorMessage": "Database password must be a valid string"
+                },
+                "key": {
+                  "title": "Private key file",
+                  "description": "Path to the private key file used for SSL/TLS client authentication.",
+                  "type": "string",
+                  "errorMessage": "Private key file path must be a valid string"
+                },
+                "key_password": {
+                  "title": "Private key password",
+                  "description": "Password used to decrypt the private key file.",
+                  "type": "string",
+                  "errorMessage": "Private key password must be a valid string"
+                },
+                "cert": {
+                  "title": "Client certificate",
+                  "description": "Path to the client certificate file used for SSL/TLS client authentication.",
+                  "type": "string",
+                  "errorMessage": "Client certificate path must be a valid string"
+                },
+                "cacert": {
+                  "title": "CA certificate",
+                  "description": "Path to the Certificate Authority (CA) certificate file used to verify the server's TLS certificate.",
+                  "type": "string",
+                  "errorMessage": "CA certificate path must be a valid string"
+                }
+              },
+              "required": ["type", "host", "port"],
+              "minProperties": 3,
+              "dependentRequired": {
+                "key": ["cert"],
+                "cert": ["key"],
+                "key_password": ["key"]
+              },
+              "errorMessage": {
+                "minProperties": "Connection must include required properties",
+                "required": "Connection must include type, host, and port",
+                "dependentRequired": {
+                  "key": "When using key authentication, both key and cert must be provided",
+                  "cert": "When using certificate authentication, both key and cert must be provided",
+                  "key_password": "Key password can only be specified when a key is provided"
+                }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "errorMessage": "Target must be either a Redis connection object or an object with a connection property"
+        }
+      },
+      "errorMessage": {
+        "type": "Targets configuration must be an object mapping target names to their connection settings"
+      }
+    },
+    "processors": {
+      "title": "Data processing configuration",
+      "description": "Settings that control how data is processed, including batch sizes, error handling, and performance tuning.",
+      "type": ["object", "null"],
+      "properties": {
+        "type": {
+          "title": "Processor type",
+          "description": "Processor implementation to run. `classic` runs the classic processor; `flink` runs the Apache Flink-based processor (Kubernetes deployments only).",
+          "type": "string",
+          "default": "classic",
+          "enum": ["classic", "flink"],
+          "errorMessage": {
+            "enum": "Invalid processor type. The only supported types are 'classic' or 'flink'."
+          }
+        },
+        "read_batch_size": {
+          "title": "Read batch size",
+          "description": "Maximum number of records read from the source streams in a single batch.",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "pattern": "^\\${.*}$",
+          "default": 2000,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": {
+            "type": "Read batch size must be either an integer or an environment variable reference",
+            "minimum": "Read batch size must be at least 1",
+            "pattern": "Invalid format in 'processors -> read_batch_size': ${VALUE} does not match the required pattern"
+          }
+        },
+        "read_batch_timeout_ms": {
+          "title": "Read batch timeout",
+          "description": "Maximum time in milliseconds to wait for a batch to fill before processing it.",
+          "type": ["integer"],
+          "minimum": 1,
+          "default": 100,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": {
+            "type": "Read batch timeout must be an integer",
+            "minimum": "Read batch timeout must be at least 1 millisecond"
+          }
+        },
+        "duration": {
+          "title": "Batch duration limit",
+          "description": "This property has no effect; use `read_batch_timeout_ms` instead.",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "pattern": "^\\${.*}$",
+          "default": 100,
+          "deprecated": true,
+          "errorMessage": {
+            "type": "Duration must be either an integer or an environment variable reference",
+            "minimum": "Duration must be at least 1 millisecond",
+            "pattern": "Invalid format in 'processors -> duration': ${VALUE} does not match the required pattern"
+          }
+        },
+        "write_batch_size": {
+          "title": "Write batch size",
+          "description": "Maximum number of records written to the target Redis database in a single batch.",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "pattern": "^\\${.*}$",
+          "default": 200,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": {
+            "type": "Write batch size must be either an integer or an environment variable reference",
+            "minimum": "Write batch size must be at least 1",
+            "pattern": "Invalid format in 'processors -> write_batch_size': ${VALUE} does not match the required pattern"
+          }
+        },
+        "enable_async_processing": {
+          "title": "Enable async processing",
+          "description": "When `true`, the processor handles batches asynchronously to improve throughput. **Classic processor only.**",
+          "type": "boolean",
+          "default": true,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": "Enable async processing flag must be a boolean value (true/false)"
+        },
+        "batch_queue_size": {
+          "title": "Batch queue size",
+          "description": "Maximum number of batches queued for processing. **Classic processor only.**",
+          "type": "integer",
+          "minimum": 1,
+          "default": 3,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": {
+            "type": "Batch queue size must be an integer",
+            "minimum": "Batch queue size must be at least 1"
+          }
+        },
+        "ack_queue_size": {
+          "title": "ACK queue size",
+          "description": "Maximum number of batches queued for asynchronous acknowledgement. **Classic processor only.**",
+          "type": "integer",
+          "minimum": 1,
+          "default": 10,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": {
+            "type": "ACK queue size must be an integer",
+            "minimum": "ACK queue size must be at least 1"
+          }
+        },
+        "dedup": {
+          "title": "Enable deduplication",
+          "description": "When `true`, the processor deduplicates incoming records. **Classic processor only.**",
+          "type": "boolean",
+          "default": false,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": "Deduplication flag must be a boolean value (true/false)"
+        },
+        "dedup_max_size": {
+          "title": "Deduplication set size",
+          "description": "Maximum number of entries kept in the deduplication set. **Classic processor only.**",
+          "type": "integer",
+          "minimum": 1,
+          "default": 1024,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": {
+            "type": "Deduplication set size must be an integer",
+            "minimum": "Deduplication set size must be at least 1"
+          }
+        },
+        "dedup_strategy": {
+          "title": "Deduplication strategy",
+          "description": "This property has no effect — the only supported strategy is `ignore`. Remove it from the configuration. **Classic processor only.**",
+          "type": "string",
+          "default": "ignore",
+          "enum": ["reject", "ignore"],
+          "deprecated": true,
+          "errorMessage": {
+            "enum": "Invalid deduplication strategy. The only supported strategies are 'reject' or 'ignore'."
+          }
+        },
+        "error_handling": {
+          "title": "Error handling strategy",
+          "description": "Strategy for handling failed records. `ignore` silently drops them; `dlq` writes them to the dead-letter queue.",
+          "default": "dlq",
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": "error_handling must be 'ignore', 'dlq', or an environment variable reference",
+          "type": "string"
+        },
+        "dlq_max_messages": {
+          "title": "DLQ message limit",
+          "description": "Maximum number of messages stored per dead-letter queue stream.",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "pattern": "^\\${.*}$",
+          "default": 1000,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": {
+            "type": "DLQ message limit must be either an integer or an environment variable reference",
+            "minimum": "DLQ message limit must be at least 1",
+            "pattern": "Invalid format in 'processors -> dlq_max_messages': ${VALUE} does not match the required pattern"
+          }
+        },
+        "target_data_type": {
+          "title": "Target Redis data type",
+          "description": "Data type used to store target records in Redis. `hash` writes a Redis Hash; `json` writes a RedisJSON document and requires the RedisJSON module.",
+          "default": "hash",
+          "errorMessage": "target_data_type must be 'hash', 'json', or an environment variable reference",
+          "type": "string"
+        },
+        "json_update_strategy": {
+          "title": "JSON update strategy",
+          "description": "Strategy for updating existing JSON documents in Redis. `replace` overwrites the entire document; `merge` merges incoming fields into it.",
+          "default": "replace",
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": "json_update_strategy must be 'replace', 'merge', or an environment variable reference",
+          "type": "string"
+        },
+        "use_native_json_merge": {
+          "title": "Use native JSON merge from RedisJSON module",
+          "description": "Controls whether JSON merge operations use the native `JSON.MERGE` command (when `true`) or Lua scripts (when `false`). Introduced in RDI 1.15.0. The native command provides 2x performance improvement but handles null values differently:<br/><br/>**Previous behavior (Lua merge)**: When merging `{\"field1\": \"value1\", \"field2\": \"value2\"}` with `{\"field2\": null, \"field3\": \"value3\"}`, the result was `{\"field1\": \"value1\", \"field2\": null, \"field3\": \"value3\"}` (null value is preserved).<br/><br/>**New behavior (JSON.MERGE)**: The same merge produces `{\"field1\": \"value1\", \"field3\": \"value3\"}` (null value removes the field, following [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396)).<br/><br/>**Note**: The native `JSON.MERGE` command requires RedisJSON 2.6.0 or higher. If the target database has an older version of RedisJSON, RDI automatically falls back to Lua-based merge operations regardless of this setting.<br/><br/>**Impact**: If your application logic distinguishes between a field with a `null` value and a missing field, you may need to adjust your data handling. This follows the JSON Merge Patch RFC standard but differs from the previous Lua implementation. Set to `false` to revert to the previous Lua-based merge behavior if needed.<br/><br/>The Flink processor always uses the native `JSON.MERGE` command when the target database supports it. **Classic processor only.**",
+          "type": "boolean",
+          "default": true,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": "Use native JSON merge flag must be a boolean value (true/false)"
+        },
+        "initial_sync_processes": {
+          "title": "Initial sync processes",
+          "description": "Number of parallel processes used to perform the initial data synchronization. For the Flink processor, parallelism is controlled by Flink properties instead. **Classic processor only.**",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "maximum": 32,
+          "pattern": "^\\${.*}$",
+          "default": 4,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": {
+            "type": "Initial sync processes must be either an integer or an environment variable reference",
+            "minimum": "Initial sync processes must be at least 1",
+            "maximum": "Initial sync processes cannot exceed 32",
+            "pattern": "Invalid format in 'processors -> initial_sync_processes': ${VALUE} does not match the required pattern"
+          }
+        },
+        "idle_sleep_time_ms": {
+          "title": "Idle sleep interval",
+          "description": "Time in milliseconds to sleep between processing batches when idle. **Classic processor only.**",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "maximum": 999999,
+          "pattern": "^\\${.*}$",
+          "default": 200,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": {
+            "type": "Idle sleep time must be either an integer or an environment variable reference",
+            "minimum": "Idle sleep time must be at least 1 millisecond",
+            "maximum": "Idle sleep time cannot exceed 999999 milliseconds",
+            "pattern": "Invalid format in 'processors -> idle_sleep_time_ms': ${VALUE} does not match the required pattern"
+          }
+        },
+        "idle_streams_check_interval_ms": {
+          "title": "Idle streams check interval",
+          "description": "Time in milliseconds between checks for new streams when the processor is idle. For the Flink processor, use `processors.advanced.source.discovery.interval.ms` instead to configure a single discovery interval regardless of load. **Classic processor only.**",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "maximum": 999999,
+          "pattern": "^\\${.*}$",
+          "default": 1000,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": {
+            "type": "Idle streams check interval must be either an integer or an environment variable reference",
+            "minimum": "Idle streams check interval must be at least 1 millisecond",
+            "maximum": "Idle streams check interval cannot exceed 999999 milliseconds",
+            "pattern": "Invalid format in 'processors -> idle_streams_check_interval_ms': ${VALUE} does not match the required pattern"
+          }
+        },
+        "busy_streams_check_interval_ms": {
+          "title": "Busy streams check interval",
+          "description": "Time in milliseconds between checks for new streams when the processor is busy. For the Flink processor, use `processors.advanced.source.discovery.interval.ms` instead to configure a single discovery interval regardless of load. **Classic processor only.**",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "maximum": 999999,
+          "pattern": "^\\${.*}$",
+          "default": 5000,
+          "x-ui-expose": ["processor:classic"],
+          "errorMessage": {
+            "type": "Busy streams check interval must be either an integer or an environment variable reference",
+            "minimum": "Busy streams check interval must be at least 1 millisecond",
+            "maximum": "Busy streams check interval cannot exceed 999999 milliseconds",
+            "pattern": "Invalid format in 'processors -> busy_streams_check_interval_ms': ${VALUE} does not match the required pattern"
+          }
+        },
+        "retry_max_attempts": {
+          "title": "Maximum retry attempts",
+          "description": "Maximum number of attempts for a failed write to the target Redis database before giving up.",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "pattern": "^\\${.*}$",
+          "default": 5,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": {
+            "type": "Maximum retry attempts must be either an integer or an environment variable reference",
+            "minimum": "Maximum retry attempts must be at least 1",
+            "pattern": "Invalid format in 'processors -> retry_max_attempts': ${VALUE} does not match the required pattern"
+          }
+        },
+        "retry_initial_delay_ms": {
+          "title": "Initial retry delay",
+          "description": "Initial delay in milliseconds before the first retry of a failed write.",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "maximum": 999999,
+          "pattern": "^\\${.*}$",
+          "default": 1000,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": {
+            "type": "Initial retry delay must be either an integer or an environment variable reference",
+            "minimum": "Initial retry delay must be at least 1 millisecond",
+            "maximum": "Initial retry delay cannot exceed 999999 milliseconds",
+            "pattern": "Invalid format in 'processors -> retry_initial_delay_ms': ${VALUE} does not match the required pattern"
+          }
+        },
+        "retry_max_delay_ms": {
+          "title": "Maximum retry delay",
+          "description": "Maximum delay in milliseconds between retry attempts.",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "maximum": 999999,
+          "pattern": "^\\${.*}$",
+          "default": 10000,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": {
+            "type": "Maximum retry delay must be either an integer or an environment variable reference",
+            "minimum": "Maximum retry delay must be at least 1 millisecond",
+            "maximum": "Maximum retry delay cannot exceed 999999 milliseconds",
+            "pattern": "Invalid format in 'processors -> retry_max_delay_ms': ${VALUE} does not match the required pattern"
+          }
+        },
+        "wait_enabled": {
+          "title": "Enable replica wait",
+          "description": "When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it.",
+          "type": "boolean",
+          "default": false,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": "Wait enabled flag must be a boolean value (true/false)"
+        },
+        "wait_timeout": {
+          "title": "Replica wait timeout",
+          "description": "Maximum time in milliseconds to wait for replica write verification on the target database.",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "pattern": "^\\${.*}$",
+          "default": 1000,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": {
+            "type": "Wait timeout must be either an integer or an environment variable reference",
+            "minimum": "Wait timeout must be at least 1 millisecond",
+            "pattern": "Invalid format in 'processors -> wait_timeout': ${VALUE} does not match the required pattern"
+          }
+        },
+        "retry_on_replica_failure": {
+          "title": "Retry on replica failure",
+          "description": "When `true`, RDI keeps retrying a write until replica replication is confirmed; when `false`, it gives up after the first failure.",
+          "type": "boolean",
+          "default": true,
+          "x-ui-expose": ["processor:classic", "processor:flink"],
+          "errorMessage": "Retry on replica failure flag must be a boolean value (true/false)"
+        },
+        "on_failed_retry_interval": {
+          "title": "Retry interval on failure",
+          "description": "This property has no effect; remove it from the configuration.",
+          "type": ["integer", "string"],
+          "minimum": 1,
+          "pattern": "^\\${.*}$",
+          "default": 5,
+          "deprecated": true,
+          "errorMessage": {
+            "type": "Retry interval must be either an integer or an environment variable reference",
+            "minimum": "Retry interval must be at least 1 second",
+            "pattern": "Invalid format in 'processors -> on_failed_retry_interval': ${VALUE} does not match the required pattern"
+          }
+        },
+        "logging": {
+          "title": "Logging configuration",
+          "description": "Logging settings for the processor. **Flink processor only.**",
+          "type": "object",
+          "properties": {
+            "level": {
+              "title": "Logging level",
+              "description": "Log verbosity for the processor.",
+              "type": "string",
+              "enum": ["trace", "debug", "info", "warn", "error"],
+              "default": "info",
+              "x-ui-expose": ["processor:flink"],
+              "errorMessage": "Logging level must be one of: trace, debug, info, warn, error"
+            }
+          },
+          "additionalProperties": false,
+          "errorMessage": {
+            "additionalProperties": "Unknown logging configuration properties. Only 'level' is allowed"
+          }
+        },
+        "advanced": {
+          "title": "Advanced configuration",
+          "description": "Advanced configuration for fine-tuning the processor. **All properties under `advanced` apply to the Flink processor only and are silently ignored by the classic processor.**",
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "source": {
+              "title": "Advanced source settings",
+              "description": "Advanced configuration properties for the source Redis client and streams reader. **Flink processor only.**",
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "stream.name.pattern": {
+                  "title": "Source stream name pattern",
+                  "description": "Glob pattern used to discover input streams in the source Redis database, for example `data:*`.",
+                  "type": "string",
+                  "default": "data:*",
+                  "x-ui-expose": ["processor:flink"]
+                },
+                "discovery.interval.ms": {
+                  "title": "Stream discovery interval",
+                  "description": "Time in milliseconds between checks for new input streams. Replaces the classic `processors.idle_streams_check_interval_ms` and `processors.busy_streams_check_interval_ms` properties.",
+                  "type": "integer",
+                  "minimum": 0,
+                  "default": 1000,
+                  "x-ui-expose": ["processor:flink"]
+                },
+                "batch.size": {
+                  "title": "Source batch size",
+                  "description": "Maximum number of records the source operator reads in a single batch. Alias for `processors.read_batch_size`; takes priority when both are set.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 2000
+                },
+                "batch.timeout.ms": {
+                  "title": "Source batch timeout",
+                  "description": "Maximum time in milliseconds to wait for a source batch to fill before processing. Alias for `processors.read_batch_timeout_ms`; takes priority when both are set.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 100
+                },
+                "connection.timeout.ms": {
+                  "title": "Source connection timeout",
+                  "description": "Connection timeout in milliseconds for the source Redis client.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 2000
+                },
+                "socket.timeout.ms": {
+                  "title": "Source socket timeout",
+                  "description": "Socket read/write timeout in milliseconds for the source Redis client.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 2000
+                },
+                "retry.max.attempts": {
+                  "title": "Source retry max attempts",
+                  "description": "Maximum number of retry attempts for failed source Redis operations.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 5,
+                  "x-ui-expose": ["processor:flink"]
+                },
+                "retry.initial.delay.ms": {
+                  "title": "Source retry initial delay",
+                  "description": "Initial delay in milliseconds before the first retry of a failed source Redis operation.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 100,
+                  "x-ui-expose": ["processor:flink"]
+                },
+                "retry.max.delay.ms": {
+                  "title": "Source retry max delay",
+                  "description": "Maximum delay in milliseconds between retry attempts for source Redis operations.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 3000,
+                  "x-ui-expose": ["processor:flink"]
+                },
+                "retry.backoff.multiplier": {
+                  "title": "Source retry backoff multiplier",
+                  "description": "Exponential backoff multiplier between retry attempts for source Redis operations.",
+                  "type": "number",
+                  "minimum": 1,
+                  "default": 2,
+                  "x-ui-expose": ["processor:flink"]
+                }
+              },
+              "additionalProperties": {
+                "type": ["string", "number", "boolean"]
+              },
+              "errorMessage": {
+                "minProperties": "Source configuration cannot be empty",
+                "additionalProperties": "Source configuration values must be strings, numbers, or booleans"
+              }
+            },
+            "target": {
+              "title": "Advanced target settings",
+              "description": "Advanced configuration properties for the target Redis client and sink. **Flink processor only.**",
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "batch.size": {
+                  "title": "Target sink batch size",
+                  "description": "Maximum number of records the target sink writes in a single batch. Alias for `processors.write_batch_size`; takes priority when both are set.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 200
+                },
+                "flush.interval.ms": {
+                  "title": "Target sink flush interval",
+                  "description": "Maximum time in milliseconds the target sink waits to fill a batch before flushing it to Redis.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 100,
+                  "x-ui-expose": ["processor:flink"]
+                },
+                "connection.timeout.ms": {
+                  "title": "Target connection timeout",
+                  "description": "Connection timeout in milliseconds for the target Redis client.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 2000
+                },
+                "socket.timeout.ms": {
+                  "title": "Target socket timeout",
+                  "description": "Socket read/write timeout in milliseconds for the target Redis client.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 2000
+                },
+                "retry.max.attempts": {
+                  "title": "Target retry max attempts",
+                  "description": "Maximum number of retry attempts for failed target Redis operations. Alias for `processors.retry_max_attempts`; takes priority when both are set.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 5
+                },
+                "retry.initial.delay.ms": {
+                  "title": "Target retry initial delay",
+                  "description": "Initial delay in milliseconds before the first retry of a failed target Redis operation. Alias for `processors.retry_initial_delay_ms`; takes priority when both are set.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1000
+                },
+                "retry.max.delay.ms": {
+                  "title": "Target retry max delay",
+                  "description": "Maximum delay in milliseconds between retry attempts for target Redis operations. Alias for `processors.retry_max_delay_ms`; takes priority when both are set.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 10000
+                },
+                "retry.backoff.multiplier": {
+                  "title": "Target retry backoff multiplier",
+                  "description": "Exponential backoff multiplier between retry attempts for target Redis operations.",
+                  "type": "number",
+                  "minimum": 1,
+                  "default": 2,
+                  "x-ui-expose": ["processor:flink"]
+                },
+                "wait.enabled": {
+                  "title": "Target replica wait enabled",
+                  "description": "When `true`, RDI verifies that each write has been replicated to the target database's replica shards before acknowledging it. Alias for `processors.wait_enabled`; takes priority when both are set.",
+                  "type": "boolean",
+                  "default": false
+                },
+                "wait.write.timeout.ms": {
+                  "title": "Target replica wait timeout",
+                  "description": "Maximum time in milliseconds to wait for target replica write verification. Alias for `processors.wait_timeout`; takes priority when both are set.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1000
+                },
+                "wait.retry.enabled": {
+                  "title": "Target replica wait retry enabled",
+                  "description": "When `true`, RDI keeps retrying a target write until replica replication is confirmed; when `false`, it gives up after the first failure. Alias for `processors.retry_on_replica_failure`; takes priority when both are set. When enabled, the Flink processor retries indefinitely until the checkpoint timeout, unlike the classic processor which retries once.",
+                  "type": "boolean",
+                  "default": true
+                },
+                "wait.retry.delay.ms": {
+                  "title": "Target replica wait retry delay",
+                  "description": "Delay in milliseconds between target replica wait retry attempts.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1000
+                }
+              },
+              "additionalProperties": {
+                "type": ["string", "number", "boolean"]
+              },
+              "errorMessage": {
+                "minProperties": "Target configuration cannot be empty",
+                "additionalProperties": "Target configuration values must be strings, numbers, or booleans"
+              }
+            },
+            "dlq": {
+              "title": "Advanced DLQ settings",
+              "description": "Advanced configuration properties for the DLQ Redis client and sink. **Flink processor only.**",
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "max.len": {
+                  "title": "DLQ sink max length",
+                  "description": "Maximum number of messages stored per dead letter queue stream. Alias for `processors.dlq_max_messages`; takes priority when both are set.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1000
+                },
+                "batch.size": {
+                  "title": "DLQ sink batch size",
+                  "description": "Maximum number of records the DLQ sink writes in a single batch.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 100
+                },
+                "flush.interval.ms": {
+                  "title": "DLQ sink flush interval",
+                  "description": "Maximum time in milliseconds the DLQ sink waits to fill a batch before flushing it to Redis.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 100
+                },
+                "connection.timeout.ms": {
+                  "title": "DLQ connection timeout",
+                  "description": "Connection timeout in milliseconds for the DLQ Redis client.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 2000
+                },
+                "socket.timeout.ms": {
+                  "title": "DLQ socket timeout",
+                  "description": "Socket read/write timeout in milliseconds for the DLQ Redis client.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 2000
+                },
+                "retry.max.attempts": {
+                  "title": "DLQ retry max attempts",
+                  "description": "Maximum number of retry attempts for failed DLQ Redis operations.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1
+                },
+                "retry.initial.delay.ms": {
+                  "title": "DLQ retry initial delay",
+                  "description": "Initial delay in milliseconds before the first retry of a failed DLQ Redis operation.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 100
+                },
+                "retry.max.delay.ms": {
+                  "title": "DLQ retry max delay",
+                  "description": "Maximum delay in milliseconds between retry attempts for DLQ Redis operations.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 3000
+                },
+                "retry.backoff.multiplier": {
+                  "title": "DLQ retry backoff multiplier",
+                  "description": "Exponential backoff multiplier between retry attempts for DLQ Redis operations.",
+                  "type": "number",
+                  "minimum": 1,
+                  "default": 2
+                },
+                "wait.enabled": {
+                  "title": "DLQ replica wait enabled",
+                  "description": "When `true`, RDI verifies that each DLQ write has been replicated to the DLQ database's replica shards before acknowledging it.",
+                  "type": "boolean",
+                  "default": false
+                },
+                "wait.write.timeout.ms": {
+                  "title": "DLQ replica wait timeout",
+                  "description": "Maximum time in milliseconds to wait for DLQ replica write verification.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1000
+                },
+                "wait.retry.enabled": {
+                  "title": "DLQ replica wait retry enabled",
+                  "description": "When `true`, RDI keeps retrying a DLQ write until replica replication is confirmed; when `false`, it gives up after the first failure.",
+                  "type": "boolean",
+                  "default": false
+                },
+                "wait.retry.delay.ms": {
+                  "title": "DLQ replica wait retry delay",
+                  "description": "Delay in milliseconds between DLQ replica wait retry attempts.",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1000
+                }
+              },
+              "additionalProperties": {
+                "type": ["string", "number", "boolean"]
+              },
+              "errorMessage": {
+                "minProperties": "DLQ configuration cannot be empty",
+                "additionalProperties": "DLQ configuration values must be strings, numbers, or booleans"
+              }
+            },
+            "processor": {
+              "title": "Advanced processor settings",
+              "description": "Advanced configuration properties for the processor. **Flink processor only.**",
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "default.data.type": {
+                  "title": "Default target data type",
+                  "description": "Data type to use in Redis when not overridden per job: `hash` for Redis Hash, `json` for RedisJSON. Alias for `processors.target_data_type`; takes priority when both are set.",
+                  "type": "string",
+                  "enum": ["hash", "json"],
+                  "default": "hash"
+                },
+                "default.json.update.strategy": {
+                  "title": "Default JSON update strategy",
+                  "description": "Strategy for updating JSON data in Redis: `replace` to overwrite the entire JSON object, `merge` to merge new data with the existing JSON object. Alias for `processors.json_update_strategy`; takes priority when both are set.",
+                  "type": "string",
+                  "enum": ["replace", "merge"],
+                  "default": "replace"
+                },
+                "dlq.enabled": {
+                  "title": "Enable DLQ",
+                  "description": "When `true`, rejected messages are stored in the dead-letter queue; when `false`, errors are silently skipped. Alias for `processors.error_handling`; takes priority when both are set.",
+                  "type": "boolean",
+                  "default": true
+                }
+              },
+              "additionalProperties": {
+                "type": ["string", "number", "boolean"]
+              },
+              "errorMessage": {
+                "minProperties": "Processor configuration cannot be empty",
+                "additionalProperties": "Processor configuration values must be strings, numbers, or booleans"
+              }
+            },
+            "flink": {
+              "title": "Advanced Flink settings",
+              "description": "Advanced configuration properties forwarded to the underlying Flink runtime. Any property listed in the [Flink configuration documentation](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/deployment/config/) can be set here and will override the RDI default. **Flink processor only.**<br/><br/>The properties listed below are the ones most likely to require adjustment. **Changing any other Flink property is not recommended unless instructed by Redis support.**",
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "parallelism.default": {
+                  "title": "Default parallelism",
+                  "description": "Default parallelism for jobs and operators. When unset, Flink uses the number of available task slots across all task managers (`taskManager.replicas × taskmanager.numberOfTaskSlots`). Increase to fan out work across more task slots; see [parallel execution](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/dev/datastream/execution/parallel/).",
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "taskmanager.numberOfTaskSlots": {
+                  "title": "Task slots per task manager",
+                  "description": "Number of parallel task slots per task manager pod. Each slot can run one parallel pipeline instance, so this caps the parallelism a single task manager can absorb. See [task slots and resources](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/concepts/flink-architecture/#task-slots-and-resources).",
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1,
+                  "x-ui-expose": ["processor:flink"]
+                },
+                "taskmanager.memory.process.size": {
+                  "title": "Task manager process memory",
+                  "description": "Total memory budget for each task manager JVM process (heap + managed + network + metaspace + JVM overhead), expressed with a unit suffix such as `2048m` or `4g`. See [task manager memory configuration](https://nightlies.apache.org/flink/flink-docs-release-2.0/docs/deployment/memory/mem_setup_tm/).",
+                  "type": "string",
+                  "default": "2048m"
+                }
+              },
+              "additionalProperties": {
+                "type": ["string", "number", "boolean"]
+              },
+              "errorMessage": {
+                "minProperties": "Flink configuration cannot be empty",
+                "additionalProperties": "Flink configuration values must be strings, numbers, or booleans"
+              }
+            },
+            "resources": {
+              "title": "Advanced resource settings",
+              "description": "Compute resources allocated to the Flink job, such as the number of task manager pods. **Flink processor only.**",
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "taskManager": {
+                  "title": "Task manager resource settings",
+                  "description": "Resource settings for Flink task manager pods.",
+                  "type": "object",
+                  "minProperties": 1,
+                  "properties": {
+                    "replicas": {
+                      "title": "Task manager replicas",
+                      "description": "Number of Flink task manager pods to run.",
+                      "type": "integer",
+                      "minimum": 1,
+                      "errorMessage": {
+                        "type": "Task manager replicas must be an integer",
+                        "minimum": "Task manager replicas must be at least 1"
+                      }
+                    }
+                  },
+                  "additionalProperties": false,
+                  "errorMessage": {
+                    "minProperties": "Task manager configuration cannot be empty",
+                    "additionalProperties": "Unknown task manager properties detected"
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "errorMessage": {
+                "minProperties": "Resources configuration cannot be empty",
+                "additionalProperties": "Unknown resources properties detected"
+              }
+            }
+          },
+          "additionalProperties": false,
+          "errorMessage": {
+            "type": "Advanced configuration must be an object",
+            "minProperties": "Advanced configuration cannot be empty"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "errorMessage": {
+        "type": "Processors configuration must be either an object or null",
+        "additionalProperties": "Unknown processor configuration property detected"
+      }
+    },
+    "secret-providers": {
+      "title": "Secret providers",
+      "description": "External secret providers used to resolve `${...}` references in the configuration.",
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "title": "Secret provider entry",
+          "type": "object",
+          "properties": {
+            "type": {
+              "title": "Provider type",
+              "description": "Secret provider backend. `aws` uses AWS Secrets Manager; `vault` uses HashiCorp Vault.",
+              "type": "string",
+              "enum": ["aws", "vault"],
+              "errorMessage": "Secret provider type must be either 'aws' or 'vault'"
+            },
+            "parameters": {
+              "title": "Provider parameters",
+              "description": "Configuration parameters for the secret provider.",
+              "type": "object",
+              "properties": {
+                "objects": {
+                  "title": "Secrets objects array",
+                  "description": "Secret objects to fetch from the provider.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "title": "Secret object",
+                    "minItems": 1
+                  },
+                  "errorMessage": {
+                    "type": "Secrets objects must be an array",
+                    "minItems": "At least one secret object must be specified"
+                  }
+                }
+              },
+              "required": ["objects"],
+              "errorMessage": {
+                "required": "Parameters must include 'objects' array"
+              }
+            }
+          },
+          "required": ["type", "parameters"],
+          "additionalProperties": false,
+          "errorMessage": {
+            "required": "Secret provider must include 'type' and 'parameters'",
+            "additionalProperties": "Unknown secret provider properties detected"
+          }
+        }
+      },
+      "errorMessage": {
+        "type": "Secret providers configuration must be an object"
+      }
+    },
+    "metadata": {
+      "title": "Pipeline metadata",
+      "description": "Optional metadata describing this pipeline, such as a display name and description.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "title": "Pipeline name",
+          "description": "Human-readable name for the pipeline. Maximum 100 characters.",
+          "type": "string",
+          "maxLength": 100,
+          "errorMessage": {
+            "type": "Pipeline name must be a string",
+            "maxLength": "Pipeline name must be at most 100 characters"
+          }
+        },
+        "description": {
+          "title": "Pipeline description",
+          "description": "Free-form description of what the pipeline does. Maximum 500 characters.",
+          "type": "string",
+          "maxLength": 500,
+          "errorMessage": {
+            "type": "Pipeline description must be a string",
+            "maxLength": "Pipeline description must be at most 500 characters"
+          }
+        },
+        "revision": {
+          "title": "Pipeline revision",
+          "description": "Pipeline revision number. Must be a non-negative integer.",
+          "type": "integer",
+          "minimum": 0,
+          "errorMessage": {
+            "type": "Pipeline revision must be an integer",
+            "minimum": "Pipeline revision must be greater than or equal to 0"
+          }
+        },
+        "tags": {
+          "title": "Pipeline tags",
+          "description": "Array of pipeline tags. Each tag must be a string of up to 50 characters, containing only alphanumeric characters, dots, dashes, or underscores, and must start and end with an alphanumeric character. Tags must be unique.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 50,
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9._-]*[a-zA-Z0-9])?$",
+            "errorMessage": {
+              "type": "Each tag must be a string",
+              "maxLength": "Each tag must be at most 50 characters",
+              "pattern": "Each tag must contain only alphanumeric characters, dots, dashes, or underscores, and must start and end with an alphanumeric character"
+            }
+          },
+          "uniqueItems": true,
+          "errorMessage": {
+            "type": "Tags must be an array of strings",
+            "uniqueItems": "Tags must be unique"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "errorMessage": {
+        "type": "Metadata configuration must be an object",
+        "additionalProperties": "Unknown metadata properties detected"
+      }
+    }
+  },
+  "additionalProperties": false
+}

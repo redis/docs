@@ -1,0 +1,91 @@
+{{/*
+  rdi/cli-page-body
+
+  Renders the markdown body for one RDI CLI command page from the
+  Click-introspection schema in data/rdi-reference/cli.json.
+
+  Emits a `## Usage` block and a `## Options` bullet list, in the same
+  shape as the legacy generator. The legacy "## CLI help" section is
+  deliberately omitted — it duplicates the Options data.
+
+  Context (dict):
+    cmd    one entry from cli.json (the root or a subcommand)
+    name   fully-qualified command name for the Usage line
+           (e.g. "redis-di" or "redis-di add-context")
+*/}}
+
+{{- $cmd  := .cmd -}}
+{{- $name := .name -}}
+
+{{/* Split out positional arguments. They contribute to the Usage line
+     but are still listed (along with options) in the Options block,
+     matching the legacy layout. */}}
+{{- $args := slice -}}
+{{- range $p := $cmd.params -}}
+  {{- if eq $p.param_type_name "argument" -}}{{- $args = $args | append $p -}}{{- end -}}
+{{- end -}}
+
+{{/* Build the Usage line. */}}
+{{- $usage := printf "Usage: %s [OPTIONS]" $name -}}
+{{- range $a := $args -}}
+  {{- $usage = printf "%s %s" $usage (upper $a.name) -}}
+{{- end -}}
+{{- if $cmd.commands -}}
+  {{- $usage = printf "%s COMMAND [ARGS]..." $usage -}}
+{{- end -}}
+
+{{/* Build each option block as a discrete string, then join with blank
+     lines. This gives precise control over the spacing the legacy
+     generator produced. */}}
+{{- $blocks := slice -}}
+{{- range $p := $cmd.params -}}
+
+  {{- $reqSuffix := "" -}}
+  {{- if $p.required -}}{{- $reqSuffix = " (REQUIRED)" -}}{{- end -}}
+
+  {{- /* Type string */ -}}
+  {{- $t := $p.type -}}
+  {{- $typeStr := "" -}}
+  {{- if eq $t.param_type "Bool" -}}{{- $typeStr = "BOOL" -}}
+  {{- else if eq $t.param_type "String" -}}{{- $typeStr = "STRING" -}}
+  {{- else if eq $t.param_type "Int" -}}{{- $typeStr = "INT" -}}
+  {{- else if eq $t.param_type "IntRange" -}}
+    {{- $lo := "<=" -}}{{- if $t.min_open -}}{{- $lo = "<" -}}{{- end -}}
+    {{- $hi := "<=" -}}{{- if $t.max_open -}}{{- $hi = "<" -}}{{- end -}}
+    {{- $typeStr = printf "<IntRange %v%sx%s%v>" $t.min $lo $hi $t.max -}}
+  {{- else if eq $t.param_type "Choice" -}}
+    {{- $quoted := slice -}}
+    {{- range $c := $t.choices -}}{{- $quoted = $quoted | append (printf "'%s'" $c) -}}{{- end -}}
+    {{- $typeStr = printf "Choice([%s])" (delimit $quoted ", ") -}}
+  {{- else if eq $t.param_type "Path" -}}{{- $typeStr = "<click.types.Path object>" -}}
+  {{- else -}}{{- $typeStr = $t.param_type -}}
+  {{- end -}}
+
+  {{- /* Default string: `none` for null/missing, else lowercased str repr. */ -}}
+  {{- $defaultStr := "none" -}}
+  {{- if isset $p "default" -}}
+    {{- $dv := index $p "default" -}}
+    {{- if ne $dv nil -}}{{- $defaultStr = lower (printf "%v" $dv) -}}{{- end -}}
+  {{- end -}}
+
+  {{- /* Opts joined with a literal newline (matches the legacy quirk). */ -}}
+  {{- $optsStr := delimit $p.opts "\n" -}}
+
+  {{- $block := printf "- `%s`%s:\n  - Type: %s\n  - Default: `%s`\n  - Usage: `%s`" $p.name $reqSuffix $typeStr $defaultStr $optsStr -}}
+
+  {{- with $p.help -}}
+    {{- $block = printf "%s\n\n  %s" $block . -}}
+  {{- end -}}
+
+  {{- $blocks = $blocks | append $block -}}
+{{- end -}}
+
+## Usage
+
+```
+{{ $usage }}
+```
+
+## Options
+
+{{ delimit $blocks "\n\n" }}

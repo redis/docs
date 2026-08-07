@@ -1,0 +1,207 @@
+{{/*
+  rdi/render-property
+
+  Renders one schema property as a stacked block in the flat-tree
+  layout (driven by `rdi/render-tree.html`).
+
+  Layout:
+    Line 1: full dot path     [required] [deprecated] [object|array]
+    Line 2: short label (title) · type · constraints · N properties
+    Line 3: long description (only if it adds info beyond the title)
+
+  Visual variants:
+    - leaf      — primitives and arrays-of-primitives. Minimal style
+                  (left-border accent).
+    - container — objects / arrays-of-objects with nested structure.
+                  Bordered card with a light tint to flag that the
+                  entries that follow are its children.
+
+  Context (dict):
+    displayPath        full dotted path shown as the name (e.g.
+                       "sources.connection.Spanner.type")
+    slug               accumulated slug for this property's anchor
+    node               schema node for this property
+    isInRequiredList   whether the parent's `required` array lists
+                       this property
+    parentHasReqList   whether the parent has a `required` field
+                       at all (controls whether `required: no` is
+                       even meaningful)
+*/}}
+
+{{- $displayPath := .displayPath -}}
+{{- $slug := .slug -}}
+{{- $node := .node -}}
+{{- $isRequired := and .parentHasReqList .isInRequiredList -}}
+
+{{/* Resolve oneOf at this level. */}}
+{{- $work := $node -}}
+{{- with $node.oneOf -}}{{- $work = index . 0 -}}{{- end -}}
+
+{{/* Container check — same predicate render-tree uses, so the visual
+     variant matches whether children are about to follow. */}}
+{{- $cType := $node.type -}}
+{{- $isContainer := false -}}
+{{- $isArrayOfObjects := false -}}
+{{- if eq (printf "%T" $cType) "string" -}}
+  {{- if eq $cType "object" -}}
+    {{- if or $node.properties $node.patternProperties $node.oneOf $node.allOf (reflect.IsMap $node.additionalProperties) -}}
+      {{- $isContainer = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if and (eq (printf "%T" $cType) "string") (eq $cType "array") -}}
+  {{- with $node.items -}}
+    {{- if or .properties .patternProperties -}}
+      {{- $isContainer = true -}}
+      {{- $isArrayOfObjects = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $isDeprecated := false -}}
+{{- if $node.deprecated -}}{{- $isDeprecated = true -}}{{- end -}}
+
+{{/* Type display string. */}}
+{{- $typeDisplay := "" -}}
+{{- if eq (printf "%T" $cType) "string" -}}
+  {{- if eq $cType "array" -}}
+    {{- $itemType := "any" -}}
+    {{- with $node.items.type -}}{{- $itemType = . -}}{{- end -}}
+    {{- $typeDisplay = printf "%s[]" $itemType -}}
+  {{- else -}}
+    {{- $typeDisplay = $cType -}}
+  {{- end -}}
+{{- else if eq (printf "%T" $cType) "[]interface {}" -}}
+  {{- $typeDisplay = delimit $cType " | " -}}
+{{- else if isset $node "const" -}}
+  {{- $typeDisplay = "constant" -}}
+{{- end -}}
+
+{{/* Property count for container cards. */}}
+{{- $childCount := 0 -}}
+{{- $work2 := $node -}}
+{{- with $node.oneOf -}}{{- $work2 = index . 0 -}}{{- end -}}
+{{- with $work2.patternProperties -}}
+  {{- range $k, $v := . -}}{{- $work2 = $v -}}{{- end -}}
+{{- end -}}
+{{- /* Step through additionalProperties wrapper the same way render-tree does. */ -}}
+{{- if and (not $work2.properties) (not $work2.patternProperties) (reflect.IsMap $work2.additionalProperties) -}}
+  {{- $work2 = $work2.additionalProperties -}}
+{{- end -}}
+{{- with $work2.oneOf -}}{{- $work2 = index . 0 -}}{{- end -}}
+{{- with $work2.properties -}}{{- $childCount = len . -}}{{- end -}}
+{{- if and (eq $childCount 0) $isArrayOfObjects -}}
+  {{- with $node.items.properties -}}{{- $childCount = len . -}}{{- end -}}
+{{- end -}}
+
+{{/* The HTML id, used for #-permalinks and autocomplete jumps. */}}
+{{- $propId := printf "prop-%s" $slug -}}
+
+{{/* For backwards compatibility with deep links into the old schema
+     section anchors (#sources, #sourcesconnection, ...), emit a bare
+     <a name="..."> next to each *container* entry. */}}
+{{- if $isContainer }}
+<a name="{{ $slug }}"></a>
+{{- end }}
+
+{{/* Build per-segment links for the dot path: clicking any non-leaf
+     segment jumps to that subtree's section anchor. The final segment
+     stays as plain text (you're already on it). */}}
+{{- $segments := split $displayPath "." -}}
+{{- $lastIdx  := sub (len $segments) 1 -}}
+
+{{/* x-ui-expose / x-ui-source-types: applicability tags supplied by
+     the RDI team. Surfaced as space-separated data attributes; the
+     filter UI reads them to drive the processor / collector / database
+     dropdowns. */}}
+{{- $expose := "" -}}
+{{- with index $node "x-ui-expose" -}}
+  {{- $expose = delimit . " " -}}
+{{- end -}}
+{{- $sourceTypes := "" -}}
+{{- with index $node "x-ui-source-types" -}}
+  {{- $sourceTypes = delimit . " " -}}
+{{- end -}}
+
+<div class="rdi-prop group{{ if $isContainer }} rdi-prop-container{{ end }}{{ if $isDeprecated }} rdi-prop-deprecated{{ end }} my-2 px-3 py-2 {{ if $isContainer }}border border-slate-300 dark:border-slate-600 rounded-md bg-slate-50/50 dark:bg-slate-800/30{{ end }}"
+     id="{{ $propId }}"
+     data-rdi-prop="true"
+     data-name="{{ index (last 1 $segments) 0 }}"
+     data-path="{{ $displayPath }}"
+     data-required="{{ if $isRequired }}yes{{ else }}no{{ end }}"
+     data-deprecated="{{ if $isDeprecated }}true{{ else }}false{{ end }}"
+     data-container="{{ if $isContainer }}true{{ else }}false{{ end }}"
+     data-expose="{{ $expose }}"
+     data-source-types="{{ $sourceTypes }}">
+
+  <div class="rdi-prop-header flex items-baseline gap-2 flex-wrap">
+    <code class="rdi-prop-name text-base font-mono font-semibold text-redis-ink-900 dark:text-redis-pen-200">
+      {{- $accSlug := "" -}}
+      {{- range $i, $seg := $segments -}}
+        {{- $segFrag := lower $seg -}}
+        {{- $segFrag = replaceRE "[^a-z0-9_]" "" $segFrag -}}
+        {{- $accSlug = printf "%s%s" $accSlug $segFrag -}}
+        {{- if $i }}<span class="text-slate-400 font-normal">.</span>{{ end -}}
+        {{- if lt $i $lastIdx -}}
+          <a href="#{{ $accSlug }}" class="text-redis-ink-900 dark:text-redis-pen-200 hover:text-redis-red-500 dark:hover:text-redis-red-400 hover:underline no-underline">{{ $seg }}</a>
+        {{- else -}}
+          {{ $seg }}
+        {{- end -}}
+      {{- end -}}
+    </code>
+    <a href="#{{ $propId }}"
+       class="rdi-prop-permalink opacity-0 group-hover:opacity-100 text-slate-400 hover:text-redis-red-500 transition-opacity text-sm no-underline font-mono"
+       aria-label="Copy link"
+       title="Copy link">#</a>
+    {{- if $isRequired }}
+    <span class="rdi-pill text-xs px-1.5 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 font-medium">required</span>
+    {{- end }}
+    {{- if $isDeprecated }}
+    <span class="rdi-pill text-xs px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 font-medium">deprecated</span>
+    {{- end }}
+  </div>
+
+  <div class="rdi-prop-meta mt-1 flex items-center gap-x-3 gap-y-1 flex-wrap text-xs text-slate-600 dark:text-slate-400">
+    {{- with $node.title }}
+    <span class="rdi-prop-title font-medium text-slate-700 dark:text-slate-300">{{ . }}</span>
+    {{- end }}
+    {{- if $typeDisplay }}
+    <span class="rdi-prop-type"><code class="text-[0.7rem] px-1 rounded bg-slate-100 dark:bg-slate-800">{{ $typeDisplay }}</code></span>
+    {{- end }}
+    {{- if isset $node "default" }}
+      {{- $dv := index $node "default" -}}
+      {{- if ne $dv nil }}
+    <span>default: <code class="text-[0.7rem] px-1 rounded bg-slate-100 dark:bg-slate-800">{{ jsonify $dv }}</code></span>
+      {{- end }}
+    {{- end }}
+    {{- with $node.const }}
+    <span>constant: <code class="text-[0.7rem] px-1 rounded bg-slate-100 dark:bg-slate-800">{{ jsonify . }}</code></span>
+    {{- end }}
+    {{- with $node.minimum }}
+    <span>min: <code class="text-[0.7rem] px-1 rounded bg-slate-100 dark:bg-slate-800">{{ . }}</code></span>
+    {{- end }}
+    {{- with $node.maximum }}
+    <span>max: <code class="text-[0.7rem] px-1 rounded bg-slate-100 dark:bg-slate-800">{{ . }}</code></span>
+    {{- end }}
+    {{- with $node.maxLength }}
+    <span>max length: <code class="text-[0.7rem] px-1 rounded bg-slate-100 dark:bg-slate-800">{{ . }}</code></span>
+    {{- end }}
+    {{- with $node.enum }}
+    <span>enum:
+      {{- range $i, $v := . -}}
+      {{ if $i }}, {{ end }}<code class="text-[0.7rem] px-1 rounded bg-slate-100 dark:bg-slate-800">{{ jsonify $v }}</code>
+      {{- end -}}
+    </span>
+    {{- end }}
+    {{- with $node.pattern }}
+    <span>pattern: <code class="text-[0.7rem] px-1 rounded bg-slate-100 dark:bg-slate-800">{{ . }}</code></span>
+    {{- end }}
+    {{- if and $isContainer (gt $childCount 0) }}
+    <span class="rdi-prop-children-count">{{ $childCount }} {{ if eq $childCount 1 }}property{{ else }}properties{{ end }}</span>
+    {{- end }}
+  </div>
+
+  {{- with $node.description }}
+  <div class="rdi-prop-desc mt-1.5 text-sm text-slate-700 dark:text-slate-300 prose-sm max-w-none">{{ . | markdownify }}</div>
+  {{- end }}
+</div>
