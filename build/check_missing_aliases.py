@@ -77,6 +77,15 @@ from dataclasses import dataclass, field
 
 logger = logging.getLogger("check_missing_aliases")
 
+# Exit codes. A finding and a failure must not share one: a caller that cannot
+# tell them apart will report "some aliases could not be added" when what actually
+# happened is that git fell over, which sends whoever reads it looking in the wrong
+# place. Only meaningful with --fail; without it the scan is warn-only and always
+# exits 0 unless it could not run at all.
+EXIT_OK = 0
+EXIT_FINDINGS = 1   # gaps remain, or --fix could not place some aliases
+EXIT_ERROR = 2      # the scan itself failed and reported nothing usable
+
 CONTENT = "content"
 
 # A path segment that looks like a semver version marks the versioned trees,
@@ -149,7 +158,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--github", action="store_true",
                         help="emit GitHub Actions warning annotations")
     parser.add_argument("--fail", action="store_true",
-                        help="exit non-zero if any move is missing an alias")
+                        help="exit 1 if any move is missing an alias (see EXIT_* below)")
     return parser.parse_args()
 
 
@@ -767,7 +776,7 @@ def main() -> int:
     try:
         moves = find_moves(rev_range, args.threshold)
     except subprocess.CalledProcessError:
-        return 1
+        return EXIT_ERROR
     classify(moves)
 
     fix_hint = ("make check_aliases_fix" if args.all else
@@ -790,9 +799,9 @@ def main() -> int:
                            "file(s), which still need fixing by hand:", len(skipped))
             for path in skipped:
                 logger.warning("  %s", path)
-        return 1 if (skipped and args.fail) else 0
+        return EXIT_FINDINGS if (skipped and args.fail) else EXIT_OK
 
-    return 1 if (missing and args.fail) else 0
+    return EXIT_FINDINGS if (missing and args.fail) else EXIT_OK
 
 
 if __name__ == "__main__":
