@@ -11,8 +11,6 @@ title: Redis Context Retriever on Redis Cloud
 weight: 20
 bannerText: Redis Context Retriever on Redis Cloud is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
-aliases:
-- /operate/rc/context-engine/context-retriever/
 ---
 
 Redis Context Retriever helps teams expose operational context to AI agents through schema-first retrieval. It models the entities, fields, keys, and relationships that matter to an agent workflow, then presents that context through a governed tool surface the agent can call at runtime. Context Retriever helps an AI agent understand what business objects exist, how they connect, and which paths are safe to use.

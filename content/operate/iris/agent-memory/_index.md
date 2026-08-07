@@ -9,8 +9,6 @@ categories:
 - iris
 weight: 10
 hideListLinks: true
-aliases:
-- /operate/rc/context-engine/agent-memory/
 ---
 
 Redis Agent Memory provides persistent session memory and long-term memory for AI agents and applications.

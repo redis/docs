@@ -9,8 +9,6 @@ categories:
 - iris
 hideListLinks: true
 weight: 45
-aliases:
-- /operate/rc/context-engine/
 ---
 
 Redis Iris context engine provides managed and self-managed services for building AI applications with persistent memory, semantic caching, and governed access to business data.
