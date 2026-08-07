@@ -13,7 +13,11 @@ bannerText: Redis Agent Memory is currently available in preview. Features and b
 bannerChildren: true
 ---
 
-Redis Agent Memory stores conversation history and durable information for AI applications. Use session memory to reconstruct a conversation and long-term memory to retrieve relevant information across sessions.
+## What is Redis Agent Memory?
+
+Redis Agent Memory is a memory service for AI applications. It stores ordered conversation events in session memory and durable information in long-term memory.
+
+When enabled, automatic summarization compacts session memory by summarizing older events while retaining recent events in full. Redis Agent Memory extracts long-term memories automatically from session events.
 
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
@@ -23,7 +27,7 @@ Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API
   {{< image-card image="images/rest-api-mark.svg" alt="REST API mark" title="REST API quickstart — Explore Redis Agent Memory with curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}
 </div>
 
-## Redis Agent Memory capabilities
+## Capabilities
 
 * **Context-aware conversations:** Store ordered conversation events with their actor, role, timestamp, and metadata, then retrieve them by session ID. Configure session expiration to control how long the conversation is retained.
 * **Automatic session summarization:** Automatically summarize older conversation events while retaining recent messages in full.
