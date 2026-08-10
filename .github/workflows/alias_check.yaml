@@ -98,9 +98,19 @@ jobs:
         run: |
           set -euo pipefail
 
-          # `gh pr list --head` is an exact lookup. `gh search prs` goes through an
-          # eventually-consistent index and can miss a PR opened moments ago.
-          existing="$(gh pr list --head "${FIX_BRANCH}" --state open --json number --jq '.[].number' | head -1)"
+          # `gh pr list --head` is an exact lookup, unlike `gh search prs`, which goes
+          # through an eventually-consistent index and can miss a PR opened moments
+          # ago. But it matches on branch *name* alone, so a fork whose branch happens
+          # to be called auto/missing-aliases would match too -- and this job goes on
+          # to comment on, close, or rewrite whatever it finds. isCrossRepository
+          # filters to pull requests whose head is in this repository, so a
+          # contributor's PR can never be picked up by mistake.
+          find_bot_pr() {
+            gh pr list --head "${FIX_BRANCH}" --state open \
+              --json number,isCrossRepository \
+              --jq '[.[] | select(.isCrossRepository == false) | .number] | first // empty'
+          }
+          existing="$(find_bot_pr)"
 
           # This job takes minutes, and someone can merge or close the fix PR inside
           # that window. Acting on the number we looked up at the start would then
@@ -204,7 +214,7 @@ jobs:
           # the winner's body describes the same commit.
           if ! gh pr create --title "${PR_TITLE}" --body-file pr-body.md \
                  --head "${FIX_BRANCH}" --base main; then
-            raced="$(gh pr list --head "${FIX_BRANCH}" --state open --json number --jq '.[].number' | head -1)"
+            raced="$(find_bot_pr)"
             if [ -n "${raced}" ]; then
               echo "A concurrent run opened PR #${raced} first; refreshing its description."
               gh pr edit "${raced}" --body-file pr-body.md

@@ -703,7 +703,8 @@ def apply_fixes(moves: list[Move]) -> tuple[int, int, list[str]]:
 # reporting
 # --------------------------------------------------------------------------- #
 
-def report(moves: list[Move], github: bool, fix_hint: str) -> list[Move]:
+def report(moves: list[Move], github: bool, fix_hint: str,
+           fixing: bool = False) -> list[Move]:
     missing = [m for m in moves if m.actionable]
     occupied = [m for m in moves if not m.aliased and m.occupied]
     drafted = [m for m in moves
@@ -753,18 +754,32 @@ def report(moves: list[Move], github: bool, fix_hint: str) -> list[Move]:
                 logger.warning("      claimed by %s", owner)
 
     if missing:
-        logger.warning("Moved with no alias for the old URL:")
+        # The wording has to know whether a fix follows in the same run. This
+        # report is embedded in the pull request the automation opens, and reading
+        # "add this alias" next to a diff that already contains it sends a reviewer
+        # looking for work that is done.
+        if fixing:
+            logger.warning("Moved with no alias for the old URL -- added below:")
+        else:
+            logger.warning("Moved with no alias for the old URL:")
         for move in missing:
             logger.warning("  %s %s  %s", move.date, move.commit, move.old_url)
             logger.warning("      now at %s", move.new_url)
-            logger.warning("      add to %s: %s", move.new_path,
+            logger.warning("      %s %s: %s",
+                           "added to" if fixing else "add to", move.new_path,
                            ALIAS_TEMPLATE.format(url=norm(move.old_url)))
             if github:
-                print(f"::warning file={move.new_path}::Page moved from "
-                      f"/{norm(move.old_url)}/ with no alias. Add "
-                      f"'{ALIAS_TEMPLATE.format(url=norm(move.old_url))}' to its "
-                      f"aliases, or run: make check_aliases_fix")
-        logger.warning("Fix them all with: %s", fix_hint)
+                alias = ALIAS_TEMPLATE.format(url=norm(move.old_url))
+                if fixing:
+                    print(f"::warning file={move.new_path}::Page moved from "
+                          f"/{norm(move.old_url)}/ with no alias. '{alias}' has "
+                          f"been added automatically.")
+                else:
+                    print(f"::warning file={move.new_path}::Page moved from "
+                          f"/{norm(move.old_url)}/ with no alias. Add '{alias}' to "
+                          f"its aliases, or run: make check_aliases_fix")
+        if not fixing:
+            logger.warning("Fix them all with: %s", fix_hint)
     return missing
 
 
@@ -782,7 +797,7 @@ def main() -> int:
     fix_hint = ("make check_aliases_fix" if args.all else
                 "python3 build/check_missing_aliases.py "
                 f"--range {args.rev_range} --fix")
-    missing = report(moves, args.github, fix_hint)
+    missing = report(moves, args.github, fix_hint, fixing=args.fix)
 
     if args.json_out:
         with open(args.json_out, "w", encoding="utf-8") as handle:

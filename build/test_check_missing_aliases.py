@@ -18,7 +18,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 from check_missing_aliases import (  # noqa: E402
     Move, declared_aliases, draft_paths, eligible, insert_aliases, is_published,
-    is_versioned, norm, order_renames, published_urls, render_never_roots, to_url,
+    is_versioned, norm, order_renames, published_urls, render_never_roots, report,
+    to_url,
 )
 
 
@@ -117,6 +118,46 @@ def test_a_move_split_into_a_section_is_not_auto_fixed():
     # landing page and its lineage ends at one child, so a person decides.
     assert not move(split_at="content/a.md -> content/a/c.md").actionable
     assert move().actionable
+
+
+def _capture_report(**kwargs) -> str:
+    """Run report() over one actionable move and return what it logged."""
+    import io
+    import logging as _logging
+    from check_missing_aliases import logger
+
+    move = Move(old_path="content/old.md", new_path="content/new.md",
+                old_url="old", new_url="new", date="2026-01-01", commit="abc1234")
+    stream = io.StringIO()
+    handler = _logging.StreamHandler(stream)
+    logger.addHandler(handler)
+    previous = logger.level
+    logger.setLevel(_logging.INFO)
+    try:
+        report([move], False, "make check_aliases_fix", **kwargs)
+    finally:
+        logger.removeHandler(handler)
+        logger.setLevel(previous)
+    return stream.getvalue()
+
+
+def test_the_report_says_added_when_a_fix_follows_in_the_same_run():
+    """The report is embedded in the PR the automation opens.
+
+    report() runs before apply_fixes(), so in --fix mode it describes gaps that the
+    same run is about to close. Telling a reviewer to "add" an alias that the diff
+    beneath already contains sends them looking for work that is done.
+    """
+    imperative = _capture_report()
+    assert "Moved with no alias for the old URL:" in imperative
+    assert "add to content/new.md" in imperative
+    assert "Fix them all with" in imperative
+
+    fixing = _capture_report(fixing=True)
+    assert "added below" in fixing
+    assert "added to content/new.md" in fixing
+    # No instruction to run the fixer: it has just run.
+    assert "Fix them all with" not in fixing
 
 
 def test_a_whitespace_only_line_is_not_a_folded_continuation():
