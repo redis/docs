@@ -39,9 +39,19 @@
        keeps serving its own page. Publishing it as a redirect would send a consumer
        away from a live page, which is worse than omitting it, so those go in
        `shadowed` instead. 10 in a full build. */ -}}
+{{- /* RelPermalink carries the baseURL's path, which is empty in a local build and
+       /docs/latest in production -- while Hugo writes alias stubs relative to the
+       publish directory, with no such prefix. Comparing or publishing RelPermalink
+       directly therefore works locally and silently breaks in production: keys stop
+       matching, so nothing is ever detected as shadowed, and a slash-less alias is
+       published at /docs/latest/... where no stub exists. Reproduced against Hugo
+       0.143.1 with a prefixed baseURL. Everything below works in publish-relative
+       paths. */ -}}
+{{- $basePath := (urls.Parse site.BaseURL).Path | strings.TrimSuffix "/" -}}
 {{- $occupied := newScratch -}}
 {{- range .Site.Pages -}}
-  {{- $occupied.SetInMap "url" (.RelPermalink | strings.TrimSuffix "/") true -}}
+  {{- $occupied.SetInMap "url"
+        (strings.TrimPrefix $basePath (.RelPermalink | strings.TrimSuffix "/")) true -}}
 {{- end -}}
 {{- $seen := newScratch -}}
 {{- range .Site.Pages -}}
@@ -56,7 +66,8 @@
              Hugo 0.143.1. Prepending a slash instead would name a location the
              redirect is not at, which is worse than omitting it -- and 11 entries in
              this corpus are written that way. */ -}}
-      {{- $parent := path.Dir (strings.TrimSuffix "/" $page.RelPermalink) -}}
+      {{- $rel := strings.TrimPrefix $basePath (strings.TrimSuffix "/" $page.RelPermalink) -}}
+      {{- $parent := path.Dir $rel -}}
       {{- $from = path.Join (cond (eq $parent ".") "/" $parent) $from -}}
     {{- end -}}
     {{- $targets := index ($seen.Get "map" | default dict) $from | default slice -}}
