@@ -4,6 +4,8 @@ linkTitle: v2.4.0 (June 2022)
 date: 2022-06-27 00:00:00 +0000
 description: RedisInsight v2.4.0
 weight: 9
+aliases:
+- /develop/connect/insight/release-notes/v.2.4.0/
 ---
 
 ## 2.4.0 (June 2022)

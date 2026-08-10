@@ -1,6 +1,8 @@
 ---
 Title: Write-behind configuration for postgresql
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/debezium/postgresql/
+- /integrate/redis-data-integration/write-behind/reference/debezium/postgresql/
 alwaysopen: false
 categories:
   - docs

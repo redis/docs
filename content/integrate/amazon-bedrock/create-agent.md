@@ -15,6 +15,8 @@ summary: With Amazon Bedrock, users can access foundational AI models from a var
   artificial intelligence.
 type: integration
 weight: 3
+aliases:
+- /integrate/aws-bedrock/create-agent/
 ---
 
 After you have [created a knowledge base]({{< relref "/integrate/amazon-bedrock/create-knowledge-base" >}}), you can use it to create an agent on Amazon Bedrock.

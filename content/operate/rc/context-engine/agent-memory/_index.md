@@ -10,6 +10,8 @@ linktitle: Redis Agent Memory
 title: Redis Agent Memory on Redis Cloud
 weight: 10
 bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
+aliases:
+- /operate/rc/agent-memory/
 ---
 
 Redis Agent Memory is available as a managed service on Redis Cloud.

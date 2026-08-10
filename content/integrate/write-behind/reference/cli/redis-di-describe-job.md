@@ -1,6 +1,7 @@
 ---
 Title: redis-di describe-job
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-describe-job/
 alwaysopen: false
 categories:
   - docs

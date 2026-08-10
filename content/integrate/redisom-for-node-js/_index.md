@@ -14,6 +14,8 @@ summary: Redis OM for Node.js is an object-mapping library for Redis.
 title: Redis OM Node.js
 type: integration
 weight: 9
+aliases:
+- /develop/connect/clients/om-clients/stack-node/
 ---
 
 This tutorial will show you how to build a simple, RESTful API that reads, writes, and finds data on persons (including first name, last name, and  age) using Node.js and Redis Stack. You'll also add a simple location tracking feature for a bit of extra interest. You'll be using [Express](https://expressjs.com/) and [Redis OM](https://github.com/redis/redis-om-node) to do this.

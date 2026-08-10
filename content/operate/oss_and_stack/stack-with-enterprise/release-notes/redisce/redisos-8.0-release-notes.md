@@ -10,6 +10,8 @@ linkTitle: v8.0.0 (May 2025)
 min-version-db: blah
 min-version-rs: blah
 weight: 80
+aliases:
+- /operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0.0-release-notes/
 ---
 
 ## Redis Open Source 8.0.6 (February 2026)

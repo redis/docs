@@ -1,6 +1,11 @@
 ---
 Title: Write-behind to Redis Enterprise target example
-aliases: null
+aliases:
+- /integrate/redis-data-integration/data-transformation/examples/write-behind-to-redis-example/
+- /integrate/redis-data-integration/ingest/data-transformation/examples/write-behind-to-redis-example/
+- /integrate/redis-data-integration/write behind/write-behind-to-redis-example/
+- /integrate/redis-data-integration/write-behind/write-behind-to-redis-example/
+- /integrate/redis-data-integration/write-behind/data-transformation/transformation-examples/write-behind-to-redis-example/
 alwaysopen: false
 categories:
 - docs

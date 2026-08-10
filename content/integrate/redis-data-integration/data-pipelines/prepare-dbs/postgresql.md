@@ -1,6 +1,9 @@
 ---
 Title: Prepare PostgreSQL for RDI
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/postgresql/
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/postgresql/
+- /integrate/redis-data-integration/ingest/data-transformation/prepare-dbs/postgresql/
+- /integrate/redis-data-integration/ingest/installation/prepare-dbs/postgresql/
 alwaysopen: false
 categories:
 - docs

@@ -11,6 +11,8 @@ hideListLinks: true
 weight: 20
 bannerText: Redis Agent Memory is currently available in preview. Features and behavior are subject to change.
 bannerChildren: true
+aliases:
+- /develop/ai/agent-memory/
 ---
 
 ## What is Redis Agent Memory?
