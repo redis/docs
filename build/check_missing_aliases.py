@@ -717,12 +717,25 @@ def report(moves: list[Move], github: bool, fix_hint: str,
 
     logger.info("check_missing_aliases: %d URL-changing move(s) found.", len(moves))
     if moves:
-        logger.info("  %d already aliased, %d missing an alias, %d skipped "
-                    "(old URL is a live page), %d skipped (target is a draft), "
-                    "%d need a decision (page split), %d need a decision "
-                    "(collision).",
-                    len(aliased), len(missing), len(occupied), len(drafted),
-                    len(splits), len(collisions))
+        # The headline has to agree with the detail lines below it. After --fix the
+        # actionable moves are no longer missing anything -- they were just written --
+        # so counting them as missing contradicts every line that says "added to".
+        if fixing:
+            declined_now = [m for m in missing if m.new_path in (skipped or set())]
+            logger.info("  %d already aliased, %d alias(es) added, %d could not be "
+                        "added, %d skipped (old URL is a live page), %d skipped "
+                        "(target is a draft), %d need a decision (page split), "
+                        "%d need a decision (collision).",
+                        len(aliased), len(missing) - len(declined_now),
+                        len(declined_now), len(occupied), len(drafted),
+                        len(splits), len(collisions))
+        else:
+            logger.info("  %d already aliased, %d missing an alias, %d skipped "
+                        "(old URL is a live page), %d skipped (target is a draft), "
+                        "%d need a decision (page split), %d need a decision "
+                        "(collision).",
+                        len(aliased), len(missing), len(occupied), len(drafted),
+                        len(splits), len(collisions))
 
     if occupied:
         logger.info("Skipped -- old URL currently resolves, so must not redirect:")

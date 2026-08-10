@@ -163,6 +163,23 @@ def test_the_report_describes_what_the_fixer_actually_did():
     assert "fix by hand" in declined
 
 
+def test_the_summary_line_agrees_with_the_detail_lines():
+    """The headline count is read far more often than the lines beneath it.
+
+    Counting a move as "missing an alias" after --fix has just written it contradicts
+    every detail line saying "added to", and the headline is what someone skims.
+    """
+    assert "missing an alias" in _capture_report()
+
+    added = _capture_report(fixing=True)
+    assert "1 alias(es) added" in added
+    assert "missing an alias" not in added
+
+    declined = _capture_report(fixing=True, skipped={"content/new.md"})
+    assert "0 alias(es) added" in declined
+    assert "1 could not be added" in declined
+
+
 def test_a_whitespace_only_line_is_not_a_folded_continuation():
     # The folded-scalar guard must not be tripped by trailing whitespace on the
     # line after a perfectly ordinary single-value scalar.

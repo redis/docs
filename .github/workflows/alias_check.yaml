@@ -139,9 +139,19 @@ jobs:
 
           if [ -z "$(git status --porcelain -- content)" ]; then
             if [ "${SKIPPED}" = "1" ]; then
-              # Nothing to open a PR with, yet the fixer declined some files. A
-              # red run is the only channel anyone would notice, and the report
-              # above names the files.
+              # Nothing to open a PR with, yet the fixer declined some files. Close
+              # any open bot PR first: its edits have already reached main, so its
+              # diff is spent whether or not other gaps remain, and leaving it open
+              # is the stale-PR case regardless. Then fail, because a red run is the
+              # only channel anyone would notice for the gaps that are left.
+              if still_open; then
+                echo "Closing PR #${existing}: its changes have landed, though gaps remain."
+                gh pr comment "${existing}" --body \
+                  "Closing automatically: the aliases in this PR have reached \`main\`, so its diff is spent. Some pages still need aliases added by hand -- see the failing \`alias_check\` run for which." \
+                  || echo "::warning::Could not comment on PR #${existing}."
+                gh pr close "${existing}" --delete-branch \
+                  || echo "::warning::Could not close PR #${existing}."
+              fi
               echo "::error::Missing aliases were found but could not be added automatically. See the report above."
               exit 1
             fi
@@ -183,10 +193,15 @@ jobs:
           # main on every run, so there is no history worth preserving on it.
           git push --quiet --force origin "${FIX_BRANCH}"
 
+          # Keep the *end* of the report, not the beginning. Since --fix runs before
+          # the report, the output starts with a line per alias written -- which the
+          # diff below already shows -- and ends with the summary and the categories
+          # that need a human decision. Trimming the head off keeps what a reviewer
+          # cannot get anywhere else.
           if [ "$(wc -c < alias-report.txt)" -gt "${BODY_REPORT_LIMIT}" ]; then
-            head -c "${BODY_REPORT_LIMIT}" alias-report.txt > report-for-body.txt
-            printf '\n\n[Trimmed at %s characters. The full report is in the workflow run log.]\n' \
-              "${BODY_REPORT_LIMIT}" >> report-for-body.txt
+            printf '[Earlier output trimmed to fit; the full report is in the workflow run log.]\n\n' \
+              > report-for-body.txt
+            tail -c "${BODY_REPORT_LIMIT}" alias-report.txt >> report-for-body.txt
           else
             cp alias-report.txt report-for-body.txt
           fi
