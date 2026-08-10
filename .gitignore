@@ -2,6 +2,7 @@
 /resources/
 /content/tmp/
 /data/examples.json
+/data/page-moves.json
 /data/languages.json
 /data/repos.json
 /data/tool_types.json

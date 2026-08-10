@@ -26,8 +26,8 @@
     is an even split -- so normalizing here saves every consumer doing it. `to` is
     absolute, matching the `url` field every per-page record already publishes.
   - This is an *alias* map, not a move log. Many entries are vanity or legacy paths
-    that were never a page's location, and it carries no date, because frontmatter
-    does not record when a page moved.
+    that were never a page's location, so only the ones git can date carry a
+    `moved_on`.
 
   Only pages Hugo publishes appear, so drafts contribute nothing -- which matches
   the site, since Hugo emits no stub for a draft's aliases either.
@@ -74,6 +74,13 @@
     {{- $seen.SetInMap "map" $from ($targets | append $to | uniq) -}}
   {{- end -}}
 {{- end -}}
+{{- /* Move dates, written into data/ before the build by
+       build/generate_page_moves.py, because git records when a page moved and
+       frontmatter does not. Absent when the site is built with bare `hugo` rather
+       than `make`, so every lookup tolerates a missing file: a date is extra
+       information, never a precondition. Only moves have one -- a vanity or legacy
+       alias was never a page's location, so there is no date to give. */ -}}
+{{- $movedOn := index (index site.Data "page-moves" | default dict) "moved_on" | default dict -}}
 {{- $redirects := slice -}}
 {{- $ambiguous := slice -}}
 {{- $shadowed := slice -}}
@@ -81,7 +88,11 @@
   {{- if index ($occupied.Get "url" | default dict) $from -}}
     {{- $shadowed = $shadowed | append (dict "from" $from "declared" (sort $targets)) -}}
   {{- else if eq (len $targets) 1 -}}
-    {{- $redirects = $redirects | append (dict "from" $from "to" (index $targets 0)) -}}
+    {{- $entry := dict "from" $from "to" (index $targets 0) -}}
+    {{- with index $movedOn $from -}}
+      {{- $entry = merge $entry (dict "moved_on" .) -}}
+    {{- end -}}
+    {{- $redirects = $redirects | append $entry -}}
   {{- else -}}
     {{- $ambiguous = $ambiguous | append (dict "from" $from "candidates" (sort $targets)) -}}
   {{- end -}}
