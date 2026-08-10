@@ -235,6 +235,8 @@ Make sure the Ollama daemon is running with `ollama serve`. By default, the Olla
 
 
 ```python
+# NBVAL_SKIP
+# No Ollama server in CI, so this only burns time on connection retries.
 from redisvl.utils.vectorize import OllamaTextVectorizer
 
 ollama_model = os.environ.get("OLLAMA_MODEL", "nomic-embed-text")
@@ -253,6 +255,8 @@ except (ImportError, ConnectionError, ValueError) as exc:
 
 
 ```python
+# NBVAL_SKIP
+# Depends on the Ollama cell above, which is not executed in CI.
 if ollama is not None:
     embeddings = ollama.embed_many(sentences, batch_size=2)
     print("Number of embeddings:", len(embeddings))
@@ -264,6 +268,8 @@ else:
 
 
 ```python
+# NBVAL_SKIP
+# Depends on the Ollama cell above, which is not executed in CI.
 if ollama is not None:
     embeddings = await ollama.aembed_many(sentences, batch_size=2)
     print("Number of async embeddings:", len(embeddings))
@@ -346,7 +352,8 @@ GOOGLE_APPLICATION_CREDENTIALS=<path to your gcp JSON creds>
 
 
 ```python
-# NBVAL_SKIP  (docs example; not executed in CI so notebook validation makes no API calls)
+# NBVAL_SKIP
+# Docs example; not executed in CI so notebook validation makes no API calls.
 from redisvl.utils.vectorize import GoogleGenAIVectorizer
 
 # Auto-detects the backend: GEMINI_API_KEY -> Gemini, else GCP project/location -> Vertex AI.
