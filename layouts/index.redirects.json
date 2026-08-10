@@ -5,11 +5,17 @@
   redirect stubs, so the map and the site's real behavior cannot drift and there
   is no generated file to keep in step.
 
+  Entries the site does not honor are separated out too. An alias whose path a real
+  page occupies is never written as a stub, because Hugo will not overwrite a page:
+  that URL keeps serving its own content. Listing it as a redirect would send a
+  consumer away from a live page, so those go in `shadowed` -- 10 of them -- which
+  also means every key in `redirects` has a stub and a tombstone behind it.
+
   Ambiguity is separated out rather than resolved. Two pages can declare the same
-  alias -- 40 do in a production build, 12 of them pointing somewhere different --
+  alias -- 27 keys in a full build, each naming two or more targets --
   and Hugo settles that by emitting one stub and picking a winner arbitrarily.
   Publishing one of those targets as though it were the answer would hand
-  consumers data the site does not honour, so those keys go in `ambiguous` with
+  consumers data the site does not honor, so those keys go in `ambiguous` with
   every candidate listed, and `redirects` contains only keys with exactly one
   target. An alias declared twice with the same target is simply deduplicated.
 
@@ -28,13 +34,30 @@
 
   See DOC-6951.
 */ -}}
+{{- /* Every URL a real page occupies. Hugo refuses to write an alias stub over a
+       page, so an alias naming one of these is declared but never honored: the URL
+       keeps serving its own page. Publishing it as a redirect would send a consumer
+       away from a live page, which is worse than omitting it, so those go in
+       `shadowed` instead. 10 in a full build. */ -}}
+{{- $occupied := newScratch -}}
+{{- range .Site.Pages -}}
+  {{- $occupied.SetInMap "url" (.RelPermalink | strings.TrimSuffix "/") true -}}
+{{- end -}}
 {{- $seen := newScratch -}}
 {{- range .Site.Pages -}}
+  {{- $page := . -}}
   {{- $to := .Permalink -}}
   {{- range .Aliases -}}
     {{- $from := . | strings.TrimSuffix "/" -}}
     {{- if not (hasPrefix $from "/") -}}
-      {{- $from = printf "/%s" $from -}}
+      {{- /* Hugo resolves a slash-less alias relative to the declaring page's
+             parent directory, not to the site root: `docs` on a page at
+             /develop/tools/ publishes its stub at /develop/docs/. Verified against
+             Hugo 0.143.1. Prepending a slash instead would name a location the
+             redirect is not at, which is worse than omitting it -- and 11 entries in
+             this corpus are written that way. */ -}}
+      {{- $parent := path.Dir (strings.TrimSuffix "/" $page.RelPermalink) -}}
+      {{- $from = path.Join (cond (eq $parent ".") "/" $parent) $from -}}
     {{- end -}}
     {{- $targets := index ($seen.Get "map" | default dict) $from | default slice -}}
     {{- $seen.SetInMap "map" $from ($targets | append $to | uniq) -}}
@@ -42,8 +65,11 @@
 {{- end -}}
 {{- $redirects := slice -}}
 {{- $ambiguous := slice -}}
+{{- $shadowed := slice -}}
 {{- range $from, $targets := ($seen.Get "map" | default dict) -}}
-  {{- if eq (len $targets) 1 -}}
+  {{- if index ($occupied.Get "url" | default dict) $from -}}
+    {{- $shadowed = $shadowed | append (dict "from" $from "declared" (sort $targets)) -}}
+  {{- else if eq (len $targets) 1 -}}
     {{- $redirects = $redirects | append (dict "from" $from "to" (index $targets 0)) -}}
   {{- else -}}
     {{- $ambiguous = $ambiguous | append (dict "from" $from "candidates" (sort $targets)) -}}
@@ -55,6 +81,8 @@
      "generated" (now.Format "2006-01-02T15:04:05Z07:00")
      "count" (len $redirects)
      "ambiguous_count" (len $ambiguous)
+     "shadowed_count" (len $shadowed)
      "redirects" (sort $redirects "from")
      "ambiguous" (sort $ambiguous "from")
+     "shadowed" (sort $shadowed "from")
    | jsonify (dict "indent" "  ") }}

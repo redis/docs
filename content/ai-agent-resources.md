@@ -121,21 +121,27 @@ the page it resolves to:
   "schema_version": 2,
   "base_url": "https://redis.io/docs/latest/",
   "generated": "2026-08-07T15:00:00Z",
-  "count": 771,
-  "ambiguous_count": 12,
+  "count": 1061,
+  "ambiguous_count": 27,
+  "shadowed_count": 10,
   "redirects": [
     {"from": "/develop/ai/langcache", "to": "https://redis.io/docs/latest/develop/ai/context-engine/langcache/"}
   ],
   "ambiguous": [
     {"from": "/develop/use/pipelining", "candidates": ["https://redis.io/docs/latest/develop/using-commands/", "https://redis.io/docs/latest/develop/using-commands/pipelining/"]}
+  ],
+  "shadowed": [
+    {"from": "/glossary", "declared": ["https://redis.io/docs/latest/glossary/"]}
   ]
 }
 ```
 
-Three things worth knowing before you rely on it:
+Four things worth knowing before you rely on it:
 
 - `from` is normalized to a leading slash and no trailing slash. `to` is absolute,
-  matching the `url` field on page records.
+  matching the `url` field on page records. Every key in `redirects` has a redirect
+  record of its own at `<from>/index.json`, so you can resolve one URL without
+  fetching the whole map.
 - **It is an alias map, not a move log.** Many entries are vanity or legacy paths that
   were never a page's location, and there is no date, because the source data does not
   record when a page moved.
@@ -144,6 +150,10 @@ Three things worth knowing before you rely on it:
   resolves those arbitrarily — so any single answer we gave you would sometimes
   disagree with what you would actually be served. Treat an `ambiguous` key as
   unresolved.
+- `shadowed` holds aliases a page declares that the site does not act on, because a
+  real page already occupies that URL — so the URL serves its own content rather than
+  redirecting. They are listed for completeness and **must not** be followed as
+  redirects; doing so would take a reader away from a live page.
 
 The map covers the current version of the documentation. Version-specific
 documentation is outside both machine-readable feeds.
