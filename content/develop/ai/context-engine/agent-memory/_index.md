@@ -103,12 +103,12 @@ Get started with Redis Agent Memory on Redis Cloud or join the private preview f
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Cloud</h3>
     <p>Create a managed Redis Agent Memory service and make your first requests.</p>
-    <p><a href="/operate/iris/agent-memory/create-service">Open the Redis Cloud setup guide</a></p>
+    <p><a href="{{< relref "/operate/iris/agent-memory/create-service" >}}">Open the Redis Cloud setup guide</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Redis Software private preview</h3>
     <p>Deploy Redis Agent Memory on Kubernetes with Redis Software.</p>
-    <p><a href="/operate/iris/agent-memory/self-managed">Open the self-managed deployment guide</a></p>
+    <p><a href="{{< relref "/operate/iris/agent-memory/self-managed" >}}">Open the self-managed deployment guide</a></p>
   </div>
 </div>
 
@@ -120,17 +120,17 @@ After your Redis Agent Memory service is ready, choose a client. Each quickstart
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">Python SDK</h3>
     <p>Explore the Redis Agent Memory workflow with the Python SDK.</p>
-    <p><a href="/develop/ai/context-engine/agent-memory/python-sdk-quickstart">Open the Python quickstart</a></p>
+    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}">Open the Python quickstart</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">TypeScript SDK</h3>
     <p>Explore the Redis Agent Memory workflow with the TypeScript SDK.</p>
-    <p><a href="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart">Open the TypeScript quickstart</a></p>
+    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}">Open the TypeScript quickstart</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">REST API</h3>
     <p>Explore the Redis Agent Memory workflow with <code>curl</code>.</p>
-    <p><a href="/develop/ai/context-engine/agent-memory/rest-api-quickstart">Open the REST API quickstart</a></p>
+    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}">Open the REST API quickstart</a></p>
   </div>
 </div>
 
