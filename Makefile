@@ -44,6 +44,15 @@ serve_hugo:
 check_page_sizes:
 	@python3 build/check_page_sizes.py public
 
+# Report pages that moved without gaining an alias for their old URL, so the old
+# URL now 404s. Reads git history, so it needs no build. Warn-only.
+check_aliases:
+	@python3 build/check_missing_aliases.py --all
+
+# The same sweep, but writing the missing aliases into frontmatter.
+check_aliases_fix:
+	@python3 build/check_missing_aliases.py --all --fix
+
 clean:
 	@rm -Rf ./public/
 	@rm -Rf ./resources/
