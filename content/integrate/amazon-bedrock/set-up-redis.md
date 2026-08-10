@@ -15,6 +15,8 @@ summary: With Amazon Bedrock, users can access foundational AI models from a var
   artificial intelligence.
 type: integration
 weight: 1
+aliases:
+- /integrate/aws-bedrock/set-up-redis/
 ---
 
 You need to set up your Redis Cloud database before you can set it as the vector database in Amazon Bedrock. To do this, you need to:

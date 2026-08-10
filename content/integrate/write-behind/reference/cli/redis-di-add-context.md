@@ -1,6 +1,7 @@
 ---
 Title: redis-di add-context
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-add-context/
 alwaysopen: false
 categories:
   - docs

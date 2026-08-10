@@ -3,6 +3,7 @@ aliases:
 - /develop/connect/clients/java/lettuce
 - /connect/clients/lettuce/
 - /clients/lettuce/
+- /develop/clients/java/lettuce/
 categories:
 - docs
 - develop

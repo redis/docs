@@ -1,6 +1,7 @@
 ---
 Title: Write to a Redis string
-aliases: null
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-string-example/
 alwaysopen: false
 categories:
 - docs

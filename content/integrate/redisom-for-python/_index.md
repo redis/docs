@@ -15,6 +15,7 @@ title: Redis OM Python
 type: integration
 aliases:
 - /connect/clients/om-clients/stack-python/
+- /develop/connect/clients/om-clients/stack-python/
 weight: 9
 ---
 

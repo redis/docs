@@ -6,6 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/cli/redis-di-scaffold/
 ---
 
 Generates a starter pipeline configuration for the given source database type. With `--dir`, the

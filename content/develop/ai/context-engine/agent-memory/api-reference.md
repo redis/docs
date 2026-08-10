@@ -7,4 +7,6 @@ weight: 20
 params:
   sourcefile: ./openapi-agent-memory.json
   sortOperationsAlphabetically: false
+aliases:
+- /develop/ai/agent-memory/api-reference/
 ---

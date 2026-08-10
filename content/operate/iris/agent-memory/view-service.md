@@ -12,6 +12,7 @@ weight: 15
 bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
 aliases:
 - /operate/rc/context-engine/agent-memory/view-service/
+- /operate/rc/agent-memory/view-service/
 ---
 
 After you have [created your first Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}), selecting **Agent Memory** from the Redis Cloud Console menu will take you to the **Agent Memory Services** page.
