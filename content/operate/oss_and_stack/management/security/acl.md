@@ -488,7 +488,7 @@ If an application needs to make sure no data is accessed from a key, including s
 Key patterns only restrict commands that operate on specific keys named in the command's arguments. Commands that operate on an entire database or the whole keyspace, and therefore take no key arguments, are not limited by key patterns. Such commands are governed only by command and [category](#command-categories) rules.
 {{< /note >}}
 
-This includes commands that can destroy or replace data beyond a user's key patterns, such as [`FLUSHALL`](/commands/flushall), [`FLUSHDB`](/commands/flushdb), and [`SWAPDB`](/commands/swapdb).
+This includes commands that can destroy or replace data beyond a user's key patterns, such as [`FLUSHALL`]({{< relref "/commands/flushall" >}}), [`FLUSHDB`]({{< relref "/commands/flushdb" >}}), and [`SWAPDB`]({{< relref "/commands/swapdb" >}}).
 
 For example, a user defined with `~tenant1:* +@all` can still run `FLUSHALL` to delete every key in the database, even though its key pattern only matches `tenant1:*`. To prevent this, remove those commands explicitly:
 
