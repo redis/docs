@@ -44,6 +44,16 @@ OUTPUT = os.path.join("data", "page-moves.json")
 def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
 
+    # A shallow clone has no rename records, so the scan below finds nothing and
+    # reports zero moves perfectly happily -- which is how this shipped with no dates
+    # at all while local full-clone builds showed hundreds. Say so loudly rather than
+    # writing an empty file that looks like a corpus with no history.
+    shallow = git("rev-parse", "--is-shallow-repository").strip() == "true"
+    if shallow:
+        logger.warning("::warning::generate_page_moves: this is a shallow clone, so "
+                       "no move dates can be read. The redirect map will publish "
+                       "none. Check out with fetch-depth: 0.")
+
     moves = find_moves(None, DEFAULT_THRESHOLD)
     classify(moves)
 
@@ -63,6 +73,9 @@ def main() -> int:
 
     payload = {
         "generated_from": head,
+        # Recorded so a consumer of this file, or anyone reading a build log, can tell
+        # "this history has no moves" from "this clone could not see the history".
+        "shallow_clone": shallow,
         "count": len(dates),
         "moved_on": dates,
     }
