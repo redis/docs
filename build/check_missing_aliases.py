@@ -704,7 +704,7 @@ def apply_fixes(moves: list[Move]) -> tuple[int, int, list[str]]:
 # --------------------------------------------------------------------------- #
 
 def report(moves: list[Move], github: bool, fix_hint: str,
-           fixing: bool = False) -> list[Move]:
+           fixing: bool = False, skipped: set[str] | None = None) -> list[Move]:
     missing = [m for m in moves if m.actionable]
     occupied = [m for m in moves if not m.aliased and m.occupied]
     drafted = [m for m in moves
@@ -754,30 +754,38 @@ def report(moves: list[Move], github: bool, fix_hint: str,
                 logger.warning("      claimed by %s", owner)
 
     if missing:
-        # The wording has to know whether a fix follows in the same run. This
-        # report is embedded in the pull request the automation opens, and reading
-        # "add this alias" next to a diff that already contains it sends a reviewer
-        # looking for work that is done.
-        if fixing:
-            logger.warning("Moved with no alias for the old URL -- added below:")
-        else:
-            logger.warning("Moved with no alias for the old URL:")
+        # This report is embedded in the pull request the automation opens, so it has
+        # to describe what happened rather than what to do -- "add this alias" next to
+        # a diff that already contains it sends a reviewer looking for finished work.
+        # It is therefore printed *after* --fix has run, and told which files the fixer
+        # declined, because claiming an alias was added when it was skipped is the same
+        # error in the opposite direction.
+        declined = skipped or set()
+        logger.warning("Moved with no alias for the old URL:")
         for move in missing:
+            alias = ALIAS_TEMPLATE.format(url=norm(move.old_url))
             logger.warning("  %s %s  %s", move.date, move.commit, move.old_url)
             logger.warning("      now at %s", move.new_url)
-            logger.warning("      %s %s: %s",
-                           "added to" if fixing else "add to", move.new_path,
-                           ALIAS_TEMPLATE.format(url=norm(move.old_url)))
+            if not fixing:
+                logger.warning("      add to %s: %s", move.new_path, alias)
+            elif move.new_path in declined:
+                logger.warning("      COULD NOT add to %s: %s -- fix by hand",
+                               move.new_path, alias)
+            else:
+                logger.warning("      added to %s: %s", move.new_path, alias)
             if github:
-                alias = ALIAS_TEMPLATE.format(url=norm(move.old_url))
-                if fixing:
-                    print(f"::warning file={move.new_path}::Page moved from "
-                          f"/{norm(move.old_url)}/ with no alias. '{alias}' has "
-                          f"been added automatically.")
-                else:
+                if not fixing:
                     print(f"::warning file={move.new_path}::Page moved from "
                           f"/{norm(move.old_url)}/ with no alias. Add '{alias}' to "
                           f"its aliases, or run: make check_aliases_fix")
+                elif move.new_path in declined:
+                    print(f"::warning file={move.new_path}::Page moved from "
+                          f"/{norm(move.old_url)}/ with no alias, and '{alias}' could "
+                          f"not be added automatically. Add it by hand.")
+                else:
+                    print(f"::warning file={move.new_path}::Page moved from "
+                          f"/{norm(move.old_url)}/ with no alias. '{alias}' has been "
+                          f"added automatically.")
         if not fixing:
             logger.warning("Fix them all with: %s", fix_hint)
     return missing
@@ -797,7 +805,16 @@ def main() -> int:
     fix_hint = ("make check_aliases_fix" if args.all else
                 "python3 build/check_missing_aliases.py "
                 f"--range {args.rev_range} --fix")
-    missing = report(moves, args.github, fix_hint, fixing=args.fix)
+    # Fix first, then report, so the report can say which aliases were actually
+    # written and which the fixer declined.
+    missing = [move for move in moves if move.actionable]
+    skipped: list[str] = []
+    added_files = added_aliases = 0
+    if args.fix and missing:
+        logger.info("Adding %d alias(es):", len(missing))
+        added_files, added_aliases, skipped = apply_fixes(moves)
+
+    report(moves, args.github, fix_hint, fixing=args.fix, skipped=set(skipped))
 
     if args.json_out:
         with open(args.json_out, "w", encoding="utf-8") as handle:
@@ -805,10 +822,8 @@ def main() -> int:
         logger.info("Wrote %s", args.json_out)
 
     if args.fix and missing:
-        logger.info("Adding %d alias(es):", len(missing))
-        files, aliases, skipped = apply_fixes(moves)
         logger.info("check_missing_aliases: added %d alias(es) across %d file(s).",
-                    aliases, files)
+                    added_aliases, added_files)
         if skipped:
             logger.warning("check_missing_aliases: could not place aliases in %d "
                            "file(s), which still need fixing by hand:", len(skipped))

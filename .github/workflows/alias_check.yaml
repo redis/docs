@@ -216,8 +216,13 @@ jobs:
                  --head "${FIX_BRANCH}" --base main; then
             raced="$(find_bot_pr)"
             if [ -n "${raced}" ]; then
+              # Tolerant for the same reason as every other call on a PR number here:
+              # the PR can be merged or closed between finding it and editing it, and
+              # the branch has already been pushed either way, so failing the run on
+              # main achieves nothing.
               echo "A concurrent run opened PR #${raced} first; refreshing its description."
-              gh pr edit "${raced}" --body-file pr-body.md
+              gh pr edit "${raced}" --body-file pr-body.md \
+                || echo "::warning::Could not update PR #${raced}; its description may be from an earlier run."
             else
               exit 1
             fi

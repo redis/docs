@@ -141,23 +141,26 @@ def _capture_report(**kwargs) -> str:
     return stream.getvalue()
 
 
-def test_the_report_says_added_when_a_fix_follows_in_the_same_run():
-    """The report is embedded in the PR the automation opens.
+def test_the_report_describes_what_the_fixer_actually_did():
+    """The report is embedded in the PR the automation opens, so it must be accurate.
 
-    report() runs before apply_fixes(), so in --fix mode it describes gaps that the
-    same run is about to close. Telling a reviewer to "add" an alias that the diff
-    beneath already contains sends them looking for work that is done.
+    Telling a reviewer to "add" an alias the diff already contains sends them after
+    finished work; claiming one was added when the fixer declined the file is the same
+    error pointing the other way, and leaves a real gap looking closed.
     """
     imperative = _capture_report()
-    assert "Moved with no alias for the old URL:" in imperative
     assert "add to content/new.md" in imperative
     assert "Fix them all with" in imperative
 
-    fixing = _capture_report(fixing=True)
-    assert "added below" in fixing
-    assert "added to content/new.md" in fixing
+    added = _capture_report(fixing=True)
+    assert "added to content/new.md" in added
+    assert "COULD NOT" not in added
     # No instruction to run the fixer: it has just run.
-    assert "Fix them all with" not in fixing
+    assert "Fix them all with" not in added
+
+    declined = _capture_report(fixing=True, skipped={"content/new.md"})
+    assert "COULD NOT add to content/new.md" in declined
+    assert "fix by hand" in declined
 
 
 def test_a_whitespace_only_line_is_not_a_folded_continuation():
