@@ -158,7 +158,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--github", action="store_true",
                         help="emit GitHub Actions warning annotations")
     parser.add_argument("--fail", action="store_true",
-                        help="exit 1 if any move is missing an alias (see EXIT_* below)")
+                        help="exit 1 if any move is missing an alias (see EXIT_*)")
     return parser.parse_args()
 
 
