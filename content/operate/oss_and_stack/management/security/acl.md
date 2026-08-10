@@ -51,7 +51,7 @@ accomplish by implementing this layer of protection. Normally there are
 two main goals that are well served by ACLs:
 
 1. You want to improve security by restricting the access to commands and keys, so that untrusted clients have no access and trusted clients have just the minimum access level to the database in order to perform the work needed. For instance, certain clients may just be able to execute read only commands.
-2. You want to improve operational safety, so that processes or humans accessing Redis are not allowed to damage the data or the configuration due to software errors or manual mistakes. For instance, there is no reason for a worker that fetches delayed jobs from Redis to be able to call the [`FLUSHALL`](/commands/flushall), [`FLUSHDB`](/commands/flushdb), and [`SWAPDB`](/commands/swapdb) commands.
+2. You want to improve operational safety, so that processes or humans accessing Redis are not allowed to damage the data or the configuration because of software errors or manual mistakes. For example, a worker that fetches delayed jobs from Redis does not need permission to call [`FLUSHALL`](/commands/flushall), [`FLUSHDB`](/commands/flushdb), or [`SWAPDB`](/commands/swapdb).
 
 Another typical usage of ACLs is related to managed Redis instances. Redis is
 often provided as a managed service both by internal company teams that handle
@@ -484,7 +484,9 @@ For example, consider the following two commands:
 
 If an application needs to make sure no data is accessed from a key, including side channels, it's recommended to not provide any access to the key.
 
-Note: Key patterns only restrict commands that act on **specific keys** named in the command's arguments. Commands that operate on an **entire database or the whole keyspace**, and therefore take no key arguments, are **not** limited by key patterns. Such commands are governed only by command and [category](#command-categories) rules.
+{{< note >}}
+Key patterns only restrict commands that operate on specific keys named in the command's arguments. Commands that operate on an entire database or the whole keyspace, and therefore take no key arguments, are not limited by key patterns. Such commands are governed only by command and [category](#command-categories) rules.
+{{< /note >}}
 
 This includes commands that can destroy or replace data beyond a user's key patterns, such as [`FLUSHALL`](/commands/flushall), [`FLUSHDB`](/commands/flushdb), and [`SWAPDB`](/commands/swapdb).
 
