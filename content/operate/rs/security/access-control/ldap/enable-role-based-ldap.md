@@ -13,7 +13,7 @@ weight: 25
 
 Redis Software uses a role-based mechanism to authenticate and authorize users with LDAP. You map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}}), and each user receives the access level of the role mapped to their group.
 
-Role-based LDAP authorizes both cluster management users (previously known as _external users_) and database users.
+Role-based LDAP authorizes both cluster management users (previously known as _external users_) and database users. Redis Software uses a role-based mechanism to authorize users authenticated with LDAP authentication or with certificate-based authentication (CBA). To authenticate users with client certificates instead of passwords, see [certificate-based authentication for LDAP]({{< relref "/operate/rs/security/access-control/ldap/certificate-based-authentication" >}}).
 
 ## How role-based LDAP works
 
