@@ -49,21 +49,27 @@ interface CodeExample {
 interface PageJsonInput {
   // Emitted by the Hugo templates and carried through untouched. Declared so the
   // spread below preserves them explicitly rather than by accident: schema_version is
-  // what consumers gate re-parsing on, and since is the only version information the
-  // feed carries.
+  // what consumers gate re-parsing on, since is the only version information the
+  // feed carries, and aliases is how a consumer holding a record resolves a stale
+  // URL without fetching the redirect map.
   schema_version?: number;
   id: string;
   title: string;
   url: string;
   summary: string;
   since?: string;
+  aliases?: string[];
   content?: string;
   tags: string[];
   last_updated: string;
   children?: unknown[];
 }
 
-type PageType = 'content' | 'index';
+// 'moved' is written by the tombstone pass at a moved page's old URL, and carries
+// only url and moved_to -- no sections, examples or content_hash. A consumer must
+// switch on page_type before assuming the documented content shape. Added in
+// schema_version 2 (DOC-6951).
+type PageType = 'content' | 'index' | 'moved';
 
 interface PageJsonOutput {
   schema_version?: number;
@@ -72,6 +78,7 @@ interface PageJsonOutput {
   url: string;
   summary: string;
   since?: string;
+  aliases?: string[];
   page_type: PageType;
   content_hash?: string;
   tags: string[];

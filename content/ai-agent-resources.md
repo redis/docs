@@ -68,13 +68,95 @@ Two consequences worth knowing if you diff the feed against the sitemap:
 ### Schema version
 
 Every record carries a `schema_version` integer, and the same value appears in the
-`json metadata` block of the Markdown output. It is currently **1**.
+`json metadata` block of the Markdown output. It is currently **2**.
 
 It increments only when the **shape** of a record changes: a field added, removed or
 renamed, or a new value entering the [role vocabulary](#section-roles). It does **not**
 change when page content changes, and it does not change when the value inside a field
 changes without the field itself changing. Use `content_hash` to detect content changes;
 use `schema_version` to detect when your parser might need attention.
+
+Version 2 added the `aliases` field to page records, and a new `page_type` value,
+`moved`, for the [redirect records](#pages-that-have-moved) served at a moved page's
+old URL. Version 1 was the initial shape: `sections`, `examples`, `content_hash`,
+`page_type`, `id` and `since`.
+
+## Pages that have moved
+
+When a page moves, its old URL keeps working — but until now it served only an HTML
+redirect, so appending `/index.json` to it returned 404 and a move was
+indistinguishable from a deletion. Two things now fix that.
+
+### A redirect record at the old URL
+
+Appending `/index.json` to a moved page's URL returns a record with
+`page_type` set to `moved`:
+
+```json
+{
+  "schema_version": 2,
+  "id": "develop/ai/agent-memory",
+  "title": "Moved",
+  "url": "https://redis.io/docs/latest/develop/ai/agent-memory/",
+  "page_type": "moved",
+  "moved_to": "https://redis.io/docs/latest/develop/ai/context-engine/agent-memory/"
+}
+```
+
+**Check `page_type` before assuming the shape of a record.** A `moved` record
+deliberately carries no `sections`, `examples` or `content_hash` — there is no content
+at that URL, only a pointer. Fetch `moved_to` to get the page itself.
+
+These records are **not** included in `docs.ndjson`. The feed is one record per
+documentation page, and adding roughly a thousand pointer records would make any count
+of the corpus ambiguous. Use the map below if you need them in bulk.
+
+### A map of every redirect
+
+`https://redis.io/docs/latest/redirects.json` lists every alias the site publishes and
+the page it resolves to:
+
+```json
+{
+  "schema_version": 2,
+  "base_url": "https://redis.io/docs/latest/",
+  "generated": "2026-08-07T15:00:00Z",
+  "count": 1061,
+  "ambiguous_count": 27,
+  "shadowed_count": 10,
+  "redirects": [
+    {"from": "/develop/ai/langcache", "to": "https://redis.io/docs/latest/develop/ai/context-engine/langcache/"}
+  ],
+  "ambiguous": [
+    {"from": "/develop/use/pipelining", "candidates": ["https://redis.io/docs/latest/develop/using-commands/", "https://redis.io/docs/latest/develop/using-commands/pipelining/"]}
+  ],
+  "shadowed": [
+    {"from": "/glossary", "declared": ["https://redis.io/docs/latest/glossary/"]}
+  ]
+}
+```
+
+Four things worth knowing before you rely on it:
+
+- `from` is normalized to a leading slash and no trailing slash. `to` is absolute,
+  matching the `url` field on page records. Every key in `redirects` has a redirect
+  record of its own at `<from>/index.json`, so you can resolve one URL without
+  fetching the whole map.
+- **It is an alias map, not a move log.** Many entries are vanity or legacy paths that
+  were never a page's location, and there is no date, because the source data does not
+  record when a page moved.
+- `ambiguous` holds the keys that more than one page claims, with every candidate
+  listed. We publish them separately rather than picking one, because the site itself
+  resolves those arbitrarily — so any single answer we gave you would sometimes
+  disagree with what you would actually be served. Treat an `ambiguous` key as
+  unresolved.
+- `shadowed` holds aliases a page declares that the site does not act on, because a
+  real page already occupies that URL — so the URL serves its own content rather than
+  redirecting. They are listed for completeness and **must not** be followed as
+  redirects; doing so would take a reader away from a live page.
+
+The map covers the current version of the documentation. Version-specific
+documentation is outside both machine-readable feeds.
 
 ### JSON schema
 

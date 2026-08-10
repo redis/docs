@@ -27,7 +27,8 @@
   "title": {{ .Title | jsonify }},
   "url": {{ .Permalink | jsonify }},
   "summary": {{ $summary | jsonify }},{{ with .Params.since }}
-  "since": {{ . | jsonify }},{{ end }}
+  "since": {{ . | jsonify }},{{ end }}{{ with .Aliases }}
+  "aliases": {{ . | jsonify }},{{ end }}
   "content": {{ $content | jsonify }},
   "tags": {{ $tags | jsonify }},
   "last_updated": {{ $lastUpdated | jsonify }},
