@@ -33,7 +33,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from check_missing_aliases import (  # noqa: E402
-    DEFAULT_THRESHOLD, classify, find_moves, git, norm,
+    DEFAULT_THRESHOLD, find_moves, git, norm,
 )
 
 logger = logging.getLogger("generate_page_moves")
@@ -54,8 +54,12 @@ def main() -> int:
                        "no move dates can be read. The redirect map will publish "
                        "none. Check out with fetch-depth: 0.")
 
+    # Deliberately not classified. classify() decides whether each move is already
+    # aliased, shadowed, contested or a draft target, which costs a scan of every
+    # published URL and of the frontmatter of every file declaring an alias -- and
+    # dating needs only old_url and date. This runs on every build, so the work has to
+    # be work that is used.
     moves = find_moves(None, DEFAULT_THRESHOLD)
-    classify(moves)
 
     # One record per redirect, keyed the way the map keys its entries so the template
     # can look a date up directly. Where a page moved more than once the earliest
