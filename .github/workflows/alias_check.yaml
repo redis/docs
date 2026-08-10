@@ -83,8 +83,18 @@ jobs:
           # for those pages and the run would report nothing to do. Exit 2 means the
           # scan itself failed and is handled separately below, so a broken scan is
           # never reported as a content problem.
+          #
+          # errexit has to come off around the pipeline. Actions runs `run` blocks with
+          # `bash -eo pipefail`, and `set -uo pipefail` does not undo the -e, so a
+          # deliberate exit 1 would abort the step before PIPESTATUS is read -- leaving
+          # the `skipped` output unwritten, the next step unrun, and the aliases that
+          # *were* fixed discarded with no pull request. That made the whole
+          # refused-file mechanism unreachable exactly when it mattered. Verified
+          # against `bash --noprofile --norc -eo pipefail`.
+          set +e
           python3 build/check_missing_aliases.py --all --fix --fail 2>&1 | tee alias-report.txt
           status="${PIPESTATUS[0]}"
+          set -e
           echo "skipped=${status}" >> "$GITHUB_OUTPUT"
           if [ "${status}" -gt 1 ]; then
             echo "::error::check_missing_aliases failed with exit ${status}"
@@ -110,7 +120,10 @@ jobs:
               --json number,isCrossRepository \
               --jq '[.[] | select(.isCrossRepository == false) | .number] | first // empty'
           }
-          existing="$(find_bot_pr)"
+          # Tolerant of a transient API failure: an unreachable listing should not
+          # redden a run on main, and treating it as "no PR" means the worst case is a
+          # duplicate that the next run's force push folds back together.
+          existing="$(find_bot_pr || true)"
 
           # This job takes minutes, and someone can merge or close the fix PR inside
           # that window. Acting on the number we looked up at the start would then
@@ -214,7 +227,7 @@ jobs:
           # the winner's body describes the same commit.
           if ! gh pr create --title "${PR_TITLE}" --body-file pr-body.md \
                  --head "${FIX_BRANCH}" --base main; then
-            raced="$(find_bot_pr)"
+            raced="$(find_bot_pr || true)"
             if [ -n "${raced}" ]; then
               # Tolerant for the same reason as every other call on a PR number here:
               # the PR can be merged or closed between finding it and editing it, and
