@@ -93,6 +93,15 @@ jobs:
 
     - name: Check the branch out
       uses: actions/checkout@v4
+      with:
+        # Full history, because `make ci` runs build/generate_page_moves.py, which
+        # reads git rename records to date each entry in the published redirect map.
+        # checkout defaults to fetch-depth: 1, and in a shallow clone that scan finds
+        # nothing and reports zero moves without failing -- so the map would ship with
+        # no dates at all while a local full-clone build shows hundreds. Only this job
+        # needs it; the versioned matrix builds run bare `hugo` and never generate the
+        # map. See DOC-6951.
+        fetch-depth: 0
 
     - name: Install dependencies
       run: make deps
