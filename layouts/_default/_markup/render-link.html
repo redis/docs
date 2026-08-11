@@ -41,6 +41,15 @@
   {{- /* Strip a leading `./` so explicit same-directory links resolve; leave
          `../` alone, which GetPage resolves relative to the current page. */ -}}
   {{- $path = strings.TrimPrefix "./" $path -}}
+  {{- /* Repo-root-relative links (`/content/...`) resolve against the repository
+         root in both GitHub's rendered view and VS Code, which avoids the long
+         `../../../` chains that source-relative links need for cross-section
+         targets. Strip the content-mount prefix so GetPage, which expects a
+         content-relative path, resolves them. Requires the trailing slash so a
+         hypothetical `/contentfoo` is left alone. */ -}}
+  {{- if strings.HasPrefix $path "/content/" -}}
+    {{- $path = strings.TrimPrefix "/content" $path -}}
+  {{- end -}}
   {{- /* Normalise source-relative Markdown links so they resolve in the repo
          (VS Code, GitHub) and here: drop the `.md`, and a trailing `/_index`
          or `/index` from links that point at a section or leaf-bundle file. */ -}}

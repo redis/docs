@@ -28,7 +28,7 @@ bannerText: This feature is currently in preview and may be subject to change.
 redis-py supports [Client-side geographic failover](https://en.wikipedia.org/wiki/Failover)
 to improve the availability of connections to Redis databases. This page explains
 how to configure redis-py for failover. For an overview of the concepts,
-see the main [Client-side geographic failover](../failover.md) page.
+see the main [Client-side geographic failover](/content/develop/clients/failover.md) page.
 
 ## Failover configuration
 
@@ -38,7 +38,7 @@ target. If `redis-east` fails, redis-py should fail over to
 `redis-west`.
 
 Supply the weighted endpoints using a list of `DatabaseConfig` objects
-(see [Selecting a failover target](../failover.md#selecting-a-failover-target) for a full description of how
+(see [Selecting a failover target](/content/develop/clients/failover.md#selecting-a-failover-target) for a full description of how
 the weighted list is used).
 Use the `weight` option to order the endpoints, with the highest
 weight being tried first. Then, use the list to create a `MultiDbConfig` object,
@@ -74,9 +74,9 @@ constructor in the `databases_config` parameter.
 
 | Option | Description |
 | --- | --- |
-| `client_kwargs` | Keyword parameters to pass to the internal client constructor for this endpoint. Use it to specify the host, port, username, password, and other connection parameters (see [Connect to the server](connect.md) for more information). This is especially useful if you are using a custom client class (see [Client configuration](#client-configuration) below for more information). |
+| `client_kwargs` | Keyword parameters to pass to the internal client constructor for this endpoint. Use it to specify the host, port, username, password, and other connection parameters (see [Connect to the server](/content/develop/clients/redis-py/connect.md) for more information). This is especially useful if you are using a custom client class (see [Client configuration](#client-configuration) below for more information). |
 | `from_url` | Redis URL to connect to this endpoint, as an alternative to passing the host and port in `client_kwargs`. |
-| `from_pool` | A `ConnectionPool` to supply the endpoint connection (see [Connect with a connection pool](connect.md#connect-with-a-connection-pool) for more information) |
+| `from_pool` | A `ConnectionPool` to supply the endpoint connection (see [Connect with a connection pool](/content/develop/clients/redis-py/connect.md#connect-with-a-connection-pool) for more information) |
 | `weight` | Priority of the endpoint, with higher values being tried first. Default is `1.0`. |
 | `grace_period` | Duration in seconds to keep an unhealthy endpoint disabled before attempting a failback. Default is `60` seconds. |
 | `health_check_url` | URL for health checks that use the database's REST API (see [`LagAwareHealthCheck`](#lag-aware-health-check) for more information). |
@@ -97,7 +97,7 @@ cfg = MultiDbConfig(
 ### Circuit breaker configuration
 
 `MultiDbConfig` gives you several options to configure the circuit breaker
-(see [Detecting connection problems](../failover.md#detecting-connection-problems) for more information on how the
+(see [Detecting connection problems](/content/develop/clients/failover.md#detecting-connection-problems) for more information on how the
 circuit breaker works):
 
 | Option | Description |
@@ -109,7 +109,7 @@ circuit breaker works):
 ### Retry configuration
 
 `MultiDbConfig` provides the `command_retry` option to configure retries for failed commands. This follows the usual approach to configuring retries used with a standard
-`RedisClient` connection (see [Retries](produsage.md#retries) for more information).
+`RedisClient` connection (see [Retries](/content/develop/clients/redis-py/produsage.md#retries) for more information).
 
 ```py
 cfg = MultiDbConfig(
@@ -194,7 +194,7 @@ client = MultiDBClient(config)
 ## Health check configuration
 
 Each health check consists of one or more separate "probes", each of which is a simple
-test (such as a [`PING`](../../../commands/ping.md) command) to determine if the
+test (such as a [`PING`](/content/commands/ping.md) command) to determine if the
 database is available. The results of the separate probes are combined
 using a configurable policy to determine if the database is healthy.
 
@@ -223,7 +223,7 @@ in more detail.
 ### `PingHealthCheck` (default)
 
 The default strategy, `PingHealthCheck`, periodically sends a Redis
-[`PING`](../../../commands/ping.md) command
+[`PING`](/content/commands/ping.md) command
 and checks that it gives the expected response. Any unexpected response
 or exception indicates an unhealthy server. Although `PingHealthCheck` is
 very simple, it is a good basic approach for most Redis deployments.
@@ -231,9 +231,9 @@ very simple, it is a good basic approach for most Redis deployments.
 ### `LagAwareHealthCheck` (Redis Software only) {#lag-aware-health-check}
 
 `LagAwareHealthCheck` is designed specifically for
-Redis Software [Active-Active](../../../operate/rs/databases/active-active/_index.md)
+Redis Software [Active-Active](/content/operate/rs/databases/active-active/_index.md)
 deployments. It determines the health of the server by using the
-[REST API](../../../operate/rs/references/rest-api/_index.md) to check the
+[REST API](/content/operate/rs/references/rest-api/_index.md) to check the
 synchronization lag between a specific database and the others in the Active-Active
 setup. If the lag is within a specified tolerance, the server is considered healthy.
 
@@ -305,7 +305,7 @@ Note that health checks are executed in an asyncio event loop, so you
 must implement the `check_health()` method as an async method.
 
 The example below
-shows a simple custom strategy that sends a Redis [`ECHO`](../../../commands/echo.md)
+shows a simple custom strategy that sends a Redis [`ECHO`](/content/commands/echo.md)
 command and checks for the expected response.
 
 ```py
@@ -391,7 +391,7 @@ If you decide to implement manual failback, you will need a way for external sys
 
 ## Pub/Sub and re-subscription
 
-`MultiDBClient` supports [Pub/Sub](../../pubsub/_index.md)
+`MultiDBClient` supports [Pub/Sub](/content/develop/pubsub/_index.md)
 messaging with automatic re-subscription to channels during failover.
 This means you don't have to detect failovers and re-subscribe manually:
 
@@ -436,7 +436,7 @@ gives a period of 120 seconds to find a healthy endpoint.
 
 You can still keep retrying commands after a `TemporaryUnavailableException` is thrown (for example,
 you could add this exception to the `supported_errors` list in your `Retry` configuration, as described
-in [Retries](produsage.md#retries)). However, if the client exhausts
+in [Retries](/content/develop/clients/redis-py/produsage.md#retries)). However, if the client exhausts
 all the available failover attempts before any endpoint becomes healthy again, commands will throw a `NoValidDatabaseException`. The client won't recover automatically from this situation, so you
 should handle it by reconnecting with the `MultiDBClient` constructor after a suitable delay (see
 [Failover configuration](#failover-configuration) for a connection example).
@@ -454,7 +454,7 @@ network connectivity problems.
 If you are using [`PingHealthCheck`](#pinghealthcheck-default) or a
 [custom health check strategy](#custom-health-check-strategy),
 check that the `socket_timeout` is not too low for your network conditions
-(see [Timeouts](produsage.md#timeouts) for more information).
+(see [Timeouts](/content/develop/clients/redis-py/produsage.md#timeouts) for more information).
 
 For
 [`LagAwareHealthCheck`](#lag-aware-health-check), check that the `health_check_url`

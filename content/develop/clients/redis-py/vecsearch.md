@@ -25,14 +25,14 @@ topics:
 weight: 40
 ---
 
-[Redis Search](../../ai/search-and-query/_index.md)
-lets you index vector fields in [hash](../../data-types/hashes.md)
-or [JSON](../../data-types/json/_index.md) objects (see the
-[Vectors](../../ai/search-and-query/vectors/_index.md) 
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
+lets you index vector fields in [hash](/content/develop/data-types/hashes.md)
+or [JSON](/content/develop/data-types/json/_index.md) objects (see the
+[Vectors](/content/develop/ai/search-and-query/vectors/_index.md) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance](../../ai/search-and-query/vectors/_index.md#distance-metrics)
+[vector distance](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -48,15 +48,15 @@ separate section to explain the
 > [!NOTE]
 > From [v6.0.0](https://github.com/redis/redis-py/releases/tag/v6.0.0) onwards,
 > `redis-py` uses query dialect 2 by default.
-> Redis Search methods such as [`ft().search()`](../../../commands/ft.search.md)
+> Redis Search methods such as [`ft().search()`](/content/commands/ft.search.md)
 > will explicitly request this dialect, overriding the default set for the server.
 > See
-> [Query dialects](../../ai/search-and-query/advanced-concepts/dialects.md)
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
 > for more information.
 
 ## Initialize
 
-Install [`redis-py`](_index.md) if you
+Install [`redis-py`](/content/develop/clients/redis-py/_index.md) if you
 have not already done so. Also, install `sentence-transformers` with the
 following command:
 
@@ -96,12 +96,12 @@ the index doesn't already exist, which is why you need the
 Next, create the index.
 The schema in the example below specifies hash objects for storage and includes
 three fields: the text content to index, a
-[tag](../../ai/search-and-query/advanced-concepts/tags.md)
+[tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW](../../ai/search-and-query/vectors/_index.md#hnsw-index)
+[HNSW](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index)
 indexing, the
-[L2](../../ai/search-and-query/vectors/_index.md#distance-metrics)
+[L2](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
@@ -111,7 +111,7 @@ and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 ## Add data
 
 You can now supply the data objects, which will be indexed automatically
-when you add them with [`hset()`](../../../commands/hset.md), as long as
+when you add them with [`hset()`](/content/commands/hset.md), as long as
 you use the `doc:` prefix specified in the index definition.
 
 Use the `model.encode()` method of `SentenceTransformer`
@@ -137,7 +137,7 @@ results in order of this numeric similarity value.
 The code below creates the query embedding using `model.encode()`, as with
 the indexing, and passes it as a parameter when the query executes
 (see
-[Vector search](../../ai/search-and-query/query/vector-search.md)
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about using query parameters with embeddings).
 
 {{< clients-example set="home_query_vec" step="query" lang_filter="Python" description="Vector similarity search: Find semantically similar documents by comparing query embeddings with indexed vectors using L2 distance" difficulty="intermediate" >}}
@@ -185,7 +185,7 @@ is the result that is most similar in meaning to the query text
 
 Indexing JSON documents is similar to hash indexing, but there are some
 important differences. JSON allows much richer data modelling with nested fields, so
-you must supply a [path](../../data-types/json/path.md) in the schema
+you must supply a [path](/content/develop/data-types/json/path.md) in the schema
 to identify each field you want to index. However, you can declare a short alias for each
 of these paths (using the `as_name` keyword argument) to avoid typing it in full for
 every query. Also, you must specify `IndexType.JSON` when you create the index.
@@ -196,8 +196,8 @@ the one created previously for hashes:
 {{< clients-example set="home_query_vec" step="json_index" lang_filter="Python" description="Foundational: Create a vector search index for JSON documents with JSON paths and field aliases" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
-Use [`json().set()`](../../../commands/json.set.md) to add the data
-instead of [`hset()`](../../../commands/hset.md). The dictionaries
+Use [`json().set()`](/content/commands/json.set.md) to add the data
+instead of [`hset()`](/content/commands/hset.md). The dictionaries
 that specify the fields have the same structure as the ones used for `hset()`
 but `json().set()` receives them in a positional argument instead of
 the `mapping` keyword argument.
@@ -241,6 +241,6 @@ Result{
 ## Learn more
 
 See
-[Vector search](../../ai/search-and-query/query/vector-search.md)
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
