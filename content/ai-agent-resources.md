@@ -125,7 +125,7 @@ the page it resolves to:
   "ambiguous_count": 27,
   "shadowed_count": 10,
   "redirects": [
-    {"from": "/develop/ai/langcache", "to": "https://redis.io/docs/latest/develop/ai/context-engine/langcache/"}
+    {"from": "/develop/ai/langcache", "to": "https://redis.io/docs/latest/develop/ai/context-engine/langcache/", "moved_on": "2026-05-11"}
   ],
   "ambiguous": [
     {"from": "/develop/use/pipelining", "candidates": ["https://redis.io/docs/latest/develop/using-commands/", "https://redis.io/docs/latest/develop/using-commands/pipelining/"]}
@@ -143,8 +143,14 @@ Four things worth knowing before you rely on it:
   record of its own at `<from>/index.json`, so you can resolve one URL without
   fetching the whole map.
 - **It is an alias map, not a move log.** Many entries are vanity or legacy paths that
-  were never a page's location, and there is no date, because the source data does not
-  record when a page moved.
+  were never a page's location. Where we can date a move from the repository history,
+  the entry carries a `moved_on`; entries without one are not undated moves, they are
+  aliases that were never a page's location in the first place.
+- **A URL missing from the map is not necessarily gone.** We publish redirects we can
+  establish, not a complete account of every URL that ever existed. In particular we
+  deliberately do not publish a list of deleted pages: the repository history cannot
+  reliably tell a deletion from a move it failed to detect, and telling you a page was
+  deleted when it merely moved would be worse than telling you nothing.
 - `ambiguous` holds the keys that more than one page claims, with every candidate
   listed. We publish them separately rather than picking one, because the site itself
   resolves those arbitrarily — so any single answer we gave you would sometimes

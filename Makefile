@@ -22,7 +22,14 @@ components:
 components_local:
 	@python3 build/make.py --stack ./data/components_local/index.json
 
-hugo:
+# Move dates live only in git history, which Hugo cannot read, so they are written
+# into data/ before the build. Generated rather than committed, like the other
+# derived files in data/, so a snapshot of history cannot go stale.
+page_moves:
+	@echo "Recording page move dates..."
+	@python3 build/generate_page_moves.py
+
+hugo: page_moves
 	@hugo $(HUGO_DEBUG) $(HUGO_BUILD)
 
 # json_transform requires hugo to have populated public/ with index.json files
@@ -45,7 +52,7 @@ ndjson: redirect_tombstones
 	@echo "Compressing NDJSON feed..."
 	@gzip -kf public/docs.ndjson
 
-serve_hugo:
+serve_hugo: page_moves
 	@hugo serve
 
 # Passive post-build report of unusually large rendered pages (warn-only).
