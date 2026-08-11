@@ -3,7 +3,6 @@ linkTitle: Getting started
 title: Getting Started
 aliases:
 - /integrate/redisvl/user_guide/01_getting_started
-- /integrate/redisvl/user_guide/getting_started/
 weight: 2
 ---
 
