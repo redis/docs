@@ -51,6 +51,10 @@ Here are the next steps to get you started:
 Experiment with Redis Search interactively in the [Redis playground](https://redis.io/try/sandbox) — no installation required.
 {{< /alert >}}
 
+{{< tip >}}
+See Redis vector search in a real workflow: [Redis Repo Memory](https://github.com/marketplace/actions/redis-repo-memory) is a GitHub Action that surfaces related past PRs, issues, and commits on every pull request. Add it to any repository in a few minutes.
+{{< /tip >}}
+
 ## Enable Redis Search
 
 Redis Search is available in Redis Open Source, Redis Software, and Redis Cloud.

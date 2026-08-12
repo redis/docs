@@ -164,6 +164,7 @@ Need a deeper-dive through different use cases and topics?
 * [ArXiv Chat](https://github.com/redis-developer/ArxivChatGuru) - Streamlit demo of RAG over ArXiv documents with Redis & OpenAI
 
 #### Recommendations and search
+* [Redis Repo Memory](https://github.com/redis-learn/redis-repo-memory) - A GitHub Action that surfaces semantically related PRs, issues, and commits from repository history using Redis vector search ([install from the Marketplace](https://github.com/marketplace/actions/redis-repo-memory))
 * [Recommendation systems w/ NVIDIA Merlin & Redis](https://github.com/redis-developer/redis-nvidia-recsys) - Three examples, each escalating in complexity, showcasing the process of building a realtime recsys with NVIDIA and Redis
 * [Redis product search](https://github.com/redis-developer/redis-product-search) - Build a real-time product search engine using features like full-text search, vector similarity, and real-time data updates
 * [ArXiv Search](https://github.com/redis-developer/redis-arxiv-search) - Full stack implementation of Redis with React FE
