@@ -29,6 +29,10 @@ RAG involves three main steps:
 RAG enables LLMs to use real-time information, improving the accuracy and relevance of generated content.
 Redis is ideal for RAG due to its speed, versatility, and familiarity.
 
+{{< tip >}}
+Prefer to start from working code? Open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template — it generates a complete RAG agent with document ingestion, hybrid retrieval, and citations.
+{{< /tip >}}
+
 ### The role of Redis in RAG
 
 Redis provides a robust platform for managing real-time data. It supports the storage and retrieval of vectors, essential for handling large-scale, unstructured data and performing similarity searches. Key features and components of Redis that make it suitable for RAG include:
