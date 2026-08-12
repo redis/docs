@@ -487,7 +487,8 @@
             "description": "Database last backup time.",
             "format": "date-time",
             "nullable": true,
-            "type": "string"
+            "type": "string",
+            "x-omitempty": false
           },
           "last_configured_time": {
             "description": "Database last configuration time.",
@@ -965,7 +966,8 @@
         "description": "Object structure for migration status.",
         "properties": {
           "error": {
-            "$ref": "#/components/schemas/MigrationError"
+            "$ref": "#/components/schemas/MigrationError",
+            "x-omitempty": true
           },
           "flush_counter": {
             "description": "How many times syncer had to restart.",
@@ -2645,6 +2647,7 @@
         "tags": [
           "Cluster"
         ],
+        "x-deprecated-reason": "Deprecated, use PUT /v1/cluster/certificates",
         "x-publish-docs": true,
         "x-stability-level": "stable",
         "x-timeout-seconds": 900
