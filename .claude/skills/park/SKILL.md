@@ -46,6 +46,19 @@ Park only when **the docs are as complete as the source allows** and the sole bl
 external event. If the work is merely unfinished, keep working. If the source may never ship,
 don't park — say so. There must be a concrete, testable **trigger condition**.
 
+Two things make a trigger actually testable, and both have bitten:
+
+- **Point it at the source that will ship the feature, not the one you read.** A draft PR is
+  often one step in a series that lands on the default branch as a different, consolidated PR.
+  Watch the branch the release is cut from; if the PR you wrote against targets an integration
+  branch rather than `master`/`main`, say so in the trigger and name the umbrella once it
+  exists.
+- **Require "in a released version", and make it mean an ancestry check.** Merge and release can
+  be minutes apart, so date order proves nothing, and the newest tag is often a beta the page's
+  version note must not cite. The trigger is met when the merge commit is an **ancestor of a
+  non-prerelease tag** — record the command that shows it (`gh api
+  repos/<o>/<r>/compare/<merge-sha>...<tag>`, expecting `behind_by: 0`).
+
 ## Step 2 — Harvest the loose ends already on the branch
 
 The branch's own commits hold the re-check items, from `/reflect`:
@@ -84,6 +97,24 @@ Record URL + snapshot in the sources table, and the re-fetch command for unpark.
 against an unmerged diff — and say *why* it's low, e.g. "signatures differed between two reads
 of the diff").
 
+**Split that summary in two: the semantics, and the identifiers.** They decay at completely
+different rates. What the feature *does* — the shape of the page, the ordering guarantees, the
+caveats — usually survives to release intact. The **names** usually don't: types get renamed,
+optional-arg methods split into no-arg plus `WithOptions` variants, fields appear, and fields
+leave the type they were on. So enumerate every type, method, field and default the page
+commits to as an explicit list unpark can tick off one by one, rather than describing them in
+prose. A prose sentence covering four field names is one checklist item that can be half-right;
+four listed names are four verdicts.
+
+Two traps worth calling out while you write that list:
+
+- **Distinguish "renamed" from "was never there".** Record *where* you saw each identifier
+  (which file, which struct), because the useful unpark finding is sometimes "this field isn't
+  part of this API at all" — a mis-attributed field looks exactly like a renamed one in the
+  snapshot, and only the location tells them apart.
+- **Note where the changelog and the source disagree.** Release notes summarize and under-report;
+  the source is authoritative for which client types expose the API.
+
 ## Step 4 — Compose the manifest & PR body
 
 Build the PR body: a short human summary, a prominent **do-not-merge warning** linking the
@@ -119,6 +150,15 @@ outward-facing — if the branch isn't pushed or the user hasn't asked, confirm 
 - **A stale snapshot is worse than none** — if you record a head SHA or API shape you didn't
   actually verify, unpark diffs against fiction. Snapshot only what you checked; leave the
   rest out and flag it in the checklist.
+- **Expect the identifiers to be wrong, and don't let that shake your confidence in the page.**
+  Measured on DOC-6832 (go-redis automatic pipelining, parked ~3.5 weeks across two re-parks):
+  at release the page's structure, ordering semantics and every caveat still read correctly,
+  while nearly every type, method and field name had moved. That is the *normal* outcome, not a
+  sign the page was written too early — which is why the LOW confidence tag belongs on the
+  identifier list specifically, not smeared over the whole page.
+- **Re-verifying during the park is what makes the final reconcile cheap.** Each re-park that
+  refreshes the snapshot converts churn into an already-answered checklist item; skip them and
+  every delta arrives at once, at the moment you least want a surprise.
 - Park **cannot judge whether the source will ship.** It records a trigger; it doesn't predict
   the future. A parked PR that never triggers is dead weight — `/unpark`'s scan mode is how you
   find and close those.
