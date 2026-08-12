@@ -49,7 +49,7 @@ Both names refer to the same product. **Redis Radar** is the product name. **MCM
 
 ## Next steps
 
-Start with Install Radar to deploy Radar on your own infrastructure, then Connect clusters to add your first cluster.
+Start with [Install Radar]({{< relref "/operate/radar/install" >}}) to deploy Radar on your own infrastructure, then Connect clusters to add your first cluster.
 
-<!-- TODO(DOC-6910): restore relrefs to /operate/radar/install and /operate/radar/connect once those pages exist (DOC-6911, DOC-6912). Also add a "Connect clusters" link in the "How Radar collects data" section. Removed only because relref fails the build on missing targets. -->
+<!-- TODO(DOC-6912): restore the relref to /operate/radar/connect here and in the "How Radar collects data" section once connect.md exists. Removed only because relref fails the build on missing targets. -->
 
