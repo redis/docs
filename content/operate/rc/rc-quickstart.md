@@ -170,6 +170,8 @@ The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) utility is installed when
 
 To run `redis-cli`, [install Redis]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine.
 
+If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, you can [install the standalone `redis-cli` binary]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}) on Linux or macOS.
+
 See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-cli`.
 
 ## More info
