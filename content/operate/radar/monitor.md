@@ -10,16 +10,17 @@ linkTitle: Monitor
 weight: 30
 ---
 
-Everything Radar shows you here is read. You cannot start, stop, resize, or reconfigure anything on this page; you look at what your clusters reported and then act in the cluster itself.
+Every view on this page is read-only. You cannot start, stop, resize, or reconfigure anything from them; you look at what your clusters reported, then act in the cluster itself.
 
-Radar works through four views that answer progressively narrower questions:
+Radar has five views, each answering a different question:
 
 | View | Answers |
 |---|---|
 | [Overview](#overview) | Is anything wrong anywhere? |
 | [Clusters](#clusters) | Which cluster, and what does it look like? |
 | [Databases](#databases) | Which database, across every cluster? |
-| [Usage](#usage) | How much are you consuming against what you bought? |
+| [Usage](#usage) | How much are you consuming against your limits? |
+| [Alerts](#alerts) | What is your fleet complaining about? |
 
 ## How current the data is
 
@@ -42,7 +43,7 @@ If a cluster's Last Seen value stops advancing, treat that as a Radar connectivi
 
 ## Overview
 
-The Overview answers one question for a fleet too large to check by hand: is anything wrong anywhere?
+The **Overview** answers one question for a fleet too large to check by hand: is anything wrong anywhere?
 
 - **Fleet health.** Cluster and database health side by side, so a problem that affects one database in one cluster is still visible at the top level.
 - **Capacity and memory pressure.** Available capacity across the fleet, and which clusters are under memory pressure.
@@ -51,11 +52,11 @@ The Overview answers one question for a fleet too large to check by hand: is any
 - **Licenses and certificates.** Anything expiring, summarized. See [Licenses and certificates]({{< relref "/operate/radar/licenses-and-certificates" >}}).
 - **Alerts.** The most severe alerts currently raised. See [Alerts](#alerts).
 - **Running actions.** Operations in progress on your clusters.
-- **Data freshness.** How current the rest of the page is.
+- **Data freshness.** How current the rest of the dashboard is.
 
 ## Clusters
 
-The Clusters list is one row per cluster, whichever deployment type it came from:
+The **Clusters** list is one row per cluster, whichever deployment type it came from:
 
 | Column | Shows |
 |---|---|
@@ -78,7 +79,7 @@ Select any cluster to open its detail view, which carries that cluster's nodes, 
 
 ## Databases
 
-The Databases list crosses cluster boundaries, so you can find a database without knowing which cluster it lives on:
+The **Databases** list crosses cluster boundaries, so you can find a database without knowing which cluster it lives on:
 
 | Column | Shows |
 |---|---|
@@ -99,7 +100,7 @@ Radar identifies Active-Active databases and reports their replication health as
 
 ## Usage
 
-The Usage view is about consumption against what you are entitled to, rather than health:
+The **Usage** view is about consumption against what you are entitled to, rather than health:
 
 | Column | Shows |
 |---|---|
@@ -114,7 +115,7 @@ Remember that usage refreshes hourly by default, so a number here can be up to a
 
 ## Alerts
 
-The Alerts view collects the alerts your clusters are already raising and puts them in one list, ordered by severity: critical, warning, then informational. Filter by severity to work the list down.
+The **Alerts** view collects the alerts your clusters are already raising and puts them in one list, ordered by severity: critical, warning, then informational. Filter by severity to work the list down.
 
 Radar reads alerts from each cluster's own alert endpoints, at the cluster, node, and database level. **The alert rules live on the cluster, not in Radar.** To change what raises an alert, change it on the cluster; Radar reflects the change at its next collection.
 

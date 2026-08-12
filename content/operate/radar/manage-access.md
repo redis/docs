@@ -12,7 +12,7 @@ weight: 40
 
 Radar has two roles, and every user has exactly one of them. People sign in with a local Radar account, through your directory over LDAP, or through your identity provider with SAML SSO.
 
-The two are configured in different places. You create local accounts under **Users**. You choose and configure the sign-in method under **Settings > Authentication**, and that choice applies to all of Radar.
+Users and sign-in methods are configured in different places. You create local accounts under **Users**. You choose and configure the sign-in method under **Settings > Authentication**, and that choice applies to all of Radar.
 
 ## Roles
 
@@ -23,7 +23,7 @@ The two are configured in different places. You create local accounts under **Us
 
 A role applies to the entire fleet. You cannot scope a user to a subset of clusters.
 
-New users are created as viewers unless you choose otherwise. Only admins can see or change users at all. The **Users** area is hidden from viewers.
+New users are created as viewers unless you choose otherwise. Only admins can see or change users; the **Users** area is hidden from viewers.
 
 ## Create local users
 

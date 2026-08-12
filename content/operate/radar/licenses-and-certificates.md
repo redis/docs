@@ -12,7 +12,7 @@ weight: 50
 
 Licenses and certificates expire per cluster, which means the more clusters you run, the more likely one of them is quietly close to an outage. Radar collects both across the whole fleet and lists them by expiry date, so you find out before a customer does.
 
-Both views work the same way. Each row is one cluster, with a status:
+Radar presents licenses and certificates as two lists that work the same way. Each row is one cluster, with a status:
 
 | Status | Meaning |
 |---|---|
@@ -36,7 +36,7 @@ Radar also shows a fleet-wide total, so you can see aggregate headroom without a
 
 ### Update a cluster license
 
-This is the one place where Radar changes a cluster rather than reading it.
+Updating a license writes to the cluster, unlike everything else in this view.
 
 1. Go to **Licenses**.
 2. Find the cluster and select **Update License**.

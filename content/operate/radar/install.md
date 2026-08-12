@@ -18,7 +18,7 @@ Radar runs as two services backed by a PostgreSQL database that you provide:
 Both services read the same database and the same encryption key. Whichever install method you choose, you supply the database and the key.
 
 {{< warning >}}
-Plan for remote access before you start. Every install method leaves network exposure to you, and the RPM listens only on loopback, so a successful install is not reachable from another machine until you put a proxy or ingress in front of it. See [Provide remote access](#provide-remote-access).
+Plan for remote access before you start. Every install method leaves network exposure to you. The RPM listens only on loopback, so **an install that succeeds is still unreachable from any other machine** until you put a proxy or ingress in front of it. See [Provide remote access](#provide-remote-access).
 {{< /warning >}}
 
 ## Choose an install method
@@ -29,7 +29,7 @@ Plan for remote access before you start. Every install method leaves network exp
 | [Kubernetes with Helm](#install-on-kubernetes-with-helm) | You already run Kubernetes or OpenShift. | Yes |
 | [Docker Compose](#install-with-docker-compose) | You want a single host and already run Docker. | Yes |
 
-All three are supported customer artifacts built from the same release. Any of them can be installed on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
+All three are supported and built from the same release. Any of them can be installed on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
 To get the artifacts, contact your Redis account team.
 
@@ -207,7 +207,7 @@ shred -u kek.bin
 Write the key to a file rather than using `--from-literal="$(head -c 32 /dev/urandom)"`. Command substitution truncates at null bytes, so the key would not be 32 bytes.
 {{< /note >}}
 
-The secret must contain the `CREDENTIAL_KEK` key. If it does not, the pods stay in `ContainerCreating` — a deliberate loud failure rather than a silent one.
+The secret must contain the `CREDENTIAL_KEK` key. If it does not, the pods stay in `ContainerCreating`. That is a deliberate loud failure rather than a silent one.
 
 ### 2. Install the chart
 

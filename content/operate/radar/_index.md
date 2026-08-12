@@ -13,7 +13,7 @@ weight: 55
 
 Redis Radar shows you the status of every Redis cluster you run, in one place.
 
-Teams that run dozens or hundreds of clusters usually track them in a spreadsheet. Nobody trusts the spreadsheet, and it is out of date the moment someone adds a cluster. Radar replaces it. Radar connects to each cluster, collects its state on a schedule, and presents one fleet-wide view across Redis Software, Redis Cloud, and Redis Open Source.
+Teams that run dozens or hundreds of clusters usually track them in a spreadsheet that nobody trusts and that goes out of date the moment someone adds a cluster. Radar replaces that spreadsheet: it connects to each cluster, collects its state on a schedule, and presents one fleet-wide view across Redis Software, Redis Cloud, and Redis Open Source.
 
 Radar is a visibility tool first. It reports what your clusters are doing, and adding a cluster to Radar does not change how that cluster runs. A small number of fleet-wide chores can be done from Radar, such as [updating a cluster license]({{< relref "/operate/radar/licenses-and-certificates#update-a-cluster-license" >}}).
 
