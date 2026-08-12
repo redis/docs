@@ -199,7 +199,7 @@ In the above example two clients are connected to the Redis server. Let's look a
 * **omem**: The amount of memory used by the client for the output buffer.
 * **cmd**: The last executed command.
 
-See the [[`CLIENT LIST`]({{< relref "/commands/client-list" >}})](/commands/client-list) documentation for the full listing of fields and their purpose.
+See the [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) documentation for the full listing of fields and their purpose.
 
 Once you have the list of clients, you can close a client's connection using the [`CLIENT KILL`]({{< relref "/commands/client-kill" >}}) command, specifying the client address as its argument.
 
