@@ -1,0 +1,73 @@
+{{- /*
+  Link render hook: resolves internal Markdown links to their published
+  permalink, recreating the behaviour of the `relref` shortcode so that
+  `[text](/path)` can replace `[text]({{< relref "/path" >}})`.
+
+  Prototype from DOC-6909 (investigate alternatives to Hugo shortcodes).
+  Verified against a `relref` baseline: internal links render byte-identically;
+  pre-existing plain links are normalised (relative -> absolute, `.md` stripped,
+  trailing slash added). See HUGO_DEPENDENCY_ASSESSMENT.md.
+
+  Resolution uses .PageInner, not .Page, so relative links resolve against the
+  page whose Markdown contains the link even when content is transcluded.
+
+  NOTE: remove the placeholder transition guard once every `relref` has been
+  migrated to a plain Markdown link.
+*/ -}}
+{{- $dest := .Destination -}}
+{{- $text := .Text -}}
+{{- $title := .Title -}}
+{{- if strings.Contains $dest "HAHAHUGOSHORTCODE" -}}
+  {{- /* A relref/shortcode has not been substituted yet; leave the placeholder
+         for Hugo to fill in and do not attempt to resolve or warn. */ -}}
+  <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+{{- else if strings.HasPrefix $dest "#" -}}
+  {{- /* Fragment-only: a same-page internal link, emitted unchanged. */ -}}
+  <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+{{- else if or (findRE "^[a-zA-Z][a-zA-Z0-9+.\\-]*:" $dest) (strings.HasPrefix $dest "//") -}}
+  {{- /* External: a URL scheme or protocol-relative link. Detected with findRE
+         rather than urls.Parse, which hard-errors on malformed destinations. */ -}}
+  <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+{{- else -}}
+  {{- $path := $dest -}}
+  {{- $anchor := "" -}}
+  {{- /* Split on the first `#` only, so an anchor that itself contains `#`
+         (malformed but present in the corpus) is preserved intact. */ -}}
+  {{- if strings.Contains $path "#" -}}
+    {{- $parts := split $path "#" -}}
+    {{- $path = index $parts 0 -}}
+    {{- $anchor = printf "#%s" (delimit (after 1 $parts) "#") -}}
+  {{- end -}}
+  {{- /* Strip a leading `./` so explicit same-directory links resolve; leave
+         `../` alone, which GetPage resolves relative to the current page. */ -}}
+  {{- $path = strings.TrimPrefix "./" $path -}}
+  {{- /* Repo-root-relative links (`/content/...`) resolve against the repository
+         root in both GitHub's rendered view and VS Code, which avoids the long
+         `../../../` chains that source-relative links need for cross-section
+         targets. Strip the content-mount prefix so GetPage, which expects a
+         content-relative path, resolves them. Requires the trailing slash so a
+         hypothetical `/contentfoo` is left alone. */ -}}
+  {{- if strings.HasPrefix $path "/content/" -}}
+    {{- $path = strings.TrimPrefix "/content" $path -}}
+  {{- end -}}
+  {{- /* Normalise source-relative Markdown links so they resolve in the repo
+         (VS Code, GitHub) and here: drop the `.md`, and a trailing `/_index`
+         or `/index` from links that point at a section or leaf-bundle file. */ -}}
+  {{- $lookup := strings.TrimSuffix ".md" $path -}}
+  {{- $lookup = strings.TrimSuffix "/_index" $lookup -}}
+  {{- $lookup = strings.TrimSuffix "/index" $lookup -}}
+  {{- $target := .PageInner.GetPage $lookup -}}
+  {{- if $target -}}
+    <a href="{{ printf "%s%s" $target.RelPermalink $anchor | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+  {{- else -}}
+    {{- /* Not a content page: try a page-bundle resource (e.g. the source
+           files linked with [source](cache.rs) in the use-case demos). */ -}}
+    {{- $res := .PageInner.Resources.GetMatch $path -}}
+    {{- if $res -}}
+      <a href="{{ printf "%s%s" $res.RelPermalink $anchor | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+    {{- else -}}
+      {{- warnf "render-link: unresolved link %q on page %q" $dest .PageInner.Path -}}
+      <a href="{{ $dest | safeURL }}"{{ with $title }} title="{{ . }}"{{ end }}>{{ $text | safeHTML }}</a>
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
