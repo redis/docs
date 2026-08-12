@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di-list-jobs/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-list-jobs/
 ---
 
 Lists the jobs of a pipeline, one row per job with its source, its transformation and output counts,
