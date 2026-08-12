@@ -41,7 +41,7 @@ Radar pulls; your clusters do not push. On a schedule, Radar reads each cluster'
 Two consequences worth knowing:
 
 - **Radar shows the last successful collection, not live state.** A value is as fresh as the last time Radar reached that cluster, which Radar displays alongside the data.
-- **Radar needs credentials for every cluster you want to see.** Getting that access in place is most of the setup work.
+- **Radar needs credentials for every cluster you want to see.** Getting that access in place is most of the setup work. See [Connect clusters]({{< relref "/operate/radar/connect" >}}).
 
 ## Redis Radar and MCM
 
@@ -49,7 +49,5 @@ Both names refer to the same product. **Redis Radar** is the product name. **MCM
 
 ## Next steps
 
-Start with [Install Radar]({{< relref "/operate/radar/install" >}}) to deploy Radar on your own infrastructure, then Connect clusters to add your first cluster.
-
-<!-- TODO(DOC-6912): restore the relref to /operate/radar/connect here and in the "How Radar collects data" section once connect.md exists. Removed only because relref fails the build on missing targets. -->
+Start with [Install Radar]({{< relref "/operate/radar/install" >}}) to deploy Radar on your own infrastructure, then [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster.
 

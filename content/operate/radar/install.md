@@ -336,4 +336,4 @@ Your PostgreSQL database and the clusters you plan to monitor still need to be r
 
 ## Next steps
 
-Radar is installed but has nothing to show yet. It does not discover clusters on its own. Add your first cluster next.
+Radar is installed but has nothing to show yet. It does not discover clusters on its own. Continue to [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster.
