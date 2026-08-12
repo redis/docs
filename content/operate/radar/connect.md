@@ -140,4 +140,4 @@ Radar holds credentials for every cluster in your fleet, which makes the connect
 
 ## Next steps
 
-Radar starts collecting as soon as a connection is saved. The first collection populates the fleet view; after that, each cluster is refreshed on its own schedule.
+Radar starts collecting as soon as a connection is saved. The first collection populates the fleet view; after that, each cluster is refreshed on its own schedule. See [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}).

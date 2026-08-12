@@ -49,5 +49,5 @@ Both names refer to the same product. **Redis Radar** is the product name. **MCM
 
 ## Next steps
 
-Start with [Install Radar]({{< relref "/operate/radar/install" >}}) to deploy Radar on your own infrastructure, then [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster.
+Start with [Install Radar]({{< relref "/operate/radar/install" >}}) to deploy Radar on your own infrastructure, then [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster. Once clusters are connected, [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}) covers what Radar shows you.
 
