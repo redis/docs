@@ -500,7 +500,7 @@ results
 
 ### Aggregations
 
-See docs for redis supported reducer functions: [https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/aggregations/#supported-groupby-reducers](docs).
+See docs for redis supported reducer functions: [docs](https://redis.io/docs/latest/develop/ai/search-and-query/advanced-concepts/aggregations/#supported-groupby-reducers).
 
 
 ```python

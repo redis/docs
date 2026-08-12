@@ -38,7 +38,7 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 Marks the start of a [transaction][tt] block.
 Subsequent commands will be queued for atomic execution using [`EXEC`]({{< relref "/commands/exec" >}}).
 
-[tt]: /develop/interact/transactions
+[tt]: /develop/using-commands/transactions
 
 ## Redis Software and Redis Cloud compatibility
 
