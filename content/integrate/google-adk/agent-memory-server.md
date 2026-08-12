@@ -30,7 +30,7 @@ New agents should use
 [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}})
 with `backend="redis-agent-memory"`, on
 [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory" >}}) or
-[self-managed]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}})
+[self-managed]({{< relref "/operate/iris/agent-memory/self-managed" >}})
 on your own Kubernetes cluster.
 
 This page exists only to help existing deployments migrate.
@@ -64,8 +64,8 @@ like Redis Cloud. You choose a deployment with `api_base_url`, not with
 ## Migrate to Redis Agent Memory
 
 1. Provision a Redis Agent Memory store, on
-   [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}})
-   or [self-managed]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}).
+   [Redis Cloud]({{< relref "/operate/iris/agent-memory/create-service" >}})
+   or [self-managed]({{< relref "/operate/iris/agent-memory/self-managed" >}}).
    Either gives you a Data Plane endpoint, an API key, and a store ID.
 2. Change `backend` from `opensource-agent-memory` to `redis-agent-memory` on
    every service and tool config, or drop the field, since it is the default.
@@ -120,5 +120,5 @@ switches backends with `REDIS_MEMORY_BACKEND`, so it already runs on
 ## More info
 
 - [Redis Agent Memory]({{< relref "/integrate/google-adk/redis-agent-memory" >}}): the supported backend
-- [Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}): run Agent Memory on your own Kubernetes cluster
+- [Self-managed Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}}): run Agent Memory on your own Kubernetes cluster
 - [Agent Memory Server on GitHub](https://github.com/redis/agent-memory-server): the deprecated server's own documentation

@@ -25,7 +25,7 @@ weight: 30
 
 adk-redis connects several backend systems to the ADK framework:
 
-- **[Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})** handles working memory (sessions), long-term memory (extracted facts), auto-summarization, and memory search. Use the default `redis-agent-memory` for new work. It runs either on [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory" >}}) or [self-managed]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) on your own Kubernetes cluster; both share one Data Plane API, so you pick a deployment by pointing `api_base_url` at the right endpoint.
+- **[Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})** handles working memory (sessions), long-term memory (extracted facts), auto-summarization, and memory search. Use the default `redis-agent-memory` for new work. It runs either on [Redis Cloud]({{< relref "/operate/rc/context-engine/agent-memory" >}}) or [self-managed]({{< relref "/operate/iris/agent-memory/self-managed" >}}) on your own Kubernetes cluster; both share one Data Plane API, so you pick a deployment by pointing `api_base_url` at the right endpoint.
 - **[RedisVL]({{< relref "/develop/ai/redisvl" >}})** (Redis Vector Library) powers the search tools and local semantic cache provider.
 - **[LangCache](https://redis.io/langcache/)** provides managed semantic caching with server-side embeddings.
 
@@ -44,8 +44,8 @@ which also covers migrating to Redis Agent Memory.
 
 Provision a store, then pass its Data Plane endpoint, API key, and store ID to the services.
 
-- On **Redis Cloud**, there is nothing to run. See [Create an Agent Memory service]({{< relref "/operate/rc/context-engine/agent-memory/create-service" >}}).
-- To run it **yourself**, see [Self-managed Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/self-managed" >}}) for deployment, configuration, and operations on your own Kubernetes cluster.
+- On **Redis Cloud**, there is nothing to run. See [Create an Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}).
+- To run it **yourself**, see [Self-managed Agent Memory]({{< relref "/operate/iris/agent-memory/self-managed" >}}) for deployment, configuration, and operations on your own Kubernetes cluster.
 
 Both use `backend="redis-agent-memory"`. Only `api_base_url` differs.
 
