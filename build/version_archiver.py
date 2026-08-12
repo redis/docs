@@ -49,6 +49,19 @@ class VersionArchiver:
             + re.escape(product)
             + r'/([^"]+)" ?>\}\})'
         )
+        # Repo-root-relative Markdown links replace relref in sections migrated
+        # for DOC-6909, and need the same versioning. Without this they keep
+        # resolving to the latest page instead of the copy being frozen, which is
+        # silently wrong content in an archived version (no error, no warning).
+        # Source-relative links need no rewriting: the whole subtree is copied, so
+        # a link between two pages inside it already resolves within the version.
+        plain_pattern = (
+            r'(\]\(/content/'
+            + self.prefix
+            + "/"
+            + re.escape(product)
+            + r'/([^)]+)\))'
+        )
         with open(file_path, "r") as file:
             lines = file.readlines()
 
@@ -74,8 +87,12 @@ class VersionArchiver:
                     return f"{new_link}"
                 return full_match
 
-            # Replace all relref links in the line
+            # Replace all relref links in the line, then the plain Markdown ones.
+            # Both share replace_link: each match contains "/<prefix>/<product>/",
+            # so the same substitution and the same release-notes and
+            # already-versioned guards apply to either notation.
             modified_line = re.sub(pattern, replace_link, lines[i])
+            modified_line = re.sub(plain_pattern, replace_link, modified_line)
 
             # If the line was modified, update the lines list
             if modified_line != lines[i]:
