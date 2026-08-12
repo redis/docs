@@ -211,9 +211,7 @@ The current score of an element can be retrieved using the [`ZSCORE`]({{< relref
 that can also be used to verify if an element already exists or not.
 
 For an introduction to sorted sets, see the data types page on [sorted
-sets][tdtss].
-
-[tdtss]: /develop/data-types#sorted-sets
+sets]({{< relref "/develop/data-types#sorted-sets" >}}).
 
 ### Elements with the same score
 

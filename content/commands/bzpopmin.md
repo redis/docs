@@ -75,11 +75,9 @@ non-empty, with the given keys being checked in the order that they are given.
 The `timeout` argument is interpreted as a double value specifying the maximum
 number of seconds to block. A timeout of zero can be used to block indefinitely.
 
-See the [BLPOP documentation][cl] for the exact semantics, since `BZPOPMIN` is
+See the [BLPOP documentation]({{< relref "/commands/blpop" >}}) for the exact semantics, since `BZPOPMIN` is
 identical to [`BLPOP`]({{< relref "/commands/blpop" >}}) with the only difference being the data structure being
 popped from.
-
-[cl]: /commands/blpop
 
 ## Required arguments
 

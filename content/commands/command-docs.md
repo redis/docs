@@ -86,9 +86,7 @@ The following keys may be included in the mapped reply:
   1. The Redis version that the entry applies to.
   2. The description of the change.
 * **arguments:** an array of maps that describe the command's arguments.
-  Please refer to the [Redis command arguments][td] page for more information.
-
-[td]: /develop/reference/command-arguments
+  Please refer to the [Redis command arguments]({{< relref "/develop/reference/command-arguments" >}}) page for more information.
 
 ## Optional arguments
 
