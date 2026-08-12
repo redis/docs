@@ -2,32 +2,34 @@
  * Redis Context Engine Agent (Redis Iris — Agent Memory)
  *
  * A conversational agent whose memory is fully managed by the Redis Iris
- * Context Engine. Instead of building your own vector index, embeddings, and
- * session store, the agent calls the managed Agent Memory service through the
- * official agent-memory-client:
+ * Context Engine on Redis Cloud. Instead of building your own vector index,
+ * embeddings, and session store, the agent calls the managed, store-scoped
+ * Agent Memory REST API directly:
  *
  * Features:
- *   - Working memory: the running conversation is stored per session
+ *   - Session memory: every user and assistant turn is stored as a session event
  *   - Long-term memory: the service extracts and promotes important facts;
  *     the agent searches them semantically each turn
- *   - Cross-session recall: relevant facts follow the user across conversations
+ *   - Session summaries: older turns are compacted into a summary the agent
+ *     folds back into context, so long conversations don't lose their history
  *   - No embeddings, vector index, or Redis schema to manage
  *
  * Each turn the agent:
  *   1. Searches long-term memory for facts relevant to the new message
- *   2. Loads working memory for short-term conversational context
+ *   2. Loads the session (recent events + compacted summary) for short-term context
  *   3. Calls the LLM with that memory injected into the system prompt
- *   4. Writes the user and assistant messages back to working memory
+ *   4. Writes the user and assistant messages back as session events
  *      (long-term facts are extracted and promoted automatically)
  *
  * To run this code:
  *   Install dependencies:
- *     npm install agent-memory-client openai dotenv
+ *     npm install openai dotenv
+ *     (Node.js 18+ is required for the built-in fetch used to call the API.)
  *
  *   Set environment variables (Agent Memory — from the Redis Cloud console):
  *     AGENT_MEMORY_URL=your_agent_memory_base_url
+ *     STORE_ID=your_store_id
  *     AGENT_MEMORY_API_KEY=your_agent_memory_api_key
- *     AGENT_MEMORY_NAMESPACE=my-app        (optional - groups memories)
  *
  *   Set environment variables (LLM):
  *     LLM_API_KEY=your_api_key_here
@@ -39,6 +41,9 @@
  *   entirely by the managed Agent Memory service — see
  *   https://redis.io/docs/latest/develop/ai/context-engine/agent-memory/
  *
+ *   To create an Agent Memory service and get the values above, follow the
+ *   Redis Cloud Agent Memory quickstart in the documentation.
+ *
  *   Run:
  *     node iris_agent.js
  */
@@ -46,23 +51,23 @@
 'use strict';
 
 require('dotenv').config();
-const { MemoryAPIClient } = require('agent-memory-client');
 const OpenAI = require('openai');
 const readline = require('readline');
 const crypto = require('crypto');
 
 // How many long-term memories to inject as relevant background each turn.
 const MAX_LONG_TERM_RESULTS = 5;
+// How many recent session events to load for short-term context each turn.
+const MAX_SESSION_EVENTS = 12;
 
 class ${AgentClassName} {
-    constructor(sessionId) {
-        // Managed Agent Memory client. The service owns the vector index,
-        // embeddings, and storage — this client just talks to its REST API.
-        this.memory = new MemoryAPIClient({
-            baseUrl: process.env.AGENT_MEMORY_URL,
-            apiKey: process.env.AGENT_MEMORY_API_KEY,
-            defaultNamespace: process.env.AGENT_MEMORY_NAMESPACE || 'default',
-        });
+    constructor(sessionId, actorId = 'user') {
+        // Managed Agent Memory service (Redis Cloud). The service owns the
+        // vector index, embeddings, and storage; we call its store-scoped
+        // REST API directly with fetch.
+        this.baseUrl = (process.env.AGENT_MEMORY_URL || '').replace(/\/$/, '');
+        this.storeId = process.env.STORE_ID;
+        this.apiKey = process.env.AGENT_MEMORY_API_KEY;
 
         // Chat LLM. Uses the OpenAI SDK with a configurable base URL so any
         // OpenAI-compatible provider works.
@@ -72,54 +77,90 @@ class ${AgentClassName} {
         });
         this.model = process.env.LLM_MODEL || '${CONFIG.models[formData.llmModel].defaultModel}';
 
-        // A session groups one conversation's working memory. Long-term memory
-        // is shared across all of a user's sessions.
+        // A session groups the events of one conversation. Long-term memory is
+        // shared across all of a user's sessions.
         this.sessionId = sessionId || `session-${crypto.randomBytes(6).toString('hex')}`;
+        this.actorId = actorId;
+    }
+
+    // Call the store-scoped Agent Memory API. Returns parsed JSON, or null on
+    // 404 (e.g. a session that doesn't exist yet).
+    async memoryRequest(method, path, body) {
+        const res = await fetch(`${this.baseUrl}/v1/stores/${this.storeId}${path}`, {
+            method,
+            headers: {
+                Authorization: `Bearer ${this.apiKey}`,
+                'Content-Type': 'application/json',
+            },
+            body: body ? JSON.stringify(body) : undefined,
+        });
+        if (res.status === 404) return null;
+        if (!res.ok) {
+            throw new Error(`Agent Memory ${method} ${path} -> ${res.status}: ${await res.text()}`);
+        }
+        return res.json();
     }
 
     // Semantic search over long-term memory for facts relevant to the query.
     async relevantMemories(query) {
         try {
-            const results = await this.memory.searchLongTermMemory({ text: query });
-            const memories = results.memories || results || [];
-            return memories.slice(0, MAX_LONG_TERM_RESULTS).map(m => m.text || String(m));
+            const results = await this.memoryRequest('POST', '/long-term-memory/search', { text: query });
+            const items = (results && results.items) || [];
+            return items.slice(0, MAX_LONG_TERM_RESULTS).map(item => item.text);
         } catch (err) {
             console.error(`[memory] long-term search unavailable: ${err.message}`);
             return [];
         }
     }
 
-    // Load working memory (recent messages) for short-term context.
-    async recentTurns() {
+    // Load the session: recent events for short-term context, plus the
+    // compacted summary of older turns the service has already summarized.
+    async loadSession() {
         try {
-            const working = await this.memory.getOrCreateWorkingMemory(this.sessionId);
-            const messages = (working && working.messages) || [];
-            return messages.map(m => ({
-                role: String(m.role).toLowerCase().endsWith('assistant') ? 'assistant' : 'user',
-                content: m.content,
+            const session = await this.memoryRequest('GET', `/session-memory/${this.sessionId}`);
+            if (!session) return { turns: [], summary: '' };
+            const events = (session.events || []).slice(-MAX_SESSION_EVENTS);
+            const turns = events.map(event => ({
+                role: String(event.role).toUpperCase() === 'ASSISTANT' ? 'assistant' : 'user',
+                content: (event.content || []).map(part => part.text || '').join(' '),
             }));
+            return { turns, summary: (session.summary && session.summary.text) || '' };
         } catch (err) {
-            console.error(`[memory] working memory unavailable: ${err.message}`);
-            return [];
+            console.error(`[memory] session load unavailable: ${err.message}`);
+            return { turns: [], summary: '' };
         }
     }
 
-    async ask(userInput) {
-        // 1. Pull relevant long-term facts and 2. recent conversation.
-        const facts = await this.relevantMemories(userInput);
-        const recent = await this.recentTurns();
+    // Persist one turn as a session event. Long-term promotion is automatic.
+    async recordEvent(role, text) {
+        await this.memoryRequest('POST', '/session-memory/events', {
+            sessionId: this.sessionId,
+            actorId: this.actorId,
+            role,
+            content: [{ text }],
+            createdAt: new Date().toISOString(),
+        });
+    }
 
-        const systemPrompt =
+    async ask(userInput) {
+        // 1. Relevant long-term facts and 2. this session's recent turns + summary.
+        const facts = await this.relevantMemories(userInput);
+        const { turns, summary } = await this.loadSession();
+
+        let systemPrompt =
             'You are a helpful assistant with persistent memory. ' +
             'Use the following remembered facts about the user when relevant. ' +
             'If nothing is relevant, answer normally.\n\n' +
             (facts.length
                 ? 'Relevant memories:\n' + facts.map(f => `- ${f}`).join('\n')
                 : 'Relevant memories: (none yet)');
+        if (summary) {
+            systemPrompt += `\n\nSummary of earlier conversation:\n${summary}`;
+        }
 
         const messages = [
             { role: 'system', content: systemPrompt },
-            ...recent,
+            ...turns,
             { role: 'user', content: userInput },
         ];
 
@@ -127,15 +168,9 @@ class ${AgentClassName} {
         const response = await this.llm.chat.completions.create({ model: this.model, messages });
         const answer = response.choices[0].message.content;
 
-        // 4. Append both turns to working memory. The service promotes durable
-        // facts to long-term memory automatically.
-        await this.memory.putWorkingMemory(this.sessionId, {
-            messages: [
-                ...recent,
-                { role: 'user', content: userInput },
-                { role: 'assistant', content: answer },
-            ],
-        });
+        // 4. Write both turns back as session events.
+        await this.recordEvent('USER', userInput);
+        await this.recordEvent('ASSISTANT', answer);
 
         return answer;
     }

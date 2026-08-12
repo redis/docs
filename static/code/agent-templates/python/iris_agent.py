@@ -93,12 +93,13 @@ class ${AgentClassName}:
         items = getattr(results, 'items', []) or []
         return [item.text for item in items[:MAX_LONG_TERM_RESULTS]]
 
-    def _recent_turns(self):
-        '''Load recent session events for short-term conversational context.'''
+    def _load_session(self):
+        '''Load the session: recent events for short-term context, plus the
+        compacted summary of older turns the service has already summarized.'''
         try:
             session = self.memory.get_session_memory(session_id=self.session_id)
         except Exception:
-            return []
+            return [], ''
 
         events = getattr(session, 'events', []) or []
         turns = []
@@ -114,7 +115,12 @@ class ${AgentClassName}:
                 'role': 'assistant' if str(role).upper().endswith('ASSISTANT') else 'user',
                 'content': text,
             })
-        return turns
+
+        # After summarization, older events are dropped from `events` and the
+        # compacted history is returned separately in `summary`.
+        summary_obj = getattr(session, 'summary', None)
+        summary = getattr(summary_obj, 'text', '') if summary_obj else ''
+        return turns, summary
 
     def _record(self, role, text):
         '''Persist one turn as a session event. Long-term promotion is automatic.'''
@@ -127,9 +133,9 @@ class ${AgentClassName}:
         )
 
     def ask(self, user_input):
-        # 1. Pull relevant long-term facts and 2. recent conversation.
+        # 1. Pull relevant long-term facts and 2. this session's recent turns + summary.
         facts = self._relevant_memories(user_input)
-        recent = self._recent_turns()
+        recent, summary = self._load_session()
 
         system_prompt = (
             'You are a helpful assistant with persistent memory. '
@@ -138,6 +144,8 @@ class ${AgentClassName}:
             + ('Relevant memories:\n' + '\n'.join(f'- {f}' for f in facts)
                if facts else 'Relevant memories: (none yet)')
         )
+        if summary:
+            system_prompt += f'\n\nSummary of earlier conversation:\n{summary}'
 
         messages = [{'role': 'system', 'content': system_prompt}]
         messages.extend(recent)
