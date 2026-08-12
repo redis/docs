@@ -23,10 +23,6 @@ The [main aggregations page]({{< relref "/develop/ai/search-and-query/advanced-c
 
 `GROUPBY` ... `REDUCE` ... `APPLY` ... `GROUPBY` ... `REDUCE`
 
-{{< note >}}
-The examples on this page are based on a hypothetical "products" data set, which you can [download here](./data/products.txt).
-{{< /note >}}
-
 ## Syntax and expression ordering
 
 The `FT.AGGREGATE` command processes multiple expressions in a pipeline. Below is the recommended order:

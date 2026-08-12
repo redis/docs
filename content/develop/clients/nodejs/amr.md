@@ -155,7 +155,7 @@ authorityConfig: {
   },
 // ...
 ```
-See Microsoft's [Authority]([Authority](https://learn.microsoft.com/en-us/entra/identity-platform/msal-client-application-configuration#authority))
+See Microsoft's [Authority](https://learn.microsoft.com/en-us/entra/identity-platform/msal-client-application-configuration#authority)
 docs for more information.
 
 ### Authenticate with a service principal
