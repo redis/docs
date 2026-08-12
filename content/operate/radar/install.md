@@ -61,6 +61,20 @@ Radar encrypts the cluster credentials you give it. Each tenant gets its own dat
 Back up the KEK alongside the database and store the backup separately. Either one alone is useless. If the API server and the worker read different keys, or a restored database is paired with the wrong key, credentials sealed with the old key cannot be decrypted, and Radar fails closed rather than silently losing them.
 {{< /warning >}}
 
+### FIPS mode
+
+If you need FIPS 140-3 validated cryptography, decide before you install: it is a separate build of Radar, not a setting you turn on afterwards. Contact your Redis account team for the FIPS variant.
+
+Set `MCM_REQUIRE_FIPS=true` to make FIPS mandatory. Radar then refuses to start unless FIPS is actually active, before it touches the database or opens a port, so a misconfigured deployment fails immediately instead of running with cryptography you did not approve.
+
+Each service logs its FIPS state once at startup, so you can confirm what is running:
+
+```text
+fips state service=mcm-api category=startup enabled=true required=true
+```
+
+`enabled` is the cryptography actually in effect. `required` is what you asked for. Both should read `true`.
+
 ### Sizing
 
 The worker is the usual bottleneck. It processes jobs concurrently, and every worker shares one durable queue in PostgreSQL, so adding workers adds throughput. Raise worker concurrency and add replicas as your fleet grows.
