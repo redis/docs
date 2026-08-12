@@ -66,9 +66,7 @@ Valid values for `event` are:
 * `fork`
 * `rdb-unlink-temp-file`
 
-For more information refer to the [Latency Monitoring Framework page][lm].
-
-[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+For more information refer to the [Latency Monitoring Framework page]({{< relref "/operate/oss_and_stack/management/optimization/latency-monitor.md" >}}).
 
 ## Optional arguments
 

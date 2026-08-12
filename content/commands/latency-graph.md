@@ -103,9 +103,7 @@ first graphed event happened 15 seconds ago.
 The graph is normalized in the min-max scale so that the zero (the underscore
 in the lower row) is the minimum, and a # in the higher row is the maximum.
 
-For more information refer to the [Latency Monitoring Framework page][lm].
-
-[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+For more information refer to the [Latency Monitoring Framework page]({{< relref "/operate/oss_and_stack/management/optimization/latency-monitor.md" >}}).
 
 ## Redis Software and Redis Cloud compatibility
 
