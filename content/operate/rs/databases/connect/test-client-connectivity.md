@@ -56,6 +56,8 @@ OK
 "123"
 ```
 
+To connect from your own machine rather than from a cluster node, you can [install the standalone `redis-cli` binary]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}) on Linux or macOS.
+
 For more `redis-cli` connection examples, see the [`redis-cli` reference]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}).
 
 ### Connect with Redis Insight
