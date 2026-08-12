@@ -35,7 +35,7 @@ Choose from four types of intelligent agents:
 - **Recommendation engines**: Personalized product and content recommendations
 - **Conversational assistants**: Chatbots with memory and context awareness
 - **Knowledge assistants**: RAG agents that ingest documents, answer questions with citations, and use semantic caching
-- **Context engine agents**: Conversational agents backed by the managed [Redis Iris Context Engine]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — session and long-term memory with no vector index to build
+- **Redis Iris conversational assistants**: Conversational agents backed by managed [Redis Iris Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — session and long-term memory with no vector index to build
 
 The agent builder will generate complete, working code examples for your chosen agent type.
 

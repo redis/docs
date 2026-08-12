@@ -1,5 +1,5 @@
 '''
-Redis Context Engine Agent (Redis Iris — Agent Memory)
+Redis Iris Conversational Assistant (Agent Memory)
 
 A conversational agent whose memory is fully managed by the Redis Iris
 Context Engine. Instead of building your own vector index, embeddings, and
@@ -164,7 +164,7 @@ class ${AgentClassName}:
 
 def main():
     agent = ${AgentClassName}()
-    print('Redis Context Engine Agent — type "exit" to quit.')
+    print('Redis Iris Conversational Assistant — type "exit" to quit.')
     print(f'Session: {agent.session_id}\n')
     while True:
         try:

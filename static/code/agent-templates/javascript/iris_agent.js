@@ -1,5 +1,5 @@
 /*
- * Redis Context Engine Agent (Redis Iris — Agent Memory)
+ * Redis Iris Conversational Assistant (Agent Memory)
  *
  * A conversational agent whose memory is fully managed by the Redis Iris
  * Context Engine on Redis Cloud. Instead of building your own vector index,
@@ -178,7 +178,7 @@ class ${AgentClassName} {
 
 async function main() {
     const agent = new ${AgentClassName}();
-    console.log('Redis Context Engine Agent — type "exit" to quit.');
+    console.log('Redis Iris Conversational Assistant — type "exit" to quit.');
     console.log(`Session: ${agent.sessionId}\n`);
 
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });

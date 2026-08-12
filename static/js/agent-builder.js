@@ -28,10 +28,10 @@
                 keywords: ["rag", "knowledge", "documents", "search", "retrieval", "qa", "question answering", "citations", "hybrid"]
             },
             iris: {
-                name: "Context Engine Agent",
-                description: "A conversational agent whose memory is fully managed by the Redis Iris Context Engine. It stores session events and semantically searches long-term memory through the managed Agent Memory service — no vector index or embeddings to build.",
+                name: "Redis Iris Conversational Assistant",
+                description: "A conversational assistant whose memory is managed by Redis Iris Agent Memory. It stores session events and semantically searches long-term memory through the managed service — no vector index or embeddings to build.",
                 features: ["Managed Agent Memory service", "Session (short-term) memory", "Semantic long-term memory search", "Cross-session recall"],
-                keywords: ["iris", "context engine", "context", "agent memory", "memory", "managed", "persistent", "long-term"]
+                keywords: ["iris", "context engine", "agent memory"]
             }
         },
         languages: {
@@ -407,7 +407,7 @@
                 recommendation: 'RecommendationEngine',
                 conversational: 'ConversationalAgent',
                 rag: 'KnowledgeAssistant',
-                iris: 'ContextEngineAgent'
+                iris: 'IrisConversationalAssistant'
             };
             conversationState.selections.agentName = defaultNames[selectedType] || 'RedisAgent';
 
@@ -426,7 +426,7 @@
                 { value: 'recommendation', label: '🛍️ Recommendation Engine' },
                 { value: 'conversational', label: '💬 Conversational Assistant' },
                 { value: 'rag', label: '🔍 Knowledge Assistant' },
-                { value: 'iris', label: '🧠 Context Engine Agent' }
+                { value: 'iris', label: '🧠 Redis Iris Conversational Assistant' }
             ]);
         }
     }
