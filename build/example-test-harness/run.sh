@@ -140,6 +140,17 @@ toolchain_skip_reason() { # $1 = set, $2 = canonical client key, $3 = repo-relat
         return
       fi
       ;;
+    hiredis)
+      # Unlike every other portable client, hiredis cannot be bootstrapped into work/:
+      # it is a system C library (headers + shared object), not a pip/npm/gem package.
+      # Skip loudly where it is absent rather than FAILing with a compile error that
+      # says nothing about the example.
+      if ! hiredis_prefix >/dev/null; then
+        printf 'hiredis headers not found (looked in %s) — install hiredis to test the C examples' \
+          "$(printf '%s, ' "${HIREDIS_PREFIXES[@]}" | sed 's/, $//')"
+        return
+      fi
+      ;;
     ruby)
       # redis-rb gained native hexpire/httl in 6.0.0, and 6.x requires Ruby >= 3.2. On an
       # older Ruby (macOS still ships 2.6) the Gemfile resolves 5.4.1, where hexpire falls
@@ -313,6 +324,26 @@ run_python() {
 run_ruby() {
   gem list -i redis >/dev/null 2>&1 || gem install --silent redis >/dev/null 2>&1
   ruby "$1" >"$LOG" 2>&1; rc=$?
+}
+# Prefixes searched for a hiredis install, in order. Homebrew uses /usr/local on Intel
+# macOS and /opt/homebrew on Apple silicon; Linux distro packages land in /usr.
+HIREDIS_PREFIXES=(/usr/local /opt/homebrew /usr)
+hiredis_prefix() { # prints the first prefix containing hiredis/hiredis.h; non-zero if none
+  local p
+  for p in "${HIREDIS_PREFIXES[@]}"; do
+    [ -f "$p/include/hiredis/hiredis.h" ] && { printf '%s' "$p"; return 0; }
+  done
+  return 1
+}
+run_hiredis() {
+  local d="$WORK/hiredis" p; mkdir -p "$d"
+  p="$(hiredis_prefix)"
+  # -rpath bakes the library path into the binary, so it runs without callers having to
+  # set DYLD_LIBRARY_PATH (macOS) or LD_LIBRARY_PATH (Linux). On compile failure the
+  # compiler diagnostics stay in $LOG; on success the program's own output replaces them.
+  cc -I"$p/include" -L"$p/lib" -Wl,-rpath,"$p/lib" -lhiredis "$1" -o "$d/example" >"$LOG" 2>&1 \
+    && "$d/example" >"$LOG" 2>&1
+  rc=$?
 }
 run_node() {
   local d="$WORK/node"; mkdir -p "$d"
