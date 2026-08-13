@@ -221,32 +221,25 @@ if not allowed:
     response.headers['Retry-After'] = str(int(limiter.refill_interval))
 ```
 
-## Learn more
+## Alternative rate limiting algorithms
 
-* [EVAL command]({{< relref "/commands/eval" >}}) - Execute Lua scripts
-* [EVALSHA command]({{< relref "/commands/evalsha" >}}) - Execute cached Lua scripts
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Introduction to Redis Lua scripting
-* [HMGET command]({{< relref "/commands/hmget" >}}) - Get multiple hash fields
-* [HMSET command]({{< relref "/commands/hmset" >}}) - Set multiple hash fields
-* [Transactions]({{< relref "/develop/using-commands/transactions" >}}) - Alternative to Lua scripts for atomicity
-
-## Additional rate limiting algorithms
-
-The token bucket algorithm above handles most use cases. Redis supports
-four other patterns depending on your requirements. All implementations
-below use `redis.call('TIME')` inside the Lua script to derive the
-current timestamp from the Redis server clock — this eliminates clock
-drift when the limiter runs across multiple application servers.
-
-### Algorithm comparison
+The token bucket algorithm above handles most use cases but Redis supports
+other rate limiter patterns that might fit your requirements better. The table
+below lists four other algorithms alongside token bucket and summarizes
+their features:
 
 | Algorithm | Memory | Accuracy | Burst behavior | Best for |
 |---|---|---|---|---|
-| Token bucket | 1 key (hash) | Exact | Controlled bursts | APIs with bursty traffic |
-| Fixed window | 1 key (string) | Approximate | 2x burst at boundaries | Simple API limits |
-| Sliding window log | O(n) entries | Exact | No bursts | High-value APIs, audit trails |
-| Sliding window counter | 2 keys (string) | Near-exact | Smoothed boundaries | General-purpose APIs |
-| Leaky bucket (policing) | 1 key (hash) | Exact | No bursts | Strict no-burst enforcement |
+| [Token bucket](#how-it-works) | 1 key (hash) | Exact | Controlled bursts | APIs with bursty traffic |
+| [Fixed window counter](#fixed-window-counter) | 1 key (string) | Approximate | 2x burst at boundaries | Simple API limits |
+| [Sliding window log](#sliding-window-log) | O(n) entries | Exact | No bursts | High-value APIs, audit trails |
+| [Sliding window counter](#sliding-window-counter) | 2 keys (string) | Near-exact | Smoothed boundaries | General-purpose APIs |
+| [Leaky bucket (policing)](#leaky-bucket-policing) | 1 key (hash) | Exact | No bursts | Strict no-burst enforcement |
+
+The sections below give example implementations of these other algorithms.
+All of them use `redis.call('TIME')` inside the Lua script to derive the
+current timestamp from the Redis server clock. This eliminates clock
+drift when the limiter runs across multiple application servers.
 
 ### Fixed window counter
 
@@ -343,15 +336,21 @@ footprint as a fixed window. The two keys use hash tags so they map
 to the same slot in Redis Cluster.
 
 ```python
-import time
 import redis
 
 SCRIPT = """
-local curr_key = KEYS[1]
-local prev_key = KEYS[2]
-local limit    = tonumber(ARGV[1])
-local window   = tonumber(ARGV[2])
-local elapsed  = tonumber(ARGV[3])
+local base   = KEYS[1]
+local limit  = tonumber(ARGV[1])
+local window = tonumber(ARGV[2])
+
+local t   = redis.call('TIME')
+local now = tonumber(t[1]) + tonumber(t[2]) / 1e6
+
+local window_num = math.floor(now / window)
+local elapsed     = (now % window) / window
+
+local curr_key = base .. ':' .. window_num
+local prev_key = base .. ':' .. (window_num - 1)
 
 local prev = tonumber(redis.call('GET', prev_key) or 0)
 local curr = tonumber(redis.call('GET', curr_key) or 0)
@@ -372,15 +371,10 @@ return {1, 0}
 
 
 def is_allowed(client: redis.Redis, key: str, limit: int, window_seconds: int) -> dict:
-    now = time.time()
-    window_num = int(now // window_seconds)
-    elapsed = (now % window_seconds) / window_seconds
-    curr_key = "{" + key + "}:" + str(window_num)
-    prev_key = "{" + key + "}:" + str(window_num - 1)
     script = client.register_script(SCRIPT)
     allowed, _ = script(
-        keys=[curr_key, prev_key],
-        args=[limit, window_seconds, elapsed],
+        keys=["{" + key + "}"],
+        args=[limit, window_seconds],
         client=client,
     )
     return {"allowed": bool(allowed)}
@@ -389,7 +383,7 @@ def is_allowed(client: redis.Redis, key: str, limit: int, window_seconds: int) -
 **Trade-off**: The weighted estimate may let slightly more or fewer
 requests through than the exact limit. Negligible for most apps.
 
-### Leaky bucket (policing mode)
+### Leaky bucket (policing)
 
 A virtual bucket fills with incoming requests and drains at a fixed rate.
 If the bucket is full, requests are rejected immediately. This is the
@@ -448,15 +442,12 @@ def is_allowed(client: redis.Redis, key: str, capacity: int, leak_rate: float) -
 **Trade-off**: Overflow traffic is rejected immediately. Clients must
 handle `429 Too Many Requests` and retry with backoff.
 
-### Choosing an algorithm
+## Learn more
 
-- **Most APIs**: sliding window counter — near-exact accuracy, low memory, no boundary bursts
-- **Need exact timestamps or audit trail**: sliding window log
-- **Allow short bursts**: token bucket (see the main implementation above)
-- **Strict no-burst, immediate deny**: leaky bucket (policing)
-- **Simplest possible**: fixed window
-
-A complete runnable implementation of all five algorithms with a demo
-script is available at
-[redis-rate-limiting-python](https://github.com/YashwinReddy29/redis-rate-limiting-python)
-on GitHub.
+* [EVAL command]({{< relref "/commands/eval" >}}) - Execute Lua scripts
+* [EVALSHA command]({{< relref "/commands/evalsha" >}}) - Execute cached Lua scripts
+* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Introduction to Redis Lua scripting
+* [HMGET command]({{< relref "/commands/hmget" >}}) - Get multiple hash fields
+* [HMSET command]({{< relref "/commands/hmset" >}}) - Set multiple hash fields
+* [Transactions]({{< relref "/develop/using-commands/transactions" >}}) - Alternative to Lua scripts for atomicity
+* [redis-rate-limiting-python](https://github.com/YashwinReddy29/redis-rate-limiting-python) - community-maintained GitHub repo (contributed by Yashwin Reddy) with examples of the alternative rate limiting algorithms.
