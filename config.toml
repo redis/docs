@@ -27,6 +27,12 @@ ignoreFiles = [
   "/__pycache__/",       # Python bytecode cache
   "/models/",            # Hugot model cache
   "/\\.transformers-cache/",  # TransformersPHP cache
+  # AI-audience convention files. These live beside the pages they describe so
+  # coding agents load them by directory, but they are not documentation and must
+  # never render: Hugo turns any .md under content/ into a published page.
+  "AGENTS\\.md$",
+  "CLAUDE\\.md$",
+  "CLAUDE\\.local\\.md$",
 ]
 
 [related]
