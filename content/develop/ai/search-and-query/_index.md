@@ -46,7 +46,7 @@ Here are the next steps to get you started:
 1. Learn how to [create an index]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
 1. Learn how to [query your data]({{< relref "/develop/ai/search-and-query/query/" >}}).
 1. [Install Redis Insight]({{< relref "/operate/redisinsight" >}}), connect it to your Redis database, and then use [Redis Copilot]({{< relref "/develop/tools/insight" >}}#redis-copilot) to help you learn how to execute complex queries against your own data using simple, plain language prompts.
-1. Want working code to start from? Open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template to generate a complete RAG agent built on Redis vector search.
+1. Open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template to generate a working RAG agent built on Redis vector search.
 
 {{< alert title="Try it out" >}}
 Experiment with Redis Search interactively in the [Redis playground](https://redis.io/try/sandbox) — no installation required.

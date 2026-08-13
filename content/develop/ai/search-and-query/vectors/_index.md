@@ -22,7 +22,7 @@ weight: 8
 
 Redis includes a [high-performance vector database](https://redis.io/blog/benchmarking-results-for-vector-databases/) that lets you perform semantic searches over vector embeddings. You can augment these searches with filtering over text, numerical, geospatial, and tag metadata.
 
-To quickly get started, check out the [Redis vector quickstart guide]({{< relref "develop/get-started/search-tutorial/vector-search" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo. For a ready-to-run example, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template.
+To quickly get started, check out the [Redis vector quickstart guide]({{< relref "develop/get-started/search-tutorial/vector-search" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo. To generate a working example, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template.
 
 {{< alert title="See vector search in action" >}}
 [Redis Repo Memory](https://github.com/marketplace/actions/redis-repo-memory) is a GitHub Action that gives your repository a memory: on every pull request it embeds the change and uses Redis KNN vector search to surface semantically related past PRs, issues, and commits — a concise, real-world example of the concepts on this page. See the [source on GitHub](https://github.com/redis-learn/redis-repo-memory).

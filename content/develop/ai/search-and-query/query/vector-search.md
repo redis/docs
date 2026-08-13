@@ -22,7 +22,7 @@ This article gives you a good overview of how to perform vector search queries w
 A vector search query on a vector field allows you to find all vectors in a vector space that are close to a given vector. You can query for the k-nearest neighbors or vectors within a given radius.
 
 {{< tip >}}
-Want a working example instead of building from scratch? Open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template to generate a complete RAG agent that uses the vector search queries described here.
+To generate a complete RAG agent that uses the vector search queries described here, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template.
 {{< /tip >}}
 
 The examples in this article use a schema with the following fields:

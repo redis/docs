@@ -30,7 +30,7 @@ RAG enables LLMs to use real-time information, improving the accuracy and releva
 Redis is ideal for RAG due to its speed, versatility, and familiarity.
 
 {{< tip >}}
-Prefer to start from working code? Open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template — it generates a complete RAG agent with document ingestion, hybrid retrieval, and citations.
+To generate a complete RAG agent with document ingestion, hybrid retrieval, and citations, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template.
 {{< /tip >}}
 
 ### The role of Redis in RAG
