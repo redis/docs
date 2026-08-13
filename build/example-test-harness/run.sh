@@ -64,6 +64,16 @@ clients_for_mode() {
     awk -F'\t' '!/^#/ && NF>1 && $11!="-" {print $1}' "$TSV"
   fi
 }
+# The inverse: clients this mode cannot test at all. They never enter the drive loop, so
+# without an explicit row they produce NO output — indistinguishable from a pass when
+# scanning the summary. That is exactly how the C examples went untested unnoticed.
+clients_excluded_for_mode() {
+  if [ "$MODE" = fidelity ]; then
+    awk -F'\t' '!/^#/ && NF>1 && $9=="-" {print $1}' "$TSV"
+  else
+    awk -F'\t' '!/^#/ && NF>1 && $11=="-" {print $1}' "$TSV"
+  fi
+}
 
 CLIENTS_ALL=()
 while IFS= read -r c; do [ -n "$c" ] && CLIENTS_ALL+=("$c"); done < <(clients_for_mode)
@@ -338,10 +348,14 @@ hiredis_prefix() { # prints the first prefix containing hiredis/hiredis.h; non-z
 run_hiredis() {
   local d="$WORK/hiredis" p; mkdir -p "$d"
   p="$(hiredis_prefix)"
+  # Source FIRST, then -lhiredis: GNU ld resolves left to right, and Debian/Ubuntu default
+  # to --as-needed, which drops a library listed before any undefined symbol references it.
+  # macOS/ld64 tolerates either order, so getting this wrong fails only on Linux. Matches
+  # the order bootstrap.sh already uses for the fidelity C build.
   # -rpath bakes the library path into the binary, so it runs without callers having to
   # set DYLD_LIBRARY_PATH (macOS) or LD_LIBRARY_PATH (Linux). On compile failure the
   # compiler diagnostics stay in $LOG; on success the program's own output replaces them.
-  cc -I"$p/include" -L"$p/lib" -Wl,-rpath,"$p/lib" -lhiredis "$1" -o "$d/example" >"$LOG" 2>&1 \
+  cc "$1" -I"$p/include" -L"$p/lib" -Wl,-rpath,"$p/lib" -lhiredis -o "$d/example" >"$LOG" 2>&1 \
     && "$d/example" >"$LOG" 2>&1
   rc=$?
 }
@@ -615,6 +629,20 @@ for c in "${CLIENTS[@]}"; do
   if [ "${rc:-1}" -eq 0 ]; then SUMMARY+=("$c	PASS"); log ">> $c: PASS"
   else SUMMARY+=("$c	FAIL (results/${SET}_${c}.log)"); log ">> $c: FAIL"; fi
 done
+
+# Report the clients this mode cannot test, so "absent from the table" never masquerades as
+# "passed". Only on a full sweep — when clients were named explicitly, the existing "no
+# portable runner" FAIL already covers it.
+if [ $# -eq 0 ]; then
+  while IFS= read -r c; do
+    [ -n "$c" ] || continue
+    if [ "$MODE" = fidelity ]; then
+      SUMMARY+=("$c	SKIP (no fidelity dir in clients.tsv; portable only)")
+    else
+      SUMMARY+=("$c	SKIP (no portable runner in clients.tsv; try --fidelity)")
+    fi
+  done < <(clients_excluded_for_mode)
+fi
 
 log ""; log "=== RESULTS: $SET ==="
 for e in "${SUMMARY[@]}"; do printf '  %-18s %s\n' "${e%%	*}" "${e#*	}"; done
