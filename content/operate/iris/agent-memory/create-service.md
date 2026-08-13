@@ -169,18 +169,7 @@ For example, a prompt might tell the pipeline never to keep passwords, access to
 
 Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
 
-#### Where exclusions apply
-
-Semantic exclusions apply to the memory paths that use the extraction model:
-
-- Automatic extraction of built-in long-term memory types from session memory, including the `session_summary_view` recap kept for each session.
-- Extraction for [custom memory types](#custom-memory-types).
-
-They do not apply to:
-
-- Long-term memories your application creates directly through the API or an SDK.
-- The session events stored in short-term memory, which are always kept as sent.
-- [Automatic summarization](#automatic-summarization), which compresses older messages within a session and does not write to long-term memory.
+Exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent.
 
 #### Exclusion prompt rules
 
