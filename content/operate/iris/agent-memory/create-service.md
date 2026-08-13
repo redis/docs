@@ -64,6 +64,7 @@ If you lose the service key value, you will need to [generate a new service key]
     1. The [General settings](#general-settings) section defines basic properties of your service.
     1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
     1. The [Memory types & extraction](#memory-types-and-extraction) section allows you to define custom memory types with their own extraction strategies.
+    1. The [Sensitive-data exclusions](#sensitive-data-exclusions) section allows you to keep sensitive content out of long-term memory.
 
 ### General settings
 
@@ -143,22 +144,32 @@ Each custom memory type can have an **extraction strategy** that controls how th
 
 ### Sensitive-data exclusions {#sensitive-data-exclusions}
 
-The **Sensitive-data exclusions** section lets you guide automatic extraction away from information that should not be stored in long-term memory. Semantic exclusions can match concepts that a literal pattern might not cover, such as secrets, recovery codes, and similar information.
+The **Sensitive-data exclusions** section lets you define information that should not be kept in long-term memory.
 
-| Setting name | Description |
-|:-------------|:------------|
-| **Semantic exclusions** | Whether the extraction model applies the exclusion prompt when creating long-term memories from session events. |
-| **Exclusion prompt** | Plain-language instructions describing information that should not be kept in long-term memory. Maximum length: 2,000 characters. |
+{{< note >}}
+Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
+{{< /note >}}
 
-For example:
+{{<image filename="images/rc/agent-memory-sensitive-data-exclusions.png" alt="The Sensitive-data exclusions section." >}}
 
-```text
-Do not keep passwords, access tokens, recovery codes, payment card information, or booking confirmation codes in long-term memory.
-```
+#### Semantic exclusions
 
-{{< warning >}}
-Sensitive-data exclusions are advisory and do not guarantee that information is excluded. Sensitive session content still reaches the extraction model provider. Exclusions do not apply to long-term memories created directly through the API or an SDK.
-{{< /warning >}}
+Semantic exclusions let you describe, in plain language, what should not be kept. They catch concepts that a fixed pattern cannot, such as secrets or account recovery codes. They are disabled by default. Use the **Semantic exclusions** toggle to enable them, then describe what to exclude.
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Semantic exclusions** | Whether semantic exclusions are applied when memories are extracted. Disabled by default. |
+| **Exclusion prompt** | A plain-language description, up to 2,000 characters, of what should never be kept in long-term memory. Required when semantic exclusions are enabled. |
+
+For example, a prompt might tell the pipeline never to keep passwords, access tokens, recovery codes, payment card information, or booking confirmation codes, and to keep only a general memory when a conversation includes them.
+
+Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
+
+Semantic exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent.
+
+{{<warning>}}
+Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Sensitive session content still reaches the extraction model provider, and they are not applied to long-term memories your application creates directly through the API or an SDK. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
+{{</warning>}}
 
 ### Create service
 
