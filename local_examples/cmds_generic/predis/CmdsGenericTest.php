@@ -68,5 +68,65 @@ extends TestCase
         $r->del('firstname', 'lastname', 'age');
         // REMOVE_END
 
+        // STEP_START scan1
+        $scan1Result1 = $r->sadd('myset', ['1', '2', '3', 'foo', 'foobar', 'feelsgood']);
+        echo $scan1Result1 . PHP_EOL;                       // >>> 6
+
+        [$scan1Cursor, $scan1Members] = $r->sscan('myset', 0, ['MATCH' => 'f*']);
+        sort($scan1Members);
+        echo implode(', ', $scan1Members) . PHP_EOL;         // >>> feelsgood, foo, foobar
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals(6, $scan1Result1);
+        $this->assertEquals(['feelsgood', 'foo', 'foobar'], $scan1Members);
+        $r->del('myset');
+        // REMOVE_END
+
+        // STEP_START scan2
+        // REMOVE_START
+        for ($i = 1; $i <= 1000; $i++) {
+            $r->set("key:$i", $i);
+        }
+        // REMOVE_END
+
+        // MATCH is applied after elements are fetched, so with the default COUNT most
+        // iterations return few keys or none at all.
+        $scan2Cursor = 0;
+
+        for ($i = 0; $i < 4; $i++) {
+            [$scan2Cursor, $scan2Keys] = $r->scan($scan2Cursor, ['MATCH' => '*11*']);
+            echo count($scan2Keys) . PHP_EOL;
+        }
+
+        // A larger COUNT forces more scanning in a single iteration, so the remaining
+        // matches arrive together. This continues from the cursor reached above.
+        [$scan2Cursor, $scan2Keys] = $r->scan($scan2Cursor, ['MATCH' => '*11*', 'COUNT' => 1000]);
+        echo count($scan2Keys) . PHP_EOL;                    // >>> 18
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals(18, count($scan2Keys));
+        $r->flushdb();
+        // REMOVE_END
+
+        // STEP_START scan4
+        $scan4Result1 = $r->hset('myhash', 'a', 1, 'b', 2);
+        echo $scan4Result1 . PHP_EOL;                        // >>> 2
+
+        [$scan4Cursor, $scan4Pairs] = $r->hscan('myhash', 0);
+        echo json_encode($scan4Pairs) . PHP_EOL;             // >>> {"a":"1","b":"2"}
+
+        [$scan4Cursor, $scan4Fields] = $r->hscan('myhash', 0, ['NOVALUES' => true]);
+        echo implode(', ', $scan4Fields) . PHP_EOL;          // >>> a, b
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals(2, $scan4Result1);
+        $this->assertEquals(['a' => '1', 'b' => '2'], $scan4Pairs);
+        $this->assertEquals(['a', 'b'], $scan4Fields);
+        $r->del('myhash');
+        // REMOVE_END
+
     }
 }

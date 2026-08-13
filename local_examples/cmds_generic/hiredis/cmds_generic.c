@@ -91,6 +91,141 @@ int main(int argc, char **argv) {
     freeReplyObject(reply);
     // REMOVE_END
 
+    // STEP_START scan1
+    reply = redisCommand(c, "SADD myset 1 2 3 foo foobar feelsgood");
+    printf("%lld\n", reply->integer);
+    // >>> 6
+    freeReplyObject(reply);
+
+    // SCAN-family replies are a two-element array: the next cursor, then the results.
+    reply = redisCommand(c, "SSCAN myset 0 MATCH f*");
+    printf("%zu\n", reply->element[1]->elements);
+    // >>> 3
+    // REMOVE_START
+    if (reply->element[1]->elements != 3) {
+        printf("ASSERTION FAILED: Expected 3 members, got %zu\n", reply->element[1]->elements);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    // REMOVE_START
+    reply = redisCommand(c, "DEL myset");
+    freeReplyObject(reply);
+
+    for (int i = 1; i <= 1000; i++) {
+        reply = redisCommand(c, "SET key:%d %d", i, i);
+        freeReplyObject(reply);
+    }
+    // REMOVE_END
+
+    // STEP_START scan2
+    // MATCH is applied after elements are fetched, so with the default COUNT most
+    // iterations return few keys or none at all.
+    char cursor[64] = "0";
+
+    for (int i = 0; i < 4; i++) {
+        reply = redisCommand(c, "SCAN %s MATCH *11*", cursor);
+        snprintf(cursor, sizeof(cursor), "%s", reply->element[0]->str);
+        printf("%zu\n", reply->element[1]->elements);
+        freeReplyObject(reply);
+    }
+
+    // A larger COUNT forces more scanning in a single iteration, so the remaining
+    // matches arrive together. This continues from the cursor reached above.
+    reply = redisCommand(c, "SCAN %s MATCH *11* COUNT 1000", cursor);
+    printf("%zu\n", reply->element[1]->elements);
+    // >>> 18
+    // REMOVE_START
+    if (reply->element[1]->elements != 18) {
+        printf("ASSERTION FAILED: Expected 18 keys, got %zu\n", reply->element[1]->elements);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    // REMOVE_START
+    reply = redisCommand(c, "FLUSHDB");
+    freeReplyObject(reply);
+    // REMOVE_END
+
+    // STEP_START scan3
+    reply = redisCommand(c, "GEOADD geokey 0 0 value");
+    printf("%lld\n", reply->integer);
+    // >>> 1
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "ZADD zkey 1000 value");
+    printf("%lld\n", reply->integer);
+    // >>> 1
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "TYPE geokey");
+    printf("%s\n", reply->str);
+    // >>> zset
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "TYPE zkey");
+    printf("%s\n", reply->str);
+    // >>> zset
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "SCAN 0 TYPE zset");
+    printf("%zu\n", reply->element[1]->elements);
+    // >>> 2
+    // REMOVE_START
+    if (reply->element[1]->elements != 2) {
+        printf("ASSERTION FAILED: Expected 2 keys, got %zu\n", reply->element[1]->elements);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    // REMOVE_START
+    reply = redisCommand(c, "DEL geokey zkey");
+    freeReplyObject(reply);
+    // REMOVE_END
+
+    // STEP_START scan4
+    reply = redisCommand(c, "HSET myhash a 1 b 2");
+    printf("%lld\n", reply->integer);
+    // >>> 2
+    freeReplyObject(reply);
+
+    // Without NOVALUES the results alternate field, value, field, value.
+    reply = redisCommand(c, "HSCAN myhash 0");
+    for (size_t i = 0; i < reply->element[1]->elements; i += 2) {
+        printf("%s=%s\n", reply->element[1]->element[i]->str,
+                           reply->element[1]->element[i + 1]->str);
+    }
+    // >>> a=1
+    // >>> b=2
+    // REMOVE_START
+    if (reply->element[1]->elements != 4) {
+        printf("ASSERTION FAILED: Expected 4 entries, got %zu\n", reply->element[1]->elements);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "HSCAN myhash 0 NOVALUES");
+    for (size_t i = 0; i < reply->element[1]->elements; i++) {
+        printf("%s\n", reply->element[1]->element[i]->str);
+    }
+    // >>> a
+    // >>> b
+    // REMOVE_START
+    if (reply->element[1]->elements != 2) {
+        printf("ASSERTION FAILED: Expected 2 fields, got %zu\n", reply->element[1]->elements);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    // REMOVE_START
+    reply = redisCommand(c, "DEL myhash");
+    freeReplyObject(reply);
+    // REMOVE_END
+
     // STEP_START disconnect
     redisFree(c);
     // STEP_END
