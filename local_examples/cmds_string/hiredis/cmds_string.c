@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     // STEP_END
 
     // REMOVE_START
-    redisReply *cleanup = redisCommand(c, "DEL key1 key2 nonexisting");
+    redisReply *cleanup = redisCommand(c, "DEL key1 key2 mykey nonexisting");
     freeReplyObject(cleanup);
     // REMOVE_END
 
@@ -67,7 +67,35 @@ int main(int argc, char **argv) {
     // REMOVE_END
 
     freeReplyObject(reply);
-    redisReply *cleanup2 = redisCommand(c, "DEL key1 key2 nonexisting");
+
+    // STEP_START incr
+    reply = redisCommand(c, "SET mykey 10");
+    printf("%s\n", reply->str);
+    // >>> OK
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "INCR mykey");
+    printf("%lld\n", reply->integer);
+    // >>> 11
+    // REMOVE_START
+    if (reply->integer != 11) {
+        printf("ASSERTION FAILED: Expected 11, got %lld\n", reply->integer);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "GET mykey");
+    printf("%s\n", reply->str);
+    // >>> 11
+    // REMOVE_START
+    if (strcmp(reply->str, "11") != 0) {
+        printf("ASSERTION FAILED: Expected '11', got '%s'\n", reply->str);
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    redisReply *cleanup2 = redisCommand(c, "DEL key1 key2 mykey nonexisting");
     freeReplyObject(cleanup2);
 
     // STEP_START disconnect

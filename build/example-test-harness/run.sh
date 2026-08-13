@@ -64,6 +64,16 @@ clients_for_mode() {
     awk -F'\t' '!/^#/ && NF>1 && $11!="-" {print $1}' "$TSV"
   fi
 }
+# The inverse: clients this mode cannot test at all. They never enter the drive loop, so
+# without an explicit row they produce NO output — indistinguishable from a pass when
+# scanning the summary. That is exactly how the C examples went untested unnoticed.
+clients_excluded_for_mode() {
+  if [ "$MODE" = fidelity ]; then
+    awk -F'\t' '!/^#/ && NF>1 && $9=="-" {print $1}' "$TSV"
+  else
+    awk -F'\t' '!/^#/ && NF>1 && $11=="-" {print $1}' "$TSV"
+  fi
+}
 
 CLIENTS_ALL=()
 while IFS= read -r c; do [ -n "$c" ] && CLIENTS_ALL+=("$c"); done < <(clients_for_mode)
@@ -137,6 +147,17 @@ toolchain_skip_reason() { # $1 = set, $2 = canonical client key, $3 = repo-relat
         fi
       elif [ -z "$have" ]; then
         printf 'no go toolchain found on PATH'
+        return
+      fi
+      ;;
+    hiredis)
+      # Unlike every other portable client, hiredis cannot be bootstrapped into work/:
+      # it is a system C library (headers + shared object), not a pip/npm/gem package.
+      # Skip loudly where it is absent rather than FAILing with a compile error that
+      # says nothing about the example.
+      if ! hiredis_prefix >/dev/null; then
+        printf 'hiredis headers not found (looked in %s) — install hiredis to test the C examples' \
+          "$(printf '%s, ' "${HIREDIS_PREFIXES[@]}" | sed 's/, $//')"
         return
       fi
       ;;
@@ -313,6 +334,30 @@ run_python() {
 run_ruby() {
   gem list -i redis >/dev/null 2>&1 || gem install --silent redis >/dev/null 2>&1
   ruby "$1" >"$LOG" 2>&1; rc=$?
+}
+# Prefixes searched for a hiredis install, in order. Homebrew uses /usr/local on Intel
+# macOS and /opt/homebrew on Apple silicon; Linux distro packages land in /usr.
+HIREDIS_PREFIXES=(/usr/local /opt/homebrew /usr)
+hiredis_prefix() { # prints the first prefix containing hiredis/hiredis.h; non-zero if none
+  local p
+  for p in "${HIREDIS_PREFIXES[@]}"; do
+    [ -f "$p/include/hiredis/hiredis.h" ] && { printf '%s' "$p"; return 0; }
+  done
+  return 1
+}
+run_hiredis() {
+  local d="$WORK/hiredis" p; mkdir -p "$d"
+  p="$(hiredis_prefix)"
+  # Source FIRST, then -lhiredis: GNU ld resolves left to right, and Debian/Ubuntu default
+  # to --as-needed, which drops a library listed before any undefined symbol references it.
+  # macOS/ld64 tolerates either order, so getting this wrong fails only on Linux. Matches
+  # the order bootstrap.sh already uses for the fidelity C build.
+  # -rpath bakes the library path into the binary, so it runs without callers having to
+  # set DYLD_LIBRARY_PATH (macOS) or LD_LIBRARY_PATH (Linux). On compile failure the
+  # compiler diagnostics stay in $LOG; on success the program's own output replaces them.
+  cc "$1" -I"$p/include" -L"$p/lib" -Wl,-rpath,"$p/lib" -lhiredis -o "$d/example" >"$LOG" 2>&1 \
+    && "$d/example" >"$LOG" 2>&1
+  rc=$?
 }
 run_node() {
   local d="$WORK/node"; mkdir -p "$d"
@@ -584,6 +629,20 @@ for c in "${CLIENTS[@]}"; do
   if [ "${rc:-1}" -eq 0 ]; then SUMMARY+=("$c	PASS"); log ">> $c: PASS"
   else SUMMARY+=("$c	FAIL (results/${SET}_${c}.log)"); log ">> $c: FAIL"; fi
 done
+
+# Report the clients this mode cannot test, so "absent from the table" never masquerades as
+# "passed". Only on a full sweep — when clients were named explicitly, the existing "no
+# portable runner" FAIL already covers it.
+if [ $# -eq 0 ]; then
+  while IFS= read -r c; do
+    [ -n "$c" ] || continue
+    if [ "$MODE" = fidelity ]; then
+      SUMMARY+=("$c	SKIP (no fidelity dir in clients.tsv; portable only)")
+    else
+      SUMMARY+=("$c	SKIP (no portable runner in clients.tsv; try --fidelity)")
+    fi
+  done < <(clients_excluded_for_mode)
+fi
 
 log ""; log "=== RESULTS: $SET ==="
 for e in "${SUMMARY[@]}"; do printf '  %-18s %s\n' "${e%%	*}" "${e#*	}"; done

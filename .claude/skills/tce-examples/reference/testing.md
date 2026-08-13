@@ -10,8 +10,24 @@ Two environments and one Codex gate. Client identity for all of them comes from
 | Dependencies | self-bootstrapped into `work/`, **cached** | tracked manifests in `fidelity/`, reinstalled every run |
 | Client repos | none needed | clones required (`bootstrap.sh`) |
 | C# / PHP | local stubs (`dotnet/stubs.cs`) | the real `Doc.csproj` / real PHPUnit |
-| Clients | 13 (no C) | 13 (no RedisVL) |
+| Clients | 17 of the 18 in `clients.tsv` (no RedisVL) | 17 of the 18 (no RedisVL) |
 | Speed | seconds once warm | minutes — full toolchain install per client |
+
+**C (hiredis) is the one client portable mode cannot bootstrap.** Every other portable
+runner installs its dependency into `work/` (`pip install redis`, `npm i redis`,
+`gem install redis`); hiredis is a system C library, so `run_hiredis` compiles against
+an existing install, searching `/usr/local`, `/opt/homebrew`, then `/usr` for
+`include/hiredis/hiredis.h` and baking the library path in with `-rpath`. Where hiredis
+is absent it reports `SKIP (hiredis headers not found ...)` rather than a compile-error
+FAIL, so a green run on a box without it still says nothing about the C examples —
+check for the SKIP rather than assuming coverage.
+
+**A client whose `portable` column is `-` is filtered out of the run list entirely**
+by `clients_for_mode()` — it gets no row at all, not a `SKIP`. The "no portable runner"
+FAIL branch only fires if you name that client explicitly on the command line. So
+"absent from the results table" and "passed" look identical when scanning output; count
+the rows against `clients.tsv` if coverage matters. (RedisVL is the only such client
+now.)
 
 **Iterate in portable, confirm in fidelity.** Portable is the fast loop because `work/`
 persists between runs. Fidelity is the pre-merge check: it runs the example the way the

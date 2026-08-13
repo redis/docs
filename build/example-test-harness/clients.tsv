@@ -52,7 +52,7 @@ lettuce-sync	Lettuce-Sync	lettuce_sync	lettuce_sync	lettuce-sync	lettuce-sync	{S
 lettuce-async	Java-Async	lettuce_async	lettuce_async	lettuce-async	lettuce-async	{Set}Example.java	src/test/java/io/redis/examples/async	lettuce-async	src/test/java/io/redis/examples/async	lettuce-async
 lettuce-reactive	Java-Reactive	lettuce_reactive	lettuce_reactive	lettuce-reactive	lettuce-reactive	{Set}Example.java	src/test/java/io/redis/examples/reactive	lettuce-reactive	src/test/java/io/redis/examples/reactive	lettuce-reactive
 go-redis	Go	go_redis	go-redis	go-redis|go	go-redis	{set}_test.go	doctests	go-redis	.	go
-hiredis	C	hi_redis	-	hiredis|c	hiredis	{set}.c	examples	hiredis	.	-
+hiredis	C	hi_redis	-	hiredis|c	hiredis	{set}.c	examples	hiredis	.	hiredis
 nredisstack	C#-Sync (NRedisStack)	nredisstack_sync	nredisstack_sync	NRedisStack|nredisstack|dotnet-sync	nredisstack	{Set}Example.cs	tests/Doc	NRedisStack	tests/Doc	dotnet
 nredisstack-async	C#-Async (NRedisStack)	nredisstack_async	nredisstack_async	dotnet-async	nredisstack	{Set}Example.cs	tests/Doc/Async	NRedisStack	tests/Doc/Async	dotnet
 seredis	C#-Sync (SE.Redis)	seredis_sync	nredisstack_sync	seredis	seredis	{Set}Example.cs	tests/Doc	NRedisStack	tests/Doc	dotnet
