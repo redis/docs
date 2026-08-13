@@ -162,7 +162,7 @@ it runs on its own.
 Set a TTL of 60 seconds for two fields of a hash and then retrieve the remaining TTL for
 those fields:
 
-{{< clients-example set="hash_tutorial" step="hexpire" lang_filter="Python, Node.js, Java-Sync, Java-Async, Java-Reactive, Go, C#-Sync (SE.Redis), PHP, Rust-Sync, Rust-Async" description="Field expiration: Set a TTL in seconds on individual hash fields using HEXPIRE, then read the remaining TTL with HTTL" difficulty="intermediate" buildsUpon="set_get_all" >}}
+{{< clients-example set="hash_tutorial" step="hexpire" description="Field expiration: Set a TTL in seconds on individual hash fields using HEXPIRE, then read the remaining TTL with HTTL" difficulty="intermediate" buildsUpon="set_get_all" >}}
 > DEL sensor:sensor1
 (integer) 0
 > HSET sensor:sensor1 air_quality 256 battery_level 89
@@ -177,7 +177,7 @@ those fields:
 
 Set a hash field's TTL in milliseconds and then retrieve the remaining TTL in milliseconds:
 
-{{< clients-example set="hash_tutorial" step="hpexpire" lang_filter="Python, Node.js, Java-Sync, Java-Async, Java-Reactive, Go, C#-Sync (SE.Redis), PHP, Rust-Sync, Rust-Async" description="Field expiration: Set a TTL in milliseconds on a hash field using HPEXPIRE, then read the remaining TTL with HPTTL" difficulty="intermediate" buildsUpon="set_get_all" >}}
+{{< clients-example set="hash_tutorial" step="hpexpire" description="Field expiration: Set a TTL in milliseconds on a hash field using HPEXPIRE, then read the remaining TTL with HPTTL" difficulty="intermediate" buildsUpon="set_get_all" >}}
 > DEL sensor:sensor1
 (integer) 1
 > HSET sensor:sensor1 air_quality 256 battery_level 89
