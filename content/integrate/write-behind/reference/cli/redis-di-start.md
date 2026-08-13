@@ -1,6 +1,7 @@
 ---
 Title: redis-di start
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-start/
 alwaysopen: false
 categories:
   - docs

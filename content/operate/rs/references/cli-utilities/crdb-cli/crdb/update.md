@@ -20,7 +20,7 @@ crdb-cli crdb update --crdb-guid <guid>
          [--default-db-config-file <filename>]
          [--compression <0-6>]
          [--causal-consistency { true | false } ]
-         [--credentials id=<id>,username=<username>,password=<password> ]
+         [--credentials id=<id>,{ username=<username>,password=<password> | client_cert=<cert>,client_key=<key>[,trusted_ca=<ca>] } ]
          [--encryption { true | false } ]
          [--oss-cluster { true | false } ]
          [--featureset-version { true | false } ]
@@ -42,7 +42,7 @@ If you want to change the configuration of the local instance only, use [`rladmi
 | memory-size \<maximum_memory\>                                                                | size in bytes, kilobytes (KB), or gigabytes (GB) | Maximum database memory (required)                                                                                                                                                                                           |
 | causal-consistency                                                  | true <br/>false                                                                                                           | [Causal consistency]({{< relref "/operate/rs/databases/active-active/causal-consistency.md" >}}) applies updates to all instances in the order they were received |
 | compression                                                         | 0-6                                                                                                                           | The level of data compression: <br /><br /> 0 = No compression <br /><br /> 6 = High compression and resource load (Default: 3)                                                        |
-| credentials id=\<id\>,username=\<username\>,password=\<password\> | strings                                                                                                                       | Updates the credentials for access to the instance                                                                                                                       |
+| credentials id=\<id\>,username=\<username\>,password=\<password\> | strings                                                                                                                       | Updates the credentials for access to the instance identified by `id`.<br/><br/>Provide either a username and password, or certificate credentials—not both. The command fails with `Use either username/password or client_cert/client_key/trusted_ca, not both`.<br/><br/>• `username` and `password` - Cluster username and password<br/>• `client_cert` and `client_key` - Client certificate and its private key, as PEM strings. Both are required for certificate credentials.<br/>• `trusted_ca` - Optional CA that validates the API certificate the peer cluster presents, as a PEM string. If you omit it, the cluster uses the certificates in its `mtls_trusted_ca.pem` file.<br/><br/>Use this option to migrate a participating cluster from a username and password to certificate credentials. See [Certificate-based authentication for cluster management]({{<relref "/operate/rs/security/certificates/certificate-based-authentication#certificate-based-authentication-for-cluster-management">}}). |
 | default-db-config \<configuration\>                                                  |                                                                                                                               | Default database configuration from stdin. For a list of database settings, see the [CRDB database config object]({{<relref "/operate/rs/references/rest-api/objects/crdb/database_config">}}) reference. |
 | default-db-config-file \<filename\>                                | filepath                                                                                                                      | Default database configuration from file. For a list of database settings, see the [CRDB database config object]({{<relref "/operate/rs/references/rest-api/objects/crdb/database_config">}}) reference.|
 | encryption                                                          | true <br/>false                                                                                                           | Activates or deactivates encryption                                                                                                                                      |
@@ -75,6 +75,16 @@ The following example shows how to change a default database configuration setti
 
 ```sh
 $ crdb-cli crdb update --crdb-guid <crdb-guid> --default-db-config '{"shards_count": <primary_shards_count>}'
+Task <task-id> created
+  ---> Status changed: queued -> started
+  ---> Status changed: started -> finished
+```
+
+The following example switches a participating cluster from a username and password to certificate credentials:
+
+```sh
+$ crdb-cli crdb update --crdb-guid <crdb-guid> \
+        --credentials id=2,client_cert=<client-cert>,client_key=<client-key>,trusted_ca=<trusted-ca>
 Task <task-id> created
   ---> Status changed: queued -> started
   ---> Status changed: started -> finished

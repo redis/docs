@@ -22,7 +22,14 @@ components:
 components_local:
 	@python3 build/make.py --stack ./data/components_local/index.json
 
-hugo:
+# Move dates live only in git history, which Hugo cannot read, so they are written
+# into data/ before the build. Generated rather than committed, like the other
+# derived files in data/, so a snapshot of history cannot go stale.
+page_moves:
+	@echo "Recording page move dates..."
+	@python3 build/generate_page_moves.py
+
+hugo: page_moves
 	@hugo $(HUGO_DEBUG) $(HUGO_BUILD)
 
 # json_transform requires hugo to have populated public/ with index.json files
@@ -30,19 +37,36 @@ json_transform: hugo
 	@echo "Transforming JSON files for RAG..."
 	@npx tsx build/transform_json_sections.ts
 
+# Tombstones need public/redirects.json, which hugo renders, and must run before
+# ndjson so that generate_ndjson.py can filter them back out of the feed. They are
+# written after json_transform only for tidiness -- the transform skips a record
+# that has a page_type and no content, so either order is safe.
+redirect_tombstones: json_transform
+	@echo "Writing redirect tombstones..."
+	@python3 build/write_redirect_tombstones.py public
+
 # ndjson requires json_transform to have processed the JSON files
-ndjson: json_transform
+ndjson: redirect_tombstones
 	@echo "Generating NDJSON feed..."
 	@python3 build/generate_ndjson.py
 	@echo "Compressing NDJSON feed..."
 	@gzip -kf public/docs.ndjson
 
-serve_hugo:
+serve_hugo: page_moves
 	@hugo serve
 
 # Passive post-build report of unusually large rendered pages (warn-only).
 check_page_sizes:
 	@python3 build/check_page_sizes.py public
+
+# Report pages that moved without gaining an alias for their old URL, so the old
+# URL now 404s. Reads git history, so it needs no build. Warn-only.
+check_aliases:
+	@python3 build/check_missing_aliases.py --all
+
+# The same sweep, but writing the missing aliases into frontmatter.
+check_aliases_fix:
+	@python3 build/check_missing_aliases.py --all --fix
 
 clean:
 	@rm -Rf ./public/

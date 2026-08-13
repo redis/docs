@@ -13,6 +13,8 @@ description: Connect your .NET application to a Redis database
 linkTitle: Connect
 title: Connect to the server
 weight: 20
+aliases:
+- /develop/connect/clients/dotnet/connect/
 ---
 
 ## Basic connection

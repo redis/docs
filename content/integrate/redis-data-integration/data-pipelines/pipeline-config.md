@@ -13,6 +13,8 @@ summary: Redis Data Integration keeps Redis in sync with the primary database in
   real time.
 type: integration
 weight: 3
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/data-pipelines/
 ---
 
 The main configuration details for an RDI pipeline are in the `config.yaml` file.

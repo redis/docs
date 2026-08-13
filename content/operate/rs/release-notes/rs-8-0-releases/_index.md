@@ -113,9 +113,21 @@ The following changes affect behavior and validation in Redis Search:
 
 - Improved handling of expired records, memory constraints, and malformed fields.
 
-### OpenSSL version
+### OpenSSL version on RHEL 9
 
-Redis Software version 8.0.16 and later requires OpenSSL 3.3 or later.
+On RHEL 9, Redis Software versions 8.0.16 through 8.0.20-68 require OpenSSL 3.3 or later. Version 8.0.20-96 and later are built against an earlier OpenSSL version, so the requirement no longer applies. Other supported platforms are unaffected.
+
+The requirement exists because those versions are built against the OpenSSL 3.3 runtime included in recent RHEL 9 minor releases. Nodes on an earlier RHEL 9 minor release don't meet it. For example, RHEL 9.6 ships OpenSSL 3.2.2.
+
+The pre-upgrade checks don't detect an incompatible OpenSSL version, so an upgrade can pass validation and then fail partway through. This can leave the management services on the node in a failed state.
+
+Before you upgrade to a version between 8.0.16 and 8.0.20-68, check the OpenSSL version on each node:
+
+```sh
+openssl version
+```
+
+If the version is earlier than 3.3.0, either upgrade the `openssl` and `openssl-libs` packages first, or upgrade to Redis Software version 8.0.20-96 or later instead.
 
 ### Reserved ports
 

@@ -1,6 +1,7 @@
 ---
 Title: redis-di monitor
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-monitor/
 alwaysopen: false
 categories:
   - docs

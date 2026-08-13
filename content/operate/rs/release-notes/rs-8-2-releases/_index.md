@@ -57,10 +57,6 @@ Redis Software version 8.2.0 introduces the following breaking changes:
 
     - Existing functionality for listing, deleting, and loading modules is unchanged.
 
-### OpenSSL version
-
-Redis Software version 8.0.16 and later requires OpenSSL 3.3 or later.
-
 ### Reserved ports
 
 Make sure the following ports are open before upgrading Redis Software.

@@ -5,6 +5,8 @@ date: 2024-05-30 00:00:00 +0000
 description: Redis Insight v2.50
 weight: 1
 
+aliases:
+- /develop/connect/insight/release-notes/v.2.50.0/
 ---
 ## 2.50 (May 2024)
 This is the General Availability (GA) release of Redis Insight 2.50.

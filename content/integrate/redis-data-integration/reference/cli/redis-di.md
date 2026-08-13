@@ -6,6 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/cli/redis-di/
 ---
 
 `redis-di` is the command line tool that manages Redis Data Integration (RDI). It is a thin client

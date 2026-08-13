@@ -1,6 +1,8 @@
 ---
 Title: add_field
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/data-transformation-block-types/add_field/
+- /integrate/redis-data-integration/write-behind/reference/data-transformation-block-types/add_field/
 alwaysopen: false
 categories:
   - docs

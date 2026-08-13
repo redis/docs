@@ -1,6 +1,9 @@
 ---
 Title: Write to a Redis stream
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-stream-example/
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-stream-example/
+- /integrate/redis-data-integration/data-transformation/examples/redis-stream-example/
+- /integrate/redis-data-integration/ingest/data-transformation/examples/redis-stream-example/
 alwaysopen: false
 categories:
 - docs

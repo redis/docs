@@ -2,6 +2,7 @@
 aliases:
 - /develop/use/keyspace
 - /manual/keyspace/
+- /develop/keyspace/
 categories:
 - docs
 - develop

@@ -71,7 +71,7 @@ AI agents are autonomous systems that combine LLMs with memory, tools, and plann
 The [Context Engine]({{< relref "/develop/ai/context-engine" >}}) (Redis Iris) includes four fully-managed services available on Redis Cloud:
 
 - [LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}) — Semantic caching that reduces LLM API costs and improves response times by reusing cached responses for similar queries.
-- [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — Two-tier persistent memory (session and long-term) for agents, available as a REST API and Python SDK.
+- [Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — Two-tier persistent memory (session and long-term) for agents, available through Python and TypeScript SDKs and a REST API.
 - [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}}) — Turns your business data into structured, governed tools that agents can reliably use, defined once and reused across all agents.
 - [Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}) — Keeps your Redis Cloud database in sync with relational databases in near real time using Change Data Capture.
 
@@ -164,6 +164,7 @@ Need a deeper-dive through different use cases and topics?
 * [ArXiv Chat](https://github.com/redis-developer/ArxivChatGuru) - Streamlit demo of RAG over ArXiv documents with Redis & OpenAI
 
 #### Recommendations and search
+* [Redis Repo Memory](https://github.com/redis-learn/redis-repo-memory) - A GitHub Action that surfaces semantically related PRs, issues, and commits from repository history using Redis vector search ([install from the Marketplace](https://github.com/marketplace/actions/redis-repo-memory))
 * [Recommendation systems w/ NVIDIA Merlin & Redis](https://github.com/redis-developer/redis-nvidia-recsys) - Three examples, each escalating in complexity, showcasing the process of building a realtime recsys with NVIDIA and Redis
 * [Redis product search](https://github.com/redis-developer/redis-product-search) - Build a real-time product search engine using features like full-text search, vector similarity, and real-time data updates
 * [ArXiv Search](https://github.com/redis-developer/redis-arxiv-search) - Full stack implementation of Redis with React FE

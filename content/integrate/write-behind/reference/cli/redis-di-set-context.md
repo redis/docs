@@ -1,6 +1,7 @@
 ---
 Title: redis-di set-context
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-set-context/
 alwaysopen: false
 categories:
   - docs

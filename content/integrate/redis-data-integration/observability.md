@@ -1,6 +1,8 @@
 ---
 Title: Observability
-aliases: /integrate/redis-data-integration/ingest/observability/
+aliases:
+- /integrate/redis-data-integration/ingest/observability/
+- /integrate/redis-data-integration/ingest/data-transformation/observability/
 alwaysopen: false
 categories:
 - docs

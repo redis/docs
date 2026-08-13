@@ -1,6 +1,9 @@
 ---
 Title: Quickstart
-aliases: null
+aliases:
+- /integrate/redis-data-integration/quickstart/write-behind-guide/
+- /integrate/redis-data-integration/write behind/quickstart/write-behind-guide/
+- /integrate/redis-data-integration/write-behind/quickstart/write-behind-guide/
 alwaysopen: false
 categories:
 - docs

@@ -1,6 +1,5 @@
 ---
 categories:
-aliases:
 - docs
 - develop
 - stack

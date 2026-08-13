@@ -6,6 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/cli/redis-di-start/
 ---
 
 Starts a pipeline. By default, the command waits for the pipeline to reach the `started` state before

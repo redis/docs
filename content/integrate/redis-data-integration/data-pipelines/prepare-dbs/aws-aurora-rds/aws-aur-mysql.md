@@ -39,7 +39,7 @@ To add a reader node to an existing database, select **Add reader** from the **A
 
 You can also create one during database creation by selecting **Create an Aurora Replica or Reader node in a different AZ (recommended for scaled availability)** under **Availability & durability > Multi-AZ deployment**. 
 
-## <a id="aurora-create-and-apply-parameter-group"></a>Create and apply parameter group
+## Create and apply parameter group {#aurora-create-and-apply-parameter-group}
 
 RDI requires some changes to database parameters. On AWS Aurora, you change these parameters via a parameter group.
 
@@ -108,7 +108,7 @@ RDI requires some changes to database parameters. On AWS Aurora, you change thes
 - [ ] [Create Debezium user](#rds-create-debezium-user)
 ```
 
-## <a id="rds-create-and-apply-parameter-group"></a>Create and apply parameter group
+## Create and apply parameter group {#rds-create-and-apply-parameter-group}
 
 RDI requires some changes to database parameters. On AWS RDS, you change these parameters via a parameter group.
 
