@@ -600,7 +600,7 @@ After creating and validating your certificates, install them on the Redis Softw
 1. Check certificate status:
 
     ```sh
-    rladmin status certificates
+    openssl x509 -in /path/to/redis-cert-chain.pem -noout -dates
     ```
 
 1. View certificate details:
