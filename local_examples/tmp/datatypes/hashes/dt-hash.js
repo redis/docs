@@ -94,7 +94,7 @@ assert.equal(res6, 5072)
 assert.equal(res7, 4972)
 // REMOVE_END
 
-// STEP_START hIncrBy_hGet_hMget
+// STEP_START incrby_get_mget
 const res11 = await client.hIncrBy('bike:1:stats', 'rides', 1)
 console.log(res11)  // 1
 const res12 = await client.hIncrBy('bike:1:stats', 'rides', 1)
