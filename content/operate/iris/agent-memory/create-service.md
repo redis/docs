@@ -144,7 +144,7 @@ Each custom memory type can have an **extraction strategy** that controls how th
 
 ### Sensitive-data exclusions {#sensitive-data-exclusions}
 
-The **Sensitive-data exclusions** section lets you describe, in plain language, the information that should never be kept in long-term memory. The extraction pipeline uses your description as guidance when it creates long-term memories from session memory.
+The **Sensitive-data exclusions** section lets you define information that should not be kept in long-term memory.
 
 {{< note >}}
 Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
@@ -152,13 +152,9 @@ Sensitive-data exclusions are an early-stage feature, enabled for selected accou
 
 {{<image filename="images/rc/agent-memory-sensitive-data-exclusions.png" alt="The Sensitive-data exclusions section." >}}
 
-{{<warning>}}
-Sensitive-data exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Sensitive session content still reaches the extraction model provider, and exclusions are not applied to long-term memories your application creates directly through the API or an SDK. Do not rely on exclusions as your only control for regulated or highly sensitive data.
-{{</warning>}}
-
 #### Semantic exclusions
 
-Semantic exclusions catch concepts that a fixed pattern cannot, such as secrets or account recovery codes. They are disabled by default. Use the **Semantic exclusions** toggle to enable them, then describe what to exclude.
+Semantic exclusions let you describe, in plain language, what should not be kept. They catch concepts that a fixed pattern cannot, such as secrets or account recovery codes. They are disabled by default. Use the **Semantic exclusions** toggle to enable them, then describe what to exclude.
 
 | Setting name          |Description|
 |:----------------------|:----------|
@@ -169,7 +165,11 @@ For example, a prompt might tell the pipeline never to keep passwords, access to
 
 Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
 
-Exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent.
+Semantic exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent.
+
+{{<warning>}}
+Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Sensitive session content still reaches the extraction model provider, and they are not applied to long-term memories your application creates directly through the API or an SDK. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
+{{</warning>}}
 
 ### Create service
 

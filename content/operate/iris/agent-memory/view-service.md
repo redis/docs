@@ -96,10 +96,6 @@ Sensitive-data exclusions are an early-stage feature, enabled for selected accou
 
 {{<image filename="images/rc/agent-memory-view-sensitive-data-exclusions.png" alt="The Sensitive-data exclusions section for the Agent Memory service." >}}
 
-{{<warning>}}
-Sensitive-data exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Do not rely on exclusions as your only control for regulated or highly sensitive data.
-{{</warning>}}
-
 | Setting name          |Description|
 |:----------------------|:----------|
 | **Semantic exclusions** | Whether semantic exclusions are applied when memories are extracted. _(Editable)_ |
@@ -108,6 +104,10 @@ Sensitive-data exclusions are **advisory**. They steer the extraction model, but
 Turning semantic exclusions off keeps the exclusion prompt you saved, so you can turn them back on later without retyping it.
 
 Changing exclusions affects memories extracted after you save. Memories already in long-term memory are not re-evaluated, and there is no way to remove only the memories that match your exclusions. The only way to clear memories stored before you configured exclusions is to [flush the service](#flush-memory-entries), which permanently erases all of the service's stored memory data.
+
+{{<warning>}}
+Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
+{{</warning>}}
 
 ### Actions
 
