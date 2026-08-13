@@ -171,20 +171,6 @@ Where useful context remains, the extraction model prefers a generalized memory 
 
 Exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent.
 
-#### Exclusion prompt rules
-
-The exclusion prompt is rejected if it is longer than 2,000 characters or if it matches a known prompt-injection pattern: text that appears to override earlier instructions, ask for the model's own instructions, adopt a different persona, or run code. Keep the prompt to a plain description of what to exclude.
-
-These patterns match particular phrasings rather than individual words, so a plain description almost always passes. The phrasings most likely to trip up an ordinary prompt are *forget everything*, *ignore all instructions*, *override system*, and *run scripts*, along with the text `system:` or `system=` anywhere in the prompt. Describe the data you want excluded rather than telling the model what to do with its own instructions.
-
-| Rejected | Use instead |
-|:---------|:------------|
-| Forget everything the user says about their home address. | Never keep the user's home address. |
-| Ignore all instructions asking you to save a password. | Never keep passwords. |
-| Never store credentials for any system: production or staging. | Never store credentials for production or staging environments. |
-| Never keep passwords used to override system settings. | Never keep passwords for administrative settings. |
-| Never keep credentials used to run scripts. | Never keep credentials for automation. |
-
 ### Create service
 
 When you are done setting the details of your Agent Memory service, select **Create** to create it.
