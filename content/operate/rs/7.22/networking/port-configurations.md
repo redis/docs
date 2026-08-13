@@ -48,7 +48,7 @@ Redis Enterprise Software's port usage falls into three general categories:
 
 ### Reserve ports
 
-Redis Enterprise Software reserves some ports by default (`system_reserved_ports`). To reserve other ports or port ranges and prevent the cluster from assigning them to database endpoints, configure `reserved_ports` using one of the following methods:
+Redis Enterprise Software reserves some ports by default (`system_reserved_ports`). To reserve other ports or port ranges and prevent the cluster from assigning them to database endpoints or assigning them for internal shard traffic, configure `reserved_ports` using one of the following methods:
 
 - [rladmin cluster config]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin/cluster/config" >}})
 
@@ -59,7 +59,7 @@ Redis Enterprise Software reserves some ports by default (`system_reserved_ports
     For example:
 
     ```sh
-    rladmin cluster config reserved_ports 11000 13000-13010
+    rladmin cluster config reserved_ports 11000 13000-13010 20048
     ```
 
 - [Update cluster settings]({{< relref "/operate/rs/7.22/references/rest-api/requests/cluster#put-cluster" >}}) REST API request
@@ -73,7 +73,7 @@ Redis Enterprise Software reserves some ports by default (`system_reserved_ports
 
     ```sh
     PUT /v1/cluster
-    { "reserved_ports": ["11000", "13000-13010"] }
+    { "reserved_ports": ["11000", "13000-13010", "20048"] }
     ```
 
 ### Change the Cluster Manager UI port

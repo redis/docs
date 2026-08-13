@@ -85,7 +85,7 @@ Updates the cluster configuration.
 | min_data_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the data path |
 | min_sentinel_TLS_version | `1.2`<br />`1.3` | The minimum TLS protocol version that is supported for the discovery service |
 | options_method_forbidden | `enabled`<br />`disabled` | Enable or turn off forbidding `OPTIONS` method for CNM HTTPS port |
-| reserved_ports | list of ports/port ranges | List of reserved ports and/or port ranges to avoid using for database endpoints (for example `reserved_ports 11000 13000-13010`) |
+| reserved_ports | list of ports/port ranges | List of reserved ports and/or port ranges to avoid using for database endpoints or internal shard traffic (for example `reserved_ports 11000 13000-13010 20048`) |
 | s3_url | string | The URL of S3 export and import |
 | s3_ca_cert | string | The CA certificate filepath for S3 export and import |
 | sentinel_cipher_suites | list of ciphers | Cipher suites used by the discovery service (supported ciphers are implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package) |
