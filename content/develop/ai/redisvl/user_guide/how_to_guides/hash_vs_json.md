@@ -3,8 +3,6 @@ linkTitle: Choose a storage type
 title: Choose a Storage Type
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/05_hash_vs_json
-- /integrate/redisvl/user_guide/hash_vs_json/
-- /develop/ai/redisvl/user_guide/hash_vs_json/
 weight: 05
 ---
 
