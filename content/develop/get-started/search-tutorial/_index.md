@@ -78,8 +78,9 @@ Throughout the tutorial, look for **"Try it in Redis Insight"** tips that show h
 
 First, connect to your Redis database. The following example connects with `redis-cli` to a server running on `localhost` (`-h 127.0.0.1`) and listening on the default port (`-p 6379`):
 
+    redis-cli -h 127.0.0.1 -p 6379
+
 {{< clients-example set="search_tutorial" step="connect" description="Foundational: Connect to a Redis server with redis-cli using host and port parameters" difficulty="beginner" >}}
-> redis-cli -h 127.0.0.1 -p 6379
 {{< /clients-example >}}
 
 <br/>
