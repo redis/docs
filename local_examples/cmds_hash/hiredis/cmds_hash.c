@@ -5,6 +5,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <hiredis/hiredis.h>
+
+// REMOVE_START
+// Fail loudly on a NULL or error reply. hiredis returns an error REPLY (not a
+// connection error) for things like a bad command, and the examples would
+// otherwise print a wrong value and still exit 0 — a green harness run that
+// proves nothing. Kept in a REMOVE block so the published example stays plain.
+#define CHECK_REPLY(r) do { \
+    if ((r) == NULL || (r)->type == REDIS_REPLY_ERROR) { \
+        printf("REDIS ERROR: %s\n", (r) ? (r)->str : "no reply from server"); \
+        return 1; \
+    } \
+} while (0)
+// REMOVE_END
 // STEP_END
 
 int main(int argc, char **argv) {
@@ -23,7 +36,9 @@ int main(int argc, char **argv) {
     // STEP_END
 
     // REMOVE_START
-    redisCommand(c, "DEL myhash");
+    redisReply *cleanup1 = redisCommand(c, "DEL myhash");
+    CHECK_REPLY(cleanup1);
+    freeReplyObject(cleanup1);
     // REMOVE_END
 
     // STEP_START hmget
@@ -32,11 +47,17 @@ int main(int argc, char **argv) {
     // Set up hash with fields
     reply = redisCommand(c, "HSET %s %s %s %s %s",
         "myhash", "field1", "Hello", "field2", "World");
+    // REMOVE_START
+    CHECK_REPLY(reply);
+    // REMOVE_END
     freeReplyObject(reply);
 
     // Get multiple fields at once
     reply = redisCommand(c, "HMGET %s %s %s %s",
         "myhash", "field1", "field2", "nofield");
+    // REMOVE_START
+    CHECK_REPLY(reply);
+    // REMOVE_END
 
     printf("HMGET myhash field1 field2 nofield:\n");
     for (size_t i = 0; i < reply->elements; i++) {
@@ -69,12 +90,17 @@ int main(int argc, char **argv) {
     freeReplyObject(reply);
 
     // REMOVE_START
-    redisCommand(c, "DEL myhash");
+    redisReply *cleanup2 = redisCommand(c, "DEL myhash");
+    CHECK_REPLY(cleanup2);
+    freeReplyObject(cleanup2);
     // REMOVE_END
 
     // STEP_START hlen
     // Add two new fields to the hash
     reply = redisCommand(c, "HSET %s %s %s", "myhash", "field1", "Hello");
+    // REMOVE_START
+    CHECK_REPLY(reply);
+    // REMOVE_END
     printf("HSET myhash field1 Hello: %lld\n", reply->integer); // >>> 1
     // REMOVE_START
     if (reply->integer != 1) {
@@ -84,6 +110,9 @@ int main(int argc, char **argv) {
     freeReplyObject(reply);
 
     reply = redisCommand(c, "HSET %s %s %s", "myhash", "field2", "World");
+    // REMOVE_START
+    CHECK_REPLY(reply);
+    // REMOVE_END
     printf("HSET myhash field2 World: %lld\n", reply->integer); // >>> 1
     // REMOVE_START
     if (reply->integer != 1) {
@@ -94,6 +123,9 @@ int main(int argc, char **argv) {
 
     // Count the fields in the hash
     reply = redisCommand(c, "HLEN %s", "myhash");
+    // REMOVE_START
+    CHECK_REPLY(reply);
+    // REMOVE_END
     printf("HLEN myhash: %lld\n", reply->integer); // >>> 2
     // REMOVE_START
     if (reply->type != REDIS_REPLY_INTEGER) {
@@ -108,6 +140,9 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     redisReply *del_reply = redisCommand(c, "DEL myhash");
+    // REMOVE_START
+    CHECK_REPLY(del_reply);
+    // REMOVE_END
     freeReplyObject(del_reply);
     // REMOVE_END
 
