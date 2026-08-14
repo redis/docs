@@ -221,6 +221,102 @@ public class CmdsGenericExample {
             // REMOVE_START
             reactiveCommands.del("myhash").block();
             // REMOVE_END
+            // STEP_START del
+            Mono<Void> delExample = reactiveCommands.set("key1", "Hello")
+                    .flatMap(r1 -> {
+                        System.out.println(r1);              // >>> OK
+                        return reactiveCommands.set("key2", "World");
+                    })
+                    .flatMap(r2 -> {
+                        System.out.println(r2);              // >>> OK
+                        return reactiveCommands.del("key1", "key2", "key3");
+                    })
+                    .doOnNext(r3 -> {
+                        System.out.println(r3);              // >>> 2
+                        // REMOVE_START
+                        assertThat(r3).isEqualTo(2L);
+                        // REMOVE_END
+                    })
+                    .then();
+            // STEP_END
+
+            Mono.when(delExample).block();
+
+            // STEP_START expire
+            Mono<Void> expireExample = reactiveCommands.set("mykey", "Hello")
+                    .flatMap(r1 -> {
+                        System.out.println(r1);              // >>> OK
+                        return reactiveCommands.expire("mykey", 10);
+                    })
+                    .flatMap(r2 -> {
+                        System.out.println(r2);              // >>> true
+                        return reactiveCommands.ttl("mykey");
+                    })
+                    .flatMap(r3 -> {
+                        System.out.println(r3);              // >>> 10
+                        // Overwriting a key with SET clears its expiry.
+                        return reactiveCommands.set("mykey", "Hello World");
+                    })
+                    .flatMap(r4 -> {
+                        System.out.println(r4);              // >>> OK
+                        return reactiveCommands.ttl("mykey");
+                    })
+                    .flatMap(r5 -> {
+                        System.out.println(r5);              // >>> -1
+                        // XX only sets the expiry when one already exists, so this is a no-op.
+                        return reactiveCommands.expire("mykey", 10, ExpireArgs.Builder.xx());
+                    })
+                    .flatMap(r6 -> {
+                        System.out.println(r6);              // >>> false
+                        return reactiveCommands.ttl("mykey");
+                    })
+                    .flatMap(r7 -> {
+                        System.out.println(r7);              // >>> -1
+                        // NX only sets the expiry when there is none, so this one applies.
+                        return reactiveCommands.expire("mykey", 10, ExpireArgs.Builder.nx());
+                    })
+                    .flatMap(r8 -> {
+                        System.out.println(r8);              // >>> true
+                        return reactiveCommands.ttl("mykey");
+                    })
+                    .doOnNext(r9 -> {
+                        System.out.println(r9);              // >>> 10
+                        // REMOVE_START
+                        assertThat(r9).isEqualTo(10L);
+                        // REMOVE_END
+                    })
+                    .then();
+            // STEP_END
+
+            Mono.when(expireExample).block();
+            // REMOVE_START
+            reactiveCommands.del("mykey").block();
+            // REMOVE_END
+
+            // STEP_START ttl
+            Mono<Void> ttlExample = reactiveCommands.set("mykey", "Hello")
+                    .flatMap(r1 -> {
+                        System.out.println(r1);              // >>> OK
+                        return reactiveCommands.expire("mykey", 10);
+                    })
+                    .flatMap(r2 -> {
+                        System.out.println(r2);              // >>> true
+                        return reactiveCommands.ttl("mykey");
+                    })
+                    .doOnNext(r3 -> {
+                        System.out.println(r3);              // >>> 10
+                        // REMOVE_START
+                        assertThat(r3).isEqualTo(10L);
+                        // REMOVE_END
+                    })
+                    .then();
+            // STEP_END
+
+            Mono.when(ttlExample).block();
+            // REMOVE_START
+            reactiveCommands.del("mykey").block();
+            // REMOVE_END
+
 
         } finally {
             redisClient.shutdown();

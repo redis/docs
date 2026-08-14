@@ -128,5 +128,55 @@ extends TestCase
         $r->del('myhash');
         // REMOVE_END
 
+        // STEP_START del
+        echo $r->set('key1', 'Hello') . PHP_EOL;             // >>> OK
+        echo $r->set('key2', 'World') . PHP_EOL;             // >>> OK
+
+        $delResult = $r->del('key1', 'key2', 'key3');
+        echo $delResult . PHP_EOL;                           // >>> 2
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals(2, $delResult);
+        // REMOVE_END
+
+        // STEP_START expire
+        echo $r->set('mykey', 'Hello') . PHP_EOL;            // >>> OK
+
+        echo $r->expire('mykey', 10) . PHP_EOL;              // >>> 1
+        echo $r->ttl('mykey') . PHP_EOL;                     // >>> 10
+
+        // Overwriting a key with SET clears its expiry.
+        echo $r->set('mykey', 'Hello World') . PHP_EOL;      // >>> OK
+        echo $r->ttl('mykey') . PHP_EOL;                     // >>> -1
+
+        // XX only sets the expiry when one already exists, so this is a no-op.
+        echo $r->expire('mykey', 10, 'XX') . PHP_EOL;        // >>> 0
+        echo $r->ttl('mykey') . PHP_EOL;                     // >>> -1
+
+        // NX only sets the expiry when there is none, so this one applies.
+        echo $r->expire('mykey', 10, 'NX') . PHP_EOL;        // >>> 1
+        $expireTtl = $r->ttl('mykey');
+        echo $expireTtl . PHP_EOL;                           // >>> 10
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals(10, $expireTtl);
+        $r->del('mykey');
+        // REMOVE_END
+
+        // STEP_START ttl
+        echo $r->set('mykey', 'Hello') . PHP_EOL;            // >>> OK
+        echo $r->expire('mykey', 10) . PHP_EOL;              // >>> 1
+
+        $ttlResult = $r->ttl('mykey');
+        echo $ttlResult . PHP_EOL;                           // >>> 10
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals(10, $ttlResult);
+        $r->del('mykey');
+        // REMOVE_END
+
     }
 }

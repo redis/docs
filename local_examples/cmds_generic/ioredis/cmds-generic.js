@@ -113,6 +113,73 @@ assert.deepEqual(scan4Fields, ['a', 'b']);
 await redis.del('myhash');
 // REMOVE_END
 
+// STEP_START del
+console.log(await redis.set('key1', 'Hello')); // >>> OK
+console.log(await redis.set('key2', 'World')); // >>> OK
+
+const delResult = await redis.del('key1', 'key2', 'key3');
+console.log(delResult); // >>> 2
+// STEP_END
+
+// REMOVE_START
+assert.equal(delResult, 2);
+// REMOVE_END
+
+// STEP_START exists
+console.log(await redis.set('key1', 'Hello')); // >>> OK
+
+console.log(await redis.exists('key1')); // >>> 1
+console.log(await redis.exists('nosuchkey')); // >>> 0
+
+console.log(await redis.set('key2', 'World')); // >>> OK
+
+const existsResult = await redis.exists('key1', 'key2', 'nosuchkey');
+console.log(existsResult); // >>> 2
+// STEP_END
+
+// REMOVE_START
+assert.equal(existsResult, 2);
+await redis.del('key1', 'key2');
+// REMOVE_END
+
+// STEP_START expire
+console.log(await redis.set('mykey', 'Hello')); // >>> OK
+
+console.log(await redis.expire('mykey', 10)); // >>> 1
+console.log(await redis.ttl('mykey')); // >>> 10
+
+// Overwriting a key with SET clears its expiry.
+console.log(await redis.set('mykey', 'Hello World')); // >>> OK
+console.log(await redis.ttl('mykey')); // >>> -1
+
+// XX only sets the expiry when one already exists, so this is a no-op.
+console.log(await redis.expire('mykey', 10, 'XX')); // >>> 0
+console.log(await redis.ttl('mykey')); // >>> -1
+
+// NX only sets the expiry when there is none, so this one applies.
+console.log(await redis.expire('mykey', 10, 'NX')); // >>> 1
+const expireTtl = await redis.ttl('mykey');
+console.log(expireTtl); // >>> 10
+// STEP_END
+
+// REMOVE_START
+assert.equal(expireTtl, 10);
+await redis.del('mykey');
+// REMOVE_END
+
+// STEP_START ttl
+console.log(await redis.set('mykey', 'Hello')); // >>> OK
+console.log(await redis.expire('mykey', 10)); // >>> 1
+
+const ttlResult = await redis.ttl('mykey');
+console.log(ttlResult); // >>> 10
+// STEP_END
+
+// REMOVE_START
+assert.equal(ttlResult, 10);
+await redis.del('mykey');
+// REMOVE_END
+
 // HIDE_START
 redis.disconnect();
 // HIDE_END

@@ -235,6 +235,102 @@ public class CmdsGenericExample {
             // REMOVE_START
             asyncCommands.del("myhash").toCompletableFuture().join();
             // REMOVE_END
+            // STEP_START del
+            CompletableFuture<Void> delExample = asyncCommands.set("key1", "Hello")
+                    .thenCompose(r1 -> {
+                        System.out.println(r1);              // >>> OK
+                        return asyncCommands.set("key2", "World");
+                    })
+                    .thenCompose(r2 -> {
+                        System.out.println(r2);              // >>> OK
+                        return asyncCommands.del("key1", "key2", "key3");
+                    })
+                    .thenAccept(r3 -> {
+                        System.out.println(r3);              // >>> 2
+                        // REMOVE_START
+                        assertThat(r3).isEqualTo(2L);
+                        // REMOVE_END
+                    })
+                    .toCompletableFuture();
+            // STEP_END
+
+            delExample.join();
+
+            // STEP_START expire
+            CompletableFuture<Void> expireExample = asyncCommands.set("mykey", "Hello")
+                    .thenCompose(r1 -> {
+                        System.out.println(r1);              // >>> OK
+                        return asyncCommands.expire("mykey", 10);
+                    })
+                    .thenCompose(r2 -> {
+                        System.out.println(r2);              // >>> true
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenCompose(r3 -> {
+                        System.out.println(r3);              // >>> 10
+                        // Overwriting a key with SET clears its expiry.
+                        return asyncCommands.set("mykey", "Hello World");
+                    })
+                    .thenCompose(r4 -> {
+                        System.out.println(r4);              // >>> OK
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenCompose(r5 -> {
+                        System.out.println(r5);              // >>> -1
+                        // XX only sets the expiry when one already exists, so this is a no-op.
+                        return asyncCommands.expire("mykey", 10, ExpireArgs.Builder.xx());
+                    })
+                    .thenCompose(r6 -> {
+                        System.out.println(r6);              // >>> false
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenCompose(r7 -> {
+                        System.out.println(r7);              // >>> -1
+                        // NX only sets the expiry when there is none, so this one applies.
+                        return asyncCommands.expire("mykey", 10, ExpireArgs.Builder.nx());
+                    })
+                    .thenCompose(r8 -> {
+                        System.out.println(r8);              // >>> true
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenAccept(r9 -> {
+                        System.out.println(r9);              // >>> 10
+                        // REMOVE_START
+                        assertThat(r9).isEqualTo(10L);
+                        // REMOVE_END
+                    })
+                    .toCompletableFuture();
+            // STEP_END
+
+            expireExample.join();
+            // REMOVE_START
+            asyncCommands.del("mykey").toCompletableFuture().join();
+            // REMOVE_END
+
+            // STEP_START ttl
+            CompletableFuture<Void> ttlExample = asyncCommands.set("mykey", "Hello")
+                    .thenCompose(r1 -> {
+                        System.out.println(r1);              // >>> OK
+                        return asyncCommands.expire("mykey", 10);
+                    })
+                    .thenCompose(r2 -> {
+                        System.out.println(r2);              // >>> true
+                        return asyncCommands.ttl("mykey");
+                    })
+                    .thenAccept(r3 -> {
+                        System.out.println(r3);              // >>> 10
+                        // REMOVE_START
+                        assertThat(r3).isEqualTo(10L);
+                        // REMOVE_END
+                    })
+                    .toCompletableFuture();
+            // STEP_END
+
+            ttlExample.join();
+            // REMOVE_START
+            asyncCommands.del("mykey").toCompletableFuture().join();
+            // REMOVE_END
+
         } finally {
             redisClient.shutdown();
         }

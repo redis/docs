@@ -48,6 +48,7 @@ int main(int argc, char **argv) {
     // REMOVE_START
     if (reply->elements != 2) {
         printf("ASSERTION FAILED: Expected 2 elements, got %zu\n", reply->elements);
+        return 1;
     }
     // REMOVE_END
     freeReplyObject(reply);
@@ -62,9 +63,11 @@ int main(int argc, char **argv) {
     // REMOVE_START
     if (reply->elements != 1) {
         printf("ASSERTION FAILED: Expected 1 element, got %zu\n", reply->elements);
+        return 1;
     }
     if (strcmp(reply->element[0]->str, "age") != 0) {
         printf("ASSERTION FAILED: Expected 'age', got '%s'\n", reply->element[0]->str);
+        return 1;
     }
     // REMOVE_END
     freeReplyObject(reply);
@@ -81,6 +84,7 @@ int main(int argc, char **argv) {
     // REMOVE_START
     if (reply->elements != 3) {
         printf("ASSERTION FAILED: Expected 3 elements, got %zu\n", reply->elements);
+        return 1;
     }
     // REMOVE_END
     freeReplyObject(reply);
@@ -104,6 +108,7 @@ int main(int argc, char **argv) {
     // REMOVE_START
     if (reply->element[1]->elements != 3) {
         printf("ASSERTION FAILED: Expected 3 members, got %zu\n", reply->element[1]->elements);
+        return 1;
     }
     // REMOVE_END
     freeReplyObject(reply);
@@ -139,6 +144,7 @@ int main(int argc, char **argv) {
     // REMOVE_START
     if (reply->element[1]->elements != 18) {
         printf("ASSERTION FAILED: Expected 18 keys, got %zu\n", reply->element[1]->elements);
+        return 1;
     }
     // REMOVE_END
     freeReplyObject(reply);
@@ -176,6 +182,7 @@ int main(int argc, char **argv) {
     // REMOVE_START
     if (reply->element[1]->elements != 2) {
         printf("ASSERTION FAILED: Expected 2 keys, got %zu\n", reply->element[1]->elements);
+        return 1;
     }
     // REMOVE_END
     freeReplyObject(reply);
@@ -203,6 +210,7 @@ int main(int argc, char **argv) {
     // REMOVE_START
     if (reply->element[1]->elements != 4) {
         printf("ASSERTION FAILED: Expected 4 entries, got %zu\n", reply->element[1]->elements);
+        return 1;
     }
     // REMOVE_END
     freeReplyObject(reply);
@@ -216,6 +224,7 @@ int main(int argc, char **argv) {
     // REMOVE_START
     if (reply->element[1]->elements != 2) {
         printf("ASSERTION FAILED: Expected 2 fields, got %zu\n", reply->element[1]->elements);
+        return 1;
     }
     // REMOVE_END
     freeReplyObject(reply);
@@ -223,6 +232,156 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     reply = redisCommand(c, "DEL myhash");
+    freeReplyObject(reply);
+    // REMOVE_END
+
+    // STEP_START del
+    reply = redisCommand(c, "SET key1 Hello");
+    printf("%s\n", reply->str);
+    // >>> OK
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "SET key2 World");
+    printf("%s\n", reply->str);
+    // >>> OK
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "DEL key1 key2 key3");
+    printf("%lld\n", reply->integer);
+    // >>> 2
+    // REMOVE_START
+    if (reply->integer != 2) {
+        printf("ASSERTION FAILED: Expected 2, got %lld\n", reply->integer);
+        return 1;
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    // STEP_START exists
+    reply = redisCommand(c, "SET key1 Hello");
+    printf("%s\n", reply->str);
+    // >>> OK
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "EXISTS key1");
+    printf("%lld\n", reply->integer);
+    // >>> 1
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "EXISTS nosuchkey");
+    printf("%lld\n", reply->integer);
+    // >>> 0
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "SET key2 World");
+    printf("%s\n", reply->str);
+    // >>> OK
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "EXISTS key1 key2 nosuchkey");
+    printf("%lld\n", reply->integer);
+    // >>> 2
+    // REMOVE_START
+    if (reply->integer != 2) {
+        printf("ASSERTION FAILED: Expected 2, got %lld\n", reply->integer);
+        return 1;
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    // REMOVE_START
+    reply = redisCommand(c, "DEL key1 key2");
+    freeReplyObject(reply);
+    // REMOVE_END
+
+    // STEP_START expire
+    reply = redisCommand(c, "SET mykey Hello");
+    printf("%s\n", reply->str);
+    // >>> OK
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "EXPIRE mykey 10");
+    printf("%lld\n", reply->integer);
+    // >>> 1
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "TTL mykey");
+    printf("%lld\n", reply->integer);
+    // >>> 10
+    freeReplyObject(reply);
+
+    // Overwriting a key with SET clears its expiry.
+    reply = redisCommand(c, "SET mykey %s", "Hello World");
+    printf("%s\n", reply->str);
+    // >>> OK
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "TTL mykey");
+    printf("%lld\n", reply->integer);
+    // >>> -1
+    freeReplyObject(reply);
+
+    // XX only sets the expiry when one already exists, so this is a no-op.
+    reply = redisCommand(c, "EXPIRE mykey 10 XX");
+    printf("%lld\n", reply->integer);
+    // >>> 0
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "TTL mykey");
+    printf("%lld\n", reply->integer);
+    // >>> -1
+    freeReplyObject(reply);
+
+    // NX only sets the expiry when there is none, so this one applies.
+    reply = redisCommand(c, "EXPIRE mykey 10 NX");
+    printf("%lld\n", reply->integer);
+    // >>> 1
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "TTL mykey");
+    printf("%lld\n", reply->integer);
+    // >>> 10
+    // REMOVE_START
+    if (reply->integer != 10) {
+        printf("ASSERTION FAILED: Expected TTL 10, got %lld\n", reply->integer);
+        return 1;
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    // REMOVE_START
+    reply = redisCommand(c, "DEL mykey");
+    freeReplyObject(reply);
+    // REMOVE_END
+
+    // STEP_START ttl
+    reply = redisCommand(c, "SET mykey Hello");
+    printf("%s\n", reply->str);
+    // >>> OK
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "EXPIRE mykey 10");
+    printf("%lld\n", reply->integer);
+    // >>> 1
+    freeReplyObject(reply);
+
+    reply = redisCommand(c, "TTL mykey");
+    printf("%lld\n", reply->integer);
+    // >>> 10
+    // REMOVE_START
+    if (reply->integer != 10) {
+        printf("ASSERTION FAILED: Expected TTL 10, got %lld\n", reply->integer);
+        return 1;
+    }
+    // REMOVE_END
+    freeReplyObject(reply);
+    // STEP_END
+
+    // REMOVE_START
+    reply = redisCommand(c, "DEL mykey");
     freeReplyObject(reply);
     // REMOVE_END
 
