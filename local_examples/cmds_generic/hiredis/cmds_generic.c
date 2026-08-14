@@ -37,9 +37,7 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     redisReply *del_reply = redisCommand(c, "DEL firstname lastname age");
-    // REMOVE_START
     CHECK_REPLY(del_reply);
-    // REMOVE_END
     freeReplyObject(del_reply);
     // REMOVE_END
 
@@ -120,9 +118,7 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     reply = redisCommand(c, "DEL firstname lastname age");
-    // REMOVE_START
     CHECK_REPLY(reply);
-    // REMOVE_END
     freeReplyObject(reply);
     // REMOVE_END
 
@@ -153,16 +149,12 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     reply = redisCommand(c, "DEL myset");
-    // REMOVE_START
     CHECK_REPLY(reply);
-    // REMOVE_END
     freeReplyObject(reply);
 
     for (int i = 1; i <= 1000; i++) {
         reply = redisCommand(c, "SET key:%d %d", i, i);
-        // REMOVE_START
         CHECK_REPLY(reply);
-        // REMOVE_END
         freeReplyObject(reply);
     }
     // REMOVE_END
@@ -201,9 +193,7 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     reply = redisCommand(c, "FLUSHDB");
-    // REMOVE_START
     CHECK_REPLY(reply);
-    // REMOVE_END
     freeReplyObject(reply);
     // REMOVE_END
 
@@ -257,9 +247,7 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     reply = redisCommand(c, "DEL geokey zkey");
-    // REMOVE_START
     CHECK_REPLY(reply);
-    // REMOVE_END
     freeReplyObject(reply);
     // REMOVE_END
 
@@ -311,9 +299,7 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     reply = redisCommand(c, "DEL myhash");
-    // REMOVE_START
     CHECK_REPLY(reply);
-    // REMOVE_END
     freeReplyObject(reply);
     // REMOVE_END
 
@@ -399,9 +385,7 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     reply = redisCommand(c, "DEL key1 key2");
-    // REMOVE_START
     CHECK_REPLY(reply);
-    // REMOVE_END
     freeReplyObject(reply);
     // REMOVE_END
 
@@ -490,9 +474,7 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     reply = redisCommand(c, "DEL mykey");
-    // REMOVE_START
     CHECK_REPLY(reply);
-    // REMOVE_END
     freeReplyObject(reply);
     // REMOVE_END
 
@@ -530,9 +512,7 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     reply = redisCommand(c, "DEL mykey");
-    // REMOVE_START
     CHECK_REPLY(reply);
-    // REMOVE_END
     freeReplyObject(reply);
     // REMOVE_END
 

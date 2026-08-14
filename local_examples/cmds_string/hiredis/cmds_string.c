@@ -37,9 +37,7 @@ int main(int argc, char **argv) {
 
     // REMOVE_START
     redisReply *cleanup = redisCommand(c, "DEL key1 key2 mykey nonexisting");
-    // REMOVE_START
     CHECK_REPLY(cleanup);
-    // REMOVE_END
     freeReplyObject(cleanup);
     // REMOVE_END
 
