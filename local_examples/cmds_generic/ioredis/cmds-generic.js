@@ -99,17 +99,22 @@ await redis.del('geokey', 'zkey');
 const scan4Res1 = await redis.hset('myhash', { a: 1, b: 2 });
 console.log(scan4Res1); // >>> 2
 
-const [, scan4Pairs] = await redis.hscan('myhash', 0);
-console.log(scan4Pairs); // >>> ['a', '1', 'b', '2']
+// HSCAN returns field and value interleaved. Redis does not promise an order, so pair
+// them up into an object rather than relying on the position of each element.
+const [, scan4Flat] = await redis.hscan('myhash', 0);
+const scan4Pairs = Object.fromEntries(
+  scan4Flat.reduce((acc, v, i) => (i % 2 ? acc : [...acc, [v, scan4Flat[i + 1]]]), [])
+);
+console.log(scan4Pairs); // >>> { a: '1', b: '2' }
 
 const [, scan4Fields] = await redis.hscan('myhash', 0, 'NOVALUES');
-console.log(scan4Fields); // >>> ['a', 'b']
+console.log(scan4Fields.sort()); // >>> [ 'a', 'b' ]
 // STEP_END
 
 // REMOVE_START
 assert.equal(scan4Res1, 2);
-assert.deepEqual(scan4Pairs, ['a', '1', 'b', '2']);
-assert.deepEqual(scan4Fields, ['a', 'b']);
+assert.deepEqual(scan4Pairs, { a: '1', b: '2' });
+assert.deepEqual(scan4Fields.sort(), ['a', 'b']);
 await redis.del('myhash');
 // REMOVE_END
 

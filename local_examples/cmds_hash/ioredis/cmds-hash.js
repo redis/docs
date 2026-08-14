@@ -118,12 +118,13 @@ await redis.del('myhash');
 // STEP_START hvals
 await redis.hset('myhash', { field1: 'Hello', field2: 'World' });
 
+// HVALS follows the hash's field order, which Redis does not promise, so sort.
 const hvalsRes = await redis.hvals('myhash');
-console.log(hvalsRes); // >>> [ 'Hello', 'World' ]
+console.log(hvalsRes.sort()); // >>> [ 'Hello', 'World' ]
 // STEP_END
 
 // REMOVE_START
-assert.deepEqual(hvalsRes, ['Hello', 'World']);
+assert.deepEqual(hvalsRes.sort(), ['Hello', 'World']);
 await redis.del('myhash');
 // REMOVE_END
 

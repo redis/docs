@@ -503,7 +503,15 @@ func ExampleClient_scan4_cmd() {
 		panic(err)
 	}
 
-	fmt.Println(scan4Result2) // >>> [a 1 b 2]
+	// HSCAN returns field and value interleaved. Redis does not promise an order, so
+	// collect the pairs into a map: fmt prints map keys sorted, whatever order they arrived in.
+	scan4Fields := map[string]string{}
+
+	for i := 0; i < len(scan4Result2); i += 2 {
+		scan4Fields[scan4Result2[i]] = scan4Result2[i+1]
+	}
+
+	fmt.Println(scan4Fields) // >>> map[a:1 b:2]
 
 	scan4Result3, _, err := rdb.HScanNoValues(ctx, "myhash", 0, "", 0).Result()
 
@@ -511,11 +519,12 @@ func ExampleClient_scan4_cmd() {
 		panic(err)
 	}
 
+	sort.Strings(scan4Result3)
 	fmt.Println(scan4Result3) // >>> [a b]
 	// STEP_END
 
 	// Output:
 	// 2
-	// [a 1 b 2]
+	// map[a:1 b:2]
 	// [a b]
 }

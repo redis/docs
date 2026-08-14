@@ -117,7 +117,9 @@ extends TestCase
         [$scan4Cursor, $scan4Pairs] = $r->hscan('myhash', 0);
         echo json_encode($scan4Pairs) . PHP_EOL;             // >>> {"a":"1","b":"2"}
 
+        // Redis does not promise a field order, so sort before comparing.
         [$scan4Cursor, $scan4Fields] = $r->hscan('myhash', 0, ['NOVALUES' => true]);
+        sort($scan4Fields);
         echo implode(', ', $scan4Fields) . PHP_EOL;          // >>> a, b
         // STEP_END
 
