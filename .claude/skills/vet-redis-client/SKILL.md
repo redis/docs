@@ -41,7 +41,7 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
 | A1 | Recent commit activity | Last commit on default branch ≤ 6 months ago | > 6 and ≤ 18 months | > 18 months, or repo archived | GitHub repo front page / `…/commits/<default-branch>` |
-| A2 | Release recency & cadence | ≥ 1 tagged release in last 12 months **and** visible cadence over the last 2 years | Release in last 12 months but thin/irregular history | No release in 12 months, or no tags at all | `…/releases`, `…/tags`, registry version list |
+| A2 | Release recency & cadence | ≥ 1 release in last 12 months **and** visible cadence over the last 2 years | Release in last 12 months but thin/irregular history | No release in 12 months | `…/releases`, `…/tags`, registry version list — a release counts whether it is evidenced by a git tag or by a registry publish; score only recency and cadence here, and leave missing tags to C2 |
 | A3 | Bus factor | ≥ 2 distinct committers active in the last year | Exactly 1 active committer | 0 active committers in the last year | `…/commits` author names (contributors graph is JS-rendered; the commits list works) |
 | A4 | Responsiveness | Maintainers reply to recent issues; open PRs get triaged | Slow but eventual responses | Issues ignored/disabled, or a large pile of untouched open PRs | `…/issues?q=is%3Aissue+sort%3Aupdated-desc`, `…/pulls` |
 
@@ -73,8 +73,8 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
-| E1 | README quickstart | Install → connect → set/get a fresh user can follow | Partial (examples exist but no clean end-to-end path, or non-English gaps) | No usable quickstart | Repo README |
-| E2 | Docs beyond README | Maintained API reference or docs site with guides | Auto-generated API reference only | Nothing beyond README | Docs link in README/registry sidebar (readthedocs, pub.dev dartdoc, docs.rs, etc.) |
+| E1 | Quickstart | Install → connect → set/get a fresh user can follow, in the README or one hop from it | Partial (examples exist but no clean end-to-end path, or non-English gaps) | No usable quickstart anywhere | Repo README and the page it links to for getting started (a quickstart on the docs site counts; note where it lives, since a README with no inline snippet is worth saying out loud) |
+| E2 | Docs beyond README | Maintained API reference or docs site with guides | Auto-generated API reference only | Nothing beyond README | Docs link in README/registry sidebar (readthedocs, pub.dev dartdoc, docs.rs, etc.) — the quickstart already scored in E1 does not by itself satisfy this; E2 asks what exists *beyond* it |
 
 ## 4. Total and verdict
 
