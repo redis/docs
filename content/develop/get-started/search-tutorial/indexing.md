@@ -45,7 +45,9 @@ Redis Search has a few core field types. Choosing the right one for each field d
 
 For the catalog, a good mapping is: `name` and `description` are `TEXT` (you want word search), `brand` and `category` are `TAG` (exact labels), and `price`, `rating`, `review_count`, `stock`, and `release_year` are `NUMERIC`. The `features` field is a list of exact labels, so it is also a `TAG`.
 
-<details><summary>Reload data</summary>
+## Create the index
+
+<details><summary>Reload products data</summary>
 {{< clients-example set="search_tutorial" step="load_data" description="Foundational: Load the tutorial dataset as JSON documents under a shared key prefix using JSON.SET" difficulty="beginner" max_lines="4" >}}
 > JSON.SET product:1 $ '{"name":"Aurora AcousticPro Headphones","brand":"Aurora","category":"Audio","price":199.99,"rating":4.6,"features":["wireless","noise-cancelling","bluetooth"],"specs":{"color":"midnight black","weight_grams":268}}'
 > JSON.SET product:2 $ '{"name":"Aurora BudsMini Earbuds","brand":"Aurora","category":"Audio","description":"Tiny true-wireless earbuds with a secure in-ear fit and sweat resistance for workouts. The compact charging case slips into a pocket and delivers three full recharges on the go.","price":89.99,"rating":4.3,"review_count":942,"stock":130,"release_year":2023,"features":["wireless","bluetooth","in-ear","water-resistant"],"specs":{"color":"pearl white","weight_grams":5,"warranty_years":1}}'
@@ -63,13 +65,10 @@ For the catalog, a good mapping is: `name` and `description` are `TEXT` (you wan
 
 </details>
 
-## Create the index
-
 Use [FT.CREATE]({{< relref "/commands/ft.create" >}}) to define the index. Because the data is JSON, each field is identified by a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expression, and `AS` gives it a short alias to use in queries:
 
 {{< clients-example set="search_tutorial" step="create_index" description="Foundational: Create an index over JSON documents with FT.CREATE, mapping JSONPaths to TEXT, TAG, and NUMERIC fields" difficulty="beginner" >}}
 > FT.CREATE idx:catalog ON JSON PREFIX 1 product: SCHEMA $.name AS name TEXT $.brand AS brand TAG SORTABLE $.category AS category TAG $.description AS description TEXT $.price AS price NUMERIC SORTABLE $.rating AS rating NUMERIC SORTABLE $.review_count AS review_count NUMERIC $.stock AS stock NUMERIC $.release_year AS release_year NUMERIC SORTABLE $.features[*] AS features TAG
-OK
 {{< /clients-example >}}
 
 A few things to notice:
