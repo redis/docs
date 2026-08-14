@@ -34,7 +34,9 @@ Use `gh` or the GitHub API when available; otherwise fetch the public HTML pages
 
 ## 3. Score against the checklist
 
-Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence must cite a URL and a concrete fact; if you cannot find evidence for a criterion, score it Warn at best and state explicitly what is missing.
+Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence must cite a URL and a concrete fact.
+
+**A Fail requires positive evidence of the deficiency, from an instrument known to work for that ecosystem.** Where the figure does not exist, or the only instrument available is blind to the project's ecosystem, score **Warn** and name the gap — not Fail, and not Pass. This rule takes precedence over every band in the tables below: if a band's wording would produce a Fail on nothing more than a missing or unmeasurable reading, the score is Warn and the evidence cell says which instrument was blind. Absence of a claim is not evidence of absence of the thing claimed.
 
 ### A. Maintenance
 
@@ -50,7 +52,7 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
 | B1 | Registry downloads | ≥ the ecosystem's Pass threshold, per the table below | ≥ the Fail floor and < the Pass threshold | < the Fail floor | npmjs.com / pypi.org (pepy.tech) / crates.io / pub.dev / packagist.org / nuget.org / hex.pm package page |
-| B2 | Downstream usage | ≥ 100 dependents, **or** ≥ 1 named independent downstream user of real substance | 1–99 dependents | 0 dependents and none named | GitHub repo sidebar "Used by", `…/network/dependents`, registry "dependents" tab; for Go, pkg.go.dev's "Imported by" count is a working substitute |
+| B2 | Downstream usage | ≥ 100 dependents, **or** ≥ 1 named independent downstream user of real substance | 1–99 dependents, **or** no dependents figure obtainable for the ecosystem (state which instrument was blind) | 0 dependents from an instrument that does work for this ecosystem, and none named | GitHub repo sidebar "Used by", `…/network/dependents`, registry "dependents" tab; for Go, pkg.go.dev's "Imported by" count is a working substitute |
 
 **B1 thresholds are ecosystem-relative.** State the number you found **and** the threshold triple you applied. Monthly downloads:
 
