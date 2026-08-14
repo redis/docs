@@ -77,22 +77,22 @@ For a registry not listed, pick a triple in proportion to that ecosystem's size 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
 | C1 | CI + tests | A real test suite, run by CI, green on the default branch | A real test suite exists but CI does not run it green — absent, red, or lint/build only | No meaningful test suite, whatever CI does | README badges, `…/actions`, `test/` or `spec/` dirs |
-| C2 | Release hygiene | On the official registry, semver, changelog/release notes maintained, **and** published versions traceable to a source state (git tags or equivalent) | On the registry with semver but missing one of those — no changelog, or no tags to trace versions to | Not on the official registry, or chaotic versioning | Registry page + changelog tab, `…/tags` vs registry versions (on the JVM, diff the tags against `repo1.maven.org/maven2/…/maven-metadata.xml`, not the search index). Publisher verification (npm provenance, PyPI trusted publishing, signed artifacts) is worth recording as a note where the registry shows it, but is **not** scored — most ecosystems do not expose it, so scoring it would penalise the language rather than the project |
-| C3 | License & security | OSI-approved license; no open security advisories | License OK but advisory hygiene unclear | Non-OSI/no license, or open unpatched advisories | Repo sidebar License, `…/security/advisories` |
+| C2 | Release hygiene | On the official registry, versions ordered under a consistently applied scheme (semver, CalVer or similar), changelog/release notes maintained, **and** published versions traceable to a source state (git tags or equivalent) | On the registry with consistent versioning but missing either or both of the other two — no changelog, or no tags to trace versions to | Not on the official registry, or versioning inconsistent enough that release order is unclear | Registry page + changelog tab, `…/tags` vs registry versions (on the JVM, diff the tags against `repo1.maven.org/maven2/…/maven-metadata.xml`, not the search index). Publisher verification (npm provenance, PyPI trusted publishing, signed artifacts) is worth recording as a note where the registry shows it, but is **not** scored — most ecosystems do not expose it, so scoring it would penalise the language rather than the project |
+| C3 | License & security | OSI-approved license, **and** the advisories endpoint answers with none open | OSI-approved license, but advisory status cannot be established (endpoint unavailable, advisories not enabled) | Non-OSI or no license, or an open unpatched advisory | Repo sidebar License, `…/security/advisories` |
 
 ### D. Redis-specific fit
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
 | D1 | Modern feature coverage (RESP3, cluster, TLS, ACL/AUTH, pub/sub, pipelining) | ≥ 4 of these 6 covered | 2–3 covered | ≤ 1 covered | README feature list, changelog, API reference (search for RESP3/cluster/TLS/subscribe/pipeline) |
-| D2 | Stated Redis version compatibility | Docs explicitly state compatibility with Redis 7.x/8.x | Explicitly stated but only for an older range (≤ 6.x), **or** implied by recent feature work but not stated | No compatibility statement anywhere | README, docs site, CI matrix |
+| D2 | Stated Redis version compatibility | Docs explicitly state compatibility with a current major — Redis 7.x or later | Stated but only for an older range (≤ 6.x), **or** stated without version detail, **or** unstated but implied by recent feature work | No statement, and nothing implying one | README, docs site, CI matrix |
 
 ### E. Documentation
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
 | E1 | Quickstart | Install → connect → set/get a fresh user can follow, in the README or one hop from it | Partial (examples exist but no clean end-to-end path, or non-English gaps) | No usable quickstart anywhere | Repo README and the page it links to for getting started (a quickstart on the docs site counts; note where it lives, since a README with no inline snippet is worth saying out loud) |
-| E2 | Docs beyond README | Maintained API reference or docs site with guides | Auto-generated API reference only, **or** a hand-written docs site that is no longer maintained (say how you can tell) | Nothing beyond README | Docs link in README/registry sidebar (readthedocs, pub.dev dartdoc, docs.rs, etc.) — the quickstart already scored in E1 does not by itself satisfy this; E2 asks what exists *beyond* it |
+| E2 | Docs beyond README | Hand-written guides or a hand-written docs site beyond the README, currently maintained | A generated API reference only, however current it is (docs.rs, dartdoc, javadoc, readthedocs autodoc), **or** hand-written docs that are no longer maintained (say how you can tell) | Nothing beyond README | Docs link in README/registry sidebar (readthedocs, pub.dev dartdoc, docs.rs, etc.) — the quickstart already scored in E1 does not by itself satisfy this; E2 asks what exists *beyond* it |
 
 ## 4. Total and verdict
 
