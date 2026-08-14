@@ -603,11 +603,7 @@ After creating and validating your certificates, install them on the Redis Softw
     openssl x509 -in /etc/opt/redislabs/<cert-name>_cert.pem -noout -subject -issuer -dates
     ```
 
-1. View certificate details:
 
-    ```sh
-    rladmin info cluster
-    ```
 
 ### Troubleshooting
 
