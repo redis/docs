@@ -597,10 +597,10 @@ After creating and validating your certificates, install them on the Redis Softw
     | `proxy` | Database endpoint proxy certificate |
     | `syncer` | Synchronization process certificate |
 
-1. Check certificate status:
+1. Verify the installed certificate:
 
     ```sh
-    openssl x509 -in /path/to/redis-cert-chain.pem -noout -dates
+    openssl x509 -in /etc/opt/redislabs/<cert-name>_cert.pem -noout -subject -issuer -dates
     ```
 
 1. View certificate details:
