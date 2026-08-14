@@ -68,6 +68,7 @@ develop or contribute to these libraries directly.
 | [Dart](https://dart.dev/) | redis_dart_link | https://github.com/toolsetlink/redis_dart_link | https://github.com/toolsetlink/redis_dart_link |
 | [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
 | [Python](https://www.python.org/) | coredis | https://github.com/alisaifee/coredis | https://coredis.readthedocs.io |
+| [Scala](https://www.scala-lang.org/) | Sage | https://github.com/ghostdogpr/sage | https://ghostdogpr.github.io/sage/ |
 
 ## Requirements
 
