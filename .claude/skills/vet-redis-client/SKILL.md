@@ -21,7 +21,7 @@ Use `gh` or the GitHub API when available; otherwise fetch the public HTML pages
 - **Issues sorted by recently updated** (`/issues?q=is%3Aissue+sort%3Aupdated-desc`) and **`/pulls`** — maintainer responsiveness and triage.
 - **CI status on the default branch** — README badges and the `/actions` tab.
 - **`/security/advisories`** — open security advisories.
-- **The language's package registry page** — npm / PyPI (use pepy.tech for downloads) / crates.io / pkg.go.dev / rubygems / packagist / nuget / pub.dev / hex.pm / Maven Central (JVM: Scala, Java, Kotlin) — for download counts, version/publish history, changelog, dependents.
+- **The language's package registry page** — npm / PyPI (use pepy.tech for downloads) / crates.io / pkg.go.dev / rubygems / packagist / nuget / pub.dev / hex.pm / Maven Central (JVM: Scala, Java, Kotlin) — for download counts, version/publish history, changelog, dependents. Not every registry publishes all of these: **Maven Central and pkg.go.dev publish no download figures at all**, so a missing count there is a property of the registry, never a finding about the project — see the B1 note below before scoring it.
 - **The project's docs site and README** — quickstart, feature list, Redis version compatibility statement.
 
 ### Verification traps
@@ -40,7 +40,7 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
-| A1 | Recent commit activity | Last commit on default branch ≤ 6 months ago | 6–18 months | > 18 months, or repo archived | GitHub repo front page / `…/commits/<default-branch>` |
+| A1 | Recent commit activity | Last commit on default branch ≤ 6 months ago | > 6 and ≤ 18 months | > 18 months, or repo archived | GitHub repo front page / `…/commits/<default-branch>` |
 | A2 | Release recency & cadence | ≥ 1 tagged release in last 12 months **and** visible cadence over the last 2 years | Release in last 12 months but thin/irregular history | No release in 12 months, or no tags at all | `…/releases`, `…/tags`, registry version list |
 | A3 | Bus factor | ≥ 2 distinct committers active in the last year | Exactly 1 active committer | 0 active committers in the last year | `…/commits` author names (contributors graph is JS-rendered; the commits list works) |
 | A4 | Responsiveness | Maintainers reply to recent issues; open PRs get triaged | Slow but eventual responses | Issues ignored/disabled, or a large pile of untouched open PRs | `…/issues?q=is%3Aissue+sort%3Aupdated-desc`, `…/pulls` |
@@ -49,7 +49,7 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
-| B1 | Registry downloads | High for its ecosystem (state the number **and** the threshold you applied — thresholds are language-relative; e.g. npm/PyPI: ≥ 100k/month Pass; pub.dev/hex.pm: ≥ 5k/month Pass, 500–5k Warn, < 500 Fail) | Middling for the ecosystem | Negligible for the ecosystem | npmjs.com / pypi.org (pepy.tech) / crates.io / pub.dev / packagist.org / nuget.org / hex.pm package page |
+| B1 | Registry downloads | High for its ecosystem (state the number **and** the threshold you applied — thresholds are language-relative; e.g. npm/PyPI: ≥ 100k/month Pass; pub.dev/hex.pm: ≥ 5k/month Pass, ≥ 500 and < 5k Warn, < 500 Fail) | Middling for the ecosystem | Negligible for the ecosystem | npmjs.com / pypi.org (pepy.tech) / crates.io / pub.dev / packagist.org / nuget.org / hex.pm package page |
 | B2 | Downstream usage | GitHub "Used by"/dependents in the hundreds+, or named independent downstream users | Some independent dependents | None, or only the author's own projects | GitHub repo sidebar "Used by", `…/network/dependents`, registry "dependents" tab; for Go, pkg.go.dev's "Imported by" count is a working substitute |
 
 **Ecosystems that publish no download figures at all:** Maven Central (JVM — Scala, Java, Kotlin) and pkg.go.dev (Go). B1 is unscoreable there, so cap it at Warn and state that the number does not exist rather than implying the project has poor uptake — the same limitation hits every client in that language. Note the asymmetry: Go loses B1 but keeps B2 via "Imported by", whereas a JVM project's dependents are only visible through named adopters (`mvnrepository.com`'s "Used By" is browser-only, per the traps above).
@@ -66,7 +66,7 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
-| D1 | Modern feature coverage (RESP3, cluster, TLS, ACL/AUTH, pub/sub, pipelining) | 4–5+ of these covered | 2–3 covered | 0–1 covered | README feature list, changelog, API reference (search for RESP3/cluster/TLS/subscribe/pipeline) |
+| D1 | Modern feature coverage (RESP3, cluster, TLS, ACL/AUTH, pub/sub, pipelining) | ≥ 4 of these 6 covered | 2–3 covered | ≤ 1 covered | README feature list, changelog, API reference (search for RESP3/cluster/TLS/subscribe/pipeline) |
 | D2 | Stated Redis version compatibility | Docs explicitly state compatibility with Redis 7.x/8.x | Compatibility implied (recent feature work) but not stated | No compatibility statement anywhere | README, docs site, CI matrix |
 
 ### E. Documentation
