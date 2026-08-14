@@ -49,8 +49,18 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
-| B1 | Registry downloads | High for its ecosystem (state the number **and** the threshold you applied — thresholds are language-relative; e.g. npm/PyPI: ≥ 100k/month Pass; pub.dev/hex.pm: ≥ 5k/month Pass, ≥ 500 and < 5k Warn, < 500 Fail) | Middling for the ecosystem | Negligible for the ecosystem | npmjs.com / pypi.org (pepy.tech) / crates.io / pub.dev / packagist.org / nuget.org / hex.pm package page |
-| B2 | Downstream usage | GitHub "Used by"/dependents in the hundreds+, or named independent downstream users | Some independent dependents | None, or only the author's own projects | GitHub repo sidebar "Used by", `…/network/dependents`, registry "dependents" tab; for Go, pkg.go.dev's "Imported by" count is a working substitute |
+| B1 | Registry downloads | ≥ the ecosystem's Pass threshold, per the table below | ≥ the Fail floor and < the Pass threshold | < the Fail floor | npmjs.com / pypi.org (pepy.tech) / crates.io / pub.dev / packagist.org / nuget.org / hex.pm package page |
+| B2 | Downstream usage | ≥ 100 dependents, **or** ≥ 1 named independent downstream user of real substance | 1–99 dependents | 0 dependents and none named | GitHub repo sidebar "Used by", `…/network/dependents`, registry "dependents" tab; for Go, pkg.go.dev's "Imported by" count is a working substitute |
+
+**B1 thresholds are ecosystem-relative.** State the number you found **and** the threshold triple you applied. Monthly downloads:
+
+| Ecosystem | Pass | Fail floor |
+|---|---|---|
+| npm, PyPI | ≥ 100k | < 10k |
+| crates.io, packagist, nuget | ≥ 20k | < 2k |
+| pub.dev, hex.pm | ≥ 5k | < 500 |
+
+For a registry not listed, pick a triple in proportion to that ecosystem's size and **state it** — the Pass threshold and a Fail floor an order of magnitude below it, matching the pattern above. Naming all three bands is the requirement; the specific numbers are a starting point a reviewer may override with a stated alternative. Two registries are absent from the table because they publish no figures at all rather than because a triple is missing — do not invent one for them, see the note below.
 
 **Ecosystems that publish no download figures at all:** Maven Central (JVM — Scala, Java, Kotlin) and pkg.go.dev (Go). B1 is unscoreable there, so cap it at Warn and state that the number does not exist rather than implying the project has poor uptake — the same limitation hits every client in that language. Note the asymmetry: Go loses B1 but keeps B2 via "Imported by", whereas a JVM project's dependents are only visible through named adopters (`mvnrepository.com`'s "Used By" is browser-only, per the traps above).
 
