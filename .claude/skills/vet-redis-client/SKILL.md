@@ -36,6 +36,8 @@ Use `gh` or the GitHub API when available; otherwise fetch the public HTML pages
 
 Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence must cite a URL and a concrete fact.
 
+**Each criterion's three bands must be mutually exclusive and exhaustive** — numeric ones as half-open intervals, qualitative ones as cases. If a plausible project matches two bands, or none, the row is broken rather than the reviewer's judgement: fix the row. This applies to the qualitative criteria exactly as much as the numeric ones; every band gap found in this checklist so far has been in a row whose wording read perfectly well as English.
+
 **A Fail requires positive evidence of the deficiency, from an instrument known to work for that ecosystem.** Where the figure does not exist, or the only instrument available is blind to the project's ecosystem, score **Warn** and name the gap — not Fail, and not Pass. This rule takes precedence over every band in the tables below: if a band's wording would produce a Fail on nothing more than a missing or unmeasurable reading, the score is Warn and the evidence cell says which instrument was blind. Absence of a claim is not evidence of absence of the thing claimed.
 
 ### A. Maintenance
@@ -45,7 +47,7 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 | A1 | Recent commit activity | Last commit on default branch ≤ 6 months ago | > 6 and ≤ 18 months | > 18 months, or repo archived | GitHub repo front page / `…/commits/<default-branch>` |
 | A2 | Release recency & cadence | ≥ 1 release in last 12 months **and** visible cadence over the last 2 years | Release in last 12 months but thin/irregular history | No release in 12 months | `…/releases`, `…/tags`, registry version list — a release counts whether it is evidenced by a git tag or by a registry publish; score only recency and cadence here, and leave missing tags to C2 |
 | A3 | Bus factor | ≥ 2 distinct committers active in the last year | Exactly 1 active committer | 0 active committers in the last year | `…/commits` author names (contributors graph is JS-rendered; the commits list works) |
-| A4 | Responsiveness | Maintainers reply to recent issues; open PRs get triaged | Slow but eventual responses | Issues ignored/disabled, or a large pile of untouched open PRs | `…/issues?q=is%3Aissue+sort%3Aupdated-desc`, `…/pulls` |
+| A4 | Responsiveness | Maintainers reply to recent issues; open PRs get triaged | Slow but eventual responses, **or** too little inbound activity to judge (say so, and give the counts) | Issues ignored/disabled, or a large pile of untouched open PRs | `…/issues?q=is%3Aissue+sort%3Aupdated-desc`, `…/pulls` |
 
 ### B. Adoption
 
@@ -70,8 +72,8 @@ For a registry not listed, pick a triple in proportion to that ecosystem's size 
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
-| C1 | CI + tests | CI configured and green on default branch; real test suite | Test suite exists but CI absent/failing | Neither CI nor meaningful tests | README badges, `…/actions`, `test/` or `spec/` dirs |
-| C2 | Release hygiene | Published to the official registry, semver tags, changelog/release notes maintained | Registry + semver but no changelog (or unverified publisher) | Not on the official registry, or chaotic versioning | Registry page + changelog tab, `…/tags` vs registry versions (on the JVM, diff the tags against `repo1.maven.org/maven2/…/maven-metadata.xml`, not the search index) |
+| C1 | CI + tests | CI configured and green on default branch; real test suite | Test suite exists but CI absent/failing, **or** CI green while exercising no real tests (lint/build only) | Neither CI nor meaningful tests | README badges, `…/actions`, `test/` or `spec/` dirs |
+| C2 | Release hygiene | On the official registry, semver, changelog/release notes maintained, **and** published versions traceable to a source state (git tags or equivalent) | On the registry with semver but missing one of those — no changelog, or no tags to trace versions to, or an unverified publisher | Not on the official registry, or chaotic versioning | Registry page + changelog tab, `…/tags` vs registry versions (on the JVM, diff the tags against `repo1.maven.org/maven2/…/maven-metadata.xml`, not the search index) |
 | C3 | License & security | OSI-approved license; no open security advisories | License OK but advisory hygiene unclear | Non-OSI/no license, or open unpatched advisories | Repo sidebar License, `…/security/advisories` |
 
 ### D. Redis-specific fit
@@ -79,14 +81,14 @@ For a registry not listed, pick a triple in proportion to that ecosystem's size 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
 | D1 | Modern feature coverage (RESP3, cluster, TLS, ACL/AUTH, pub/sub, pipelining) | ≥ 4 of these 6 covered | 2–3 covered | ≤ 1 covered | README feature list, changelog, API reference (search for RESP3/cluster/TLS/subscribe/pipeline) |
-| D2 | Stated Redis version compatibility | Docs explicitly state compatibility with Redis 7.x/8.x | Compatibility implied (recent feature work) but not stated | No compatibility statement anywhere | README, docs site, CI matrix |
+| D2 | Stated Redis version compatibility | Docs explicitly state compatibility with Redis 7.x/8.x | Explicitly stated but only for an older range (≤ 6.x), **or** implied by recent feature work but not stated | No compatibility statement anywhere | README, docs site, CI matrix |
 
 ### E. Documentation
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
 | E1 | Quickstart | Install → connect → set/get a fresh user can follow, in the README or one hop from it | Partial (examples exist but no clean end-to-end path, or non-English gaps) | No usable quickstart anywhere | Repo README and the page it links to for getting started (a quickstart on the docs site counts; note where it lives, since a README with no inline snippet is worth saying out loud) |
-| E2 | Docs beyond README | Maintained API reference or docs site with guides | Auto-generated API reference only | Nothing beyond README | Docs link in README/registry sidebar (readthedocs, pub.dev dartdoc, docs.rs, etc.) — the quickstart already scored in E1 does not by itself satisfy this; E2 asks what exists *beyond* it |
+| E2 | Docs beyond README | Maintained API reference or docs site with guides | Auto-generated API reference only, **or** a hand-written docs site that is no longer maintained (say how you can tell) | Nothing beyond README | Docs link in README/registry sidebar (readthedocs, pub.dev dartdoc, docs.rs, etc.) — the quickstart already scored in E1 does not by itself satisfy this; E2 asks what exists *beyond* it |
 
 ## 4. Total and verdict
 
