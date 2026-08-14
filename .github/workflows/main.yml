@@ -147,11 +147,28 @@ jobs:
     - name: List files to be published
       run: ls "${{ github.workspace }}/public"
 
+    # Packaged here rather than in the deploy job so the archives travel as their
+    # own artifact instead of bloating build-latest. This build has no versioned
+    # content, so it covers every unversioned product plus the current release of
+    # the versioned ones; the matrix jobs below add the archived versions.
+    - name: Package download bundles
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source public --out bundles \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
+
     - name: Upload latest artifact
       uses: actions/upload-artifact@v4
       with:
         name: build-latest
         path: public/
+        retention-days: 1
+
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-latest
+        path: bundles/
         retention-days: 1
 
   # Build Kubernetes versions in parallel
@@ -218,11 +235,25 @@ jobs:
 
         hugo -d "output"
 
+    - name: Package download bundles for Kubernetes ${{ matrix.version }}
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source output --out bundles \
+          --only redis-kubernetes --version "${{ matrix.version }}" \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: build-kubernetes-${{ matrix.version }}
         path: output/
+        retention-days: 1
+
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-kubernetes-${{ matrix.version }}
+        path: bundles/
         retention-days: 1
 
   # Build RS versions in parallel
@@ -289,11 +320,25 @@ jobs:
 
         hugo -d "output"
 
+    - name: Package download bundles for RS ${{ matrix.version }}
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source output --out bundles \
+          --only redis-software --version "${{ matrix.version }}" \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: build-rs-${{ matrix.version }}
         path: output/
+        retention-days: 1
+
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-rs-${{ matrix.version }}
+        path: bundles/
         retention-days: 1
 
   # Build RDI versions in parallel
@@ -360,11 +405,25 @@ jobs:
 
         hugo -d "output"
 
+    - name: Package download bundles for RDI ${{ matrix.version }}
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source output --out bundles \
+          --only redis-data-integration --version "${{ matrix.version }}" \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: build-rdi-${{ matrix.version }}
         path: output/
+        retention-days: 1
+
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-rdi-${{ matrix.version }}
+        path: bundles/
         retention-days: 1
 
   # Build RedisVL versions in parallel
@@ -431,11 +490,25 @@ jobs:
 
         hugo -d "output"
 
+    - name: Package download bundles for RedisVL ${{ matrix.version }}
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source output --out bundles \
+          --only redisvl --version "${{ matrix.version }}" \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: build-redisvl-${{ matrix.version }}
         path: output/
+        retention-days: 1
+
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-redisvl-${{ matrix.version }}
+        path: bundles/
         retention-days: 1
 
   # Deploy latest build to GCS
@@ -459,6 +532,12 @@ jobs:
       with:
         name: build-latest
         path: public/
+
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-latest
+        path: bundles/
 
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
@@ -492,12 +571,29 @@ jobs:
           done
         }
 
+        # Download bundles for /docs/downloads/. gsutil guesses
+        # "Content-Encoding: gzip" from the .tar.gz extension, which would make
+        # browsers inflate the archive on the way in and save a plain tar under a
+        # .tar.gz name. Pin the content type on upload so there is nothing to
+        # guess, then clear any encoding that slipped through anyway (a header
+        # with no value removes it).
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
         # The two destinations are independent, so run their sync pipelines
         # concurrently. Within each destination the destructive sync still runs
-        # before the additive css/scss upload.
+        # before the additive css/scss upload. The bundles are excluded from the
+        # mirror because the versioned deploy jobs write their archives into the
+        # same directory and this job does not have them -- `-d` would delete them.
         sync_dest() {
           local dest="$1"
-          gsutil -m rsync -r -c -j html -d -x '^(css|scss)/' public "$dest"
+          gsutil -m rsync -r -c -j html -d -x '^(css|scss)/|^downloads/bundles/' public "$dest"
           upload_assets "$dest"
         }
 
@@ -509,6 +605,11 @@ jobs:
         # Propagate failures: either sync failing fails the step.
         wait "$pid_root"
         wait "$pid_docs"
+
+        # Only under docs/, which is where the versioned deploy jobs add their own
+        # archives and where the picker page resolves its links from (baseURL
+        # already carries the docs/ prefix).
+        upload_bundles "gs://$BUCKET/docs/$bucket_path"
 
   # Deploy Kubernetes versions to GCS
   deploy_kubernetes:
@@ -543,6 +644,12 @@ jobs:
         name: build-kubernetes-${{ matrix.version }}
         path: output/
 
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-kubernetes-${{ matrix.version }}
+        path: bundles/
+
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
       with:
@@ -575,14 +682,28 @@ jobs:
           done
         }
 
+        # This version's download bundles join the ones deploy_latest uploaded
+        # into the same directory. See deploy_latest for why the object metadata
+        # is pinned by hand.
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
         if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/kubernetes "gs://${BUCKET}/kubernetes-${version}/operate/kubernetes"
           gsutil -m rsync -r -c -j html -d "output/operate/kubernetes/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/kubernetes/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/kubernetes "gs://${BUCKET}/${bucket_path}/kubernetes-${version}/operate/kubernetes"
           gsutil -m rsync -r -c -j html -d "output/operate/kubernetes/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/kubernetes/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy RS versions to GCS
@@ -616,6 +737,12 @@ jobs:
         name: build-rs-${{ matrix.version }}
         path: output/
 
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-rs-${{ matrix.version }}
+        path: bundles/
+
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
       with:
@@ -643,14 +770,28 @@ jobs:
           done
         }
 
+        # This version's download bundles join the ones deploy_latest uploaded
+        # into the same directory. See deploy_latest for why the object metadata
+        # is pinned by hand.
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
         if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/rs "gs://${BUCKET}/rs-${version}/operate/rs"
           gsutil -m rsync -r -c -j html -d "output/operate/rs/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/rs/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/rs "gs://${BUCKET}/${bucket_path}/rs-${version}/operate/rs"
           gsutil -m rsync -r -c -j html -d "output/operate/rs/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/rs/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy RDI versions to GCS
@@ -684,6 +825,12 @@ jobs:
         name: build-rdi-${{ matrix.version }}
         path: output/
 
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-rdi-${{ matrix.version }}
+        path: bundles/
+
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
       with:
@@ -711,14 +858,28 @@ jobs:
           done
         }
 
+        # This version's download bundles join the ones deploy_latest uploaded
+        # into the same directory. See deploy_latest for why the object metadata
+        # is pinned by hand.
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
         if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/integrate/redis-data-integration "gs://${BUCKET}/redis-data-integration-${version}/integrate/redis-data-integration"
           gsutil -m rsync -r -c -j html -d "output/integrate/redis-data-integration/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/redis-data-integration/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/integrate/redis-data-integration "gs://${BUCKET}/${bucket_path}/redis-data-integration-${version}/integrate/redis-data-integration"
           gsutil -m rsync -r -c -j html -d "output/integrate/redis-data-integration/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/redis-data-integration/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy RedisVL versions to GCS
@@ -752,6 +913,12 @@ jobs:
         name: build-redisvl-${{ matrix.version }}
         path: output/
 
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-redisvl-${{ matrix.version }}
+        path: bundles/
+
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
       with:
@@ -779,14 +946,28 @@ jobs:
           done
         }
 
+        # This version's download bundles join the ones deploy_latest uploaded
+        # into the same directory. See deploy_latest for why the object metadata
+        # is pinned by hand.
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
         if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/develop/ai/redisvl "gs://${BUCKET}/redisvl-${version}/develop/ai/redisvl"
           gsutil -m rsync -r -c -j html -d "output/develop/ai/redisvl/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/redisvl/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/develop/ai/redisvl "gs://${BUCKET}/${bucket_path}/redisvl-${version}/develop/ai/redisvl"
           gsutil -m rsync -r -c -j html -d "output/develop/ai/redisvl/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/redisvl/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy custom 404 page (only for the production latest build)

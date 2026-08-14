@@ -59,6 +59,40 @@ serve_hugo: page_moves
 check_page_sizes:
 	@python3 build/check_page_sizes.py public
 
+# Downloadable archives for the download-documentation widget. Deliberately
+# outside `all`: CI packages these from the finished site in its own step, and
+# covering every product in every format takes a couple of minutes. Run after a
+# build. Narrow it with e.g. BUNDLE_FORMATS=md for a quicker pass.
+BUNDLE_SOURCE ?= public
+BUNDLE_OUT ?= bundles
+BUNDLE_FORMATS ?= md,md-single,html,json
+
+bundles:
+	@python3 build/make_doc_bundles.py \
+		--source $(BUNDLE_SOURCE) --out $(BUNDLE_OUT) --formats $(BUNDLE_FORMATS)
+
+# Serve the site with the download widget actually working, offline and with no
+# extra server. The widget asks for /downloads/bundles/<archive>, and `hugo serve`
+# mounts static/ at the site root -- so packaging into static/downloads/bundles
+# puts the archives on the exact URL, origin, and content type they have in
+# production. The site has to be built first, because the archives are made from
+# the rendered output.
+#
+# --all-versions is what makes the version dropdowns work here: CI packages each
+# archived version in its own matrix build, but a local build renders them all, so
+# one pass can cover them. Without it every version except latest 404s.
+#
+#   make serve_downloads                    # every format (~95 MB, a minute or two)
+#   make serve_downloads BUNDLE_FORMATS=md  # just Markdown, much quicker
+serve_downloads: page_moves
+	@echo "Building the site to package from..."
+	@hugo --quiet
+	@echo "Packaging archives into static/downloads/bundles..."
+	@python3 build/make_doc_bundles.py --all-versions \
+		--source public --out static/downloads/bundles --formats $(BUNDLE_FORMATS)
+	@echo "Serving. The download button is at the bottom of the docs sidebar."
+	@hugo serve
+
 # Report pages that moved without gaining an alias for their old URL, so the old
 # URL now 404s. Reads git history, so it needs no build. Warn-only.
 check_aliases:

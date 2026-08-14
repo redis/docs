@@ -1,0 +1,37 @@
+{{/*
+  Opens the download-documentation widget (download-docs.html), which must be on
+  the page too.
+
+  Takes a dict:
+    class     - classes for the button, so each placement keeps its own look
+    iconClass - classes for the icon
+    label     - visible text; omit for an icon-only button
+    title     - tooltip and accessible name
+
+  Rendered visible rather than revealed by the script. Gating visibility on the
+  script means any unrelated JavaScript failure makes the feature vanish silently,
+  which is far harder to notice than a button that does not respond.
+*/}}
+{{/* data-offline-hide: dropped from the downloadable HTML copies, where there is no
+     widget to open and no bucket to fetch from. */}}
+<button type="button" data-open-download data-offline-hide
+        aria-haspopup="dialog" aria-controls="download-docs-dialog"
+        title="{{ .title }}" class="{{ .class }}">
+  {{ if .label }}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round" class="{{ .iconClass }}" aria-hidden="true">
+      <path d="M12 3v11" />
+      <path d="M7.5 10.5 12 15l4.5-4.5" />
+      <path d="M4 17.5v1.5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5" />
+    </svg>
+    {{ .label }}
+  {{ else }}
+    <span class="sr-only">{{ .title }}</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+         stroke-linecap="round" stroke-linejoin="round" class="{{ .iconClass }}" aria-hidden="true">
+      <path d="M12 3v11" />
+      <path d="M7.5 10.5 12 15l4.5-4.5" />
+      <path d="M4 17.5v1.5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5" />
+    </svg>
+  {{ end }}
+</button>
