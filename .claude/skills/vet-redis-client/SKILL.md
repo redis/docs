@@ -21,8 +21,16 @@ Use `gh` or the GitHub API when available; otherwise fetch the public HTML pages
 - **Issues sorted by recently updated** (`/issues?q=is%3Aissue+sort%3Aupdated-desc`) and **`/pulls`** — maintainer responsiveness and triage.
 - **CI status on the default branch** — README badges and the `/actions` tab.
 - **`/security/advisories`** — open security advisories.
-- **The language's package registry page** — npm / PyPI (use pepy.tech for downloads) / crates.io / pkg.go.dev / rubygems / packagist / nuget / pub.dev / hex.pm — for download counts, version/publish history, changelog, dependents.
+- **The language's package registry page** — npm / PyPI (use pepy.tech for downloads) / crates.io / pkg.go.dev / rubygems / packagist / nuget / pub.dev / hex.pm / Maven Central (JVM: Scala, Java, Kotlin) — for download counts, version/publish history, changelog, dependents.
 - **The project's docs site and README** — quickstart, feature list, Redis version compatibility statement.
+
+### Verification traps
+
+**A single index returning zero is not evidence of absence.** Before scoring any criterion Fail on a missing-from-the-registry or missing-from-the-graph reading, confirm it against the authoritative store, or state that you could not. Three instances that have each been one step away from producing a wrong score on a real submission:
+
+- **Maven Central's search index lags.** `search.maven.org/solrsearch` returned 0 hits for `com.github.ghostdogpr:sage-core_3` while all seven published versions were sitting in the artifact store. The authoritative check is the store itself: `https://repo1.maven.org/maven2/<group/path>/<artifact>/maven-metadata.xml`, which lists every version and a `lastUpdated` stamp.
+- **GitHub's dependents graph does not parse every ecosystem's manifest** — notably `build.sbt`, so it reports "0 Repositories / 0 Packages" for *any* sbt project regardless of real usage. Treat a zero as no-signal, not as a Fail on its own, and say which instrument was blind.
+- **`mvnrepository.com` (which does show a "Used By" count) returns HTTP 403 to scripted requests.** It is browser-only; do not cite it as a source that a re-run can reproduce.
 
 ## 3. Score against the checklist
 
@@ -42,14 +50,16 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
 | B1 | Registry downloads | High for its ecosystem (state the number **and** the threshold you applied — thresholds are language-relative; e.g. npm/PyPI: ≥ 100k/month Pass; pub.dev/hex.pm: ≥ 5k/month Pass, 500–5k Warn, < 500 Fail) | Middling for the ecosystem | Negligible for the ecosystem | npmjs.com / pypi.org (pepy.tech) / crates.io / pub.dev / packagist.org / nuget.org / hex.pm package page |
-| B2 | Downstream usage | GitHub "Used by"/dependents in the hundreds+, or named independent downstream users | Some independent dependents | None, or only the author's own projects | GitHub repo sidebar "Used by", `…/network/dependents`, registry "dependents" tab |
+| B2 | Downstream usage | GitHub "Used by"/dependents in the hundreds+, or named independent downstream users | Some independent dependents | None, or only the author's own projects | GitHub repo sidebar "Used by", `…/network/dependents`, registry "dependents" tab; for Go, pkg.go.dev's "Imported by" count is a working substitute |
+
+**Ecosystems that publish no download figures at all:** Maven Central (JVM — Scala, Java, Kotlin) and pkg.go.dev (Go). B1 is unscoreable there, so cap it at Warn and state that the number does not exist rather than implying the project has poor uptake — the same limitation hits every client in that language. Note the asymmetry: Go loses B1 but keeps B2 via "Imported by", whereas a JVM project's dependents are only visible through named adopters (`mvnrepository.com`'s "Used By" is browser-only, per the traps above).
 
 ### C. Engineering quality
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
 | C1 | CI + tests | CI configured and green on default branch; real test suite | Test suite exists but CI absent/failing | Neither CI nor meaningful tests | README badges, `…/actions`, `test/` or `spec/` dirs |
-| C2 | Release hygiene | Published to the official registry, semver tags, changelog/release notes maintained | Registry + semver but no changelog (or unverified publisher) | Not on the official registry, or chaotic versioning | Registry page + changelog tab, `…/tags` vs registry versions |
+| C2 | Release hygiene | Published to the official registry, semver tags, changelog/release notes maintained | Registry + semver but no changelog (or unverified publisher) | Not on the official registry, or chaotic versioning | Registry page + changelog tab, `…/tags` vs registry versions (on the JVM, diff the tags against `repo1.maven.org/maven2/…/maven-metadata.xml`, not the search index) |
 | C3 | License & security | OSI-approved license; no open security advisories | License OK but advisory hygiene unclear | Non-OSI/no license, or open unpatched advisories | Repo sidebar License, `…/security/advisories` |
 
 ### D. Redis-specific fit
@@ -86,3 +96,27 @@ Produce, in this order:
 2. A scorecard table with columns: criterion | score | evidence. Every evidence cell must contain at least one URL and the concrete fact observed (dates, counts, version numbers). If evidence for a criterion could not be found, score Warn at best and say what is missing.
 3. The total (n / 26) and the verdict per the thresholds above, noting explicitly whether any hard stop applies.
 4. A 2–3 sentence summary of the standout strengths and weaknesses.
+
+Keep observations that are not criteria out of the scorecard and out of anything published — note them separately for the reviewer. They carry no score, and in a public reply they read as a judgement on the author rather than on the library.
+
+## 6. Record the verdict
+
+Do not save the scorecard as a file in this repo: readers expect a checked-in file to be current, and half of a scorecard's facts (open-issue counts, "last commit 5 days ago", the total itself) are false within months. A dated snapshot belongs somewhere that is understood to be a snapshot.
+
+**On an accept**, put it in the squash commit message of the PR that adds the table row. That commit touches exactly the one line being justified, so `git blame` on the row leads a future reviewer straight to the evidence. Write it as a snapshot: name the review date and the version observed, keep the four-or-so non-Pass criteria in full with their evidence, and compress the passes to a single line — a Pass is cheap to re-derive, whereas *why* a criterion was scored down (and what instrument was blind when it was) is not.
+
+Anchor it with trailers so the set stays enumerable across reviews (`git log --grep='^Vetted:'`), using the vocabulary in `.claude/skills/_shared/commit-trailers.md`:
+
+```
+Vetted: <library> <n>/26 <verdict> <YYYY-MM-DD>
+Gaps: <what could not be measured, and which instrument was blind>
+Recheck: <expiry condition — an age, or a signal such as the sole maintainer going quiet>
+```
+
+This repo squashes with `squash_merge_commit_message = COMMIT_MESSAGES`, so the default body is the contributor's WIP commits concatenated and the scorecard is silently discarded. Override it explicitly:
+
+```
+gh pr merge <n> --squash --subject "<subject>" --body-file <scorecard-file>
+```
+
+**On a decline**, the PR reply comment is the record — a closed PR is still discoverable by searching the repo URL. There is no commit to carry it, so the accept and decline paths are deliberately asymmetric; a queryable data file only earns its place if the volume of reviews ever makes that gap hurt.
