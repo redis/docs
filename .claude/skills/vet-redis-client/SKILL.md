@@ -38,6 +38,8 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 
 **Each criterion's three bands must be mutually exclusive and exhaustive** — numeric ones as half-open intervals, qualitative ones as cases. If a plausible project matches two bands, or none, the row is broken rather than the reviewer's judgement: fix the row. This applies to the qualitative criteria exactly as much as the numeric ones; every band gap found in this checklist so far has been in a row whose wording read perfectly well as English.
 
+**If more than one band still applies, score the lowest one** and say in the evidence cell that the row needs repair. A reviewer mid-review cannot rewrite the rubric, and two scorers resolving the same overlap by reading order is the failure this whole section exists to prevent. Prefer restructuring a row around the single axis it measures over appending another "or" clause to a band — an appended clause closes one case and opens an edge against every neighbouring band.
+
 **A Fail requires positive evidence of the deficiency, from an instrument known to work for that ecosystem.** Where the figure does not exist, or the only instrument available is blind to the project's ecosystem, score **Warn** and name the gap — not Fail, and not Pass. This rule takes precedence over every band in the tables below: if a band's wording would produce a Fail on nothing more than a missing or unmeasurable reading, the score is Warn and the evidence cell says which instrument was blind. Absence of a claim is not evidence of absence of the thing claimed.
 
 ### A. Maintenance
@@ -47,7 +49,7 @@ Score each criterion Pass (2) / Warn (1) / Fail (0). Every criterion's evidence 
 | A1 | Recent commit activity | Last commit on default branch ≤ 6 months ago | > 6 and ≤ 18 months | > 18 months, or repo archived | GitHub repo front page / `…/commits/<default-branch>` |
 | A2 | Release recency & cadence | ≥ 1 release in last 12 months **and** visible cadence over the last 2 years | Release in last 12 months but thin/irregular history | No release in 12 months | `…/releases`, `…/tags`, registry version list — a release counts whether it is evidenced by a git tag or by a registry publish; score only recency and cadence here, and leave missing tags to C2 |
 | A3 | Bus factor | ≥ 2 distinct committers active in the last year | Exactly 1 active committer | 0 active committers in the last year | `…/commits` author names (contributors graph is JS-rendered; the commits list works) |
-| A4 | Responsiveness | Maintainers reply to recent issues; open PRs get triaged | Slow but eventual responses, **or** too little inbound activity to judge (say so, and give the counts) | Issues ignored/disabled, or a large pile of untouched open PRs | `…/issues?q=is%3Aissue+sort%3Aupdated-desc`, `…/pulls` |
+| A4 | Responsiveness | Every inbound channel is served: recent issues get maintainer replies **and** open PRs are triaged | Inbound is served but slowly or inconsistently, **or** there is too little inbound to judge (give the counts) | Any inbound channel is unserved: issues disabled, or open issues/PRs sitting untouched with no maintainer response | `…/issues?q=is%3Aissue+sort%3Aupdated-desc`, `…/pulls` |
 
 ### B. Adoption
 
@@ -72,7 +74,7 @@ For a registry not listed, pick a triple in proportion to that ecosystem's size 
 
 | # | Criterion | Pass (2) | Warn (1) | Fail (0) | Where to look |
 |---|-----------|----------|----------|----------|---------------|
-| C1 | CI + tests | CI configured and green on default branch; real test suite | Test suite exists but CI absent/failing, **or** CI green while exercising no real tests (lint/build only) | Neither CI nor meaningful tests | README badges, `…/actions`, `test/` or `spec/` dirs |
+| C1 | CI + tests | A real test suite, run by CI, green on the default branch | A real test suite exists but CI does not run it green — absent, red, or lint/build only | No meaningful test suite, whatever CI does | README badges, `…/actions`, `test/` or `spec/` dirs |
 | C2 | Release hygiene | On the official registry, semver, changelog/release notes maintained, **and** published versions traceable to a source state (git tags or equivalent) | On the registry with semver but missing one of those — no changelog, or no tags to trace versions to, or an unverified publisher | Not on the official registry, or chaotic versioning | Registry page + changelog tab, `…/tags` vs registry versions (on the JVM, diff the tags against `repo1.maven.org/maven2/…/maven-metadata.xml`, not the search index) |
 | C3 | License & security | OSI-approved license; no open security advisories | License OK but advisory hygiene unclear | Non-OSI/no license, or open unpatched advisories | Repo sidebar License, `…/security/advisories` |
 
