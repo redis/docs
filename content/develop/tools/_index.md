@@ -23,6 +23,7 @@ manage it and interact with the data:
 * [Redis Insight](#redis-insight) (a graphical user interface tool)
 * The Redis [VSCode extension](#redis-vscode-extension)
 * [`redisctl`](#redisctl) (a unified CLI for managing Redis Cloud and Redis Software)
+* [Third-party tools](#third-party-tools) maintained by the community
 
 ## Redis command line interface (CLI)
 
@@ -47,3 +48,17 @@ is an extension that allows you to connect to your Redis databases from within M
 [`redisctl`](https://github.com/redis/redisctl) is a unified command-line tool for managing Redis Cloud and Redis Software from your terminal. It provides complete API coverage for both platforms — including subscriptions, databases, VPC peering, ACLs, clusters, and users — without needing custom scripts. It also includes an MCP server component that exposes management operations to AI assistants.
 
 Install via Homebrew, Cargo, or download a binary release from the [GitHub repository](https://github.com/redis/redisctl).
+
+## Third-party tools
+
+The tools above are maintained by Redis. The tools below are maintained by their authors, who are responsible for supporting them.
+
+### LibreDB Studio
+
+[LibreDB Studio](https://github.com/libredb/libredb-studio) is an MIT-licensed, self-hosted database GUI that runs in the browser and is deployed next to the databases it connects to, as a container, a Helm chart, or an npm package. It presents Redis in the same interface as the other engines a team runs, so a cache and the application database behind it can be inspected in one place. The Redis support is built on [`ioredis`](https://github.com/redis/ioredis) and provides:
+
+* A command console that sends any command through a generic dispatch path, including module commands such as `JSON.GET`.
+* A key browser that groups keys by prefix using `SCAN` over a bounded sample of the keyspace, rather than `KEYS`.
+* Server, client, and slow command views built from `INFO`, `CLIENT LIST`, and `SLOWLOG GET`.
+
+It connects to a single standalone node over an unencrypted connection: Cluster, Sentinel, and TLS are not supported. Commands carry the privileges of the user you connect as, so read-only access has to come from a Redis ACL rather than from the tool.
