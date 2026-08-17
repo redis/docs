@@ -61,7 +61,7 @@ An API object that represents the cluster.
 | proxy_certificate | string | Cluster's proxy certificate |
 | <span class="break-all">proxy_max_ccs_disconnection_time</span> | integer | Cluster-wide proxy timeout policy between proxy and CCS |
 | rack_aware | boolean | Cluster operates in a rack-aware mode (read-only) |
-| reserved_ports | array of strings | List of reserved ports and/or port ranges to avoid using for database endpoints (for example `"reserved_ports": ["11000", "13000-13010"]`) |
+| reserved_ports | array of strings | Ports and port ranges that the cluster does not use for database endpoints or internal shard traffic (for example `"reserved_ports": ["11000", "13000-13010", "20048"]`) |
 | robust_crdt_syncer | boolean (default: false) | If `true`, enables the robust syncer for Active-Active databases |
 | s3_ca_cert | string | Filepath to the PEM-encoded CA certificate to use for validating TLS connections to the S3 server |
 | s3_url | string | Specifies the URL for S3 export and import |
