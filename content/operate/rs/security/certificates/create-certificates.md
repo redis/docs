@@ -597,17 +597,13 @@ After creating and validating your certificates, install them on the Redis Softw
     | `proxy` | Database endpoint proxy certificate |
     | `syncer` | Synchronization process certificate |
 
-1. Check certificate status:
+1. Verify the installed certificate:
 
     ```sh
-    rladmin status certificates
+    openssl x509 -in /etc/opt/redislabs/<cert-name>_cert.pem -noout -subject -issuer -dates
     ```
 
-1. View certificate details:
 
-    ```sh
-    rladmin info cluster
-    ```
 
 ### Troubleshooting
 
