@@ -48,9 +48,10 @@ for the product in prose.
 
 ## Resource vocabulary
 
-`concepts.md` defines the resource types and is the canonical source for them. Do not
-restate those definitions on another page — link to it. The distinctions below are the
-ones most often gotten wrong.
+The concepts page at `content/develop/ai/featureform/concepts.md` defines the resource
+types and is the canonical source for them. Do not restate those definitions on another
+page — link to it with `{{< relref "/develop/ai/featureform/concepts" >}}`. The
+distinctions below are the ones most often gotten wrong.
 
 - **Features and labels have the same shape and different jobs.** A feature is model
   input read at inference time. A label is the target value a model is trained to
@@ -131,4 +132,4 @@ Drafting ahead is normal. Draft, verify, open the pull request, and hold it.
   work as written.
 - **Internal material contradicts a published page.** The internal version does not
   automatically win — it may describe unreleased behavior or an internal rename.
-- **A term appears that this file and `concepts.md` do not cover.**
+- **A term appears that neither this file nor the concepts page covers.**
