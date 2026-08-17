@@ -117,9 +117,9 @@ The vector field definition reads: index `$.embedding` as a `VECTOR` field using
 
 A KNN query asks for the `k` products whose embeddings are closest to a query vector. You embed the search phrase with the *same* model, then pass the resulting vector to `FT.SEARCH`:
 
-{{< clients-example set="search_tutorial" step="vector_knn" description="Vector KNN: Find the k nearest documents to a query vector using the =>[KNN ...] syntax" difficulty="intermediate" >}}
+```
 > FT.SEARCH idx:catalog "(*)=>[KNN 3 @embedding $query_vector AS score]" PARAMS 2 query_vector "\x9a\x99\x19\x3f..." SORTBY score ASC RETURN 2 score name DIALECT 2
-{{< /clients-example >}}
+```
 
 Here is what each part does:
 
@@ -138,9 +138,9 @@ For a phrase like "*portable music for the outdoors*", this returns the products
 
 The pre-filter is where vector search meets the filtering you already know. Replace `(*)` with any `FT.SEARCH` query to search for similar products *within a subset*. This finds the 3 nearest products **among Audio products only**:
 
-{{< clients-example set="search_tutorial" step="vector_prefilter" description="Filtered vector search: Restrict KNN candidates with a pre-filter before the vector search runs" difficulty="advanced" >}}
+```
 > FT.SEARCH idx:catalog "(@category:{Audio})=>[KNN 3 @embedding $query_vector AS score]" PARAMS 2 query_vector "\x9a\x99\x19\x3f..." SORTBY score ASC RETURN 2 score name DIALECT 2
-{{< /clients-example >}}
+```
 
 ## Hybrid search
 
@@ -148,9 +148,9 @@ Keyword search and vector search each have strengths. Keyword search is precise 
 
 The [FT.HYBRID]({{< relref "/commands/ft.hybrid" >}}) command takes a `SEARCH` clause (a full-text query, exactly like `FT.SEARCH`) and a `VSIM` clause (a vector similarity query), and combines their rankings. This searches for the keyword *wireless* and, at the same time, for products semantically similar to the query vector (here, an embedding of "*wireless headphones for listening to music*"):
 
-{{< clients-example set="search_tutorial" step="hybrid_search" description="Hybrid search: Combine a full-text SEARCH clause with a vector VSIM clause using FT.HYBRID" difficulty="advanced" >}}
+```
 > FT.HYBRID idx:catalog SEARCH "wireless" VSIM @embedding $query_vector KNN 2 K 5 LOAD 1 @name PARAMS 2 query_vector "\x9a\x99\x19\x3f..."
-{{< /clients-example >}}
+```
 
 As with the KNN examples, the query vector's binary value is shortened above; your client library builds it from the model's output.
 
