@@ -49,6 +49,27 @@ Because the packager and the picker both read `data/doc_bundles.json`, every cho
 offers maps to a file name the packager produced. Nothing else keeps them in step -- don't
 hard-code product ids in either one.
 
+## The current page
+
+The dialog's first table offers the one page the reader is on, as a single published
+file rather than an archive -- restoring what the old "Download Markdown" link did.
+
+Its title and filename are filled in by the script from `location`, not rendered by
+Hugo: the dialog is included with `partialCached`, so one copy of its markup serves
+every page and nothing page-specific can be baked into it. `pageFileFor()` maps a URL
+to the file Hugo published for it (`index.html.md`, `index.json`), and is unit-tested
+because the edge cases are easy to get wrong -- a URL without its trailing slash, the
+site root, and `md-single`, which collapses to Markdown since one page is already one
+file.
+
+Single-page HTML is declined rather than served. A page's stylesheet, fonts, and links
+all live at the site root, so a lone `index.html` opens unstyled with dead links --
+which is exactly why the html *format* ships a product together with its assets. The
+row says so and disables its button instead of handing over a broken file.
+
+Roughly 40 pages in Redis Software have no `index.html.md` at all (they use custom
+layouts), so the button checks with a `HEAD` first and reports which format is missing.
+
 ## One bundle per product, version, and format
 
 Bundle names are `<docset-id>-<version>-<format>.tar.gz`, served from

@@ -67,6 +67,35 @@
       </div>
       <p data-format-hint class="pb-4 text-xs text-slate-600"></p>
 
+      {{/* The page the reader is on. Its title and file are filled in by the script
+           from location, not by Hugo: this partial is partialCached, so one copy of
+           its markup serves every page and nothing page-specific can be baked in. */}}
+      <div class="mb-4 rounded border border-slate-200">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr>
+              <th scope="col" class="{{ $headCell }} pl-3">This page</th>
+              <th scope="col" class="{{ $headCell }} pr-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-slate-100 align-middle">
+              <td class="py-2.5 pl-3">
+                <span data-page-title class="block text-redis-ink-900"></span>
+                <span data-page-file class="block text-xs text-slate-600"></span>
+              </td>
+              <td class="w-32 py-2 pr-3 text-right">
+                <button type="button" data-download-page
+                        class="rounded-md border border-slate-300 px-4 py-1.5 font-medium
+                               text-redis-ink-900 hover:bg-slate-50">
+                  Download
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div class="max-h-[19rem] overflow-y-auto rounded border border-slate-200">
         <table class="w-full border-collapse">
           <thead>

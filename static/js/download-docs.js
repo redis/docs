@@ -140,6 +140,32 @@
     }
   }
 
+  /* ------------------------------------------------------------ the current page */
+
+  // The per-page file each format maps to. Hugo publishes one of each beside every
+  // page's index.html (see [outputs] in config.toml).
+  var PAGE_FILES = {
+    md: { file: 'index.html.md', suffix: '.md' },
+    'md-single': { file: 'index.html.md', suffix: '.md' },
+    html: { file: 'index.html', suffix: '.html' },
+    json: { file: 'index.json', suffix: '.json' }
+  };
+
+  /*
+   * The file behind the page at `pathname` for one format, and a name to save it
+   * under. Derived from the URL rather than rendered by Hugo, because the dialog's
+   * markup is cached once and reused on every page.
+   *
+   * "md-single" collapses to Markdown: one page is already a single file.
+   */
+  function pageFileFor(pathname, format) {
+    var spec = PAGE_FILES[format] || PAGE_FILES.md;
+    var dir = pathname.charAt(pathname.length - 1) === '/' ? pathname : pathname + '/';
+    var segments = dir.split('/').filter(Boolean);
+    var name = segments.length ? segments[segments.length - 1] : 'index';
+    return { url: dir + spec.file, filename: name + spec.suffix };
+  }
+
   /* ------------------------------------------------------------ one picker form */
 
   function initForm(form) {
@@ -154,6 +180,40 @@
     function setStatus(message, isError) {
       status.textContent = message || '';
       status.classList.toggle('text-redis-red-600', Boolean(isError));
+    }
+
+    var pageTitle = form.querySelector('[data-page-title]');
+    var pageFile = form.querySelector('[data-page-file]');
+    var pageButton = form.querySelector('[data-download-page]');
+
+    /* The page's own name, read off the document rather than the template. */
+    function currentPageTitle() {
+      var heading = document.querySelector('main h1') || document.querySelector('h1');
+      if (heading && heading.textContent.trim()) return heading.textContent.trim();
+      return document.title.split('|')[0].trim() || location.pathname;
+    }
+
+    /*
+     * One page on its own works in Markdown and JSON, which are self-contained. It
+     * does not work in HTML: a page's stylesheet, fonts, and links all live at the
+     * site root, so a lone index.html opens unstyled with dead links. That is the
+     * whole reason the html format ships a product together with its assets, and why
+     * this offers no single-page HTML rather than handing over a broken file.
+     */
+    function singlePageFormat() {
+      return format.value !== 'html';
+    }
+
+    function describePage() {
+      if (!pageFile) return;
+      if (singlePageFormat()) {
+        pageFile.textContent = pageFileFor(location.pathname, format.value).filename;
+      } else {
+        pageFile.textContent =
+          'A single HTML page cannot carry its own styling. Choose Markdown or JSON, ' +
+          'or download the whole product below.';
+      }
+      if (pageButton) pageButton.disabled = !singlePageFormat();
     }
 
     function describeFormat() {
@@ -210,6 +270,21 @@
       save(bundle.url, bundle.file, false);
     }
 
+    /* The one page the reader is on: a single published file, so no archive. */
+    async function downloadThisPage() {
+      if (!singlePageFormat()) return;
+      var page = pageFileFor(location.pathname, format.value);
+      var head = await fetch(page.url, { method: 'HEAD' });
+      if (!head.ok) {
+        throw new Error(
+          'This page is not published as ' + page.filename +
+          ' (HTTP ' + head.status + '). Try another format.'
+        );
+      }
+      setStatus('Downloading ' + page.filename + '.');
+      save(page.url, page.filename, false);
+    }
+
     async function downloadMerged(bundles) {
       var today = new Date().toISOString().slice(0, 10);
       var filename = 'redis-docs-' + format.value + '-' + today + '.tar.gz';
@@ -239,10 +314,26 @@
       if (event.target === selectAll) {
         checkboxes.forEach(function (checkbox) { checkbox.checked = selectAll.checked; });
       }
-      if (event.target === format) describeFormat();
+      if (event.target === format) {
+        describeFormat();
+        describePage();
+      }
       refresh();
       setStatus('');
     });
+
+    if (pageButton) {
+      pageButton.addEventListener('click', async function () {
+        pageButton.disabled = true;
+        try {
+          await downloadThisPage();
+        } catch (error) {
+          setStatus(error.message, true);
+        } finally {
+          pageButton.disabled = false;
+        }
+      });
+    }
 
     form.addEventListener('submit', async function (event) {
       event.preventDefault();
@@ -266,6 +357,8 @@
       }
     });
 
+    if (pageTitle) pageTitle.textContent = currentPageTitle();
+    describePage();
     describeFormat();
     refresh();
   }
@@ -297,7 +390,12 @@
   // merging. Keyed on `document`, not on `module` being absent: any other script on
   // the page may define a `module` global, and then nothing here would run at all.
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { copyEntries: copyEntries, mergedStream: mergedStream, mergedBlob: mergedBlob };
+    module.exports = {
+      copyEntries: copyEntries,
+      mergedStream: mergedStream,
+      mergedBlob: mergedBlob,
+      pageFileFor: pageFileFor
+    };
   }
   if (typeof document !== 'undefined') {
     init();

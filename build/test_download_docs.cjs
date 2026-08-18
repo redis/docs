@@ -20,7 +20,7 @@ const os = require('node:os');
 const path = require('node:path');
 
 const REPO = path.resolve(__dirname, '..');
-const { mergedBlob } = require(path.join(REPO, 'static/js/download-docs.js'));
+const { mergedBlob, pageFileFor } = require(path.join(REPO, 'static/js/download-docs.js'));
 
 const MANIFEST = {
   formats: [{ id: 'md', label: 'Markdown', summary: 'one .md file per page', description: 'x' }],
@@ -210,6 +210,32 @@ async function test_the_reason_survives_a_substituted_rejection() {
   console.log('✓ the real reason survives a browser substituting its own error');
 }
 
+function test_this_page_maps_to_the_published_file() {
+  /*
+   * The "This page" row is filled in from location, because the dialog's markup is
+   * cached once and served on every page -- Hugo cannot bake the current page into
+   * it. So the mapping from URL to published file lives here.
+   */
+  const page = pageFileFor('/docs/latest/operate/rs/clusters/add-node/', 'md');
+  assert.strictEqual(page.url, '/docs/latest/operate/rs/clusters/add-node/index.html.md');
+  assert.strictEqual(page.filename, 'add-node.md');
+
+  // Hugo publishes one file per format beside every page.
+  assert.strictEqual(pageFileFor('/a/b/', 'html').url, '/a/b/index.html');
+  assert.strictEqual(pageFileFor('/a/b/', 'json').filename, 'b.json');
+
+  // A single page is already a single file, so md-single is just Markdown.
+  assert.deepStrictEqual(pageFileFor('/a/b/', 'md-single'), pageFileFor('/a/b/', 'md'));
+
+  // A URL without its trailing slash still names a directory of output files.
+  assert.strictEqual(pageFileFor('/a/b', 'md').url, '/a/b/index.html.md');
+
+  // The site root has no last segment to name the file after.
+  assert.strictEqual(pageFileFor('/', 'md').filename, 'index.md');
+
+  console.log('✓ "This page" maps a URL to the file Hugo published for it');
+}
+
 async function main() {
   const tests = [
     test_merged_archive_holds_every_product,
@@ -218,7 +244,8 @@ async function main() {
     test_payload_zeros_are_not_mistaken_for_the_archive_end,
     test_pages_larger_than_one_read_survive,
     test_a_missing_bundle_reports_which_one,
-    test_the_reason_survives_a_substituted_rejection
+    test_the_reason_survives_a_substituted_rejection,
+    test_this_page_maps_to_the_published_file
   ];
 
   for (const t of tests) {
