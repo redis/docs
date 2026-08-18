@@ -29,6 +29,7 @@ The **Configuration** tab lets you view the details of your Agent Memory service
 
 - The **General settings** section provides the connection details and general settings for your Agent Memory service.
 - The **Memory configuration** section provides the service settings for your Redis Agent Memory service.
+- The **AI model and credentials** section shows the model configuration for a service that uses a customer-managed provider key.
 - The **Memory types & extraction** section shows any custom memory types defined for your service.
 - The **Sensitive-data exclusions** section shows the sensitive-data exclusions configured for your service.
 - The **Actions** section lets you flush or delete your Redis Agent Memory service.
@@ -66,6 +67,16 @@ The **Memory configuration** section shows the time-to-live (TTL) for memory sto
 | **Automatic summarization** | Whether older messages in a session are automatically compressed into a summary to keep session memory concise during long conversations. _(Editable)_ |
 | **Summarize after (messages)** | The number of messages a session can hold before older messages are summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
 | **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. Shown only when automatic summarization is enabled. _(Editable)_ |
+
+### AI model and credentials {#ai-model-and-credentials}
+
+The **AI model and credentials** section appears when the service uses your model provider key.
+
+Provider and model values shown in the screenshot are examples.
+
+{{<image filename="images/rc/agent-memory-ai-model-details.png" alt="The AI model and credentials section for an existing service. It shows the provider, embedding model, LLM model, and a User-managed API key status." >}}
+
+The provider and embedding model are read-only. You can change the LLM model or replace the provider key. For update steps, key rotation behavior, security, and troubleshooting guidance, see [Configure AI models for Agent Memory]({{< relref "/operate/iris/agent-memory/model-configuration" >}}).
 
 ### Memory types & extraction {#memory-types-and-extraction}
 
@@ -129,7 +140,7 @@ Flushing the service is permanent and cannot be undone, and will result in empty
 
 #### Delete service
 
-Deleting your Agent Memory service permanently deletes all associated memory data, the service configuration, and the Agent Memory search index. It also immediately terminates all API keys associated with the service. Data stored in other indexes within the same database will remain unaffected.
+Deleting your Agent Memory service permanently deletes all associated memory data, the service configuration, the Agent Memory search index, and any stored model provider key. It also immediately terminates all API keys associated with the service. Data stored in other indexes within the same database will remain unaffected.
 
 To delete your Agent Memory service:
 

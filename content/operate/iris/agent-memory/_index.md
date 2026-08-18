@@ -25,4 +25,4 @@ Deploy, configure, secure, and operate Redis Agent Memory on your own Kubernetes
 
 Use Redis Agent Memory as a managed service on Redis Cloud.
 
-[Create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}) or [view and manage an existing service]({{< relref "/operate/iris/agent-memory/view-service" >}}).
+[Create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}), [configure its AI models]({{< relref "/operate/iris/agent-memory/model-configuration" >}}), or [view and manage an existing service]({{< relref "/operate/iris/agent-memory/view-service" >}}).
