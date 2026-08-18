@@ -334,6 +334,21 @@ def offline_source(path):
     return strip_offline_hidden(path.read_text(encoding="utf-8", errors="replace"))
 
 
+ALIAS_REDIRECT = re.compile(r'http-equiv=["\']refresh["\']', re.IGNORECASE)
+
+
+def is_alias_stub(path):
+    """Whether a published index.html is one of Hugo's alias redirects.
+
+    An alias is a few hundred bytes of meta-refresh pointing at the page that
+    replaced it. Only the html format ever sees them -- Hugo writes no Markdown or
+    JSON for an alias -- which is why an html bundle otherwise counts hundreds more
+    "pages" than the same product's md bundle, and why a renamed page appears in the
+    archive under its old name as well as its new one.
+    """
+    return bool(ALIAS_REDIRECT.search(path.read_text(encoding="utf-8", errors="replace")[:2000]))
+
+
 def detect_site_prefix(html):
     """The path the site is published under, read off one of its own asset URLs."""
     match = SITE_PREFIX_HINT.search(html)
@@ -666,6 +681,8 @@ def build_bundle(source, out_dir, docset, version, fmt, url_base):
         skip_version_dirs=(version == "latest" and "versions" in docset),
         out_dir=out_dir,
     )
+    if spec["file"] == "index.html":
+        pages = [(rel, path) for rel, path in pages if not is_alias_stub(path)]
     if not pages:
         return None
 

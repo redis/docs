@@ -82,7 +82,11 @@
             {{ range $config.docsets }}
               {{- $docset := . -}}
               {{- $id := printf "download-docs-%s" $docset.id -}}
-              <tr class="border-t border-slate-100 align-top hover:bg-slate-50">
+              {{/* Centred, so a one-line name lines up with the 32px version dropdown
+                   beside it. Rows carrying a description stay top-aligned instead, or the
+                   checkbox floats between the two lines rather than sitting next to the
+                   name. None of the described products is versioned, so no row needs both. */}}
+              <tr class="border-t border-slate-100 hover:bg-slate-50 {{ if $docset.description }}align-top{{ else }}align-middle{{ end }}">
                 <td class="py-2.5 pl-3">
                   <input type="checkbox" id="{{ $id }}" name="docset" value="{{ $docset.id }}"
                          data-title="{{ $docset.title }}">

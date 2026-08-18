@@ -29,9 +29,7 @@ https://redis.io/docs/latest/downloads/bundles/<product>-<version>-<format>.tar.
 
 For example, `redis-software-latest-md.tar.gz` or `commands-latest-json.tar.gz`. Formats are
 `md` (one Markdown file per page), `md-single` (a product in one Markdown file), `html`, and
-`json`. Products are `get-started`, `develop`, `commands`, `apis`, `redis-open-source`,
-`redis-software`, `redis-cloud`, `redis-kubernetes`, `redis-data-integration`, `redisvl`,
-`redis-insight`, `integrations`, and `glossary`.
+`json`. Products are `develop`, `integrations`, `redisvl`, `redis-software`, `redis-cloud`, `redis-kubernetes`, `redis-open-source`, `redis-iris`, `redis-feature-form`, `redis-insight`, `redis-data-integration`, `glossary`, and `commands`.
 
 ## JSON documentation feeds
 

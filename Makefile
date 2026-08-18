@@ -84,9 +84,14 @@ bundles:
 #
 #   make serve_downloads                    # every format (~95 MB, a minute or two)
 #   make serve_downloads BUNDLE_FORMATS=md  # just Markdown, much quicker
+# --cleanDestinationDir matters more than it looks. Hugo leaves orphans behind, so
+# a public/ rebuilt in place still holds pages whose source was renamed or deleted,
+# and the packager cannot tell them from real ones -- they end up in the archives,
+# and archived-version directories that no longer exist produce whole phantom
+# bundles. CI never sees this (fresh checkout, empty public/); local runs always do.
 serve_downloads: page_moves
 	@echo "Building the site to package from..."
-	@hugo --quiet
+	@hugo --cleanDestinationDir --quiet
 	@echo "Packaging archives into static/downloads/bundles..."
 	@python3 build/make_doc_bundles.py --all-versions \
 		--source public --out static/downloads/bundles --formats $(BUNDLE_FORMATS)

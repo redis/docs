@@ -26,6 +26,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 from make_doc_bundles import (
     DEFAULT_MANIFEST,
+    VERSION_DIR,
     archived_versions,
     build_bundle,
     load_manifest,
@@ -458,6 +459,35 @@ def test_offline_html_leaves_out_pages_the_bundle_excludes():
     print("✓ excluded versions and child products are not pulled in as assets")
 
 
+def test_alias_redirects_are_not_shipped_as_pages():
+    """A renamed page leaves an alias behind at its old URL. Hugo writes it as html
+    only -- no Markdown, no JSON -- so an html bundle would carry the page twice,
+    once under each name, and count both."""
+    docset = {"id": "rs", "title": "Redis Software", "path": "operate/rs"}
+    with tempfile.TemporaryDirectory() as tmp:
+        site = Path(tmp) / "public"
+        make_pages(site / "operate/rs", ["", "configure-auth"])
+        # What Hugo writes for `aliases: [/operate/rs/auth/]`.
+        (site / "operate/rs/auth").mkdir(parents=True)
+        (site / "operate/rs/auth/index.html").write_text(
+            '<html><head><title>redirect</title>'
+            '<meta http-equiv="refresh" content="0; '
+            'url=https://redis.io/operate/rs/configure-auth/"></head></html>',
+            encoding="utf-8",
+        )
+
+        out = Path(tmp) / "bundles"
+        entry = build_bundle(site, out, docset, "latest", FORMATS["html"], URL_BASE)
+        with tarfile.open(out / entry["file"]) as tar:
+            names = sorted(tar.getnames())
+
+    assert "redis-docs/rs-latest/configure-auth/index.html" in names, names
+    assert "redis-docs/rs-latest/auth/index.html" not in names, names
+    # And the count reflects real pages, not redirects.
+    assert entry["pages"] == 2, entry
+    print("✓ alias redirects are not shipped as pages")
+
+
 def test_offline_sidebar_keeps_only_the_product_in_the_bundle():
     """Opening one product's copy should not show a menu of the others: their links
     all lead back to the live site."""
@@ -616,6 +646,60 @@ def test_unversioned_product_reports_no_archived_versions():
     print("✓ a product that is not versioned reports no archived versions")
 
 
+def test_version_directories_require_a_versions_key():
+    """A product that has archived versions in content must declare them.
+
+    Redis Data Integration has none today, so its entry carries no "versions" and
+    the picker shows no dropdown for it. If versions come back and the entry is not
+    updated, the failure is silent and nasty: iter_pages only skips version
+    directories for products that declare "versions", so every archived version
+    would be packaged *into* the latest download.
+    """
+    repo = Path(DEFAULT_MANIFEST).parent.parent
+
+    for docset in MANIFEST["docsets"]:
+        content = repo / "content" / docset["path"]
+        if not content.is_dir():
+            continue
+        found = sorted(
+            child.name for child in content.iterdir()
+            if child.is_dir() and VERSION_DIR.match(child.name)
+        )
+        if found:
+            assert "versions" in docset, (
+                f"{docset['id']} has archived versions in content ({', '.join(found[:4])}) "
+                f'but no "versions" key in data/doc_bundles.json. Without it the picker '
+                f"offers no version choice and the latest bundle swallows every version."
+            )
+    print("✓ products with archived versions declare them in the manifest")
+
+
+def test_every_product_is_offered():
+    """Every product directory the site publishes must be downloadable.
+
+    Redis Iris and Redis Feature Form were both missing from the first version of
+    the manifest, which was written by reading a directory listing and keeping the
+    familiar names. Nothing failed, because no test compared the list against the
+    site -- so the products were simply absent from the picker. This is that
+    comparison.
+    """
+    repo = Path(DEFAULT_MANIFEST).parent.parent
+    offered = {d["path"] for d in MANIFEST["docsets"]}
+
+    for section in ("operate", "integrate"):
+        for child in sorted((repo / "content" / section).iterdir()):
+            if not child.is_dir():
+                continue
+            path = f"{section}/{child.name}"
+            # A product may be covered by its own entry or by its parent section's.
+            covered = path in offered or section in offered
+            assert covered, (
+                f"content/{path} is published but no docset offers it. Add an entry "
+                f"to data/doc_bundles.json, or exclude it from its parent's entry."
+            )
+    print("✓ every published product directory is offered by some docset")
+
+
 def test_shipped_manifest_is_usable():
     """The real data/doc_bundles.json is what CI and the picker both read."""
     ids = [d["id"] for d in MANIFEST["docsets"]]
@@ -651,6 +735,7 @@ def main():
         test_offline_html_empties_the_site_header,
         test_offline_html_drops_what_the_templates_marked,
         test_offline_html_leaves_out_pages_the_bundle_excludes,
+        test_alias_redirects_are_not_shipped_as_pages,
         test_offline_sidebar_keeps_only_the_product_in_the_bundle,
         test_versioned_bundle_drops_the_version_level_from_the_sidebar,
         test_latest_bundle_keeps_the_product_level,
@@ -659,6 +744,8 @@ def main():
         test_other_formats_are_not_rewritten,
         test_archived_versions_are_discovered_newest_first,
         test_unversioned_product_reports_no_archived_versions,
+        test_version_directories_require_a_versions_key,
+        test_every_product_is_offered,
         test_shipped_manifest_is_usable,
     ]
     try:

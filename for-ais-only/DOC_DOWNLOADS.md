@@ -188,6 +188,21 @@ The merge tests matter more than they look. A tar ends with zero blocks and ever
 at the first set it meets, so a bad seam does not raise an error -- it silently yields an
 archive holding only the first product.
 
+### Stale build output will end up in the archives
+
+The packager reads `public/`, and Hugo does not remove what it no longer generates. A `public/`
+rebuilt in place therefore still holds pages whose source was renamed or deleted, and nothing
+distinguishes them from real ones: they ship in the archives, and an archived-version directory
+that no longer exists produces a whole phantom bundle (`--all-versions` discovers versions from
+the build output, not from `content/`). CI never sees this -- fresh checkout, empty `public/` --
+so it is purely a local trap. `make serve_downloads` builds with `--cleanDestinationDir` for that
+reason; a bare `hugo` does not.
+
+Aliases are a different thing and are not stale. A renamed page leaves a meta-refresh stub at its
+old URL, which Hugo writes as html only -- no Markdown, no JSON. Those are filtered out of html
+bundles, or a product would ship the same page twice under two names and count both. It is why an
+html bundle used to report hundreds more pages than the same product's md bundle.
+
 ### Driving the widget locally
 
 ```bash
