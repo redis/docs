@@ -505,12 +505,29 @@ selects the dialect version under which to execute the query. If not specified, 
 
 ## Return
 
-FT.SEARCH returns an array reply, where the first element is an integer reply of the total number of results, and then array reply pairs of document ids, and array replies of attribute/value pairs.
+FT.SEARCH returns an array reply. The first element is an integer reply that contains the total number of documents that match the query. The remaining elements are pairs: a document ID followed by an array of attribute-value pairs.
+
+This total is not necessarily the number of documents returned in the reply. `LIMIT` controls how many matching documents follow the count. It defaults to `0 10`, so a query with more than 10 matching documents returns a count greater than the number of returned documents. Use `LIMIT 0 0` to get only the total.
+
+For example, if 42 documents match the query, the count is 42, even though the reply returns only the first 10 documents:
+
+```sh
+127.0.0.1:6379> FT.SEARCH idx "@title:redis" NOCONTENT
+ 1) (integer) 42
+ 2) "doc:1"
+ 3) "doc:2"
+...
+11) "doc:10"
+
+127.0.0.1:6379> FT.SEARCH idx "@title:redis" LIMIT 0 0
+1) (integer) 42
+```
 
 {{% alert title="Notes" color="warning" %}}
  
-- If `NOCONTENT` is given, an array is returned where the first element is the total number of results, and the rest of the members are document ids.
-- If a relevant key expires or is updated while a query is running, an attempt to load the updated key's value will return a null array. However, the key is still counted in the total number of results.
+- If you specify `NOCONTENT`, the command returns an array where the first element is the total number of matching documents and the remaining elements are document IDs.
+- If a matching key expires or is updated while a query is running, Redis returns a null array when it tries to load the updated key's value. The key still counts as a matching document.
+- The number of matching documents is accurate unless the query uses the sorting optimizations of `DIALECT 4` or `WITHOUTCOUNT`. These queries stop as soon as they collect the results requested by `LIMIT`, so the reported number is capped at the size of the `LIMIT` window instead of counting every matching document. Add `WITHCOUNT` to a `SORTBY` clause to get an accurate count.
 
 {{% /alert %}}
 
@@ -856,15 +873,15 @@ Query with `CONTAINS` operator:
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with the first element being the total number of results, followed by document IDs and their field-value pairs as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}).
+* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}): the first element is the total number of documents that match the query. The remaining elements are document IDs followed by their field-value pairs as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}). The number of documents returned in the reply is limited by `LIMIT`, so it is often smaller than the total number of matching documents.
 * [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
 
 -tab-sep-
 
 One of the following:
 * [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
-    - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - total number of results
-    - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information
+    - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the total number of documents that match the query, regardless of how many are returned in `results`
+    - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information, limited by `LIMIT`
     - `attributes`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of attribute names
     - `format`: [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - result format
     - `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages
