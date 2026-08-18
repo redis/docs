@@ -235,6 +235,17 @@ jobs:
 
         hugo -d "output"
 
+        # Hugo writes one sitemap at the root of the build output, but deploy_kubernetes
+        # uploads only the versioned subdirectory, so that file never reaches the
+        # bucket -- and the latest build deletes these version directories before it
+        # builds, so its sitemap cannot list them either. Result: no sitemap anywhere
+        # listed a versioned page. Write a subtree sitemap into the directory that
+        # does ship, so the existing rsync picks it up with no deploy changes.
+        python3 build/generate_version_sitemap.py \
+          --sitemap output/sitemap.xml \
+          --subtree "operate/kubernetes/${version}" \
+          --output "output/operate/kubernetes/${version}/sitemap.xml"
+
     - name: Package download bundles for Kubernetes ${{ matrix.version }}
       run: |
         python3 build/make_doc_bundles.py \
@@ -254,6 +265,15 @@ jobs:
       with:
         name: bundles-kubernetes-${{ matrix.version }}
         path: bundles/
+        retention-days: 1
+
+    # Uploaded separately as well so deploy_version_sitemaps can collect every
+    # version's sitemap without downloading four dozen full site builds.
+    - name: Upload Kubernetes ${{ matrix.version }} sitemap
+      uses: actions/upload-artifact@v4
+      with:
+        name: sitemap-kubernetes-${{ matrix.version }}
+        path: output/operate/kubernetes/${{ matrix.version }}/sitemap.xml
         retention-days: 1
 
   # Build RS versions in parallel
@@ -320,6 +340,13 @@ jobs:
 
         hugo -d "output"
 
+        # See the Kubernetes build: the root sitemap is never deployed, so write one
+        # into the versioned subdirectory that is.
+        python3 build/generate_version_sitemap.py \
+          --sitemap output/sitemap.xml \
+          --subtree "operate/rs/${version}" \
+          --output "output/operate/rs/${version}/sitemap.xml"
+
     - name: Package download bundles for RS ${{ matrix.version }}
       run: |
         python3 build/make_doc_bundles.py \
@@ -339,6 +366,13 @@ jobs:
       with:
         name: bundles-rs-${{ matrix.version }}
         path: bundles/
+        retention-days: 1
+
+    - name: Upload RS ${{ matrix.version }} sitemap
+      uses: actions/upload-artifact@v4
+      with:
+        name: sitemap-rs-${{ matrix.version }}
+        path: output/operate/rs/${{ matrix.version }}/sitemap.xml
         retention-days: 1
 
   # Build RDI versions in parallel
@@ -405,6 +439,13 @@ jobs:
 
         hugo -d "output"
 
+        # See the Kubernetes build: the root sitemap is never deployed, so write one
+        # into the versioned subdirectory that is.
+        python3 build/generate_version_sitemap.py \
+          --sitemap output/sitemap.xml \
+          --subtree "integrate/redis-data-integration/${version}" \
+          --output "output/integrate/redis-data-integration/${version}/sitemap.xml"
+
     - name: Package download bundles for RDI ${{ matrix.version }}
       run: |
         python3 build/make_doc_bundles.py \
@@ -424,6 +465,13 @@ jobs:
       with:
         name: bundles-rdi-${{ matrix.version }}
         path: bundles/
+        retention-days: 1
+
+    - name: Upload RDI ${{ matrix.version }} sitemap
+      uses: actions/upload-artifact@v4
+      with:
+        name: sitemap-rdi-${{ matrix.version }}
+        path: output/integrate/redis-data-integration/${{ matrix.version }}/sitemap.xml
         retention-days: 1
 
   # Build RedisVL versions in parallel
@@ -490,6 +538,13 @@ jobs:
 
         hugo -d "output"
 
+        # See the Kubernetes build: the root sitemap is never deployed, so write one
+        # into the versioned subdirectory that is.
+        python3 build/generate_version_sitemap.py \
+          --sitemap output/sitemap.xml \
+          --subtree "develop/ai/redisvl/${version}" \
+          --output "output/develop/ai/redisvl/${version}/sitemap.xml"
+
     - name: Package download bundles for RedisVL ${{ matrix.version }}
       run: |
         python3 build/make_doc_bundles.py \
@@ -509,6 +564,13 @@ jobs:
       with:
         name: bundles-redisvl-${{ matrix.version }}
         path: bundles/
+        retention-days: 1
+
+    - name: Upload RedisVL ${{ matrix.version }} sitemap
+      uses: actions/upload-artifact@v4
+      with:
+        name: sitemap-redisvl-${{ matrix.version }}
+        path: output/develop/ai/redisvl/${{ matrix.version }}/sitemap.xml
         retention-days: 1
 
   # Deploy latest build to GCS
@@ -971,6 +1033,118 @@ jobs:
         fi
 
   # Deploy custom 404 page (only for the production latest build)
+  # Republish /sitemap.xml with the versioned pages folded in.
+  #
+  # deploy_latest publishes the sitemap Hugo rendered for the latest build, which by
+  # construction cannot list a versioned page: that build deletes the version
+  # directories before Hugo runs. The versioned builds do render those pages, but
+  # only their versioned subdirectory is deployed, so their sitemaps never ship.
+  # This job runs after both and overwrites the published file with the union --
+  # ~2,700 latest URLs plus ~3,100 versioned ones -- so the address the SEO team
+  # already references gains the missing pages with no change on their side.
+  #
+  # One flat urlset rather than a sitemap index, deliberately: their file is itself
+  # a sitemap index, and the protocol does not allow one index to nest inside
+  # another. At ~5,800 URLs this is well inside the 50,000 URL / 50 MB ceiling.
+  deploy_complete_sitemap:
+    name: Deploy complete sitemap
+    needs:
+      - discover_versions
+      - build_kubernetes
+      - build_rs
+      - build_rdi
+      - build_redisvl
+      # deploy_latest mirrors public -> docs/<path> with `-d`, which would delete
+      # this file. Same gating reason as the versioned deploy jobs.
+      - deploy_latest
+    # A build job is skipped when its product has no version directories (RDI has
+    # none today), and a skipped `needs` would skip this job too -- hence
+    # `!cancelled()` rather than a plain dependency. Only deploy_latest is
+    # load-bearing; the rest contribute artifacts when they run. The last clause
+    # stands the job down entirely when nothing is versioned, so that an empty
+    # artifact set is a no-op instead of a failed merge.
+    if: >-
+      ${{ !cancelled()
+      && needs.deploy_latest.result == 'success'
+      && !(needs.discover_versions.outputs.kubernetes_versions == '[]'
+           && needs.discover_versions.outputs.rs_versions == '[]'
+           && needs.discover_versions.outputs.rdi_versions == '[]'
+           && needs.discover_versions.outputs.redisvl_versions == '[]') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
+      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
+
+    steps:
+    - name: Check the branch out
+      uses: actions/checkout@v4
+
+    - name: Download the versioned sitemaps
+      uses: actions/download-artifact@v4
+      with:
+        pattern: sitemap-*
+        path: sitemaps/
+
+    # The latest build's own sitemap is the other half of the union. Taken from its
+    # artifact rather than from the bucket so the merge reflects the build being
+    # deployed rather than whatever a concurrent run happened to leave published.
+    - name: Download the latest build's sitemap
+      uses: actions/download-artifact@v4
+      with:
+        name: build-latest
+        path: latest-build/
+
+    - name: Merge every sitemap into one
+      run: |
+        mkdir -p sitemaps/latest
+        cp latest-build/sitemap.xml sitemaps/latest/sitemap.xml
+
+        # One sitemap per discovered version, plus the latest build's. Fewer means a
+        # matrix build failed or dropped its artifact, and overwriting the published
+        # file with a partial one would silently drop those pages from search again --
+        # the exact regression this job exists to prevent.
+        expected=$( (
+          echo '${{ needs.discover_versions.outputs.kubernetes_versions }}'
+          echo '${{ needs.discover_versions.outputs.rs_versions }}'
+          echo '${{ needs.discover_versions.outputs.rdi_versions }}'
+          echo '${{ needs.discover_versions.outputs.redisvl_versions }}'
+        ) | jq -s 'map(length) | add')
+        expected=$((expected + 1))
+        echo "Expecting ${expected} sitemaps (versions + latest)"
+
+        python3 build/merge_sitemaps.py sitemaps \
+          --output sitemap.xml \
+          --expect "$expected"
+
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        service_account: '${{ env.PROD_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
+    - name: Deploy the complete sitemap to GCS
+      run: |
+        bucket_path="${{ needs.discover_versions.outputs.bucket_path }}"
+
+        # Mirrors the versioned deploy jobs, which act on latest and staging only.
+        if [[ "$bucket_path" == "latest" || "$bucket_path" == staging/* ]]; then
+          # Both destinations deploy_latest mirrors to, so the two copies of
+          # sitemap.xml do not disagree about which pages exist.
+          gsutil cp sitemap.xml "gs://${BUCKET}/${bucket_path}/sitemap.xml"
+          gsutil cp sitemap.xml "gs://${BUCKET}/docs/${bucket_path}/sitemap.xml"
+        fi
+
   deploy_404:
     name: Deploy 404 page
     needs:

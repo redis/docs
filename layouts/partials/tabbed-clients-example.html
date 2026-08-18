@@ -140,6 +140,35 @@
             {{ end }}
         {{ end }}
 
+        {{/* A step was requested that this client's file does not contain. Three cases hide
+             behind that, and only the middle one is a defect:
+
+               step="" (explicitly empty)  -> the whole file IS the example. Keep it.
+               file has other steps, not this one -> an AUTHORING GAP. Omit the tab: the
+                 legacy path below would otherwise dump the client's entire file — imports,
+                 connection setup and every unrelated example — into a pane the reader
+                 opened for one command. Up to 258 lines where a snippet belongs.
+               file has NO steps at all -> predates STEP markers, so the whole file is
+                 still the closest thing to an example. Keep it, or pages like
+                 commands/set.md and commands/get.md lose every client tab.
+
+             The len > 0 clause is what separates the last two, and it is load-bearing.
+             Note this tests membership in named_steps rather than $sliceable: a step that
+             exists but whose range is malformed or out of bounds should still fall through
+             to the whole-file path, which is the safety net that guard was written for. */}}
+        {{ $omitTab := false }}
+        {{ if and (ne $step "") (isset $example "named_steps") }}
+            {{ $steps := index $example "named_steps" }}
+            {{ if and (gt (len $steps) 0) (not (isset $steps $step)) }}
+                {{ $omitTab = true }}
+                {{ warnf "[tabbed-clients-example] %q: client %q has no step %q in set %q — tab omitted. Add the step to that client's example file, or name the supporting clients in lang_filter." $.Page $client $step $id }}
+            {{ end }}
+        {{ end }}
+        {{/* Skip before any content is built: the legacy path mutates .Page.Store and inlines
+             the whole file once per page, so building it for a tab we then drop would leave
+             orphaned markup behind. */}}
+        {{ if $omitTab }}{{ continue }}{{ end }}
+
         {{ $content := "" }}
         {{ $fullFileKey := "" }}
         {{ $hlRange := "" }}

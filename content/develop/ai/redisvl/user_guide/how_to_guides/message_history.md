@@ -3,8 +3,6 @@ linkTitle: Manage llm message history
 title: Manage LLM Message History
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/07_message_history
-- /integrate/redisvl/user_guide/message_history/
-- /develop/ai/redisvl/user_guide/message_history/
 weight: 07
 ---
 
