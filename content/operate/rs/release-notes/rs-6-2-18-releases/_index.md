@@ -15,6 +15,18 @@ toc: 'true'
 weight: 73
 ---
 
+{{< warning >}}
+Redis Software 6.2 reached end of life on February 28, 2025. It no longer
+receives security patches, CVE fixes, bug fixes, or maintenance releases.
+Support for 6.2-specific issues is limited per your subscription agreement,
+and you may be asked to upgrade before an issue can be investigated.
+
+Upgrade to a supported version. Reaching the latest version may require an
+intermediate upgrade first — see the
+[supported upgrade paths]({{< relref "/operate/rs/references/upgrade-paths" >}})
+and the [Redis Software product lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}).
+{{< /warning >}}
+
 [Redis Enterprise Software version 6.2.18](https://redislabs.com/redis-enterprise-software/download-center/software/) is now available! 
 
 This version of Redis Enterprise Software offers:

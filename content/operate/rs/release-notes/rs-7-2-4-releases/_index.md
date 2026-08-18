@@ -17,6 +17,17 @@ toc: 'true'
 weight: 71
 ---
 
+{{< warning >}}
+Redis Software 7.2 reached end of life on February 28, 2026. It no longer
+receives security patches, CVE fixes, bug fixes, or maintenance releases.
+Support for 7.2-specific issues is limited per your subscription agreement,
+and you may be asked to upgrade before an issue can be investigated.
+
+Upgrade to a supported version. See the
+[supported upgrade paths]({{< relref "/operate/rs/references/upgrade-paths" >}})
+and the [Redis Software product lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}).
+{{< /warning >}}
+
 ​[​Redis Enterprise Software version 7.2.4](https://redis.io/downloads/#software) is now available!
 
 ## Highlights
