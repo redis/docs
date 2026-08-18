@@ -17,7 +17,7 @@ weight: 72
 
 {{< warning >}}
 Redis Software 6.4 reached end of life on August 31, 2025. It no longer
-receives security patches, CVE fixes, bug fixes, or maintenance releases.
+receives security patches, bug fixes, or maintenance releases.
 Support for 6.4-specific issues is limited per your subscription agreement,
 and you may be asked to upgrade before an issue can be investigated.
 

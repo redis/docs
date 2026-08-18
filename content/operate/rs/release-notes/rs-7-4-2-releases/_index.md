@@ -18,9 +18,9 @@ weight: 70
 
 {{< note >}}
 Redis Software 7.4 reaches end of life on November 30, 2026. After that date,
-7.4.x clusters no longer receive security patches, CVE fixes, bug fixes, or
-maintenance releases, and support for 7.4-specific issues is limited per your
-subscription agreement.
+7.4.x clusters no longer receive security patches, bug fixes, or maintenance
+releases, and support for 7.4-specific issues is limited per your subscription
+agreement.
 
 Plan your upgrade to a supported version. See the
 [supported upgrade paths]({{< relref "/operate/rs/references/upgrade-paths" >}})
