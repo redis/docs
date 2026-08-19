@@ -282,9 +282,12 @@ See also the
 [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
 for full details of the other available properties.
 
-## Full configuration file
+## Extended configuration example
 
-Use this complete example to find optional properties. Remove properties that you don’t need.
+This example combines the commonly used options from this page. Remove properties
+that you don't need. See the
+[configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}})
+for every supported property.
 
 ```yaml
 sources:
