@@ -324,6 +324,18 @@ window.openTryItCli = window.openTryItCli || function(button) {
     let url = 'https://redis.io/cli?commands=' + b64 + '&autorun=true'
         + '&snippet=' + encodeURIComponent(codetabsId);
     if (source) url += '&source=' + encodeURIComponent(source);
+
+    // Preferred path: run the snippet in the on-page workbench (a terminal plus
+    // a key browser, see js/redis-workbench.js), which keeps the reader on the
+    // page. The URL built above is handed over so the drawer can still offer
+    // "Full CLI", and is also the fallback: the workbench needs the API that
+    // the /cli backend's widget publishes as window.RedisCli, and the docs
+    // deploy independently of that backend, so a docs build can be live against
+    // a backend that predates it. Then this opens the standalone CLI as before.
+    if (window.RedisWorkbench && window.RedisWorkbench.open({
+        button: button, commands: commands, snippet: codetabsId, fullCliUrl: url
+    })) return;
+
     window.open(url, '_blank', 'noopener,noreferrer');
 };
 

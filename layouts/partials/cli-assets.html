@@ -1,0 +1,21 @@
+{{- /*
+  cli-assets
+  ----------
+  The interactive-CLI front end, for page types that can contain a Redis
+  terminal or a "Try it" button:
+
+    js/cli.js             the shim that configures and loads the canonical
+                          widget from the /cli backend (it owns the session and
+                          the reply renderer; this repo keeps no copy)
+    js/redis-workbench.js the on-page "Try it" destination — a terminal plus a
+                          key browser — built on the API that widget publishes
+                          as window.RedisCli
+    css/redis-workbench.css
+
+  Kept in one partial so a new page type picks up all three at once: the
+  workbench degrades to opening redis.io/cli when its script is missing, which
+  is correct but silent, so a half-wired template would look like it works.
+*/ -}}
+<script src='{{ relURL "js/cli.js" }}' defer></script>
+<script src='{{ relURL "js/redis-workbench.js" }}' defer></script>
+<link rel="stylesheet" href='{{ relURL "css/redis-workbench.css" }}'>
