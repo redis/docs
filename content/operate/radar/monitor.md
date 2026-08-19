@@ -41,6 +41,16 @@ Your administrator can change these intervals. Collecting more often costs more 
 
 If a cluster's Last Seen value stops advancing, treat that as a Radar connectivity problem rather than a healthy cluster. Radar keeps showing the last good data it has.
 
+A Redis Cloud database's detail view has a **Force refresh** action, which collects that database again instead of waiting for the next scheduled collection. Use it when you have just changed something and want to confirm Radar caught up.
+
+## When a value reads N/A
+
+Radar distinguishes a metric it does not have from a metric that is genuinely zero. If no cluster reported a value, Radar shows **N/A** and hides the utilization meter rather than showing `0`, which would read as an idle fleet.
+
+Memory and ops/sec are the metrics this applies to. It is most visible on older Redis Software versions, which do not expose the per-database statistics Radar reconstructs those figures from, so a fleet of Redis Software 7.2 or 7.4 clusters can show N/A where a newer fleet shows a number.
+
+Shard counts are the exception: they always show a number, because zero shards is a real answer rather than a missing one.
+
 ## Overview
 
 The **Overview** answers one question for a fleet too large to check by hand: is anything wrong anywhere?
@@ -112,6 +122,8 @@ The **Usage** view is about consumption against what you are entitled to, rather
 Each cluster also has a usage report for looking at one cluster in detail.
 
 Remember that usage refreshes hourly by default, so a number here can be up to an hour behind the health figures on the Overview.
+
+Memory and Ops/Sec are the two columns that can read N/A. See [When a value reads N/A](#when-a-value-reads-na).
 
 ## Alerts
 

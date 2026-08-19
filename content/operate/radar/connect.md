@@ -37,13 +37,15 @@ Radar encrypts every credential you give it before storing it, using the key you
 
 Radar reads Redis Software clusters through the cluster REST API.
 
-1. Go to **Connections** and add a connection.
-2. Select **Redis Software**.
+1. Select **Add connection**, from either the top bar or the **Connections** page.
+2. Set the **connection type** to **Redis Software**.
 3. Enter a **display name**. Use something you can recognize in a fleet-wide list, such as `Production East 1`.
 4. Enter the cluster's **hostname or IP address**, for example `cluster.redis.internal` or `10.0.0.1`.
 5. Enter the **port**. The default is `9443`, the cluster REST API port.
 6. Enter the **username** and **password** of an account on the cluster.
-7. Select **Test connection**, then save.
+7. Select **Add connection**.
+
+Radar tests the connection before it saves anything. If the test fails, Radar shows the error and does not create the connection, so you can correct the details and select **Retry**.
 
 Radar always reaches the REST API over HTTPS.
 
@@ -56,11 +58,11 @@ Point Radar at the cluster's fully qualified domain name rather than one node's 
 A Redis Cloud connection uses the Redis Cloud API, so it covers every subscription and database in the account at once.
 
 1. Create a Redis Cloud API key. You need both the **account key** and a **user secret**. See [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
-2. In Radar, go to **Connections** and add a connection.
-3. Select **Redis Cloud**.
+2. In Radar, select **Add connection**.
+3. Set the **connection type** to **Redis Cloud**.
 4. Enter a **display name**.
 5. Enter the **account key** and the **user secret**.
-6. Select **Test connection**, then save.
+6. Select **Add connection**.
 
 ## Connect a Redis Open Source instance
 
@@ -73,13 +75,13 @@ Radar reaches Redis Open Source two ways. Choose based on whether Radar can open
 
 ### Direct endpoint
 
-1. Go to **Connections** and add a connection.
-2. Select **Redis Open Source**.
+1. Select **Add connection**.
+2. Set the **connection type** to **Redis Open Source**.
 3. Enter a **display name**.
 4. Enter the **hostname or IP address** and **port**. The default port is `6379`.
 5. Enter a **username** and **password** if the instance requires authentication. Leave both empty if it does not.
-6. Select **Use TLS** if the instance requires an encrypted connection.
-7. Select **Test connection**, then save.
+6. Select **Use TLS (rediss://)** if the instance requires an encrypted connection.
+7. Select **Add connection**.
 
 ### Radar agent
 
