@@ -187,7 +187,8 @@ sudo service k3s restart
 
 ### Processors
 
-The `processors` section configures the behavior of the pipeline. The [example](#example)
+The `processors` section configures the behavior of the pipeline. The
+[minimal example](#start-with-a-minimal-file)
 configuration above contains the following properties:
 
 - `type`: Stream processor implementation to run for this pipeline.
