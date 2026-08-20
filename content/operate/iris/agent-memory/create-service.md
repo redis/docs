@@ -108,7 +108,7 @@ For example, with **Summarize after** set to 20 and **Keep most recent** set to 
 
 The **AI model and credentials (optional)** section controls the credentials and models that Agent Memory uses for memory extraction, session summarization, and long-term-memory search.
 
-Select **Use Redis in-built keys** to use Redis-managed model credentials. This is the default and requires no additional configuration. To use your provider account, select **Bring my own key**, then provide the provider, API key, LLM model, and embedding model.
+Select **Use Redis in-built keys** to use Redis-managed model credentials. This is the default and requires no additional configuration. To use your provider account, select **Bring my own key**, then select the provider, LLM model, embedding model, and add your API key.
 
 LLM model options can change. Use the console to see the current choices; values shown in the screenshot are examples.
 
