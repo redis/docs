@@ -139,19 +139,22 @@ The only practical difference between OpenAI and Azure OpenAI is the variables r
 
 
 ```python
+# NBVAL_SKIP
 # additionally to the API Key, setup the API endpoint and version
 api_key = os.environ.get("AZURE_OPENAI_API_KEY") or getpass.getpass("Enter your AzureOpenAI API key: ")
 api_version = os.environ.get("OPENAI_API_VERSION") or getpass.getpass("Enter your AzureOpenAI API version: ")
 azure_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT") or getpass.getpass("Enter your AzureOpenAI API endpoint: ")
 deployment_name = os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME", "text-embedding-ada-002")
 
-# Skip Azure examples when required values are missing (e.g. CI or Run All without Azure).
+# Skip Azure examples when required values are missing (e.g. Run All without Azure configured).
 _azure_configured = bool(azure_endpoint and api_key and api_version)
 
 ```
 
 
 ```python
+# NBVAL_SKIP
+# Depends on the Azure OpenAI cell above, which is not executed in CI.
 from redisvl.utils.vectorize import AzureOpenAITextVectorizer
 
 if not _azure_configured:
@@ -175,6 +178,8 @@ else:
 
 
 ```python
+# NBVAL_SKIP
+# Depends on the Azure OpenAI cell above, which is not executed in CI.
 # Just like OpenAI, AzureOpenAI supports batching embeddings and asynchronous requests.
 sentences = [
     "That is a happy dog",
@@ -302,6 +307,8 @@ GCP_LOCATION=<your gcp geo region for vertex ai>
 
 
 ```python
+# NBVAL_SKIP
+# Deprecated vectorizer; not executed in CI so notebook validation makes no API calls.
 from redisvl.utils.vectorize import VertexAIVectorizer
 
 
