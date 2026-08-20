@@ -54,9 +54,7 @@ This command's behavior varies in clustered Redis environments. See the [multi-k
 
 
 Marks the given keys to be watched for conditional execution of a
-[transaction][tt].
-
-[tt]: /develop/interact/transactions
+[transaction]({{< relref "/develop/using-commands/transactions" >}}).
 
 ## Redis Software and Redis Cloud compatibility
 
