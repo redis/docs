@@ -18,7 +18,7 @@ Radar runs as two services backed by a PostgreSQL database that you provide:
 Both services read the same database and the same encryption key, and you supply both whichever install method you choose.
 
 {{< warning >}}
-Plan for remote access before you start. Every install method leaves network access up to you. The RPM listens only on loopback, so **an install that succeeds is still unreachable from any other machine** until you put a proxy or ingress in front of it. See [Provide remote access](#provide-remote-access).
+Plan for remote access before you start. Every install method leaves network access up to you, and what you have to do differs by method. The RPM is the strictest case: it listens only on loopback, so **an RPM install that succeeds is still unreachable from any other machine** until you put a proxy in front of it. See [Provide remote access](#provide-remote-access).
 {{< /warning >}}
 
 ## Choose an install method
@@ -91,13 +91,13 @@ Run at least two API and two worker replicas for production, and set CPU request
 
 <!-- TODO(DOC-6911): the RED-197466 GA bar is 300 clusters, but the source repo has no validated sizing for that scale (docs/DEPLOYMENT.md:266 only gives a t3.medium staging example). Ask Guy for tested numbers, then add a fleet-size sizing table. Do not extrapolate. -->
 
-### Why you see MCM during installation
+### Package and service names
 
-Radar's internal name is MCM, short for Multi Cluster Manager, and you meet it during installation. The RPM is named `mcm`, its services are `mcm-api` and `mcm-worker`, its configuration lives in `/etc/mcm/`, and the container images are `mcm-app`, `mcm-worker`, and `mcm-migrate`. All of these are Redis Radar.
+Radar's packages, services, and paths use an `mcm` prefix. The RPM is named `mcm`, its services are `mcm-api` and `mcm-worker`, its configuration lives in `/etc/mcm/`, and the container images are `mcm-app`, `mcm-worker`, and `mcm-migrate`. All of these are Redis Radar.
 
 ## Install on RHEL with the RPM
 
-The RPM installs native binaries and needs no container runtime. It also installs the `mcmctl` diagnostics command and the `radar-agent` service used to reach Redis Open Source clusters.
+The RPM installs native binaries and needs no container runtime. It also installs the `mcmctl` diagnostics command.
 
 ### 1. Install the package
 

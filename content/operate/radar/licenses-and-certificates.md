@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - radar
-description: Track license and certificate expiry across your fleet, and update a cluster license from Radar.
+description: Track license and certificate expiry across your fleet.
 linkTitle: Licenses and certificates
 weight: 50
 ---
@@ -34,20 +34,7 @@ Radar reports shard usage against the licensed limit, broken out by type:
 
 Radar also shows a fleet-wide total, so you can see aggregate headroom without adding up rows. Usage matters as much as the date: a license that does not expire for a year can still stop you from adding a database next week.
 
-### Update a cluster license
-
-Updating a license writes to the cluster, unlike everything else in this view.
-
-1. Go to **Licenses**.
-2. Find the cluster and select **Update License**.
-3. Paste the **license key**.
-4. Submit.
-
-Radar sends the new key to that cluster.
-
-{{< note >}}
-The account you gave Radar for the cluster needs permission to update its license. A read-only account can monitor licenses but cannot replace one. See [Connect clusters]({{< relref "/operate/radar/connect" >}}).
-{{< /note >}}
+Radar reports on licenses; it does not replace them. Update a license in the cluster itself, and Radar reflects the change at its next collection.
 
 ## Certificates
 

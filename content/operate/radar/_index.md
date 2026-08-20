@@ -13,9 +13,9 @@ weight: 55
 
 Redis Radar shows you the status of every Redis cluster you run, in one place.
 
-Teams that run dozens or hundreds of clusters usually track them in a spreadsheet that goes out of date the moment someone adds a cluster. Radar replaces that spreadsheet: it connects to each cluster, collects its state on a schedule, and presents one fleet-wide view across Redis Software, Redis Cloud, and Redis Open Source.
+Teams that run dozens or hundreds of clusters usually track them in a spreadsheet that goes out of date the moment someone adds a cluster. Radar replaces that spreadsheet: it connects to each cluster, collects its state, and presents one fleet-wide view across Redis Software, Redis Cloud, Redis Open Source, Amazon ElastiCache, and Google Memorystore.
 
-Radar is a visibility tool first. It reports what your clusters are doing, and adding a cluster to Radar does not change how that cluster runs. You can also do a few fleet-wide tasks from Radar, such as [updating a cluster license]({{< relref "/operate/radar/licenses-and-certificates#update-a-cluster-license" >}}).
+Radar is a visibility tool. It reports what your clusters are doing, and adding a cluster to Radar does not change how that cluster runs.
 
 ## Who Radar is for
 
@@ -36,16 +36,12 @@ If you operate one cluster, you do not need Radar. The value starts when you hav
 
 ## How Radar collects data
 
-Radar pulls; your clusters do not push. On a schedule, Radar reads each cluster's own management API using credentials you supply, normalizes what it finds, and stores it. A **connector** handles each source type, which is how one fleet view spans products with very different APIs.
+Radar reads each cluster's own management interface using credentials you supply, normalizes what it finds, and stores it. A **connector** handles each source type, which is how one fleet view spans products with very different APIs.
 
 Two consequences:
 
-- **Radar shows the last successful collection, not live state.** A value is as fresh as the last time Radar reached that cluster, which Radar displays alongside the data.
 - **Radar needs credentials for every cluster you want to see.** Getting that access in place is most of the setup work. See [Connect clusters]({{< relref "/operate/radar/connect" >}}).
-
-## Redis Radar and MCM
-
-Both names refer to the same product. **Redis Radar** is the product name. **MCM**, short for Multi Cluster Manager, is the internal name. It still appears in the `mcm` package, the `mcm-api` and `mcm-worker` services, configuration paths, and log entries.
+- **For self-managed clusters, Radar shows the last successful collection rather than live state.** Redis Software and Redis Open Source clusters are collected on an interval, so a value is only as fresh as the last time Radar reached that cluster. Radar displays that age alongside the data.
 
 ## Next steps
 
