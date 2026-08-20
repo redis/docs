@@ -41,7 +41,9 @@ Before you use your own key, make sure:
 - The provider account can use the models that you select.
 - You understand the provider's billing, service terms, and data-handling policies. The selected LLM processes session content used for extraction and summarization. The embedding model processes the text needed to create embeddings for long-term-memory storage and search.
 
+{{< note >}}
 The model provider API key is different from an Agent Memory service API key. Applications use a service API key to call the Agent Memory API. Agent Memory uses the model provider API key to call the selected AI models.
+{{< /note >}}
 
 ## Use your own key when you create a service
 
