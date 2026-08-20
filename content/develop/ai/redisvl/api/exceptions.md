@@ -133,6 +133,10 @@ there raises `redis.exceptions.NoPermissionError` itself rather than a wrapped
 [RedisSearchError](#redissearcherror). See [Install RedisVL]({{< relref "../user_guide/installation" >}}) for the ACL categories
 RedisVL needs.
 
+When the credential genuinely cannot run `FT.INFO`, this error is not something to
+handle: construct the extension with `create_index=False` instead, which skips the
+existence check entirely. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
+
 ### `Telling "the index is missing" apart from other failures`
 
 Redis Search reports an absent index as an ordinary error reply rather than a distinct
