@@ -16,6 +16,6 @@ aliases:
 
 Redis Agent Memory is available as a managed service on Redis Cloud.
 
-Use the Redis Iris operational documentation to [create an Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}) or [view and manage an existing service]({{< relref "/operate/iris/agent-memory/view-service" >}}).
+Use the Redis Iris operational documentation to [create an Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}), [configure its AI models]({{< relref "/operate/iris/agent-memory/model-configuration" >}}), or [view and manage an existing service]({{< relref "/operate/iris/agent-memory/view-service" >}}).
 
 For deployment options, see the [Agent Memory operational overview]({{< relref "/operate/iris/agent-memory" >}}).

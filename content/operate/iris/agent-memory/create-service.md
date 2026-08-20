@@ -63,6 +63,7 @@ If you lose the service key value, you will need to [generate a new service key]
 
     1. The [General settings](#general-settings) section defines basic properties of your service.
     1. The [Memory configuration](#memory-configuration) section allows you to define the time-to-live (TTL) of your agent's memories, set how often memories are extracted, and control automatic summarization of session memory.
+    1. The [AI model and credentials](#ai-model-and-credentials) section allows you to use your own model provider key and select the models used by the service.
     1. The [Memory types & extraction](#memory-types-and-extraction) section allows you to define custom memory types with their own extraction strategies.
     1. The [Sensitive-data exclusions](#sensitive-data-exclusions) section allows you to keep sensitive content out of long-term memory.
 
@@ -102,6 +103,18 @@ Use the **Automatic summarization** toggle to enable or disable this behavior. W
 | **Keep most recent (messages)** | The number of most recent messages that are always kept in full and never summarized. |
 
 For example, with **Summarize after** set to 20 and **Keep most recent** set to 10, once a session reaches 20 messages, the oldest 10 messages are summarized automatically and the 10 most recent are kept in full.
+
+### AI model and credentials {#ai-model-and-credentials}
+
+The **AI model and credentials (optional)** section controls the credentials and models that Agent Memory uses for memory extraction, session summarization, and long-term-memory search.
+
+Select **Use Redis in-built keys** to use Redis-managed model credentials. This is the default and requires no additional configuration. To use your provider account, select **Bring my own key**, then select the provider, LLM model, embedding model, and add your API key.
+
+LLM model options can change. Use the console to see the current choices; values shown in the screenshot are examples.
+
+{{<image filename="images/rc/agent-memory-ai-model-create.png" alt="The AI model and credentials section with Bring my own key selected. The section contains the provider, API key, LLM model, and embedding model settings." >}}
+
+The same provider key is used for both model types. The credential source, provider, and embedding model are fixed after you create the service. For configuration, key rotation, security, and troubleshooting guidance, see [Configure AI models for Agent Memory]({{< relref "/operate/iris/agent-memory/model-configuration" >}}).
 
 ### Memory types & extraction {#memory-types-and-extraction}
 
