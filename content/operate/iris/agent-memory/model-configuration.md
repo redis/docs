@@ -12,7 +12,7 @@ weight: 10
 bannerText: Redis Agent Memory on Redis Cloud is currently available as a public preview. Features and behavior are subject to change.
 ---
 
-You can use Redis-managed credentials for the AI models used by an Agent Memory service, or supply your own model provider API key. Supplying your own key is also known as bring your own key (BYOK).
+You can use Redis-managed credentials for the AI models used by an Agent Memory service, or bring  your own model provider API key.
 
 ## Choose who supplies the model credentials
 
