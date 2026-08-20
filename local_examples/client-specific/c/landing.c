@@ -9,6 +9,19 @@
 
 #include <hiredis/hiredis.h>
 
+// REMOVE_START
+// Fail loudly on a NULL or error reply. hiredis returns an error REPLY (not a
+// connection error) for things like a bad command, and the examples would
+// otherwise print a wrong value and still exit 0 — a green harness run that
+// proves nothing. Kept in a REMOVE block so the published example stays plain.
+#define CHECK_REPLY(r) do { \
+    if ((r) == NULL || (r)->type == REDIS_REPLY_ERROR) { \
+        printf("REDIS ERROR: %s\n", (r) ? (r)->str : "no reply from server"); \
+        return 1; \
+    } \
+} while (0)
+// REMOVE_END
+
 int main() {
     // The `redisContext` type represents the connection
     // to the Redis server. Here, we connect to the
@@ -30,11 +43,17 @@ int main() {
 
     // Set a string key.
     redisReply *reply = redisCommand(c, "SET foo bar");
+    // REMOVE_START
+    CHECK_REPLY(reply);
+    // REMOVE_END
     printf("Reply: %s\n", reply->str);
     freeReplyObject(reply);
 
     // Get the key we have just stored.
     reply = redisCommand(c, "GET foo");
+    // REMOVE_START
+    CHECK_REPLY(reply);
+    // REMOVE_END
     printf("Reply: %s\n", reply->str);
     freeReplyObject(reply);
 
