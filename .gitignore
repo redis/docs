@@ -33,6 +33,11 @@ package-lock.json
 /content/develop/use-cases/**/ruby/.gems/
 /content/develop/use-cases/**/ruby/Gemfile.lock
 
+# Documentation download bundles (make bundles / build_docs workflow), and the
+# copy `make serve_downloads` drops into static/ so hugo serve can serve them
+/bundles/
+/static/downloads/
+
 # Link checker (link_check workflow) working files
 /external-urls.txt
 /.lycheecache

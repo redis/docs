@@ -1,0 +1,105 @@
+{
+  "_comment": "Products and formats offered by the documentation download widget. Consumed by build/make_doc_bundles.py (which names the .tar.gz files) and by layouts/partials/download-docs.html (which renders the picker), so the two always agree. The order of 'docsets' is the order the picker lists them in, and mirrors the docs sidebar: the Redis products run in the same sequence there. 'path' is relative to the site root, 'exclude' paths are relative to 'path', and 'versions' names the version list CI writes to <key>-versions (see .github/workflows/main.yml).",
+
+  "formats": [
+    {
+      "id": "md",
+      "label": "Markdown",
+      "summary": "one .md file per page",
+      "description": "The same rendered Markdown that redis.io serves to AI agents. Best for offline reading, grepping, or dropping into a repository."
+    },
+    {
+      "id": "md-single",
+      "label": "Markdown, single file",
+      "summary": "every page in one .md file",
+      "description": "All the pages of a product concatenated into one file. Best for pasting into a model's context window or a Claude project."
+    },
+    {
+      "id": "html",
+      "label": "HTML",
+      "summary": "browse offline",
+      "description": "The pages as published, with their styling, fonts, and images included and their links rewritten to work from disk. Open index.html in a browser."
+    },
+    {
+      "id": "json",
+      "label": "JSON",
+      "summary": "one .json file per page",
+      "description": "Structured per-page documents (title, description, table of contents, code examples, body). Best for search indexes and RAG pipelines."
+    }
+  ],
+
+  "docsets": [
+    {
+      "id": "develop",
+      "title": "Develop with Redis",
+      "description": "Clients, data types, programmability, and Redis for AI. RedisVL is listed separately.",
+      "path": "develop",
+      "exclude": ["ai/redisvl"]
+    },
+    {
+      "id": "integrations",
+      "title": "Libraries and tools",
+      "description": "Client libraries, observability, and cloud integrations. Redis Data Integration is listed separately.",
+      "path": "integrate",
+      "exclude": ["redis-data-integration"]
+    },
+    {
+      "id": "redisvl",
+      "title": "RedisVL",
+      "path": "develop/ai/redisvl",
+      "versions": "redisvl"
+    },
+    {
+      "id": "redis-software",
+      "title": "Redis Software",
+      "path": "operate/rs",
+      "versions": "rs"
+    },
+    {
+      "id": "redis-cloud",
+      "title": "Redis Cloud",
+      "path": "operate/rc"
+    },
+    {
+      "id": "redis-kubernetes",
+      "title": "Redis for Kubernetes",
+      "path": "operate/kubernetes",
+      "versions": "kubernetes"
+    },
+    {
+      "id": "redis-open-source",
+      "title": "Redis Open Source",
+      "path": "operate/oss_and_stack"
+    },
+    {
+      "id": "redis-iris",
+      "title": "Redis Iris context engine",
+      "path": "operate/iris"
+    },
+    {
+      "id": "redis-feature-form",
+      "title": "Redis Feature Form",
+      "path": "operate/featureform"
+    },
+    {
+      "id": "redis-insight",
+      "title": "Redis Insight",
+      "path": "operate/redisinsight"
+    },
+    {
+      "id": "redis-data-integration",
+      "title": "Redis Data Integration",
+      "path": "integrate/redis-data-integration"
+    },
+    {
+      "id": "glossary",
+      "title": "Glossary",
+      "path": "glossary"
+    },
+    {
+      "id": "commands",
+      "title": "Command reference",
+      "path": "commands"
+    }
+  ]
+}
