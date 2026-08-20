@@ -10,7 +10,7 @@ linkTitle: Monitor
 weight: 30
 ---
 
-Every view on this page is read-only. You cannot start, stop, resize, or reconfigure anything from them; you look at what your clusters reported, then act in the cluster itself.
+The views on this page are read-only. You cannot start, stop, resize, or reconfigure anything from them: you read what your clusters reported, then act on the cluster itself.
 
 Radar has five views, each answering a different question:
 
@@ -24,7 +24,7 @@ Radar has five views, each answering a different question:
 
 ## How current the data is
 
-Radar shows the result of the last successful collection, not live state. This is the single most important thing to understand about every number on every screen.
+Radar shows the result of the last successful collection, not live state. This applies to every number on every screen.
 
 Each list carries a **Last Seen** column, and the Overview has a data freshness card, so the age of what you are reading is always on screen next to the value.
 
@@ -41,13 +41,13 @@ Your administrator can change these intervals. Collecting more often costs more 
 
 If a cluster's Last Seen value stops advancing, treat that as a Radar connectivity problem rather than a healthy cluster. Radar keeps showing the last good data it has.
 
-A Redis Cloud database's detail view has a **Force refresh** action, which collects that database again instead of waiting for the next scheduled collection. Use it when you have just changed something and want to confirm Radar caught up.
+On a Redis Cloud database's detail view, **Force refresh** collects that database again instead of waiting for the next scheduled collection. Use it after changing something on the cluster, to confirm Radar has caught up.
 
 ## When a value reads N/A
 
-Radar distinguishes a metric it does not have from a metric that is genuinely zero. If no cluster reported a value, Radar shows **N/A** and hides the utilization meter rather than showing `0`, which would read as an idle fleet.
+**N/A** means Radar has no value for that metric, not that the value is zero. Radar also hides the utilization meter, because a `0` would read as an idle fleet.
 
-Memory and ops/sec are the metrics this applies to. It is most visible on older Redis Software versions, which do not expose the per-database statistics Radar reconstructs those figures from, so a fleet of Redis Software 7.2 or 7.4 clusters can show N/A where a newer fleet shows a number.
+This affects memory and ops/sec. Older Redis Software versions do not expose the per-database statistics behind those figures, so a fleet of Redis Software 7.2 or 7.4 clusters can show N/A where a newer fleet shows a number.
 
 Shard counts are the exception: they always show a number, because zero shards is a real answer rather than a missing one.
 
@@ -127,7 +127,7 @@ Memory and Ops/Sec are the two columns that can read N/A. See [When a value read
 
 ## Alerts
 
-The **Alerts** view collects the alerts your clusters are already raising and puts them in one list, ordered by severity: critical, warning, then informational. Filter by severity to work the list down.
+The **Alerts** view collects the alerts your clusters are already raising and puts them in one list, ordered by severity: critical, warning, then informational. Filter by severity to narrow the list.
 
 Radar reads alerts from each cluster's own alert endpoints, at the cluster, node, and database level. **The alert rules live on the cluster, not in Radar.** To change what raises an alert, change it on the cluster; Radar reflects the change at its next collection.
 

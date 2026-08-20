@@ -12,7 +12,7 @@ weight: 40
 
 Radar has two roles, and every user has exactly one of them. People sign in with a local Radar account, through your directory over LDAP, or through your identity provider with SAML SSO.
 
-Users and sign-in methods are configured in different places. You create local accounts under **Users**. You choose and configure the sign-in method under **Settings > Authentication**, and that choice applies to all of Radar.
+You configure users and sign-in methods in different places. Create local accounts under **Users**. Choose and configure the sign-in method under **Settings > Authentication**, where that choice applies to all of Radar.
 
 ## Roles
 
@@ -23,7 +23,7 @@ Users and sign-in methods are configured in different places. You create local a
 
 A role applies to the entire fleet. You cannot scope a user to a subset of clusters.
 
-New users are created as viewers unless you choose otherwise. Only admins can see or change users; the **Users** area is hidden from viewers.
+New users are viewers unless you choose otherwise. Only admins can see or change users; the **Users** area is hidden from viewers.
 
 ## Create local users
 
@@ -34,9 +34,9 @@ New users are created as viewers unless you choose otherwise. Only admins can se
 
 The **Users** list shows each account's role, where it authenticates, when it was created, and its last sign-in, so you can tell a local account from a directory account at a glance.
 
-An account can become locked. Admins unlock it from the same list.
+If an account locks, admins unlock it from the same list.
 
-Radar creates no default account and ships no default password. The first administrator is created by the one-time bootstrap flow when the database has no users. See [Install Radar]({{< relref "/operate/radar/install#5-create-the-first-administrator" >}}).
+Radar creates no default account and ships no default password. The one-time bootstrap flow creates the first administrator while the database has no users. See [Install Radar]({{< relref "/operate/radar/install#5-create-the-first-administrator" >}}).
 
 ## Connect a directory with LDAP
 

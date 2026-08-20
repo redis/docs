@@ -10,7 +10,7 @@ linkTitle: Licenses and certificates
 weight: 50
 ---
 
-Licenses and certificates expire per cluster, which means the more clusters you run, the more likely one of them is quietly close to an outage. Radar collects both across the whole fleet and lists them by expiry date, so you find out before a customer does.
+Licenses and certificates expire per cluster, so the more clusters you run, the more likely one of them is close to expiring without anyone noticing. Radar collects both across the whole fleet and lists them by expiry date, so you find out before a customer does.
 
 Radar presents licenses and certificates as two lists that work the same way. Each row is one cluster, with a status:
 
@@ -24,7 +24,7 @@ You can filter either list by status to see only what needs attention.
 
 ## Licenses
 
-The **Licenses** view lists every cluster's license with its expiration date, how many days remain, and how much of the license is being consumed.
+The **Licenses** view lists every cluster's license with its expiration date, how many days remain, and how much of the license you are consuming.
 
 Radar reports shard usage against the licensed limit, broken out by type:
 

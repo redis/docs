@@ -15,10 +15,10 @@ Radar runs as two services backed by a PostgreSQL database that you provide:
 - **API server** serves the REST API and the web UI.
 - **Worker** collects cluster state on a schedule.
 
-Both services read the same database and the same encryption key. Whichever install method you choose, you supply the database and the key.
+Both services read the same database and the same encryption key, and you supply both whichever install method you choose.
 
 {{< warning >}}
-Plan for remote access before you start. Every install method leaves network exposure to you. The RPM listens only on loopback, so **an install that succeeds is still unreachable from any other machine** until you put a proxy or ingress in front of it. See [Provide remote access](#provide-remote-access).
+Plan for remote access before you start. Every install method leaves network access up to you. The RPM listens only on loopback, so **an install that succeeds is still unreachable from any other machine** until you put a proxy or ingress in front of it. See [Provide remote access](#provide-remote-access).
 {{< /warning >}}
 
 ## Choose an install method
@@ -29,7 +29,7 @@ Plan for remote access before you start. Every install method leaves network exp
 | [Kubernetes with Helm](#install-on-kubernetes-with-helm) | You already run Kubernetes or OpenShift. | Yes |
 | [Docker Compose](#install-with-docker-compose) | You want a single host and already run Docker. | Yes |
 
-All three are supported and built from the same release. Any of them can be installed on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
+All three are supported and built from the same release. You can install any of them on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
 To get the artifacts, contact your Redis account team.
 
@@ -58,14 +58,14 @@ Use `sslmode=require` or stricter to encrypt the connection. Radar passes your c
 Radar encrypts the cluster credentials you give it. Each tenant gets its own data key, and all of those keys are wrapped by one key-encryption key (KEK) that you supply: **32 raw bytes**, not base64 and not hex.
 
 {{< warning >}}
-Back up the KEK alongside the database and store the backup separately. Either one alone is useless. If the API server and the worker read different keys, or a restored database is paired with the wrong key, credentials sealed with the old key cannot be decrypted, and Radar fails closed rather than silently losing them.
+Back up the KEK alongside the database and store the backup separately. Either one alone is useless. Credentials sealed with the old key cannot be decrypted if the API server and the worker read different keys, or if a restored database is paired with the wrong key. Radar fails closed rather than silently losing them.
 {{< /warning >}}
 
 ### FIPS mode
 
 If you need FIPS 140-3 validated cryptography, decide before you install: it is a separate build of Radar, not a setting you turn on afterwards. Contact your Redis account team for the FIPS variant.
 
-Set `MCM_REQUIRE_FIPS=true` to make FIPS mandatory. Radar then refuses to start unless FIPS is actually active, before it touches the database or opens a port, so a misconfigured deployment fails immediately instead of running with cryptography you did not approve.
+Set `MCM_REQUIRE_FIPS=true` to make FIPS mandatory. Radar then refuses to start unless FIPS is actually active, and it checks before it touches the database or opens a port. A misconfigured deployment fails immediately rather than running with cryptography you did not approve.
 
 Each service logs its FIPS state once at startup, so you can confirm what is running:
 
@@ -93,7 +93,7 @@ Run at least two API and two worker replicas for production, and set CPU request
 
 ### Why you see MCM during installation
 
-Radar's internal name is MCM, short for Multi Cluster Manager, and you meet it during installation. The RPM is named `mcm`, its services are `mcm-api` and `mcm-worker`, its configuration lives in `/etc/mcm/`, and the container images are `mcm-app`, `mcm-worker`, and `mcm-migrate`. These are the same product as Redis Radar.
+Radar's internal name is MCM, short for Multi Cluster Manager, and you meet it during installation. The RPM is named `mcm`, its services are `mcm-api` and `mcm-worker`, its configuration lives in `/etc/mcm/`, and the container images are `mcm-app`, `mcm-worker`, and `mcm-migrate`. All of these are Redis Radar.
 
 ## Install on RHEL with the RPM
 
@@ -128,7 +128,7 @@ sudoedit /etc/mcm/mcm.env
 | `DATABASE_URL` | Connection string for your PostgreSQL database, with runtime and migration privileges. |
 | `CREDENTIAL_ENCRYPTION_KEY` | The credential encryption key. |
 
-Radar refuses to start while the placeholder values are still in place. The file is package-preserved, owned by `root:mcm`, redacted from logs and diagnostics, and kept across upgrades and removal. Include it in your backup plan.
+Radar refuses to start while the placeholder values are still in place. The file is owned by `root:mcm`, redacted from logs and diagnostics, and kept across upgrades and removal. Include it in your backup plan.
 
 Useful defaults you may want to change:
 
@@ -207,7 +207,7 @@ shred -u kek.bin
 Write the key to a file rather than using `--from-literal="$(head -c 32 /dev/urandom)"`. Command substitution truncates at null bytes, so the key would not be 32 bytes.
 {{< /note >}}
 
-The secret must contain the `CREDENTIAL_KEK` key. If it does not, the pods stay in `ContainerCreating`. That is a deliberate loud failure rather than a silent one.
+The secret must contain the `CREDENTIAL_KEK` key. If it does not, the pods stay in `ContainerCreating`. That failure is deliberate rather than silent.
 
 ### 2. Install the chart
 
@@ -286,13 +286,13 @@ The production Compose file pins the image tags and never pulls, so the stack ru
 
 Radar does not configure network access for you. No install method issues TLS certificates, configures a proxy, or opens firewall ports.
 
-This matters most on the RPM, which listens on `127.0.0.1:8080` by default. That default is deliberate, and it means **a completed RPM install is reachable only from the host itself.** You own TLS certificates and their rotation, the proxy or load balancer, firewall policy, DNS, and network access to your PostgreSQL database.
+This matters most on the RPM, which listens on `127.0.0.1:8080` by default. The default is deliberate: **a completed RPM install is reachable only from the host itself.** You own TLS certificates and their rotation, the proxy or load balancer, firewall policy, DNS, and network access to your PostgreSQL database.
 
 ### RPM
 
 Run a reverse proxy that terminates TLS and forwards to the loopback address. Keep `HTTP_ADDR=127.0.0.1:8080` when the proxy runs on the same host. That is the safest arrangement, because nothing but the proxy can reach the API.
 
-If the proxy runs on a different host, set `HTTP_ADDR` to the private interface it should reach and restrict access with your own firewall rules, then restart the API server:
+If the proxy runs on a different host, set `HTTP_ADDR` to the private interface it should reach, then restrict access with your own firewall rules. Restart the API server:
 
 ```bash
 sudo systemctl restart mcm-api.service

@@ -28,7 +28,7 @@ One Redis Cloud connection covers every subscription and database in that accoun
 
 For every connection you need two things:
 
-- **Credentials for the cluster's management interface.** Radar uses the cluster's own API, so it needs an account there. Reading the cluster's state is all Radar needs for monitoring. If you also want to [update licenses]({{< relref "/operate/radar/licenses-and-certificates#update-a-cluster-license" >}}) from Radar, the account needs permission to do that too.
+- **Credentials for the cluster's management interface.** Radar uses the cluster's own API, so it needs an account there. For monitoring, Radar needs only read access. If you also want to [update licenses]({{< relref "/operate/radar/licenses-and-certificates#update-a-cluster-license" >}}) from Radar, the account needs permission to do that too.
 - **Network access from Radar to the cluster.** Radar connects outbound. Nothing needs to connect back to Radar, so no inbound rule is required on the Radar host.
 
 Radar encrypts every credential you give it before storing it, using the key you supplied at install. Credentials are never returned through the API and never written to logs.
@@ -85,7 +85,7 @@ Radar reaches Redis Open Source two ways. Choose based on whether Radar can open
 
 ### Radar agent
 
-The agent runs next to instances Radar cannot reach and reports back to Radar, so the connection is made outbound from your network. The RPM installs the agent alongside Radar; it can also run on its own host.
+The agent runs next to instances Radar cannot reach and reports back to Radar, so the connection goes outbound from your network. The RPM installs the agent alongside Radar; it can also run on its own host.
 
 The agent runs in one of two modes.
 
@@ -128,13 +128,13 @@ A managed agent uses only the credentials Radar assigns it. If Radar has no stor
 
 ## Secure cluster connections
 
-Radar holds credentials for every cluster in your fleet, which makes the connection path worth treating as sensitive on its own terms.
+Radar holds credentials for every cluster in your fleet, so treat the connection path as sensitive.
 
 **Encrypt the connection.** Redis Software connections always use HTTPS. For Redis Open Source, select **Use TLS** unless the instance is unencrypted and you accept that.
 
-**Give Radar its own account on each cluster.** A dedicated account keeps Radar's access auditable and separable from a person's, and lets you scope its permissions to what you actually want Radar to do. Monitoring needs read access only.
+**Give Radar its own account on each cluster.** A dedicated account keeps Radar's access auditable and separate from any person's, and lets you limit what Radar can do.
 
-**Keep credentials out of your network only when you choose to.** A managed agent receives credentials from Radar. Static mode keeps them in a file on the agent host instead, so use static mode when credentials must stay local.
+**Decide where credentials live.** A managed agent receives credentials from Radar. Static mode keeps them in a file on the agent host instead, so use static mode when credentials must stay local.
 
 **Protect the encryption key.** Every credential Radar stores is encrypted with the key you supplied at install. Back that key up alongside the database and store the backup separately. See [Install Radar]({{< relref "/operate/radar/install#the-credential-encryption-key" >}}).
 
