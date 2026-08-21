@@ -49,10 +49,10 @@ shows these references in use, and
 [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
 covers the source naming rules.
 
-{{< note >}}A pipeline with a single source also accepts the older `SOURCE_DB_*` and
-`TARGET_DB_*` keys, used without `--db`. RDI stores a `SOURCE_DB_*` key against the
-pipeline's own source, so the `config.yaml` reference is still the one derived from the
-source name. A pipeline with more than one source rejects these keys.{{< /note >}}
+{{< note >}}The older scope-prefixed keys like `SOURCE_DB_PASSWORD` or `TARGET_DB_PASSWORD` 
+are still accepted for pipelines that were created before the upgrade and that have a single 
+source. They are used without specifying `--db`. These keys are deprecated and will be 
+removed in a future release, so all usage should migrate to the new keys.{{< /note >}}
 
 {{< note >}}
 {{< embed-md "rdi-tls-secrets.md" >}}

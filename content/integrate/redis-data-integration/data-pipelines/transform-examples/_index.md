@@ -76,6 +76,13 @@ The main sections of these files are:
   and is set to `true` by default. Set it to `false` if you need to use case-sensitive values for these
   properties.
 
+  `server_name`, `db`, `schema`, and `table` each accept either a single name or a list of names.
+  An entry prefixed with `regex:` is matched as a regular expression that must match the whole
+  value, rather than as a literal name. For example, `server_name: [mysql, postgresql]` selects
+  two sources, and `table: "regex:orders_[0-9]+"` selects every numbered `orders` table. A job
+  processes the records that match all of the properties it sets, so a single job can cover
+  several sources, schemas, or tables.
+
 - `transform`: This is an optional section describing the transformation that the pipeline
   applies to the data before writing it to the target. The `uses` property specifies a
   *transformation block* that will use the parameters supplied in the `with` section. See the 

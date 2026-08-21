@@ -46,7 +46,7 @@ In the **Pipeline setup** step:
     - Snowflake _(Preview)_
     {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list and source name field." width=80% >}}
 
-1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.
+1. Enter a name for your source database in the **Source name** field. This is a display label for the source database on Redis Cloud. It does not affect the pipeline's configuration.
 1. Select the target Redis Cloud database from the **Target database** list.
 
     {{<image filename="images/rc/rdi/rdi-choose-target.png" alt="The target database list." width=80% >}}

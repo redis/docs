@@ -15,10 +15,10 @@ type: integration
 weight: 4
 ---
 
-One RDI pipeline can capture changes from several source databases and write them all to
-the same Redis target. Each source gets its own collector, its own credentials, and its
-own set of Redis streams, so the sources stay independent. The sources can be of different 
-database types.
+One RDI pipeline can capture changes from several source databases, which can be of
+different database types, and write them all to the same Redis target. Each source has its
+own collector, its own credentials, and its own set of Redis streams, so the sources stay
+independent.
 
 {{< note >}}Multiple sources require RDI API v2. RDI API v1 supports only single-source
 pipelines. See the
@@ -45,30 +45,18 @@ A source name must:
 
 The names `rdi` and `target` are reserved and cannot be used for sources.
 
-RDI derives the names of resources associated with the source from its name. See the
-following section for additional details.
+The source name determines the environment variables that carry the source's credentials, so
+a source named `mysql` references `${MYSQL_DB_USERNAME}` and `${MYSQL_DB_PASSWORD}` in its
+`connection` section. See
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+for how RDI derives those names and for the full list of secret keys.
+
+The source name also appears in the resources RDI creates for the source. For a source named
+`mysql`, the collector deployment is `collector-mysql` and the Redis streams are
+`data:{rdi}:mysql.<schema>.<table>`.
 
 Each source also accepts an optional `name` property, which is a free-text display name
 of up to 100 characters. Unlike the source name, it is not used as an identifier.
-
-## What a source name determines
-
-The source name determines the prefix of the environment variables that hold the
-source's credentials. RDI builds the prefix by upper-casing the name, replacing each
-dash with an underscore, and appending `_DB`:
-
-| Source name | Environment variable prefix | Credential references in `config.yaml` |
-| :-- | :-- | :-- |
-| `mysql` | `MYSQL_DB` | `${MYSQL_DB_USERNAME}`, `${MYSQL_DB_PASSWORD}` |
-| `orders-eu` | `ORDERS_EU_DB` | `${ORDERS_EU_DB_USERNAME}`, `${ORDERS_EU_DB_PASSWORD}` |
-
-Such references must be used in a source's `connection` section to reference credentials
-saved as pipeline secrets.
-
-If you manage the RDI cluster yourself, you also see the source name in the names of the
-resources RDI creates for it. For a source named `mysql`, the Kubernetes secret is
-`mysql-db`, the collector deployment is `collector-mysql`, and the Redis streams are
-`data:{rdi}:mysql.<schema>.<table>`.
 
 ## Configure several sources
 
@@ -128,9 +116,9 @@ The secret keys used as CLI arguments are the same for every source: `USERNAME`,
 connections, `CACERT`, `CERT`, `KEY`, and `KEY_PASSWORD`. Use `--db target` for the
 target database: `redis-di set-secret PASSWORD --db target <password>`.
 
-The secrets can then be referenced in the corresponding source configuration as `${MYSQL_DB_USERNAME}`,
-`${MYSQL_DB_PASSWORD}`, `${POSTGRESQL_DB_USERNAME}`, `${POSTGRESQL_DB_PASSWORD}`, `${TARGET_DB_PASSWORD}`,
-as in the previous example.
+Each source's `connection` section then references its own secrets: `${MYSQL_DB_USERNAME}` and
+`${MYSQL_DB_PASSWORD}` for `mysql`, `${POSTGRESQL_DB_USERNAME}` and `${POSTGRESQL_DB_PASSWORD}`
+for `postgresql`, and `${TARGET_DB_PASSWORD}` for the target.
 
 See [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
 for the full secret reference.
@@ -152,14 +140,19 @@ When a pipeline has more than one source, every job must set `server_name`.
 In a pipeline with a single source, `server_name` is optional. Omitting it means the
 job does not filter by source.
 
+`server_name` also accepts a list of source names, and an entry prefixed with `regex:` is
+matched as a regular expression, so one job can serve several sources. See
+[Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}).
+
 ## Add or remove a source
 
 To add a source, set its secrets first, then add it to `config.yaml` and deploy. Adding a 
 source does not interrupt other sources that are already running.
 
 To remove a source, delete its entry from `config.yaml` and deploy. RDI removes the
-source's collector. Its secrets, streams, and dead-letter queue entries remain and have
-to be cleaned up manually.
+source's collector. The source's secrets are not deleted, so remove them yourself with
+[`redis-di delete-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete-secret" >}})
+if you no longer need them.
 
 Note that renaming a source is not supported; renaming a source in `config.yaml` is equivalent
 to removing the source and adding a new source with the new name. This implies in particular:
@@ -180,14 +173,12 @@ redis-di start --source mysql
 redis-di reset --source mysql
 ```
 
-Two behaviors are worth knowing:
+A source runs only while its pipeline runs, so starting one source does not start a stopped
+pipeline. Stopping one source leaves the others running, and when one source fails, the other
+sources keep capturing changes.
 
-- A single source runs only while its pipeline runs. Starting one source does not start a
-  stopped pipeline.
-- Stopping one source leaves the others running. Similarly, when one source fails, the other
-  sources keep capturing changes.
-
-A source of type `external` has no collector, so you cannot start or stop it.
+A source of type `external` is the exception: RDI creates no collector for it, so you cannot
+start or stop it.
 
 ## Monitor each source
 
@@ -200,8 +191,9 @@ component they came from. See the reference page for the command for more detail
 
 Each source's collector has its own metric collection, named after the collector, such as
 `collector-mysql_metrics`. In Prometheus, the stream processor's `rdi_incoming_entries` and
-`rdi_stream_event_latency_ms` metrics carry a `data_source` label that includes the source
-name, so you can break both of them down per source. See
+`rdi_stream_event_latency_ms` metrics carry a `data_source` label that identifies the stream
+the value belongs to, including the source name, so you can break both of them down per
+source. See
 [Stream processor metrics]({{< relref "/integrate/redis-data-integration/observability#stream-processor-metrics" >}})
 and, for the per-source collector endpoints,
 [Accessing the metrics]({{< relref "/integrate/redis-data-integration/observability#accessing-the-metrics" >}}).
@@ -210,17 +202,20 @@ Dead-letter queue tables are reported as `<source>.<schema>.<table>`, so rejecte
 are attributed to their source. See
 [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}).
 
-## Existing sources are unaffected by the changes
+## Upgraded pipelines keep their existing names
 
 Before RDI supported several sources, every source-scoped resource was named using `source`
-in place of the actual source name in `config.yaml`. Pipeline sources that existed
-before upgrading to RDI 2.0.0 keep using those names to ensure continuity:
+in place of the actual source name in `config.yaml`. A source that existed before you
+upgraded to RDI 2.0.0 keeps those names, whatever it is called in `config.yaml`, so that it
+keeps running unchanged:
 
-- The `source-db` and `source-db-ssl` secrets, and the `SOURCE_DB_*` environment
-  variables, so its `connection` keeps referencing `${SOURCE_DB_USERNAME}` and
-  `${SOURCE_DB_PASSWORD}` regardless of its name.
+- The `source-db` and `source-db-ssl` secrets and the `SOURCE_DB_*` environment variables,
+  so its `connection` section keeps referencing `${SOURCE_DB_USERNAME}` and
+  `${SOURCE_DB_PASSWORD}`.
 - The `collector-source` collector.
 - Its existing streams, `data:{rdi}:<schema>.<table>`, and its captured position.
 - `rdi` as its `server_name`.
+
+Sources you add after the upgrade use their own names, as described on this page.
 
 See [Upgrading RDI]({{< relref "/integrate/redis-data-integration/installation/upgrade" >}}).

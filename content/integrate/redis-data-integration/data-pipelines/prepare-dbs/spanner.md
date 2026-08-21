@@ -150,12 +150,18 @@ database. Instructions for setting up the target database secrets are available 
 [RDI deployment guide]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}).
 
 **Optional**: If you prefer to use a service account credentials file instead of Workload Identity
-authentication, you'll need to create a Spanner-specific secret named `source-db-credentials`.
+authentication, you'll need to create a Spanner-specific secret named
+`<source-name>-db-credentials`, where `<source-name>` is the name of the source in `config.yaml`.
+The source configured in the next step is named `spanner`, so its secret is
+`spanner-db-credentials`. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+for the source naming rules.
+
 This secret should contain the service account key file generated during the Spanner setup phase.
 Use the command below to create it:
 
 ```bash
-kubectl create secret generic source-db-credentials --namespace=rdi \
+kubectl create secret generic spanner-db-credentials --namespace=rdi \
 --from-file=gcp-service-account.json=~/spanner-reader-account.json \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 ```
@@ -164,7 +170,7 @@ Be sure to adjust the file path (`~/spanner-reader-account.json`) if your servic
 stored elsewhere.
 
 {{< note >}}
-If you create the `source-db-credentials` secret, you must also set `use_credentials_file: true`
+If you create the `spanner-db-credentials` secret, you must also set `use_credentials_file: true`
 in your RDI configuration to use the credentials file instead of Workload Identity authentication.
 {{< /note >}}
 
@@ -175,7 +181,7 @@ When configuring your RDI pipeline for Spanner, use the following example config
 
 ```yaml
 sources:
-  source:
+  spanner:
     type: flink
     connection:
       type: spanner
