@@ -42,7 +42,7 @@ By default, RDI records the following logs in the host VM file system at
 | :-- | :-- |
 | `rdi_collector-collector-initializer.log` | Initializing the collector. |
 | `rdi_collector-debezium-ssl-init.log` | Establishing the connector SSL connections to the source and RDI database (if you are using SSL). |
-| `rdi_collector-collector-source.log` | Collector [change data capture (CDC)]({{< relref "/integrate/redis-data-integration/architecture" >}}) operations. |
+| `rdi_collector-collector-<source>.log` | Collector [change data capture (CDC)]({{< relref "/integrate/redis-data-integration/architecture" >}}) operations. There is one log per source, named after the source. |
 | `rdi_rdi-rdi-operator.log` | Main [RDI control plane]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed" >}}) component. |
 | `rdi_processor-processor.log` | RDI stream processing. |
 

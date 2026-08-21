@@ -24,7 +24,7 @@ kubectl -n rdi get pods
 # Example output:
 NAME                                   READY   STATUS      RESTARTS      AGE
 collector-api-577d95bfd8-5wbg6         1/1     Running     0             12m
-collector-source-95f45bcf7-vwn5l       1/1     Running     0             12m
+collector-mysql-95f45bcf7-vwn5l        1/1     Running     0             12m
 fluentd-zq2lc                          1/1     Running     0             72m
 logrotate-29530445-j729x               0/1     Completed   0             14m
 logrotate-29530450-dprr2               0/1     Completed   0             9m40s
@@ -36,7 +36,9 @@ rdi-operator-7f7f6c7dfd-5qmjd          1/1     Running     0             71m
 rdi-reloader-77df5f7854-lwmvz          1/1     Running     0             71m
 ```
 
-2. Identify the leader node - this is the one that has a running `collector-source` pod.
+2. Identify the leader node - this is the one that has a running collector pod. A
+   collector is named after its source, so the example above shows `collector-mysql` for a
+   source named `mysql`.
 
 ## Performing the HA Failover Testing
 

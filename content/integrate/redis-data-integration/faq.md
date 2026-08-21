@@ -76,6 +76,12 @@ deployment, use separate Kubernetes clusters. See
 [Install on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
 for installation details.
 
+## Can one pipeline capture from several source databases?
+
+Yes. Add one entry per source to the `sources` section of `config.yaml`. Each source 
+independently captures change records from its source database. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}).
+
 ## Can RDI automatically track changes to the source database schema?
 
 If you don't configure RDI to capture a specific set of tables in the schema then it will

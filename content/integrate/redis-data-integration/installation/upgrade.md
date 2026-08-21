@@ -74,7 +74,7 @@ run the CLI binary of the previous RDI version, which still provided the `redis-
     sudo redis-di upgrade --rdi-host <RDI_REDIS_HOST> --rdi-port <RDI_REDIS_PORT>
     ```
 
-{{< note >}}If the `collector-source` or the `processor` pods are not in the `Running` state after
+{{< note >}}If the collector or the `processor` pods are not in the `Running` state after
 the upgrade, you must run `redis-di deploy` and check again that they are both in the
 `Running` state.
 {{< /note >}}
@@ -174,6 +174,14 @@ described in [Uninstall RDI]({{< relref "/integrate/redis-data-integration/insta
 and then install the old version.
 {{< /note >}}
 
+## Source names after the upgrade
+
+A source that existed before upgrading to RDI 2.0.0 keeps using the resource names it
+was using before the upgrade, so it will keep running without changes.
+
+For more details on how to handle sources created after upgrading, see
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#upgraded-pipelines-keep-their-existing-names" >}}).
+
 ## Enabling the Flink processor
 
 The
@@ -203,7 +211,7 @@ The upgrade process replaces the current RDI components with their new versions:
 -   Firstly, the control plane components are replaced. At this point, the pipeline
     is still active but monitoring will be disconnected.
 -   Secondly, the pipeline data plane components are replaced.
-    If a pipeline is active while upgrading, the `collector-source` and `processor`
+    If a pipeline is active while upgrading, the collector and `processor`
     pods will be restarted. The pipeline will pause for up to two minutes but it 
     will catch up very quickly after restarting. 
     The pipeline data and state are both stored in Redis, so data will not
