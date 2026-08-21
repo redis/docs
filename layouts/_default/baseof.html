@@ -339,15 +339,16 @@
         opacity: 1 !important;
       }
 
-      /* Spacing between code sections in full file view */
-      .full-file-view .code-section {
-        margin-bottom: 0;
-      }
+      /* No blank band at the top and bottom of an example.
 
-      /* Ensure highlight containers don't add extra spacing */
-      .full-file-view .code-section .highlight,
-      .full-file-view .code-section pre {
-        margin: 0 !important;
+         The docs give a standalone <pre> a 24px vertical margin, which works
+         where it sits on the page background. These blocks have their own dark
+         background and their own 16px padding, so that margin becomes dark space
+         inside the block — an empty line above the first line of code and below
+         the last. The padding is the spacing; the margin is not wanted here. */
+      .thebe-container .panel pre,
+      .thebe-static .panel pre {
+        margin: 0;
       }
 
       /* Ensure step code view and full file view don't both show */
@@ -707,8 +708,11 @@
       }
 
       function copyJupyterLinkToClipboard(button) {
-        const container = button.closest('.thebe-container');
-        const id = container.id;
+        /* .thebe-static is the plain copy of a block that stays in the page while
+           the runnable one lives in the workbench; it carries no id, since the
+           runnable one still owns it. */
+        const container = button.closest('.thebe-container, .thebe-static');
+        const id = container.id || button.getAttribute('data-codetabs-id');
         const url = window.location.origin + window.location.pathname + '#' + id;
 
         navigator.clipboard.writeText(url).then(() => {
@@ -856,7 +860,7 @@
       }
 
       function toggleJupyterVisibility(button) {
-        const container = button.closest('.thebe-container');
+        const container = button.closest('.thebe-container, .thebe-static');
         const panel = container.querySelector('.panel');
         const iconOn = button.querySelector('.visibility-icon-on');
         const iconOff = button.querySelector('.visibility-icon-off');
@@ -1061,14 +1065,91 @@
           });
         }
 
+        /* Which BinderHub to launch against: the production hub, everywhere.
+
+           NOTE for whoever owns the Cloudflare config: /binder/build/* must not be
+           challenged. It is a Server-Sent Events endpoint, and an EventSource
+           cannot solve a bot challenge — a challenge response (HTTP 429,
+           cf-mitigated: challenge) arrives as HTML on a stream expecting
+           text/event-stream, so the connection opens and is dropped with
+           "phase: unknown - no message" and no diagnosis for the reader. A local
+           docs site is hit hardest, since its request is cross-origin and carries
+           no clearance cookie.
+
+           A locally served site can aim elsewhere — another hub, or staging while
+           production is unavailable:
+             localStorage.setItem('thebeBinderUrl', 'https://staging.learn.redis.com/binder/')
+           or ?binder-url=<url> for one page load. Gated on the page's own hostname,
+           so production can never be redirected. */
+        const RESOLVED_BINDER_URL = (function () {
+          const productionUrl = 'https://redis.io/binder/';
+          try {
+            const host = window.location.hostname;
+            if (host !== 'localhost' && host !== '127.0.0.1' && host !== '[::1]') {
+              return productionUrl;
+            }
+            const override = new URLSearchParams(window.location.search).get('binder-url')
+              || window.localStorage.getItem('thebeBinderUrl');
+            if (override) return override.replace(/\/*$/, '/');
+            /* build/dev-proxy.js sets this flag on the pages it serves, and
+               forwards /binder/ to the deployment. Using this origin is what makes
+               the build stream same-origin: cross-origin it is refused, since the
+               endpoint sends no CORS headers (it has no reason to — real readers
+               are on redis.io). */
+            if (window.__redisDevProxy) return window.location.origin + '/binder/';
+            return productionUrl;
+          } catch (e) {
+            return productionUrl;
+          }
+        })();
+        // Published so it is visible in the console when a launch misbehaves.
+        window.thebeResolvedBinderUrl = RESOLVED_BINDER_URL;
+
+        /* Say so up front when a local page is pointed at a hub on another origin.
+           The browser refuses that build stream (no CORS headers there), and the
+           only symptom Thebe can report is "Lost connection … phase: unknown - no
+           message", which says nothing about the cause. */
+        (function () {
+          try {
+            const host = window.location.hostname;
+            const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '[::1]';
+            if (isLocal && RESOLVED_BINDER_URL.indexOf(window.location.origin) !== 0) {
+              console.warn('[Thebe] The BinderHub at ' + RESOLVED_BINDER_URL
+                + ' is on another origin, and that endpoint sends no CORS headers,'
+                + ' so this page cannot read its build stream. Serve the docs'
+                + ' through build/dev-proxy.js (same origin), or set'
+                + " localStorage 'thebeBinderUrl' to a hub that allows this origin.");
+            }
+          } catch (e) { /* nothing to report against */ }
+        })();
+
         // Configure page-specific session storage
         // Get current page path for unique session key
         const pagePath = window.location.pathname.replace(/\//g, '-').replace(/^-|-$/g, '') || 'home';
-        // Get dynamic binder ref and kernel name from window (set by shortcode render)
-        if (!window.thebeBinderRef || !window.thebeKernelName) {
+        // Binder ref and kernel name, from the globals the shortcode emits — with
+        // the cells themselves as the fallback.
+        //
+        // Those globals are written from page CONTENT behind a Page.Store guard,
+        // so any render path that emits the content without them (the head already
+        // renders .Page.Content a second time for the meta description) leaves this
+        // check failing and every kernel on the page silently dead, with only a
+        // console line to say so. The cells carry the same values as attributes and
+        // are always present when there is anything to run, so read them from there
+        // when the globals are missing.
+        const firstThebeCell = document.querySelector(
+          '.thebe-container[data-binder-ref], .thebe-container[data-kernel-name]');
+        const resolvedBinderRef = window.thebeBinderRef
+          || (firstThebeCell && firstThebeCell.getAttribute('data-binder-ref')) || '';
+        const resolvedKernelName = window.thebeKernelName
+          || (firstThebeCell && firstThebeCell.getAttribute('data-kernel-name')) || '';
+        if (!resolvedBinderRef || !resolvedKernelName) {
           console.error('[Thebe] Missing binder ref or kernel name. Interactive notebooks require both.');
           return; // Skip all Thebe initialization
         }
+        // Publish what was resolved, since the rest of this file (and the config
+        // override at bootstrap) reads the globals.
+        window.thebeBinderRef = resolvedBinderRef;
+        window.thebeKernelName = resolvedKernelName;
         const binderRef = window.thebeBinderRef;
         const sessionStorageKey = 'thebe-redis-' + pagePath + '-' + binderRef;
 
@@ -1136,6 +1217,12 @@
               // Skip invalid JSON
             }
           }
+        }
+
+        /* Before anything reads it: the record has to carry appendToken or the
+           reconnected kernel socket will be refused (see below). */
+        if (existingSession && ensureSavedSessionAppendsToken() && sessionStorageKey_actual) {
+          existingSession = localStorage.getItem(sessionStorageKey_actual) || existingSession;
         }
 
         function clearContainerMessages(container) {
@@ -1726,6 +1813,15 @@
           if (sessionStorageKey_actual) {
             localStorage.removeItem(sessionStorageKey_actual);
           }
+          /* sessionStorageKey_actual is only set when a session already existed
+             when the page loaded. A session saved by THIS page load — the usual
+             case, a reader who just started a kernel — was never cleaned up here,
+             so a pod that died left a record of itself behind for the next load to
+             try to reconnect to. */
+          const savedNow = findSavedSession();
+          if (savedNow) {
+            localStorage.removeItem(savedNow.key);
+          }
 
           // Set a flag to indicate session expired (survives page refresh)
           // This ensures the next page load starts in clean state
@@ -1739,6 +1835,112 @@
         // Expose for testing
         window.handleKernelExpired = handleKernelExpired;
 
+        /* Used above by handleKernelExpired: a function declaration, so its
+           position in the file does not matter.
+
+           The saved session is the only reason a refresh reuses a kernel instead
+           of launching a new pod, so it is not thrown away on hearsay. Thebe
+           reports "disconnected" and "Connection lost" for transient blips too —
+           a laptop waking, a proxy hiccup, the socket closing as the page
+           unloads — and every one of those used to delete the session, which is
+           why a reload started from scratch. Ask the server itself instead: the
+           saved record carries its baseUrl and token, and a kernel listing is
+           the same call Thebe validates a restored session with. */
+        function findSavedSession() {
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (!key || !key.includes('thebe-binder-') || !key.endsWith(binderRefSuffix)) continue;
+            try {
+              const data = JSON.parse(localStorage.getItem(key));
+              if (data && data.baseUrl) return { key: key, data: data };
+            } catch (e) {
+              /* not ours */
+            }
+          }
+          return null;
+        }
+
+        /* Why a restored session could never run a cell.
+           ─────────────────────────────────────────────────────────────────
+           Thebe builds its settings twice. On a fresh launch it passes
+           `appendToken: true`, and @jupyterlab/services then puts the token on
+           the kernel websocket URL:
+
+               t.appendToken && '' !== s && (r += `&token=${...}`)
+
+           But saveSession() stores only {id, baseUrl, token, wsUrl, lastUsed}.
+           On restore, ServerConnection.makeSettings() recomputes the flag, and
+           its default is "append only when the page and the server are on
+           different hostnames" — which ours are not, since /jupyterhub/ is
+           reverse-proxied under the docs origin. So the reconnected socket goes
+           out with no token, the user server refuses cookie-only auth for a
+           websocket, and the handshake is rejected: observed as
+           "Error during WebSocket handshake: Unexpected response code" retried
+           forever, a kernel that reports ready, and every cell silently doing
+           nothing. Refreshing a page therefore looked like it kept the kernel
+           while being unable to use it.
+
+           makeSettings spreads the saved record AFTER computing its default, so
+           putting the flag in the record is enough to win — no patching of Thebe
+           itself, and harmless if a later version saves it too. */
+        function ensureSavedSessionAppendsToken() {
+          const saved = findSavedSession();
+          if (!saved || saved.data.appendToken === true) return false;
+          saved.data.appendToken = true;
+          try {
+            localStorage.setItem(saved.key, JSON.stringify(saved.data));
+          } catch (e) {
+            return false;
+          }
+          console.debug('[Thebe Session] Marked saved session appendToken:'
+            + ' its kernel websocket needs the token in the URL.');
+          return true;
+        }
+        window.ensureSavedSessionAppendsToken = ensureSavedSessionAppendsToken;
+
+        function savedSessionAlive() {
+          const saved = findSavedSession();
+          if (!saved) return Promise.resolve(false);
+          const base = String(saved.data.baseUrl).replace(/\/*$/, '/');
+          const url = base + 'api/kernels'
+            + (saved.data.token ? '?token=' + encodeURIComponent(saved.data.token) : '');
+          /* redirect: 'manual' is the point of this call. A server that is gone
+             does not fail: JupyterHub's proxy has no route for it, so it answers
+             302 to /hub/user/<server>/… and, followed, that lands on a login or
+             spawn page — a 200, which would have read as "still alive" and kept a
+             session pointing at nothing. Only a 2xx from the server itself counts.
+             The token is what authorises this: an api/ call without it is exactly
+             the redirect being guarded against. */
+          return fetch(url, {
+            method: 'GET',
+            cache: 'no-store',
+            redirect: 'manual',
+            credentials: 'same-origin'
+          })
+            .then(function(res) { return res.type !== 'opaqueredirect' && res.ok; })
+            .catch(function() { return false; });
+        }
+
+        /* Expire only what is actually gone. While the server still answers, the
+           kernel can be reattached — by Thebe now, or by the next page load —
+           so the session stays and the containers just say they are reconnecting. */
+        function expireSessionIfDead(reason) {
+          return savedSessionAlive().then(function(alive) {
+            if (alive) {
+              console.debug('[Thebe Session] Keeping saved session: server still'
+                + ' answering after ' + reason);
+              document.querySelectorAll('.thebe-container').forEach(function(c) {
+                c.classList.add('reconnecting');
+              });
+              return false;
+            }
+            console.debug('[Thebe Session] Expiring saved session after ' + reason);
+            handleKernelExpired();
+            return true;
+          });
+        }
+        window.expireSessionIfDead = expireSessionIfDead;
+
         // Function to enable dependent cell buttons (called after first cell runs)
         function enableDependentButtons() {
           firstCellExecuted = true; // Mark that first cell has run
@@ -1751,6 +1953,47 @@
         }
 
         // Function to bootstrap Thebe (extracted for reuse)
+        /* A config that always carries the ref, for the paths that used to call
+           thebelab.bootstrap() with no argument at all.
+
+           Bare bootstrap makes Thebe read the page's x-thebe-config, whose `ref`
+           and `kernelName` are deliberately empty placeholders — the driver fills
+           them in at launch. So a bare call builds
+           `/build/gh/redis/binder-launchers/` with no ref, which BinderHub cannot
+           resolve: the EventSource opens and is then dropped with "phase: unknown
+           - no message", and Thebe falls back to its default session key instead
+           of the page-specific one. Failing loudly on a missing ref beats
+           launching a URL that cannot work. */
+        function minimalThebeConfig() {
+          var config = {};
+          var configScript = document.querySelector('script[type="text/x-thebe-config"]');
+          if (configScript) {
+            try {
+              config = JSON.parse(configScript.textContent) || {};
+            } catch (e) {
+              config = {};
+            }
+          }
+          config.binderOptions = config.binderOptions || {
+            repo: 'redis/binder-launchers',
+            repoProvider: 'github'
+          };
+          config.binderOptions.ref = window.thebeBinderRef;
+          config.binderOptions.binderUrl = RESOLVED_BINDER_URL;
+          config.kernelOptions = config.kernelOptions || {};
+          config.kernelOptions.kernelName = window.thebeKernelName;
+          if (config.binderOptions.savedSession) {
+            config.binderOptions.savedSession.storagePrefix = sessionStorageKey + '-';
+          }
+          config.requestKernel = true;
+          if (!config.binderOptions.ref) {
+            console.error('[Thebe] Refusing to launch without a binder ref:'
+              + ' the build URL would have no branch. Expected window.thebeBinderRef'
+              + ' or data-binder-ref on a .thebe-container.');
+          }
+          return config;
+        }
+
         async function bootstrapThebe(isAutoReconnect = false) {
           if (thebeBootstrapped) {
             return true;
@@ -1790,9 +2033,13 @@
                   return;
                 }
 
-                // Check for real kernel death (not just temporary shutdown)
+                /* A kernel that died is not the same thing as a server that
+                   went away: the session records the SERVER, and a new kernel on
+                   a server that is still up costs nothing, while dropping the
+                   session costs a pod launch. So every one of these signals is
+                   checked against the server before the session is discarded. */
                 if (data.status === "failed" || data.status === "disconnected" || data.status === "dead") {
-                  handleKernelExpired();
+                  expireSessionIfDead('status ' + data.status);
                   return;
                 }
 
@@ -1800,16 +2047,17 @@
                 if (data.status === "shutdown") {
                   const msg = data.message || '';
                   if (msg.includes('[dead]') || msg.includes('disposed')) {
-                    handleKernelExpired();
+                    expireSessionIfDead('shutdown: ' + msg);
                     return;
                   }
                   // Ignore other shutdown messages (like [unknown]) - they may be temporary
                 }
 
-                // Check for WebSocket connection loss (kernel pod deleted or died)
-                if (data.message && (data.message.includes("Connection lost") ||
-                    data.message.includes("reconnecting"))) {
-                  handleKernelExpired();
+                /* "Connection lost" is Thebe's own wording for a socket it means
+                   to retry, and "reconnecting" says so outright — neither is
+                   evidence the server is gone. */
+                if (data.message && data.message.includes("Connection lost")) {
+                  expireSessionIfDead('message: ' + data.message);
                   return;
                 }
 
@@ -1817,6 +2065,9 @@
                 if (data.status === "attached" && data.subject === "notebook") {
                   notebookAttached = true;
                   kernelReady = true;
+                  /* This launch has just written its session record; mark it now
+                     so a refresh can reconnect a socket that actually works. */
+                  ensureSavedSessionAppendsToken();
                   // Clear the protection flag - session is now stable
                   sessionStorage.removeItem(SESSION_RESTORE_KEY);
                   // Add kernel-ready class to all containers
@@ -1885,6 +2136,7 @@
                   // Update binder ref to use dynamic value from source file
                   if (config.binderOptions) {
                     config.binderOptions.ref = window.thebeBinderRef;
+                    config.binderOptions.binderUrl = RESOLVED_BINDER_URL;
                   }
 
                   // Update kernel name to use dynamic value from source file
@@ -1908,14 +2160,21 @@
                     return false;
                   }
                   console.error('[Thebe Session] Failed to parse/update config:', e);
-                  // Fallback to default bootstrap
+                  /* Restore first: Thebe seeds each editor from the cell's current
+                     text, and a previous attempt has already appended its own
+                     controls ("run", "run all", "restart"…) into those cells. A
+                     second bootstrap without restoring reads those labels as part
+                     of the code, which is how a cell ends up reading
+                     `...decode_responses=True)runrun allrestart`. */
+                  restoreCleanCells();
                   await withBinderRateLimitDetection(function() {
-                    return thebelab.bootstrap();
+                    return thebelab.bootstrap(minimalThebeConfig());
                   });
                 }
               } else {
+                restoreCleanCells();
                 await withBinderRateLimitDetection(function() {
-                  return thebelab.bootstrap();
+                  return thebelab.bootstrap(minimalThebeConfig());
                 });
               }
 
@@ -1939,7 +2198,10 @@
                 // If we found the WebSocket, add close listener
                 if (ws) {
                   ws.addEventListener('close', function(event) {
-                    handleKernelExpired();
+                    /* A websocket closes on a network blip and on the way out of
+                       the page as well as on a dead kernel, so this asks the
+                       server before spending the session. */
+                    expireSessionIfDead('websocket close ' + (event && event.code));
                   });
                 }
               } catch (e) {

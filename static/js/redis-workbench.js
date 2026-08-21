@@ -648,14 +648,12 @@
     toggle.addEventListener('click', function () { self.toggle(); });
     bar.appendChild(toggle);
 
+    /* The bar carries what belongs to the dock as a whole: what it is, what it is
+       doing, and how big it is. Anything that acts on ONE pane's contents lives
+       in that pane, next to the thing it affects — "Clear keys" and "Clear
+       terminal" are in the Terminal pane, the way "Run all" and "Clear notebook"
+       are in the Notebook pane. */
     var actions = el('div', 'rwb-actions');
-    actions.appendChild(this.button('Clear keys',
-      'Empty the sandbox (FLUSHDB) — keys, indexes, and the transcript with them',
-      function () { self.clearKeys(); }));
-    /* Sits next to "Clear keys" and is worded to match it: one drops what the
-       browser lists, the other drops the printed history. */
-    actions.appendChild(this.button('Clear terminal', 'Clear the terminal transcript',
-      function () { cli().clear(self.terminalForm); }));
     this.fullCliLink = el('a', 'rwb-btn rwb-btn-link', 'Full CLI');
     this.fullCliLink.target = '_blank';
     this.fullCliLink.rel = 'noopener noreferrer';
@@ -712,18 +710,33 @@
     var main = el('section', 'rwb-main');
     var tabs = el('div', 'rwb-tabs');
     tabs.setAttribute('role', 'tablist');
-    this.terminalTab = this.tab('Terminal', 'terminal');
-    this.valueTab = this.tab('Value', 'value');
-    this.valueTab.disabled = true;
-    tabs.appendChild(this.terminalTab);
-    tabs.appendChild(this.valueTab);
-
+    this.tabStrip = tabs;
+    this.mainSection = main;
+    /* Panes live in a registry rather than as two fixed fields, so a consumer can
+       add one (see RedisWorkbench.addPane) without reaching into the dock. */
+    this.panes = {};
     main.appendChild(tabs);
 
-    this.terminalPane = el('div', 'rwb-pane');
-    this.valuePane = el('div', 'rwb-pane rwb-hidden');
-    main.appendChild(this.terminalPane);
-    main.appendChild(this.valuePane);
+    this.terminalPane = this.addPane('terminal', 'Terminal').pane;
+
+    /* Kept as a node on the dock, not rebuilt with the terminal: startTerminal()
+       empties the pane to mount the transcript, and this has to survive that. */
+    var terminalTools = el('div', 'rwb-toolbar');
+    terminalTools.appendChild(this.button('Clear keys',
+      'Empty the sandbox (FLUSHDB) — keys, indexes, and the transcript with them',
+      function () { self.clearKeys(); }));
+    /* Worded to match "Clear keys": one drops what the browser lists, the other
+       drops the printed history. */
+    terminalTools.appendChild(this.button('Clear terminal', 'Clear the terminal transcript',
+      function () { cli().clear(self.terminalForm); }));
+    this.terminalToolbar = terminalTools;
+    this.terminalPane.appendChild(terminalTools);
+    var value = this.addPane('value', 'Value');
+    this.valuePane = value.pane;
+    this.valueTab = value.tab;
+    this.terminalTab = this.panes.terminal.tab;
+    this.valueTab.disabled = true;
+
     body.appendChild(main);
     panel.appendChild(body);
 
@@ -770,22 +783,37 @@
     return node;
   };
 
-  dock.tab = function (label, pane) {
+  /* Add a tab and its pane, and return both. `onShow(pane, shown)` is called
+     whenever the pane is revealed or hidden, which is how a pane that owns
+     something expensive (a kernel, a borrowed piece of the page) can set it up
+     late and put it back afterwards. */
+  dock.addPane = function (id, label, onShow) {
     var self = this;
-    var node = el('button', 'rwb-tab', label);
-    node.type = 'button';
-    node.setAttribute('role', 'tab');
-    node.addEventListener('click', function () { self.show(pane); });
-    return node;
+    var tab = el('button', 'rwb-tab', label);
+    tab.type = 'button';
+    tab.setAttribute('role', 'tab');
+    tab.addEventListener('click', function () { self.show(id); });
+    this.tabStrip.appendChild(tab);
+
+    var pane = el('div', 'rwb-pane');
+    if (Object.keys(this.panes).length) pane.classList.add('rwb-hidden');
+    this.mainSection.appendChild(pane);
+
+    this.panes[id] = { tab: tab, pane: pane, onShow: onShow };
+    return this.panes[id];
   };
 
-  dock.show = function (pane) {
-    this.pane = pane;
-    var onTerminal = pane === 'terminal';
-    this.terminalPane.classList.toggle('rwb-hidden', !onTerminal);
-    this.valuePane.classList.toggle('rwb-hidden', onTerminal);
-    this.terminalTab.setAttribute('aria-selected', String(onTerminal));
-    this.valueTab.setAttribute('aria-selected', String(!onTerminal));
+  dock.show = function (id) {
+    var self = this;
+    if (!this.panes[id]) return;
+    this.pane = id;
+    Object.keys(this.panes).forEach(function (key) {
+      var entry = self.panes[key];
+      var shown = key === id;
+      entry.pane.classList.toggle('rwb-hidden', !shown);
+      entry.tab.setAttribute('aria-selected', String(shown));
+      if (entry.onShow) entry.onShow(entry.pane, shown);
+    });
   };
 
   /* ---- open / close / resize ---- */
@@ -971,6 +999,7 @@
      it rather than replacing it — which is what lets the history survive. */
   dock.startTerminal = function () {
     this.terminalPane.replaceChildren();
+    if (this.terminalToolbar) this.terminalPane.appendChild(this.terminalToolbar);
     var form = el('form', 'redis-cli rwb-terminal');
     form.setAttribute('spellcheck', 'false');
     this.terminalForm = form;
@@ -1336,7 +1365,9 @@
   /* The dock is built once, lazily, and only where it makes sense: a page with
      no Redis examples has nothing to put in it. */
   function pageHasRedis() {
-    return !!document.querySelector('form.redis-cli, .tryit-button');
+    /* `.thebe-container` is in here for the notebook pane: a client page can have
+       runnable cells and no CLI terminal at all. */
+    return !!document.querySelector('form.redis-cli, .tryit-button, .thebe-container');
   }
 
   function ensureDock() {
@@ -1383,6 +1414,37 @@
     toggle: function () {
       var instance = ensureDock();
       if (instance) instance.toggle();
+    },
+
+    /* Add a pane of your own beside Terminal and Value, for something the dock
+       itself has no business knowing about — the Thebe notebook prototype in
+       js/redis-workbench-notebook.js is the first of these.
+
+       spec: {id, label, onMount(pane, api), onShow(pane, shown)}
+       api:  {open, isOpen, setStatus, show, dock}
+
+       Returns false when there is no dock on this page (no Redis examples, or a
+       backend without the widget API), so a caller can stay quiet. */
+    addPane: function (spec) {
+      var instance = ensureDock();
+      if (!instance || !spec || !spec.id) return false;
+      var entry = instance.addPane(spec.id, spec.label, spec.onShow);
+      if (spec.onMount) {
+        spec.onMount(entry.pane, {
+          open: function () { instance.open(); },
+          isOpen: function () { return instance.isOpen; },
+          setStatus: function (text) { instance.setStatus(text); },
+          show: function () { instance.show(spec.id); },
+          dock: instance
+        });
+      }
+      return entry;
+    },
+
+    /* Mount the dock even when no snippet has been run, so a consumer that has
+       something to show (a page of notebook cells) can put its pane up. */
+    ensure: function () {
+      return !!ensureDock();
     }
   };
 
