@@ -45,7 +45,7 @@ The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` w
 | `PUT /api/v1/pipelines/sources` and source subresources | `PATCH /api/v2/pipelines/{name}` with `sources` in the payload |
 | `PUT /api/v1/pipelines/targets` and target subresources | `PATCH /api/v2/pipelines/{name}` with `targets` in the payload |
 | `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | `PATCH /api/v2/pipelines/{name}` with `processors` in the payload |
-| Secret provider endpoints | `POST`, `PUT`, or `DELETE /api/v2/pipelines/{name}/secrets[/{key}]` |
+| `PUT /api/v1/secrets` and `PUT /api/v1/secrets/{secret_name}` | `POST`, `PUT`, or `DELETE /api/v2/pipelines/{name}/secrets[/{key}]` with the `db` query parameter |
 | Source metadata, schemas, databases, tables, and columns endpoints | `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` with the appropriate filters |
 | `POST /api/v1/pipelines/sources/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
 | `POST /api/v1/pipelines/targets/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
@@ -118,7 +118,8 @@ Note:
 2. Add the pipeline name to each v2 request. The only pipeline in 1.19.0 is always named `default`.
 3. Check the pipeline response, or call `GET /api/v2/pipelines/{name}/status`, instead of polling an action ID.
 4. Use `POST /api/v2/pipelines`, `PUT /api/v2/pipelines/{name}`, or `PATCH /api/v2/pipelines/{name}` to update source, target, processor, and secret-provider settings as needed. When using `PATCH`, omit the configuration sections that you do not want to change.
-5. Use `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` for monitoring and `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` for source metadata.
-6. Test creating, updating, validating, starting, stopping, resetting, and deleting a pipeline on a non-production RDI 1.19.0 or later installation before updating production applications.
+5. Change secret requests to address a secret by a database-independent key and a `db` parameter. Where a v1 request set `SOURCE_DB_PASSWORD`, a v2 request sets the `PASSWORD` key with `db` naming the source, and `TARGET_DB_PASSWORD` becomes the `PASSWORD` key with `db=target`. See [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}).
+6. Use `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` for monitoring and `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` for source metadata.
+7. Test creating, updating, validating, starting, stopping, resetting, and deleting a pipeline on a non-production RDI 1.19.0 or later installation before updating production applications.
 
 Authentication and the API base URL do not change. The migration requires updates to the endpoint paths, pipeline scoping, request models, and operation status handling.

@@ -19,6 +19,6 @@ weight: 20
 
 The guides in this section explain the options you have for installing and upgrading RDI on your own servers. See the [Redis Cloud RDI guide]({{< relref "/operate/rc/rdi" >}}) to 
 learn how to set up RDI for a cloud database.
-Before you use RDI, you must also configure your source database to enable CDC. See the
+Before you use RDI, you must also configure each of your source databases to enable CDC. See the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
 section to learn how to do this.

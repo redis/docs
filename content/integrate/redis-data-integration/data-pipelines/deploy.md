@@ -50,8 +50,8 @@ shows these references in use, and
 covers the source naming rules.
 
 {{< note >}}The older scope-prefixed keys like `SOURCE_DB_PASSWORD` or `TARGET_DB_PASSWORD` 
-are still accepted for pipelines that were created before the upgrade and that have a single 
-source. They are used without specifying `--db`. These keys are deprecated and will be 
+are still accepted, and are used without specifying `--db`. A `SOURCE_DB_*` key requires the 
+pipeline to have exactly one source. These keys are deprecated and will be 
 removed in a future release, so all usage should migrate to the new keys.{{< /note >}}
 
 {{< note >}}
