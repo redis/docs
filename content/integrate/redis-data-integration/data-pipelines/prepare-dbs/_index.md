@@ -20,7 +20,12 @@ weight: 1
 Each database uses a different mechanism to track changes to its data and
 generally, these mechanisms are not switched on by default.
 RDI's Debezium collector uses these mechanisms for change data capture (CDC),
-so you must prepare your source database before you can use it with RDI.
+so you must prepare each source database before you can use it with RDI.
+
+A pipeline can capture from more than one source database, and every source needs its own
+preparation. Follow the page for each source's database type. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+for how to configure several sources in one pipeline.
 
 RDI supports the following source databases:
 

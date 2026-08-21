@@ -22,6 +22,7 @@ redis-di list-secrets [flags]
 | Option             | Description                                          |
 | :----------------- | :--------------------------------------------------- |
 | `-p`, `--pipeline` | Pipeline to target (default `default`).              |
+| `--db`             | List only the secrets of this database: a source name, or `target`. |
 | `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`. |
 
 This command also accepts the
@@ -31,5 +32,6 @@ This command also accepts the
 
 ```bash
 redis-di list-secrets
+redis-di list-secrets --db mysql
 redis-di list-secrets -p my-pipeline
 ```

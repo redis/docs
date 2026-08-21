@@ -23,6 +23,7 @@ redis-di get-secret <key> [flags]
 | Option             | Description                                          |
 | :----------------- | :--------------------------------------------------- |
 | `-p`, `--pipeline` | Pipeline to target (default `default`).              |
+| `--db`             | Database the secret belongs to: a source name, or `target`. |
 | `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`. |
 
 This command also accepts the
@@ -31,5 +32,5 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di get-secret SOURCE_DB_USERNAME
+redis-di get-secret USERNAME --db mysql
 ```

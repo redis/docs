@@ -22,6 +22,7 @@ redis-di delete-secret <key> [flags]
 | Option             | Description                                                                       |
 | :----------------- | :-------------------------------------------------------------------------------- |
 | `-p`, `--pipeline` | Pipeline to target (default `default`).                                           |
+| `--db`             | Database the secret belongs to: a source name, or `target`.                       |
 | `--force`          | Skip the confirmation prompt.                                                     |
 | `--wait`           | Wait for the pipeline to reach the expected state (default `true`).               |
 | `--timeout`        | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
@@ -32,5 +33,5 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di delete-secret SOURCE_DB_CACERT --force
+redis-di delete-secret CACERT --db mysql --force
 ```

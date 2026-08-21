@@ -41,9 +41,10 @@ sources:
       type: mysql
       host: <DB_HOST> # e.g. localhost
       port: 3306
-      # User and password are injected from the secrets.
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
+      # User and password are injected from the secrets. The prefix comes from
+      # the source name above.
+      user: ${MYSQL_DB_USERNAME}
+      password: ${MYSQL_DB_PASSWORD}
     # Additional properties for the source collector:
     # List of databases to include (optional).
     # databases:
@@ -194,11 +195,17 @@ and [`processors`](#processors).
 
 ### Sources
 
-The `sources` section has a subsection for the source that
-you need to configure. The source section starts with a unique name
-to identify the source (in the example, there is a source
-called `mysql` but you can choose any name you like). The example
-configuration contains the following data:
+The `sources` section has one subsection per source database. Each subsection starts
+with the source name, which identifies the source and must be unique (in the example,
+the source is called `mysql`).
+
+The source name also determines the environment variables that carry the source's
+credentials, for example `${MYSQL_DB_USERNAME}` and `${MYSQL_DB_PASSWORD}` for a 
+source named `mysql`. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+for the source naming rules and for capturing from more than one source database.
+
+The example configuration contains the following data:
 
 - `type`: The type of collector to use for the pipeline. 
   Currently, the only types RDI supports are `cdc` and `external`.

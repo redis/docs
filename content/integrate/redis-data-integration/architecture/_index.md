@@ -20,13 +20,13 @@ weight: 30
 
 ## Overview
 
-RDI implements a [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC) pattern that tracks changes to the data in a
-non-Redis *source* database and makes corresponding changes to a Redis
+RDI implements a [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC) pattern that tracks changes to the data in one or
+more non-Redis *source* databases and makes corresponding changes to a Redis
 *target* database. You can use the target as a cache to improve performance
 because it will typically handle read queries much faster than the source.
 
 To use RDI, you define a *dataset* that specifies which data items
-you want to capture from the source and how you want to
+you want to capture from each source and how you want to
 represent them in the target. For example, if the source is a
 relational database then you specify which table columns you want
 to capture but you don't need to store them in an equivalent table
@@ -35,15 +35,15 @@ representation is most suitable for your app. To convert from the
 source to the target representation, RDI applies *transformations*
 to the data after capture.
 
-RDI synchronizes the dataset between the source and target using
+RDI synchronizes the dataset between the sources and the target using
 a *data pipeline* that implements several processing steps
 in sequence:
 
-1.  A *CDC collector* captures changes to the source database. RDI
-    currently uses an open source collector called
+1.  A *CDC collector* per source captures changes to the source 
+    databases. RDI currently uses an open source collector called
     [Debezium](https://debezium.io/) for this step.
 
-1.  The collector records the captured changes using
+1.  Each collector records the captured changes using
 [Redis streams]({{< relref "/develop/data-types/streams" >}})
     in the RDI database.
 
@@ -60,12 +60,12 @@ its state and configuration data and also the change data streams in a Redis dat
 {{< image filename="images/rdi/ingest/ingest-dataflow.webp" >}}
 
 When you first start RDI, the target database is empty and so all
-of the data in the source database is essentially "change" data.
+of the data in the source databases is essentially "change" data.
 RDI collects this data in a phase called *initial cache loading*,
 which can take minutes or hours to finish, depending on the size
 of the source data. Once the initial cache loading is complete,
 there is a *snapshot* dataset in the target that will gradually
-change when new data gets captured from the source. At this point,
+change when new data gets captured from the sources. At this point,
 RDI automatically enters a second phase called *change streaming*, where
 changes in the data are captured as they happen. Changes are usually
 added to the target within a few seconds after capture.
@@ -83,7 +83,7 @@ overall state).
 ## Checkpointing
 
 RDI uses Redis streams to store the sequence of change events
-captured from the source. The events are then retrieved in order
+captured from the sources. The events are then retrieved in order
 from the streams, processed, and written to the target. The stream
 processor uses a *checkpoint* mechanism to keep track of the last
 event in the sequence that it has successfully processed and stored. If the processor fails
@@ -96,11 +96,11 @@ face of failures.
 
 Sometimes, data records can get added to the streams faster than RDI can
 process them. This can happen if the target is slowed or disconnected
-or simply if the source quickly generates a lot of change data.
+or simply if a source quickly generates a lot of change data.
 If this continues, then the streams will eventually occupy all the
 available memory. When RDI detects this situation, it applies a
 *backpressure* mechanism to slow or stop the flow of incoming data.
-Change data is held at the source until RDI clears the backlog and has
+Change data is held at the sources until RDI clears the backlog and has
 enough free memory to resume streaming.
 
 {{<note>}}The Debezium log sometimes reports that RDI has run out
@@ -128,7 +128,7 @@ It includes:
     and exports them as [Prometheus](https://prometheus.io/) metrics.
 
 The *data plane* contains the processes that actually move the data.
-It includes the *CDC collector* and the *stream processor* that implement
+It includes a *CDC collector* for each source and the *stream processor*, which implement
 the two phases of the pipeline lifecycle (initial cache loading and change streaming).
 
 The *management plane* provides tools that let you interact
@@ -164,7 +164,7 @@ deploy RDI.
 
 ### RDI on your own VMs
 
-For this deployment, you must provide two VMs. The collector and stream processor
+For this deployment, you must provide two VMs. The collectors and stream processor
 are active on one VM, while on the other they are in standby to provide high availability.
 The two operators running on both VMs use a leader election algorithm to decide which
 VM is the active one (the "leader").

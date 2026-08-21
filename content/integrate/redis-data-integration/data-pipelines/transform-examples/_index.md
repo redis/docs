@@ -58,7 +58,11 @@ The main sections of these files are:
 
 - `source`: This is a mandatory section that specifies the data items that you want to 
   use. You can add the following properties here:
-  - `server_name`: Logical server name (optional).
+  - `server_name`: The name of the source whose records this job processes, as it appears
+    in the `sources` section of
+    [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
+    Required when the pipeline has more than one source. Optional in a pipeline with a single source. See
+    [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}).
   - `db`: Database name (optional). This refers to a database name you supplied in
     [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
   - `schema`: Database schema (optional). This refers to a schema name you supplied in
@@ -71,6 +75,13 @@ The main sections of these files are:
   - `case_insensitive`: This applies to the `server_name`, `db`, `schema`, and `table` properties
   and is set to `true` by default. Set it to `false` if you need to use case-sensitive values for these
   properties.
+
+  `server_name`, `db`, `schema`, and `table` each accept either a single name or a list of names.
+  An entry prefixed with `regex:` is matched as a regular expression that must match the whole
+  value, rather than as a literal name. For example, `server_name: [mysql, postgresql]` selects
+  two sources, and `table: "regex:orders_[0-9]+"` selects every numbered `orders` table. A job
+  processes the records that match all of the properties it sets, so a single job can cover
+  several sources, schemas, or tables.
 
 - `transform`: This is an optional section describing the transformation that the pipeline
   applies to the data before writing it to the target. The `uses` property specifies a
@@ -126,7 +137,7 @@ the default logic.
 ```yaml
 name: Rename field example
 source:
-  server_name: redislabs
+  server_name: sqlserver
   schema: dbo
   table: emp
 transform:

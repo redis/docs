@@ -17,7 +17,7 @@ weight: 10
 ---
 
 This guide explains how to install Redis Data Integration (RDI) on one or more VMs and integrate it with
-your source database. You can also
+your source databases. You can also
 [Install RDI on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
 
 {{< note >}}We recommend you always use the latest version, which is RDI v{{< rdi-version >}}.
@@ -271,15 +271,17 @@ and the RDI pipeline will be active on that VM.
 
 You may find it useful to trigger a failover deliberately to check that RDI is correctly configured to handle it. See [Test HA failover]({{< relref "/integrate/redis-data-integration/installation/ha-test" >}}) to learn how to do this.
 
-## Prepare your source database
+## Prepare your source databases
 
-Before deploying a pipeline, you must configure your source database to enable CDC. See the
+Before deploying a pipeline, you must configure each source database to enable CDC. See the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
-section to learn how to do this.
+section to learn how to do this. A pipeline can capture from more than one source database,
+and each one has to be prepared. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}).
 
 ## Deploy a pipeline
 
-When the installation is complete, and you have prepared the source database for CDC,
+When the installation is complete, and you have prepared your source databases for CDC,
 you are ready to start using RDI. See the guides on how to
 [configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
@@ -331,4 +333,4 @@ This will uninstall RDI and its dependencies, are you sure? [y, N]
 ```
 
 If you type anything other than "y" here, the script will abort without making any changes
-to RDI or your source database.
+to RDI or your source databases.

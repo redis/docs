@@ -146,11 +146,14 @@ Before deploying the RDI pipeline, configure the necessary secrets.
 
 ### Password authentication
 
+The secret names and keys come from the source name, which for the source configured in
+the next step is `snowflake`:
+
 ```bash
-kubectl create secret generic source-db \
+kubectl create secret generic snowflake-db \
   --namespace=rdi \
-  --from-literal=SOURCE_DB_USERNAME=your_username \
-  --from-literal=SOURCE_DB_PASSWORD=your_password
+  --from-literal=SNOWFLAKE_DB_USERNAME=your_username \
+  --from-literal=SNOWFLAKE_DB_PASSWORD=your_password
 ```
 
 ### Private key authentication
@@ -158,17 +161,17 @@ kubectl create secret generic source-db \
 Create a secret with the private key file:
 
 ```bash
-kubectl create secret generic source-db-ssl \
+kubectl create secret generic snowflake-db-ssl \
   --namespace=rdi \
   --from-file=client.key=/path/to/rsa_key.p8
 ```
 
-Also create the source-db secret with the username:
+Also create the `snowflake-db` secret with the username:
 
 ```bash
-kubectl create secret generic source-db \
+kubectl create secret generic snowflake-db \
   --namespace=rdi \
-  --from-literal=SOURCE_DB_USERNAME=your_username
+  --from-literal=SNOWFLAKE_DB_USERNAME=your_username
 ```
 
 ## 4. Configure RDI for Snowflake
@@ -182,8 +185,8 @@ sources:
     connection:
       type: snowflake
       url: "jdbc:snowflake://myaccount.snowflakecomputing.com/"
-      user: "${SOURCE_DB_USERNAME}"
-      password: "${SOURCE_DB_PASSWORD}"  # Omit for key-pair auth
+      user: "${SNOWFLAKE_DB_USERNAME}"
+      password: "${SNOWFLAKE_DB_PASSWORD}"  # Omit for key-pair auth
       database: "MYDB"
       warehouse: "COMPUTE_WH"
       # role: "RDI_ROLE"                 # Optional: Snowflake role
