@@ -23,13 +23,271 @@ and also the set of tables you want to capture. You can also add one or more
 [job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}})
 if you want to apply custom transformations to the captured data.
 
-## Example
+Each section explains one part of the file. Start with the minimal example, then
+add only the optional properties that you need. See the
+[configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}})
+for all supported properties.
 
-Below is an example of a `config.yaml` file. Note that the values of the
-form "`${name}`" refer to secrets that you should set as described in 
-[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}). 
+## Before you start
+
+Before you create `config.yaml`:
+
+1. [Prepare the source database]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}}) for change data capture.
+1. [Install RDI]({{< relref "/integrate/redis-data-integration/installation" >}}).
+1. [Set the secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}) that the file references.
+
+## Start with a minimal file
+
+The following example shows the required structure of a `config.yaml` file. Values of the
+form "`${name}`" refer to secrets that you should set as described in
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}).
 In particular, you should normally use secrets as shown to set the source
 and target username and password rather than storing them in plain text in this file.
+
+```yaml
+sources:
+  mysql:
+    type: cdc
+    logging:
+      level: info
+    connection:
+      type: mysql
+      host: <DB_HOST>
+      port: 3306
+      user: ${SOURCE_DB_USERNAME}
+      password: ${SOURCE_DB_PASSWORD}
+
+targets:
+  target:
+    connection:
+      type: redis
+      host: <REDIS_TARGET_DB_HOST>
+      port: <REDIS_TARGET_DB_PORT>
+      password: ${TARGET_DB_PASSWORD}
+
+processors:
+  type: flink
+  target_data_type: hash
+```
+
+Keep `type: flink` for new pipelines. The other processor properties have defaults,
+so add them only when you need to change the default behavior.
+
+## Build the file with an AI assistant
+
+Copy the following prompt into your AI assistant. The prompt tells the assistant
+to use the RDI documentation as its source of truth and to flag unsupported requests.
+
+```text
+Help me create a valid Redis Data Integration (RDI) config.yaml file.
+
+Use only these pages as sources for configuration properties and behavior:
+- https://redis.io/docs/latest/integrate/redis-data-integration/data-pipelines/pipeline-config/
+- https://redis.io/docs/latest/integrate/redis-data-integration/reference/config-yaml-reference/
+- https://redis.io/docs/latest/integrate/redis-data-integration/data-pipelines/prepare-dbs/
+
+Do not invent property names. If a requested property is not documented, tell me.
+Use ${NAME} secret references for credentials and certificates. Do not include secret
+values in the file. Configure one target Redis database named `target`. Always use the
+Flink processor by setting `processors.type` to `flink`.
+
+Ask me for the following information one question at a time:
+1. Source database type, host, and port.
+2. Databases or schemas to capture.
+3. Tables and columns to capture, including keys for tables without a primary key
+   or unique constraint.
+4. Whether the initial snapshot needs a row filter.
+5. Target Redis host and port, and whether the connection uses TLS or mTLS.
+6. Redis hash or JSON output.
+
+After I answer, generate config.yaml. Then list the required secrets and link me to
+the documented commands to set the secrets and deploy the pipeline.
+```
+
+## Sections
+
+The main sections of the file configure [`sources`](#sources), [`targets`](#targets),
+and [`processors`](#processors).
+
+### Sources
+
+The `sources` section has a subsection for the source that
+you need to configure. The source section starts with a unique name
+to identify the source (in the example, there is a source
+called `mysql` but you can choose any name you like). The example
+configuration contains the following data:
+
+- `type`: The collector to use for the pipeline. Use `cdc` for MariaDB, MySQL,
+  MongoDB, Oracle, PostgreSQL, or SQL Server. Use `flink` for Google Cloud
+  Spanner. Use `riotx` for Snowflake. Use `external` when you provide and manage
+  the collector. RDI doesn't create collector resources for an `external` source,
+  so omit the other properties in the source section.
+- `connection`: The connection details for the source database: `type`, `host`, `port`,
+  and credentials (`user` and `password`).
+  See the [configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesconnection" >}})
+  for the required fields for each source database type.
+  - If you use [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
+    or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect
+    to the source database, you may need to specify additional properties in the
+    `advanced` section with references to the corresponding certificates depending
+    on the source database type. Note that these properties **must** be references to
+    secrets that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}).
+- `databases`: List of all databases to collect data from for source database types
+  that support multiple databases, such as `mysql` and `mariadb`.
+- `schemas`: List of all schemas to collect data from for source database types
+  that support multiple schemas, such as `oracle`, `postgresql`, and `sqlserver`.
+- `tables`: List of all tables to collect data from. Each table is identified by its
+  full name, including a database or schema prefix. If there is a single
+  database or schema, this prefix can be omitted.
+  For each table, you can specify:
+  - `columns`: A list of the columns you are interested in (the default is to
+    include all columns)
+  - `keys`: A list of columns to create a composite key if your table
+    doesn't already have a [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
+    [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint.
+  - `snapshot_sql`: A query to be used when performing the initial snapshot.
+    By default, a query that contains all listed columns of all listed tables will be used.
+- `advanced`: These optional properties configure other Debezium-specific features.
+  The available sub-sections are:
+  - `source`: Properties for reading from the source database.
+    See the Debezium [Source connectors](https://debezium.io/documentation/reference/stable/connectors/)
+    pages for more information about the properties available for each database type.
+  - `sink`: Properties for writing to Redis streams in the RDI database.
+    See the Debezium [Redis stream properties](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream)
+    page for the full set of available properties.
+  - `quarkus`: Properties for the Debezium server, such as the log level. See the
+    Quarkus [Configuration options](https://quarkus.io/guides/all-config)
+    docs for the full set of available properties.
+  - `java_options`: controls the JAVA_OPTS environment variable (for RDI 1.15.1 and above). Use it to modify the default values for Java heap size and other Java options for the Debezium server.
+    For example, set it to `"-Xmx2g -Xms512m"` to set the maximum heap size to 2 GB and the initial heap size to 512 MB.
+
+### Targets
+
+Use this section to provide the connection details for the target Redis
+database. RDI supports one target database. Name the target `target`.
+In the `connection` section, you can specify the
+`type` of the target database, which must be `redis`, along with
+connection details such as `host`, `port`, and credentials (`user` and `password`).
+If you use [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
+or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect
+to the target database, you must specify the CA certificate (for TLS),
+and the client certificate and private key (for mTLS) in `cacert`, `cert`, and `key`.
+Note that these certificates **must** be references to secrets
+that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+(it is not possible to include these certificates as plain text in the file).
+
+### Processors
+
+The `processors` section selects the stream processor and configures its behavior.
+Use the Flink processor for new pipelines:
+
+```yaml
+processors:
+  type: flink
+```
+
+See [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+and [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
+for existing pipelines.
+
+### Tune Classic processor performance
+
+The Classic processor uses the top-level batch, queue, initial-sync, and stream
+polling properties. Larger batches can improve throughput but use more memory and
+can increase latency while RDI waits for a batch to fill.
+
+```yaml
+processors:
+  type: classic
+  read_batch_size: 2000
+  read_batch_timeout_ms: 100
+  write_batch_size: 200
+  enable_async_processing: true
+  batch_queue_size: 3
+  ack_queue_size: 10
+  initial_sync_processes: 4
+  idle_sleep_time_ms: 200
+  idle_streams_check_interval_ms: 1000
+  busy_streams_check_interval_ms: 5000
+```
+
+### Tune Flink processor performance
+
+The Flink processor uses `processors.advanced` for batch behavior, parallelism,
+and memory. Don't use Classic queue and initial-sync properties to tune Flink.
+
+```yaml
+processors:
+  type: flink
+  advanced:
+    source:
+      batch.size: 2000
+      batch.timeout.ms: 100
+      discovery.interval.ms: 1000
+    target:
+      batch.size: 200
+      flush.interval.ms: 100
+    flink:
+      taskmanager.numberOfTaskSlots: 1
+      taskmanager.memory.process.size: 2048m
+    resources:
+      taskManager:
+        replicas: 2
+```
+
+For Kubernetes installations, the number of available task slots is the number
+of TaskManager replicas multiplied by `taskmanager.numberOfTaskSlots`. When you
+omit `parallelism.default`, Flink uses the available task slots. Adding task slots
+can increase initial snapshot throughput. Size `taskmanager.memory.process.size`
+for the work done by each TaskManager, especially when jobs use transformations.
+
+The `advanced.source.batch.size`, `advanced.source.batch.timeout.ms`, and
+`advanced.target.batch.size` properties override their top-level aliases when
+both forms are present. Change other Flink settings only when instructed by Redis
+support. See the [configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processorsadvanced" >}})
+for all Flink processor properties.
+
+### Choose the Redis data type
+
+Set `target_data_type` to `hash` (the default) or `json`. The `json` option
+requires JSON support in the target database. A job file can override this
+setting for its output.
+
+```yaml
+processors:
+  type: flink
+  target_data_type: hash
+```
+
+See [Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}})
+for the data types available to job outputs.
+
+### Confirm writes reached a replica
+
+Use these properties only when target database replication is enabled and a
+healthy replica is available:
+
+```yaml
+processors:
+  type: flink
+  wait_enabled: true
+  wait_timeout: 1000
+  retry_on_replica_failure: true
+```
+
+For the Flink processor, the corresponding properties under
+`processors.advanced.target` take priority over these top-level properties.
+
+See also the
+[RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
+for full details of the other available properties.
+
+## Extended configuration example
+
+This example combines the commonly used options from this page. Remove properties
+that you don't need. See the
+[configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}})
+for every supported property.
 
 ```yaml
 sources:
@@ -117,12 +375,8 @@ sources:
     #   java_options: "-Xmx2g -Xms512m"
 
 targets:
-  # Redis target database connections.
-  # The default connection must be named 'target' and is used when no
-  # connection is specified in jobs or no jobs
-  # are deployed. However multiple connections can be defined here and used
-  # in the job definition output blocks:
-  # (e.g. target1, my-cloud-redis-db2, etc.)
+  # Redis target database connection.
+  # RDI supports one target database. Name it 'target'.
   target:
     connection:
       type: redis
@@ -143,177 +397,28 @@ targets:
       # cert: ${TARGET_DB_CERT}
       # cacert: ${TARGET_DB_CACERT}
 processors:
-  # # Processor type: classic or flink (default: classic)
-  # type: classic
-  # # The batch size for reading data from source database
-  # read_batch_size: 2000
-  # # Time (in ms) after which data will be read from stream even if read_batch_size was not reached
-  # read_batch_timeout_ms: 100
-  # # The batch size for writing data to target Redis database. Should be less or equal to the read_batch_size
-  # write_batch_size: 200
-  # # Enable async processing to improve throughput and reduce latency (default: true)
-  # enable_async_processing: true
-  # # Maximum number of batches to queue for processing (default: 3)
-  # batch_queue_size: 3
-  # # Maximum number of batches to queue for asynchronous acknowledgement (default: 10)
-  # ack_queue_size: 10
-  # # Enable deduplication mechanism (default: false)
-  # dedup: <DEDUP_ENABLED>
-  # # Max size of the deduplication set (default: 1024)
-  # dedup_max_size: <DEDUP_MAX_SIZE>
-  # # Error handling strategy: ignore - skip, dlq - store rejected messages in a dead letter queue
-  # error_handling: dlq
-  # # Dead letter queue max messages per stream
-  # dlq_max_messages: 1000
-  # # Target data type: hash/json - RedisJSON module must be in use in the target DB
+  type: flink
+  # Target data type: hash or json.
   # target_data_type: hash
-  # # Enable merge as the default strategy for writing JSON documents
+  # Enable merge as the default strategy for writing JSON documents.
   # json_update_strategy: merge
-  # # Use native JSON merge if the target RedisJSON module supports it
-  # use_native_json_merge: true
-  # # Number of processes to use when syncing initial data
-  # initial_sync_processes: 4
-  # # Time in milliseconds to sleep between processing batches when idle (default: 200)
-  # idle_sleep_time_ms: 200
-  # # Time in milliseconds between checking for new streams when processor is idle (default: 1000)
-  # idle_streams_check_interval_ms: 1000
-  # # Time in milliseconds between checking for new streams when processor is busy (default: 5000)
-  # busy_streams_check_interval_ms: 5000
-  # # Checks if the batch has been written to the replica shard
+  # Confirm that writes reached a target database replica.
   # wait_enabled: false
-  # # Timeout in milliseconds when checking write to the replica shard
   # wait_timeout: 1000
-  # # Ensures that a batch has been written to the replica shard and keeps retrying if not
   # retry_on_replica_failure: true
+  # Flink processor performance settings.
+  # advanced:
+  #   source:
+  #     batch.size: 2000
+  #     batch.timeout.ms: 100
+  #     discovery.interval.ms: 1000
+  #   target:
+  #     batch.size: 200
+  #     flush.interval.ms: 100
+  #   flink:
+  #     taskmanager.numberOfTaskSlots: 1
+  #     taskmanager.memory.process.size: 2048m
+  #   resources:
+  #     taskManager:
+  #       replicas: 2
 ```
-
-## Sections
-
-The main sections of the file configure [`sources`](#sources), [`targets`](#targets),
-and [`processors`](#processors).
-
-### Sources
-
-The `sources` section has a subsection for the source that
-you need to configure. The source section starts with a unique name
-to identify the source (in the example, there is a source
-called `mysql` but you can choose any name you like). The example
-configuration contains the following data:
-
-- `type`: The type of collector to use for the pipeline. 
-  Currently, the only types RDI supports are `cdc` and `external`.
-  If the source type is set to `external`, no collector resources will be created by the operator, 
-  and all other source sections should be empty or not specified at all.
-- `connection`: The connection details for the source database: `type`, `host`, `port`, 
-  and credentials (`username` and `password`).
-  - `type` is the source database type, one of `mariadb`, `mysql`, `oracle`, `postgresql`, or `sqlserver`.
-  - If you use [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
-    or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect
-    to the source database, you may need to specify additional properties in the
-    `advanced` section with references to the corresponding certificates depending 
-    on the source database type. Note that these properties **must** be references to 
-    secrets that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}).
-- `databases`: List of all databases to collect data from for source database types
-  that support multiple databases, such as `mysql` and `mariadb`.
-- `schemas`: List of all schemas to collect data from for source database types
-  that support multiple schemas, such as `oracle`, `postgresql`, and `sqlserver`.
-- `tables`: List of all tables to collect data from. Each table is identified by its
-  full name, including a database or schema prefix. If there is a single 
-  database or schema, this prefix can be omitted. 
-  For each table, you can specify:
-  - `columns`: A list of the columns you are interested in (the default is to
-    include all columns)
-  - `keys`: A list of columns to create a composite key if your table
-    doesn't already have a [`PRIMARY KEY`](https://www.w3schools.com/sql/sql_primarykey.asp) or
-    [`UNIQUE`](https://www.w3schools.com/sql/sql_unique.asp) constraint.
-  - `snapshot_sql`: A query to be used when performing the initial snapshot.
-    By default, a query that contains all listed columns of all listed tables will be used.
-- `advanced`: These optional properties configure other Debezium-specific features.
-  The available sub-sections are:
-  - `source`: Properties for reading from the source database.
-    See the Debezium [Source connectors](https://debezium.io/documentation/reference/stable/connectors/)
-    pages for more information about the properties available for each database type.
-  - `sink`: Properties for writing to Redis streams in the RDI database.
-    See the Debezium [Redis stream properties](https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream)
-    page for the full set of available properties.
-  - `quarkus`: Properties for the Debezium server, such as the log level. See the
-    Quarkus [Configuration options](https://quarkus.io/guides/all-config)
-    docs for the full set of available properties.
-  - `java_options`: controls the JAVA_OPTS environment variable (for RDI 1.15.1 and above). Use it to modify the default values for Java heap size and other Java options for the Debezium server.
-    For example, set it to `"-Xmx2g -Xms512m"` to set the maximum heap size to 2 GB and the initial heap size to 512 MB.
-
-### Targets
-
-Use this section to provide the connection details for the target Redis
-database(s). As with the sources, you should start each target section
-with a unique name that you are free to choose (here, the example uses the name
-`target`). In the `connection` section, you can specify the
-`type` of the target database, which must be `redis`, along with 
-connection details such as `host`, `port`, and credentials (`username` and `password`).
-If you use [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
-or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect 
-to the target database, you must specify the CA certificate (for TLS), 
-and the client certificate and private key (for mTLS) in `cacert`, `cert`, and `key`.
-Note that these certificates **must** be references to secrets
-that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
-(it is not possible to include these certificates as plain text in the file).
-
-{{< note >}}If you specify `localhost` as the address of either the source or target server during
-installation then the connection will fail if the actual IP address changes for the local
-VM. For this reason, it is recommended that you don't use `localhost` for the address. However,
-if you do encounter this problem, you can fix it using the following commands on the VM
-that is running RDI itself:
-
-```bash
-sudo k3s kubectl delete nodes --all
-sudo service k3s restart
-```
-{{< /note >}}
-
-### Processors
-
-The `processors` section configures the behavior of the pipeline. The [example](#example)
-configuration above contains the following properties:
-
-- `type`: Stream processor implementation to run for this pipeline.
-  The options are `classic` (the default) for the Python-based classic processor
-  and `flink` for the [Apache Flink](https://flink.apache.org/)-based processor.
-  See
-  [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
-  for an overview, and
-  [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
-  for guidance on migrating an existing pipeline to the Flink processor.
-- `read_batch_size`: Maximum number of records to read from the source database. RDI will
-  wait for the batch to fill up to `read_batch_size` or for `read_batch_timeout_ms` to elapse,
-  whichever happens first. The default is 2000.
-- `read_batch_timeout_ms`: Time (in ms) after which data will be read from the stream even if
-  `read_batch_size` was not reached. The default is 100 ms.
-- `write_batch_size`: The batch size for writing data to the target Redis database. This should be
-  less than or equal to the `read_batch_size`. The default is 200.
-- `target_data_type`: Data type to use in the target Redis database. The options are `hash`
-  for Redis Hash (the default), or `json` for RedisJSON, which is available only if you have added the
-  RedisJSON module to the target database. Note that this setting is mainly useful when you
-  don't provide any custom jobs. When you do provide jobs, you can specify the
-  target data type in each job individually and choose from a wider range of data types.
-  See [Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}})
-  (which requires the RedisJSON module) for more information.
-- `dedup`: Boolean value to enable the deduplication mechanism. The default is `false`.
-  **Classic processor only.**
-- `dedup_max_size`: Maximum size of the deduplication set. The default is 1024.
-  **Classic processor only.**
-- `error_handling`: The strategy to use when an invalid record is encountered. The available
-  strategies are `ignore` and  `dlq` (store rejected messages in a dead letter queue).
-  The default is `dlq`. See
-  [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}})
-  for more information about the dead letter queue.
-
-{{< note >}}When `type` is set to `flink`, fine-tuning of the processor and the
-underlying Flink runtime is configured through the `processors.advanced`
-section. The classic processor silently ignores `processors.advanced`.
-See the
-[RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
-for the full set of available properties.{{< /note >}}
-
-See also the
-[RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
-for full details of the other available properties.
