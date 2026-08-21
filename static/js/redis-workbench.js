@@ -697,16 +697,6 @@
 
     var body = el('div', 'rwb-body');
 
-    var side = el('aside', 'rwb-side');
-    var sideHead = el('div', 'rwb-side-head');
-    sideHead.appendChild(el('span', 'rwb-side-title', 'Keys'));
-    this.keyCount = el('span', 'rwb-count', '');
-    sideHead.appendChild(this.keyCount);
-    side.appendChild(sideHead);
-    this.keyList = el('div', 'rwb-keys');
-    side.appendChild(this.keyList);
-    body.appendChild(side);
-
     var main = el('section', 'rwb-main');
     var tabs = el('div', 'rwb-tabs');
     tabs.setAttribute('role', 'tablist');
@@ -723,19 +713,57 @@
        empties the pane to mount the transcript, and this has to survive that. */
     var terminalTools = el('div', 'rwb-toolbar');
     terminalTools.appendChild(this.button('Clear keys',
-      'Empty the sandbox (FLUSHDB) — keys, indexes, and the transcript with them',
+      'Empty the sandbox (FLUSHDB) — keys and indexes. The transcript stays.',
       function () { self.clearKeys(); }));
-    /* Worded to match "Clear keys": one drops what the browser lists, the other
-       drops the printed history. */
+    /* Its pair: one drops what the browser lists, the other drops the printed
+       history. Neither reaches into the other. */
     terminalTools.appendChild(this.button('Clear terminal', 'Clear the terminal transcript',
       function () { cli().clear(self.terminalForm); }));
     this.terminalToolbar = terminalTools;
     this.terminalPane.appendChild(terminalTools);
-    var value = this.addPane('value', 'Value');
-    this.valuePane = value.pane;
-    this.valueTab = value.tab;
-    this.terminalTab = this.panes.terminal.tab;
-    this.valueTab.disabled = true;
+
+    /* Under the toolbar, three columns: the CLI, the keys it writes, and the
+       value of whichever key is selected.
+
+       They used to be a sidebar and a tab. The sidebar listed keys beside every
+       pane, including the notebook's — whose kernel talks to a different Redis
+       entirely — and the value hid behind a tab, so reading a key meant leaving
+       the terminal that had just written it. Command, effect and contents now sit
+       next to each other, and the notebook gets the full width. */
+    var split = el('div', 'rwb-split');
+    this.split = split;
+
+    var cliColumn = el('div', 'rwb-col rwb-col-cli');
+    /* The terminal is mounted into its own column, so rebuilding it leaves the
+       toolbar and the other columns alone. */
+    this.terminalHost = cliColumn;
+    split.appendChild(cliColumn);
+    split.appendChild(this.columnDivider('Resize the terminal', 0));
+
+    var keysColumn = el('div', 'rwb-col rwb-col-keys');
+    var keysHead = el('div', 'rwb-col-head');
+    keysHead.appendChild(el('span', 'rwb-col-title', 'Keys'));
+    this.keyCount = el('span', 'rwb-count', '');
+    keysHead.appendChild(this.keyCount);
+    keysColumn.appendChild(keysHead);
+    this.keyList = el('div', 'rwb-keys');
+    keysColumn.appendChild(this.keyList);
+    split.appendChild(keysColumn);
+    split.appendChild(this.columnDivider('Resize the key list', 1));
+
+    var valueColumn = el('div', 'rwb-col rwb-col-value');
+    var valueHead = el('div', 'rwb-col-head');
+    valueHead.appendChild(el('span', 'rwb-col-title', 'Value'));
+    valueColumn.appendChild(valueHead);
+    /* Kept as its own node under the heading: renderValue() replaces the whole
+       thing every time a key is opened. */
+    this.valuePane = el('div', 'rwb-value-body');
+    valueColumn.appendChild(this.valuePane);
+    split.appendChild(valueColumn);
+
+    this.terminalPane.appendChild(split);
+    this.applyColumns();
+    this.clearValue();
 
     body.appendChild(main);
     panel.appendChild(body);
@@ -795,7 +823,7 @@
     tab.addEventListener('click', function () { self.show(id); });
     this.tabStrip.appendChild(tab);
 
-    var pane = el('div', 'rwb-pane');
+    var pane = el('div', 'rwb-pane rwb-pane-' + id);
     if (Object.keys(this.panes).length) pane.classList.add('rwb-hidden');
     this.mainSection.appendChild(pane);
 
@@ -904,10 +932,96 @@
     window.addEventListener('pointerup', up);
   };
 
+  /* ---- the three columns ---- */
+
+  /* Widths as percentages of the split, so a resized dock keeps its proportions
+     rather than its pixels. The CLI gets most of it: it is where the typing
+     happens, and the other two are lists. */
+  var DEFAULT_COLUMNS = [54, 22, 24];
+  var MIN_COLUMN = 12;
+
+  dock.columnDivider = function (label, index) {
+    var self = this;
+    var node = el('div', 'rwb-divider');
+    node.setAttribute('role', 'separator');
+    node.setAttribute('aria-orientation', 'vertical');
+    node.setAttribute('aria-label', label);
+    node.setAttribute('tabindex', '0');
+    node.addEventListener('pointerdown', function (event) {
+      self.startColumnDrag(event, index);
+    });
+    /* Reachable without a pointer, like the height grip. */
+    node.addEventListener('keydown', function (event) {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      self.nudgeColumns(index, event.key === 'ArrowLeft' ? -3 : 3);
+      event.preventDefault();
+    });
+    return node;
+  };
+
+  dock.applyColumns = function () {
+    if (!this.split) return;
+    /* build() lays the split out before restore() has read anything, so the
+       defaults stand in until then. */
+    if (!this.columns) this.columns = DEFAULT_COLUMNS.slice();
+    var columns = this.split.querySelectorAll('.rwb-col');
+    for (var i = 0; i < columns.length; i++) {
+      /* Ratios rather than fixed percentages: the dividers take their own width
+         out of the split first, and three columns at "0 0 N%" summing to 100 add
+         up to more than there is — the last one overflowed past the dock's
+         gutter. Growing from a zero basis divides what is actually left. */
+      columns[i].style.flex = this.columns[i] + ' 1 0%';
+    }
+  };
+
+  /* A divider moves the boundary between the two columns it sits between, and
+     takes from one to give to the other: the rest of the split keeps its width,
+     so dragging one divider never shifts the far column. */
+  dock.nudgeColumns = function (index, delta) {
+    var left = this.columns[index];
+    var right = this.columns[index + 1];
+    var room = Math.min(delta > 0 ? right - MIN_COLUMN : left - MIN_COLUMN, Math.abs(delta));
+    if (room <= 0) return;
+    var step = delta > 0 ? room : -room;
+    this.columns[index] = left + step;
+    this.columns[index + 1] = right - step;
+    this.applyColumns();
+    this.persist();
+  };
+
+  dock.startColumnDrag = function (event, index) {
+    var self = this;
+    var width = this.split.getBoundingClientRect().width;
+    if (!width) return;
+    var startX = event.clientX;
+    var start = this.columns.slice();
+    event.preventDefault();
+
+    var move = function (moveEvent) {
+      var delta = ((moveEvent.clientX - startX) / width) * 100;
+      var left = start[index] + delta;
+      var right = start[index + 1] - delta;
+      if (left < MIN_COLUMN) { right += left - MIN_COLUMN; left = MIN_COLUMN; }
+      if (right < MIN_COLUMN) { left += right - MIN_COLUMN; right = MIN_COLUMN; }
+      self.columns[index] = left;
+      self.columns[index + 1] = right;
+      self.applyColumns();
+    };
+    var up = function () {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      document.body.classList.remove('rwb-dragging-x');
+      self.persist();
+    };
+    document.body.classList.add('rwb-dragging-x');
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
   dock.persist = function () {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        open: this.isOpen, height: this.height
+        open: this.isOpen, height: this.height, columns: this.columns
       }));
     } catch (err) { /* private mode: the dock just won't be remembered */ }
   };
@@ -918,12 +1032,19 @@
       saved = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || 'null');
     } catch (err) { /* ignore malformed state */ }
     this.height = DEFAULT_HEIGHT;
+    /* Restored before the split is built, since build() applies them. */
+    this.columns = DEFAULT_COLUMNS.slice();
+    if (saved && saved.columns && saved.columns.length === 3
+      && saved.columns.every(function (n) { return typeof n === 'number' && n >= MIN_COLUMN; })) {
+      this.columns = saved.columns.slice();
+    }
     if (saved && typeof saved.height === 'number') {
       var max = this.maxHeight();
       this.height = Math.min(max, Math.max(MIN_HEIGHT, saved.height));
       this.maximized = this.height >= max - 1;
     }
     this.applyHeight();
+    this.applyColumns();
     if (saved && saved.open) this.open();
   };
 
@@ -959,14 +1080,15 @@
       });
   };
 
-  /* Empty the sandbox on request, and wipe the transcript with it: the printed
-     history is all about keys that no longer exist, so leaving it behind is just
-     a screenful of results the reader can no longer act on.
+  /* Empty the sandbox, and nothing else. The transcript is the record of what
+     the reader did — including the FLUSHDB itself, since the flush goes through
+     the terminal rather than behind its back — and throwing that away is what
+     "Clear terminal" is for.
 
-     The flush still goes through the terminal rather than behind its back — that
-     disables the prompt for its duration, so a command typed at the wrong moment
-     cannot land in front of it. FLUSHDB mints a fresh session on this backend and
-     is intercepted before Redis, so the ACL's -flushdb never applies. */
+     Going through the terminal also disables the prompt for the flush's duration,
+     so a command typed at the wrong moment cannot land in front of it. FLUSHDB
+     mints a fresh session on this backend and is intercepted before Redis, so the
+     ACL's -flushdb never applies. */
   dock.clearKeys = function () {
     var self = this;
     this.keys = [];
@@ -975,8 +1097,7 @@
     this.pending = [];
     this.selected = null;
     this.truncated = false;
-    this.valueTab.disabled = true;
-    this.valuePane.replaceChildren();
+    this.clearValue();
     this.renderKeys();
     this.show('terminal');
     this.setStatus('clearing…');
@@ -985,7 +1106,6 @@
     this.resetting = true;
     return cli().run(this.terminalForm, ['FLUSHDB'], 'interactive').then(function () {
       self.resetting = false;
-      cli().clear(self.terminalForm);
       self.setStatus(self.summary());
     }, function () {
       /* The flush never reached the server: keep the transcript, since it is the
@@ -998,12 +1118,11 @@
      transcript and the prompt, and window.RedisCli.run appends later snippets to
      it rather than replacing it — which is what lets the history survive. */
   dock.startTerminal = function () {
-    this.terminalPane.replaceChildren();
-    if (this.terminalToolbar) this.terminalPane.appendChild(this.terminalToolbar);
+    this.terminalHost.replaceChildren();
     var form = el('form', 'redis-cli rwb-terminal');
     form.setAttribute('spellcheck', 'false');
     this.terminalForm = form;
-    this.terminalPane.appendChild(form);
+    this.terminalHost.appendChild(form);
     return cli().createCli(form);
   };
 
@@ -1112,9 +1231,7 @@
       /* A selected key may have been deleted or changed by the last batch. */
       if (self.selected && !self.find(self.selected)) {
         self.selected = null;
-        self.valueTab.disabled = true;
-        self.valuePane.replaceChildren();
-        if (self.pane === 'value') self.show('terminal');
+        self.clearValue();
       } else if (self.selected) {
         self.openKey(self.selected, true);
       }
@@ -1160,6 +1277,10 @@
 
   dock.renderKeys = function () {
     var self = this;
+    /* "No keys yet" and "pick one" are different messages, and which is true
+       changes as keys arrive — so the value column follows the list while nothing
+       is selected. */
+    if (!this.selected) this.clearValue();
     var list = this.keyList;
     list.replaceChildren();
     this.keyCount.textContent = this.keys.length ? String(this.keys.length) : '';
@@ -1207,16 +1328,24 @@
     }
   };
 
-  /* ---- value pane ---- */
+  /* ---- value column ---- */
+
+  /* Nothing selected, or nothing left to select. Says which, because "no keys
+     yet" and "pick one" are different situations for a reader. */
+  dock.clearValue = function () {
+    this.valuePane.replaceChildren();
+    this.valuePane.appendChild(el('p', 'rwb-empty', this.keys.length
+      ? 'Select a key to see its value.'
+      : 'No value to show yet.'));
+  };
+
 
   dock.openKey = function (name, quiet) {
     var self = this;
     var key = this.find(name);
     if (!key) return;
     this.selected = name;
-    this.valueTab.disabled = false;
     this.renderKeys();
-    if (!quiet) this.show('value');
 
     var probe = valueProbe(name, key.type, key.size);
     /* OBJECT ENCODING and MEMORY USAGE are container-subcommand forms: older
@@ -1245,9 +1374,7 @@
   dock.openIndex = function (name) {
     var self = this;
     this.selected = name;
-    this.valueTab.disabled = false;
     this.renderKeys();
-    this.show('value');
     this.begin('reading ' + name + '…');
     return run(['FT.INFO ' + quote(name)]).then(function (replies) {
       var info = pairs(ok(replies[0]));

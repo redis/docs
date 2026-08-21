@@ -21,6 +21,9 @@
   --rwb-muted: #94a3b8;       /* slate-400 */
   --rwb-accent: #ff4438;      /* redis-red-500 */
   --rwb-focus: rgba(255, 68, 56, .45);
+  /* Room down each side, so nothing inside the dock — transcript, key list,
+     value, the bar's own controls — sits against the edge of the screen. */
+  --rwb-gutter: 1.25rem;
   --rwb-bar-height: 2.25rem;
 
   position: fixed;
@@ -42,6 +45,9 @@
   font-size: 14px;
   line-height: 1.45;
   box-shadow: 0 -6px 24px rgba(2, 6, 23, .28);
+  /* On the root, so the background and the top border still run the full width
+     of the page while everything inside is inset. */
+  padding: 0 var(--rwb-gutter);
 }
 
 .rwb *,
@@ -64,7 +70,6 @@ body.rwb-dragging {
   align-items: center;
   gap: 0.5rem;
   height: var(--rwb-bar-height);
-  padding-right: 0.5rem;
   flex: none;
 }
 
@@ -75,7 +80,8 @@ body.rwb-dragging {
   flex: 1 1 auto;
   min-width: 0;
   height: 100%;
-  padding: 0 0.75rem;
+  /* The gutter supplies the left inset now. */
+  padding: 0 0.5rem 0 0;
   font: inherit;
   color: var(--rwb-ink);
   background: transparent;
@@ -228,34 +234,104 @@ body.rwb-dragging {
 .rwb-grip:focus-visible::after { background: var(--rwb-muted); }
 
 .rwb-body {
-  display: grid;
-  grid-template-columns: minmax(170px, 250px) minmax(0, 1fr);
+  display: flex;
   flex: 1 1 auto;
   min-height: 0;
 }
 
-.rwb-side {
-  border-right: 1px solid var(--rwb-line);
+/* ---- the Terminal pane's three columns ----
+   The CLI, the keys it writes, and the value of the selected key, side by side
+   under the pane's toolbar. The pane itself does not scroll: each column does,
+   so the toolbar and the column headings stay where they are. */
+
+.rwb-pane-terminal {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  padding-right: 0;
+}
+
+.rwb-split {
+  display: flex;
+  flex: 1 1 auto;
   min-height: 0;
 }
 
-.rwb-side-head {
+.rwb-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.rwb-col-cli { padding-right: 0.5rem; }
+
+.rwb-col-keys,
+.rwb-col-value { padding: 0 0.25rem; }
+
+/* Grabbable, and wider than it looks: the hit area is the whole strip while only
+   the hairline in the middle is drawn. */
+.rwb-divider {
+  flex: 0 0 9px;
+  position: relative;
+  cursor: col-resize;
+  background: transparent;
+  border: 0;
+  align-self: stretch;
+}
+
+.rwb-divider::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 1px;
+  background: var(--rwb-line);
+  transition: background-color 150ms ease;
+}
+
+.rwb-divider:hover::after,
+.rwb-divider:focus-visible::after {
+  background: var(--rwb-muted);
+  left: 3px;
+  width: 3px;
+}
+
+/* A horizontal drag should not select the transcript it passes over. */
+body.rwb-dragging-x,
+body.rwb-dragging-x * {
+  user-select: none;
+  cursor: col-resize !important;
+}
+
+.rwb-col-head {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  padding: 0.5rem 0.75rem;
+  padding: 0.375rem 0.5rem;
   border-bottom: 1px solid var(--rwb-line-soft);
   flex: none;
+  position: sticky;
+  top: 0;
+  background: var(--rwb-bg);
+  z-index: 1;
 }
 
-.rwb-side-title {
+.rwb-col-title {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--rwb-muted);
 }
+
+.rwb-value-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0.5rem 0.25rem 0.75rem;
+}
+
 
 .rwb-count {
   font-size: 11px;
@@ -363,6 +439,10 @@ body.rwb-dragging {
 /* ---- main pane ---- */
 
 .rwb-main {
+  /* The body is a flex row now that the sidebar is gone, so this has to claim
+     the width itself. */
+  flex: 1 1 auto;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -372,7 +452,7 @@ body.rwb-dragging {
 .rwb-tabs {
   display: flex;
   gap: 0.25rem;
-  padding: 0.375rem 0.5rem 0;
+  padding: 0.375rem 0 0;
   border-bottom: 1px solid var(--rwb-line-soft);
   flex: none;
 }
@@ -403,7 +483,7 @@ body.rwb-dragging {
   flex: 1 1 auto;
   min-height: 0;
   overflow: auto;
-  padding: 0.5rem 0.75rem 0.75rem;
+  padding: 0.5rem 0 0.75rem;
 }
 
 .rwb-hidden { display: none; }
@@ -709,6 +789,10 @@ body.rwb-dragging {
   gap: 0.375rem;
   flex-wrap: wrap;
   margin-left: auto;
+  /* Without this the row cannot shrink below its content — a flex item's
+     min-width is `auto` — so its own wrap never applies and the last badge is
+     clipped by the column instead. */
+  min-width: 0;
 }
 
 .rwb-fact {
@@ -820,23 +904,33 @@ body.rwb-dragging {
 
 .rwb-note {
   margin: 0;
-  padding: 0.375rem 0.75rem 0.5rem;
+  padding: 0.375rem 0 0.5rem;
   border-top: 1px solid var(--rwb-line-soft);
   font-size: 10.5px;
   color: var(--rwb-muted);
   flex: none;
 }
 
-/* ---- narrow screens: stack the browser above the panes ---- */
+/* ---- narrow screens: stack the columns ---- */
 
 @media (max-width: 48rem) {
-  .rwb-body { grid-template-columns: minmax(0, 1fr); }
-
-  .rwb-side {
-    border-right: 0;
-    border-bottom: 1px solid var(--rwb-line);
-    max-height: 40%;
+  /* Three columns need width none of them has here, so they become rows: the
+     terminal, then the keys, then the value, each scrolling on its own. The
+     dividers drag horizontally, which a stack cannot honour, so they go. */
+  .rwb-split {
+    flex-direction: column;
+    overflow: auto;
   }
+
+  .rwb-col {
+    flex: 1 1 auto !important;
+    min-height: 8rem;
+  }
+
+  .rwb-col-keys,
+  .rwb-col-value { border-top: 1px solid var(--rwb-line); }
+
+  .rwb-divider { display: none; }
 
   /* The external-CLI link is the one control that carries no action of its own;
      dropping it buys room for the ones that do (the row scrolls if it is still
