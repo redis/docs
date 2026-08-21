@@ -610,8 +610,8 @@ sources:
       host: <server-name>.database.windows.net
       port: 1433
       database: <database-name>
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
+      user: ${SQLSERVER_DB_USERNAME}
+      password: ${SQLSERVER_DB_PASSWORD}
     logging:
       level: info
     schemas:
@@ -646,20 +646,27 @@ Debezium SQL Server connector and JDBC driver. The Azure-specific values are:
 | `snapshot.mode` | The Debezium snapshot strategy. | `initial`. Captures a snapshot of the existing rows, then streams subsequent changes from the CDC tables. |
 
 For SQL authentication, omit the `driver.authentication` line and set
-`${SOURCE_DB_USERNAME}` and `${SOURCE_DB_PASSWORD}` to the SQL user's credentials.
+`${SQLSERVER_DB_USERNAME}` and `${SQLSERVER_DB_PASSWORD}` to the SQL user's credentials.
 Keep the other Azure-specific properties.
 
 #### Secret mapping
 
-For Microsoft Entra service-principal authentication, the RDI source secret must
+For Microsoft Entra service-principal authentication, the source's credentials must
 provide:
 
-| Secret key | Value |
+| Config reference | Value |
 | --- | --- |
-| `SOURCE_DB_USERNAME` | The service principal's **Application (client) ID** (a GUID). |
-| `SOURCE_DB_PASSWORD` | The service principal's **client secret**. |
+| `${SQLSERVER_DB_USERNAME}` | The service principal's **Application (client) ID** (a GUID). |
+| `${SQLSERVER_DB_PASSWORD}` | The service principal's **client secret**. |
 
-{{< warning >}}The `SOURCE_DB_USERNAME` value is the client ID (a GUID), but the contained
+Set them with the source name, which for the source in this example is `sqlserver`:
+
+```bash
+redis-di set-secret USERNAME --db sqlserver <client-id>
+redis-di set-secret PASSWORD --db sqlserver <client-secret>
+```
+
+{{< warning >}}The username value is the client ID (a GUID), but the contained
 database user created in the previous section uses the service principal's **display
 name**. These are two different identifiers for the same principal — mixing them up is
 the most common cause of `Login failed for user '<token-identified principal>'` errors
@@ -711,7 +718,7 @@ GO
 - **`Login failed for user '<token-identified principal>'`** — the contained database
   user was not created for this service principal, or it was created with the wrong
   identifier. Verify that the `CREATE USER ... FROM EXTERNAL PROVIDER` statement used
-  the service principal's display name, and that `SOURCE_DB_USERNAME` contains its
+  the service principal's display name, and that `${SQLSERVER_DB_USERNAME}` contains its
   client ID. Query `sys.database_principals` on the source database to see which
   principals exist.
 - **`SSL Server certificate validation failed` or hostname mismatch** —
