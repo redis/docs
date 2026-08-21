@@ -66,6 +66,12 @@
      capped; the oldest are forgotten first. */
   var MAX_TRACKED_KEYS = 150;
 
+  /* How close to the end counts as "at the end" when deciding whether to follow
+     the transcript. A couple of lines of slack: a reader who has scrolled up by
+     one line is still reading the end, and a fractional scrollTop should not
+     count as having left it. */
+  var TERMINAL_FOLLOW_SLACK = 28;
+
   /* Commands remembered while the dock is closed, for the catch-up pass at first
      open. Bounded because a long page of examples could otherwise queue a very
      large first probe. */
@@ -897,6 +903,8 @@
     this.persist();
   };
 
+  /* Resizing changes how much of the transcript fits; if the reader was at the
+     end, keep them there rather than leaving the last line under the fold. */
   dock.applyHeight = function () {
     this.panel.style.height = this.height + 'px';
     /* Arrows out to fill the window, in to come back — swapped only when the
@@ -910,6 +918,7 @@
     this.maxButton.title = this.maximized
       ? 'Restore the workbench to its usual height' : 'Maximise the workbench';
     this.maxButton.setAttribute('aria-label', this.maxButton.title);
+    if (this.following) this.scrollTerminal();
   };
 
   dock.toggleMax = function () {
@@ -1071,11 +1080,17 @@
     this.open();
     this.show('terminal');
     this.setStatus('running the snippet…');
+    /* Asked for, so shown: wherever the reader had scrolled to, the result of
+       this click is what they are waiting for. */
+    this.following = true;
+    this.scrollTerminal();
     /* Discovery is not kicked off here: running the commands through the
        terminal puts them on the onExecute subscription — which tracks them.
        Doing both would probe every command twice. */
     return cli().run(this.terminalForm, options.commands, 'preset')
-      .then(null, function () {
+      .then(function () {
+        self.scrollTerminal();
+      }, function () {
         self.setStatus('could not run the snippet');
       });
   };
@@ -1114,15 +1129,51 @@
     });
   };
 
+  /* Keep the end of the transcript in view.
+
+     The widget scrolls its own box when it is standalone, but in here that box is
+     told to grow (height: auto, overflow: visible) and the CLI column does the
+     scrolling instead — so nothing was following the output. A snippet appended
+     to a transcript that already filled the column landed below the fold, and the
+     reader had to scroll to see what their click had done. */
+  dock.scrollTerminal = function () {
+    var host = this.terminalHost;
+    if (!host) return;
+    /* Next frame: the lines have to be laid out before scrollHeight means
+       anything. */
+    window.requestAnimationFrame(function () {
+      host.scrollTop = host.scrollHeight;
+    });
+  };
+
   /* Mount the dock's terminal, once. cli.js owns it from here: it renders the
      transcript and the prompt, and window.RedisCli.run appends later snippets to
      it rather than replacing it — which is what lets the history survive. */
   dock.startTerminal = function () {
+    var self = this;
     this.terminalHost.replaceChildren();
     var form = el('form', 'redis-cli rwb-terminal');
     form.setAttribute('spellcheck', 'false');
     this.terminalForm = form;
     this.terminalHost.appendChild(form);
+
+    /* Follow new output, but only while the reader is already at the end —
+       someone who has scrolled up to re-read an earlier reply should not be
+       yanked back down by a batch finishing. Clicking "Try it" is the exception:
+       that is a request to see the result, so it pins to the end regardless. */
+    this.following = true;
+    this.terminalHost.addEventListener('scroll', function () {
+      var host = self.terminalHost;
+      self.following =
+        host.scrollHeight - host.scrollTop - host.clientHeight <= TERMINAL_FOLLOW_SLACK;
+    });
+    if (this.transcriptWatcher) this.transcriptWatcher.disconnect();
+    this.transcriptWatcher = new MutationObserver(function () {
+      if (self.following) self.scrollTerminal();
+    });
+    this.transcriptWatcher.observe(form,
+      { childList: true, subtree: true, characterData: true });
+
     return cli().createCli(form);
   };
 
@@ -1219,9 +1270,22 @@
      for it only mattered in the cases those two now cover. */
   dock.refresh = function () {
     var self = this;
-    return readKeyspace(this.known).then(function (result) {
+    /* Snapshotted, because `known` can grow while the sweep is in flight: a batch
+       that lands mid-sweep adds names this reading knows nothing about, and they
+       must not be mistaken for keys that have gone. */
+    var probed = this.known.slice();
+    return readKeyspace(probed).then(function (result) {
       self.keys = result.keys;
       self.indexes = result.indexes;
+      /* Forget what no longer exists. Without this a deleted or expired key stays
+         on the list of names to describe and is re-probed on every later sweep,
+         which costs commands on a shared backend for a key that is not there.
+         Only names this sweep actually asked about are candidates for removal. */
+      var alive = {};
+      result.keys.forEach(function (key) { alive[key.name] = true; });
+      self.known = self.known.filter(function (name) {
+        return alive[name] || probed.indexOf(name) === -1;
+      });
       self.renderKeys();
       /* Only announce a total once nothing else is in flight: a sweep that
          finishes while discovery is still running, or with another sweep queued

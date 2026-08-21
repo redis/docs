@@ -239,6 +239,57 @@ body.rwb-dragging {
   min-height: 0;
 }
 
+/* ---- scrollbars ----
+   Scoped to the dock: the docs' own scrollbars are not this file's to restyle.
+
+   Thin and dark, so a column that overflows shows a hairline rather than a
+   system-width rail eating into a narrow column. The track stays transparent: a
+   visible rail on three adjacent columns reads as borders that are not there. */
+
+/* The standard properties first, because they are what Firefox and Blink use —
+   including for the overlay scrollbars macOS Chrome shows, which the
+   ::-webkit-scrollbar rules below cannot colour. Blink honours these in
+   preference to those rules and then ignores them, so there it is the engine's
+   own "thin" width with our colour, and the explicit 7px rounded thumb applies
+   in Safari and older Blink. Styled in every engine beats exact in one. */
+.rwb *,
+.rwb {
+  scrollbar-width: thin;
+  /* Dark, but not black: the dock's surface is #0f172a and a black thumb on it
+     cannot be seen — measured on a rendering of it, not assumed. This is
+     --rwb-bg-3, the slate the dock already uses for its raised surfaces. */
+  scrollbar-color: #334155 transparent;
+}
+
+.rwb ::-webkit-scrollbar,
+.rwb::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.rwb ::-webkit-scrollbar-track,
+.rwb::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rwb ::-webkit-scrollbar-thumb,
+.rwb::-webkit-scrollbar-thumb {
+  background: #334155;                      /* slate-700 */
+  border-radius: 999px;
+}
+
+/* Enough lift to show it is grabbable, without becoming furniture. */
+.rwb ::-webkit-scrollbar-thumb:hover,
+.rwb::-webkit-scrollbar-thumb:hover {
+  background: #475569;                      /* slate-600 */
+}
+
+/* Where two scrollbars meet, nothing to see. */
+.rwb ::-webkit-scrollbar-corner,
+.rwb::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 /* ---- the Terminal pane's three columns ----
    The CLI, the keys it writes, and the value of the selected key, side by side
    under the pane's toolbar. The pane itself does not scroll: each column does,
@@ -419,22 +470,37 @@ body.rwb-dragging-x * {
   letter-spacing: 0.04em;
   border-radius: 0.1875rem;
   padding: 0.0625rem 0.25rem;
-  color: #0f172a;
-  background: #94a3b8;
+  /* White on a saturated fill, the pairing these colours are designed for. */
+  color: #ffffff;
+  /* Redis Insight's --defaultTypeColor: what its GroupBadge falls back to for a
+     type it has no colour for. */
+  background: #aa4e4e;
   white-space: nowrap;
 }
 
-.rwb-tone-str { background: #7dd3fc; }           /* sky-300 */
-.rwb-tone-list { background: #fcd34d; }          /* amber-300 */
-.rwb-tone-set { background: #86efac; }           /* green-300 */
-.rwb-tone-zset { background: #6ee7b7; }          /* emerald-300 */
-.rwb-tone-hash { background: #c4b5fd; }          /* violet-300 */
-.rwb-tone-stream { background: #f9a8d4; }        /* pink-300 */
-.rwb-tone-json { background: #fdba74; }          /* orange-300 */
-.rwb-tone-ts { background: #a5b4fc; }            /* indigo-300 */
-.rwb-tone-probabilistic { background: #d8b4fe; } /* purple-300 */
-.rwb-tone-vector { background: #99f6e4; }        /* teal-200 */
-.rwb-tone-index { background: #fca5a5; }         /* red-300 */
+/* Redis Insight's own key-type colours, so a type reads the same here as it does
+   in the tool a reader is likely to open next. Taken from its dark theme —
+   redisinsight/ui/src/styles/themes/dark_theme/_theme_color.scss on
+   redis/RedisInsight@main — which GROUP_TYPES_COLORS maps each KeyTypes value
+   onto in constants/keys.ts. */
+.rwb-tone-str { background: #6a1dc3; }           /* --typeStringColor */
+.rwb-tone-list { background: #008556; }          /* --typeListColor */
+.rwb-tone-set { background: #9c5c2b; }           /* --typeSetColor */
+.rwb-tone-zset { background: #a00a6b; }          /* --typeZSetColor */
+.rwb-tone-hash { background: #364cff; }          /* --typeHashColor */
+.rwb-tone-stream { background: #6a741b; }        /* --typeStreamColor */
+.rwb-tone-json { background: #3f4b5f; }          /* --typeReJSONColor */
+.rwb-tone-ts { background: #6e6e6e; }            /* --typeTimeSeriesColor */
+.rwb-tone-vector { background: #0284c7; }        /* --typeVectorSetColor */
+
+/* Insight has no colour of its own for the probabilistic types (Bloom, cuckoo,
+   count-min, top-k, t-digest): its badge falls back to --defaultTypeColor, so
+   they look the same here as they would there. */
+.rwb-tone-probabilistic { background: #aa4e4e; } /* --defaultTypeColor */
+
+/* A search index is not a key, so Insight has no key-type colour for it. This is
+   --typeGraphColor, the one colour in its palette no type we list uses. */
+.rwb-tone-index { background: #14708d; }         /* --typeGraphColor */
 
 /* ---- main pane ---- */
 
