@@ -239,7 +239,39 @@ To autoscale in Python, import `DatabricksAutoscaleConfig` from `featureform.typ
 --databricks-job-autoscale-max-workers <maximum-workers>
 ```
 
-Fixed workers and autoscaling are mutually exclusive. Common optional settings include a driver node type or pool, cluster policy, data security mode, runtime engine, custom tags, log delivery, init scripts, disk settings, and Amazon Web Services (AWS) attributes. Run `ff provider register --help` for the current flags.
+Fixed workers and autoscaling are mutually exclusive. Common optional settings include a driver node type or pool, cluster policy, data security mode, runtime engine, custom tags, log delivery, init scripts, and disk settings. Run `ff provider register --help` for the current flags.
+
+### Configure AWS attributes
+
+Use Amazon Web Services (AWS) attributes only for Jobs compute in a Databricks workspace on AWS. In Python, create the following configuration and set `aws_attributes=aws_attributes` on `DatabricksJobClusterConfig`. With the CLI, append the equivalent flags to the registration command:
+
+{{< multitabs id="featureform-configure-databricks-job-cluster-aws"
+    tab1="Python"
+    tab2="ff CLI" >}}
+
+```python
+from featureform.types import DatabricksAWSAttributesConfig
+
+aws_attributes = DatabricksAWSAttributesConfig(
+    availability="SPOT_WITH_FALLBACK",
+    first_on_demand=1,
+    spot_bid_price_percent=100,
+    instance_profile_arn="<instance-profile-arn>",
+)
+```
+
+-tab-sep-
+
+```text
+--databricks-job-aws-availability SPOT_WITH_FALLBACK
+--databricks-job-aws-first-on-demand 1
+--databricks-job-aws-spot-bid-price-percent 100
+--databricks-job-aws-instance-profile-arn <instance-profile-arn>
+```
+
+{{< /multitabs >}}
+
+This example keeps the driver on an on-demand instance, uses Spot instances with on-demand fallback for subsequent nodes, limits the Spot bid to the corresponding on-demand price, and attaches a preconfigured instance profile. The instance profile must already be added to the Databricks workspace. Feature Form also supports availability-zone and Amazon Elastic Block Store (EBS) settings. See the [Databricks Jobs API reference](https://docs.databricks.com/aws/en/reference/jobs-2.0-api) for the complete AWS attribute behavior and constraints.
 
 For a Python callable transformation on Jobs compute, import `SparkCallableRuntime` from `featureform.types` and set `callable_runtime=SparkCallableRuntime(python_version="<python-version>")`. With the CLI, set `--databricks-callable-python-version`. Don't set the provider-level cloudpickle version for `job_cluster`.
 
