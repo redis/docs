@@ -86,7 +86,7 @@ secret_providers.register(
 ```bash
 ff secret-provider register <secret-provider-name> \
   --workspace <workspace-id> \
-  --type env \
+  --type env-var \
   --env-prefix FF_
 ```
 
@@ -127,7 +127,7 @@ ff secret-provider register <secret-provider-name> \
 
 ### Register Kubernetes secrets
 
-The Feature Form server's service account needs permission to read secrets in the target namespace.
+For a Kubernetes deployment, use in-cluster authentication. The Feature Form server's service account needs permission to read secrets in the target namespace.
 
 {{< multitabs id="featureform-register-kubernetes-secret-provider"
     tab1="Python"
@@ -142,6 +142,7 @@ secret_providers.register(
     config=KubernetesSecretConfig(
         namespace="<namespace>",
         secret_name="<secret-name>",
+        in_cluster=True,
     ),
 )
 ```
@@ -151,12 +152,15 @@ secret_providers.register(
 ```bash
 ff secret-provider register <secret-provider-name> \
   --workspace <workspace-id> \
-  --type k8s \
+  --type k8s-secret \
   --k8s-namespace <namespace> \
-  --k8s-secret-name <secret-name>
+  --k8s-secret-name <secret-name> \
+  --k8s-in-cluster
 ```
 
 {{< /multitabs >}}
+
+If Feature Form runs outside Kubernetes, omit `in_cluster=True` or use `--no-k8s-in-cluster`. The Feature Form server then uses `~/.kube/config` and its current context. It doesn't use kubeconfig from the computer where you run `ff`.
 
 ### Register AWS Secrets Manager
 
@@ -181,7 +185,7 @@ secret_providers.register(
 ```bash
 ff secret-provider register <secret-provider-name> \
   --workspace <workspace-id> \
-  --type aws \
+  --type aws-secrets-manager \
   --aws-region <aws-region>
 ```
 
