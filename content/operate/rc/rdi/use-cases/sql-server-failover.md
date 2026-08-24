@@ -94,7 +94,7 @@ EXEC sys.sp_cdc_add_job @job_type = N'capture';
 EXEC sys.sp_cdc_add_job @job_type = N'cleanup';
 ```
 
-Until the capture job exists on the new primary, no new change events are produced, and the pipeline shows no error. The data flow just stops. If the promoted node was a primary before and already has the jobs, they were disabled when it became a secondary, so re-enable them instead of adding them again. Ask your database administrator to automate this step as part of the failover procedure.
+Until the capture job exists on the new primary, no new change events are produced, and the pipeline shows no error. The data flow just stops. If the promoted node previously held the primary role, it may already have these jobs from that time, so verify their state before you add them. For how to manage the CDC jobs across role changes, follow the Microsoft guidance linked below. Ask your database administrator to automate this step as part of the failover procedure.
 
 For more information, see [Change data capture with Always On availability groups](https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/replicate-track-change-data-capture-always-on-availability#change-data-capture) and [sys.sp_cdc_add_job](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sys-sp-cdc-add-job-transact-sql).
 
