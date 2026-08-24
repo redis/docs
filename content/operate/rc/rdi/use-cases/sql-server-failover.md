@@ -17,7 +17,7 @@ This guide shows how to connect a data pipeline to a self-managed SQL Server dep
 
 The setup in this guide uses:
 
-- A SQL Server Always On availability group with a primary replica and one or more readable secondary replicas. The replicas can be spread across sites for disaster recovery. For example, a primary and a secondary in the main site and another secondary in a recovery site, all in the same availability group.
+- A SQL Server Always On availability group with a primary replica and one or more readable secondary replicas. The replicas can be in more than one site for disaster recovery.
 - A [Network Load Balancer and PrivateLink endpoint service]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) in your AWS VPC. The NLB target group points to the replica that the pipeline should read from, which is usually a readable secondary. If the replicas are on premises, the NLB reaches them over AWS Direct Connect.
 - A Lambda function that updates the NLB target group when the deployment fails over. See [Automate the NLB update](#automate-the-nlb-update).
 
@@ -84,7 +84,9 @@ The pipeline delivers events at least once. After a crash recovery, the collecto
 
 ### Create the CDC jobs on a promoted replica
 
-There is one required action on the SQL Server side after every promotion. The promoted replica does not capture new changes until you create the CDC jobs on it:
+There is one required action on the SQL Server side after every promotion. The CDC change tables and their history live in the user database, so the availability group replicates them to every replica. The CDC capture and cleanup jobs are SQL Agent jobs, which live in the `msdb` system database. The availability group does not replicate `msdb`, so these jobs do not exist on a replica until you create them there.
+
+Microsoft documents this directly: to resume harvesting changes after a failover, `sys.sp_cdc_add_job` must be run at the new primary. Run both jobs on the promoted replica:
 
 ```sql
 USE <database>;
@@ -92,9 +94,9 @@ EXEC sys.sp_cdc_add_job @job_type = N'capture';
 EXEC sys.sp_cdc_add_job @job_type = N'cleanup';
 ```
 
-The availability group replicates the user database, including the CDC change tables and their history. It does not replicate the `msdb` system database, where the CDC capture and cleanup jobs live. This is [documented SQL Server behavior](https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/replicate-track-change-data-capture-always-on-availability).
+Until the capture job exists on the new primary, no new change events are produced, and the pipeline shows no error. The data flow just stops. If the promoted node was a primary before and already has the jobs, they were disabled when it became a secondary, so re-enable them instead of adding them again. Ask your database administrator to automate this step as part of the failover procedure.
 
-Until the capture job exists on the new primary, no new change events are produced, and the pipeline shows no error. The data flow just stops. Ask your database administrator to automate this step as part of the failover procedure.
+For more information, see [Change data capture with Always On availability groups](https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/replicate-track-change-data-capture-always-on-availability#change-data-capture) and [sys.sp_cdc_add_job](https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/sys-sp-cdc-add-job-transact-sql).
 
 ## Automate the NLB update
 
@@ -112,7 +114,7 @@ With either trigger, add an email subscription to the SNS topic so that a person
 
 ## Recover after a restore from backup
 
-If the SQL Server is restored from a backup, for example when a disaster recovery site starts from restored virtual machines, **always [reset the pipeline]({{<relref "/operate/rc/rdi/view-edit#reset-data-pipeline">}})** after the restore.
+If the SQL Server is restored from a backup, for example when a server is rebuilt or a disaster recovery site is brought online from restored backups, **always [reset the pipeline]({{<relref "/operate/rc/rdi/view-edit#reset-data-pipeline">}})** after the restore.
 
 The pipeline cannot detect this situation on its own. Its saved position in the SQL Server transaction log is newer than anything the restored database contains. The collector connects and looks healthy, but it delivers nothing. Worse, once the restored server's log positions catch up with the saved position, delivery resumes and every change made below the old position is silently skipped.
 
