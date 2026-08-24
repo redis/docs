@@ -65,8 +65,8 @@ This property changes two things in the collector:
 
 Keep the following in mind:
 
-- The property is safe during failover. If the replica that the pipeline reads from is promoted to primary, the connection keeps working. A primary accepts connections with `ApplicationIntent=ReadOnly`.
-- Only use this property when the pipeline connects to a readable secondary in an availability group. On a standalone server, the initial snapshot fails with a snapshot isolation error unless you enable snapshot isolation first. See [Recover after a restore from backup](#recover-after-a-restore-from-backup) for the fix.
+- The property is safe during failover. If the readable secondary the pipeline reads from is promoted to primary, the pipeline keeps working: it reconnects and resumes streaming from its saved position without taking a new snapshot, so the snapshot isolation requirement below does not apply to the failover itself. A primary accepts connections with `ApplicationIntent=ReadOnly`.
+- With this property set, the initial snapshot uses snapshot isolation, which requires `ALLOW_SNAPSHOT_ISOLATION` to be enabled on the source database. A readable secondary in an availability group provides this automatically, so no action is needed for the normal setup. Any other database does not have it enabled by default, so if the pipeline ever takes an initial snapshot against a primary or a standalone server (for example after a [restore from backup](#recover-after-a-restore-from-backup)), enable it first with `ALTER DATABASE <database> SET ALLOW_SNAPSHOT_ISOLATION ON`.
 - Leave the availability group's primary role connection setting at its default of `ALL`. If you set the primary role to `READ_WRITE`, the primary refuses connections that request `ApplicationIntent=ReadOnly`, so the pipeline cannot fall back to the primary when no readable secondary is available. See the `ALLOW_CONNECTIONS` options in [CREATE AVAILABILITY GROUP](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql).
 
 ## What happens during a failover
@@ -75,10 +75,10 @@ The pipeline behaves as follows during a failover. In all of these scenarios, it
 
 | Scenario | What happens |
 |:--|:--|
-| The secondary that the pipeline reads from is promoted to primary | The connection drops at promotion. After a brief interruption, the collector reconnects automatically, resumes from its saved position, and skips the snapshot. No events are lost or duplicated. |
+| The secondary that the pipeline reads from is promoted to primary | The connection drops at promotion. After a brief interruption, the collector reconnects automatically, resumes from its saved position, and skips the snapshot. No data is lost. The new primary also needs its CDC jobs created before it produces changes. See [Create the CDC jobs on a promoted replica](#create-the-cdc-jobs-on-a-promoted-replica). |
 | The node is demoted back to a readable secondary | Same behavior. The collector reconnects and resumes from its saved position. |
 | The replica that the pipeline reads from goes down and the NLB is repointed to another replica | The pipeline retries while the path is down, reconnects through the unchanged PrivateLink once the NLB points to a healthy replica, and catches up completely. |
-| A database is restored from a backup older than the pipeline's saved position | This is the only case that needs manual action: reset the pipeline. See [Disaster recovery and restoring from backup](#recover-after-a-restore-from-backup). |
+| A database is restored from a backup older than the pipeline's saved position | The restored database is behind the pipeline, so reset the pipeline afterward. See [Disaster recovery and restoring from backup](#recover-after-a-restore-from-backup). |
 
 The pipeline delivers events at least once. After a crash recovery, the collector can redeliver a small batch of already delivered events, and the target absorbs them by key.
 
