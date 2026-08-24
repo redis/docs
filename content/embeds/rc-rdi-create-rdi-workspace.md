@@ -16,7 +16,16 @@ To create a Data Integration workspace for an existing [Pro subscription]({{< re
 
     {{<image filename="images/rc/rdi/rdi-create-workspace-select-subscription.png" alt="The select pro subscription drop down." width=80% >}}
 
-3. A **Data Integration subnet (CIDR)** is automatically generated for you. If, for any reason, a CIDR is not generated, enter a valid CIDR that does not conflict with your applications or other databases.
+3. A **Data Integration subnet (CIDR)** is automatically generated for you. Each RDI workspace uses a dedicated `/22` CIDR.
+
+    For AWS, the RDI workspace CIDR must:
+
+    - Be in the same [RFC 1918 private address range](https://datatracker.ietf.org/doc/html/rfc1918#section-3) as the subscription VPC's primary CIDR: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16`.
+    - Not overlap with existing subscription, peering, transit gateway (TGW), application, database, or RDI workspace CIDR ranges.
+
+    For example, if the subscription VPC's primary CIDR is `10.238.252.0/24`, then `192.168.0.0/22` is invalid because it is in a different RFC 1918 range. An unused range such as `10.239.0.0/22` is valid.
+
+    If the automatic suggestion is missing or unsuitable, select another unused `/22` CIDR in the same private range. For more information, see [VPC CIDR block association restrictions](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html#vpc-resize).
 
     {{<image filename="images/rc/rdi/rdi-create-workspace-cidr.png" alt="The select pro subscription drop down." width=80% >}}
 
