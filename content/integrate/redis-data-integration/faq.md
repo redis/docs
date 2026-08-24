@@ -65,7 +65,7 @@ replica of an Active-Active replication setup or an Auto tiering database.
 Yes, starting with RDI 1.16.0, you can use Active-Active for the RDI database. This is
 supported whether or not you also run a disaster recovery (DR) setup for RDI.
 
-Two RDI instances sharing a single RDI database use that database for leader election, so
+If you have two RDI instances sharing a single RDI database then they will use that database for leader election, so
 they need no other lease mechanism. This is how high availability (HA) works for VM
 installations. See
 [Installing with High Availability]({{< relref "/integrate/redis-data-integration/installation/install-vm#installing-with-high-availability" >}}).
