@@ -66,8 +66,8 @@ This property changes two things in the collector:
 Keep the following in mind:
 
 - The property is safe during failover. If the replica that the pipeline reads from is promoted to primary, the connection keeps working. A primary accepts connections with `ApplicationIntent=ReadOnly`.
-- Only use this property when the pipeline connects to a readable secondary in an availability group. On a standalone server, the initial snapshot fails with the error `Snapshot isolation transaction failed accessing database ... because snapshot isolation is not allowed in this database` unless you enable snapshot isolation first. See [Recover from a restore](#recover-after-a-restore-from-backup) for the fix.
-- Leave the availability group's primary role connection setting at its default (`ALLOW_CONNECTIONS = ALL`). If you set the primary role to `READ_WRITE`, the primary rejects read-intent connections, and the pipeline cannot fall back to the primary when no readable secondary is available.
+- Only use this property when the pipeline connects to a readable secondary in an availability group. On a standalone server, the initial snapshot fails with a snapshot isolation error unless you enable snapshot isolation first. See [Recover after a restore from backup](#recover-after-a-restore-from-backup) for the fix.
+- Leave the availability group's primary role connection setting at its default of `ALL`. If you set the primary role to `READ_WRITE`, the primary refuses connections that request `ApplicationIntent=ReadOnly`, so the pipeline cannot fall back to the primary when no readable secondary is available. See the `ALLOW_CONNECTIONS` options in [CREATE AVAILABILITY GROUP](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-availability-group-transact-sql).
 
 ## What happens during a failover
 
@@ -75,10 +75,10 @@ The pipeline behaves as follows during a failover. In all of these scenarios, it
 
 | Scenario | What happens |
 |:--|:--|
-| The secondary that the pipeline reads from is promoted to primary | The connection drops at promotion. The collector reconnects in about 10 seconds, resumes from its saved position, and skips the snapshot. No events are lost or duplicated. |
+| The secondary that the pipeline reads from is promoted to primary | The connection drops at promotion. After a brief interruption, the collector reconnects automatically, resumes from its saved position, and skips the snapshot. No events are lost or duplicated. |
 | The node is demoted back to a readable secondary | Same behavior. The collector reconnects and resumes from its saved position. |
 | The replica that the pipeline reads from goes down and the NLB is repointed to another replica | The pipeline retries while the path is down, reconnects through the unchanged PrivateLink once the NLB points to a healthy replica, and catches up completely. |
-| The servers are restored from a backup | This scenario is different and needs manual action. See [Recover after a restore from backup](#recover-after-a-restore-from-backup). |
+| A database is restored from a backup older than the pipeline's saved position | This is the only case that needs manual action: reset the pipeline. See [Disaster recovery and restoring from backup](#recover-after-a-restore-from-backup). |
 
 The pipeline delivers events at least once. After a crash recovery, the collector can redeliver a small batch of already delivered events, and the target absorbs them by key.
 
@@ -100,7 +100,7 @@ For more information, see [Change data capture with Always On availability group
 
 ## Automate the NLB update
 
-When a replica fails, something must point the NLB target group at another replica. You can automate this with a Lambda function. There are two ways to trigger it:
+When the replica that the pipeline connects to fails, something must point the NLB target group at another replica that the pipeline can read from. You can automate this with a Lambda function. There are two ways to trigger it:
 
 - **Event-driven**: When the deployment fails over, a script on any SQL Server node publishes to an SNS topic, and the SNS topic invokes the Lambda function. The Lambda function resolves a known address, such as the availability group listener DNS name, to find the replica to register in the target group. This avoids the detection delay of health checks.
 
@@ -112,27 +112,14 @@ Verify what the listener DNS name resolves to in your deployment before you rely
 
 With either trigger, add an email subscription to the SNS topic so that a person always knows a failover happened. This matters most for the restore scenario below, which needs a manual follow-up.
 
-## Recover after a restore from backup
+## Disaster recovery and restoring from backup {#recover-after-a-restore-from-backup}
 
-If the SQL Server is restored from a backup, for example when a server is rebuilt or a disaster recovery site is brought online from restored backups, **always [reset the pipeline]({{<relref "/operate/rc/rdi/view-edit#reset-data-pipeline">}})** after the restore.
+Disaster recovery with an availability group is safe for the pipeline. When a secondary is promoted, or you point the NLB at another in-sync replica, the pipeline reconnects and resumes from its saved position with no reset and no data loss. The availability group is responsible for keeping its replicas synchronized, so a promoted replica holds the committed transactions the pipeline has already read. For more information, see [Availability modes for an availability group](https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/availability-modes-always-on-availability-groups) in the SQL Server documentation.
 
-The pipeline cannot detect this situation on its own. Its saved position in the SQL Server transaction log is newer than anything the restored database contains. The collector connects and looks healthy, but it delivers nothing. Worse, once the restored server's log positions catch up with the saved position, delivery resumes and every change made below the old position is silently skipped.
+If instead you restore the database from an old backup, rather than recovering it through the availability group, you risk a different situation: the restored database can be behind the position the pipeline has already processed, so the pipeline has nowhere valid to resume from. If you restore from a backup, [reset the pipeline]({{<relref "/operate/rc/rdi/view-edit#reset-data-pipeline">}}) afterward to take a fresh snapshot.
 
-To check for this state, compare the newest change position on the server with the pipeline's saved position. Run this on the SQL Server:
-
-```sql
-USE <database>;
-SELECT sys.fn_cdc_get_max_lsn();
-```
-
-If the result is lower than the pipeline's saved position, or if the target row counts stay frozen while the source is taking writes, the pipeline is stalled and needs a reset.
-
-Before you reset, enable snapshot isolation on the restored database if it runs standalone:
+If the restored server is standalone and not yet part of the availability group, enable snapshot isolation before you reset, or the snapshot fails and retries until you do:
 
 ```sql
 ALTER DATABASE <database> SET ALLOW_SNAPSHOT_ISOLATION ON;
 ```
-
-A readable secondary in an availability group provides snapshot isolation automatically, but a standalone restored server does not. Without it, the reset snapshot fails and retries until you run this command. After you run it, the collector recovers on the next retry by itself.
-
-The reset creates a new baseline snapshot of the restored database and then streams new changes normally.
