@@ -99,7 +99,7 @@ For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/red
 
 Data pipelines are set up to ensure a high level of data security. Source database credentials and TLS secrets are stored in AWS secret manager and shared using the Kubernetes CSI driver for secrets. See [Share source database credentials]({{<relref "/operate/rc/rdi/setup#share-source-database-credentials">}}) to learn how to share your source database credentials and TLS certificates with Redis Cloud.
 
-Connections to the source database use Java Database Connectivity (JDBC) through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
+Connections to the source database use Java Database Connectivity (JDBC) through [AWS PrivateLink](https://aws.amazon.com/privatelink/), ensuring that the data pipeline is only exposed to the specific database endpoint. See [Set up connectivity]({{<relref "/operate/rc/rdi/networking/aws-privatelink-nlb">}}) to learn how to connect your PrivateLink to the Redis Cloud VPC.
 
 RDI encrypts all network connections with TLS. The pipeline will process data from the source database in-memory and write it to the target database using a TLS connection. There are no external connections to your data pipeline except from Redis Cloud management services.
 
@@ -145,6 +145,7 @@ To create a new data pipeline, you need to:
 
 1. [Create a Data Integration workspace]({{<relref "/operate/rc/rdi/create-workspace">}}) for your Pro subscription.
 1. [Prepare your source database]({{<relref "/operate/rc/rdi/setup">}}) and any associated credentials.
+1. [Set up networking]({{<relref "/operate/rc/rdi/networking">}}) between the pipeline and your source database, unless the database is publicly accessible.
 1. [Define the source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}) by selecting which tables to sync.
 
 Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.

@@ -10,7 +10,7 @@ categories:
 - rc
 description: Observe and change your data pipeline.
 hideListLinks: true
-weight: 4
+weight: 6
 ---
 
 To view or manage your data pipeline, select it from your workspace from the **Data Integration** page or from the **Data Integration** tab in your subscription or database.

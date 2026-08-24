@@ -10,7 +10,7 @@ categories:
 - rc
 description: Define the source connection and data pipeline.
 hideListLinks: true
-weight: 4
+weight: 5
 ---
 
 After you have [prepared your source database]({{<relref "/operate/rc/rdi/setup">}}) and connection information, and [created the workspace for your pipeline]({{<relref "/operate/rc/rdi/create-workspace">}}), you can set up your new pipeline.
@@ -73,13 +73,13 @@ When you've completed all three sections, select **Test source** to test Redis C
 
 Select whether you want your pipeline to connect to your database using **AWS Private Link** or using the **Public endpoint**.
 
-- If your pipeline uses AWS PrivateLink, enter the **Private Link service name** of the [PrivateLink connected to your source database]({{< relref "/operate/rc/rdi/setup#set-up-connectivity" >}}).
+- If your pipeline uses AWS PrivateLink, enter the **Private Link service name** of the [PrivateLink connected to your source database]({{< relref "/operate/rc/rdi/networking/aws-privatelink-nlb" >}}).
 
     {{<image filename="images/rc/rdi/rdi-source-configuration-source-connectivity-privatelink.png" alt="The Source database connectivity section for PrivateLink connection." >}}
 
     Select **Connect to Private Link** to test your Private Link connectivity. This will take a few minutes.
     
-    If Redis Cloud can't find your PrivateLink connection, make sure that the PrivateLink service name is correct and that Redis Cloud is listed as an Allowed Principal for your VPC. See [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) for more info.
+    If Redis Cloud can't find your PrivateLink connection, make sure that the PrivateLink service name is correct and that Redis Cloud is listed as an Allowed Principal for your VPC. See [Set up connectivity]({{<relref "/operate/rc/rdi/networking/aws-privatelink-nlb">}}) for more info.
 
 - If your pipeline uses the public endpoint, enter the source IP address or hostname in the **Source IP address / Hostname** field.
 
