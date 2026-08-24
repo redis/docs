@@ -36,7 +36,7 @@ brew install redis
 This installs the latest Redis Open Source release, including Redis Search and the JSON, time series, probabilistic, and vector set data structures.
 
 {{< note >}}
-The formula always installs the latest Redis Open Source release. Support for the query engine and the additional data structures was added to the formula in Redis Open Source 8.10.1, so earlier versions installed through the formula do not include them. To install an earlier version, use one of the other [installation methods]({{< relref "/operate/oss_and_stack/install/install-stack" >}}).
+The formula always installs the latest Redis Open Source release. Support for Redis Search and the additional data structures was added to the formula in Redis Open Source 8.10.1, so earlier versions installed through the formula do not include them. To install an earlier version, use one of the other [installation methods]({{< relref "/operate/oss_and_stack/install/install-stack" >}}).
 {{< /note >}}
 
 If you already have Redis installed through Homebrew, see [Upgrade an existing installation](#upgrade-an-existing-installation) instead.
@@ -45,13 +45,13 @@ If you already have Redis installed through Homebrew, see [Upgrade an existing i
 
 ### Upgrade from an earlier version of the formula
 
-If you previously installed Redis using the `redis` formula, upgrade it:
+If you previously installed Redis using the `redis` formula, upgrade it with the following command:
 
 {{< highlight bash >}}
 brew upgrade redis
 {{< /highlight >}}
 
-Homebrew does not overwrite a configuration file that you might have changed. It leaves your existing `redis.conf` in place and writes the new default configuration to `redis.conf.default`. Because the older configuration file does not contain the `loadmodule` directives, the query engine and the additional data structures stay disabled until you use the new default.
+Homebrew does not overwrite a configuration file that you might have changed. It leaves your existing `redis.conf` in place and writes the new default configuration to `redis.conf.default`. Because the older configuration file does not contain the `loadmodule` directives, Redis Search and the additional data structures stay disabled until you use the new default.
 
 1. Compare your configuration file with the new default:
     ```bash
