@@ -21,16 +21,24 @@ The setup in this guide uses:
 - A [Network Load Balancer and PrivateLink endpoint service]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}) in your AWS VPC. The NLB target group points to the replica that the pipeline should read from, which is usually a readable secondary. If the replicas are on premises, the NLB reaches them over AWS Direct Connect.
 - A Lambda function that updates the NLB target group when the deployment fails over. See [Automate the NLB update](#automate-the-nlb-update).
 
-```text
-Redis Cloud                Your AWS VPC              Your data center
-┌───────────────┐         ┌──────────────┐          ┌─────────────────────────┐
-│ RDI pipeline  │ Private │ ┌──────────┐ │  Direct  │ SQL Server AG           │
-│      │        │  Link   │ │ NLB      │─┼─Connect─▶│  ├─ Primary             │
-│      ▼        │ ──────▶ │ └──────────┘ │          │  ├─ Secondary (readable)│
-│ VPC endpoint  │         │ ┌──────────┐ │          │  └─ DR secondary        │
-└───────────────┘         │ │ Lambda   │ │          └─────────────────────────┘
-                          │ └──────────┘ │
-                          └──────────────┘
+```mermaid {width="100%"}
+graph LR
+    subgraph rc["Redis Cloud"]
+        pipeline["<b>RDI pipeline</b>"] --> endpoint["<b>VPC endpoint</b>"]
+    end
+    subgraph vpc["Your AWS VPC"]
+        nlb["<b>NLB</b>"]
+        lambda["<b>Lambda</b>"]
+    end
+    subgraph dc["Your data center"]
+        subgraph ag["SQL Server AG"]
+            primary["Primary"]
+            secondary["Secondary (readable)"]
+            dr["DR secondary"]
+        end
+    end
+    endpoint -->|PrivateLink| nlb
+    nlb -->|Direct Connect| ag
 ```
 
 ### Why an NLB and not the availability group listener
