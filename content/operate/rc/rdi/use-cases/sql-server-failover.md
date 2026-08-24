@@ -11,7 +11,7 @@ linkTitle: SQL Server failover
 weight: 1
 ---
 
-This guide shows how to connect a data pipeline to a self-managed SQL Server deployment that uses an [Always On availability group](https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/overview-of-always-on-availability-groups-sql-server), and what to do when the deployment fails over. Redis validated every failover scenario in this guide against a live pipeline reading from SQL Server 2022.
+This guide shows how to connect a data pipeline to a self-managed Microsoft SQL Server deployment that uses an [Always On availability group](https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/overview-of-always-on-availability-groups-sql-server), and what to do when the deployment fails over. Self-managed means you run SQL Server yourself, on your own servers on-premises or on EC2 instances, rather than through a managed service such as Amazon RDS.
 
 ## Topology
 
@@ -71,7 +71,7 @@ Keep the following in mind:
 
 ## What happens during a failover
 
-Redis tested the following scenarios against a live pipeline. In all of them, the pipeline needs no restart, redeploy, or configuration change:
+The pipeline behaves as follows during a failover. In all of these scenarios, it needs no restart, redeploy, or configuration change:
 
 | Scenario | What happens |
 |:--|:--|
