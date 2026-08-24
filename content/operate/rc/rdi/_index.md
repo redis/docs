@@ -149,6 +149,8 @@ To create a new data pipeline, you need to:
 
 Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.
 
+For complete production setups, including SQL Server failover handling, see [Production use cases]({{<relref "/operate/rc/rdi/use-cases">}}).
+
 ## Maintenance windows
 
 RDI Cloud maintenance follows the same subscription-wide maintenance window as your Redis Cloud Pro subscription. During a maintenance window, your data pipeline may experience brief interruptions as Redis applies updates.
