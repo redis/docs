@@ -17,15 +17,15 @@ This page explains how a Data Integration pipeline reaches your source database 
 
 With PrivateLink, the pipeline and your database are in separate address spaces that never mix. Each component only connects to one address, and that address does not change during a failover.
 
-```text
-Redis Cloud                     Your AWS VPC
-┌───────────────┐              ┌─────────────────────────────────────┐
-│ RDI pipeline  │              │  ┌───────────────┐   ┌───────────┐   │
-│      │        │  PrivateLink │  │ Network Load  │──▶│ Source    │   │
-│      ▼        │ ───────────▶ │  │ Balancer      │   │ database  │   │
-│ VPC endpoint  │              │  │ (private IPs) │   │           │   │
-└───────────────┘              │  └───────────────┘   └───────────┘   │
-                               └─────────────────────────────────────┘
+```mermaid {width="100%"}
+graph LR
+    subgraph rc["Redis Cloud"]
+        pipeline["<b>RDI pipeline</b>"] --> endpoint["<b>VPC endpoint</b>"]
+    end
+    subgraph vpc["Your AWS VPC"]
+        nlb["<b>Network Load Balancer</b><br/>(private IPs)"] --> db["<b>Source database</b>"]
+    end
+    endpoint -->|PrivateLink| nlb
 ```
 
 The following table shows which address each component sees:
@@ -46,15 +46,19 @@ Your source database does not have to run inside the VPC. It can be anywhere you
 
 The core rule is the same in every case: the NLB uses an IP address target that is reachable from the VPC, and the database receives the connection from the NLB's private IP address. The database never sees a Redis Cloud address.
 
-```text
-Redis Cloud            Your AWS VPC              Network reachable from the VPC
-┌──────────────┐      ┌──────────────┐            ┌──────────────┐
-│ RDI pipeline │Private│ ┌──────────┐ │  Private   │ ┌──────────┐ │
-│      │       │ Link  │ │ NLB      │─┼──route────▶│ │ Source   │ │
-│      ▼       │──────▶│ │ (IP      │ │            │ │ database │ │
-│ VPC endpoint │      │ │  target) │ │            │ └──────────┘ │
-└──────────────┘      │ └──────────┘ │            └──────────────┘
-                      └──────────────┘
+```mermaid {width="100%"}
+graph LR
+    subgraph rc["Redis Cloud"]
+        pipeline["<b>RDI pipeline</b>"] --> endpoint["<b>VPC endpoint</b>"]
+    end
+    subgraph vpc["Your AWS VPC"]
+        nlb["<b>NLB</b><br/>(IP target)"]
+    end
+    subgraph net["Network reachable from the VPC"]
+        db["<b>Source database</b>"]
+    end
+    endpoint -->|PrivateLink| nlb
+    nlb -->|Private route| db
 ```
 
 To set this up:
