@@ -352,7 +352,11 @@
           md.appendChild(el('p', 'rwb-nb-mdtext', title.description));
         }
         var meta = el('div', 'rwb-nb-meta');
-        meta.appendChild(el('code', 'rwb-nb-name', title.name));
+        /* The step's name was shown here — "connect", "set_get_string" — and it
+           is a build-time identifier, not something a reader needs: the prose
+           above the cell already says what the cell does. It stays on the slot as
+           an attribute, since the ordering rules are expressed in those names. */
+        slot.dataset.cell = title.name;
         var marker = el('span', 'rwb-nb-marker', '');
         meta.appendChild(marker);
         var run = el('button', 'rwb-nb-run', '▶ Run');
@@ -537,31 +541,19 @@
       return needed;
     }
 
-    function names(entries) {
-      return entries.map(function (e) { return e.id; }).join(', ');
-    }
-
-    /* What a cell says at rest: one whose prerequisite has not run names it, so
-       the order is visible before anything is clicked. */
+    /* A cell whose prerequisite has not run cannot be run: its variables do not
+       exist yet, and the page's own buttons are disabled for the same reason. The
+       Run button carries that — inert, and saying why on hover — rather than a
+       "needs connect" chip naming a step the reader can no longer see. */
     function refreshGating() {
       state.slots.forEach(function (entry) {
         var missing = missingPrereqs(entry);
         entry.slot.classList.toggle('rwb-nb-gated', missing.length > 0);
-        /* A cell whose prerequisite has not run cannot be run: its variables do
-           not exist yet, and the page's own buttons are disabled for the same
-           reason. So the button says so instead of quietly doing something else. */
         entry.run.classList.toggle('rwb-nb-run-off', missing.length > 0);
         entry.run.setAttribute('aria-disabled', missing.length ? 'true' : 'false');
         entry.run.title = missing.length
           ? 'Run the first code snippet to start the kernel'
           : 'Run this cell';
-        if (state.running || entry.slot.classList.contains('rwb-nb-active')) return;
-        var gated = entry.marker.className.indexOf('rwb-nb-marker-gate') >= 0;
-        if (missing.length && (!entry.marker.textContent || gated)) {
-          mark(entry, 'needs ' + names(missing), 'rwb-nb-marker-gate');
-        } else if (!missing.length && gated) {
-          mark(entry, '', '');
-        }
       });
     }
 
@@ -671,7 +663,6 @@
          dependent cells by running the openers first, in order. */
       var prereqs = options.skipPrereqs ? [] : missingPrereqs(entry);
       if (prereqs.length) {
-        mark(entry, 'needs ' + names(prereqs), 'rwb-nb-marker-gate');
         api.setStatus('Run the first code snippet to start the kernel');
         return Promise.resolve('blocked');
       }

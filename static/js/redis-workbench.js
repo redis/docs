@@ -124,7 +124,8 @@
     'CMSk-TYPE':   { label: 'count-min sketch', tone: 'probabilistic' },
     'TopK-TYPE':   { label: 'top-k', tone: 'probabilistic' },
     'TDIS-TYPE':   { label: 't-digest', tone: 'probabilistic' },
-    vectorset:     { label: 'vector set', tone: 'vector' }
+    vectorset:     { label: 'vector set', tone: 'vector' },
+    array:         { label: 'array', tone: 'array' }
   };
 
   /* ---------------------------------------------------------------- utils -- */
@@ -356,7 +357,12 @@
              error or was not the one asked for, and the key is skipped rather
              than rendered with a nonsense badge. */
           type: typeof type === 'string' ? type : null,
-          ttl: ok(replies[i * 2 + 1])
+          ttl: ok(replies[i * 2 + 1]),
+          /* A TTL is only true at the instant it was read, so the reading is
+             stamped and what gets displayed is counted down from it. Without
+             this, a key with a minute left showed "60s" until something else
+             happened to trigger a sweep. */
+          readAt: Date.now()
         };
       }).filter(function (key) {
         return key.type && key.type !== 'none';
@@ -387,23 +393,54 @@
       case 'zset': return 'ZCARD ' + key;
       case 'hash': return 'HLEN ' + key;
       case 'stream': return 'XLEN ' + key;
+      /* The logical length — highest set index plus one — which is what Redis
+         Insight shows as Length. ARCOUNT (how many slots are actually filled) is
+         the other half of the story and the preview asks for it, since the two
+         differ wildly for a sparse array: ARLEN 1000001 against ARCOUNT 2. */
+      case 'array': return 'ARLEN ' + key;
+      case 'vectorset': return 'VCARD ' + key;
       case 'ReJSON-RL': return 'JSON.TYPE ' + key;
       default: return null;
     }
   }
 
+  /* Labelled the way Redis Insight labels it: "<field>: <n>", with the field
+     names from its own locale file (browser.keyDetails.length.* on
+     redis/RedisInsight@main) — Length by default, Entries for a stream,
+     Top-level values for JSON.
+
+     A bare number was the problem. "6 B" for `SET bike:1 Deimos` was read as the
+     key's memory footprint — the thing Insight calls Key Size, 40 B for that
+     command — when it is the length of the value. The unit went with it: STRLEN
+     counts bytes, but "Length: 6" is what Insight shows and it cannot be mistaken
+     for a size in memory. */
   function sizeLabel(type, size) {
     if (size === null || size === undefined) return null;
     switch (type) {
-      case 'string': return typeof size === 'number' ? humanBytes(size) : null;
-      case 'list': return plural(size, 'item');
-      case 'set': return plural(size, 'member');
-      case 'zset': return plural(size, 'member');
-      case 'hash': return plural(size, 'field');
-      case 'stream': return plural(size, 'entry', 'entries');
-      case 'ReJSON-RL': return cellText(size);
+      case 'string':
+      case 'list':
+      case 'set':
+      case 'zset':
+      case 'hash':
+        return typeof size === 'number' ? 'Length: ' + size : null;
+      case 'stream':
+        return typeof size === 'number' ? 'Entries: ' + size : null;
+      case 'array':
+      case 'vectorset':
+        return typeof size === 'number' ? 'Length: ' + size : null;
+      /* Not a length: JSON.TYPE answers what the root is. Insight shows
+         "Top-level values" here, which needs a second command per key
+         (JSON.OBJLEN or JSON.ARRLEN, depending on that answer). */
+      case 'ReJSON-RL': return size === null ? null : 'Root: ' + cellText(size);
       default: return null;
     }
+  }
+
+  /* Which command produced it, for the chip's tooltip. */
+  function sizeSource(type) {
+    var command = sizeCommand(type, 'key');
+    if (!command) return null;
+    return 'From ' + command.split(' ')[0];
   }
 
   /* -------------------------------------------------------- value views --- */
@@ -468,6 +505,74 @@
             };
           }
         };
+      /* ARSCAN, not ARGETRANGE: it returns index-value pairs and skips the empty
+         slots, which is the only readable preview of a sparse array — ARGETRANGE
+         over `ARSET a 1000000 x` would answer with a million nils. ARCOUNT says
+         how many are really there, so a partial view can say what it is showing
+         out of what. */
+      case 'array':
+        return {
+          commands: [
+            'ARCOUNT ' + key,
+            'ARSCAN ' + key + ' 0 ' + (known && size > 0 ? size - 1 : 0)
+              + ' LIMIT ' + PREVIEW_ITEMS
+          ],
+          build: function (r) {
+            var count = ok(r[0]);
+            var found = ok(r[1]);
+            var rows = (Array.isArray(found) ? found : []).map(function (entry) {
+              /* Each entry is [index, value]; anything else is passed through
+                 rather than guessed at. */
+              return Array.isArray(entry) ? [entry[0], entry[1]] : [entry, ''];
+            });
+            return {
+              kind: 'table',
+              head: ['Index', 'Value'],
+              rows: rows,
+              limited: typeof count === 'number' && rows.length < count
+                ? { shown: rows.length, of: plural(count, 'element') } : null
+            };
+          }
+        };
+      /* A vector set, the way Redis Insight shows one: the quantisation and the
+         dimensionality alongside the length, then the elements by name, each of
+         which can be opened for its vector and attributes.
+
+         VRANDMEMBER is the only way to enumerate: there is no SCAN for a vector
+         set. A positive count returns distinct elements up to that many, so this
+         is a sample rather than a page — hence the sort, so the same set does not
+         reshuffle every time it is opened, and the count below it. */
+      case 'vectorset':
+        return {
+          commands: ['VINFO ' + key, 'VRANDMEMBER ' + key + ' ' + PREVIEW_ITEMS],
+          build: function (r) {
+            var info = {};
+            pairs(ok(r[0])).forEach(function (row) {
+              info[cellText(row[0])] = cellText(row[1]);
+            });
+            var members = (ok(r[1]) || []).map(cellText).sort();
+            var facts = [];
+            /* Insight's own field names, from its locale file:
+               browser.keyDetails.quantType.full and .vectorDim.full. */
+            if (info['quant-type']) {
+              facts.push({ text: 'Quant type: ' + info['quant-type'], title: 'From VINFO' });
+            }
+            if (info['vector-dim']) {
+              facts.push({ text: 'Vector dim: ' + info['vector-dim'], title: 'From VINFO' });
+            }
+            return {
+              kind: 'table',
+              head: ['Element'],
+              rows: members.map(function (member) { return [member]; }),
+              facts: facts,
+              /* Marks these rows as openable; the dock wires the click, since a
+                 probe has no business knowing about the panel. */
+              elements: members,
+              limited: known && members.length < size
+                ? { shown: members.length, of: plural(size, 'element') } : null
+            };
+          }
+        };
       case 'list':
         return {
           commands: ['LRANGE ' + key + ' 0 '
@@ -476,10 +581,13 @@
             var items = ok(r[0]) || [];
             return {
               kind: 'table',
-              head: ['Index', 'Value'],
+              /* "Element" is what a list holds, in Redis's own terms and in the
+                 docs beside this — lists.md says element or elements about seventy
+                 times. The browser should use the page's vocabulary. */
+              head: ['Index', 'Element'],
               rows: items.map(function (item, i) { return [i, item]; }),
               limited: known && size > PREVIEW_ITEMS
-                ? { shown: items.length, of: plural(size, 'item') } : null
+                ? { shown: items.length, of: plural(size, 'element') } : null
             };
           }
         };
@@ -554,15 +662,41 @@
             return { kind: 'text', text: text, mono: true };
           }
         };
+      /* Redis Insight declines this one — it says "This is a RedisTimeSeries key.
+         Use Redis commands in the Workbench tool to view the value" and shows
+         nothing. A docs reader who has just run TS.ADD is better served by seeing
+         the samples, so this keeps the fuller view and only borrows Insight's
+         label for the count: Samples, from browser.keyDetails.length.samples. */
       case 'TSDB-TYPE':
         return {
           commands: ['TS.INFO ' + key, 'TS.RANGE ' + key + ' - + COUNT ' + PREVIEW_ITEMS],
           build: function (r) {
+            var info = pairs(ok(r[0]));
             var samples = ok(r[1]) || [];
+            var facts = [];
+            var totals = info.filter(function (row) {
+              return cellText(row[0]) === 'totalSamples';
+            })[0];
+            if (totals) {
+              facts.push({ text: 'Samples: ' + cellText(totals[1]), title: 'From TS.INFO' });
+            }
             return {
               kind: 'sections',
+              facts: facts,
               sections: [
-                { title: 'Info', kind: 'table', head: ['Field', 'Value'], rows: pairs(ok(r[0])) },
+                {
+                  title: 'Info',
+                  kind: 'table',
+                  head: ['Field', 'Value'],
+                  /* totalSamples is the chip above; memoryUsage is left out for
+                     the same reason MEMORY USAGE is — in this sandbox every key
+                     carries a session prefix, so the figure cannot match what the
+                     same commands report on the reader's own Redis. */
+                  rows: info.filter(function (row) {
+                    var field = cellText(row[0]);
+                    return field !== 'totalSamples' && field !== 'memoryUsage';
+                  })
+                },
                 {
                   title: 'Samples',
                   kind: 'table',
@@ -571,13 +705,6 @@
                 }
               ]
             };
-          }
-        };
-      case 'vectorset':
-        return {
-          commands: ['VINFO ' + key],
-          build: function (r) {
-            return { kind: 'table', head: ['Field', 'Value'], rows: pairs(ok(r[0])) };
           }
         };
       case 'TopK-TYPE':
@@ -628,7 +755,7 @@
     /* command batches seen while closed, discovered at first open */
     pending: [],
     caughtUp: false,
-    fullCliUrl: '',
+    ttlNodes: {},
     busy: 0
   };
 
@@ -660,12 +787,6 @@
        terminal" are in the Terminal pane, the way "Run all" and "Clear notebook"
        are in the Notebook pane. */
     var actions = el('div', 'rwb-actions');
-    this.fullCliLink = el('a', 'rwb-btn rwb-btn-link', 'Full CLI');
-    this.fullCliLink.target = '_blank';
-    this.fullCliLink.rel = 'noopener noreferrer';
-    this.fullCliLink.title = 'Open this snippet in the standalone CLI';
-    this.fullCliLink.hidden = true;
-    actions.appendChild(this.fullCliLink);
     /* A worded button, not an icon: "Maximise" / "Restore" states plainly which
        way it goes, where a pair of near-identical corner glyphs did not. */
     this.maxButton = this.button('', 'Maximise the workbench',
@@ -866,6 +987,7 @@
     /* The terminal is created on first open so a reader who never opens the dock
        pays nothing for it, and kept for the dock's lifetime after that. */
     if (!this.terminalForm) this.startTerminal();
+    this.startTtlTicker();
     return this.catchUp();
   };
 
@@ -874,6 +996,7 @@
     this.root.classList.remove('rwb-open');
     this.bar.querySelector('.rwb-toggle').setAttribute('aria-expanded', 'false');
     this.setCollapseLabel('Open the workbench');
+    this.stopTtlTicker();
     this.persist();
   };
 
@@ -1074,9 +1197,6 @@
      dock keeps no per-snippet state and offers no re-run of its own. */
   dock.load = function (options) {
     var self = this;
-    this.fullCliUrl = options.fullCliUrl || '';
-    this.fullCliLink.hidden = !this.fullCliUrl;
-    if (this.fullCliUrl) this.fullCliLink.href = this.fullCliUrl;
     this.open();
     this.show('terminal');
     this.setStatus('running the snippet…');
@@ -1112,6 +1232,8 @@
     this.pending = [];
     this.selected = null;
     this.truncated = false;
+    this.expiredName = null;
+    this.openElement = null;
     this.clearValue();
     this.renderKeys();
     this.show('terminal');
@@ -1287,6 +1409,11 @@
         return alive[name] || probed.indexOf(name) === -1;
       });
       self.renderKeys();
+      /* A sweep can bring in a key with an expiry after the ticker stopped for
+         want of one. */
+      if (self.isOpen && self.keys.some(function (key) {
+        return typeof key.ttl === 'number' && key.ttl >= 0;
+      })) self.startTtlTicker();
       /* Only announce a total once nothing else is in flight: a sweep that
          finishes while discovery is still running, or with another sweep queued
          behind it, is an intermediate reading — reporting it would flicker a
@@ -1295,14 +1422,103 @@
       /* A selected key may have been deleted or changed by the last batch. */
       if (self.selected && !self.find(self.selected)) {
         self.selected = null;
+        self.openElement = null;
         self.clearValue();
+      } else if (self.openElement && self.openElement.name === self.selected) {
+        /* An element is open: keep showing it, with whatever the last batch did
+           to it — a VSETATTR on this element should appear, not close the view. */
+        self.openVectorElement(self.find(self.selected), self.openElement.element);
       } else if (self.selected) {
-        self.openKey(self.selected, true);
+        self.openKey(self.selected);
       }
     }, function () {
       /* The next command, or the next time the panel is opened, tries again. */
       self.setStatus('could not read the keyspace');
     });
+  };
+
+  /* ---- expiry ----
+
+     Counted on the client, from the TTL the last sweep read and the moment it
+     read it. Re-asking the server every second would spend a command per key per
+     tick on a shared backend to learn something arithmetic can tell us. When a
+     countdown reaches zero the row goes at once — that is when the key is gone —
+     and a single sweep follows to confirm it with the server, which also puts the
+     row back in the unlikely case it is still there. */
+
+  var TTL_TICK_MS = 1000;
+
+  /* Seconds left, or the raw TTL for the cases that do not count down: -1 is "no
+     expiry", -2 is "already gone". */
+  dock.remainingTtl = function (key) {
+    if (typeof key.ttl !== 'number' || key.ttl < 0) return key.ttl;
+    var elapsed = (Date.now() - (key.readAt || Date.now())) / 1000;
+    return Math.max(0, Math.round(key.ttl - elapsed));
+  };
+
+  dock.startTtlTicker = function () {
+    var self = this;
+    if (this.ttlTimer) return;
+    this.ttlTimer = window.setInterval(function () { self.tickTtls(); }, TTL_TICK_MS);
+  };
+
+  dock.stopTtlTicker = function () {
+    if (!this.ttlTimer) return;
+    window.clearInterval(this.ttlTimer);
+    this.ttlTimer = null;
+  };
+
+  dock.tickTtls = function () {
+    var self = this;
+    /* Nothing to show while closed, and no reason to keep counting. */
+    if (!this.isOpen) return;
+    var expired = [];
+    var perishable = false;
+
+    this.keys.forEach(function (key) {
+      if (typeof key.ttl !== 'number' || key.ttl < 0) return;
+      perishable = true;
+      var left = self.remainingTtl(key);
+      if (left <= 0) {
+        expired.push(key.name);
+        return;
+      }
+      /* Only the text is replaced: rebuilding the row every second would fight
+         the pointer and reset the scroll. */
+      var node = self.ttlNodes[key.name];
+      if (node) node.textContent = 'TTL ' + humanTtl(left);
+      if (self.selected === key.name && self.valueTtlNode) {
+        self.valueTtlNode.textContent = humanTtl(left);
+      }
+    });
+
+    if (!perishable) {
+      /* Every expiry is accounted for; stop until a sweep brings another. */
+      this.stopTtlTicker();
+      return;
+    }
+    if (!expired.length) return;
+
+    this.keys = this.keys.filter(function (key) {
+      return expired.indexOf(key.name) === -1;
+    });
+    if (this.selected && expired.indexOf(this.selected) >= 0) {
+      /* Recorded rather than written straight into the panel: the sweep that
+         follows re-renders, and renderKeys() resets an unselected value column —
+         which would replace this with the generic "select a key". It stays until
+         the reader picks something else, because "where did my key go" deserves an
+         answer that outlives the next redraw. */
+      this.expiredName = this.selected;
+      this.selected = null;
+      this.openElement = null;
+      this.valueTtlNode = null;
+      this.clearValue();
+    }
+    this.renderKeys();
+    this.setStatus(this.summary());
+    /* `known` is left alone on purpose: the sweep decides whether the key has
+       really gone, and if it has not, it is still on the list to re-describe. */
+    this.refreshSoon();
   };
 
   dock.find = function (name) {
@@ -1340,6 +1556,8 @@
   /* ---- key browser ---- */
 
   dock.renderKeys = function () {
+    /* Rebuilt with the rows they belong to. */
+    this.ttlNodes = {};
     var self = this;
     /* "No keys yet" and "pick one" are different messages, and which is true
        changes as keys arrive — so the value column follows the list while nothing
@@ -1366,10 +1584,21 @@
       item.appendChild(el('span', 'rwb-badge rwb-tone-' + meta.tone, meta.label));
       var text = el('span', 'rwb-key-text');
       text.appendChild(el('span', 'rwb-key-name', key.name));
-      var sub = [];
-      if (key.sizeLabel) sub.push(key.sizeLabel);
-      if (typeof key.ttl === 'number' && key.ttl >= 0) sub.push('TTL ' + humanTtl(key.ttl));
-      text.appendChild(el('span', 'rwb-key-sub', sub.join(' · ')));
+      var sub = el('span', 'rwb-key-sub');
+      if (key.sizeLabel) {
+        var rowSize = el('span', null, key.sizeLabel);
+        rowSize.title = sizeSource(key.type) || 'Size of the value';
+        sub.appendChild(rowSize);
+      }
+      if (typeof key.ttl === 'number' && key.ttl >= 0) {
+        if (key.sizeLabel) sub.appendChild(el('span', 'rwb-key-dot', ' · '));
+        var ttlNode = el('span', 'rwb-key-ttl',
+          'TTL ' + humanTtl(self.remainingTtl(key)));
+        /* Held by name so the ticker can rewrite just this text. */
+        self.ttlNodes[key.name] = ttlNode;
+        sub.appendChild(ttlNode);
+      }
+      text.appendChild(sub);
       item.appendChild(text);
       item.title = key.name + ' — ' + meta.label;
       item.addEventListener('click', function () { self.openKey(key.name); });
@@ -1398,36 +1627,53 @@
      yet" and "pick one" are different situations for a reader. */
   dock.clearValue = function () {
     this.valuePane.replaceChildren();
-    this.valuePane.appendChild(el('p', 'rwb-empty', this.keys.length
-      ? 'Select a key to see its value.'
-      : 'No value to show yet.'));
+    this.valuePane.appendChild(el('p', 'rwb-empty', this.expiredName
+      ? this.expiredName + ' has expired.'
+      : (this.keys.length ? 'Select a key to see its value.' : 'No value to show yet.')));
   };
 
 
-  dock.openKey = function (name, quiet) {
+  /* `quiet` is gone: it used to suppress switching to the Value tab, and there is
+     no tab to switch to now that the value has a column of its own. */
+  dock.openKey = function (name) {
     var self = this;
     var key = this.find(name);
     if (!key) return;
+    this.expiredName = null;
+    this.openElement = null;
     this.selected = name;
     this.renderKeys();
 
     var probe = valueProbe(name, key.type, key.size);
-    /* OBJECT ENCODING and MEMORY USAGE are container-subcommand forms: older
-       backends ran them unnamespaced and replied nil, so treat them as optional
-       detail and simply omit what comes back empty. */
-    var extra = ['OBJECT ENCODING ' + quote(name), 'MEMORY USAGE ' + quote(name)];
-    var commands = extra.concat(probe ? probe.commands : []);
+    /* Neither MEMORY USAGE nor OBJECT ENCODING. Both describe what is actually
+       stored, and what is actually stored here is not what a reader would have on
+       their own Redis:
+
+         - the key is namespaced per browser session, so MEMORY USAGE counts 37
+           bytes of `<session-uuid>:` prefix — 72 B where Redis Insight and a
+           local redis-cli both say 40 B for `SET bike:1 Deimos`;
+         - the encoding of that same value comes back `raw` through this backend
+           where a plain SET on the very same server gives `embstr` (verified
+           against the object itself, so the value really is raw — something in
+           the write path, not a mangled reply).
+
+       Either would have a reader comparing notes with their own terminal and
+       finding the docs wrong. What is left is true in both places: the value's
+       length, its TTL, and the value. */
+    var commands = probe ? probe.commands : [];
 
     this.begin('reading ' + name + '…');
+    if (!commands.length) {
+      /* Nothing to read: a type with no enumerable value (the probabilistic
+         ones). Render what the sweep already knows and spend no commands. */
+      this.renderValue(key, { view: null, commands: [] });
+      this.end();
+      return Promise.resolve();
+    }
     return run(commands).then(function (replies) {
-      var encoding = ok(replies[0]);
-      var memory = ok(replies[1]);
-      var view = probe ? probe.build(replies.slice(extra.length)) : null;
       self.renderValue(key, {
-        encoding: typeof encoding === 'string' ? encoding : null,
-        memory: typeof memory === 'number' ? memory : null,
-        view: view,
-        commands: probe ? probe.commands : []
+        view: probe.build(replies),
+        commands: probe.commands
       });
       self.end();
     }, function () {
@@ -1435,9 +1681,78 @@
     });
   };
 
+  /* One element of a vector set: its embedding and its attributes, the pair Redis
+     Insight shows behind the magnifier on each row. VEMB answers the vector,
+     VGETATTR the metadata — nil when none was ever set, which is not an error and
+     is said as such. */
+  dock.openVectorElement = function (key, element) {
+    var self = this;
+    /* Remembered so a sweep can put it back: any command runs one, and the sweep
+       re-renders whatever is selected — which used to mean the element view was
+       replaced by the key's own the moment the reader typed anything. */
+    this.openElement = { name: key.name, element: element };
+    var commands = [
+      'VEMB ' + quote(key.name) + ' ' + quote(element),
+      'VGETATTR ' + quote(key.name) + ' ' + quote(element)
+    ];
+    this.begin('reading ' + element + '…');
+    return run(commands).then(function (replies) {
+      self.renderVectorElement(key, element, {
+        vector: ok(replies[0]),
+        attributes: ok(replies[1]),
+        commands: commands
+      });
+      self.end();
+    }, function () {
+      self.end();
+      self.setStatus('could not read ' + element);
+    });
+  };
+
+  dock.renderVectorElement = function (key, element, detail) {
+    var self = this;
+    var pane = this.valuePane;
+    pane.replaceChildren();
+
+    var head = el('div', 'rwb-value-head');
+    /* Back to the element list, since this replaced it. */
+    var back = el('button', 'rwb-back', '← ' + key.name);
+    back.type = 'button';
+    back.title = 'Back to the elements of ' + key.name;
+    back.addEventListener('click', function () { self.openKey(key.name); });
+    head.appendChild(back);
+    head.appendChild(el('code', 'rwb-value-name', element));
+    pane.appendChild(head);
+
+    pane.appendChild(el('div', 'rwb-group', 'Vector'));
+    var vector = Array.isArray(detail.vector) ? detail.vector.map(cellText) : null;
+    if (vector) {
+      pane.appendChild(el('p', 'rwb-hint',
+        'The embedding for this element, ' + plural(vector.length, 'dimension') + '.'));
+      pane.appendChild(el('pre', 'rwb-text', '[' + vector.join(', ') + ']'));
+    } else {
+      pane.appendChild(el('p', 'rwb-empty', 'No vector came back for this element.'));
+    }
+
+    pane.appendChild(el('div', 'rwb-group', 'Attributes'));
+    var attributes = detail.attributes === null || detail.attributes === undefined
+      ? null : cellText(detail.attributes);
+    if (attributes) {
+      pane.appendChild(el('p', 'rwb-hint',
+        'Metadata on this element, for filtering a similarity search.'));
+      pane.appendChild(el('pre', 'rwb-text rwb-json', attributes));
+    } else {
+      pane.appendChild(el('p', 'rwb-empty',
+        'None set. VSETATTR attaches JSON metadata to an element.'));
+    }
+
+    pane.appendChild(ranNote(detail.commands));
+  };
+
   dock.openIndex = function (name) {
     var self = this;
     this.selected = name;
+    this.expiredName = null;
     this.renderKeys();
     this.begin('reading ' + name + '…');
     return run(['FT.INFO ' + quote(name)]).then(function (replies) {
@@ -1460,6 +1775,7 @@
   };
 
   dock.renderValue = function (key, detail) {
+    var self = this;
     var meta = TYPES[key.type] || { label: key.type, tone: 'other' };
     var pane = this.valuePane;
     pane.replaceChildren();
@@ -1468,10 +1784,23 @@
     head.appendChild(el('span', 'rwb-badge rwb-tone-' + meta.tone, meta.label));
     head.appendChild(el('code', 'rwb-value-name', key.name));
     var facts = el('span', 'rwb-facts');
-    if (key.sizeLabel) facts.appendChild(el('span', 'rwb-fact', key.sizeLabel));
-    facts.appendChild(el('span', 'rwb-fact', humanTtl(key.ttl)));
-    if (detail.encoding) facts.appendChild(el('span', 'rwb-fact', detail.encoding));
-    if (detail.memory !== null) facts.appendChild(el('span', 'rwb-fact', humanBytes(detail.memory)));
+    if (key.sizeLabel) {
+      var sizeFact = el('span', 'rwb-fact', key.sizeLabel);
+      sizeFact.title = sizeSource(key.type) || 'Size of the value';
+      facts.appendChild(sizeFact);
+    }
+    this.valueTtlNode = el('span', 'rwb-fact', humanTtl(this.remainingTtl(key)));
+    this.valueTtlNode.title = 'Time to live, from TTL';
+    facts.appendChild(this.valueTtlNode);
+    /* A type can carry its own facts — a vector set's quantisation and
+       dimensionality, which mean nothing for anything else. */
+    if (detail.view && detail.view.facts) {
+      detail.view.facts.forEach(function (fact) {
+        var node = el('span', 'rwb-fact', fact.text);
+        if (fact.title) node.title = fact.title;
+        facts.appendChild(node);
+      });
+    }
     head.appendChild(facts);
     pane.appendChild(head);
 
@@ -1479,7 +1808,9 @@
       pane.appendChild(el('p', 'rwb-empty',
         'This type stores no enumerable value, so there is nothing to preview.'));
     } else {
-      pane.appendChild(renderView(detail.view));
+      pane.appendChild(renderView(detail.view, detail.view.elements
+        ? function (element) { self.openVectorElement(key, element); }
+        : null));
       /* Say what was left out, so a partial read is never mistaken for the whole
          value — the command above it is bounded for a reason. */
       if (detail.view.limited) {
@@ -1490,12 +1821,12 @@
     if (detail.commands.length) pane.appendChild(ranNote(detail.commands));
   };
 
-  function renderView(view) {
+  function renderView(view, onOpenRow) {
     if (view.kind === 'text') {
       return el('pre', 'rwb-text' + (view.mono ? ' rwb-json' : ''), view.text);
     }
     if (view.kind === 'table') {
-      return renderTable(view.head, view.rows);
+      return renderTable(view.head, view.rows, onOpenRow);
     }
     if (view.kind === 'entries') {
       if (!view.rows.length) return el('p', 'rwb-empty', 'No entries.');
@@ -1519,18 +1850,29 @@
     return el('p', 'rwb-empty', 'Nothing to show.');
   }
 
-  function renderTable(head, rows) {
+  function renderTable(head, rows, onOpenRow) {
     if (!rows || !rows.length) return el('p', 'rwb-empty', 'Empty.');
     var table = el('table', 'rwb-table');
     var thead = el('thead');
     var headRow = el('tr');
     head.forEach(function (cell) { headRow.appendChild(el('th', null, cell)); });
+    /* The column the open control lives in, unlabelled as in Insight. */
+    if (onOpenRow) headRow.appendChild(el('th', 'rwb-col-open', ''));
     thead.appendChild(headRow);
     table.appendChild(thead);
     var tbody = el('tbody');
     rows.forEach(function (row) {
       var tr = el('tr');
       row.forEach(function (cell) { tr.appendChild(el('td', null, cellText(cell))); });
+      if (onOpenRow) {
+        var cell = el('td', 'rwb-col-open');
+        var open = el('button', 'rwb-open-row', 'View');
+        open.type = 'button';
+        open.title = 'Show this element\'s vector and attributes';
+        open.addEventListener('click', function () { onOpenRow(cellText(row[0])); });
+        cell.appendChild(open);
+        tr.appendChild(cell);
+      }
       tbody.appendChild(tr);
     });
     table.appendChild(tbody);
@@ -1587,17 +1929,16 @@
     /* Run a snippet in the dock and open it. Called by the "Try it" buttons;
        returns false when the dock cannot run (an older backend), so the caller
        can fall back to the standalone CLI.
-       options: {commands[], fullCliUrl}; the callers also pass `button` and
-       `snippet`, which the dock no longer needs — the snippet id was only ever
-       an internal handle, and naming it in the UI told a reader nothing. */
+       options: {commands[]}. The callers also pass `button`, `snippet` and
+       `fullCliUrl`, none of which the dock reads: the snippet id was only ever an
+       internal handle, and `fullCliUrl` is the caller's own fallback for when
+       there is no dock to open — it opens the standalone CLI itself when this
+       returns false. */
     open: function (options) {
       if (!options || !options.commands || !options.commands.length) return false;
       var instance = ensureDock();
       if (!instance) return false;
-      instance.load({
-        commands: options.commands,
-        fullCliUrl: options.fullCliUrl
-      });
+      instance.load({ commands: options.commands });
       return true;
     },
 

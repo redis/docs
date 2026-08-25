@@ -180,10 +180,6 @@ body.rwb-dragging {
   outline-offset: 1px;
 }
 
-.rwb-btn-link::after {
-  content: " ↗";
-  font-size: 10px;
-}
 
 .rwb-btn-icon {
   display: inline-flex;
@@ -438,6 +434,8 @@ body.rwb-dragging-x * {
   overflow-wrap: anywhere;
 }
 
+.rwb-key-dot { opacity: 0.6; }
+
 .rwb-key-sub {
   font-size: 10.5px;
   color: var(--rwb-muted);
@@ -492,6 +490,7 @@ body.rwb-dragging-x * {
 .rwb-tone-json { background: #3f4b5f; }          /* --typeReJSONColor */
 .rwb-tone-ts { background: #6e6e6e; }            /* --typeTimeSeriesColor */
 .rwb-tone-vector { background: #0284c7; }        /* --typeVectorSetColor */
+.rwb-tone-array { background: #db2777; }         /* --typeArrayColor */
 
 /* Insight has no colour of its own for the probabilistic types (Bloom, cuckoo,
    count-min, top-k, t-digest): its badge falls back to --defaultTypeColor, so
@@ -688,11 +687,6 @@ body.rwb-dragging-x * {
   gap: 0.5rem;
 }
 
-.rwb-nb-name {
-  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
-  font-size: 10.5px;
-  color: var(--rwb-muted);
-}
 
 .rwb-nb-marker {
   font-size: 10.5px;
@@ -704,10 +698,6 @@ body.rwb-dragging-x * {
 .rwb-nb-marker-blocked,
 .rwb-nb-marker-slow { color: #fcd34d; }           /* amber-300 */
 
-/* "needs connect": the page's own ordering rule, shown before anything is
-   clicked. Quieter than a warning, because clicking Run still works — it runs
-   the prerequisite first. */
-.rwb-nb-marker-gate { color: var(--rwb-muted); }
 
 .rwb-nb-gated > .rwb-nb-cell > .rwb-nb-prompt { opacity: 0.55; }
 
@@ -831,6 +821,48 @@ body.rwb-dragging-x * {
   color: #fca5a5;                                 /* red-300 */
 }
 
+
+/* ---- an openable row, and what it opens ---- */
+
+.rwb-col-open {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.rwb-open-row {
+  font: inherit;
+  font-size: 11px;
+  color: var(--rwb-ink-2);
+  background: transparent;
+  border: 1px solid var(--rwb-line-soft);
+  border-radius: 0.25rem;
+  padding: 0 0.35rem;
+  cursor: pointer;
+}
+
+.rwb-open-row:hover {
+  color: var(--rwb-ink);
+  border-color: var(--rwb-muted);
+}
+
+.rwb-back {
+  font: inherit;
+  font-size: 11.5px;
+  color: var(--rwb-ink-2);
+  background: transparent;
+  border: 0;
+  padding: 0 0.25rem 0 0;
+  cursor: pointer;
+}
+
+.rwb-back:hover { color: var(--rwb-ink); }
+
+.rwb-hint {
+  margin: 0 0 0.25rem;
+  font-size: 11px;
+  color: var(--rwb-muted);
+}
 
 /* ---- value view ---- */
 
@@ -997,11 +1029,6 @@ body.rwb-dragging-x * {
   .rwb-col-value { border-top: 1px solid var(--rwb-line); }
 
   .rwb-divider { display: none; }
-
-  /* The external-CLI link is the one control that carries no action of its own;
-     dropping it buys room for the ones that do (the row scrolls if it is still
-     too narrow). */
-  .rwb-btn-link { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
