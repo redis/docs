@@ -321,6 +321,30 @@ body.rwb-dragging {
 .rwb-col-keys,
 .rwb-col-value { padding: 0 0.25rem; }
 
+/* The key column holds two sections rather than one list, so it hands its own
+   scrolling to them: two lists that scroll together are one list with a heading
+   in the middle of it. */
+.rwb-col-keys { overflow: hidden; }
+
+.rwb-sect {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* `display: flex` above beats the UA rule for [hidden], and without this the
+   indexes section stayed on screen as an empty box on every page that never
+   creates an index. */
+.rwb-sect[hidden] { display: none; }
+
+.rwb-sect > .rwb-keys {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
 /* Grabbable, and wider than it looks: the hit area is the whole strip while only
    the hairline in the middle is drawn. */
 .rwb-divider {
@@ -351,10 +375,40 @@ body.rwb-dragging {
 }
 
 /* A horizontal drag should not select the transcript it passes over. */
+/* The same strip, lying down: between the two sections of the key column. */
+.rwb-divider-h {
+  flex: 0 0 9px;
+  cursor: row-resize;
+  align-self: auto;
+}
+
+.rwb-divider-h::after {
+  top: 4px;
+  bottom: auto;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: 1px;
+}
+
+.rwb-divider-h:hover::after,
+.rwb-divider-h:focus-visible::after {
+  top: 3px;
+  left: 0;
+  width: auto;
+  height: 3px;
+}
+
 body.rwb-dragging-x,
 body.rwb-dragging-x * {
   user-select: none;
   cursor: col-resize !important;
+}
+
+body.rwb-dragging-y,
+body.rwb-dragging-y * {
+  user-select: none;
+  cursor: row-resize !important;
 }
 
 .rwb-col-head {
@@ -369,6 +423,33 @@ body.rwb-dragging-x * {
   background: var(--rwb-bg);
   z-index: 1;
 }
+
+/* The index filter, in the KEYS heading: what the list is narrowed to, and the
+   way out of it. */
+.rwb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+  padding: 0.05rem 0.35rem;
+  font: inherit;
+  font-size: 10px;
+  color: var(--rwb-ink-2);
+  background: var(--rwb-bg-3);
+  border: 1px solid var(--rwb-line);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  max-width: 60%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rwb-chip:hover { color: var(--rwb-ink); border-color: var(--rwb-muted); }
+
+.rwb-chip-x { color: var(--rwb-muted); }
+
+.rwb-chip:hover .rwb-chip-x { color: var(--rwb-ink); }
 
 .rwb-col-title {
   font-size: 11px;
@@ -502,6 +583,17 @@ body.rwb-dragging-x * {
 /* A search index is not a key, so Insight has no key-type colour for it. This is
    --typeGraphColor, the one colour in its palette no type we list uses. */
 .rwb-tone-index { background: #14708d; }         /* --typeGraphColor */
+
+/* Search field types. Insight badges these by variant — TEXT informative, TAG
+   notice, NUMERIC attention, VECTOR success, GEO default — and those variants
+   are defined inside the redis-ui package rather than in the app, so these are
+   the nearest hues in the palette this file already uses. */
+.rwb-field-text { background: #1d4ed8; }
+.rwb-field-tag { background: #6d28d9; }
+.rwb-field-numeric { background: #b45309; }
+.rwb-field-vector { background: #047857; }
+.rwb-field-geo { background: #475569; }
+.rwb-field-other { background: #475569; }
 
 /* ---- main pane ---- */
 
@@ -990,7 +1082,28 @@ body.rwb-dragging-x * {
   white-space: nowrap;
 }
 
+/* A fact worth noticing rather than merely reading. */
+.rwb-fact-warn {
+  color: #fca5a5;                                 /* red-300 */
+  border-color: #7f1d1d;                          /* red-900 */
+}
+
 .rwb-table-wrap { overflow-x: auto; }
+
+/* A table whose columns take the width their content needs, scrolling sideways
+   inside .rwb-table-wrap when the column is too narrow for all of them. The
+   default is width:100%, which squeezes the last column until it clips. */
+.rwb-table-fit {
+  width: auto;
+  min-width: 100%;
+}
+
+.rwb-table-fit th,
+.rwb-table-fit td {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  padding-right: 1.25rem;
+}
 
 .rwb-table {
   width: 100%;
@@ -1031,6 +1144,16 @@ body.rwb-dragging-x * {
 }
 
 .rwb-table td:first-child { color: var(--rwb-ink-2); }
+
+/* Schema flags wrap between themselves and never inside one. */
+.rwb-flag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  overflow-wrap: normal;
+  white-space: nowrap;
+  font-size: 10px;
+  color: var(--rwb-muted);
+}
 
 .rwb-text {
   font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
@@ -1115,6 +1238,14 @@ body.rwb-dragging-x * {
 
   .rwb-col-keys,
   .rwb-col-value { border-top: 1px solid var(--rwb-line); }
+
+  /* Stacked columns already scroll as one; the sections go back to being part of
+     that rather than two boxes with their own scrollbars. */
+  .rwb-col-keys { overflow: auto; }
+
+  .rwb-sect { flex: 0 0 auto !important; }
+
+  .rwb-sect > .rwb-keys { overflow-y: visible; }
 
   .rwb-divider { display: none; }
 }

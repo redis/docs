@@ -268,6 +268,50 @@
     return out;
   }
 
+  /* A flat field/value reply — FT.INFO's own, and the nested lists inside it —
+     read into a map by field name. */
+  function fieldMap(value) {
+    var map = {};
+    pairs(value).forEach(function (row) { map[cellText(row[0])] = row[1]; });
+    return map;
+  }
+
+  /* The arguments in an FT.INFO attribute that stand alone rather than naming a
+     value after them, so `SORTABLE UNF` is two flags and not a field called
+     SORTABLE holding "UNF". The list is Insight's InfoAttributesBoolean
+     (redisinsight/ui/src/packages/redisearch/src/constants/constants.ts). */
+  var SCHEMA_FLAGS = ['NOSTEM', 'NOINDEX', 'SORTABLE', 'WITHSUFFIXTRIE',
+    'CASESENSITIVE', 'UNF', 'INDEXEMPTY', 'INDEXMISSING'];
+
+  /* One entry of FT.INFO's `attributes`: ["identifier", "$.name", "attribute",
+     "name", "type", "TEXT", "WEIGHT", "1"] -> {identifier, attribute, type,
+     weight, flags: []}. */
+  function schemaField(entry) {
+    var field = { flags: [] };
+    var tokens = Array.isArray(entry) ? entry : [];
+    for (var i = 0; i < tokens.length; i++) {
+      var token = cellText(tokens[i]);
+      if (SCHEMA_FLAGS.indexOf(token.toUpperCase()) !== -1) {
+        field.flags.push(token.toUpperCase());
+        continue;
+      }
+      field[token.toLowerCase()] = i + 1 < tokens.length ? cellText(tokens[i + 1]) : '';
+      i++;
+    }
+    return field;
+  }
+
+  /* Insight gives each field type its own badge — FIELD_TYPE_BADGE_VARIANT_MAP in
+     ui/src/pages/vector-search/components/field-tag/constants.ts maps TEXT to
+     "informative", TAG to "notice", NUMERIC to "attention", VECTOR to "success"
+     and GEO to "default". Those variants resolve inside the redis-ui package
+     rather than in the app, so these are the nearest hues in the palette the dock
+     already uses, in the same order of meaning. */
+  var FIELD_TONES = {
+    TEXT: 'text', TAG: 'tag', NUMERIC: 'numeric', VECTOR: 'vector',
+    GEO: 'geo', GEOSHAPE: 'geo'
+  };
+
   /* The [cursor, [items]] reply of a *SCAN family command. */
   function scanItems(value) {
     return Array.isArray(value) && Array.isArray(value[1]) ? value[1] : [];
@@ -330,7 +374,32 @@
      second one for the sizes, which can only be asked for once the type is
      known (STRLEN vs LLEN vs ...). Keys whose TYPE is 'none' were deleted or
      expired and are dropped. */
-  function readKeyspace(trackedKeys) {
+  /* How many of an index's documents to list. Insight pages its browser; the
+     dock's key list is a browser of a sandbox and stops being useful long before
+     this. */
+  var MAX_INDEX_DOCS = 100;
+
+  /* The sandbox namespaces keys as `<session uuid>:<key>` and strips that prefix
+     back out of replies. For FT.SEARCH it does so assuming the with-fields
+     layout — [total, key, fields, key, fields, ...] — and steps two at a time, so
+     a NOCONTENT (or RETURN 0) reply, which is all keys and no fields, comes back
+     with every other name still carrying its prefix. Strip whatever is left:
+     the shape of that prefix is known, and a name that never had one is
+     untouched. */
+  var SESSION_PREFIX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}:/i;
+
+  function documentNames(value) {
+    if (!Array.isArray(value)) return [];
+    var names = [];
+    value.forEach(function (item, i) {
+      if (i === 0 || typeof item !== 'string') return;      /* [0] is the total */
+      var name = item.replace(SESSION_PREFIX, '');
+      if (names.indexOf(name) === -1) names.push(name);
+    });
+    return names;
+  }
+
+  function readKeyspace(trackedKeys, indexName) {
     /* Snapshot the caller's list. Replies are read positionally, and the tracked
        set keeps growing while this is in flight (discovery runs off every batch),
        so holding the live array would shift every index under us: a key created
@@ -342,12 +411,23 @@
       commands.push('TTL ' + quote(name));
     });
     commands.push('FT._LIST');
+    /* One more command while a reader is looking at an index: which documents it
+       holds. NOCONTENT because the list only needs their names. */
+    if (indexName) {
+      commands.push('FT.SEARCH ' + quote(indexName) + ' * NOCONTENT LIMIT 0 '
+        + MAX_INDEX_DOCS);
+    }
 
     return run(commands).then(function (replies) {
       var listed = ok(replies[names.length * 2]);
       var indexes = Array.isArray(listed) ? listed.filter(function (name) {
         return typeof name === 'string';
       }) : [];
+      /* null, not [], when nothing was asked: "no filter" and "an index with no
+         documents in it" are different answers. */
+      var docs = indexName
+        ? documentNames(ok(replies[names.length * 2 + 1]))
+        : null;
 
       var described = names.map(function (name, i) {
         var type = ok(replies[i * 2]);
@@ -373,13 +453,13 @@
         var command = sizeCommand(key.type, key.name);
         if (command) sizers.push({ key: key, command: command });
       });
-      if (!sizers.length) return { keys: described, indexes: indexes };
+      if (!sizers.length) return { keys: described, indexes: indexes, docs: docs };
       return run(sizers.map(function (s) { return s.command; })).then(function (sizes) {
         sizers.forEach(function (s, i) {
           s.key.size = ok(sizes[i]);
           s.key.sizeLabel = sizeLabel(s.key.type, s.key.size);
         });
-        return { keys: described, indexes: indexes };
+        return { keys: described, indexes: indexes, docs: docs };
       });
     });
   }
@@ -750,6 +830,9 @@
     keys: [],
     known: [],
     indexes: [],
+    /* The index whose documents the key list is showing, and their names. */
+    indexFilter: null,
+    indexDocs: null,
     selected: null,
     truncated: false,
     /* command batches seen while closed, discovered at first open */
@@ -867,14 +950,41 @@
     split.appendChild(cliColumn);
     split.appendChild(this.columnDivider('Resize the terminal', 0));
 
+    /* The middle column is itself two sections, stacked: the keys a snippet
+       wrote, and the indexes it created. They were one list with a heading in the
+       middle of it, which read as a key called "Indexes" and scrolled the two
+       against each other — an index on a search page was below the fold of a
+       dozen documents it indexed. Each now has its own heading, its own count and
+       its own scroll, and the divider between them is draggable like the ones
+       between the columns. */
     var keysColumn = el('div', 'rwb-col rwb-col-keys');
+    this.keysStack = keysColumn;
+
+    var keysSection = el('div', 'rwb-sect');
     var keysHead = el('div', 'rwb-col-head');
     keysHead.appendChild(el('span', 'rwb-col-title', 'Keys'));
     this.keyCount = el('span', 'rwb-count', '');
     keysHead.appendChild(this.keyCount);
-    keysColumn.appendChild(keysHead);
+    keysSection.appendChild(keysHead);
     this.keyList = el('div', 'rwb-keys');
-    keysColumn.appendChild(this.keyList);
+    keysSection.appendChild(this.keyList);
+    keysColumn.appendChild(keysSection);
+    this.keysSection = keysSection;
+
+    this.rowDivider = this.stackDivider('Resize the key list');
+    keysColumn.appendChild(this.rowDivider);
+
+    var indexSection = el('div', 'rwb-sect');
+    var indexHead = el('div', 'rwb-col-head');
+    indexHead.appendChild(el('span', 'rwb-col-title', 'Indexes'));
+    this.indexCount = el('span', 'rwb-count', '');
+    indexHead.appendChild(this.indexCount);
+    indexSection.appendChild(indexHead);
+    this.indexList = el('div', 'rwb-keys');
+    indexSection.appendChild(this.indexList);
+    keysColumn.appendChild(indexSection);
+    this.indexSection = indexSection;
+
     split.appendChild(keysColumn);
     split.appendChild(this.columnDivider('Resize the key list', 1));
 
@@ -890,6 +1000,7 @@
 
     this.terminalPane.appendChild(split);
     this.applyColumns();
+    this.applyRows();
     this.clearValue();
 
     body.appendChild(main);
@@ -922,6 +1033,13 @@
     /* Remember every batch that runs in this session. While the dock is closed
        this is all that happens — no probing until the reader opens it. */
     cli().onExecute(function (batch) {
+      /* A command the reader ran ends the index filter: what they just wrote is
+         the thing they want to see, and a list narrowed to one index would hide a
+         SET that has nothing to do with it. The dock's own probes never come
+         through here — they run with the 'workbench' source and the widget
+         reports only what a reader or a page started — but the guard says which
+         batches this is about. */
+      if (batch.source !== SOURCE) self.clearIndexFilter();
       self.observe(batch.commands);
     });
 
@@ -1072,6 +1190,11 @@
   var DEFAULT_COLUMNS = [54, 22, 24];
   var MIN_COLUMN = 12;
 
+  /* And the two rows inside the key column, the same way. Keys get most of it:
+     a session usually has many of them and one or two indexes. */
+  var DEFAULT_ROWS = [65, 35];
+  var MIN_ROW = 15;
+
   dock.columnDivider = function (label, index) {
     var self = this;
     var node = el('div', 'rwb-divider');
@@ -1089,6 +1212,70 @@
       event.preventDefault();
     });
     return node;
+  };
+
+  /* The divider between the two sections of the keys column. Same behaviour as
+     the ones between the columns, one axis over. */
+  dock.stackDivider = function (label) {
+    var self = this;
+    var node = el('div', 'rwb-divider rwb-divider-h');
+    node.setAttribute('role', 'separator');
+    node.setAttribute('aria-orientation', 'horizontal');
+    node.setAttribute('aria-label', label);
+    node.setAttribute('tabindex', '0');
+    node.addEventListener('pointerdown', function (event) { self.startRowDrag(event); });
+    node.addEventListener('keydown', function (event) {
+      if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+      self.nudgeRows(event.key === 'ArrowUp' ? -4 : 4);
+      event.preventDefault();
+    });
+    return node;
+  };
+
+  dock.applyRows = function () {
+    if (!this.keysSection) return;
+    if (!this.rows) this.rows = DEFAULT_ROWS.slice();
+    this.keysSection.style.flex = this.rows[0] + ' 1 0%';
+    this.indexSection.style.flex = this.rows[1] + ' 1 0%';
+  };
+
+  dock.nudgeRows = function (delta) {
+    var top = this.rows[0];
+    var bottom = this.rows[1];
+    var room = Math.min(delta > 0 ? bottom - MIN_ROW : top - MIN_ROW, Math.abs(delta));
+    if (room <= 0) return;
+    var step = delta > 0 ? room : -room;
+    this.rows = [top + step, bottom - step];
+    this.applyRows();
+    this.persist();
+  };
+
+  dock.startRowDrag = function (event) {
+    var self = this;
+    var height = this.keysStack.getBoundingClientRect().height;
+    if (!height) return;
+    var startY = event.clientY;
+    var start = this.rows.slice();
+    event.preventDefault();
+
+    var move = function (moveEvent) {
+      var delta = ((moveEvent.clientY - startY) / height) * 100;
+      var top = start[0] + delta;
+      var bottom = start[1] - delta;
+      if (top < MIN_ROW) { bottom += top - MIN_ROW; top = MIN_ROW; }
+      if (bottom < MIN_ROW) { top += bottom - MIN_ROW; bottom = MIN_ROW; }
+      self.rows = [top, bottom];
+      self.applyRows();
+    };
+    var up = function () {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      document.body.classList.remove('rwb-dragging-y');
+      self.persist();
+    };
+    document.body.classList.add('rwb-dragging-y');
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
   };
 
   dock.applyColumns = function () {
@@ -1153,7 +1340,8 @@
   dock.persist = function () {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        open: this.isOpen, height: this.height, columns: this.columns
+        open: this.isOpen, height: this.height, columns: this.columns,
+        rows: this.rows
       }));
     } catch (err) { /* private mode: the dock just won't be remembered */ }
   };
@@ -1170,6 +1358,11 @@
       && saved.columns.every(function (n) { return typeof n === 'number' && n >= MIN_COLUMN; })) {
       this.columns = saved.columns.slice();
     }
+    this.rows = DEFAULT_ROWS.slice();
+    if (saved && saved.rows && saved.rows.length === 2
+      && saved.rows.every(function (n) { return typeof n === 'number' && n >= MIN_ROW; })) {
+      this.rows = saved.rows.slice();
+    }
     if (saved && typeof saved.height === 'number') {
       var max = this.maxHeight();
       this.height = Math.min(max, Math.max(MIN_HEIGHT, saved.height));
@@ -1177,6 +1370,7 @@
     }
     this.applyHeight();
     this.applyColumns();
+    this.applyRows();
     if (saved && saved.open) this.open();
   };
 
@@ -1234,6 +1428,9 @@
     this.truncated = false;
     this.expiredName = null;
     this.openElement = null;
+    /* Nothing left to filter by. */
+    this.indexFilter = null;
+    this.indexDocs = null;
     this.clearValue();
     this.renderKeys();
     this.show('terminal');
@@ -1401,9 +1598,33 @@
        that lands mid-sweep adds names this reading knows nothing about, and they
        must not be mistaken for keys that have gone. */
     var probed = this.known.slice();
-    return readKeyspace(probed).then(function (result) {
+    return readKeyspace(probed, this.indexFilter).then(function (result) {
       self.keys = result.keys;
       self.indexes = result.indexes;
+      self.indexDocs = result.docs;
+      /* An index the reader is looking at may hold documents the dock never saw
+         a command touch — written before it was open, or by the page's own
+         inline terminals. Adopt them, so the filtered list is the index's
+         documents and not the part of them this session happens to have
+         watched. One extra sweep describes them; adopting nothing new sweeps no
+         further, which is what stops this recurring. */
+      var adopted = false;
+      (result.docs || []).forEach(function (name) {
+        if (self.known.indexOf(name) === -1) {
+          self.known.push(name);
+          adopted = true;
+        }
+      });
+      if (self.known.length > MAX_TRACKED_KEYS) {
+        self.known = self.known.slice(self.known.length - MAX_TRACKED_KEYS);
+        self.truncated = true;
+      }
+      /* The filter is only as good as the index behind it: if it has gone —
+         FLUSHDB, FT.DROPINDEX — the list goes back to everything. */
+      if (self.indexFilter && result.indexes.indexOf(self.indexFilter) === -1) {
+        self.indexFilter = null;
+        self.indexDocs = null;
+      }
       /* Forget what no longer exists. Without this a deleted or expired key stays
          on the list of names to describe and is re-probed on every later sweep,
          which costs commands on a shared backend for a key that is not there.
@@ -1424,8 +1645,13 @@
          behind it, is an intermediate reading — reporting it would flicker a
          number that is about to change. */
       if (!self.busy && !self.nextSweep) self.setStatus(self.summary());
+      /* An open index is re-read: the last batch may have added documents to it,
+         and before this a sweep took the index view away — "select a key" in
+         place of the schema the reader was reading. */
+      if (self.selected && result.indexes.indexOf(self.selected) !== -1) {
+        self.showIndex(self.selected);
       /* A selected key may have been deleted or changed by the last batch. */
-      if (self.selected && !self.find(self.selected)) {
+      } else if (self.selected && !self.find(self.selected)) {
         self.selected = null;
         self.openElement = null;
         self.clearValue();
@@ -1436,6 +1662,7 @@
       } else if (self.selected) {
         self.openKey(self.selected);
       }
+      if (adopted) return self.refreshSoon();
     }, function () {
       /* The next command, or the next time the panel is opened, tries again. */
       self.setStatus('could not read the keyspace');
@@ -1570,15 +1797,22 @@
     if (!this.selected) this.clearValue();
     var list = this.keyList;
     list.replaceChildren();
-    this.keyCount.textContent = this.keys.length ? String(this.keys.length) : '';
 
-    if (!this.keys.length && !this.indexes.length) {
-      list.appendChild(el('p', 'rwb-empty',
-        'No keys. Commands that write keys show up here as they run.'));
-      return;
+    /* Filtered to one index's documents, or the whole sandbox. */
+    var docs = this.indexFilter && this.indexDocs ? this.indexDocs : null;
+    var shown = docs ? this.keys.filter(function (key) {
+      return docs.indexOf(key.name) !== -1;
+    }) : this.keys;
+    this.keyCount.textContent = shown.length ? String(shown.length) : '';
+    this.renderIndexChip(shown.length);
+
+    if (!shown.length) {
+      list.appendChild(el('p', 'rwb-empty', this.indexFilter
+        ? 'No documents in ' + this.indexFilter + ' yet.'
+        : 'No keys. Commands that write keys show up here as they run.'));
     }
 
-    this.keys.forEach(function (key) {
+    shown.forEach(function (key) {
       var meta = TYPES[key.type] || { label: key.type, tone: 'other' };
       var item = el('button', 'rwb-key');
       item.type = 'button';
@@ -1606,20 +1840,65 @@
       list.appendChild(item);
     });
 
-    if (this.indexes.length) {
-      list.appendChild(el('div', 'rwb-group', 'Indexes'));
-      this.indexes.forEach(function (name) {
-        var item = el('button', 'rwb-key');
-        item.type = 'button';
-        if (name === self.selected) item.classList.add('rwb-key-on');
-        item.appendChild(el('span', 'rwb-badge rwb-tone-index', 'index'));
-        var text = el('span', 'rwb-key-text');
-        text.appendChild(el('span', 'rwb-key-name', name));
-        item.appendChild(text);
-        item.addEventListener('click', function () { self.openIndex(name); });
-        list.appendChild(item);
-      });
+    this.renderIndexes();
+  };
+
+  /* "in idx:catalog ×" beside the KEYS count while an index is selected: the
+     list is showing part of the sandbox, and a list that hides things without
+     saying so is a list that has lost the reader's trust. */
+  dock.renderIndexChip = function () {
+    if (!this.indexFilter) {
+      if (this.indexChip) {
+        this.indexChip.remove();
+        this.indexChip = null;
+      }
+      return;
     }
+    if (!this.indexChip) {
+      this.indexChip = el('button', 'rwb-chip');
+      this.indexChip.type = 'button';
+      var self = this;
+      this.indexChip.addEventListener('click', function () {
+        self.clearIndexFilter();
+      });
+      this.keyCount.parentNode.appendChild(this.indexChip);
+    }
+    this.indexChip.replaceChildren();
+    this.indexChip.appendChild(el('span', null, 'in ' + this.indexFilter));
+    this.indexChip.appendChild(el('span', 'rwb-chip-x', '\u00d7'));
+    this.indexChip.title = 'Showing only the documents in ' + this.indexFilter
+      + ' — click to show every key again';
+  };
+
+  /* The lower half of the column. Present only once the session has an index in
+     it: most pages never create one, and an empty box with a heading would take
+     a third of a list that a short dock has little enough of. FT.CREATE puts it
+     there, and dragging the divider is then how a reader shares the space out. */
+  dock.renderIndexes = function () {
+    var self = this;
+    var showing = this.indexes.length > 0;
+    this.indexSection.hidden = !showing;
+    this.rowDivider.hidden = !showing;
+    this.indexCount.textContent = showing ? String(this.indexes.length) : '';
+    var list = this.indexList;
+    list.replaceChildren();
+    if (!showing) return;
+
+    this.indexes.forEach(function (name) {
+      var item = el('button', 'rwb-key');
+      item.type = 'button';
+      if (name === self.selected) {
+        item.classList.add('rwb-key-on');
+        item.setAttribute('aria-current', 'true');
+      }
+      item.appendChild(el('span', 'rwb-badge rwb-tone-index', 'index'));
+      var text = el('span', 'rwb-key-text');
+      text.appendChild(el('span', 'rwb-key-name', name));
+      item.appendChild(text);
+      item.title = name + ' — search index';
+      item.addEventListener('click', function () { self.openIndex(name); });
+      list.appendChild(item);
+    });
   };
 
   /* ---- value column ---- */
@@ -1754,25 +2033,156 @@
     var self = this;
     this.selected = name;
     this.expiredName = null;
+    /* Opening an index also narrows the key list to the documents it holds —
+       what Insight's index selector does. The reader can then click through the
+       documents of one index without the rest of the sandbox in the way, and the
+       chip in the KEYS heading is the way back out. */
+    this.indexFilter = name;
     this.renderKeys();
+    return this.showIndex(name).then(function () {
+      /* The documents come with the next sweep, in its batch rather than a round
+         trip of their own. */
+      return self.refreshSoon();
+    });
+  };
+
+  /* Read an index and draw it, without touching the filter or asking for a sweep
+     — which is what lets a sweep redraw the open index instead of closing it. */
+  dock.showIndex = function (name) {
+    var self = this;
     this.begin('reading ' + name + '…');
     return run(['FT.INFO ' + quote(name)]).then(function (replies) {
-      var info = pairs(ok(replies[0]));
-      self.valuePane.replaceChildren();
-      var head = el('div', 'rwb-value-head');
-      head.appendChild(el('span', 'rwb-badge rwb-tone-index', 'index'));
-      head.appendChild(el('code', 'rwb-value-name', name));
-      self.valuePane.appendChild(head);
-      self.valuePane.appendChild(renderTable(['Field', 'Value'], info.filter(function (row) {
-        /* FT.INFO is long and mostly internal counters; show the fields a
-           reader of the docs actually cares about. */
-        return ['index_name', 'num_docs', 'num_terms', 'num_records', 'indexing',
-          'index_definition', 'attributes', 'hash_indexing_failures'
-        ].indexOf(cellText(row[0])) !== -1;
-      })));
-      self.valuePane.appendChild(ranNote(['FT.INFO ' + quote(name)]));
+      var info = fieldMap(ok(replies[0]));
+      self.renderIndex(name, info);
       self.end();
     }, function () { self.end(); });
+  };
+
+  /* Back to the whole sandbox. */
+  dock.clearIndexFilter = function () {
+    if (!this.indexFilter) return;
+    this.indexFilter = null;
+    this.indexDocs = null;
+    this.renderKeys();
+    this.setStatus(this.summary());
+  };
+
+  /* What Insight's "View index" panel shows, for the same reason it shows it: an
+     index is a schema, and the useful thing about it is what it indexes and how
+     — not its internal counters. So: one sentence for the definition, the schema
+     as a table of identifier, attribute, type and weight, and the three counts
+     Insight puts under it. Everything else FT.INFO returns is left to FT.INFO. */
+  dock.renderIndex = function (name, info) {
+    var pane = this.valuePane;
+    pane.replaceChildren();
+
+    var head = el('div', 'rwb-value-head');
+    head.appendChild(el('span', 'rwb-badge rwb-tone-index', 'index'));
+    head.appendChild(el('code', 'rwb-value-name', name));
+
+    var facts = el('span', 'rwb-facts');
+    var docs = cellText(info['num_docs']);
+    var maxDoc = cellText(info['max_doc_id']);
+    if (docs !== 'undefined' && docs !== '') {
+      var docsFact = el('span', 'rwb-fact',
+        'Docs: ' + docs + (maxDoc && maxDoc !== docs ? ' (max ' + maxDoc + ')' : ''));
+      docsFact.title = 'Documents indexed, from FT.INFO num_docs';
+      facts.appendChild(docsFact);
+    }
+    [['num_records', 'Records', 'Index entries, from FT.INFO num_records'],
+     ['num_terms', 'Terms', 'Distinct terms, from FT.INFO num_terms']
+    ].forEach(function (spec) {
+      var value = cellText(info[spec[0]]);
+      if (value === 'undefined' || value === '') return;
+      var fact = el('span', 'rwb-fact', spec[1] + ': ' + value);
+      fact.title = spec[2];
+      facts.appendChild(fact);
+    });
+    var failures = Number(cellText(info['hash_indexing_failures']));
+    if (failures > 0) {
+      /* Worth saying out loud: a schema that does not match its documents indexes
+         nothing, and silently. */
+      var failed = el('span', 'rwb-fact rwb-fact-warn',
+        plural(failures, 'indexing failure'));
+      failed.title = 'Documents the schema could not index, from FT.INFO '
+        + 'hash_indexing_failures';
+      facts.appendChild(failed);
+    }
+    head.appendChild(facts);
+    pane.appendChild(head);
+
+    /* "Indexing JSON documents prefixed by "product:"." — Insight's own sentence,
+       read out of index_definition. */
+    var definition = fieldMap(info['index_definition']);
+    var keyType = cellText(definition['key_type'] || 'HASH');
+    var prefixes = (Array.isArray(definition['prefixes'])
+      ? definition['prefixes'] : []).map(cellText).filter(function (prefix) {
+        return prefix !== '';
+      });
+    var sentence = 'Indexing ' + (keyType === 'JSON' ? 'JSON documents' : 'hashes');
+    sentence += prefixes.length
+      ? ' whose keys start with ' + prefixes.map(function (prefix) {
+          return '"' + prefix + '"';
+        }).join(' or ') + '.'
+      : ' anywhere in the keyspace.';
+    pane.appendChild(el('p', 'rwb-hint', sentence));
+
+    var filter = definition['filter'] ? cellText(definition['filter']) : '';
+    var options = (Array.isArray(info['index_options'])
+      ? info['index_options'] : []).map(cellText);
+    if (filter) options.push('FILTER ' + filter);
+    if (options.length) {
+      pane.appendChild(el('p', 'rwb-hint', 'Options: ' + options.join(', ')));
+    }
+
+    var fields = (Array.isArray(info['attributes']) ? info['attributes'] : [])
+      .map(schemaField);
+    if (!fields.length) {
+      pane.appendChild(el('p', 'rwb-empty', 'This index has no schema.'));
+      pane.appendChild(ranNote(['FT.INFO ' + quote(name)]));
+      return;
+    }
+
+    /* Insight's four columns, and Weight only when something carries one: a
+       column with nothing in it is a column that should not be there. The flags
+       — SORTABLE, NOSTEM, CASESENSITIVE — go beside the type they qualify rather
+       than into a fifth column, which in a column the reader can narrow would be
+       the one that gets pushed off the edge. */
+    var hasWeight = fields.some(function (field) { return !!field.weight; });
+    var columns = ['Identifier', 'Attribute', 'Type'];
+    if (hasWeight) columns.push('Weight');
+
+    var table = el('table', 'rwb-table rwb-table-fit');
+    var thead = el('thead');
+    var headRow = el('tr');
+    columns.forEach(function (label) { headRow.appendChild(el('th', null, label)); });
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    var body = el('tbody');
+    fields.forEach(function (field) {
+      var row = el('tr');
+      row.appendChild(el('td', null, field.identifier || ''));
+      row.appendChild(el('td', null, field.attribute || ''));
+      var type = String(field.type || '').toUpperCase();
+      var typeCell = el('td');
+      typeCell.appendChild(el('span',
+        'rwb-badge rwb-field-' + (FIELD_TONES[type] || 'other'), type || '?'));
+      field.flags.forEach(function (flag) {
+        typeCell.appendChild(el('span', 'rwb-flag', flag));
+      });
+      row.appendChild(typeCell);
+      if (hasWeight) row.appendChild(el('td', null, field.weight || ''));
+      body.appendChild(row);
+    });
+    table.appendChild(body);
+    /* Five columns in a column the reader can narrow to nothing: let the table
+       scroll sideways rather than clip a flag half way through. */
+    var wrap = el('div', 'rwb-table-wrap');
+    wrap.appendChild(table);
+    pane.appendChild(wrap);
+
+    pane.appendChild(ranNote(['FT.INFO ' + quote(name)]));
   };
 
   dock.renderValue = function (key, detail) {
