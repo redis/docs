@@ -215,7 +215,7 @@ Learn more about topology refresh configuration settings in [the reference guide
 
 ## Warm up cluster connections
 
-In a Redis Cluster, Lettuce opens connections to individual nodes *lazily* -
+With a Redis Cluster, Lettuce opens connections to individual nodes *lazily* -
 the connection to a given shard is created the first time a command is routed
 to it. This keeps the connection footprint minimal, but it means the *first*
 requests after startup each pay the cost of establishing a new connection
@@ -261,7 +261,7 @@ well, re-run the warm-up when the topology changes (for example, from a
 
 ### Warming up connections in Spring Data Redis
 
-With Spring Data Redis, run the warm-up once at startup, before the instance is
+With [Spring Data Redis]({{< relref "/integrate/spring-framework-cache" >}}), run the warm-up once at startup, before the instance is
 marked ready. Obtain the shared native cluster connection from the
 `LettuceConnectionFactory` and warm it with the same `upstream()` call:
 
