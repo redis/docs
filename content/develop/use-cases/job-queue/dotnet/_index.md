@@ -14,7 +14,7 @@ title: "Redis job queue with StackExchange.Redis"
 weight: 6
 ---
 
-This guide shows you how to implement a Redis-backed job queue in C# with [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/). It includes a small ASP.NET Core minimal-API web server so you can enqueue jobs, watch a pool of workers drain them, and see the reclaimer recover jobs from a simulated worker crash.
+This guide shows you how to implement a Redis-backed job queue in C# with [StackExchange.Redis](https://seredis.dev/). It includes a small ASP.NET Core minimal-API web server so you can enqueue jobs, watch a pool of workers drain them, and see the reclaimer recover jobs from a simulated worker crash.
 
 ## Overview
 
@@ -408,7 +408,7 @@ A blanket `maxAttempts = 3` is a reasonable default for transient failures (netw
 
 ### Poll instead of blocking — and watch out for the multiplexer
 
-StackExchange.Redis [intentionally does not expose blocking commands](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers#fundamentally-blocking-operations) such as `BLPOP`, `BRPOPLPUSH`, or `BLMOVE`. The multiplexer interleaves all commands from all callers onto one TCP connection, so a long blocking call would stall every other request on the same connection. The helper therefore calls the non-blocking `ListRightPopLeftPush` and polls — at 50 ms it remains responsive without flooding Redis. If you really want a single connection dedicated to a blocking pop (a less common pattern in C#), spin up a second `ConnectionMultiplexer` configured with `AllowAdmin = true` and a separate database, and run the blocking call through its dedicated socket; this demo intentionally does not.
+StackExchange.Redis [intentionally does not expose blocking commands](https://seredis.dev/PipelinesMultiplexers.html#multiplexing) such as `BLPOP`, `BRPOPLPUSH`, or `BLMOVE`. The multiplexer interleaves all commands from all callers onto one TCP connection, so a long blocking call would stall every other request on the same connection. The helper therefore calls the non-blocking `ListRightPopLeftPush` and polls — at 50 ms it remains responsive without flooding Redis. If you really want a single connection dedicated to a blocking pop (a less common pattern in C#), spin up a second `ConnectionMultiplexer` configured with `AllowAdmin = true` and a separate database, and run the blocking call through its dedicated socket; this demo intentionally does not.
 
 ### Bump the minimum thread-pool size in long-running services
 
@@ -454,4 +454,4 @@ This example uses the following Redis commands:
 * [`PUBLISH`]({{< relref "/commands/publish" >}}) for job-completion notifications.
 * [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for atomic complete, fail, and reclaim flows.
 
-See the [StackExchange.Redis documentation](https://stackexchange.github.io/StackExchange.Redis/) for the full client reference.
+See the [StackExchange.Redis documentation](https://seredis.dev/) for the full client reference.

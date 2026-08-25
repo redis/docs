@@ -411,7 +411,7 @@ You can supply your own health check probe by deriving a new class from
 `HealthCheckProbe`, or from `HealthCheckProbePolicy` for a custom evaluation policy. For
 example, you might use this to integrate with external monitoring tools or to implement
 checks that are specific to your application. See the
-[StackExchange.Redis failover documentation](https://stackexchange.github.io/StackExchange.Redis/Failover#advanced-customization)
+[StackExchange.Redis failover documentation](https://seredis.dev/Failover.html#advanced-customization)
 for details and examples.
 
 ## Managing members at runtime

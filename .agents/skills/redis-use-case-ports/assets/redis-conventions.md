@@ -73,7 +73,7 @@ PHP may also include a `stampede_worker.php` if the use case has a stampede test
 | `go` | Go | [`go-redis`](https://github.com/redis/go-redis) | [/develop/clients/go]({{< relref "/develop/clients/go" >}}) |
 | `java-jedis` | Java | [Jedis](https://github.com/redis/jedis) | [/develop/clients/jedis]({{< relref "/develop/clients/jedis" >}}) |
 | `java-lettuce` | Java | [Lettuce](https://github.com/redis/lettuce) | [/develop/clients/lettuce]({{< relref "/develop/clients/lettuce" >}}) |
-| `dotnet` | C# | [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/) | — |
+| `dotnet` | C# | [StackExchange.Redis](https://seredis.dev/) | — |
 | `php` | PHP | [Predis](https://github.com/predis/predis) | — |
 | `ruby` | Ruby | [`redis-rb`](https://github.com/redis/redis-rb) | [/develop/clients/ruby]({{< relref "/develop/clients/ruby" >}}) |
 | `rust` | Rust | [`redis`](https://crates.io/crates/redis) (redis-rs) | — |

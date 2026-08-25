@@ -35,7 +35,7 @@ methods. Start the operations without waiting for each one immediately, then
 wait for their tasks after you have queued the commands. The multiplexer sends
 the requests as soon as possible and processes the responses when they arrive.
 See the StackExchange.Redis
-[Pipelines and Multiplexers](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers.html)
+[Pipelines and Multiplexers](https://seredis.dev/PipelinesMultiplexers.html)
 page for more information.
 
 {{< clients-example set="pipe_trans_tutorial" step="basic_pipe" lang_filter="C#-Async (SE.Redis)" description="Foundational: Use pipelines to batch multiple commands together and reduce network round trips" difficulty="beginner" >}}
