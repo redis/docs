@@ -26,20 +26,11 @@ Radar has five views, each answering a different question:
 
 Radar shows the result of the last successful collection, not live state. This applies to every number on every screen.
 
-Each list carries a **Last Seen** column, and the Overview has a data freshness card, so the age of what you are reading is always on screen next to the value.
+The Clusters, Databases, and Alerts lists carry a **Last Seen** column, and the Overview has a data freshness card, so the age of what you are reading is on screen next to the value.
 
-Different data refreshes at different rates, which is why Usage can look staler than health:
+Different data refreshes at different rates, which is why Usage can look staler than health. Radar aims to collect the Usage report about once an hour, and everything else every 5 to 15 minutes. Collection runs through a queue, so these are targets rather than guarantees, and some cluster versions collect faster.
 
-| Data | Default interval |
-|---|---|
-| Health | 5 minutes |
-| Active-Active replication | 5 minutes |
-| Running actions | 5 minutes |
-| Usage | 1 hour |
-
-Your administrator can change these intervals. Collecting more often costs more requests against every cluster in the fleet, so the defaults are deliberately conservative.
-
-If a cluster's Last Seen value stops advancing, treat that as a Radar connectivity problem rather than a healthy cluster. Radar keeps showing the last good data it has.
+If a cluster's Last Seen value stops advancing, collection has stopped succeeding. Do not read it as a healthy cluster. The cause can be anywhere between Radar and the cluster, including the cluster being down. Radar keeps showing the last good data it has, so check the cluster itself.
 
 On a Redis Cloud database's detail view, **Force refresh** collects that database again instead of waiting for the next scheduled collection. Use it after changing something on the cluster, to confirm Radar has caught up.
 
@@ -110,7 +101,7 @@ Radar identifies Active-Active databases and reports their replication health as
 
 ## Usage
 
-The **Usage** view is about consumption against what you are entitled to, rather than health:
+The **Usage** view is about consumption against what you are entitled to, rather than health. It covers Redis Software clusters only; databases from other Redis deployments do not appear here.
 
 | Column | Shows |
 |---|---|
@@ -121,13 +112,13 @@ The **Usage** view is about consumption against what you are entitled to, rather
 
 Each cluster also has a usage report for looking at one cluster in detail.
 
-Remember that usage refreshes hourly by default, so a number here can be up to an hour behind the health figures on the Overview.
+Usage is collected about once an hour, so a number here can be up to an hour behind the health figures on the Overview.
 
 Memory and Ops/Sec are the two columns that can read N/A. See [When a value reads N/A](#when-a-value-reads-na).
 
 ## Alerts
 
-The **Alerts** view collects the alerts your clusters are already raising and puts them in one list, ordered by severity: critical, warning, then informational. Filter by severity to narrow the list.
+The **Alerts** view collects the alerts your clusters are already raising and puts them in one list, ordered by severity: critical, warning, then informational. It covers Redis Software clusters and nodes only; alerts from other Redis deployments do not appear here. Filter by severity to narrow the list.
 
 Radar reads alerts from each cluster's own alert endpoints, at the cluster, node, and database level. **The alert rules live on the cluster, not in Radar.** To change what raises an alert, change it on the cluster; Radar reflects the change at its next collection.
 

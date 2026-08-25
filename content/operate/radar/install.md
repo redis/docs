@@ -1,12 +1,12 @@
 ---
-title: Install Radar
+title: Install self-managed Radar
 alwaysopen: false
 categories:
 - docs
 - operate
 - radar
 description: Install Radar on RHEL, Kubernetes, or Docker Compose, then make it reachable from your network.
-linkTitle: Install
+linkTitle: Install (self-managed)
 weight: 10
 ---
 

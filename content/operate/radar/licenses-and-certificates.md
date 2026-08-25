@@ -10,15 +10,15 @@ linkTitle: Licenses and certificates
 weight: 50
 ---
 
-Licenses and certificates expire per cluster, so the more clusters you run, the more likely one of them is close to expiring without anyone noticing. Radar collects both across the whole fleet and lists them by expiry date, so you find out before a customer does.
+Certificates expire per cluster, so the more clusters you run, the more likely one of them is close to expiring without anyone noticing. Licenses usually share a single expiry date across the fleet, so for licenses the number that changes is consumption, not the date. Radar collects both across the whole fleet and lists them by expiry date, so you find out before a customer does.
 
-Radar presents licenses and certificates as two lists that work the same way. Each row is one cluster, with a status:
+Radar presents licenses and certificates as two lists that work the same way. Every row carries a status:
 
 | Status | Meaning |
 |---|---|
-| Valid | Not close to expiry. |
-| Expiring | Approaching its expiration date. |
-| Expired | Past its expiration date. |
+| Valid | Not close to expiry. No action required. |
+| Expiring | Expires within 30 days. |
+| Expired | Past its expiration date. Renew immediately. |
 
 You can filter either list by status to see only what needs attention.
 
@@ -32,15 +32,15 @@ Radar reports shard usage against the licensed limit, broken out by type:
 - RAM shards in use, against their limit.
 - Flex shards in use, against their limit.
 
-Radar also shows a fleet-wide total, so you can see aggregate headroom without adding up rows. Usage matters as much as the date: a license that does not expire for a year can still stop you from adding a database next week.
+Radar also shows a fleet-wide total, so you can see aggregate headroom without adding up rows, and you can export the list as CSV. Usage matters as much as the date: a license that does not expire for a year can still stop you from adding a database next week.
 
-Radar reports on licenses; it does not replace them. Update a license in the cluster itself, and Radar reflects the change at its next collection.
+A license changed on the cluster shows up in Radar at its next collection.
 
 ## Certificates
 
-The **Certificates** view lists each cluster's certificates by type, with the expiration date and days remaining.
+The **Certificates** view lists each cluster's certificates by type, with the expiration date and days remaining. One cluster can have several, such as `Api_cert`, `Cm_cert`, `Metrics_exporter_cert`, `Proxy_cert`, and `Syncer_cert`.
 
-Radar reports on certificates; it does not issue, rotate, or replace them. Renew a certificate in the cluster itself, and Radar reflects the new expiration date at its next collection.
+A certificate renewed on the cluster shows up in Radar with its new expiration date at the next collection.
 
 ## Next steps
 
