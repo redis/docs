@@ -18,6 +18,10 @@
 */ -}}
 <script src='{{ relURL "js/cli.js" }}' defer></script>
 <script src='{{ relURL "js/redis-workbench.js" }}' defer></script>
+{{- /* Command completion for the workbench terminal. The list is built once for
+       the whole site (partialCached) and fetched on the first keystroke. */ -}}
+<script>window.REDIS_COMMANDS_URL = {{ partialCached "cli-commands-data.html" . | jsonify | safeJS }};</script>
+<script src='{{ relURL "js/redis-cli-complete.js" }}' defer></script>
 {{- /* Notebook pane (prototype): adds a tab for pages with runnable Jupyter
        cells, and does nothing on pages without them. */ -}}
 <script src='{{ relURL "js/redis-workbench-notebook.js" }}' defer></script>

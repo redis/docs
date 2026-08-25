@@ -310,6 +310,10 @@ body.rwb-dragging {
   min-width: 0;
   min-height: 0;
   overflow: auto;
+  /* The positioning context for anything a column places next to its own
+     contents — the completion panel beside the prompt. Without it that panel
+     resolves against the dock and lands in the corner. */
+  position: relative;
 }
 
 .rwb-col-cli { padding-right: 0.5rem; }
@@ -584,6 +588,8 @@ body.rwb-dragging-x * {
 
 .rwb .rwb-terminal > .prompt {
   display: flex;
+  /* So the inline hint can be placed against this line. */
+  position: relative;
 }
 
 .rwb .rwb-terminal > .prompt > span {
@@ -821,6 +827,84 @@ body.rwb-dragging-x * {
   color: #fca5a5;                                 /* red-300 */
 }
 
+
+/* ---- command completion (js/redis-cli-complete.js) ----
+   Positioned inside the scrolling CLI column, so it travels with the prompt it
+   belongs to rather than floating over the page. */
+
+.rwb-complete {
+  position: absolute;
+  z-index: 3;
+  min-width: 18rem;
+  max-width: min(34rem, 92%);
+  background: var(--rwb-bg-2);
+  border: 1px solid var(--rwb-line);
+  border-radius: 0.3rem;
+  box-shadow: 0 6px 20px rgba(2, 6, 23, .45);
+  /* Scrolls within itself when the dock is too short to show every match, rather
+     than growing over the prompt. */
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.rwb-complete-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+}
+
+.rwb-complete-row:hover { background: var(--rwb-bg-3); }
+
+/* The chosen row, which Enter would insert. */
+.rwb-complete-on { background: var(--rwb-bg-3); }
+
+.rwb-complete-name {
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  color: var(--rwb-ink);
+  white-space: nowrap;
+}
+
+/* The part already typed. */
+.rwb-complete-name b {
+  color: #7dd3fc;                                 /* sky-300 */
+  font-weight: 600;
+}
+
+/* What the command takes, from the docs page's own syntax line. */
+.rwb-complete-syntax {
+  margin-left: auto;
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 11px;
+  color: var(--rwb-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* redis-cli's own hint: the arguments still to come, dimmed, immediately after
+   what has been typed. Laid over the prompt line because an <input> cannot hold
+   styled text — pointer-events off, so it is scenery and not a target. */
+.rwb-ghost {
+  position: absolute;
+  pointer-events: none;
+  /* Not part of the transcript: it lives inside the prompt line, so without this
+     a reader selecting their session would copy the syntax hint along with their
+     own commands. */
+  user-select: none;
+  white-space: pre;
+  color: var(--rwb-muted);
+  opacity: 0.75;
+}
+
+.rwb-complete-more {
+  padding: 0.2rem 0.5rem;
+  border-top: 1px solid var(--rwb-line-soft);
+  font-size: 10.5px;
+  color: var(--rwb-muted);
+}
 
 /* ---- an openable row, and what it opens ---- */
 

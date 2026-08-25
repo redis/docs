@@ -1296,7 +1296,12 @@
     this.transcriptWatcher.observe(form,
       { childList: true, subtree: true, characterData: true });
 
-    return cli().createCli(form);
+    return cli().createCli(form).then(function (result) {
+      /* Command completion, if it is loaded: the widget builds the prompt, so
+         this can only attach once the terminal exists. */
+      if (window.RedisCliComplete) window.RedisCliComplete.attach(form);
+      return result;
+    });
   };
 
   /* ---- keyspace tracking ---- */
