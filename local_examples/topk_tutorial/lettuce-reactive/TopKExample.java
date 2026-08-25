@@ -46,13 +46,14 @@ public class TopKExample {
                     .thenMany(reactiveCommands.topKAdd("bikes:keywords",
                             "store", "seat", "handlebars", "handles", "pedals",
                             "tires", "store", "seat"))
-                    .map(v -> v.getValueOrElse(null))
                     .collectList()
                     .doOnNext(res2 -> {
                         System.out.println(res2);
-                        // >>> [null, null, null, null, null, handlebars, null, null]
+                        // >>> [Value.empty, Value.empty, Value.empty, Value.empty, Value.empty, Value[handlebars], Value.empty, Value.empty]
                         // REMOVE_START
                         assertThat(res2.size()).isEqualTo(8);
+                        assertThat(res2.toString()).isEqualTo(
+                                "[Value.empty, Value.empty, Value.empty, Value.empty, Value.empty, Value[handlebars], Value.empty, Value.empty]");
                         // REMOVE_END
                     })
                     .thenMany(reactiveCommands.topKList("bikes:keywords"))

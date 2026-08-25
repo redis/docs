@@ -215,7 +215,7 @@ public class HomeProbExample {
             // REMOVE_END
 
             String res21 = reactiveCommands.tdigestAdd("male_heights",
-                    "175.5", "181", "160.8", "152", "177", "196", "164").block();
+                    175.5, 181, 160.8, 152, 177, 196, 164).block();
             System.out.println(res21);
             // >>> OK
             // REMOVE_START
@@ -246,7 +246,7 @@ public class HomeProbExample {
 
             // Note that the CDF value for 181 is not exactly 0.75.
             // Both values are estimates.
-            List<Double> res25 = reactiveCommands.tdigestCDF("male_heights", "181")
+            List<Double> res25 = reactiveCommands.tdigestCDF("male_heights", 181)
                     .collectList().block();
             System.out.println(res25);
             // >>> [0.7857142857142857]
@@ -259,7 +259,7 @@ public class HomeProbExample {
             // REMOVE_END
 
             String res27 = reactiveCommands.tdigestAdd("female_heights",
-                    "155.5", "161", "168.5", "170", "157.5", "163", "171").block();
+                    155.5, 161, 168.5, 170, 157.5, 163, 171).block();
             System.out.println(res27);
             // >>> OK
             // REMOVE_START
@@ -299,7 +299,7 @@ public class HomeProbExample {
             assertThat(res31).isEqualTo("OK");
             // REMOVE_END
 
-            List<String> res32 = reactiveCommands
+            List<Value<String>> res32 = reactiveCommands
                     .topKIncrBy("top_3_songs",
                             IncrementPair.of("Starfish Trooper", 3000L),
                             IncrementPair.of("Only one more time", 1850L),
@@ -307,11 +307,14 @@ public class HomeProbExample {
                             IncrementPair.of("How will anyone know?", 3890L),
                             IncrementPair.of("Average lover", 4098L),
                             IncrementPair.of("Road to everywhere", 770L))
-                    .map(v -> v.getValueOrElse(null))
                     .collectList()
                     .block();
             System.out.println(res32);
-            // >>> [null, null, null, null, null, Rock me, Handel]
+            // >>> [Value.empty, Value.empty, Value.empty, Value[Rock me, Handel], Value[Only one more time], Value.empty]
+            // REMOVE_START
+            assertThat(res32.toString()).isEqualTo(
+                    "[Value.empty, Value.empty, Value.empty, Value[Rock me, Handel], Value[Only one more time], Value.empty]");
+            // REMOVE_END
 
             List<String> res33 = reactiveCommands.topKList("top_3_songs").collectList().block();
             System.out.println(res33);

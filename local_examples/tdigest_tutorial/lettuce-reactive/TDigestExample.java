@@ -38,14 +38,14 @@ public class TDigestExample {
             assertThat(res1).isEqualTo("OK");
             // REMOVE_END
 
-            String res2 = reactiveCommands.tdigestAdd("bikes:sales", "21").block();
+            String res2 = reactiveCommands.tdigestAdd("bikes:sales", 21).block();
             System.out.println(res2);
             // >>> OK
             // REMOVE_START
             assertThat(res2).isEqualTo("OK");
             // REMOVE_END
 
-            String res3 = reactiveCommands.tdigestAdd("bikes:sales", "150", "95", "75", "34").block();
+            String res3 = reactiveCommands.tdigestAdd("bikes:sales", 150, 95, 75, 34).block();
             System.out.println(res3);
             // >>> OK
             // REMOVE_START
@@ -62,22 +62,22 @@ public class TDigestExample {
             // REMOVE_END
 
             String res5 = reactiveCommands.tdigestAdd("racer_ages",
-                    "45.88", "44.2", "58.03", "19.76", "39.84", "69.28",
-                    "50.97", "25.41", "19.27", "85.71", "42.63").block();
+                    45.88, 44.2, 58.03, 19.76, 39.84, 69.28,
+                    50.97, 25.41, 19.27, 85.71, 42.63).block();
             System.out.println(res5);
             // >>> OK
             // REMOVE_START
             assertThat(res5).isEqualTo("OK");
             // REMOVE_END
 
-            List<Long> res6 = reactiveCommands.tdigestRank("racer_ages", "50").collectList().block();
+            List<Long> res6 = reactiveCommands.tdigestRank("racer_ages", 50).collectList().block();
             System.out.println(res6);
             // >>> [7]
             // REMOVE_START
             assertThat(res6.toString()).isEqualTo("[7]");
             // REMOVE_END
 
-            List<Long> res7 = reactiveCommands.tdigestRank("racer_ages", "50", "40").collectList().block();
+            List<Long> res7 = reactiveCommands.tdigestRank("racer_ages", 50, 40).collectList().block();
             System.out.println(res7);
             // >>> [7, 4]
             // REMOVE_START

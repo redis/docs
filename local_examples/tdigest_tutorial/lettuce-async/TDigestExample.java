@@ -41,7 +41,7 @@ public class TDigestExample {
                         // REMOVE_START
                         assertThat(res1).isEqualTo("OK");
                         // REMOVE_END
-                        return asyncCommands.tdigestAdd("bikes:sales", "21");
+                        return asyncCommands.tdigestAdd("bikes:sales", 21);
                     })
                     .thenCompose(res2 -> {
                         System.out.println(res2);
@@ -49,7 +49,7 @@ public class TDigestExample {
                         // REMOVE_START
                         assertThat(res2).isEqualTo("OK");
                         // REMOVE_END
-                        return asyncCommands.tdigestAdd("bikes:sales", "150", "95", "75", "34");
+                        return asyncCommands.tdigestAdd("bikes:sales", 150, 95, 75, 34);
                     })
                     .thenAccept(res3 -> {
                         System.out.println(res3);
@@ -73,8 +73,8 @@ public class TDigestExample {
                         assertThat(res4).isEqualTo("OK");
                         // REMOVE_END
                         return asyncCommands.tdigestAdd("racer_ages",
-                                "45.88", "44.2", "58.03", "19.76", "39.84", "69.28",
-                                "50.97", "25.41", "19.27", "85.71", "42.63");
+                                45.88, 44.2, 58.03, 19.76, 39.84, 69.28,
+                                50.97, 25.41, 19.27, 85.71, 42.63);
                     })
                     .thenCompose(res5 -> {
                         System.out.println(res5);
@@ -82,7 +82,7 @@ public class TDigestExample {
                         // REMOVE_START
                         assertThat(res5).isEqualTo("OK");
                         // REMOVE_END
-                        return asyncCommands.tdigestRank("racer_ages", "50");
+                        return asyncCommands.tdigestRank("racer_ages", 50);
                     })
                     .thenCompose(res6 -> {
                         System.out.println(res6);
@@ -90,7 +90,7 @@ public class TDigestExample {
                         // REMOVE_START
                         assertThat(res6.toString()).isEqualTo("[7]");
                         // REMOVE_END
-                        return asyncCommands.tdigestRank("racer_ages", "50", "40");
+                        return asyncCommands.tdigestRank("racer_ages", 50, 40);
                     })
                     .thenAccept(res7 -> {
                         System.out.println(res7);

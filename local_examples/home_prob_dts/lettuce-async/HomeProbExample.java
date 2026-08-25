@@ -244,7 +244,7 @@ public class HomeProbExample {
                         assertThat(res20).isEqualTo("OK");
                         // REMOVE_END
                         return asyncCommands.tdigestAdd("male_heights",
-                                "175.5", "181", "160.8", "152", "177", "196", "164");
+                                175.5, 181, 160.8, 152, 177, 196, 164);
                     })
                     .thenCompose(res21 -> {
                         System.out.println(res21);
@@ -278,7 +278,7 @@ public class HomeProbExample {
                         // REMOVE_END
                         // Note that the CDF value for 181 is not exactly 0.75.
                         // Both values are estimates.
-                        return asyncCommands.tdigestCDF("male_heights", "181");
+                        return asyncCommands.tdigestCDF("male_heights", 181);
                     })
                     .thenCompose(res25 -> {
                         System.out.println(res25);
@@ -292,7 +292,7 @@ public class HomeProbExample {
                         assertThat(res26).isEqualTo("OK");
                         // REMOVE_END
                         return asyncCommands.tdigestAdd("female_heights",
-                                "155.5", "161", "168.5", "170", "157.5", "163", "171");
+                                155.5, 161, 168.5, 170, 157.5, 163, 171);
                     })
                     .thenCompose(res27 -> {
                         System.out.println(res27);
@@ -350,7 +350,11 @@ public class HomeProbExample {
                     })
                     .thenCompose(res32 -> {
                         System.out.println(res32);
-                        // >>> [null, null, null, null, null, Rock me, Handel]
+                        // >>> [null, null, null, Rock me, Handel, Only one more time, null]
+                        // REMOVE_START
+                        assertThat(res32).containsExactly(null, null, null, "Rock me, Handel",
+                                "Only one more time", null);
+                        // REMOVE_END
                         return asyncCommands.topKList("top_3_songs");
                     })
                     .thenCompose(res33 -> {
