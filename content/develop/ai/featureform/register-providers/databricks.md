@@ -52,13 +52,12 @@ Provider registration and workload execution use different identities and networ
 
 | Component or identity | Required access |
 | --- | --- |
-| Feature Form server | The bootstrap secret backend, Databricks workspace APIs, configured catalogs and clusters, and Redis for provider health checks |
+| Feature Form server | The bootstrap secret backend, Databricks workspace APIs, configured catalogs and clusters, and Redis for provider health checks and inference-time feature reads |
 | Unity Catalog provider principal | Catalog lookup and direct reads; create, read, and delete access to a configured artifact Volume when used |
 | Databricks provider principal | Inspect existing compute or submit Jobs compute; access and delete Feature Form-managed output tables |
 | Databricks workload identity | Read input catalogs, write output catalogs, read execution artifacts, and connect to Redis during feature-view materialization |
-| Feature-serving runtime | Connect to Redis for inference-time reads |
 
-Allow each connection independently. A successful connection from the Feature Form server doesn't prove that Databricks compute or the feature-serving runtime can reach the same endpoint. See the [Unity Catalog privilege reference](https://docs.databricks.com/aws/en/data-governance/unity-catalog/access-control/privileges-reference) for catalog permissions and the [Databricks authentication documentation](https://docs.databricks.com/aws/en/dev-tools/auth) for workspace authentication.
+Allow each connection independently. A successful connection from the Feature Form server doesn't prove that Databricks compute can reach the same endpoint. See the [Unity Catalog privilege reference](https://docs.databricks.com/aws/en/data-governance/unity-catalog/access-control/privileges-reference) for catalog permissions and the [Databricks authentication documentation](https://docs.databricks.com/aws/en/dev-tools/auth) for workspace authentication.
 
 The Python examples use a workspace-scoped provider client and this shared Databricks workspace configuration. Each tab also shows the equivalent command-line interface (CLI) command.
 
@@ -516,7 +515,7 @@ This secret-provider type doesn't have a live health probe, so registration succ
 
 ## Connect Databricks compute to Redis
 
-A feature view needs a Redis `online-store` provider for materialization and inference-time reads. Register Redis as described in [Register Redis for online serving]({{< relref "/develop/ai/featureform/register-providers#register-redis-for-online-serving" >}}).
+A feature view needs a Redis `online-store` provider for materialization and inference-time reads. Register Redis as described in [Register Redis providers]({{< relref "/develop/ai/featureform/register-providers/redis" >}}).
 
 If the Redis password is stored in a Databricks secret scope, configure the provider with the registered `databricks-secret` provider:
 
@@ -557,9 +556,9 @@ ff provider register <redis-provider-name> \
 
 {{< /multitabs >}}
 
-For `job_cluster`, the Redis password can use any supported secret reference. For `existing_cluster` Spark feature-view materialization, the Redis password must use a `databricks@<provider>:<scope>#<key>` reference so the cluster can retrieve it.
+For both `job_cluster` and `existing_cluster` Spark feature-view materialization, the Redis password must use a `databricks@<provider>:<scope>#<key>` reference. With `job_cluster`, Feature Form adds the reference to the job environment so Databricks can resolve it. With `existing_cluster`, the cluster resolves the scope and key directly.
 
-Keep Transport Layer Security (TLS) enabled when the Redis deployment requires it. For Spark materialization, Redis certificate paths must also be available to the Databricks runtime; secret-backed Redis TLS certificate fields aren't projected to Spark. Verify Redis connectivity separately from the Feature Form server, the Databricks compute environment, and the feature-serving runtime.
+Keep Transport Layer Security (TLS) enabled when the Redis deployment requires it. For Spark materialization, Redis certificate paths must also be available to the Databricks runtime; secret-backed Redis TLS certificate fields aren't projected to Spark. Verify Redis connectivity separately from the Feature Form server and the Databricks compute environment.
 
 ## Databricks configuration reference
 

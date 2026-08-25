@@ -42,7 +42,7 @@ A provider fills one or more literal roles: `offline-store`, `online-store`, `co
 | [Snowflake]({{< relref "/develop/ai/featureform/register-providers/snowflake" >}}) | `offline-store`, `compute` | Snowflake datasets and SQL compute |
 | [PostgreSQL]({{< relref "/develop/ai/featureform/register-providers/postgresql" >}}) | `offline-store`, `compute` | PostgreSQL datasets and SQL compute |
 | [S3]({{< relref "/develop/ai/featureform/register-providers/s3" >}}) | `offline-store` | Object storage and Spark data or staging access |
-| Redis | `online-store` | Low-latency feature serving |
+| [Redis]({{< relref "/develop/ai/featureform/register-providers/redis" >}}) | `online-store` | Low-latency feature serving |
 | Spark | `compute` | Generic Spark execution |
 | Iceberg catalog | `offline-store` | Catalog-backed Iceberg tables |
 
@@ -193,38 +193,7 @@ ff secret-provider register <secret-provider-name> \
 
 ## Register Redis for online serving
 
-Register Redis when a feature view needs an `online-store` provider for inference-time reads.
-
-{{< multitabs id="featureform-register-redis-provider"
-    tab1="Python"
-    tab2="ff CLI" >}}
-
-```python
-from featureform.types import ProviderType, RedisConfig
-
-providers.register(
-    name="<redis-provider-name>",
-    provider_type=ProviderType.REDIS,
-    config=RedisConfig(
-        host="<redis-host>",
-        port=int("<redis-port>"),
-    ),
-)
-```
-
--tab-sep-
-
-```bash
-ff provider register <redis-provider-name> \
-  --workspace <workspace-id> \
-  --type redis \
-  --redis-host <redis-host> \
-  --redis-port <redis-port>
-```
-
-{{< /multitabs >}}
-
-See [Serve features]({{< relref "/develop/ai/featureform/serve-features" >}}) for the serving workflow. To provision a managed Redis deployment, see the [Redis Cloud quick start]({{< relref "/operate/rc/rc-quickstart" >}}).
+Register a `redis` or `redis-cluster` provider when feature views need an online store. See [Register Redis providers]({{< relref "/develop/ai/featureform/register-providers/redis" >}}) for topology, authentication, TLS, Spark, and Databricks guidance.
 
 ## Keep health checks enabled
 
