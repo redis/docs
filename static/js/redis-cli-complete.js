@@ -24,9 +24,8 @@
      are more; a long list in a small dock is a wall, not a menu. */
   var MAX_MATCHES = 8;
 
-  /* Never shrink the panel below this: a list too short to show a row is worse
-     than a list that overflows the dock, which the column can scroll to. */
-  var MIN_PANEL = 44;
+  /* Below this there is no list worth drawing — under a row's worth of space. */
+  var MIN_PANEL = 24;
 
   /* Keys that mean "put it in": Enter as in Insight, Tab because a terminal
      reader will try it. */
@@ -235,34 +234,75 @@
       input.removeAttribute('aria-activedescendant');
     }
 
+    /* What the last placement measured, so a placement can tell whether the
+       column has stopped moving under it. */
+    var settledAt = '';
+
     /* Never over the line being typed. Under the prompt if it fits, above it if it
        fits there, and when neither has room — a dock two lines tall — on whichever
-       side has more, capped to that space and scrolling inside itself. The earlier
-       version clamped to the top of the column when it ran out of room above,
-       which put the list straight over the prompt and hid what was being typed. */
+       side has more, capped to that space and scrolling inside itself.
+
+       Capped to the room and not a pixel more. An earlier version kept a floor of
+       one row's height, which on a short dock put the top of an above-the-prompt
+       list past the top of the column: the column clips, so the best matches
+       vanished with no scrollbar to say they were there — a list of SIN* commands
+       showing nothing but the loose matches at its end. Whatever cannot be shown
+       is now the panel's own scroll, which the reader can reach. */
     function place() {
       var promptRow = input.closest('.prompt') || input;
       var promptTop = promptRow.offsetTop;
       var promptBottom = promptTop + promptRow.offsetHeight;
+
+      /* The line being typed comes first: shrinking the dock can leave the prompt
+         below the fold, and a list placed against a prompt that cannot be seen
+         has nothing to anchor to — it filled the column with its middle rows and
+         clipped the matches at both ends. Bring the prompt back into view, as the
+         terminal does when output arrives, and place against where it now is. */
+      if (promptBottom > host.scrollTop + host.clientHeight || promptTop < host.scrollTop) {
+        host.scrollTop = Math.max(0, promptBottom - host.clientHeight);
+      }
       var viewTop = host.scrollTop;
       var viewBottom = viewTop + host.clientHeight;
 
-      /* Measured without a cap, so "does it fit" is about its natural height. */
-      panel.style.maxHeight = '';
-      var height = panel.offsetHeight;
+      /* The natural height, taken from the content rather than by clearing the
+         cap and re-measuring: place() runs inside a ResizeObserver, and a style
+         change plus a forced re-layout in there is the loop Blink cuts short by
+         dropping the notifications that follow — which is what left a dragged
+         dock with the cap it had two frames ago. scrollHeight is the content
+         either way, and the borders are whatever the box adds to it. */
+      var height = panel.scrollHeight + (panel.offsetHeight - panel.clientHeight);
       var gap = 2;
-      var roomBelow = viewBottom - (promptBottom + gap);
-      var roomAbove = (promptTop - gap) - viewTop;
+      /* Both measured within the visible slice of the column, never past it. */
+      var roomBelow = Math.max(0, viewBottom - (Math.max(promptBottom, viewTop) + gap));
+      var roomAbove = Math.max(0, Math.min(promptTop, viewBottom) - gap - viewTop);
 
-      if (height <= roomBelow || roomBelow >= roomAbove) {
-        panel.style.top = (promptBottom + gap) + 'px';
-        if (height > roomBelow) panel.style.maxHeight = Math.max(MIN_PANEL, roomBelow) + 'px';
-      } else {
-        var capped = Math.min(height, Math.max(MIN_PANEL, roomAbove));
-        if (height > roomAbove) panel.style.maxHeight = capped + 'px';
-        panel.style.top = (promptTop - gap - capped) + 'px';
-      }
+      var below = height <= roomBelow || roomBelow >= roomAbove;
+      var room = below ? roomBelow : roomAbove;
+      if (room < MIN_PANEL) { panel.hidden = true; return; }
+
+      panel.hidden = false;
+      /* Set every time, not only when it bites: a cap left over from a shorter
+         dock is what kept the list scrolling after it had been given the room to
+         show every match. */
+      panel.style.maxHeight = room + 'px';
+      var drawn = Math.min(height, room);
+      panel.style.top = (below ? promptBottom + gap : promptTop - gap - drawn) + 'px';
       panel.style.left = promptRow.offsetLeft + 'px';
+      /* The likeliest match is the first one: a cap must never leave the list
+         showing its tail. */
+      panel.scrollTop = 0;
+
+      /* A resize does not settle in one frame: the column changes height, and
+         then the browser clamps its scroll position to the content that now fits
+         — silently, with no scroll event to hear. So each placement records what
+         it measured, and if the next frame disagrees it places again, until two
+         frames running see the same column. Without it, growing the dock left the
+         list with the cap it computed half way through the drag. */
+      var seen = viewTop + ':' + host.clientHeight + ':' + promptTop;
+      if (seen !== settledAt) {
+        settledAt = seen;
+        window.requestAnimationFrame(function () { if (state.open) place(); });
+      }
     }
 
     function render() {
@@ -367,12 +407,27 @@
        dragged against each other — and every one of those changes the space the
        list has. Without this it kept whatever cap it was given when it opened: a
        reader who grew the dock to see more got the same short, scrolling list. */
+    /* One placement per frame, however many events a drag delivers. */
+    var scheduled = false;
+    function schedulePlace() {
+      if (!state.open || scheduled) return;
+      scheduled = true;
+      window.requestAnimationFrame(function () {
+        scheduled = false;
+        if (state.open) place();
+      });
+    }
+
     if (window.ResizeObserver) {
       /* Only the column: observing the panel would react to its own cap. */
-      new ResizeObserver(function () {
-        if (state.open) place();
-      }).observe(host);
+      new ResizeObserver(schedulePlace).observe(host);
     }
+
+    /* And again when the transcript scrolls. A resize moves the column's scroll
+       position too — the terminal keeps its last line in view — and that settles
+       a frame after the resize itself: without this the list kept the cap it was
+       given against the scroll position the column had on the way there. */
+    host.addEventListener('scroll', schedulePlace);
 
     input.addEventListener('input', function () {
       /* Drawn now from what is already known, and again once the list has

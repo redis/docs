@@ -1589,14 +1589,10 @@
       item.appendChild(el('span', 'rwb-badge rwb-tone-' + meta.tone, meta.label));
       var text = el('span', 'rwb-key-text');
       text.appendChild(el('span', 'rwb-key-name', key.name));
+      /* Only the expiry under the name. The length is on the value beside it, and
+         a list of keys is for finding one, not for reading it twice. */
       var sub = el('span', 'rwb-key-sub');
-      if (key.sizeLabel) {
-        var rowSize = el('span', null, key.sizeLabel);
-        rowSize.title = sizeSource(key.type) || 'Size of the value';
-        sub.appendChild(rowSize);
-      }
       if (typeof key.ttl === 'number' && key.ttl >= 0) {
-        if (key.sizeLabel) sub.appendChild(el('span', 'rwb-key-dot', ' · '));
         var ttlNode = el('span', 'rwb-key-ttl',
           'TTL ' + humanTtl(self.remainingTtl(key)));
         /* Held by name so the ticker can rewrite just this text. */

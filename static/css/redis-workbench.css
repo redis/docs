@@ -438,8 +438,6 @@ body.rwb-dragging-x * {
   overflow-wrap: anywhere;
 }
 
-.rwb-key-dot { opacity: 0.6; }
-
 .rwb-key-sub {
   font-size: 10.5px;
   color: var(--rwb-muted);
@@ -900,8 +898,14 @@ body.rwb-dragging-x * {
 }
 
 .rwb-complete-more {
+  /* Held at the foot of the list: when the dock is short enough that the list
+     scrolls, "keep typing" is the way out of it, and a reader who cannot see the
+     line has no reason to think there is more than the rows in front of them. */
+  position: sticky;
+  bottom: 0;
   padding: 0.2rem 0.5rem;
   border-top: 1px solid var(--rwb-line-soft);
+  background: var(--rwb-bg-2);
   font-size: 10.5px;
   color: var(--rwb-muted);
 }
