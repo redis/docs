@@ -74,5 +74,5 @@ To recover, the NLB target group must be updated to point to the new address. Th
 
 How you update the target group depends on your database:
 
-- **AWS RDS or Aurora**: Use the [Lambda function]({{<relref "/operate/rc/rdi/setup#setup-lambda-function">}}) that responds to RDS failover events and updates the target group automatically.
+- **AWS RDS or Aurora**: Use the Lambda function that responds to RDS failover events and updates the target group automatically. To set it up, see [Set up connectivity]({{<relref "/operate/rc/rdi/setup#set-up-connectivity">}}), select the **AWS RDS or Aurora** tab, and follow **Set up Lambda function connectivity**.
 - **Self-managed database (EC2 or on premises)**: Update the target group from your own failover process. You can trigger the update from your database's failover events or from the NLB's health checks.
