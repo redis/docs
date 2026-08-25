@@ -4,7 +4,7 @@
   <groupId>io.redis</groupId><artifactId>lettuce-reactive</artifactId><version>1.0</version>
   <properties><maven.compiler.release>17</maven.compiler.release><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
   <dependencies>
-    <dependency><groupId>io.lettuce</groupId><artifactId>lettuce-core</artifactId><version>6.5.5.RELEASE</version></dependency>
+    <dependency><groupId>io.lettuce</groupId><artifactId>lettuce-core</artifactId><version>7.7.0.RELEASE</version></dependency>
     <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><version>5.10.2</version><scope>test</scope></dependency>
     <dependency><groupId>org.assertj</groupId><artifactId>assertj-core</artifactId><version>3.25.3</version><scope>test</scope></dependency>
   </dependencies>
