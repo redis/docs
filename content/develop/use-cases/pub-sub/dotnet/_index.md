@@ -14,7 +14,7 @@ title: Redis pub/sub with StackExchange.Redis
 weight: 6
 ---
 
-This guide shows you how to implement a Redis-backed pub/sub broadcaster in C# with [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/). It includes a small ASP.NET Core minimal-API web server so you can publish messages to named channels, add and remove subscribers live, and watch Redis fan out each message to every interested listener.
+This guide shows you how to implement a Redis-backed pub/sub broadcaster in C# with [StackExchange.Redis](https://seredis.dev/). It includes a small ASP.NET Core minimal-API web server so you can publish messages to named channels, add and remove subscribers live, and watch Redis fan out each message to every interested listener.
 
 ## Overview
 
@@ -330,4 +330,4 @@ This example uses the following Redis commands:
 * [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}) to count subscribers per named channel.
 * [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) to count active pattern subscriptions server-wide.
 
-See the [StackExchange.Redis documentation](https://stackexchange.github.io/StackExchange.Redis/) for full client reference, including the [`ISubscriber` interface](https://stackexchange.github.io/StackExchange.Redis/PubSubOrder.html) and the multiplexer's shared subscribe-connection model.
+See the [StackExchange.Redis documentation](https://seredis.dev/) for full client reference, including the [`ISubscriber` interface](https://seredis.dev/PubSubOrder.html) and the multiplexer's shared subscribe-connection model.

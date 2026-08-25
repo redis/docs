@@ -45,7 +45,7 @@ Use these events to record server activity in a log, which you can then use
 to monitor performance and diagnose problems when they occur.
 See
 the StackExchange.Redis
-[Events](https://stackexchange.github.io/StackExchange.Redis/Events)
+[Events](https://seredis.dev/Events.html)
 page for the full list of events.
 
 #### Server notification events
@@ -53,7 +53,7 @@ page for the full list of events.
 Some servers (such as Azure Cache for Redis) send notification events shortly
 before scheduled maintenance is due to happen. You can use code like the
 following to respond to these events (see the 
-[StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/ServerMaintenanceEvent)
+[StackExchange.Redis](https://seredis.dev/ServerMaintenanceEvent.html)
 docs for the full list of supported events). For example, you could
 inform users who try to connect that service is temporarily unavailable
 rather than letting them run into errors.
