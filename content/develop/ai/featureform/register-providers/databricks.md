@@ -22,10 +22,10 @@ The `databricks` provider fills the `offline-store` and `compute` roles. It does
 Make sure you have:
 
 - A Feature Form [workspace]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
-- A Databricks workspace URL.
+- An HTTPS [Databricks workspace URL](https://docs.databricks.com/aws/en/workspace/workspace-details).
 - A personal access token (PAT), or an OAuth machine-to-machine (M2M) client ID and client secret.
 - A non-Databricks [secret provider]({{< relref "/develop/ai/featureform/register-providers#configure-secret-providers" >}}) that can resolve the PAT or OAuth client secret.
-- Every source, output, and artifact Unity Catalog catalog the workflow needs.
+- Every Unity Catalog catalog the workflow needs, plus a schema and Volume for execution artifacts. One catalog can serve multiple purposes.
 - Either an existing cluster or the configuration required to create Jobs compute.
 
 The compute principal needs permission to inspect or create its selected compute, submit Databricks Jobs work, access the output catalog, and delete Feature Form-managed tables. Workloads need read and write access to the required catalog locations.
@@ -147,7 +147,7 @@ databricks_workspace = DatabricksWorkspaceConfig(
 
 {{< /multitabs >}}
 
-One `unity-catalog` provider represents one physical Databricks catalog. Register separate providers when inputs, managed outputs, and execution artifacts use different catalogs:
+One `unity-catalog` provider represents one physical Databricks catalog. You can reference the same provider for input tables, managed outputs, and execution artifacts when they use that catalog. Register separate providers when they use different physical catalogs or need different credentials:
 
 | Catalog use | Where to reference the provider name |
 | --- | --- |
@@ -155,7 +155,7 @@ One `unity-catalog` provider represents one physical Databricks catalog. Registe
 | Feature Form-managed outputs | `DatabricksConfig.output_catalog` or `--databricks-output-catalog` |
 | Unity Catalog Volume artifacts | `artifact_store.provider` or `--databricks-artifact-store-provider` |
 
-All catalog and compute providers used by one workload must be in the same Feature Form workspace and identify the same Databricks workspace host. They can use different Databricks credentials. Register the output and artifact catalog providers before the compute provider that refers to them.
+All catalog and compute providers used by one workload must be in the same Feature Form workspace and identify the same Databricks workspace host. They can use different Databricks credentials. Register every referenced catalog provider before the compute provider. The compute examples on this page use the same `<catalog-provider-name>` for managed outputs and artifact storage.
 
 ## Choose compute
 
@@ -175,7 +175,12 @@ An existing-cluster health check authenticates and verifies that Feature Form ca
     tab2="ff CLI" >}}
 
 ```python
-from featureform.types import DatabricksConfig, ManagedTableFormat, ProviderType
+from featureform.types import (
+    DatabricksConfig,
+    DatabricksUnityCatalogArtifactStoreConfig,
+    ManagedTableFormat,
+    ProviderType,
+)
 
 providers.register(
     name="<databricks-provider-name>",
@@ -185,6 +190,11 @@ providers.register(
         compute_target="existing_cluster",
         cluster_id="<cluster-id>",
         output_catalog="<catalog-provider-name>",
+        artifact_store=DatabricksUnityCatalogArtifactStoreConfig(
+            provider="<catalog-provider-name>",
+            schema="<schema-name>",
+            volume="<volume-name>",
+        ),
         default_managed_table_format=ManagedTableFormat.DELTA_UNIFORM,
     ),
 )
@@ -202,6 +212,10 @@ ff provider register <databricks-provider-name> \
   --databricks-compute-target existing_cluster \
   --databricks-cluster-id <cluster-id> \
   --databricks-output-catalog <catalog-provider-name> \
+  --databricks-artifact-store-type unity_catalog \
+  --databricks-artifact-store-provider <catalog-provider-name> \
+  --databricks-artifact-store-schema <schema-name> \
+  --databricks-artifact-store-volume <volume-name> \
   --default-managed-table-format delta_uniform
 ```
 
@@ -228,6 +242,7 @@ This example uses a fixed worker count:
 from featureform.types import (
     DatabricksConfig,
     DatabricksJobClusterConfig,
+    DatabricksUnityCatalogArtifactStoreConfig,
     ManagedTableFormat,
     ProviderType,
 )
@@ -244,6 +259,11 @@ providers.register(
             num_workers=int("<worker-count>"),
         ),
         output_catalog="<catalog-provider-name>",
+        artifact_store=DatabricksUnityCatalogArtifactStoreConfig(
+            provider="<catalog-provider-name>",
+            schema="<schema-name>",
+            volume="<volume-name>",
+        ),
         default_managed_table_format=ManagedTableFormat.DELTA_UNIFORM,
     ),
 )
@@ -263,6 +283,10 @@ ff provider register <databricks-provider-name> \
   --databricks-job-node-type-id <worker-node-type-id> \
   --databricks-job-num-workers <worker-count> \
   --databricks-output-catalog <catalog-provider-name> \
+  --databricks-artifact-store-type unity_catalog \
+  --databricks-artifact-store-provider <catalog-provider-name> \
+  --databricks-artifact-store-schema <schema-name> \
+  --databricks-artifact-store-volume <volume-name> \
   --default-managed-table-format delta_uniform
 ```
 
@@ -301,7 +325,7 @@ job_cluster = DatabricksJobClusterConfig(
 
 {{< /multitabs >}}
 
-Feature Form accepts at most 45 custom tags. Repeat `--databricks-job-custom-tag` for each `key=value` pair. See the [Databricks compute policy reference](https://docs.databricks.com/aws/en/admin/clusters/policy-definition) for policy rules and default-value behavior.
+Databricks allows at most 45 custom cluster tags, and Feature Form enforces that platform limit during registration. Repeat `--databricks-job-custom-tag` for each `key=value` pair. See the [Databricks Jobs API reference](https://docs.databricks.com/api/jobs/v2) for cluster-tag constraints and the [Databricks compute policy reference](https://docs.databricks.com/aws/en/admin/clusters/policy-definition) for policy rules and default-value behavior.
 
 In Python, set `instance_pool_id="<instance-pool-id>"` instead of `node_type_id` when the workspace uses an instance pool. With the CLI, use `--databricks-job-instance-pool-id <instance-pool-id>` instead of a worker node type.
 
@@ -365,7 +389,7 @@ For a Python callable transformation on Jobs compute, import `SparkCallableRunti
 
 ## Choose artifact storage
 
-Feature Form publishes temporary execution artifacts for Databricks jobs. If you omit artifact-store flags, it uses the legacy Databricks workspace storage policy.
+Feature Form publishes temporary execution artifacts for Databricks jobs. Explicitly configure a Unity Catalog Volume for every new Databricks compute provider. If you omit `artifact_store`, Feature Form uses the legacy Workspace Files and DBFS policy for compatibility; this policy isn't recommended for new registrations.
 
 To use a [Unity Catalog Volume](https://docs.databricks.com/aws/en/volumes/), create the schema and Volume first. The Unity Catalog provider's principal needs create, read, and delete access through the Databricks Files API. The Databricks run principal needs read access.
 
@@ -378,7 +402,7 @@ In Python, import `DatabricksUnityCatalogArtifactStoreConfig` from `featureform.
 --databricks-artifact-store-volume <volume-name>
 ```
 
-The artifact catalog can be the output catalog or another `unity-catalog` provider. It must target the same Databricks workspace host. The output catalog and artifact-store policy are immutable; changing either requires a new Databricks compute provider.
+The artifact catalog can use the same `unity-catalog` provider as the output catalog, as shown in the compute examples, or another provider. It must target the same Databricks workspace host. The output catalog and artifact-store policy are immutable; changing either requires a new Databricks compute provider.
 
 ## Choose a managed table format
 
@@ -394,7 +418,17 @@ Changing the provider default affects new managed output versions. It doesn't re
 
 ## Use Databricks secrets
 
-Register `databricks-secret` only when Feature Form must resolve existing Databricks scope and key values for a supported consumer. Its own PAT or OAuth client secret must come from another secret provider.
+Feature Form doesn't infer access to Databricks secret scopes from a `databricks` compute or `unity-catalog` provider. To use any value stored in a Databricks secret scope, register a separate `databricks-secret` provider. Every reference names that provider, the scope, and the key: `databricks@<databricks-secret-provider-name>:<scope>#<key>`.
+
+A `databricks-secret` provider must authenticate before it can call the Databricks Secrets API. Feature Form therefore has to resolve the provider's PAT or OAuth client secret before it can retrieve any Databricks secret. The provider can't use a secret behind itself as that bootstrap credential.
+
+Use this bootstrap order:
+
+1. Register a non-Databricks secret provider, such as `env`, Vault, Kubernetes secrets, or AWS Secrets Manager.
+2. Register `databricks-secret` with a PAT or OAuth client-secret reference from that provider.
+3. Use the registered `databricks-secret` provider in references to existing Databricks scopes and keys.
+
+The following PAT example uses the built-in `env` provider for the bootstrap credential:
 
 {{< multitabs id="featureform-register-databricks-secret-provider"
     tab1="Python"
@@ -478,7 +512,7 @@ ff secret-provider register <databricks-secret-provider-name> \
 
 {{< /multitabs >}}
 
-Reference a secret as `databricks@<databricks-secret-provider-name>:<scope>#<key>`. This secret-provider type doesn't have a live health probe, so registration success doesn't prove that the scope and key can be read.
+This secret-provider type doesn't have a live health probe, so registration success doesn't prove that the scope and key can be read. Test a representative reference before relying on the provider.
 
 ## Connect Databricks compute to Redis
 
@@ -537,7 +571,7 @@ The tables in this section map the Python configuration fields to their `ff` CLI
 
 | Python field | CLI flag | Requirement |
 | --- | --- | --- |
-| `workspace.workspace_url` | `--databricks-workspace-url` | Required `http://` or `https://` workspace URL |
+| `workspace.workspace_url` | `--databricks-workspace-url` | Required HTTPS workspace URL |
 | `workspace.auth.type` | `--databricks-auth-type` | `pat` or `oauth_m2m` |
 | `DatabricksPATAuth.token` | `--databricks-token-secret` | Required for PAT authentication |
 | `DatabricksOAuthM2MAuth.client_id` | `--databricks-oauth-client-id` | Required for OAuth M2M |
@@ -556,7 +590,7 @@ The tables in this section map the Python configuration fields to their `ff` CLI
 | `default_managed_table_format` | `--default-managed-table-format` | `delta_uniform` by default; accepts `delta_uniform`, `iceberg`, or `delta` |
 | `callable_runtime.python_version` | `--databricks-callable-python-version` | Required when you configure a callable runtime |
 | `callable_runtime.cloudpickle_version` | `--databricks-callable-cloudpickle-version` | Required for an existing-cluster callable runtime; invalid for Jobs compute |
-| `artifact_store.type` | `--databricks-artifact-store-type` | `legacy_workspace_dbfs` by default; also accepts `unity_catalog` |
+| `artifact_store.type` | `--databricks-artifact-store-type` | Use `unity_catalog` for new registrations; omission selects the legacy `legacy_workspace_dbfs` compatibility policy |
 | `artifact_store.provider` | `--databricks-artifact-store-provider` | Required `unity-catalog` provider for Volume storage |
 | `artifact_store.schema` | `--databricks-artifact-store-schema` | Required for Volume storage |
 | `artifact_store.volume` | `--databricks-artifact-store-volume` | Required for Volume storage |
@@ -616,7 +650,7 @@ The S3 init-script value also accepts `endpoint`, `canned_acl`, `enable_encrypti
 
 | Python field | CLI flag | Requirement |
 | --- | --- | --- |
-| `workspace_url` | `--workspace-url` or `--databricks-workspace-url` | Required |
+| `workspace_url` | `--workspace-url` or `--databricks-workspace-url` | Required HTTPS workspace URL |
 | `auth.type` | `--auth-type` or `--databricks-auth-type` | `pat` or `oauth_m2m` |
 | `DatabricksSecretPATAuth.token_secret` | `--token-secret` or `--databricks-token-secret` | Required for PAT authentication |
 | `DatabricksSecretOAuthM2MAuth.client_id` | `--client-id` or `--databricks-client-id` | Required for OAuth M2M |
