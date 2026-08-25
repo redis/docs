@@ -36,6 +36,8 @@ To install Redis Software on a [supported platform]({{< relref "/operate/rs/inst
 
 Depending on your needs, you may also want to [customize the installation](#more-info-and-options).
 
+If you're moving from a self-managed Redis Open Source deployment, see [Move from Redis Open Source to Redis Software]({{< relref "/operate/rs/installing-upgrading/move-from-open-source" >}}) for how configuration and deployment differ.
+
 ## Upgrade existing deployment
 
 If you already installed Redis Software, you can:

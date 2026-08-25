@@ -27,6 +27,12 @@ ignoreFiles = [
   "/__pycache__/",       # Python bytecode cache
   "/models/",            # Hugot model cache
   "/\\.transformers-cache/",  # TransformersPHP cache
+  # AI-audience convention files. These live beside the pages they describe so
+  # coding agents load them by directory, but they are not documentation and must
+  # never render: Hugo turns any .md under content/ into a published page.
+  "AGENTS\\.md$",
+  "CLAUDE\\.md$",
+  "CLAUDE\\.local\\.md$",
 ]
 
 [related]
@@ -62,6 +68,24 @@ anchor = "smart"
 tagManagerId = "GTM-TKZ6J9R"
 gitHubRepo = "https://github.com/redis/docs"
 
+# Schema version for the AI-facing JSON and Markdown outputs. Emitted as
+# `schema_version` in each per-page JSON record and in the Markdown metadata block.
+#
+# Increment this ONLY when the shape of a record changes: a field added, removed or
+# renamed, or a new value entering the `role` vocabulary. It must NOT change when page
+# content changes -- consumers gate re-parsing on it, and a version that moves with
+# content is a second content hash, which they will learn to ignore.
+#
+# Changing what a field *contains* is not a shape change and does not bump this.
+#
+# History:
+#   1 -- initial: sections, examples, content_hash, page_type, id, since (DOC-6939)
+#   2 -- adds `aliases` to page records, and a new `page_type` value, "moved", for
+#        the redirect tombstones published at a moved page's old URL. A parser
+#        switching on page_type now meets a value it has not seen, and those
+#        records carry a `moved_to` field, so this is a shape change (DOC-6951).
+aiSchemaVersion = 2
+
 # Display and sort order for client examples
 clientsExamples = ["Python", "Node.js", "ioredis", "Java-Sync", "Lettuce-Sync", "Java-Async", "Java-Reactive", "Go", "C", "C#-Sync (NRedisStack)", "C#-Async (NRedisStack)", "C#-Sync (SE.Redis)", "C#-Async (SE.Redis)", "RedisVL", "PHP", "Ruby", "Rust-Sync", "Rust-Async"]
 searchService = "/convai/api/search-service"
@@ -73,7 +97,7 @@ rdi_redis_gears_version = "1.2.6"
 rdi_debezium_server_version = "2.3.0.Final"
 rdi_db_types = "cassandra|mysql|oracle|postgresql|sqlserver"
 rdi_cli_latest = "latest"
-rdi_current_version = "1.18.1"
+rdi_current_version = "1.19.1"
 
 
 [params.clientsConfig]
@@ -138,7 +162,22 @@ rdi_current_version = "1.18.1"
     mediaType = "application/json"
     isPlainText = true
 
+  # A site-wide map of every alias to the page it resolves to, published once on
+  # the home page as /redirects.json. Rendered from `.Aliases` -- the same data
+  # Hugo uses to emit its own redirect stubs -- so the map and the site's actual
+  # behavior cannot drift, and there is no generated file to keep in step.
+  [outputFormats.redirects]
+    name = "redirects"
+    baseName = "redirects"
+    mediaType = "application/json"
+    isPlainText = true
+
 # Comment out if you don't want the "print entire section" link enabled.
 [outputs]
 section = ["HTML", "RSS", "Markdown", "JSON"]
 page = ["HTML", "Markdown", "JSON"]
+# The home page had no entry, so it was on Hugo's default of HTML and RSS. That
+# default is reproduced here deliberately: adding Markdown or JSON would publish a
+# new record for the site root, which is one of the pages the feed excludes today.
+# Only the redirects map is new.
+home = ["HTML", "RSS", "redirects"]

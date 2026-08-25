@@ -69,9 +69,9 @@ One or more keys whose values to retrieve.
 
 {{< clients-example set="cmds_string" step="mget" description="Returns the values of all specified keys." difficulty="beginner" >}}
 > SET key1 "Hello"
-"OK"
+OK
 > SET key2 "World"
-"OK"
+OK
 > MGET key1 key2 nonexisting
 1) "Hello"
 2) "World"

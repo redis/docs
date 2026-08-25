@@ -1225,7 +1225,9 @@ a[href*="#no-click"], img[src*="#no-click"] {
 /* Copy button wrapper positioning */
 .copy-button-wrapper {
   position: absolute;
-  top: 24px;
+  /* Keep the inset smaller than the button height (32px) so the button stays
+     inside the top-right corner of single-line code blocks (~56px tall). */
+  top: 10px;
   right: 10px;
   z-index: 1;
   display: flex;
@@ -1297,7 +1299,7 @@ a[href*="#no-click"], img[src*="#no-click"] {
 }
 
 .suggestion-chips {
-  @apply flex flex-wrap gap-2 mt-3;
+  @apply grid grid-cols-2 gap-2 mt-3;
 }
 
 .suggestion-chip {
@@ -1368,7 +1370,7 @@ a[href*="#no-click"], img[src*="#no-click"] {
   }
 
   .suggestion-chips {
-    @apply flex-col space-y-2;
+    @apply grid-cols-1;
   }
 
   .suggestion-chip {

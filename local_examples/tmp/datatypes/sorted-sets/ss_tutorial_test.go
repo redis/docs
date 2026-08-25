@@ -283,20 +283,17 @@ func ExampleClient_zrank() {
 	// REMOVE_START
 	// start with fresh database
 	rdb.FlushDB(ctx)
-	rdb.Del(ctx, "racer_scores")
 	// REMOVE_END
 
-	_, err := rdb.ZAdd(ctx, "racer_scores",
+	// STEP_START zrank
+	// Recreate the three remaining racers so this example runs on its own.
+	rdb.Del(ctx, "racer_scores")
+	rdb.ZAdd(ctx, "racer_scores",
 		redis.Z{Member: "Norem", Score: 10},
 		redis.Z{Member: "Royce", Score: 10},
 		redis.Z{Member: "Prickett", Score: 14},
-	).Result()
+	)
 
-	if err != nil {
-		panic(err)
-	}
-
-	// STEP_START zrank
 	res11, err := rdb.ZRank(ctx, "racer_scores", "Norem").Result()
 
 	if err != nil {

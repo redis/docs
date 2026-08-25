@@ -13,6 +13,8 @@ weight: 92
 
 To collect  metrics data from your databases and Redis Enterprise cluster (REC), you can connect your [Prometheus](https://prometheus.io/) server to an endpoint exposed on your REC. Redis Enterprise for Kubernetes creates a dedicated service to expose the `prometheus` port (8070) for data collection. A custom resource called `ServiceMonitor` allows the [Prometheus operator](https://github.com/prometheus-operator/prometheus-operator/tree/main/Documentation) to connect to this port and collect data from Redis Enterprise.
 
+To expose database tags as metric labels so you can filter and group metrics by attributes such as environment or team, see [Enrich database metrics with tags]({{< relref "/operate/kubernetes/re-databases/enrich-metrics-with-tags" >}}).
+
 ## Prerequisites
 
 Before connecting Redis Enterprise to Prometheus on your Kubernetes cluster, make sure you've done the following:

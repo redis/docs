@@ -1,6 +1,9 @@
 ---
 Title: Prepare MySQL/MariaDB for RDI
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/my-sql-mariadb/
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/my-sql-mariadb/
+- /integrate/redis-data-integration/ingest/data-transformation/prepare-dbs/my-sql-mariadb/
+- /integrate/redis-data-integration/ingest/installation/prepare-dbs/my-sql-mariadb/
 alwaysopen: false
 categories:
 - docs

@@ -28,6 +28,10 @@ There are two types of batch that you can use:
     See the [Transactions]({{< relref "develop/using-commands/transactions" >}})
     page for more information.
 
+If you want the client to batch concurrent commands into pipelines for you
+without writing any pipeline code, see
+[Automatic pipelining]({{< relref "/develop/clients/go/autopipeline" >}}).
+
 ## Execute a pipeline
 
 To execute commands in a pipeline, you first create a pipeline object

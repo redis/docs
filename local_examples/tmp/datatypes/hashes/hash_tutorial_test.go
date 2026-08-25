@@ -6,6 +6,7 @@ package example_commands_test
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -107,23 +108,19 @@ func ExampleClient_hmget() {
 	// REMOVE_START
 	// start with fresh database
 	rdb.FlushDB(ctx)
-	rdb.Del(ctx, "bike:1")
 	// REMOVE_END
 
+	// STEP_START hmget
+	// Recreate the bike:1 hash so this example runs on its own.
+	rdb.Del(ctx, "bike:1")
 	hashFields := []string{
 		"model", "Deimos",
 		"brand", "Ergonom",
 		"type", "Enduro bikes",
 		"price", "4972",
 	}
+	rdb.HSet(ctx, "bike:1", hashFields)
 
-	_, err := rdb.HSet(ctx, "bike:1", hashFields).Result()
-
-	if err != nil {
-		panic(err)
-	}
-
-	// STEP_START hmget
 	cmdReturn := rdb.HMGet(ctx, "bike:1", "model", "price")
 	res5, err := cmdReturn.Result()
 
@@ -167,23 +164,19 @@ func ExampleClient_hincrby() {
 	// REMOVE_START
 	// start with fresh database
 	rdb.FlushDB(ctx)
-	rdb.Del(ctx, "bike:1")
 	// REMOVE_END
 
+	// STEP_START hincrby
+	// Recreate the bike:1 hash so this example runs on its own.
+	rdb.Del(ctx, "bike:1")
 	hashFields := []string{
 		"model", "Deimos",
 		"brand", "Ergonom",
 		"type", "Enduro bikes",
 		"price", "4972",
 	}
+	rdb.HSet(ctx, "bike:1", hashFields)
 
-	_, err := rdb.HSet(ctx, "bike:1", hashFields).Result()
-
-	if err != nil {
-		panic(err)
-	}
-
-	// STEP_START hincrby
 	res6, err := rdb.HIncrBy(ctx, "bike:1", "price", 100).Result()
 
 	if err != nil {
@@ -287,4 +280,133 @@ func ExampleClient_incrby_get_mget() {
 	// 1
 	// 3
 	// [1 1]
+}
+
+func ExampleClient_hexpire() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	// start with fresh database
+	rdb.FlushDB(ctx)
+	// REMOVE_END
+
+	// STEP_START hexpire
+	rdb.Del(ctx, "sensor:sensor1")
+	rdb.HSet(ctx, "sensor:sensor1", "air_quality", 256, "battery_level", 89)
+
+	// Set a TTL of 60 seconds on two fields of the hash.
+	res18, err := rdb.HExpire(ctx, "sensor:sensor1", 60*time.Second,
+		"air_quality", "battery_level").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res18) // >>> [1 1]
+
+	// Retrieve the remaining TTL for those fields (returns one value per field).
+	res19, err := rdb.HTTL(ctx, "sensor:sensor1", "air_quality", "battery_level").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(len(res19)) // >>> 2
+	// STEP_END
+
+	// Output:
+	// [1 1]
+	// 2
+}
+
+func ExampleClient_hpexpire() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	// start with fresh database
+	rdb.FlushDB(ctx)
+	// REMOVE_END
+
+	// STEP_START hpexpire
+	rdb.Del(ctx, "sensor:sensor1")
+	rdb.HSet(ctx, "sensor:sensor1", "air_quality", 256, "battery_level", 89)
+
+	// Set the TTL of the 'air_quality' field in milliseconds.
+	res20, err := rdb.HPExpire(ctx, "sensor:sensor1", 60000*time.Millisecond,
+		"air_quality").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res20) // >>> [1]
+
+	// Retrieve the remaining TTL in milliseconds (returns one value per field).
+	res21, err := rdb.HPTTL(ctx, "sensor:sensor1", "air_quality").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(len(res21)) // >>> 1
+	// STEP_END
+
+	// Output:
+	// [1]
+	// 1
+}
+
+func ExampleClient_hexpireat() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	// start with fresh database
+	rdb.FlushDB(ctx)
+	// REMOVE_END
+
+	// STEP_START hexpireat
+	rdb.Del(ctx, "sensor:sensor1")
+	rdb.HSet(ctx, "sensor:sensor1", "air_quality", 256, "battery_level", 89)
+
+	// Set the expiration of 'air_quality' to a time 24 hours from now.
+	res22, err := rdb.HExpireAt(ctx, "sensor:sensor1", time.Now().Add(24*time.Hour),
+		"air_quality").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res22) // >>> [1]
+
+	// Retrieve the expiration time as a Unix timestamp (returns one value per field).
+	res23, err := rdb.HExpireTime(ctx, "sensor:sensor1", "air_quality").Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(len(res23)) // >>> 1
+	// STEP_END
+
+	// Output:
+	// [1]
+	// 1
 }

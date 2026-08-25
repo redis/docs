@@ -6,6 +6,7 @@ aliases:
 - /clients/python/
 - /connect/clients/redis-py/
 - /clients/redis-py/
+- /develop/clients/python/redis-py/
 categories:
 - docs
 - develop

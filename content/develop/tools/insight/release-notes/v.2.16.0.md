@@ -4,6 +4,8 @@ linkTitle: v2.16.0 (Dec 2022)
 date: 2022-12-28 00:00:00 +0000
 description: RedisInsight v2.16.0
 weight: 2
+aliases:
+- /develop/connect/insight/release-notes/v.2.16.0/
 ---
 ## 2.16.0 (December 2022)
 This is the General Availability (GA) release of RedisInsight 2.16.

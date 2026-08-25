@@ -106,6 +106,10 @@ public class SetsExample {
         // REMOVE_END
 
         // STEP_START smismember
+        // Recreate the set so this example runs on its own.
+        jedis.del("bikes:racing:france");
+        jedis.sadd("bikes:racing:france", "bike:1", "bike:2", "bike:3");
+
         boolean res11 = jedis.sismember("bikes:racing:france", "bike:1");
         System.out.println(res11);  // >>> true
 

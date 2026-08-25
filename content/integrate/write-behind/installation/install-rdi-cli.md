@@ -1,6 +1,9 @@
 ---
 Title: Install Write-behind CLI
-aliases: null
+aliases:
+- /integrate/redis-data-integration/installation/install-rdi-cli/
+- /integrate/redis-data-integration/write behind/installation/install-rdi-cli/
+- /integrate/redis-data-integration/write-behind/installation/install-rdi-cli/
 alwaysopen: false
 categories:
 - docs

@@ -121,10 +121,14 @@ Set expiry only when the new expiry is less than the current one. A non-volatile
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-PEXPIREAT mykey 1555555555005
-TTL mykey
-PTTL mykey
+redis> SET mykey "Hello"
+OK
+redis> PEXPIREAT mykey 1555555555005
+(integer) 1
+redis> TTL mykey
+(integer) -2
+redis> PTTL mykey
+(integer) -2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

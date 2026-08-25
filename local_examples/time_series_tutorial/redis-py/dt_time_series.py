@@ -68,6 +68,11 @@ assert res7["labels"] == {"location": "UK", "type": "Mercury"}
 # REMOVE_END
 
 # STEP_START madd
+# Recreate the thermometer series so this example runs on its own.
+r.delete("thermometer:1", "thermometer:2")
+r.ts().create("thermometer:1")
+r.ts().add("thermometer:2", 1, 10.8)
+
 res8 = r.ts().madd([
     ("thermometer:1", 1, 9.2),
     ("thermometer:1", 2, 9.9),
@@ -80,6 +85,10 @@ assert res8 == [1, 2, 2]
 # REMOVE_END
 
 # STEP_START get
+# Recreate the thermometer:2 series so this example runs on its own.
+r.delete("thermometer:2")
+r.ts().add("thermometer:2", 1, 10.8)
+r.ts().add("thermometer:2", 2, 10.3)
 # The last recorded temperature for thermometer:2
 # was 10.3 at time 2.
 res9 = r.ts().get("thermometer:2")
@@ -135,6 +144,17 @@ assert res16 == [(1, 14.0), (0, 18.0)]
 # REMOVE_END
 
 # STEP_START range_filter
+# Recreate the rg:1 series so this example runs on its own.
+r.delete("rg:1")
+r.ts().create("rg:1")
+r.ts().madd([
+    ("rg:1", 0, 18),
+    ("rg:1", 1, 14),
+    ("rg:1", 2, 22),
+    ("rg:1", 3, 18),
+    ("rg:1", 4, 24),
+])
+
 res17 = r.ts().range("rg:1", "-", "+", filter_by_ts=[0, 2, 4])
 print(res17)  # >>> [(0, 18.0), (2, 22.0), (4, 24.0)]
 
@@ -278,6 +298,17 @@ assert res31 == [
 # REMOVE_END
 
 # STEP_START agg
+# Recreate the rg:2 series so this example runs on its own.
+r.delete("rg:2")
+r.ts().create("rg:2")
+r.ts().madd([
+    ("rg:2", 0, 1.8),
+    ("rg:2", 1, 2.1),
+    ("rg:2", 2, 2.3),
+    ("rg:2", 3, 1.9),
+    ("rg:2", 4, 1.78),
+])
+
 res32 = r.ts().range(
     "rg:2", "-", "+",
     aggregation_type="avg",
@@ -323,6 +354,19 @@ assert res35 == [(0, 1000.0), (25, 3000.0), (50, 5000.0)]
 # REMOVE_END
 
 # STEP_START agg_align
+# Recreate the sensor3 series so this example runs on its own.
+r.delete("sensor3")
+r.ts().create("sensor3")
+r.ts().madd([
+    ("sensor3", 10, 1000),
+    ("sensor3", 20, 2000),
+    ("sensor3", 30, 3000),
+    ("sensor3", 40, 4000),
+    ("sensor3", 50, 5000),
+    ("sensor3", 60, 6000),
+    ("sensor3", 70, 7000),
+])
+
 res36 = r.ts().range(
     "sensor3", 10, 70,
     aggregation_type="min",
@@ -451,6 +495,12 @@ assert res49.source_key == 'hyg:1'
 # REMOVE_END
 
 # STEP_START comp_add
+# Recreate the compaction rule so this example runs on its own.
+r.delete("hyg:1", "hyg:compacted")
+r.ts().create("hyg:1")
+r.ts().create("hyg:compacted")
+r.ts().createrule("hyg:1", "hyg:compacted", "min", 3)
+
 res50 = r.ts().madd([
     ("hyg:1", 0, 75),
     ("hyg:1", 1, 77),
@@ -475,6 +525,11 @@ assert res53 == [(0, 75.0)]
 # REMOVE_END
 
 # STEP_START del
+# Recreate the thermometer:1 series so this example runs on its own.
+r.delete("thermometer:1")
+r.ts().add("thermometer:1", 1, 9.2)
+r.ts().add("thermometer:1", 2, 9.9)
+
 res54 = r.ts().info("thermometer:1")
 print(res54.total_samples)  # >>> 2
 print(res54.first_timestamp)  # >>> 1

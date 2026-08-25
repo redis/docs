@@ -43,7 +43,7 @@ You can run [`HGETALL`]({{< relref "/commands/hgetall" >}}) to retrieve the enti
 
 You can index, search, and query JSON documents stored in your database.
 
-For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/get-started/document-database" >}}).
+For more information about how to search and query JSON documents, see the [quick start]({{< relref "/develop/get-started/search-tutorial" >}}).
 
 ## Search features
 
@@ -71,7 +71,7 @@ Because the index on the new shard is created synchronously though, it's expecte
 ## More info
 
 - [Getting Started with RediSearch 2.0](https://redis.com/blog/getting-started-with-redisearch-2-0/)
-- [Redis Search quick start]({{< relref "/develop/get-started/document-database" >}})
+- [Redis Search quick start]({{< relref "/develop/get-started/search-tutorial" >}})
 - [Redis Search configuration]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}})
 - [Redis Search commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/commands" >}})
 - [Redis Search references]({{< relref "/develop/ai/search-and-query/advanced-concepts/" >}})

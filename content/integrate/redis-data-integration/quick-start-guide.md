@@ -75,33 +75,32 @@ At this point, the pipeline is ready to deploy.
 
 To manage and inspect RDI, you can use the
 [`redis-di`]({{< relref "/integrate/redis-data-integration/reference/cli" >}})
-CLI command, which has several subcommands for different purposes. Most of these commands require you
-to pass at least two options, `--rdi-host` and `--rdi-port`, to specify the host and port of your
-RDI installation. You can avoid typing these options repeatedly by saving the
-information in a *context*.
+CLI tool, which has several commands for different purposes. Most of these commands connect to
+the RDI API, which you specify with the `--api-url` option. You can avoid typing this and the other
+connection options repeatedly by saving them in a *context*.
 
-When you activate a context, the saved values of
-`--rdi-host`, `--rdi-port`, and a few other options are passed automatically whenever
+When you activate a context, its saved connection options are used automatically whenever
 you use `redis-di`. If you have more than one RDI installation, you can create a context
 for each of them and select the one you want to be active using its unique name.
 
 To create a context, use the
-[`redis-di add-context`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-add-context" >}})
-command:
+[`redis-di set-context`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-context" >}})
+command. For a VM installation, the API has the same hostname or IP address as your RDI VM and uses
+the default HTTPS port 443:
 
 ```bash
-redis-di add-context --rdi-host <host> --rdi-port <port> <unique-context-name>
+redis-di set-context <unique-context-name> --api-url https://<host> --user <user>
 ```
 
-These options are required but there are also a few others you can save, such as TLS credentials, if
-you are using them (see the
-[reference page]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-add-context" >}})
+You can save a few other options, such as a CA certificate (`--cacert`) if the API uses a private
+certificate (see the
+[reference page]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-context" >}})
 for details). When you have created a context, use
-[`redis-di set-context`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-context" >}})
+[`redis-di use-context`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-use-context" >}})
 to activate it:
 
 ```bash
-redis-di set-context <context name>
+redis-di use-context <context name>
 ```
 
 There are also subcommands to
@@ -111,18 +110,20 @@ contexts.
 
 ### Deploy the pipeline
 
-You can use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
-to deploy the pipeline by adding a connection to the RDI API
-endpoint (which has the same hostname or IP address as your RDI VM and uses the default HTTPS port 443) and then clicking the **Deploy** button. You can also deploy it with the following command:
+You can deploy the pipeline with the following command:
 
 ```bash
 redis-di deploy --dir <path to pipeline folder>
 ```
 
 where the path is the one you supplied earlier during the installation. (You may also need
-to supply `--rdi-host` and `--rdi-port` options if you are not using a
+to supply the `--api-url` option if you are not using a
 [context](#create-context) as described above.) RDI first
 validates your pipeline and then deploys it if the configuration is correct.
+
+You can also use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+to deploy the pipeline, by adding a connection to the RDI API
+endpoint (which has the same hostname or IP address as your RDI VM and uses the default HTTPS port 443) and then clicking the **Deploy** button.
 
 Once the pipeline is running, you can use Redis Insight to view the data flow using the
 pipeline metrics. You can also connect to your target database to see the keys that RDI has written there.
@@ -146,6 +147,7 @@ To see the RDI pipeline working in CDC mode:
   (see [Generating load on the database](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres?tab=readme-ov-file#generating-load-on-the-database)
   to learn how to do this).
 - Run
-  [`redis-di status --live`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-status" >}})
-  to see the flow of records.
+  [`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
+  to see the flow of records. To watch it update live, pair the command with `watch`, for example
+  `watch -n 1 redis-di describe`.
 - Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to look at the data in the target database.

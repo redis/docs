@@ -24,7 +24,7 @@ See [Metrics and alerts for monitoring v1]({{<relref "/operate/rs/monitoring/v1_
 
 ## Metrics stream engine
 
-The new metrics stream engine is generally available as of [Redis Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}) This new engine exposes the v2 Prometheus scraping endpoint at `https://<IP>:8070/v2`, exports all time-series metrics to external monitoring tools, and enables real-time monitoring.
+The new metrics stream engine is generally available as of [Redis Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}) This new engine exposes the v2 Prometheus scraping endpoint at `https://<cluster_name>:8070/v2`, exports all time-series metrics to external monitoring tools, and enables real-time monitoring.
 
 See [Metrics stream engine for monitoring v2]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) for more information.
 

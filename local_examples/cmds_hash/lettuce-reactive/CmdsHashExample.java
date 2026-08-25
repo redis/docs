@@ -181,7 +181,7 @@ public class CmdsHashExample {
                         System.out.println(result);
                         // >>> KeyValue[field1, Hello]
                         // >>> KeyValue[field2, World]
-                        // >>> KeyValue[nofield, null]
+                        // >>> KeyValue[nofield].empty
                     });
             // STEP_END
 
@@ -297,6 +297,38 @@ public class CmdsHashExample {
             // STEP_END
 
             hExpireExample4.block();
+            // REMOVE_START
+            reactiveCommands.del("myhash").block();
+            // REMOVE_END
+
+            // STEP_START hlen
+            Mono<Boolean> hLenExample1 = reactiveCommands.hset("myhash", "field1", "Hello").doOnNext(result -> {
+                System.out.println(result); // >>> true
+                // REMOVE_START
+                assertThat(result).isEqualTo(true);
+                // REMOVE_END
+            });
+
+            hLenExample1.block();
+
+            Mono<Boolean> hLenExample2 = reactiveCommands.hset("myhash", "field2", "World").doOnNext(result -> {
+                System.out.println(result); // >>> true
+                // REMOVE_START
+                assertThat(result).isEqualTo(true);
+                // REMOVE_END
+            });
+
+            hLenExample2.block();
+
+            Mono<Long> hLenExample3 = reactiveCommands.hlen("myhash").doOnNext(result -> {
+                System.out.println(result); // >>> 2
+                // REMOVE_START
+                assertThat(result).isEqualTo(2L);
+                // REMOVE_END
+            });
+            // STEP_END
+
+            hLenExample3.block();
             // REMOVE_START
             reactiveCommands.del("myhash").block();
             // REMOVE_END

@@ -42,6 +42,12 @@
           {{ else if eq $element "redisinsight" }}
             {{ $displayName = "Redis Insight" }}
             {{ $color = "#FD4439" }}
+          {{ else if eq $element "iris" }}
+            {{ $displayName = "Redis Iris" }}
+            {{ $color = "#5961ff" }}
+          {{ else if eq $element "featureform" }}
+            {{ $displayName = "Redis Feature Form" }}
+            {{ $color = "#5C707A" }}
           {{ end }}
           <th style="border: 1px solid #ccc; padding: 8px; text-align: left; font-weight: normal; background-color: {{ $color }}; {{ if eq $index 0 }}border-top-left-radius: 10px; border-bottom-left-radius: 10px;{{ end }}{{ if eq $index (sub (len $visibleCategories) 1) }}border-top-right-radius: 10px; border-bottom-right-radius: 10px;{{ end }}">
             {{ $displayName }}
@@ -63,16 +69,10 @@
         {{ else }}
           <!-- Iterate through the page's ancestors to determine if a 
             section-wide banner is enabled by a parent page's front matter -->
-          {{ $ancestorDirs := slice }}
-          {{ with .File }}
-            {{ $ancestorDirs = split .Dir "/" }}
-          {{ end }}
-          {{ $currPage := .Page }}
-          {{ range $i, $page := $ancestorDirs }}
-            {{ if and $currPage.Params.bannerText $currPage.Params.bannerChildren }}
-              {{ partial "banner-article.html" $currPage }}
+          {{ range .Ancestors }}
+            {{ if and .Params.bannerText .Params.bannerChildren }}
+              {{ partial "banner-article.html" . }}
             {{ end }}
-            {{ $currPage = $currPage.Parent }}
           {{ end }}
         {{ end }}
         

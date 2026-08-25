@@ -10,7 +10,7 @@ aliases:
 
 <a id="semantic-cache-api"></a>
 
-### `class SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, **kwargs)`
+### `class SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, create_index=True, **kwargs)`
 
 Bases: `BaseLLMCache`
 
@@ -37,11 +37,38 @@ Semantic Cache for Large Language Models.
     for the redis client. Defaults to empty {}.
   * **overwrite** (*bool*) – Whether or not to force overwrite the schema for
     the semantic cache index. Defaults to false.
+  * **create_index** (*bool*) – Whether RedisVL creates and validates the index.
+    When True, the constructor runs `FT.INFO` to check whether the
+    index exists, compares the live schema against this one, and runs
+    `FT.CREATE` if it is absent. When False it does none of these
+    and issues no index command at all: the index must already exist
+    with a compatible schema. A live index whose prefix or storage
+    type differs from this schema is not detected and produces empty
+    results rather than an error. Use this when the index is managed
+    externally, or when the credential cannot run `FT.INFO`. See
+    [Install RedisVL]({{< relref "../user_guide/installation" >}}) for the ACL details. Defaults to
+    true.
 * **Raises:**
   * **TypeError** – If an invalid vectorizer is provided.
   * **TypeError** – If the TTL value is not an int.
   * **ValueError** – If the threshold is not between 0 and 2 (Redis COSINE distance).
   * **ValueError** – If existing schema does not match new schema and overwrite is False.
+  * **ValueError** – If both create_index is False and overwrite is True.
+
+```python
+from redisvl.extensions.cache.llm import SemanticCache
+
+# RedisVL creates the index if it is missing
+cache = SemanticCache(name="llmcache", redis_url="redis://localhost:6379")
+
+# the index is managed externally, or this credential cannot run
+# FT.INFO -- assume the index exists and issue no index command
+cache = SemanticCache(
+    name="llmcache",
+    redis_url="redis://localhost:6379",
+    create_index=False,
+)
+```
 
 #### `async acheck(prompt=None, vector=None, num_results=1, return_fields=None, filter_expression=None, distance_threshold=None)`
 
@@ -86,7 +113,7 @@ response = await cache.acheck(
 
 #### `async aclear()`
 
-Async clear the cache of all keys.
+Async clear all cache keys when RedisVL manages the index lifecycle.
 
 * **Return type:**
   None
@@ -242,7 +269,7 @@ response = cache.check(
 
 #### `clear()`
 
-Clear the cache of all keys.
+Clear all cache keys when RedisVL manages the index lifecycle.
 
 * **Return type:**
   None

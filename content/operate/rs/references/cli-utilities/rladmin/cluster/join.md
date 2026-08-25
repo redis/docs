@@ -19,8 +19,8 @@ Adds a node to an existing cluster.
 ```sh
 rladmin cluster join
         nodes <node IP address>
-        username <admin user email>
-        password <admin password>
+        { username <admin user email> password <admin password>
+          | client_cert <path> client_key <path> [ trusted_ca <path> ] }
         [ ephemeral_path <path> ]
         [ persistent_path <path> ]
         [ ccs_persistent_path <path> ]
@@ -44,6 +44,8 @@ rladmin cluster join
 | accept_servers | 'enabled'<br />'disabled' | Allows allocation of resources on the new node when enabled (optional) |
 | addr | IP address | Sets a node's internal IP address. If not provided, the node sets the address automatically. (optional) |
 | ccs_persistent_path | filepath (default:&nbsp;/var/opt/redislabs/persist) | Path to the CCS snapshot location (the default is the same as persistent_path) (optional) |
+| client_cert | filepath | Path to a file containing the client certificate in PEM format. Use either a username and password or certificate credentials to join a node. Required with `client_key`. See [Certificate-based authentication for cluster management]({{<relref "/operate/rs/security/certificates/certificate-based-authentication#certificate-based-authentication-for-cluster-management">}}). |
+| client_key | filepath | Path to a file containing the client certificate's private key in PEM format. Required with `client_cert`. |
 | cnm_http_port | integer | Joins a cluster that has a non-default cnm_http_port (optional) |
 | ephemeral_path | filepath | Path to the ephemeral storage location (optional) |
 | external_addr | list of IP addresses | Sets a node's external IP addresses (space-delimited list). If not provided, the node sets the address automatically. (optional) |
@@ -52,12 +54,13 @@ rladmin cluster join
 | nodes | IP address | Internal IP address of an existing node in the cluster |
 | override_rack_id |  | Changes to a new rack, specified by `rack_id` (optional) |
 | override_repair |  | Enables joining a cluster with a dead node (optional) |
-| password | string | Admin user's password |
+| password | string | Admin user's password. Required unless you use certificate credentials. |
 | persistent_path | filepath (default:&nbsp;/var/opt/redislabs/persist) | Path to the persistent storage location (optional) |
 | rack_id | string | Moves the node to the specified rack (optional) |
 | replace_node | integer | Replaces the specified node with the new node (optional) |
 | second_rack_id | string | The unique identifier of the node's second rack ID for two-dimensional rack awareness (optional) |
-| username | email address | Admin user's email address |
+| trusted_ca | filepath | Path to a file containing the CA that validates the API certificate the cluster presents, in PEM format. If you omit it, the node uses the certificates in the cluster's `mtls_trusted_ca.pem` file. (optional) |
+| username | email address | Admin user's email address. Required unless you use certificate credentials. |
 
 ### Returns
 
@@ -69,5 +72,15 @@ Returns `ok` if the node joined the cluster successfully. Otherwise, it returns 
 $ rladmin cluster join nodes 192.0.2.2 \
         username admin@example.com \
         password admin-password
+Joining cluster... ok
+```
+
+To join a node using certificate credentials instead of a username and password, pass the file paths to the certificate, key, and CA:
+
+```sh
+$ rladmin cluster join nodes 192.0.2.2 \
+        client_cert /etc/opt/redislabs/client.pem \
+        client_key /etc/opt/redislabs/client.key \
+        trusted_ca /etc/opt/redislabs/ca.pem
 Joining cluster... ok
 ```

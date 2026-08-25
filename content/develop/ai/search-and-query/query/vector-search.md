@@ -17,9 +17,13 @@ title: Vector search
 weight: 5
 ---
 
-This article gives you a good overview of how to perform vector search queries with Redis Search, which is part of Redis Open Source. See the [Redis as a vector database quick start guide]({{< relref "/develop/get-started/vector-database" >}}) for more information about Redis as a vector database. You can also find more detailed information about all the parameters in the [vector reference documentation]({{< relref "/develop/ai/search-and-query/vectors" >}}).
+This article gives you a good overview of how to perform vector search queries with Redis Search, which is part of Redis Open Source. See the [Redis as a vector database quick start guide]({{< relref "/develop/get-started/search-tutorial/vector-search" >}}) for more information about Redis as a vector database. You can also find more detailed information about all the parameters in the [vector reference documentation]({{< relref "/develop/ai/search-and-query/vectors" >}}).
 
 A vector search query on a vector field allows you to find all vectors in a vector space that are close to a given vector. You can query for the k-nearest neighbors or vectors within a given radius.
+
+{{< tip >}}
+To generate a complete RAG agent that uses the vector search queries described here, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template.
+{{< /tip >}}
 
 The examples in this article use a schema with the following fields:
 

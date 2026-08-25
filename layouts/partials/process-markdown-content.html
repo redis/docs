@@ -16,6 +16,30 @@
 {{- $content := .RawContent -}}
 {{- $visited := .Visited | default (slice) -}}
 
+{{- /* Drop HTML-comment blocks before anything else looks at the content.
+
+       Hugo is configured with unsafe = true, so a comment passes through to the rendered
+       HTML and is invisible to readers -- which is how authors park prose that should not
+       be published yet. Nothing downstream of here knew that, so the commented text was
+       reaching the JSON feed as real section content and the Markdown output as real body
+       text: we were publishing to AI consumers exactly what we withhold from readers. On
+       develop/clients/observability that was a whole "Tracing overview" section, kept
+       because the explanation is good but the clients do not support tracing yet.
+
+       The open delimiter must be at the start of a line. That is what separates an author's
+       block comment from a comment inside a code example -- a Maven snippet carries
+       "</version> <!-- Check for the latest version -->" mid-line, and stripping that would
+       damage the sample. Measured over the whole corpus, the line-anchored form removes 48
+       comments totalling about 19,200 characters and never matches inside a fenced code
+       block, where the unanchored form would have hit 9. The residual is inline comments,
+       which are small and usually part of a code sample anyway.
+
+       Known limit: a block comment written at column 0 *inside* a fenced code block would
+       still be stripped. None exists today. Both the literal and entity-escaped forms are
+       matched, because RawContent arrives escaped in some contexts. */ -}}
+{{- $content = $content | replaceRE "(?ms)^<!--.*?-->" "" -}}
+{{- $content = $content | replaceRE "(?ms)^&lt;!--.*?--&gt;" "" -}}
+
 {{- /* Expand embed-md shortcodes before other transforms so embedded content can be processed too. */ -}}
 {{- $content = partial "markdown-embed-md.html" (dict "RawContent" $content "Page" .Page "Visited" $visited) -}}
 {{- /* Split wide table-scrollable blocks for AI-facing Markdown output only. */ -}}
@@ -64,6 +88,8 @@
 
 {{- /* Process multitabs shortcodes to expand tab content */ -}}
 {{- $content = partial "markdown-multitabs.html" (dict "RawContent" $content "Site" .Site) -}}
+{{- /* Process jupyter-example shortcodes into fenced code blocks (interactive Thebe widget is HTML-only, so the code would otherwise be stripped below) */ -}}
+{{- $content = partial "markdown-jupyter-example.html" (dict "RawContent" $content "Site" .Site) -}}
 {{- /* Final unescape of HTML entities */ -}}
 {{- $content = $content | replaceRE "&#34;" "\"" -}}
 {{- $content = $content | replaceRE "&quot;" "\"" -}}
@@ -73,8 +99,26 @@
 {{- $content = $content | replaceRE "&#39;" "'" -}}
 {{- $content = $content | replaceRE "&#43;" "+" -}}
 
+{{- /* Expand table-children shortcodes into Markdown tables. Runs after the unescape
+       above (it matches literal {{< ... >}}) and before the strip below, which would
+       otherwise discard the table -- taking the whole body of every release-notes
+       index page with it. */ -}}
+{{- $content = partial "markdown-table-children.html" (dict "RawContent" $content "Page" .Page) -}}
+{{- /* Unescape again, as Hugo re-escapes partial output. Must cover the same entities
+       as the block above, including &#43;, or a "+" in a table cell (a version column
+       such as "6.0+", say) reaches the feed as a literal entity. */ -}}
+{{- $content = $content | replaceRE "&#34;" "\"" -}}
+{{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&#39;" "'" -}}
+{{- $content = $content | replaceRE "&lt;" "<" -}}
+{{- $content = $content | replaceRE "&gt;" ">" -}}
+{{- $content = $content | replaceRE "&amp;" "&" -}}
+{{- $content = $content | replaceRE "&#43;" "+" -}}
+
 {{- /* Remove remaining shortcodes AFTER unescape (content now has literal < and >) */ -}}
-{{- $content = $content | replaceRE `\{\{<\s*/?[^>]*>\}\}` "" -}}
+{{- /* Match non-greedily to the first ">}}": a [^>]* class is defeated by a ">" inside
+       an attribute value (e.g. columnNames="...<br/>...") and leaks the raw shortcode. */ -}}
+{{- $content = $content | replaceRE `(?s)\{\{<\s*/?.*?>\}\}` "" -}}
 {{- $content = $content | replaceRE `\{\{%\s*/?[^%]*%\}\}` "" -}}
 
 {{- return $content -}}

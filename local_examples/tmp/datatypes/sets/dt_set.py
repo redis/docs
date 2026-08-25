@@ -94,6 +94,10 @@ assert res10 == {'bike:1', 'bike:2', 'bike:3'}
 # REMOVE_END
 
 # STEP_START smismember
+# Recreate the set so this example runs on its own.
+r.delete("bikes:racing:france")
+r.sadd("bikes:racing:france", "bike:1", "bike:2", "bike:3")
+
 res11 = r.sismember("bikes:racing:france", "bike:1")
 print(res11)  # >>> 1
 

@@ -95,6 +95,10 @@ assert_equal(['Norem', 'Royce', 'Prickett'], res10)
 # REMOVE_END
 
 # STEP_START zrank
+# Recreate the three remaining racers so this example runs on its own.
+r.del('racer_scores')
+r.zadd('racer_scores', [[10, 'Norem'], [10, 'Royce'], [14, 'Prickett']])
+
 res11 = r.zrank('racer_scores', 'Norem')
 puts res11 # 0
 

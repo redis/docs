@@ -1,6 +1,8 @@
 ---
 Title: cassandra.write
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/data-transformation-block-types/cassandra_write/
+- /integrate/redis-data-integration/write-behind/reference/data-transformation-block-types/cassandra_write/
 alwaysopen: false
 categories:
   - docs

@@ -163,6 +163,8 @@ Also return the score of each member.
 The following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.
 
 {{< clients-example set="cmds_sorted_set" step="zrange2" description="Return scores with members: Retrieve members with their scores from a sorted set using ZRANGE with WITHSCORES option" difficulty="intermediate" >}}
+> DEL myzset
+(integer) 1
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset 0 1 WITHSCORES
@@ -175,6 +177,8 @@ The following example using `WITHSCORES` shows how the command returns always an
 This example shows how to query the sorted set by score, excluding the value `1` and up to infinity, returning only the second element of the result:
 
 {{< clients-example set="cmds_sorted_set" step="zrange3" description="Query by score: Query a sorted set by score range using ZRANGE with BYSCORE and LIMIT options (supports exclusive ranges and pagination)" difficulty="intermediate" >}}
+> DEL myzset
+(integer) 1
 > ZADD myzset 1 "one" 2 "two" 3 "three"
 (integer) 3
 > ZRANGE myzset (1 +inf BYSCORE LIMIT 1 1

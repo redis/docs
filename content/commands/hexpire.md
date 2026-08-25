@@ -157,7 +157,8 @@ Starting with Redis 8, Redis Search has enhanced behavior when handling expiring
 
 {{< clients-example set="cmds_hash" step="hexpire" description="Field expiration: Set TTL on individual hash fields using HEXPIRE with conditional options (NX, XX, GT, LT) when you need fine-grained control over field lifecycle" difficulty="intermediate" >}}
 > HEXPIRE no-key 20 NX FIELDS 2 field1 field2
-(nil)
+1) (integer) -2
+2) (integer) -2
 > HSET mykey field1 "hello" field2 "world"
 (integer) 2
 > HEXPIRE mykey 10 FIELDS 3 field1 field2 field3

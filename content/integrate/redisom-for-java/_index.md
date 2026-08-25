@@ -16,6 +16,7 @@ title: Redis OM Spring
 type: integration
 aliases:
 - /connect/clients/om-clients/stack-spring/
+- /develop/connect/clients/om-clients/stack-spring/
 weight: 9
 ---
 

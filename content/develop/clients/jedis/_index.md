@@ -5,6 +5,8 @@ aliases:
 - /connect/clients/jedis/
 - /clients/jedis/
 - /develop/clients/java
+- /develop/connect/clients/java/
+- /develop/clients/java/jedis/
 categories:
 - docs
 - develop

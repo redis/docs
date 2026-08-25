@@ -1,6 +1,8 @@
 ---
 Title: Job files
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/
+- /integrate/redis-data-integration/ingest/data-transformation/transform-examples/
 alwaysopen: false
 categories:
 - docs

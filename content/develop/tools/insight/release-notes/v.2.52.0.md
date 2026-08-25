@@ -5,6 +5,8 @@ date: 2024-06-26 00:00:00 +0000
 description: Redis Insight v2.52
 weight: 1
 
+aliases:
+- /develop/connect/insight/release-notes/v.2.52.0/
 ---
 ## 2.52 (June 2024)
 This is the General Availability (GA) release of Redis Insight 2.52.

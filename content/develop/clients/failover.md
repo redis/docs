@@ -18,6 +18,7 @@ topics:
 - resilience
 - health checks
 relatedPages:
+- /develop/clients/dotnet/failover
 - /develop/clients/jedis/failover
 - /develop/clients/redis-py/failover
 scope: overview
@@ -40,6 +41,7 @@ along with their release state and available features.
 | [Jedis]({{< relref "/develop/clients/jedis/failover" >}}) | Yes | No | No | Yes |
 | [redis-py]({{< relref "/develop/clients/redis-py/failover" >}}) | Yes  (Preview) | Yes | Yes | Yes |
 | [Lettuce]({{< relref "/develop/clients/lettuce/failover" >}}) | Yes (Preview) | Yes | No | Yes |
+| [StackExchange.Redis]({{< relref "/develop/clients/dotnet/failover" >}}) | Yes | Yes | Yes | Yes |
 
 ## Concepts
 

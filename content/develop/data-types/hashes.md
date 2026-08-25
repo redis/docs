@@ -52,7 +52,12 @@ hashes in many different ways inside your application.
 The command [`HSET`]({{< relref "/commands/hset" >}}) sets multiple fields of the hash, while [`HGET`]({{< relref "/commands/hget" >}}) retrieves
 a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET`]({{< relref "/commands/hget" >}}) but returns an array of values:
 
-{{< clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple field values from a hash using HMGET when you need to reduce round trips to the server" buildsUpon="set_get_all" try_it="false" >}}
+{{< clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple field values from a hash using HMGET when you need to reduce round trips to the server" buildsUpon="set_get_all" >}}
+# Recreate the bike:1 hash so this example runs on its own.
+> DEL bike:1
+(integer) 1
+> HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972
+(integer) 4
 > HMGET bike:1 model price no-such-field
 1) "Deimos"
 2) "4972"
@@ -62,7 +67,12 @@ a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET
 There are commands that are able to perform operations on individual fields
 as well, like [`HINCRBY`]({{< relref "/commands/hincrby" >}}):
 
-{{< clients-example set="hash_tutorial" step="hincrby" description="Increment hash field values for counters using HINCRBY (creates field if missing, initializes to 0)" buildsUpon="set_get_all" try_it="false" >}}
+{{< clients-example set="hash_tutorial" step="hincrby" description="Increment hash field values for counters using HINCRBY (creates field if missing, initializes to 0)" buildsUpon="set_get_all" >}}
+# Recreate the bike:1 hash so this example runs on its own.
+> DEL bike:1
+(integer) 1
+> HSET bike:1 model Deimos brand Ergonom type 'Enduro bikes' price 4972
+(integer) 4
 > HINCRBY bike:1 price 100
 (integer) 5072
 > HINCRBY bike:1 price -100
@@ -137,57 +147,110 @@ Redis 8.0 introduced the following commands:
 
 ### Field expiration examples
 
-Support for hash field expiration in the official client libraries is not yet available, but you can test hash field expiration now with beta versions of the [Python (redis-py)](https://github.com/redis/redis-py) and [Java (Jedis)](https://github.com/redis/jedis) client libraries.
+Hash field expiration is supported by the official client libraries. The examples below
+demonstrate the field expiration commands using a hash that stores sensor data with the
+following structure:
 
-Following are some Python examples that demonstrate how to use field expiration.
+| Field           | Value |
+| :-------------- | :---- |
+| `air_quality`   | 256   |
+| `battery_level` | 89    |
 
-Consider a hash data set for storing sensor data that has the following structure:
+Because the fields expire, each example recreates the `sensor:sensor1` hash first so that
+it runs on its own.
 
-```python
-event = {
-    'air_quality': 256,
-    'battery_level':89
-}
+Set a TTL of 60 seconds for two fields of a hash and then retrieve the remaining TTL for
+those fields:
 
-r.hset('sensor:sensor1', mapping=event)
-```
+{{< clients-example set="hash_tutorial" step="hexpire" description="Field expiration: Set a TTL in seconds on individual hash fields using HEXPIRE, then read the remaining TTL with HTTL" difficulty="intermediate" buildsUpon="set_get_all" >}}
+> DEL sensor:sensor1
+(integer) 0
+> HSET sensor:sensor1 air_quality 256 battery_level 89
+(integer) 2
+> HEXPIRE sensor:sensor1 60 FIELDS 2 air_quality battery_level
+1) (integer) 1
+2) (integer) 1
+> HTTL sensor:sensor1 FIELDS 2 air_quality battery_level
+1) (integer) 60
+2) (integer) 60
+{{< /clients-example >}}
 
-In the examples below, you will likely need to refresh the `sensor:sensor1` key after its fields expire.
+Set a hash field's TTL in milliseconds and then retrieve the remaining TTL in milliseconds:
 
-Set and retrieve the TTL for multiple fields in a hash:
+{{< clients-example set="hash_tutorial" step="hpexpire" description="Field expiration: Set a TTL in milliseconds on a hash field using HPEXPIRE, then read the remaining TTL with HPTTL" difficulty="intermediate" buildsUpon="set_get_all" >}}
+> DEL sensor:sensor1
+(integer) 1
+> HSET sensor:sensor1 air_quality 256 battery_level 89
+(integer) 2
+> HPEXPIRE sensor:sensor1 60000 FIELDS 1 air_quality
+1) (integer) 1
+> HPTTL sensor:sensor1 FIELDS 1 air_quality
+1) (integer) 59994
+{{< /clients-example >}}
 
-```python
-# set the TTL for two hash fields to 60 seconds
-r.hexpire('sensor:sensor1', 60, 'air_quality', 'battery_level')
-ttl = r.httl('sensor:sensor1', 'air_quality', 'battery_level')
-print(ttl)
-# prints [60, 60]
-```
+Set a hash field's expiration to a specific timestamp and then retrieve that expiration
+time (both as a Unix time in seconds):
 
-Set and retrieve a hash field's TTL in milliseconds:
+{{< clients-example set="hash_tutorial" step="hexpireat" lang_filter="Python, Node.js, Java-Sync, Java-Async, Java-Reactive, Go, C#-Sync (SE.Redis), PHP, Rust-Sync, Rust-Async" description="Field expiration: Set an absolute expiration timestamp on a hash field using HEXPIREAT, then read it back with HEXPIRETIME" difficulty="intermediate" buildsUpon="set_get_all" >}}
+> DEL sensor:sensor1
+(integer) 1
+> HSET sensor:sensor1 air_quality 256 battery_level 89
+(integer) 2
+# Set the expiration to a Unix time in the future
+# (4102444800 is just an example; use a timestamp appropriate for your use case).
+> HEXPIREAT sensor:sensor1 4102444800 FIELDS 1 air_quality
+1) (integer) 1
+> HEXPIRETIME sensor:sensor1 FIELDS 1 air_quality
+1) (integer) 4102444800
+{{< /clients-example >}}
 
-```python
-# set the TTL of the 'air_quality' field in milliseconds
-r.hpexpire('sensor:sensor1', 60000, 'air_quality')
-# and retrieve it
-pttl = r.hpttl('sensor:sensor1', 'air_quality')
-print(pttl)
-# prints [59994] # your actual value may vary
-```
+## Compact hashes
 
-Set and retrieve a hash field’s expiration timestamp:
+Redis 8.10 introduced *compact hashes*, a way to reduce the memory used by hashes that share the same field names. When many hashes have the same layout (for example, one hash per user, each with `name`, `email`, and `age`), Redis can store the shared set of field names once and keep only the values, plus a small reference to that set, in each key. This is an internal encoding: existing hash commands keep working exactly as before, with the same semantics and replies. The hash just uses less memory.
 
-```python
-# set the expiration of 'air_quality' to now + 24 hours
-# (similar to setting the TTL to 24 hours)
-r.hexpireat('sensor:sensor1', 
-    datetime.now() + timedelta(hours=24), 
-    'air_quality')
-# and retrieve it
-expire_time = r.hexpiretime('sensor:sensor1', 'air_quality')
-print(expire_time)
-# prints [1717668041] # your actual value may vary
-```
+**Compact hashes work well when:**
+
+- Many keys share the same, mostly stable set of field names — classic object mapping, such as one hash per user, order, or session. The more keys that share a field set, the greater the memory saving.
+- Reads and value updates stay as fast as on a regular hash. Reading any field (for example, [`HGET`]({{< relref "/commands/hget" >}}), [`HGETALL`]({{< relref "/commands/hgetall" >}}), or [`HRANDFIELD`]({{< relref "/commands/hrandfield" >}})) and overwriting an existing field's value (`HSET key field value` where `field` already exists) are unaffected.
+
+**Compact hashes are not a good fit when:**
+
+- **Field names change often.** Adding a new field with [`HSET`]({{< relref "/commands/hset" >}}) or removing one with [`HDEL`]({{< relref "/commands/hdel" >}}) detaches the key from its shared field-name set and re-resolves it against the new set, creating a new one if that layout hasn't been seen before. A workload that constantly adds or removes field names erodes the benefit. Note also that once a hash becomes a compact hash, it stays one for the life of the key: it moves between field-name sets as its fields change, but never reverts to a plain hash.
+- **Field names are unique or highly dynamic per key.** With little sharing, a key ends up with its own field-name set, which carries some metadata overhead. A set used by only a few keys can therefore consume more memory than a plain hash. Compact hashes pay off when hundreds or thousands of keys share a set.
+- **Hashes are very large.** Because a compact hash is transferred as a single blob during replication and slot migration, very large hash keys may reduce or negate the benefit.
+
+There are two ways to opt in.
+
+### Bulk import with HIMPORT
+
+The [`HIMPORT`]({{< relref "/commands/himport" >}}) command family lets a client import many hashes that share the same field names efficiently. You declare the shared field names once with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}), then create each key with [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}) by sending only its values. This reduces network traffic and per-command work compared with running [`HSET`]({{< relref "/commands/hset" >}}) once per key, and hints Redis to store the new keys as compact hashes. See [`HIMPORT`]({{< relref "/commands/himport" >}}) for the full workflow and its subcommands.
+
+### Automatic conversion
+
+For workloads that can't adopt a new command, Redis can convert eligible hashes to compact hashes on its own, with no code change. All the following settings default to `0` (off) and can be changed at runtime with [`CONFIG SET`]({{< relref "/commands/config-set" >}}).
+
+#### On the write path
+
+These convert hashes created or modified by normal commands (such as [`HSET`]({{< relref "/commands/hset" >}})), so an existing application gains the memory saving with no code change. They take effect lazily, like `hash-max-listpack-entries`: a change applies to a given hash only on its next write, not the moment you run [`CONFIG SET`]({{< relref "/commands/config-set" >}}).
+
+| Config | Meaning |
+|---|---|
+| `hash-min-template-entries` | Minimum field count for a hash to be auto-converted to a compact hash on its next write. `0` disables auto-conversion. |
+| `hash-max-template-entries` | Maximum field count for auto-conversion: a hash wider than this is left a plain hash (keeps very wide hashes out of the shared registry). `0` means no upper bound. |
+
+A hash is not converted if it uses [field expiration](#field-expiration), even when its field count meets the minimum. After a hash has been converted, it stays a compact hash even if its field count later grows beyond `hash-max-template-entries`.
+
+#### On RDB load
+
+An RDB saved before this feature contains only plain hashes. These configs let Redis convert them to compact hashes *as the RDB loads*, so an upgrade reclaims memory without rewriting data. They apply only to RDBs without compact hashes; an RDB that already contains them is loaded as-is, with no load-time conversion. In effect these are one-time upgrade configs: they have no effect once the RDB contains at least one compact hash.
+
+| Config | Meaning |
+|---|---|
+| `hash-rdb-load-min-template-entries` | Minimum field count to convert a plain hash to a compact hash during load. `0` disables load-time conversion. |
+| `hash-rdb-load-max-template-entries` | Maximum field count for load-time conversion. `0` means no upper bound. |
+| `hash-rdb-load-template-disassembly-threshold` | Minimum number of keys that must end up sharing a converted field-name set for it to be kept. `0` keeps every converted set. |
+
+The disassembly threshold avoids wasting memory on field-name sets shared by only a few keys: at the end of the load, if a set is used by fewer keys than the threshold, those keys are converted back to plain hashes and the shared set is freed. It also acts as a safety valve during the load. Redis tracks how many converted sets are still below the threshold; once at least 1,000 have been created, if more than half of them are still below the threshold, Redis assumes the dataset is a poor fit for compact hashes and stops creating new ones partway through the load. From that point, only hashes whose field set matches one already created during this load are converted; the rest stay plain.
 
 ## Performance
 

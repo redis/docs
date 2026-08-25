@@ -1,0 +1,257 @@
+name: alias_check
+
+# Find pages that moved without gaining an alias for their old URL, and open a
+# PR adding the missing aliases.
+#
+# Deliberately *post-merge* rather than a pull_request check: it adds nothing to
+# anyone's PR -- no check, no annotation, no comment. Because the scan takes about
+# three seconds and needs no Hugo build, running it on every push to main keeps
+# the window in which an old URL 404s down to minutes, rather than the days a
+# scheduled-only sweep would imply.
+#
+# The PR it opens always represents the same thing: current main plus every alias
+# that is currently missing. That makes repeated runs idempotent -- the branch is
+# regenerated from scratch each time, so it can never accumulate a stale half-fix.
+#
+# Closing the PR is a perfectly good answer when a page was retired on purpose
+# rather than moved. Nothing else depends on it, and the next run will simply
+# propose it again if the page is still reachable by a dead URL.
+#
+# See DOC-6951 and build/check_missing_aliases.py.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Belt and braces for quiet periods, and for the small tail of renames git
+    # records as a delete plus an add rather than a rename.
+    - cron: '0 4 1 * *'   # 04:00 UTC on the 1st of each month
+  workflow_dispatch:
+
+# One run at a time. Overlapping runs both force-push the same branch, and the
+# loser could replace a newer commit with an older one built from an earlier main.
+# The newest run is always the one whose answer we want, so an in-flight older run
+# is cancelled rather than queued. A run cancelled between the push and the PR
+# creation is self-healing: the next run force-pushes again and finds no open PR.
+concurrency:
+  group: alias_check
+  cancel-in-progress: true
+
+# Minimal default; the job widens what it needs.
+permissions:
+  contents: read
+
+env:
+  FIX_BRANCH: auto/missing-aliases
+  PR_TITLE: Add aliases for pages that moved without one
+  # GitHub rejects a PR body over 65,536 characters. A full report on a large
+  # backlog runs to about 118,000, so it is trimmed well below the cap and the
+  # untrimmed version stays in the run log.
+  BODY_REPORT_LIMIT: 40000
+
+jobs:
+  alias_check:
+    name: Check for pages that moved without an alias
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check out main with full history
+        uses: actions/checkout@v4
+        with:
+          # Always main, whatever ref triggered the run. A manual dispatch from
+          # another branch would otherwise scan that branch and open a PR whose
+          # head carried its unrelated commits.
+          ref: main
+          # Required, not merely preferred. The scanner reads git rename records,
+          # and in a shallow clone it finds none, reports zero moves and exits 0
+          # -- a permanent green tick that never examines anything. Verified
+          # against a --depth 1 clone.
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: pip3 install "PyYAML==6.0.1"
+
+      - name: Scan for missing aliases and add them
+        id: scan
+        run: |
+          set -uo pipefail
+          # --fail is passed so that a file the fixer *refused* to edit becomes
+          # visible. With --fix it exits 1 only when some actionable file was
+          # skipped, which is otherwise invisible: the working tree would look clean
+          # for those pages and the run would report nothing to do. Exit 2 means the
+          # scan itself failed and is handled separately below, so a broken scan is
+          # never reported as a content problem.
+          #
+          # errexit has to come off around the pipeline. Actions runs `run` blocks with
+          # `bash -eo pipefail`, and `set -uo pipefail` does not undo the -e, so a
+          # deliberate exit 1 would abort the step before PIPESTATUS is read -- leaving
+          # the `skipped` output unwritten, the next step unrun, and the aliases that
+          # *were* fixed discarded with no pull request. That made the whole
+          # refused-file mechanism unreachable exactly when it mattered. Verified
+          # against `bash --noprofile --norc -eo pipefail`.
+          set +e
+          python3 build/check_missing_aliases.py --all --fix --fail 2>&1 | tee alias-report.txt
+          status="${PIPESTATUS[0]}"
+          set -e
+          echo "skipped=${status}" >> "$GITHUB_OUTPUT"
+          if [ "${status}" -gt 1 ]; then
+            echo "::error::check_missing_aliases failed with exit ${status}"
+            exit "${status}"
+          fi
+
+      - name: Open or update the fix PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKIPPED: ${{ steps.scan.outputs.skipped }}
+        run: |
+          set -euo pipefail
+
+          # `gh pr list --head` is an exact lookup, unlike `gh search prs`, which goes
+          # through an eventually-consistent index and can miss a PR opened moments
+          # ago. But it matches on branch *name* alone, so a fork whose branch happens
+          # to be called auto/missing-aliases would match too -- and this job goes on
+          # to comment on, close, or rewrite whatever it finds. isCrossRepository
+          # filters to pull requests whose head is in this repository, so a
+          # contributor's PR can never be picked up by mistake.
+          find_bot_pr() {
+            gh pr list --head "${FIX_BRANCH}" --state open \
+              --json number,isCrossRepository \
+              --jq '[.[] | select(.isCrossRepository == false) | .number] | first // empty'
+          }
+          # Tolerant of a transient API failure: an unreachable listing should not
+          # redden a run on main, and treating it as "no PR" means the worst case is a
+          # duplicate that the next run's force push folds back together.
+          existing="$(find_bot_pr || true)"
+
+          # This job takes minutes, and someone can merge or close the fix PR inside
+          # that window. Acting on the number we looked up at the start would then
+          # either fail outright -- closing a merged PR is an error, and `set -e`
+          # would redden a run on main for something harmless -- or quietly edit a
+          # PR nobody will read again. So confirm it is still open immediately before
+          # each use, and treat "no longer open" as "there is no PR", which lets the
+          # normal paths take over: create a fresh one, or do nothing.
+          still_open() {
+            [ -n "${existing}" ] || return 1
+            [ "$(gh pr view "${existing}" --json state --jq .state 2>/dev/null)" = "OPEN" ]
+          }
+
+          if [ -z "$(git status --porcelain -- content)" ]; then
+            if [ "${SKIPPED}" = "1" ]; then
+              # Nothing to open a PR with, yet the fixer declined some files. Close
+              # any open bot PR first: its edits have already reached main, so its
+              # diff is spent whether or not other gaps remain, and leaving it open
+              # is the stale-PR case regardless. Then fail, because a red run is the
+              # only channel anyone would notice for the gaps that are left.
+              if still_open; then
+                echo "Closing PR #${existing}: its changes have landed, though gaps remain."
+                gh pr comment "${existing}" --body \
+                  "Closing automatically: the aliases in this PR have reached \`main\`, so its diff is spent. Some pages still need aliases added by hand -- see the failing \`alias_check\` run for which." \
+                  || echo "::warning::Could not comment on PR #${existing}."
+                gh pr close "${existing}" --delete-branch \
+                  || echo "::warning::Could not close PR #${existing}."
+              fi
+              echo "::error::Missing aliases were found but could not be added automatically. See the report above."
+              exit 1
+            fi
+            if still_open; then
+              # Nothing is missing any more, but a fix PR is still open -- the
+              # aliases reached main some other way, by hand or in someone else's
+              # PR. Its diff is now redundant, and leaving it open invites someone
+              # to merge a stale set of edits. Close it rather than let it rot; the
+              # next run reopens one if anything is missing again.
+              echo "No missing aliases, but PR #${existing} is still open. Closing it."
+              # Both calls tolerate failure: the state check above narrows the race
+              # window but cannot close it, and neither a missing comment nor an
+              # already-closed PR is worth reddening a run on main for.
+              gh pr comment "${existing}" --body \
+                "Closing automatically: a scan of current \`main\` finds no missing aliases, so these changes are no longer needed. A new PR will open if any page moves without one." \
+                || echo "::warning::Could not comment on PR #${existing}."
+              gh pr close "${existing}" --delete-branch \
+                || echo "::warning::Could not close PR #${existing}; it may have just been merged or closed."
+              exit 0
+            fi
+            echo "No missing aliases. Nothing to do."
+            exit 0
+          fi
+
+          echo "Changed files:"
+          git diff --stat -- content | tail -1
+
+          git config user.email "177626021+redisdocsapp[bot]@users.noreply.github.com"
+          git config user.name "redisdocsapp[bot]"
+
+          # Branch off the commit just built, carrying the working-tree changes
+          # with us. No branch switching, so nothing can conflict.
+          git checkout -B "${FIX_BRANCH}"
+          git add content
+          git commit --quiet -m "Add aliases for pages that moved without one" \
+            -m "Generated by build/check_missing_aliases.py --all --fix."
+
+          # A plain force push: this branch is bot-owned and regenerated from
+          # main on every run, so there is no history worth preserving on it.
+          git push --quiet --force origin "${FIX_BRANCH}"
+
+          # Keep the *end* of the report, not the beginning. Since --fix runs before
+          # the report, the output starts with a line per alias written -- which the
+          # diff below already shows -- and ends with the summary and the categories
+          # that need a human decision. Trimming the head off keeps what a reviewer
+          # cannot get anywhere else.
+          if [ "$(wc -c < alias-report.txt)" -gt "${BODY_REPORT_LIMIT}" ]; then
+            printf '[Earlier output trimmed to fit; the full report is in the workflow run log.]\n\n' \
+              > report-for-body.txt
+            tail -c "${BODY_REPORT_LIMIT}" alias-report.txt >> report-for-body.txt
+          else
+            cp alias-report.txt report-for-body.txt
+          fi
+
+          {
+            echo "Adds aliases for pages that were renamed without one, so their old URLs stop returning 404."
+            echo
+            echo "Generated by \`build/check_missing_aliases.py --all --fix\`. Only \`aliases:\` frontmatter is touched — no prose changes and no page moves."
+            echo
+            echo "**If a page here was retired on purpose rather than moved, close this PR.** Nothing depends on it."
+            echo
+            echo "Cases needing a human decision are reported below rather than changed: an old URL that is a live page today, a URL another page already claims as its alias, a page that was split into a section, or a move onto a draft."
+            echo
+            echo '<details><summary>Scanner report</summary>'
+            echo
+            echo '```'
+            cat report-for-body.txt
+            echo '```'
+            echo
+            echo '</details>'
+          } > pr-body.md
+
+          if still_open; then
+            # The force push has already updated the diff, but the description
+            # holds the previous run's report -- including its skip and collision
+            # notes, which may no longer be what a reviewer needs to decide. Rewrite
+            # it so the body always describes the diff below it.
+            echo "Refreshing the description of PR #${existing}."
+            if gh pr edit "${existing}" --body-file pr-body.md; then
+              exit 0
+            fi
+            echo "::warning::Could not update PR #${existing}; falling through to open a new one."
+          fi
+
+          # A run cancelled or overlapping despite the concurrency group could
+          # have opened the PR between the lookup above and this call. Losing that
+          # race is not a failure: the force push already updated the branch, and
+          # the winner's body describes the same commit.
+          if ! gh pr create --title "${PR_TITLE}" --body-file pr-body.md \
+                 --head "${FIX_BRANCH}" --base main; then
+            raced="$(find_bot_pr || true)"
+            if [ -n "${raced}" ]; then
+              # Tolerant for the same reason as every other call on a PR number here:
+              # the PR can be merged or closed between finding it and editing it, and
+              # the branch has already been pushed either way, so failing the run on
+              # main achieves nothing.
+              echo "A concurrent run opened PR #${raced} first; refreshing its description."
+              gh pr edit "${raced}" --body-file pr-body.md \
+                || echo "::warning::Could not update PR #${raced}; its description may be from an earlier run."
+            else
+              exit 1
+            fi
+          fi

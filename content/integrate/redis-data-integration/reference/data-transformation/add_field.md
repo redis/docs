@@ -53,12 +53,12 @@ Add one field
 
 **Properties**
 
-| Name           | Type     | Description                                                                                                                                                                                                                                                  | Required |
-| -------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| **field**      | `string` | Field<br/>                                                                                                                                                                                                                                                   | yes      |
-| **expression** | `string` | Expression<br/>                                                                                                                                                                                                                                              | yes      |
-| **language**   | `string` | Language<br/>Enum: `"jmespath"`, `"sql"`<br/>                                                                                                                                                                                                                | yes      |
-| **cache**      | `object` | Cache the result of the field expression. See [`cache`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/cache" >}}) for the property list. **Flink processor only.**<br/>                                                         | no       |
+| Name           | Type     | Description                                                                                                                                                                                           | Required |
+| -------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **field**      | `string` | Field<br/>                                                                                                                                                                                            | yes      |
+| **expression** | `string` | Expression<br/>                                                                                                                                                                                       | yes      |
+| **language**   | `string` | Language<br/>Enum: `"jmespath"`, `"sql"`<br/>                                                                                                                                                         | yes      |
+| **cache**      | `object` | Cache the result of the field expression. See [`cache`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/cache" >}}) for the property list. **Flink processor only.**<br/> | no       |
 
 **Additional Properties:** not allowed
 
@@ -86,12 +86,12 @@ Fields
 
 **Item Properties**
 
-| Name           | Type     | Description                                                                                                                                                                                                                                                  | Required |
-| -------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| **field**      | `string` | Field<br/>                                                                                                                                                                                                                                                   | yes      |
-| **expression** | `string` | Expression<br/>                                                                                                                                                                                                                                              | yes      |
-| **language**   | `string` | Language<br/>Enum: `"jmespath"`, `"sql"`<br/>                                                                                                                                                                                                                | yes      |
-| **cache**      | `object` | Cache the result of the field expression. See [`cache`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/cache" >}}) for the property list. **Flink processor only.**<br/>                                                         | no       |
+| Name           | Type     | Description                                                                                                                                                                                           | Required |
+| -------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| **field**      | `string` | Field<br/>                                                                                                                                                                                            | yes      |
+| **expression** | `string` | Expression<br/>                                                                                                                                                                                       | yes      |
+| **language**   | `string` | Language<br/>Enum: `"jmespath"`, `"sql"`<br/>                                                                                                                                                         | yes      |
+| **cache**      | `object` | Cache the result of the field expression. See [`cache`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/cache" >}}) for the property list. **Flink processor only.**<br/> | no       |
 
 **Item Additional Properties:** not allowed
 

@@ -1,6 +1,9 @@
 ---
 Title: Write to a Redis hash
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-hash-example/
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-hash-example/
+- /integrate/redis-data-integration/data-transformation/examples/redis-hash-example/
+- /integrate/redis-data-integration/ingest/data-transformation/examples/redis-hash-example/
 alwaysopen: false
 categories:
 - docs

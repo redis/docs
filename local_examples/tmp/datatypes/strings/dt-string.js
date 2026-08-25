@@ -24,6 +24,9 @@ assert.equal(res2, 'Deimos');
 // REMOVE_END
 
 // STEP_START setnx_xx
+// Recreate the bike:1 key so this example runs on its own.
+await client.set("bike:1", "Deimos");
+
 const res3 = await client.set("bike:1", "bike", {'NX': true});
 console.log(res3);  // null
 console.log(await client.get("bike:1"));  // Deimos

@@ -7,6 +7,8 @@ categories:
 description: Understand key benefits of using Redis for AI.
 linktitle: GenAI apps
 weight: 20
+aliases:
+- /develop/ai/genai-apps/
 ---
 
 Redis enables high-performance, scalable, and reliable data management, making it a key component for GenAI apps, chatbots, and AI agents. By leveraging Redis for fast data retrieval, caching, and vector search capabilities, you can enhance AI-powered interactions, reduce latency, and improve user experience.

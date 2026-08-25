@@ -165,6 +165,24 @@ await client.del('myhash')
 // REMOVE_END
 // STEP_END
 
+// STEP_START hlen
+const res17 = await client.hSet('myhash', 'field1', 'Hello')
+console.log(res17) // 1
+
+const res18 = await client.hSet('myhash', 'field2', 'World')
+console.log(res18) // 1
+
+const res19 = await client.hLen('myhash')
+console.log(res19) // 2
+
+// REMOVE_START
+assert.equal(res17, 1);
+assert.equal(res18, 1);
+assert.equal(res19, 2);
+await client.del('myhash')
+// REMOVE_END
+// STEP_END
+
 // HIDE_START
 await client.close();
 // HIDE_END

@@ -1,6 +1,8 @@
 ---
 Title: Data denormalization
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/data-denormalization/
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/data-denormalization/
+- /integrate/redis-data-integration/data-transformation/data-denormalization/
 alwaysopen: false
 categories:
 - docs

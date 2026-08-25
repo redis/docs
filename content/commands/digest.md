@@ -58,12 +58,12 @@ The name of the key.
 
 ## Examples
 
-```bash
+{{% redis-cli %}}
 > SET key1 "Hello world"
 OK
 > DIGEST key1
 "b6acb9d84a38ff74"
-```
+{{% /redis-cli %}}
 
 ## Details
 

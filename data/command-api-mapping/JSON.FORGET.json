@@ -67,6 +67,27 @@
           "description": ""
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_forget(key, path = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "an optional JSONPath (defaults to the root \"$\")"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of values deleted (alias of json_del)"
+        }
+      }
     ]
   }
 }

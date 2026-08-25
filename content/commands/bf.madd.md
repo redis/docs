@@ -57,12 +57,12 @@ One or more items to add.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.MADD bf item1 item2 item2
 1) (integer) 1
 2) (integer) 1
 3) (integer) 0
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

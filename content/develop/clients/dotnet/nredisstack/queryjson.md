@@ -1,6 +1,7 @@
 ---
 aliases:
 - /develop/clients/dotnet/queryjson
+- /develop/connect/clients/dotnet/queryjson/
 categories:
 - docs
 - develop

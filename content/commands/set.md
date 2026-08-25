@@ -34,12 +34,12 @@ arguments:
     name: ifdeq-digest
     since: 8.4.0
     token: IFDEQ
-    type: integer
+    type: string
   - display_text: ifdne-digest
     name: ifdne-digest
     since: 8.4.0
     token: IFDNE
-    type: integer
+    type: string
   name: condition
   optional: true
   since: 2.6.12
@@ -235,11 +235,11 @@ Note: Since the `SET` command options can replace [`SETNX`]({{< relref "/command
 
 {{< clients-example set="set_and_get" step="set" description="Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)" difficulty="beginner" >}}
 > SET mykey "Hello"
-"OK"
+OK
 > GET mykey
 "Hello"
 > SET anotherkey "will expire in a minute" EX 60
-"OK"
+OK
 {{< /clients-example >}}
 
 ## Details

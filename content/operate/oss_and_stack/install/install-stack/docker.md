@@ -40,7 +40,10 @@ If you don’t have `redis-cli` installed locally, you can run it from the Docke
 $ docker exec -it redis redis-cli
 {{< / highlight >}}
 
-If you do have `redis-cli` installed locally, you can run it from your terminal:
+If you want to install `redis-cli` locally, see
+[Install redis-cli]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}).
+
+If you already have `redis-cli` installed locally, you can run it from your terminal:
 
 {{< highlight bash >}}
 $ redis-cli -h 127.0.0.1 -p 6379

@@ -87,6 +87,16 @@
   {{- with findRESubmatch `(?:^|\s)max_lines="([0-9]+)"` $attrs -}}
     {{- $maxLines = int (index (index . 0) 1) -}}
   {{- end -}}
+  {{- /* Parse lang_filter so the output matches the rendered page (which shows only the filtered client tabs, plus the CLI). Empty filter => all languages. */ -}}
+  {{- $langFilterStr := "" -}}
+  {{- with findRESubmatch `(?:^|\s)lang_filter="([^"]*)"` $attrs -}}
+    {{- $langFilterStr = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $langFilter := slice -}}
+  {{- range $t := split $langFilterStr "," -}}
+    {{- $tt := trim $t " " -}}
+    {{- if $tt -}}{{- $langFilter = $langFilter | append $tt -}}{{- end -}}
+  {{- end -}}
   {{- $cliContent := replaceRE $pattern `$2` $match -}}
   {{- $cliContent = replaceRE "^\\s*\\}\\}\\s*" "" $cliContent -}}
   {{- $cliContent = strings.TrimSpace $cliContent -}}
@@ -257,10 +267,10 @@
       {{- $availableLangs = $availableLangs | append "Redis CLI" -}}
     {{- end -}}
 
-    {{- /* Collect all other languages */ -}}
+    {{- /* Collect all other languages (honoring lang_filter when present) */ -}}
     {{- range $lang, $langData := $exampleData -}}
       {{- if ne $lang "steps_commands" -}}
-        {{- if ne $lang "redis-cli" -}}
+        {{- if and (ne $lang "redis-cli") (or (eq (len $langFilter) 0) (in $langFilter $lang)) -}}
           {{- $langCode := index $langData "language" -}}
           {{- $displayName := index $keyNames $lang -}}
           {{- if not $displayName -}}
@@ -423,6 +433,16 @@
   {{- with findRESubmatch `(?:^|\s)buildsUpon="([^"]*)"` $attrs -}}
     {{- $buildsUponStr = index (index . 0) 1 -}}
   {{- end -}}
+  {{- /* Parse lang_filter so the output matches the rendered page. Empty filter => all clients. */ -}}
+  {{- $langFilterStr := "" -}}
+  {{- with findRESubmatch `(?:^|\s)lang_filter="([^"]*)"` $attrs -}}
+    {{- $langFilterStr = index (index . 0) 1 -}}
+  {{- end -}}
+  {{- $langFilter := slice -}}
+  {{- range $t := split $langFilterStr "," -}}
+    {{- $tt := trim $t " " -}}
+    {{- if $tt -}}{{- $langFilter = $langFilter | append $tt -}}{{- end -}}
+  {{- end -}}
 
   {{- /* Unescape HTML entities in description */ -}}
   {{- if $description -}}
@@ -479,11 +499,11 @@
       {{- end -}}
     {{- end -}}
 
-    {{- /* List available languages and output code */ -}}
+    {{- /* List available languages and output code (honoring lang_filter when present) */ -}}
     {{- $availableLangs := slice -}}
     {{- range $client := $.Site.Params.clientsexamples -}}
       {{- $example := index $clientExamples $client -}}
-      {{- if $example -}}
+      {{- if and $example (or (eq (len $langFilter) 0) (in $langFilter $client)) -}}
         {{- $displayName := index $keyNames $client -}}
         {{- if not $displayName -}}
           {{- $displayName = $client -}}
@@ -495,10 +515,10 @@
       {{- $replacement = printf "%s**Available in:** %s\n\n" $replacement (delimit $availableLangs ", ") -}}
     {{- end -}}
 
-    {{- /* Output code from each available client */ -}}
+    {{- /* Output code from each available client (honoring lang_filter when present) */ -}}
     {{- range $client := $.Site.Params.clientsexamples -}}
       {{- $example := index $clientExamples $client -}}
-      {{- if $example -}}
+      {{- if and $example (or (eq (len $langFilter) 0) (in $langFilter $client)) -}}
         {{- $targetPath := index $example "target" -}}
         {{- $language := index $example "language" -}}
         {{- if and $targetPath $language -}}
