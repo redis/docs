@@ -10,8 +10,6 @@ linkTitle: Monitor
 weight: 30
 ---
 
-The views on this page are read-only. You cannot start, stop, resize, or reconfigure anything from them: you read what your clusters reported, then act on the cluster itself.
-
 Radar has five views, each answering a different question:
 
 | View | Answers |
@@ -21,6 +19,8 @@ Radar has five views, each answering a different question:
 | [Databases](#databases) | Which database, across every cluster? |
 | [Usage](#usage) | How much are you consuming against your limits? |
 | [Alerts](#alerts) | What is your fleet complaining about? |
+
+All the views are read-only. You cannot start, stop, resize, or reconfigure anything from them: you read what your clusters report via Radar, but you must access the cluster itself to take action.
 
 ## How current the data is
 
@@ -40,7 +40,7 @@ On a Redis Cloud database's detail view, **Force refresh** collects that databas
 
 This affects memory and ops/sec. Older Redis Software versions do not expose the per-database statistics behind those figures, so a fleet of Redis Software 7.2 or 7.4 clusters can show N/A where a newer fleet shows a number.
 
-Shard counts are the exception: they always show a number, because zero shards is a real answer rather than a missing one.
+Shard counts always show a number, because zero shards is a real answer rather than a missing one.
 
 ## Overview
 

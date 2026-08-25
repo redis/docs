@@ -41,9 +41,9 @@ Radar reads each cluster's own management interface using credentials you supply
 Two consequences:
 
 - **Radar needs credentials for every cluster you want to see.** Getting that access in place is most of the setup work. See [Connect clusters]({{< relref "/operate/radar/connect" >}}).
-- **For self-managed clusters, Radar shows the last successful collection rather than live state.** Redis Software and Redis Open Source clusters are collected on an interval, so a value is only as fresh as the last time Radar reached that cluster. Radar displays that age alongside the data.
+- **For self-managed clusters, Radar shows the last successful state collection rather than live state.** Radar collects the state of Redis Software and Redis Open Source clusters on an interval, so a value is only as fresh as the last time Radar reached that cluster. Radar shows that age alongside the data.
 
 ## Next steps
 
-Start with [Install Radar]({{< relref "/operate/radar/install" >}}) to deploy Radar on your own infrastructure, then [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster. Once clusters are connected, [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}) covers what Radar shows you.
+Start with [Install Radar]({{< relref "/operate/radar/install" >}}) to deploy Radar on your own infrastructure, then [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster. Once clusters are connected, see [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}) for what Radar shows you.
 

@@ -12,9 +12,9 @@ weight: 40
 
 This page applies to self-managed Radar installations. Redis Cloud manages Radar users and roles for you, so the local accounts, roles, LDAP, and SAML SSO described here do not apply there.
 
-Radar has two roles, and every user has exactly one of them. People sign in with a local Radar account, through your directory over LDAP, or through your identity provider with SAML SSO.
+Radar has two roles, administrator and viewer, one of which is assigned to every user. Users sign in with a local Radar account, through your directory over LDAP, or through your identity provider with SAML SSO.
 
-You configure users and sign-in methods in different places. Create local accounts under **Users**. Choose and configure the sign-in method under **Settings > Authentication**, where that choice applies to all of Radar.
+Create local accounts under **Users**. Choose and configure the sign-in method under **Settings > Authentication**, where that choice applies to all of Radar.
 
 ## Roles
 
@@ -28,6 +28,8 @@ A role applies to the entire fleet. You cannot scope a user to a subset of clust
 New users are viewers unless you choose otherwise. Only admins can see or change users; the **Users** area is hidden from viewers.
 
 ## Create local users
+
+To create a local user:
 
 1. Go to **Users** and add a user.
 2. Enter a **username** and **email address**.
