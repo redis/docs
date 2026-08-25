@@ -30,7 +30,8 @@ progress in implementing the recommendations.
 - [ ] [Monitor performance and errors](#monitor-performance-and-errors)
 - [ ] [Retries](#retries)
 - [ ] [Timeouts](#timeouts)
-- [ ] [Smart client handoffs](#seamless-client-experience)
+- [ ] [Connection pooling](#connection-pooling)
+- [ ] [Smart client handoffs](#smart-client-handoffs)
 ```
 
 ## Recommendations
@@ -126,6 +127,69 @@ for your application. If timeouts are set too short, then `go-redis`
 might retry commands that would have succeeded if given more time. However,
 if they are too long, your app might hang unnecessarily while waiting for a
 response that will never arrive.
+
+### Connection pooling
+
+`go-redis` manages connections for you with a
+[connection pool]({{< relref "/develop/clients/pools-and-muxing" >}}), so your
+app doesn't have to cache and reuse open connections itself. The `PoolSize`
+field of `Options` sets the number of connections the main pool keeps, which
+defaults to ten times the value of `GOMAXPROCS`. `MinIdleConns` sets how many
+connections to open before your app asks for them, `MaxActiveConns` caps the
+total number of connections, and `PoolTimeout` sets how long a command waits
+for a free connection. By default, no connections are opened in advance, the
+total is uncapped, and a command waits one second longer than `ReadTimeout`.
+
+Pipelines don't use the main pool. Every client also creates a separate
+*pipeline pool* that
+[pipelines and transactions]({{< relref "/develop/clients/go/transpipe" >}}) and
+[automatic pipelining]({{< relref "/develop/clients/go/autopipeline" >}}) use
+for each batch they run. This keeps a burst of batches from competing with your
+ordinary commands for the same connections. You don't have to enable it.
+
+The pipeline pool is sized with these fields of `Options`:
+
+| Field | Description |
+| :---- | :---------- |
+| `PipelinePoolSize` | Number of connections the pipeline pool keeps. Defaults to 10. Set it to `-1` to do without a pipeline pool, which returns pipelines to the main pool. |
+| `PipelineReadBufferSize` | Size of the read buffer for each pipeline connection. Defaults to the larger of `ReadBufferSize` and 64 KiB, because a batch brings back many replies in a single round trip. A value smaller than the minimum that the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}}) protocol needs for push messages is raised to that minimum. |
+| `PipelineWriteBufferSize` | Size of the write buffer for each pipeline connection. Defaults to the larger of `WriteBufferSize` and 64 KiB. |
+
+The pipeline pool costs you nothing while you aren't pipelining. It never opens
+connections in advance, whatever `MinIdleConns` you set, so an idle pipeline
+pool holds no connections at all. It also doesn't take its cap from
+`MaxActiveConns`, which would double the number of connections your client can
+open. The limit is instead `MaxActiveConns` plus `PipelinePoolSize`.
+`ClusterClient` and `Ring` create a pipeline pool for each node, so count that
+addition once per node rather than once per client.
+
+When every pipeline connection is busy, a batch waits 100 milliseconds and then
+runs on the main pool rather than queuing for a pipeline connection. A
+`PoolTimeout` shorter than 100 milliseconds shortens that wait as well. The main
+pool still applies `MaxActiveConns` to a batch that reaches it this way, and a
+`Limiter` counts such a batch once rather than twice.
+
+To find out whether the pipeline pool is the right size, read `PipelineStats`
+from the client's pool statistics:
+
+```go
+stats := client.PoolStats()
+fmt.Printf("Main pool hits: %d, misses: %d, timeouts: %d\n",
+    stats.Hits, stats.Misses, stats.Timeouts)
+if ps := stats.PipelineStats; ps != nil {
+    fmt.Printf("Pipeline pool connections: %d, hits: %d, timeouts: %d\n",
+        ps.TotalConns, ps.Hits, ps.Timeouts)
+}
+```
+
+A growing `Timeouts` count on the pipeline pool means batches are waiting for a
+connection and then running on the main pool, so try a larger
+`PipelinePoolSize`.
+`PipelineStats` is `nil` when you set `PipelinePoolSize` to `-1`, and combines
+the figures from every node for `ClusterClient` and `Ring`.
+
+The pipeline pool requires `github.com/redis/go-redis/v9` vX.Y.Z or later.
+<!--DOC-6996: replace vX.Y.Z with the release that ships go-redis PR #3959 (merged 2026-08-24, unreleased as of v9.22.0) when this branch is unparked.-->
 
 ### Smart client handoffs
 
