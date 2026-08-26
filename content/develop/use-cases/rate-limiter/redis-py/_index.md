@@ -117,6 +117,14 @@ Without atomic execution, race conditions could occur:
 
 Using [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/commands/evalsha" >}}) ensures the entire operation executes atomically, making it safe for distributed systems.
 
+## Installation
+
+Install the `redis` package:
+
+```bash
+pip install redis
+```
+
 ## Using the Python module
 
 The `TokenBucket` class provides a simple interface for rate limiting
@@ -167,6 +175,28 @@ The `key` parameter identifies what you're rate limiting. Common patterns:
 * **Per IP address**: `ip:{ip_address}` - Limit by client IP
 * **Per API endpoint**: `api:{endpoint}:{user_id}` - Different limits per endpoint
 * **Global**: `global:api` - Single limit shared across all requests
+
+### Script caching with EVALSHA
+
+The Python module uses [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for optimal
+performance. `TokenBucket` computes the script's SHA1 digest when you create it,
+loads the script into Redis with `SCRIPT LOAD` on first use, and sends every
+later request as `EVALSHA`. If the script has been evicted from the server's
+cache, it catches the resulting error, falls back to
+[`EVAL`]({{< relref "/commands/eval" >}}), and reloads the script.
+
+```python
+limiter = TokenBucket(capacity=10, refill_rate=1, refill_interval=1.0)
+
+limiter.allow('user:123')  # SCRIPT LOAD, then EVALSHA
+limiter.allow('user:123')  # EVALSHA against the cached script
+```
+
+The [alternative algorithm examples](#alternative-rate-limiting-algorithms) use
+`register_script()` instead, which wraps the same behavior in a `Script` object.
+That object derives the digest from the script text rather than from per-call
+state, so re-registering on each request adds no round trip: the digest is
+unchanged and `EVALSHA` still hits the cached script.
 
 ## Running the demo
 
@@ -237,9 +267,11 @@ their features:
 | [Leaky bucket (policing)](#leaky-bucket-policing) | 1 key (hash) | Exact | No bursts | Strict no-burst enforcement |
 
 The sections below give example implementations of these other algorithms.
-All of them use `redis.call('TIME')` inside the Lua script to derive the
-current timestamp from the Redis server clock. This eliminates clock
-drift when the limiter runs across multiple application servers.
+The three time-based algorithms call `redis.call('TIME')` inside the Lua
+script to derive the current timestamp from the Redis server clock. This
+eliminates clock drift when the limiter runs across multiple application
+servers. The fixed window counter reads no clock: the key's TTL defines
+the window.
 
 ### Fixed window counter
 

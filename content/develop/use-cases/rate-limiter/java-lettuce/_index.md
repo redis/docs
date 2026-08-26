@@ -423,6 +423,273 @@ try {
 
 Lettuce also supports automatic reconnection by default. If the connection to Redis is temporarily lost, Lettuce will attempt to reconnect and replay queued commands, providing better resilience than Jedis out of the box.
 
+## Alternative rate limiting algorithms
+
+The token bucket algorithm above handles most use cases but Redis supports
+other rate limiter patterns that might fit your requirements better. The table
+below lists four other algorithms alongside token bucket and summarizes
+their features:
+
+| Algorithm | Memory | Accuracy | Burst behavior | Best for |
+|---|---|---|---|---|
+| [Token bucket](#how-it-works) | 1 key (hash) | Exact | Controlled bursts | APIs with bursty traffic |
+| [Fixed window counter](#fixed-window-counter) | 1 key (string) | Approximate | 2x burst at boundaries | Simple API limits |
+| [Sliding window log](#sliding-window-log) | O(n) entries | Exact | No bursts | High-value APIs, audit trails |
+| [Sliding window counter](#sliding-window-counter) | 2 keys (string) | Near-exact | Smoothed boundaries | General-purpose APIs |
+| [Leaky bucket (policing)](#leaky-bucket-policing) | 1 key (hash) | Exact | No bursts | Strict no-burst enforcement |
+
+The sections below give example implementations of these other algorithms.
+The three time-based algorithms call `redis.call('TIME')` inside the Lua
+script to derive the current timestamp from the Redis server clock. This
+eliminates clock drift when the limiter runs across multiple application
+servers. The fixed window counter reads no clock: the key's TTL defines
+the window.
+
+### Fixed window counter
+
+Counts requests within discrete, non-overlapping time intervals.
+Simplest algorithm — one key per window, one `EVAL` round trip.
+
+```java
+import java.util.List;
+
+import io.lettuce.core.ScriptOutputType;
+import io.lettuce.core.api.sync.RedisCommands;
+
+public class FixedWindowLimiter {
+
+    private static final String SCRIPT = """
+            local key    = KEYS[1]
+            local limit  = tonumber(ARGV[1])
+            local window = tonumber(ARGV[2])
+
+            local count = redis.call('INCR', key)
+            if count == 1 then
+                redis.call('EXPIRE', key, window)
+            end
+
+            local ttl = redis.call('PTTL', key)
+
+            if count > limit then
+                return {0, ttl}
+            end
+            return {1, ttl}
+            """;
+
+    public record Decision(boolean allowed, long retryAfterMs) {}
+
+    public static Decision allow(RedisCommands<String, String> commands, String key,
+                                 int limit, int windowSeconds) {
+        List<Long> result = commands.eval(
+                SCRIPT,
+                ScriptOutputType.MULTI,
+                new String[]{key},
+                String.valueOf(limit), String.valueOf(windowSeconds));
+
+        boolean allowed = result.get(0) == 1L;
+        return new Decision(allowed, allowed ? 0L : result.get(1));
+    }
+}
+```
+
+**Trade-off**: A client can make 2x requests by sending `limit` requests
+at the end of one window and `limit` requests at the start of the next.
+
+### Sliding window log
+
+Records the exact timestamp of every request in a sorted set.
+Provides a true rolling window with no boundary bursts.
+
+```java
+import java.util.List;
+import java.util.UUID;
+
+import io.lettuce.core.ScriptOutputType;
+import io.lettuce.core.api.sync.RedisCommands;
+
+public class SlidingWindowLogLimiter {
+
+    private static final String SCRIPT = """
+            local key    = KEYS[1]
+            local limit  = tonumber(ARGV[1])
+            local window = tonumber(ARGV[2])
+            local member = ARGV[3]
+
+            local t      = redis.call('TIME')
+            local now    = tonumber(t[1]) + tonumber(t[2]) / 1e6
+            local cutoff = now - window
+
+            redis.call('ZREMRANGEBYSCORE', key, '-inf', cutoff)
+
+            local count = redis.call('ZCARD', key)
+
+            if count < limit then
+                redis.call('ZADD', key, now, member)
+                redis.call('EXPIRE', key, window * 2)
+                return {1, 0}
+            end
+
+            local oldest = redis.call('ZRANGE', key, 0, 0, 'WITHSCORES')
+            local retry_after_ms = 0
+            if oldest[2] then
+                retry_after_ms = math.floor((tonumber(oldest[2]) + window - now) * 1000)
+            end
+
+            return {0, retry_after_ms}
+            """;
+
+    public record Decision(boolean allowed, long retryAfterMs) {}
+
+    public static Decision allow(RedisCommands<String, String> commands, String key,
+                                 int limit, int windowSeconds) {
+        List<Long> result = commands.eval(
+                SCRIPT,
+                ScriptOutputType.MULTI,
+                new String[]{key},
+                String.valueOf(limit),
+                String.valueOf(windowSeconds),
+                UUID.randomUUID().toString());
+
+        return new Decision(result.get(0) == 1L, result.get(1));
+    }
+}
+```
+
+**Trade-off**: Memory grows O(n) with request volume. Not ideal for
+high-volume, high-cardinality rate limiting.
+
+### Sliding window counter
+
+Blends two fixed-window counters using a weighted average to approximate
+a true sliding window. Near-exact accuracy with the same low memory
+footprint as a fixed window. The two keys use hash tags so they map
+to the same slot in Redis Cluster.
+
+```java
+import java.util.List;
+
+import io.lettuce.core.ScriptOutputType;
+import io.lettuce.core.api.sync.RedisCommands;
+
+public class SlidingWindowCounterLimiter {
+
+    private static final String SCRIPT = """
+            local base   = KEYS[1]
+            local limit  = tonumber(ARGV[1])
+            local window = tonumber(ARGV[2])
+
+            local t   = redis.call('TIME')
+            local now = tonumber(t[1]) + tonumber(t[2]) / 1e6
+
+            local window_num = math.floor(now / window)
+            local elapsed     = (now % window) / window
+
+            local curr_key = base .. ':' .. window_num
+            local prev_key = base .. ':' .. (window_num - 1)
+
+            local prev = tonumber(redis.call('GET', prev_key) or 0)
+            local curr = tonumber(redis.call('GET', curr_key) or 0)
+
+            local estimate = prev * (1 - elapsed) + curr
+
+            if estimate >= limit then
+                return {0, 0}
+            end
+
+            local new_count = redis.call('INCR', curr_key)
+            if new_count == 1 then
+                redis.call('EXPIRE', curr_key, window * 2)
+            end
+
+            return {1, 0}
+            """;
+
+    public static boolean allow(RedisCommands<String, String> commands, String key,
+                                int limit, int windowSeconds) {
+        List<Long> result = commands.eval(
+                SCRIPT,
+                ScriptOutputType.MULTI,
+                new String[]{"{" + key + "}"},
+                String.valueOf(limit), String.valueOf(windowSeconds));
+
+        return result.get(0) == 1L;
+    }
+}
+```
+
+**Trade-off**: The weighted estimate may let slightly more or fewer
+requests through than the exact limit. Negligible for most apps.
+
+### Leaky bucket (policing)
+
+A virtual bucket fills with incoming requests and drains at a fixed rate.
+If the bucket is full, requests are rejected immediately. This is the
+policing variant — requests are allowed or denied instantly with no delay.
+
+```java
+import java.util.List;
+
+import io.lettuce.core.ScriptOutputType;
+import io.lettuce.core.api.sync.RedisCommands;
+
+public class LeakyBucketLimiter {
+
+    private static final String SCRIPT = """
+            local key       = KEYS[1]
+            local capacity  = tonumber(ARGV[1])
+            local leak_rate = tonumber(ARGV[2])
+
+            local t   = redis.call('TIME')
+            local now = tonumber(t[1]) + tonumber(t[2]) / 1e6
+
+            local data      = redis.call('HGETALL', key)
+            local level     = 0
+            local last_leak = now
+
+            if #data > 0 then
+                for i = 1, #data, 2 do
+                    if data[i] == 'level' then
+                        level = tonumber(data[i+1])
+                    elseif data[i] == 'last_leak' then
+                        last_leak = tonumber(data[i+1])
+                    end
+                end
+            end
+
+            local elapsed = now - last_leak
+            level = math.max(0, level - elapsed * leak_rate)
+
+            if level + 1 > capacity then
+                return {0, math.floor((level + 1 - capacity) / leak_rate * 1000)}
+            end
+
+            level = level + 1
+            local ttl = math.ceil(capacity / leak_rate) + 1
+
+            redis.call('HSET', key, 'level', level, 'last_leak', now)
+            redis.call('EXPIRE', key, ttl)
+
+            return {1, 0}
+            """;
+
+    public record Decision(boolean allowed, long retryAfterMs) {}
+
+    public static Decision allow(RedisCommands<String, String> commands, String key,
+                                 int capacity, double leakRate) {
+        List<Long> result = commands.eval(
+                SCRIPT,
+                ScriptOutputType.MULTI,
+                new String[]{key},
+                String.valueOf(capacity), String.valueOf(leakRate));
+
+        return new Decision(result.get(0) == 1L, result.get(1));
+    }
+}
+```
+
+**Trade-off**: Overflow traffic is rejected immediately. Clients must
+handle `429 Too Many Requests` and retry with backoff.
+
 ## Learn more
 
 * [EVAL command]({{< relref "/commands/eval" >}}) - Execute Lua scripts
