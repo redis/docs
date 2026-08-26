@@ -57,6 +57,16 @@ around a literal, rewrite the sentence.
 - **Cross-references use the relref shortcode**, not markdown paths:
   `{{< relref "/operate/rs/clusters/new-cluster-setup" >}}`. A broken relref fails the
   build. Link text is descriptive — never "click here" or a bare URL.
+  **relref validates the page, never the heading** — a relref with a dead `#anchor`
+  builds clean, so check the anchor against the built page yourself.
+- **Prefer an internal relref to an external anchor** where we document the same thing.
+  The relref is build-checked; an external anchor is not, and upstream restructures
+  without telling us.
+- **Pin GitHub deep links to a commit SHA**, never a moving branch. Line anchors such as
+  `#L99-L130` drift silently as the file changes, so verify the lines at the SHA you
+  pin. A link to a repository or file as a whole may stay on the default branch.
+- **Never link a scroll-to-text fragment** (`#:~:text=`). It is not a real anchor, it
+  breaks on any upstream rewording, and no checker can validate it.
 - **Preserve shortcodes, frontmatter, and code fences verbatim.** Do not reformat them.
 - **Frontmatter**: copy the shape from a sibling page in the same directory rather than
   composing one. `title` and `linkTitle` are effectively universal; `description`,
