@@ -16,7 +16,9 @@ Install Redis Feature Form on Kubernetes with the Helm chart, durable PostgreSQL
 
 ## Install
 
-For production, use an external PostgreSQL database and keep credentials and the license key in Kubernetes Secrets. After meeting the prerequisites:
+Prerequisites: For production environments, use an external PostgreSQL database and keep credentials and the license key in Kubernetes Secrets.
+
+To get started:
 
 1. Get the chart.
 2. Create the namespace and Secrets.
@@ -58,6 +60,8 @@ Use your normal secret-management process to create these Secrets in the same na
 - `featureform-postgres`, with a `POSTGRES_URL` key containing the PostgreSQL connection URL. Require TLS according to your database policy.
 - `featureform-license`, with the license key stored in `license.key`.
 
+The Secret names and local file paths in these examples aren't required. If you choose different Secret names or keys, update the matching `postgres.*` and `license.*` settings in the values file. You can also choose a different values filename and pass it to Helm with `--values`.
+
 For example, create the PostgreSQL Secret from a restricted environment file whose entry is `POSTGRES_URL=<postgres-connection-url>`:
 
 ```bash
@@ -83,9 +87,9 @@ imagePullSecrets:
 
 ### 3. Create a values file
 
-Create `values-production.yaml`. `auth.deploymentID` identifies one logical Feature Form deployment. It isn't a workspace, replica, Kubernetes namespace, Helm release, or OIDC client ID.
+Create `values-production.yaml` and set `auth.deploymentID` to a stable, lowercase ASCII identifier for this Feature Form environment, such as `acme-featureform-prod-us-west-2`. Keep the value the same across replicas and upgrades, and use a different value for each environment.
 
-Feature Form requires a value that isn't empty after trimming whitespace. It doesn't enforce another format. Use a stable, lowercase ASCII slug such as `acme-featureform-prod-us-west-2`. Keep the value the same across replicas and upgrades, and don't reuse it for a separate environment. Changing it requires CLI users to sign in again.
+Feature Form accepts any value that isn't empty after trimming whitespace. Changing it requires CLI users to sign in again.
 
 ```yaml
 stateBackend: postgres
@@ -141,9 +145,9 @@ grpc:
           - grpc.example.com
 ```
 
-Use the ingress class and gRPC backend annotation required by your maintained ingress controller. The controller must support gRPC backends and TLS termination.
+In `values-production.yaml`, replace the ingress class and gRPC backend annotation placeholders with the values required by your maintained ingress controller. The controller must support gRPC backends and TLS termination.
 
-`auth.publicRestEndpoint` and `auth.publicGrpcEndpoint` advertise the public endpoints through authentication discovery. Use addresses reachable by your CLI users. If internal services reach the identity provider through a different URL, configure the internal and public OIDC URLs as described in [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
+`auth.publicRestEndpoint` and `auth.publicGrpcEndpoint` show the public endpoints through authentication discovery. Use addresses reachable by your CLI users. If internal services reach the identity provider through a different URL, configure the internal and public OIDC URLs as described in [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
 
 ### 4. Render and install the release
 
@@ -224,7 +228,7 @@ pip install redis-featureform==<featureform-version>
 ff version --client-only
 ```
 
-Use the public gRPC endpoint when you expose it. gRPC is the CLI default, but the explicit transport makes the saved profile clear:
+When you expose the gRPC endpoint publicly, connect the CLI through that endpoint. gRPC is the CLI default, but the explicit transport makes the saved profile clear:
 
 ```bash
 ff --server grpc.example.com:443 --transport grpc \
@@ -268,7 +272,7 @@ Use external PostgreSQL so Feature Form state survives restarts and remains cons
 
 This database stores durable Feature Form application state. Register production data providers separately after deploying Feature Form.
 
-The chart runs pending schema migrations in an init container before starting the server. The database role must be able to create and alter the Feature Form schema. A migration failure keeps the server pod from becoming ready.
+Before starting the server, the chart runs an init container that applies all pending schema migrations. The database role must be able to create and alter the Feature Form schema. A migration failure keeps the server pod from becoming ready.
 
 ## Configure external access
 
@@ -295,7 +299,7 @@ The dashboard Secret keys default to `FEATUREFORM_OIDC_CLIENT_SECRET` and `FEATU
 
 ## Configure availability and capacity
 
-The chart defaults to one server replica. For multiple replicas, use PostgreSQL state and configure resource requests before enabling horizontal autoscaling. Each server replica also runs scheduler workers, so adding replicas increases both API and job-processing capacity.
+The chart defaults to one server replica. For multiple replicas, use PostgreSQL state. Configure resource requests before enabling horizontal autoscaling. Each server replica also runs scheduler workers, so adding replicas increases both API and job-processing capacity.
 
 This example sets resource boundaries, two or more replicas, and a PodDisruptionBudget:
 
@@ -321,11 +325,11 @@ podDisruptionBudget:
 
 Horizontal Pod Autoscaling requires the Kubernetes resource metrics API. Use `server.nodeSelector`, `server.tolerations`, `server.affinity`, or `server.topologySpreadConstraints` when your cluster requires workload placement controls.
 
-By default, each server process starts two effective scheduler workers. Use `scheduler.workerCount` and `scheduler.workerMaxInflight` to bound per-replica job concurrency. Tune these values with server replica count and downstream provider capacity; increasing API replicas also increases the number of workers that can claim jobs.
+By default, each server process starts two effective scheduler workers. To bound per-replica job concurrency, use `scheduler.workerCount` and `scheduler.workerMaxInflight`. Tune these values with server replica count and downstream provider capacity; increasing API replicas also increases the number of workers that can claim jobs.
 
 ## Configure Kubernetes Secret access
 
-The chart doesn't mount a Kubernetes service-account token by default. No token is needed to consume Secrets already referenced by pod environment variables or volumes.
+No token is needed to consume Secrets already referenced by pod environment variables or volumes. The chart doesn't mount a Kubernetes service-account token by default.
 
 If you register a Kubernetes secret provider for server-side secret resolution, enable the token mount and grant the Feature Form service account `get` access to the required Secret objects. For Secrets in the release namespace:
 
@@ -342,11 +346,13 @@ rbac:
       verbs: ["get"]
 ```
 
+{{< note >}}
 These `rbac.*` values configure Kubernetes permissions. Feature Form application roles are configured separately in [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
+{{< /note >}}
 
 ## Configure observability
 
-The server exports metrics and traces through OpenTelemetry Protocol (OTLP). Setting only the endpoint isn't sufficient because the Helm chart disables both signals by default. Configure an external collector with an authority that doesn't include a URL scheme:
+The server exports metrics and traces through OpenTelemetry Protocol (OTLP). Because the Helm chart disables both signals by default, set the endpoint and enable the signals you want. Configure an external collector using an authority without a URL scheme:
 
 ```yaml
 observability:

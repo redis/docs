@@ -76,7 +76,7 @@ The IdP must allow every scope in `auth.oidcCLIScopes`. The default scopes are `
 
 If the IdP requires a confidential client for PKCE, provide its secret only at login through `FEATUREFORM_LOGIN_CLIENT_SECRET` or `--login-client-secret`. Don't put the CLI client secret in Helm values. The CLI doesn't persist the secret or the refresh token from that login.
 
-To configure PKCE instead of device authorization:
+In the Helm values file for the Feature Form release, use these settings to configure PKCE instead of device authorization:
 
 ```yaml
 auth:
@@ -114,22 +114,22 @@ Pick a login method based on your environment:
 - **device-code** for headless terminals or shared shells where a local browser callback can't be reached.
 - **authorization_code_pkce** when a local browser callback works (typical for developer desktops).
 
-Feature Form advertises the methods in `auth.oidcCLILoginMethods`. The CLI selects the first advertised method it supports unless you pass `--login-method`. It doesn't retry another method when the IdP rejects the selected method.
+Feature Form lists the methods in `auth.oidcCLILoginMethods`. The CLI selects the first advertised method it supports unless you pass `--login-method`. It doesn't retry another method when the IdP rejects the selected method.
 
-Username and password login is a development-only compatibility path. It requires the IdP's password grant and an appropriate client ID. For production automation, use a service account instead of storing a user's password.
+Username and password login is not recommended for production environments. For production automation, use a service account instead of storing a user's password.
 
 CLI sessions are stored in the CLI's local config (per profile). To skip interactive login entirely, set `FEATUREFORM_TOKEN` to a valid access token, or configure a service account with client credentials (see [Service accounts and machine credentials](#service-accounts-and-machine-credentials)).
 
 ### Troubleshoot CLI login
 
-Inspect the authentication metadata advertised by Feature Form through a reachable REST endpoint:
+Inspect the authentication metadata provided by Feature Form through a reachable REST endpoint:
 
 ```bash
 curl --fail --silent --show-error \
   https://api.example.com/api/v1/auth/metadata | python3 -m json.tool
 ```
 
-If REST isn't public, port-forward the REST service and query `http://localhost:8080/api/v1/auth/metadata` instead:
+If the REST API isn't public, port-forward the REST API service and query `http://localhost:8080/api/v1/auth/metadata` instead:
 
 ```bash
 kubectl --namespace <namespace> port-forward \
@@ -144,13 +144,13 @@ curl --fail --silent --show-error \
   | python3 -m json.tool
 ```
 
-For device authorization, the document must contain `device_authorization_endpoint`. For PKCE, it must contain `authorization_endpoint` and `token_endpoint`, and advertise SHA-256 support in `code_challenge_methods_supported` when that field is present.
+For device authorization, the document must contain `device_authorization_endpoint`. For PKCE, it must contain `authorization_endpoint` and `token_endpoint`, and have SHA-256 support in `code_challenge_methods_supported` when that field is present.
 
 | Symptom | Check and action |
 | --- | --- |
-| `invalid_client` | Confirm `auth.oidcCLIClientID` exactly matches the IdP client. For a public client, disable client authentication. For confidential PKCE, supply the current secret at login. |
+| `invalid_client` | Confirm `auth.oidcCLIClientID` exactly matches the IdP client. For a public client, turn off client authentication. For confidential PKCE, supply the current secret at login. |
 | `unauthorized_client` | Enable the grant required by the selected method: Device Authorization Grant for `device_code`, or Authorization Code Grant with PKCE for `authorization_code_pkce`. |
-| Feature Form doesn't advertise the requested login method | Set `auth.oidcCLILoginMethods` to a method supported by both the CLI and IdP, upgrade the release, and inspect the Feature Form metadata again. |
+| Feature Form doesn't show the requested login method | Set `auth.oidcCLILoginMethods` to a method supported by both the CLI and IdP, upgrade the release, and inspect the Feature Form metadata again. |
 | Redirect URI mismatch | Make `auth.oidcCLIRedirectURI` exactly match a redirect URI registered for the IdP client, including its scheme, host, port, path, and query parameters. |
 | `invalid_scope` | Allow every value in `auth.oidcCLIScopes` at the IdP, or remove unsupported optional scopes. |
 
