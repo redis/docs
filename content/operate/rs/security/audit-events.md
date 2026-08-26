@@ -27,7 +27,7 @@ Example external listeners include:
 
 - [`ncat`](https://nmap.org/ncat/): useful for debugging but not suitable for production environments.
 
-- Imperva Sonar: a third-party service available for purchase separately from Redis Software. See [Redis Onboarding Steps](https://docs.imperva.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Onboarding-Steps_48368215.html) for more information.
+- Imperva Sonar: a third-party service available for purchase separately from Redis Software. See [Redis Onboarding Steps](https://docs-cybersec.thalesgroup.com/bundle/onboarding-databases-to-sonar-reference-guide/page/Redis-Enterprise-Software-Onboarding-Steps_48368215.html) for more information.
 
 - IBM Guardium
 
