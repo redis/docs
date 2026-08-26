@@ -24,7 +24,7 @@
   {{ partial "icons/cli-triangle" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
   {{ partial "icons/cli-star" (dict "class" "shrink-0 h-[1.0625rem] w-[1.0625rem] fill-slate-50") }}
   {{- if $commands -}}
-  <button tabindex="1" type="button" class="tryit-button ml-auto flex items-center gap-1 text-slate-300 hover:text-white bg-red-700 hover:bg-red-600 h-7 px-3 rounded text-xs font-medium transition duration-150 ease-in-out" title="Run these commands in the Redis CLI" data-codetabs-id="{{ $id }}" data-tryit-source="{{ .Page.RelPermalink }}"{{ if $isSetup }} data-tryit-setup="{{ $setName }}"{{ end }} onclick="openTryItCli(this)" aria-label="Try these Redis commands in an interactive CLI"><svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Try it</span></button>
+  <button tabindex="1" type="button" class="tryit-button ml-auto flex items-center gap-1 text-slate-300 hover:text-white bg-red-700 hover:bg-red-600 h-7 px-3 rounded text-xs font-medium transition duration-150 ease-in-out" title="Run these commands in the Redis CLI" data-codetabs-id="{{ $id }}" data-tryit-source="{{ .Page.RelPermalink }}"{{ if $isSetup }} data-tryit-setup="{{ $id }}"{{ end }} onclick="openTryItCli(this)" aria-label="Try these Redis commands in an interactive CLI"><svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg><span>Try it</span></button>
   {{- end -}}
 </div>
 {{- /* A code block, not a terminal.
@@ -45,5 +45,5 @@
 {{ partial "tryit-script.html" . }}
 {{- /* Registered after the implementation, in one line for the same reason it
        carries no comments: percent delimiters mean Goldmark re-parses this. */ -}}
-<script>window._tryItCommands['{{ $id }}'] = {{ $commands | jsonify | safeJS }};{{ if $isSetup }} window._tryItSetup = { name: {{ $setName | jsonify | safeJS }}, commands: window._tryItCommands['{{ $id }}'] }; window._tryItPrereqs[{{ $setName | jsonify | safeJS }}] = window._tryItCommands['{{ $id }}'];{{ end }}</script>
+<script>window._tryItCommands['{{ $id }}'] = {{ $commands | jsonify | safeJS }};{{ if $isSetup }} window.registerTryItSetup({{ $setName | jsonify | safeJS }}, '{{ $id }}', window._tryItCommands['{{ $id }}']); window._tryItPrereqs[{{ $setName | jsonify | safeJS }}] = window._tryItCommands['{{ $id }}'];{{ end }}</script>
 {{- end -}}

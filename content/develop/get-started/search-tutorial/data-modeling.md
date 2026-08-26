@@ -37,7 +37,7 @@ Hashes are compact and fast, but they are **flat**: every value is a string or n
 
 The [JSON]({{< relref "/develop/data-types/json" >}}) data type stores a full JSON document under a key. It can represent nested objects and arrays directly, which matches how application data usually looks:
 
-{{< clients-example set="search_tutorial" step="json_example" description="Foundational: Store a record as a JSON document with JSON.SET when your data has nested objects or arrays" difficulty="beginner" max_lines="6" >}}
+{{< clients-example set="search_tutorial" step="json_example" description="Foundational: Store a record as a JSON document with JSON.SET when your data has nested objects or arrays" difficulty="beginner" max_lines="6" prereq="true" >}}
 > JSON.SET product:1 $ '{"name":"Aurora AcousticPro Headphones","brand":"Aurora","category":"Audio","price":199.99,"rating":4.6,"features":["wireless","noise-cancelling","bluetooth"],"specs":{"color":"midnight black","weight_grams":268}}'
 {{< /clients-example >}}
 

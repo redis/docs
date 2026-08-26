@@ -8,14 +8,24 @@
   implementation. It used to be two inline copies that had drifted, and which
   copy won on a given page came down to which shortcode Hugo rendered first.
 
-  Page setup. A block marked `prereq="true"` publishes its commands as this
-  page's setup (window._tryItSetup) and carries data-tryit-setup on its own
-  button. Every other "Try it" on the page runs that setup first, so a reader who
+  Page setup. Every block marked `prereq="true"` adds a part to this page's setup
+  (window._tryItSetup.parts, in document order) and carries data-tryit-setup on
+  its own button. Any other "Try it" here runs the parts first, so a reader who
   lands half way through a tutorial and clicks an FT.SEARCH gets the index it
-  searches rather than SEARCH_INDEX_NOT_FOUND. The workbench is told about the
-  setup separately from the snippet (see js/redis-workbench.js) so it can skip it
-  when the sandbox has already had it this session; the standalone CLI gets a
-  fresh session every time, so there the setup is simply prepended.
+  searches rather than SEARCH_INDEX_NOT_FOUND.
+
+  Parts rather than one block, because a page's setup is not always one block:
+  on the data-modeling step, product:1 is written by the example that introduces
+  JSON.SET and product:2 onwards by the block that loads the rest, so a reader
+  who ran only the second one and then asked for product:1 got nil.
+
+  A part clicked directly runs only itself: it *is* setup, so it needs none. Any
+  other "Try it" gets every part the sandbox has not had yet.
+
+  The workbench is told about the parts separately from the snippet (see
+  js/redis-workbench.js) so it can skip the ones the sandbox has already had this
+  session; the standalone CLI gets a fresh session every time, so there they are
+  simply prepended.
 
   `data-needs-prereq` / window._tryItPrereqs is the older per-set model, kept for
   pages that mark a prereq example without a page-level setup.
@@ -29,6 +39,12 @@
 window._tryItCommands = window._tryItCommands || {};
 window._tryItPrereqs = window._tryItPrereqs || {};
 window._tryItSetup = window._tryItSetup || null;
+window.registerTryItSetup = window.registerTryItSetup || function (name, id, commands) {
+    if (!commands || !commands.length) return;
+    if (!window._tryItSetup) window._tryItSetup = { name: name, parts: [] };
+    if (window._tryItSetup.parts.some(function (p) { return p.id === id; })) return;
+    window._tryItSetup.parts.push({ id: id, commands: commands });
+};
 window.openTryItCli = window.openTryItCli || function (button) {
     const codetabsId = button.getAttribute('data-codetabs-id');
     const own = window._tryItCommands[codetabsId];
@@ -38,15 +54,17 @@ window.openTryItCli = window.openTryItCli || function (button) {
     const setup = window._tryItSetup;
     let before = [];
     let setupUsed = null;
-    if (setup && setup.commands && setup.commands.length && setup.name !== provides) {
-        before = setup.commands;
-        setupUsed = setup;
+    if (setup && setup.parts.length && !provides) {
+        setupUsed = { name: setup.name, parts: setup.parts };
+        setup.parts.forEach(function (p) { before = before.concat(p.commands); });
+    } else if (provides) {
+        setupUsed = null;
     } else if (anchor && anchor.getAttribute('data-needs-prereq') === 'true') {
         const set = anchor.getAttribute('data-example-set');
         const prereqs = (set && window._tryItPrereqs) ? window._tryItPrereqs[set] : null;
         if (prereqs && prereqs.length) {
             before = prereqs;
-            setupUsed = { name: set, commands: prereqs };
+            setupUsed = { name: set, parts: [{ id: set + ':prereq', commands: prereqs }] };
         }
     }
     const commands = before.concat(own);

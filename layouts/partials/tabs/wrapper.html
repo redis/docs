@@ -116,7 +116,7 @@
                     title="Run these commands in the Redis CLI"
                     data-codetabs-id="{{ $id }}"
                     {{ if $tryItSource }}data-tryit-source="{{ $tryItSource }}"{{ end }}
-                    {{ if and $isPrereq $exampleSet }}data-tryit-setup="{{ $exampleSet }}"{{ end }}
+                    {{ if and $isPrereq $exampleSet }}data-tryit-setup="{{ $id }}"{{ end }}
                     onclick="openTryItCli(this)"
                     aria-label="Try these Redis commands in an interactive CLI">
                 <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -486,8 +486,10 @@ window.toggleCliOutputForCodetabs = window.toggleCliOutputForCodetabs || functio
     window._tryItCommands[codetabsId] = {{ $tryItCommands | jsonify | safeJS }};
     {{ if and $isPrereq $exampleSet }}
     window._tryItPrereqs[{{ $exampleSet | jsonify | safeJS }}] = window._tryItCommands[codetabsId];
-    // Also this page's setup, which every other "Try it" here runs first.
-    window._tryItSetup = { name: {{ $exampleSet | jsonify | safeJS }}, commands: window._tryItCommands[codetabsId] };
+    // Also a part of this page's setup, which every other "Try it" here runs
+    // first. A page can mark more than one block: the parts run in document
+    // order, which is the order they registered in.
+    window.registerTryItSetup({{ $exampleSet | jsonify | safeJS }}, codetabsId, window._tryItCommands[codetabsId]);
     {{ end }}
     {{ end }}
     const langSelect = document.getElementById('lang-select-' + codetabsId);

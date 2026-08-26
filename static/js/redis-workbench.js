@@ -1416,21 +1416,31 @@
        nothing carries over. "Clear keys" empties it, and forgets. */
     var commands = options.commands;
     var setup = options.setup;
-    /* Which setup this run is what makes true, so a failure can take it back.
-       This snippet may *be* the setup (provides) or may be prepending it
-       (setup.name); either way the claim is only good if the batch runs. */
-    var claimed = null;
+    /* What this run makes true, so a failure can take it back. A snippet may
+       *be* a part of the setup (provides) and may be prepending the parts it is
+       not; either claim is only good if the batch actually runs. */
+    var claimed = [];
     var again = false;
     if (options.provides) {
       again = !!this.setupRan[options.provides];
       this.setupRan[options.provides] = true;
-      claimed = options.provides;
+      claimed.push(options.provides);
     }
-    if (setup && setup.commands && setup.commands.length
-      && !this.setupRan[setup.name]) {
-      commands = setup.commands.concat(commands);
-      this.setupRan[setup.name] = true;
-      claimed = setup.name;
+    /* A page's setup can come in parts — the data-modeling step writes product:1
+       in the example that introduces JSON.SET and the rest in the block that
+       loads them — so each part is remembered on its own, and only the ones this
+       sandbox has not had are run. */
+    var parts = (setup && setup.parts) ? setup.parts.filter(function (part) {
+      return !self.setupRan[part.id];
+    }) : [];
+    if (parts.length) {
+      var before = [];
+      parts.forEach(function (part) {
+        before = before.concat(part.commands);
+        self.setupRan[part.id] = true;
+        claimed.push(part.id);
+      });
+      commands = before.concat(commands);
       this.setStatus('setting this page up first…');
     } else {
       this.setStatus('running the snippet…');
@@ -1465,9 +1475,9 @@
       .then(function () {
         self.scrollTerminal();
       }, function () {
-        /* It did not run, so it did not happen: the next "Try it" must try the
-           setup again rather than assume this sandbox has it. */
-        if (claimed) delete self.setupRan[claimed];
+        /* It did not run, so it did not happen: the next "Try it" must try these
+           parts again rather than assume this sandbox has them. */
+        claimed.forEach(function (id) { delete self.setupRan[id]; });
         self.setStatus('could not run the snippet');
       });
   };
