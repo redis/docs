@@ -151,4 +151,6 @@ If your Active-Active database uses modules:
 
 ## Upgrade limitations
 
-- When upgrading an Active-Active database from Redis 7.4 or earlier to version 8.0 or later, you cannot use module commands, such as [Redis Search](https://redis.io/docs/latest/commands/?group=search) and [JSON](https://redis.io/docs/latest/commands/?group=json) commands, until all Active-Active database instances in all participating clusters have been upgraded. These commands are not blocked automatically, and running these commands before finishing the upgrade process can cause syncer crashes.
+- When upgrading an Active-Active database from Redis 7.4 or earlier to version 8.0 or later, if you add a module to the database during the upgrade, you cannot use that module's commands, such as [Redis Search](https://redis.io/docs/latest/commands/?group=search) and [JSON](https://redis.io/docs/latest/commands/?group=json) commands, until all Active-Active database instances in all participating clusters have been upgraded. These commands are not blocked automatically, and running these commands before finishing the upgrade process can cause syncer crashes.
+
+    This limitation applies only when you add modules to a database during the upgrade. If the database already had modules configured before the upgrade, this limitation does not apply.
