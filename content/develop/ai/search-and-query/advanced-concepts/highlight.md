@@ -115,9 +115,9 @@ Three rules apply to JSON indexes but not to hash indexes:
     no single value to highlight. The error applies to any field in the returned or
     highlighted set, whatever its schema type.
 
-* **Raw JSONPath aliases cannot be highlighted.** In `RETURN 3 $.name AS alias`, the alias
+* **Raw JSONPath aliases cannot be highlighted.** In a `RETURN` clause such as`RETURN 3 $.name AS alias`, the alias
     `alias` is not a schema field, so naming it in `HIGHLIGHT FIELDS` or `SUMMARIZE FIELDS`
-    fails with ``Property `alias` is not in schema``. Name the schema field instead.
+    fails with ``Property `alias` is not in schema``. Name the schema field explicitly instead of using the alias.
 
 A single-value JSONPath that resolves to a JSON array or object, such as `$.colors` where
 `colors` is an array, is accepted but not highlighted. Redis returns the loaded value
