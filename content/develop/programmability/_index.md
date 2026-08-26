@@ -25,7 +25,7 @@ Redis provides a programming interface that lets you execute custom scripts on t
 
 ## Background
 
-Redis is, by [definition](https://github.com/redis/redis/blob/unstable/MANIFESTO#L7), a _"domain-specific language for abstract data types"_.
+Redis is, by [definition](https://github.com/redis/redis/blob/3eaa2cdc44a9b0742f0695f44911b92547995836/MANIFESTO#L7), a _"domain-specific language for abstract data types"_.
 The language that Redis speaks consists of its [commands]({{< relref "/commands" >}}).
 Most the commands specialize at manipulating core [data types]({{< relref "/develop/data-types" >}}) in different ways.
 In many cases, these commands provide all the functionality that a developer requires for managing application data in Redis.
