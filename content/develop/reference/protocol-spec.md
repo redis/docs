@@ -139,6 +139,9 @@ The following table summarizes the RESP data types that Redis supports:
 | [Sets](#sets) | RESP3 | Aggregate | `~` |
 | [Pushes](#pushes) | RESP3 | Aggregate | `>` |
 
+RESP3 also defines two _streamed_ encodings for payloads whose length isn't known when the transfer begins: [streamed strings](#streamed-strings) and [streamed aggregated data types](#streamed-aggregated-data-types).
+These are alternative encodings of the types in the table rather than types of their own, so the table doesn't list them.
+
 <a name="simple-string-reply"></a>
 
 ### Simple strings
@@ -622,6 +625,63 @@ That means a client won't find push data in the middle of a map reply, for examp
 It also means that pushed data may appear before or after a command's reply, as well as by itself (without calling any command).
 
 Clients should react to pushes by invoking a callback that implements their handling of the pushed data.
+
+### Streamed strings
+A streamed string is a [bulk string](#bulk-strings) whose total length isn't known when the transfer begins.
+Instead of a prefixed length, the sender transfers the payload as a series of chunks.
+
+A streamed string's RESP encoding is as follows:
+
+    $?\r\n;<chunk-1-length>\r\n<chunk-1-data>\r\n...;0\r\n
+
+* A dollar sign (`$`) as the first byte, followed by a question mark (`?`) in place of the length.
+* The CRLF terminator.
+* One or more chunks. Each chunk is a semicolon (`;`), the chunk's length in bytes as an unsigned, base-10 value, the CRLF terminator, the chunk's data, and a final CRLF.
+* A zero-length chunk (`;0\r\n`) to mark the end of the string.
+
+Example:
+
+    $?\r\n
+    ;5\r\n
+    Hello\r\n
+    ;6\r\n
+     world\r\n
+    ;0\r\n
+
+(The raw RESP encoding is split into multiple lines for readability).
+
+The chunks concatenate to the string's value, so the example encodes `Hello world`.
+
+Redis doesn't emit streamed strings, because its RESP3 support excludes streamed types (see [RESP versions](#resp-versions)).
+The [RESP3 specification](https://github.com/redis/redis-specifications/blob/1252427cdbc497f66a7f8550c6b5f2f35367dc92/protocol/RESP3.md#streamed-strings) permits modules to use the encoding, so a client that implements RESP3 in full should be able to parse it.
+
+### Streamed aggregated data types
+[Arrays](#arrays), [sets](#sets), and [maps](#maps) can also be streamed when the number of elements isn't known when the transfer begins.
+A streamed aggregate replaces its number of elements with a question mark (`?`) and marks its end with a dedicated terminator.
+
+A streamed aggregate's RESP encoding is as follows:
+
+    <first-byte>?\r\n<element-1>...<element-n>.\r\n
+
+* The aggregate's usual first byte: an asterisk (`*`) for an array, a tilde (`~`) for a set, or a percent sign (`%`) for a map.
+* A question mark (`?`) in place of the number of elements.
+* The CRLF terminator.
+* An additional RESP type for every element of the aggregate.
+* A period (`.`) followed by the CRLF terminator to mark the end of the aggregate.
+
+Example:
+
+    *?\r\n
+    :1\r\n
+    :2\r\n
+    :3\r\n
+    .\r\n
+
+(The raw RESP encoding is split into multiple lines for readability).
+
+A streamed map's elements are field-value pairs, as in a regular [map](#maps), so a streamed map must contain an even number of elements.
+
+As with [streamed strings](#streamed-strings), Redis doesn't emit streamed aggregates.
 
 ## Client handshake
 New RESP connections should begin the session by calling the [`HELLO`]({{< relref "/commands/hello" >}}) command.
