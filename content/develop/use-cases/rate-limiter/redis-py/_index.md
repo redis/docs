@@ -237,9 +237,11 @@ their features:
 | [Leaky bucket (policing)](#leaky-bucket-policing) | 1 key (hash) | Exact | No bursts | Strict no-burst enforcement |
 
 The sections below give example implementations of these other algorithms.
-All of them use `redis.call('TIME')` inside the Lua script to derive the
-current timestamp from the Redis server clock. This eliminates clock
-drift when the limiter runs across multiple application servers.
+The three time-based algorithms call `redis.call('TIME')` inside the Lua
+script to derive the current timestamp from the Redis server clock. This
+eliminates clock drift when the limiter runs across multiple application
+servers. The fixed window counter reads no clock: the key's TTL defines
+the window.
 
 ### Fixed window counter
 
