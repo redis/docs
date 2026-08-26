@@ -30,7 +30,7 @@ For production, use an external PostgreSQL database and keep credentials and the
 - Kubernetes 1.27+.
 - Helm 3.14+.
 - Network access to the chart and image repositories. Configure `imagePullSecrets` if your cluster requires registry credentials.
-- An OIDC issuer URL and client ID. See [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
+- An OIDC issuer URL, an API audience, and a CLI client configured for device authorization. See [Register a CLI client]({{< relref "/operate/featureform/configure-auth#register-a-cli-client" >}}).
 - An external PostgreSQL database for production state. Its role must be able to create and alter Feature Form tables during migrations.
 - A Feature Form license key from your Redis account team.
 - A public domain name and Transport Layer Security (TLS) certificate for each externally exposed endpoint.
@@ -83,7 +83,9 @@ imagePullSecrets:
 
 ### 3. Create a values file
 
-Create `values-production.yaml`. The deployment ID identifies this Feature Form installation to clients. Choose a unique, nonempty value once and keep it unchanged across upgrades.
+Create `values-production.yaml`. `auth.deploymentID` identifies one logical Feature Form deployment. It isn't a workspace, replica, Kubernetes namespace, Helm release, or OIDC client ID.
+
+Feature Form requires a value that isn't empty after trimming whitespace. It doesn't enforce another format. Use a stable, lowercase ASCII slug such as `acme-featureform-prod-us-west-2`. Keep the value the same across replicas and upgrades, and don't reuse it for a separate environment. Changing it requires CLI users to sign in again.
 
 ```yaml
 stateBackend: postgres
@@ -92,6 +94,9 @@ auth:
   enabled: true
   oidcIssuerURL: "https://idp.example.com/realms/featureform"
   oidcClientID: "featureform-api"
+  oidcCLIClientID: "featureform-cli"
+  oidcCLIScopes: "openid profile offline_access"
+  oidcCLILoginMethods: "device_code"
   deploymentID: "<stable-deployment-id>"
   publicRestEndpoint: "https://api.example.com"
   publicGrpcEndpoint: "grpc.example.com:443"
@@ -176,6 +181,16 @@ kubectl --namespace <namespace> get pods
 kubectl --namespace <namespace> get services
 ```
 
+Confirm that the `migrate` init container completed with exit code `0` for every server pod:
+
+```bash
+kubectl --namespace <namespace> get pods \
+  --selector app.kubernetes.io/instance=featureform,app.kubernetes.io/component=server \
+  --output jsonpath='{range .items[*]}{.metadata.name}{"\t"}{range .status.initContainerStatuses[?(@.name=="migrate")]}{.state.terminated.reason}{"\t"}{.state.terminated.exitCode}{"\n"}{end}{end}'
+```
+
+Each line must end with `Completed` and `0`. If the status fields are empty, wait for the init container to finish and run the command again.
+
 If migration fails, inspect its logs before restarting the pod:
 
 ```bash
@@ -209,11 +224,37 @@ pip install redis-featureform==<featureform-version>
 ff version --client-only
 ```
 
-Log in through the public gRPC endpoint, verify the authenticated principal, and test gRPC health:
+Use the public gRPC endpoint when you expose it. gRPC is the CLI default, but the explicit transport makes the saved profile clear:
 
 ```bash
 ff --server grpc.example.com:443 --transport grpc \
   auth login --profile production
+```
+
+If you expose only REST, log in through that endpoint instead:
+
+```bash
+ff --server https://api.example.com --transport rest \
+  auth login --profile production
+```
+
+If neither endpoint is public, forward the gRPC service from one terminal:
+
+```bash
+kubectl --namespace <namespace> port-forward \
+  service/featureform-featureform-grpc 9090:9090
+```
+
+Then log in from another terminal:
+
+```bash
+ff --server localhost:9090 --transport grpc \
+  auth login --profile production
+```
+
+After login, verify the authenticated principal and the selected endpoint:
+
+```bash
 ff auth status
 ff auth whoami
 ff ping

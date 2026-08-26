@@ -23,35 +23,34 @@ A [workspace]({{< relref "/develop/ai/featureform/concepts#workspaces" >}}) isol
 The sequence:
 
 1. [Configure OIDC at deploy time](#configure-oidc-at-deploy-time)
-2. [Sign in with the CLI](#sign-in-with-the-cli)
-3. [Pick built-in roles for users and groups](#built-in-roles)
-4. [Provision the first global admin](#provision-the-first-global-admin)
-5. [Set up service accounts for non-human identities](#service-accounts-and-machine-credentials)
-6. [Read the audit log](#audit)
+2. [Register a CLI client](#register-a-cli-client)
+3. [Sign in with the CLI](#sign-in-with-the-cli)
+4. [Pick built-in roles for users and groups](#built-in-roles)
+5. [Provision the first global admin](#provision-the-first-global-admin)
+6. [Set up service accounts for non-human identities](#service-accounts-and-machine-credentials)
+7. [Read the audit log](#audit)
 
 ## Authentication
 
 ### Configure OIDC at deploy time
 
-Set Feature Form's OIDC parameters in the Helm chart's `auth` block. At minimum, you need an issuer URL and a server-side client ID:
+Set Feature Form's OIDC parameters in the Helm chart's `auth` block. `auth.oidcClientID` is the audience that Feature Form requires in access tokens. `auth.oidcCLIClientID` is the separate client that users sign in through.
 
 ```yaml
 auth:
   enabled: true
   oidcIssuerURL: "https://idp.example.com/realms/featureform"
-  oidcClientID: "featureform-server"
+  oidcClientID: "featureform-api"
 
-  # CLI client. Defaults to "featureform-cli".
   oidcCLIClientID: "featureform-cli"
-
-  # Comma-separated list. Restricts which flows the CLI offers.
-  # Supported values: device_code, authorization_code_pkce
-  oidcCLILoginMethods: "device_code,authorization_code_pkce"
-
-  # Required only if you use authorization_code_pkce. Must be
-  # registered with the IdP for the CLI client.
-  oidcCLIRedirectURI: "http://localhost:8080/callback"
+  oidcCLIScopes: "openid profile offline_access"
+  oidcCLILoginMethods: "device_code"
+  deploymentID: "acme-featureform-prod-us-west-2"
 ```
+
+Configure the IdP to include the `featureform-api` audience in access tokens issued to `featureform-cli`. Otherwise, login can succeed at the IdP while Feature Form rejects the token.
+
+Use a unique, stable `auth.deploymentID` for each environment. See [Deploy]({{< relref "/operate/featureform/deploy" >}}) for naming and lifecycle guidance.
 
 For deployments where internal services reach the IdP at a different URL than external clients, use `oidcDiscoveryURL`, `oidcPublicIssuerURL`, and `oidcPublicDiscoveryURL` to split the discovery and issuer endpoints. The `oidcSkipIssuerCheck: true` flag disables issuer-claim validation. Use it only during local development.
 
@@ -64,21 +63,39 @@ Feature Form reads role information from JWT claims on each request. It checks t
 
 If any of those claims contain `global_admin`, Feature Form treats the user as a global admin for that token's lifetime without a database binding. This is the typical way operators bootstrap the first admin — see [Provision the first global admin](#provision-the-first-global-admin).
 
+### Register a CLI client
+
+Register a dedicated CLI client with the IdP. The client settings must match the login methods advertised through `auth.oidcCLILoginMethods`.
+
+| Login method | IdP client requirements | Helm settings |
+| --- | --- | --- |
+| `device_code` | Use a public or native client with client authentication disabled. Enable the OAuth 2.0 Device Authorization Grant. No client secret or redirect URI is used. | Set `auth.oidcCLIClientID` and `auth.oidcCLILoginMethods: "device_code"`. |
+| `authorization_code_pkce` | Enable the Authorization Code Grant and Proof Key for Code Exchange (PKCE) with the SHA-256 (`S256`) challenge method. Register the exact redirect URI used by the CLI. A public client is recommended. | Set `auth.oidcCLIClientID`, `auth.oidcCLILoginMethods: "authorization_code_pkce"`, and `auth.oidcCLIRedirectURI`. |
+
+The IdP must allow every scope in `auth.oidcCLIScopes`. The default scopes are `openid profile offline_access`. The `offline_access` scope lets the CLI request a refresh token. Remove it when the IdP doesn't support offline access; users must sign in again after their access token expires.
+
+If the IdP requires a confidential client for PKCE, provide its secret only at login through `FEATUREFORM_LOGIN_CLIENT_SECRET` or `--login-client-secret`. Don't put the CLI client secret in Helm values. The CLI doesn't persist the secret or the refresh token from that login.
+
+To configure PKCE instead of device authorization:
+
+```yaml
+auth:
+  oidcCLIClientID: "featureform-cli"
+  oidcCLILoginMethods: "authorization_code_pkce"
+  oidcCLIRedirectURI: "http://localhost:8080/callback"
+```
+
 ### Sign in with the CLI
 
 The `ff auth` commands handle login, session inspection, and token retrieval:
 
 ```bash
-# Interactive login. Defaults to device-code flow if the IdP
-# supports it; falls back to authorization_code_pkce otherwise.
+# Interactive login. Uses the first method advertised by Feature Form.
 ff auth login
 
 # Force a specific flow.
 ff auth login --login-method device_code
 ff auth login --login-method authorization_code_pkce
-
-# Non-interactive password grant for continuous-integration scripts.
-ff auth login --username alice@example.com --password-stdin
 
 # Inspect the current session.
 ff auth status
@@ -96,9 +113,46 @@ Pick a login method based on your environment:
 
 - **device-code** for headless terminals or shared shells where a local browser callback can't be reached.
 - **authorization_code_pkce** when a local browser callback works (typical for developer desktops).
-- **password-stdin** for non-interactive automation like CI scripts.
+
+Feature Form advertises the methods in `auth.oidcCLILoginMethods`. The CLI selects the first advertised method it supports unless you pass `--login-method`. It doesn't retry another method when the IdP rejects the selected method.
+
+Username and password login is a development-only compatibility path. It requires the IdP's password grant and an appropriate client ID. For production automation, use a service account instead of storing a user's password.
 
 CLI sessions are stored in the CLI's local config (per profile). To skip interactive login entirely, set `FEATUREFORM_TOKEN` to a valid access token, or configure a service account with client credentials (see [Service accounts and machine credentials](#service-accounts-and-machine-credentials)).
+
+### Troubleshoot CLI login
+
+Inspect the authentication metadata advertised by Feature Form through a reachable REST endpoint:
+
+```bash
+curl --fail --silent --show-error \
+  https://api.example.com/api/v1/auth/metadata | python3 -m json.tool
+```
+
+If REST isn't public, port-forward the REST service and query `http://localhost:8080/api/v1/auth/metadata` instead:
+
+```bash
+kubectl --namespace <namespace> port-forward \
+  service/featureform-featureform-rest 8080:8080
+```
+
+Confirm that `cli_client_id`, `supported_login_methods`, `scopes`, and `audience` match the IdP client. For PKCE, also confirm `cli_redirect_uri`. Then inspect the IdP discovery document:
+
+```bash
+curl --fail --silent --show-error \
+  https://idp.example.com/realms/featureform/.well-known/openid-configuration \
+  | python3 -m json.tool
+```
+
+For device authorization, the document must contain `device_authorization_endpoint`. For PKCE, it must contain `authorization_endpoint` and `token_endpoint`, and advertise SHA-256 support in `code_challenge_methods_supported` when that field is present.
+
+| Symptom | Check and action |
+| --- | --- |
+| `invalid_client` | Confirm `auth.oidcCLIClientID` exactly matches the IdP client. For a public client, disable client authentication. For confidential PKCE, supply the current secret at login. |
+| `unauthorized_client` | Enable the grant required by the selected method: Device Authorization Grant for `device_code`, or Authorization Code Grant with PKCE for `authorization_code_pkce`. |
+| Feature Form doesn't advertise the requested login method | Set `auth.oidcCLILoginMethods` to a method supported by both the CLI and IdP, upgrade the release, and inspect the Feature Form metadata again. |
+| Redirect URI mismatch | Make `auth.oidcCLIRedirectURI` exactly match a redirect URI registered for the IdP client, including its scheme, host, port, path, and query parameters. |
+| `invalid_scope` | Allow every value in `auth.oidcCLIScopes` at the IdP, or remove unsupported optional scopes. |
 
 ## RBAC
 
