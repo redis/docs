@@ -1102,7 +1102,7 @@
     this.persist();
     /* The terminal is created on first open so a reader who never opens the dock
        pays nothing for it, and kept for the dock's lifetime after that. */
-    if (!this.terminalForm) this.startTerminal();
+    if (!this.terminalForm) this.terminalReady = this.startTerminal();
     this.startTtlTicker();
     return this.catchUp();
   };
@@ -1403,13 +1403,19 @@
        nothing carries over. "Clear keys" empties it, and forgets. */
     var commands = options.commands;
     var setup = options.setup;
-    var ran = null;
-    if (options.provides) this.setupRan[options.provides] = true;
+    /* Which setup this run is what makes true, so a failure can take it back.
+       This snippet may *be* the setup (provides) or may be prepending it
+       (setup.name); either way the claim is only good if the batch runs. */
+    var claimed = null;
+    if (options.provides) {
+      this.setupRan[options.provides] = true;
+      claimed = options.provides;
+    }
     if (setup && setup.commands && setup.commands.length
       && !this.setupRan[setup.name]) {
       commands = setup.commands.concat(commands);
       this.setupRan[setup.name] = true;
-      ran = setup.name;
+      claimed = setup.name;
       this.setStatus('setting this page up first…');
     } else {
       this.setStatus('running the snippet…');
@@ -1421,13 +1427,18 @@
     /* Discovery is not kicked off here: running the commands through the
        terminal puts them on the onExecute subscription — which tracks them.
        Doing both would probe every command twice. */
-    return cli().run(this.terminalForm, commands, 'preset')
+    /* After the terminal has finished starting, not before. createCli is async —
+       it runs the widget's own startup batch and only then attaches the submit
+       handler — and a first "Try it" used to fire a batch into a form that was
+       still mid-init, racing the banner into the same transcript. */
+    return (this.terminalReady || Promise.resolve())
+      .then(function () { return cli().run(self.terminalForm, commands, 'preset'); })
       .then(function () {
         self.scrollTerminal();
       }, function () {
         /* It did not run, so it did not happen: the next "Try it" must try the
            setup again rather than assume this sandbox has it. */
-        if (ran) delete self.setupRan[ran];
+        if (claimed) delete self.setupRan[claimed];
         self.setStatus('could not run the snippet');
       });
   };

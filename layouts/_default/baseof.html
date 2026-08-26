@@ -678,7 +678,12 @@
       }
 
       function copyJupyterCodeToClipboard(button) {
-        const container = button.closest('.thebe-container');
+        /* .thebe-static as well as .thebe-container: once the workbench adopts a
+           runnable cell, what stays in the page is the static twin, and its Copy
+           button was resolving to null and throwing. The two buttons beside it
+           already accept both. */
+        const container = button.closest('.thebe-container, .thebe-static');
+        if (!container) return;
         const panel = container.querySelector('.panel');
         const isExpanded = panel && panel.getAttribute('aria-expanded') === 'true';
         const codeMirrorElement = container.querySelector('.thebe-cell .CodeMirror');
@@ -2030,9 +2035,13 @@
                   ensureSavedSessionAppendsToken();
                   // Clear the protection flag - session is now stable
                   sessionStorage.removeItem(SESSION_RESTORE_KEY);
-                  // Add kernel-ready class to all containers
+                  // Add kernel-ready class to all containers, and drop the
+                  // "reconnecting" one a transient blip may have left on them:
+                  // the kernel is attached, so nothing is reconnecting, and the
+                  // workbench reads that class before any other.
                   document.querySelectorAll('.thebe-container').forEach(function(c) {
                     c.classList.add('kernel-ready');
+                    c.classList.remove('reconnecting');
                   });
                   // CRITICAL: Add 'activated' class to enable CodeMirror editing
                   // This is needed for auto-bootstrap to make editors editable
