@@ -5,7 +5,7 @@ categories:
 - docs
 - integrate
 - korvet
-description: Korvet is a Kafka-compatible streaming service backed by Redis Streams.
+description: null
 group: service
 hideListLinks: false
 linkTitle: Korvet
