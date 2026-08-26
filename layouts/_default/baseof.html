@@ -1076,52 +1076,12 @@
            docs site is hit hardest, since its request is cross-origin and carries
            no clearance cookie.
 
-           A locally served site can aim elsewhere — another hub, or staging while
-           production is unavailable:
-             localStorage.setItem('thebeBinderUrl', 'https://staging.learn.redis.com/binder/')
-           or ?binder-url=<url> for one page load. Gated on the page's own hostname,
-           so production can never be redirected. */
-        const RESOLVED_BINDER_URL = (function () {
-          const productionUrl = 'https://redis.io/binder/';
-          try {
-            const host = window.location.hostname;
-            if (host !== 'localhost' && host !== '127.0.0.1' && host !== '[::1]') {
-              return productionUrl;
-            }
-            const override = new URLSearchParams(window.location.search).get('binder-url')
-              || window.localStorage.getItem('thebeBinderUrl');
-            if (override) return override.replace(/\/*$/, '/');
-            /* A local proxy that forwards /binder/ to the deployment sets this
-               flag on the pages it serves. Using this origin is what makes the
-               build stream same-origin: cross-origin it is refused, since the
-               endpoint sends no CORS headers (it has no reason to — real readers
-               are on redis.io). */
-            if (window.__redisDevProxy) return window.location.origin + '/binder/';
-            return productionUrl;
-          } catch (e) {
-            return productionUrl;
-          }
-        })();
+           The build stream has to be same-origin, so this is the deployment's own
+           /binder/ and nothing else: pointing a page at a hub elsewhere is local
+           plumbing, and it does not belong in the repo. */
+        const RESOLVED_BINDER_URL = 'https://redis.io/binder/';
         // Published so it is visible in the console when a launch misbehaves.
         window.thebeResolvedBinderUrl = RESOLVED_BINDER_URL;
-
-        /* Say so up front when a local page is pointed at a hub on another origin.
-           The browser refuses that build stream (no CORS headers there), and the
-           only symptom Thebe can report is "Lost connection … phase: unknown - no
-           message", which says nothing about the cause. */
-        (function () {
-          try {
-            const host = window.location.hostname;
-            const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '[::1]';
-            if (isLocal && RESOLVED_BINDER_URL.indexOf(window.location.origin) !== 0) {
-              console.warn('[Thebe] The BinderHub at ' + RESOLVED_BINDER_URL
-                + ' is on another origin, and that endpoint sends no CORS headers,'
-                + ' so this page cannot read its build stream. Serve the docs'
-                + ' through a proxy that puts /binder/ on this origin, or set'
-                + " localStorage 'thebeBinderUrl' to a hub that allows this origin.");
-            }
-          } catch (e) { /* nothing to report against */ }
-        })();
 
         // Configure page-specific session storage
         // Get current page path for unique session key

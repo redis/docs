@@ -18,43 +18,12 @@
 // .readyState (init immediately when the DOM is already parsed), not solely via a
 // DOMContentLoaded listener.
 
-// Which /cli backend serves both the widget and the command batches.
-//
-// A locally served docs site talks to a LOCAL backend by default:
-//
-//   cd redis-clinterwebz && docker compose up --build     # serves :5000
-//   cd docs && hugo server                                # serves :1313, uses :5000
-//
-// TEMPORARY. The reason is the "Try it" workbench (js/redis-workbench.js): it
-// needs the window.RedisCli API that the widget only publishes in an unreleased
-// backend, so against production the drawer stays dormant and there is no way to
-// try it. Once that backend ships, drop `localBackend` below and this default
-// goes back to production — at which point a local site with no backend running
-// works again out of the box, instead of silently having no terminals.
-//
-// Meanwhile, to aim a local site elsewhere (a different port, or production):
-//   localStorage.setItem('redisCliBackend', 'https://redis.io/cli'); location.reload()
-// or ?cli-backend=<url> for a single page load.
-//
-// Both overrides — and the local default — are gated on the page's own hostname
-// being local, so nothing here can point redis.io at another origin's script. A
-// backend URL is used verbatim as the POST target, with /static/js/cli.js
-// appended for the widget.
-const REDIS_CLI_BACKEND = (function () {
-  const publicBackend = 'https://redis.io/cli';
-  const localBackend = 'http://localhost:5000';
-  try {
-    const host = window.location.hostname;
-    if (host !== 'localhost' && host !== '127.0.0.1' && host !== '[::1]') {
-      return publicBackend;
-    }
-    const override = new URLSearchParams(window.location.search).get('cli-backend')
-      || window.localStorage.getItem('redisCliBackend');
-    return (override || localBackend).replace(/\/+$/, '');
-  } catch (err) {
-    return publicBackend;   // no URL/localStorage access (e.g. a sandboxed frame)
-  }
-})();
+// Which /cli backend serves both the widget and the command batches: the
+// deployment, for every page. The workbench needs the window.RedisCli API that
+// only an unreleased backend publishes, so until that ships it stays dormant
+// against production — the alternative, a hostname-gated local default, is
+// local-development plumbing and does not belong in the repo.
+const REDIS_CLI_BACKEND = 'https://redis.io/cli';
 
 window.REDIS_CLI_CONFIG = {
   apiUrl: REDIS_CLI_BACKEND,      // POST command batches here
