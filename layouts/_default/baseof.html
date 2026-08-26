@@ -1091,9 +1091,9 @@
             const override = new URLSearchParams(window.location.search).get('binder-url')
               || window.localStorage.getItem('thebeBinderUrl');
             if (override) return override.replace(/\/*$/, '/');
-            /* build/dev-proxy.js sets this flag on the pages it serves, and
-               forwards /binder/ to the deployment. Using this origin is what makes
-               the build stream same-origin: cross-origin it is refused, since the
+            /* A local proxy that forwards /binder/ to the deployment sets this
+               flag on the pages it serves. Using this origin is what makes the
+               build stream same-origin: cross-origin it is refused, since the
                endpoint sends no CORS headers (it has no reason to — real readers
                are on redis.io). */
             if (window.__redisDevProxy) return window.location.origin + '/binder/';
@@ -1117,7 +1117,7 @@
               console.warn('[Thebe] The BinderHub at ' + RESOLVED_BINDER_URL
                 + ' is on another origin, and that endpoint sends no CORS headers,'
                 + ' so this page cannot read its build stream. Serve the docs'
-                + ' through build/dev-proxy.js (same origin), or set'
+                + ' through a proxy that puts /binder/ on this origin, or set'
                 + " localStorage 'thebeBinderUrl' to a hub that allows this origin.");
             }
           } catch (e) { /* nothing to report against */ }

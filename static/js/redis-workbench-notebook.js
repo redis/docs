@@ -958,7 +958,7 @@
       /* A local page pointed at a hub on another origin can never launch: that
          endpoint sends no CORS headers, so the browser discards the build stream.
          Worth saying here, because Thebe can only report a lost connection. */
-      if (crossOriginHub()) return 'hub is cross-origin — see build/dev-proxy.js';
+      if (crossOriginHub()) return 'hub is cross-origin — needs a same-origin proxy';
       if (found.some(kernelUnavailable)) return 'kernel unavailable';
       /* A cell was clicked and did nothing: the driver's own classes cannot tell
          us that, so a run reports it and it outranks them. */
