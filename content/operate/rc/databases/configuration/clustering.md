@@ -6,7 +6,8 @@ categories:
 - operate
 - rc
 description: Redis Cloud uses clustering to manage very large databases (25 GB and
-  larger).  Here, you'll learn how to manage clustering and how to use hashing policies
+  larger) or high-throughput databases (25,000 ops/sec and higher).  Here, you'll
+  learn how to manage clustering and how to use hashing policies
   to control how data is managed.
 linkTitle: Clustering
 weight: $weight
@@ -21,7 +22,7 @@ For very large databases, Redis Cloud distributes database data to different clo
 
 - The operations performed against the database are CPU intensive enough to degrade performance.
 
-    Clustering distributes operational load, whether to instances on the same server or across multiple servers.
+    Multiple shards should be used when throughput grows to 25,000 ops/sec. Clustering distributes operational load, whether to instances on the same server or across multiple servers.
 
 This distribution is called _clustering_ because it manages the way data is distributed throughout the cluster of nodes that support the database.
 
