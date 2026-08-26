@@ -18,7 +18,7 @@ summary: Spring Data Redis provides a template-based, fluent API for working wit
   Redis JSON documents, including path-based updates and type-specific operations.
 type: integration
 weight: 30
-bannerText: JSON support in Spring Data Redis is not yet released and the API is subject to change. This page is based on the in-progress pull request [spring-data-redis#3390](https://github.com/spring-projects/spring-data-redis/pull/3390) and will be updated when the feature ships.
+bannerText: JSON support in Spring Data Redis is currently available only in the `4.2.0-M1` milestone release, and the API may still change before `4.2.0` becomes generally available. This page will be updated when `4.2.0` ships.
 relatedPages:
 - /develop/data-types/json
 - /develop/data-types/json/path
@@ -71,28 +71,29 @@ For Gradle, add the following to your `build.gradle`:
 implementation 'org.springframework.data:spring-data-redis:{version}'
 ```
 
-Configure a `RedisJsonTemplate` bean, backed by your existing connection
-factory and a `JacksonRedisJsonSerializer` for the document values. Use
-`StringRedisJsonTemplate` if you want `String` keys and values without any
-extra configuration:
+Configure a `RedisJsonTemplate` bean. The template takes its connection
+factory, a key serializer, and a JSON serializer as constructor arguments.
+Its single type parameter is the *key* type, not the document type:
 
 ```java
 @Configuration
 public class RedisJsonConfig {
 
     @Bean
-    public RedisJsonTemplate<String, User> redisJsonTemplate(
+    public RedisJsonTemplate<String> redisJsonTemplate(
             RedisConnectionFactory connectionFactory) {
 
-        RedisJsonTemplate<String, User> template = new RedisJsonTemplate<>();
-        template.setConnectionFactory(connectionFactory);
-        template.setKeySerializer(RedisSerializer.string());
-        template.setJsonSerializer(new JacksonRedisJsonSerializer<>(User.class));
-        template.afterPropertiesSet();
-        return template;
+        return new RedisJsonTemplate<>(connectionFactory,
+                RedisSerializer.string(),
+                GenericJacksonJsonRedisSerializer.builder().build());
     }
 }
 ```
+
+The JSON serializer is not bound to a document type. Pass
+`GenericJacksonJsonRedisSerializer` for Jackson 3 or
+`GenericJackson2JsonRedisSerializer` for Jackson 2; you choose the Java type
+when you read a value back.
 
 The examples below use a simple `User` type:
 
@@ -119,8 +120,8 @@ User user = new User("Paul", 42, "London", List.of("golf", "coding"));
 jsonTemplate.value("user:1").set(user);
 
 // Read the whole document back as a User object.
-JsonResult<User> result = jsonTemplate.value("user:1").get();
-User stored = result.getValue();
+JsonResult result = jsonTemplate.value("user:1").get();
+User stored = result.as(User.class);
 ```
 
 ## Work with JSON paths
@@ -136,8 +137,12 @@ jsonTemplate.value("user:1").path("$.city").set("Manchester");
 // Set a field only if it does not already exist.
 jsonTemplate.value("user:1").path("$.nickname").setIfAbsent("Paulie");
 
-// Read a specific path.
-JsonResult<String> city = jsonTemplate.value("user:1").paths("$.city");
+// Set a field only if it already exists.
+jsonTemplate.value("user:1").path("$.city").setIfPresent("Bristol");
+
+// Read a specific path. paths() is called on the template, not on a spec.
+JsonResult city = jsonTemplate.paths("user:1", "$.city");
+String cityName = city.asString();
 ```
 
 ## Update arrays
