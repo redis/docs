@@ -17,31 +17,25 @@ Radar runs as two services backed by a PostgreSQL database that you provide:
 
 Both services read the same database and the same encryption key, and you supply both whichever install method you choose.
 
+Plan for remote access before you start. Every install method leaves network access up to you, and what you have to do differs by method. See [Provide remote access](#provide-remote-access).
+
 {{< warning >}}
-Plan for remote access before you start. Every install method leaves network access up to you, and what you have to do differs by method. The RPM is the strictest case: it listens only on loopback, so **an RPM install that succeeds is still unreachable from any other machine** until you put a proxy in front of it. See [Provide remote access](#provide-remote-access).
+The RPM listens only on loopback, so **an RPM install that succeeds is still unreachable from any other machine** until you put a proxy in front of it.
 {{< /warning >}}
 
 ## Choose an install method
 
-| Method | Use it when | Containers required |
-|---|---|---|
-| [RPM on RHEL](#install-on-rhel-with-the-rpm) | You run RHEL 9 and cannot or do not want to run containers. | No |
-| [Kubernetes with Helm](#install-on-kubernetes-with-helm) | You already run Kubernetes or OpenShift. | Yes |
-| [Docker Compose](#install-with-docker-compose) | You want a single host and already run Docker. | Yes |
+| Method | Use it when | Requires | Containers |
+|---|---|---|---|
+| [RPM on RHEL](#install-on-rhel-with-the-rpm) | You run RHEL 9 and cannot or do not want to run containers. | RHEL 9 on x86_64 | No |
+| [Kubernetes with Helm](#install-on-kubernetes-with-helm) | You already run Kubernetes or OpenShift. | Kubernetes 1.23 or later, and Helm 3.x. Validated on OpenShift 4.x | Yes |
+| [Docker Compose](#install-with-docker-compose) | You want a single host and already run Docker. | A Docker engine with the `docker compose` plugin | Yes |
 
 All three are supported and built from the same release. You can install any of them on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
 To get the artifacts, contact your Redis account team.
 
 ## Before you start
-
-### Supported platforms
-
-| Method | Requirement |
-|---|---|
-| RPM | RHEL 9 on x86_64 |
-| Helm | Kubernetes 1.23 or later, and Helm 3.x. Validated on OpenShift 4.x |
-| Docker Compose | A Docker engine with the `docker compose` plugin |
 
 ### PostgreSQL
 
@@ -55,25 +49,25 @@ Use `sslmode=require` or stricter to encrypt the connection. Radar passes your c
 
 ### The credential encryption key
 
-Radar encrypts the cluster credentials you give it. Each tenant gets its own data key, and all of those keys are wrapped by one key-encryption key (KEK) that you supply: **32 raw bytes**, not base64 and not hex.
+Radar encrypts the cluster credentials you give it. Each tenant gets its own data key, and all of those keys are wrapped by one key-encryption key (KEK) that you supply. The key must be **32 raw bytes**, not base64 or hex.
 
 {{< warning >}}
-Back up the KEK alongside the database and store the backup separately. Either one alone is useless. Credentials sealed with the old key cannot be decrypted if the API server and the worker read different keys, or if a restored database is paired with the wrong key. Radar fails closed rather than silently losing them.
+Back up the KEK alongside the database and store the two backups separately. Neither is usable without the other. Radar cannot decrypt stored credentials if the API server and the worker read different keys, or if a restored database is paired with the wrong key. It fails closed rather than losing them silently.
 {{< /warning >}}
 
 ### FIPS mode
 
-If you need FIPS 140-3 validated cryptography, decide before you install: it is a separate build of Radar, not a setting you turn on afterwards. Contact your Redis account team for the FIPS variant.
+FIPS 140-3 validated cryptography comes as a separate build of Radar, not a setting you turn on later, so decide before you install. Contact your Redis account team for the FIPS variant.
 
 Set `MCM_REQUIRE_FIPS=true` to make FIPS mandatory. Radar then refuses to start unless FIPS is actually active, and it checks before it touches the database or opens a port. A misconfigured deployment fails immediately rather than running with cryptography you did not approve.
 
-Each service logs its FIPS state once at startup, so you can confirm what is running:
+Each service logs its FIPS state once at startup, so you can confirm what is running. The log line looks like this:
 
 ```text
 fips state service=mcm-api category=startup enabled=true required=true
 ```
 
-`enabled` is the cryptography actually in effect. `required` is what you asked for. Both should read `true`.
+In that line, `enabled` is the cryptography actually in effect and `required` is what you asked for. Both should read `true`.
 
 ### Sizing
 
@@ -89,11 +83,9 @@ On Kubernetes, these are the production starting points the Redis-hosted deploym
 
 Run at least two API and two worker replicas for production, and set CPU requests before you turn on autoscaling. Kubernetes computes utilization from requests, so an autoscaler without them cannot make useful decisions.
 
-<!-- TODO(DOC-6911): the RED-197466 GA bar is 300 clusters, but the source repo has no validated sizing for that scale (docs/DEPLOYMENT.md:266 only gives a t3.medium staging example). Ask Guy for tested numbers, then add a fleet-size sizing table. Do not extrapolate. -->
-
 ### Package and service names
 
-Radar's packages, services, and paths use an `mcm` prefix. The RPM is named `mcm`, its services are `mcm-api` and `mcm-worker`, its configuration lives in `/etc/mcm/`, and the container images are `mcm-app`, `mcm-worker`, and `mcm-migrate`. All of these are Redis Radar.
+Radar's packages, services, and paths use an `mcm` prefix. The RPM is named `mcm`, its services are `mcm-api` and `mcm-worker`, its configuration lives in `/etc/mcm/`, and the container images are `mcm-app`, `mcm-worker`, and `mcm-migrate`.
 
 ## Install on RHEL with the RPM
 
@@ -108,7 +100,7 @@ sudo dnf install -y ./mcm-<version>-<release>.x86_64.rpm
 
 The package depends on RHEL's `postgresql-server`, so `dnf` installs PostgreSQL software if it is absent. It does not create or start a database.
 
-The package deliberately installs its services stopped and not enabled. Confirm that before you configure anything:
+The package deliberately installs its services without starting or enabling them. Use the following commands to confirm they are still inactive before you configure anything:
 
 ```bash
 systemctl is-active mcm-api.service || true
@@ -130,7 +122,7 @@ sudoedit /etc/mcm/mcm.env
 
 Radar refuses to start while the placeholder values are still in place. The file is owned by `root:mcm`, redacted from logs and diagnostics, and kept across upgrades and removal. Include it in your backup plan.
 
-Useful defaults you may want to change:
+You may want to change these defaults:
 
 | Setting | Default |
 |---|---|
@@ -204,10 +196,10 @@ shred -u kek.bin
 ```
 
 {{< note >}}
-Write the key to a file rather than using `--from-literal="$(head -c 32 /dev/urandom)"`. Command substitution truncates at null bytes, so the key would not be 32 bytes.
+Write the key to a file rather than using `--from-literal="$(head -c 32 /dev/urandom)"`. If the random key contains a zero byte, command substitution truncates it there, so the key would be shorter than 32 bytes.
 {{< /note >}}
 
-The secret must contain the `CREDENTIAL_KEK` key. If it does not, the pods stay in `ContainerCreating`. That failure is deliberate rather than silent.
+The secret must contain a key named `CREDENTIAL_KEK`. Without it, the pods stay in `ContainerCreating` rather than starting with no encryption key.
 
 ### 2. Install the chart
 
@@ -330,7 +322,7 @@ Radar marks the browser session cookie as secure by default, so serve Radar over
 
 ## Install on an air-gapped host
 
-Air-gapped installation is not a separate method. It is the same three methods, with the artifacts carried in by hand instead of downloaded.
+Air-gapped installation uses the same three methods. The only difference is that you carry the artifacts in by hand instead of downloading them.
 
 Transfer the release artifacts to the target host or to an offline repository it can reach, then verify them:
 
@@ -350,4 +342,4 @@ Your PostgreSQL database and the clusters you plan to monitor still need to be r
 
 ## Next steps
 
-Radar is installed but has nothing to show yet. It does not discover clusters on its own. Continue to [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster.
+Radar is installed but has nothing to show yet, because it does not discover clusters on its own. Continue to [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster.

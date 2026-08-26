@@ -148,8 +148,6 @@ Radar holds credentials for every cluster in your fleet, so treat the connection
 
 **Protect the encryption key.** On a self-managed install, every credential Radar stores is encrypted with the key you supplied at install. Back that key up alongside the database and store the backup separately. See [Install Radar]({{< relref "/operate/radar/install#the-credential-encryption-key" >}}).
 
-<!-- TODO(DOC-6912): RED-197466 makes replacing username/password for cluster connections a hard GA gate, and the mechanism is still TBD (no PM; ask Guy). This section documents only what is verifiable today. When the mechanism lands, it likely becomes the primary path here and may warrant its own page. Do not describe it before it is decided. -->
-
 ## Next steps
 
 Radar starts collecting as soon as a connection is saved. The first collection populates the fleet view, and Radar refreshes each source after that. See [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}).
