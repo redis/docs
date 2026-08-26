@@ -636,7 +636,7 @@ A streamed string's RESP encoding is as follows:
 
 * A dollar sign (`$`) as the first byte, followed by a question mark (`?`) in place of the length.
 * The CRLF terminator.
-* One or more chunks. Each chunk is a semicolon (`;`), the chunk's length in bytes as an unsigned, base-10 value, the CRLF terminator, the chunk's data, and a final CRLF.
+* One or more chunks. Each chunk starts with a semicolon (`;`), followed by the chunk's length in bytes as an unsigned, base-10 value, the CRLF terminator, the chunk's data, and a final CRLF.
 * A zero-length chunk (`;0\r\n`) to mark the end of the string.
 
 Example:
