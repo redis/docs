@@ -719,7 +719,46 @@ body.rwb-dragging-y * {
   top: 0;
   z-index: 1;
   background: var(--rwb-bg);
-  padding-top: 0.125rem;
+  /* The pane's own top padding, taken over by the toolbar. A sticky element
+     comes to rest at the padding edge of the scrollport, so with the padding on
+     the pane the toolbar stopped 8px short of the top and cell content scrolled
+     through the strip above it — half a line of code over the buttons. */
+  padding-top: 0.5rem;
+}
+
+/* Named rather than matched with :has, so this does not depend on selector
+   support the rest of the file does without. Both panes with a toolbar of their
+   own hand it their top padding; a pane that grows one later needs adding here. */
+.rwb-pane-terminal,
+.rwb-pane-notebook { padding-top: 0; }
+
+/* The notebook pane does not scroll: its toolbar is a fixed row and the cells
+   scroll under it. Sticky was not enough — a cell that has run carries Thebe's
+   own editor and output widgets, which paint over a sticky sibling however it is
+   layered, so the toolbar appeared to go transparent.
+
+   :not(.rwb-hidden) because this rule comes after .rwb-hidden and matches just as
+   tightly: without it the display here beat the display:none that hides a pane,
+   and the notebook rendered underneath the terminal it was meant to be behind. */
+.rwb-pane-notebook:not(.rwb-hidden) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rwb-pane-notebook > .rwb-nb-toolbar {
+  flex: 0 0 auto;
+  position: static;
+}
+
+.rwb-nb-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* A scroll that reaches the end of the notebook stops there rather than
+     carrying on into the page behind the dock. */
+  overscroll-behavior-y: contain;
 }
 
 .rwb-nb-binder {
@@ -841,13 +880,6 @@ body.rwb-dragging-y * {
 }
 
 .rwb-nb-input { min-width: 0; }
-
-.rwb-nb-note {
-  margin: 0.5rem 0 0;
-  font-size: 11px;
-  color: var(--rwb-muted);
-  font-style: italic;
-}
 
 /* ---- the borrowed cell, dressed as a notebook input ----
    These rules apply only while the cell is inside the pane; the same node keeps
@@ -1209,15 +1241,6 @@ body.rwb-dragging-y * {
   background: var(--rwb-bg-2);
   border-radius: 0.1875rem;
   padding: 0.0625rem 0.3rem;
-}
-
-.rwb-note {
-  margin: 0;
-  padding: 0.375rem 0 0.5rem;
-  border-top: 1px solid var(--rwb-line-soft);
-  font-size: 10.5px;
-  color: var(--rwb-muted);
-  flex: none;
 }
 
 /* ---- narrow screens: stack the columns ---- */

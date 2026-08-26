@@ -1008,10 +1008,6 @@
     body.appendChild(main);
     panel.appendChild(body);
 
-    panel.appendChild(el('p', 'rwb-note',
-      'Sandbox — shared, public, and wiped periodically. Snippets run against '
-      + 'whatever is already here and build on it, so running one twice adds to '
-      + 'what it made the first time. "Clear keys" empties it.'));
     root.appendChild(panel);
 
     document.body.appendChild(root);

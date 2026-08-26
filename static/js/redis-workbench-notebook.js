@@ -45,6 +45,11 @@
      kernel's queue is idle and empty through no fault of its own. */
   var START_GRACE = 2500;
 
+  /* Retries of 100ms each, before a cell that has neither a count nor output is
+     called silent: the count is written after the execute future resolves, so it
+     and its output can both land after the cell's turn looks over. */
+  var LATE_COUNT_TRIES = 15;
+
   /* Gap between the clicks of a Run all. A Jupyter kernel executes what it is
      sent in the order it arrives, so every cell after the first is fired off back
      to back and left to queue server-side instead of waiting for the one before
@@ -112,8 +117,19 @@
   }
 
   /* Enough of the output area to tell "this changed" from "nothing happened". */
+  /* Where a result can show up. The pane's own output container is the usual
+     place, but a cell the page declares as printing nothing has no container at
+     all — and a kernel can answer anyway: the JavaScript kernel echoes the value
+     of an awaited expression, so `await client.quit()` prints OK into Thebe's own
+     output area. Reading only the container called that cell silent while its
+     result was on screen. */
+  function resultBox(container) {
+    return outputBox(container)
+      || container.querySelector('.thebe-output, .jp-OutputArea');
+  }
+
   function outputSignature(container) {
-    var output = outputBox(container);
+    var output = resultBox(container);
     return output ? output.textContent.length + ':' + output.children.length : '0:0';
   }
 
@@ -224,7 +240,7 @@
   }
 
   function outputText(container) {
-    var output = outputBox(container);
+    var output = resultBox(container);
     return output ? output.textContent : '';
   }
 
@@ -328,13 +344,48 @@
     toolbar.appendChild(kernelBox);
     pane.appendChild(toolbar);
 
-    var list = el('div', 'rwb-nb-list');
-    pane.appendChild(list);
+    /* The cells scroll; the toolbar does not. It used to be a sticky element
+       inside the scrolling pane, which held up until the cells ran: Thebe's
+       editors and output areas bring their own stacking, and they painted
+       straight over the buttons — the toolbar looked transparent, with code
+       sliding through it. Nothing outranks a box that isn't in the scroller. */
+    var scroller = el('div', 'rwb-nb-scroll');
+    pane.appendChild(scroller);
 
-    pane.appendChild(el('p', 'rwb-nb-note',
-      'Prototype. These cells run in a Jupyter kernel from BinderHub, which has '
-      + 'its own Redis — so the keys they write are not the ones listed on the '
-      + 'left. Wiring the browser to the kernel is the next step.'));
+    /* Wheel over a cell, scroll the notebook.
+
+       A cell is a CodeMirror editor once Thebe activates it, and its inner boxes
+       overflow their own frames (.CodeMirror is 233px of content in a 199px box,
+       with overflow hidden). An element like that is not scrollable by the
+       reader, but it is scrollable in the DOM sense, and browsers differ on
+       whether a wheel over it is absorbed there or passed to the scroller behind
+       it. Headless Chrome passes it on; the reader's did not, which is what makes
+       the notebook feel stuck a few cells from the end.
+
+       So the scroller takes the event first and only hands it back if the thing
+       under the pointer has room left in that direction. */
+    scroller.addEventListener('wheel', function (event) {
+      if (event.ctrlKey || !event.deltaY) return;
+      var node = event.target;
+      while (node && node !== scroller) {
+        if (node.scrollHeight > node.clientHeight + 1
+          && /auto|scroll/.test(window.getComputedStyle(node).overflowY)) {
+          var room = event.deltaY > 0
+            ? node.scrollHeight - node.clientHeight - node.scrollTop
+            : node.scrollTop;
+          if (room > 1) return;
+        }
+        node = node.parentNode;
+      }
+      var before = scroller.scrollTop;
+      scroller.scrollTop += event.deltaY;
+      /* Claimed only if it moved: at either end the page scrolls on, as it would
+         anywhere else. */
+      if (scroller.scrollTop !== before) event.preventDefault();
+    }, { passive: false, capture: true });
+
+    var list = el('div', 'rwb-nb-list');
+    scroller.appendChild(list);
 
     /* ---- borrowing the page's cells ---- */
 
@@ -685,6 +736,8 @@
       stampRunning(entry);
       var outputBefore = outputSignature(container);
       var countBefore = kernelCount(container);
+      /* Retries of 100ms each. */
+      var lateTries = 0;
       var haveCounts = kernelCountsAvailable();
       var thebeId = thebeIdOf(container);
       var clickedAt = Date.now();
@@ -760,11 +813,33 @@
             return resolve('cancelled');
           }
 
-          /* Counts were available and this cell's did not move: the kernel never
-             finished it. Reporting that plainly is the whole point — the earlier
-             version read an empty output wrapper as proof and stamped In[n] on
-             executions that had been dropped mid-flight. */
           if (haveCounts) {
+            /* The count is recorded after the execute future resolves, and both
+               it and the output it produced can land a beat after this cell's
+               turn looks over — the node-redis notebook printed OK and was
+               called silent in the same breath. So nothing is said for another
+               second and a half: ask for the number again, and let any output
+               that is still on its way arrive. */
+            var late = kernelCount(container);
+            if (typeof late === 'number' && late !== countBefore) return finish(late);
+            if (lateTries < LATE_COUNT_TRIES) {
+              lateTries += 1;
+              window.setTimeout(function () { finish(); }, 100);
+              return;
+            }
+            /* Output and no number for it: it ran, and this kernel did not count
+               it. Saying "no response" about a cell whose result is on screen is
+               the report being wrong, not the cell. */
+            if (moved) {
+              state.kernelProven = true;
+              mark(entry, '', 'rwb-nb-marker-done');
+              stampDone(entry, true);
+              return resolve('ran');
+            }
+            /* Counts were available, this cell's did not move, and it wrote
+               nothing: the kernel never finished it. Reporting that plainly is
+               the whole point — the earlier version read an empty output wrapper
+               as proof and stamped In[n] on executions dropped mid-flight. */
             mark(entry, 'no response', 'rwb-nb-marker-error');
             stampDone(entry, false);
             state.kernelSilent = true;
