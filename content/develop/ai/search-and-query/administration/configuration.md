@@ -564,7 +564,7 @@ UPGRADE_INDEX idx PREFIX 1 tt LANGUAGE french LANGUAGE_FIELD MyLang SCORE 0.5 SC
 Available in Redis Query Engine 2.4.8 and later.
 
 The maximum memory resize (in bytes) for vector indexes.
-The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/ai/search-and-query/vectors/#creation-attributes-per-algorithm" >}}).
+The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/ai/search-and-query/vectors#create-a-vector-index" >}}).
 
 Type: integer
 
