@@ -19,25 +19,25 @@ Adding a cluster to Radar does not change it. Radar reads through the same manag
 | Type | How Radar reaches it | What you supply |
 |---|---|---|
 | [Redis Software](#connect-a-redis-software-cluster) | The cluster REST API, over HTTPS on port 9443 | A hostname or IP address, plus an account on the cluster |
-| [Redis Cloud](#connect-a-redis-cloud-account) | The Redis Cloud API | An account key and a user secret |
 | [Redis Open Source](#connect-a-redis-open-source-instance) | The instance directly | A hostname and port, plus credentials if the instance requires them |
+| [Redis Cloud](#connect-a-redis-cloud-account) | The Redis Cloud API | An account key and a user secret |
 | [Amazon ElastiCache](#connect-amazon-elasticache) | The AWS control-plane APIs | Read-only AWS credentials and the regions to scan |
 | [Google Memorystore](#connect-google-memorystore) | The Google Cloud APIs | A read-only service account, plus the project and regions to scan |
 
-Connections differ in how much they cover. One Redis Cloud connection covers every subscription and database in that account, and one ElastiCache or Memorystore connection covers every resource in the regions you select. Redis Software and Redis Open Source connections are per cluster or per instance.
+Radar encrypts every credential before storing it. Credentials are never returned through the API and never written to logs.
 
-ElastiCache and Memorystore resources appear on the **Databases** view rather than **Clusters**.
+## Self-managed connections
 
-## Before you connect
+Connect Redis Software clusters and Redis Open Source instances that you run yourself. Radar reaches each one directly, so you supply a host and an account on the cluster or instance. Redis Software and Redis Open Source connections are per cluster or per instance.
 
-For every connection you need two things:
+### Before you connect
 
-- **Credentials for the source's management interface.** Radar uses the source's own API, so it needs an account or identity there. Read access is enough; Radar never writes to your clusters.
+For every connection you need:
+
+- **Credentials for the cluster or instance.** Radar uses the same management interface you do, so it needs an account there. Read access is enough; Radar never writes to your clusters.
 - **Network access from Radar to the source.** Radar connects outbound. Nothing needs to connect back to Radar, so no inbound rule is required on the Radar host.
 
-Radar encrypts every credential you give it before storing it. On a self-managed install, it uses the encryption key you supplied at install. Credentials are never returned through the API and never written to logs.
-
-## Connect a Redis Software cluster
+### Connect a Redis Software cluster
 
 Radar reads Redis Software clusters through the cluster REST API.
 
@@ -57,18 +57,7 @@ Radar always reaches the REST API over HTTPS.
 Point Radar at the cluster's fully qualified domain name rather than one node's address. A node address works until that node is unavailable, at which point Radar reports the whole cluster as unreachable.
 {{< /note >}}
 
-## Connect a Redis Cloud account
-
-A Redis Cloud connection uses the Redis Cloud API, so it covers every subscription and database in the account at once.
-
-1. Create a Redis Cloud API key. You need both the **account key** and a **user secret**. See [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
-2. In Radar, select **Add connection**.
-3. Set the **connection type** to **Redis Cloud**.
-4. Enter a **display name**.
-5. Enter the **account key** and the **user secret**.
-6. Select **Add connection**.
-
-## Connect a Redis Open Source instance
+### Connect a Redis Open Source instance
 
 Radar connects straight to the instance, so it needs network access to that endpoint.
 
@@ -80,7 +69,30 @@ Radar connects straight to the instance, so it needs network access to that endp
 6. Select **Use TLS (rediss://)** if the instance requires an encrypted connection.
 7. Select **Add connection**.
 
-## Connect Amazon ElastiCache
+## Cloud connections
+
+Connect a Redis Cloud account, Amazon ElastiCache, or Google Memorystore. These connections use each provider's own API rather than talking to a database directly, so what you supply is API credentials rather than an account on a cluster. One Redis Cloud connection covers every subscription and database in that account, and one ElastiCache or Memorystore connection covers every resource in the regions you select. ElastiCache and Memorystore resources appear on the **Databases** view rather than **Clusters**.
+
+### Before you connect
+
+For every connection you need:
+
+- **API credentials for the provider.** A Redis Cloud account key and user secret, read-only AWS credentials, or a read-only Google Cloud service account. Radar never writes to your Redis Cloud subscription or provider account.
+- **The regions to scan, for Amazon ElastiCache and Google Memorystore.** Radar only scans the regions you list.
+- **Network access from Radar to the provider's API.** Radar connects outbound only.
+
+### Connect a Redis Cloud account
+
+A Redis Cloud connection uses the Redis Cloud API, so it covers every subscription and database in the account at once.
+
+1. Create a Redis Cloud API key. You need both the **account key** and a **user secret**. See [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
+2. In Radar, select **Add connection**.
+3. Set the **connection type** to **Redis Cloud**.
+4. Enter a **display name**.
+5. Enter the **account key** and the **user secret**.
+6. Select **Add connection**.
+
+### Connect Amazon ElastiCache
 
 One ElastiCache connection covers every ElastiCache resource in the regions you select.
 
@@ -109,7 +121,7 @@ Both the API server and the worker need outbound HTTPS on port 443 to the AWS co
 Blocking the CloudWatch or tagging endpoints degrades what Radar can report and produces a capability warning. Blocking the identity or ElastiCache inventory endpoints stops the connection test and collection outright.
 {{< /note >}}
 
-## Connect Google Memorystore
+### Connect Google Memorystore
 
 One Memorystore connection covers every Memorystore resource in the regions you select, across the Redis, Valkey, and Memcached engines.
 
