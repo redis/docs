@@ -344,6 +344,23 @@
     toolbar.appendChild(kernelBox);
     pane.appendChild(toolbar);
 
+    /* What the driver says about the session, where a reader can see it. Its own
+       messages — "please refresh", the rate-limit notice — go into each cell's
+       codetabs header, and the pane hides that header along with the rest of the
+       page's chrome. So they were being written into the DOM and shown to nobody.
+       This mirrors whatever is there, above the cells. */
+    var notice = el('p', 'rwb-nb-notice');
+    notice.setAttribute('role', 'status');
+    notice.hidden = true;
+    pane.appendChild(notice);
+
+    function syncNotice() {
+      var found = pane.querySelector('.session-expired-message, .thebe-rate-limit-message');
+      var text = found ? found.textContent.trim() : '';
+      notice.textContent = text;
+      notice.hidden = !text;
+    }
+
     /* The cells scroll; the toolbar does not. It used to be a sticky element
        inside the scrolling pane, which held up until the cells ran: Thebe's
        editors and output areas bring their own stacking, and they painted
@@ -386,6 +403,22 @@
 
     var list = el('div', 'rwb-nb-list');
     scroller.appendChild(list);
+
+    /* The driver inserts and removes those messages as the session changes, so
+       this watches for them rather than asking at a moment of its own choosing.
+       One check per frame: this observer sees every output line a cell writes,
+       and none of those are what it is looking for. */
+    if (window.MutationObserver) {
+      var noticePending = false;
+      new MutationObserver(function () {
+        if (noticePending) return;
+        noticePending = true;
+        window.requestAnimationFrame(function () {
+          noticePending = false;
+          syncNotice();
+        });
+      }).observe(pane, { childList: true, subtree: true });
+    }
 
     /* ---- borrowing the page's cells ---- */
 

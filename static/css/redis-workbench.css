@@ -751,6 +751,20 @@ body.rwb-dragging-y * {
   position: static;
 }
 
+/* What the driver says about the session, mirrored out of the cell chrome the
+   pane hides: a refresh-to-continue or rate-limit notice belongs where the
+   reader is looking. */
+.rwb-nb-notice {
+  flex: 0 0 auto;
+  margin: 0 0 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #7f1d1d;                      /* red-900 */
+  border-radius: 0.25rem;
+  background: rgba(127, 29, 29, .18);
+  font-size: 11px;
+  color: #fca5a5;                                 /* red-300 */
+}
+
 .rwb-nb-scroll {
   flex: 1 1 auto;
   min-height: 0;

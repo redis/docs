@@ -206,6 +206,19 @@
     return '"' + value.replace(/([\\"$`])/g, '\\$1') + '"';
   }
 
+  /* The indexes a batch of commands creates, by name — for a setup block that is
+     being run a second time and would otherwise fail on its own FT.CREATE. */
+  function recreatedIndexes(commands) {
+    var names = [];
+    commands.forEach(function (command) {
+      var match = /^\s*FT\.CREATE\s+("[^"]+"|'[^']+'|\S+)/i.exec(String(command));
+      if (!match) return;
+      var name = match[1].replace(/^["']|["']$/g, '');
+      if (names.indexOf(name) === -1) names.push(name);
+    });
+    return names;
+  }
+
   /* Run commands in this page's session, chunked to the backend's batch limit.
      Always resolves: a transport failure becomes error replies, so a probe can
      never leave the UI hanging on a rejected promise. */
@@ -1407,7 +1420,9 @@
        This snippet may *be* the setup (provides) or may be prepending it
        (setup.name); either way the claim is only good if the batch runs. */
     var claimed = null;
+    var again = false;
     if (options.provides) {
+      again = !!this.setupRan[options.provides];
       this.setupRan[options.provides] = true;
       claimed = options.provides;
     }
@@ -1419,6 +1434,20 @@
       this.setStatus('setting this page up first…');
     } else {
       this.setStatus('running the snippet…');
+    }
+
+    /* The setup block again, on purpose. It says it re-creates the index, and
+       FT.CREATE on an index that is already there is an error — which is what a
+       reader got when an earlier "Try it" had already applied the setup for them.
+       So the indexes this setup is about to create are dropped first: exactly
+       those, parsed from its own commands, and only the ones that exist, so
+       neither the drop nor the create has anything to complain about. The
+       documents are left to the setup's own writes, which overwrite them. */
+    if (again) {
+      var drops = recreatedIndexes(commands).filter(function (name) {
+        return self.indexes.indexOf(name) !== -1;
+      }).map(function (name) { return 'FT.DROPINDEX ' + quote(name); });
+      if (drops.length) commands = drops.concat(commands);
     }
     /* Asked for, so shown: wherever the reader had scrolled to, the result of
        this click is what they are waiting for. */
