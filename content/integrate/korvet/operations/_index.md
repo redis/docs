@@ -6,8 +6,12 @@ categories:
 - integrate
 - korvet
 description: Deploy, monitor, and operate Korvet in production.
+group: service
 hideListLinks: false
 linkTitle: Operations
+summary: Korvet provides a Kafka-compatible API backed by Redis Streams, so you
+  can use existing Kafka clients and tools with Redis as the storage engine.
+type: integration
 weight: 50
 ---
 

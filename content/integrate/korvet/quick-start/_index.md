@@ -6,8 +6,12 @@ categories:
 - integrate
 - korvet
 description: Install Korvet, run the built-in demo, and connect your own Kafka client.
+group: service
 hideListLinks: false
 linkTitle: Get Started
+summary: Korvet provides a Kafka-compatible API backed by Redis Streams, so you
+  can use existing Kafka clients and tools with Redis as the storage engine.
+type: integration
 weight: 10
 ---
 
