@@ -1,0 +1,66 @@
+{{- /*
+  tryit-script
+  ------------
+  What a "Try it" button does, in one place. Emitted by every shortcode that
+  renders such a button — layouts/shortcodes/redis-cli.html and
+  layouts/partials/tabs/wrapper.html — and idempotent: each definition is
+  guarded with `||`, so a page that renders it a dozen times still has one
+  implementation. It used to be two inline copies that had drifted, and which
+  copy won on a given page came down to which shortcode Hugo rendered first.
+
+  Page setup. A block marked `prereq="true"` publishes its commands as this
+  page's setup (window._tryItSetup) and carries data-tryit-setup on its own
+  button. Every other "Try it" on the page runs that setup first, so a reader who
+  lands half way through a tutorial and clicks an FT.SEARCH gets the index it
+  searches rather than SEARCH_INDEX_NOT_FOUND. The workbench is told about the
+  setup separately from the snippet (see js/redis-workbench.js) so it can skip it
+  when the sandbox has already had it this session; the standalone CLI gets a
+  fresh session every time, so there the setup is simply prepended.
+
+  `data-needs-prereq` / window._tryItPrereqs is the older per-set model, kept for
+  pages that mark a prereq example without a page-level setup.
+
+  No `//` comments and no blank lines inside the <script>: this partial is
+  emitted from a percent-delimited shortcode, so Goldmark re-parses the output,
+  and html/template rewrites JS comments to whitespace-only lines — which end the
+  HTML block and turn the rest of the script into a code block. See DOC-6918.
+*/ -}}
+<script>
+window._tryItCommands = window._tryItCommands || {};
+window._tryItPrereqs = window._tryItPrereqs || {};
+window._tryItSetup = window._tryItSetup || null;
+window.openTryItCli = window.openTryItCli || function (button) {
+    const codetabsId = button.getAttribute('data-codetabs-id');
+    const own = window._tryItCommands[codetabsId];
+    if (!own || !own.length) return;
+    const anchor = document.querySelector('a[data-codetabs-id="' + codetabsId + '"]');
+    const provides = button.getAttribute('data-tryit-setup') || '';
+    const setup = window._tryItSetup;
+    let before = [];
+    let setupUsed = null;
+    if (setup && setup.commands && setup.commands.length && setup.name !== provides) {
+        before = setup.commands;
+        setupUsed = setup;
+    } else if (anchor && anchor.getAttribute('data-needs-prereq') === 'true') {
+        const set = anchor.getAttribute('data-example-set');
+        const prereqs = (set && window._tryItPrereqs) ? window._tryItPrereqs[set] : null;
+        if (prereqs && prereqs.length) {
+            before = prereqs;
+            setupUsed = { name: set, commands: prereqs };
+        }
+    }
+    const commands = before.concat(own);
+    const json = JSON.stringify(commands);
+    const b64 = btoa(unescape(encodeURIComponent(json)))
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const source = button.getAttribute('data-tryit-source') || '';
+    let url = 'https://redis.io/cli?commands=' + b64 + '&autorun=true'
+        + '&snippet=' + encodeURIComponent(codetabsId);
+    if (source) url += '&source=' + encodeURIComponent(source);
+    if (window.RedisWorkbench && window.RedisWorkbench.open({
+        button: button, commands: own, setup: setupUsed, provides: provides,
+        snippet: codetabsId, fullCliUrl: url
+    })) return;
+    window.open(url, '_blank', 'noopener,noreferrer');
+};
+</script>

@@ -833,6 +833,8 @@
     /* The index whose documents the key list is showing, and their names. */
     indexFilter: null,
     indexDocs: null,
+    /* Page setups already run in this sandbox session, by name. */
+    setupRan: {},
     selected: null,
     truncated: false,
     /* command batches seen while closed, discovered at first open */
@@ -1393,7 +1395,29 @@
     var self = this;
     this.open();
     this.show('terminal');
-    this.setStatus('running the snippet…');
+
+    /* A snippet in the middle of a tutorial needs what the steps before it did:
+       the page keeps those commands in its setup block, and this runs them ahead
+       of the snippet the first time they are needed in this sandbox session.
+       Once, not per click — the sandbox is a session, and re-creating an index
+       and twelve documents on every "Try it" would be a wall of output between
+       the reader and the thing they asked for.
+
+       "This session" is this page load: the sandbox mints a new session then, so
+       nothing carries over. "Clear keys" empties it, and forgets. */
+    var commands = options.commands;
+    var setup = options.setup;
+    var ran = null;
+    if (options.provides) this.setupRan[options.provides] = true;
+    if (setup && setup.commands && setup.commands.length
+      && !this.setupRan[setup.name]) {
+      commands = setup.commands.concat(commands);
+      this.setupRan[setup.name] = true;
+      ran = setup.name;
+      this.setStatus('setting this page up first…');
+    } else {
+      this.setStatus('running the snippet…');
+    }
     /* Asked for, so shown: wherever the reader had scrolled to, the result of
        this click is what they are waiting for. */
     this.following = true;
@@ -1401,10 +1425,13 @@
     /* Discovery is not kicked off here: running the commands through the
        terminal puts them on the onExecute subscription — which tracks them.
        Doing both would probe every command twice. */
-    return cli().run(this.terminalForm, options.commands, 'preset')
+    return cli().run(this.terminalForm, commands, 'preset')
       .then(function () {
         self.scrollTerminal();
       }, function () {
+        /* It did not run, so it did not happen: the next "Try it" must try the
+           setup again rather than assume this sandbox has it. */
+        if (ran) delete self.setupRan[ran];
         self.setStatus('could not run the snippet');
       });
   };
@@ -1431,6 +1458,8 @@
     /* Nothing left to filter by. */
     this.indexFilter = null;
     this.indexDocs = null;
+    /* An emptied sandbox has not had this page's setup either. */
+    this.setupRan = {};
     this.clearValue();
     this.renderKeys();
     this.show('terminal');
@@ -2349,7 +2378,15 @@
       if (!options || !options.commands || !options.commands.length) return false;
       var instance = ensureDock();
       if (!instance) return false;
-      instance.load({ commands: options.commands });
+      /* options.setup is the page's setup block — the "Reload the data and
+         re-create the index" the tutorials keep in a <details> — and
+         options.provides names the setup this snippet *is*. See
+         layouts/partials/tryit-script.html. */
+      instance.load({
+        commands: options.commands,
+        setup: options.setup,
+        provides: options.provides
+      });
       return true;
     },
 
