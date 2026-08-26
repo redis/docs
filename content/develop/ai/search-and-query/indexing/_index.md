@@ -14,6 +14,7 @@ categories:
 - kubernetes
 - clients
 description: How to index and search JSON documents
+hideListLinks: true
 linkTitle: Indexing
 title: Indexing
 weight: 3
