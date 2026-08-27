@@ -356,7 +356,7 @@ The example below shows a filter that retries all commands except for
 [`DECR`]({{< relref "/commands/decr" >}})
 (this command is not [idempotent](https://en.wikipedia.org/wiki/Idempotence) and
 so you might need to avoid executing it more than once). Note that
-replay filters are only available in in Lettuce v6.6 and above.
+replay filters are only available in Lettuce v6.6 and above.
 
 ```java
 Predicate<RedisCommand<?, ?, ?> > filter =
