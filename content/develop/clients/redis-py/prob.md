@@ -16,7 +16,7 @@ weight: 45
 ---
 
 Redis supports several
-[probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}})
+[probabilistic data types](/content/develop/data-types/probabilistic/_index.md)
 that let you calculate values approximately rather than exactly.
 The types fall into two basic categories:
 
@@ -32,7 +32,7 @@ counting the number of distinct IP addresses that access a website in one day.
 
 Assuming that you already have code that supplies you with each IP
 address as a string, you could record the addresses in Redis using
-a [set]({{< relref "/develop/data-types/sets" >}}):
+a [set](/content/develop/data-types/sets.md):
 
 ```py
 r.sadd("ip_tracker", new_ip_address)
@@ -68,11 +68,11 @@ time than the equivalent precise calculations.
 Redis supports the following approximate set operations:
 
 -   [Membership](#set-membership): The
-    [Bloom filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}}) and
-    [Cuckoo filter]({{< relref "/develop/data-types/probabilistic/cuckoo-filter" >}})
+    [Bloom filter](/content/develop/data-types/probabilistic/bloom-filter.md) and
+    [Cuckoo filter](/content/develop/data-types/probabilistic/cuckoo-filter.md)
     data types let you track whether or not a given item is a member of a set.
 -   [Cardinality](#set-cardinality): The
-    [HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
+    [HyperLogLog](/content/develop/data-types/probabilistic/hyperloglogs.md)
     data type gives you an approximate value for the number of items in a set, also
     known as the *cardinality* of the set.
 
@@ -80,8 +80,8 @@ The sections below describe these operations in more detail.
 
 ### Set membership
 
-[Bloom filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}}) and
-[Cuckoo filter]({{< relref "/develop/data-types/probabilistic/cuckoo-filter" >}})
+[Bloom filter](/content/develop/data-types/probabilistic/bloom-filter.md) and
+[Cuckoo filter](/content/develop/data-types/probabilistic/cuckoo-filter.md)
 objects provide a set membership operation that lets you track whether or not a
 particular item has been added to a set. These two types provide different
 trade-offs for memory usage and speed, so you can select the best one for your
@@ -90,7 +90,7 @@ absence of items in the set. If an item is reported as absent, then it is defini
 absent, but if it is reported as present, then there is a small chance it may really be
 absent.
 
-Instead of storing strings directly, like a [set]({{< relref "/develop/data-types/sets" >}}),
+Instead of storing strings directly, like a [set](/content/develop/data-types/sets.md),
 a Bloom filter records the presence or absence of the
 [hash value](https://en.wikipedia.org/wiki/Hash_function) of a string.
 This gives a very compact representation of the
@@ -114,13 +114,13 @@ Which of these two data types you choose depends on your use case.
 Bloom filters are generally faster than Cuckoo filters when adding new items,
 and also have better memory usage. Cuckoo filters are generally faster
 at checking membership and also support the delete operation. See the
-[Bloom filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}}) and
-[Cuckoo filter]({{< relref "/develop/data-types/probabilistic/cuckoo-filter" >}})
+[Bloom filter](/content/develop/data-types/probabilistic/bloom-filter.md) and
+[Cuckoo filter](/content/develop/data-types/probabilistic/cuckoo-filter.md)
 reference pages for more information and comparison between the two types.
 
 ### Set cardinality
 
-A [HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
+A [HyperLogLog](/content/develop/data-types/probabilistic/hyperloglogs.md)
 object calculates the cardinality of a set. As you add
 items, the HyperLogLog tracks the number of distinct set members but
 doesn't let you retrieve them or query which items have been added.
@@ -144,20 +144,20 @@ Redis supports several approximate statistical calculations
 on numeric data sets:
 
 -   [Frequency](#frequency): The
-    [Count-min sketch]({{< relref "/develop/data-types/probabilistic/count-min-sketch" >}})
+    [Count-min sketch](/content/develop/data-types/probabilistic/count-min-sketch.md)
     data type lets you find the approximate frequency of a labeled item in a data stream.
 -   [Quantiles](#quantiles): The
-    [t-digest]({{< relref "/develop/data-types/probabilistic/t-digest" >}})
+    [t-digest](/content/develop/data-types/probabilistic/t-digest.md)
     data type estimates the quantile of a query value in a data stream.
 -   [Ranking](#ranking): The
-    [Top-K]({{< relref "/develop/data-types/probabilistic/top-k" >}}) data type
+    [Top-K](/content/develop/data-types/probabilistic/top-k.md) data type
     estimates the ranking of labeled items by frequency in a data stream.
 
 The sections below describe these operations in more detail.
 
 ### Frequency
 
-A [Count-min sketch]({{< relref "/develop/data-types/probabilistic/count-min-sketch" >}})
+A [Count-min sketch](/content/develop/data-types/probabilistic/count-min-sketch.md)
 (CMS) object keeps count of a set of related items represented by
 string labels. The count is approximate, but you can specify
 how close you want to keep the count to the true value (as a fraction)
@@ -173,7 +173,7 @@ sketch commands.
 {{< /clients-example >}}
 
 The advantage of using a CMS over keeping an exact count with a
-[sorted set]({{< relref "/develop/data-types/sorted-sets" >}})
+[sorted set](/content/develop/data-types/sorted-sets.md)
 is that that a CMS has very low and fixed memory usage, even for
 large numbers of items. Use CMS objects to keep daily counts of
 items sold, accesses to individual web pages on your site, and
@@ -188,7 +188,7 @@ the value of height below which 75% of all people's heights lie.
 [Percentiles](https://en.wikipedia.org/wiki/Percentile) are equivalent
 to quantiles, except that the fraction is expressed as a percentage.
 
-A [t-digest]({{< relref "/develop/data-types/probabilistic/t-digest" >}})
+A [t-digest](/content/develop/data-types/probabilistic/t-digest.md)
 object can estimate quantiles from a set of values added to it
 without having to store each value in the set explicitly. This can
 save a lot of memory when you have a large number of samples.
@@ -207,12 +207,12 @@ t-digest commands.
 
 A t-digest object also supports several other related commands, such
 as querying by rank. See the
-[t-digest]({{< relref "/develop/data-types/probabilistic/t-digest" >}})
+[t-digest](/content/develop/data-types/probabilistic/t-digest.md)
 reference for more information.
 
 ### Ranking
 
-A [Top-K]({{< relref "/develop/data-types/probabilistic/top-k" >}})
+A [Top-K](/content/develop/data-types/probabilistic/top-k.md)
 object estimates the rankings of different labeled items in a data
 stream according to frequency. For example, you could use this to
 track the top ten most frequently-accessed pages on a website, or the
