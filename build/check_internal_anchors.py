@@ -165,6 +165,13 @@ def self_link_target(url: str) -> tuple[str, str] | None:
     return path, unquote(anchor)
 
 
+def own_page(public: Path, content: Path, src: Path) -> Path | None:
+    """The built page for a source file. `_index.md` publishes at its directory."""
+    rel = src.relative_to(content)
+    url = rel.parent if rel.name == "_index.md" else rel.with_suffix("")
+    return resolve_page(public, "/" + url.as_posix())
+
+
 def resolve_relref(public: Path, content: Path, src: Path, ref: str) -> Path | None:
     """Resolve a relref path, absolute or relative to the page it appears on.
 
@@ -176,8 +183,13 @@ def resolve_relref(public: Path, content: Path, src: Path, ref: str) -> Path | N
     """
     if ref.startswith("/"):
         return resolve_page(public, ref)
-    # Relative to the directory of the page carrying the link, then as a site path.
     rel = ref[2:] if ref.startswith("./") else ref
+    if not rel:
+        # relref "#anchor" is a *same-page* link. Falling through to the directory
+        # logic below would validate it against the sibling section _index instead of
+        # the current page, which reported two live links as broken.
+        return own_page(public, content, src)
+    # Relative to the directory of the page carrying the link, then as a site path.
     here = src.relative_to(content).parent.as_posix()
     for candidate in (f"/{here}/{rel}", f"/{rel}"):
         page = resolve_page(public, candidate)

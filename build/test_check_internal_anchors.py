@@ -139,6 +139,33 @@ class CheckInternalAnchors(unittest.TestCase):
         self.assertEqual(findings, [])
         self.assertEqual(tally["relref_ok"], 1, "counted once, not twice")
 
+    # A leaf page beside a section _index, each with a *different* anchor, so these
+    # tests fail if the resolver picks the wrong one rather than passing by luck.
+    SAME_PAGE_TREE = {"/develop": '<html><h2 id="section-only">S</h2></html>',
+                      "/develop/thing": '<html><h2 id="page-only">P</h2></html>'}
+
+    def test_same_page_relref_checks_the_current_page(self):
+        findings, tally = self.run_check(
+            {"develop/thing.md": 'See {{< relref "#page-only" >}}.\n'},
+            pages=self.SAME_PAGE_TREE)
+        self.assertEqual(findings, [], "own-page anchor must resolve")
+        self.assertEqual(tally["relref_ok"], 1)
+
+    def test_same_page_relref_does_not_check_the_section_index(self):
+        """The regression: an empty path resolved to the sibling section page."""
+        findings, _ = self.run_check(
+            {"develop/thing.md": 'See {{< relref "#section-only" >}}.\n'},
+            pages=self.SAME_PAGE_TREE)
+        self.assertEqual(len(findings), 1, "section's anchor is not on this page")
+
+    def test_same_page_relref_from_an_index_page(self):
+        """_index.md publishes at its directory, so its own page is that directory."""
+        findings, tally = self.run_check(
+            {"develop/_index.md": 'See {{< relref "#section-only" >}}.\n'},
+            pages=self.SAME_PAGE_TREE)
+        self.assertEqual(findings, [])
+        self.assertEqual(tally["relref_ok"], 1)
+
     def test_unresolvable_relative_path_is_unhandled_not_a_finding(self):
         """A bad relref *path* fails the build, so non-resolution is our limit."""
         findings, tally = self.run_check(
