@@ -96,7 +96,30 @@ jobs:
             echo "broken=false" >> "$GITHUB_OUTPUT"
           fi
 
-      # --- Fragment check: report-only, deliberately not part of the gate above ---
+      - name: Upload report
+        if: steps.flag.outputs.broken == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lychee-report
+          path: lychee-report.md
+          if-no-files-found: error
+
+      - name: Fail if links are broken
+        if: steps.flag.outputs.broken == 'true'
+        run: |
+          echo "::error::Broken external links found; see the link-check tracking issue."
+          exit 1
+
+      # --- Fragment check: report-only, and deliberately last ---
+      #
+      # Ordering is load-bearing. These steps run *after* the gating upload and the
+      # failing step, because a step that dies here (an action setup error, which
+      # `fail: false` does not cover) would otherwise skip the gating upload via the
+      # implicit success() on later steps -- and report_broken_links, which runs on
+      # always(), would then fail downloading an artifact that was never produced,
+      # silently suppressing the broken-link tracking issue. Hence every step below
+      # carries always(): they must survive the exit 1 above without being able to
+      # interfere with it.
       #
       # lychee returns exit 2 for a missing fragment, exactly as it does for a dead
       # page, so a fragment failure is indistinguishable from a broken link in one
@@ -110,7 +133,13 @@ jobs:
       # anchor-only mode ignores `#:~:text=` scroll-to-text fragments by design.
       - name: Extract fragment-bearing URLs
         id: fragurls
+        if: always()
         run: |
+          # The build may have failed before producing this; report nothing rather
+          # than erroring, so a failed build can't masquerade as a fragment problem.
+          if [ ! -f external-urls.txt ]; then
+            echo "count=0" >> "$GITHUB_OUTPUT"; exit 0
+          fi
           grep '#' external-urls.txt | grep -v '#/' > fragment-urls.txt || true
           count=$(wc -l < fragment-urls.txt)
           echo "count=$count" >> "$GITHUB_OUTPUT"
@@ -118,7 +147,7 @@ jobs:
 
       - name: Check fragments (report-only)
         id: fragments
-        if: steps.fragurls.outputs.count != '0'
+        if: always() && steps.fragurls.outputs.count != '0'
         uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411
         with:
           lycheeVersion: v0.24.2
@@ -136,6 +165,7 @@ jobs:
 
       - name: Flag whether fragments were found
         id: fragflag
+        if: always()
         run: |
           # Note this reads the *fragments* step, never the gating one. A dead anchor
           # must not be able to fail this workflow.
@@ -147,26 +177,12 @@ jobs:
           fi
 
       - name: Upload fragment report
-        if: steps.fragflag.outputs.flagged == 'true'
+        if: always() && steps.fragflag.outputs.flagged == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: lychee-fragment-report
           path: lychee-fragment-report.md
           if-no-files-found: error
-
-      - name: Upload report
-        if: steps.flag.outputs.broken == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: lychee-report
-          path: lychee-report.md
-          if-no-files-found: error
-
-      - name: Fail if links are broken
-        if: steps.flag.outputs.broken == 'true'
-        run: |
-          echo "::error::Broken external links found; see the link-check tracking issue."
-          exit 1
 
   report_broken_links:
     name: Open or update tracking issue
