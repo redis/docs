@@ -98,7 +98,17 @@ RELREF_TRAILING_FRAGMENT = re.compile(
 # 130 on a normal content page. Its anchors are real in the browser and invisible here,
 # so they are UNVERIFIABLE, never missing. Reporting them would be the single largest
 # false-positive class: 69 of an unfiltered 172 findings.
-CLIENT_RENDERED = re.compile(r"redoc|swagger-ui|rapidoc", re.I)
+# Match the *mount*, not the mention. A bare substring search for these names also
+# hits ordinary tutorial pages -- redisom-for-java quotes a springfox-swagger-ui
+# dependency and a localhost:8080/swagger-ui/ URL -- and skipping those hid any real
+# defects in links to them. Substring matching flagged 14 pages; the mount forms flag
+# the 4 that genuinely build their content in the browser.
+CLIENT_RENDERED = re.compile(
+    r"<\s*(?:redoc|rapi-doc)\b"        # Redoc / RapiDoc custom elements
+    r"""|id=["']?swagger-ui\b"""       # the conventional Swagger UI mount node
+    r"|swagger-ui-bundle",              # ...or its bundle script
+    re.I,
+)
 
 ANCHOR_ATTR = re.compile(
     r"""(?:id|name)\s*=\s*(?:"([^"]+)"|'([^']+)'|([A-Za-z0-9_:.\-]+))"""
@@ -172,6 +182,21 @@ def own_page(public: Path, content: Path, src: Path) -> Path | None:
     return resolve_page(public, "/" + url.as_posix())
 
 
+def strip_page_suffix(ref: str) -> str:
+    """Hugo's relref accepts a source filename, so `a/b.md` means the page `a/b`.
+
+    Left out of resolve_page on purpose: that also resolves *self-links*, where the
+    docs tree really does publish literal files (`sitemap.xml`, and the `.md` twin of
+    every page), and a link to one of those must keep its extension.
+    """
+    for suffix in ("/_index.md", "/index.md"):
+        if ref.endswith(suffix):
+            return ref[: -len(suffix)] or "/"
+    if ref in ("_index.md", "index.md"):
+        return "/"
+    return ref[:-3] if ref.endswith(".md") else ref
+
+
 def resolve_relref(public: Path, content: Path, src: Path, ref: str) -> Path | None:
     """Resolve a relref path, absolute or relative to the page it appears on.
 
@@ -181,6 +206,7 @@ def resolve_relref(public: Path, content: Path, src: Path, ref: str) -> Path | N
     must therefore treat None as "unhandled", never as a finding -- which makes a
     false positive structurally impossible for the relative forms.
     """
+    ref = strip_page_suffix(ref)
     if ref.startswith("/"):
         return resolve_page(public, ref)
     rel = ref[2:] if ref.startswith("./") else ref

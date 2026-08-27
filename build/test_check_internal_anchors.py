@@ -91,9 +91,13 @@ class CheckInternalAnchors(unittest.TestCase):
         self.assertEqual(tally["self_skipped"], 1)
 
     def test_client_rendered_target_is_unverifiable_not_missing(self):
+        # The fixture uses the markup the api-reference pages actually emit. An
+        # earlier version invented `<div id="redoc">`, which no page uses, and it
+        # passed only because the detector then matched the bare substring.
         findings, tally = self.run_check(
             {"a.md": 'See {{< relref "/operate/api#tag/Cluster/operation/x" >}}.\n'},
-            pages={"/operate/api": '<html><div id="redoc"></div></html>'})
+            pages={"/operate/api":
+                   '<html><redoc spec-url="/openapi.json"></redoc></html>'})
         self.assertEqual(findings, [])
         self.assertEqual(tally["unverifiable"], 1)
 
@@ -172,6 +176,57 @@ class CheckInternalAnchors(unittest.TestCase):
             {"a.md": 'See {{< relref "some/unknown/shape#anchor" >}}.\n'})
         self.assertEqual(findings, [])
         self.assertEqual(tally["relref_unhandled"], 1)
+
+    # --- .md paths, which Hugo accepts as page references ----------------------
+
+    def test_md_suffix_relref_is_checked(self):
+        findings, _ = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing.md#no-such-heading" >}}.\n'})
+        self.assertEqual(len(findings), 1, findings)
+
+    def test_md_suffix_relref_valid_passes(self):
+        findings, tally = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing.md#real-heading" >}}.\n'})
+        self.assertEqual(findings, [])
+        self.assertEqual(tally["relref_ok"], 1)
+
+    def test_index_md_suffix_resolves_to_its_directory(self):
+        findings, tally = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing/_index.md#real-heading" >}}.\n'},
+            pages={"/develop/thing": PAGE})
+        self.assertEqual(findings, [])
+        self.assertEqual(tally["relref_ok"], 1)
+
+    def test_self_link_to_a_literal_md_file_keeps_its_extension(self):
+        """Regression guard: stripping .md must not break the published .md twins."""
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            content, public = build_tree(
+                root, {"/develop/thing": PAGE},
+                {"a.md": "[x](https://redis.io/docs/latest/develop/thing/index.html.md)\n"})
+            (public / "develop/thing/index.html.md").write_text("# t", encoding="utf-8")
+            findings, tally = cia.check(content, public)
+        self.assertEqual(findings, [])
+        self.assertEqual(tally["self_ok"], 1)
+
+    # --- client-rendered detection must match a mount, not a mention -----------
+
+    def test_swagger_mention_in_prose_is_not_client_rendered(self):
+        findings, tally = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing#no-such-heading" >}}.\n'},
+            pages={"/develop/thing":
+                   '<html><h2 id="real-heading">R</h2>'
+                   '<p>browse to http://localhost:8080/swagger-ui/ to see it</p>'
+                   '<code>springfox-swagger-ui</code></html>'})
+        self.assertEqual(len(findings), 1, "a prose mention must not skip the check")
+        self.assertEqual(tally["unverifiable"], 0)
+
+    def test_redoc_element_is_client_rendered(self):
+        findings, tally = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing#whatever" >}}.\n'},
+            pages={"/develop/thing": '<html><redoc spec-url="x"></redoc></html>'})
+        self.assertEqual(findings, [])
+        self.assertEqual(tally["unverifiable"], 1)
 
     # --- resolution details ---------------------------------------------------
 
