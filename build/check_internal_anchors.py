@@ -34,8 +34,11 @@ Design notes, each of which is load-bearing:
 * **Attribute quoting is optional in the regex.** Hugo drops optional quotes when
   minifying. This site doesn't minify today, but assuming quotes is precisely the
   bug that made an earlier audit report 23 present anchors as missing.
-* **Legacy ``<a name="...">`` anchors are part of the pool.** ``protocol-spec.md``
-  alone defines 17 of them, and command pages link to them by name.
+* **Legacy ``<a name="...">`` anchors are part of the pool, but only on ``<a>``
+  tags.** ``protocol-spec.md`` alone defines 17 of them and command pages link to
+  them, yet accepting every ``name=`` attribute also admits ``<meta
+  name="description">`` from every page, which would report a dead ``#description``
+  as present.
 
 Usage::
 
@@ -110,9 +113,24 @@ CLIENT_RENDERED = re.compile(
     re.I,
 )
 
-ANCHOR_ATTR = re.compile(
-    r"""(?:id|name)\s*=\s*(?:"([^"]+)"|'([^']+)'|([A-Za-z0-9_:.\-]+))"""
+# A browser jumps to an `id` on any element, or a `name` on an `<a>` -- and to
+# nothing else. Accepting every `name=` also swallowed `<meta name="description">`,
+# `viewport`, `robots` and `generator` on every page, the `name=` inside
+# `data-name=`, and fragments of the inline Google Tag Manager snippet: 114 values
+# where the page has 86 real targets. A polluted pool is a false *negative* -- a dead
+# `#description` would have been reported present -- which is the failure this tool
+# can least afford.
+ANCHOR_ID = re.compile(
+    # `(?<!\S)` requires whitespace before the attribute, which is what separates a
+    # real `<div id="x">` from a URL query parameter such as `gtm.js?id=GTM-XXXX`.
+    r"""(?<!\S)id\s*=\s*(?:"([^"]+)"|'([^']+)'|([A-Za-z0-9_:.\-]+))"""
 )
+A_TAG = re.compile(r"<a\b[^>]*>", re.I)
+# Script and style bodies are not markup, but they contain `id=` -- the inline tag
+# manager snippet has `gtm.js?id='+i+dl`, which matched as an anchor called
+# `GTM-TKZ6J9R`. Nothing inside them is a jump target, so they come out first.
+SCRIPT_OR_STYLE = re.compile(r"<(script|style)\b.*?</\1\s*>", re.I | re.S)
+A_NAME = re.compile(r"""(?<!\S)name\s*=\s*(?:"([^"]+)"|'([^']+)'|([A-Za-z0-9_:.\-]+))""")
 
 
 def live_sources(content: Path) -> list[Path]:
@@ -125,10 +143,16 @@ def live_sources(content: Path) -> list[Path]:
 def anchors_in(html: Path, _cache: dict[Path, set[str]] = {}) -> set[str]:
     """Every anchor a browser could jump to on a built page."""
     if html not in _cache:
-        text = html.read_text(encoding="utf-8", errors="replace")
+        text = SCRIPT_OR_STYLE.sub(" ", html.read_text(encoding="utf-8", errors="replace"))
         found = set()
-        for m in ANCHOR_ATTR.finditer(text):
+        for m in ANCHOR_ID.finditer(text):
             found.add(next(g for g in m.groups() if g is not None))
+        # Legacy `<a name="...">` targets, scoped to anchor tags so that meta and
+        # form element names stay out of the pool.
+        for tag in A_TAG.finditer(text):
+            m = A_NAME.search(tag.group(0))
+            if m:
+                found.add(next(g for g in m.groups() if g is not None))
         _cache[html] = found
     return _cache[html]
 

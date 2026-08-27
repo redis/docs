@@ -228,6 +228,50 @@ class CheckInternalAnchors(unittest.TestCase):
         self.assertEqual(findings, [])
         self.assertEqual(tally["unverifiable"], 1)
 
+    # --- the anchor pool must hold only real jump targets ---------------------
+
+    def test_meta_name_is_not_a_jump_target(self):
+        """Every page carries <meta name="description">; #description is not an anchor."""
+        findings, _ = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing#description" >}}.\n'},
+            pages={"/develop/thing":
+                   '<html><head><meta name="description" content="x">'
+                   '<meta name="viewport" content="y"></head>'
+                   '<h2 id="real-heading">R</h2></html>'})
+        self.assertEqual(len(findings), 1, "a meta name must not satisfy a fragment")
+
+    def test_data_prefixed_attributes_are_not_jump_targets(self):
+        findings, _ = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing#nope" >}}.\n'},
+            pages={"/develop/thing":
+                   '<html><div data-id="nope" data-name="nope"></div>'
+                   '<h2 id="real-heading">R</h2></html>'})
+        self.assertEqual(len(findings), 1, "data-id/data-name must not count")
+
+    def test_url_query_parameter_is_not_a_jump_target(self):
+        findings, _ = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing#GTM-ABC123" >}}.\n'},
+            pages={"/develop/thing":
+                   '<html><iframe src="https://gtm.example/ns.html?id=GTM-ABC123">'
+                   '</iframe><h2 id="real-heading">R</h2></html>'})
+        self.assertEqual(len(findings), 1, "an id= query param must not count")
+
+    def test_ids_inside_script_bodies_are_not_jump_targets(self):
+        findings, _ = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing#in-a-script" >}}.\n'},
+            pages={"/develop/thing":
+                   '<html><script>var u="x?id=in-a-script";</script>'
+                   '<h2 id="real-heading">R</h2></html>'})
+        self.assertEqual(len(findings), 1, "script bodies are not markup")
+
+    def test_a_name_still_counts_but_only_on_anchor_tags(self):
+        findings, tally = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing#legacy" >}}.\n'},
+            pages={"/develop/thing":
+                   '<html><a name="legacy"></a><h2 id="real-heading">R</h2></html>'})
+        self.assertEqual(findings, [])
+        self.assertEqual(tally["relref_ok"], 1)
+
     # --- resolution details ---------------------------------------------------
 
     def test_non_page_artifact_resolves(self):
