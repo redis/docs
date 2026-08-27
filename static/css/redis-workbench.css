@@ -181,6 +181,24 @@ body.rwb-dragging {
 }
 
 
+/* The question "Clear keys" asks, in the toolbar the button came from. */
+.rwb-confirm {
+  font-size: 12px;
+  color: var(--rwb-ink-2);
+  align-self: center;
+  margin-right: 0.125rem;
+}
+
+.rwb-btn-danger {
+  color: #fecaca;                                 /* red-200 */
+  background: #7f1d1d;                            /* red-900 */
+}
+
+.rwb-btn-danger:hover {
+  color: #fff;
+  background: #991b1b;                            /* red-800 */
+}
+
 .rwb-btn-icon {
   display: inline-flex;
   align-items: center;
@@ -212,6 +230,10 @@ body.rwb-dragging {
   background: transparent;
   position: relative;
 }
+
+/* Nothing to resize while the panel is shut, and the strip would otherwise put a
+   resize cursor on the dock's top edge with nothing behind it. */
+.rwb:not(.rwb-open) .rwb-grip { display: none; }
 
 .rwb-grip::after {
   content: "";
@@ -507,6 +529,14 @@ body.rwb-dragging-y * {
   border-left-color: var(--rwb-accent);
 }
 
+/* Not a button: there is nothing to open until the sweep says what it is. */
+.rwb-key-pending {
+  cursor: default;
+  color: var(--rwb-muted);
+}
+
+.rwb-key-pending:hover { background: none; }
+
 .rwb-key-text {
   display: flex;
   flex-direction: column;
@@ -583,6 +613,13 @@ body.rwb-dragging-y * {
 /* A search index is not a key, so Insight has no key-type colour for it. This is
    --typeGraphColor, the one colour in its palette no type we list uses. */
 .rwb-tone-index { background: #14708d; }         /* --typeGraphColor */
+
+/* A key the sweep has not described yet: a name, and a badge that says so. */
+.rwb-tone-pending {
+  background: transparent;
+  border: 1px dashed var(--rwb-line);
+  color: var(--rwb-muted);
+}
 
 /* Search field types. Insight badges these by variant — TEXT informative, TAG
    notice, NUMERIC attention, VECTOR success, GEO default — and those variants

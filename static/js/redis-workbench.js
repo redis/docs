@@ -412,7 +412,7 @@
     return names;
   }
 
-  function readKeyspace(trackedKeys, indexName) {
+  function readKeyspace(trackedKeys, indexName, onDescribed) {
     /* Snapshot the caller's list. Replies are read positionally, and the tracked
        set keeps growing while this is in flight (discovery runs off every batch),
        so holding the live array would shift every index under us: a key created
@@ -460,6 +460,14 @@
       }).filter(function (key) {
         return key.type && key.type !== 'none';
       });
+
+      /* Names, types and expiries are everything the list draws, so it can be
+         drawn now: the sizes below are another round trip and only the value
+         pane's "Length" waits on them. On a page served from the deployment that
+         is ~300ms of a reader watching an empty browser. */
+      if (onDescribed) {
+        onDescribed({ keys: described, indexes: indexes, docs: docs });
+      }
 
       var sizers = [];
       described.forEach(function (key) {
@@ -900,14 +908,14 @@
     this.collapseButton.classList.add('rwb-btn-icon', 'rwb-btn-collapse');
     actions.appendChild(this.collapseButton);
     bar.appendChild(actions);
-    root.appendChild(bar);
 
-    /* The panel: everything below the bar, shown only when open. */
-    var panel = el('div', 'rwb-panel');
-    this.panel = panel;
+    /* Drag handle, on the dock's own top edge — above the title bar, which is
+       where a panel that grows upwards is grabbed. It used to sit between the bar
+       and the panel, so the resize cursor appeared along the *bottom* of the bar
+       while the top edge, the one being dragged, did nothing.
 
-    /* Drag handle. A separator so it is reachable by keyboard too, which is the
-       only way to resize without a pointer. */
+       A separator so it is reachable by keyboard too, which is the only way to
+       resize without a pointer. */
     var grip = el('div', 'rwb-grip');
     grip.setAttribute('role', 'separator');
     grip.setAttribute('aria-orientation', 'horizontal');
@@ -918,7 +926,12 @@
       if (event.key === 'ArrowUp') { self.setHeight(self.height + 40); event.preventDefault(); }
       if (event.key === 'ArrowDown') { self.setHeight(self.height - 40); event.preventDefault(); }
     });
-    panel.appendChild(grip);
+    root.appendChild(grip);
+    root.appendChild(bar);
+
+    /* The panel: everything below the bar, shown only when open. */
+    var panel = el('div', 'rwb-panel');
+    this.panel = panel;
 
     var body = el('div', 'rwb-body');
 
@@ -939,7 +952,7 @@
     var terminalTools = el('div', 'rwb-toolbar');
     terminalTools.appendChild(this.button('Clear keys',
       'Empty the sandbox (FLUSHDB) — keys and indexes. The transcript stays.',
-      function () { self.clearKeys(); }));
+      function () { self.askClearKeys(); }));
     /* Its pair: one drops what the browser lists, the other drops the printed
        history. Neither reaches into the other. */
     terminalTools.appendChild(this.button('Clear terminal', 'Clear the terminal transcript',
@@ -1491,6 +1504,39 @@
      so a command typed at the wrong moment cannot land in front of it. FLUSHDB
      mints a fresh session on this backend and is intercepted before Redis, so the
      ACL's -flushdb never applies. */
+  /* "Clear keys" is the one control here that destroys something, and what it
+     destroys took a snippet to make: a reader who hits it by accident has to go
+     back up the page and find the "Try it" that filled the sandbox. So it asks
+     first, in the toolbar rather than a browser dialog — the question belongs
+     next to the button that raised it. */
+  dock.askClearKeys = function () {
+    var self = this;
+    var bar = this.terminalToolbar;
+    if (!bar || this.confirming) return this.clearKeys();
+    var restore = Array.prototype.slice.call(bar.childNodes);
+    this.confirming = true;
+
+    function done() {
+      self.confirming = false;
+      bar.removeEventListener('keydown', onKey);
+      bar.replaceChildren();
+      restore.forEach(function (node) { bar.appendChild(node); });
+    }
+    function onKey(event) {
+      if (event.key === 'Escape') { event.stopPropagation(); done(); }
+    }
+
+    bar.replaceChildren();
+    bar.appendChild(el('span', 'rwb-confirm', 'Clear every key in the sandbox?'));
+    var yes = this.button('Clear keys', 'Empty the sandbox now',
+      function () { done(); self.clearKeys(); });
+    yes.classList.add('rwb-btn-danger');
+    bar.appendChild(yes);
+    bar.appendChild(this.button('Cancel', 'Leave the sandbox as it is', done));
+    bar.addEventListener('keydown', onKey);
+    yes.focus();
+  };
+
   dock.clearKeys = function () {
     var self = this;
     this.keys = [];
@@ -1619,6 +1665,11 @@
       found.forEach(function (name) {
         if (self.known.indexOf(name) === -1) self.known.push(name);
       });
+      /* A row per name, before anything is known about it. Discovery has just
+         told us the batch touched these; the sweep that says what they are is
+         another round trip, and a reader who has watched a command write a key
+         should not be looking at an empty list while that happens. */
+      self.showPending(found);
       /* Bound the sweep: every tracked key costs commands on a shared backend,
          and a browser showing hundreds of keys has stopped being useful anyway.
          The newest are the ones the reader just made, so drop from the front. */
@@ -1673,7 +1724,13 @@
        that lands mid-sweep adds names this reading knows nothing about, and they
        must not be mistaken for keys that have gone. */
     var probed = this.known.slice();
-    return readKeyspace(probed, this.indexFilter).then(function (result) {
+    return readKeyspace(probed, this.indexFilter, function (described) {
+      /* The rows, as soon as they can be drawn. The sweep carries on to the
+         sizes and finishes the bookkeeping below. */
+      self.keys = described.keys;
+      self.indexes = described.indexes;
+      self.renderKeys();
+    }).then(function (result) {
       self.keys = result.keys;
       self.indexes = result.indexes;
       self.indexDocs = result.docs;
@@ -1862,6 +1919,21 @@
 
   /* ---- key browser ---- */
 
+  /* Names with nothing known about them yet, added to the list as placeholders.
+     The next sweep replaces them with the real thing — or drops them, for a name
+     that turned out not to be a key (a command that touched one and deleted it,
+     or an argument COMMAND GETKEYS reported that TYPE says is not there). */
+  dock.showPending = function (names) {
+    var self = this;
+    var added = false;
+    names.forEach(function (name) {
+      if (self.find(name)) return;
+      self.keys = self.keys.concat([{ name: name, pending: true }]);
+      added = true;
+    });
+    if (added) this.renderKeys();
+  };
+
   dock.renderKeys = function () {
     /* Rebuilt with the rows they belong to. */
     this.ttlNodes = {};
@@ -1888,6 +1960,16 @@
     }
 
     shown.forEach(function (key) {
+      if (key.pending) {
+        var placeholder = el('div', 'rwb-key rwb-key-pending');
+        placeholder.appendChild(el('span', 'rwb-badge rwb-tone-pending', '…'));
+        var pendingText = el('span', 'rwb-key-text');
+        pendingText.appendChild(el('span', 'rwb-key-name', key.name));
+        placeholder.appendChild(pendingText);
+        placeholder.title = key.name + ' — reading it now';
+        list.appendChild(placeholder);
+        return;
+      }
       var meta = TYPES[key.type] || { label: key.type, tone: 'other' };
       var item = el('button', 'rwb-key');
       item.type = 'button';
