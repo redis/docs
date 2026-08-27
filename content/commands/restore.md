@@ -96,9 +96,7 @@ If `ttl` is 0 the key is created without any expire, otherwise the specified
 expire time (in milliseconds) is set.
 
 If the `ABSTTL` modifier was used, `ttl` should represent an absolute
-[Unix timestamp][hewowu] (in milliseconds) in which the key will expire.
-
-[hewowu]: http://en.wikipedia.org/wiki/Unix_time
+[Unix timestamp](http://en.wikipedia.org/wiki/Unix_time) (in milliseconds) in which the key will expire.
 
 For eviction purposes, you may use the `IDLETIME` or `FREQ` modifiers. See
 [`OBJECT`]({{< relref "/commands/object" >}}) for more information.

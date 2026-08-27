@@ -146,7 +146,7 @@ Here is the meaning of all fields in the **memory** section:
 
 *   `used_memory`: Total number of bytes allocated by Redis using its
      allocator (either standard **libc**, **jemalloc**, or an alternative
-     allocator such as [**tcmalloc**][hcgcpgp])
+     allocator such as [**tcmalloc**](http://code.google.com/p/google-perftools/))
 *   `used_memory_human`: Human readable representation of previous value
 *   `used_memory_rss`: Number of bytes that Redis allocated as seen by the
      operating system (a.k.a resident set size). This is the number reported by
@@ -647,8 +647,6 @@ It won't be included when `INFO` or `INFO ALL` are called, and it is returned on
 *   `allocator_active_lua`: Total bytes in the allocator active pages specifically for Lua, including external-fragmentation.
 *   `allocator_resident_lua`: Total bytes resident (RSS) in the allocator specifically for Lua. This includes pages that can be released to the OS (by `MEMORY PURGE`, or just waiting).
 *   `allocator_frag_bytes_lua`: Delta between `allocator_active_lua` and `allocator_allocated_lua`.
-
-[hcgcpgp]: http://code.google.com/p/google-perftools/
 
 **A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
 

@@ -29,9 +29,7 @@ title: LATENCY HELP
 The `LATENCY HELP` command returns a helpful text describing the different
 subcommands.
 
-For more information refer to the [Latency Monitoring Framework page][lm].
-
-[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+For more information refer to the [Latency Monitoring Framework page]({{< relref "/operate/oss_and_stack/management/optimization/latency-monitor.md" >}}).
 
 ## Redis Software and Redis Cloud compatibility
 

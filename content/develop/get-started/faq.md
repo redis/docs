@@ -112,10 +112,8 @@ memory it will fail.
 Setting `overcommit_memory` to 1 tells Linux to relax and perform the fork in a
 more optimistic allocation fashion, and this is indeed what you want for Redis.
 
-You can refer to the [proc(5)][proc5] man page for explanations of the
+You can refer to the [proc(5)](http://man7.org/linux/man-pages/man5/proc.5.html) man page for explanations of the
 available values.
-
-[proc5]: http://man7.org/linux/man-pages/man5/proc.5.html
 
 ## Are Redis on-disk snapshots atomic?
 
