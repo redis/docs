@@ -153,6 +153,10 @@ You can filter by usernames, source IP addresses, or both to manage data volume 
 Filter changes affect new client connections only. Existing connections continue to be audited based on the filters that were active when the connection was established.
 {{</note>}}
 
+{{< multitabs id="enable-command-connection-auditing"
+    tab1="REST API"
+    tab2="rladmin" >}}
+
 To enable command and connection auditing and configure filters, use an [update database configuration]({{< relref "/operate/rs/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
 
 ```
@@ -176,6 +180,16 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
     }
 }
 ```
+
+-tab-sep-
+
+To enable command and connection auditing using `rladmin`:
+
+```
+rladmin tune db db:<id|name> audit_settings audit_mode connection_and_crud
+```
+
+{{< /multitabs >}}
 
 ### Inclusive versus exclusive filters
 
@@ -225,6 +239,10 @@ You can set the `max_total_key_bytes` to control how much key data is captured p
 
 ### Partial updates
 
+{{< multitabs id="partial-update-username-filter"
+    tab1="REST API"
+    tab2="rladmin" >}}
+
 Updates to `audit_settings` merge with the database's existing audit configuration, so you can change one setting without resending the others. For example, the following request disables the username filter while preserving its username list and filter type:
 
 ```sh
@@ -237,6 +255,17 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
     }
 }
 ```
+
+-tab-sep-
+
+Each `rladmin tune db audit_settings` command updates only the setting you specify, merging with the database's existing audit configuration. For example, the following commands set the filtered usernames and then enable the filter:
+
+```
+rladmin tune db db:<id|name> audit_settings username_filter usernames alice,bob
+rladmin tune db db:<id|name> audit_settings username_filter enabled enabled
+```
+
+{{< /multitabs >}}
 
 ## Enable connection auditing only
 
@@ -262,7 +291,7 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
 To enable connection auditing only using `rladmin`:
 
 ```
-rladmin tune db db:<id|name> db_conns_auditing enabled
+rladmin tune db db:<id|name> audit_settings audit_mode connection
 ```
 
 {{< /multitabs >}}
@@ -316,6 +345,10 @@ To deactivate this policy, set `db_conns_auditing` to `disabled`.
 
 ## Turn off auditing
 
+{{< multitabs id="turn-off-auditing"
+    tab1="REST API"
+    tab2="rladmin" >}}
+
 To turn off auditing for a specific database:
 
 ```sh
@@ -326,6 +359,16 @@ PUT https://<host>:<port>/v1/bdbs/<database-id>
     }
 }
 ```
+
+-tab-sep-
+
+To turn off auditing for a specific database using `rladmin`:
+
+```
+rladmin tune db db:<id|name> audit_settings audit_mode disabled
+```
+
+{{< /multitabs >}}
 
 ## Notification examples
 
