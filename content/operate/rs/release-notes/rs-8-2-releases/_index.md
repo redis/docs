@@ -189,3 +189,7 @@ The following legacy UI features are not yet available in the new Cluster Manage
     Use [`crdb-cli crdb purge-instance`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/purge-instance" >}}) instead.
 
 - Search and export the log.
+
+#### SCAN results can be inconsistent during a rolling upgrade in OSS Cluster API mode
+
+During a rolling upgrade with Smart client handoffs (SCH) enabled, when some slot's shards have migrated to a different node but are still reachable from their original node, results of the `SCAN` command might be inconsistent: it might show some of the keys, it might show keys that are not reachable from that node, or it might show no keys. When the slot migration is done, this issue will fix itself.
