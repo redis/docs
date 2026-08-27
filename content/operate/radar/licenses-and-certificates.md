@@ -36,11 +36,15 @@ Radar also shows a fleet-wide total, so you can see aggregate headroom without a
 
 A license changed on the cluster shows up in Radar at its next collection.
 
+{{<image filename="images/radar/licenses.png" alt="The Licenses page, listing clusters by license status, expiration date, and shard usage">}}
+
 ## Certificates
 
 The **Certificates** view lists each cluster's certificates by type, with the expiration date and days remaining. One cluster can have several, such as `Api_cert`, `Cm_cert`, `Metrics_exporter_cert`, `Proxy_cert`, and `Syncer_cert`.
 
 A certificate renewed on the cluster shows up in Radar with its new expiration date at the next collection.
+
+{{<image filename="images/radar/certificates.png" alt="The Certificates page, listing certificates by type, cluster, and expiration date">}}
 
 ## Next steps
 
