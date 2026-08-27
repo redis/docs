@@ -107,6 +107,45 @@ class CheckInternalAnchors(unittest.TestCase):
             {"operate/release-notes/x.md": "See [x](https://redis.io/docs/latest/develop/nope/).\n"})
         self.assertEqual(findings, [])
 
+    # --- relref path shapes (regression: an earlier version saw only one) -----
+
+    def test_dot_relative_relref_is_checked(self):
+        findings, _ = self.run_check(
+            {"develop/a.md": 'See {{< relref "./thing#no-such-heading" >}}.\n'})
+        self.assertEqual(len(findings), 1, findings)
+        self.assertIn("no-such-heading", findings[0]["problem"])
+
+    def test_dot_relative_relref_valid_passes(self):
+        findings, tally = self.run_check(
+            {"develop/a.md": 'See {{< relref "./thing#real-heading" >}}.\n'})
+        self.assertEqual(findings, [])
+        self.assertEqual(tally["relref_ok"], 1)
+
+    def test_bare_relative_relref_is_checked(self):
+        findings, _ = self.run_check(
+            {"a.md": 'See {{< relref "develop/thing#no-such-heading" >}}.\n'})
+        self.assertEqual(len(findings), 1, findings)
+
+    def test_trailing_fragment_outside_shortcode_is_checked(self):
+        """{{< relref "/path" >}}#anchor puts the fragment outside the quotes."""
+        findings, _ = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing" >}}#no-such-heading here.\n'})
+        self.assertEqual(len(findings), 1, findings)
+        self.assertIn("no-such-heading", findings[0]["problem"])
+
+    def test_trailing_fragment_valid_passes_and_is_not_double_counted(self):
+        findings, tally = self.run_check(
+            {"a.md": 'See {{< relref "/develop/thing" >}}#real-heading here.\n'})
+        self.assertEqual(findings, [])
+        self.assertEqual(tally["relref_ok"], 1, "counted once, not twice")
+
+    def test_unresolvable_relative_path_is_unhandled_not_a_finding(self):
+        """A bad relref *path* fails the build, so non-resolution is our limit."""
+        findings, tally = self.run_check(
+            {"a.md": 'See {{< relref "some/unknown/shape#anchor" >}}.\n'})
+        self.assertEqual(findings, [])
+        self.assertEqual(tally["relref_unhandled"], 1)
+
     # --- resolution details ---------------------------------------------------
 
     def test_non_page_artifact_resolves(self):

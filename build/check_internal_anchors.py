@@ -79,8 +79,17 @@ SELF_LINK_PATTERNS = (
     re.compile(r"<(https?://(?:www\.)?redis\.io[^>\s]*)>"),
 )
 
+# Three shapes occur, and an earlier version of this only matched the first, leaving
+# 124 distinct slashless refs and 42 distinct trailing-fragment refs unchecked --
+# invisible rather than reported, which is the worse failure for a completeness tool.
+#   {{< relref "/abs/path#anchor" >}}
+#   {{< relref "./rel#anchor" >}}   /  {{< relref "bare/rel#anchor" >}}
+#   {{< relref "/abs/path" >}}#anchor        (fragment outside the shortcode)
 RELREF_ANCHORED = re.compile(
-    r"""relref\s+["'](?P<path>/[^"'#]*)#(?P<anchor>[^"']+)["']"""
+    r"""relref\s+["'](?P<path>[^"'#]*)#(?P<anchor>[^"']+)["']"""
+)
+RELREF_TRAILING_FRAGMENT = re.compile(
+    r"""\{\{<\s*relref\s+["'](?P<path>[^"'#]+)["']\s*>\}\}#(?P<anchor>[A-Za-z0-9_.:-]+)"""
 )
 
 # id= / name= with double, single, or absent quotes.
@@ -156,6 +165,27 @@ def self_link_target(url: str) -> tuple[str, str] | None:
     return path, unquote(anchor)
 
 
+def resolve_relref(public: Path, content: Path, src: Path, ref: str) -> Path | None:
+    """Resolve a relref path, absolute or relative to the page it appears on.
+
+    Deliberately conservative. A relref whose *path* is wrong fails the Hugo build,
+    so every relref in the tree resolves somehow; if this function can't find the
+    page, that is a limit of this model rather than a defect in the docs. Callers
+    must therefore treat None as "unhandled", never as a finding -- which makes a
+    false positive structurally impossible for the relative forms.
+    """
+    if ref.startswith("/"):
+        return resolve_page(public, ref)
+    # Relative to the directory of the page carrying the link, then as a site path.
+    rel = ref[2:] if ref.startswith("./") else ref
+    here = src.relative_to(content).parent.as_posix()
+    for candidate in (f"/{here}/{rel}", f"/{rel}"):
+        page = resolve_page(public, candidate)
+        if page is not None:
+            return page
+    return None
+
+
 def check(content: Path, public: Path) -> tuple[list[dict], dict[str, int]]:
     findings: list[dict] = []
     tally = {"self_ok": 0, "self_skipped": 0, "relref_ok": 0,
@@ -188,23 +218,29 @@ def check(content: Path, public: Path) -> tuple[list[dict], dict[str, int]]:
                         continue
                     tally["self_ok"] += 1
 
-            for m in RELREF_ANCHORED.finditer(line):
-                path, anchor = m.group("path"), unquote(m.group("anchor"))
-                page = resolve_page(public, path)
-                if page is None:
-                    # A relref that didn't resolve would have failed the build, so
-                    # this means the path shape isn't one we map (not a defect).
-                    tally["relref_unhandled"] += 1
-                    continue
-                if is_client_rendered(page):
-                    tally["unverifiable"] += 1
-                    continue
-                if anchor not in anchors_in(page):
-                    findings.append(dict(kind="relref", file=rel_src, line=lineno,
-                                         target=f'{path}#{anchor}',
-                                         problem=f"anchor #{anchor} not on target page"))
-                    continue
-                tally["relref_ok"] += 1
+            # The trailing-fragment form is matched first, because its path half also
+            # satisfies the quoted-path pattern; recording spans stops a double count.
+            seen_spans: list[tuple[int, int]] = []
+            for pattern in (RELREF_TRAILING_FRAGMENT, RELREF_ANCHORED):
+                for m in pattern.finditer(line):
+                    if any(a <= m.start() < b for a, b in seen_spans):
+                        continue
+                    seen_spans.append((m.start(), m.end()))
+                    path, anchor = m.group("path"), unquote(m.group("anchor"))
+                    page = resolve_relref(public, content, src, path)
+                    if page is None:
+                        # Never a finding: see resolve_relref's docstring.
+                        tally["relref_unhandled"] += 1
+                        continue
+                    if is_client_rendered(page):
+                        tally["unverifiable"] += 1
+                        continue
+                    if anchor not in anchors_in(page):
+                        findings.append(dict(kind="relref", file=rel_src, line=lineno,
+                                             target=f'{path}#{anchor}',
+                                             problem=f"anchor #{anchor} not on target page"))
+                        continue
+                    tally["relref_ok"] += 1
 
     return findings, tally
 
