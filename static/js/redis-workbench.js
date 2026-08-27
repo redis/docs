@@ -945,6 +945,58 @@
     this.panes = {};
     main.appendChild(tabs);
 
+    /* Only where the page has commands for it. On a page whose examples are all
+       notebook cells there is nothing for a terminal to show, and a lone
+       "Terminal" tab that answers to nothing is worse than no tab. It is still
+       mounted on demand, if something asks to run a snippet after all. */
+    if (pageHasCli()) this.mountTerminal();
+
+    body.appendChild(main);
+    panel.appendChild(body);
+
+    root.appendChild(panel);
+
+    document.body.appendChild(root);
+    document.body.classList.add('rwb-docked');
+
+    /* Escape collapses, rather than destroying: the dock is page furniture. */
+    root.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && self.isOpen) {
+        self.close();
+        self.bar.querySelector('.rwb-toggle').focus();
+      }
+    });
+
+    /* A shorter window (or a header that grew at a breakpoint) can leave the
+       panel taller than it is now allowed to be, which would tuck the bar back
+       under the header; re-clamp, keeping a maximised panel maximised. */
+    window.addEventListener('resize', function () {
+      if (self.isOpen) self.setHeight(self.maximized ? self.maxHeight() : self.height);
+    });
+
+    /* Remember every batch that runs in this session. While the dock is closed
+       this is all that happens — no probing until the reader opens it. */
+    cli().onExecute(function (batch) {
+      /* A command the reader ran ends the index filter: what they just wrote is
+         the thing they want to see, and a list narrowed to one index would hide a
+         SET that has nothing to do with it. The dock's own probes never come
+         through here — they run with the 'workbench' source and the widget
+         reports only what a reader or a page started — but the guard says which
+         batches this is about. */
+      if (batch.source !== SOURCE) self.clearIndexFilter();
+      self.observe(batch.commands);
+    });
+
+    this.restore();
+    return this;
+  };
+
+  /* The terminal pane: its toolbar, its three columns, and the pane they live in.
+     Called from build() where the page has CLI content, and on demand if a
+     snippet asks to run on a page that had none. */
+  dock.mountTerminal = function () {
+    if (this.terminalPane) return this.terminalPane;
+    var self = this;
     this.terminalPane = this.addPane('terminal', 'Terminal').pane;
 
     /* Kept as a node on the dock, not rebuilt with the terminal: startTerminal()
@@ -960,6 +1012,17 @@
     this.terminalToolbar = terminalTools;
     this.terminalPane.appendChild(terminalTools);
 
+    this.buildSplit();
+    this.applyColumns();
+    this.applyRows();
+    this.clearValue();
+    return this.terminalPane;
+  };
+
+  /* The terminal pane's contents: the CLI, the keys it writes and the value of
+     whichever key is selected, in three draggable columns. */
+  dock.buildSplit = function () {
+    var self = this;
     /* Under the toolbar, three columns: the CLI, the keys it writes, and the
        value of whichever key is selected.
 
@@ -1027,49 +1090,6 @@
     split.appendChild(valueColumn);
 
     this.terminalPane.appendChild(split);
-    this.applyColumns();
-    this.applyRows();
-    this.clearValue();
-
-    body.appendChild(main);
-    panel.appendChild(body);
-
-    root.appendChild(panel);
-
-    document.body.appendChild(root);
-    document.body.classList.add('rwb-docked');
-
-    /* Escape collapses, rather than destroying: the dock is page furniture. */
-    root.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && self.isOpen) {
-        self.close();
-        self.bar.querySelector('.rwb-toggle').focus();
-      }
-    });
-
-    /* A shorter window (or a header that grew at a breakpoint) can leave the
-       panel taller than it is now allowed to be, which would tuck the bar back
-       under the header; re-clamp, keeping a maximised panel maximised. */
-    window.addEventListener('resize', function () {
-      if (self.isOpen) self.setHeight(self.maximized ? self.maxHeight() : self.height);
-    });
-
-    /* Remember every batch that runs in this session. While the dock is closed
-       this is all that happens — no probing until the reader opens it. */
-    cli().onExecute(function (batch) {
-      /* A command the reader ran ends the index filter: what they just wrote is
-         the thing they want to see, and a list narrowed to one index would hide a
-         SET that has nothing to do with it. The dock's own probes never come
-         through here — they run with the 'workbench' source and the widget
-         reports only what a reader or a page started — but the guard says which
-         batches this is about. */
-      if (batch.source !== SOURCE) self.clearIndexFilter();
-      self.observe(batch.commands);
-    });
-
-    this.show('terminal');
-    this.restore();
-    return this;
   };
 
   dock.button = function (label, title, onClick) {
@@ -1097,6 +1117,12 @@
     this.mainSection.appendChild(pane);
 
     this.panes[id] = { tab: tab, pane: pane, onShow: onShow };
+    /* One pane needs no tabs: a lone tab that answers to nothing reads as a
+       control that is not working. The strip appears when a second pane does —
+       the notebook adds itself after the dock is built. */
+    var count = Object.keys(this.panes).length;
+    this.tabStrip.hidden = count < 2;
+    if (count === 1) this.show(id);
     return this.panes[id];
   };
 
@@ -1127,7 +1153,10 @@
     this.applyHeight();
     this.persist();
     /* The terminal is created on first open so a reader who never opens the dock
-       pays nothing for it, and kept for the dock's lifetime after that. */
+       pays nothing for it, and kept for the dock's lifetime after that. On a page
+       with no CLI content there is no terminal pane at all, and nothing to sweep:
+       keys can only arrive through commands, and none can run here. */
+    if (!this.terminalPane) return Promise.resolve();
     if (!this.terminalForm) this.terminalReady = this.startTerminal();
     this.startTtlTicker();
     return this.catchUp();
@@ -1415,6 +1444,9 @@
      dock keeps no per-snippet state and offers no re-run of its own. */
   dock.load = function (options) {
     var self = this;
+    /* A snippet to run needs somewhere to run it, even on a page the dock judged
+       had no CLI content. */
+    this.mountTerminal();
     this.open();
     this.show('terminal');
 
@@ -2465,6 +2497,15 @@
 
   /* The dock is built once, lazily, and only where it makes sense: a page with
      no Redis examples has nothing to put in it. */
+  /* Does this page have anything for a terminal to run? The CLI blocks and their
+     "Try it" buttons, and not the notebook's — a client page's Try it carries
+     .thebe-tryit and opens a cell in the notebook pane, which has nothing to do
+     with the sandbox terminal. */
+  function pageHasCli() {
+    return !!document.querySelector(
+      'form.redis-cli, .redis-cli-static, .tryit-button:not(.thebe-tryit)');
+  }
+
   function pageHasRedis() {
     /* `.thebe-container` is in here for the notebook pane: a client page can have
        runnable cells and no CLI terminal at all. */

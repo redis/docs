@@ -645,6 +645,9 @@ body.rwb-dragging-y * {
   min-height: 0;
 }
 
+/* display:flex below would beat the UA rule for [hidden]. */
+.rwb-tabs[hidden] { display: none; }
+
 .rwb-tabs {
   display: flex;
   gap: 0.25rem;
