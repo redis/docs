@@ -12,14 +12,14 @@ weight: 20
 
 Radar does not find clusters on its own. You add each one, Radar tests the connection, and from then on Radar keeps collecting that source's state.
 
-Adding a cluster to Radar does not change it. Radar reads through the same management interfaces you already use.
+Adding a cluster to Radar does not change the behavior of that cluster. Radar reads through the same management interfaces you already use.
 
 ## What you can connect
 
 | Type | How Radar reaches it | What you supply |
 |---|---|---|
 | [Redis Software](#connect-a-redis-software-cluster) | The cluster REST API, over HTTPS on port 9443 | A hostname or IP address, plus an account on the cluster |
-| [Redis Open Source](#connect-a-redis-open-source-instance) | The instance directly | A hostname and port, plus credentials if the instance requires them |
+| [Redis Open Source](#connect-a-redis-open-source-instance) | Direct access to the Redis instance | A hostname and port, plus credentials if the instance requires them |
 | [Redis Cloud](#connect-a-redis-cloud-account) | The Redis Cloud API | An account key and a user secret |
 | [Amazon ElastiCache](#connect-amazon-elasticache) | The AWS control-plane APIs | Read-only AWS credentials and the regions to scan |
 | [Google Memorystore](#connect-google-memorystore) | The Google Cloud APIs | A read-only service account, plus the project and regions to scan |
@@ -154,11 +154,9 @@ Both the API server and the worker need outbound HTTPS on port 443 to `oauth2.go
 
 Radar holds credentials for every cluster in your fleet, so treat the connection path as sensitive.
 
-**Encrypt the connection.** Redis Software connections always use HTTPS. For Redis Open Source, select **Use TLS** unless the instance is unencrypted and you accept that.
-
-**Give Radar its own account on each cluster.** A dedicated account keeps Radar's access auditable and separate from any person's, and lets you limit what Radar can do.
-
-**Protect the encryption key.** On a self-managed install, every credential Radar stores is encrypted with the key you supplied at install. Back that key up alongside the database and store the backup separately. See [Install Radar]({{< relref "/operate/radar/install#the-credential-encryption-key" >}}).
+- **Encrypt the connection.** Redis Software connections always use HTTPS. For Redis Open Source, select **Use TLS** unless the instance is unencrypted and you accept that.
+- **Give Radar its own account on each cluster.** A dedicated account keeps Radar's access auditable and separate from any user's, and lets you limit what Radar can do.
+- **Protect the encryption key.** On a self-managed install, every credential Radar stores is encrypted with the key you supplied at install. Back that key up alongside the database and store the backup separately. See [Install Radar]({{< relref "/operate/radar/install#the-credential-encryption-key" >}}).
 
 ## Next steps
 
