@@ -111,6 +111,8 @@ Before you connect, create an AWS identity with read-only ElastiCache access. Th
 - `elasticache:DescribeReplicationGroups`
 - `elasticache:DescribeCacheClusters`
 - `elasticache:DescribeServerlessCaches`
+- `cloudwatch:GetMetricData` and `cloudwatch:ListMetrics`
+- `tag:GetResources`
 
 On a self-managed install, Radar authenticates with a long-lived IAM access key pair:
 

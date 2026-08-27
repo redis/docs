@@ -54,6 +54,8 @@ Configure LDAP under **Settings > Authentication**, in the **Active Directory / 
 
 ### Connect to the directory
 
+Enter the network address of your directory server and the bind account Radar uses to search it:
+
 | Setting | Description |
 |---|---|
 | Server host | The hostname or IP address of the directory server. |
@@ -75,6 +77,8 @@ If both are set, the search filter takes precedence.
 
 ### Map groups to roles
 
+Map your directory's groups to Radar's two roles:
+
 | Setting | Description |
 |---|---|
 | Group base DN | Where in the tree Radar looks for groups. |
@@ -83,6 +87,8 @@ If both are set, the search filter takes precedence.
 | Viewer group DN | Members of this group sign in as viewers. |
 
 ### Secure the connection
+
+Configure how Radar's connection to the directory is encrypted:
 
 | Setting | Description |
 |---|---|
@@ -121,6 +127,8 @@ Provide Radar's own certificate and private key in PEM format so it can sign req
 
 ### 4. Map assertion values to roles
 
+Tell Radar which assertion attribute carries the role, and which values grant each one:
+
 | Setting | Description |
 |---|---|
 | Role attribute | The assertion attribute Radar reads the role from. |
@@ -128,6 +136,8 @@ Provide Radar's own certificate and private key in PEM format so it can sign req
 | Viewer role values | Values that grant the viewer role. |
 
 ### 5. Restrict and enforce
+
+Narrow who can sign in through SSO and decide whether local passwords still work alongside it:
 
 | Setting | Description |
 |---|---|
