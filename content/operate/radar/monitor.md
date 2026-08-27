@@ -55,6 +55,8 @@ The **Overview** answers one question for a fleet too large to check by hand: is
 - **Running actions.** Operations in progress on your clusters.
 - **Data freshness.** How current the rest of the dashboard is.
 
+{{<image filename="images/radar/overview.png" alt="The Radar Overview page, showing fleet status, inventory, database health, and alerts">}}
+
 ## Clusters
 
 The **Clusters** list is one row per cluster, whichever deployment type it came from:
@@ -76,7 +78,11 @@ The **Clusters** list is one row per cluster, whichever deployment type it came 
 
 Sort by Version to find upgrade candidates, or by Last Seen to find clusters Radar has lost contact with.
 
+{{<image filename="images/radar/clusters.png" alt="The Radar Clusters page, listing clusters with their type, status, memory, and database counts">}}
+
 Select any cluster to open its detail view, which carries that cluster's nodes, databases, and configuration.
+
+{{<image filename="images/radar/cluster-detail-enterprise.png" alt="A cluster detail view for a Redis Software cluster, showing its overview, nodes, databases, and alerts">}}
 
 ## Databases
 
@@ -93,7 +99,11 @@ The **Databases** list crosses cluster boundaries, so you can find a database wi
 | Memory | Memory in use. |
 | Last Seen | When Radar last collected from it. |
 
+{{<image filename="images/radar/databases.png" alt="The Radar Databases page, listing databases across clusters with their type, status, and version">}}
+
 Select a database to open its detail view.
+
+{{<image filename="images/radar/database-detail-enterprise.png" alt="A database detail view for a Redis Software database">}}
 
 ### Active-Active databases
 
@@ -123,6 +133,8 @@ The **Alerts** view collects the alerts your clusters are already raising and pu
 Radar reads alerts from each cluster's own alert endpoints, at the cluster, node, and database level. **The alert rules live on the cluster, not in Radar.** To change what raises an alert, change it on the cluster; Radar reflects the change at its next collection.
 
 Selecting an alert takes you to the cluster it came from.
+
+{{<image filename="images/radar/alerts.png" alt="The Radar Alerts page, listing alerts by severity, category, and affected resource">}}
 
 ## Next steps
 

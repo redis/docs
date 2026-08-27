@@ -26,6 +26,8 @@ Adding a cluster to Radar does not change the behavior of that cluster. Radar re
 
 Radar encrypts every credential before storing it. Credentials are never returned through the API and never written to logs.
 
+{{<image filename="images/radar/add-connection.png" alt="The Add connection dialog, with the connection type selector open">}}
+
 ## Self-managed connections
 
 Connect Redis Software clusters and Redis Open Source instances that you run yourself. Radar reaches each one directly, so you supply a host and an account on the cluster or instance. Redis Software and Redis Open Source connections are per cluster or per instance.
@@ -53,6 +55,8 @@ Radar tests the connection before it saves anything. If the test fails, Radar sh
 
 Radar always reaches the REST API over HTTPS.
 
+{{<image filename="images/radar/add-connection-redis-software.png" alt="The Add connection dialog set to connection type Redis Software">}}
+
 {{< note >}}
 Point Radar at the cluster's fully qualified domain name rather than one node's address. A node address works until that node is unavailable, at which point Radar reports the whole cluster as unreachable.
 {{< /note >}}
@@ -68,6 +72,8 @@ Radar connects straight to the instance, so it needs network access to that endp
 5. Enter a **username** and **password** if the instance requires authentication. Leave both empty if it does not.
 6. Select **Use TLS (rediss://)** if the instance requires an encrypted connection.
 7. Select **Add connection**.
+
+{{<image filename="images/radar/add-connection-redis-open-source.png" alt="The Add connection dialog set to connection type Redis Open Source">}}
 
 ## Cloud connections
 
@@ -91,6 +97,8 @@ A Redis Cloud connection uses the Redis Cloud API, so it covers every subscripti
 4. Enter a **display name**.
 5. Enter the **account key** and the **user secret**.
 6. Select **Add connection**.
+
+{{<image filename="images/radar/add-connection-redis-cloud.png" alt="The Add connection dialog set to connection type Redis Cloud">}}
 
 ### Connect Amazon ElastiCache
 
