@@ -57,6 +57,7 @@ Any additional required parameters may differ based on the backup/export locatio
 |----------|------|-------------|
 | access_key_id | string | The AWS Access Key ID with access to the bucket |
 | bucket_name | string | S3 bucket name |
+| encryption | object | Customer-provided encryption key (SSE-C) configuration. Valid only in `export_location` for [export requests]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/export">}}) — the request fails if you include it in a database's persisted `backup_location`. See [Customer-provided encryption keys (SSE-C)](#sse-c) below. (optional) |
 | region_name | string | Amazon S3 region name (optional) |
 | secret_access_key | string | The AWS Secret Access Key that matches the Access Key ID |
 | subdir | string | Path to the backup directory in the S3 bucket (optional) |
@@ -80,6 +81,15 @@ To connect to an S3-compatible storage location:
     ```
 
     Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
+
+#### Customer-provided encryption keys (SSE-C) {#sse-c}
+
+| Key name | Type | Description |
+|----------|------|-------------|
+| type | string | Must be `"sse-c"`. |
+| sse_customer_key | string | Base64-encoded encryption key that decodes to exactly 32 bytes (AES-256). |
+
+SSE-C is request-scoped: it's accepted only when passed directly to an [export]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/export">}}) or [import]({{<relref "/operate/rs/references/rest-api/requests/bdbs/actions/import">}}) action, never as part of a database's persisted `backup_location` configuration.
 
 ### Google Cloud Storage
 
