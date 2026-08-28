@@ -15,19 +15,19 @@ r.del('bikes', 'commuter_bikes', 'all_bikes')
 
 # STEP_START pfadd
 res1 = r.pfadd('bikes', ['Hyperion', 'Deimos', 'Phoebe', 'Quaoar'])
-puts res1 # true
+puts res1 # >>> true
 
 res2 = r.pfcount('bikes')
-puts res2 # 4
+puts res2 # >>> 4
 
 res3 = r.pfadd('commuter_bikes', ['Salacia', 'Mimas', 'Quaoar'])
-puts res3 # true
+puts res3 # >>> true
 
 res4 = r.pfmerge('all_bikes', 'bikes', 'commuter_bikes')
-puts res4 # true
+puts res4 # >>> true
 
 res5 = r.pfcount('all_bikes')
-puts res5 # 6
+puts res5 # >>> 6
 # STEP_END
 
 # REMOVE_START
