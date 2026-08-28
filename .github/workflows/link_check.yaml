@@ -5,9 +5,16 @@ name: link_check
 # checks them with lychee (.lychee.toml), and opens/updates a tracking issue
 # when any are broken. Run it on demand from the Actions tab via "Run workflow".
 #
-# The work is split across two jobs so that the third-party lychee action only
-# ever receives a read-only token: link_check runs with `contents: read`, and
-# only the separate report_broken_links job is granted `issues: write`.
+# It also runs a second, report-only lychee pass over just the fragment-bearing
+# URLs (`--include-fragments`), reporting candidate dead anchors to a separate
+# tracking issue. That pass never gates: lychee cannot distinguish a dead anchor
+# from a dead page by exit code, and anchor output needs too much triage to block
+# a build on.
+#
+# The work is split across three jobs so that the third-party lychee action only
+# ever receives a read-only token: link_check runs with `contents: read`, and only
+# the separate report_broken_links and report_dead_fragments jobs are granted
+# `issues: write`.
 
 on:
   schedule:
@@ -29,6 +36,7 @@ jobs:
       contents: read
     outputs:
       links_broken: ${{ steps.flag.outputs.broken }}
+      fragments_flagged: ${{ steps.fragflag.outputs.flagged }}
     steps:
       - name: Free up disk space
         run: |
@@ -102,6 +110,80 @@ jobs:
           echo "::error::Broken external links found; see the link-check tracking issue."
           exit 1
 
+      # --- Fragment check: report-only, and deliberately last ---
+      #
+      # Ordering is load-bearing. These steps run *after* the gating upload and the
+      # failing step, because a step that dies here (an action setup error, which
+      # `fail: false` does not cover) would otherwise skip the gating upload via the
+      # implicit success() on later steps -- and report_broken_links, which runs on
+      # always(), would then fail downloading an artifact that was never produced,
+      # silently suppressing the broken-link tracking issue. Hence every step below
+      # carries always(): they must survive the exit 1 above without being able to
+      # interfere with it.
+      #
+      # lychee returns exit 2 for a missing fragment, exactly as it does for a dead
+      # page, so a fragment failure is indistinguishable from a broken link in one
+      # run. Measured on this corpus, roughly a third of first-run fragment output
+      # needs triage, which is too noisy to gate a build. Hence a separate run whose
+      # exit code is never consulted, reporting to its own tracking issue.
+      #
+      # Only fragment-bearing URLs are checked (287 of 14,607 at time of writing), so
+      # this costs a fraction of the gating run rather than doubling it. `#/...` is
+      # dropped because those are single-page-app hash routes, not anchors, and
+      # anchor-only mode ignores `#:~:text=` scroll-to-text fragments by design.
+      - name: Extract fragment-bearing URLs
+        id: fragurls
+        if: always()
+        run: |
+          # The build may have failed before producing this; report nothing rather
+          # than erroring, so a failed build can't masquerade as a fragment problem.
+          if [ ! -f external-urls.txt ]; then
+            echo "count=0" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          grep '#' external-urls.txt | grep -v '#/' > fragment-urls.txt || true
+          count=$(wc -l < fragment-urls.txt)
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          echo "Checking fragments on $count of $(wc -l < external-urls.txt) URLs" >&2
+
+      - name: Check fragments (report-only)
+        id: fragments
+        if: always() && steps.fragurls.outputs.count != '0'
+        uses: lycheeverse/lychee-action@8646ba30535128ac92d33dfc9133794bfdd9b411
+        with:
+          lycheeVersion: v0.24.2
+          # Layered on .lychee.toml rather than duplicating it, so throttling, the
+          # user agent and the accepted status codes cannot drift between the two runs.
+          args: >-
+            --config .lychee.toml
+            --include-fragments=anchor-only
+            --exclude-file .lychee-fragment-excludes.txt
+            fragment-urls.txt
+          output: lychee-fragment-report.md
+          fail: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Flag whether fragments were found
+        id: fragflag
+        if: always()
+        run: |
+          # Note this reads the *fragments* step, never the gating one. A dead anchor
+          # must not be able to fail this workflow.
+          if [ "${{ steps.fragments.outputs.exit_code }}" != "0" ] \
+             && [ -s lychee-fragment-report.md ]; then
+            echo "flagged=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "flagged=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload fragment report
+        if: always() && steps.fragflag.outputs.flagged == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lychee-fragment-report
+          path: lychee-fragment-report.md
+          if-no-files-found: error
+
   report_broken_links:
     name: Open or update tracking issue
     needs: link_check
@@ -134,4 +216,53 @@ jobs:
             echo "Updated existing issue #$existing"
           else
             gh issue create --title "$title" --label link-check --body-file lychee-report.md
+          fi
+
+  report_dead_fragments:
+    name: Open or update fragment tracking issue
+    needs: link_check
+    # Independent of links_broken on purpose. A dead anchor is reported whether or not
+    # the gating check also failed, and it never blocks anything -- this job's own
+    # success is not a gate either. Kept as a separate issue from the broken-link one
+    # so a triage backlog of anchors can't bury an actually-dead page.
+    if: ${{ always() && needs.link_check.outputs.fragments_flagged == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Download fragment report
+        uses: actions/download-artifact@v4
+        with:
+          name: lychee-fragment-report
+          path: .
+
+      - name: Open or update fragment tracking issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh label create link-check-fragments --color FEF2C0 \
+            --description "Automated anchor/fragment check (report-only)" 2>/dev/null || true
+
+          # Expect to triage these rather than treat them as a pass/fail list: a
+          # missing anchor can mean the anchor moved, the page was restructured, or
+          # lychee simply cannot see it. Confirm against the served HTML before editing
+          # a link, and see .lychee-fragment-excludes.txt for the hosts already ruled out.
+          {
+            echo "Report-only. These are **candidate** dead anchors, not confirmed defects —"
+            echo "roughly a third of a first run needs triage. Verify one against the served"
+            echo "HTML before editing any link."
+            echo
+            cat lychee-fragment-report.md
+          } > fragment-issue-body.md
+
+          title="Dead anchors in docs links (report-only)"
+          existing=$(gh issue list --label link-check-fragments --state open --json number --jq '.[0].number // empty')
+
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file fragment-issue-body.md
+            echo "Updated existing issue #$existing"
+          else
+            gh issue create --title "$title" --label link-check-fragments --body-file fragment-issue-body.md
           fi

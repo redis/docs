@@ -1,0 +1,28 @@
+# Hosts excluded from the *fragment* check only (see .github/workflows/link_check.yaml).
+#
+# These URLs are still checked normally by the gating link check via .lychee.toml —
+# this file only suppresses "Cannot find fragment" errors. lychee has no
+# fragment-specific exclude (verified, lychee 0.24.2: --exclude drops the URL
+# entirely), so the fragment run is a separate invocation that layers this file on
+# top of .lychee.toml.
+#
+# Entries are regexes, one per line. Lines starting with # are comments (verified:
+# a "# ..." line is not applied as a regex).
+#
+# Bar for adding a host: fetch one failing URL and confirm the anchor IS in the
+# served HTML. If an independent fetch *also* can't find the anchor, the failure may
+# be real -- leave it in the report rather than hiding it.
+
+# Anchor verified present as id="concepts-availability-zones" in the served HTML,
+# alongside other server-rendered content ids, yet lychee reports it missing.
+# So these are false positives -- but NOT because the docs are JS-rendered, which
+# was the original assumption. The actual mechanism is unestablished; if someone
+# works it out, narrow or drop this entry.
+^https?://docs\.aws\.amazon\.com/
+
+# Same pattern: id="overview-of-cloud-billing-roles-in-cloud-iam" is present in the
+# served HTML and lychee still reports it missing. Mechanism unestablished.
+# Separately, this host silently moved -- cloud.google.com/... 301s to
+# docs.cloud.google.com/... -- so our 16 anchored links here should be repointed at
+# the new host, after which this entry may become unnecessary.
+^https?://(www\.)?cloud\.google\.com/
