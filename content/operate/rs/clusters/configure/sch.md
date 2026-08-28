@@ -31,3 +31,7 @@ curl -k -X PUT -H "accept: application/json" \
     -d '{ "client_maint_notifications": true }' \
     https://<host>:<port>/v1/cluster
 ```
+
+## Known limitations
+
+During a rolling upgrade with SCH enabled, when some slot's shards have migrated to a different node but are still reachable from their original node, results of the `SCAN` command might be inconsistent: it might show some of the keys, it might show keys that are not reachable from that node, or it might show no keys. When the slot migration is done, this issue will fix itself.
