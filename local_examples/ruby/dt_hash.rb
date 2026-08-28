@@ -30,7 +30,7 @@ puts res3 # >>> 4972
 
 res4 = r.hgetall('bike:1')
 puts res4.inspect
-# >>> {"model"=>"Deimos", "brand"=>"Ergonom", "type"=>"Enduro bikes", "price"=>"4972"}
+# >>> {"model" => "Deimos", "brand" => "Ergonom", "type" => "Enduro bikes", "price" => "4972"}
 # STEP_END
 
 # REMOVE_START

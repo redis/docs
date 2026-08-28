@@ -70,8 +70,8 @@ r.xadd('race:france', {
 # HIDE_END
 res4 = r.xrange('race:france', '1692632086370-0', '+', count: 2)
 puts res4.inspect
-# >>> [["1692632086370-0", {"rider"=>"Castilla", "speed"=>"30.2", "position"=>"1", "location_id"=>"1"}],
-#  ["1692632094485-0", {"rider"=>"Norem", "speed"=>"28.8", "position"=>"3", "location_id"=>"1"}]]
+# >>> [["1692632086370-0", {"rider" => "Castilla", "speed" => "30.2", "position" => "1", "location_id" => "1"}],
+#  ["1692632094485-0", {"rider" => "Norem", "speed" => "28.8", "position" => "3", "location_id" => "1"}]]
 # STEP_END
 
 # REMOVE_START
@@ -181,10 +181,10 @@ r.xadd('race:france', {'rider' => 'Castilla', 'speed' => '29.9', 'position' => '
 # HIDE_END
 res11 = r.xrange('race:france', '-', '+')
 puts res11.inspect
-# >>> [["1692632086370-0", {"rider"=>"Castilla", "speed"=>"30.2", "position"=>"1", "location_id"=>"1"}],
-#  ["1692632094485-0", {"rider"=>"Norem", "speed"=>"28.8", "position"=>"3", "location_id"=>"1"}],
-#  ["1692632102976-0", {"rider"=>"Prickett", "speed"=>"29.7", "position"=>"2", "location_id"=>"1"}],
-#  ["1692632147973-0", {"rider"=>"Castilla", "speed"=>"29.9", "position"=>"1", "location_id"=>"2"}]]
+# >>> [["1692632086370-0", {"rider" => "Castilla", "speed" => "30.2", "position" => "1", "location_id" => "1"}],
+#  ["1692632094485-0", {"rider" => "Norem", "speed" => "28.8", "position" => "3", "location_id" => "1"}],
+#  ["1692632102976-0", {"rider" => "Prickett", "speed" => "29.7", "position" => "2", "location_id" => "1"}],
+#  ["1692632147973-0", {"rider" => "Castilla", "speed" => "29.9", "position" => "1", "location_id" => "2"}]]
 # STEP_END
 
 # REMOVE_START
@@ -199,7 +199,7 @@ r.xadd('race:france', {'rider' => 'Norem', 'speed' => '28.8', 'position' => '3',
 # HIDE_END
 res12 = r.xrange('race:france', '1692632086369', '1692632086371')
 puts res12.inspect
-# >>> [["1692632086370-0", {"rider"=>"Castilla", "speed"=>"30.2", "position"=>"1", "location_id"=>"1"}]]
+# >>> [["1692632086370-0", {"rider" => "Castilla", "speed" => "30.2", "position" => "1", "location_id" => "1"}]]
 # STEP_END
 
 # REMOVE_START
@@ -217,8 +217,8 @@ r.xadd('race:france', {'rider' => 'Castilla', 'speed' => '29.9', 'position' => '
 # HIDE_END
 res13 = r.xrange('race:france', '-', '+', count: 2)
 puts res13.inspect
-# >>> [["1692632086370-0", {"rider"=>"Castilla", "speed"=>"30.2", "position"=>"1", "location_id"=>"1"}],
-#  ["1692632094485-0", {"rider"=>"Norem", "speed"=>"28.8", "position"=>"3", "location_id"=>"1"}]]
+# >>> [["1692632086370-0", {"rider" => "Castilla", "speed" => "30.2", "position" => "1", "location_id" => "1"}],
+#  ["1692632094485-0", {"rider" => "Norem", "speed" => "28.8", "position" => "3", "location_id" => "1"}]]
 # STEP_END
 
 # REMOVE_START
@@ -235,8 +235,8 @@ r.xadd('race:france', {'rider' => 'Castilla', 'speed' => '29.9', 'position' => '
 # HIDE_END
 res14 = r.xrange('race:france', '(1692632094485-0', '+', count: 2)
 puts res14.inspect
-# >>> [["1692632102976-0", {"rider"=>"Prickett", "speed"=>"29.7", "position"=>"2", "location_id"=>"1"}],
-#  ["1692632147973-0", {"rider"=>"Castilla", "speed"=>"29.9", "position"=>"1", "location_id"=>"2"}]]
+# >>> [["1692632102976-0", {"rider" => "Prickett", "speed" => "29.7", "position" => "2", "location_id" => "1"}],
+#  ["1692632147973-0", {"rider" => "Castilla", "speed" => "29.9", "position" => "1", "location_id" => "2"}]]
 # STEP_END
 
 # REMOVE_START
@@ -255,7 +255,7 @@ raise 'Expected no more entries' unless res15.empty?
 # STEP_START xrevrange
 res16 = r.xrevrange('race:france', '+', '-', count: 1)
 puts res16.inspect
-# >>> [["1692632147973-0", {"rider"=>"Castilla", "speed"=>"29.9", "position"=>"1", "location_id"=>"2"}]]
+# >>> [["1692632147973-0", {"rider" => "Castilla", "speed" => "29.9", "position" => "1", "location_id" => "2"}]]
 # STEP_END
 
 # REMOVE_START
@@ -265,8 +265,8 @@ raise 'Expected newest entry' unless res16.length == 1 && res16[0][0] == '169263
 # STEP_START xread
 res17 = r.xread(['race:france'], ['0'], count: 2)
 puts res17.inspect
-# >>> {"race:france"=>[["1692632086370-0", {"rider"=>"Castilla", "speed"=>"30.2", "position"=>"1", "location_id"=>"1"}],
-#                  ["1692632094485-0", {"rider"=>"Norem", "speed"=>"28.8", "position"=>"3", "location_id"=>"1"}]]}
+# >>> {"race:france"=>[["1692632086370-0", {"rider" => "Castilla", "speed" => "30.2", "position" => "1", "location_id" => "1"}],
+#                  ["1692632094485-0", {"rider" => "Norem", "speed" => "28.8", "position" => "3", "location_id" => "1"}]]}
 # STEP_END
 
 # REMOVE_START
@@ -311,7 +311,7 @@ r.xadd('race:italy', {'rider' => 'Norem'}, id: '1692632678249-0')
 
 res20 = r.xreadgroup('italy_riders', 'Alice', ['race:italy'], ['>'], count: 1)
 puts res20.inspect
-# >>> {"race:italy"=>[["1692632639151-0", {"rider"=>"Castilla"}]]}
+# >>> {"race:italy"=>[["1692632639151-0", {"rider" => "Castilla"}]]}
 # STEP_END
 
 # REMOVE_START
@@ -321,7 +321,7 @@ raise 'Expected Alice to receive Castilla' unless res20['race:italy'][0][0] == '
 # STEP_START xgroup_read_id
 res21 = r.xreadgroup('italy_riders', 'Alice', ['race:italy'], ['0'], count: 1)
 puts res21.inspect
-# >>> {"race:italy"=>[["1692632639151-0", {"rider"=>"Castilla"}]]}
+# >>> {"race:italy"=>[["1692632639151-0", {"rider" => "Castilla"}]]}
 # STEP_END
 
 # REMOVE_START
@@ -345,8 +345,8 @@ raise 'Expected no pending messages for Alice' unless res23['race:italy'].empty?
 # STEP_START xgroup_read_bob
 res24 = r.xreadgroup('italy_riders', 'Bob', ['race:italy'], ['>'], count: 2)
 puts res24.inspect
-# >>> {"race:italy"=>[["1692632647899-0", {"rider"=>"Royce"}],
-#                 ["1692632662819-0", {"rider"=>"Sam-Bodden"}]]}
+# >>> {"race:italy"=>[["1692632647899-0", {"rider" => "Royce"}],
+#                 ["1692632662819-0", {"rider" => "Sam-Bodden"}]]}
 # STEP_END
 
 # REMOVE_START
@@ -356,7 +356,7 @@ raise 'Expected Bob to receive two messages' unless res24['race:italy'].map(&:fi
 # STEP_START xpending
 res25 = r.xpending('race:italy', 'italy_riders')
 puts res25.inspect
-# >>> {"size"=>2, "min_entry_id"=>"1692632647899-0", "max_entry_id"=>"1692632662819-0", "consumers"=>{"Bob"=>"2"}}
+# >>> {"size"=>2, "min_entry_id" => "1692632647899-0", "max_entry_id" => "1692632662819-0", "consumers"=>{"Bob" => "2"}}
 # STEP_END
 
 # REMOVE_START
@@ -377,7 +377,7 @@ raise 'Expected Bob ownership' unless res26.all? { |entry| entry['consumer'] == 
 # STEP_START xrange_pending
 res27 = r.xrange('race:italy', '1692632647899-0', '1692632647899-0')
 puts res27.inspect
-# >>> [["1692632647899-0", {"rider"=>"Royce"}]]
+# >>> [["1692632647899-0", {"rider" => "Royce"}]]
 # STEP_END
 
 # REMOVE_START
@@ -387,7 +387,7 @@ raise 'Expected Royce pending entry' unless res27[0][1]['rider'] == 'Royce'
 # STEP_START xclaim
 res28 = r.xclaim('race:italy', 'italy_riders', 'Alice', 0, '1692632647899-0')
 puts res28.inspect
-# >>> [["1692632647899-0", {"rider"=>"Royce"}]]
+# >>> [["1692632647899-0", {"rider" => "Royce"}]]
 # STEP_END
 
 # REMOVE_START
@@ -397,7 +397,7 @@ raise 'Expected Alice to claim Royce' unless res28[0][0] == '1692632647899-0'
 # STEP_START xautoclaim
 res29 = r.xautoclaim('race:italy', 'italy_riders', 'Alice', 0, '0-0', count: 1)
 puts res29.inspect
-# >>> {"next"=>"1692632662819-0", "entries"=>[["1692632647899-0", {"rider"=>"Royce"}]]}
+# >>> {"next" => "1692632662819-0", "entries"=>[["1692632647899-0", {"rider" => "Royce"}]]}
 # STEP_END
 
 # REMOVE_START
@@ -407,7 +407,7 @@ raise 'Expected autoclaim result' unless res29['entries'].length == 1
 # STEP_START xautoclaim_cursor
 res30 = r.xautoclaim('race:italy', 'italy_riders', 'Lora', 0, res29['next'], count: 1)
 puts res30.inspect
-# >>> {"next"=>"0-0", "entries"=>[["1692632662819-0", {"rider"=>"Sam-Bodden"}]]}
+# >>> {"next" => "0-0", "entries"=>[["1692632662819-0", {"rider" => "Sam-Bodden"}]]}
 # STEP_END
 
 # REMOVE_START
@@ -462,7 +462,7 @@ puts res34 # >>> 2
 
 res35 = r.xrange('race:italy', '-', '+')
 puts res35.inspect
-# >>> [["1692633198206-0", {"rider"=>"Wood"}], ["1692633208557-0", {"rider"=>"Henshaw"}]]
+# >>> [["1692633198206-0", {"rider" => "Wood"}], ["1692633208557-0", {"rider" => "Henshaw"}]]
 # STEP_END
 
 # REMOVE_START
@@ -502,14 +502,14 @@ r.xadd('race:italy', {'rider' => 'Henshaw'}, id: '1692633208557-0')
 # HIDE_END
 res38 = r.xrange('race:italy', '-', '+', count: 2)
 puts res38.inspect
-# >>> [["1692633198206-0", {"rider"=>"Wood"}], ["1692633208557-0", {"rider"=>"Henshaw"}]]
+# >>> [["1692633198206-0", {"rider" => "Wood"}], ["1692633208557-0", {"rider" => "Henshaw"}]]
 
 res39 = r.xdel('race:italy', '1692633208557-0')
 puts res39 # >>> 1
 
 res40 = r.xrange('race:italy', '-', '+', count: 2)
 puts res40.inspect
-# >>> [["1692633198206-0", {"rider"=>"Wood"}]]
+# >>> [["1692633198206-0", {"rider" => "Wood"}]]
 # STEP_END
 
 # REMOVE_START

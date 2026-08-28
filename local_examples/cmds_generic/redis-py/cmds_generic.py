@@ -261,10 +261,10 @@ assert keys == {'a': '1', 'b': '2'}
 # REMOVE_END
 
 cursor, keys = r.hscan("myhash", 0, no_values=True)
-print(keys)
+print(sorted(keys))
 # >>> ['a', 'b']
 # REMOVE_START
-assert keys == ['a', 'b']
+assert sorted(keys) == ['a', 'b']
 # REMOVE_END
 
 # REMOVE_START
