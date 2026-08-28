@@ -139,11 +139,13 @@ public class CmdsGenericExample {
             // turn because the next one needs the cursor this one returns.
             KeyScanCursor<String> scan2Cursor = reactiveCommands
                     .scan(ScanArgs.Builder.matches("*11*")).block();
+            int scan2Total = scan2Cursor.getKeys().size();
             System.out.println(scan2Cursor.getKeys().size());
 
             for (int i = 0; i < 3; i++) {
                 scan2Cursor = reactiveCommands
                         .scan(scan2Cursor, ScanArgs.Builder.matches("*11*")).block();
+                scan2Total += scan2Cursor.getKeys().size();
                 System.out.println(scan2Cursor.getKeys().size());
             }
 
@@ -151,46 +153,48 @@ public class CmdsGenericExample {
             // matches arrive together. This continues from the cursor reached above.
             scan2Cursor = reactiveCommands
                     .scan(scan2Cursor, ScanArgs.Builder.matches("*11*").limit(1000)).block();
-            System.out.println(scan2Cursor.getKeys().size());   // >>> 18
+            scan2Total += scan2Cursor.getKeys().size();
+            System.out.println(scan2Cursor.getKeys().size());
+
+            // The per-call split isn't guaranteed, but the cumulative total is.
+            System.out.println(scan2Total);   // >>> 19
             // STEP_END
 
             // REMOVE_START
-            assertThat(scan2Cursor.getKeys()).hasSize(18);
+            assertThat(scan2Total).isEqualTo(19);
             reactiveCommands.flushdb().block();
             // REMOVE_END
 
             // STEP_START scan3
-            Mono<Void> scan3Example = reactiveCommands
-                    .geoadd("geokey", 0, 0, "value")
-                    .flatMap(scan3Res1 -> {
-                        System.out.println(scan3Res1);      // >>> 1
-                        return reactiveCommands.zadd("zkey", 1000, "value");
-                    })
-                    .flatMap(scan3Res2 -> {
-                        System.out.println(scan3Res2);      // >>> 1
-                        return reactiveCommands.type("geokey");
-                    })
-                    .flatMap(scan3Res3 -> {
-                        System.out.println(scan3Res3);      // >>> zset
-                        return reactiveCommands.type("zkey");
-                    })
-                    .flatMap(scan3Res4 -> {
-                        System.out.println(scan3Res4);      // >>> zset
-                        return reactiveCommands.scan(KeyScanArgs.Builder.type("zset"));
-                    })
-                    .doOnNext(scan3Res5 -> {
-                        List<String> keys = new java.util.ArrayList<>(scan3Res5.getKeys());
-                        Collections.sort(keys);
-                        System.out.println(keys);           // >>> [geokey, zkey]
-                        // REMOVE_START
-                        assertThat(keys).hasSize(2);
-                        // REMOVE_END
-                    })
-                    .then();
+            long scan3Result1 = reactiveCommands.geoadd("geokey", 0, 0, "value").block();
+            System.out.println(scan3Result1);      // >>> 1
+
+            long scan3Result2 = reactiveCommands.zadd("zkey", 1000, "value").block();
+            System.out.println(scan3Result2);      // >>> 1
+
+            String scan3Result3 = reactiveCommands.type("geokey").block();
+            System.out.println(scan3Result3);      // >>> zset
+
+            String scan3Result4 = reactiveCommands.type("zkey").block();
+            System.out.println(scan3Result4);      // >>> zset
+
+            // A single call isn't guaranteed to find every match, so loop until
+            // the cursor is finished, accumulating matches from every call.
+            List<String> scan3Keys = new java.util.ArrayList<>();
+            KeyScanCursor<String> scan3Cursor = reactiveCommands
+                    .scan(KeyScanArgs.Builder.type("zset")).block();
+            scan3Keys.addAll(scan3Cursor.getKeys());
+            while (!scan3Cursor.isFinished()) {
+                scan3Cursor = reactiveCommands
+                        .scan(scan3Cursor, KeyScanArgs.Builder.type("zset")).block();
+                scan3Keys.addAll(scan3Cursor.getKeys());
+            }
+            Collections.sort(scan3Keys);
+            System.out.println(scan3Keys);         // >>> [geokey, zkey]
             // STEP_END
 
-            Mono.when(scan3Example).block();
             // REMOVE_START
+            assertThat(scan3Keys).hasSize(2);
             reactiveCommands.del("geokey", "zkey").block();
             // REMOVE_END
 

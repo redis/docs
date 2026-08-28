@@ -381,6 +381,7 @@ func ExampleClient_scan2_cmd() {
 	var scan2Cursor uint64
 	var scan2Keys []string
 	var err error
+	scan2Total := 0
 
 	for i := 0; i < 4; i++ {
 		scan2Keys, scan2Cursor, err = rdb.Scan(ctx, scan2Cursor, "*11*", 0).Result()
@@ -388,6 +389,7 @@ func ExampleClient_scan2_cmd() {
 		if err != nil {
 			panic(err)
 		}
+		scan2Total += len(scan2Keys)
 	}
 
 	// A larger COUNT forces more scanning in a single iteration, so the remaining
@@ -397,8 +399,10 @@ func ExampleClient_scan2_cmd() {
 	if err != nil {
 		panic(err)
 	}
+	scan2Total += len(scan2Keys)
 
-	fmt.Println(len(scan2Keys)) // >>> 18
+	// The per-call split isn't guaranteed, but the cumulative total is.
+	fmt.Println(scan2Total) // >>> 19
 	// STEP_END
 
 	// REMOVE_START
@@ -406,7 +410,7 @@ func ExampleClient_scan2_cmd() {
 	// REMOVE_END
 
 	// Output:
-	// 18
+	// 19
 }
 
 func ExampleClient_scan3_cmd() {
@@ -457,14 +461,27 @@ func ExampleClient_scan3_cmd() {
 
 	fmt.Println(scan3Result4) // >>> zset
 
-	scan3Result5, _, err := rdb.ScanType(ctx, 0, "", 0, "zset").Result()
+	// A single call isn't guaranteed to find every match, so loop until the cursor
+	// returns to 0, accumulating matches from every call.
+	var scan3Cursor uint64
+	var scan3Keys []string
+	var scan3Batch []string
 
-	if err != nil {
-		panic(err)
+	for {
+		scan3Batch, scan3Cursor, err = rdb.ScanType(ctx, scan3Cursor, "", 0, "zset").Result()
+
+		if err != nil {
+			panic(err)
+		}
+		scan3Keys = append(scan3Keys, scan3Batch...)
+
+		if scan3Cursor == 0 {
+			break
+		}
 	}
 
-	sort.Strings(scan3Result5)
-	fmt.Println(scan3Result5) // >>> [geokey zkey]
+	sort.Strings(scan3Keys)
+	fmt.Println(scan3Keys) // >>> [geokey zkey]
 	// STEP_END
 
 	// Output:

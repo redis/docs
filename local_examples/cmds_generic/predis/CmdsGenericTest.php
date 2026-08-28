@@ -93,20 +93,26 @@ extends TestCase
         // MATCH is applied after elements are fetched, so with the default COUNT most
         // iterations return few keys or none at all.
         $scan2Cursor = 0;
+        $scan2Total = 0;
 
         for ($i = 0; $i < 4; $i++) {
             [$scan2Cursor, $scan2Keys] = $r->scan($scan2Cursor, ['MATCH' => '*11*']);
+            $scan2Total += count($scan2Keys);
             echo count($scan2Keys) . PHP_EOL;
         }
 
         // A larger COUNT forces more scanning in a single iteration, so the remaining
         // matches arrive together. This continues from the cursor reached above.
         [$scan2Cursor, $scan2Keys] = $r->scan($scan2Cursor, ['MATCH' => '*11*', 'COUNT' => 1000]);
-        echo count($scan2Keys) . PHP_EOL;                    // >>> 18
+        $scan2Total += count($scan2Keys);
+        echo count($scan2Keys) . PHP_EOL;
+
+        // The per-call split isn't guaranteed, but the cumulative total is.
+        echo $scan2Total . PHP_EOL;                          // >>> 19
         // STEP_END
 
         // REMOVE_START
-        $this->assertEquals(18, count($scan2Keys));
+        $this->assertEquals(19, $scan2Total);
         $r->flushdb();
         // REMOVE_END
 

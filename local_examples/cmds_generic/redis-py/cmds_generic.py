@@ -171,23 +171,34 @@ for i in range(1, 1001):
     r.set(f"key:{i}", i)
 # REMOVE_END
 
-cursor, key = r.scan(cursor=0, match='*11*')
-print(cursor, key)
+total = 0
 
-cursor, key = r.scan(cursor, match='*11*')
-print(cursor, key)
-
-cursor, key = r.scan(cursor, match='*11*')
-print(cursor, key)
-
-cursor, key = r.scan(cursor, match='*11*')
-print(cursor, key)
-
-cursor, keys = r.scan(cursor, match='*11*', count=1000)
+cursor, keys = r.scan(cursor=0, match='*11*')
+total += len(keys)
 print(cursor, keys)
 
+cursor, keys = r.scan(cursor, match='*11*')
+total += len(keys)
+print(cursor, keys)
+
+cursor, keys = r.scan(cursor, match='*11*')
+total += len(keys)
+print(cursor, keys)
+
+cursor, keys = r.scan(cursor, match='*11*')
+total += len(keys)
+print(cursor, keys)
+
+cursor, keys = r.scan(cursor, match='*11*', count=1000)
+total += len(keys)
+print(cursor, keys)
+
+# The per-call split isn't guaranteed, but the cumulative total is.
+print(total)
+# >>> 19
+
 # REMOVE_START
-assert len(keys) == 18
+assert total == 19
 cursor = '0'
 prefix = "key:*"
 while cursor != 0:
@@ -220,11 +231,19 @@ print(res)
 assert res == "zset"
 # REMOVE_END
 
-cursor, keys = r.scan(cursor=0, _type="zset")
-print(keys)
-# >>> ['zkey', 'geokey']
+# A single call isn't guaranteed to find every match, so loop until the cursor
+# returns to 0, accumulating matches from every call.
+cursor = 0
+scan3_keys = []
+while True:
+    cursor, keys = r.scan(cursor=cursor, _type="zset")
+    scan3_keys.extend(keys)
+    if cursor == 0:
+        break
+print(sorted(scan3_keys))
+# >>> ['geokey', 'zkey']
 # REMOVE_START
-assert sorted(keys) == sorted(["zkey", "geokey"])
+assert sorted(scan3_keys) == sorted(["zkey", "geokey"])
 r.delete("geokey", "zkey")
 # REMOVE_END
 # STEP_END
