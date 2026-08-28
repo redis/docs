@@ -236,17 +236,17 @@ await client.del(['geokey', 'zkey']);
 const scan4Res1 = await client.hSet('myhash', { a: 1, b: 2 });
 console.log(scan4Res1); // 2
 
+// HSCAN doesn't promise a field order, so pair entries into an object rather than
+// relying on position.
 const scan4Res2 = await client.hScan('myhash', '0');
-console.log(scan4Res2.entries); // [{field: 'a', value: '1'}, {field: 'b', value: '2'}]
+const scan4Pairs = Object.fromEntries(scan4Res2.entries.map((e) => [e.field, e.value]));
+console.log(scan4Pairs); // {a: '1', b: '2'}
 // REMOVE_START
-assert.deepEqual(scan4Res2.entries, [
-  { field: 'a', value: '1' },
-  { field: 'b', value: '2' }
-]);
+assert.deepEqual(scan4Pairs, { a: '1', b: '2' });
 // REMOVE_END
 
 const scan4Res3 = await client.hScan('myhash', '0', { COUNT: 10 });
-const items = scan4Res3.entries.map((item) => item.field)
+const items = scan4Res3.entries.map((item) => item.field).sort()
 console.log(items); // ['a', 'b']
 // REMOVE_START
 assert.deepEqual(items, ['a', 'b'])

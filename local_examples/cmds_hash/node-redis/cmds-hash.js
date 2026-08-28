@@ -129,7 +129,8 @@ const res12 = await client.hSet(
   }
 )
 
-const res13 = await client.hVals('myhash')
+// HVALS follows the hash's field order, which Redis does not promise, so sort.
+const res13 = (await client.hVals('myhash')).sort()
 console.log(res13) // [ 'Hello', 'World' ]
 
 // REMOVE_START
