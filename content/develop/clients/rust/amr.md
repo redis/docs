@@ -161,7 +161,7 @@ fn example() -> RedisResult<()> {
 
 The examples above use the default `RetryConfig` when starting the provider.
 However, the `RetryConfig` class provides configuration methods that let you customise
-the way the the provider retries token requests:
+the way the provider retries token requests:
 
 ```rust
 use redis::{EntraIdCredentialsProvider, RetryConfig, RedisResult};

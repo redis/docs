@@ -176,7 +176,7 @@ sketch commands.
 
 The advantage of using a CMS over keeping an exact count with a
 [sorted set]({{< relref "/develop/data-types/sorted-sets" >}})
-is that that a CMS has very low and fixed memory usage, even for
+is that a CMS has very low and fixed memory usage, even for
 large numbers of items. Use CMS objects to keep daily counts of
 items sold, accesses to individual web pages on your site, and
 other similar statistics.

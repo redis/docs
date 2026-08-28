@@ -316,7 +316,7 @@ This distinction makes LRM particularly useful in scenarios where:
 
 To configure LRM eviction, the following policies are available:
 
-* `volatile-lrm` Evict using LRM among the keys with an an associated expiration (TTL).
+* `volatile-lrm` Evict using LRM among the keys with an associated expiration (TTL).
 * `allkeys-lrm` Evict any key using LRM.
 
 Like LRU, LRM uses an approximation algorithm that samples a small number of keys at random and evicts the ones with the longest time since last modification. The same `maxmemory-samples` configuration directive that affects LRU performance also applies to LRM.

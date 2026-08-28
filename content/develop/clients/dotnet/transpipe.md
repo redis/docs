@@ -55,7 +55,7 @@ tasks complete after the transaction executes.
 
 Redis supports *optimistic locking* to avoid inconsistent updates
 to different keys. The basic idea is to watch for changes to any
-keys that you use in a transaction while you are are processing the
+keys that you use in a transaction while you are processing the
 updates. If the watched keys do change, you must restart the updates
 with the latest data from the keys. See
 [Transactions]({{< relref "develop/using-commands/transactions" >}})
