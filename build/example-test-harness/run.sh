@@ -386,7 +386,8 @@ run_go() {
 }
 run_rust_sync() { rust_run "$WORK/rust-sync" "$1" 'redis = "1.3"' ; }
 run_rust_async(){ rust_run "$WORK/rust-async" "$1" 'redis = { version = "1.3", features = ["tokio-comp"] }
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }' ; }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+futures-util = "0.3"' ; }
 rust_run() {
   local d="$1" src="$2" deps="$3"; mkdir -p "$d/src"
   if [ ! -f "$d/Cargo.toml" ]; then
