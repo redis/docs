@@ -151,12 +151,14 @@ public class CmdsGenericExample {
             // the next one needs the cursor this one returns.
             KeyScanCursor<String> scan2Cursor = asyncCommands
                     .scan(ScanArgs.Builder.matches("*11*")).toCompletableFuture().join();
+            int scan2Total = scan2Cursor.getKeys().size();
             System.out.println(scan2Cursor.getKeys().size());
 
             for (int i = 0; i < 3; i++) {
                 scan2Cursor = asyncCommands
                         .scan(scan2Cursor, ScanArgs.Builder.matches("*11*"))
                         .toCompletableFuture().join();
+                scan2Total += scan2Cursor.getKeys().size();
                 System.out.println(scan2Cursor.getKeys().size());
             }
 
@@ -165,46 +167,51 @@ public class CmdsGenericExample {
             scan2Cursor = asyncCommands
                     .scan(scan2Cursor, ScanArgs.Builder.matches("*11*").limit(1000))
                     .toCompletableFuture().join();
-            System.out.println(scan2Cursor.getKeys().size());   // >>> 18
+            scan2Total += scan2Cursor.getKeys().size();
+            System.out.println(scan2Cursor.getKeys().size());
+
+            // The per-call split isn't guaranteed, but the cumulative total is.
+            System.out.println(scan2Total);   // >>> 19
             // STEP_END
 
             // REMOVE_START
-            assertThat(scan2Cursor.getKeys()).hasSize(18);
+            assertThat(scan2Total).isEqualTo(19);
             asyncCommands.flushdb().toCompletableFuture().join();
             // REMOVE_END
 
             // STEP_START scan3
-            CompletableFuture<Void> scan3Example = asyncCommands
-                    .geoadd("geokey", 0, 0, "value")
-                    .thenCompose(scan3Res1 -> {
-                        System.out.println(scan3Res1);      // >>> 1
-                        return asyncCommands.zadd("zkey", 1000, "value");
-                    })
-                    .thenCompose(scan3Res2 -> {
-                        System.out.println(scan3Res2);      // >>> 1
-                        return asyncCommands.type("geokey");
-                    })
-                    .thenCompose(scan3Res3 -> {
-                        System.out.println(scan3Res3);      // >>> zset
-                        return asyncCommands.type("zkey");
-                    })
-                    .thenCompose(scan3Res4 -> {
-                        System.out.println(scan3Res4);      // >>> zset
-                        return asyncCommands.scan(KeyScanArgs.Builder.type("zset"));
-                    })
-                    .thenAccept(scan3Res5 -> {
-                        List<String> keys = new java.util.ArrayList<>(scan3Res5.getKeys());
-                        Collections.sort(keys);
-                        System.out.println(keys);           // >>> [geokey, zkey]
-                        // REMOVE_START
-                        assertThat(keys).hasSize(2);
-                        // REMOVE_END
-                    })
-                    .toCompletableFuture();
+            long scan3Result1 = asyncCommands.geoadd("geokey", 0, 0, "value")
+                    .toCompletableFuture().join();
+            System.out.println(scan3Result1);      // >>> 1
+
+            long scan3Result2 = asyncCommands.zadd("zkey", 1000, "value")
+                    .toCompletableFuture().join();
+            System.out.println(scan3Result2);      // >>> 1
+
+            String scan3Result3 = asyncCommands.type("geokey").toCompletableFuture().join();
+            System.out.println(scan3Result3);      // >>> zset
+
+            String scan3Result4 = asyncCommands.type("zkey").toCompletableFuture().join();
+            System.out.println(scan3Result4);      // >>> zset
+
+            // A single call isn't guaranteed to find every match, so loop until
+            // the cursor is finished, accumulating matches from every call.
+            List<String> scan3Keys = new java.util.ArrayList<>();
+            KeyScanCursor<String> scan3Cursor = asyncCommands
+                    .scan(KeyScanArgs.Builder.type("zset")).toCompletableFuture().join();
+            scan3Keys.addAll(scan3Cursor.getKeys());
+            while (!scan3Cursor.isFinished()) {
+                scan3Cursor = asyncCommands
+                        .scan(scan3Cursor, KeyScanArgs.Builder.type("zset"))
+                        .toCompletableFuture().join();
+                scan3Keys.addAll(scan3Cursor.getKeys());
+            }
+            Collections.sort(scan3Keys);
+            System.out.println(scan3Keys);         // >>> [geokey, zkey]
             // STEP_END
 
-            scan3Example.join();
             // REMOVE_START
+            assertThat(scan3Keys).hasSize(2);
             asyncCommands.del("geokey", "zkey").toCompletableFuture().join();
             // REMOVE_END
 

@@ -199,21 +199,27 @@ public class CmdsGenericExample {
         // iterations return few keys or none at all.
         String scan2Cursor = "0";
         ScanResult<String> scan2Result;
+        int scan2Total = 0;
 
         for (int i = 0; i < 4; i++) {
             scan2Result = jedis.scan(scan2Cursor, new ScanParams().match("*11*"));
             scan2Cursor = scan2Result.getCursor();
+            scan2Total += scan2Result.getResult().size();
             System.out.println(scan2Result.getResult().size());
         }
 
         // A larger COUNT forces more scanning in a single iteration, so the remaining
         // matches arrive together. This continues from the cursor reached above.
         scan2Result = jedis.scan(scan2Cursor, new ScanParams().match("*11*").count(1000));
-        System.out.println(scan2Result.getResult().size()); // >>> 18
+        scan2Total += scan2Result.getResult().size();
+        System.out.println(scan2Result.getResult().size());
+
+        // The per-call split isn't guaranteed, but the cumulative total is.
+        System.out.println(scan2Total); // >>> 19
         // STEP_END
 
         // REMOVE_START
-        assertEquals(18, scan2Result.getResult().size());
+        assertEquals(19, scan2Total);
         jedis.flushDB();
         // REMOVE_END
 
@@ -227,10 +233,15 @@ public class CmdsGenericExample {
         System.out.println(jedis.type("geokey")); // >>> zset
         System.out.println(jedis.type("zkey")); // >>> zset
 
-        ScanResult<String> scan3Result3 = jedis.scan(
-                "0", new ScanParams(), "zset"
-        );
-        ArrayList<String> scan3Keys = new ArrayList<>(scan3Result3.getResult());
+        // A single call isn't guaranteed to find every match, so loop until the cursor
+        // returns to "0", accumulating matches from every call.
+        String scan3Cursor = "0";
+        ArrayList<String> scan3Keys = new ArrayList<>();
+        do {
+            ScanResult<String> scan3Result3 = jedis.scan(scan3Cursor, new ScanParams(), "zset");
+            scan3Cursor = scan3Result3.getCursor();
+            scan3Keys.addAll(scan3Result3.getResult());
+        } while (!scan3Cursor.equals("0"));
         Collections.sort(scan3Keys);
         System.out.println(scan3Keys); // >>> [geokey, zkey]
         // STEP_END

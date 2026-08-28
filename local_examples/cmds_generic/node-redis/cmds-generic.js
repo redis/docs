@@ -156,23 +156,33 @@ for (let i = 1; i <= 1000; i++) {
 
 let cursor = '0';
 let scanResult;
+let total = 0;
 
 scanResult = await client.scan(cursor, { MATCH: '*11*' });
+total += scanResult.keys.length;
 console.log(scanResult.cursor, scanResult.keys);
 
 scanResult = await client.scan(scanResult.cursor, { MATCH: '*11*' });
+total += scanResult.keys.length;
 console.log(scanResult.cursor, scanResult.keys);
 
 scanResult = await client.scan(scanResult.cursor, { MATCH: '*11*' });
+total += scanResult.keys.length;
 console.log(scanResult.cursor, scanResult.keys);
 
 scanResult = await client.scan(scanResult.cursor, { MATCH: '*11*' });
+total += scanResult.keys.length;
 console.log(scanResult.cursor, scanResult.keys);
 
 scanResult = await client.scan(scanResult.cursor, { MATCH: '*11*', COUNT: 1000 });
+total += scanResult.keys.length;
 console.log(scanResult.cursor, scanResult.keys);
+
+// The per-call split isn't guaranteed, but the cumulative total is.
+console.log(total);
+// >>> 19
 // REMOVE_START
-console.assert(scanResult.keys.length === 18);
+assert.strictEqual(total, 19);
 cursor = '0';
 const prefix = 'key:*';
 do {
@@ -206,10 +216,18 @@ console.log(scan3Res4); // zset
 console.assert(scan3Res4 === 'zset');
 // REMOVE_END
 
-const scan3Res5 = await client.scan('0', { TYPE: 'zset' });
-console.log(scan3Res5.keys); // ['zkey', 'geokey']
+// A single call isn't guaranteed to find every match, so loop until the cursor
+// returns to 0, accumulating matches from every call.
+let scan3Cursor = '0';
+let scan3Keys = [];
+do {
+    const scan3Res5 = await client.scan(scan3Cursor, { TYPE: 'zset' });
+    scan3Cursor = scan3Res5.cursor;
+    scan3Keys = scan3Keys.concat(scan3Res5.keys);
+} while (scan3Cursor !== '0');
+console.log(scan3Keys.sort()); // ['geokey', 'zkey']
 // REMOVE_START
-console.assert(scan3Res5.keys.sort().toString() === ['zkey', 'geokey'].sort().toString());
+assert.deepStrictEqual(scan3Keys.sort(), ['geokey', 'zkey']);
 await client.del(['geokey', 'zkey']);
 // REMOVE_END
 // STEP_END

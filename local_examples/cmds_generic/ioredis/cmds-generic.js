@@ -58,21 +58,27 @@ await scan2Pipeline.exec();
 
 // MATCH filters after the elements are fetched, so most iterations return nothing.
 let [scan2Cursor, scan2Keys] = await redis.scan(0, 'MATCH', '*11*');
+let scan2Total = scan2Keys.length;
 console.log(scan2Keys.length);
 
 for (let i = 0; i < 3; i++) {
   [scan2Cursor, scan2Keys] = await redis.scan(scan2Cursor, 'MATCH', '*11*');
+  scan2Total += scan2Keys.length;
   console.log(scan2Keys.length);
 }
 
 // A larger COUNT forces more scanning in a single iteration, so the rest of the
 // matches arrive together. The scan continues from the cursor reached above.
 [scan2Cursor, scan2Keys] = await redis.scan(scan2Cursor, 'MATCH', '*11*', 'COUNT', 1000);
-console.log(scan2Keys.length); // >>> 18
+scan2Total += scan2Keys.length;
+console.log(scan2Keys.length);
+
+// The per-call split isn't guaranteed, but the cumulative total is.
+console.log(scan2Total); // >>> 19
 // STEP_END
 
 // REMOVE_START
-assert.equal(scan2Keys.length, 18);
+assert.equal(scan2Total, 19);
 await redis.flushdb();
 // REMOVE_END
 
@@ -86,7 +92,15 @@ console.log(scan3Res2); // >>> 1
 console.log(await redis.type('geokey')); // >>> zset
 console.log(await redis.type('zkey')); // >>> zset
 
-const [, scan3Keys] = await redis.scan(0, 'TYPE', 'zset');
+// A single call isn't guaranteed to find every match, so loop until the cursor
+// returns to 0, accumulating matches from every call.
+let scan3Cursor = '0';
+let scan3Keys = [];
+do {
+  let scan3Batch;
+  [scan3Cursor, scan3Batch] = await redis.scan(scan3Cursor, 'TYPE', 'zset');
+  scan3Keys = scan3Keys.concat(scan3Batch);
+} while (scan3Cursor !== '0');
 console.log(scan3Keys.sort()); // >>> ['geokey', 'zkey']
 // STEP_END
 
