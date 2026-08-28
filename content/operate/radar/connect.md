@@ -127,6 +127,8 @@ Radar derives the AWS account ID itself, so you do not enter it.
 
 Both the API server and the worker need outbound HTTPS on port 443 to the AWS control-plane endpoints in every region you configure: `sts`, `elasticache`, `monitoring`, `tagging`, and `ec2`. Radar never opens a connection to a cache endpoint.
 
+{{<image filename="images/radar/add-connection-amazon-elasticache.png" alt="The Add connection dialog set to connection type Amazon ElastiCache">}}
+
 {{< note >}}
 Blocking the CloudWatch or tagging endpoints degrades what Radar can report and produces a capability warning. Blocking the identity or ElastiCache inventory endpoints stops the connection test and collection outright.
 {{< /note >}}
@@ -159,6 +161,8 @@ On a self-managed install, Radar authenticates with a service account key:
 7. Select **Add connection**.
 
 Both the API server and the worker need outbound HTTPS on port 443 to `oauth2.googleapis.com`, `redis.googleapis.com`, `memorystore.googleapis.com`, `memcache.googleapis.com`, and `monitoring.googleapis.com`. Allowing `*.googleapis.com` covers the whole path.
+
+{{<image filename="images/radar/add-connection-google-memorystore.png" alt="The Add connection dialog set to connection type Google Memorystore">}}
 
 ## Secure cluster connections
 
