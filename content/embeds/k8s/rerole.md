@@ -1,0 +1,22 @@
+```yaml
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseRole
+metadata:
+  name: db-reader
+  labels:
+    app: redis-enterprise
+spec:
+  # One of: 
+  # DBMember, DBViewer, None.
+  managementRole: DBViewer
+
+  # The scopes (databases) for which this role grants dataplane access to.
+  scopes:
+  - kind: RedisEnterpriseDatabase
+    name: redb
+
+  # The dataplane permissions (ACL) granted by this role.
+  acl:
+    kind: RedisEnterpriseACL
+    name: read-only
+```
