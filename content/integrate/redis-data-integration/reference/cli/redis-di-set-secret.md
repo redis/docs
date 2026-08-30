@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di-set-secret/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-set-secret/
 ---
 
 Creates or updates a secret of a pipeline. Secrets hold the credentials and certificates that the

@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di-delete/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-delete/
 ---
 
 Deletes a pipeline. Because this is destructive, the command asks for confirmation unless you pass
