@@ -10,7 +10,7 @@ linkTitle: Connect
 weight: 20
 ---
 
-Radar does not find clusters on its own. You add each one, Radar tests the connection, and from then on Radar keeps collecting that source's state.
+Radar does not find clusters by itself, so you must add each one manually. When you do this, Radar tests the connection, and from then on Radar keeps collecting that source's state automatically.
 
 Adding a cluster to Radar does not change the behavior of that cluster. Radar reads through the same management interfaces you already use.
 
