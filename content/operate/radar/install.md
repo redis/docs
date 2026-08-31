@@ -73,13 +73,13 @@ Back up the KEK alongside the database and store the two backups separately. Nei
 
 Set the `MCM_REQUIRE_FIPS=true` environment variable to make FIPS mandatory. Radar then refuses to start unless FIPS is active, and it checks before it touches the database or opens a port. A misconfigured deployment fails immediately rather than running with cryptography you did not approve.
 
-Each service logs its FIPS state once at startup, so you can confirm what is running. In production, Radar emits this as structured JSON rather than flat text, and includes additional fields such as the Go runtime's FIPS build mode. The core fields look like this:
+Each service logs its FIPS state once at startup, so you can confirm what is running. In production, Radar writes this log line as structured JSON rather than flat text, and includes additional fields such as the Go runtime's FIPS build mode. The core fields look like this:
 
 ```text
 fips state service=mcm-api category=startup enabled=true required=true
 ```
 
-In that line, `enabled` is the cryptography in effect and `required` is what you asked for. Both should read `true`. Search your logs by field name rather than this literal line, since the exact format depends on your deployment method.
+In that line, both `enabled` and `required` should read `true`. Search your logs by field name rather than this literal line, since the exact format depends on your deployment method.
 
 ### Package and service names
 
@@ -255,7 +255,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
      --set ingress.hosts[0].paths[0].pathType=Prefix
    ```
 
-   With an external database, as configured here, the chart runs schema migration as a Kubernetes job before the API server and worker start. If you use the bundled evaluation PostgreSQL instead, migration instead runs after the API and worker pods start, so expect them to restart briefly until the migration job completes. Migrations apply forward only; there is no automated rollback.
+   With an external database, as configured here, the chart runs schema migration as a Kubernetes job before the API server and worker start. If you use the chart's bundled PostgreSQL container instead, migration instead runs after the API and worker pods start, so expect them to restart briefly until the migration job completes. Migrations apply forward only; there is no automated rollback.
 
    **For a private or air-gapped registry**, override the image source.
 
@@ -342,7 +342,7 @@ The Compose bundle runs Radar on a single host. It ships the container images, t
    Copy `.env.production.example` to `.env.production` and replace every placeholder, including the PostgreSQL credentials and the credential encryption key.
 
    {{< warning >}}
-Unlike the RPM, Compose does not detect leftover sample values. If you start the stack without replacing the credential encryption key, Radar runs with the published example key rather than refusing to start.
+Confirm you've replaced every sample value, especially the credential encryption key, before you start the services. Unlike the RPM, Compose does not detect leftover sample values: if you start them before replacing the credential encryption key, Radar runs with the published example key rather than refusing to start.
    {{< /warning >}}
 
    <br>
