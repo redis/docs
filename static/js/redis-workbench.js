@@ -2503,6 +2503,40 @@
     return note;
   }
 
+  /* How long a queued snippet waits for the widget before giving up on it. Long
+     enough for a slow fetch of a 20KB script, short enough that a reader is not
+     left watching nothing happen. */
+  var WIDGET_WAIT = 6000;
+  var WIDGET_STEP = 100;
+
+  /* A snippet clicked before the widget was ready. Run it as soon as the dock can
+     be built; if the script never arrives, do what the click would have done. */
+  function waitForWidget(options) {
+    var waited = 0;
+    (function poll() {
+      var instance = ensureDock();
+      if (instance) {
+        instance.load({
+          commands: options.commands,
+          setup: options.setup,
+          provides: options.provides,
+          snippet: options.snippet
+        });
+        return;
+      }
+      waited += WIDGET_STEP;
+      if (window.REDIS_CLI_FAILED || waited >= WIDGET_WAIT) {
+        /* Out of patience: the standalone CLI, as before. A pop-up this long
+           after the click may be blocked, which is why waiting is bounded. */
+        if (options.fullCliUrl) {
+          window.open(options.fullCliUrl, '_blank', 'noopener,noreferrer');
+        }
+        return;
+      }
+      window.setTimeout(poll, WIDGET_STEP);
+    })();
+  }
+
   /* ---------------------------------------------------------------- entry -- */
 
   /* The dock is built once, lazily, and only where it makes sense: a page with
@@ -2556,7 +2590,18 @@
     open: function (options) {
       if (!options || !options.commands || !options.commands.length) return false;
       var instance = ensureDock();
-      if (!instance) return false;
+      if (!instance) {
+        /* No dock yet is not the same as no dock ever. The widget this is built
+           on is fetched from the /cli backend, so a click in the moment before it
+           lands used to be answered by opening redis.io/cli in another tab —
+           the reader's first click being the one that leaves the page. Wait for
+           it instead, and only fall back if it never arrives. */
+        if (window.REDIS_CLI_LOADING) {
+          waitForWidget(options);
+          return true;
+        }
+        return false;
+      }
       /* options.setup is the page's setup block — the "Reload the data and
          re-create the index" the tutorials keep in a <details> — and
          options.provides names the setup this snippet *is*. See

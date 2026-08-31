@@ -41,8 +41,22 @@ window.REDIS_CLI_CONFIG = {
   showBadge: false,               // no "Powered by" badge in the docs
 };
 
+// Whether the canonical widget is still on its way. A "Try it" clicked before it
+// lands must wait rather than fall back to another tab: "not here yet" and "this
+// backend cannot do it" are different answers, and only the second one is a
+// reason to leave the page.
+window.REDIS_CLI_LOADING = true;
+window.REDIS_CLI_FAILED = false;
+
 (function () {
   const script = document.createElement('script');
   script.src = REDIS_CLI_BACKEND + '/static/js/cli.js';
+  script.addEventListener('load', function () {
+    window.REDIS_CLI_LOADING = false;
+  });
+  script.addEventListener('error', function () {
+    window.REDIS_CLI_LOADING = false;
+    window.REDIS_CLI_FAILED = true;
+  });
   document.head.appendChild(script);
 })();

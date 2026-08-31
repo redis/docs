@@ -1103,13 +1103,31 @@
       var button = event.target.closest ? event.target.closest('.thebe-tryit') : null;
       if (!button) return;
       event.preventDefault();
+      var cell = button.getAttribute('data-cell');
       var notebook = window.RedisWorkbenchNotebook;
       if (notebook && typeof notebook.openCell === 'function') {
-        notebook.openCell(button.getAttribute('data-cell'));
+        notebook.openCell(cell);
         return;
       }
-      var fallback = button.getAttribute('data-binder-url');
-      if (fallback) window.open(fallback, '_blank', 'noopener');
+      /* The pane mounts on the dock, which is built on a widget fetched from the
+         /cli backend, so the first moment of a page has no pane yet. Give it the
+         same grace mountWhenReady has before sending the reader to Binder — a
+         click that lands in that gap should still open the cell here. */
+      var waited = 0;
+      (function poll() {
+        var later = window.RedisWorkbenchNotebook;
+        if (later && typeof later.openCell === 'function') {
+          later.openCell(cell);
+          return;
+        }
+        waited += MOUNT_STEP;
+        if (waited < MOUNT_DEADLINE && !window.REDIS_CLI_FAILED) {
+          window.setTimeout(poll, MOUNT_STEP);
+          return;
+        }
+        var fallback = button.getAttribute('data-binder-url');
+        if (fallback) window.open(fallback, '_blank', 'noopener');
+      })();
     });
   }
 

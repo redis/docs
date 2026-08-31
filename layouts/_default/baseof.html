@@ -1865,7 +1865,8 @@
 
         function savedSessionAlive() {
           const saved = findSavedSession();
-          if (!saved) return Promise.resolve(false);
+          /* Nothing saved is nothing to keep, which is the same outcome as gone. */
+          if (!saved) return Promise.resolve('gone');
           const base = String(saved.data.baseUrl).replace(/\/*$/, '/');
           const url = base + 'api/kernels'
             + (saved.data.token ? '?token=' + encodeURIComponent(saved.data.token) : '');
@@ -1882,18 +1883,25 @@
             redirect: 'manual',
             credentials: 'same-origin'
           })
-            .then(function(res) { return res.type !== 'opaqueredirect' && res.ok; })
-            .catch(function() { return false; });
+            .then(function(res) {
+              return (res.type !== 'opaqueredirect' && res.ok) ? 'alive' : 'gone';
+            })
+            /* Not "gone": unreachable. An aborted fetch is what a page being
+               unloaded or a socket dropping mid-refresh looks like, and it says
+               nothing about the server — treating it as death is how a live
+               kernel got thrown away by the very check meant to keep it. */
+            .catch(function() { return 'unknown'; });
         }
 
         /* Expire only what is actually gone. While the server still answers, the
            kernel can be reattached — by Thebe now, or by the next page load —
            so the session stays and the containers just say they are reconnecting. */
         function expireSessionIfDead(reason) {
-          return savedSessionAlive().then(function(alive) {
-            if (alive) {
-              console.debug('[Thebe Session] Keeping saved session: server still'
-                + ' answering after ' + reason);
+          return savedSessionAlive().then(function(verdict) {
+            if (verdict !== 'gone') {
+              console.debug('[Thebe Session] Keeping saved session after ' + reason
+                + ': ' + (verdict === 'alive' ? 'server still answering'
+                  : 'could not reach the server to ask'));
               document.querySelectorAll('.thebe-container').forEach(function(c) {
                 c.classList.add('reconnecting');
               });
