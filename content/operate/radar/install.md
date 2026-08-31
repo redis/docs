@@ -14,8 +14,8 @@ This page covers self-managed Radar. If you're using Redis Cloud's hosted Radar,
 
 Radar runs as two services backed by a PostgreSQL database that you provide:
 
-- API server:  serves the REST API and the web UI.
-- Worker:  connects to each cluster on a schedule, collects its state, and stores it in the database.
+- API server: serves the REST API and the web UI.
+- Worker: connects to each cluster on a schedule, collects its state, and stores it in the database.
 
 Both services read the same database and the same encryption key. You supply both, no matter which install method you choose.
 
@@ -39,7 +39,7 @@ What you have to do differs by method, so each install method below ends with it
 
 All three are supported and built from the same release. You can install any of them on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
-Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**. Get the container images from Docker Hub, and the Helm chart from Helm.
+Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**. Get the container images from Docker Hub, and the Helm chart.
 
 ## Before you start
 
@@ -93,7 +93,7 @@ The RPM installs native binaries and needs no container runtime. It also install
 The RPM listens only on loopback by default. A successful RPM install is not yet reachable from any other machine until you put a proxy in front of it.
 {{< /note >}}
 
-1. Install the package:
+1. Install the package.
 
    ```bash
    sha256sum -c SHA256SUMS
@@ -104,7 +104,9 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    <br>
 
-2. Confirm the services are inactive. The package deliberately installs them without starting or enabling them:
+2. Confirm the services are inactive.
+
+   The package deliberately installs them without starting or enabling them.
 
    ```bash
    systemctl is-active mcm-api.service || true
@@ -113,7 +115,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    <br>
 
-3. Configure the package. Edit `/etc/mcm/mcm.env` and set the two required values:
+3. Configure the package. Edit `/etc/mcm/mcm.env` and set the two required values.
 
    ```bash
    sudoedit /etc/mcm/mcm.env
@@ -126,7 +128,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    Radar refuses to start while the placeholder values are still in place. The file is owned by `root:mcm`, redacted from logs and diagnostics, and kept across upgrades and removal. Include it in your backup plan.
 
-   You may want to change these defaults:
+   You may want to change these defaults.
 
    | Setting | Default |
    |---|---|
@@ -138,7 +140,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    <br>
 
-4. Check the configuration:
+4. Check the configuration.
 
    ```bash
    sudo mcmctl doctor
@@ -148,7 +150,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    <br>
 
-5. Start the services:
+5. Start the services.
 
    ```bash
    sudo systemctl start mcm-api.service
@@ -159,7 +161,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    <br>
 
-6. Verify the services are running:
+6. Verify the services are running.
 
    ```bash
    curl -fsS http://127.0.0.1:8080/healthz/ready
@@ -168,7 +170,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    <br>
 
-7. Enable the services only after the health checks pass, so a reboot cannot start a half-configured deployment:
+7. Enable the services only after the health checks pass, so a reboot cannot start a half-configured deployment.
 
    ```bash
    sudo systemctl enable mcm-api.service
@@ -177,15 +179,19 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    <br>
 
-8. Create the first administrator. Radar does not ship a default account or a default password. Open the UI once the API server is healthy and complete the one-time first-administrator flow. It is available only while the database has no users; after that, it closes and normal sign-in applies.
+8. Create the first administrator.
+
+   Radar does not ship a default account or a default password. Open the UI once the API server is healthy and complete the one-time first-administrator flow. It is available only while the database has no users; after that, it closes and normal sign-in applies.
 
    <br>
 
-9. Provide remote access. At this point Radar is reachable only from the host itself.
+9. Provide remote access.
+
+   At this point Radar is reachable only from the host itself.
 
    Run a reverse proxy that terminates TLS and forwards to the loopback address. Keep `HTTP_ADDR=127.0.0.1:8080` when the proxy runs on the same host. That is the safest arrangement, because nothing but the proxy can reach the API.
 
-   If the proxy runs on a different host, set `HTTP_ADDR` to the private interface it should reach, then restrict access with your own firewall rules. Restart the API server:
+   If the proxy runs on a different host, set `HTTP_ADDR` to the private interface it should reach, then restrict access with your own firewall rules. Restart the API server.
 
    ```bash
    sudo systemctl restart mcm-api.service
@@ -204,7 +210,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
 A production install has four parts you supply: the PostgreSQL connection, the credential encryption key, image pull access, and an external access path.
 
-1. Create the database secret. Store the database connection string in a secret:
+1. Create the database secret. Store the database connection string in a secret.
 
    ```bash
    kubectl create secret generic radar-db \
@@ -214,7 +220,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
 
    <br>
 
-2. Create the credentials secret. Generate the credential encryption key as a file and load it with `--from-file`:
+2. Create the credentials secret. Generate the credential encryption key as a file and load it with `--from-file`.
 
    ```bash
    head -c 32 /dev/urandom > kek.bin
@@ -234,7 +240,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
 
    <br>
 
-3. Install the chart:
+3. Install the chart.
 
    ```bash
    helm install radar ./helm/radar \
@@ -251,7 +257,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
 
    The chart runs schema migration as a Kubernetes job before the API server and worker start. Migrations apply forward only; there is no automated rollback.
 
-   For a private or air-gapped registry, override the image source:
+   **For a private or air-gapped registry**, override the image source.
 
    ```yaml
    global:
@@ -260,7 +266,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
        - name: registry-creds
    ```
 
-   For OpenShift, use the OpenShift values file instead, which lets OpenShift assign namespace-scoped user IDs and switches the external access path from an ingress to a route:
+   **For OpenShift**, use the OpenShift values file instead, which lets OpenShift assign namespace-scoped user IDs and switches the external access path from an ingress to a route.
 
    ```bash
    helm install radar ./helm/radar \
@@ -272,11 +278,11 @@ A production install has four parts you supply: the PostgreSQL connection, the c
      --set route.host=radar.apps.example.com
    ```
 
-   The chart needs no `anyuid` policy, privileged security context, host paths, or `cluster-admin` permissions.
+   The chart does not need an `anyuid` policy, privileged security context, host paths, or `cluster-admin` permissions.
 
    <br>
 
-4. Verify the install:
+4. Verify the install.
 
    ```bash
    kubectl get pods -n radar
@@ -284,7 +290,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
    helm test radar --namespace radar
    ```
 
-   Expect a running API pod, a running worker pod, and a completed migration job. To check health without an external access path:
+   Expect a running API pod, a running worker pod, and a completed migration job. To check health without an external access path, use the following commands.
 
    ```bash
    kubectl port-forward -n radar svc/radar 8080:80
@@ -293,7 +299,9 @@ A production install has four parts you supply: the PostgreSQL connection, the c
 
    <br>
 
-5. Provide remote access. The API server and UI are served on port 80 of an in-cluster service. Expose it with an ingress, an OpenShift route, or a `LoadBalancer` service, and terminate TLS there:
+5. Provide remote access. 
+   
+   The API server and UI are served on port 80 of an in-cluster service. Expose it with an ingress, an OpenShift route, or a `LoadBalancer` service, and terminate TLS there.
 
    ```yaml
    ingress:
@@ -320,21 +328,34 @@ A production install has four parts you supply: the PostgreSQL connection, the c
 
 The Compose bundle runs Radar on a single host. It ships the container images, the Compose files, and an environment template.
 
-Load the images and start the stack:
+1. Load the images.
 
-```bash
-sha256sum -c SHA256SUMS
-docker load -i images.tar.gz
-docker compose -f compose.yaml -f compose.prod.yaml --env-file .env.production up -d
-```
+   ```bash
+   sha256sum -c SHA256SUMS
+   docker load -i images.tar.gz
+   ```
 
-Copy `.env.production.example` to `.env.production` and replace every placeholder before you start the stack, including the PostgreSQL credentials and the credential encryption key. The sample keys are documented placeholders and Radar rejects them at startup.
+   <br>
 
-The production Compose file pins the image tags and never pulls, so the stack runs fully offline once the images are loaded. A one-shot migration service runs before the API server and worker start.
+2. Configure the environment. 
+   
+   Copy `.env.production.example` to `.env.production` and replace every placeholder, including the PostgreSQL credentials and the credential encryption key. The sample keys are documented placeholders and Radar rejects them at startup.
+
+   <br>
+
+3. Start the services.
+
+   ```bash
+   docker compose -f compose.yaml -f compose.prod.yaml --env-file .env.production up -d
+   ```
+
+   The production Compose file pins the image tags and never pulls, so the stack runs fully offline once the images are loaded. A migration service runs once, before the API server and worker start.
+
+   <br>
 
 ## Install on an air-gapped host
 
-Air-gapped installation uses the same three methods. The only difference is that you carry the artifacts in by hand instead of downloading them.
+Air-gapped installation uses the same three methods.
 
 Transfer the release artifacts to the target host or to an offline repository it can reach, then verify them:
 
@@ -348,10 +369,8 @@ sha256sum -c SHA256SUMS
 | Helm | `images.tar.gz`, the packaged chart, and the bundled values file | `docker load` the images onto the nodes, then install the chart |
 | Docker Compose | `images.tar.gz` and the Compose files | `docker load`, then `docker compose up` |
 
-The RPM is the one path that needs no container tooling at all. It installs, starts, and upgrades with no internet access, no online package repositories, and no Docker, Podman, or containerd on the host.
-
 Your PostgreSQL database and the clusters you plan to monitor still need to be reachable from the Radar host over the network.
 
 ## Next steps
 
-Radar is installed but has nothing to show yet, because it does not discover clusters on its own. Continue to [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster.
+Radar is installed but has nothing to show yet. Continue to [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster.
