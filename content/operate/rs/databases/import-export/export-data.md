@@ -200,7 +200,7 @@ To encrypt data exported to S3 or an S3-compatible location with a customer-prov
 ```
 
 - `sse_customer_key` must be a base64-encoded string that decodes to exactly 32 bytes (AES-256).
-- SSE-C encryption is only available for S3 and S3-compatible storage locations, and only for this one export request. You can't add `encryption` to a database's persisted [backup_location]({{<relref "/operate/rs/references/rest-api/objects/bdb/backup_location">}}) configuration, so SSE-C isn't available for [scheduled backups]({{<relref "/operate/rs/databases/import-export/schedule-backups.md">}}).
+- SSE-C encryption is only available for S3 and S3-compatible storage locations, and only for this one export request. You can't add `encryption` to a database's persisted [backup_location]({{<relref "/operate/rs/references/rest-api/objects/bdb/backup_location">}}) configuration, so SSE-C isn't available for [scheduled backups]({{<relref "/operate/rs/databases/import-export/schedule-backups">}}).
 
 ### Google Cloud Storage
 
