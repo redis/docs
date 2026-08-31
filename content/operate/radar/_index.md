@@ -17,6 +17,13 @@ Teams that run dozens or hundreds of clusters usually track them in a spreadshee
 
 Radar is a visibility tool. It reports what your clusters are doing, and adding a cluster to Radar does not change how that cluster runs.
 
+## How you run Radar
+
+Radar itself runs two ways:
+
+- **Redis Cloud.** Sign in with your existing Redis Cloud credentials. Redis Cloud hosts and manages the Radar deployment for you.
+- **Self-managed.** Install Radar on your own infrastructure with a Helm chart, an RPM, or Docker Compose.
+
 ## Who Radar is for
 
 Radar is for the people responsible for a fleet rather than a single database:
@@ -45,5 +52,5 @@ Two consequences:
 
 ## Next steps
 
-Start with [Install Radar]({{< relref "/operate/radar/install" >}}) to deploy Radar on your own infrastructure, then [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first cluster. Once clusters are connected, see [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}) for what Radar shows you.
+Start with [Get started]({{< relref "/operate/radar/get-started" >}}) to sign in on Redis Cloud or install Radar yourself.
 
