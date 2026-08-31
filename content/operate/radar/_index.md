@@ -21,8 +21,8 @@ Radar is a visibility tool. It reports what your clusters are doing, and adding 
 
 Radar itself runs two ways:
 
-- **Redis Cloud.** Sign in with your existing Redis Cloud credentials. Redis Cloud hosts and manages the Radar deployment for you.
-- **Self-managed.** Install Radar on your own infrastructure with a Helm chart, an RPM, or Docker Compose.
+- **[Redis Cloud]({{< relref "/operate/rc/radar" >}}).** Sign in with your existing Redis Cloud credentials. Redis Cloud hosts and manages the Radar deployment for you.
+- **[Self-managed]({{< relref "/operate/radar/install" >}}).** Install Radar on your own infrastructure with a Helm chart, an RPM, or Docker Compose.
 
 ## Who Radar is for
 
@@ -52,5 +52,5 @@ Two consequences:
 
 ## Next steps
 
-Start with [Get started]({{< relref "/operate/radar/get-started" >}}) to sign in on Redis Cloud or install Radar yourself.
+Sign in on [Redis Cloud]({{< relref "/operate/rc/radar" >}}), or [install Radar]({{< relref "/operate/radar/install" >}}) yourself.
 

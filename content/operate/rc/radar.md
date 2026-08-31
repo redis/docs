@@ -1,18 +1,17 @@
 ---
-title: Get started with Radar
 alwaysopen: false
 categories:
 - docs
 - operate
-- radar
-description: Sign in to Radar on Redis Cloud, or install it yourself.
-linkTitle: Get started
-weight: 5
+- rc
+description: See the status of every Redis cluster you run, in one place, with Redis Radar.
+hideListLinks: true
+linktitle: Redis Radar
+title: Redis Radar on Redis Cloud
+weight: 37
 ---
 
-Radar runs two ways: hosted on Redis Cloud, or self-managed on your own infrastructure. Pick the one that matches how you run Redis.
-
-## Redis Cloud
+Redis Radar shows you the status of every Redis cluster you run, in one place. Instead of checking each cluster separately, get one fleet-wide view across Redis Software, Redis Cloud, Redis Open Source, Amazon ElastiCache, and Google Memorystore.
 
 Redis Cloud's hosted Radar needs no setup. There's no subscription toggle to turn on and nothing to request from your account team.
 
@@ -21,13 +20,9 @@ Redis Cloud's hosted Radar needs no setup. There's no subscription toggle to tur
 
 Radar uses the same sign-in as the rest of Redis Cloud, so any Redis Cloud account can sign in.
 
-### Next steps
+## Next steps
 
 - [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first Redis Cloud, Amazon ElastiCache, or Google Memorystore source.
 - [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}) for what Radar shows you once a connection is collecting.
 - [Licenses and certificates]({{< relref "/operate/radar/licenses-and-certificates" >}}) to track certificate expiry across your fleet.
 - [Release notes]({{< relref "/operate/radar/release-notes" >}}) for what changed in each Cloud release.
-
-## Self-managed
-
-Self-managed Radar needs installing before you can sign in. See [Install Radar]({{< relref "/operate/radar/install" >}}).
