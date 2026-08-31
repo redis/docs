@@ -26,7 +26,7 @@ All the views are read-only. You cannot start, stop, resize, or reconfigure anyt
 
 Radar shows the result of the last successful collection, not live state. This applies to every number on every screen.
 
-The Clusters, Databases, and Alerts lists carry a **Last Seen** column, and the Overview has a data freshness card, so the age of what you are reading is on screen next to the value.
+The Clusters, Databases, and Alerts lists carry a **Last Seen** column, so the age of what you are reading is on screen next to the value.
 
 Different data refreshes at different rates, which is why Usage can look staler than health. Radar aims to collect the Usage report about once an hour, and everything else every 5 to 15 minutes. Collection runs through a queue, so these are targets rather than guarantees, and some cluster versions collect faster.
 
@@ -47,13 +47,11 @@ Shard counts always show a number, because zero shards is a real answer rather t
 The **Overview** answers one question for a fleet too large to check by hand: is anything wrong anywhere?
 
 - **Fleet health.** Cluster and database health side by side, so a problem that affects one database in one cluster is still visible at the top level.
-- **Capacity and memory pressure.** Available capacity across the fleet, and which clusters are under memory pressure.
 - **Redis deployments and version distribution.** What you are running and how many versions you are spread across. Version sprawl is usually invisible until you look at a fleet-wide count.
 - **Hosts.** Host inventory behind the fleet, so you can see what's backing your clusters without opening each one.
 - **Licenses and certificates.** Anything expiring, summarized. See [Licenses and certificates]({{< relref "/operate/radar/licenses-and-certificates" >}}).
 - **Alerts.** The most severe alerts currently raised. See [Alerts](#alerts).
 - **Running actions.** Operations in progress on your clusters, so you know before you start something that might conflict.
-- **Data freshness.** How current the rest of the dashboard is, so you know whether to trust what you're looking at.
 
 {{<image filename="images/radar/overview.png" alt="The Radar Overview page, showing fleet status, inventory, database health, and alerts">}}
 
@@ -76,7 +74,7 @@ The **Clusters** list is one row per cluster, whichever deployment type it came 
 | Version | Redis version. |
 | Last Seen | When Radar last collected from it. |
 
-Sort by Version to find upgrade candidates, or by Last Seen to find clusters Radar has lost contact with.
+Sort by Name or Memory; the other columns are display-only.
 
 {{<image filename="images/radar/clusters.png" alt="The Radar Clusters page, listing clusters with their type, status, memory, and database counts">}}
 
@@ -130,7 +128,7 @@ Memory and Ops/Sec are the two columns that can read N/A. See [When a value read
 
 The **Alerts** view collects the alerts your clusters are already raising and puts them in one list, ordered by severity: critical, warning, then informational. It covers Redis Software clusters and nodes only; alerts from other Redis deployments do not appear here. Filter by severity to narrow the list.
 
-Radar reads alerts from each cluster's own alert endpoints, at the cluster, node, and database level. **The alert rules live on the cluster, not in Radar.** To change what raises an alert, change it on the cluster; Radar reflects the change at its next collection.
+Radar reads alerts from each cluster's own alert endpoints, at the cluster and node level. **The alert rules live on the cluster, not in Radar.** To change what raises an alert, change it on the cluster; Radar reflects the change at its next collection.
 
 Selecting an alert takes you to the cluster it came from.
 
