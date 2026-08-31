@@ -27,6 +27,14 @@ const REDIS_CLI_BACKEND = 'https://redis.io/cli';
 
 window.REDIS_CLI_CONFIG = {
   apiUrl: REDIS_CLI_BACKEND,      // POST command batches here
+  // Which docs page a batch came from, for usage metrics. The widget used to
+  // read this from its own URL (?source=), which only existed because "Try it"
+  // opened redis.io/cli in a new tab. Snippets run in the workbench on the page
+  // itself now, so the page has to say. The backend format-checks it and caps
+  // distinct values.
+  page: (function () {
+    try { return window.location.pathname; } catch (err) { return ''; }
+  })(),
   appendDbId: false,              // docs widgets don't carry a per-widget dbid
   promptPrefix: 'redis> ',        // docs use the bare prompt, not redis:6379>
   enableUrlCommands: false,       // commands come from the code block, not the URL

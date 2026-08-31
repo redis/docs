@@ -53,7 +53,8 @@
 
   /* Batch origin label, for the backend's usage metrics. Introspection is not a
      command the reader chose to run, so it is reported separately from
-     'interactive'/'preset' and excluded from page attribution. */
+     'interactive' (typed) and 'tryit' (a snippet the reader asked for) and
+     excluded from page attribution. */
   var SOURCE = 'workbench';
 
   /* How much of a collection / string a value view pulls. Enough to show the
@@ -1516,7 +1517,16 @@
        handler — and a first "Try it" used to fire a batch into a form that was
        still mid-init, racing the banner into the same transcript. */
     return (this.terminalReady || Promise.resolve())
-      .then(function () { return cli().run(self.terminalForm, commands, 'preset'); })
+      .then(function () {
+        /* 'tryit', not 'preset': one batch per click of a "Try it" button, which
+           is what the docs count. 'preset' meant commands the page ran for
+           itself, back when the inline terminals executed on load; 'workbench'
+           is the dock's own keyspace probing, which the backend keeps out of a
+           page's tally. The fourth argument names the snippet; a widget that
+           predates it ignores it. */
+        return cli().run(self.terminalForm, commands, 'tryit',
+          options.snippet ? { snippet: options.snippet } : null);
+      })
       .then(function () {
         self.scrollTerminal();
       }, function () {
@@ -2554,7 +2564,12 @@
       instance.load({
         commands: options.commands,
         setup: options.setup,
-        provides: options.provides
+        provides: options.provides,
+        /* Passed on for usage metrics: the backend labels a batch with the page
+           it came from and the snippet that started it. The redirect to
+           redis.io/cli used to carry both in its URL; running here instead, the
+           widget has to be told. */
+        snippet: options.snippet
       });
       return true;
     },
