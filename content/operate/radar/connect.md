@@ -10,9 +10,7 @@ linkTitle: Connect
 weight: 20
 ---
 
-Radar does not find clusters by itself, so you must add each one manually. When you do this, Radar tests the connection, and from then on Radar keeps collecting that source's state automatically.
-
-Adding a cluster to Radar does not change the behavior of that cluster on its own. Radar reads through the same management interfaces you already use, and for Redis Software clusters it can also perform a small set of actions you trigger explicitly, such as updating the cluster's license.
+After installing Radar, connect your clusters to Redis Radar. Add each cluster manually — Radar doesn't discover clusters on its own. After you add a cluster, Radar tests the connection and then keeps collecting that source's state automatically going forward. While Radar lets you view your cluster's status, it doesn't change the any of the cluster settings or configuration.
 
 ## What you can connect
 
