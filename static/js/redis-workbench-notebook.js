@@ -496,6 +496,26 @@
         entry.input.appendChild(entry.container);
       });
       state.adopted = true;
+      followHash();
+    }
+
+    /* A link to a cell — the copy-link button's, or one pasted from elsewhere —
+       carries the id of the container the driver owns, and that container is in
+       the dock once the pane adopts it. Jumping to it would scroll to a node
+       inside a panel that may be shut. The copy of the block left on the page is
+       what the reader wants to see, so that is what a fragment lands on. */
+    function followHash() {
+      var id = (window.location.hash || '').replace(/^#/, '');
+      if (!id) return;
+      var entry = entryByContainerId(id);
+      if (!entry || !entry.twin) return;
+      entry.twin.scrollIntoView({ block: 'start' });
+    }
+
+    function entryByContainerId(id) {
+      return state.slots.filter(function (entry) {
+        return entry.container && entry.container.id === id;
+      })[0] || null;
     }
 
     /* ---- output prompts ----
@@ -667,7 +687,15 @@
          is proof that a kernel is live — and unlike `kernel-ready`, which the
          driver strips for the duration of each execution, it stays true. */
       state.kernelProven = true;
+      /* A cell that ran answers the question the flag was raised about: whatever
+         went silent before, this kernel is talking now. Without this the toolbar
+         went on saying "kernel did not respond" over a notebook that plainly had. */
+      state.kernelSilent = false;
       state.executed[entry.id] = true;
+      /* Said again, now that it has changed: the toolbar's text is only rewritten
+         when something asks, and the no-response branch was the only one that
+         did — so the flag cleared while the words stayed. */
+      report();
       /* The kernel's own number when there is one, so these prompts read the same
          as they would in the notebook this page was generated from. Counting
          clicks is the fallback for when Thebe is not there to ask. */
@@ -828,6 +856,7 @@
              even if it raised — a traceback is a result. */
           if (typeof count === 'number') {
             state.kernelProven = true;
+            state.kernelSilent = false;
             mark(entry, '', 'rwb-nb-marker-done');
             stampDone(entry, true, count);
             return resolve('ran');
@@ -865,6 +894,7 @@
                the report being wrong, not the cell. */
             if (moved) {
               state.kernelProven = true;
+              state.kernelSilent = false;
               mark(entry, '', 'rwb-nb-marker-done');
               stampDone(entry, true);
               return resolve('ran');
@@ -885,6 +915,7 @@
              finished run of a cell that has nowhere to put output. */
           if (moved) {
             state.kernelProven = true;
+            state.kernelSilent = false;
             mark(entry, '', 'rwb-nb-marker-done');
             stampDone(entry, true);
             return resolve('ran');
@@ -1039,6 +1070,24 @@
     }
 
     build();
+    window.addEventListener('hashchange', followHash);
+
+    /* CodeMirror is refreshed when the pane is shown, which is not the same
+       moment as the dock being opened: Thebe can create an editor while the whole
+       panel is display:none — a kernel started from a "Try it" on another tab, or
+       a restored session — and it draws blank until something nudges it. The
+       panel gaining rwb-open is that something. */
+    if (window.MutationObserver && api.dock && api.dock.root) {
+      var root = api.dock.root;
+      var wasOpen = root.classList.contains('rwb-open');
+      new MutationObserver(function () {
+        var open = root.classList.contains('rwb-open');
+        if (open && !wasOpen) {
+          state.slots.forEach(function (entry) { refreshEditors(entry.container); });
+        }
+        wasOpen = open;
+      }).observe(root, { attributes: true, attributeFilter: ['class'] });
+    }
 
     return {
       onShow: function (_pane, shown) {
