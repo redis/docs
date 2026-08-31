@@ -157,7 +157,7 @@ Each custom memory type can have an **extraction strategy** that controls how th
 
 ### Sensitive-data exclusions {#sensitive-data-exclusions}
 
-The **Sensitive-data exclusions** section lets you define information that should not be kept in long-term memory.
+The **Sensitive-data exclusions** section lets you define information that should not be kept in long-term memory, using three independent mechanisms: a semantic exclusion prompt, built-in detectors, and custom detectors.
 
 {{< note >}}
 Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
@@ -178,11 +178,71 @@ For example, a prompt might tell the pipeline never to keep passwords, access to
 
 Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
 
-Semantic exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent.
+{{<warning>}}
+Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded, and sensitive session content still reaches the extraction model provider. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
+{{</warning>}}
+
+#### Built-in detectors {#built-in-detectors}
+
+Built-in detectors match common categories of personal data, such as email addresses or credit card numbers, using Redis-maintained detection logic. Unlike semantic exclusions, a built-in detector's action always applies to a match — it does not depend on model judgment. They are disabled by default.
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Built-in detectors** | Whether built-in detectors are applied when memories are extracted. Disabled by default. |
+| **Detector** | One or more detectors selected from the [detector catalog](#detector-catalog). |
+| **Action** | What happens when the detector matches. See [Redact or drop matches](#redact-or-drop-matches). Default: **Redact**. |
+
+#### Custom detectors {#custom-detectors}
+
+Custom detectors let you match patterns specific to your application, such as an internal account-number format, using regular expressions. They are disabled by default.
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Custom detectors** | Whether custom detectors are applied when memories are extracted. Disabled by default. |
+| **Name** | A unique name for the detector. Must start with a letter and contain only letters, numbers, hyphens, or underscores (1–64 characters). Cannot match the name of a built-in detector. |
+| **Pattern** | A regular expression that matches the content you want to exclude. |
+| **Action** | What happens when the detector matches. See [Redact or drop matches](#redact-or-drop-matches). Default: **Redact**. |
+
+You can define up to **32 custom detectors** per service.
+
+{{< note >}}
+Custom detector patterns use [RE2](https://github.com/google/re2/wiki/Syntax) syntax and cannot use lookahead, lookbehind, or backreferences. Many PII regex patterns published online rely on lookahead and need to be rewritten to work here. A pattern can be up to 512 characters, must compile, and must match at least one character — a pattern that can match an empty string (such as `\b` or `a*` on its own) is rejected because it would match everywhere in the text and exclude every memory.
+{{< /note >}}
+
+#### Redact or drop matches {#redact-or-drop-matches}
+
+Each built-in and custom detector has an action that controls what happens when it matches:
+
+- **Redact** (default): Replace the matched text with a placeholder and keep the rest of the memory.
+- **Drop**: Discard the memory entirely.
+
+If more than one detector matches the same memory and their actions disagree, **drop** takes precedence.
+
+#### Detector catalog {#detector-catalog}
+
+Detector ids are lowercase, hyphen-separated identifiers (`^[a-z0-9]+(-[a-z0-9]+)*$`), with a jurisdiction prefix when the detector is specific to one jurisdiction (for example, `us-ssn`). Rely on a detector's id — not a specific catalog version — to stay stable across releases: if a detector is ever renamed or retired, a service that already selected it keeps working.
+
+Each detector is tuned to avoid false positives, since a false match silently discards a real memory. Every entry below states what it deliberately does not catch.
+
+| Id | Matches | Known limitation |
+|:---|:---|:---|
+| `email` | Email addresses. | Doesn't match addresses with non-ASCII (internationalized) characters. |
+| `credit-card` | Card numbers for Visa, Mastercard, American Express, Discover, JCB, Diners Club, and UnionPay, confirmed with a checksum. Digits can be separated by spaces or hyphens. | Doesn't match Maestro cards. |
+| `us-ssn` | US Social Security numbers. | Matched on their own only in the standard `123-45-6789` format. Other formats are matched only when nearby text mentions "SSN" or "social security". |
+| `phone` | Phone numbers for the US, Canada, the UK, Germany, Israel, India, and Brazil. | Doesn't cover other countries. A plain run of digits with no formatting is matched only when nearby text mentions a phone number. |
+| `ip-address` | IPv4 and IPv6 addresses. | Doesn't match CIDR network ranges or loopback addresses. |
+
+#### Where exclusions apply {#where-exclusions-apply}
+
+Semantic exclusions and detectors (built-in and custom) apply only to memories that Redis Agent Memory creates or updates through automatic extraction — built-in extraction, a custom memory type's extraction strategy, or the session summary view. Detectors scan a candidate memory's text, its string-valued attribute fields, and its topics.
 
 {{<warning>}}
-Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Sensitive session content still reaches the extraction model provider, and they are not applied to long-term memories your application creates directly through the API or an SDK. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
+Long-term memories your application creates or updates directly through the API or an SDK bypass this pipeline entirely. Semantic exclusions and detectors are never applied to them, so they are not deterministically filtered.
 {{</warning>}}
+
+Session memory, including automatic summarization, is never evaluated by any exclusion mechanism — it's session-scoped and expires with the short-term TTL.
+
+Changing your exclusion configuration only affects memories created or updated afterward. Existing long-term memories are not re-evaluated. If a detector configured to drop matches an update to an existing memory, the entire update is discarded and the previous version of the memory remains stored. The only way to remove memories stored before you configured exclusions is to [flush the service]({{< relref "/operate/iris/agent-memory/view-service#flush-memory-entries" >}}), which erases all of the service's stored memory data.
 
 ### Create service
 

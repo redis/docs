@@ -111,13 +111,15 @@ Sensitive-data exclusions are an early-stage feature, enabled for selected accou
 |:----------------------|:----------|
 | **Semantic exclusions** | Whether semantic exclusions are applied when memories are extracted. _(Editable)_ |
 | **Exclusion prompt** | The plain-language description of what should never be kept in long-term memory. Required when semantic exclusions are enabled. _(Editable)_ |
+| **Built-in detectors** | Whether [built-in detectors]({{< relref "/operate/iris/agent-memory/create-service#built-in-detectors" >}}) are applied when memories are extracted. _(Editable)_ |
+| **Custom detectors** | Whether [custom detectors]({{< relref "/operate/iris/agent-memory/create-service#custom-detectors" >}}) are applied when memories are extracted. _(Editable)_ |
 
-Turning semantic exclusions off keeps the exclusion prompt you saved, so you can turn them back on later without retyping it.
+Turning off a semantic, built-in, or custom exclusion group keeps its saved settings, so you can turn it back on later without reconfiguring it.
 
-Changing exclusions affects memories extracted after you save. Memories already in long-term memory are not re-evaluated, and there is no way to remove only the memories that match your exclusions. The only way to clear memories stored before you configured exclusions is to [flush the service](#flush-memory-entries), which permanently erases all of the service's stored memory data.
+Changing exclusions affects memories created or updated after you save. Memories already in long-term memory are not re-evaluated, and there is no way to remove only the memories that match your exclusions. If a detector configured to drop matches an update to an existing memory, the update is discarded and the previous version of the memory remains stored. The only way to clear memories stored before you configured exclusions is to [flush the service](#flush-memory-entries), which permanently erases all of the service's stored memory data.
 
 {{<warning>}}
-Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
+Semantic exclusions are **advisory** and do not guarantee that sensitive content is excluded. Built-in and custom detectors are deterministic, but — like semantic exclusions — they only apply to memories created through automatic extraction. Long-term memories your application creates or updates directly through the API or an SDK are never scanned by any exclusion mechanism. See [Where exclusions apply]({{< relref "/operate/iris/agent-memory/create-service#where-exclusions-apply" >}}) for details.
 {{</warning>}}
 
 ### Actions

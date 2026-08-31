@@ -120,13 +120,18 @@ See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service
 
 ### Exclude sensitive data from automatic extraction
 
-Semantic exclusions guide Redis Agent Memory away from storing specified information in long-term memory during automatic extraction. Define an exclusion prompt in the service configuration using plain-language categories such as passwords, access tokens, recovery codes, payment card information, or booking confirmation codes.
+Sensitive-data exclusions keep specified information out of long-term memory when Redis Agent Memory creates or updates memories through automatic extraction — built-in extraction, a custom memory type's extraction strategy, or the session summary view.
 
-Exclusions apply to automatic extraction from session events. They do not apply when an application creates long-term memories directly.
+* **Semantic exclusions** guide the extraction model with a plain-language prompt, using categories such as passwords, access tokens, recovery codes, payment card information, or booking confirmation codes. They are advisory: they steer the model, but don't guarantee that sensitive content is excluded.
+* **Built-in and custom detectors** deterministically scan each candidate memory's text, string-valued attribute fields, and topics, and redact or drop the memory according to the detector's configured action.
+
+None of these mechanisms apply when an application creates or updates long-term memories directly through the API or an SDK — direct writes bypass automatic extraction entirely, so nothing scans them.
 
 {{< warning >}}
-Semantic exclusions are advisory and do not guarantee exclusion. Sensitive session content still reaches the extraction model provider. Use appropriate controls before sending sensitive information to Redis Agent Memory or the model provider.
+Semantic exclusions are advisory and do not guarantee exclusion — sensitive session content still reaches the extraction model provider. Built-in and custom detectors are deterministic, but only for memories created through automatic extraction; long-term memories created or updated directly through the API or an SDK are never scanned by any exclusion mechanism. Use appropriate controls before sending sensitive information to Redis Agent Memory, the model provider, or a direct long-term-memory write.
 {{< /warning >}}
+
+Changing your exclusion configuration only affects memories created or updated afterward. Existing long-term memories are not re-evaluated, and there is no way to remove only the memories that match your exclusions.
 
 See [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) to configure the feature in Redis Cloud.
 
