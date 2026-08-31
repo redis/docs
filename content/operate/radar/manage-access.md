@@ -42,7 +42,7 @@ The **Users** list shows each account's role, where it authenticates, when it wa
 
 If an account locks, admins unlock it from the same list.
 
-Radar creates no default account and ships no default password. The one-time bootstrap flow creates the first administrator while the database has no users. See [Install Radar]({{< relref "/operate/radar/install#5-create-the-first-administrator" >}}).
+Radar creates no default account and ships no default password. The one-time bootstrap flow creates the first administrator while the database has no users. See [Install Radar]({{< relref "/operate/radar/install#install-on-rhel-with-the-rpm" >}}).
 
 ## Connect a directory with LDAP
 
