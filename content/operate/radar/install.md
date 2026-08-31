@@ -339,7 +339,11 @@ The Compose bundle runs Radar on a single host. It ships the container images, t
 
 2. Configure the environment. 
    
-   Copy `.env.production.example` to `.env.production` and replace every placeholder, including the PostgreSQL credentials and the credential encryption key. The sample keys are documented placeholders and Radar rejects them at startup.
+   Copy `.env.production.example` to `.env.production` and replace every placeholder, including the PostgreSQL credentials and the credential encryption key.
+
+   {{< warning >}}
+Unlike the RPM, Compose does not detect leftover sample values. If you start the stack without replacing the credential encryption key, Radar runs with the published example key rather than refusing to start.
+   {{< /warning >}}
 
    <br>
 

@@ -12,7 +12,7 @@ weight: 20
 
 Radar does not find clusters by itself, so you must add each one manually. When you do this, Radar tests the connection, and from then on Radar keeps collecting that source's state automatically.
 
-Adding a cluster to Radar does not change the behavior of that cluster. Radar reads through the same management interfaces you already use.
+Adding a cluster to Radar does not change the behavior of that cluster on its own. Radar reads through the same management interfaces you already use, and for Redis Software clusters it can also perform a small set of actions you trigger explicitly, such as updating the cluster's license.
 
 ## What you can connect
 
@@ -36,7 +36,7 @@ Connect Redis Software clusters and Redis Open Source instances that you run you
 
 For every connection you need:
 
-- **Credentials for the cluster or instance.** Radar uses the same management interface you do, so it needs an account there. Read access is enough; Radar never writes to your clusters.
+- **Credentials for the cluster or instance.** Radar uses the same management interface you do, so it needs an account there. Read access covers monitoring. For a Redis Software cluster, grant write access too if you want to use Radar's license update action; Redis Open Source connections have no write actions.
 - **Network access from Radar to the source.** Radar connects outbound. Nothing needs to connect back to Radar, so no inbound rule is required on the Radar host.
 
 ### Connect a Redis Software cluster
@@ -111,8 +111,9 @@ Before you connect, create an AWS identity with read-only ElastiCache access. Th
 - `elasticache:DescribeReplicationGroups`
 - `elasticache:DescribeCacheClusters`
 - `elasticache:DescribeServerlessCaches`
-- `cloudwatch:GetMetricData` and `cloudwatch:ListMetrics`
+- `cloudwatch:GetMetricData`
 - `tag:GetResources`
+- `ec2:DescribeRegions`
 
 On a self-managed install, Radar authenticates with a long-lived IAM access key pair:
 

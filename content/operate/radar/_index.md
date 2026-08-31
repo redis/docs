@@ -15,7 +15,7 @@ Redis Radar shows the status of every Redis cluster in your fleet, in one place.
 
 Radar connects to each cluster, collects its state, and presents one fleet-wide view across Redis Software, Redis Cloud, Redis Open Source, Amazon ElastiCache, and Google Memorystore. 
 
-Radar is a visibility tool. It reports what your clusters are doing, and adding a cluster to Radar does not change how that cluster runs.
+Radar is primarily a visibility tool. Connecting a cluster to Radar does not change how that cluster runs on its own; the exception is a small set of actions you can trigger explicitly from Radar, such as updating a Redis Software cluster's license.
 
 ## How you run Radar
 
