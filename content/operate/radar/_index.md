@@ -11,29 +11,27 @@ hideListLinks: true
 weight: 47
 ---
 
-Redis Radar shows the status of every Redis cluster in your fleet, in one place. Instead of checking the status of your clusters individually, get a complete view of them all with Redis Radar.
+Redis Radar give you one place to view the status of every Redis cluster in your fleet. Instead of checking the status of your clusters individually, get a complete view of them all with Redis Radar.
 
-Radar connects to each cluster, collects its state, and presents one fleet-wide view across Redis Software, Redis Cloud, Redis Open Source, Amazon ElastiCache, and Google Memorystore. 
-
-Radar is primarily a visibility tool. Connecting a cluster to Radar does not change how that cluster runs on its own; the exception is a small set of actions you can trigger explicitly from Radar, such as updating a Redis Software cluster's license.
+Radar connects to each cluster, collects its state, and presents one fleet-wide view across Redis Software, Redis Cloud, Redis Open Source, Amazon ElastiCache, and Google Memorystore. Radar is primarily a visibility tool. Connecting a cluster to Radar does not change how that cluster runs on its own.
 
 ## How you run Radar
 
-Radar itself runs two ways:
+Radar runs two ways:
 
 - **[Redis Cloud]({{< relref "/operate/rc/radar" >}}).** Sign in with your existing Redis Cloud credentials. Redis Cloud hosts and manages the Radar deployment for you.
 - **[Self-managed]({{< relref "/operate/radar/install" >}}).** Install Radar on your own infrastructure with a Helm chart, an RPM, or Docker Compose.
 
 ## What Radar shows you
 
-- **Fleet inventory.** Every cluster Radar knows about, with its deployment type, version, and when Radar last reached it.
-- **Health and status.** Which clusters are reachable, which are degraded, and which need attention.
-- **Capacity and usage.** Memory and resource consumption across the fleet, so you can see pressure before it becomes an incident.
-- **Cluster detail.** Drill into one cluster for its databases, nodes, and configuration.
+- **Overview.** Fleet-wide health, version distribution, host inventory, and licenses and certificates nearing expiry — one screen for "is anything wrong anywhere."
+- **Clusters and databases.** Every cluster and database Radar knows about, with deployment type, version, status, and when Radar last reached it. Drill into one for detail.
+- **Usage.** Memory, ops/sec, and shard consumption for Redis Software clusters, against your licensed limits.
+- **Alerts.** The alerts your clusters are already raising, aggregated fleet-wide by severity.
 
 ## How Radar collects data
 
-Radar reads each cluster's own management interface using credentials you supply, normalizes what it finds, and stores it. A **connector** handles each source type, which is how one fleet view spans products with very different APIs.
+Radar reads each cluster's management interface using credentials you supply, then normalizes and stores it. A **connector** handles each source type, which is how one fleet view spans products with very different APIs.
 
 This approach has two significant consequences:
 
@@ -42,5 +40,4 @@ This approach has two significant consequences:
 
 ## Next steps
 
-Sign in on [Redis Cloud]({{< relref "/operate/rc/radar" >}}), or [install Radar]({{< relref "/operate/radar/install" >}}) yourself.
-
+Sign in on [Redis Cloud]({{< relref "/operate/rc/radar" >}}), or [install self-managed Radar]({{< relref "/operate/radar/install" >}}) yourself.
