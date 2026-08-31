@@ -15,8 +15,8 @@ Radar has five views, each answering a different question:
 | View | Answers |
 |---|---|
 | [Overview](#overview) | Is anything wrong anywhere? |
-| [Clusters](#clusters) | Which cluster, and what does it look like? |
-| [Databases](#databases) | Which database, across every cluster? |
+| [Clusters](#clusters) | What does a specific cluster look like? |
+| [Databases](#databases) | Where is a specific database? |
 | [Usage](#usage) | How much are you consuming against your limits? |
 | [Alerts](#alerts) | What is your fleet complaining about? |
 
@@ -49,11 +49,11 @@ The **Overview** answers one question for a fleet too large to check by hand: is
 - **Fleet health.** Cluster and database health side by side, so a problem that affects one database in one cluster is still visible at the top level.
 - **Capacity and memory pressure.** Available capacity across the fleet, and which clusters are under memory pressure.
 - **Redis deployments and version distribution.** What you are running and how many versions you are spread across. Version sprawl is usually invisible until you look at a fleet-wide count.
-- **Hosts.** Host inventory behind the fleet.
+- **Hosts.** Host inventory behind the fleet, so you can see what's backing your clusters without opening each one.
 - **Licenses and certificates.** Anything expiring, summarized. See [Licenses and certificates]({{< relref "/operate/radar/licenses-and-certificates" >}}).
 - **Alerts.** The most severe alerts currently raised. See [Alerts](#alerts).
-- **Running actions.** Operations in progress on your clusters.
-- **Data freshness.** How current the rest of the dashboard is.
+- **Running actions.** Operations in progress on your clusters, so you know before you start something that might conflict.
+- **Data freshness.** How current the rest of the dashboard is, so you know whether to trust what you're looking at.
 
 {{<image filename="images/radar/overview.png" alt="The Radar Overview page, showing fleet status, inventory, database health, and alerts">}}
 

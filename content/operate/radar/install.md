@@ -17,11 +17,11 @@ Radar runs as two services backed by a PostgreSQL database that you provide:
 
 Both services read the same database and the same encryption key, and you supply both whichever install method you choose.
 
-Plan for remote access before you start. Every install method leaves network access up to you, and what you have to do differs by method. See [Provide remote access](#provide-remote-access).
+Plan for remote access before you start. Radar does not configure network access for you: no install method issues TLS certificates, configures a proxy, or opens firewall ports. You own those, plus DNS and network access to your PostgreSQL database. What you have to do differs by method, so each install method below ends with its own remote-access step.
 
-{{< warning >}}
-The RPM listens only on loopback, so **an RPM install that succeeds is still unreachable from any other machine** until you put a proxy in front of it.
-{{< /warning >}}
+{{< note >}}
+The RPM listens only on loopback by default. A successful RPM install is not yet reachable from any other machine until you put a proxy in front of it.
+{{< /note >}}
 
 ## Choose an install method
 
@@ -59,7 +59,7 @@ Back up the KEK alongside the database and store the two backups separately. Nei
 
 FIPS 140-3 validated cryptography comes as a separate build of Radar, not a setting you turn on later, so decide before you install. Contact your Redis account team for the FIPS variant.
 
-Set `MCM_REQUIRE_FIPS=true` to make FIPS mandatory. Radar then refuses to start unless FIPS is actually active, and it checks before it touches the database or opens a port. A misconfigured deployment fails immediately rather than running with cryptography you did not approve.
+Set the `MCM_REQUIRE_FIPS=true` environment variable to make FIPS mandatory. Radar then refuses to start unless FIPS is actually active, and it checks before it touches the database or opens a port. A misconfigured deployment fails immediately rather than running with cryptography you did not approve.
 
 Each service logs its FIPS state once at startup, so you can confirm what is running. The log line looks like this:
 
@@ -167,7 +167,24 @@ sudo systemctl enable mcm-worker.service
 
 Radar does not ship a default account or a default password. Open the UI once the API server is healthy and complete the one-time first-administrator flow. It is available only while the database has no users; after that, it closes and normal sign-in applies.
 
-At this point Radar is reachable only from the host itself. Continue to [Provide remote access](#provide-remote-access).
+### 6. Provide remote access
+
+At this point Radar is reachable only from the host itself.
+
+Run a reverse proxy that terminates TLS and forwards to the loopback address. Keep `HTTP_ADDR=127.0.0.1:8080` when the proxy runs on the same host. That is the safest arrangement, because nothing but the proxy can reach the API.
+
+If the proxy runs on a different host, set `HTTP_ADDR` to the private interface it should reach, then restrict access with your own firewall rules. Restart the API server:
+
+```bash
+sudo systemctl restart mcm-api.service
+sudo mcmctl doctor
+```
+
+`mcmctl doctor` checks runtime health through the configured address. If it reports a runtime-health failure after you change the listen address, confirm the service bound to the interface you expected and that the proxy forwards to the same address.
+
+{{< warning >}}
+Do not expose Radar directly on a public interface. Terminate TLS and apply access controls at the edge.
+{{< /warning >}}
 
 ## Install on Kubernetes with Helm
 
@@ -258,46 +275,7 @@ helm install radar ./helm/radar \
 
 The chart needs no `anyuid` policy, privileged security context, host paths, or `cluster-admin` permissions.
 
-## Install with Docker Compose
-
-The Compose bundle runs Radar on a single host. It ships the container images, the Compose files, and an environment template.
-
-Load the images and start the stack:
-
-```bash
-sha256sum -c SHA256SUMS
-docker load -i images.tar.gz
-docker compose -f compose.yaml -f compose.prod.yaml --env-file .env.production up -d
-```
-
-Copy `.env.production.example` to `.env.production` and replace every placeholder before you start the stack, including the PostgreSQL credentials and the credential encryption key. The sample keys are documented placeholders and Radar rejects them at startup.
-
-The production Compose file pins the image tags and never pulls, so the stack runs fully offline once the images are loaded. A one-shot migration service runs before the API server and worker start.
-
-## Provide remote access
-
-Radar does not configure network access for you. No install method issues TLS certificates, configures a proxy, or opens firewall ports.
-
-This matters most on the RPM, which listens on `127.0.0.1:8080` by default. The default is deliberate: **a completed RPM install is reachable only from the host itself.** You own TLS certificates and their rotation, the proxy or load balancer, firewall policy, DNS, and network access to your PostgreSQL database.
-
-### RPM
-
-Run a reverse proxy that terminates TLS and forwards to the loopback address. Keep `HTTP_ADDR=127.0.0.1:8080` when the proxy runs on the same host. That is the safest arrangement, because nothing but the proxy can reach the API.
-
-If the proxy runs on a different host, set `HTTP_ADDR` to the private interface it should reach, then restrict access with your own firewall rules. Restart the API server:
-
-```bash
-sudo systemctl restart mcm-api.service
-sudo mcmctl doctor
-```
-
-`mcmctl doctor` checks runtime health through the configured address. If it reports a runtime-health failure after you change the listen address, confirm the service bound to the interface you expected and that the proxy forwards to the same address.
-
-{{< warning >}}
-Do not expose Radar directly on a public interface. Terminate TLS and apply access controls at the edge.
-{{< /warning >}}
-
-### Kubernetes
+### Provide remote access
 
 The API server and UI are served on port 80 of an in-cluster service. Expose it with an ingress, an OpenShift route, or a `LoadBalancer` service, and terminate TLS there:
 
@@ -319,6 +297,22 @@ ingress:
 ```
 
 Radar marks the browser session cookie as secure by default, so serve Radar over HTTPS. Over plain HTTP the browser rejects the cookie and sign-in fails.
+
+## Install with Docker Compose
+
+The Compose bundle runs Radar on a single host. It ships the container images, the Compose files, and an environment template.
+
+Load the images and start the stack:
+
+```bash
+sha256sum -c SHA256SUMS
+docker load -i images.tar.gz
+docker compose -f compose.yaml -f compose.prod.yaml --env-file .env.production up -d
+```
+
+Copy `.env.production.example` to `.env.production` and replace every placeholder before you start the stack, including the PostgreSQL credentials and the credential encryption key. The sample keys are documented placeholders and Radar rejects them at startup.
+
+The production Compose file pins the image tags and never pulls, so the stack runs fully offline once the images are loaded. A one-shot migration service runs before the API server and worker start.
 
 ## Install on an air-gapped host
 

@@ -31,8 +31,6 @@ New users are viewers unless you choose otherwise. Only admins can see or change
 
 ## Create local users
 
-To create a local user:
-
 1. Go to **Users** and add a user.
 2. Enter a **username** and **email address**.
 3. Set a **password**. It must be 6 to 128 characters and contain at least one uppercase letter.
