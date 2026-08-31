@@ -171,6 +171,25 @@ Radar holds credentials for every cluster in your fleet, so treat the connection
 - **Give Radar its own account on each cluster.** A dedicated account keeps Radar's access auditable and separate from any user's, and lets you limit what Radar can do.
 - **Protect the encryption key.** On a self-managed install, every credential Radar stores is encrypted with the key you supplied at install. Back that key up alongside the database and store the backup separately. See [Install Radar]({{< relref "/operate/radar/install#the-credential-encryption-key" >}}).
 
+## Remove or reconnect a cluster
+
+Only administrators can remove a connection. See [Manage access]({{< relref "/operate/radar/manage-access" >}}).
+
+Radar has no way to edit a saved connection's credentials, host, port, or scanned regions. If any of those change — for example, a rotated password or access key, or a cluster that moved to a new address — remove the connection and add it again with the new details.
+
+To remove a connection:
+
+1. Go to the **Connections** page.
+2. Select **More options** next to the connection.
+3. Select **Remove connection**.
+4. Confirm the removal.
+
+Removing a connection permanently deletes the health and usage data Radar collected through it. It does not affect the underlying Redis deployment or cloud account, and it cannot be undone.
+
+{{< warning >}}
+For a Redis Cloud account connection, removing it removes every subscription discovered through that account, not just one database.
+{{< /warning >}}
+
 ## Next steps
 
 Radar starts collecting as soon as a connection is saved. The first collection populates the fleet view, and Radar refreshes each source after that. See [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}).
