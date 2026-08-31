@@ -8,8 +8,6 @@ categories:
 description: What changed in each Redis Radar release on Redis Cloud.
 linkTitle: Changelog
 weight: 10
-tags:
-- cloud
 ---
 
 ## 2026.09.XX

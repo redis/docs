@@ -19,13 +19,11 @@ Radar versions releases using calendar versioning (CalVer), so a release's versi
 
 Redis Cloud's hosted Radar needs no download and no installation. Sign in with your existing Redis Cloud credentials.
 
-Cloud releases roll out automatically on a weekly or biweekly basis, so there's nothing to schedule or install.
-
-{{<table-children columnNames="Release,What changed" columnSources="LinkTitle,Description" enableLinks="LinkTitle" limitTags="cloud">}}
+Cloud releases roll out automatically on a regular basis, so there's nothing to schedule or install. See the [changelog]({{< relref "/operate/radar/release-notes/cloud-changelog" >}}) for what changed in each release.
 
 ## Self-managed releases
 
-Self-managed Radar ships as a Helm chart, an RPM, and a Docker Compose bundle, the same three artifacts described in [Install Radar]({{< relref "/operate/radar/install" >}}). Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**, the container images from Docker Hub, and the Helm chart from Helm.
+Self-managed Radar ships as a Helm chart, an RPM, and a Docker Compose bundle, as described in [Install Radar]({{< relref "/operate/radar/install" >}}). Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**, the container images from Docker Hub, and the Helm chart.
 
 Radar ships on two support tracks:
 
@@ -34,6 +32,6 @@ Radar ships on two support tracks:
 
 STS releases receive security and bug fixes for 6 months after release. LTS releases receive support for 2 years.
 
-Install a new release when you're ready to move to it. See [Install Radar]({{< relref "/operate/radar/install" >}}).
+Install a new release when you're ready to upgrade. See [Install Radar]({{< relref "/operate/radar/install" >}}).
 
 {{<table-children columnNames="Release,What changed" columnSources="LinkTitle,Description" enableLinks="LinkTitle" limitTags="self-managed">}}

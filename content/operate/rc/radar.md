@@ -11,7 +11,7 @@ title: Redis Radar on Redis Cloud
 weight: 37
 ---
 
-Redis Radar shows the status of every Redis cluster in your fleet, in one place. Instead of checking each cluster separately, get one fleet-wide view across Redis Software, Redis Cloud, Redis Open Source, Amazon ElastiCache, and Google Memorystore.
+Redis Radar gives you one place to view the status of every Redis cluster in your fleet. Instead of checking each cluster separately, get one fleet-wide view across Redis Software, Redis Cloud, Redis Open Source, Amazon ElastiCache, and Google Memorystore.
 
 Redis Cloud's hosted Radar needs no setup. There's no subscription toggle to turn on and nothing to request from your account team.
 
