@@ -6,9 +6,11 @@ categories:
 - operate
 - radar
 description: Install Radar on RHEL, Kubernetes, or Docker Compose, then make it reachable from your network.
-linkTitle: Install (self-managed)
+linkTitle: Install
 weight: 10
 ---
+
+This page covers self-managed Radar. If you're using Redis Cloud's hosted Radar, see [Redis Radar on Redis Cloud]({{< relref "/operate/rc/radar" >}}) instead.
 
 Radar runs as two services backed by a PostgreSQL database that you provide:
 

@@ -8,7 +8,7 @@ categories:
 description: Monitor the status of every Redis cluster you run from one place.
 linkTitle: Redis Radar
 hideListLinks: true
-weight: 55
+weight: 47
 ---
 
 Redis Radar shows you the status of every Redis cluster you run, in one place.
