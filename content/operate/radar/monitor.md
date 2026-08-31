@@ -80,6 +80,8 @@ Sort by Name or Memory; the other columns are display-only.
 
 Select any cluster to open its detail view, which carries that cluster's nodes, databases, and configuration.
 
+For Redis Software clusters, select a row's **More options** menu and choose **Open cluster UI** to jump straight to that cluster's own management console in a new tab.
+
 {{<image filename="images/radar/cluster-detail-enterprise.png" alt="A cluster detail view for a Redis Software cluster, showing its overview, nodes, databases, and alerts">}}
 
 ## Databases
@@ -133,6 +135,14 @@ Radar reads alerts from each cluster's own alert endpoints, at the cluster and n
 Selecting an alert takes you to the cluster it came from.
 
 {{<image filename="images/radar/alerts.png" alt="The Radar Alerts page, listing alerts by severity, category, and affected resource">}}
+
+## Download a support package
+
+Download a diagnostics package from a Redis Software cluster to attach to a Redis Support ticket. Only administrators can do this. See [Manage access]({{< relref "/operate/radar/manage-access" >}}).
+
+Download it from the cluster's detail view, or from the **Support** page if you'd rather pick the cluster from a list.
+
+The download runs in your browser, so it takes as long as the cluster needs to prepare the package — several minutes for a large cluster. It keeps going while you navigate elsewhere in Radar, but closing or reloading the tab cancels it.
 
 ## Next steps
 
