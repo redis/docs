@@ -230,7 +230,7 @@ To connect to an S3-compatible storage location:
     Replace `<filepath>` with the location of the S3 CA certificate `ca.pem`.
 
 {{< note >}}
-Customer-provided encryption keys (SSE-C) aren't supported for scheduled backups. SSE-C is only available for on-demand [export]({{< relref "/operate/rs/databases/import-export/export-data.md" >}}) and [import]({{< relref "/operate/rs/databases/import-export/import-data.md" >}}) requests.
+Customer-provided encryption keys (SSE-C) aren't supported for scheduled backups. SSE-C is only available for on-demand [export]({{< relref "/operate/rs/databases/import-export/export-data" >}}) and [import]({{< relref "/operate/rs/databases/import-export/import-data" >}}) requests.
 {{< /note >}}
 
 ### Google Cloud Storage
