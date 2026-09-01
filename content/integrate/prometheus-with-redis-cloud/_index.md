@@ -85,14 +85,14 @@ To get started with custom monitoring with Prometheus on Docker:
 
     scrape_configs:
         # scrape Prometheus itself
-        - job_name: prometheus
+      - job_name: prometheus
         scrape_interval: 10s
         scrape_timeout: 5s
         static_configs:
           - targets: ["localhost:9090"]
 
         # scrape Redis Cloud
-        - job_name: redis-cloud
+      - job_name: redis-cloud
         scrape_interval: 30s
         scrape_timeout: 30s
         metrics_path: /  # For v2, use /v2
@@ -184,6 +184,10 @@ Redis publishes preconfigured dashboards for Redis Cloud and Grafana:
 * The [subscription status dashboard](https://grafana.com/grafana/dashboards/18406-subscription-status-dashboard/) provides an overview of your Redis Cloud subscriptions.
 * The [database status dashboard](https://grafana.com/grafana/dashboards/18407-database-status-dashboard/) displays specific database metrics, including latency, memory usage, ops/second, and key count.
 * The [Active-Active dashboard](https://github.com/redis-field-engineering/redis-enterprise-observability/blob/main/grafana/dashboards/grafana_v9-11/cloud/basic/redis-cloud-active-active-dashboard_v9-11.json) displays metrics specific to [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}).
+
+{{< note >}}
+The database status dashboard requires the Infinity data source plugin. Install it from **Connections > Add new connection**, search for **Infinity**, and add it as a data source before importing the dashboard.
+{{< /note >}}
 
 These dashboards are open source. For additional dashboard options, or to file an issue, see the [Redis Enterprise observability Github repository](https://github.com/redis-field-engineering/redis-enterprise-observability/tree/main/grafana).
 
