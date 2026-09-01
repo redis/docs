@@ -48,6 +48,10 @@ To define the CIDR allow list for a database:
 The database CIDR allow list applies to both the public endpoint and the private endpoint. If you use connectivity options such as [VPC Peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) to connect to your database via the private endpoint, you must also add those IPs to your database's CIDR allow list.
 {{< /note >}}
 
+{{< note >}}
+If the target database has a CIDR allow list, you must add the Redis Data Integration (RDI) pipeline's CIDR to the target database's CIDR allow list. Otherwise, the RDI pipeline can't access the database. The RDI pipeline's CIDR is displayed in the [**Workspace details**]({{< relref "/operate/rc/rdi/create-workspace" >}}) modal.
+{{< /note >}}
+
 ## Continue learning with Redis University
 
 {{< university-links >}}
