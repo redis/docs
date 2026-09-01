@@ -370,10 +370,10 @@ so account for its memory cost before lowering the limit.
 RDB snapshots, [`DUMP`]({{< relref "/commands/dump" >}}) and
 [`RESTORE`]({{< relref "/commands/restore" >}}), AOF rewrites, and replication
 preserve the native bitmap type. When a write creates or converts a native
-bitmap because `bitmap-default-roaring` is `yes`, Redis propagates an explicit
-serialized value so replicas produce the same type even if their local setting
-differs. As a result, the first write that converts a large string can add more
-data to the replication stream or incremental AOF than the write command alone.
+bitmap because `bitmap-default-roaring` is `yes`, Redis propagates the
+representation transition explicitly so replicas produce the same type even if
+their local setting differs. The conversion adds an internal transition record
+to the replication stream or incremental AOF in addition to the bitmap command.
 
 {{< warning >}}
 Before enabling Roaring bitmap creation on a primary, upgrade all replicas and
