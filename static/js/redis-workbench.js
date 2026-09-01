@@ -2541,16 +2541,29 @@
 
   /* The dock is built once, lazily, and only where it makes sense: a page with
      no Redis examples has nothing to put in it. */
+  /* Some page types earn a terminal whether or not they carry an example: a
+     command page is a reference for one command, and the reader's next move is
+     to try that command. The template says so rather than this script sniffing
+     the URL, because the path is prefixed differently per environment
+     (/docs/latest/commands/…, /docs/staging/DOC-6997/commands/…) and it is Hugo,
+     not the browser, that knows what kind of page this is. See
+     layouts/commands/single.html. */
+  function pageWantsCli() {
+    return window.REDIS_WORKBENCH_ALWAYS === true;
+  }
+
   /* Does this page have anything for a terminal to run? The CLI blocks and their
      "Try it" buttons, and not the notebook's — a client page's Try it carries
      .thebe-tryit and opens a cell in the notebook pane, which has nothing to do
      with the sandbox terminal. */
   function pageHasCli() {
+    if (pageWantsCli()) return true;
     return !!document.querySelector(
       'form.redis-cli, .redis-cli-static, .tryit-button:not(.thebe-tryit)');
   }
 
   function pageHasRedis() {
+    if (pageWantsCli()) return true;
     /* `.thebe-container` is in here for the notebook pane: a client page can have
        runnable cells and no CLI terminal at all. */
     return !!document.querySelector('form.redis-cli, .tryit-button, .thebe-container');
