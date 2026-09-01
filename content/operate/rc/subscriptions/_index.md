@@ -58,7 +58,7 @@ See [Create a Redis Flex database]({{< relref "/operate/rc/databases/create-data
 - [View and upgrade Essentials or Flex plan]({{< relref "/operate/rc/subscriptions/view-essentials-subscription" >}})
 
 ### Redis Cloud Pro
-Redis Cloud Pro supports more databases, larger databases, greater throughput, and unlimited connections compared to Redis Cloud Essentials. Hosted in dedicated VPCs, they feature high-availability in a single or multi-AZ, Active-Active, clustering, data persistence, and configurable backups.  Pricing is "pay as you go" to support any dataset size or throughput. [Redis Flex]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) is also available on Redis Cloud Pro.
+Redis Cloud Pro supports more databases, larger databases, greater throughput, and no fixed database-level connection limit compared to Redis Cloud Essentials. Hosted in dedicated VPCs, they feature high-availability in a single or multi-AZ, Active-Active, clustering, data persistence, and configurable backups.  Pricing is "pay as you go" to support any dataset size or throughput. [Redis Flex]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}) is also available on Redis Cloud Pro.
 
 Redis Cloud Pro annual plans support the same features as Redis Cloud Pro but at significant savings. Annual plans also provide Premium support. The underlying commitment applies to all workloads across multiple providers and regions.
 
