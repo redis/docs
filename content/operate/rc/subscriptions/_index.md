@@ -27,7 +27,7 @@ Here's a quick comparison of each plan:
 | Feature | Redis Cloud Essentials (free) | Redis Cloud Essentials (paid) | Essentials with Redis Flex | Redis Cloud Pro |
 |:---:|:---:|:---:|:---:|:---:|
 | Memory size | 30 MB | 250 MB-12 GB | 1 GB-100GB | 50 TB |
-| Concurrent connections | 30 | 256-10000 | 1024-10000 | Unlimited |
+| Concurrent connections | 30 | 256-10000 | 1024-10000 | No fixed database-level limit.<br/>Actual capacity depends on infrastructure, database configuration, and workload characteristics.<br/>Additional connections may be limited when infrastructure capacity is reached to preserve service stability. |
 | Security | Role-based auth<br/>Password protection<br/>Encryption in transit | Role-based auth<br/>Password protection<br/>TLS auth<br/>Encryption in transit | Role-based auth<br/>Password protection<br/>TLS auth<br/>Encryption in transit | Role-based auth<br/>Password protection<br/>TLS auth<br/>Encryption in transit<br/>Encryption at rest<br/>Private Connectivity |
 | REST API | No | Yes | Yes | Yes |
 | Selected additional features<br/> <br/> <br/> |  | Replication<br/>Auto-failover<br /> | Replication<br/>Auto-failover<br /> | Dedicated accounts<br>Redis Flex<br/>Active/Active<br/> |
