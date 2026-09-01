@@ -10,7 +10,7 @@ linkTitle: Connect
 weight: 20
 ---
 
-After installing Redis Radar, it's time to connect your clusters to Radar. Add each cluster manually — Radar doesn't discover clusters on its own. After you add a cluster, Radar tests the connection and then keeps collecting that source's state automatically going forward. While Radar lets you view your cluster's status, it doesn't change the any of the cluster settings or configuration.
+After installing Redis Radar, it's time to connect your clusters. Add each cluster manually — Radar doesn't discover clusters on its own. After you add a cluster, Radar tests the connection and then keeps collecting that source's state automatically going forward. While Radar lets you view your cluster's status, it doesn't change the any of the cluster settings or configuration.
 
 ## What you can connect
 
@@ -24,7 +24,7 @@ After installing Redis Radar, it's time to connect your clusters to Radar. Add e
 
 Radar encrypts every credential before storing it. Credentials are never returned through the API and never written to logs.
 
-{{<image filename="images/radar/add-connection.png" alt="The Add connection dialog, with the connection type selector open">}}
+{{<image filename="images/radar/add-connection.png" alt="The Add connection dialog, with the connection type selector open" width="75%">}}
 
 ## Self-managed connections
 
@@ -53,7 +53,7 @@ Radar tests the connection before it saves anything. If the test fails, Radar sh
 
 Radar always reaches the REST API over HTTPS.
 
-{{<image filename="images/radar/add-connection-redis-software.png" alt="The Add connection dialog set to connection type Redis Software">}}
+{{<image filename="images/radar/add-connection-redis-software.png" alt="The Add connection dialog set to connection type Redis Software" width="75%">}}
 
 {{< note >}}
 Point Radar at the cluster's fully qualified domain name rather than one node's address. A node address works until that node is unavailable, at which point Radar reports the whole cluster as unreachable.
@@ -71,7 +71,7 @@ Radar connects straight to the instance, so it needs network access to that endp
 6. Select **Use TLS (rediss://)** if the instance requires an encrypted connection.
 7. Select **Add connection**.
 
-{{<image filename="images/radar/add-connection-redis-open-source.png" alt="The Add connection dialog set to connection type Redis Open Source">}}
+{{<image filename="images/radar/add-connection-redis-open-source.png" alt="The Add connection dialog set to connection type Redis Open Source" width="75%">}}
 
 ## Cloud connections
 
@@ -96,7 +96,7 @@ A Redis Cloud connection uses the Redis Cloud API, so it covers every subscripti
 5. Enter the **account key** and the **user secret**.
 6. Select **Add connection**.
 
-{{<image filename="images/radar/add-connection-redis-cloud.png" alt="The Add connection dialog set to connection type Redis Cloud">}}
+{{<image filename="images/radar/add-connection-redis-cloud.png" alt="The Add connection dialog set to connection type Redis Cloud" width="75%">}}
 
 ### Connect Amazon ElastiCache
 
@@ -126,7 +126,7 @@ Radar derives the AWS account ID itself, so you do not enter it.
 
 Both the API server and the worker need outbound HTTPS on port 443 to the AWS control-plane endpoints in every region you configure: `sts`, `elasticache`, `monitoring`, `tagging`, and `ec2`. Radar never opens a connection to a cache endpoint.
 
-{{<image filename="images/radar/add-connection-amazon-elasticache.png" alt="The Add connection dialog set to connection type Amazon ElastiCache">}}
+{{<image filename="images/radar/add-connection-amazon-elasticache.png" alt="The Add connection dialog set to connection type Amazon ElastiCache" width="75%">}}
 
 {{< note >}}
 Blocking the CloudWatch or tagging endpoints degrades what Radar can report and produces a capability warning. Blocking the identity or ElastiCache inventory endpoints stops the connection test and collection outright.
@@ -161,7 +161,7 @@ On a self-managed install, Radar authenticates with a service account key:
 
 Both the API server and the worker need outbound HTTPS on port 443 to `oauth2.googleapis.com`, `redis.googleapis.com`, `memorystore.googleapis.com`, `memcache.googleapis.com`, and `monitoring.googleapis.com`. Allowing `*.googleapis.com` covers the whole path.
 
-{{<image filename="images/radar/add-connection-google-memorystore.png" alt="The Add connection dialog set to connection type Google Memorystore">}}
+{{<image filename="images/radar/add-connection-google-memorystore.png" alt="The Add connection dialog set to connection type Google Memorystore" width="75%">}}
 
 ## Secure cluster connections
 

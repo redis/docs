@@ -16,7 +16,7 @@ Radar has two roles, administrator and viewer, one of which is assigned to every
 
 Create local accounts under **Users**. Choose and configure the sign-in method under **Settings > Authentication**, where that choice applies to all of Radar.
 
-{{<image filename="images/radar/settings-authentication.png" alt="The Settings > Authentication page, showing the Application, SAML, and LDAP method selector">}}
+{{<image filename="images/radar/settings-authentication.png" alt="The Settings > Authentication page, showing the Application, SAML, and LDAP method selector" width="75%">}}
 
 ## Roles
 
@@ -38,7 +38,7 @@ New users are viewers unless you choose otherwise. Only admins can see or change
 
 The **Users** list shows each account's role, where it authenticates, when it was created, and its last sign-in, so you can tell a local account from a directory account at a glance.
 
-{{<image filename="images/radar/users.png" alt="The Users page, listing a local account with its role, status, and last login">}}
+{{<image filename="images/radar/users.png" alt="The Users page, listing a local account with its role, status, and last login" width="75%">}}
 
 If an account locks, admins unlock it from the same list.
 
