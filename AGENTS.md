@@ -55,8 +55,9 @@ around a literal, rewrite the sentence.
 ## Site mechanics
 
 - **Cross-references use the relref shortcode**, not markdown paths:
-  `{{< relref "/operate/rs/clusters/new-cluster-setup" >}}`. A broken relref fails the
-  build. Link text is descriptive — never "click here" or a bare URL.
+  `{{< relref "/operate/rs/clusters/new-cluster-setup" >}}`. The path never ends in
+  `.md`. A broken relref warns at build time and must still be fixed — it resolves to
+  the wrong page or a 404. Link text is descriptive — never "click here" or a bare URL.
 - **Preserve shortcodes, frontmatter, and code fences verbatim.** Do not reformat them.
 - **Frontmatter**: copy the shape from a sibling page in the same directory rather than
   composing one. `title` and `linkTitle` are effectively universal; `description`,
