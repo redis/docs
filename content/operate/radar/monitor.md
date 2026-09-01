@@ -124,23 +124,24 @@ Select a row to open that cluster's usage report, which breaks memory, ops/sec, 
 
 ## Alerts
 
-The **Alerts** view collects the alerts your clusters are already raising and puts them in one list, ordered by severity: critical, warning, then informational. It covers Redis Software clusters and nodes only; alerts from other Redis deployments do not appear here. Filter by severity to narrow the list.
+The **Alerts** view collects the alerts your clusters are already raising and puts them in one list, ordered by severity: critical, warning, then informational. It covers Redis Software clusters and nodes only; alerts from other Redis deployments do not appear here. 
 
 Radar reads alerts from each cluster's own alert endpoints, at the cluster and node level. **The alert rules live on the cluster, not in Radar.** To change what raises an alert, change it on the cluster; Radar reflects the change the next time it collects that cluster's state.
 
-Selecting an alert takes you to the cluster it came from.
+Filter by severity or search by alert, cluster, or FQDN. Select the cluster name in an alert to open that cluster's detail view.
 
 {{<image filename="images/radar/alerts.png" alt="The Radar Alerts page, listing alerts by severity, category, and affected resource" width="90%">}}
 
 ## Download a support package
 
-Download a diagnostics package from a Redis Software cluster to attach to a Redis Support ticket. Only administrators can do this. See [Manage access]({{< relref "/operate/radar/manage-access" >}}).
+Download a diagnostics package from a Redis Software cluster to attach to a Redis Support ticket. Only administrators can do this. See [Manage access]({{< relref "/operate/radar/manage-access" >}}) to view the administrators for your Radar deployment.
 
 Download it from the cluster's detail view, or from the **Support** page if you'd rather pick the cluster from a list.
 
-The download runs in your browser, so it takes as long as the cluster needs to prepare the package — several minutes for a large cluster. It keeps going while you navigate elsewhere in Radar, but closing or reloading the tab cancels it.
+The download runs in your browser, so it might take several minutes to prepare the package for a large cluster. The download will continue while you navigate elsewhere in Radar, but will cancel if the tab is closed or reloaded.
 
 ## Next steps
 
 - [Licenses and certificates]({{< relref "/operate/radar/licenses-and-certificates" >}})
 - [Connect clusters]({{< relref "/operate/radar/connect" >}})
+- [Manage access]({{< relref "/operate/radar/manage-access" >}})
