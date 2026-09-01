@@ -192,4 +192,4 @@ For a Redis Cloud account connection, removing it removes every subscription dis
 
 ## Next steps
 
-Radar starts collecting as soon as a connection is saved. The first collection populates the fleet view, and Radar refreshes each source after that. See [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}).
+Radar starts collecting information as soon as a connection is saved. The first collection populates the fleet view, and Radar refreshes each source after that. See [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}).
