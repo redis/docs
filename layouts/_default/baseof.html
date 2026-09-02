@@ -1817,7 +1817,13 @@
             if (!key || !key.includes('thebe-binder-') || !key.endsWith(binderRefSuffix)) continue;
             try {
               const data = JSON.parse(localStorage.getItem(key));
-              if (data && data.baseUrl) return { key: key, data: data };
+              /* Same fields the restore scan above requires. Without this, a
+                 leftover thebe-binder- key from a stale binder ref (baseUrl set,
+                 but no id/token because it never became a live session) could
+                 outrank the real one here, get appendToken written onto it
+                 instead, or get probed tokenless and read as dead — taking the
+                 live session down with it via handleKernelExpired. */
+              if (data && data.baseUrl && data.id && data.token) return { key: key, data: data };
             } catch (e) {
               /* not ours */
             }
