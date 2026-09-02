@@ -1126,7 +1126,15 @@
     var entry = api.addPane({
       id: 'notebook',
       label: 'Notebook',
-      onMount: function (pane, paneApi) { controller = notebook(pane, paneApi); },
+      onMount: function (pane, paneApi) {
+        controller = notebook(pane, paneApi);
+        /* When the notebook is the page's only pane, addPane already showed it
+           and called onShow above before controller existed, so that call was
+           a no-op. Replay it now from the pane's own (already-correct)
+           visibility, or state.visible stays unset and kernel status never
+           reaches the dock until a tab switch that, with one pane, never comes. */
+        if (!pane.classList.contains('rwb-hidden')) controller.onShow(pane, true);
+      },
       onShow: function (pane, shown) { if (controller) controller.onShow(pane, shown); }
     });
     if (!entry) return false;
