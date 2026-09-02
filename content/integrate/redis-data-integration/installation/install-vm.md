@@ -276,8 +276,8 @@ You may find it useful to trigger a failover deliberately to check that RDI is c
 Before deploying a pipeline, you must configure each source database to enable CDC. See the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
 section to learn how to do this. A pipeline can capture from more than one source database,
-and each one has to be prepared. See
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}).
+and you must prepare each one separately. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
 
 ## Deploy a pipeline
 

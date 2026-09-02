@@ -61,8 +61,8 @@ The main sections of these files are:
   - `server_name`: The name of the source whose records this job processes, as it appears
     in the `sources` section of
     [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
-    Required when the pipeline has more than one source. Optional in a pipeline with a single source. See
-    [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}).
+    This is required when the pipeline has more than one source but is optional in a pipeline with a single source. See
+    [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
   - `db`: Database name (optional). This refers to a database name you supplied in
     [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
   - `schema`: Database schema (optional). This refers to a schema name you supplied in

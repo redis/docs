@@ -39,11 +39,12 @@ while the other keys are only relevant for TLS/mTLS connections.
 | `KEY` | (For mTLS only) Private key |
 | `KEY_PASSWORD` | (For mTLS only) Private key password |
 
-A secret can be referenced in `config.yaml` as an environment variable that is derived from
-the secret key and the database: The variable name is the database name in uppercase, with 
-each dash replaced by an underscore, followed by `_DB_` and the key. So setting `PASSWORD` 
-with `--db mysql` produces `MYSQL_DB_PASSWORD`, which the source references as 
-`${MYSQL_DB_PASSWORD}`, and `--db target` produces `TARGET_DB_PASSWORD`. The sample
+You can reference a secret in `config.yaml` using an environment variable that is derived from
+the secret key and the database name. The variable name consists of the database name in 
+uppercase (with each dash replaced by an underscore), followed by `_DB_`, followed by the key.
+For example, if you set `PASSWORD` with `--db mysql` the corresponding environment variable
+is `MYSQL_DB_PASSWORD`, which the source references as  
+`${MYSQL_DB_PASSWORD}`. If you set `PASSWORD` with `--db target`, the environment variable is `TARGET_DB_PASSWORD`. The sample
 [config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#example" >}})
 shows these references in use, and
 [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
@@ -63,8 +64,7 @@ removed in a future release, so all usage should migrate to the new keys.{{< /no
 Use [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
 to set secrets for any installation type (VM, Kubernetes, or Redis Cloud).
 
-The command lines for a source named `mysql` are as follows. Repeat them with each
-source's own name for a pipeline that has several sources:
+The command lines for a source named `mysql` are shown below. If your pipeline has multiple sources, you should run the command once for each source, using the appropriate database name.
 
 ```bash
 # For username and password
@@ -237,11 +237,12 @@ kubectl create secret generic target-db-ssl --namespace=rdi \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-Note that the certificate paths contained in the `CACERT`, `CERT`, and `KEY` secrets are internal to RDI, so you *must* use the values shown in the example above. Each source has its own certificate directory, named after the source, so a source named `mysql` uses `/etc/certificates/mysql_db/`. You should only change the certificate paths when you create the `<source-name>-db-ssl` and `target-db-ssl` secrets.
+Note that the certificate paths contained in the `CACERT`, `CERT`, and `KEY` secrets are internal to RDI, so you *must* use the values shown in the example above. Each source has its own certificate directory, named after the source (for example, a source named `mysql` uses `/etc/certificates/mysql_db/`). You should only change the certificate paths when you create the `<source-name>-db-ssl` and `target-db-ssl` secrets.
 
-Secrets that you create directly with `kubectl` must also be labeled so that the RDI operator
-discovers them as pipeline secrets. Each secret needs the following labels, where the
-`app.kubernetes.io/instance` label is the pipeline name (`default` for the default pipeline):
+You must also label any secrets that you create directly with `kubectl` so that the RDI operator
+discovers them as pipeline secrets. Each secret requires the following labels, where the
+`app.kubernetes.io/instance` label corresponds to the pipeline name (the name is just
+`default` for the default pipeline):
 
 | Label | Value |
 | :-- | :-- |
@@ -351,7 +352,7 @@ redis-di start --source mysql
 ```
 
 Note that a source can only run if its parent pipeline is running. See
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}).
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
 
 ## Reset a pipeline
 
