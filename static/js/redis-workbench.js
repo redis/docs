@@ -80,9 +80,14 @@
 
   /* Panel geometry, in pixels. The dock opens at DEFAULT_HEIGHT and the reader
      drags its top edge between MIN_HEIGHT and maxHeight(), which is measured
-     against the sticky site header — see maxHeight() for why that matters. */
-  var DEFAULT_HEIGHT = 380;
-  var MIN_HEIGHT = 200;
+     against the sticky site header — see maxHeight() for why that matters.
+
+     Half of what it used to open at. A console that takes a third of the window
+     the moment a reader clicks "Try it" hides the page it belongs to; this shows
+     the reply and the keys it wrote, and the grip is right there for the rest.
+     MIN_HEIGHT comes down with it, or the default would be clamped back up. */
+  var DEFAULT_HEIGHT = 190;
+  var MIN_HEIGHT = 140;
 
   /* Breathing room between the top of the dock and the header above it. */
   var HEADER_GAP = 8;
