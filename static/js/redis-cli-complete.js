@@ -278,7 +278,15 @@
 
       var below = height <= roomBelow || roomBelow >= roomAbove;
       var room = below ? roomBelow : roomAbove;
-      if (room < MIN_PANEL) { panel.hidden = true; return; }
+      /* No room: closed, not merely hidden. Hiding the panel and leaving the list
+         open left the prompt's keys captured by a list nobody could see — Enter
+         inserted the highlighted command instead of running the line, Tab and the
+         arrows likewise. A reader at the dock's minimum height, where the toolbar
+         and the tabs have taken the column, could not submit anything.
+
+         Closing is also the behaviour we want: on a window this short the
+         suggestions are what gets dropped, not the typing. */
+      if (room < MIN_PANEL) return close();
 
       panel.hidden = false;
       /* Set every time, not only when it bites: a cap left over from a shorter
