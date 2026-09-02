@@ -89,6 +89,11 @@
   var DEFAULT_HEIGHT = 190;
   var MIN_HEIGHT = 140;
 
+  /* What it opened at before, which every reader who has opened the dock has in
+     their localStorage — see restore() for why that number is not treated as a
+     height they picked. */
+  var FORMER_DEFAULT_HEIGHT = 380;
+
   /* Breathing room between the top of the dock and the header above it. */
   var HEADER_GAP = 8;
 
@@ -1422,9 +1427,16 @@
       && saved.rows.every(function (n) { return typeof n === 'number' && n >= MIN_ROW; })) {
       this.rows = saved.rows.slice();
     }
-    if (saved && typeof saved.height === 'number') {
+    /* A height that is exactly what the dock used to open at is not a height the
+       reader chose — it is the old default, written to storage the first time they
+       opened the dock. Left alone, every reader who has ever opened it would keep
+       380px forever and the new default would reach nobody. A reader who dragged
+       to some other size, including a larger one, keeps it. */
+    var chosen = saved && typeof saved.height === 'number'
+      && saved.height !== FORMER_DEFAULT_HEIGHT ? saved.height : null;
+    if (chosen !== null) {
       var max = this.maxHeight();
-      this.height = Math.min(max, Math.max(MIN_HEIGHT, saved.height));
+      this.height = Math.min(max, Math.max(MIN_HEIGHT, chosen));
       this.maximized = this.height >= max - 1;
     }
     this.applyHeight();
