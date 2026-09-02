@@ -1132,6 +1132,51 @@ body.rwb-dragging-y * {
 
 /* ---- value view ---- */
 
+/* The path box over a JSON document: the query that produced what is below. Laid
+   out as a control strip rather than a label jammed against a field — a single
+   "$" in a cramped box reads as an empty one. */
+.rwb-path {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0.5rem 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rwb-line-soft);
+}
+
+.rwb-path-label {
+  flex: none;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--rwb-muted);
+}
+
+.rwb-path-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--rwb-ink);
+  background: var(--rwb-bg-2);
+  border: 1px solid var(--rwb-line);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.rwb-path-input::placeholder { color: var(--rwb-muted); }
+
+.rwb-path-input:focus-visible {
+  outline: 2px solid var(--rwb-focus);
+  outline-offset: 1px;
+}
+
+.rwb-path-run { flex: none; }
+
+/* A read that failed, said in the colour of a failure. */
+.rwb-failed { color: #fca5a5; }                   /* red-300 */
+
 .rwb-value-head {
   display: flex;
   align-items: center;

@@ -214,6 +214,13 @@
   function quote(arg) {
     var value = String(arg);
     if (/^[A-Za-z0-9_:.@\-+*$#\/{}\[\]]+$/.test(value)) return value;
+    /* Single quotes where they will do. redis-cli treats a single-quoted token as
+       literal, so a JSONPath keeps its `$` and its brackets as written — where
+       double quotes made this escape the `$` like a shell, and the command shown
+       under a value read `"\$[?(@.a==1)]"`: correct, and not what anyone would
+       type. Double quotes remain the fallback for a value with a quote of its
+       own, which is the case single quotes cannot carry. */
+    if (value.indexOf("'") === -1) return "'" + value + "'";
     return '"' + value.replace(/([\\"$`])/g, '\\$1') + '"';
   }
 
@@ -867,6 +874,7 @@
     indexDocs: null,
     /* Page setups already run in this sandbox session, by name. */
     setupRan: {},
+    jsonPath: null,
     selected: null,
     truncated: false,
     /* command batches seen while closed, discovered at first open */
@@ -2245,6 +2253,70 @@
     pane.appendChild(ranNote(detail.commands));
   };
 
+  /* "Path: $" over a JSON document, and what it matched underneath. Enter runs
+     it; the root is what openKey already showed, so an untouched box changes
+     nothing. */
+  dock.jsonPathRow = function (key) {
+    var self = this;
+    var row = el('form', 'rwb-path');
+    row.appendChild(el('label', 'rwb-path-label', 'Path'));
+    var input = el('input', 'rwb-path-input');
+    input.type = 'text';
+    /* Empty, not "$": the root is already on screen, so a prefilled path is a
+       control that does nothing. The placeholder says what to type. */
+    input.value = this.jsonPath && this.jsonPath.name === key.name
+      ? this.jsonPath.path : '';
+    input.setAttribute('spellcheck', 'false');
+    input.setAttribute('aria-label', 'JSONPath to read from ' + key.name);
+    input.placeholder = '$.field, $.list[*], $..name';
+    row.appendChild(input);
+    var go = el('button', 'rwb-btn rwb-path-run', 'Run');
+    go.type = 'submit';
+    go.title = 'Read this path with JSON.GET';
+    row.appendChild(go);
+    row.addEventListener('submit', function (event) {
+      event.preventDefault();
+      self.readJsonPath(key, input.value.trim());
+    });
+    return row;
+  };
+
+  /* JSON.GET at a path. A path that matches nothing answers with an empty array
+     and a path that does not parse answers with an error, and both are worth
+     seeing: getting them wrong is how the syntax is learned. */
+  dock.readJsonPath = function (key, path) {
+    var self = this;
+    /* Remembered as typed, so an empty box stays empty when this redraws; the
+       root is what gets read either way. */
+    this.jsonPath = { name: key.name, path: path };
+    var command = 'JSON.GET ' + quote(key.name) + ' ' + quote(path || '$');
+    this.begin('reading ' + (path || '$') + '…');
+    return run([command]).then(function (replies) {
+      var reply = replies[0];
+      var view;
+      if (reply && reply.error) {
+        view = { kind: 'text', mono: true, failed: true,
+          text: '(error) ' + cellText(reply.value) };
+      } else {
+        var raw = ok(reply);
+        var text = typeof raw === 'string' ? raw : cellText(raw);
+        var matches = null;
+        try {
+          var parsed = JSON.parse(text);
+          text = JSON.stringify(parsed, null, 2);
+          if (Array.isArray(parsed)) matches = parsed.length;
+        } catch (err) { /* not parseable: show it as returned */ }
+        view = { kind: 'text', text: text, mono: true,
+          facts: matches === null ? [] : [{
+            text: plural(matches, 'match', 'matches'),
+            title: 'JSONPath answers with an array of everything it matched'
+          }] };
+      }
+      self.renderValue(key, { commands: [command], view: view });
+      self.end();
+    }, function () { self.end(); });
+  };
+
   dock.openIndex = function (name) {
     var self = this;
     this.selected = name;
@@ -2431,6 +2503,14 @@
     head.appendChild(facts);
     pane.appendChild(head);
 
+    /* A JSON document is the one value a reader is expected to *query* rather
+       than read: /develop/data-types/json/path is a page of JSONPath syntax with
+       nowhere to try it. So the path that produced what is shown is editable, and
+       running it is what redraws the value below. */
+    if (key.type === 'ReJSON-RL') {
+      pane.appendChild(this.jsonPathRow(key));
+    }
+
     if (!detail.view) {
       pane.appendChild(el('p', 'rwb-empty',
         'This type stores no enumerable value, so there is nothing to preview.'));
@@ -2450,7 +2530,8 @@
 
   function renderView(view, onOpenRow) {
     if (view.kind === 'text') {
-      return el('pre', 'rwb-text' + (view.mono ? ' rwb-json' : ''), view.text);
+      return el('pre', 'rwb-text' + (view.mono ? ' rwb-json' : '')
+        + (view.failed ? ' rwb-failed' : ''), view.text);
     }
     if (view.kind === 'table') {
       return renderTable(view.head, view.rows, onOpenRow);
