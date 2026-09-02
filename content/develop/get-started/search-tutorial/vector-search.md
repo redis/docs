@@ -71,7 +71,7 @@ Redis can store vectors in either hashes or JSON documents. Because this tutoria
 ## Add a vector field to the index
 
 <details><summary>Reload products data and re-create index</summary>
-{{% redis-cli %}}
+{{% redis-cli prereq="true" set="search_tutorial" %}}
 redis> FT.CREATE idx:catalog ON JSON PREFIX 1 product: SCHEMA $.name AS name TEXT $.brand AS brand TAG SORTABLE $.category AS category TAG $.description AS description TEXT $.price AS price NUMERIC SORTABLE $.rating AS rating NUMERIC SORTABLE $.review_count AS review_count NUMERIC $.stock AS stock NUMERIC $.release_year AS release_year NUMERIC SORTABLE $.features[*] AS features TAG
 OK
 redis> JSON.SET product:1 $ '{"name":"Aurora AcousticPro Headphones","brand":"Aurora","category":"Audio","price":199.99,"rating":4.6,"features":["wireless","noise-cancelling","bluetooth"],"specs":{"color":"midnight black","weight_grams":268}}'

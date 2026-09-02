@@ -1,5 +1,10 @@
 {{ define "head" }}
-  <script src='{{ relURL "js/cli.js" }}' defer></script>
+  {{ partial "cli-assets.html" . }}
+  {{- /* Every command page gets the workbench, example or not: the reader is here
+         to look up one command, and the next thing they want is to run it. Most
+         command pages carry no CLI block, and the dock otherwise mounts only
+         where it finds one. See js/redis-workbench.js (pageWantsCli). */ -}}
+  <script>window.REDIS_WORKBENCH_ALWAYS = true;</script>
   <script src='{{ relURL "js/codetabs.js" }}' defer></script>
 {{ end }}
 

@@ -1,0 +1,1341 @@
+/* =========================================================================
+   Redis workbench  —  static/css/redis-workbench.css
+
+   The console docked to the bottom of the window (see js/redis-workbench.js):
+   a slim always-present bar that expands into a resizable panel. Dark, like the
+   code blocks it belongs to, and fully scoped under `.rwb` so it neither leaks
+   into the page nor inherits from it.
+
+   Palette: the Tailwind slate ramp the codetabs blocks already use, plus the
+   Redis red for the accent.
+   ========================================================================= */
+
+.rwb {
+  --rwb-bg: #0f172a;          /* slate-900, matches the code blocks */
+  --rwb-bg-2: #1e293b;        /* slate-800 */
+  --rwb-bg-3: #334155;        /* slate-700 */
+  --rwb-line: #334155;        /* slate-700 */
+  --rwb-line-soft: #1e293b;   /* slate-800 */
+  --rwb-ink: #f1f5f9;         /* slate-100 */
+  --rwb-ink-2: #cbd5e1;       /* slate-300 */
+  --rwb-muted: #94a3b8;       /* slate-400 */
+  --rwb-accent: #ff4438;      /* redis-red-500 */
+  --rwb-focus: rgba(255, 68, 56, .45);
+  /* Room down each side, so nothing inside the dock — transcript, key list,
+     value, the bar's own controls — sits against the edge of the screen. */
+  --rwb-gutter: 1.25rem;
+  --rwb-bar-height: 2.25rem;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Above the site footer, which is `relative z-50` and would otherwise paint
+     over the dock as soon as the reader scrolls to the end of the page — clicks
+     on the bar landed in the footer. The sticky header is also z-50, so this
+     wins against it too; the dock is kept clear of it by geometry instead (see
+     maxHeight() in the JS), which is what keeps the bar's own controls
+     reachable when the panel is at full height. */
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--rwb-line);
+  background: var(--rwb-bg);
+  color: var(--rwb-ink);
+  font-size: 14px;
+  line-height: 1.45;
+  box-shadow: 0 -6px 24px rgba(2, 6, 23, .28);
+  /* On the root, so the background and the top border still run the full width
+     of the page while everything inside is inset. */
+  padding: 0 var(--rwb-gutter);
+}
+
+.rwb *,
+.rwb *::before,
+.rwb *::after { box-sizing: border-box; }
+
+/* The bar reserves its own strip of the page so a docked console never hides the
+   end of the content; the expanded panel overlays instead of pushing. */
+body.rwb-docked { padding-bottom: 2.25rem; }
+
+body.rwb-dragging {
+  cursor: ns-resize;
+  user-select: none;
+}
+
+/* ---- bar (always visible) ---- */
+
+.rwb-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: var(--rwb-bar-height);
+  flex: none;
+}
+
+.rwb-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  /* The gutter supplies the left inset now. */
+  padding: 0 0.5rem 0 0;
+  font: inherit;
+  color: var(--rwb-ink);
+  background: transparent;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rwb-toggle:hover { background: var(--rwb-bg-2); }
+
+.rwb-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--rwb-accent);
+  flex: none;
+}
+
+.rwb-title {
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  flex: none;
+}
+
+.rwb-status {
+  font-size: 12px;
+  color: var(--rwb-muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rwb-busy .rwb-status { color: var(--rwb-ink-2); }
+
+/* Points up when closed ("open me"), down when open. */
+.rwb-chevron {
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex: none;
+  transform: rotate(180deg);
+  transition: transform 150ms ease;
+}
+
+.rwb-open .rwb-chevron { transform: none; }
+
+/* Maximise / restore swaps between two drawings (see resizeArrows in the JS), so
+   there is no rotation to style here — only the shared icon sizing below. */
+
+.rwb-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  /* Scrolls rather than overflowing when the row of controls is wider than a
+     phone: hiding buttons would take away capability, and wrapping would break
+     the bar's fixed height. */
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.rwb-actions::-webkit-scrollbar { display: none; }
+
+.rwb-btn {
+  font: inherit;
+  font-size: 12px;
+  color: var(--rwb-ink-2);
+  background: var(--rwb-bg-3);
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.rwb-btn:hover:not(:disabled) {
+  background: #475569;        /* slate-600 */
+  color: #fff;
+}
+
+.rwb-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.rwb-btn:focus-visible,
+.rwb-toggle:focus-visible,
+.rwb-key:focus-visible,
+.rwb-tab:focus-visible,
+.rwb-grip:focus-visible {
+  outline: 2px solid var(--rwb-focus);
+  outline-offset: 1px;
+}
+
+
+/* The question "Clear keys" asks, in the toolbar the button came from. */
+.rwb-confirm {
+  font-size: 12px;
+  color: var(--rwb-ink-2);
+  align-self: center;
+  margin-right: 0.125rem;
+}
+
+.rwb-btn-danger {
+  color: #fecaca;                                 /* red-200 */
+  background: #7f1d1d;                            /* red-900 */
+}
+
+.rwb-btn-danger:hover {
+  color: #fff;
+  background: #991b1b;                            /* red-800 */
+}
+
+.rwb-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem;
+}
+
+.rwb-icon {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+/* ---- panel (shown when open) ---- */
+
+.rwb-panel { display: none; }
+
+.rwb-open .rwb-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-top: 1px solid var(--rwb-line);
+}
+
+/* Drag handle along the panel's top edge. */
+.rwb-grip {
+  height: 7px;
+  flex: none;
+  cursor: ns-resize;
+  background: transparent;
+  position: relative;
+}
+
+/* Nothing to resize while the panel is shut, and the strip would otherwise put a
+   resize cursor on the dock's top edge with nothing behind it. */
+.rwb:not(.rwb-open) .rwb-grip { display: none; }
+
+.rwb-grip::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  width: 2.5rem;
+  height: 3px;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: var(--rwb-bg-3);
+  transition: background-color 150ms ease;
+}
+
+.rwb-grip:hover::after,
+.rwb-grip:focus-visible::after { background: var(--rwb-muted); }
+
+.rwb-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ---- scrollbars ----
+   Scoped to the dock: the docs' own scrollbars are not this file's to restyle.
+
+   Thin and dark, so a column that overflows shows a hairline rather than a
+   system-width rail eating into a narrow column. The track stays transparent: a
+   visible rail on three adjacent columns reads as borders that are not there. */
+
+/* The standard properties first, because they are what Firefox and Blink use —
+   including for the overlay scrollbars macOS Chrome shows, which the
+   ::-webkit-scrollbar rules below cannot colour. Blink honours these in
+   preference to those rules and then ignores them, so there it is the engine's
+   own "thin" width with our colour, and the explicit 7px rounded thumb applies
+   in Safari and older Blink. Styled in every engine beats exact in one. */
+.rwb *,
+.rwb {
+  scrollbar-width: thin;
+  /* Dark, but not black: the dock's surface is #0f172a and a black thumb on it
+     cannot be seen — measured on a rendering of it, not assumed. This is
+     --rwb-bg-3, the slate the dock already uses for its raised surfaces. */
+  scrollbar-color: #334155 transparent;
+}
+
+.rwb ::-webkit-scrollbar,
+.rwb::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.rwb ::-webkit-scrollbar-track,
+.rwb::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rwb ::-webkit-scrollbar-thumb,
+.rwb::-webkit-scrollbar-thumb {
+  background: #334155;                      /* slate-700 */
+  border-radius: 999px;
+}
+
+/* Enough lift to show it is grabbable, without becoming furniture. */
+.rwb ::-webkit-scrollbar-thumb:hover,
+.rwb::-webkit-scrollbar-thumb:hover {
+  background: #475569;                      /* slate-600 */
+}
+
+/* Where two scrollbars meet, nothing to see. */
+.rwb ::-webkit-scrollbar-corner,
+.rwb::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ---- the Terminal pane's three columns ----
+   The CLI, the keys it writes, and the value of the selected key, side by side
+   under the pane's toolbar. The pane itself does not scroll: each column does,
+   so the toolbar and the column headings stay where they are. */
+
+.rwb-pane-terminal {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-right: 0;
+}
+
+.rwb-split {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.rwb-col {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  /* The positioning context for anything a column places next to its own
+     contents — the completion panel beside the prompt. Without it that panel
+     resolves against the dock and lands in the corner. */
+  position: relative;
+}
+
+.rwb-col-cli { padding-right: 0.5rem; }
+
+.rwb-col-keys,
+.rwb-col-value { padding: 0 0.25rem; }
+
+/* The key column holds two sections rather than one list, so it hands its own
+   scrolling to them: two lists that scroll together are one list with a heading
+   in the middle of it. */
+.rwb-col-keys { overflow: hidden; }
+
+.rwb-sect {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* `display: flex` above beats the UA rule for [hidden], and without this the
+   indexes section stayed on screen as an empty box on every page that never
+   creates an index. */
+.rwb-sect[hidden] { display: none; }
+
+.rwb-sect > .rwb-keys {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Grabbable, and wider than it looks: the hit area is the whole strip while only
+   the hairline in the middle is drawn. */
+.rwb-divider {
+  flex: 0 0 9px;
+  position: relative;
+  cursor: col-resize;
+  background: transparent;
+  border: 0;
+  align-self: stretch;
+}
+
+.rwb-divider::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 1px;
+  background: var(--rwb-line);
+  transition: background-color 150ms ease;
+}
+
+.rwb-divider:hover::after,
+.rwb-divider:focus-visible::after {
+  background: var(--rwb-muted);
+  left: 3px;
+  width: 3px;
+}
+
+/* A horizontal drag should not select the transcript it passes over. */
+/* The same strip, lying down: between the two sections of the key column. */
+.rwb-divider-h {
+  flex: 0 0 9px;
+  cursor: row-resize;
+  align-self: auto;
+}
+
+.rwb-divider-h::after {
+  top: 4px;
+  bottom: auto;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: 1px;
+}
+
+.rwb-divider-h:hover::after,
+.rwb-divider-h:focus-visible::after {
+  top: 3px;
+  left: 0;
+  width: auto;
+  height: 3px;
+}
+
+body.rwb-dragging-x,
+body.rwb-dragging-x * {
+  user-select: none;
+  cursor: col-resize !important;
+}
+
+body.rwb-dragging-y,
+body.rwb-dragging-y * {
+  user-select: none;
+  cursor: row-resize !important;
+}
+
+.rwb-col-head {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.5rem;
+  border-bottom: 1px solid var(--rwb-line-soft);
+  flex: none;
+  position: sticky;
+  top: 0;
+  background: var(--rwb-bg);
+  z-index: 1;
+}
+
+/* The index filter, in the KEYS heading: what the list is narrowed to, and the
+   way out of it. */
+.rwb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+  padding: 0.05rem 0.35rem;
+  font: inherit;
+  font-size: 10px;
+  color: var(--rwb-ink-2);
+  background: var(--rwb-bg-3);
+  border: 1px solid var(--rwb-line);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  max-width: 60%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rwb-chip:hover { color: var(--rwb-ink); border-color: var(--rwb-muted); }
+
+.rwb-chip-x { color: var(--rwb-muted); }
+
+.rwb-chip:hover .rwb-chip-x { color: var(--rwb-ink); }
+
+.rwb-col-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--rwb-muted);
+}
+
+.rwb-value-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0.5rem 0.25rem 0.75rem;
+}
+
+
+.rwb-count {
+  font-size: 11px;
+  color: var(--rwb-ink-2);
+  background: var(--rwb-bg-2);
+  border-radius: 999px;
+  padding: 0 0.375rem;
+}
+
+.rwb-count:empty { display: none; }
+
+.rwb-keys {
+  overflow-y: auto;
+  padding: 0.25rem;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ---- key list ---- */
+
+.rwb-key {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: var(--rwb-ink);
+  background: transparent;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 0.25rem;
+  padding: 0.3rem 0.4rem;
+  cursor: pointer;
+}
+
+.rwb-key:hover { background: var(--rwb-bg-2); }
+
+.rwb-key-on {
+  background: var(--rwb-bg-3);
+  border-left-color: var(--rwb-accent);
+}
+
+/* Not a button: there is nothing to open until the sweep says what it is. */
+.rwb-key-pending {
+  cursor: default;
+  color: var(--rwb-muted);
+}
+
+.rwb-key-pending:hover { background: none; }
+
+.rwb-key-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.rwb-key-name {
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 12.5px;
+  overflow-wrap: anywhere;
+}
+
+.rwb-key-sub {
+  font-size: 10.5px;
+  color: var(--rwb-muted);
+}
+
+.rwb-key-sub:empty { display: none; }
+
+.rwb-group {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--rwb-muted);
+  padding: 0.5rem 0.4rem 0.25rem;
+}
+
+.rwb-empty {
+  font-size: 12px;
+  color: var(--rwb-muted);
+  padding: 0.5rem 0.4rem;
+  margin: 0;
+}
+
+/* ---- type badges ---- */
+
+.rwb-badge {
+  flex: none;
+  font-size: 9.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 0.1875rem;
+  padding: 0.0625rem 0.25rem;
+  /* White on a saturated fill, the pairing these colours are designed for. */
+  color: #ffffff;
+  /* Redis Insight's --defaultTypeColor: what its GroupBadge falls back to for a
+     type it has no colour for. */
+  background: #aa4e4e;
+  white-space: nowrap;
+}
+
+/* Redis Insight's own key-type colours, so a type reads the same here as it does
+   in the tool a reader is likely to open next. Taken from its dark theme —
+   redisinsight/ui/src/styles/themes/dark_theme/_theme_color.scss on
+   redis/RedisInsight@main — which GROUP_TYPES_COLORS maps each KeyTypes value
+   onto in constants/keys.ts. */
+.rwb-tone-str { background: #6a1dc3; }           /* --typeStringColor */
+.rwb-tone-list { background: #008556; }          /* --typeListColor */
+.rwb-tone-set { background: #9c5c2b; }           /* --typeSetColor */
+.rwb-tone-zset { background: #a00a6b; }          /* --typeZSetColor */
+.rwb-tone-hash { background: #364cff; }          /* --typeHashColor */
+.rwb-tone-stream { background: #6a741b; }        /* --typeStreamColor */
+.rwb-tone-json { background: #3f4b5f; }          /* --typeReJSONColor */
+.rwb-tone-ts { background: #6e6e6e; }            /* --typeTimeSeriesColor */
+.rwb-tone-vector { background: #0284c7; }        /* --typeVectorSetColor */
+.rwb-tone-array { background: #db2777; }         /* --typeArrayColor */
+
+/* Insight has no colour of its own for the probabilistic types (Bloom, cuckoo,
+   count-min, top-k, t-digest): its badge falls back to --defaultTypeColor, so
+   they look the same here as they would there. */
+.rwb-tone-probabilistic { background: #aa4e4e; } /* --defaultTypeColor */
+
+/* A search index is not a key, so Insight has no key-type colour for it. This is
+   --typeGraphColor, the one colour in its palette no type we list uses. */
+.rwb-tone-index { background: #14708d; }         /* --typeGraphColor */
+
+/* A key the sweep has not described yet: a name, and a badge that says so. */
+.rwb-tone-pending {
+  background: transparent;
+  border: 1px dashed var(--rwb-line);
+  color: var(--rwb-muted);
+}
+
+/* Search field types. Insight badges these by variant — TEXT informative, TAG
+   notice, NUMERIC attention, VECTOR success, GEO default — and those variants
+   are defined inside the redis-ui package rather than in the app, so these are
+   the nearest hues in the palette this file already uses. */
+.rwb-field-text { background: #1d4ed8; }
+.rwb-field-tag { background: #6d28d9; }
+.rwb-field-numeric { background: #b45309; }
+.rwb-field-vector { background: #047857; }
+.rwb-field-geo { background: #475569; }
+.rwb-field-other { background: #475569; }
+
+/* ---- main pane ---- */
+
+.rwb-main {
+  /* The body is a flex row now that the sidebar is gone, so this has to claim
+     the width itself. */
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* display:flex below would beat the UA rule for [hidden]. */
+.rwb-tabs[hidden] { display: none; }
+
+.rwb-tabs {
+  display: flex;
+  gap: 0.25rem;
+  padding: 0.375rem 0 0;
+  border-bottom: 1px solid var(--rwb-line-soft);
+  flex: none;
+}
+
+.rwb-tab {
+  font: inherit;
+  font-size: 12px;
+  color: var(--rwb-muted);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.rwb-tab[aria-selected="true"] {
+  color: var(--rwb-ink);
+  border-bottom-color: var(--rwb-accent);
+}
+
+.rwb-tab:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+
+.rwb-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.5rem 0 0.75rem;
+}
+
+.rwb-hidden { display: none; }
+
+/* The terminal is the shared widget: neutralise the fixed height and rounded
+   corners it carries for standalone use, and let the pane own the scrolling. */
+.rwb .rwb-terminal.redis-cli {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  /* Stated rather than inherited: a terminal in a proportional font is unreadable,
+     and index.css is not this file's to depend on. */
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 12.5px;
+}
+
+/* The transcript and prompt the widget builds inside that form. index.css styles
+   these globally for the inline terminals; they are repeated here so the dock
+   does not depend on rules it does not own (a bare <input> would otherwise show
+   the browser's white box on the dark pane). */
+.rwb .rwb-terminal > pre {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.rwb .rwb-terminal > .prompt {
+  display: flex;
+  /* So the inline hint can be placed against this line. */
+  position: relative;
+}
+
+.rwb .rwb-terminal > .prompt > span {
+  white-space: pre-wrap;
+}
+
+.rwb .rwb-terminal > .prompt > input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+}
+
+/* ---- a pane's own toolbar ----
+   Controls that act on one pane's contents sit at the top of that pane. Same
+   rules for both, so the Terminal and the Notebook read as the same kind of
+   thing. */
+
+.rwb-toolbar,
+.rwb-nb-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rwb-line-soft);
+  margin-bottom: 0.5rem;
+  /* The pane scrolls — a terminal transcript in particular grows without bound —
+     so the controls stay put rather than scrolling out of reach. The background
+     is the dock's own, not a shade of it: the panes are transparent over it, so
+     anything else draws a visible slab behind the buttons. It still has to be
+     opaque, or the transcript would scroll through them. */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--rwb-bg);
+  /* The pane's own top padding, taken over by the toolbar. A sticky element
+     comes to rest at the padding edge of the scrollport, so with the padding on
+     the pane the toolbar stopped 8px short of the top and cell content scrolled
+     through the strip above it — half a line of code over the buttons. */
+  padding-top: 0.5rem;
+}
+
+/* Named rather than matched with :has, so this does not depend on selector
+   support the rest of the file does without. Both panes with a toolbar of their
+   own hand it their top padding; a pane that grows one later needs adding here. */
+.rwb-pane-terminal,
+.rwb-pane-notebook { padding-top: 0; }
+
+/* The notebook pane does not scroll: its toolbar is a fixed row and the cells
+   scroll under it. Sticky was not enough — a cell that has run carries Thebe's
+   own editor and output widgets, which paint over a sticky sibling however it is
+   layered, so the toolbar appeared to go transparent.
+
+   :not(.rwb-hidden) because this rule comes after .rwb-hidden and matches just as
+   tightly: without it the display here beat the display:none that hides a pane,
+   and the notebook rendered underneath the terminal it was meant to be behind. */
+.rwb-pane-notebook:not(.rwb-hidden) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rwb-pane-notebook > .rwb-nb-toolbar {
+  flex: 0 0 auto;
+  position: static;
+}
+
+/* What the driver says about the session, mirrored out of the cell chrome the
+   pane hides: a refresh-to-continue or rate-limit notice belongs where the
+   reader is looking. */
+.rwb-nb-notice {
+  flex: 0 0 auto;
+  margin: 0 0 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #7f1d1d;                      /* red-900 */
+  border-radius: 0.25rem;
+  background: rgba(127, 29, 29, .18);
+  font-size: 11px;
+  color: #fca5a5;                                 /* red-300 */
+}
+
+.rwb-nb-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* A scroll that reaches the end of the notebook stops there rather than
+     carrying on into the page behind the dock. */
+  overscroll-behavior-y: contain;
+}
+
+.rwb-nb-binder {
+  font-size: 11px;
+  color: var(--rwb-ink-2);
+  text-decoration: underline;
+}
+
+.rwb-nb-binder::after { content: " ↗"; }
+
+.rwb-nb-kernelbox {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-left: auto;
+}
+
+.rwb-nb-kernel {
+  font-size: 11px;
+  color: var(--rwb-muted);
+}
+
+/* Hollow when the kernel is idle or absent, filled while it works — the
+   convention a notebook's kernel indicator follows. */
+.rwb-nb-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1.5px solid var(--rwb-muted);
+}
+
+.rwb-nb-busy .rwb-nb-dot {
+  background: #fcd34d;                            /* amber-300 */
+  border-color: #fcd34d;
+}
+
+/* ---- cells ---- */
+
+.rwb-nb-slot {
+  margin: 0 0 1rem;
+  padding-left: 3px;
+  border-left: 3px solid transparent;
+}
+
+/* The active-cell bar, as a notebook shows on the cell it is executing. */
+.rwb-nb-active { border-left-color: #7dd3fc; }    /* sky-300 */
+
+/* A markdown cell: prose, no gutter, no chrome. */
+.rwb-nb-md { padding: 0 0 0.375rem 4.5rem; }
+
+.rwb-nb-mdtext {
+  margin: 0 0 0.25rem;
+  font-size: 13px;
+  color: var(--rwb-ink-2);
+  line-height: 1.5;
+}
+
+.rwb-nb-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+
+.rwb-nb-marker {
+  font-size: 10.5px;
+  color: var(--rwb-muted);
+}
+
+.rwb-nb-marker-done { color: #86efac; }           /* green-300 */
+.rwb-nb-marker-error { color: var(--rwb-accent); }
+.rwb-nb-marker-blocked,
+.rwb-nb-marker-slow { color: #fcd34d; }           /* amber-300 */
+
+
+.rwb-nb-gated > .rwb-nb-cell > .rwb-nb-prompt { opacity: 0.55; }
+
+/* Always visible: a control that appears on hover is a control a reader has to
+   find, and this one also carries the answer to "why can't I run this yet". */
+.rwb-nb-run {
+  margin-left: auto;
+  flex: none;
+  font: inherit;
+  font-size: 11px;
+  color: var(--rwb-ink-2);
+  background: transparent;
+  border: 1px solid var(--rwb-line-soft);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.4rem;
+  cursor: pointer;
+  transition: color 120ms ease, border-color 120ms ease;
+}
+
+.rwb-nb-run:hover { color: var(--rwb-ink); border-color: var(--rwb-muted); }
+
+/* Its prerequisite has not run: shown, explained on hover, and inert. */
+.rwb-nb-run-off,
+.rwb-nb-run-off:hover {
+  color: var(--rwb-muted);
+  border-color: var(--rwb-line-soft);
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+/* A code cell: `In [n]:` in the gutter, the borrowed cell as the input area. */
+.rwb-nb-cell {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  align-items: start;
+}
+
+.rwb-nb-prompt {
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 11.5px;
+  color: #7dd3fc;                                 /* sky-300, as In[] is blue */
+  text-align: right;
+  padding: 0.5rem 0.75rem 0 0;
+  user-select: none;
+}
+
+.rwb-nb-input { min-width: 0; }
+
+/* ---- the borrowed cell, dressed as a notebook input ----
+   These rules apply only while the cell is inside the pane; the same node keeps
+   the page's own styling when it goes back, because the selectors are scoped by
+   ancestor rather than by class on the cell. */
+
+.rwb-nb-input .thebe-container {
+  margin: 0;
+  border-radius: 0;
+  background: #111c30;                            /* a shade above the pane */
+  border: 1px solid var(--rwb-line-soft);
+  border-left: 2px solid var(--rwb-bg-3);
+}
+
+/* The docs chrome — language selector, Run here / Run in browser, copy, eye,
+   clipboard, Quick-Start footer — is the page's, not a notebook's. */
+.rwb-nb-input .codetabs-header,
+.rwb-nb-input .cli-footer,
+.rwb-nb-input .run-hint { display: none; }
+
+.rwb-nb-input .panel { padding: 0; }
+
+.rwb-nb-input .step-code-view,
+.rwb-nb-input .thebe-cell { margin: 0; }
+
+.rwb-nb-input .highlight,
+.rwb-nb-input .chroma,
+.rwb-nb-input pre {
+  margin: 0;
+  background: transparent;
+}
+
+/* Output sits under the input with its own `Out[n]:` prompt aligned to the same
+   gutter — set from the execution count when a run produces something.
+
+   Keyed on a class the pane sets, not on `:empty`: the driver moves Thebe's
+   wrapper divs into this container whether or not the execution printed
+   anything, so a silent cell has a non-empty container and would otherwise get
+   a rule and an Out prompt with nothing under them. */
+.rwb-nb-input .thebe-output-container.rwb-nb-hasout {
+  position: relative;
+  margin: 0.25rem 0 0;
+  padding: 0.375rem 0 0.375rem 0;
+  border-top: 1px solid var(--rwb-line-soft);
+}
+
+.rwb-nb-input .thebe-output-container.rwb-nb-hasout[data-exec]::before {
+  content: "Out[" attr(data-exec) "]:";
+  position: absolute;
+  left: -4.5rem;
+  top: 0.375rem;
+  width: 3.75rem;
+  text-align: right;
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 11.5px;
+  color: #fca5a5;                                 /* red-300, as Out[] is red */
+}
+
+/* An execution the connection lost: shown, because a reader needs to know why
+   the cell is blank, but without the Out[n] prompt or the result styling — it is
+   not a result. */
+.rwb-nb-input .thebe-output-container.rwb-nb-failed {
+  margin: 0.25rem 0 0;
+  padding: 0.375rem 0;
+  border-top: 1px dashed var(--rwb-accent);
+  font-size: 11.5px;
+  color: #fca5a5;                                 /* red-300 */
+}
+
+
+/* ---- command completion (js/redis-cli-complete.js) ----
+   Positioned inside the scrolling CLI column, so it travels with the prompt it
+   belongs to rather than floating over the page. */
+
+.rwb-complete {
+  position: absolute;
+  z-index: 3;
+  min-width: 18rem;
+  max-width: min(34rem, 92%);
+  background: var(--rwb-bg-2);
+  border: 1px solid var(--rwb-line);
+  border-radius: 0.3rem;
+  box-shadow: 0 6px 20px rgba(2, 6, 23, .45);
+  /* Scrolls within itself when the dock is too short to show every match, rather
+     than growing over the prompt. */
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.rwb-complete-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+}
+
+.rwb-complete-row:hover { background: var(--rwb-bg-3); }
+
+/* The chosen row, which Enter would insert. */
+.rwb-complete-on { background: var(--rwb-bg-3); }
+
+.rwb-complete-name {
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  color: var(--rwb-ink);
+  white-space: nowrap;
+}
+
+/* The part already typed. */
+.rwb-complete-name b {
+  color: #7dd3fc;                                 /* sky-300 */
+  font-weight: 600;
+}
+
+/* What the command takes, from the docs page's own syntax line. */
+.rwb-complete-syntax {
+  margin-left: auto;
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 11px;
+  color: var(--rwb-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* redis-cli's own hint: the arguments still to come, dimmed, immediately after
+   what has been typed. Laid over the prompt line because an <input> cannot hold
+   styled text — pointer-events off, so it is scenery and not a target. */
+.rwb-ghost {
+  position: absolute;
+  pointer-events: none;
+  /* Not part of the transcript: it lives inside the prompt line, so without this
+     a reader selecting their session would copy the syntax hint along with their
+     own commands. */
+  user-select: none;
+  white-space: pre;
+  color: var(--rwb-muted);
+  opacity: 0.75;
+}
+
+.rwb-complete-more {
+  /* Held at the foot of the list: when the dock is short enough that the list
+     scrolls, "keep typing" is the way out of it, and a reader who cannot see the
+     line has no reason to think there is more than the rows in front of them. */
+  position: sticky;
+  bottom: 0;
+  padding: 0.2rem 0.5rem;
+  border-top: 1px solid var(--rwb-line-soft);
+  background: var(--rwb-bg-2);
+  font-size: 10.5px;
+  color: var(--rwb-muted);
+}
+
+/* ---- an openable row, and what it opens ---- */
+
+.rwb-col-open {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.rwb-open-row {
+  font: inherit;
+  font-size: 11px;
+  color: var(--rwb-ink-2);
+  background: transparent;
+  border: 1px solid var(--rwb-line-soft);
+  border-radius: 0.25rem;
+  padding: 0 0.35rem;
+  cursor: pointer;
+}
+
+.rwb-open-row:hover {
+  color: var(--rwb-ink);
+  border-color: var(--rwb-muted);
+}
+
+.rwb-back {
+  font: inherit;
+  font-size: 11.5px;
+  color: var(--rwb-ink-2);
+  background: transparent;
+  border: 0;
+  padding: 0 0.25rem 0 0;
+  cursor: pointer;
+}
+
+.rwb-back:hover { color: var(--rwb-ink); }
+
+.rwb-hint {
+  margin: 0 0 0.25rem;
+  font-size: 11px;
+  color: var(--rwb-muted);
+}
+
+/* ---- value view ---- */
+
+.rwb-value-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rwb-line-soft);
+  margin-bottom: 0.5rem;
+}
+
+.rwb-value-name {
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.rwb-facts {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+  margin-left: auto;
+  /* Without this the row cannot shrink below its content — a flex item's
+     min-width is `auto` — so its own wrap never applies and the last badge is
+     clipped by the column instead. */
+  min-width: 0;
+}
+
+.rwb-fact {
+  font-size: 10.5px;
+  color: var(--rwb-ink-2);
+  background: var(--rwb-bg-2);
+  border-radius: 999px;
+  padding: 0.0625rem 0.4rem;
+  white-space: nowrap;
+}
+
+/* A fact worth noticing rather than merely reading. */
+.rwb-fact-warn {
+  color: #fca5a5;                                 /* red-300 */
+  border-color: #7f1d1d;                          /* red-900 */
+}
+
+.rwb-table-wrap { overflow-x: auto; }
+
+/* A table whose columns take the width their content needs, scrolling sideways
+   inside .rwb-table-wrap when the column is too narrow for all of them. The
+   default is width:100%, which squeezes the last column until it clips. */
+.rwb-table-fit {
+  width: auto;
+  min-width: 100%;
+}
+
+.rwb-table-fit th,
+.rwb-table-fit td {
+  white-space: nowrap;
+  overflow-wrap: normal;
+  padding-right: 1.25rem;
+}
+
+.rwb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 12px;
+}
+
+.rwb-table th {
+  text-align: left;
+  font-family: inherit;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--rwb-muted);
+  font-weight: 600;
+  padding: 0.2rem 0.5rem 0.2rem 0;
+  border-bottom: 1px solid var(--rwb-line);
+  position: sticky;
+  top: 0;
+  background: var(--rwb-bg);
+}
+
+.rwb-table td {
+  padding: 0.2rem 0.5rem 0.2rem 0;
+  border-bottom: 1px solid var(--rwb-line-soft);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+/* Field / index / member columns describe the row, so they shrink to their
+   content and keep the value beside them instead of splitting the table in half. */
+.rwb-table th:first-child,
+.rwb-table td:first-child {
+  width: 1px;
+  white-space: nowrap;
+  padding-right: 1.5rem;
+}
+
+.rwb-table td:first-child { color: var(--rwb-ink-2); }
+
+/* Schema flags wrap between themselves and never inside one. */
+.rwb-flag {
+  display: inline-block;
+  margin-left: 0.4rem;
+  overflow-wrap: normal;
+  white-space: nowrap;
+  font-size: 10px;
+  color: var(--rwb-muted);
+}
+
+.rwb-text {
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: var(--rwb-ink);
+}
+
+.rwb-json { color: #a5f3fc; }   /* cyan-200: reads as data, not prose */
+
+.rwb-entry {
+  padding: 0.375rem 0 0.5rem;
+  border-bottom: 1px solid var(--rwb-line-soft);
+}
+
+.rwb-entry-id {
+  display: block;
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 11.5px;
+  color: #f9a8d4;
+  margin-bottom: 0.2rem;
+}
+
+.rwb-limited {
+  margin: 0.375rem 0 0;
+  font-size: 11px;
+  color: var(--rwb-muted);
+  font-style: italic;
+}
+
+.rwb-ran {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+  margin: 0.625rem 0 0;
+  font-size: 11px;
+  color: var(--rwb-muted);
+}
+
+.rwb-ran-label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 9.5px;
+}
+
+.rwb-ran code {
+  font-family: ui-monospace, "Cascadia Code", Menlo, monospace;
+  font-size: 11px;
+  color: var(--rwb-ink-2);
+  background: var(--rwb-bg-2);
+  border-radius: 0.1875rem;
+  padding: 0.0625rem 0.3rem;
+}
+
+/* ---- narrow screens: stack the columns ---- */
+
+@media (max-width: 48rem) {
+  /* Three columns need width none of them has here, so they become rows: the
+     terminal, then the keys, then the value, each scrolling on its own. The
+     dividers drag horizontally, which a stack cannot honour, so they go. */
+  .rwb-split {
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .rwb-col {
+    flex: 1 1 auto !important;
+    min-height: 8rem;
+  }
+
+  .rwb-col-keys,
+  .rwb-col-value { border-top: 1px solid var(--rwb-line); }
+
+  /* Stacked columns already scroll as one; the sections go back to being part of
+     that rather than two boxes with their own scrollbars. */
+  .rwb-col-keys { overflow: auto; }
+
+  .rwb-sect { flex: 0 0 auto !important; }
+
+  .rwb-sect > .rwb-keys { overflow-y: visible; }
+
+  .rwb-divider { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rwb-chevron,
+  .rwb-btn,
+  .rwb-grip::after,
+  .rwb-toggle { transition: none; }
+}
+
+/* No `.prose` resets are needed here: the dock is appended to <body>, and the
+   docs' typography styles are scoped to the `.prose` section inside <main>, so
+   they never reach it. Every element the dock builds sets the margins, padding
+   and colours it needs above. If the dock ever moves inside the content area,
+   those rules will start applying and this is the first place to look. */

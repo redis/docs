@@ -1,0 +1,28 @@
+{{- /* The command list the terminal completes against, built from the command
+       pages themselves rather than a second copy of the same knowledge: each
+       content/commands/*.md already carries the syntax line its own page shows
+       (syntax_fmt), the one-line summary, and the group.
+
+       Published as a file rather than inlined, because every page with the
+       workbench would otherwise carry ~60KB it may never use; the terminal
+       fetches it on the first keystroke and the browser caches it across pages.
+
+       syntax_fmt is authored for print: "\_" stands for a non-breaking space
+       inside a token (SET's "IFEQ\_ifeq-value") and long forms wrap over several
+       lines. Both are flattened here — a completion hint is one line. */ -}}
+{{- $commands := slice -}}
+{{- range where .Site.RegularPages "Section" "commands" -}}
+  {{- $syntax := .Params.syntax_fmt | default "" -}}
+  {{- /* "\_" in the source YAML is a double-quoted-scalar escape, so what arrives
+         here is already U+00A0. */ -}}
+  {{- $syntax = $syntax | replaceRE "\\x{00a0}" " " | replaceRE `\s*\n\s*` " " | replaceRE ` +` " " -}}
+  {{- if .Title -}}
+    {{- $commands = $commands | append (dict
+        "n" .Title
+        "s" (trim $syntax " ")
+        "d" (trim (.Params.summary | default "") " ")
+        "g" (.Params.group | default "")) -}}
+  {{- end -}}
+{{- end -}}
+{{- $data := resources.FromString "js/redis-commands.json" (jsonify $commands) -}}
+{{- $data.RelPermalink -}}

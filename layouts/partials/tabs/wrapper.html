@@ -116,6 +116,7 @@
                     title="Run these commands in the Redis CLI"
                     data-codetabs-id="{{ $id }}"
                     {{ if $tryItSource }}data-tryit-source="{{ $tryItSource }}"{{ end }}
+                    {{ if and $isPrereq $exampleSet }}data-tryit-setup="{{ $id }}"{{ end }}
                     onclick="openTryItCli(this)"
                     aria-label="Try these Redis commands in an interactive CLI">
                 <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -283,50 +284,8 @@
 </div>
 <!-- spellchecker-enable -->
 
+{{ partial "tryit-script.html" . }}
 <script>
-// Registry for Try It CLI commands (populated per codetabs instance)
-window._tryItCommands = window._tryItCommands || {};
-// Registry for per-set prerequisite setup commands (populated by prereq blocks)
-window._tryItPrereqs = window._tryItPrereqs || {};
-
-// Global function to open Try It CLI with pre-populated commands
-window.openTryItCli = window.openTryItCli || function(button) {
-    const codetabsId = button.getAttribute('data-codetabs-id');
-    const anchor = document.querySelector('a[data-codetabs-id="' + codetabsId + '"]');
-
-    const commands = [];
-
-    // Try It seeding is driven solely by the explicit prereq model.
-    // data-builds-upon is metadata only (AI/markdown export) and is
-    // intentionally NOT consulted here.
-    if (anchor && anchor.getAttribute('data-needs-prereq') === 'true') {
-        // Replay this set's prereq block (the one flagged prereq="true")
-        // before this example's own commands.
-        const set = anchor.getAttribute('data-example-set');
-        const prereqs = (set && window._tryItPrereqs) ? window._tryItPrereqs[set] : null;
-        if (prereqs && prereqs.length) commands.push.apply(commands, prereqs);
-    }
-    const own = window._tryItCommands[codetabsId];
-    if (own && own.length) commands.push.apply(commands, own);
-
-    if (!commands.length) return;
-
-    // URL-safe base64 of the JSON payload, no padding. Avoids the %5C%22
-    // patterns produced by raw JSON+encodeURIComponent, which trigger
-    // Cloudflare WAF SQLi/XSS-bypass rules.
-    const json = JSON.stringify(commands);
-    const b64 = btoa(unescape(encodeURIComponent(json)))
-        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-    // Attribution: which docs page + snippet launched this run. snippet is the
-    // codetabs id (stable, already on the button); source is the page path.
-    // Kept out of the base64 so the backend can read them without decoding.
-    const source = button.getAttribute('data-tryit-source') || '';
-    let url = 'https://redis.io/cli?commands=' + b64 + '&autorun=true'
-        + '&snippet=' + encodeURIComponent(codetabsId);
-    if (source) url += '&source=' + encodeURIComponent(source);
-    window.open(url, '_blank', 'noopener,noreferrer');
-};
-
 // Global function to toggle commands foldout
 window.toggleCommandsFoldout = window.toggleCommandsFoldout || function(button) {
     const details = button.nextElementSibling;
@@ -527,6 +486,10 @@ window.toggleCliOutputForCodetabs = window.toggleCliOutputForCodetabs || functio
     window._tryItCommands[codetabsId] = {{ $tryItCommands | jsonify | safeJS }};
     {{ if and $isPrereq $exampleSet }}
     window._tryItPrereqs[{{ $exampleSet | jsonify | safeJS }}] = window._tryItCommands[codetabsId];
+    // Also a part of this page's setup, which every other "Try it" here runs
+    // first. A page can mark more than one block: the parts run in document
+    // order, which is the order they registered in.
+    window.registerTryItSetup({{ $exampleSet | jsonify | safeJS }}, codetabsId, window._tryItCommands[codetabsId]);
     {{ end }}
     {{ end }}
     const langSelect = document.getElementById('lang-select-' + codetabsId);
