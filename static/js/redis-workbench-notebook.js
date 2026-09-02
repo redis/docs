@@ -949,10 +949,22 @@
       var rest = state.slots.filter(function (entry) { return entry.deps.length > 0; });
 
       return openers.reduce(function (chain, entry) {
-        return chain.then(function () {
-          return runOne(entry.container, { timeout: FIRST_RUN_TIMEOUT });
+        return chain.then(function (results) {
+          return runOne(entry.container, { timeout: FIRST_RUN_TIMEOUT }).then(function (result) {
+            results.push(result);
+            return results;
+          });
         });
-      }, Promise.resolve()).then(function () {
+      }, Promise.resolve([])).then(function (openerResults) {
+        /* skipPrereqs below trusts that the openers already ran, since that is
+           what makes their variables exist. An opener that did not actually
+           execute — the dropped-execute case above, no kernel, a timeout —
+           leaves that unmet, and clicking dependents anyway is how a `connect`
+           that never ran left every dependent erroring on an undefined name,
+           or a kernel that is fine but silent got marked dead. */
+        var allRan = openerResults.length > 0
+          && openerResults.every(function (result) { return result === 'ran'; });
+        if (!allRan) return 'stopped';
         var pending = [];
         return rest.reduce(function (chain, entry) {
           return chain.then(function () {
@@ -960,11 +972,15 @@
             return wait(CLICK_STAGGER);
           });
         }, Promise.resolve()).then(function () { return Promise.all(pending); });
-      }).then(function () {
+      }).then(function (outcome) {
         state.running = false;
         runAll.disabled = false;
         refreshGating();
-        api.setStatus(kernelText());
+        /* The failed opener's own cell already carries the specific marker;
+           kernelText() here could still say "kernel ready", which reads as if
+           the stop never happened. */
+        api.setStatus(outcome === 'stopped'
+          ? 'Run the first code snippet to start the kernel' : kernelText());
       }, function () {
         state.running = false;
         runAll.disabled = false;
