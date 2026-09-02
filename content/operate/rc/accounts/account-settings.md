@@ -86,6 +86,7 @@ Select **Save changes** to save your changes or **Discard changes** to revert th
 The **Integrations** tab includes settings that help you manage integrations of your Redis Cloud account with other services.
 
 For more details, see:
+- [Native Datadog integration]({{< relref "/integrate/datadog-with-redis-cloud/native" >}}) (Redis Cloud Pro)
 - [Use the Redis Sink Confluent Connector]({{< relref "/integrate/confluent-with-redis-cloud/" >}})
 - [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}})
 
