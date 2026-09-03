@@ -72,7 +72,7 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    See the [Redis Software on Docker quick start]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) for the full procedure, or the [Redis Software on Linux quick start]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) to install without Docker.
 
-   Database creation on Redis Software is a console or REST API step. To create a database with the REST API:
+   You can create databases with Redis Software using the console or the REST API. To create a database with the REST API:
 
    ```sh
    POST https://<host>:<port>/v1/bdbs
