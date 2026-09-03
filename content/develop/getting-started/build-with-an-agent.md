@@ -37,7 +37,6 @@ Add the server to your MCP client's configuration:
 }
 ```
 
-Start with `search`, then call `fetch` on any result you need the full text of. Reserve `ask` for questions that cut across multiple pages.
 
 ## Agent skills
 
