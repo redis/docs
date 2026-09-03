@@ -28,9 +28,9 @@ deploy them.
 
 ## How a pipeline works
 
-An RDI pipeline captures change data records from the source database, and transforms them
-into Redis data structures. It writes each of these new structures to a Redis target
-database under its own key. 
+An RDI pipeline captures change data records from one or more source databases, and
+transforms them into Redis data structures. It writes each of these new structures to a
+Redis target database under its own key.
 
 By default, RDI transforms the source data into
 [hashes]({{< relref "/develop/data-types/hashes" >}}) or
@@ -93,6 +93,10 @@ to the snapshot phase. When this is complete, the pipeline continues with CDC as
 ## Using a pipeline
 
 Follow the steps described in the sections below to prepare and run an RDI pipeline.
+
+The following example uses a single-source pipeline. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+for details on how to capture multiple sources in one pipeline.
 
 ### 1. Prepare the source database
 

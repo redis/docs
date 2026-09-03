@@ -13,6 +13,9 @@ that RDI rejected. Use
 [`list-dlq-records`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlq-records" >}})
 to read the records of a single queue.
 
+There is one queue per source table, named `<source>.<schema_or_database>.<table>`, where
+`<source>` is the source name from `config.yaml`.
+
 ## Usage
 
 ```

@@ -34,7 +34,7 @@ The following table summarizes the considerations to prepare a MongoDB database 
 | Oplog               | Sufficient size for snapshot and streaming                                  |
 | Pre/Post Images     | Enable on collections **only if using a custom key**                        |
 | Connection String   | Must include all hosts, replicaSet (if applicable), authSource, credentials |
-| MongoDB Atlas       | **[SSL required](https://debezium.io/documentation/reference/stable/connectors/mongodb.html#mongodb-property-mongodb-ssl-enabled)**, provide root CA as `SOURCE_DB_CACERT` secret in RDI       |
+| MongoDB Atlas       | **[SSL required](https://debezium.io/documentation/reference/stable/connectors/mongodb.html#mongodb-property-mongodb-ssl-enabled)**, provide root CA as the source's `CACERT` secret in RDI       |
 | MongoDB mTLS        | X.509 authentication requires source TLS secrets and MongoDB SSL properties |
 | Network             | RDI Collector must reach all MongoDB nodes on required ports                |
 
@@ -90,13 +90,18 @@ db.createUser({
 
 The RDI Collector requires a MongoDB connection string that includes all relevant hosts and authentication details.
 
+The credential references come from the source name, which is `mongodb` in the examples on
+this page. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+for the source naming rules.
+
 Example (Replica Set):
 ```
-mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host1:27017,host2:27017,host3:27017/?replicaSet=rs0&authSource=admin
+mongodb://${MONGODB_DB_USERNAME}:${MONGODB_DB_PASSWORD}@host1:27017,host2:27017,host3:27017/?replicaSet=rs0&authSource=admin
 ```
 Example (Sharded Cluster):
 ```
-mongodb://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@host:30000
+mongodb://${MONGODB_DB_USERNAME}:${MONGODB_DB_PASSWORD}@host:30000
 ```
 - For Atlas, adjust the connection string accordingly (see example below).
 - Set `replicaSet` and `authSource` as appropriate for your deployment.
@@ -119,22 +124,23 @@ db.runCommand({
 ## 5. MongoDB Atlas specific requirements
 
 MongoDB Atlas only supports secure connections via SSL.
-The root CA certificate for MongoDB Atlas must be added as a SOURCE_DB_CACERT secret in RDI.
+The root CA certificate for MongoDB Atlas must be added as the source's `CACERT` secret in RDI.
 
 - Download the MongoDB Atlas root CA certificate.
-- In RDI, add this certificate as a secret named SOURCE_DB_CACERT.
+- In RDI, add this certificate with
+  `redis-di set-secret CACERT --db mongodb /path/to/atlas-ca.crt`.
 - Ensure that the `mongodb.ssl.enabled: true` setting is present in your RDI configuration.
 
 Example connection string for Atlas:
 ```
-mongodb+srv://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@cluster0.mongodb.net/?authSource=admin
+mongodb+srv://${MONGODB_DB_USERNAME}:${MONGODB_DB_PASSWORD}@cluster0.mongodb.net/?authSource=admin
 ```
 
 ## 6. Self-hosted MongoDB mTLS and X.509 authentication
 
-For self-hosted MongoDB deployments that require TLS, set the source CA certificate
-as the `SOURCE_DB_CACERT` secret. For X.509 client certificate authentication, also
-set the `SOURCE_DB_CERT` and `SOURCE_DB_KEY` secrets. See
+For self-hosted MongoDB deployments that require TLS, set the source's `CACERT` secret to
+the source CA certificate. For X.509 client certificate authentication, also set the
+source's `CERT` and `KEY` secrets. See
 [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
 for the full list of source database TLS and mTLS secrets.
 
@@ -145,11 +151,12 @@ properties in the source `advanced.source` section:
 advanced:
   source:
     mongodb.ssl.enabled: true
-    mongodb.ssl.keystore: /debezium/certs/source_db_keystore
+    mongodb.ssl.keystore: /debezium/certs/mongodb_db_keystore
     mongodb.ssl.keystore.password: debezium
 ```
 
-The RDI Collector builds `/debezium/certs/source_db_keystore` from the source
+The keystore is named after the source, so a source named `mongodb` uses
+`/debezium/certs/mongodb_db_keystore`. The RDI Collector builds it from the source
 database client certificate and private key secrets. Debezium requires the
 `mongodb.ssl.keystore` and `mongodb.ssl.keystore.password` properties to present
 the client certificate to MongoDB.

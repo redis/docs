@@ -71,6 +71,10 @@ the `config.yaml` file and then edit the following settings:
 
 At this point, the pipeline is ready to deploy.
 
+This tutorial uses one source database, but a pipeline can capture from several source databases
+into the same Redis target. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}).
+
 ### Create a context (optional) {#create-context}
 
 To manage and inspect RDI, you can use the
