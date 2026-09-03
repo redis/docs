@@ -120,12 +120,18 @@ See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service
 
 ### Exclude sensitive data from automatic extraction
 
-Semantic exclusions guide Redis Agent Memory away from storing specified information in long-term memory during automatic extraction. Define an exclusion prompt in the service configuration that describes, in plain language, what must not be kept, such as passwords, access tokens, recovery codes, payment card information, or booking confirmation codes.
+Sensitive-data exclusions keep specified information out of long-term memory during automatic extraction. A store's exclusions policy combines three mechanisms that you enable independently:
 
-Exclusions apply to automatic extraction from session events. They do not apply when an application creates long-term memories directly.
+* **Built-in detectors:** Validated patterns for common identifiers, such as payment card numbers, email addresses, phone numbers, IP addresses, and US Social Security numbers. Select the ones a store should apply.
+* **Custom detectors:** Regular expressions you write yourself, for identifiers specific to your domain such as tenant IDs or internal reference numbers.
+* **Semantic exclusions:** A plain-language exclusion prompt describing what must not be kept, such as passwords, access tokens, recovery codes, payment card information, or booking confirmation codes. Use it for concepts a pattern cannot express.
+
+Every detector chooses what happens to a memory it matches: redact the matched text and keep the rest, or drop the memory. When a memory matches several detectors that choose different actions, the memory is dropped.
+
+Exclusions apply to automatic extraction from session events. They do not apply when an application creates long-term memories directly, and session memory itself is never altered.
 
 {{< warning >}}
-Semantic exclusions are advisory and do not guarantee exclusion. Sensitive session content still reaches the extraction model provider. Use appropriate controls before sending sensitive information to Redis Agent Memory or the model provider.
+Detector matches are deterministic, but semantic exclusions are advisory and do not guarantee exclusion. Sensitive session content still reaches the extraction model provider. Use appropriate controls before sending sensitive information to Redis Agent Memory or the model provider.
 {{< /warning >}}
 
 See [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) to configure the feature in Redis Cloud.
