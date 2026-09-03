@@ -67,7 +67,7 @@ Or install it as a plugin in your agent tool of choice:
 - **Cursor**: `/add-plugin redis`
 - **ChatGPT/Codex**: use the package under [`plugins/redis-development/`](https://github.com/redis/agent-skills/tree/main/plugins/redis-development) in the repository
 
-## Next steps
+## See also
 
 - [Redis MCP server]({{< relref "/integrate/redis-mcp" >}}) — connect an agent to your own Redis database
 - [Redis client libraries]({{< relref "/develop/clients" >}})
