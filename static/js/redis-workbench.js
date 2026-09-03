@@ -1033,9 +1033,17 @@
       function () { cli().clear(self.terminalForm); }));
     /* The way out of the sandbox: what the reader has run here, as lines they can
        paste into a redis-cli of their own. The transcript holds replies and
-       prompts as well, so copying that would need editing before it ran. */
+       prompts as well, so copying that would need editing before it ran.
+
+       The session, not the view. "Clear terminal" next to it clears what is
+       printed — a display action, where "Clear keys" is the one that destroys
+       something and asks first — so tying the copy to what happens to be on
+       screen would make tidying up quietly throw work away, and `clear` in
+       redis-cli does not drop its history either. The tooltip says so, because
+       the reader cannot see what they are getting. */
     this.copyButton = this.button(COPY_LABEL,
-      'Copy every command run here, ready to paste into redis-cli',
+      'Copy every command run in this session, including any cleared from the '
+      + 'transcript — ready to paste into redis-cli',
       function () { self.copyCommands(); });
     terminalTools.appendChild(this.copyButton);
     this.terminalToolbar = terminalTools;
