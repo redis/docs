@@ -132,7 +132,7 @@ This section shows how to set up a Redis deployment and connect to it with `redi
    docker exec -it redis redis-cli
    ```
 
-   See [Redis CLI]({{< relref "/develop/tools/cli" >}}) for the full procedure, including non-Docker installs and [Redis Insight]({{< relref "/develop/tools/insight" >}}) as a GUI alternative.
+   See [Redis CLI]({{< relref "/develop/tools/cli" >}}) for the full procedure, including non-Docker installs and [Redis Insight]({{< relref "/develop/tools/insight" >}}) as a GUI alternative to the CLI.
 
    {{< /multitabs >}}
 
