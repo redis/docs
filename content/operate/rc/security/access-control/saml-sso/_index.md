@@ -275,7 +275,7 @@ If you change certain metadata or configuration settings after you set up SAML S
 After you set up SAML SSO for one account, you can link other accounts you own to the existing SAML configuration. This lets you use the same SAML configuration for SSO across multiple accounts.
 
 {{<note>}}
-You must have the `Owner` role assigned to your user account for all accounts you want to link. The same user must link each account to the original configuration.
+You must have the `Owner` role assigned to your user account for all accounts you want to link. That is, you must be an owner of the account that you want to link. The same user must link each account to the original configuration.
 {{</note>}}
 
 To link other accounts to an existing SAML SSO configuration:
