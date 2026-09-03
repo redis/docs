@@ -32,6 +32,24 @@ Flex is **not** a durable data store. It is designed for performance, elasticity
 
 For workloads that require durability and recovery across restarts or failures, use Redis Cloud's [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) features.
 
+## Best practices and limitations
+
+### RAM percentage
+
+On Redis Cloud Essentials, the RAM percentage for Flex plans is fixed at 10% and can't be changed. On Redis Cloud Pro, you can select a RAM percentage between 10% and 50% when you create your database. See [Choosing the right RAM ratio](https://support.redislabs.com/hc/en-us/articles/36437338181522-Redis-Flex-V2-Choosing-the-Right-RAM-Ratio-and-Troubleshooting-Performance) for guidance on selecting a RAM percentage.
+
+### Key and value sizes
+
+Similar to best practices for in-memory Redis, we recommend storing relatively small keys and values in Flex. If possible, avoid large objects (>10 KB).
+
+Depending on your application's traffic pattern, using large objects might decrease performance, since the entire value is moved from RAM to Flash storage and vice versa.
+
+Flex databases cannot store keys or values larger than 4 GB in Flash storage. Keys or values larger than 4 GB are stored in RAM only, and warnings appear in the Redis logs similar to:
+
+```
+# WARNING: key too big for disk driver, size: 4703717276, key: subactinfo:htable
+```
+
 ## Create a Flex database 
 
 ### Redis Cloud Essentials
