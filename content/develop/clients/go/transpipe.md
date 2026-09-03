@@ -32,6 +32,12 @@ If you want the client to batch concurrent commands into pipelines for you
 without writing any pipeline code, see
 [Automatic pipelining]({{< relref "/develop/clients/go/autopipeline" >}}).
 
+Both types of batch run on a separate pool of connections that the client keeps
+for them, so a burst of batches doesn't compete with your ordinary commands for
+the same connections. See
+[Connection pooling]({{< relref "/develop/clients/go/produsage#connection-pooling" >}})
+for how to size that pool.
+
 ## Execute a pipeline
 
 To execute commands in a pipeline, you first create a pipeline object
