@@ -58,6 +58,85 @@ Response:
 }
 ```
 
+List the built-in sensitive-data detectors a store may select:
+
+```bash
+curl -sS "$CP_URL/v1/detectors" \
+  -H "Authorization: Bearer $RAM_ADMIN_TOKEN"
+```
+
+Response:
+
+```json
+{
+  "catalogVersion": "1.0.0",
+  "detectors": [
+    {
+      "id": "credit-card",
+      "name": "Credit card number",
+      "description": "Payment card numbers, covering Visa, Mastercard, American Express, Discover, JCB, Diners Club and UnionPay. Maestro is not covered. Digits may be separated by spaces or hyphens."
+    }
+  ]
+}
+```
+
+Read detector IDs from this endpoint rather than copying them from documentation. The catalog is compiled into the server, so it is never empty, and `catalogVersion` identifies the generation a result came from.
+
+Create a store with sensitive-data exclusions:
+
+```bash
+curl -sS -X POST "$CP_URL/v1/stores" \
+  -H "Authorization: Bearer $RAM_ADMIN_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "my-store",
+    "longTermMemoryExclusions": {
+      "enabled": true,
+      "builtInDetectors": {
+        "enabled": true,
+        "detectors": [
+          { "id": "credit-card", "enabled": true, "action": "drop" },
+          { "id": "ip-address", "enabled": true, "action": "redact" }
+        ]
+      },
+      "customDetectors": {
+        "enabled": true,
+        "detectors": [
+          {
+            "name": "internal-case-reference",
+            "enabled": true,
+            "action": "redact",
+            "matcher": {
+              "kind": "regex",
+              "regex": { "pattern": "CASE-REF-[0-9]{6}" }
+            }
+          }
+        ]
+      },
+      "semantic": {
+        "enabled": true,
+        "prompt": "Never keep a customer's payment card number in long-term memory."
+      }
+    }
+  }'
+```
+
+Exclusions fields:
+
+| Field | Notes |
+| ----- | ----- |
+| `enabled` | Required. Gates all three mechanisms. Turning it off stops enforcement without discarding what you configured. |
+| `builtInDetectors.detectors[].id` | Required. A detector ID from `/v1/detectors`. |
+| `customDetectors.detectors[].name` | Required. 1-64 characters, starting with a letter, followed by letters, digits, underscores, or dashes. Unique within the store, and not a built-in detector ID. |
+| `matcher.kind` | Required. Use `regex`. |
+| `matcher.regex.pattern` | Required when `kind` is `regex`. 1-512 characters, evaluated by RE2, so lookaround is unavailable. Rejected if it does not compile, or if it can match without consuming text. |
+| `action` | Optional on any detector. Use `redact` to replace the matched text or `drop` to discard the memory. Defaults to `redact`. |
+| `semantic.prompt` | Required when `semantic.enabled` is `true`. Up to 2,000 characters. |
+
+A store may define at most 32 custom detectors. Update an existing store's policy by sending `longTermMemoryExclusions` on a store update.
+
+For what each mechanism does, how a match is handled, and which memory paths exclusions apply to, see [exclude sensitive data from automatic extraction]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#exclude-sensitive-data-from-automatic-extraction" >}}).
+
 Mint an agent key:
 
 ```bash
