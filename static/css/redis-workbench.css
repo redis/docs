@@ -1174,6 +1174,23 @@ body.rwb-dragging-y * {
 
 .rwb-path-run { flex: none; }
 
+/* The × that drops the path. As tall as Run beside it — the padding that makes
+   .rwb-btn that height assumes a line of text, and a single glyph on line-height
+   1 came up short. Squared off by matching the width to the height. */
+.rwb-path-clear {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  /* .rwb-btn's vertical padding kept, its horizontal padding dropped for the
+     square: that padding plus this line box is what makes Run 25px, and the
+     glyph is set larger inside the same box rather than growing it. */
+  padding: 0.25rem 0;
+  font-size: 15px;
+  line-height: 17px;
+}
+
 /* A read that failed, said in the colour of a failure. Compounded with
    .rwb-text, because a failed JSONPath read is also .rwb-json — which sets cyan,
    comes later in this file and, at equal specificity, was winning. */

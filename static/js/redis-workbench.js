@@ -2279,6 +2279,21 @@
     input.setAttribute('aria-label', 'JSONPath to read from ' + key.name);
     input.placeholder = '$.field, $.list[*], $..name';
     row.appendChild(input);
+    /* One click back to the whole document. Only while a path is in force:
+       clearing an empty box is a control that does nothing, and this row already
+       leaves out what it cannot act on. Emptying the box by hand and pressing
+       Enter does the same thing — this saves the two steps. */
+    if (input.value) {
+      var clear = el('button', 'rwb-btn rwb-path-clear', '\u00d7');
+      clear.type = 'button';
+      clear.title = 'Clear the path and show the whole document';
+      clear.setAttribute('aria-label', 'Clear the path');
+      clear.addEventListener('click', function () {
+        input.value = '';
+        self.readJsonPath(key, '');
+      });
+      row.appendChild(clear);
+    }
     var go = el('button', 'rwb-btn rwb-path-run', 'Run');
     go.type = 'submit';
     go.title = 'Read this path with JSON.GET';
