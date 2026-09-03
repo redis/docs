@@ -121,6 +121,7 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    ```sh
    docker exec -it <container_name_or_ID> redis-cli -h <host_or_IP> -p <port>
+   ```
 
    See [Connect to a Redis Software database]({{< relref "/operate/rs/databases/connect" >}}) for the full procedure and for further options, including Redis Insight and client library connections.
 
