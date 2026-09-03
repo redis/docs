@@ -120,7 +120,7 @@ See [memory configuration]({{< relref "/operate/iris/agent-memory/create-service
 
 ### Exclude sensitive data from automatic extraction
 
-Semantic exclusions guide Redis Agent Memory away from storing specified information in long-term memory during automatic extraction. Define an exclusion prompt in the service configuration using plain-language categories such as passwords, access tokens, recovery codes, payment card information, or booking confirmation codes.
+Semantic exclusions guide Redis Agent Memory away from storing specified information in long-term memory during automatic extraction. Define an exclusion prompt in the service configuration that describes, in plain language, what must not be kept, such as passwords, access tokens, recovery codes, payment card information, or booking confirmation codes.
 
 Exclusions apply to automatic extraction from session events. They do not apply when an application creates long-term memories directly.
 
