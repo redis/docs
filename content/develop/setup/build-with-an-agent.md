@@ -22,17 +22,6 @@ Redis publishes two agent-facing tools that work alongside the client libraries 
 This is a different server from the [Redis MCP server]({{< relref "/integrate/redis-mcp" >}}) (`mcp-redis`). `mcp-redis` is a self-hosted server that connects an agent to *your own* Redis database, so it can run commands against your data. The Redis Docs MCP server has no access to any Redis instance except Redis's own documentation index.
 {{< /note >}}
 
-### Tools
-
-The server exposes three tools:
-
-| Tool | Returns | When to use it |
-|------|---------|-----------------|
-| `search(query)` | Up to 8 matching pages, each with a snippet, title, URL, and stable ID | The default for any Redis question |
-| `fetch(id)` | The full text of one page, plus its topic, version, and section metadata | A snippet wasn't enough, or you need to quote the page exactly |
-| `ask(question)` | A prose answer, plus the source documents it was grounded on | A question that spans several areas of the documentation, where no single page answers it |
-
-`search` and `fetch` match the tool contract used by other documentation MCP servers (including the one required by ChatGPT Deep Research connectors), so clients that already support that contract work against this server without extra integration work.
 
 ### Connect a client
 
@@ -48,7 +37,6 @@ Add the server to your MCP client's configuration:
 }
 ```
 
-Start with `search`, then call `fetch` on any result you need the full text of. Reserve `ask` for questions that cut across multiple pages.
 
 ## Agent skills
 
@@ -79,7 +67,7 @@ Or install it as a plugin in your agent tool of choice:
 - **Cursor**: `/add-plugin redis`
 - **ChatGPT/Codex**: use the package under [`plugins/redis-development/`](https://github.com/redis/agent-skills/tree/main/plugins/redis-development) in the repository
 
-## Next steps
+## See also
 
 - [Redis MCP server]({{< relref "/integrate/redis-mcp" >}}) — connect an agent to your own Redis database
 - [Redis client libraries]({{< relref "/develop/clients" >}})

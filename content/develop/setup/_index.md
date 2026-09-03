@@ -72,7 +72,7 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    See the [Redis Software on Docker quick start]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) for the full procedure, or the [Redis Software on Linux quick start]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) to install without Docker.
 
-   Database creation on Redis Software is a console or REST API step. To create a database with the REST API:
+   You can create databases with Redis Software using the console or the REST API. To create a database with the REST API:
 
    ```sh
    POST https://<host>:<port>/v1/bdbs
@@ -117,21 +117,22 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    -tab-sep-
 
+   Connect to your Redis Software database using the following command:
+
    ```sh
    docker exec -it <container_name_or_ID> redis-cli -h <host_or_IP> -p <port>
-   ```
 
-   See [Connect to a Redis Software database]({{< relref "/operate/rs/databases/connect" >}}) for the full procedure, including Redis Insight and client library options.
+   See [Connect to a Redis Software database]({{< relref "/operate/rs/databases/connect" >}}) for the full procedure and for further options, including Redis Insight and client library connections.
 
    -tab-sep-
 
-   If you started Redis with the `docker run` command from step 2:
+   If you started Redis with the `docker run` command from step 2 then you can connect to the database with the following command:
 
    ```sh
    docker exec -it redis redis-cli
    ```
 
-   See [Redis CLI]({{< relref "/develop/tools/cli" >}}) for the full procedure, including non-Docker installs and [Redis Insight]({{< relref "/develop/tools/insight" >}}) as a GUI alternative.
+   See [Redis CLI]({{< relref "/develop/tools/cli" >}}) for the full procedure, including non-Docker installs and [Redis Insight]({{< relref "/develop/tools/insight" >}}) as a GUI alternative to the CLI.
 
    {{< /multitabs >}}
 
