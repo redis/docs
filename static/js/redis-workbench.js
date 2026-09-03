@@ -1035,15 +1035,12 @@
        paste into a redis-cli of their own. The transcript holds replies and
        prompts as well, so copying that would need editing before it ran.
 
-       The session, not the view. "Clear terminal" next to it clears what is
-       printed — a display action, where "Clear keys" is the one that destroys
-       something and asks first — so tying the copy to what happens to be on
-       screen would make tidying up quietly throw work away, and `clear` in
-       redis-cli does not drop its history either. The tooltip says so, because
-       the reader cannot see what they are getting. */
+       What is on screen, no more: a copy that quietly included commands cleared
+       from the transcript surprised the first person to try it, and a button
+       whose result cannot be seen is a button that has to be trusted. Clearing
+       is how the reader says "not that" — see forgetRanCommands. */
     this.copyButton = this.button(COPY_LABEL,
-      'Copy every command run in this session, including any cleared from the '
-      + 'transcript — ready to paste into redis-cli',
+      'Copy the commands in the terminal, ready to paste into redis-cli',
       function () { self.copyCommands(); });
     terminalTools.appendChild(this.copyButton);
     this.terminalToolbar = terminalTools;
@@ -1598,6 +1595,19 @@
      for the label and restore that, leaving the button stuck on it. */
   var COPY_LABEL = 'Copy commands';
 
+  /* An emptied transcript empties what "Copy commands" would hand over, so the
+     two always agree.
+
+     Read off the transcript rather than hooked to the toolbar button: `clear`
+     typed at the prompt is handled inside the widget, which never tells anyone,
+     so a button-only rule would leave the copy full and the screen blank — the
+     surprise this is here to remove. Whatever empties it, this follows. */
+  dock.forgetRanCommands = function () {
+    if (!this.terminalForm) return;
+    var transcript = this.terminalForm.querySelector('pre');
+    if (transcript && transcript.childNodes.length === 0) this.ranCommands = [];
+  };
+
   dock.copyCommands = function () {
     var button = this.copyButton;
     var commands = this.ranCommands;
@@ -1730,6 +1740,7 @@
     if (this.transcriptWatcher) this.transcriptWatcher.disconnect();
     this.transcriptWatcher = new MutationObserver(function () {
       if (self.following) self.scrollTerminal();
+      self.forgetRanCommands();
     });
     this.transcriptWatcher.observe(form,
       { childList: true, subtree: true, characterData: true });
