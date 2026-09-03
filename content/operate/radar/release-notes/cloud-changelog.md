@@ -14,7 +14,7 @@ This page lists what changed in each Redis Radar release on Redis Cloud. Redis C
 
 To get started with Redis Cloud's hosted Radar, see [Redis Radar on Redis Cloud]({{< relref "/operate/rc/radar" >}}).
 
-## 2026.09.XX
+## 2026.9.2
 
 Redis Radar becomes available in Redis Cloud. Sign in with your existing Redis Cloud credentials; there's nothing to install. Radar gives you one fleet-wide view of every Redis cluster you run.
 
