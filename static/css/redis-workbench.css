@@ -1174,8 +1174,10 @@ body.rwb-dragging-y * {
 
 .rwb-path-run { flex: none; }
 
-/* A read that failed, said in the colour of a failure. */
-.rwb-failed { color: #fca5a5; }                   /* red-300 */
+/* A read that failed, said in the colour of a failure. Compounded with
+   .rwb-text, because a failed JSONPath read is also .rwb-json — which sets cyan,
+   comes later in this file and, at equal specificity, was winning. */
+.rwb-text.rwb-failed { color: #fca5a5; }          /* red-300 */
 
 .rwb-value-head {
   display: flex;

@@ -2148,6 +2148,15 @@
     this.selected = name;
     this.renderKeys();
 
+    /* A JSON document the reader has queried is re-read at their path, not at the
+       root. This runs on every sweep — any command re-renders whatever is open —
+       and reading the root while the Path box still showed `$.model` left the box,
+       the value and the "Read with" line disagreeing about what was on screen. */
+    var queried = this.jsonPath;
+    if (key.type === 'ReJSON-RL' && queried && queried.name === name && queried.path) {
+      return this.readJsonPath(key, queried.path);
+    }
+
     var probe = valueProbe(name, key.type, key.size);
     /* Neither MEMORY USAGE nor OBJECT ENCODING. Both describe what is actually
        stored, and what is actually stored here is not what a reader would have on
