@@ -661,8 +661,8 @@ Select your preferred programming language from the tabs in each step below.
    - [Data structure store]({{< relref "/develop/get-started/data-store" >}})
    - [Document database]({{< relref "/develop/get-started/search-tutorial" >}})
    - [Vector database]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})
-   - [AI agents and chatbots]({{< relref "/develop/get-started/redis-in-ai" >}})
-   - [Retrieval Augmented Generation (RAG)]({{< relref "/develop/get-started/rag" >}})
+
+   Refer to the [Redis use cases]({{< relref "/develop/use-cases" >}}) page for a complete set of use cases with code examples in your programming language.
 
 ### Next steps
 
