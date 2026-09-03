@@ -2290,7 +2290,7 @@
       clear.setAttribute('aria-label', 'Clear the path');
       clear.addEventListener('click', function () {
         input.value = '';
-        self.readJsonPath(key, '');
+        self.readJsonPath(key, '').then(function () { self.focusJsonPath(0); });
       });
       row.appendChild(clear);
     }
@@ -2300,9 +2300,32 @@
     row.appendChild(go);
     row.addEventListener('submit', function (event) {
       event.preventDefault();
-      self.readJsonPath(key, input.value.trim());
+      /* Where the caret was, to put it back in the box that replaces this one. */
+      var caret = input.selectionStart;
+      self.readJsonPath(key, input.value.trim())
+        .then(function () { self.focusJsonPath(caret); });
     });
     return row;
+  };
+
+  /* Back in the Path box after a read, caret where the reader left it.
+
+     Reading redraws the whole value pane, so the box they pressed Enter in is
+     gone by the time the answer is on screen and focus has fallen back to the
+     document. Trying a path is usually trying several — `$.a`, then `$.a[0]`,
+     then `$..a` — and each one meant clicking back into the box first.
+
+     Only after a read the reader asked for. The same redraw runs on every sweep,
+     and grabbing focus because a command finished elsewhere would take the
+     keyboard away from whatever they were doing. */
+  dock.focusJsonPath = function (caret) {
+    if (!this.valuePane) return;
+    var box = this.valuePane.querySelector('.rwb-path-input');
+    if (!box) return;
+    box.focus({ preventScroll: true });
+    var at = typeof caret === 'number' ? Math.min(caret, box.value.length)
+      : box.value.length;
+    box.setSelectionRange(at, at);
   };
 
   /* JSON.GET at a path. A path that matches nothing answers with an empty array
