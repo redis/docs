@@ -117,9 +117,10 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    -tab-sep-
 
+   Connect to your Redis Software database using the following command:
+
    ```sh
    docker exec -it <container_name_or_ID> redis-cli -h <host_or_IP> -p <port>
-   ```
 
    See [Connect to a Redis Software database]({{< relref "/operate/rs/databases/connect" >}}) for the full procedure, including Redis Insight and client library options.
 
