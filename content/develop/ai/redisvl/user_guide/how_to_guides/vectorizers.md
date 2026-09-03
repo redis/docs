@@ -460,6 +460,30 @@ print("Vector dimensions: ", len(test))
 print(test[:10])
 ```
 
+#### Contextualized embeddings
+
+VoyageAI's `voyage-context-*` models support *contextualized* chunk embeddings. The `VoyageAIVectorizer` automatically routes `voyage-context-*` models to the contextualized embeddings API: pass your list of chunk strings to `embed_many` and you get one embedding back per chunk. Each input string is sent as its own auto-chunked document, so the inputs are embedded **independently** (a chunk's embedding does not depend on the other strings in the list). This preserves the one-embedding-per-input contract and keeps the embeddings cache deterministic.
+
+
+```python
+# Contextualized embeddings (voyage-context-* models). Each input string is sent
+# as its own auto-chunked document and embedded independently, so the vectorizer
+# returns exactly one embedding per input string. Requires voyageai>=0.5.0.
+context_vo = VoyageAIVectorizer(
+    model="voyage-context-4",  # See https://docs.voyageai.com/docs/contextualized-chunk-embeddings
+    api_config={"api_key": api_key},
+)
+
+chunks = [
+    "That is a happy dog",
+    "That is a happy person",
+    "Today is a sunny day",
+]
+context_embeddings = context_vo.embed_many(chunks, input_type="document")
+print("Number of embeddings:", len(context_embeddings))
+print("Vector dimensions:", len(context_embeddings[0]))
+```
+
 ### Mistral AI
 
 [Mistral](https://console.mistral.ai/) offers LLM and embedding APIs for you to implement into your product. The `MistralAITextVectorizer` makes it simple to use RedisVL with their embeddings model.
