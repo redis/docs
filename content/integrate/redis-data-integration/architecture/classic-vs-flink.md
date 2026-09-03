@@ -102,6 +102,12 @@ for examples and
 [`redis.lookup`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/lookup" >}})
 for the full property list.
 
+The Flink processor also accepts an advanced matcher syntax in a job's `source` section, where
+`server_name`, `db`, `schema`, and `table` each accept a list of names, and an entry prefixed
+with `regex:` selects all names that match the regular expression. One job can then process
+multiple tables, potentially from different sources, databases, or schemas. See
+[Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}).
+
 ## Metrics
 
 The two processors expose different Prometheus metric sets and use

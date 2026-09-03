@@ -423,15 +423,17 @@ Specifically, ensure that one or both of the following Helm chart values is set:
 - `controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz`
 - `controller.service.externalTrafficPolicy=Local`
 
-## Prepare your source database
+## Prepare your source databases
 
-Before deploying a pipeline, you must configure your source database to enable CDC. See the
+Before deploying a pipeline, you must configure each source database to enable CDC. See the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
-section to learn how to do this.
+section to learn how to do this. A pipeline can capture from more than one source database,
+and each one has to be prepared. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for details.
 
 ## Deploy a pipeline
 
-When the Helm installation is complete and you have prepared the source database for CDC,
+When the Helm installation is complete and you have prepared your source databases for CDC,
 you are ready to start using RDI. See the guides on how to
 [configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})

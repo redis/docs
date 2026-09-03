@@ -35,7 +35,7 @@ checklist as you complete each step.
 - [ ] [Prepare for snapshot](#1-prepare-for-snapshot)
 - [ ] [Prepare for streaming](#2-prepare-for-streaming)
 - [ ] [Create a service account](#3-create-a-service-account)
-- [ ] [Set up secrets for Kubernetes deployment (optional)](#4-set-up-secrets-for-kubernetes-deployment-optional)
+- [ ] [Set up secrets (optional)](#4-set-up-secrets-optional)
 - [ ] [Configure RDI for Spanner](#5-configure-rdi-for-spanner)
 - [ ] [Additional Kubernetes configuration](#6-additional-kubernetes-configuration)
 ```
@@ -143,19 +143,29 @@ RDI supports two authentication methods for accessing Spanner:
 2. **Service account credentials file**: You provide the service account key file as a Kubernetes
    secret. This method requires setting `use_credentials_file: true` in your RDI configuration.
 
-## 4. Set up secrets for Kubernetes deployment (optional)
+## 4. Set up secrets (optional)
 
 Before deploying the RDI pipeline, you need to configure the necessary secrets for the target
-database. Instructions for setting up the target database secrets are available in the
-[RDI deployment guide]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}).
+database. Set them with
+[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}}),
+as described in
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}).
+A Spanner source needs no credentials secret of its own, because it authenticates through
+Workload Identity or a service account credentials file.
 
 **Optional**: If you prefer to use a service account credentials file instead of Workload Identity
-authentication, you'll need to create a Spanner-specific secret named `source-db-credentials`.
+authentication, you'll need to create a Spanner-specific secret named
+`<source>-db-credentials`, where `<source>` is the name of the source in `config.yaml`.
+The source configured in the next step is named `spanner`, so its secret is
+`spanner-db-credentials`. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+for the source naming rules.
+
 This secret should contain the service account key file generated during the Spanner setup phase.
 Use the command below to create it:
 
 ```bash
-kubectl create secret generic source-db-credentials --namespace=rdi \
+kubectl create secret generic spanner-db-credentials --namespace=rdi \
 --from-file=gcp-service-account.json=~/spanner-reader-account.json \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 ```
@@ -163,8 +173,13 @@ kubectl create secret generic source-db-credentials --namespace=rdi \
 Be sure to adjust the file path (`~/spanner-reader-account.json`) if your service account key is
 stored elsewhere.
 
+{{< note >}}`redis-di set-secret` has no key for this secret, so you must
+create it with `kubectl`. A secret created that way also has to be labeled so that the RDI operator
+discovers it as a pipeline secret. See
+[Set secrets for K8s/Helm deployment using Kubectl command]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}).{{< /note >}}
+
 {{< note >}}
-If you create the `source-db-credentials` secret, you must also set `use_credentials_file: true`
+If you create the `spanner-db-credentials` secret, you must also set `use_credentials_file: true`
 in your RDI configuration to use the credentials file instead of Workload Identity authentication.
 {{< /note >}}
 
@@ -175,7 +190,7 @@ When configuring your RDI pipeline for Spanner, use the following example config
 
 ```yaml
 sources:
-  source:
+  spanner:
     type: flink
     connection:
       type: spanner

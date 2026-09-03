@@ -21,33 +21,39 @@ The sections below explain how to deploy a pipeline after you have created the r
 
 ## Set secrets
 
-Before you deploy your pipeline, you must set the authentication secrets for the
-source and target databases. Each secret has a name that you pass to the
+Before you deploy your pipeline, you must set the authentication secrets for the source
+and target databases. Every secret belongs to one database: a source, identified by its
+name in `config.yaml`, or the target. You name that database with the `--db` option of the
 [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
-command to set the secret value.
-You can then refer to these secrets in the `config.yaml` file using the syntax "`${SECRET_NAME}`"
-(the sample
-[config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#example" >}})
-shows these secrets in use).
+command.
 
-The table below lists all valid secret names. Note that the
-username and password are required for the source and target, but the other
-secrets are only relevant for TLS/mTLS connections.
+The table below lists the available secret keys. The username and password are required,
+while the other keys are only relevant for TLS/mTLS connections.
 
-| Secret name | Description |
+| Secret key | Description |
 | :-- | :-- |
-| `SOURCE_DB_USERNAME` | Username for the source database |
-| `SOURCE_DB_PASSWORD` | Password for the source database |
-| `SOURCE_DB_CACERT` | (For TLS only) Source database CA certificate |
-| `SOURCE_DB_CERT` | (For mTLS only) Source database client certificate |
-| `SOURCE_DB_KEY` | (For mTLS only) Source database private key |
-| `SOURCE_DB_KEY_PASSWORD` | (For mTLS only) Source database private key password |
-| `TARGET_DB_USERNAME` | Username for the target database |
-| `TARGET_DB_PASSWORD` | Password for the target database |
-| `TARGET_DB_CACERT` | (For TLS only) Target database CA certificate |
-| `TARGET_DB_CERT` | (For mTLS only) Target database client certificate |
-| `TARGET_DB_KEY` | (For mTLS only) Target database private key |
-| `TARGET_DB_KEY_PASSWORD` | (For mTLS only) Target database private key password |
+| `USERNAME` | Username for the database |
+| `PASSWORD` | Password for the database |
+| `CACERT` | (For TLS only) CA certificate |
+| `CERT` | (For mTLS only) Client certificate |
+| `KEY` | (For mTLS only) Private key |
+| `KEY_PASSWORD` | (For mTLS only) Private key password |
+
+You can reference a secret in `config.yaml` using an environment variable that is derived from
+the secret key and the database name. The variable name consists of the database name in
+uppercase (with each dash replaced by an underscore), followed by `_DB_`, followed by the key.
+For example, if you set `PASSWORD` with `--db mysql` the corresponding environment variable
+is `MYSQL_DB_PASSWORD`, which the source references as
+`${MYSQL_DB_PASSWORD}`. If you set `PASSWORD` with `--db target`, the environment variable is `TARGET_DB_PASSWORD`. The sample
+[config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#example" >}})
+shows these references in use, and
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+covers the source naming rules.
+
+{{< note >}}The scope-prefixed keys `SOURCE_DB_*` and `TARGET_DB_*` are also accepted, and can be
+used without specifying `--db`. RDI accepts a `SOURCE_DB_*` key only for a pipeline with
+exactly one source that predates per-source naming. See
+[Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).{{< /note >}}
 
 {{< note >}}
 {{< embed-md "rdi-tls-secrets.md" >}}
@@ -58,38 +64,38 @@ secrets are only relevant for TLS/mTLS connections.
 Use [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
 to set secrets for any installation type (VM, Kubernetes, or Redis Cloud).
 
-The specific command lines for source secrets are as follows:
+The command lines for a source named `mysql` are shown below. If your pipeline has multiple sources, you should run the command once for each source, using the appropriate database name.
 
 ```bash
 # For username and password
-redis-di set-secret SOURCE_DB_USERNAME yourUsername
-redis-di set-secret SOURCE_DB_PASSWORD yourPassword
+redis-di set-secret USERNAME --db mysql yourUsername
+redis-di set-secret PASSWORD --db mysql yourPassword
 
 # With source TLS, in addition to the above
-redis-di set-secret SOURCE_DB_CACERT /path/to/myca.crt
+redis-di set-secret CACERT --db mysql /path/to/myca.crt
 
 # With source mTLS, in addition to the above
-redis-di set-secret SOURCE_DB_CERT /path/to/myclient.crt
-redis-di set-secret SOURCE_DB_KEY /path/to/myclient.key
-# Use this only if SOURCE_DB_KEY is password-protected
-redis-di set-secret SOURCE_DB_KEY_PASSWORD yourKeyPassword 
+redis-di set-secret CERT --db mysql /path/to/myclient.crt
+redis-di set-secret KEY --db mysql /path/to/myclient.key
+# Use this only if the private key is password-protected
+redis-di set-secret KEY_PASSWORD --db mysql yourKeyPassword
 ```
 
 The corresponding command lines for target secrets are:
 
 ```bash
 # For username and password
-redis-di set-secret TARGET_DB_USERNAME yourUsername
-redis-di set-secret TARGET_DB_PASSWORD yourPassword
+redis-di set-secret USERNAME --db target yourUsername
+redis-di set-secret PASSWORD --db target yourPassword
 
 # With target TLS, in addition to the above
-redis-di set-secret TARGET_DB_CACERT /path/to/myca.crt
+redis-di set-secret CACERT --db target /path/to/myca.crt
 
 # With target mTLS, in addition to the above
-redis-di set-secret TARGET_DB_CERT /path/to/myclient.crt
-redis-di set-secret TARGET_DB_KEY /path/to/myclient.key
-# Use this only if TARGET_DB_KEY is password-protected
-redis-di set-secret TARGET_DB_KEY_PASSWORD yourKeyPassword
+redis-di set-secret CERT --db target /path/to/myclient.crt
+redis-di set-secret KEY --db target /path/to/myclient.key
+# Use this only if the private key is password-protected
+redis-di set-secret KEY_PASSWORD --db target yourKeyPassword
 ```
 
 By default, `set-secret` waits for the pipeline to apply the change before returning. When you set
@@ -103,14 +109,17 @@ never returns secret values, these commands show only the secret keys and whethe
 the stored values.
 
 ```bash
-# List all the secrets of a pipeline and whether each one is set
+# List all the secrets of a pipeline, with the database each one belongs to
 redis-di list-secrets
 
+# List only the secrets of one database
+redis-di list-secrets --db mysql
+
 # Show a single secret and whether it is set
-redis-di describe-secret SOURCE_DB_PASSWORD
+redis-di describe-secret PASSWORD --db mysql
 
 # Delete a secret (prompts for confirmation unless you add --force)
-redis-di delete-secret SOURCE_DB_CACERT
+redis-di delete-secret CACERT --db mysql
 ```
 
 See the reference pages for
@@ -135,9 +144,12 @@ kubectl create secret generic <DB> \
 --from-literal=<SECRET-NAME>=<SECRET-VALUE>
 ```
 
-Where `<DB>` is either `source-db` for source secrets or `target-db` for target secrets.
+Where `<DB>` is `<source>-db` for the secrets of a source, or `target-db` for target secrets.
+The examples below use a source named `mysql`, so its secret is `mysql-db`.
 
-If you use TLS or mTLS for either the source or target databases, you also need to create the `source-db-ssl` and/or `target-db-ssl` K8s secrets that contain the certificates used to establish secure connections. The general pattern of the commands is:
+If you use TLS or mTLS for either the source or target databases, you also need to create the
+`<source>-db-ssl` and/or `target-db-ssl` K8s secrets that contain the certificates used
+to establish secure connections. The general pattern of the commands is:
 
 ```bash
 kubectl create secret generic <DB>-ssl \
@@ -149,36 +161,37 @@ The specific command lines for source secrets are as follows:
 
 ```bash
 # Without source TLS
-# Create or update source-db secret
-kubectl create secret generic source-db --namespace=rdi \
---from-literal=SOURCE_DB_USERNAME=yourUsername \
---from-literal=SOURCE_DB_PASSWORD=yourPassword \
+# Create or update mysql-db secret
+kubectl create secret generic mysql-db --namespace=rdi \
+--from-literal=MYSQL_DB_USERNAME=yourUsername \
+--from-literal=MYSQL_DB_PASSWORD=yourPassword \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 
 # With source TLS
-# Create of update source-db secret
-kubectl create secret generic source-db --namespace=rdi \
---from-literal=SOURCE_DB_USERNAME=yourUsername \
---from-literal=SOURCE_DB_PASSWORD=yourPassword \
---from-literal=SOURCE_DB_CACERT=/etc/certificates/source_db/ca.crt \
+# Create or update mysql-db secret
+kubectl create secret generic mysql-db --namespace=rdi \
+--from-literal=MYSQL_DB_USERNAME=yourUsername \
+--from-literal=MYSQL_DB_PASSWORD=yourPassword \
+--from-literal=MYSQL_DB_CACERT=/etc/certificates/mysql_db/ca.crt \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
-# Create or update source-db-ssl secret
-kubectl create secret generic source-db-ssl --namespace=rdi \
+# Create or update mysql-db-ssl secret
+kubectl create secret generic mysql-db-ssl --namespace=rdi \
 --from-file=ca.crt=/path/to/myca.crt \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 
 # With source mTLS
-# Create or update source-db secret
-kubectl create secret generic source-db --namespace=rdi \
---from-literal=SOURCE_DB_USERNAME=yourUsername \
---from-literal=SOURCE_DB_PASSWORD=yourPassword \
---from-literal=SOURCE_DB_CACERT=/etc/certificates/source_db/ca.crt \
---from-literal=SOURCE_DB_CERT=/etc/certificates/source_db/client.crt \
---from-literal=SOURCE_DB_KEY=/etc/certificates/source_db/client.key \
---from-literal=SOURCE_DB_KEY_PASSWORD=yourKeyPassword \ # add this only if SOURCE_DB_KEY is password-protected
+# Create or update mysql-db secret. Include the MYSQL_DB_KEY_PASSWORD line
+# only if the private key is password-protected.
+kubectl create secret generic mysql-db --namespace=rdi \
+--from-literal=MYSQL_DB_USERNAME=yourUsername \
+--from-literal=MYSQL_DB_PASSWORD=yourPassword \
+--from-literal=MYSQL_DB_CACERT=/etc/certificates/mysql_db/ca.crt \
+--from-literal=MYSQL_DB_CERT=/etc/certificates/mysql_db/client.crt \
+--from-literal=MYSQL_DB_KEY=/etc/certificates/mysql_db/client.key \
+--from-literal=MYSQL_DB_KEY_PASSWORD=yourKeyPassword \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
-# Create or update source-db-ssl secret
-kubectl create secret generic source-db-ssl --namespace=rdi \
+# Create or update mysql-db-ssl secret
+kubectl create secret generic mysql-db-ssl --namespace=rdi \
 --from-file=ca.crt=/path/to/myca.crt \
 --from-file=client.crt=/path/to/myclient.crt \
 --from-file=client.key=/path/to/myclient.key \
@@ -196,7 +209,7 @@ kubectl create secret generic target-db --namespace=rdi \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 
 # With target TLS
-# Create of update target-db secret
+# Create or update target-db secret
 kubectl create secret generic target-db --namespace=rdi \
 --from-literal=TARGET_DB_USERNAME=yourUsername \
 --from-literal=TARGET_DB_PASSWORD=yourPassword \
@@ -208,14 +221,15 @@ kubectl create secret generic target-db-ssl --namespace=rdi \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 
 # With target mTLS
-# Create or update target-db secret
+# Create or update target-db secret. Include the TARGET_DB_KEY_PASSWORD line
+# only if the private key is password-protected.
 kubectl create secret generic target-db --namespace=rdi \
 --from-literal=TARGET_DB_USERNAME=yourUsername \
 --from-literal=TARGET_DB_PASSWORD=yourPassword \
 --from-literal=TARGET_DB_CACERT=/etc/certificates/target_db/ca.crt \
 --from-literal=TARGET_DB_CERT=/etc/certificates/target_db/client.crt \
 --from-literal=TARGET_DB_KEY=/etc/certificates/target_db/client.key \
---from-literal=TARGET_DB_KEY_PASSWORD=yourKeyPassword \ # add this only if TARGET_DB_KEY is password-protected
+--from-literal=TARGET_DB_KEY_PASSWORD=yourKeyPassword \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 # Create or update target-db-ssl secret
 kubectl create secret generic target-db-ssl --namespace=rdi \
@@ -225,11 +239,12 @@ kubectl create secret generic target-db-ssl --namespace=rdi \
 --save-config --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-Note that the certificate paths contained in the secrets `SOURCE_DB_CACERT`, `SOURCE_DB_CERT`, and `SOURCE_DB_KEY` (for the source database) and `TARGET_DB_CACERT`, `TARGET_DB_CERT`, and `TARGET_DB_KEY` (for the target database) are internal to RDI, so you *must* use the values shown in the example above. You should only change the certificate paths when you create the `source-db-ssl` and `target-db-ssl` secrets.
+Note that the certificate paths contained in the `CACERT`, `CERT`, and `KEY` secrets are internal to RDI, so you *must* use the values shown in the example above. Each source has its own certificate directory, named after the source (for example, `/etc/certificates/mysql_db/` for a source named `mysql`). You should only change the certificate paths when you create the `<source>-db-ssl` and `target-db-ssl` secrets.
 
-Secrets that you create directly with `kubectl` must also be labeled so that the RDI operator
-discovers them as pipeline secrets. Each secret needs the following labels, where the
-`app.kubernetes.io/instance` label is the pipeline name (`default` for the default pipeline):
+You must also label any secrets that you create directly with `kubectl` so that the RDI operator
+discovers them as pipeline secrets. Give each secret the following labels, where the
+`app.kubernetes.io/instance` label corresponds to the pipeline name (the name is just
+`default` for the default pipeline):
 
 | Label | Value |
 | :-- | :-- |
@@ -240,7 +255,7 @@ discovers them as pipeline secrets. Each secret needs the following labels, wher
 Apply the labels to each secret with [`kubectl label`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_label/):
 
 ```bash
-kubectl label secret source-db --namespace=rdi --overwrite \
+kubectl label secret mysql-db --namespace=rdi --overwrite \
   app.kubernetes.io/name=pipeline \
   app.kubernetes.io/instance=default \
   product=rdi
@@ -250,7 +265,7 @@ kubectl label secret target-db --namespace=rdi --overwrite \
   product=rdi
 
 # With source TLS or mTLS
-kubectl label secret source-db-ssl --namespace=rdi --overwrite \
+kubectl label secret mysql-db-ssl --namespace=rdi --overwrite \
   app.kubernetes.io/name=pipeline \
   app.kubernetes.io/instance=default \
   product=rdi
@@ -331,6 +346,16 @@ redis-di stop
 redis-di start
 ```
 
+To act on a single source instead of the whole pipeline, add `--source`:
+
+```bash
+redis-di stop --source mysql
+redis-di start --source mysql
+```
+
+Note that a source can only run if its parent pipeline is running. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
+
 ## Reset a pipeline
 
 Use [`redis-di reset`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-reset" >}})
@@ -341,6 +366,12 @@ drifted out of sync.
 
 ```bash
 redis-di reset
+```
+
+Add `--source` to reset a single source and leave the others untouched:
+
+```bash
+redis-di reset --source mysql
 ```
 
 ## Undeploy a pipeline
@@ -377,8 +408,8 @@ To avoid this, set all the related secrets, or at least all of them except the l
 become healthy:
 
 ```bash
-redis-di set-secret SOURCE_DB_USERNAME newUsername --wait=false
-redis-di set-secret SOURCE_DB_PASSWORD newPassword
+redis-di set-secret USERNAME --db mysql newUsername --wait=false
+redis-di set-secret PASSWORD --db mysql newPassword
 ```
 
 The same applies to any set of changes that are only valid together.

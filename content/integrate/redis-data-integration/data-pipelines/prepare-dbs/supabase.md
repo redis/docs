@@ -163,12 +163,13 @@ In the Supabase dashboard, go to
 1. Enable **Enforce SSL on incoming connections**.
 1. Download the Supabase CA certificate.
 
-Store the database username, password, and CA certificate as RDI secrets:
+Store the database username, password, and CA certificate as RDI secrets. Pass the
+source name with `--db`; the source configured in the next step is named `supabase`:
 
 ```bash
-redis-di set-secret SOURCE_DB_USERNAME rdi_replication
-redis-di set-secret SOURCE_DB_PASSWORD '<strong-password>'
-redis-di set-secret SOURCE_DB_CACERT /path/to/prod-ca-2021.crt
+redis-di set-secret USERNAME --db supabase rdi_replication
+redis-di set-secret PASSWORD --db supabase '<strong-password>'
+redis-di set-secret CACERT --db supabase /path/to/prod-ca-2021.crt
 ```
 
 RDI verifies that the direct endpoint hostname matches the certificate.
@@ -187,8 +188,8 @@ sources:
       host: db.<project-ref>.supabase.co
       port: 5432
       database: postgres
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
+      user: ${SUPABASE_DB_USERNAME}
+      password: ${SUPABASE_DB_PASSWORD}
     schemas:
       - public
     tables:

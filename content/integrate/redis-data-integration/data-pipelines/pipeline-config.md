@@ -54,15 +54,15 @@ sources:
       type: mysql
       host: <DB_HOST>
       port: 3306
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
+      user: ${MYSQL_DB_USERNAME}
+      password: ${MYSQL_DB_PASSWORD}
 
 targets:
   target:
     connection:
       type: redis
-      host: <REDIS_TARGET_DB_HOST>
-      port: <REDIS_TARGET_DB_PORT>
+      host: <TARGET_DB_HOST>
+      port: 6379
       password: ${TARGET_DB_PASSWORD}
 
 processors:
@@ -111,11 +111,17 @@ and [`processors`](#processors).
 
 ### Sources
 
-The `sources` section has a subsection for the source that
-you need to configure. The source section starts with a unique name
-to identify the source (in the example, there is a source
-called `mysql` but you can choose any name you like). The example
-configuration contains the following data:
+The `sources` section has one subsection per source database. Each subsection starts
+with the source name, which identifies the source and must be unique (in the example,
+the source is called `mysql`).
+
+RDI also derives the environment variables that contain the source's credentials from the
+source name, for example `${MYSQL_DB_USERNAME}` and `${MYSQL_DB_PASSWORD}` for a source
+named `mysql`. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+for the source naming rules and for capturing from more than one source database.
+
+The example configuration contains the following data:
 
 - `type`: The collector to use for the pipeline. Use `cdc` for MariaDB, MySQL,
   MongoDB, Oracle, PostgreSQL, or SQL Server. Use `flink` for Google Cloud
@@ -284,141 +290,222 @@ for full details of the other available properties.
 
 ## Extended configuration example
 
-This example combines the commonly used options from this page. Remove properties
-that you don't need. See the
+The example below is the configuration that
+[`redis-di scaffold`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-scaffold" >}})
+generates for a MySQL source named `mysql`, with every property documented inline. Uncomment what
+you need and delete the rest. See the
 [configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}})
 for every supported property.
 
 ```yaml
+# Configuration of the RDI sources, targets, and processor. Commented-out properties are optional, and where a default
+# exists the value shown is that default.
+# For an introduction to the pipeline configuration, see
+# https://redis.io/docs/latest/integrate/redis-data-integration/data-pipelines/pipeline-config/
+# For a reference of every configuration property, see
+# https://redis.io/docs/latest/integrate/redis-data-integration/reference/config-yaml-reference/
+
+# Source databases that are used to capture changes from. Each key is a unique source name.
 sources:
   mysql:
+    # Type of the source collector. Use `cdc` for Debezium, `flink` for Spanner, or `riotx` for Snowflake.
     type: cdc
+
+    # Log verbosity of the source collector, one of `trace`, `debug`, `info`, `warn`, or `error`.
     logging:
       level: info
+
+    # Connection to the source database.
     connection:
       type: mysql
-      host: <DB_HOST> # e.g. localhost
+      # Hostname or IP address of the source database server, for example `localhost`.
+      host: <DB_HOST>
+      # Port that the source database server listens on.
       port: 3306
-      # User and password are injected from the secrets.
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
-    # Additional properties for the source collector:
-    # List of databases to include (optional).
+      # User and password are resolved from the source database secret.
+      user: ${MYSQL_DB_USERNAME}
+      password: ${MYSQL_DB_PASSWORD}
+
+    # Databases to capture from the source database. When omitted, all databases are captured.
     # databases:
-    #   - database1
-    #   - database2
+      # - <DATABASE_NAME>
 
-    # List of tables to be synced (optional).
+    # Tables to capture from the source database, keyed by table name. A table with no properties, or with an empty
+    # mapping, captures all of its columns. If only one database is listed above, table names can omit the
+    # database prefix.
     # tables:
-    #   If only one database is specified in the databases property above,
-    #   then tables can be defined without the database prefix.
-    #   <DATABASE_NAME>.<TABLE_NAME>:
-    #     List of columns to be synced (optional).
-    #     columns:
-    #       - <COLUMN_NAME>
-    #       - <COLUMN_NAME>
-    #     List of columns to be used as keys (optional).
-    #     keys:
-    #       - <COLUMN_NAME>
+      # <DATABASE_NAME>.<TABLE_NAME1>: {}
+      # <DATABASE_NAME>.<TABLE_NAME2>:
+        # Columns to capture. When omitted, all columns are captured.
+        # columns:
+          # - <COLUMN_NAME>
+        # Columns that form a unique identifier. Only needed when the table has no primary key or unique constraint.
+        # keys:
+          # - <COLUMN_NAME>
 
-    # Example: Sync specific tables.
-    # tables:
-    #   Sync a specific table with all its columns:
-    #   redislabscdc.account: {}
-    #   Sync a specific table with selected columns:
-    #   redislabscdc.emp:
-    #     columns:
-    #       - empno
-    #       - fname
-    #       - lname
-
-    # Advanced collector properties (optional):
+    # Advanced properties that override the collector defaults. Only needed for non-standard tuning.
     # advanced:
-    #   Sink collector properties - see the full list at
-    #     https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
-    #   sink:
-    #     Optional hard limits on memory usage of RDI streams.
-    #     redis.memory.limit.mb: 300
-    #     redis.memory.threshold.percentage: 85
+      # Properties of the RDI Collector stream writer. See the full list in
+      # https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
+      # sink:
+        # Number of records that the sink writes to Redis in a single batch. Raise it, together with the source
+        # `max.batch.size` and `max.queue.size`, for higher snapshot throughput.
+        # redis.batch.size: 2048
 
-    #     Uncomment for production so RDI Collector will wait on replica
-    #     when writing entries.
-    #     redis.wait.enabled: true
-    #     redis.wait.timeout.ms: 1000
-    #     redis.wait.retry.enabled: true
-    #     redis.wait.retry.delay.ms: 1000
+        # Back pressure on the RDI streams. The sink stops writing once the used memory of the RDI database reaches
+        # `redis.memory.threshold.percentage` of its `maxmemory`, or of `redis.memory.limit.mb` when that is set.
+        # redis.memory.limit.mb: 0
+        # redis.memory.threshold.percentage: 85
 
-    #   Source specific properties - see the full list at
-    #     https://debezium.io/documentation/reference/stable/connectors/
-    #   source:
-    #     snapshot.mode: initial
-    #     Uncomment if you want a snapshot to include only a subset of the rows
-    #     in a table. This property affects snapshots only.
-    #     snapshot.select.statement.overrides: <DATABASE_NAME>.<TABLE_NAME>
-    #     The specified SELECT statement determines the subset of table rows to
-    #     include in the snapshot.
-    #     snapshot.select.statement.overrides.<DATABASE_NAME>.<TABLE_NAME>: <SELECT_STATEMENT>
+        # Whether every write to the RDI streams is verified to have reached a replica shard, which prevents losing
+        # captured changes when the primary shard fails over. It costs write latency, and it has no effect unless the
+        # RDI database is replicated. `redis.wait.retry.enabled` keeps retrying when the verification times out.
+        # redis.wait.enabled: false
+        # redis.wait.timeout.ms: 1000
+        # redis.wait.retry.enabled: false
+        # redis.wait.retry.delay.ms: 1000
 
-    #     Example: Snapshot filtering by order status.
-    #     To include only orders with non-pending status from customers.orders
-    #     table:
-    #     snapshot.select.statement.overrides: customer.orders
-    #     snapshot.select.statement.overrides.customer.orders: SELECT * FROM customers.orders WHERE status != 'pending' ORDER BY order_id DESC
+      # Properties of the source database connection and of Debezium. See the full list for your source database in
+      # https://debezium.io/documentation/reference/stable/connectors/
+      # source:
+        # When and whether the collector takes an initial snapshot of the source database.
+        # snapshot.mode: initial
 
-    #   Quarkus framework properties - see the full list at
-    #     https://quarkus.io/guides/all-config
-    #   quarkus:
-    #     banner.enabled: "false"
+        # Performance tuning of the Debezium collector. Rows read from the source database are buffered in a queue of
+        # `max.queue.size` records, serialized by `record.processing.threads` worker threads, and passed on in batches
+        # of `max.batch.size` records, which the sink then writes to Redis in batches of `sink.redis.batch.size`.
+        # Lower this to 2 or 1 when fewer CPUs are available to the collector.
+        # record.processing.threads: 4
 
-    #   `java_options` (for RDI 1.15.1 and above) controls the JAVA_OPTS environment variable. Use it to modify the default values for
-    #       Java heap size and other Java options for the Debezium server.
-    #   java_options: "-Xmx2g -Xms512m"
+        # Interval between two polls of the source database for new changes in milliseconds. Lower it to 100 or below
+        # for lower CDC latency.
+        # poll.interval.ms: 500
 
+        # Raise both sizes, together with `sink.redis.batch.size`, for higher snapshot throughput, and keep the queue
+        # about four times the batch. A larger queue needs a larger heap, so raise `advanced.resources.memory` and set
+        # `-Xmx` in `advanced.java_options` accordingly.
+        # max.batch.size: 2048
+        # max.queue.size: 8192
+
+        # Restrict the snapshot of a table to the rows that the given statement selects. This affects the snapshot only,
+        # for example to skip orders that are still pending.
+        # snapshot.select.statement.overrides: <DATABASE_NAME>.<TABLE_NAME>
+        # snapshot.select.statement.overrides.<DATABASE_NAME>.<TABLE_NAME>: <SELECT_STATEMENT>
+
+        # Let the client retrieve the public key of the server for the TLS handshake. Uncomment when the source
+        # database user authenticates with `caching_sha2_password` over a connection that is not encrypted.
+        # database.allowPublicKeyRetrieval: true
+
+      # Properties of the Quarkus runtime that hosts Debezium Server. See the full list in
+      # https://quarkus.io/guides/all-config
+      # quarkus:
+        # banner.enabled: "false"
+
+# Target Redis databases that the processed records are written to. RDI currently only supports a single target that
+# must be named `target`.
 targets:
-  # Redis target database connection.
-  # RDI supports one target database. Name it 'target'.
   target:
+    # Connection to the target Redis database.
     connection:
       type: redis
-      # Host of the Redis database to which RDI will
-      # write the processed data.
-      host: <REDIS_TARGET_DB_HOST> # e.g. localhost
-      # Port for the Redis database to which RDI will
-      # write the processed data.
-      port: <REDIS_TARGET_DB_PORT> # e.g. 12000
-      # User of the Redis database to which RDI will write the processed data.
-      # Uncomment if you are not using the default user.
+      # Hostname or IP address of the target Redis database, for example `localhost`.
+      host: <TARGET_DB_HOST>
+      # Port that the target Redis database listens on.
+      port: 6379
+      # User of the target Redis database, uncomment when not using the default user.
       # user: ${TARGET_DB_USERNAME}
-      # Password for Redis target database.
+      # Password of the target Redis database.
       password: ${TARGET_DB_PASSWORD}
-      # SSL/TLS configuration: Uncomment to enable secure connections.
+      # TLS configuration, uncomment to connect securely. The key and the certificate must be set together, and the key
+      # password only when the key is protected by one.
+      # cacert: ${TARGET_DB_CACERT}
+      # cert: ${TARGET_DB_CERT}
       # key: ${TARGET_DB_KEY}
       # key_password: ${TARGET_DB_KEY_PASSWORD}
-      # cert: ${TARGET_DB_CERT}
-      # cacert: ${TARGET_DB_CACERT}
+
+# Settings that control how the processor writes the captured records to the targets.
 processors:
+  # Processor implementation to run, one of `classic` or `flink`.
+  # The default is `classic` for backward compatibility, while `flink` is strongly recommended for new pipelines.
+  # See https://redis.io/docs/latest/integrate/redis-data-integration/faq/#which-processor-should-i-use
   type: flink
-  # Target data type: hash or json.
+
+  # Maximum number of records read from the source streams in a single batch.
+  # read_batch_size: 2000
+
+  # Maximum time in milliseconds to wait for a read batch to fill before processing it.
+  # read_batch_timeout_ms: 100
+
+  # Maximum number of records written to a target database in a single batch. Must not exceed read_batch_size.
+  # write_batch_size: 200
+
+  # Whether batches are processed asynchronously, which improves throughput and reduces latency. Applies to the classic
+  # processor only.
+  # enable_async_processing: true
+
+  # Maximum number of batches queued for processing. Applies to the classic processor only.
+  # batch_queue_size: 3
+
+  # Maximum number of batches queued for asynchronous acknowledgement. Applies to the classic processor only.
+  # ack_queue_size: 10
+
+  # Whether incoming records are deduplicated. Applies to the classic processor only.
+  # dedup: false
+
+  # Maximum number of entries kept in the deduplication set. Applies to the classic processor only.
+  # dedup_max_size: 1024
+
+  # How failed records are handled. `ignore` drops them, and `dlq` writes them to the dead letter queue.
+  # error_handling: dlq
+
+  # Maximum number of messages stored per dead letter queue stream.
+  # dlq_max_messages: 1000
+
+  # Data type that the records are stored as. `hash` writes a Redis hash, and `json` writes a RedisJSON document, which
+  # requires the RedisJSON module in the target database.
   # target_data_type: hash
-  # Enable merge as the default strategy for writing JSON documents.
-  # json_update_strategy: merge
-  # Confirm that writes reached a target database replica.
+
+  # How existing JSON documents are updated. `replace` overwrites the whole document, and `merge` merges the incoming
+  # fields into it.
+  # json_update_strategy: replace
+
+  # Whether JSON documents are merged with the native JSON.MERGE command rather than with Lua scripts. Applies to the
+  # classic processor only.
+  # use_native_json_merge: true
+
+  # Number of parallel processes that perform the initial synchronization. Applies to the classic processor only.
+  # initial_sync_processes: 4
+
+  # Time in milliseconds to sleep between batches while idle. Applies to the classic processor only.
+  # idle_sleep_time_ms: 200
+
+  # Time in milliseconds between two checks for new streams while idle. Applies to the classic processor only.
+  # idle_streams_check_interval_ms: 1000
+
+  # Time in milliseconds between two checks for new streams while busy. Applies to the classic processor only.
+  # busy_streams_check_interval_ms: 5000
+
+  # Maximum number of attempts for a failed write to a target database before giving up.
+  # retry_max_attempts: 5
+
+  # Initial delay in milliseconds before the first retry of a failed write.
+  # retry_initial_delay_ms: 1000
+
+  # Maximum delay in milliseconds between two retries of a failed write.
+  # retry_max_delay_ms: 10000
+
+  # Whether every write is verified to have reached the replica shards of the target database. Enable this only when the
+  # target database is replicated and a healthy replica is available.
   # wait_enabled: false
+
+  # Maximum time in milliseconds to wait for the replica write verification.
   # wait_timeout: 1000
+
+  # Whether a write is retried until the replica verification succeeds, rather than given up on after the first failure.
   # retry_on_replica_failure: true
-  # Flink processor performance settings.
-  # advanced:
-  #   source:
-  #     batch.size: 2000
-  #     batch.timeout.ms: 100
-  #     discovery.interval.ms: 1000
-  #   target:
-  #     batch.size: 200
-  #     flush.interval.ms: 100
-  #   flink:
-  #     taskmanager.numberOfTaskSlots: 1
-  #     taskmanager.memory.process.size: 2048m
-  #   resources:
-  #     taskManager:
-  #       replicas: 2
+
+  # Logging settings of the processor. Applies to the Flink processor only.
+  # logging:
+    # Log verbosity of the processor, one of `trace`, `debug`, `info`, `warn`, or `error`.
+    # level: info
 ```

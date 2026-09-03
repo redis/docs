@@ -38,7 +38,7 @@ Snowflake is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode do
 ```checklist {id="snowflakelist"}
 - [ ] [Set up Snowflake permissions](#1-set-up-snowflake-permissions)
 - [ ] [Configure authentication](#2-configure-authentication)
-- [ ] [Set up secrets for Kubernetes deployment](#3-set-up-secrets-for-kubernetes-deployment)
+- [ ] [Set up secrets](#3-set-up-secrets)
 - [ ] [Configure RDI for Snowflake](#4-configure-rdi-for-snowflake)
 ```
 
@@ -140,36 +140,38 @@ For enhanced security, use key-pair authentication:
     ALTER USER rdi_user SET RSA_PUBLIC_KEY='<public_key_content>';
     ```
 
-## 3. Set up secrets for Kubernetes deployment
+## 3. Set up secrets
 
-Before deploying the RDI pipeline, configure the necessary secrets.
+Before deploying the RDI pipeline, configure the necessary secrets with
+[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}}).
+Pass the source name with `--db`; the source configured in the next step is named `snowflake`.
 
 ### Password authentication
 
 ```bash
-kubectl create secret generic source-db \
-  --namespace=rdi \
-  --from-literal=SOURCE_DB_USERNAME=your_username \
-  --from-literal=SOURCE_DB_PASSWORD=your_password
+redis-di set-secret USERNAME --db snowflake your_username
+redis-di set-secret PASSWORD --db snowflake your_password
 ```
 
 ### Private key authentication
 
-Create a secret with the private key file:
+Omit the password and set the private key from its file instead:
 
 ```bash
-kubectl create secret generic source-db-ssl \
-  --namespace=rdi \
-  --from-file=client.key=/path/to/rsa_key.p8
+redis-di set-secret USERNAME --db snowflake your_username
+redis-di set-secret KEY --db snowflake --file /path/to/rsa_key.p8
 ```
 
-Also create the source-db secret with the username:
+If the `.p8` file is protected by a passphrase, also set that passphrase:
 
 ```bash
-kubectl create secret generic source-db \
-  --namespace=rdi \
-  --from-literal=SOURCE_DB_USERNAME=your_username
+redis-di set-secret KEY_PASSWORD --db snowflake your_passphrase
 ```
+
+RDI stores the private key in the source's TLS secret, `snowflake-db-ssl`, and the RIOTX
+collector reads it from there. See
+[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+for the full secret reference, including how to create these secrets with `kubectl` instead.
 
 ## 4. Configure RDI for Snowflake
 
@@ -182,8 +184,8 @@ sources:
     connection:
       type: snowflake
       url: "jdbc:snowflake://myaccount.snowflakecomputing.com/"
-      user: "${SOURCE_DB_USERNAME}"
-      password: "${SOURCE_DB_PASSWORD}"  # Omit for key-pair auth
+      user: "${SNOWFLAKE_DB_USERNAME}"
+      password: "${SNOWFLAKE_DB_PASSWORD}"  # Omit for key-pair auth
       database: "MYDB"
       warehouse: "COMPUTE_WH"
       # role: "RDI_ROLE"                 # Optional: Snowflake role

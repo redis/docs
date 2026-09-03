@@ -50,6 +50,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
           }
         },
         "security": []
@@ -77,7 +87,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -87,7 +97,27 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -122,7 +152,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -132,7 +162,27 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -149,7 +199,7 @@
       "post": {
         "tags": ["secure"],
         "summary": "Reset Pipeline",
-        "description": "Reset pipeline.",
+        "description": "Resets a pipeline.",
         "operationId": "reset_pipeline_api_v1_pipelines_reset_post",
         "responses": {
           "200": {
@@ -167,7 +217,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -177,7 +227,27 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -228,7 +298,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -238,7 +308,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Action not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResponse"
                 }
               }
             }
@@ -270,7 +350,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -280,16 +360,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
           }
         },
         "security": [
-          {
-            "JWTBearer": []
-          },
           {
             "JWTBearer": []
           }
@@ -338,15 +415,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Update Sources Api V1 Pipelines Sources Put"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -356,7 +425,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -366,7 +435,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -435,15 +534,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Upsert Source By Name Api V1 Pipelines Sources  Name  Put"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -453,7 +544,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -463,10 +554,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       },
@@ -519,15 +640,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Partial Update Source By Name Api V1 Pipelines Sources  Name  Patch"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -537,7 +650,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -547,10 +660,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       },
@@ -581,15 +724,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Delete Source By Name Api V1 Pipelines Sources  Name  Delete"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -599,7 +734,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -609,10 +744,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       }
@@ -652,15 +817,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Update Targets Api V1 Pipelines Targets Put"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -670,7 +827,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -680,7 +837,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -742,15 +929,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Upsert Target By Name Api V1 Pipelines Targets  Name  Put"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -760,7 +939,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -770,10 +949,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       },
@@ -823,15 +1032,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Partial Update Target By Name Api V1 Pipelines Targets  Name  Patch"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -841,7 +1042,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -851,10 +1052,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       },
@@ -885,15 +1116,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Delete Target By Name Api V1 Pipelines Targets  Name  Delete"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -903,7 +1126,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -913,10 +1136,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       }
@@ -978,15 +1231,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Upsert Secret Provider By Name Api V1 Pipelines Secret Providers  Name  Put"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -996,7 +1241,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1006,10 +1251,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       },
@@ -1057,15 +1332,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Partial Update Secret Provider By Name Api V1 Pipelines Secret Providers  Name  Patch"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -1075,7 +1342,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1085,10 +1352,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       },
@@ -1119,15 +1416,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Delete Secret Provider By Name Api V1 Pipelines Secret Providers  Name  Delete"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -1137,7 +1426,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1147,10 +1436,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       }
@@ -1159,7 +1478,7 @@
       "post": {
         "tags": ["secure", "connection"],
         "summary": "Sources Dry Run",
-        "description": "Tests the connection to the source database.\n\nArgs:\n    body: The connection details according to the OpenAPI Scheme.\n\nReturns:\n    Union[ConnectionStatusSingleConnection, Error]: The connection status.",
+        "description": "Tests the connection to the source database.",
         "operationId": "sources_dry_run_api_v1_pipelines_sources_dry_run_post",
         "requestBody": {
           "content": {
@@ -1195,15 +1514,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ConnectionStatusSingleConnection"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Sources Dry Run Api V1 Pipelines Sources Dry Run Post"
+                  "$ref": "#/components/schemas/ConnectionStatusSingleConnection"
                 }
               }
             }
@@ -1213,7 +1524,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1223,7 +1534,47 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Gateway Timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1287,7 +1638,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1297,7 +1648,27 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1351,7 +1722,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1361,7 +1732,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1441,7 +1822,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1451,7 +1832,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1461,20 +1842,60 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           },
           "423": {
             "description": "Collector API is not available for the specified source or is disabled",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       }
@@ -1517,7 +1938,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1527,7 +1948,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1537,20 +1958,60 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           },
           "423": {
             "description": "Collector API is not available for the specified source or is disabled",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       }
@@ -1593,7 +2054,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1603,7 +2064,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1613,20 +2074,60 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           },
           "423": {
             "description": "Collector API is not available for the specified source or is disabled",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       }
@@ -1705,7 +2206,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1715,7 +2216,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1725,20 +2226,60 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           },
           "423": {
             "description": "Collector API is not available for the specified source or is disabled",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       }
@@ -1792,7 +2333,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1802,7 +2343,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1812,20 +2353,60 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           },
           "423": {
             "description": "Collector API is not available for the specified source or is disabled",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       }
@@ -1833,9 +2414,9 @@
     "/api/v1/pipelines": {
       "get": {
         "tags": ["secure", "deploy"],
-        "summary": "Retrieve Pipelines",
+        "summary": "Get Pipelines",
         "description": "Returns the current pipeline.",
-        "operationId": "retrieve_pipelines_api_v1_pipelines_get",
+        "operationId": "get_pipelines_api_v1_pipelines_get",
         "security": [
           {
             "JWTBearer": []
@@ -1849,7 +2430,7 @@
                 "schema": {
                   "type": "object",
                   "additionalProperties": true,
-                  "title": "Response Retrieve Pipelines Api V1 Pipelines Get"
+                  "title": "Response Get Pipelines Api V1 Pipelines Get"
                 }
               }
             }
@@ -1859,7 +2440,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -1869,18 +2450,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
           }
         }
       },
       "post": {
         "tags": ["secure", "deploy"],
-        "summary": "Pipelines",
+        "summary": "Post Pipelines",
         "description": "Updates the current pipeline completely, or creates it if it doesn't exist, using the provided configuration.\nBefore creating or updating, validates the provided configuration for schema compliance and integrity.",
-        "operationId": "pipelines_api_v1_pipelines_post",
+        "operationId": "post_pipelines_api_v1_pipelines_post",
         "security": [
           {
             "JWTBearer": []
@@ -1892,14 +2483,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ],
+              "type": "boolean",
               "description": "Only validate the provided configuration without making changes",
               "default": false,
               "title": "Dry Run"
@@ -2102,7 +2686,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2112,7 +2696,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2164,6 +2748,46 @@
                 }
               }
             }
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       },
@@ -2183,14 +2807,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ],
+              "type": "boolean",
               "description": "Only validate the provided configuration without making changes",
               "default": false,
               "title": "Dry Run"
@@ -2406,7 +3023,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2416,7 +3033,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2468,6 +3085,46 @@
                 }
               }
             }
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       }
@@ -2484,15 +3141,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Undeploy Pipelines Api V1 Pipelines Undeploy Post"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -2502,7 +3151,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2512,7 +3161,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2547,7 +3226,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2557,7 +3236,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2607,6 +3286,24 @@
               "title": "Db Flavor"
             },
             "description": "Optional database flavor"
+          },
+          {
+            "name": "source_name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional source name; defaults to the database type",
+              "title": "Source Name"
+            },
+            "description": "Optional source name; defaults to the database type"
           }
         ],
         "responses": {
@@ -2615,15 +3312,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/TemplateResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
-                    }
-                  ],
-                  "title": "Response Pipelines Config Templates Api V1 Pipelines Config Templates Ingest  Db Type  Get",
                   "$ref": "#/components/schemas/TemplateResponse"
                 }
               }
@@ -2634,7 +3322,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2644,7 +3332,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2653,7 +3341,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             },
@@ -2663,7 +3351,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             },
@@ -2678,22 +3366,38 @@
         "summary": "Pipelines Jobs Templates",
         "description": "Returns the YAML templates describing how to create a job",
         "operationId": "pipelines_jobs_templates_api_v1_pipelines_jobs_templates_ingest_get",
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "source_name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional source name; defaults to a placeholder",
+              "title": "Source Name"
+            },
+            "description": "Optional source name; defaults to a placeholder"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TemplateResponse",
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/TemplateResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
-                    }
-                  ],
-                  "title": "Response Pipelines Jobs Templates Api V1 Pipelines Jobs Templates Ingest Get"
+                  "$ref": "#/components/schemas/TemplateResponse"
                 }
               }
             }
@@ -2703,7 +3407,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2713,27 +3417,22 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
           },
-          "501": {
-            "description": "Not Implemented",
+          "422": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Unprocessable Entity"
           }
-        },
-        "security": [
-          {
-            "JWTBearer": []
-          }
-        ]
+        }
       }
     },
     "/api/v1/pipelines/jobs/dry-run": {
@@ -2758,15 +3457,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/JobDryRunSuccessResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Job Dry Run Api V1 Pipelines Jobs Dry Run Post"
+                  "$ref": "#/components/schemas/JobDryRunSuccessResponse"
                 }
               }
             }
@@ -2776,7 +3467,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2786,7 +3477,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2796,7 +3497,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
                 }
               }
             }
@@ -2831,7 +3532,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2841,7 +3542,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2878,7 +3579,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2888,7 +3589,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2925,7 +3626,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2935,7 +3636,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -2983,15 +3684,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Update Processors Api V1 Pipelines Processors Put"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -3001,7 +3694,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3011,7 +3704,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            }
+          },
+          "423": {
+            "description": "Locked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3084,15 +3807,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/ActionIdResponse"
-                    },
-                    {
-                      "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__Error"
-                    }
-                  ],
-                  "title": "Response Upsert Processors Property Api V1 Pipelines Processors  Prop  Put"
+                  "$ref": "#/components/schemas/ActionIdResponse"
                 }
               }
             }
@@ -3102,7 +3817,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3112,10 +3827,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtendedErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       }
@@ -3168,7 +3913,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3178,7 +3923,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Use API v2 to manage sources and secrets of this pipeline.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3218,7 +3973,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3228,7 +3983,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Use API v2 to manage sources and secrets of this pipeline.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3263,7 +4028,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3273,7 +4038,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3308,7 +4083,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3318,7 +4093,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3335,7 +4110,7 @@
       "post": {
         "tags": ["secure"],
         "summary": "Start Trace",
-        "description": "Starts a trace session for troubleshooting data transformation.",
+        "description": "Starts a trace session for troubleshooting data transformation.\n\nTracing is no longer supported; the operator does not process trace tasks anymore.",
         "operationId": "start_trace_api_v1_trace_start_post",
         "requestBody": {
           "content": {
@@ -3363,7 +4138,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3373,7 +4148,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__response__ErrorResponse"
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Not Implemented",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__v1__models__responses__ErrorResponse"
                 }
               }
             }
@@ -3450,14 +4235,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ],
+              "type": "boolean",
               "description": "Only validate the provided configuration without making changes",
               "default": false,
               "title": "Dry Run"
@@ -3551,6 +4329,26 @@
             },
             "description": "Unprocessable Entity"
           },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -3560,6 +4358,16 @@
               }
             },
             "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       }
@@ -3634,7 +4442,7 @@
       "put": {
         "tags": ["v2", "pipelines"],
         "summary": "Update Pipeline",
-        "description": "Updates a pipeline completely, or creates it if it doesn't exist.\nRetries 409 conflicts received from the K8s API server.",
+        "description": "Updates a pipeline completely, or creates it if it doesn't exist.",
         "operationId": "update_pipeline_api_v2_pipelines__name__put",
         "security": [
           {
@@ -3658,14 +4466,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ],
+              "type": "boolean",
               "description": "Only validate the provided configuration without making changes",
               "default": false,
               "title": "Dry Run"
@@ -3749,6 +4550,26 @@
             },
             "description": "Unprocessable Entity"
           },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -3758,13 +4579,23 @@
               }
             },
             "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       },
       "patch": {
         "tags": ["v2", "pipelines"],
         "summary": "Patch Pipeline",
-        "description": "Updates a pipeline partially (only updates specified fields), with retries on 409 conflicts received from the K8s API server.",
+        "description": "Updates a pipeline partially (only updates specified fields).",
         "operationId": "patch_pipeline_api_v2_pipelines__name__patch",
         "security": [
           {
@@ -3788,14 +4619,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ],
+              "type": "boolean",
               "description": "Only validate the provided configuration without making changes",
               "default": false,
               "title": "Dry Run"
@@ -3889,6 +4713,26 @@
             },
             "description": "Unprocessable Entity"
           },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
           "503": {
             "content": {
               "application/json": {
@@ -3898,13 +4742,23 @@
               }
             },
             "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       },
       "delete": {
         "tags": ["v2", "pipelines"],
         "summary": "Delete Pipeline",
-        "description": "Replaces a pipeline with an empty inactive pipeline and resets it.\n\nThis is done to ensure that no artifacts (offsets, schema, data streams etc.) are left behind,\nas this may cause errors and unexpected behavior when trying to re-create the pipeline.",
+        "description": "Replaces a pipeline with an empty inactive pipeline.",
         "operationId": "delete_pipeline_api_v2_pipelines__name__delete",
         "security": [
           {
@@ -3957,6 +4811,16 @@
               }
             },
             "description": "Not Found"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       }
@@ -4033,7 +4897,7 @@
       "post": {
         "tags": ["v2", "pipelines"],
         "summary": "Start Pipeline",
-        "description": "Starts a pipeline, retrying on 409 conflicts received from the K8s API server.",
+        "description": "Starts a pipeline, or a single source when one is given.",
         "operationId": "start_pipeline_api_v2_pipelines__name__start_post",
         "security": [
           {
@@ -4051,6 +4915,24 @@
               "title": "Name"
             },
             "description": "Pipeline name"
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Start only this source; it runs only while the pipeline itself is running. Must be an existing source that is not of type 'external'.",
+              "title": "Source"
+            },
+            "description": "Start only this source; it runs only while the pipeline itself is running. Must be an existing source that is not of type 'external'."
           }
         ],
         "responses": {
@@ -4084,6 +4966,16 @@
             },
             "description": "Forbidden"
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -4093,6 +4985,16 @@
               }
             },
             "description": "Not Found"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       }
@@ -4101,7 +5003,7 @@
       "post": {
         "tags": ["v2", "pipelines"],
         "summary": "Stop Pipeline",
-        "description": "Stops a pipeline, retrying on 409 conflicts received from the K8s API server.",
+        "description": "Stops a pipeline, or a single source when one is given.",
         "operationId": "stop_pipeline_api_v2_pipelines__name__stop_post",
         "security": [
           {
@@ -4119,6 +5021,24 @@
               "title": "Name"
             },
             "description": "Pipeline name"
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Stop only this source; the pipeline and its other sources keep running. Must be an existing source that is not of type 'external'.",
+              "title": "Source"
+            },
+            "description": "Stop only this source; the pipeline and its other sources keep running. Must be an existing source that is not of type 'external'."
           }
         ],
         "responses": {
@@ -4152,6 +5072,16 @@
             },
             "description": "Forbidden"
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
           "404": {
             "content": {
               "application/json": {
@@ -4161,6 +5091,16 @@
               }
             },
             "description": "Not Found"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       }
@@ -4169,7 +5109,7 @@
       "post": {
         "tags": ["v2", "pipelines"],
         "summary": "Reset Pipeline",
-        "description": "Resets a pipeline, retrying on 409 conflicts received from the K8s API server.",
+        "description": "Resets a pipeline.",
         "operationId": "reset_pipeline_api_v2_pipelines__name__reset_post",
         "security": [
           {
@@ -4229,6 +5169,16 @@
               }
             },
             "description": "Not Found"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
           }
         }
       }
@@ -4380,6 +5330,16 @@
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -4710,7 +5670,7 @@
       "get": {
         "tags": ["v2", "pipelines", "secrets"],
         "summary": "Get Pipeline Secrets",
-        "description": "Lists all pipeline secrets.",
+        "description": "Lists pipeline secrets, optionally filtered to a single database.",
         "operationId": "get_pipeline_secrets_api_v2_pipelines__name__secrets_get",
         "security": [
           {
@@ -4728,6 +5688,24 @@
               "title": "Name"
             },
             "description": "Pipeline name"
+          },
+          {
+            "name": "db",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "If set, list only the secrets of this database.",
+              "title": "Db"
+            },
+            "description": "If set, list only the secrets of this database."
           }
         ],
         "responses": {
@@ -4798,6 +5776,36 @@
               "title": "Name"
             },
             "description": "Pipeline name"
+          },
+          {
+            "name": "db",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The database a secret belongs to: a source name, or 'target' for the target database. Omit for legacy SOURCE_DB_* and TARGET_DB_* keys.",
+              "title": "Db"
+            },
+            "description": "The database a secret belongs to: a source name, or 'target' for the target database. Omit for legacy SOURCE_DB_* and TARGET_DB_* keys."
+          },
+          {
+            "name": "validate_source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "When true, require the source to already exist in the pipeline.",
+              "default": false,
+              "title": "Validate Source"
+            },
+            "description": "When true, require the source to already exist in the pipeline."
           }
         ],
         "requestBody": {
@@ -4861,6 +5869,16 @@
               }
             },
             "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -4898,6 +5916,24 @@
               "title": "Key"
             },
             "description": "Pipeline secret key"
+          },
+          {
+            "name": "db",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The database a secret belongs to: a source name, or 'target' for the target database. Omit for legacy SOURCE_DB_* and TARGET_DB_* keys.",
+              "title": "Db"
+            },
+            "description": "The database a secret belongs to: a source name, or 'target' for the target database. Omit for legacy SOURCE_DB_* and TARGET_DB_* keys."
           }
         ],
         "responses": {
@@ -4940,6 +5976,16 @@
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           }
         }
       },
@@ -4975,6 +6021,24 @@
               "title": "Key"
             },
             "description": "Pipeline secret key"
+          },
+          {
+            "name": "db",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The database a secret belongs to: a source name, or 'target' for the target database. Omit for legacy SOURCE_DB_* and TARGET_DB_* keys.",
+              "title": "Db"
+            },
+            "description": "The database a secret belongs to: a source name, or 'target' for the target database. Omit for legacy SOURCE_DB_* and TARGET_DB_* keys."
           }
         ],
         "requestBody": {
@@ -5073,6 +6137,24 @@
               "title": "Key"
             },
             "description": "Pipeline secret key"
+          },
+          {
+            "name": "db",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The database a secret belongs to: a source name, or 'target' for the target database. Omit for legacy SOURCE_DB_* and TARGET_DB_* keys.",
+              "title": "Db"
+            },
+            "description": "The database a secret belongs to: a source name, or 'target' for the target database. Omit for legacy SOURCE_DB_* and TARGET_DB_* keys."
           }
         ],
         "responses": {
@@ -5108,6 +6190,16 @@
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -5244,6 +6336,46 @@
               }
             },
             "description": "Unprocessable Entity"
+          },
+          "423": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Locked"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       }
@@ -5334,6 +6466,16 @@
             },
             "description": "Not Found"
           },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
           "502": {
             "content": {
               "application/json": {
@@ -5353,6 +6495,16 @@
               }
             },
             "description": "Service Unavailable"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
           }
         }
       }
@@ -5370,6 +6522,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/InfoResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
                 }
               }
             }
@@ -5426,7 +6588,7 @@
           "error": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__sources__Error"
+                "$ref": "#/components/schemas/redis_di_api__v1__models__sources__Error"
               },
               {
                 "type": "null"
@@ -5499,8 +6661,7 @@
           "collector-api",
           "stream-processor",
           "metrics-exporter",
-          "flink-processor-jobmanager",
-          "flink-processor-taskmanager",
+          "flink-collector",
           "flink-processor",
           "riotx-collector",
           "unknown"
@@ -5517,7 +6678,7 @@
           "error": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/redis_di_api__v1__modules__shared__sources__Error"
+                "$ref": "#/components/schemas/redis_di_api__v1__models__sources__Error"
               },
               {
                 "type": "null"
@@ -5884,7 +7045,6 @@
       "DbType": {
         "type": "string",
         "enum": [
-          "cassandra",
           "mariadb",
           "mongodb",
           "mysql",
@@ -6089,54 +7249,29 @@
         "title": "InfoResponse",
         "description": "Response model containing information about the API and operator."
       },
-      "Job": {
-        "properties": {
-          "source": {
-            "$ref": "#/components/schemas/Source"
-          },
-          "transform": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/Transform"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Transform"
-          },
-          "output": {
-            "items": {
-              "$ref": "#/components/schemas/Output"
-            },
-            "type": "array",
-            "title": "Output"
-          },
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name",
-            "examples": ["Alex"]
-          }
-        },
-        "type": "object",
-        "required": ["source", "output"],
-        "title": "Job"
-      },
       "JobDryRunBody": {
         "properties": {
           "job": {
-            "$ref": "#/components/schemas/Job",
-            "title": "Job settings to dry run with."
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Job settings to dry run with.",
+            "examples": [
+              {
+                "source": {
+                  "table": "employee"
+                },
+                "transform": [
+                  {
+                    "uses": "add_field",
+                    "with": {
+                      "expression": "FNAME || ' ' || LAST_NAME",
+                      "field": "FullName",
+                      "language": "sql"
+                    }
+                  }
+                ]
+              }
+            ]
           },
           "input_data": {
             "items": {
@@ -6200,6 +7335,19 @@
         "title": "LeaderElectionMode",
         "description": "Operator leader-election mode."
       },
+      "LegacySecretName": {
+        "type": "string",
+        "enum": [
+          "source-db",
+          "target-db",
+          "rdi-sys-config",
+          "rdi-db-ssl",
+          "source-db-ssl",
+          "target-db-ssl"
+        ],
+        "title": "LegacySecretName",
+        "description": "The secret names API v1 accepts as the request key. They are kept for backward compatibility\nonly, since the K8s secret is derived from each key instead."
+      },
       "MetadataResponse": {
         "properties": {
           "tables": {
@@ -6239,35 +7387,6 @@
         "required": ["status"],
         "title": "OperationResponse",
         "description": "Represents the response of an operation."
-      },
-      "Output": {
-        "properties": {
-          "uses": {
-            "type": "string",
-            "title": "Uses",
-            "examples": ["redis.write"]
-          },
-          "with": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/WithInput"
-              },
-              {
-                "$ref": "#/components/schemas/WithFields"
-              },
-              {
-                "$ref": "#/components/schemas/WithNest"
-              },
-              {
-                "$ref": "#/components/schemas/WithConnection"
-              }
-            ],
-            "title": "With"
-          }
-        },
-        "type": "object",
-        "required": ["uses", "with"],
-        "title": "Output"
       },
       "Pipeline": {
         "properties": {
@@ -6312,6 +7431,17 @@
           "type": {
             "$ref": "#/components/schemas/ComponentType"
           },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
           "version": {
             "type": "string",
             "title": "Version"
@@ -6352,6 +7482,14 @@
               }
             ],
             "title": "Metric Collections"
+          },
+          "external_endpoints": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "External Endpoints",
+            "default": []
           }
         },
         "additionalProperties": false,
@@ -6583,6 +7721,10 @@
             "type": "string",
             "title": "Key"
           },
+          "db": {
+            "type": "string",
+            "title": "Db"
+          },
           "type": {
             "type": "string",
             "enum": ["simple", "file", "binary_file"],
@@ -6591,7 +7733,7 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": ["key", "type"],
+        "required": ["key", "db", "type"],
         "title": "PipelineSecretResponse",
         "description": "Response model for a pipeline secret."
       },
@@ -6917,25 +8059,12 @@
           }
         ]
       },
-      "SecretName": {
-        "type": "string",
-        "enum": [
-          "source-db",
-          "target-db",
-          "rdi-sys-config",
-          "rdi-db-ssl",
-          "source-db-ssl",
-          "target-db-ssl"
-        ],
-        "title": "SecretName",
-        "description": "Defines supported secret names."
-      },
       "SecretsModel": {
         "additionalProperties": {
           "$ref": "#/components/schemas/SecretKeyModel"
         },
         "propertyNames": {
-          "$ref": "#/components/schemas/SecretName"
+          "$ref": "#/components/schemas/LegacySecretName"
         },
         "type": "object",
         "title": "SecretsModel",
@@ -6958,50 +8087,6 @@
         "enum": ["asc", "desc"],
         "title": "SortOrder",
         "description": "Sort order for DLQ records."
-      },
-      "Source": {
-        "properties": {
-          "schema": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Schema",
-            "examples": ["public"]
-          },
-          "table": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Table",
-            "examples": ["employee"]
-          },
-          "row_format": {
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": ["full", "partial"]
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Row Format",
-            "examples": ["full"]
-          }
-        },
-        "additionalProperties": true,
-        "type": "object",
-        "title": "Source"
       },
       "SourceColumnResponse": {
         "properties": {
@@ -7312,6 +8397,7 @@
           "stopping",
           "resetting",
           "pending",
+          "standby",
           "unknown"
         ],
         "title": "Status",
@@ -7501,35 +8587,6 @@
         "title": "TraceRequest",
         "description": "Request model for the trace endpoint."
       },
-      "Transform": {
-        "properties": {
-          "uses": {
-            "type": "string",
-            "title": "Uses",
-            "examples": ["add_field"]
-          },
-          "with": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/WithInput"
-              },
-              {
-                "$ref": "#/components/schemas/WithFields"
-              },
-              {
-                "$ref": "#/components/schemas/WithNest"
-              },
-              {
-                "$ref": "#/components/schemas/WithConnection"
-              }
-            ],
-            "title": "With"
-          }
-        },
-        "type": "object",
-        "required": ["uses", "with"],
-        "title": "Transform"
-      },
       "ValidationError": {
         "properties": {
           "loc": {
@@ -7553,226 +8610,18 @@
           "type": {
             "type": "string",
             "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
           }
         },
         "type": "object",
         "required": ["loc", "msg", "type"],
         "title": "ValidationError"
-      },
-      "WithConnection": {
-        "properties": {
-          "connection": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Connection",
-            "examples": ["target"]
-          },
-          "data_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Data Type",
-            "examples": ["hash"]
-          },
-          "args": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Args",
-            "examples": [
-              {
-                "member": "value"
-              },
-              ["expr1"]
-            ]
-          },
-          "key": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/WithInput"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "cmd": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Cmd",
-            "description": "Redis command to execute, e.g. HGETALL.",
-            "examples": ["HGETALL"]
-          },
-          "language": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Language",
-            "examples": ["jmespath", "sql"]
-          },
-          "field": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Field",
-            "description": "Target field name for the lookup result."
-          }
-        },
-        "type": "object",
-        "title": "WithConnection"
-      },
-      "WithFieldRef": {
-        "properties": {
-          "field": {
-            "type": "string",
-            "title": "Field",
-            "description": "Field name to reference or remove.",
-            "examples": ["branch"]
-          }
-        },
-        "type": "object",
-        "required": ["field"],
-        "title": "WithFieldRef"
-      },
-      "WithFields": {
-        "properties": {
-          "fields": {
-            "items": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/WithInput"
-                },
-                {
-                  "$ref": "#/components/schemas/WithFieldRef"
-                }
-              ]
-            },
-            "type": "array",
-            "title": "Fields"
-          }
-        },
-        "type": "object",
-        "required": ["fields"],
-        "title": "WithFields"
-      },
-      "WithInput": {
-        "properties": {
-          "expression": {
-            "type": "string",
-            "title": "Expression",
-            "examples": [
-              "FNAME || ' ' || LAST_NAME",
-              "concat([fname, ' ' , last_name])"
-            ]
-          },
-          "field": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Field",
-            "description": "This field it available only for a subset of with expressions e.g. `add_field`, `remove_field`.",
-            "examples": ["FullName"]
-          },
-          "language": {
-            "type": "string",
-            "title": "Language",
-            "examples": ["sql", "jmespath"]
-          }
-        },
-        "type": "object",
-        "required": ["expression", "language"],
-        "title": "WithInput"
-      },
-      "WithNest": {
-        "properties": {
-          "nest": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Nest",
-            "description": "Nesting configuration for hierarchical data structures."
-          },
-          "on_update": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "On Update",
-            "examples": ["merge", "replace"]
-          },
-          "data_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Data Type",
-            "examples": ["json", "hash"]
-          },
-          "connection": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Connection",
-            "examples": ["target"]
-          }
-        },
-        "type": "object",
-        "required": ["nest"],
-        "title": "WithNest"
       },
       "redis_di_api__models__errors__Error": {
         "properties": {
@@ -7832,27 +8681,7 @@
         "title": "ErrorResponse",
         "description": "Generic error response model"
       },
-      "redis_di_api__v1__modules__shared__response__Error": {
-        "properties": {
-          "status": {
-            "type": "string",
-            "const": "error",
-            "title": "The status of the run.",
-            "default": "error",
-            "examples": ["error"]
-          },
-          "error": {
-            "type": "string",
-            "title": "The error message.",
-            "examples": ["Job is malformed"]
-          }
-        },
-        "type": "object",
-        "required": ["error"],
-        "title": "Error",
-        "description": "Model representing an error status."
-      },
-      "redis_di_api__v1__modules__shared__response__ErrorResponse": {
+      "redis_di_api__v1__models__responses__ErrorResponse": {
         "properties": {
           "detail": {
             "type": "string",
@@ -7865,7 +8694,7 @@
         "title": "ErrorResponse",
         "description": "Model representing an API error response."
       },
-      "redis_di_api__v1__modules__shared__sources__Error": {
+      "redis_di_api__v1__models__sources__Error": {
         "properties": {
           "message": {
             "type": "string",
