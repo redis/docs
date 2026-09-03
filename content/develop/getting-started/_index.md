@@ -126,7 +126,7 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    -tab-sep-
 
-   If you started Redis with the `docker run` command from step 2:
+   If you started Redis with the `docker run` command from step 2 then you can connect to the database with the following command:
 
    ```sh
    docker exec -it redis redis-cli
