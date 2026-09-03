@@ -850,8 +850,15 @@ Bases: `BaseVectorizer`
 The VoyageAIVectorizer class utilizes VoyageAI’s API to generate
 embeddings for text and multimodal (text / image / video) data.
 
-This vectorizer is designed to interact with VoyageAI’s /embed and /multimodal_embed APIs,
-requiring an API key for authentication. The key can be provided
+This vectorizer is designed to interact with VoyageAI’s /embed, /multimodal_embed,
+and /contextualized_embed APIs. Any model identifier accepted by VoyageAI can be
+passed via `model` - for example the general-purpose `voyage-4-large` /
+`voyage-4` / `voyage-4-lite` / `voyage-4-nano` family, domain models such
+as `voyage-code-4`, contextualized `voyage-context-4` / `voyage-context-3`
+models, and multimodal `voyage-multimodal-*` models.
+See [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs/embeddings) for the current catalog.
+
+It requires an API key for authentication. The key can be provided
 directly in the api_config dictionary or through the VOYAGE_API_KEY
 environment variable. User must obtain an API key from VoyageAI’s website
 ([https://dash.voyageai.com/](https://dash.voyageai.com/)). Additionally, the voyageai python
@@ -879,6 +886,25 @@ query_embedding = vectorizer.embed(
 doc_embeddings = vectorizer.embed_many(
     contents=["your document text", "more document text"],
     input_type="document"
+)
+
+# Contextualized embeddings (voyage-context-* models) - requires voyageai>=0.5.0
+# Each input string is treated as its own document (auto-chunked) and
+# embedded independently: inputs do not influence one another, which keeps
+# the one-embedding-per-input contract and cache determinism intact.
+context_vectorizer = VoyageAIVectorizer(
+    model="voyage-context-4",
+    api_config={"api_key": "your-voyageai-api-key"}
+)
+context_embeddings = context_vectorizer.embed_many(
+    contents=["chunk one", "chunk two", "chunk three"],
+    input_type="document"
+)
+# Retrieval queries use input_type="query"; auto-chunking is a
+# document-only feature, so query inputs are embedded as-is.
+context_query = context_vectorizer.embed(
+    content="your query text here",
+    input_type="query"
 )
 
 # Multimodal usage - requires Pillow and voyageai>=0.3.6
@@ -941,6 +967,17 @@ Visit [https://docs.voyageai.com/docs/embeddings](https://docs.voyageai.com/docs
 
 - Multimodal models require voyageai>=0.3.6 to be installed for video embeddings, as well as
   : ffmpeg installed on the system. Image embeddings require pillow to be installed.
+- Contextualized (`voyage-context-*`) models require voyageai>=0.5.0. Each input
+  : string is sent as its own document with auto-chunking, so inputs are embedded
+    independently (no cross-input contextualization) and the one-embedding-per-input
+    contract and cache determinism are preserved. A document longer than `chunk_size`
+    (32000 tokens) auto-chunks into multiple chunks but only the first chunk’s embedding
+    is kept; the rest are dropped. `truncation` is not forwarded to the contextualized
+    API (it does not accept it), so it is silently ignored for these models.
+- The plain text embedding path (`embed`/`embed_many` for non-context,
+  : non-multimodal models) uses token-aware batching: inputs are grouped into requests
+    bounded by both the per-model item cap and the model’s per-request token limit, so
+    large inputs are packed efficiently without exceeding VoyageAI’s token budget.
 
 #### `embed_image(image_path, **kwargs)`
 
@@ -961,6 +998,16 @@ Requires voyageai>=0.3.6 to be installed, as well as ffmpeg to be installed on t
   **video_path** (*str*)
 * **Return type:**
   list[float] | bytes
+
+#### `property is_context: bool`
+
+Whether a contextualized-embedding model (voyage-context-
+
+```
+*
+```
+
+) has been configured.
 
 #### `property is_multimodal: bool`
 

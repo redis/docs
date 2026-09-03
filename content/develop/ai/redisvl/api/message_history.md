@@ -10,7 +10,7 @@ aliases:
 
 <a id="semantic-message-history-api"></a>
 
-### `class SemanticMessageHistory(name, session_tag=None, prefix=None, vectorizer=None, distance_threshold=0.3, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, create_index=True, **kwargs)`
+### `class SemanticMessageHistory(name, session_tag=None, prefix=None, vectorizer=None, distance_threshold=0.3, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None, overwrite=False, create_index=True, **kwargs)`
 
 Bases: `BaseMessageHistory`
 
@@ -190,7 +190,7 @@ Returns the full message history.
 
 <a id="message-history-api"></a>
 
-### `class MessageHistory(name, session_tag=None, prefix=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, create_index=True, **kwargs)`
+### `class MessageHistory(name, session_tag=None, prefix=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None, create_index=True, **kwargs)`
 
 Bases: `BaseMessageHistory`
 
