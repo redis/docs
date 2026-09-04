@@ -1189,6 +1189,21 @@ body.rwb-dragging-y * {
 
 .rwb-vsim-filter::placeholder { color: var(--rwb-muted); }
 
+/* The × that drops the filter. As tall as Search beside it — .rwb-btn's vertical
+   padding kept, its horizontal padding dropped, and the glyph set larger inside
+   that same box rather than growing it. Square by taking its width from that
+   height, so it reads as one button rather than a short wide one. */
+.rwb-vsim-clear {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;                /* the height this box comes to: 17px + 2 × 0.25rem */
+  padding: 0.25rem 0;
+  font-size: 15px;
+  line-height: 17px;
+}
+
 .rwb-vsim-filter:focus-visible {
   outline: 2px solid var(--rwb-focus);
   outline-offset: 1px;

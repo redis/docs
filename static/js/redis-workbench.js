@@ -2302,10 +2302,29 @@
     var filter = el('input', 'rwb-vsim-filter');
     filter.type = 'text';
     filter.value = search.filter;
+    filter.setAttribute('spellcheck', 'false');
     filter.placeholder = 'FILTER, e.g. .year > 2000';
     filter.title = 'An expression over element attributes; see Filtered search';
     filter.setAttribute('aria-label', 'Filter expression');
     row.appendChild(filter);
+
+    /* One click back to the unfiltered neighbours. Only while a filter is in
+       force: clearing an empty box is a control that does nothing. Emptying the
+       box by hand and pressing Enter does the same thing — this saves the two
+       steps. */
+    if (search.filter) {
+      var clear = el('button', 'rwb-btn rwb-vsim-clear', '\u00d7');
+      clear.type = 'button';
+      clear.title = 'Clear the filter and show every neighbour';
+      clear.setAttribute('aria-label', 'Clear the filter');
+      clear.addEventListener('click', function () {
+        self.vsimOptions().filter = '';
+        self.openVectorElement(key, element).then(function () {
+          self.focusVsimFilter(0);
+        });
+      });
+      row.appendChild(clear);
+    }
 
     var go = el('button', 'rwb-btn', 'Search');
     go.type = 'submit';
@@ -2314,10 +2333,26 @@
 
     row.addEventListener('submit', function (event) {
       event.preventDefault();
+      /* Where the caret was, to put it back in the box that replaces this one:
+         the reply re-renders the whole pane, so the box the reader typed into is
+         gone by the time the neighbours are up. */
+      var caret = filter.selectionStart;
       self.vsimOptions().filter = filter.value.trim();
-      self.openVectorElement(key, element);
+      self.openVectorElement(key, element).then(function () {
+        self.focusVsimFilter(caret);
+      });
     });
     return row;
+  };
+
+  dock.focusVsimFilter = function (caret) {
+    if (!this.valuePane) return;
+    var box = this.valuePane.querySelector('.rwb-vsim-filter');
+    if (!box) return;
+    box.focus({ preventScroll: true });
+    var at = typeof caret === 'number' ? Math.min(caret, box.value.length)
+      : box.value.length;
+    box.setSelectionRange(at, at);
   };
 
   /* One bar per row, in the order given — both callers ask the server to sort, so
