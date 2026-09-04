@@ -11,9 +11,12 @@ weight: 30
 hideListLinks: true
 ---
 
-The Data Plane reads `dataplane.config.yaml` from a Kubernetes Secret. Use one
-cache mode: static caches or Control Plane managed caches. The two modes use
-different Data Plane binaries and config shapes.
+The Data Plane reads `dataplane.config.yaml`. The published `langcache` chart
+provides this content inline under the `config` Helm value, which the chart
+renders into a ConfigMap (not a Secret) — see
+[Deploy with static caches]({{< relref "/operate/iris/langcache/self-managed/deploy-static" >}}).
+Use one cache mode: static caches or Control Plane managed caches. The two
+modes use different Data Plane binaries and config shapes.
 
 ## Shared settings
 
@@ -120,7 +123,7 @@ auth:
       base_url: https://iris-identity-service:9200
       product: langcache
       credential:
-        token_file: /etc/langcache/introspection/token
+        token_file: /etc/introspection/token
 
 embedding:
   provider: openai
@@ -134,7 +137,7 @@ embedding:
     api_key: "<embedding-api-key>"
 
 license:
-  license_path: /etc/langcache/license
+  license_path: /etc/license/license
 ```
 
 The `databases` map must use the same logical `<id>` keys (here,
@@ -149,11 +152,18 @@ without it.
 For the Identity Service introspection settings, see
 [Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}).
 
-## Secret key
+## Config storage
 
-Create the Data Plane config Secret with the key `dataplane.config.yaml`:
+The published `langcache` chart takes `dataplane.config.yaml` as the inline
+`config` Helm value and renders it into a Kubernetes ConfigMap, not a Secret.
+Because this config commonly contains embedding provider credentials and
+Redis URLs with embedded credentials, treat the values file itself (and any
+CI/CD pipeline that renders it) as sensitive, the same as you would a
+Secret. If your security policy requires Secret-backed storage for this
+content instead, mount a Secret through the chart's generic
+`volumes`/`volumeMounts` values and override `args` to point at the mounted
+path instead of the default `/etc/langcache/dataplane.config.yaml`.
 
-```bash
-kubectl -n <namespace-name> create secret generic langcache-config \
-  --from-file=dataplane.config.yaml=./dataplane.config.yaml
-```
+The chart automatically restarts Data Plane pods when the rendered
+ConfigMap content changes on `helm upgrade`; no separate checksum value is
+needed for `config` itself.

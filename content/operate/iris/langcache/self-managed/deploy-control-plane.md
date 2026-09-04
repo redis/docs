@@ -17,16 +17,22 @@ Metadata Redis, and the Control Plane provisions the RediSearch index in
 Cache Redis when it creates a cache.
 
 {{< note >}}
-The published `langcache` Helm chart currently templates only the Data Plane.
-This page deploys the Control Plane, and (for agent-key auth) the Identity
-Service, as plain Kubernetes manifests using the images provided by your
-Redis representative. Chart support for these components is expected in a
-future release; check with your Redis representative for the current state.
+The published `langcache` Helm chart currently templates only the Data
+Plane. This page deploys the Control Plane as a plain Kubernetes manifest
+using the image provided by your Redis representative. Chart support for
+the Control Plane is expected in a future release; check with your Redis
+representative for the current state.
+
+This page does not deploy the Identity Service, which agent-key Data Plane
+authentication also depends on; see
+[Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}})
+for what that component requires and why deploying it is out of scope here.
 {{< /note >}}
 
 Before you begin, review [prerequisites]({{< relref "/operate/iris/langcache/self-managed/prerequisites" >}})
-and create `dataplane.config.yaml` from the
-[Control Plane managed caches example]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#control-plane-managed-caches-example" >}}).
+and the
+[Control Plane managed caches config example]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#control-plane-managed-caches-example" >}}),
+which you'll paste into the Data Plane's Helm values below.
 
 ## Create the namespace
 
@@ -36,18 +42,12 @@ kubectl create namespace <namespace-name>
 
 ## Create shared Secrets
 
-Create the license Secret:
+Create the license Secret. Both the Control Plane manifest below and the
+Data Plane values further down mount this same Secret:
 
 ```bash
 kubectl -n <namespace-name> create secret generic langcache-license \
   --from-file=license=./license
-```
-
-Create the Data Plane config Secret:
-
-```bash
-kubectl -n <namespace-name> create secret generic langcache-config \
-  --from-file=dataplane.config.yaml=./dataplane.config.yaml
 ```
 
 ## Create the Control Plane config
@@ -63,7 +63,7 @@ auth:
     token_file: /etc/controlplane-onprem/admin/token
 
 license:
-  license_path: /etc/langcache/license
+  license_path: /etc/license/license
 
 metadata:
   urls:
@@ -138,7 +138,7 @@ spec:
               mountPath: /etc/controlplane-onprem/admin
               readOnly: true
             - name: license
-              mountPath: /etc/langcache
+              mountPath: /etc/license
               readOnly: true
           readinessProbe:
             httpGet:
@@ -179,34 +179,12 @@ kubectl apply -f langcache-controlplane.yaml
 
 ## Create Helm values for the Data Plane
 
-Create SHA-256 checksums for externally managed Secrets. These values are
-used by Helm values to roll pods after Secret changes; they are not used to
-validate Secret integrity.
-
-{{< multitabs id="langcache-control-plane-secret-checksums"
-tab1="Linux"
-tab2="macOS" >}}
-
-```bash
-LICENSE_CHECKSUM="$(sha256sum ./license | awk '{print $1}')"
-CONFIG_CHECKSUM="$(sha256sum ./dataplane.config.yaml | awk '{print $1}')"
-```
-
--tab-sep-
-
-```bash
-LICENSE_CHECKSUM="$(shasum -a 256 ./license | awk '{print $1}')"
-CONFIG_CHECKSUM="$(shasum -a 256 ./dataplane.config.yaml | awk '{print $1}')"
-```
-
-{{< /multitabs >}}
-
-The Control Plane managed cache example in
-[Data Plane configuration]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration" >}})
-reads the license from `/etc/langcache/license` and the Identity Service
-introspection credential from `/etc/langcache/introspection/token`. Neither
-path is wired up by the chart's own values today, so mount them yourself
-using the chart's generic `volumes`/`volumeMounts` passthrough.
+The published `langcache` chart takes `dataplane.config.yaml` inline as the
+`config` value — there is no `existingSecret` option for it. It also has no
+built-in fields for the license file or the Identity Service introspection
+credential, so mount those two as Secrets yourself using the chart's generic
+`volumes`/`volumeMounts` passthrough, at paths that don't overlap with the
+chart's own config mount at `/etc/langcache`.
 
 Create the introspection-token Secret. This is the shared credential the
 Data Plane presents to the Identity Service when introspecting agent keys;
@@ -217,16 +195,57 @@ kubectl -n <namespace-name> create secret generic langcache-introspection-token 
   --from-literal=token='<introspection-credential>'
 ```
 
-Create `langcache-values.yaml`:
+Create `langcache-values.yaml`, using the
+[Control Plane managed caches example]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#control-plane-managed-caches-example" >}})
+for `config`:
 
 ```yaml
+nameOverride: langcache
+fullnameOverride: langcache
+
 image:
   repository: <your-registry>/langcache-dataplane
   tag: "<langcache-version>"
 
+# The on-prem-hardened Data Plane binary listens on 9000 by default;
+# override the chart's default service port (8080) to match.
+service:
+  port: 9000
+
 config:
-  existingSecret: langcache-config
-  existingSecretChecksum: "<config-checksum>"
+  server:
+    port: 9000
+  profile: prod
+  metadata:
+    urls:
+      - redis://redis-meta:6379
+    cache_ttl: 1m
+  databases:
+    cache-primary:
+      name: cache-primary
+      urls:
+        - redis://cache-primary:6379
+  auth:
+    agent_keys:
+      enabled: true
+      product: langcache
+      introspection:
+        base_url: https://iris-identity-service:9200
+        product: langcache
+        credential:
+          token_file: /etc/introspection/token
+  embedding:
+    provider: openai
+    endpoint:
+      base_url: https://api.openai.com
+    models:
+      default_embedding_model: text-embedding-3-large
+      dimensions: 3072
+    credentials:
+      type: static
+      api_key: "<embedding-api-key>"
+  license:
+    license_path: /etc/license/license
 
 volumes:
   - name: license
@@ -238,17 +257,21 @@ volumes:
 
 volumeMounts:
   - name: license
-    mountPath: /etc/langcache/license
-    subPath: license
+    mountPath: /etc/license
     readOnly: true
   - name: introspection-token
-    mountPath: /etc/langcache/introspection/token
-    subPath: token
+    mountPath: /etc/introspection
     readOnly: true
 ```
 
-The `subPath` mounts add the license and token files inside the directory
-that the chart's own config volume already mounts, without replacing it.
+As with static caches, this `config` block ends up in a ConfigMap, so treat
+`langcache-values.yaml` as sensitive. The `volumes`/`volumeMounts` entries
+above are whole-directory mounts rather than `subPath` mounts, so Kubernetes
+refreshes the mounted license and introspection-credential files
+automatically when the backing Secret changes — no pod restart required to
+pick up new file content (the running process still decides how often it
+re-reads them; see [Operations]({{< relref "/operate/iris/langcache/self-managed/operations" >}})
+for license/token rotation).
 
 The chart values shown throughout this guide reflect the current `langcache`
 chart, which does not yet expose dedicated license or Control Plane fields.

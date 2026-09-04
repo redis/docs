@@ -112,18 +112,26 @@ removes Control Plane cache records.
 
 ## Credentials and Secrets
 
-The Data Plane chart consumes configuration and license material from
-Kubernetes Secrets:
+The published `langcache` chart takes the Data Plane's `dataplane.config.yaml`
+inline as a Helm value; the chart renders it into a ConfigMap, not a Secret.
+Because that config can contain embedding provider API keys and Redis URLs
+with credentials, treat the values file itself as sensitive. If your
+security policy requires Secret-backed storage for it instead, mount a
+Secret through the chart's generic `volumes`/`volumeMounts` values; see
+[Data Plane configuration]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#config-storage" >}}).
+
+The license file and, for Control Plane managed caches, the Identity Service
+introspection credential are not wired into the chart's values at all today;
+mount them yourself as Secrets the same way. The Control Plane (deployed as
+a plain manifest until it's chart-packaged) uses real Kubernetes Secrets
+throughout:
 
 | Secret | Required when | Default key |
 | --- | --- | --- |
-| LangCache license Secret | Always for the on-prem-hardened images | `license` |
-| LangCache Data Plane config Secret | Always | `dataplane.config.yaml` |
+| LangCache license Secret | Control Plane managed caches | `license` |
 | Control Plane config Secret | Control Plane used | `controlplane-onprem.config.yaml` |
 | Control Plane admin-token Secret | Control Plane used | `token` |
-
-The config file is commonly mounted as a Secret because it can contain
-embedding provider API keys and Redis URLs may include credentials.
+| Identity Service introspection-token Secret | Agent-key Data Plane auth used | `token` |
 
 ## System requirements
 
@@ -147,7 +155,7 @@ name.
 | Area | Values | Use when |
 | --- | --- | --- |
 | Image | `image.repository`, `image.tag`, `imagePullSecrets` | Selecting a release or private registry image. |
-| Config | `config`, or `existingSecret`/`existingSecretChecksum` for an externally managed config Secret | Providing `dataplane.config.yaml` content. |
+| Config | `config` (inline `dataplane.config.yaml` content) | Configuring caches, embeddings, and auth. Renders into a ConfigMap; treat the values file as sensitive. |
 | Capacity | `resources`, `autoscaling.*` | Tuning request capacity or memory footprint. |
 | Scheduling | `nodeSelector`, `affinity`, `tolerations` | Controlling pod placement. |
 | Networking | `service.type`, `ingress.*` | Exposing LangCache outside the cluster. |
