@@ -1151,8 +1151,22 @@ body.rwb-dragging-y * {
   gap: 0.25rem;
 }
 
-/* .rwb-chip is laid out for the KEYS heading, where it is pushed to the end. */
-.rwb-vsim-counts .rwb-chip { margin-left: 0; max-width: none; }
+/* .rwb-chip is laid out for the KEYS heading, where it is pushed to the end and
+   carries a word. Here it carries a number, so it is a circle of one size for
+   every count — a square box with the padding dropped, and the digits centred on
+   both axes rather than sitting where a label's padding put them. */
+.rwb-vsim-counts .rwb-chip {
+  margin-left: 0;
+  max-width: none;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  gap: 0;
+  font-size: 11px;
+  line-height: 1;
+  border-radius: 50%;
+}
 
 .rwb-chip-on {
   color: var(--rwb-ink);
