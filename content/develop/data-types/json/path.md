@@ -64,13 +64,13 @@ The following JSONPath syntax table was adapted from Goessner's [path syntax com
 
 Beginning with Redis 8.10, the JSON data type supports a richer JSONPath syntax, with additional operators and functions:
 
-- Projection expressions at the top level of a JSONPath query
-- `==` and `!=` can now compare any literal, including array and object literals
-- Filter negation operator: `!`
-- `size`/`sizeof` and `empty` operators on string, array, object, and nodelist
-- `in` and `nin` operators: membership test on an array and nodelist
-- Operators on numbers: binary `-`, `+`, `*`, `/`, `%`, and unary `-` and `+`
-- Operator on object: `~`
+- [Projection expressions](#projection-expressions) at the top level of a JSONPath query
+- [`==` and `!=`](#comparing-array-and-object-literals) can now compare any literal, including array and object literals
+- Filter negation operator: [`!`](#negation-)
+- [`size`/`sizeof` and `empty`](#size-sizeof-and-empty) operators on string, array, object, and nodelist
+- [`in` and `nin`](#membership-in-and-nin) operators: membership test on an array and nodelist
+- [Operators on numbers](#arithmetic-operators): binary `-`, `+`, `*`, `/`, `%`, and unary `-` and `+`
+- Operator on object: [`~`](#get-keys-operator-)
 - `length()` function on array, object, and string
 - Functions on number: `abs()`, `ceiling()`, `floor()`
 - Functions on string: `match()`, `search()`
@@ -80,7 +80,9 @@ Beginning with Redis 8.10, the JSON data type supports a richer JSONPath syntax,
 - Function on object: `keys()`
 - Function on nodelist: `count()`
 - Function on nodelist with exactly one node: `value()`
-- Relations functions on array and nodelist: `subsetof()`, `anyof()`, `noneof()`
+- Relations functions on array and nodelist: [`subsetof()`, `anyof()`, `noneof()`](#set-relations-subsetof-anyof-and-noneof)
+
+These operators can be used within a filter expression (`?()`).
 
 {{< warning >}}
 Beginning with Redis 8.10, two changes to path parsing may affect existing queries:
@@ -98,50 +100,6 @@ The following rules apply to the operators and functions described below:
 - **Node lists match on "any".** When an operand selects more than one node (for example, `@.*`), a comparison or operator holds if *any* selected node satisfies it.
 - **Arithmetic operators must be surrounded by spaces.** `@.a + 1` is addition, but `@.a+1` is a reference to a field literally named `a+1`, because the field-name character set includes characters such as `+`, `-`, `/`, `%`, `$`, `^`, `:`, and `_`.
 - **Functions are arity-checked.** Calling a function with the wrong number of arguments produces *Nothing* rather than silently using a subset of the arguments.
-
-## Filter expression operators
-
-The following operators can be used within a filter expression (`?()`).
-
-### Negation `!`
-
-The `!` operator negates a filter condition. It binds more tightly than the logical `&&` and `||` operators, so use parentheses to negate a compound condition. A double negation (`!!`) is equivalent to an existence test.
-
-### Comparing array and object literals
-
-The `==` and `!=` operators can compare any JSON literal, including array and object literals, on either side of the operator. Comparison is by structural (deep) equality. A comparison between values of different types is always false.
-
-### Arithmetic operators
-
-The binary operators `+`, `-`, `*`, `/`, and `%` and the unary operators `-` and `+` operate on numbers. Precedence, from highest to lowest, is: unary `-`/`+`, then `*`/`/`/`%`, then `+`/`-`. Use parentheses to override precedence. Division always produces a floating-point result. Division or modulo by zero produces *Nothing*, so no element matches.
-
-Remember that arithmetic operators must be surrounded by spaces (see [Evaluation semantics](#evaluation-semantics)).
-
-### Membership: `in` and `nin`
-
-`value in array` matches when `value` is a member of `array`; `value nin array` is its strict negation. The right-hand side can be an array literal or a path to an array. Membership uses the same structural comparison and number coercion as `==`. If the right-hand side is not an array, `in` is false (so `nin` is true).
-
-### Set relations: `subsetof`, `anyof`, and `noneof`
-
-These operators compare two arrays (each side can be an array literal or a path to an array):
-
-- `subsetof` matches when every element of the left array is a member of the right array. An empty array is a subset of any array.
-- `anyof` matches when the two arrays have a non-empty intersection. An empty array never matches.
-- `noneof` matches when the two arrays have an empty intersection. An empty array always matches.
-
-### `size` (`sizeof`) and `empty`
-
-`left sizeof n` matches when the size of `left` equals the integer `n`, where size is the number of characters in a string, the number of elements in an array, or the number of members in an object. A non-integer `n` is truncated toward zero; a non-numeric `n` never matches. `size` is an alias for `sizeof`.
-
-`left empty true` matches an empty string, array, or object; `left empty false` matches a non-empty one.
-
-### Get-keys operator `~`
-
-The terminal `~` operator returns the member names of an object as a flat list of strings. Applied to the root (`$~`), it returns the top-level keys. Applied to a multiple-match receiver, it flattens the keys of every matched object. A non-object receiver contributes no keys.
-
-Because `~` is terminal, expressions such as `$.obj~.x`, `$.obj~~`, and `$.obj.keys()~` are parse errors. For a composable alternative that can be chained with other functions, use the [`keys()`](#keys) function.
-
-See [Filter examples](#filter-examples) for a runnable example of each operator.
 
 ## Functions
 
@@ -465,11 +423,11 @@ OK
 "[\"Quaoar\",\"Weywot\"]"
 {{< /clients-example >}}
 
-See [Filter expression operators](#filter-expression-operators) for more information.
+These operators can be used within a filter expression (`?()`). Beginning with Redis 8.10, the JSONPath filter syntax supports the following additional operators.
 
-Beginning with Redis 8.10, the JSONPath filter syntax supports additional operators, described in [Filter expression operators](#filter-expression-operators). The following examples demonstrate each one.
+#### Negation `!`
 
-#### Negation
+The `!` operator negates a filter condition. It binds more tightly than the logical `&&` and `||` operators, so use parentheses to negate a compound condition. A double negation (`!!`) is equivalent to an existence test.
 
 {{< clients-example set="json_path_ops" step="filter_negation" description="Filter negation: Use the ! operator to invert a filter condition when you need to select elements that do not match" difficulty="advanced" >}}
 > JSON.SET doc $ '[{"a":1,"b":1},{"b":2},{"a":1},{"c":3}]'
@@ -484,6 +442,8 @@ OK
 
 #### Comparing array and object literals
 
+The `==` and `!=` operators can compare any JSON literal, including array and object literals, on either side of the operator. Comparison is by structural (deep) equality. A comparison between values of different types is always false.
+
 {{< clients-example set="json_path_ops" step="filter_literal_eq" description="Literal comparison: Use == and != to compare array and object literals by structural equality when you need to match a whole nested value" difficulty="advanced" >}}
 > JSON.SET doc $ '{"arrs":[[1],[2],[1,2],[1,[2]]],"objs":[{"x":1},{"x":2},{"y":1}]}'
 OK
@@ -496,6 +456,10 @@ OK
 {{< /clients-example >}}
 
 #### Arithmetic operators
+
+The binary operators `+`, `-`, `*`, `/`, and `%` and the unary operators `-` and `+` operate on numbers. Precedence, from highest to lowest, is: unary `-`/`+`, then `*`/`/`/`%`, then `+`/`-`. Use parentheses to override precedence. Division always produces a floating-point result. Division or modulo by zero produces *Nothing*, so no element matches.
+
+Remember that arithmetic operators must be surrounded by spaces (see [Evaluation semantics](#evaluation-semantics)).
 
 {{< clients-example set="json_path_ops" step="filter_arithmetic" description="Arithmetic in filters: Use +, -, *, / and % inside a filter condition when you need to compute a value before comparing it" difficulty="advanced" >}}
 > JSON.SET doc $ '[{"a":2,"b":3},{"a":5,"b":2}]'
@@ -510,6 +474,8 @@ OK
 
 #### Membership: `in` and `nin`
 
+`value in array` matches when `value` is a member of `array`; `value nin array` is its strict negation. The right-hand side can be an array literal or a path to an array. Membership uses the same structural comparison and number coercion as `==`. If the right-hand side is not an array, `in` is false (so `nin` is true).
+
 {{< clients-example set="json_path_ops" step="filter_membership" description="Membership filters: Use in and nin to test whether a value is a member of an array when you need set-style matching" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":[1,2,3,4],"allow":[2,3]}'
 OK
@@ -522,6 +488,12 @@ OK
 {{< /clients-example >}}
 
 #### Set relations: `subsetof`, `anyof`, and `noneof`
+
+These operators compare two arrays (each side can be an array literal or a path to an array):
+
+- `subsetof` matches when every element of the left array is a member of the right array. An empty array is a subset of any array.
+- `anyof` matches when the two arrays have a non-empty intersection. An empty array never matches.
+- `noneof` matches when the two arrays have an empty intersection. An empty array always matches.
 
 {{< clients-example set="json_path_ops" step="filter_set_relations" description="Set relation filters: Use subsetof, anyof, and noneof to compare two arrays when you need to match based on their overlap" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":[[1,2],[1,5],[]]}'
@@ -540,6 +512,10 @@ OK
 
 #### `size` (`sizeof`) and `empty`
 
+`left sizeof n` matches when the size of `left` equals the integer `n`, where size is the number of characters in a string, the number of elements in an array, or the number of members in an object. A non-integer `n` is truncated toward zero; a non-numeric `n` never matches. `size` is an alias for `sizeof`.
+
+`left empty true` matches an empty string, array, or object; `left empty false` matches a non-empty one.
+
 {{< clients-example set="json_path_ops" step="filter_size_empty" description="Size and emptiness filters: Use sizeof and empty to filter by the size or emptiness of a string, array, or object" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":[[4,5],[1],[7,8,9]]}'
 OK
@@ -554,6 +530,10 @@ OK
 {{< /clients-example >}}
 
 #### Get-keys operator `~`
+
+The terminal `~` operator returns the member names of an object as a flat list of strings. Applied to the root (`$~`), it returns the top-level keys. Applied to a multiple-match receiver, it flattens the keys of every matched object. A non-object receiver contributes no keys.
+
+Because `~` is terminal, expressions such as `$.obj~.x`, `$.obj~~`, and `$.obj.keys()~` are parse errors. For a composable alternative that can be chained with other functions, use the [`keys()`](#keys) function.
 
 {{< clients-example set="json_path_ops" step="filter_getkeys" description="Get-keys filter: Use the ~ operator to retrieve an object's member names as a list of strings" difficulty="advanced" >}}
 > JSON.SET doc $ '{"obj":{"x":1,"y":2},"books":[{"t":"a"},{"t":"b"}]}'
