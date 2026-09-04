@@ -384,10 +384,12 @@ run_go() {
   cp "$1" "$d/ex_test.go"
   (cd "$d" && go mod tidy >/dev/null 2>&1 && go test ./... ) >"$LOG" 2>&1; rc=$?
 }
-run_rust_sync() { rust_run "$WORK/rust-sync" "$1" 'redis = "1.3"' ; }
-run_rust_async(){ rust_run "$WORK/rust-async" "$1" 'redis = { version = "1.3", features = ["tokio-comp"] }
+run_rust_sync() { rust_run "$WORK/rust-sync" "$1" 'redis = { version = "1.3", features = ["json"] }
+serde_json = { version = "1", features = ["preserve_order"] }' ; }
+run_rust_async(){ rust_run "$WORK/rust-async" "$1" 'redis = { version = "1.3", features = ["tokio-comp", "json"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
-futures-util = "0.3"' ; }
+futures-util = "0.3"
+serde_json = { version = "1", features = ["preserve_order"] }' ; }
 rust_run() {
   local d="$1" src="$2" deps="$3"; mkdir -p "$d/src"
   if [ ! -f "$d/Cargo.toml" ]; then
