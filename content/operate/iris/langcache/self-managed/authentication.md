@@ -179,7 +179,11 @@ curl -sS -X POST "$IDENTITY_SERVICE_URL/v1/api-keys" \
 ```
 
 {{< note >}}
-The Identity Service is a shared, cross-product component. A full
+The Identity Service is a shared, cross-product component, and deploying it
+is more than running one extra container: it needs its own control-plane
+credential (for the `/v1/api-keys` calls shown above), a separate runtime
+introspection credential for each Data Plane that calls it, and its LangCache
+product entry wired so grants resolve against real caches. A full
 self-managed deployment and administration guide for it is out of scope for
 this LangCache-specific documentation; see your Redis representative or the
 self-managed Redis Agent Memory Helm chart for a working reference

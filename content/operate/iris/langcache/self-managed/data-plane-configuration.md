@@ -124,6 +124,8 @@ auth:
 
 embedding:
   provider: openai
+  endpoint:
+    base_url: https://api.openai.com
   models:
     default_embedding_model: text-embedding-3-large
     dimensions: 3072
@@ -140,7 +142,9 @@ The `databases` map must use the same logical `<id>` keys (here,
 both processes resolve `databaseId` to the same Cache Redis target. The
 `embedding` block must match the Control Plane's configured provider, model,
 and dimensions exactly; Control Plane managed caches cannot select a
-different embedding model or supply per-cache credentials.
+different embedding model or supply per-cache credentials. `embedding.endpoint.base_url`
+is required for the OpenAI-compatible provider; the Data Plane fails startup
+without it.
 
 For the Identity Service introspection settings, see
 [Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}).
