@@ -349,6 +349,46 @@ assert.deepEqual(res63, [{ t: 'a', price: 30 }, { t: 'X' }]);
 await client.del('doc');
 // REMOVE_END
 
+// STEP_START proj_basic
+const res64 = await client.json.set('doc', '$', { a: 2, b: 4, arr: [1, 2, 3] });
+console.log(res64); // >>> OK
+
+const res65 = await client.json.get('doc', { path: '$.a + 1' });
+console.log(res65); // >>> [ 3 ]
+
+const res66 = await client.json.get('doc', { path: '$.a * $.b' });
+console.log(res66); // >>> [ 8 ]
+
+const res67 = await client.json.get('doc', { path: '($.a + $.b) / 2' });
+console.log(res67); // >>> [ 3 ]
+
+const res68 = await client.json.get('doc', { path: '$.arr.length()' });
+console.log(res68); // >>> [ 3 ]
+
+const res69 = await client.json.get('doc', { path: '$.a / 0' });
+console.log(res69); // >>> []
+// STEP_END
+
+// REMOVE_START
+assert.deepEqual(res65, [3]);
+assert.deepEqual(res66, [8]);
+assert.deepEqual(res67, [3]);
+assert.deepEqual(res68, [3]);
+assert.deepEqual(res69, []);
+// REMOVE_END
+
+// STEP_START proj_multipath
+const res70 = await client.json.set('doc', '$', { a: 2, b: 4, arr: [1, 2, 3] });
+console.log(res70); // >>> OK
+
+const res71 = await client.json.get('doc', { path: ['$.a + 1', '$.b'] });
+console.log(res71); // >>> { '$.a + 1': [ 3 ], '$.b': [ 4 ] }
+// STEP_END
+
+// REMOVE_START
+assert.deepEqual(res71, { '$.a + 1': [3], '$.b': [4] });
+await client.del('doc');
+// REMOVE_END
 
 // HIDE_START
 await client.close();

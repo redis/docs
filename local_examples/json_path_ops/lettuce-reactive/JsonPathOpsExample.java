@@ -660,6 +660,89 @@ public class JsonPathOpsExample {
             reactiveCommands.del("doc").block();
             // REMOVE_END
 
+            // STEP_START proj_basic
+            Mono<Void> projBasicExample = reactiveCommands
+                    .jsonSet("doc", JsonPath.ROOT_PATH, parser.createJsonValue("{\"a\":2,\"b\":4,\"arr\":[1,2,3]}"))
+                    .doOnNext(res1 -> {
+                        System.out.println(res1); // >>> OK
+                        // REMOVE_START
+                        assertThat(res1).isEqualTo("OK");
+                        // REMOVE_END
+                    })
+                    .flatMap(res1 -> reactiveCommands.jsonGet("doc", JsonPath.of("$.a + 1")).collectList())
+                    .doOnNext(res2 -> {
+                        System.out.println(res2); // >>> [[3]]
+                        // REMOVE_START
+                        assertThat(res2.toString()).isEqualTo("[[3]]");
+                        // REMOVE_END
+                    })
+                    .flatMap(res2 -> reactiveCommands.jsonGet("doc", JsonPath.of("$.a * $.b")).collectList())
+                    .doOnNext(res3 -> {
+                        System.out.println(res3); // >>> [[8]]
+                        // REMOVE_START
+                        assertThat(res3.toString()).isEqualTo("[[8]]");
+                        // REMOVE_END
+                    })
+                    .flatMap(res3 -> reactiveCommands.jsonGet("doc", JsonPath.of("($.a + $.b) / 2")).collectList())
+                    .doOnNext(res4 -> {
+                        System.out.println(res4); // >>> [[3.0]]
+                        // REMOVE_START
+                        assertThat(res4.toString()).isEqualTo("[[3.0]]");
+                        // REMOVE_END
+                    })
+                    .flatMap(res4 -> reactiveCommands.jsonGet("doc", JsonPath.of("$.arr.length()")).collectList())
+                    .doOnNext(res5 -> {
+                        System.out.println(res5); // >>> [[3]]
+                        // REMOVE_START
+                        assertThat(res5.toString()).isEqualTo("[[3]]");
+                        // REMOVE_END
+                    })
+                    .flatMap(res5 -> reactiveCommands.jsonGet("doc", JsonPath.of("$.a / 0")).collectList())
+                    .doOnNext(res6 -> {
+                        System.out.println(res6); // >>> [[]]
+                        // REMOVE_START
+                        assertThat(res6.toString()).isEqualTo("[[]]");
+                        // REMOVE_END
+                    })
+                    .then();
+            // STEP_END
+
+            projBasicExample.block();
+            // REMOVE_START
+            reactiveCommands.del("doc").block();
+            // REMOVE_END
+
+            // STEP_START proj_multipath
+            Mono<Void> projMultipathExample = reactiveCommands
+                    .jsonSet("doc", JsonPath.ROOT_PATH, parser.createJsonValue("{\"a\":2,\"b\":4,\"arr\":[1,2,3]}"))
+                    .doOnNext(res7 -> {
+                        System.out.println(res7); // >>> OK
+                        // REMOVE_START
+                        assertThat(res7).isEqualTo("OK");
+                        // REMOVE_END
+                    })
+                    .flatMap(res7 -> reactiveCommands.jsonGet("doc", JsonPath.of("$.a + 1"), JsonPath.of("$.b"))
+                            .collectList())
+                    .doOnNext(res8 -> {
+                        System.out.println(res8); // >>> [{"$.a + 1":[3],"$.b":[4]}]
+                        // REMOVE_START
+                        // JSON.GET's multi-path reply key order is not guaranteed by the
+                        // protocol, so compare the parsed object's entries rather than
+                        // the serialized string.
+                        assertThat(res8).hasSize(1);
+                        JsonObject multiPathResult = res8.get(0).asJsonObject();
+                        assertThat(multiPathResult.size()).isEqualTo(2);
+                        assertThat(multiPathResult.get("$.a + 1").toString()).isEqualTo("[3]");
+                        assertThat(multiPathResult.get("$.b").toString()).isEqualTo("[4]");
+                        // REMOVE_END
+                    })
+                    .then();
+            // STEP_END
+
+            projMultipathExample.block();
+            // REMOVE_START
+            reactiveCommands.del("doc").block();
+            // REMOVE_END
         } finally {
             redisClient.shutdown();
         }

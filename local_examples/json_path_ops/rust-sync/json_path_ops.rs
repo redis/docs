@@ -1017,5 +1017,131 @@ mod json_path_ops_tests {
         // REMOVE_END
         // STEP_END
 
+        // STEP_START proj_basic
+        match r.json_set("doc", "$", &json!({"a":2,"b":4,"arr":[1,2,3]})) {
+            Ok(res64) => {
+                let res64: bool = res64;
+                println!("{}", if res64 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res64);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a + 1") {
+            Ok(res65) => {
+                let res65: String = res65;
+                println!("{res65}");    // >>> [3]
+                // REMOVE_START
+                assert_eq!(res65, "[3]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a * $.b") {
+            Ok(res66) => {
+                let res66: String = res66;
+                println!("{res66}");    // >>> [8]
+                // REMOVE_START
+                assert_eq!(res66, "[8]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "($.a + $.b) / 2") {
+            Ok(res67) => {
+                let res67: String = res67;
+                println!("{res67}");    // >>> [3.0]
+                // REMOVE_START
+                assert_eq!(res67, "[3.0]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.arr.length()") {
+            Ok(res68) => {
+                let res68: String = res68;
+                println!("{res68}");    // >>> [3]
+                // REMOVE_START
+                assert_eq!(res68, "[3]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a / 0") {
+            Ok(res69) => {
+                let res69: String = res69;
+                println!("{res69}");    // >>> []
+                // REMOVE_START
+                assert_eq!(res69, "[]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+        // STEP_END
+
+        // STEP_START proj_multipath
+        match r.json_set("doc", "$", &json!({"a":2,"b":4,"arr":[1,2,3]})) {
+            Ok(res70) => {
+                let res70: bool = res70;
+                println!("{}", if res70 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res70);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        // A multi-path JSON.GET replies with an object keyed by path, but Redis does not
+        // guarantee the key order in that reply, so this parses the JSON and compares it
+        // structurally (map equality, order-independent) instead of comparing raw strings.
+        match r.json_get::<_, _, String>("doc", vec!["$.a + 1", "$.b"]) {
+            Ok(res71) => {
+                let parsed: serde_json::Value = serde_json::from_str(&res71).unwrap();
+                // Render with sorted keys purely for a deterministic, printable example —
+                // the actual reply's key order can differ from run to run.
+                let sorted: std::collections::BTreeMap<String, serde_json::Value> =
+                    serde_json::from_value(parsed.clone()).unwrap();
+                println!("{}", serde_json::to_string(&sorted).unwrap());    // >>> {"$.a + 1":[3],"$.b":[4]}
+                // REMOVE_START
+                assert_eq!(parsed, json!({"$.a + 1": [3], "$.b": [4]}));
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
     }
 }
