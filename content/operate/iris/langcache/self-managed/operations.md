@@ -110,21 +110,28 @@ same way.
 ## FIPS-oriented posture
 
 The on-prem-hardened Control Plane and Data Plane binaries (used for Control
-Plane managed caches) are built with a FIPS-oriented Go toolchain profile and
-reject configuration that:
+Plane managed caches) are built with a FIPS-capable Go toolchain (`GOFIPS140`),
+but the shipped images run with that runtime FIPS mode turned **off** by
+default (`GODEBUG=fips140=off`). The stricter posture checks only activate
+when you turn Go's FIPS 140 runtime mode on for the container; they are not
+automatic just because you're running the on-prem-hardened image.
+
+When Go's FIPS mode is enabled, the on-prem-hardened binaries reject
+configuration that:
 
 - uses non-`rediss://` URLs for `metadata.urls`, `databases.<id>.urls`, or
   the Control Plane's `metadata.urls`; or
 - otherwise fails the shared FIPS Redis-URL posture check used across the
   Redis AI Services products.
 
-This is not a formal FIPS 140 compliance or validation claim. Treat it as a
-deployment posture and guardrail that must still be reviewed against the
-customer's compliance boundary.
+This is not a formal FIPS 140 compliance or validation claim. Treat it as an
+opt-in deployment posture and guardrail that must still be reviewed against
+the customer's compliance boundary, and confirm with your Redis
+representative how to turn the runtime FIPS mode on for your deployment.
 
 The static-caches Data Plane image (used by the published `langcache` chart
-today) does not build with this FIPS profile; it is the same image used for
-LangCache on Redis Cloud.
+today) does not build with the FIPS-capable toolchain at all; it is the same
+image used for LangCache on Redis Cloud.
 
 The LangCache API listener itself speaks HTTP inside the cluster. Edge TLS
 termination is owned by the hosting environment, such as ingress, service

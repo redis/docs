@@ -36,11 +36,16 @@ A standard self-managed LangCache deployment contains:
 
 | Component | Purpose | Default service |
 | --- | --- | --- |
-| LangCache Data Plane | Cache-scoped runtime API for set, search, flush, and conversational search. | `langcache:8080` |
+| LangCache Data Plane (static caches) | Cache-scoped runtime API for set, search, flush, and conversational search. | `langcache:8080` |
+| LangCache Data Plane (Control Plane managed caches) | The same runtime API, served by the on-prem-hardened binary that only supports Control Plane managed caches and agent-key auth. | `langcache:9000` |
 | LangCache Control Plane | Optional admin API for creating and managing caches. | `langcache-controlplane:9100` |
 | Identity Service | Shared suite service that issues and validates LangCache agent keys for Control Plane managed caches. | `iris-identity-service:9200` |
 | Cache Redis | Holds cache entries and RediSearch vector indexes. | Customer-provided |
 | Metadata Redis | Holds Control Plane cache records and, when agent-key auth is used, key/grant records. | Required for Control Plane managed caches |
+
+Static caches and Control Plane managed caches use different Data Plane
+binaries and default ports; see
+[Plan a deployment]({{< relref "/operate/iris/langcache/self-managed/plan-deployment" >}}).
 
 ### How the components work together
 

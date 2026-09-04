@@ -201,6 +201,22 @@ CONFIG_CHECKSUM="$(shasum -a 256 ./dataplane.config.yaml | awk '{print $1}')"
 
 {{< /multitabs >}}
 
+The Control Plane managed cache example in
+[Data Plane configuration]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration" >}})
+reads the license from `/etc/langcache/license` and the Identity Service
+introspection credential from `/etc/langcache/introspection/token`. Neither
+path is wired up by the chart's own values today, so mount them yourself
+using the chart's generic `volumes`/`volumeMounts` passthrough.
+
+Create the introspection-token Secret. This is the shared credential the
+Data Plane presents to the Identity Service when introspecting agent keys;
+provision it as part of your Identity Service deployment:
+
+```bash
+kubectl -n <namespace-name> create secret generic langcache-introspection-token \
+  --from-literal=token='<introspection-credential>'
+```
+
 Create `langcache-values.yaml`:
 
 ```yaml
@@ -211,12 +227,33 @@ image:
 config:
   existingSecret: langcache-config
   existingSecretChecksum: "<config-checksum>"
+
+volumes:
+  - name: license
+    secret:
+      secretName: langcache-license
+  - name: introspection-token
+    secret:
+      secretName: langcache-introspection-token
+
+volumeMounts:
+  - name: license
+    mountPath: /etc/langcache/license
+    subPath: license
+    readOnly: true
+  - name: introspection-token
+    mountPath: /etc/langcache/introspection/token
+    subPath: token
+    readOnly: true
 ```
 
+The `subPath` mounts add the license and token files inside the directory
+that the chart's own config volume already mounts, without replacing it.
+
 The chart values shown throughout this guide reflect the current `langcache`
-chart, which does not yet expose license or Control Plane fields. Once your
-chart provides `controlplane.enabled` (or similar) support, prefer that over
-the manual Deployment above.
+chart, which does not yet expose dedicated license or Control Plane fields.
+Once your chart provides `controlplane.enabled` (or similar) support, prefer
+that over the manual Deployment and volume passthroughs above.
 
 ## Install the Data Plane chart
 
