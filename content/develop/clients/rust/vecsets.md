@@ -45,7 +45,7 @@ fastembed = "4"
 
 Import the required crates:
 
-{{< clients-example set="home_vecsets" step="import" lang_filter="Rust" description="Foundational: Import required libraries for vector sets, embeddings, and Redis operations" difficulty="beginner" >}}
+{{< clients-example set="home_vecsets" step="import" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Import required libraries for vector sets, embeddings, and Redis operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 `fastembed` runs the ONNX-exported
@@ -57,14 +57,14 @@ tokens (see
 at the [Hugging Face](https://huggingface.co/) docs to learn more about the
 way tokens are related to the original text).
 
-{{< clients-example set="home_vecsets" step="model" lang_filter="Rust" description="Foundational: Initialize an embedding model to generate vector embeddings from text" difficulty="beginner" >}}
+{{< clients-example set="home_vecsets" step="model" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Initialize an embedding model to generate vector embeddings from text" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Create the data
 
 The example data is a list of famous people with brief descriptions:
 
-{{< clients-example set="home_vecsets" step="data" lang_filter="Rust" description="Foundational: Define sample data with text descriptions for vector embedding and storage" difficulty="beginner" >}}
+{{< clients-example set="home_vecsets" step="data" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Define sample data with text descriptions for vector embedding and storage" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Add the data to a vector set
@@ -84,7 +84,7 @@ this page. Pass the embedding directly to
 this attribute data during a query or with the
 [`vgetattr()`](/content/commands/vgetattr.md) method.
 
-{{< clients-example set="home_vecsets" step="add_data" lang_filter="Rust" description="Foundational: Add vector embeddings and attributes to a vector set using VADD command" difficulty="beginner" >}}
+{{< clients-example set="home_vecsets" step="add_data" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Add vector embeddings and attributes to a vector set using VADD command" difficulty="beginner" >}}
 {{< /clients-example >}}
 
 ## Query the vector set
@@ -96,7 +96,7 @@ ranked in order of similarity to the query.
 
 Start with a simple query for "actors":
 
-{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Rust" description="Vector similarity search: Find semantically similar items in a vector set using VSIM command" difficulty="intermediate" >}}
+{{< clients-example set="home_vecsets" step="basic_query" lang_filter="Rust-Sync,Rust-Async" description="Vector similarity search: Find semantically similar items in a vector set using VSIM command" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 This returns the following list of elements:
@@ -115,7 +115,7 @@ elements in the set, based on the information contained in the embedding
 model. You can use [`VSimOptions::set_count()`](/content/commands/vsim.md)
 to limit the list of elements to just the most relevant few items:
 
-{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Rust" description="Vector similarity search with limits: Restrict results to the top K most similar items using the count parameter" difficulty="intermediate" >}}
+{{< clients-example set="home_vecsets" step="limited_query" lang_filter="Rust-Sync,Rust-Async" description="Vector similarity search with limits: Restrict results to the top K most similar items using the count parameter" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 The reason for using text embeddings rather than simple text search is that
@@ -125,7 +125,7 @@ the word "entertainer" doesn't appear in any of the descriptions but if you
 use it as a query, the actors and musicians are ranked highest in the results
 list:
 
-{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Rust" description="Semantic search: Leverage text embeddings to find semantically similar items even when exact keywords don't match" difficulty="intermediate" >}}
+{{< clients-example set="home_vecsets" step="entertainer_query" lang_filter="Rust-Sync,Rust-Async" description="Semantic search: Leverage text embeddings to find semantically similar items even when exact keywords don't match" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
 Similarly, if you use "science" as a query, you get the following results:
@@ -146,7 +146,7 @@ with [`VSimOptions::set_filter_expression()`](/content/commands/vsim.md) to
 restrict the search further. For example, repeat the "science" query, but
 this time limit the results to people who died before the year 2000:
 
-{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Rust" description="Filtered vector search: Combine vector similarity with attribute filters to narrow results based on metadata conditions" difficulty="advanced" >}}
+{{< clients-example set="home_vecsets" step="filtered_query" lang_filter="Rust-Sync,Rust-Async" description="Filtered vector search: Combine vector similarity with attribute filters to narrow results based on metadata conditions" difficulty="advanced" >}}
 {{< /clients-example >}}
 
 Note that the boolean filter expression is applied to items in the list
