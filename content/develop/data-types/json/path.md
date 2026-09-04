@@ -71,18 +71,18 @@ Beginning with Redis 8.10, the JSON data type supports a richer JSONPath syntax,
 - [`in` and `nin`](#membership-in-and-nin) operators: membership test on an array and nodelist
 - [Operators on numbers](#arithmetic-operators): binary `-`, `+`, `*`, `/`, `%`, and unary `-` and `+`
 - Operator on object: [`~`](#get-keys-operator-)
-- `length()` function on array, object, and string
-- Functions on number: `abs()`, `ceiling()`, `floor()`
-- Functions on string: `match()`, `search()`
-- Strings concatenation with `concat()`
-- Functions on array: `first()`, `last()`, `index()`, `append()`
-- Aggregation functions on array: `min()`, `max()`, `avg()`, `sum()`, `stddev()`
-- Function on object: `keys()`
-- Function on nodelist: `count()`
-- Function on nodelist with exactly one node: `value()`
+- [`length()`](#length) function on array, object, and string
+- Functions on number: [`abs()`, `ceiling()`, `floor()`](#abs-ceiling-and-floor)
+- Functions on string: [`match()`, `search()`](#match-and-search)
+- Strings concatenation with [`concat()`](#concat)
+- Functions on array: [`first()`, `last()`, `index()`](#first-last-and-index), [`append()`](#append)
+- Aggregation functions on array: [`min()`, `max()`, `avg()`, `sum()`, `stddev()`](#min-max-avg-sum-and-stddev)
+- Function on object: [`keys()`](#keys)
+- Function on nodelist: [`count()`](#count)
+- Function on nodelist with exactly one node: [`value()`](#value)
 - Relations functions on array and nodelist: [`subsetof()`, `anyof()`, `noneof()`](#set-relations-subsetof-anyof-and-noneof)
 
-These operators can be used within a filter expression (`?()`).
+These operators can be used within a filter expression (`?()`). Functions can appear inside filter expressions and, when they return a value, as top-level [projection expressions](#projection-expressions). A function can be written in prefix form, `length($.arr)`, or in postfix (method) form, `$.arr.length()`. A path segment immediately followed by `(` is a method call, so `$.arr.length()` is a function call while `$.arr.length` is a reference to a field named `length`.
 
 {{< warning >}}
 Beginning with Redis 8.10, two changes to path parsing may affect existing queries:
@@ -100,52 +100,6 @@ The following rules apply to the operators and functions described below:
 - **Node lists match on "any".** When an operand selects more than one node (for example, `@.*`), a comparison or operator holds if *any* selected node satisfies it.
 - **Arithmetic operators must be surrounded by spaces.** `@.a + 1` is addition, but `@.a+1` is a reference to a field literally named `a+1`, because the field-name character set includes characters such as `+`, `-`, `/`, `%`, `$`, `^`, `:`, and `_`.
 - **Functions are arity-checked.** Calling a function with the wrong number of arguments produces *Nothing* rather than silently using a subset of the arguments.
-
-## Functions
-
-Functions can appear inside filter expressions and, when they return a value, as top-level [projection expressions](#projection-expressions). A function can be written in prefix form, `length($.arr)`, or in postfix (method) form, `$.arr.length()`. A path segment immediately followed by `(` is a method call, so `$.arr.length()` is a function call while `$.arr.length` is a reference to a field named `length`.
-
-### `length()`
-
-Returns the number of characters in a string, elements in an array, or members in an object. Any other type produces *Nothing*.
-
-### `count()`
-
-Returns the number of nodes selected by a query. An absent path counts as `0`; a single node counts as `1`.
-
-### `value()`
-
-Returns the value of a query that selects exactly one node. A query that selects zero or more than one node produces *Nothing*.
-
-### `keys()`
-
-Returns the member names of an object as a list of strings, like the `~` operator. Unlike `~`, `keys()` is composable and can be chained with other functions.
-
-### `match()` and `search()`
-
-Both test a string against a regular expression pattern ([RFC 9485](https://datatracker.ietf.org/doc/rfc9485/) I-Regexp). `match()` requires the whole string to match (anchored), while `search()` matches any substring (the same behavior as the `=~` operator). An invalid pattern produces no match.
-
-### `concat()`
-
-Concatenates its string arguments into a single string. It requires at least one argument, and any non-string argument produces *Nothing*.
-
-### `abs()`, `ceiling()`, and `floor()`
-
-Operate on a number: `abs()` returns the absolute value, `ceiling()` rounds up to the nearest integer, and `floor()` rounds down. An integer argument stays an integer and a floating-point argument stays a float. A result that overflows the signed 64-bit integer range produces *Nothing*.
-
-### `first()`, `last()`, and `index()`
-
-`first(array)` and `last(array)` return the first and last element of an array. `index(array, n)` returns the element at index `n`; a negative `n` counts from the end, a fractional `n` is truncated toward zero, and an out-of-range index produces *Nothing*.
-
-### `min()`, `max()`, `avg()`, `sum()`, and `stddev()`
-
-These aggregation functions operate on an array of numbers. `stddev()` returns the *population* standard deviation (dividing by N). The functions are strict: an array that contains any non-numeric element, or an empty array, produces *Nothing* — elements are never silently skipped.
-
-### `append()`
-
-`append(value, ...)` returns the matched array with the given value or values added after its elements. It is a read-only query-time projection and does not modify the stored document — to mutate an array in place, use the [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}) command instead. A multiple-value argument is added as a single element (it is not spread), and a *Nothing* argument makes the whole result *Nothing*.
-
-See [Filter examples](#filter-examples) for a runnable example of each function.
 
 ## Projection expressions
 
@@ -454,9 +408,11 @@ OK
 "[]"
 {{< /clients-example >}}
 
-Beginning with Redis 8.10, JSONPath also supports the functions described in [Functions](#functions). The following examples demonstrate each one.
+Functions can appear inside filter expressions and, when they return a value, as top-level [projection expressions](#projection-expressions). Beginning with Redis 8.10, JSONPath supports the following functions.
 
 #### `length()`
+
+Returns the number of characters in a string, elements in an array, or members in an object. Any other type produces *Nothing*.
 
 {{< clients-example set="json_path_ops" step="func_length" description="Length function: Use length() to get the number of characters in a string, elements in an array, or members in an object" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":[[1,2,3],[1],"abcd","x"]}'
@@ -467,6 +423,8 @@ OK
 
 #### `count()`
 
+Returns the number of nodes selected by a query. An absent path counts as `0`; a single node counts as `1`.
+
 {{< clients-example set="json_path_ops" step="func_count" description="Count function: Use count() to get the number of nodes selected by a query" difficulty="advanced" >}}
 > JSON.SET doc $ '[{"a":1,"b":2,"c":3},{"a":1}]'
 OK
@@ -476,6 +434,8 @@ OK
 
 #### `value()`
 
+Returns the value of a query that selects exactly one node. A query that selects zero or more than one node produces *Nothing*.
+
 {{< clients-example set="json_path_ops" step="func_value" description="Value function: Use value() to get the value of a query that selects exactly one node" difficulty="advanced" >}}
 > JSON.SET doc $ '[{"a":1},{"a":2}]'
 OK
@@ -484,6 +444,8 @@ OK
 {{< /clients-example >}}
 
 #### `keys()`
+
+Returns the member names of an object as a list of strings, like the `~` operator. Unlike `~`, `keys()` is composable and can be chained with other functions.
 
 {{< clients-example set="json_path_ops" step="func_keys" description="Keys function: Use keys() to get an object's member names as a composable, chainable list of strings" difficulty="advanced" >}}
 > JSON.SET doc $ '{"obj":{"x":1,"y":2}}'
@@ -495,6 +457,8 @@ OK
 {{< /clients-example >}}
 
 #### `match()` and `search()`
+
+Both test a string against a regular expression pattern ([RFC 9485](https://datatracker.ietf.org/doc/rfc9485/) I-Regexp). `match()` requires the whole string to match (anchored), while `search()` matches any substring (the same behavior as the `=~` operator). An invalid pattern produces no match.
 
 {{< clients-example set="json_path_ops" step="func_match_search" description="Regex functions: Use match() for an anchored (whole-string) regular expression match and search() for a partial match" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":["abc","xabc","a","b"]}'
@@ -509,6 +473,8 @@ OK
 
 #### `concat()`
 
+Concatenates its string arguments into a single string. It requires at least one argument, and any non-string argument produces *Nothing*.
+
 {{< clients-example set="json_path_ops" step="func_concat" description="Concat function: Use concat() to join string arguments into a single string for comparison in a filter" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":[{"x":"a","y":"b"},{"x":"a","y":"c"}]}'
 OK
@@ -517,6 +483,8 @@ OK
 {{< /clients-example >}}
 
 #### `abs()`, `ceiling()`, and `floor()`
+
+Operate on a number: `abs()` returns the absolute value, `ceiling()` rounds up to the nearest integer, and `floor()` rounds down. An integer argument stays an integer and a floating-point argument stays a float. A result that overflows the signed 64-bit integer range produces *Nothing*.
 
 {{< clients-example set="json_path_ops" step="func_math" description="Numeric functions: Use abs(), ceiling(), and floor() to transform a number before comparing it in a filter" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":[2.1,3.9,1.0]}'
@@ -535,6 +503,8 @@ OK
 
 #### `first()`, `last()`, and `index()`
 
+`first(array)` and `last(array)` return the first and last element of an array. `index(array, n)` returns the element at index `n`; a negative `n` counts from the end, a fractional `n` is truncated toward zero, and an out-of-range index produces *Nothing*.
+
 {{< clients-example set="json_path_ops" step="func_array_access" description="Array access functions: Use first(), last(), and index() to pick a single element out of an array before comparing it" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":[{"n":[1,2]},{"n":[9,8]}]}'
 OK
@@ -548,6 +518,8 @@ OK
 
 #### `min()`, `max()`, `avg()`, `sum()`, and `stddev()`
 
+These aggregation functions operate on an array of numbers. `stddev()` returns the *population* standard deviation (dividing by N). The functions are strict: an array that contains any non-numeric element, or an empty array, produces *Nothing* — elements are never silently skipped.
+
 {{< clients-example set="json_path_ops" step="func_aggregate" description="Aggregation functions: Use sum(), avg(), min(), max(), or stddev() to reduce an array of numbers to a single value in a filter" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":[{"n":[3,1,2]},{"n":[5,6]}]}'
 OK
@@ -558,6 +530,8 @@ OK
 {{< /clients-example >}}
 
 #### `append()`
+
+`append(value, ...)` returns the matched array with the given value or values added after its elements. It is a read-only query-time projection and does not modify the stored document — to mutate an array in place, use the [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}) command instead. A multiple-value argument is added as a single element (it is not spread), and a *Nothing* argument makes the whole result *Nothing*.
 
 {{< clients-example set="json_path_ops" step="func_append" description="Append function: Use append() as a read-only, query-time projection that adds a value after an array's elements without modifying the stored document" difficulty="advanced" >}}
 > JSON.SET doc $ '{"arr":[1,2,3]}'
