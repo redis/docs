@@ -239,39 +239,9 @@ OK
 "[{\"t\":\"a\",\"price\":30},{\"t\":\"X\"}]"
 ```
 
-## Projection expressions
+## JSONPath examples
 
-The top level of a JSONPath query can be an expression that *computes* a value — arithmetic, a function call, a get-keys operator, and so on — rather than only selecting nodes from the document. A query that is a plain path (for example, `$.a.b`, `$..x`, or even a fully parenthesized path such as `($.a)`) still selects nodes; anything else (for example, `$.a + 1`, `-$.a`, `$.arr.length()`, `length($.arr)`, `$.obj~`, or `$.obj.keys()`) is a projection.
-
-A projection that evaluates to *Nothing* produces an empty reply (`[]`).
-
-```
-> JSON.SET doc $ '{"a":2,"b":4,"arr":[1,2,3]}'
-OK
-> JSON.GET doc '$.a + 1'
-"[3]"
-> JSON.GET doc '$.a * $.b'
-"[8]"
-> JSON.GET doc '($.a + $.b) / 2'
-"[3.0]"
-> JSON.GET doc '$.arr.length()'
-"[3]"
-> JSON.GET doc '$.a / 0'
-"[]"
-```
-
-When [`JSON.GET`]({{< relref "commands/json.get/" >}}) is given more than one path, projections and plain paths can be mixed, and each path becomes a key in the returned object:
-
-```
-> JSON.GET doc '$.a + 1' '$.b'
-"{\"$.a + 1\":[3],\"$.b\":[4]}"
-```
-
-[`JSON.MGET`]({{< relref "commands/json.mget/" >}}) evaluates the projection independently for each key. A missing key, or a per-key evaluation error, yields a null reply for that key rather than failing the whole request.
-
-## Multi-language JSONPath examples
-
-The following multi-language JSONPath examples use this JSON document, which stores details about items in a store's inventory:
+The following examples use this JSON document, which stores details about items in a store's inventory:
 
 {{< trimmable head="12" tail="8" >}}
 ```json
@@ -423,7 +393,7 @@ OK
 "[\"Quaoar\",\"Weywot\"]"
 {{< /clients-example >}}
 
-These operators can be used within a filter expression (`?()`). Beginning with Redis 8.10, the JSONPath filter syntax supports the following additional operators.
+Beginning with Redis 8.10, the JSONPath filter syntax supports the following operators.
 
 #### Negation `!`
 
@@ -579,6 +549,36 @@ JSONPath queries also work with other JSON commands that accept a path as an arg
 > JSON.GET bikes:inventory $..[*].colors
 "[[\"black\",\"silver\",\"pink\"],[\"black\",\"white\"],[\"black\",\"silver\",\"pink\"]]"
 {{< /clients-example >}}
+
+## Projection expressions
+
+The top level of a JSONPath query can be an expression that *computes* a value — arithmetic, a function call, a get-keys operator, and so on — rather than only selecting nodes from the document. A query that is a plain path (for example, `$.a.b`, `$..x`, or even a fully parenthesized path such as `($.a)`) still selects nodes; anything else (for example, `$.a + 1`, `-$.a`, `$.arr.length()`, `length($.arr)`, `$.obj~`, or `$.obj.keys()`) is a projection.
+
+A projection that evaluates to *Nothing* produces an empty reply (`[]`).
+
+```
+> JSON.SET doc $ '{"a":2,"b":4,"arr":[1,2,3]}'
+OK
+> JSON.GET doc '$.a + 1'
+"[3]"
+> JSON.GET doc '$.a * $.b'
+"[8]"
+> JSON.GET doc '($.a + $.b) / 2'
+"[3.0]"
+> JSON.GET doc '$.arr.length()'
+"[3]"
+> JSON.GET doc '$.a / 0'
+"[]"
+```
+
+When [`JSON.GET`]({{< relref "commands/json.get/" >}}) is given more than one path, projections and plain paths can be mixed, and each path becomes a key in the returned object:
+
+```
+> JSON.GET doc '$.a + 1' '$.b'
+"{\"$.a + 1\":[3],\"$.b\":[4]}"
+```
+
+[`JSON.MGET`]({{< relref "commands/json.mget/" >}}) evaluates the projection independently for each key. A missing key, or a per-key evaluation error, yields a null reply for that key rather than failing the whole request.
 
 ## Legacy path syntax
 
