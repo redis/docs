@@ -2270,7 +2270,8 @@
        reader actually explores an embedding space. */
     pane.appendChild(el('div', 'rwb-group', 'Nearest'));
     pane.appendChild(this.vsimControls(key, element, detail.search));
-    pane.appendChild(this.renderNeighbours(key, element, detail.neighbours));
+    pane.appendChild(this.renderNeighbours(key, element, detail.neighbours,
+      detail.search));
 
     pane.appendChild(ranNote(detail.commands));
   };
@@ -2282,6 +2283,16 @@
     var self = this;
     var row = el('form', 'rwb-vsim-controls');
 
+    /* Built before the chips, which read it: a chip is another way to run this
+       search, so it takes the filter as typed rather than as last submitted. */
+    var filter = el('input', 'rwb-vsim-filter');
+    filter.type = 'text';
+    filter.value = search.filter;
+    filter.setAttribute('spellcheck', 'false');
+    filter.placeholder = 'FILTER, e.g. .year > 2000';
+    filter.title = 'An expression over element attributes; see Filtered search';
+    filter.setAttribute('aria-label', 'Filter expression');
+
     var counts = el('div', 'rwb-vsim-counts');
     counts.setAttribute('role', 'group');
     counts.setAttribute('aria-label', 'How many neighbours');
@@ -2292,20 +2303,15 @@
       choice.title = 'Return the ' + count + ' nearest elements';
       choice.setAttribute('aria-pressed', count === search.count ? 'true' : 'false');
       choice.addEventListener('click', function () {
+        /* The reply rebuilds this row from what was searched with, so a filter
+           the reader had typed but not run would be wiped by the new box. */
+        self.vsimOptions().filter = filter.value.trim();
         self.vsimOptions().count = count;
         self.openVectorElement(key, element);
       });
       counts.appendChild(choice);
     });
     row.appendChild(counts);
-
-    var filter = el('input', 'rwb-vsim-filter');
-    filter.type = 'text';
-    filter.value = search.filter;
-    filter.setAttribute('spellcheck', 'false');
-    filter.placeholder = 'FILTER, e.g. .year > 2000';
-    filter.title = 'An expression over element attributes; see Filtered search';
-    filter.setAttribute('aria-label', 'Filter expression');
     row.appendChild(filter);
 
     /* One click back to the unfiltered neighbours. Only while a filter is in
@@ -2390,7 +2396,7 @@
 
   /* VSIM's answer. Scores run 1 (identical) to 0 (opposite), so a score is
      already the share of the bar. */
-  dock.renderNeighbours = function (key, element, reply) {
+  dock.renderNeighbours = function (key, element, reply, search) {
     var self = this;
     if (reply && reply.error) {
       return el('p', 'rwb-text rwb-failed', '(error) ' + cellText(reply.value));
@@ -2398,6 +2404,11 @@
     var rows = pairs(ok(reply)).map(function (pair) {
       return { name: cellText(pair[0]), score: Number(cellText(pair[1])) };
     });
+    /* One more than the chip was asked for, because the element itself normally
+       comes back first. A filter it fails — no attributes at all is enough —
+       leaves it out, and then that spare row is a neighbour nobody asked for. */
+    var mine = rows.some(function (row) { return row.name === element; });
+    if (!mine && search) rows = rows.slice(0, search.count);
     if (!rows.length) {
       return el('p', 'rwb-empty', 'Nothing came back — no element passes this filter.');
     }
