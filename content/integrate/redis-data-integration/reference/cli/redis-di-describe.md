@@ -42,7 +42,8 @@ To watch the status update live, pair the command with `watch`:
 watch -n 1 redis-di describe
 ```
 
-The output has a section for each part of the pipeline, for example:
+The output has a section for each part of the pipeline. The example below shows a pipeline with
+two sources, `mysql` and `postgresql`:
 
 ```
 Name:     default
@@ -51,30 +52,43 @@ Status:   started
 Current:  yes
 
 Sources:
-  Name   Type  Db Type  Connection        Sync Mode  Connected
-  ----   ----  -------  ----------        ---------  ---------
-  mysql  cdc   mysql    ${HOST_IP}:13000  streaming  yes
+  Name        Type  Db Type     Connection              Sync Mode  Connected
+  ----        ----  -------     ----------              ---------  ---------
+  mysql       cdc   mysql       <mysql-host>:3306       streaming  yes
+  postgresql  cdc   postgresql  <postgresql-host>:5432  streaming  yes
 
 Targets:
-  Name    Db Type   Connection        Connected
-  ----    -------   ----------        ---------
-  target  redis     ${HOST_IP}:12000  yes
+  Name    Db Type  Connection                 Connected
+  ----    -------  ----------                 ---------
+  target  redis    <redis-target-host>:12000  yes
+
+Processor:
+  Type:  flink
 
 Jobs:
-  Name                Source               Transformations  Outputs  Connections
-  ----                ------               ---------------  -------  -----------
-  address_job         inventory.addresses  1                1        target
-  customers_hash_job  inventory.customers  0                1        target
+  Name                Server Name  Db / Schema  Table      Transformations  Outputs  Connections
+  ----                -----------  -----------  -----      ---------------  -------  -----------
+  billing_job         postgresql   public       customers  1                1        target
+  customers_hash_job  mysql        inventory    customers  0                1        target
+  orders_job          mysql        inventory    orders     1                1        target
 
 Components:
-  Name                Type                Version  Status
-  ----                ----                -------  ------
-  collector-api       collector-api       0.0.0    started
-  collector-source    debezium-collector  ...      started
-  processor           processor           0.0.0    started
+  Name                  Type                Version    Status   Metrics Endpoints
+  ----                  ----                -------    ------   -----------------
+  collector-api         collector-api       <version>  started
+  collector-mysql       debezium-collector  <version>  started  https://<rdi-host>:443/collector-mysql/metrics
+  collector-postgresql  debezium-collector  <version>  started  https://<rdi-host>:443/collector-postgresql/metrics
+  flink-processor       flink-processor     <version>  started  https://<rdi-host>:443/processor/metrics
 
 Statistics:
-  Name                       Total  Pending  Inserted  Updated  Deleted  Filtered  Rejected  Deduplicated  Last Arrival
-  ----                       -----  -------  --------  -------  -------  --------  --------  ------------  ------------
-  {rdi}:inventory.customers  4      0        4         0        0        0         0         0             2026-06-18T13:42:44Z
+  Name                         Incoming  Pending  Inserted  Updated  Deleted  Filtered  Rejected  Last Arrival
+  ----                         --------  -------  --------  -------  -------  --------  --------  ------------
+  mysql.inventory.customers    4         0        4         0        0        0         0         2026-06-18T13:42:44Z
+  mysql.inventory.orders       12        0        12        0        0        0         0         2026-06-18T13:42:51Z
+  postgresql.public.customers  7         0        7         0        0        0         0         2026-06-18T13:42:49Z
 ```
+
+The `Metrics Endpoints` column shows the externally-reachable metrics URLs of each component,
+which RDI discovers from the component's `Ingress` resources. It is empty for a component that
+has no ingress, or while the ingress controller has not assigned an address yet. See
+[Accessing the metrics]({{< relref "/integrate/redis-data-integration/observability#accessing-the-metrics" >}}).

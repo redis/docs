@@ -33,7 +33,7 @@ Source collectors that capture changes from upstream databases. Each key is a un
 
 |Name|Type|Description|Required|
 |----|----|-----------|--------|
-|[**connection**](#sourcesconnection)<br/>(Source database connection)|`object`|Connection configuration for a non-Redis source database. The exact set of properties depends on the database type.<br/>|yes|
+|[**connection**](#sourcesconnection)<br/>(Source database connection)|`object`|Connection configuration for a non-Redis source database. The exact set of properties depends on the database type.<br/>|no|
 |**name**<br/>(Source name)|`string`|Human-readable name for the source collector. Maximum 100 characters.<br/>Maximal Length: `100`<br/>|no|
 |**type**<br/>(Collector type)|`string`|Type of the source collector. Use `cdc` (default) for change data capture using [Debezium](https://debezium.io/). Use `flink` for Spanner change streams using the Apache Flink-based collector. Use `riotx` for Snowflake CDC using [RIOT-X](https://redis.github.io/riotx/).<br/>Default: `"cdc"`<br/>Enum: `"cdc"`, `"flink"`, `"riotx"`<br/>|yes|
 |**active**<br/>(Collector enabled)|`boolean`|When `true`, the collector runs; when `false`, the collector is disabled and produces no events.<br/>Default: `true`<br/>|no|
@@ -44,6 +44,7 @@ Source collectors that capture changes from upstream databases. Each key is a un
 |[**advanced**](#sourcesadvanced)<br/>(Advanced configuration)|`object`|Advanced configuration that overrides the underlying engine's defaults. Only required for non-standard tuning.<br/>|no|
 
 
+**Property Name Pattern:** `^[a-z]([a-z0-9-]*[a-z0-9])?$`  
 <a name="sourcesconnection"></a>
 ### sources\.connection: Source database connection
 
@@ -238,7 +239,7 @@ Connection configuration for a Snowflake database.
 |**type**<br/>(Database type)|`string`|Database type identifier. Always `snowflake` for this connection.<br/>Constant Value: `"snowflake"`<br/>|yes|
 |**url**<br/>(JDBC URL)|`string`|Snowflake JDBC connection URL, for example `jdbc:snowflake://account.snowflakecomputing.com/`.<br/>|yes|
 |**user**<br/>(Snowflake user)|`string`|Username for authentication to Snowflake.<br/>|yes|
-|**password**<br/>(Snowflake password)|`string`|Password for authentication to Snowflake. For key-pair authentication, omit this field and provide the private key via the `source-db-ssl` secret (`client.key` field).<br/>|no|
+|**password**<br/>(Snowflake password)|`string`|Password for authentication to Snowflake. For key-pair authentication, omit this field and provide the private key via the `<source>-db-ssl` secret (`client.key` field).<br/>|no|
 |**database**<br/>(Snowflake database)|`string`|Name of the Snowflake database to connect to.<br/>|yes|
 |**warehouse**<br/>(Snowflake warehouse)|`string`|Name of the Snowflake warehouse used for compute.<br/>|yes|
 |**role**<br/>(Snowflake role)|`string`|Snowflake role used for the connection.<br/>|no|
@@ -352,6 +353,7 @@ Advanced configuration that overrides the underlying engine's defaults. Only req
 |[**resources**](#sourcesadvancedresources)<br/>(Collector resource settings)|`object`|Compute resources allocated to the collector. **Only applies to the `cdc` collector type.**<br/>||
 |[**riotx**](#sourcesadvancedriotx)<br/>(Advanced RIOT\-X settings)|`object`|Advanced configuration properties for the RIOT-X Snowflake collector. **Only applies to the `riotx` collector type.**<br/>||
 |**java\_options**<br/>(Advanced Java options)|`string`|These Java options will be passed to the command line command when launching the source collector. **Only applies to the `cdc` collector type.**<br/>||
+|[**diagnostics**](#sourcesadvanceddiagnostics)<br/>(Collector diagnostics)|`object`|Opt-in JVM diagnostics for the source collector. Each artifact is written to the `/opt/rdi/diagnostics` directory on the host and included in the `dump-support-package` bundle. **Only applies to the `cdc` collector type on VM installations, and is ignored otherwise.**<br/>||
 
 **Additional Properties:** not allowed  
 **Minimal Properties:** 1  
@@ -381,6 +383,8 @@ source:
   max.batch.size: 2048
   max.queue.size: 8192
   heartbeat.interval.ms: 0
+  database.trustServerCertificate: false
+  driver.applicationIntent: ReadWrite
   lob.enabled: false
   publication.autocreate.mode: all_tables
   publication.name: dbz_publication
@@ -400,6 +404,11 @@ riotx:
   streamPrefix: 'data:'
   clearOffset: false
   count: 0
+diagnostics:
+  heap_dump:
+    enabled: false
+  java_flight_recorder:
+    enabled: false
 
 ```
 
@@ -460,7 +469,7 @@ redis.wait.retry.delay.ms: 1000
 <a name="sourcesadvancedsource"></a>
 #### sources\.advanced\.source: Advanced source settings
 
-Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The named properties below cover the most commonly tuned settings: `spanner.*` properties apply to the `flink` collector type, all others apply to the `cdc` collector type. Any other property from the Debezium documentation can still be set as a free-form key-value pair.**
+Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The named properties below cover the most commonly tuned settings: `spanner.*` properties apply to the `flink` collector type, all others apply to the `cdc` collector type. Any other property from the Debezium documentation can still be set as a free-form key-value pair, except for `topic.prefix`, which RDI derives from the source name.**
 
 
 **Properties**
@@ -475,6 +484,8 @@ Advanced configuration properties for the source database connection and CDC beh
 |**max\.queue\.size**<br/>(Max queue size)|`integer`|Limits how many records can be buffered in memory before processing catches up.<br/>Default: `8192`<br/>Minimum: `1`<br/>||
 |**heartbeat\.interval\.ms**<br/>(Heartbeat interval ms)|`integer`|Sets how often heartbeat events are emitted to keep change tracking active. Use 0 to disable them.<br/>Default: `0`<br/>Minimum: `0`<br/>||
 |**heartbeat\.action\.query**<br/>(Heartbeat action query)|`string`|SQL query executed on the source whenever a heartbeat is emitted.<br/>||
+|**database\.trustServerCertificate**<br/>(Trust SQL Server certificate)|`boolean`|Controls whether the RDI collector skips validation of the SQL Server TLS certificate. Enable this only when the server certificate cannot be validated through a trusted certificate authority.<br/>Default: `false`<br/>||
+|**driver\.applicationIntent**<br/>(SQL Server application intent)|`string`|Declares the SQL Server workload type for the RDI collector. Set to `ReadOnly` when connecting to an Always On read-only replica. CDC must be enabled on the primary SQL Server node.<br/>Default: `"ReadWrite"`<br/>Enum: `"ReadOnly"`, `"ReadWrite"`<br/>||
 |**lob\.enabled**<br/>(Lob enabled)|`boolean`|Determines whether large object columns are included in change capture.<br/>Default: `false`<br/>||
 |**gtid\.source\.includes**<br/>(GTID source includes)|`string`|Restricts MySQL GTID processing to the listed source UUIDs.<br/>||
 |**publication\.autocreate\.mode**<br/>(Publication autocreate mode)|`string`|Controls whether and how the PostgreSQL publication is created or updated automatically.<br/>Default: `"all_tables"`<br/>Enum: `"all_tables"`, `"filtered"`, `"disabled"`<br/>||
@@ -493,6 +504,8 @@ Advanced configuration properties for the source database connection and CDC beh
 |**Additional Properties**|`string`, `number`, `boolean`|||
 
 **Minimal Properties:** 1  
+
+
 **Example**
 
 ```yaml
@@ -502,6 +515,8 @@ snapshot.fetch.size: 10000
 max.batch.size: 2048
 max.queue.size: 8192
 heartbeat.interval.ms: 0
+database.trustServerCertificate: false
+driver.applicationIntent: ReadWrite
 lob.enabled: false
 publication.autocreate.mode: all_tables
 publication.name: dbz_publication
@@ -606,6 +621,74 @@ count: 0
 
 Deprecated RIOTX global fallback list of columns to use as message keys for every captured table. Prefer `tables.<schema.table>.keys`
 
+
+<a name="sourcesadvanceddiagnostics"></a>
+#### sources\.advanced\.diagnostics: Collector diagnostics
+
+Opt-in JVM diagnostics for the source collector. Each artifact is written to the `/opt/rdi/diagnostics` directory on the host and included in the `dump-support-package` bundle. **Only applies to the `cdc` collector type on VM installations, and is ignored otherwise.**
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|[**heap\_dump**](#sourcesadvanceddiagnosticsheap_dump)<br/>(Heap dump on out\-of\-memory)|`object`|Writes a heap dump if the JVM runs out of memory, then exits so the collector restarts cleanly.<br/>||
+|[**java\_flight\_recorder**](#sourcesadvanceddiagnosticsjava_flight_recorder)<br/>(Java Flight Recorder recording)|`object`|Records a Java Flight Recorder profile of the collector at startup. RDI controls `filename` and `dumponexit`, and defaults `settings=profile`, `duration=5m`, and `maxsize=128m` unless set under `options`.<br/>||
+
+**Additional Properties:** not allowed  
+**Minimal Properties:** 1  
+**Example**
+
+```yaml
+heap_dump:
+  enabled: false
+java_flight_recorder:
+  enabled: false
+
+```
+
+<a name="sourcesadvanceddiagnosticsheap_dump"></a>
+##### sources\.advanced\.diagnostics\.heap\_dump: Heap dump on out\-of\-memory
+
+Writes a heap dump if the JVM runs out of memory, then exits so the collector restarts cleanly.
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**enabled**<br/>(Enable heap dump)|`boolean`|When `true`, the collector writes a heap dump if the JVM runs out of memory, then exits so it restarts cleanly.<br/>Default: `false`<br/>||
+
+**Additional Properties:** not allowed  
+**Minimal Properties:** 1  
+**Example**
+
+```yaml
+enabled: false
+
+```
+
+<a name="sourcesadvanceddiagnosticsjava_flight_recorder"></a>
+##### sources\.advanced\.diagnostics\.java\_flight\_recorder: Java Flight Recorder recording
+
+Records a Java Flight Recorder profile of the collector at startup. RDI controls `filename` and `dumponexit`, and defaults `settings=profile`, `duration=5m`, and `maxsize=128m` unless set under `options`.
+
+
+**Properties**
+
+|Name|Type|Description|Required|
+|----|----|-----------|--------|
+|**enabled**<br/>(Enable flight recording)|`boolean`|When `true`, starts a Java Flight Recorder recording when the collector starts.<br/>Default: `false`<br/>||
+|**options**<br/>(Flight Recorder options)|`string`|Comma-separated `-XX:StartFlightRecording` options, for example `duration=10m,maxsize=256m,path-to-gc-roots=true`.<br/>||
+
+**Additional Properties:** not allowed  
+**Minimal Properties:** 1  
+**Example**
+
+```yaml
+enabled: false
+
+```
 
 <a name="targets"></a>
 ## targets: Target connections

@@ -11,6 +11,10 @@ aliases:
 Gets a single dead-letter queue (DLQ) of a pipeline and prints it in the compact `list-dlqs` table
 format.
 
+The name is the DLQ's source-qualified table name, `<source>.<schema_or_database>.<table>`, as
+[`list-dlqs`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlqs" >}})
+reports it.
+
 ## Usage
 
 ```
@@ -30,5 +34,5 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di get-dlq inventory.customers
+redis-di get-dlq mysql.inventory.customers
 ```

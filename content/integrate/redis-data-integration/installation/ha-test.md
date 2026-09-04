@@ -24,7 +24,7 @@ kubectl -n rdi get pods
 # Example output:
 NAME                                   READY   STATUS      RESTARTS      AGE
 collector-api-577d95bfd8-5wbg6         1/1     Running     0             12m
-collector-source-95f45bcf7-vwn5l       1/1     Running     0             12m
+collector-mysql-95f45bcf7-vwn5l        1/1     Running     0             12m
 fluentd-zq2lc                          1/1     Running     0             72m
 logrotate-29530445-j729x               0/1     Completed   0             14m
 logrotate-29530450-dprr2               0/1     Completed   0             9m40s
@@ -36,7 +36,27 @@ rdi-operator-7f7f6c7dfd-5qmjd          1/1     Running     0             71m
 rdi-reloader-77df5f7854-lwmvz          1/1     Running     0             71m
 ```
 
-2. Identify the leader node - this is the one that has a running `collector-source` pod.
+2. Identify the leader node (this is the one that has a running collector pod). A
+   collector is named after its source, so the example above shows `collector-mysql` for a
+   source named `mysql`.
+
+   You can also ask each node about the pipeline directly. On the follower, the pipeline
+   stands by:
+
+   ```
+   kubectl -n rdi get pipeline default -o jsonpath='{.status.phase}'
+
+   # Example output on the follower:
+   Standby
+
+   # Example output on the leader:
+   Active
+   ```
+
+   [`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
+   shows `Status: standby` on the follower, and
+   [`redis-di info`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-info" >}})
+   shows `Leader Election Mode: follower`.
 
 ## Performing the HA Failover Testing
 
@@ -72,6 +92,9 @@ kubectl -n rdi logs rdi-operator-7f7f6c7dfd-5qmjd -f
 
 In about 10 seconds you will start seeing log entries from the leader saying that it could not acquire the leadership.
 When the leader lock expires, the second node will acquire the leadership and you will see log entries from the second node indicating that it has become the leader.
+
+Once the failover completes, the two nodes swap their pipeline phases: the pipeline becomes
+`Active` on the new leader and `Standby` on the old one.
 
 ## Cleanup
 
