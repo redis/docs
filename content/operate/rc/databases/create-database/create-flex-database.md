@@ -44,7 +44,7 @@ Similar to best practices for in-memory Redis, we recommend storing relatively s
 
 Depending on your application's traffic pattern, using large objects might decrease performance, since the entire value is moved from RAM to Flash storage and vice versa.
 
-Flex databases cannot store keys or values larger than 4 GB in Flash storage. Keys or values larger than 4 GB are stored in RAM only, and warnings appear in the Redis logs similar to:
+Flex databases cannot store keys or values larger than 4 GB in Flash storage. Keys or values larger than 4 GB are stored in RAM only, and will generate warnings like the following in the Redis logs:
 
 ```
 # WARNING: key too big for disk driver, size: 4703717276, key: subactinfo:htable
