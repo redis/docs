@@ -19,17 +19,17 @@ The following tables include the v1 metrics available to Prometheus.
 | bdb_evicted_objects_max | gauge | evictions/second | Highest value of the rate of key evictions from database (evictions/sec) |
 | bdb_expired_objects | gauge | expirations/second | Rate of keys expired in database (expirations/sec) |
 | bdb_expired_objects_max | gauge | expirations/second | Highest value of the rate of keys expired in database (expirations/sec) |
-| bdb_fork_cpu_system | gauge | ratio | % cores utilization in system mode for all Redis shard fork child processes of this database |
-| bdb_fork_cpu_system_max | gauge | ratio | Highest value of % cores utilization in system mode for all Redis shard fork child processes of this database |
-| bdb_fork_cpu_user | gauge | ratio | % cores utilization in user mode for all Redis shard fork child processes of this database |
-| bdb_fork_cpu_user_max | gauge | ratio | Highest value of % cores utilization in user mode for all Redis shard fork child processes of this database |
+| bdb_fork_cpu_system | gauge | ratio | Cores utilization in system mode for all Redis shard fork child processes of this database |
+| bdb_fork_cpu_system_max | gauge | ratio | Highest value of cores utilization in system mode for all Redis shard fork child processes of this database |
+| bdb_fork_cpu_user | gauge | ratio | Cores utilization in user mode for all Redis shard fork child processes of this database |
+| bdb_fork_cpu_user_max | gauge | ratio | Highest value of cores utilization in user mode for all Redis shard fork child processes of this database |
 | bdb_ingress_bytes | gauge | bytes/second | Rate of incoming network traffic to the database (bytes/sec) |
 | bdb_ingress_bytes_max | gauge | bytes/second | Highest value of the rate of incoming network traffic to the database (bytes/sec) |
 | bdb_instantaneous_ops_per_sec | gauge | operations/second | Request rate handled by all shards of database (ops/sec) |
-| bdb_main_thread_cpu_system | gauge | ratio | % cores utilization in system mode for all Redis shard main threads of this database |
-| bdb_main_thread_cpu_system_max | gauge | ratio | Highest value of % cores utilization in system mode for all Redis shard main threads of this database |
-| bdb_main_thread_cpu_user | gauge | ratio | % cores utilization in user mode for all Redis shard main threads of this database |
-| bdb_main_thread_cpu_user_max | gauge | ratio | Highest value of % cores utilization in user mode for all Redis shard main threads of this database |
+| bdb_main_thread_cpu_system | gauge | ratio | Cores utilization in system mode for all Redis shard main threads of this database |
+| bdb_main_thread_cpu_system_max | gauge | ratio | Highest value of cores utilization in system mode for all Redis shard main threads of this database |
+| bdb_main_thread_cpu_user | gauge | ratio | Cores utilization in user mode for all Redis shard main threads of this database |
+| bdb_main_thread_cpu_user_max | gauge | ratio | Highest value of cores utilization in user mode for all Redis shard main threads of this database |
 | bdb_mem_frag_ratio | gauge | ratio | RAM fragmentation ratio (RSS / allocated RAM) |
 | bdb_mem_size_lua | gauge | bytes | Redis lua scripting heap size (bytes) |
 | bdb_memory_limit | gauge | bytes | Configured RAM limit for the database |
@@ -51,10 +51,10 @@ The following tables include the v1 metrics available to Prometheus.
 | bdb_read_req_max | gauge | operations/second | Highest value of the rate of read requests on the database (ops/sec) |
 | bdb_read_res | gauge | operations/second | Rate of read responses on the database (ops/sec) |
 | bdb_read_res_max | gauge | operations/second | Highest value of the rate of read responses on the database (ops/sec) |
-| bdb_shard_cpu_system | gauge | ratio | % cores utilization in system mode for all Redis shard processes of this database |
-| bdb_shard_cpu_system_max | gauge | ratio | Highest value of % cores utilization in system mode for all Redis shard processes of this database |
-| bdb_shard_cpu_user | gauge | ratio | % cores utilization in user mode for the Redis shard process |
-| bdb_shard_cpu_user_max | gauge | ratio | Highest value of % cores utilization in user mode for the Redis shard process |
+| bdb_shard_cpu_system | gauge | ratio | Cores utilization in system mode for all Redis shard processes of this database |
+| bdb_shard_cpu_system_max | gauge | ratio | Highest value of cores utilization in system mode for all Redis shard processes of this database |
+| bdb_shard_cpu_user | gauge | ratio | Cores utilization in user mode for the Redis shard process |
+| bdb_shard_cpu_user_max | gauge | ratio | Highest value of cores utilization in user mode for the Redis shard process |
 | bdb_shards_used | gauge | count | Used shard count by database and by shard type (ram / flash) |
 | bdb_total_connections_received | gauge | connections/second | Rate of new client connections to the database (connections/sec) |
 | bdb_total_connections_received_max | gauge | connections/second | Highest value of the rate of new client connections to the database (connections/sec) |
@@ -260,5 +260,5 @@ The following tables include the v1 metrics available to Prometheus.
 | redis_total_connections_received | gauge | count | Number of connections received by the shard; calculate the number of connections for a time period by comparing the value at different times |
 | redis_total_net_input_bytes | gauge | bytes | Number of bytes received by the shard; calculate the throughput for a time period by comparing the value at different times |
 | redis_total_net_output_bytes | gauge | bytes | Number of bytes sent by the shard; calculate the throughput for a time period by comparing the value at different times |
-| redis_up | gauge | — | Shard is up and running (1 = up, 0 = down) |
+| redis_up | gauge | — | Shard is up and running. The value is always 1; the metric is absent while the shard is down. |
 | redis_used_memory | gauge | bytes | Memory used by shard (in BigRedis this includes flash) (bytes) |
