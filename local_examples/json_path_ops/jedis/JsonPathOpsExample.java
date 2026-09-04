@@ -184,6 +184,170 @@ public class JsonPathOpsExample {
         jedis.del("doc");
         // REMOVE_END
 
+        // STEP_START func_length
+        String res32 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":[[1,2,3],[1],\"abcd\",\"x\"]}");
+        System.out.println(res32);    // >>> OK
+
+        Object res33 = jedis.jsonGet("doc", new Path2("$.a[?length(@) > 2]"));
+        System.out.println(res33);    // >>> [[1,2,3],"abcd"]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[[1,2,3],\"abcd\"]", res33.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
+        // STEP_START func_count
+        String res34 = jedis.jsonSet("doc", new Path2("$"), "[{\"a\":1,\"b\":2,\"c\":3},{\"a\":1}]");
+        System.out.println(res34);    // >>> OK
+
+        Object res35 = jedis.jsonGet("doc", new Path2("$[?count(@.*) == 3]"));
+        System.out.println(res35);    // >>> [{"a":1,"b":2,"c":3}]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[{\"a\":1,\"b\":2,\"c\":3}]", res35.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
+        // STEP_START func_value
+        String res36 = jedis.jsonSet("doc", new Path2("$"), "[{\"a\":1},{\"a\":2}]");
+        System.out.println(res36);    // >>> OK
+
+        Object res37 = jedis.jsonGet("doc", new Path2("$[?value(@.a) == 1]"));
+        System.out.println(res37);    // >>> [{"a":1}]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[{\"a\":1}]", res37.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
+        // STEP_START func_keys
+        String res38 = jedis.jsonSet("doc", new Path2("$"), "{\"obj\":{\"x\":1,\"y\":2}}");
+        System.out.println(res38);    // >>> OK
+
+        Object res39 = jedis.jsonGet("doc", new Path2("$.obj.keys()"));
+        System.out.println(res39);    // >>> ["x","y"]
+
+        Object res40 = jedis.jsonGet("doc", new Path2("$.obj.keys().count()"));
+        System.out.println(res40);    // >>> [2]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[\"x\",\"y\"]", res39.toString());
+        assertEquals("[2]", res40.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
+        // STEP_START func_match_search
+        String res41 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":[\"abc\",\"xabc\",\"a\",\"b\"]}");
+        System.out.println(res41);    // >>> OK
+
+        Object res42 = jedis.jsonGet("doc", new Path2("$.a[?match(@, \"a.*\")]"));
+        System.out.println(res42);    // >>> ["abc","a"]
+
+        String res43 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":[\"abc\",\"xyz\",\"b\"]}");
+        System.out.println(res43);    // >>> OK
+
+        Object res44 = jedis.jsonGet("doc", new Path2("$.a[?search(@, \"b\")]"));
+        System.out.println(res44);    // >>> ["abc","b"]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[\"abc\",\"a\"]", res42.toString());
+        assertEquals("[\"abc\",\"b\"]", res44.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
+        // STEP_START func_concat
+        String res45 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":[{\"x\":\"a\",\"y\":\"b\"},{\"x\":\"a\",\"y\":\"c\"}]}");
+        System.out.println(res45);    // >>> OK
+
+        Object res46 = jedis.jsonGet("doc", new Path2("$.a[?concat(@.x, @.y) == \"ab\"]"));
+        System.out.println(res46);    // >>> [{"x":"a","y":"b"}]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[{\"x\":\"a\",\"y\":\"b\"}]", res46.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
+        // STEP_START func_math
+        String res47 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":[2.1,3.9,1.0]}");
+        System.out.println(res47);    // >>> OK
+
+        Object res48 = jedis.jsonGet("doc", new Path2("$.a[?ceiling(@) == 3]"));
+        System.out.println(res48);    // >>> [2.1]
+
+        String res49 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":[2.1,2.9,3.5]}");
+        System.out.println(res49);    // >>> OK
+
+        Object res50 = jedis.jsonGet("doc", new Path2("$.a[?floor(@) == 2]"));
+        System.out.println(res50);    // >>> [2.1,2.9]
+
+        String res51 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":[{\"n\":-5},{\"n\":5},{\"n\":-3}]}");
+        System.out.println(res51);    // >>> OK
+
+        Object res52 = jedis.jsonGet("doc", new Path2("$.a[?abs(@.n) == 5]"));
+        System.out.println(res52);    // >>> [{"n":-5},{"n":5}]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[2.1]", res48.toString());
+        assertEquals("[2.1,2.9]", res50.toString());
+        assertEquals("[{\"n\":-5},{\"n\":5}]", res52.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
+        // STEP_START func_array_access
+        String res53 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":[{\"n\":[1,2]},{\"n\":[9,8]}]}");
+        System.out.println(res53);    // >>> OK
+
+        Object res54 = jedis.jsonGet("doc", new Path2("$.a[?first(@.n) == 1]"));
+        System.out.println(res54);    // >>> [{"n":[1,2]}]
+
+        Object res55 = jedis.jsonGet("doc", new Path2("$.a[?last(@.n) == 8]"));
+        System.out.println(res55);    // >>> [{"n":[9,8]}]
+
+        Object res56 = jedis.jsonGet("doc", new Path2("$.a[?index(@.n, -1) == 2]"));
+        System.out.println(res56);    // >>> [{"n":[1,2]}]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[{\"n\":[1,2]}]", res54.toString());
+        assertEquals("[{\"n\":[9,8]}]", res55.toString());
+        assertEquals("[{\"n\":[1,2]}]", res56.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
+        // STEP_START func_aggregate
+        String res57 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":[{\"n\":[3,1,2]},{\"n\":[5,6]}]}");
+        System.out.println(res57);    // >>> OK
+
+        Object res58 = jedis.jsonGet("doc", new Path2("$.a[?sum(@.n) == 6]"));
+        System.out.println(res58);    // >>> [{"n":[3,1,2]}]
+
+        Object res59 = jedis.jsonGet("doc", new Path2("$.a[?avg(@.n) == 2]"));
+        System.out.println(res59);    // >>> [{"n":[3,1,2]}]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[{\"n\":[3,1,2]}]", res58.toString());
+        assertEquals("[{\"n\":[3,1,2]}]", res59.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
+        // STEP_START func_append
+        String res60 = jedis.jsonSet("doc", new Path2("$"), "{\"arr\":[1,2,3]}");
+        System.out.println(res60);    // >>> OK
+
+        Object res61 = jedis.jsonGet("doc", new Path2("$.arr.append(9)"));
+        System.out.println(res61);    // >>> [1,2,3,9]
+
+        String res62 = jedis.jsonSet("doc", new Path2("$"), "{\"books\":[{\"t\":\"a\",\"price\":30},{\"t\":\"b\",\"price\":5}]}");
+        System.out.println(res62);    // >>> OK
+
+        Object res63 = jedis.jsonGet("doc", new Path2("$.books[?(@.price >= 10)].append({\"t\":\"X\"})"));
+        System.out.println(res63);    // >>> [{"t":"a","price":30},{"t":"X"}]
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[1,2,3,9]", res61.toString());
+        assertEquals("[{\"t\":\"a\",\"price\":30},{\"t\":\"X\"}]", res63.toString());
+        jedis.del("doc");
+        // REMOVE_END
+
 
 // HIDE_START
         jedis.close();
