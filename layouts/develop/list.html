@@ -1,6 +1,15 @@
 {{ define "head" }}
   {{ partial "cli-assets.html" . }}
   <script src='{{ relURL "js/codetabs.js" }}' defer></script>
+  {{- /* No workbench on /develop/ itself. The Redis CLI shown there is a picture
+         of one — a block of commands with their output, to show what Redis looks
+         like — and a docked console along the bottom of the page is a console the
+         page never asked for. Only this page: the children under /develop/ use
+         the same layout and are ordinary docs pages, examples and all. See
+         pageBarsCli in js/redis-workbench.js. */ -}}
+  {{- if strings.HasSuffix .RelPermalink "/develop/" }}
+  <script>window.REDIS_WORKBENCH_NEVER = true;</script>
+  {{- end }}
 {{ end }}
 
 {{ define "main" }}

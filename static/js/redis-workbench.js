@@ -2577,17 +2577,34 @@
     return window.REDIS_WORKBENCH_ALWAYS === true;
   }
 
+  /* And some pages say no. /develop/ is a landing page whose Redis CLI is a
+     picture of one — a block of commands and their output, there to show what
+     Redis looks like rather than to be run — and the dock's own bar along the
+     bottom of it adds a console the page never asked for. The template says so,
+     for the same reason as above: Hugo knows which page this is and the browser
+     only knows a path that changes per environment. See layouts/develop/list.html.
+
+     Declining outright, not just staying closed: nothing mounts, so there is no
+     bar, no session and no keyspace probing from here. A "Try it" added to such a
+     page later still works — RedisWorkbench.open() reports that it cannot run,
+     and the caller opens redis.io/cli as it did before the dock existed. */
+  function pageBarsCli() {
+    return window.REDIS_WORKBENCH_NEVER === true;
+  }
+
   /* Does this page have anything for a terminal to run? The CLI blocks and their
      "Try it" buttons, and not the notebook's — a client page's Try it carries
      .thebe-tryit and opens a cell in the notebook pane, which has nothing to do
      with the sandbox terminal. */
   function pageHasCli() {
+    if (pageBarsCli()) return false;
     if (pageWantsCli()) return true;
     return !!document.querySelector(
       'form.redis-cli, .redis-cli-static, .tryit-button:not(.thebe-tryit)');
   }
 
   function pageHasRedis() {
+    if (pageBarsCli()) return false;
     if (pageWantsCli()) return true;
     /* `.thebe-container` is in here for the notebook pane: a client page can have
        runnable cells and no CLI terminal at all. */
@@ -2633,7 +2650,11 @@
            on is fetched from the /cli backend, so a click in the moment before it
            lands used to be answered by opening redis.io/cli in another tab —
            the reader's first click being the one that leaves the page. Wait for
-           it instead, and only fall back if it never arrives. */
+           it instead, and only fall back if it never arrives.
+
+           A page that bars the dock is the exception: no waiting, because no
+           amount of it will produce one. */
+        if (pageBarsCli()) return false;
         if (window.REDIS_CLI_LOADING) {
           waitForWidget(options);
           return true;
