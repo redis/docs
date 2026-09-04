@@ -1077,6 +1077,14 @@
     keysColumn.appendChild(this.rowDivider);
 
     var indexSection = el('div', 'rwb-sect');
+    /* Hidden until there is an index to list, which is what renderIndexes()
+       decides. Built visible, it was on screen from the moment the dock mounted
+       until the first sweep came back and hid it — a heading with nothing under
+       it, sharing the key column, for as long as that round trip took. Local
+       Redis answers before the first paint; over the internet it is a visible
+       flash of an empty "Indexes" pane under the keys on every page load. */
+    indexSection.hidden = true;
+    this.rowDivider.hidden = true;
     var indexHead = el('div', 'rwb-col-head');
     indexHead.appendChild(el('span', 'rwb-col-title', 'Indexes'));
     this.indexCount = el('span', 'rwb-count', '');
