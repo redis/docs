@@ -2195,15 +2195,19 @@
        re-renders whatever is selected — which used to mean the element view was
        replaced by the key's own the moment the reader typed anything. */
     this.openElement = { name: key.name, element: element };
+    var search = this.vsimOptions();
     var commands = [
       'VEMB ' + quote(key.name) + ' ' + quote(element),
-      'VGETATTR ' + quote(key.name) + ' ' + quote(element)
+      'VGETATTR ' + quote(key.name) + ' ' + quote(element),
+      vsimCommand(key.name, element, search)
     ];
     this.begin('reading ' + element + '…');
     return run(commands).then(function (replies) {
       self.renderVectorElement(key, element, {
         vector: ok(replies[0]),
         attributes: ok(replies[1]),
+        neighbours: replies[2],
+        search: search,
         commands: commands
       });
       self.end();
@@ -2212,6 +2216,25 @@
       self.setStatus('could not read ' + element);
     });
   };
+
+  /* How many neighbours to ask for, and the filter to ask with. Kept on the dock
+     so it survives the re-render a sweep does, and so walking from element to
+     element keeps the search the reader set up. */
+  var VSIM_COUNTS = [5, 10, 25];
+
+  dock.vsimOptions = function () {
+    if (!this.vsim) this.vsim = { count: VSIM_COUNTS[0], filter: '' };
+    return this.vsim;
+  };
+
+  /* The element itself comes back first with a score of 1, so ask for one more
+     than the reader wanted and the list still holds that many neighbours. */
+  function vsimCommand(name, element, search) {
+    var command = 'VSIM ' + quote(name) + ' ELE ' + quote(element)
+      + ' WITHSCORES COUNT ' + (search.count + 1);
+    if (search.filter) command += ' FILTER ' + quote(search.filter);
+    return command;
+  }
 
   dock.renderVectorElement = function (key, element, detail) {
     var self = this;
@@ -2250,7 +2273,164 @@
         'None set. VSETATTR attaches JSON metadata to an element.'));
     }
 
+    /* The nearest elements to this one, which is the question a vector set
+       exists to answer. Clicking one walks to it and asks again — the way a
+       reader actually explores an embedding space. */
+    pane.appendChild(el('div', 'rwb-group', 'Nearest'));
+    pane.appendChild(this.vsimControls(key, element, detail.search));
+    pane.appendChild(this.renderNeighbours(key, element, detail.neighbours,
+      detail.search));
+
     pane.appendChild(ranNote(detail.commands));
+  };
+
+  /* How many to return, and an attribute filter to return them through. The
+     filter is the one part of a vector set a reader cannot see the effect of
+     from a reply, so it gets a box rather than a paragraph. */
+  dock.vsimControls = function (key, element, search) {
+    var self = this;
+    var row = el('form', 'rwb-vsim-controls');
+
+    /* Built before the chips, which read it: a chip is another way to run this
+       search, so it takes the filter as typed rather than as last submitted. */
+    var filter = el('input', 'rwb-vsim-filter');
+    filter.type = 'text';
+    filter.value = search.filter;
+    filter.setAttribute('spellcheck', 'false');
+    filter.placeholder = 'FILTER, e.g. .year > 2000';
+    filter.title = 'An expression over element attributes; see Filtered search';
+    filter.setAttribute('aria-label', 'Filter expression');
+
+    var counts = el('div', 'rwb-vsim-counts');
+    counts.setAttribute('role', 'group');
+    counts.setAttribute('aria-label', 'How many neighbours');
+    VSIM_COUNTS.forEach(function (count) {
+      var choice = el('button', 'rwb-chip' + (count === search.count ? ' rwb-chip-on' : ''),
+        String(count));
+      choice.type = 'button';
+      choice.title = 'Return the ' + count + ' nearest elements';
+      choice.setAttribute('aria-pressed', count === search.count ? 'true' : 'false');
+      choice.addEventListener('click', function () {
+        /* The reply rebuilds this row from what was searched with, so a filter
+           the reader had typed but not run would be wiped by the new box. */
+        self.vsimOptions().filter = filter.value.trim();
+        self.vsimOptions().count = count;
+        self.openVectorElement(key, element);
+      });
+      counts.appendChild(choice);
+    });
+    row.appendChild(counts);
+    row.appendChild(filter);
+
+    /* One click back to the unfiltered neighbours. Only while a filter is in
+       force: clearing an empty box is a control that does nothing. Emptying the
+       box by hand and pressing Enter does the same thing — this saves the two
+       steps. */
+    if (search.filter) {
+      var clear = el('button', 'rwb-btn rwb-vsim-clear', '\u00d7');
+      clear.type = 'button';
+      clear.title = 'Clear the filter and show every neighbour';
+      clear.setAttribute('aria-label', 'Clear the filter');
+      clear.addEventListener('click', function () {
+        self.vsimOptions().filter = '';
+        self.openVectorElement(key, element).then(function () {
+          self.focusVsimFilter(0);
+        });
+      });
+      row.appendChild(clear);
+    }
+
+    var go = el('button', 'rwb-btn', 'Search');
+    go.type = 'submit';
+    go.title = 'Run VSIM with this filter';
+    row.appendChild(go);
+
+    row.addEventListener('submit', function (event) {
+      event.preventDefault();
+      /* Where the caret was, to put it back in the box that replaces this one:
+         the reply re-renders the whole pane, so the box the reader typed into is
+         gone by the time the neighbours are up. */
+      var caret = filter.selectionStart;
+      self.vsimOptions().filter = filter.value.trim();
+      self.openVectorElement(key, element).then(function () {
+        self.focusVsimFilter(caret);
+      });
+    });
+    return row;
+  };
+
+  dock.focusVsimFilter = function (caret) {
+    if (!this.valuePane) return;
+    var box = this.valuePane.querySelector('.rwb-vsim-filter');
+    if (!box) return;
+    box.focus({ preventScroll: true });
+    var at = typeof caret === 'number' ? Math.min(caret, box.value.length)
+      : box.value.length;
+    box.setSelectionRange(at, at);
+  };
+
+  /* One bar per row, in the order given — both callers ask the server to sort, so
+     the bars only have to be read, not sorted. No axis: the numbers are printed
+     beside them and the heading says the unit.
+
+     rows: [{name, share (0..1), label, mark, pick}] — mark names this row as the
+     one the others are measured against, pick makes it the next one. */
+  function renderBars(rows) {
+    var list = el('div', 'rwb-bars');
+    rows.forEach(function (row) {
+      var line = el(row.pick ? 'button' : 'div',
+        'rwb-bar-row' + (row.mark ? ' rwb-bar-marked' : ''));
+      if (row.pick) {
+        line.type = 'button';
+        line.title = row.title || row.name;
+        line.addEventListener('click', row.pick);
+      }
+
+      var name = el('span', 'rwb-bar-name', row.name);
+      if (row.mark) name.appendChild(el('span', 'rwb-bar-tag', row.mark));
+      line.appendChild(name);
+
+      var track = el('span', 'rwb-bar-track');
+      var fill = el('span', 'rwb-bar-fill');
+      fill.style.width = (Math.max(0, Math.min(1, row.share)) * 100).toFixed(1) + '%';
+      track.appendChild(fill);
+      line.appendChild(track);
+
+      line.appendChild(el('span', 'rwb-bar-value', row.label));
+      list.appendChild(line);
+    });
+    return list;
+  }
+
+  /* VSIM's answer. Scores run 1 (identical) to 0 (opposite), so a score is
+     already the share of the bar. */
+  dock.renderNeighbours = function (key, element, reply, search) {
+    var self = this;
+    if (reply && reply.error) {
+      return el('p', 'rwb-text rwb-failed', '(error) ' + cellText(reply.value));
+    }
+    var rows = pairs(ok(reply)).map(function (pair) {
+      return { name: cellText(pair[0]), score: Number(cellText(pair[1])) };
+    });
+    /* One more than the chip was asked for, because the element itself normally
+       comes back first. A filter it fails — no attributes at all is enough —
+       leaves it out, and then that spare row is a neighbour nobody asked for. */
+    var mine = rows.some(function (row) { return row.name === element; });
+    if (!mine && search) rows = rows.slice(0, search.count);
+    if (!rows.length) {
+      return el('p', 'rwb-empty', 'Nothing came back — no element passes this filter.');
+    }
+    return renderBars(rows.map(function (row) {
+      var here = row.name === element;
+      return {
+        name: row.name,
+        share: row.score,
+        label: isNaN(row.score) ? '—' : row.score.toFixed(4),
+        mark: here ? 'this one' : null,
+        title: 'Look at ' + row.name,
+        pick: here ? null : function () { self.openVectorElement(key, row.name); }
+      };
+    }));
   };
 
   dock.openIndex = function (name) {
