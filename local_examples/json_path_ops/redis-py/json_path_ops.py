@@ -405,3 +405,52 @@ assert res2 == [1, 2, 3, 9]
 assert res4 == [{"t": "a", "price": 30}, {"t": "X"}]
 r.delete("doc")
 # REMOVE_END
+
+# STEP_START proj_basic
+res1 = r.json().set("doc", "$", {"a": 2, "b": 4, "arr": [1, 2, 3]})
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", "$.a + 1")
+print(res2)
+# >>> [3]
+
+res3 = r.json().get("doc", "$.a * $.b")
+print(res3)
+# >>> [8]
+
+res4 = r.json().get("doc", "($.a + $.b) / 2")
+print(res4)
+# >>> [3.0]
+
+res5 = r.json().get("doc", "$.arr.length()")
+print(res5)
+# >>> [3]
+
+res6 = r.json().get("doc", "$.a / 0")
+print(res6)
+# >>> []
+# STEP_END
+
+# REMOVE_START
+assert res2 == [3]
+assert res3 == [8]
+assert res4 == [3.0]
+assert res5 == [3]
+assert res6 == []
+# REMOVE_END
+
+# STEP_START proj_multipath
+res7 = r.json().set("doc", "$", {"a": 2, "b": 4, "arr": [1, 2, 3]})
+print(res7)
+# >>> True
+
+res8 = r.json().get("doc", "$.a + 1", "$.b")
+print(res8)
+# >>> {'$.a + 1': [3], '$.b': [4]}
+# STEP_END
+
+# REMOVE_START
+assert res8 == {"$.a + 1": [3], "$.b": [4]}
+r.delete("doc")
+# REMOVE_END

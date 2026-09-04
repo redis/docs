@@ -107,7 +107,7 @@ The top level of a JSONPath query can be an expression that *computes* a value â
 
 A projection that evaluates to *Nothing* produces an empty reply (`[]`).
 
-```
+{{< clients-example set="json_path_ops" step="proj_basic" description="Projection expressions: Use arithmetic, a function call, or the length of a path as a top-level query that computes a value instead of only selecting nodes" difficulty="advanced" >}}
 > JSON.SET doc $ '{"a":2,"b":4,"arr":[1,2,3]}'
 OK
 > JSON.GET doc '$.a + 1'
@@ -120,14 +120,14 @@ OK
 "[3]"
 > JSON.GET doc '$.a / 0'
 "[]"
-```
+{{< /clients-example >}}
 
-When [`JSON.GET`]({{< relref "commands/json.get/" >}}) is given more than one path, projections and plain paths can be mixed, and each path becomes a key in the returned object:
+When [`JSON.GET`]({{< relref "commands/json.get/" >}}) is given more than one path, projections and plain paths can be mixed, and each path becomes a key in the returned object. The order of keys in that object is not guaranteed.
 
-```
+{{< clients-example set="json_path_ops" step="proj_multipath" description="Multi-path queries: Pass more than one path to JSON.GET to have each path's result returned under its own key in a single reply" difficulty="advanced" >}}
 > JSON.GET doc '$.a + 1' '$.b'
 "{\"$.a + 1\":[3],\"$.b\":[4]}"
-```
+{{< /clients-example >}}
 
 [`JSON.MGET`]({{< relref "commands/json.mget/" >}}) evaluates the projection independently for each key. A missing key, or a per-key evaluation error, yields a null reply for that key rather than failing the whole request.
 

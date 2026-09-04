@@ -428,6 +428,53 @@ class JsonPathOpsTest extends TestCase
         $this->redis->del('doc');
         // REMOVE_END
 
+        // STEP_START proj_basic
+        $res64 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => 2, "b" => 4, "arr" => [1, 2, 3]]
+        ));
+        echo $res64 . PHP_EOL; // >>> OK
+
+        $res65 = $this->redis->jsonget('doc', '', '', '', '$.a + 1');
+        echo $res65 . PHP_EOL; // >>> [3]
+
+        $res66 = $this->redis->jsonget('doc', '', '', '', '$.a * $.b');
+        echo $res66 . PHP_EOL; // >>> [8]
+
+        $res67 = $this->redis->jsonget('doc', '', '', '', '($.a + $.b) / 2');
+        echo $res67 . PHP_EOL; // >>> [3.0]
+
+        $res68 = $this->redis->jsonget('doc', '', '', '', '$.arr.length()');
+        echo $res68 . PHP_EOL; // >>> [3]
+
+        $res69 = $this->redis->jsonget('doc', '', '', '', '$.a / 0');
+        echo $res69 . PHP_EOL; // >>> []
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res64);
+        $this->assertEquals('[3]', $res65);
+        $this->assertEquals('[8]', $res66);
+        $this->assertEquals('[3.0]', $res67);
+        $this->assertEquals('[3]', $res68);
+        $this->assertEquals('[]', $res69);
+        // REMOVE_END
+
+        // STEP_START proj_multipath
+        $res70 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => 2, "b" => 4, "arr" => [1, 2, 3]]
+        ));
+        echo $res70 . PHP_EOL; // >>> OK
+
+        $res71 = $this->redis->jsonget('doc', '', '', '', '$.a + 1', '$.b');
+        // The reply is a JSON object keyed by path; key order is not guaranteed.
+        echo $res71 . PHP_EOL; // >>> {"$.a + 1":[3],"$.b":[4]} (key order not guaranteed)
+        // STEP_END
+
+        // REMOVE_START
+        $decoded71 = json_decode($res71, true);
+        $this->assertEquals(['$.a + 1' => [3], '$.b' => [4]], $decoded71);
+        $this->redis->del('doc');
+        // REMOVE_END
     }
 
     protected function tearDown(): void
