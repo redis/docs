@@ -18,7 +18,7 @@ Learn how to use the generic application template. You can also refer to the [Or
 
 To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
 
-Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup. Domain verification requires adding a DNS TXT record provided by Redis Cloud to each domain; SAML SSO can't be enabled until the domain is verified.
+Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup. To do this, you must add a DNS TXT record provided by Redis Cloud to each domain; SAML SSO can't be enabled until the domain is verified.
 
 ## Step 1: Set up your demo identity provider (IdP)
 
