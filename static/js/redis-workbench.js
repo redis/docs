@@ -51,6 +51,10 @@
      every multi-command probe here is chunked to that. */
   var MAX_BATCH = 20;
 
+  /* How many of the reader's commands to keep for copying. A session that has run
+     more than this is past the point where a paste is the useful thing. */
+  var MAX_RAN_COMMANDS = 200;
+
   /* Batch origin label, for the backend's usage metrics. Introspection is not a
      command the reader chose to run, so it is reported separately from
      'interactive' (typed) and 'tryit' (a snippet the reader asked for) and
@@ -867,6 +871,7 @@
     indexDocs: null,
     /* Page setups already run in this sandbox session, by name. */
     setupRan: {},
+    ranCommands: [],
     selected: null,
     truncated: false,
     /* command batches seen while closed, discovered at first open */
@@ -995,6 +1000,12 @@
          reports only what a reader or a page started — but the guard says which
          batches this is about. */
       if (batch.source !== SOURCE) self.clearIndexFilter();
+      /* A record of what the reader ran, which is what "Copy commands" hands
+         over. Introspection and the widget's own startup are not that. */
+      if (batch.source !== SOURCE && batch.source !== 'internal') {
+        self.ranCommands = self.ranCommands.concat(batch.commands)
+          .slice(-MAX_RAN_COMMANDS);
+      }
       self.observe(batch.commands);
     });
 
@@ -1020,6 +1031,18 @@
        history. Neither reaches into the other. */
     terminalTools.appendChild(this.button('Clear terminal', 'Clear the terminal transcript',
       function () { cli().clear(self.terminalForm); }));
+    /* The way out of the sandbox: what the reader has run here, as lines they can
+       paste into a redis-cli of their own. The transcript holds replies and
+       prompts as well, so copying that would need editing before it ran.
+
+       What is on screen, no more: a copy that quietly included commands cleared
+       from the transcript surprised the first person to try it, and a button
+       whose result cannot be seen is a button that has to be trusted. Clearing
+       is how the reader says "not that" — see forgetRanCommands. */
+    this.copyButton = this.button(COPY_LABEL,
+      'Copy the commands in the terminal, ready to paste into redis-cli',
+      function () { self.copyCommands(); });
+    terminalTools.appendChild(this.copyButton);
     this.terminalToolbar = terminalTools;
     this.terminalPane.appendChild(terminalTools);
 
@@ -1571,6 +1594,54 @@
      so a command typed at the wrong moment cannot land in front of it. FLUSHDB
      mints a fresh session on this backend and is intercepted before Redis, so the
      ACL's -flushdb never applies. */
+  /* Hand the session's commands to the clipboard, one per line. Said on the
+     button itself rather than in the status line: the reader is looking at what
+     they just clicked.
+
+     The label is the constant, never the button's current text: read live, a
+     second click landing inside the 1.6s window would take "12 commands copied"
+     for the label and restore that, leaving the button stuck on it. */
+  var COPY_LABEL = 'Copy commands';
+
+  /* An emptied transcript empties what "Copy commands" would hand over, so the
+     two always agree.
+
+     Read off the transcript rather than hooked to the toolbar button: `clear`
+     typed at the prompt is handled inside the widget, which never tells anyone,
+     so a button-only rule would leave the copy full and the screen blank — the
+     surprise this is here to remove. Whatever empties it, this follows. */
+  dock.forgetRanCommands = function () {
+    if (!this.terminalForm) return;
+    var transcript = this.terminalForm.querySelector('pre');
+    if (transcript && transcript.childNodes.length === 0) this.ranCommands = [];
+  };
+
+  dock.copyCommands = function () {
+    var button = this.copyButton;
+    var commands = this.ranCommands;
+
+    function say(message) {
+      if (!button) return;
+      button.textContent = message;
+      button.disabled = true;
+      window.setTimeout(function () {
+        button.textContent = COPY_LABEL;
+        button.disabled = false;
+      }, 1600);
+    }
+
+    if (!commands.length) return say('Nothing run yet');
+    var text = commands.join('\n') + '\n';
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      return say('Cannot copy here');
+    }
+    navigator.clipboard.writeText(text).then(function () {
+      say(plural(commands.length, 'command') + ' copied');
+    }, function () {
+      say('Cannot copy here');
+    });
+  };
+
   /* "Clear keys" is the one control here that destroys something, and what it
      destroys took a snippet to make: a reader who hits it by accident has to go
      back up the page and find the "Try it" that filled the sandbox. So it asks
@@ -1677,6 +1748,7 @@
     if (this.transcriptWatcher) this.transcriptWatcher.disconnect();
     this.transcriptWatcher = new MutationObserver(function () {
       if (self.following) self.scrollTerminal();
+      self.forgetRanCommands();
     });
     this.transcriptWatcher.observe(form,
       { childList: true, subtree: true, characterData: true });
