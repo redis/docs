@@ -348,6 +348,44 @@ public class JsonPathOpsExample {
         jedis.del("doc");
         // REMOVE_END
 
+        // STEP_START proj_basic
+        String res64 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":2,\"b\":4,\"arr\":[1,2,3]}");
+        System.out.println(res64);    // >>> OK
+
+        Object res65 = jedis.jsonGet("doc", new Path2("$.a + 1"));
+        System.out.println(res65);    // >>> [3]
+
+        Object res66 = jedis.jsonGet("doc", new Path2("$.a * $.b"));
+        System.out.println(res66);    // >>> [8]
+
+        Object res67 = jedis.jsonGet("doc", new Path("($.a + $.b) / 2"));
+        System.out.println(res67);    // >>> [3.0]
+
+        Object res68 = jedis.jsonGet("doc", new Path2("$.arr.length()"));
+        System.out.println(res68);    // >>> [3]
+
+        Object res69 = jedis.jsonGet("doc", new Path2("$.a / 0"));
+        System.out.println(res69);    // >>> []
+        // STEP_END
+        // REMOVE_START
+        assertEquals("[3]", res65.toString());
+        assertEquals("[8]", res66.toString());
+        assertEquals("[3.0]", res67.toString());
+        assertEquals("[3]", res68.toString());
+        assertEquals("[]", res69.toString());
+        // REMOVE_END
+
+        // STEP_START proj_multipath
+        String res70 = jedis.jsonSet("doc", new Path2("$"), "{\"a\":2,\"b\":4,\"arr\":[1,2,3]}");
+        System.out.println(res70);    // >>> OK
+
+        Object res71 = jedis.jsonGet("doc", new Path2("$.a + 1"), new Path2("$.b"));
+        System.out.println(res71);    // >>> {"$.a + 1":[3],"$.b":[4]} (a JSON object; key order is not guaranteed)
+        // STEP_END
+        // REMOVE_START
+        assertTrue(((JSONObject) res71).similar(new JSONObject("{\"$.a + 1\":[3],\"$.b\":[4]}")));
+        jedis.del("doc");
+        // REMOVE_END
 
 // HIDE_START
         jedis.close();

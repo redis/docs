@@ -344,5 +344,47 @@ p res4 # >>> [{"t"=>"a", "price"=>30}, {"t"=>"X"}]
 assert_equal([1, 2, 3, 9], res2)
 assert_equal([{ 't' => 'a', 'price' => 30 }, { 't' => 'X' }], res4)
 r.del('doc')
+# REMOVE_END
+
+# STEP_START proj_basic
+res1 = r.json_set('doc', '$', { 'a' => 2, 'b' => 4, 'arr' => [1, 2, 3] })
+puts res1 # >>> OK
+
+res2 = r.json_get('doc', '$.a + 1')
+p res2 # >>> [3]
+
+res3 = r.json_get('doc', '$.a * $.b')
+p res3 # >>> [8]
+
+res4 = r.json_get('doc', '($.a + $.b) / 2')
+p res4 # >>> [3.0]
+
+res5 = r.json_get('doc', '$.arr.length()')
+p res5 # >>> [3]
+
+res6 = r.json_get('doc', '$.a / 0')
+p res6 # >>> []
+# STEP_END
+
+# REMOVE_START
+assert_equal([3], res2)
+assert_equal([8], res3)
+assert_equal([3.0], res4)
+assert_equal([3], res5)
+assert_equal([], res6)
+# REMOVE_END
+
+# STEP_START proj_multipath
+res7 = r.json_set('doc', '$', { 'a' => 2, 'b' => 4, 'arr' => [1, 2, 3] })
+puts res7 # >>> OK
+
+# The reply's key order is not guaranteed, so don't rely on it.
+res8 = r.json_get('doc', '$.a + 1', '$.b')
+p res8
+# STEP_END
+
+# REMOVE_START
+assert_equal({ '$.a + 1' => [3], '$.b' => [4] }, res8)
+r.del('doc')
 r.close
 # REMOVE_END

@@ -4,6 +4,7 @@ package example_commands_test
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/redis/go-redis/v9"
@@ -947,4 +948,129 @@ func ExampleClient_json_path_ops_func_append() {
 	// [1,2,3,9]
 	// OK
 	// [{"t":"a","price":30},{"t":"X"}]
+}
+
+func ExampleClient_json_path_ops_proj_basic() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	rdb.FlushDB(ctx)
+	rdb.Del(ctx, "doc")
+	// REMOVE_END
+
+	// STEP_START proj_basic
+	res1, err := rdb.JSONSet(ctx, "doc", "$",
+		`{"a":2,"b":4,"arr":[1,2,3]}`,
+	).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res1) // >>> OK
+
+	res2, err := rdb.JSONGet(ctx, "doc", `$.a + 1`).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res2) // >>> [3]
+
+	res3, err := rdb.JSONGet(ctx, "doc", `$.a * $.b`).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res3) // >>> [8]
+
+	res4, err := rdb.JSONGet(ctx, "doc", `($.a + $.b) / 2`).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res4) // >>> [3.0]
+
+	res5, err := rdb.JSONGet(ctx, "doc", `$.arr.length()`).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res5) // >>> [3]
+
+	res6, err := rdb.JSONGet(ctx, "doc", `$.a / 0`).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res6) // >>> []
+	// STEP_END
+
+	// Output:
+	// OK
+	// [3]
+	// [8]
+	// [3.0]
+	// [3]
+	// []
+}
+
+func ExampleClient_json_path_ops_proj_multipath() {
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password docs
+		DB:       0,  // use default DB
+	})
+
+	// REMOVE_START
+	rdb.FlushDB(ctx)
+	rdb.Del(ctx, "doc")
+	// REMOVE_END
+
+	// STEP_START proj_multipath
+	res1, err := rdb.JSONSet(ctx, "doc", "$",
+		`{"a":2,"b":4,"arr":[1,2,3]}`,
+	).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res1) // >>> OK
+
+	raw, err := rdb.JSONGet(ctx, "doc", `$.a + 1`, `$.b`).Result()
+
+	if err != nil {
+		panic(err)
+	}
+
+	// A multi-path JSON.GET reply is a JSON object whose key order is not
+	// guaranteed, so decode it into a map rather than printing the raw
+	// string. Go's fmt package prints map keys in sorted order, which keeps
+	// this example's output deterministic regardless of the order Redis
+	// returns the paths in.
+	res2 := map[string]interface{}{}
+
+	if err := json.Unmarshal([]byte(raw), &res2); err != nil {
+		panic(err)
+	}
+
+	fmt.Println(res2) // >>> map[$.a + 1:[3] $.b:[4]]
+	// STEP_END
+
+	// Output:
+	// OK
+	// map[$.a + 1:[3] $.b:[4]]
 }
