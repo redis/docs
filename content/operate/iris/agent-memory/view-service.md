@@ -109,6 +109,8 @@ Sensitive-data exclusions are an early-stage feature, enabled for selected accou
 
 | Setting name          |Description|
 |:----------------------|:----------|
+| **Built-in detectors** | Whether built-in detectors are applied, with each selected detector and the action it takes on a match. Only selected detectors are listed. _(Editable)_ |
+| **Custom detectors** | Whether custom detectors are applied, with each detector's name, pattern, action on a match, and status. _(Editable)_ |
 | **Semantic exclusions** | Whether semantic exclusions are applied when memories are extracted. _(Editable)_ |
 | **Exclusion prompt** | The plain-language description of what should never be kept in long-term memory. Required when semantic exclusions are enabled. _(Editable)_ |
 

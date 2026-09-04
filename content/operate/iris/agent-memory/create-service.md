@@ -157,13 +157,59 @@ Each custom memory type can have an **extraction strategy** that controls how th
 
 ### Sensitive-data exclusions {#sensitive-data-exclusions}
 
-The **Sensitive-data exclusions** section lets you define information that should not be kept in long-term memory.
+The **Sensitive-data exclusions** section lets you define information that should not be kept in long-term memory. It offers three mechanisms that you enable independently:
+
+- [Built-in detectors](#built-in-detectors) match common identifiers, such as payment card numbers, using patterns Redis maintains.
+- [Custom detectors](#custom-detectors) match patterns you write yourself, such as internal reference numbers.
+- [Semantic exclusions](#semantic-exclusions) describe what to exclude in plain language, catching concepts that a pattern cannot.
+
+Detector matches are applied deterministically. Semantic exclusions only steer the extraction model, so they are advisory.
 
 {{< note >}}
 Sensitive-data exclusions are an early-stage feature, enabled for selected accounts. If you want to try them, contact your Redis representative or [contact sales](https://redis.io/contact/).
 {{< /note >}}
 
 {{<image filename="images/rc/agent-memory-sensitive-data-exclusions.png" alt="The Sensitive-data exclusions section." >}}
+
+Exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent. Exclusions are also not applied to long-term memories your application creates directly through the API or an SDK.
+
+#### Built-in detectors
+
+Built-in detectors match common identifiers using patterns Redis maintains and validates. They are disabled by default. Use the **Built-in detectors** toggle to enable them, then select the detectors this service should exclude and choose what happens [on match](#on-match).
+
+| Detector | Matches |
+|:---------|:--------|
+| **Credit card number** | Payment card numbers, covering Visa, Mastercard, American Express, Discover, JCB, Diners Club and UnionPay. Maestro is not covered. Digits may be separated by spaces or hyphens. |
+| **Email address** | Email addresses. Addresses containing non-ASCII characters are not matched. |
+| **IP address** | IPv4 and IPv6 addresses. Loopback addresses and CIDR network ranges are not matched, and some abbreviated IPv6 forms are missed. |
+| **Phone number** | Phone numbers for the US, Canada, the UK, Germany, Israel, India, and Brazil. Numbers written with a country code, parentheses, or separators are matched on their own. A plain run of digits is matched only when the surrounding text mentions a phone number. |
+| **US Social Security number** | US Social Security numbers. Written in the usual 123-45-6789 form they are matched on their own. Other layouts are matched only when the surrounding text mentions a Social Security number. |
+
+Each description states what the detector gives up, because selecting one is a choice about false positives: a false match redacts or discards a memory you wanted to keep.
+
+#### Custom detectors
+
+Custom detectors match patterns you write yourself, such as tenant IDs, internal account numbers, or tokens. They are disabled by default. Use the **Custom detectors** toggle to enable them, then select **Add detector** and configure the following settings:
+
+| Setting name          |Description|
+|:----------------------|:----------|
+| **Name** | A name for the detector, unique within the service. Must start with a letter and contain only letters, digits, underscores, or dashes (1-64 characters). A match is reported under this name. |
+| **Pattern** | A regular expression, up to 512 characters. Patterns use RE2 syntax, which does not support backreferences or lookaround. |
+| **On match** | What happens to a memory the pattern matches. See [On match](#on-match). |
+| **Status** | Whether the detector is applied. Turn it off to keep the pattern without applying it. |
+
+You can define up to 32 custom detectors.
+
+#### On match {#on-match}
+
+Every detector, built-in or custom, decides what happens to a memory it matches:
+
+| Action | Description |
+|:-------|:------------|
+| **Redact match** | Replaces the matched text with `[REDACTED]` and keeps the rest of the memory. This is the default. |
+| **Drop memory** | Discards the whole memory. |
+
+Built-in and custom detectors are evaluated together. When a memory matches several detectors that choose different actions, the memory is dropped.
 
 #### Semantic exclusions
 
@@ -178,10 +224,8 @@ For example, a prompt might tell the pipeline never to keep passwords, access to
 
 Where useful context remains, the extraction model prefers a generalized memory that omits the excluded details rather than dropping the memory entirely. For example, "The user's card ending 4242 was declined" can become "The user had a payment failure".
 
-Semantic exclusions are applied when long-term memories are created from a session. Session memory is unaffected: events and their summaries are kept as sent.
-
 {{<warning>}}
-Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded. Sensitive session content still reaches the extraction model provider, and they are not applied to long-term memories your application creates directly through the API or an SDK. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
+Semantic exclusions are **advisory**. They steer the extraction model, but they do not guarantee that sensitive content is excluded, and sensitive session content still reaches the extraction model provider. Do not rely on semantic exclusions as your only control for regulated or highly sensitive data.
 {{</warning>}}
 
 ### Create service
