@@ -7,15 +7,14 @@ categories:
 - iris
 description: Review software, Redis, network, Secret, image, and sizing prerequisites for self-managed LangCache.
 linkTitle: Prerequisites
-weight: 20
+weight: 10
 hideListLinks: true
 ---
 
-LangCache self-managed is distributed as container images plus a Helm chart.
-The published `langcache` chart deploys the LangCache Data Plane. The Control
-Plane and, for Control Plane managed caches, the shared Identity Service are
-distributed as container images that you deploy alongside the chart; see
-[Deploy with Control Plane managed caches]({{< relref "/operate/iris/langcache/self-managed/deploy-control-plane" >}}).
+LangCache self-managed is distributed as container images on Docker Hub plus
+the `langcache` Helm chart. One `helm install` of the chart deploys the
+LangCache Data Plane, the LangCache Control Plane, and (by default) a
+bundled Identity Service.
 
 You provide the Redis databases, embedding provider credentials, Kubernetes
 exposure, and license material used by the deployment.
@@ -29,68 +28,42 @@ Kubernetes cluster.
 
 | Item | Where it comes from |
 | ---- | ------------------- |
-| Container images | LangCache Data Plane image, and, when the Control Plane is used, the LangCache Control Plane image. Provided by your Redis representative. |
-| Helm chart | `langcache` chart, provided by your Redis representative. |
-| Identity Service image | `redislabs/iris-identity-service` on Docker Hub, needed only for Control Plane managed caches with agent-key Data Plane authentication. |
-| Redis databases | You provide Cache Redis and, for Control Plane managed caches, Metadata Redis. |
+| Container images | `redislabs/iris-langcache-data`, `redislabs/iris-langcache-control`, and (bundled Identity Service) `redislabs/iris-identity-service` on Docker Hub |
+| Helm chart | `langcache` chart, synced to the Redis Enterprise Helm chart repository. Contact your Redis representative for the exact repository coordinates and chart version, or for a chart package. |
+| Redis databases | You provide Metadata Redis and one or more Cache Redis databases |
 | License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). |
-| Provider credentials | You provide embedding provider credentials (currently an OpenAI-compatible provider). |
-
-{{< note >}}
-LangCache self-managed does not yet have a public Docker Hub or Helm
-repository the way self-managed Redis Agent Memory does. Get the chart
-package and image references from your Redis representative and mirror them
-into your own registry if needed.
-{{< /note >}}
+| Provider credentials | You provide embedding provider credentials (currently an OpenAI-compatible provider) |
 
 ## Required software
 
 | Software | Minimum version | Purpose |
 | -------- | --------------- | ------- |
-| Kubernetes | 1.19+ | Orchestration |
-| kubectl | 1.19+ | Kubernetes CLI |
-| Helm | 3.x | Package manager for the Data Plane chart |
+| Kubernetes | 1.23+ | Orchestration; the chart renders an `autoscaling/v2` HorizontalPodAutoscaler |
+| kubectl | 1.23+ | Kubernetes CLI |
+| Helm | 3.x | Package manager |
 
 ## Redis databases
 
-The Helm chart does not deploy Redis databases. Provision the Redis databases
-outside the LangCache chart and pass their URLs in `dataplane.config.yaml`
-and, when the Control Plane is used, `controlplane-onprem.config.yaml`.
+The Helm chart does not deploy Redis databases. Provision them outside the
+chart and register them through the Control Plane's and Data Plane's config
+overlays (see [Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}})).
 
 Cache Redis must support RediSearch with vector search, because LangCache
-creates a RediSearch vector index per cache. Metadata Redis does not need that
-capability.
-
-### Static caches
-
-Use static caches for a first install or a private single-cache deployment.
-Caches are declared directly in `dataplane.config.yaml`. The Control Plane
-and Metadata Redis are not used.
+creates a RediSearch vector index per cache. Metadata Redis does not need
+that capability.
 
 {{< table-scrollable >}}
-| Redis database | Required when | Configure in `dataplane.config.yaml` | Purpose |
+| Redis database | Required | Registered in | Purpose |
 | --- | --- | --- | --- |
-| Cache Redis | Always | `metadata.caches[].urls` | Cache entry hashes and RediSearch vector indexes. |
+| Metadata Redis | Always | Both the Data Plane's and Control Plane's config overlays (same URLs, same keyspace) | Cache records written by the Control Plane, read by the Data Plane. |
+| Cache Redis (one or more) | Always | The Control Plane's config overlay only, as a `databases` registry entry keyed by a logical `databaseId` | Cache entry hashes and RediSearch vector indexes. The Data Plane has no database registry of its own — it resolves each cache's Redis URLs from the metadata the Control Plane already persisted at cache-creation time. |
+| Identity Service metadata Redis (bundled mode only) | When `identityService.mode: bundled` | The bundled Identity Service's own config overlay | Agent-key and grant records. Can be the same Redis instance as Metadata Redis, in a separate namespace. |
 {{< /table-scrollable >}}
 
-### Control Plane managed caches
-
-Use Control Plane managed caches when operators need to create or manage
-caches at runtime. The Data Plane and Control Plane must resolve the same
-`databaseId` to the same Cache Redis target and point at the same Metadata
-Redis.
-
-{{< table-scrollable >}}
-| Redis database | Required when | Configure in `dataplane.config.yaml` | Configure in `controlplane-onprem.config.yaml` | Purpose |
-| --- | --- | --- | --- | --- |
-| Cache Redis | Always | `databases.<id>.urls` | `databases.<id>.urls` | Cache entries for Control Plane managed caches. Both processes must define the same `<id>`. |
-| Metadata Redis | Always | `metadata.urls` | `metadata.urls` | Cache records and, for agent-key auth, key/grant records managed by the Identity Service. |
-{{< /table-scrollable >}}
-
-For a lab deployment, Cache Redis and Metadata Redis can point to the same
-Redis endpoint if it has the required modules and capacity. For production,
-separate them so cache data and control metadata can be scaled, backed up,
-and operated independently.
+For a lab deployment, these Redis roles can point at the same Redis endpoint
+if it has the required modules and capacity. For production, separate them
+so cache data and control metadata can be scaled, backed up, and operated
+independently.
 
 ### Metadata Redis durability
 
@@ -101,67 +74,120 @@ removes Control Plane cache records.
 
 ## Network access
 
-- **Connected install:** the cluster must be able to pull the LangCache
-  images and, for Control Plane managed caches, the `iris-identity-service`
-  image.
-- **Air-gapped install:** mirror the images into an internal registry.
+- **Connected install:** the cluster must be able to pull the LangCache and
+  Identity Service images from Docker Hub (or your mirrored registry) and
+  reach the Helm chart repository.
+- **Air-gapped install:** mirror the images into an internal registry and
+  use a locally available chart package.
 - **Runtime access:** LangCache pods must reach the Redis databases and the
-  embedding provider endpoint used by the deployment.
+  embedding provider endpoint used by the deployment. The Data Plane must
+  also reach the Identity Service (bundled or external); the Control Plane
+  must reach Metadata Redis and every registered Cache Redis database.
 - **Data Plane exposure:** use NetworkPolicy, ingress, gateway, service mesh,
   private load balancer, or equivalent controls to restrict API access.
 
 ## Credentials and Secrets
 
-The published `langcache` chart takes the Data Plane's `dataplane.config.yaml`
-inline as a Helm value; the chart renders it into a ConfigMap, not a Secret.
-Because that config can contain embedding provider API keys and Redis URLs
-with credentials, treat the values file itself as sensitive. If your
-security policy requires Secret-backed storage for it instead, mount a
-Secret through the chart's generic `volumes`/`volumeMounts` values; see
-[Data Plane configuration]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#config-storage" >}}).
-
-The license file and, for Control Plane managed caches, the Identity Service
-introspection credential are not wired into the chart's values at all today;
-mount them yourself as Secrets the same way. The Control Plane (deployed as
-a plain manifest until it's chart-packaged) uses real Kubernetes Secrets
-throughout:
+The chart never puts Redis URLs, the database registry, or the embedding
+credential in `values.yaml` or a rendered ConfigMap. Each of the Data Plane,
+Control Plane, and (bundled) Identity Service reads its own pre-created
+overlay Secret, deep-merged over its rendered base config at runtime. See
+[Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}})
+for the overlay content each component expects.
 
 | Secret | Required when | Default key |
 | --- | --- | --- |
-| LangCache license Secret | Control Plane managed caches | `license` |
-| Control Plane config Secret | Control Plane used | `controlplane-onprem.config.yaml` |
-| Control Plane admin-token Secret | Control Plane used | `token` |
-| Identity Service introspection-token Secret | Agent-key Data Plane auth used | `token` |
+| LangCache license Secret | Always | `license` |
+| Data Plane config overlay Secret | Always | `overlay.yaml` |
+| Control Plane config overlay Secret | Always | `overlay.yaml` |
+| Identity Service metadata Secret | `identityService.mode: bundled` | `metadata.yaml` |
+| Control Plane admin token | Auto-generated by default, or bring your own | `token` |
+| Control Plane internal (grant-validation) token | Auto-generated by default, or bring your own | `token` |
+| Identity Service control token (bundled mode) | Auto-generated by default, or bring your own | `token` |
+| Data Plane's Identity Service runtime credential (external mode) | `identityService.mode: external` | `token`, minted by the suite-level Identity Service owner |
+
+## Release artifacts and image tags
+
+LangCache self-managed image tags use the release SemVer value, for example:
+
+```yaml
+dataplane:
+  image:
+    repository: redislabs/iris-langcache-data
+    tag: "<langcache-version>"
+controlplane:
+  image:
+    repository: redislabs/iris-langcache-control
+    tag: "<langcache-version>"
+identityService:
+  bundled:
+    image:
+      repository: redislabs/iris-identity-service
+      tag: "<langcache-version>"
+```
+
+Use the image tags listed for the release on Docker Hub or provided by
+Redis. Do not use floating image tags in production.
+
+## Air-gapped and private registry installs
+
+Mirror the published images into your internal registry:
+
+```bash
+for image in iris-langcache-data iris-langcache-control iris-identity-service; do
+  docker pull redislabs/$image:<langcache-version>
+  docker tag redislabs/$image:<langcache-version> \
+    registry.example.com/redislabs/$image:<langcache-version>
+  docker push registry.example.com/redislabs/$image:<langcache-version>
+done
+```
+
+If the registry requires authentication, create an image pull Secret and
+reference it from `imagePullSecrets` in your values file:
+
+```bash
+kubectl -n <namespace-name> create secret docker-registry langcache-registry \
+  --docker-server=registry.example.com \
+  --docker-username=<username> \
+  --docker-password=<password>
+```
+
+```yaml
+imagePullSecrets:
+  - name: langcache-registry
+```
 
 ## System requirements
 
-Default chart values for the published `langcache` chart:
+Default chart values:
 
 | Component | Default | Purpose |
 | --------- | ------- | ------- |
-| LangCache Data Plane | 1 replica, autoscaling disabled | Data Plane API traffic |
+| LangCache Data Plane | 2 replicas with autoscaling enabled (2–10) | Data Plane API traffic |
+| LangCache Control Plane | 1 replica, no autoscaling | Admin API for caches |
+| Identity Service (bundled mode) | 1 replica | Agent-key issuance and introspection |
 
-For production, review `replicaCount` and `autoscaling` and size explicitly
-for the expected request volume; the chart's defaults are intended for a
-first install, not a production HA recommendation.
+During a rolling update, Kubernetes may temporarily run old and new pods at
+the same time. A small test cluster can run out of CPU during install or
+upgrade; size for the maximum rolling-update overlap, or reduce replicas
+explicitly for a lab install.
 
 ## Helm values to review
 
-The walkthroughs use `langcache` as the Helm release name. The generated
-service and deployment names in the verification steps assume that release
-name.
+The walkthroughs in this guide assume the chart's default
+`fullnameOverride: langcache`, which fixes the rendered resource names to
+`langcache` (Data Plane), `langcache-controlplane`, and
+`langcache-identity-service` (bundled mode). If you change it, update the
+release-derived names in the verification commands throughout this guide.
 
 {{< table-scrollable >}}
 | Area | Values | Use when |
 | --- | --- | --- |
-| Image | `image.repository`, `image.tag`, `imagePullSecrets` | Selecting a release or private registry image. |
-| Config | `config` (inline `dataplane.config.yaml` content) | Configuring caches, embeddings, and auth. Renders into a ConfigMap; treat the values file as sensitive. |
-| Capacity | `resources`, `autoscaling.*` | Tuning request capacity or memory footprint. |
-| Scheduling | `nodeSelector`, `affinity`, `tolerations` | Controlling pod placement. |
-| Networking | `service.type`, `ingress.*` | Exposing LangCache outside the cluster. |
-| Naming | `fullnameOverride` | Running more than one LangCache release in a namespace. |
-| Service account | `serviceAccount.*` | Matching customer namespace security policy. |
-| Cache-index provisioning | `initProvisioner.enabled`, `initProvisioner.config` | Running the `provision-cache-index` init container against static caches before the Data Plane starts. |
+| Images | `dataplane.image.*`, `controlplane.image.*`, `identityService.bundled.image.*`, `imagePullSecrets` | Selecting a release or private registry image. |
+| Data Plane capacity | `dataplane.resources`, `dataplane.autoscaling.*` | Tuning request capacity or memory footprint. |
+| Networking | `dataplane.service.*`, `dataplane.ingress.*` | Exposing LangCache outside the cluster. |
+| Security posture | `security.profile` | Opting into the FIPS-oriented posture. |
+| Identity Service mode | `identityService.mode` (`bundled` or `external`) | Choosing whether this release runs its own Identity Service or joins one the suite already runs. |
+| Config overlays | `dataplane.secrets.*`, `controlplane.secrets.*`, `identityService.bundled.metadata.*` | Pointing the chart at your pre-created overlay Secrets. |
+| Rotation | `*.existingSecretChecksum` fields throughout | Rolling pods after an externally managed Secret changes. |
 {{< /table-scrollable >}}
-
-Do not use floating image tags in production.

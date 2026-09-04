@@ -5,17 +5,15 @@ categories:
 - docs
 - operate
 - iris
-description: Use curl examples with the LangCache self-managed Control Plane and Data Plane APIs.
+description: Use curl examples with the LangCache self-managed Control Plane, Identity Service, and Data Plane APIs.
 linkTitle: Self-managed API examples
-weight: 70
+weight: 50
 hideListLinks: true
 ---
 
-These examples show self-managed Control Plane and Data Plane requests.
-
-They assume either an auth-disabled private Data Plane, the legacy per-cache
-token described in [Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}),
-or agent-key auth for a Control Plane managed cache.
+These examples show self-managed Control Plane, Identity Service, and Data
+Plane requests. They assume agent-key authentication as described in
+[Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}).
 
 For the complete shared Data Plane schema, see the
 [LangCache API]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}}).
@@ -109,25 +107,66 @@ curl -sS "$CP_URL/v1/embedding-providers" \
   -H "Authorization: Bearer $LC_ADMIN_TOKEN"
 ```
 
+## Identity Service API examples
+
+Set variables:
+
+```bash
+IDS_URL="http://localhost:9200"
+IDS_CONTROL_TOKEN="<identity-service-control-token>"
+```
+
+Mint an agent key scoped to one cache:
+
+```bash
+curl -sS -X POST "$IDS_URL/v1/api-keys" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "my-agent-key",
+    "grants": [
+      {
+        "product": "langcache",
+        "resourceType": "lc-cache",
+        "resourceId": "<cache-id>",
+        "actions": ["read", "write"]
+      }
+    ]
+  }'
+```
+
+Response:
+
+```json
+{
+  "keyId": "0123456789abcdef0123456789abcdef",
+  "token": "<agent-key>",
+  "createdAt": 1780000000
+}
+```
+
+Rotate it later:
+
+```bash
+curl -sS -X POST "$IDS_URL/v1/api-keys/<key-id>/rotate" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN"
+```
+
 ## Data Plane API examples
 
 Set variables:
 
 ```bash
-# Port 8080 for static caches; port 9000 for Control Plane managed caches.
-DP_URL="http://localhost:8080"
+DP_URL="http://localhost:9000"
 CACHE_ID="<cache-id>"
-LC_TOKEN="<agent-key-or-legacy-token>"
+LC_AGENT_KEY="<agent-key>"
 ```
-
-For auth-disabled deployments, omit the `Authorization` header and rely on
-the deployment's hosting controls.
 
 ### Set a cache entry
 
 ```bash
 curl -sS -X POST "$DP_URL/v1/caches/$CACHE_ID/entries" \
-  -H "Authorization: Bearer $LC_TOKEN" \
+  -H "Authorization: Bearer $LC_AGENT_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "What is the capital of France?",
@@ -139,7 +178,7 @@ curl -sS -X POST "$DP_URL/v1/caches/$CACHE_ID/entries" \
 
 ```bash
 curl -sS -X POST "$DP_URL/v1/caches/$CACHE_ID/entries/search" \
-  -H "Authorization: Bearer $LC_TOKEN" \
+  -H "Authorization: Bearer $LC_AGENT_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "prompt": "What'"'"'s the capital city of France?"
@@ -150,14 +189,14 @@ curl -sS -X POST "$DP_URL/v1/caches/$CACHE_ID/entries/search" \
 
 ```bash
 curl -sS -X DELETE "$DP_URL/v1/caches/$CACHE_ID/entries/<entry-id>" \
-  -H "Authorization: Bearer $LC_TOKEN"
+  -H "Authorization: Bearer $LC_AGENT_KEY"
 ```
 
 ### Delete entries matching attributes
 
 ```bash
 curl -sS -X DELETE "$DP_URL/v1/caches/$CACHE_ID/entries" \
-  -H "Authorization: Bearer $LC_TOKEN" \
+  -H "Authorization: Bearer $LC_AGENT_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "attributes": {
@@ -170,14 +209,14 @@ curl -sS -X DELETE "$DP_URL/v1/caches/$CACHE_ID/entries" \
 
 ```bash
 curl -sS -X POST "$DP_URL/v1/caches/$CACHE_ID/flush" \
-  -H "Authorization: Bearer $LC_TOKEN"
+  -H "Authorization: Bearer $LC_AGENT_KEY"
 ```
 
 ### Check cache health
 
 ```bash
 curl -sS "$DP_URL/v1/caches/$CACHE_ID/health" \
-  -H "Authorization: Bearer $LC_TOKEN"
+  -H "Authorization: Bearer $LC_AGENT_KEY"
 ```
 
 For the full request and response schema for these operations, including
