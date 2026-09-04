@@ -199,3 +199,209 @@ assert res3 == ["obj", "books"]
 assert res4 == []
 r.delete("doc")
 # REMOVE_END
+
+# STEP_START func_length
+res1 = r.json().set("doc", "$", {"a": [[1, 2, 3], [1], "abcd", "x"]})
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", "$.a[?length(@) > 2]")
+print(res2)
+# >>> [[1, 2, 3], 'abcd']
+# STEP_END
+
+# REMOVE_START
+assert res2 == [[1, 2, 3], "abcd"]
+r.delete("doc")
+# REMOVE_END
+
+# STEP_START func_count
+res1 = r.json().set("doc", "$", [{"a": 1, "b": 2, "c": 3}, {"a": 1}])
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", "$[?count(@.*) == 3]")
+print(res2)
+# >>> [{'a': 1, 'b': 2, 'c': 3}]
+# STEP_END
+
+# REMOVE_START
+assert res2 == [{"a": 1, "b": 2, "c": 3}]
+r.delete("doc")
+# REMOVE_END
+
+# STEP_START func_value
+res1 = r.json().set("doc", "$", [{"a": 1}, {"a": 2}])
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", "$[?value(@.a) == 1]")
+print(res2)
+# >>> [{'a': 1}]
+# STEP_END
+
+# REMOVE_START
+assert res2 == [{"a": 1}]
+r.delete("doc")
+# REMOVE_END
+
+# STEP_START func_keys
+res1 = r.json().set("doc", "$", {"obj": {"x": 1, "y": 2}})
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", "$.obj.keys()")
+print(res2)
+# >>> ['x', 'y']
+
+res3 = r.json().get("doc", "$.obj.keys().count()")
+print(res3)
+# >>> [2]
+# STEP_END
+
+# REMOVE_START
+assert res2 == ["x", "y"]
+assert res3 == [2]
+r.delete("doc")
+# REMOVE_END
+
+# STEP_START func_match_search
+res1 = r.json().set("doc", "$", {"a": ["abc", "xabc", "a", "b"]})
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", '$.a[?match(@, "a.*")]')
+print(res2)
+# >>> ['abc', 'a']
+
+res3 = r.json().set("doc", "$", {"a": ["abc", "xyz", "b"]})
+print(res3)
+# >>> True
+
+res4 = r.json().get("doc", '$.a[?search(@, "b")]')
+print(res4)
+# >>> ['abc', 'b']
+# STEP_END
+
+# REMOVE_START
+assert res2 == ["abc", "a"]
+assert res4 == ["abc", "b"]
+r.delete("doc")
+# REMOVE_END
+
+# STEP_START func_concat
+res1 = r.json().set("doc", "$", {"a": [{"x": "a", "y": "b"}, {"x": "a", "y": "c"}]})
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", '$.a[?concat(@.x, @.y) == "ab"]')
+print(res2)
+# >>> [{'x': 'a', 'y': 'b'}]
+# STEP_END
+
+# REMOVE_START
+assert res2 == [{"x": "a", "y": "b"}]
+r.delete("doc")
+# REMOVE_END
+
+# STEP_START func_math
+res1 = r.json().set("doc", "$", {"a": [2.1, 3.9, 1.0]})
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", "$.a[?ceiling(@) == 3]")
+print(res2)
+# >>> [2.1]
+
+res3 = r.json().set("doc", "$", {"a": [2.1, 2.9, 3.5]})
+print(res3)
+# >>> True
+
+res4 = r.json().get("doc", "$.a[?floor(@) == 2]")
+print(res4)
+# >>> [2.1, 2.9]
+
+res5 = r.json().set("doc", "$", {"a": [{"n": -5}, {"n": 5}, {"n": -3}]})
+print(res5)
+# >>> True
+
+res6 = r.json().get("doc", "$.a[?abs(@.n) == 5]")
+print(res6)
+# >>> [{'n': -5}, {'n': 5}]
+# STEP_END
+
+# REMOVE_START
+assert res2 == [2.1]
+assert res4 == [2.1, 2.9]
+assert res6 == [{"n": -5}, {"n": 5}]
+r.delete("doc")
+# REMOVE_END
+
+# STEP_START func_array_access
+res1 = r.json().set("doc", "$", {"a": [{"n": [1, 2]}, {"n": [9, 8]}]})
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", "$.a[?first(@.n) == 1]")
+print(res2)
+# >>> [{'n': [1, 2]}]
+
+res3 = r.json().get("doc", "$.a[?last(@.n) == 8]")
+print(res3)
+# >>> [{'n': [9, 8]}]
+
+res4 = r.json().get("doc", "$.a[?index(@.n, -1) == 2]")
+print(res4)
+# >>> [{'n': [1, 2]}]
+# STEP_END
+
+# REMOVE_START
+assert res2 == [{"n": [1, 2]}]
+assert res3 == [{"n": [9, 8]}]
+assert res4 == [{"n": [1, 2]}]
+r.delete("doc")
+# REMOVE_END
+
+# STEP_START func_aggregate
+res1 = r.json().set("doc", "$", {"a": [{"n": [3, 1, 2]}, {"n": [5, 6]}]})
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", "$.a[?sum(@.n) == 6]")
+print(res2)
+# >>> [{'n': [3, 1, 2]}]
+
+res3 = r.json().get("doc", "$.a[?avg(@.n) == 2]")
+print(res3)
+# >>> [{'n': [3, 1, 2]}]
+# STEP_END
+
+# REMOVE_START
+assert res2 == [{"n": [3, 1, 2]}]
+assert res3 == [{"n": [3, 1, 2]}]
+r.delete("doc")
+# REMOVE_END
+
+# STEP_START func_append
+res1 = r.json().set("doc", "$", {"arr": [1, 2, 3]})
+print(res1)
+# >>> True
+
+res2 = r.json().get("doc", "$.arr.append(9)")
+print(res2)
+# >>> [1, 2, 3, 9]
+
+res3 = r.json().set("doc", "$", {"books": [{"t": "a", "price": 30}, {"t": "b", "price": 5}]})
+print(res3)
+# >>> True
+
+res4 = r.json().get("doc", '$.books[?(@.price >= 10)].append({"t":"X"})')
+print(res4)
+# >>> [{'t': 'a', 'price': 30}, {'t': 'X'}]
+# STEP_END
+
+# REMOVE_START
+assert res2 == [1, 2, 3, 9]
+assert res4 == [{"t": "a", "price": 30}, {"t": "X"}]
+r.delete("doc")
+# REMOVE_END

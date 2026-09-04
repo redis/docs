@@ -509,5 +509,513 @@ mod json_path_ops_tests {
         // REMOVE_END
         // STEP_END
 
+        // STEP_START func_length
+        match r.json_set("doc", "$", &json!({"a":[[1,2,3],[1],"abcd","x"]})) {
+            Ok(res32) => {
+                let res32: bool = res32;
+                println!("{}", if res32 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res32);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a[?length(@) > 2]") {
+            Ok(res33) => {
+                let res33: String = res33;
+                println!("{res33}");    // >>> [[1,2,3],"abcd"]
+                // REMOVE_START
+                assert_eq!(res33, r#"[[1,2,3],"abcd"]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START func_count
+        match r.json_set("doc", "$", &json!([{"a":1,"b":2,"c":3},{"a":1}])) {
+            Ok(res34) => {
+                let res34: bool = res34;
+                println!("{}", if res34 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res34);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$[?count(@.*) == 3]") {
+            Ok(res35) => {
+                let res35: String = res35;
+                println!("{res35}");    // >>> [{"a":1,"b":2,"c":3}]
+                // REMOVE_START
+                assert_eq!(res35, r#"[{"a":1,"b":2,"c":3}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START func_value
+        match r.json_set("doc", "$", &json!([{"a":1},{"a":2}])) {
+            Ok(res36) => {
+                let res36: bool = res36;
+                println!("{}", if res36 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res36);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$[?value(@.a) == 1]") {
+            Ok(res37) => {
+                let res37: String = res37;
+                println!("{res37}");    // >>> [{"a":1}]
+                // REMOVE_START
+                assert_eq!(res37, r#"[{"a":1}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START func_keys
+        match r.json_set("doc", "$", &json!({"obj":{"x":1,"y":2}})) {
+            Ok(res38) => {
+                let res38: bool = res38;
+                println!("{}", if res38 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res38);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.obj.keys()") {
+            Ok(res39) => {
+                let res39: String = res39;
+                println!("{res39}");    // >>> ["x","y"]
+                // REMOVE_START
+                assert_eq!(res39, r#"["x","y"]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.obj.keys().count()") {
+            Ok(res40) => {
+                let res40: String = res40;
+                println!("{res40}");    // >>> [2]
+                // REMOVE_START
+                assert_eq!(res40, "[2]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START func_match_search
+        match r.json_set("doc", "$", &json!({"a":["abc","xabc","a","b"]})) {
+            Ok(res41) => {
+                let res41: bool = res41;
+                println!("{}", if res41 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res41);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", r#"$.a[?match(@, "a.*")]"#) {
+            Ok(res42) => {
+                let res42: String = res42;
+                println!("{res42}");    // >>> ["abc","a"]
+                // REMOVE_START
+                assert_eq!(res42, r#"["abc","a"]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_set("doc", "$", &json!({"a":["abc","xyz","b"]})) {
+            Ok(res43) => {
+                let res43: bool = res43;
+                println!("{}", if res43 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res43);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", r#"$.a[?search(@, "b")]"#) {
+            Ok(res44) => {
+                let res44: String = res44;
+                println!("{res44}");    // >>> ["abc","b"]
+                // REMOVE_START
+                assert_eq!(res44, r#"["abc","b"]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START func_concat
+        match r.json_set("doc", "$", &json!({"a":[{"x":"a","y":"b"},{"x":"a","y":"c"}]})) {
+            Ok(res45) => {
+                let res45: bool = res45;
+                println!("{}", if res45 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res45);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", r#"$.a[?concat(@.x, @.y) == "ab"]"#) {
+            Ok(res46) => {
+                let res46: String = res46;
+                println!("{res46}");    // >>> [{"x":"a","y":"b"}]
+                // REMOVE_START
+                assert_eq!(res46, r#"[{"x":"a","y":"b"}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START func_math
+        match r.json_set("doc", "$", &json!({"a":[2.1,3.9,1.0]})) {
+            Ok(res47) => {
+                let res47: bool = res47;
+                println!("{}", if res47 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res47);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a[?ceiling(@) == 3]") {
+            Ok(res48) => {
+                let res48: String = res48;
+                println!("{res48}");    // >>> [2.1]
+                // REMOVE_START
+                assert_eq!(res48, "[2.1]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_set("doc", "$", &json!({"a":[2.1,2.9,3.5]})) {
+            Ok(res49) => {
+                let res49: bool = res49;
+                println!("{}", if res49 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res49);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a[?floor(@) == 2]") {
+            Ok(res50) => {
+                let res50: String = res50;
+                println!("{res50}");    // >>> [2.1,2.9]
+                // REMOVE_START
+                assert_eq!(res50, "[2.1,2.9]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_set("doc", "$", &json!({"a":[{"n":-5},{"n":5},{"n":-3}]})) {
+            Ok(res51) => {
+                let res51: bool = res51;
+                println!("{}", if res51 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res51);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a[?abs(@.n) == 5]") {
+            Ok(res52) => {
+                let res52: String = res52;
+                println!("{res52}");    // >>> [{"n":-5},{"n":5}]
+                // REMOVE_START
+                assert_eq!(res52, r#"[{"n":-5},{"n":5}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START func_array_access
+        match r.json_set("doc", "$", &json!({"a":[{"n":[1,2]},{"n":[9,8]}]})) {
+            Ok(res53) => {
+                let res53: bool = res53;
+                println!("{}", if res53 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res53);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a[?first(@.n) == 1]") {
+            Ok(res54) => {
+                let res54: String = res54;
+                println!("{res54}");    // >>> [{"n":[1,2]}]
+                // REMOVE_START
+                assert_eq!(res54, r#"[{"n":[1,2]}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a[?last(@.n) == 8]") {
+            Ok(res55) => {
+                let res55: String = res55;
+                println!("{res55}");    // >>> [{"n":[9,8]}]
+                // REMOVE_START
+                assert_eq!(res55, r#"[{"n":[9,8]}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a[?index(@.n, -1) == 2]") {
+            Ok(res56) => {
+                let res56: String = res56;
+                println!("{res56}");    // >>> [{"n":[1,2]}]
+                // REMOVE_START
+                assert_eq!(res56, r#"[{"n":[1,2]}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START func_aggregate
+        match r.json_set("doc", "$", &json!({"a":[{"n":[3,1,2]},{"n":[5,6]}]})) {
+            Ok(res57) => {
+                let res57: bool = res57;
+                println!("{}", if res57 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res57);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a[?sum(@.n) == 6]") {
+            Ok(res58) => {
+                let res58: String = res58;
+                println!("{res58}");    // >>> [{"n":[3,1,2]}]
+                // REMOVE_START
+                assert_eq!(res58, r#"[{"n":[3,1,2]}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a[?avg(@.n) == 2]") {
+            Ok(res59) => {
+                let res59: String = res59;
+                println!("{res59}");    // >>> [{"n":[3,1,2]}]
+                // REMOVE_START
+                assert_eq!(res59, r#"[{"n":[3,1,2]}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START func_append
+        match r.json_set("doc", "$", &json!({"arr":[1,2,3]})) {
+            Ok(res60) => {
+                let res60: bool = res60;
+                println!("{}", if res60 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res60);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.arr.append(9)") {
+            Ok(res61) => {
+                let res61: String = res61;
+                println!("{res61}");    // >>> [1,2,3,9]
+                // REMOVE_START
+                assert_eq!(res61, "[1,2,3,9]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_set("doc", "$", &json!({"books":[{"t":"a","price":30},{"t":"b","price":5}]})) {
+            Ok(res62) => {
+                let res62: bool = res62;
+                println!("{}", if res62 { "OK" } else { "(nil)" });    // >>> OK
+                // REMOVE_START
+                assert!(res62);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", r#"$.books[?(@.price >= 10)].append({"t":"X"})"#) {
+            Ok(res63) => {
+                let res63: String = res63;
+                println!("{res63}");    // >>> [{"t":"a","price":30},{"t":"X"}]
+                // REMOVE_START
+                assert_eq!(res63, r#"[{"t":"a","price":30},{"t":"X"}]"#);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc");
+        // REMOVE_END
+        // STEP_END
+
     }
 }
