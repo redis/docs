@@ -19,8 +19,9 @@ hideListLinks: true
 - Back up Metadata Redis for Control Plane managed caches. Losing metadata
   removes Control Plane cache records.
 - Back up any external secret manager material used to recreate Kubernetes
-  Secrets, including the license, Data Plane config, Control Plane config,
-  and admin-token Secrets.
+  Secrets, including the license, Control Plane config, and admin-token
+  Secrets. Back up your Helm values file too — the Data Plane's config is
+  provided inline through Helm values, not a Secret.
 - For Metadata Redis, use persistent storage and an eviction policy that does
   not evict cache records under memory pressure.
 
@@ -37,45 +38,39 @@ kubectl -n <namespace-name> create secret generic langcache-controlplane-admin-t
   -o yaml | kubectl apply -f -
 ```
 
-Rotate the LangCache license by updating the license Secret and changing
-`config.existingSecretChecksum` (or the equivalent value for your chart
-version) so Helm rolls the Data Plane pods.
+Rotate the LangCache license by updating the license Secret, then restart
+the pods that mount it so they pick up the new file:
 
 ```bash
 kubectl -n <namespace-name> create secret generic langcache-license \
   --from-file=license=./license \
   --dry-run=client \
   -o yaml | kubectl apply -f -
-```
 
-Calculate the new SHA-256 checksum. This value is used by Helm values to roll
-pods after the license Secret changes; it is not used to validate Secret
-integrity.
-
-{{< multitabs id="langcache-license-secret-checksum"
-tab1="Linux"
-tab2="macOS" >}}
-
-```bash
-LICENSE_CHECKSUM="$(sha256sum ./license | awk '{print $1}')"
-```
-
--tab-sep-
-
-```bash
-LICENSE_CHECKSUM="$(shasum -a 256 ./license | awk '{print $1}')"
-```
-
-{{< /multitabs >}}
-
-Apply the updated values and verify the workload rolled:
-
-```bash
-helm upgrade langcache ./langcache \
-  --namespace <namespace-name> \
-  -f langcache-values.yaml
-
+kubectl -n <namespace-name> rollout restart deploy/langcache
+kubectl -n <namespace-name> rollout restart deploy/langcache-controlplane
 kubectl -n <namespace-name> rollout status deploy/langcache
+kubectl -n <namespace-name> rollout status deploy/langcache-controlplane
+```
+
+The license and introspection-token Secrets in this guide are mounted as
+whole-directory volumes (not `subPath`), so Kubernetes refreshes the mounted
+files automatically within about a minute of the Secret change. Restart the
+pods anyway: LangCache shares its license-handling code with self-managed
+Redis Agent Memory, which reads and validates the license file at process
+startup and does not guarantee it re-reads a replaced file without a
+restart.
+
+Rotate the Identity Service introspection-token Secret the same way, then
+restart the Data Plane:
+
+```bash
+kubectl -n <namespace-name> create secret generic langcache-introspection-token \
+  --from-literal=token='<new-introspection-credential>' \
+  --dry-run=client \
+  -o yaml | kubectl apply -f -
+
+kubectl -n <namespace-name> rollout restart deploy/langcache
 ```
 
 Rotate agent keys minted for Control Plane managed caches through the

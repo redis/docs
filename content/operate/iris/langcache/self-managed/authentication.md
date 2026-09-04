@@ -156,7 +156,7 @@ Grant actions:
 | --- | --- |
 | `read` | Read and search cache entries. |
 | `write` | Mutate cache entries. `write` implies `read`. |
-| `full` | Full cache administration through the grant. `full` implies `write`. |
+| `full` | Full cache access through the grant. `full` implies `write`. This is a resource permission, not a substitute for the Control Plane admin token; it doesn't grant access to Control Plane administration APIs. |
 
 Mint and manage agent keys directly against the Identity Service (not the
 LangCache Control Plane):

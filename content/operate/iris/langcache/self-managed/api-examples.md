@@ -114,6 +114,7 @@ curl -sS "$CP_URL/v1/embedding-providers" \
 Set variables:
 
 ```bash
+# Port 8080 for static caches; port 9000 for Control Plane managed caches.
 DP_URL="http://localhost:8080"
 CACHE_ID="<cache-id>"
 LC_TOKEN="<agent-key-or-legacy-token>"

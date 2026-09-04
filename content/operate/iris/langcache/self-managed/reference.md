@@ -17,17 +17,24 @@ Use these files to configure a self-managed deployment:
 
 | File | Purpose |
 | --- | --- |
-| `langcache-values.yaml` | Helm values for the Data Plane image, replicas, services, and Secret names. |
-| `dataplane.config.yaml` | Data Plane caches, Redis URLs, auth mode, and embedding settings. |
+| `langcache-values.yaml` | Helm values for the Data Plane image, replicas, services, and inline `dataplane.config.yaml` content. Treat this file as sensitive. |
+| `dataplane.config.yaml` | Data Plane caches, Redis URLs, auth mode, and embedding settings; provided inline under the chart's `config` value. |
 | `controlplane-onprem.config.yaml` | Control Plane metadata Redis, database registry, admin-token auth, and embedding contract. |
 | `license` | LangCache license file provided by Redis, required by the on-prem-hardened Control Plane and Data Plane binaries. |
 
 ### External secret managers
 
-If you use an external secret manager, expose the license, config, and
-admin-token material to the chart (or your Control Plane manifest) as
-Kubernetes Secrets and set the chart's `existingSecret` values, or the
-manifest's `secretName` references, to those Secret names.
+The license, Control Plane config, Control Plane admin-token, and Identity
+Service introspection-token material in this guide are all real Kubernetes
+Secrets. If you use an external secret manager, expose that material as
+Kubernetes Secrets and reference those Secret names in the Control Plane
+manifest's `secretName` fields or the Data Plane chart's generic
+`volumes`/`volumeMounts` values.
+
+The Data Plane's `dataplane.config.yaml` content itself is a Helm value
+(`config`), not a Secret, in the current chart; see
+[Data Plane configuration]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#config-storage" >}})
+for a Secret-backed alternative if your security policy requires one.
 
 ## Troubleshooting
 

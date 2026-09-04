@@ -17,8 +17,9 @@ deployment does not include the Control Plane and does not use Metadata
 Redis. This is the mode the published `langcache` Helm chart deploys today.
 
 Before you begin, review [prerequisites]({{< relref "/operate/iris/langcache/self-managed/prerequisites" >}})
-and create `dataplane.config.yaml` from the
-[static caches example]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#static-caches-example" >}}).
+and the
+[static caches config example]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#static-caches-example" >}}),
+which you'll paste into the Helm values below.
 
 ## Create the namespace
 
@@ -26,34 +27,65 @@ and create `dataplane.config.yaml` from the
 kubectl create namespace <namespace-name>
 ```
 
-## Create the config Secret
-
-```bash
-kubectl -n <namespace-name> create secret generic langcache-config \
-  --from-file=dataplane.config.yaml=./dataplane.config.yaml
-```
-
 ## Create Helm values
 
-Create `langcache-values.yaml`:
+The published `langcache` chart takes `dataplane.config.yaml` inline as the
+`config` value; there is no `existingSecret` option for it. Paste the
+content of your `dataplane.config.yaml` (from the
+[static caches example]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#static-caches-example" >}}))
+under `config` in `langcache-values.yaml`:
 
 ```yaml
+nameOverride: langcache
+fullnameOverride: langcache
+
 image:
   repository: <your-registry>/langcache
   tag: "<langcache-version>"
 
 config:
-  existingSecret: langcache-config
+  server:
+    port: 8080
+  profile: prod
+  metadata:
+    loader: static
+    cache_ttl: 1m
+    caches:
+      - id: my-cache
+        urls:
+          - redis://cache-redis:6379
+        index: idx:my-cache
+        model:
+          type: openai
+          name: text-embedding-3-large
+          dimensions: 3072
+        attributes: []
+        default_ttl: 60000
+        default_search_threshold: 0.9
+        search_strategies:
+          default_strategies:
+            - semantic
+  embeddings:
+    openai:
+      default:
+        base_url: https://api.openai.com
 
 initProvisioner:
   enabled: true
   config: /etc/langcache/dataplane.config.yaml
 ```
 
-`config.existingSecret` points the chart at the config Secret you created.
-`initProvisioner.enabled: true` runs `provision-cache-index --ignore` as an
-init container so cache indexes exist before the Data Plane starts, without
-recreating indexes that already exist.
+Because the chart renders `config` into a ConfigMap rather than a Secret,
+treat `langcache-values.yaml` itself as sensitive — it contains any
+embedding provider credentials and Redis URL credentials you configure. See
+[Data Plane configuration]({{< relref "/operate/iris/langcache/self-managed/data-plane-configuration#config-storage" >}})
+for a Secret-backed alternative.
+
+`nameOverride`/`fullnameOverride` make the rendered resource names match the
+`langcache` names used in the verification commands below; the chart's own
+default names are longer. `initProvisioner.enabled: true` runs
+`provision-cache-index --ignore` as an init container so cache indexes exist
+before the Data Plane starts, without recreating indexes that already exist.
 
 ## Install the chart
 
