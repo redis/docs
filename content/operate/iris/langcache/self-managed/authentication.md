@@ -5,15 +5,23 @@ categories:
 - docs
 - operate
 - iris
-description: Configure LangCache self-managed Control Plane authentication and Data Plane auth modes.
+description: Configure LangCache self-managed Control Plane authentication and Data Plane agent-key authentication through the Identity Service.
 linkTitle: Authentication and authorization
-weight: 60
+weight: 40
 hideListLinks: true
 ---
 
-Self-managed LangCache uses separate authentication models for the Control
-Plane and the Data Plane, and the Data Plane auth model differs between
-static and Control Plane managed caches.
+Self-managed LangCache uses three separate credentials:
+
+- an **admin token** for the Control Plane's cache-management API;
+- an **internal token** the Identity Service uses to validate that a
+  cache-grant reference is real, by calling back into the Control Plane;
+- **agent keys**, issued by the Identity Service, that applications use to
+  call the Data Plane.
+
+The Data Plane always authenticates by introspecting agent keys against an
+Identity Service. There is no auth-disabled or static-token mode for
+self-managed LangCache.
 
 ## Control Plane admin token
 
@@ -23,147 +31,119 @@ Control Plane management endpoints require:
 Authorization: Bearer <admin-token>
 ```
 
-Production deployments should read the token from a mounted Secret file:
-
-```yaml
-profile: prod
-
-auth:
-  type: admin-token
-  admin_token:
-    token_file: /etc/controlplane-onprem/admin/token
-```
-
-The Control Plane reads the token file on each request, so rotating the
-Secret does not require a Control Plane redeploy.
-
-## Data Plane auth modes
-
-Choose the Data Plane auth mode based on the deployment mode and how callers
-reach the Data Plane.
-
-| Mode | Deployment mode | Config | Use when |
-| --- | --- | --- | --- |
-| Auth-disabled | Static caches | `auth.enabled: false` (default) | The Data Plane is reachable only by trusted internal components. |
-| Legacy per-cache token | Static caches | `auth.enabled: true`, `auth.passphrase: <passphrase>` | You need per-cache API-key-style tokens without deploying the Control Plane or Identity Service. |
-| Agent-key authentication | Control Plane managed caches | `auth.agent_keys.enabled: true` | LangCache should validate agent keys and enforce per-cache grants through the shared Identity Service. |
-
-### Auth-disabled Data Plane (static caches)
-
-```yaml
-auth:
-  enabled: false
-```
-
-{{< warning >}}
-Do not expose an auth-disabled Data Plane to untrusted callers. Any caller
-that can reach the API can read or write cached entries for every configured
-cache.
-{{< /warning >}}
-
-### Legacy per-cache token (static caches)
-
-Static caches also support the same symmetric, per-cache token scheme used by
-LangCache on Redis Cloud. Enable it and set a passphrase:
-
-```yaml
-auth:
-  enabled: true
-  passphrase: "<passphrase, at least the minimum configured length>"
-```
-
-Generate a token for a cache with the `generate-auth-token` binary shipped in
-the Data Plane image:
+By default, `controlplane.adminToken.autoGenerate: true` mints this token
+into a chart-managed Secret on first install (stable across upgrades).
+Retrieve it:
 
 ```bash
-generate-auth-token \
-  --config=/etc/langcache/dataplane.config.yaml \
-  --username=<username> \
-  --password=<password> \
-  --resourceID=<cache-id>
+kubectl -n <namespace-name> get secret langcache-controlplane-admin-token \
+  -o jsonpath="{.data.token}" | base64 -d
 ```
 
-The command prints a token. Send it as:
-
-```http
-Authorization: Bearer <token>
-```
-
-Treat the token as an opaque credential. There is no Control Plane endpoint
-to mint, list, or revoke these tokens; manage the passphrase and any
-generated tokens as part of your Secret material.
-
-### Agent-key authentication (Control Plane managed caches)
-
-Agent-key auth requires Control Plane managed caches and is served by the
-on-prem-hardened Data Plane binary. That binary rejects static caches and
-every other auth method, so `auth.agent_keys.enabled` is effectively the only
-supported setting when you deploy this mode.
-
-Unlike Redis Agent Memory's simpler shared-secret Data Plane auth, LangCache
-agent keys are issued and validated by the **Identity Service**, a suite
-component shared with RAM (RAM's chart installs it as
-`redis-agent-memory-identity-service`; the published image is
-`redislabs/iris-identity-service`). The LangCache `langcache` Helm chart does
-not template the Identity Service yet, so deploy it the same way you deploy
-the [Control Plane]({{< relref "/operate/iris/langcache/self-managed/deploy-control-plane" >}}):
-as a plain Kubernetes Deployment using the published image, pointed at the
-same Metadata Redis.
-
-Data Plane config for agent-key auth:
-
-```yaml
-auth:
-  agent_keys:
-    enabled: true
-    product: langcache
-    introspection:
-      base_url: https://iris-identity-service:9200
-      product: langcache
-      credential:
-        token_file: /etc/langcache/introspection/token
-```
-
-- `introspection.base_url` is the Identity Service's base URL. It must be
-  `https://` unless you explicitly allow insecure transport for a lab
-  environment.
-- `introspection.product` must be `langcache`; a different value fails
-  Data Plane startup.
-- `introspection.credential` is the shared credential the Data Plane presents
-  to the Identity Service when introspecting a key.
-
-Clients send agent keys as Bearer credentials:
-
-```http
-Authorization: Bearer <agent-key>
-```
-
-Treat agent keys as opaque credentials. Do not parse their contents.
-
-## Cache authorization and grants
-
-For agent-key requests, LangCache checks both identity and resource
-authorization through the Identity Service:
-
-1. The key exists and its secret validates.
-2. The key has a grant for the requested cache resource, keyed as
-   `lc-cache:<cache-id>`.
-3. The grant includes the permission required by the operation.
-
-Grant actions:
-
-| Action | Meaning |
-| --- | --- |
-| `read` | Read and search cache entries. |
-| `write` | Mutate cache entries. `write` implies `read`. |
-| `full` | Full cache access through the grant. `full` implies `write`. This is a resource permission, not a substitute for the Control Plane admin token; it doesn't grant access to Control Plane administration APIs. |
-
-Mint and manage agent keys directly against the Identity Service (not the
-LangCache Control Plane):
+To bring your own token instead:
 
 ```bash
-curl -sS -X POST "$IDENTITY_SERVICE_URL/v1/api-keys" \
-  -H "Authorization: Bearer $IDENTITY_SERVICE_CONTROL_TOKEN" \
+kubectl -n <namespace-name> create secret generic langcache-controlplane-admin-token \
+  --from-literal=token='<admin-token>'
+```
+
+```yaml
+controlplane:
+  adminToken:
+    existingSecret: langcache-controlplane-admin-token
+    autoGenerate: false
+```
+
+## Control Plane internal token
+
+The internal token authenticates calls to the Control Plane's internal
+grant-validation endpoint (`/internal/v1/grants/validate`). The Identity
+Service calls this endpoint to confirm that a grant naming a LangCache cache
+resource is valid before it lets an agent key carry that grant.
+
+Like the admin token, it defaults to `controlplane.internalToken.autoGenerate: true`
+and is retrievable the same way:
+
+```bash
+kubectl -n <namespace-name> get secret langcache-controlplane-internal-token \
+  -o jsonpath="{.data.token}" | base64 -d
+```
+
+In bundled Identity Service mode, the chart wires this token to the
+Identity Service's `product_validation.langcache.credential` automatically.
+In external mode, you must give this token to the Identity Service's owner
+(see [External Identity Service](#external-identity-service)).
+
+The admin token and internal token must always be different values; the
+Control Plane rejects config where they match.
+
+## Identity Service modes
+
+Choose exactly one mode at install time — there is no default that applies
+without choosing.
+
+### Bundled
+
+`identityService.mode: bundled` (the default) renders the Identity Service
+Deployment and Service, auto-generates its control token and the Data
+Plane's own runtime introspection credential, and wires everything together
+automatically:
+
+```yaml
+identityService:
+  mode: bundled
+  bundled:
+    image:
+      repository: redislabs/iris-identity-service
+      tag: "<langcache-version>"
+    metadata:
+      existingSecret: ids-metadata
+```
+
+Retrieve the auto-generated Identity Service Control admin token (used for
+`/v1/api-keys` calls, not the Data Plane's own runtime credential):
+
+```bash
+kubectl -n <namespace-name> get secret langcache-identity-service-control-token \
+  -o jsonpath="{.data.token}" | base64 -d
+```
+
+### External Identity Service
+
+`identityService.mode: external` renders no Identity Service workload at
+all — use this when your suite already runs one, for example alongside
+self-managed Redis Agent Memory:
+
+```yaml
+identityService:
+  mode: external
+  external:
+    baseURL: https://suite-identity-service.example.com
+    credential:
+      existingSecret: langcache-dp-ids-credential
+      secretKey: token
+```
+
+`langcache-dp-ids-credential` is minted out of band by the suite-level
+Identity Service owner, scoped to `api-key-introspect` on product
+`langcache`. You must also ask that owner to configure the external
+Identity Service's own `product_validation.langcache` against this
+release's Control Plane internal Service
+(`langcache-controlplane:9100`) and this release's `controlplane.internalToken`
+Secret — this chart has no way to reach into an Identity Service it doesn't
+own.
+
+## Minting and managing agent keys
+
+Mint, list, update, revoke, and rotate agent keys directly against the
+Identity Service (not the LangCache Control Plane):
+
+```bash
+IDS_URL="http://localhost:9200"
+IDS_CONTROL_TOKEN="<identity-service-control-token>"
+
+curl -sS -X POST "$IDS_URL/v1/api-keys" \
+  -H "Authorization: Bearer $IDS_CONTROL_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "my-agent-key",
@@ -178,18 +158,34 @@ curl -sS -X POST "$IDENTITY_SERVICE_URL/v1/api-keys" \
   }'
 ```
 
-{{< note >}}
-The Identity Service is a shared, cross-product component, and deploying it
-is more than running one extra container: it needs its own control-plane
-credential (for the `/v1/api-keys` calls shown above), a separate runtime
-introspection credential for each Data Plane that calls it, and its LangCache
-product entry wired so grants resolve against real caches. A full
-self-managed deployment and administration guide for it is out of scope for
-this LangCache-specific documentation; see your Redis representative or the
-self-managed Redis Agent Memory Helm chart for a working reference
-deployment of `iris-identity-service` until dedicated Identity Service docs
-are published.
-{{< /note >}}
+The response contains the new credential. Store it immediately; credentials
+are returned only when a key is minted or rotated.
+
+Grant actions:
+
+| Action | Meaning |
+| --- | --- |
+| `read` | Read and search cache entries. |
+| `write` | Mutate cache entries. `write` implies `read`. |
+| `full` | Full cache access through the grant. `full` implies `write`. This is a resource permission, not a substitute for the Control Plane admin token; it doesn't grant access to Control Plane administration APIs. |
+
+Clients send agent keys as Bearer credentials to the Data Plane:
+
+```http
+Authorization: Bearer <agent-key>
+```
+
+Treat agent keys as opaque credentials. Do not parse their contents.
+
+## Cache authorization
+
+For agent-key requests, the Data Plane checks both identity and resource
+authorization through the Identity Service:
+
+1. The key exists and its secret validates.
+2. The key has a grant for the requested cache resource, keyed as
+   `lc-cache:<cache-id>`.
+3. The grant includes the permission required by the operation.
 
 ## Gateway and identity provider integration
 
@@ -201,7 +197,7 @@ Gateway rules:
 
 - The gateway owns external authentication and perimeter policy.
 - LangCache owns cache-level authorization through the Identity Service.
-- LangCache agent keys or legacy tokens are stored and forwarded by trusted
-  infrastructure or trusted applications.
+- LangCache agent keys are stored and forwarded by trusted infrastructure or
+  trusted applications.
 - Callers must not be able to bypass the gateway and reach the Data Plane
-  directly unless they also present a valid LangCache credential.
+  directly unless they also present a valid LangCache agent key.
