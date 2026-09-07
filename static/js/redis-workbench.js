@@ -2294,10 +2294,13 @@
     this.pathDraft = null;
     if (draft && draft.name === key.name && draft.text !== applied) {
       input.value = draft.text;
-      if (draft.focused) this.pathCarried = draft;
     } else {
       input.value = applied;
     }
+    /* The caret goes back whenever it was in the box, whether or not the text
+       changed: a sweep that lands while the reader sits in the box with the path
+       they just ran should not put them somewhere else. */
+    if (draft && draft.name === key.name && draft.focused) this.pathCarried = draft;
     input.setAttribute('spellcheck', 'false');
     input.setAttribute('aria-label', 'JSONPath to read from ' + key.name);
     input.placeholder = '$.field, $.list[*], $..name';
@@ -2380,7 +2383,12 @@
         try {
           var parsed = JSON.parse(text);
           text = JSON.stringify(parsed, null, 2);
-          if (Array.isArray(parsed)) matches = parsed.length;
+          /* Only a JSONPath answers with a list of what it matched. A legacy
+             path — no leading $ — answers with the value at that one place, so
+             counting an array value's members as matches would put the wrong
+             number, and the wrong idea, next to the very distinction this box
+             is here to teach. */
+          if (Array.isArray(parsed) && path.charAt(0) === '$') matches = parsed.length;
         } catch (err) { /* not parseable: show it as returned */ }
         view = { kind: 'text', text: text, mono: true,
           facts: matches === null ? [] : [{
