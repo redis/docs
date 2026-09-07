@@ -2187,7 +2187,7 @@
        re-renders whatever is selected — which used to mean the element view was
        replaced by the key's own the moment the reader typed anything. */
     this.openElement = { name: key.name, element: element };
-    var search = this.vsimOptions();
+    var search = this.vsimOptions(key.name);
     var commands = [
       'VEMB ' + quote(key.name) + ' ' + quote(element),
       'VGETATTR ' + quote(key.name) + ' ' + quote(element),
@@ -2214,8 +2214,17 @@
      element keeps the search the reader set up. */
   var VSIM_COUNTS = [5, 10, 25];
 
-  dock.vsimOptions = function () {
-    if (!this.vsim) this.vsim = { count: VSIM_COUNTS[0], filter: '' };
+  dock.vsimOptions = function (name) {
+    if (!this.vsim) this.vsim = { name: name, count: VSIM_COUNTS[0], filter: '' };
+    /* A filter is written against one set's attributes: `.year > 2000` means
+       nothing to a set whose elements carry `.side`, and carried over it hid
+       every neighbour on a set the reader had only just opened. How many to
+       return is a preference about the list rather than about the data, so that
+       one follows the reader from set to set. */
+    if (this.vsim.name !== name) {
+      this.vsim.name = name;
+      this.vsim.filter = '';
+    }
     return this.vsim;
   };
 
@@ -2305,8 +2314,8 @@
       choice.addEventListener('click', function () {
         /* The reply rebuilds this row from what was searched with, so a filter
            the reader had typed but not run would be wiped by the new box. */
-        self.vsimOptions().filter = filter.value.trim();
-        self.vsimOptions().count = count;
+        self.vsimOptions(key.name).filter = filter.value.trim();
+        self.vsimOptions(key.name).count = count;
         self.openVectorElement(key, element);
       });
       counts.appendChild(choice);
@@ -2324,7 +2333,7 @@
       clear.title = 'Clear the filter and show every neighbour';
       clear.setAttribute('aria-label', 'Clear the filter');
       clear.addEventListener('click', function () {
-        self.vsimOptions().filter = '';
+        self.vsimOptions(key.name).filter = '';
         self.openVectorElement(key, element).then(function () {
           self.focusVsimFilter(0);
         });
@@ -2343,7 +2352,7 @@
          the reply re-renders the whole pane, so the box the reader typed into is
          gone by the time the neighbours are up. */
       var caret = filter.selectionStart;
-      self.vsimOptions().filter = filter.value.trim();
+      self.vsimOptions(key.name).filter = filter.value.trim();
       self.openVectorElement(key, element).then(function () {
         self.focusVsimFilter(caret);
       });
