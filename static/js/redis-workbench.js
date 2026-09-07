@@ -51,6 +51,10 @@
      every multi-command probe here is chunked to that. */
   var MAX_BATCH = 20;
 
+  /* How many of the reader's commands to keep for copying. A session that has run
+     more than this is past the point where a paste is the useful thing. */
+  var MAX_RAN_COMMANDS = 200;
+
   /* Batch origin label, for the backend's usage metrics. Introspection is not a
      command the reader chose to run, so it is reported separately from
      'interactive' (typed) and 'tryit' (a snippet the reader asked for) and
@@ -214,6 +218,13 @@
   function quote(arg) {
     var value = String(arg);
     if (/^[A-Za-z0-9_:.@\-+*$#\/{}\[\]]+$/.test(value)) return value;
+    /* Single quotes where they will do. redis-cli treats a single-quoted token as
+       literal, so a JSONPath keeps its `$` and its brackets as written — where
+       double quotes made this escape the `$` like a shell, and the command shown
+       under a value read `"\$[?(@.a==1)]"`: correct, and not what anyone would
+       type. Double quotes remain the fallback for a value with a quote of its
+       own, which is the case single quotes cannot carry. */
+    if (value.indexOf("'") === -1) return "'" + value + "'";
     return '"' + value.replace(/([\\"$`])/g, '\\$1') + '"';
   }
 
@@ -867,6 +878,8 @@
     indexDocs: null,
     /* Page setups already run in this sandbox session, by name. */
     setupRan: {},
+    ranCommands: [],
+    jsonPath: null,
     selected: null,
     truncated: false,
     /* command batches seen while closed, discovered at first open */
@@ -995,6 +1008,12 @@
          reports only what a reader or a page started — but the guard says which
          batches this is about. */
       if (batch.source !== SOURCE) self.clearIndexFilter();
+      /* A record of what the reader ran, which is what "Copy commands" hands
+         over. Introspection and the widget's own startup are not that. */
+      if (batch.source !== SOURCE && batch.source !== 'internal') {
+        self.ranCommands = self.ranCommands.concat(batch.commands)
+          .slice(-MAX_RAN_COMMANDS);
+      }
       self.observe(batch.commands);
     });
 
@@ -1020,6 +1039,18 @@
        history. Neither reaches into the other. */
     terminalTools.appendChild(this.button('Clear terminal', 'Clear the terminal transcript',
       function () { cli().clear(self.terminalForm); }));
+    /* The way out of the sandbox: what the reader has run here, as lines they can
+       paste into a redis-cli of their own. The transcript holds replies and
+       prompts as well, so copying that would need editing before it ran.
+
+       What is on screen, no more: a copy that quietly included commands cleared
+       from the transcript surprised the first person to try it, and a button
+       whose result cannot be seen is a button that has to be trusted. Clearing
+       is how the reader says "not that" — see forgetRanCommands. */
+    this.copyButton = this.button(COPY_LABEL,
+      'Copy the commands in the terminal, ready to paste into redis-cli',
+      function () { self.copyCommands(); });
+    terminalTools.appendChild(this.copyButton);
     this.terminalToolbar = terminalTools;
     this.terminalPane.appendChild(terminalTools);
 
@@ -1077,6 +1108,14 @@
     keysColumn.appendChild(this.rowDivider);
 
     var indexSection = el('div', 'rwb-sect');
+    /* Hidden until there is an index to list, which is what renderIndexes()
+       decides. Built visible, it was on screen from the moment the dock mounted
+       until the first sweep came back and hid it — a heading with nothing under
+       it, sharing the key column, for as long as that round trip took. Local
+       Redis answers before the first paint; over the internet it is a visible
+       flash of an empty "Indexes" pane under the keys on every page load. */
+    indexSection.hidden = true;
+    this.rowDivider.hidden = true;
     var indexHead = el('div', 'rwb-col-head');
     indexHead.appendChild(el('span', 'rwb-col-title', 'Indexes'));
     this.indexCount = el('span', 'rwb-count', '');
@@ -1563,6 +1602,54 @@
      so a command typed at the wrong moment cannot land in front of it. FLUSHDB
      mints a fresh session on this backend and is intercepted before Redis, so the
      ACL's -flushdb never applies. */
+  /* Hand the session's commands to the clipboard, one per line. Said on the
+     button itself rather than in the status line: the reader is looking at what
+     they just clicked.
+
+     The label is the constant, never the button's current text: read live, a
+     second click landing inside the 1.6s window would take "12 commands copied"
+     for the label and restore that, leaving the button stuck on it. */
+  var COPY_LABEL = 'Copy commands';
+
+  /* An emptied transcript empties what "Copy commands" would hand over, so the
+     two always agree.
+
+     Read off the transcript rather than hooked to the toolbar button: `clear`
+     typed at the prompt is handled inside the widget, which never tells anyone,
+     so a button-only rule would leave the copy full and the screen blank — the
+     surprise this is here to remove. Whatever empties it, this follows. */
+  dock.forgetRanCommands = function () {
+    if (!this.terminalForm) return;
+    var transcript = this.terminalForm.querySelector('pre');
+    if (transcript && transcript.childNodes.length === 0) this.ranCommands = [];
+  };
+
+  dock.copyCommands = function () {
+    var button = this.copyButton;
+    var commands = this.ranCommands;
+
+    function say(message) {
+      if (!button) return;
+      button.textContent = message;
+      button.disabled = true;
+      window.setTimeout(function () {
+        button.textContent = COPY_LABEL;
+        button.disabled = false;
+      }, 1600);
+    }
+
+    if (!commands.length) return say('Nothing run yet');
+    var text = commands.join('\n') + '\n';
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      return say('Cannot copy here');
+    }
+    navigator.clipboard.writeText(text).then(function () {
+      say(plural(commands.length, 'command') + ' copied');
+    }, function () {
+      say('Cannot copy here');
+    });
+  };
+
   /* "Clear keys" is the one control here that destroys something, and what it
      destroys took a snippet to make: a reader who hits it by accident has to go
      back up the page and find the "Try it" that filled the sandbox. So it asks
@@ -1606,6 +1693,7 @@
     this.truncated = false;
     this.expiredName = null;
     this.openElement = null;
+    this.jsonPath = null;
     /* Nothing left to filter by. */
     this.indexFilter = null;
     this.indexDocs = null;
@@ -1669,6 +1757,7 @@
     if (this.transcriptWatcher) this.transcriptWatcher.disconnect();
     this.transcriptWatcher = new MutationObserver(function () {
       if (self.following) self.scrollTerminal();
+      self.forgetRanCommands();
     });
     this.transcriptWatcher.observe(form,
       { childList: true, subtree: true, characterData: true });
@@ -1793,6 +1882,7 @@
       self.keys = result.keys;
       self.indexes = result.indexes;
       self.indexDocs = result.docs;
+      self.forgetGonePath();
       /* An index the reader is looking at may hold documents the dock never saw
          a command touch — written before it was open, or by the page's own
          inline terminals. Adopt them, so the filtered list is the index's
@@ -1925,6 +2015,7 @@
     this.keys = this.keys.filter(function (key) {
       return expired.indexOf(key.name) === -1;
     });
+    this.forgetGonePath();
     if (this.selected && expired.indexOf(this.selected) >= 0) {
       /* Recorded rather than written straight into the panel: the sweep that
          follows re-renders, and renderKeys() resets an unselected value column —
@@ -2131,6 +2222,14 @@
 
   /* `quiet` is gone: it used to suppress switching to the Value tab, and there is
      no tab to switch to now that the value has a column of its own. */
+  /* A path belongs to the key it was read from. When that key goes — deleted,
+     expired, flushed — the path goes with it: a key that comes back under the
+     same name is a different document, and openKey would otherwise read it at a
+     path the reader never asked for and show the empty reply that follows. */
+  dock.forgetGonePath = function () {
+    if (this.jsonPath && !this.find(this.jsonPath.name)) this.jsonPath = null;
+  };
+
   dock.openKey = function (name) {
     var self = this;
     var key = this.find(name);
@@ -2139,6 +2238,15 @@
     this.openElement = null;
     this.selected = name;
     this.renderKeys();
+
+    /* A JSON document the reader has queried is re-read at their path, not at the
+       root. This runs on every sweep — any command re-renders whatever is open —
+       and reading the root while the Path box still showed `$.model` left the box,
+       the value and the "Read with" line disagreeing about what was on screen. */
+    var queried = this.jsonPath;
+    if (key.type === 'ReJSON-RL' && queried && queried.name === name && queried.path) {
+      return this.readJsonPath(key, queried.path);
+    }
 
     var probe = valueProbe(name, key.type, key.size);
     /* Neither MEMORY USAGE nor OBJECT ENCODING. Both describe what is actually
@@ -2360,9 +2468,90 @@
     return row;
   };
 
+  /* "Path: $" over a JSON document, and what it matched underneath. Enter runs
+     it; the root is what openKey already showed, so an untouched box changes
+     nothing. */
+  dock.jsonPathRow = function (key) {
+    var self = this;
+    var row = el('form', 'rwb-path');
+    row.appendChild(el('label', 'rwb-path-label', 'Path'));
+    var input = el('input', 'rwb-path-input');
+    input.type = 'text';
+    input.dataset.rwbKey = key.name;
+    /* Empty, not "$": the root is already on screen, so a prefilled path is a
+       control that does nothing. The placeholder says what to type. */
+    var applied = this.jsonPath && this.jsonPath.name === key.name
+      ? this.jsonPath.path : '';
+    /* A path the reader was still typing when this pane was redrawn outranks the
+       one that was last run: they are mid-word, and the value below already says
+       which path produced it. */
+    var draft = this.pathDraft;
+    this.pathDraft = null;
+    if (draft && draft.name === key.name && draft.text !== applied) {
+      input.value = draft.text;
+    } else {
+      input.value = applied;
+    }
+    /* The caret goes back whenever it was in the box, whether or not the text
+       changed: a sweep that lands while the reader sits in the box with the path
+       they just ran should not put them somewhere else. */
+    if (draft && draft.name === key.name && draft.focused) this.pathCarried = draft;
+    input.setAttribute('spellcheck', 'false');
+    input.setAttribute('aria-label', 'JSONPath to read from ' + key.name);
+    input.placeholder = '$.field, $.list[*], $..name';
+    row.appendChild(input);
+    /* One click back to the whole document. Only while a path is in force:
+       clearing an empty box is a control that does nothing, and this row already
+       leaves out what it cannot act on. Emptying the box by hand and pressing
+       Enter does the same thing — this saves the two steps. */
+    if (applied) {
+      var clear = el('button', 'rwb-btn rwb-path-clear', '\u00d7');
+      clear.type = 'button';
+      clear.title = 'Clear the path and show the whole document';
+      clear.setAttribute('aria-label', 'Clear the path');
+      clear.addEventListener('click', function () {
+        input.value = '';
+        self.readJsonPath(key, '').then(function () { self.focusJsonPath(0); });
+      });
+      row.appendChild(clear);
+    }
+    var go = el('button', 'rwb-btn rwb-path-run', 'Run');
+    go.type = 'submit';
+    go.title = 'Read this path with JSON.GET';
+    row.appendChild(go);
+    row.addEventListener('submit', function (event) {
+      event.preventDefault();
+      /* Where the caret was, to put it back in the box that replaces this one. */
+      var caret = input.selectionStart;
+      self.readJsonPath(key, input.value.trim())
+        .then(function () { self.focusJsonPath(caret); });
+    });
+    return row;
+  };
+
   dock.focusVsimFilter = function (caret) {
     if (!this.valuePane) return;
     var box = this.valuePane.querySelector('.rwb-vsim-filter');
+    if (!box) return;
+    box.focus({ preventScroll: true });
+    var at = typeof caret === 'number' ? Math.min(caret, box.value.length)
+      : box.value.length;
+    box.setSelectionRange(at, at);
+  };
+
+  /* Back in the Path box after a read, caret where the reader left it.
+
+     Reading redraws the whole value pane, so the box they pressed Enter in is
+     gone by the time the answer is on screen and focus has fallen back to the
+     document. Trying a path is usually trying several — `$.a`, then `$.a[0]`,
+     then `$..a` — and each one meant clicking back into the box first.
+
+     Only after a read the reader asked for. The same redraw runs on every sweep,
+     and grabbing focus because a command finished elsewhere would take the
+     keyboard away from whatever they were doing. */
+  dock.focusJsonPath = function (caret) {
+    if (!this.valuePane) return;
+    var box = this.valuePane.querySelector('.rwb-path-input');
     if (!box) return;
     box.focus({ preventScroll: true });
     var at = typeof caret === 'number' ? Math.min(caret, box.value.length)
@@ -2432,6 +2621,53 @@
         pick: here ? null : function () { self.openVectorElement(key, row.name); }
       };
     }));
+  };
+
+  /* JSON.GET at a path. A path that matches nothing answers with an empty array
+     and a path that does not parse answers with an error, and both are worth
+     seeing: getting them wrong is how the syntax is learned. */
+  dock.readJsonPath = function (key, path) {
+    var self = this;
+    /* An empty box is not a path: the reader asked for the document back, and
+       that is the key's own view. Reading "$" here instead produced the same
+       document with a "1 match" fact the key's view has no reason to show — and
+       so a chip that vanished on the next sweep. */
+    if (!path) {
+      this.jsonPath = null;
+      return Promise.resolve(this.openKey(key.name));
+    }
+    this.jsonPath = { name: key.name, path: path };
+    var command = 'JSON.GET ' + quote(key.name) + ' ' + quote(path);
+    this.begin('reading ' + path + '…');
+    return run([command]).then(function (replies) {
+      var reply = replies[0];
+      var view;
+      if (reply && reply.error) {
+        view = { kind: 'text', mono: true, failed: true,
+          text: '(error) ' + cellText(reply.value) };
+      } else {
+        var raw = ok(reply);
+        var text = typeof raw === 'string' ? raw : cellText(raw);
+        var matches = null;
+        try {
+          var parsed = JSON.parse(text);
+          text = JSON.stringify(parsed, null, 2);
+          /* Only a JSONPath answers with a list of what it matched. A legacy
+             path — no leading $ — answers with the value at that one place, so
+             counting an array value's members as matches would put the wrong
+             number, and the wrong idea, next to the very distinction this box
+             is here to teach. */
+          if (Array.isArray(parsed) && path.charAt(0) === '$') matches = parsed.length;
+        } catch (err) { /* not parseable: show it as returned */ }
+        view = { kind: 'text', text: text, mono: true,
+          facts: matches === null ? [] : [{
+            text: plural(matches, 'match', 'matches'),
+            title: 'JSONPath answers with an array of everything it matched'
+          }] };
+      }
+      self.renderValue(key, { commands: [command], view: view });
+      self.end();
+    }, function () { self.end(); });
   };
 
   dock.openIndex = function (name) {
@@ -2594,6 +2830,17 @@
     var self = this;
     var meta = TYPES[key.type] || { label: key.type, tone: 'other' };
     var pane = this.valuePane;
+    /* What is in the Path box, if there is a box: this pane is redrawn on every
+       sweep, and any command on the page starts one — so a half-written path was
+       emptied out from under the reader. A text box keeps what was typed in it
+       until something is done with it, and this one is no different. Whether it
+       had focus is recorded too: the caret only goes back if it was already
+       there, since running a command puts it in the terminal instead. */
+    var typing = pane.querySelector('.rwb-path-input');
+    this.pathDraft = typing
+      ? { name: typing.dataset.rwbKey, text: typing.value,
+          caret: typing.selectionStart, focused: document.activeElement === typing }
+      : null;
     pane.replaceChildren();
 
     var head = el('div', 'rwb-value-head');
@@ -2620,6 +2867,14 @@
     head.appendChild(facts);
     pane.appendChild(head);
 
+    /* A JSON document is the one value a reader is expected to *query* rather
+       than read: /develop/data-types/json/path is a page of JSONPath syntax with
+       nowhere to try it. So the path that produced what is shown is editable, and
+       running it is what redraws the value below. */
+    if (key.type === 'ReJSON-RL') {
+      pane.appendChild(this.jsonPathRow(key));
+    }
+
     if (!detail.view) {
       pane.appendChild(el('p', 'rwb-empty',
         'This type stores no enumerable value, so there is nothing to preview.'));
@@ -2635,11 +2890,17 @@
       }
     }
     if (detail.commands.length) pane.appendChild(ranNote(detail.commands));
+    if (this.pathCarried) {
+      var caret = this.pathCarried.caret;
+      this.pathCarried = null;
+      this.focusJsonPath(caret);
+    }
   };
 
   function renderView(view, onOpenRow) {
     if (view.kind === 'text') {
-      return el('pre', 'rwb-text' + (view.mono ? ' rwb-json' : ''), view.text);
+      return el('pre', 'rwb-text' + (view.mono ? ' rwb-json' : '')
+        + (view.failed ? ' rwb-failed' : ''), view.text);
     }
     if (view.kind === 'table') {
       return renderTable(view.head, view.rows, onOpenRow);
@@ -2758,17 +3019,34 @@
     return window.REDIS_WORKBENCH_ALWAYS === true;
   }
 
+  /* And some pages say no. /develop/ is a landing page whose Redis CLI is a
+     picture of one — a block of commands and their output, there to show what
+     Redis looks like rather than to be run — and the dock's own bar along the
+     bottom of it adds a console the page never asked for. The template says so,
+     for the same reason as above: Hugo knows which page this is and the browser
+     only knows a path that changes per environment. See layouts/develop/list.html.
+
+     Declining outright, not just staying closed: nothing mounts, so there is no
+     bar, no session and no keyspace probing from here. A "Try it" added to such a
+     page later still works — RedisWorkbench.open() reports that it cannot run,
+     and the caller opens redis.io/cli as it did before the dock existed. */
+  function pageBarsCli() {
+    return window.REDIS_WORKBENCH_NEVER === true;
+  }
+
   /* Does this page have anything for a terminal to run? The CLI blocks and their
      "Try it" buttons, and not the notebook's — a client page's Try it carries
      .thebe-tryit and opens a cell in the notebook pane, which has nothing to do
      with the sandbox terminal. */
   function pageHasCli() {
+    if (pageBarsCli()) return false;
     if (pageWantsCli()) return true;
     return !!document.querySelector(
       'form.redis-cli, .redis-cli-static, .tryit-button:not(.thebe-tryit)');
   }
 
   function pageHasRedis() {
+    if (pageBarsCli()) return false;
     if (pageWantsCli()) return true;
     /* `.thebe-container` is in here for the notebook pane: a client page can have
        runnable cells and no CLI terminal at all. */
@@ -2814,7 +3092,11 @@
            on is fetched from the /cli backend, so a click in the moment before it
            lands used to be answered by opening redis.io/cli in another tab —
            the reader's first click being the one that leaves the page. Wait for
-           it instead, and only fall back if it never arrives. */
+           it instead, and only fall back if it never arrives.
+
+           A page that bars the dock is the exception: no waiting, because no
+           amount of it will produce one. */
+        if (pageBarsCli()) return false;
         if (window.REDIS_CLI_LOADING) {
           waitForWidget(options);
           return true;
