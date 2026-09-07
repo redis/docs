@@ -91,7 +91,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_2",
+        "operationId": "proxyDataIntegrationWorkspace_1",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -161,7 +161,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_3",
+        "operationId": "proxyDataIntegrationWorkspace_4",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -303,7 +303,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_4",
+        "operationId": "proxyDataIntegrationWorkspace_2",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -374,7 +374,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_1",
+        "operationId": "proxyDataIntegrationWorkspace_3",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -447,7 +447,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_7",
+        "operationId": "proxyDataIntegrationWorkspace_6",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -517,7 +517,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_8",
+        "operationId": "proxyDataIntegrationWorkspace_9",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -659,7 +659,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_9",
+        "operationId": "proxyDataIntegrationWorkspace_7",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -730,7 +730,7 @@
         ],
         "summary": "Proxy a Data Integration workspace request",
         "description": "Forwards the request to the Data Integration workspace owned by the specified subscription. Path under `data-integration-workspace/**` is forwarded as-is to the Cloud RDI service.",
-        "operationId": "proxyDataIntegrationWorkspace_6",
+        "operationId": "proxyDataIntegrationWorkspace_8",
         "parameters": [
           {
             "name": "subscriptionId",
@@ -18385,6 +18385,7 @@
               "FIXED_DATABASE_REDIS_FLEX_IS_NOT_SUPPORTED",
               "FIXED_DATABASE_STACK_PROTOCOL_IS_NOT_SUPPORTED_FOR_REDIS_FLEX",
               "FIXED_DATABASE_MEMCACHED_PROTOCOL_IS_NOT_SUPPORTED_FOR_REDIS_FLEX",
+              "FIXED_DATABASE_MEMCACHED_PROTOCOL_IS_NOT_SUPPORTED_FOR_FREE_PLAN",
               "FIXED_DATABASE_NUMBER_OF_SHARDS_IS_NOT_SUPPORTED_FOR_THIS_ACCOUNT",
               "FIXED_DATABASE_NUMBER_OF_SHARDS_REQUIRES_DATABASE_CLUSTERING_ENABLED",
               "FIXED_DATABASE_NUMBER_OF_SHARDS_INVALID_VALUE",
@@ -18527,6 +18528,25 @@
               "ACTIVE_ACTIVE_EXTERNAL_ACCOUNTS_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_MULTIPLE_CLOUD_ACCOUNTS_NOT_SUPPORTED",
               "ACTIVE_ACTIVE_GCP_EXTERNAL_CLOUD_ACCOUNT_NOT_SUPPORTED",
+              "DB_ENDPOINTS_SERVICE_NOT_FOUND",
+              "ENDPOINTS_REDIRECTION_NOT_FOUND",
+              "DATABASE_TRAFFIC_STATE_NOT_FOUND",
+              "ENDPOINTS_REDIRECTION_SOURCE_HAS_NO_ENDPOINTS",
+              "ENDPOINTS_REDIRECTION_TARGET_HAS_NO_ENDPOINTS",
+              "ENDPOINTS_REDIRECTION_ALREADY_EXISTS",
+              "DATABASE_IN_ACTIVE_ENDPOINTS_REDIRECTION",
+              "ENDPOINTS_REDIRECTION_NOT_LATEST",
+              "ENDPOINTS_REDIRECTION_NOT_COMPLETED",
+              "ENDPOINTS_REDIRECTION_INVALID_ENDPOINT_TYPE",
+              "ENDPOINTS_REDIRECTION_DATABASES_NOT_COMPATIBLE",
+              "ENDPOINTS_REDIRECTION_DATABASE_STATE_NOT_SUPPORTED",
+              "ENDPOINTS_REDIRECTION_CONNECTIVITY_MISMATCH",
+              "ENDPOINTS_REDIRECTION_REVERT_WINDOW_EXCEEDED",
+              "ENDPOINTS_REDIRECTION_ACCOUNT_MISMATCH",
+              "ENDPOINTS_REDIRECTION_DNS_SERVICE_NOT_AVAILABLE",
+              "DATABASE_TRAFFIC_RESUME_IN_PROGRESS",
+              "DATABASE_TRAFFIC_NOT_STOPPED",
+              "DATABASE_TRAFFIC_RESUME_NOT_ELIGIBLE",
               "DEDICATED_SUBSCRIPTION_PREFERRED_AZ_INVALID_VALUE",
               "DEDICATED_SUBSCRIPTION_INVALID_INSTANCE_NAME",
               "DEDICATED_SUBSCRIPTION_INVALID_REPLICATION",
