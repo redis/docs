@@ -51,6 +51,10 @@
      every multi-command probe here is chunked to that. */
   var MAX_BATCH = 20;
 
+  /* How many of the reader's commands to keep for copying. A session that has run
+     more than this is past the point where a paste is the useful thing. */
+  var MAX_RAN_COMMANDS = 200;
+
   /* Batch origin label, for the backend's usage metrics. Introspection is not a
      command the reader chose to run, so it is reported separately from
      'interactive' (typed) and 'tryit' (a snippet the reader asked for) and
@@ -874,6 +878,7 @@
     indexDocs: null,
     /* Page setups already run in this sandbox session, by name. */
     setupRan: {},
+    ranCommands: [],
     jsonPath: null,
     selected: null,
     truncated: false,
@@ -1003,6 +1008,12 @@
          reports only what a reader or a page started — but the guard says which
          batches this is about. */
       if (batch.source !== SOURCE) self.clearIndexFilter();
+      /* A record of what the reader ran, which is what "Copy commands" hands
+         over. Introspection and the widget's own startup are not that. */
+      if (batch.source !== SOURCE && batch.source !== 'internal') {
+        self.ranCommands = self.ranCommands.concat(batch.commands)
+          .slice(-MAX_RAN_COMMANDS);
+      }
       self.observe(batch.commands);
     });
 
@@ -1028,6 +1039,18 @@
        history. Neither reaches into the other. */
     terminalTools.appendChild(this.button('Clear terminal', 'Clear the terminal transcript',
       function () { cli().clear(self.terminalForm); }));
+    /* The way out of the sandbox: what the reader has run here, as lines they can
+       paste into a redis-cli of their own. The transcript holds replies and
+       prompts as well, so copying that would need editing before it ran.
+
+       What is on screen, no more: a copy that quietly included commands cleared
+       from the transcript surprised the first person to try it, and a button
+       whose result cannot be seen is a button that has to be trusted. Clearing
+       is how the reader says "not that" — see forgetRanCommands. */
+    this.copyButton = this.button(COPY_LABEL,
+      'Copy the commands in the terminal, ready to paste into redis-cli',
+      function () { self.copyCommands(); });
+    terminalTools.appendChild(this.copyButton);
     this.terminalToolbar = terminalTools;
     this.terminalPane.appendChild(terminalTools);
 
@@ -1085,6 +1108,14 @@
     keysColumn.appendChild(this.rowDivider);
 
     var indexSection = el('div', 'rwb-sect');
+    /* Hidden until there is an index to list, which is what renderIndexes()
+       decides. Built visible, it was on screen from the moment the dock mounted
+       until the first sweep came back and hid it — a heading with nothing under
+       it, sharing the key column, for as long as that round trip took. Local
+       Redis answers before the first paint; over the internet it is a visible
+       flash of an empty "Indexes" pane under the keys on every page load. */
+    indexSection.hidden = true;
+    this.rowDivider.hidden = true;
     var indexHead = el('div', 'rwb-col-head');
     indexHead.appendChild(el('span', 'rwb-col-title', 'Indexes'));
     this.indexCount = el('span', 'rwb-count', '');
@@ -1571,6 +1602,54 @@
      so a command typed at the wrong moment cannot land in front of it. FLUSHDB
      mints a fresh session on this backend and is intercepted before Redis, so the
      ACL's -flushdb never applies. */
+  /* Hand the session's commands to the clipboard, one per line. Said on the
+     button itself rather than in the status line: the reader is looking at what
+     they just clicked.
+
+     The label is the constant, never the button's current text: read live, a
+     second click landing inside the 1.6s window would take "12 commands copied"
+     for the label and restore that, leaving the button stuck on it. */
+  var COPY_LABEL = 'Copy commands';
+
+  /* An emptied transcript empties what "Copy commands" would hand over, so the
+     two always agree.
+
+     Read off the transcript rather than hooked to the toolbar button: `clear`
+     typed at the prompt is handled inside the widget, which never tells anyone,
+     so a button-only rule would leave the copy full and the screen blank — the
+     surprise this is here to remove. Whatever empties it, this follows. */
+  dock.forgetRanCommands = function () {
+    if (!this.terminalForm) return;
+    var transcript = this.terminalForm.querySelector('pre');
+    if (transcript && transcript.childNodes.length === 0) this.ranCommands = [];
+  };
+
+  dock.copyCommands = function () {
+    var button = this.copyButton;
+    var commands = this.ranCommands;
+
+    function say(message) {
+      if (!button) return;
+      button.textContent = message;
+      button.disabled = true;
+      window.setTimeout(function () {
+        button.textContent = COPY_LABEL;
+        button.disabled = false;
+      }, 1600);
+    }
+
+    if (!commands.length) return say('Nothing run yet');
+    var text = commands.join('\n') + '\n';
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      return say('Cannot copy here');
+    }
+    navigator.clipboard.writeText(text).then(function () {
+      say(plural(commands.length, 'command') + ' copied');
+    }, function () {
+      say('Cannot copy here');
+    });
+  };
+
   /* "Clear keys" is the one control here that destroys something, and what it
      destroys took a snippet to make: a reader who hits it by accident has to go
      back up the page and find the "Try it" that filled the sandbox. So it asks
@@ -1678,6 +1757,7 @@
     if (this.transcriptWatcher) this.transcriptWatcher.disconnect();
     this.transcriptWatcher = new MutationObserver(function () {
       if (self.following) self.scrollTerminal();
+      self.forgetRanCommands();
     });
     this.transcriptWatcher.observe(form,
       { childList: true, subtree: true, characterData: true });
@@ -2750,17 +2830,34 @@
     return window.REDIS_WORKBENCH_ALWAYS === true;
   }
 
+  /* And some pages say no. /develop/ is a landing page whose Redis CLI is a
+     picture of one — a block of commands and their output, there to show what
+     Redis looks like rather than to be run — and the dock's own bar along the
+     bottom of it adds a console the page never asked for. The template says so,
+     for the same reason as above: Hugo knows which page this is and the browser
+     only knows a path that changes per environment. See layouts/develop/list.html.
+
+     Declining outright, not just staying closed: nothing mounts, so there is no
+     bar, no session and no keyspace probing from here. A "Try it" added to such a
+     page later still works — RedisWorkbench.open() reports that it cannot run,
+     and the caller opens redis.io/cli as it did before the dock existed. */
+  function pageBarsCli() {
+    return window.REDIS_WORKBENCH_NEVER === true;
+  }
+
   /* Does this page have anything for a terminal to run? The CLI blocks and their
      "Try it" buttons, and not the notebook's — a client page's Try it carries
      .thebe-tryit and opens a cell in the notebook pane, which has nothing to do
      with the sandbox terminal. */
   function pageHasCli() {
+    if (pageBarsCli()) return false;
     if (pageWantsCli()) return true;
     return !!document.querySelector(
       'form.redis-cli, .redis-cli-static, .tryit-button:not(.thebe-tryit)');
   }
 
   function pageHasRedis() {
+    if (pageBarsCli()) return false;
     if (pageWantsCli()) return true;
     /* `.thebe-container` is in here for the notebook pane: a client page can have
        runnable cells and no CLI terminal at all. */
@@ -2806,7 +2903,11 @@
            on is fetched from the /cli backend, so a click in the moment before it
            lands used to be answered by opening redis.io/cli in another tab —
            the reader's first click being the one that leaves the page. Wait for
-           it instead, and only fall back if it never arrives. */
+           it instead, and only fall back if it never arrives.
+
+           A page that bars the dock is the exception: no waiting, because no
+           amount of it will produce one. */
+        if (pageBarsCli()) return false;
         if (window.REDIS_CLI_LOADING) {
           waitForWidget(options);
           return true;

@@ -10,7 +10,7 @@ aliases:
 
 <a id="semantic-cache-api"></a>
 
-### `class SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={}, overwrite=False, create_index=True, **kwargs)`
+### `class SemanticCache(name='llmcache', distance_threshold=0.1, ttl=None, vectorizer=None, filterable_fields=None, redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None, overwrite=False, create_index=True, **kwargs)`
 
 Bases: `BaseLLMCache`
 
@@ -887,7 +887,7 @@ The semantic distance between the query vector and the stored prompt vector
 
 <a id="embeddings-cache-api"></a>
 
-### `class EmbeddingsCache(name='embedcache', ttl=None, redis_client=None, async_redis_client=None, redis_url='redis://localhost:6379', connection_kwargs={})`
+### `class EmbeddingsCache(name='embedcache', ttl=None, redis_client=None, async_redis_client=None, redis_url='redis://localhost:6379', connection_kwargs=None)`
 
 Bases: `BaseCache`
 

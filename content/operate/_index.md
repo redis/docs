@@ -14,6 +14,8 @@ hideListLinks: true
 | <ul><li> [Install Redis Insight]({{< relref "/operate/redisinsight/install" >}}) </li><li> [Use Redis Insight]({{< relref "/develop/tools/insight" >}}) </li><li> [Download Redis Insight](https://redis.io/downloads/#insight) </li></ul> | <ul><li> [RDI overview]({{< relref "/integrate/redis-data-integration/" >}}) </li><li> [Install RDI]({{< relref "/integrate/redis-data-integration/installation" >}}) </li> <li> [RDI pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) </li> </ul> |
 | {{<color-bubble color="bg-indigo-bubble">}} **Redis Iris context engine** | {{<color-bubble color="bg-blue-gray-bubble">}} **Redis Feature Form** |
 | <ul><li> [Redis Iris context engine overview]({{< relref "/operate/iris" >}}) </li><li> [Redis Agent Memory]({{< relref "/operate/iris/agent-memory" >}}) </li><li> [Redis Context Retriever]({{< relref "/operate/iris/context-retriever" >}}) </li><li> [LangCache]({{< relref "/operate/iris/langcache" >}}) </li></ul> | <ul><li> [Feature Form overview]({{< relref "/operate/featureform" >}}) </li><li> [Deploy Feature Form]({{< relref "/operate/featureform/deploy" >}}) </li><li> [Configure authentication]({{< relref "/operate/featureform/configure-auth" >}}) </li></ul> |
+| {{<color-bubble color="bg-green-bubble">}} **Redis Radar** | |
+| <ul><li> [Redis Radar overview]({{< relref "/operate/radar" >}}) </li><li> [Install Radar]({{< relref "/operate/radar/install" >}}) </li><li> [Connect clusters]({{< relref "/operate/radar/connect" >}}) </li><li> [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}) </li></ul> | |
 
 ## Product features
 
