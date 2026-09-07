@@ -2282,10 +2282,22 @@
     row.appendChild(el('label', 'rwb-path-label', 'Path'));
     var input = el('input', 'rwb-path-input');
     input.type = 'text';
+    input.dataset.rwbKey = key.name;
     /* Empty, not "$": the root is already on screen, so a prefilled path is a
        control that does nothing. The placeholder says what to type. */
-    input.value = this.jsonPath && this.jsonPath.name === key.name
+    var applied = this.jsonPath && this.jsonPath.name === key.name
       ? this.jsonPath.path : '';
+    /* A path the reader was still typing when this pane was redrawn outranks the
+       one that was last run: they are mid-word, and the value below already says
+       which path produced it. */
+    var draft = this.pathDraft;
+    this.pathDraft = null;
+    if (draft && draft.name === key.name && draft.text !== applied) {
+      input.value = draft.text;
+      if (draft.focused) this.pathCarried = draft;
+    } else {
+      input.value = applied;
+    }
     input.setAttribute('spellcheck', 'false');
     input.setAttribute('aria-label', 'JSONPath to read from ' + key.name);
     input.placeholder = '$.field, $.list[*], $..name';
@@ -2294,7 +2306,7 @@
        clearing an empty box is a control that does nothing, and this row already
        leaves out what it cannot act on. Emptying the box by hand and pressing
        Enter does the same thing — this saves the two steps. */
-    if (input.value) {
+    if (applied) {
       var clear = el('button', 'rwb-btn rwb-path-clear', '\u00d7');
       clear.type = 'button';
       clear.title = 'Clear the path and show the whole document';
@@ -2344,11 +2356,17 @@
      seeing: getting them wrong is how the syntax is learned. */
   dock.readJsonPath = function (key, path) {
     var self = this;
-    /* Remembered as typed, so an empty box stays empty when this redraws; the
-       root is what gets read either way. */
+    /* An empty box is not a path: the reader asked for the document back, and
+       that is the key's own view. Reading "$" here instead produced the same
+       document with a "1 match" fact the key's view has no reason to show — and
+       so a chip that vanished on the next sweep. */
+    if (!path) {
+      this.jsonPath = null;
+      return Promise.resolve(this.openKey(key.name));
+    }
     this.jsonPath = { name: key.name, path: path };
-    var command = 'JSON.GET ' + quote(key.name) + ' ' + quote(path || '$');
-    this.begin('reading ' + (path || '$') + '…');
+    var command = 'JSON.GET ' + quote(key.name) + ' ' + quote(path);
+    this.begin('reading ' + path + '…');
     return run([command]).then(function (replies) {
       var reply = replies[0];
       var view;
@@ -2535,6 +2553,17 @@
     var self = this;
     var meta = TYPES[key.type] || { label: key.type, tone: 'other' };
     var pane = this.valuePane;
+    /* What is in the Path box, if there is a box: this pane is redrawn on every
+       sweep, and any command on the page starts one — so a half-written path was
+       emptied out from under the reader. A text box keeps what was typed in it
+       until something is done with it, and this one is no different. Whether it
+       had focus is recorded too: the caret only goes back if it was already
+       there, since running a command puts it in the terminal instead. */
+    var typing = pane.querySelector('.rwb-path-input');
+    this.pathDraft = typing
+      ? { name: typing.dataset.rwbKey, text: typing.value,
+          caret: typing.selectionStart, focused: document.activeElement === typing }
+      : null;
     pane.replaceChildren();
 
     var head = el('div', 'rwb-value-head');
@@ -2584,6 +2613,11 @@
       }
     }
     if (detail.commands.length) pane.appendChild(ranNote(detail.commands));
+    if (this.pathCarried) {
+      var caret = this.pathCarried.caret;
+      this.pathCarried = null;
+      this.focusJsonPath(caret);
+    }
   };
 
   function renderView(view, onOpenRow) {
