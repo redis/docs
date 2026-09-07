@@ -1614,6 +1614,7 @@
     this.truncated = false;
     this.expiredName = null;
     this.openElement = null;
+    this.jsonPath = null;
     /* Nothing left to filter by. */
     this.indexFilter = null;
     this.indexDocs = null;
@@ -1801,6 +1802,7 @@
       self.keys = result.keys;
       self.indexes = result.indexes;
       self.indexDocs = result.docs;
+      self.forgetGonePath();
       /* An index the reader is looking at may hold documents the dock never saw
          a command touch — written before it was open, or by the page's own
          inline terminals. Adopt them, so the filtered list is the index's
@@ -1933,6 +1935,7 @@
     this.keys = this.keys.filter(function (key) {
       return expired.indexOf(key.name) === -1;
     });
+    this.forgetGonePath();
     if (this.selected && expired.indexOf(this.selected) >= 0) {
       /* Recorded rather than written straight into the panel: the sweep that
          follows re-renders, and renderKeys() resets an unselected value column —
@@ -2139,6 +2142,14 @@
 
   /* `quiet` is gone: it used to suppress switching to the Value tab, and there is
      no tab to switch to now that the value has a column of its own. */
+  /* A path belongs to the key it was read from. When that key goes — deleted,
+     expired, flushed — the path goes with it: a key that comes back under the
+     same name is a different document, and openKey would otherwise read it at a
+     path the reader never asked for and show the empty reply that follows. */
+  dock.forgetGonePath = function () {
+    if (this.jsonPath && !this.find(this.jsonPath.name)) this.jsonPath = null;
+  };
+
   dock.openKey = function (name) {
     var self = this;
     var key = this.find(name);
