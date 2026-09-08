@@ -93,8 +93,8 @@ kubectl -n rdi logs rdi-operator-7f7f6c7dfd-5qmjd -f
 In about 10 seconds you will start seeing log entries from the leader saying that it could not acquire the leadership.
 When the leader lock expires, the second node will acquire the leadership and you will see log entries from the second node indicating that it has become the leader.
 
-Once the failover completes, the two nodes swap their pipeline phases: the pipeline becomes
-`Active` on the new leader and `Standby` on the old one.
+Once the failover completes, the two nodes swap their pipeline phases: the pipeline has
+`Active` status on the new leader and `Standby` status on the old one.
 
 ## Cleanup
 

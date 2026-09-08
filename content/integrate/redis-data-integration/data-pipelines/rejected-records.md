@@ -54,10 +54,10 @@ are stored in:
 dlq:data:{rdi}:postgresql.public.users
 ```
 
-The dead-letter queue endpoints and the CLI report table names in that same qualified form,
-so a rejected record is always attributed to the source it came from. Sources that existed
-before the upgrade to a version that supports multiple sources do not have the source segment
-in the key.
+The dead-letter queue endpoints and the CLI report table names are in the same form,
+so you can easily attribute a rejected record to the source it came from. Sources that existed
+before the upgrade to RDI v2.0.0 or above do not have the source segment
+in the key because these earlier RDI versions did not support multiple sources.
 
 Some RDI versions or configurations can use a hash-tagged variant such as
 `dlq:{data:rdi:<schema_or_database>.<table>}`. To find all DLQ streams in the
