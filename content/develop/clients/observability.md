@@ -32,9 +32,9 @@ observability framework to let you gather performance metrics
 for your application. This can help you optimize performance and pinpoint problems
 quickly. Currently, the following clients support OTel:
 
-- [redis-py]({{< relref "/develop/clients/redis-py/observability" >}})
-- [go-redis]({{< relref "/develop/clients/go/observability" >}})
-- [node-redis]({{< relref "/develop/clients/nodejs/observability" >}})
+- [redis-py](/content/develop/clients/redis-py/observability.md)
+- [go-redis](/content/develop/clients/go/observability.md)
+- [node-redis](/content/develop/clients/nodejs/observability.md)
 
 
 <!--
@@ -154,11 +154,11 @@ metric groups:
 - [`connection-advanced`](#group-connection-advanced): more detailed metrics about Redis connections.
 - [`command`](#group-command): metrics about Redis commands executed by the client.
 - [`client-side-caching`](#group-client-side-caching): metrics about
-  [client-side caching]({{< relref "/develop/clients/client-side-caching" >}}) operations.
+  [client-side caching](/content/develop/clients/client-side-caching.md) operations.
 - [`streaming`](#group-streaming): metrics about
-  [stream]({{< relref "/develop/data-types/streams" >}}) operations.
+  [stream](/content/develop/data-types/streams/_index.md) operations.
 - [`pubsub`](#group-pubsub): metrics about
-  [pub/sub]({{< relref "/develop/pubsub" >}}) operations.
+  [pub/sub](/content/develop/pubsub/_index.md) operations.
 
 When you configure the client to activate OTel, you can select which metric groups
 you are interested in. By default, only the `resiliency` and `connection-basic` groups are enabled.
