@@ -3084,6 +3084,11 @@
      layouts/shortcodes/redis-cli.html, which is where the convention lives. */
   var PASTED_PROMPT = /^[^\s>]*>\s+/;
 
+  /* What one pasted line can carry in front of a command: those prompts, and the
+     `$` of a shell line — the same two a pasted block strips, so one line and
+     three behave alike. */
+  var PASTED_SINGLE = /^(?:[^\s>]*>|\$)\s+/;
+
   function pastedCommands(text) {
     var lines = text.split(/\r?\n/).map(function (line) {
       return line.trim();
@@ -3130,7 +3135,24 @@
     var form = input.closest && input.closest('form.redis-cli');
     if (!form || !cli() || !cli().run) return;
     var text = event.clipboardData && event.clipboardData.getData('text');
-    if (!text || text.indexOf('\n') === -1) return;
+    if (!text) return;
+    /* One line is one command, and pasting it is usually the start of editing
+       it — so it goes in the box rather than running. Its prompt still comes
+       off: `redis> PING 1` copied off a page is a command with four characters
+       in front of it, and leaving them there means the reader's next keystroke
+       is an error. */
+    if (text.indexOf('\n') === -1) {
+      var single = text.trim();
+      if (!PASTED_SINGLE.test(single)) return;
+      event.preventDefault();
+      var stripped = single.replace(PASTED_SINGLE, '');
+      var before = input.value.slice(0, input.selectionStart);
+      var after = input.value.slice(input.selectionEnd);
+      input.value = before + stripped + after;
+      var caret = before.length + stripped.length;
+      input.setSelectionRange(caret, caret);
+      return;
+    }
     var commands = pastedCommands(text);
     if (!commands.length) return;
     event.preventDefault();
