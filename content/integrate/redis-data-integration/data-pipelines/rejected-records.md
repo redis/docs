@@ -48,11 +48,7 @@ dlq:data:{rdi}:<source>.<schema_or_database>.<table>
 ```
 
 For example, rejected records for the `public.users` table of a source named `postgresql`
-are stored in:
-
-```text
-dlq:data:{rdi}:postgresql.public.users
-```
+are stored in `dlq:data:{rdi}:postgresql.public.users`.
 
 The dead-letter queue endpoints and the CLI report table names are in the same form,
 so you can easily attribute a rejected record to the source it came from. Sources that existed

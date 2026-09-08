@@ -13,6 +13,9 @@ Resets a pipeline into initial full-sync mode, so it reloads a snapshot of the s
 resuming change data capture. By default, the command waits for the pipeline to reach a terminal
 state before returning.
 
+With `--source`, only the specified source is reset. See
+[Start, stop, and reset a single source]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#start-stop-and-reset-a-single-source" >}}) for more information.
+
 ## Usage
 
 ```

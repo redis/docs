@@ -52,7 +52,7 @@ covers the source naming rules.
 
 {{< note >}}The scope-prefixed keys `SOURCE_DB_*` and `TARGET_DB_*` are also accepted, and can be
 used without specifying `--db`. RDI accepts a `SOURCE_DB_*` key only for a pipeline with
-exactly one source that predates per-source naming. See
+exactly one source created before RDI supported multiple sources. See
 [Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}) for more information.{{< /note >}}
 
 {{< note >}}
@@ -368,7 +368,8 @@ drifted out of sync.
 redis-di reset
 ```
 
-Add `--source` to reset a single source and leave the others untouched:
+Add `--source` to reset a single source. The other sources keep their data, but the whole
+pipeline stops while the reset runs and starts again afterwards:
 
 ```bash
 redis-di reset --source mysql
