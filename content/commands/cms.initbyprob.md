@@ -10,6 +10,10 @@ arguments:
   type: double
 - name: probability
   type: double
+- name: cell_size
+  optional: true
+  token: CELL_SIZE
+  type: integer
 categories:
 - docs
 - develop
@@ -30,7 +34,7 @@ railroad_diagram: /images/railroad/cms.initbyprob.svg
 since: 2.0.0
 stack_path: docs/data-types/probabilistic
 summary: Initializes a Count-Min Sketch to accommodate requested tolerances.
-syntax_fmt: CMS.INITBYPROB key error probability
+syntax_fmt: "CMS.INITBYPROB key error probability [CELL_SIZE\_cell_size]"
 title: CMS.INITBYPROB
 ---
 Initializes a Count-Min Sketch to accommodate requested tolerances.
@@ -55,10 +59,20 @@ The desired probability for inflated count. This should be a decimal value betwe
 
 </details>
 
+## Optional arguments
+
+<details open><summary><code>CELL_SIZE cell_size</code></summary>
+
+The size, in bytes, of each counter in the sketch. Valid values are `1`, `2`, `4`, or `8`. A smaller cell size reduces memory usage but lowers the maximum count a cell can hold before overflowing. A larger cell size supports higher counts at the cost of more memory. Default is `4`.
+
+</details>
+
 ## Examples
 
 ```
 redis> CMS.INITBYPROB test 0.001 0.01
+OK
+redis> CMS.INITBYPROB test2 0.001 0.01 CELL_SIZE 1
 OK
 ```
 
