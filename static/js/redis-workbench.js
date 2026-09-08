@@ -3061,6 +3061,76 @@
 
   /* The widget is injected by the js/cli.js shim, so window.RedisCli may not
      exist yet when the DOM is ready; wait for it briefly rather than racing it. */
+  /* ---------------------------------------------------------- pasted blocks --
+
+     A reader with a multi-command example on the clipboard used to get one line
+     of it. The prompt is a single-line input, so the browser flattens the
+     newlines and only the first command survives — which reads as the terminal
+     ignoring what was pasted.
+
+     A paste with a newline in it is a list of commands, so run them in order,
+     the way a "Try it" snippet runs. One listener in the capture phase covers
+     the dock's terminal, a page's own inline terminals, and any terminal added
+     after this ran, without the widget's own paste handling ever seeing it.
+     A single-line paste is left alone: that is text being typed. */
+
+  /* One paste, not a log file. Above this the rest is left unrun and said so. */
+  var MAX_PASTED = 60;
+
+  function pastedCommands(text) {
+    return text.split(/\r?\n/).map(function (line) {
+      /* A block copied out of a terminal brings its prompts with it. */
+      return line.trim().replace(/^redis>\s*/i, '').replace(/^\$\s+/, '').trim();
+    }).filter(function (line) {
+      /* Blank lines separate examples; a # line is a comment in every snippet
+         in these docs, and is not a command. */
+      return line && line.charAt(0) !== '#';
+    });
+  }
+
+  /* In batches the backend will accept, one after the other rather than at once,
+     so the transcript reads in the order the reader pasted. */
+  function runPasted(form, commands) {
+    var chunks = [];
+    for (var i = 0; i < commands.length; i += MAX_BATCH) {
+      chunks.push(commands.slice(i, i + MAX_BATCH));
+    }
+    return chunks.reduce(function (chain, chunk) {
+      return chain.then(function () {
+        /* 'interactive': a person pasted these. Labelling them 'preset' would
+           count them among the page's own snippets in the usage metrics. */
+        return cli().run(form, chunk, 'interactive');
+      });
+    }, Promise.resolve());
+  }
+
+  function onPaste(event) {
+    var input = event.target;
+    if (!input || input.tagName !== 'INPUT' || input.disabled) return;
+    var form = input.closest && input.closest('form.redis-cli');
+    if (!form || !cli() || !cli().run) return;
+    var text = event.clipboardData && event.clipboardData.getData('text');
+    if (!text || text.indexOf('\n') === -1) return;
+    var commands = pastedCommands(text);
+    if (!commands.length) return;
+    event.preventDefault();
+    var skipped = commands.length - MAX_PASTED;
+    if (skipped > 0) commands = commands.slice(0, MAX_PASTED);
+    runPasted(form, commands).then(function () {
+      if (skipped <= 0) return;
+      /* Said in the transcript rather than a status line: the transcript is
+         where the reader is looking, and an inline terminal has no status line. */
+      var pre = form.querySelector('pre');
+      if (pre) {
+        pre.appendChild(document.createTextNode(
+          '(' + skipped + ' more pasted ' + (skipped === 1 ? 'line' : 'lines')
+          + ' not run: ' + MAX_PASTED + ' at a time)\n'));
+      }
+    });
+  }
+
+  document.addEventListener('paste', onPaste, true);
+
   function mountWhenReady() {
     if (!pageHasRedis()) return;
     var deadline = 15000;
