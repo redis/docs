@@ -199,7 +199,7 @@ to removing the source and adding a new source with the new name. This implies i
 
 - You must create the source's secrets under the new name and update `${...}` references in
   its `connection` section.
-- `server_name` has to be updated for every job that reads from the source.
+- You must update `server_name` for every job that reads from the source.
 - The source starts with a new
   [initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}).
 
@@ -218,8 +218,7 @@ pipeline. Generally, stopping one source leaves the others running, and when one
 `external`. RDI creates no collector for this, so you cannot start or stop it.
 
 Stopping a source scales its collector down to zero replicas and leaves the rest of the
-source's resources in place. RDI records a captured position per source, so a collector you
-start again resumes from where it stopped.
+source's resources in place. RDI records a captured position for each source, so when you restart a collector, it resumes from where it stopped.
 
 Resetting a single source deletes only that source's keys, so a new
 [initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}) is taken for that source,
@@ -238,8 +237,8 @@ component they came from. See the
 reference page for more details.
 
 Note that while the sources are independent of each other in the data they capture, the
-pipeline status is not per source. RDI reports the whole pipeline in an error state when a
-single source fails, so use the `Components` section to find out which one it is.
+pipeline status is not broken down per source. RDI reports the whole pipeline in an error state when a
+single source fails, so you should use the `Components` section to find out which one has failed.
 
 Each source's collector has its own metric collection, named after the collector, such as
 `collector-mysql_metrics`. In Prometheus, the stream processor's `rdi_incoming_entries` and
