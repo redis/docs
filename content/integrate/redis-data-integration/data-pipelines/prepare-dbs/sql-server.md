@@ -659,7 +659,7 @@ provide:
 | `${SQLSERVER_DB_USERNAME}` | The service principal's **Application (client) ID** (a GUID). |
 | `${SQLSERVER_DB_PASSWORD}` | The service principal's **client secret**. |
 
-Set them with the source name, which for the source in this example is `sqlserver`:
+Set them with the source name, which is `sqlserver` for the source in this example:
 
 ```bash
 redis-di set-secret USERNAME --db sqlserver <client-id>
