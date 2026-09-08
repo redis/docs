@@ -60,35 +60,45 @@ def callouts_to_blockquote(text):
 def _find_content_file(root, ref):
     """Resolve a Hugo logical path (as written in an unwrapped relref -- absolute
     or bare-relative, both root-anchored per house style) to its actual content
-    file. Mirrors check_shortcode_paths.resolve_relref's candidates, but returns
-    the winning repo-root-relative path instead of a bool."""
+    file, and return the winning repo-root-relative path, or None.
+
+    Deliberately does NOT follow check_shortcode_paths' module-mount remapping
+    (_mount_variants): that's fine for a read-only validator asking "does this
+    resolve at all", but wrong for a rewrite. The one real mount
+    (content/operate/rs/.../active-active/develop -> content/operate/rc/.../
+    active-active/develop) has an open product question attached (DOC-6909
+    mount probe: relref itself resolves an in-mount-target link to the rs
+    permalink, leaving the rc mount -- surprising, but not this tool's call to
+    make). Falling back to the mount source would silently bake that choice
+    into a literal path forever. Leaving such a link as relref (unconverted)
+    keeps it exactly as surprising/correct as it already was, and is
+    consistent with "a missed rewrite is fine, a wrong one is not"."""
     path = csp._norm_relref(ref).lstrip("/")
     if not path:
         return None  # site root / current section -- nothing to rewrite to
-    for cand in csp._mount_variants(path, root):
-        base = os.path.join(root, "content", cand)
-        for candidate_path in (base + ".md", os.path.join(base, "_index.md"), os.path.join(base, "index.md")):
-            if csp._exists_exact(candidate_path):
-                return os.path.relpath(candidate_path, root)
-        parent, want = os.path.dirname(base), os.path.basename(base).lower()
-        if not os.path.isdir(parent):
+    base = os.path.join(root, "content", path)
+    for candidate_path in (base + ".md", os.path.join(base, "_index.md"), os.path.join(base, "index.md")):
+        if csp._exists_exact(candidate_path):
+            return os.path.relpath(candidate_path, root)
+    parent, want = os.path.dirname(base), os.path.basename(base).lower()
+    if not os.path.isdir(parent):
+        return None
+    try:
+        entries = os.listdir(parent)
+    except OSError:
+        return None
+    for e in entries:
+        stem = e[:-3] if e.endswith(".md") else e
+        if stem.lower() != want:
             continue
-        try:
-            entries = os.listdir(parent)
-        except OSError:
-            continue
-        for e in entries:
-            stem = e[:-3] if e.endswith(".md") else e
-            if stem.lower() != want:
-                continue
-            hit = os.path.join(parent, e)
-            if os.path.isdir(hit):
-                for f in ("_index.md", "index.md"):
-                    fp = os.path.join(hit, f)
-                    if os.path.exists(fp):
-                        return os.path.relpath(fp, root)
-            else:
-                return os.path.relpath(hit, root)
+        hit = os.path.join(parent, e)
+        if os.path.isdir(hit):
+            for f in ("_index.md", "index.md"):
+                fp = os.path.join(hit, f)
+                if os.path.exists(fp):
+                    return os.path.relpath(fp, root)
+        else:
+            return os.path.relpath(hit, root)
     return None
 
 

@@ -60,6 +60,13 @@ def main(argv):
     before = fingerprint(before_dir, prefix_filter)
     after = fingerprint(after_dir, prefix_filter)
 
+    if not before and not after:
+        print(f"ERROR: 0 pages found in both '{before_dir}' and '{after_dir}'"
+              + (f" under prefix '{prefix_filter}'" if prefix_filter else "")
+              + " -- a wrong public/ path or a prefix that matches nothing looks"
+                " identical to 'no differences'. Not a clean comparison.")
+        return 1
+
     only_before = sorted(set(before) - set(after))
     only_after = sorted(set(after) - set(before))
     changed = sorted(p for p in set(before) & set(after) if before[p] != after[p])
