@@ -110,10 +110,10 @@ the most common Redis exceptions:
 - `RedisCommandException`: Thrown when you issue an invalid command.
 - `RedisServerException`: Thrown when you attempt an invalid operation
   (for example, trying to access a
-  [stream entry]({{< relref "/develop/data-types/streams#entry-ids" >}})
+  [stream entry](/content/develop/data-types/streams/_index.md#entry-ids)
   using an invalid ID).
 
-See [Error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})
+See [Error handling](/content/develop/clients/dotnet/error-handling.md)
 for more information on handling exceptions.
 
 ### Retries
