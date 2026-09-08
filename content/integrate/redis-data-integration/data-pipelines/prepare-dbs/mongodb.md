@@ -129,7 +129,7 @@ The root CA certificate for MongoDB Atlas must be added as the source's `CACERT`
 - Download the MongoDB Atlas root CA certificate.
 - In RDI, add this certificate with
   `redis-di set-secret CACERT --db mongodb /path/to/atlas-ca.crt`.
-- Ensure that the `mongodb.ssl.enabled: true` setting is present in your RDI configuration.
+- Ensure that the `mongodb.ssl.enabled: true` setting is present in your RDI configuration for the corresponding source DB collector.
 
 Example connection string for Atlas:
 ```
