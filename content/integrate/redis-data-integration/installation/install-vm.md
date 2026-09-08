@@ -310,19 +310,17 @@ for your platform.{{< /note >}}
 
 ## Configure the Flink processor
 
-RDI ships with two stream processor implementations: the default *classic*
-processor and the
-[Apache Flink](https://flink.apache.org/)-based *Flink* processor. 
+RDI ships with two stream processor implementations: the *classic* processor and the
+default [Apache Flink](https://flink.apache.org/)-based *Flink* processor.
 See
 [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
 for an overview of the differences and
 [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
 for a side-by-side comparison.
 
-To run a specific pipeline on the Flink processor, set
+A pipeline runs on the Flink processor unless its `config.yaml` sets
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink` in that pipeline's `config.yaml` and redeploy it. Pipelines without
-this setting continue to use the classic processor. Fine-tune the Flink runtime
+to `classic`. Fine-tune the Flink runtime
 through the `processors.advanced` section of `config.yaml` (see the
 [configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
 
