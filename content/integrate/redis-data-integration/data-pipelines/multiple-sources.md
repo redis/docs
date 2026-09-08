@@ -20,9 +20,9 @@ same Redis target. The sources can be of different database types and each has i
 own collector, its own credentials, and its own set of Redis streams to ensure it
 is independent of the other sources.
 
-{{< note >}}Use RDI API v2 to manage a pipeline with several sources. RDI API v1 supports only
+{{< note >}}You must use RDI API v2 to manage a pipeline with several sources. RDI API v1 supports only
 single-source pipelines. See the
-[RDI API migration guide]({{< relref "/integrate/redis-data-integration/reference/api-migration" >}}).{{< /note >}}
+[RDI API migration guide]({{< relref "/integrate/redis-data-integration/reference/api-migration" >}}) for more information.{{< /note >}}
 
 ## Name your sources
 
@@ -197,8 +197,8 @@ if you no longer need them.
 Note that renaming a source is not supported. Renaming a source in `config.yaml` is equivalent
 to removing the source and adding a new source with the new name. This implies in particular:
 
-- The source's secrets have to be created under the new name and `${...}` references in
-  its `connection` section updated.
+- You must create the source's secrets under the new name and update `${...}` references in
+  its `connection` section.
 - `server_name` has to be updated for every job that reads from the source.
 - The source starts with a new
   [initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}).
