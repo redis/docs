@@ -48,7 +48,7 @@ client := redis.NewClient(opt)
 ```
 
 After connecting, you can test the connection by  storing and retrieving
-a simple [string]({{< relref "/develop/data-types/strings" >}}):
+a simple [string](/content/develop/data-types/strings/_index.md):
 
 ```go
 ctx := context.Background()
@@ -83,7 +83,7 @@ client := redis.NewClusterClient(&redis.ClusterOptions{
 ## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the
-[Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
+[Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.
 
 Establish a secure connection with your Redis database:
 
@@ -133,13 +133,13 @@ fmt.Println("foo", val)
 Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH.
 
-{{< note >}}Using SCH with go-redis requires v9.16.0 or later for
-basic connections, and v9.18.0 or later for
-[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
-{{< /note >}}
+> [!NOTE]
+> Using SCH with go-redis requires v9.16.0 or later for
+> basic connections, and v9.18.0 or later for
+> [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections.
 
 By default, `go-redis` always attempts to connect via SCH but falls back to
 a non-SCH connection if the server doesn't support it. However, you can configure SCH
@@ -161,9 +161,9 @@ rdb := redis.NewClient(&redis.Options{
 })
 ```
 
-{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
-protocol, so you must set `Protocol:3` explicitly when you connect.
-{{< /note >}}
+> [!NOTE]
+> SCH requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
+> protocol, so you must set `Protocol:3` explicitly when you connect.
 
 The `maintnotifications.Config` object accepts the following parameters:
 
@@ -176,34 +176,34 @@ The `maintnotifications.Config` object accepts the following parameters:
 | `PostHandoffRelaxedDuration` | The duration to continue using relaxed timeouts after a successful handoff (this provides extra resilience during cluster transitions). The default is 20 seconds. |
 | `MaxHandoffRetries` | The maximum number of times to retry connecting to the replacement node. The default is 3. |
 
-{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
-either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) or
-[Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
-(see [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) for more information).
-To use relaxed timeouts with these services, you should set `EndpointType: maintnotifications.EndpointTypeNone`
-when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
-{{< /note >}}
+> [!NOTE]
+>  Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+> either [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) or
+> [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+> (see [Smart client handoffs](/content/develop/clients/sch.md#redis-cloud) for more information).
+> To use relaxed timeouts with these services, you should set `EndpointType: maintnotifications.EndpointTypeNone`
+> when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
 
 ## Connect using client-side caching
 
 Client-side caching is a technique to reduce network traffic between
 the client and server, resulting in better performance. See
-[Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
+[Client-side caching introduction](/content/develop/clients/client-side-caching.md)
 for more information about how client-side caching works and how to use it effectively.
 
-{{< note >}}Client-side caching is an experimental feature of go-redis and its
-API may change in a minor release.
-
-Client-side caching requires go-redis v9.22.0 or later.
-To maximize compatibility with all Redis products, client-side caching
-is supported by Redis v7.4 or later.
-
-Client-side caching requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
-protocol, so you must set `Protocol: 3` explicitly when you connect. On a RESP2
-connection, client-side caching silently does nothing. It is also limited to
-standalone clients and to logical database 0; on any other database it is
-disabled with a log warning.
-{{< /note >}}
+> [!NOTE]
+> Client-side caching is an experimental feature of go-redis and its
+> API may change in a minor release.
+>
+> Client-side caching requires go-redis v9.22.0 or later.
+> To maximize compatibility with all Redis products, client-side caching
+> is supported by Redis v7.4 or later.
+>
+> Client-side caching requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
+> protocol, so you must set `Protocol: 3` explicitly when you connect. On a RESP2
+> connection, client-side caching silently does nothing. It is also limited to
+> standalone clients and to logical database 0; on any other database it is
+> disabled with a log warning.
 
 To enable client-side caching, pass a `ClientSideCacheConfig` object when you
 connect on a `Protocol: 3` client. Passing an empty `ClientSideCacheConfig{}`
@@ -231,8 +231,8 @@ func main() {
 ```
 
 You can see the cache working if you connect to the same Redis database
-with [`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run the
-[`MONITOR`]({{< relref "/commands/monitor" >}}) command. With caching enabled,
+with [`redis-cli`](/content/develop/tools/cli.md) and run the
+[`MONITOR`](/content/commands/monitor.md) command. With caching enabled,
 the server sees the first `Get("city")` call but not the second, which the
 client satisfies from the cache.
 
@@ -306,11 +306,11 @@ client := redis.NewClient(&redis.Options{
 })
 ```
 
-{{< note >}}Embed the concrete `*redis.LocalCache` type, as shown above, rather
-than the `Cache` interface. Cache statistics come from an optional `Stats()`
-method that the `Cache` interface doesn't declare, so a wrapper that embeds the
-interface still compiles but makes `CSCStats()` report zeros.
-{{< /note >}}
+> [!NOTE]
+> Embed the concrete `*redis.LocalCache` type, as shown above, rather
+> than the `Cache` interface. Cache statistics come from an optional `Stats()`
+> method that the `Cache` interface doesn't declare, so a wrapper that embeds the
+> interface still compiles but makes `CSCStats()` report zeros.
 
 To write a cache from scratch, you should implement all eight `Cache` methods: `Get()` for
 lookups, `Reserve()`, `FulfillOwned()`, and `Cancel()` to ensure that only one

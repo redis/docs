@@ -24,26 +24,26 @@ weight: 20
 ---
 
 This example shows how to create a
-[search index]({{< relref "/develop/ai/search-and-query/indexing" >}})
-for [JSON]({{< relref "/develop/data-types/json" >}}) documents and
+[search index](/content/develop/ai/search-and-query/indexing/_index.md)
+for [JSON](/content/develop/data-types/json/_index.md) documents and
 run queries against the index. It then goes on to show the slight differences
-in the equivalent code for [hash]({{< relref "/develop/data-types/hashes" >}})
+in the equivalent code for [hash](/content/develop/data-types/hashes.md)
 documents.
 
-{{< note >}}From [v9.8.0](https://github.com/redis/go-redis/releases/tag/v9.8.0) onwards,
-`go-redis` uses query dialect 2 by default.
-Redis Search methods such as [`FTSearch()`]({{< relref "/commands/ft.search" >}})
-will explicitly request this dialect, overriding the default set for the server.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> From [v9.8.0](https://github.com/redis/go-redis/releases/tag/v9.8.0) onwards,
+> `go-redis` uses query dialect 2 by default.
+> Redis Search methods such as [`FTSearch()`](/content/commands/ft.search.md)
+> will explicitly request this dialect, overriding the default set for the server.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for more information.
 
 ## Initialize
 
-Make sure that you have [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}})
+Make sure that you have [Redis Open Source](/content/operate/oss_and_stack/_index.md)
 or another Redis server available. Also install the
-[`go-redis`]({{< relref "/develop/clients/go" >}}) client library if you
+[`go-redis`](/content/develop/clients/go/_index.md) client library if you
 haven't already done so.
 
 Add the following dependencies:
@@ -63,48 +63,48 @@ below is compatible with both JSON and hash objects.
 
 Connect to your Redis database. The code below shows the most
 basic connection but see
-[Connect to the server]({{< relref "/develop/clients/go/connect" >}})
+[Connect to the server](/content/develop/clients/go/connect.md)
 to learn more about the available connection options.
 
 {{< clients-example set="go_home_json" step="connect" description="Foundational: Establish a connection to Redis with RESP2 protocol for Redis Search operations" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-{{< note >}}The connection options in the example specify
-[RESP2]({{< relref "/develop/reference/protocol-spec" >}}) in the `Protocol`
-field. We recommend that you use RESP2 for Redis Search operations in `go-redis`
-because some of the response structures for the default RESP3 are currently
-incomplete and so you must handle the "raw" responses in your own code.
-
-If you do want to use RESP3, you should set the `UnstableResp3` option when
-you connect:
-
-```go
-rdb := redis.NewClient(&redis.Options{
-    UnstableResp3: true,
-    // Other options...
-})
-```
-
-You must also access command results using the `RawResult()` and `RawVal()` methods
-rather than the usual `Result()` and `Val()`:
-
-```go
-res1, err := client.FTSearchWithArgs(
-    ctx, "txt", "foo bar", &redis.FTSearchOptions{},
-).RawResult()
-val1 := client.FTSearchWithArgs(
-    ctx, "txt", "foo bar", &redis.FTSearchOptions{},
-).RawVal()
-```
-{{< /note >}}
+> [!NOTE]
+> The connection options in the example specify
+> [RESP2](/content/develop/reference/protocol-spec.md) in the `Protocol`
+> field. We recommend that you use RESP2 for Redis Search operations in `go-redis`
+> because some of the response structures for the default RESP3 are currently
+> incomplete and so you must handle the "raw" responses in your own code.
+>
+> If you do want to use RESP3, you should set the `UnstableResp3` option when
+> you connect:
+>
+> ```go
+> rdb := redis.NewClient(&redis.Options{
+>     UnstableResp3: true,
+>     // Other options...
+> })
+> ```
+>
+> You must also access command results using the `RawResult()` and `RawVal()` methods
+> rather than the usual `Result()` and `Val()`:
+>
+> ```go
+> res1, err := client.FTSearchWithArgs(
+>     ctx, "txt", "foo bar", &redis.FTSearchOptions{},
+> ).RawResult()
+> val1 := client.FTSearchWithArgs(
+>     ctx, "txt", "foo bar", &redis.FTSearchOptions{},
+> ).RawVal()
+> ```
 
 Use the code below to create a search index. The `FTCreateOptions` parameter enables
 indexing only for JSON objects where the key has a `user:` prefix.
 The
-[schema]({{< relref "/develop/ai/search-and-query/indexing" >}})
+[schema](/content/develop/ai/search-and-query/indexing/_index.md)
 for the index has three fields for the user's name, age, and city.
 The `FieldName` field of the `FieldSchema` struct specifies a
-[JSON path]({{< relref "/develop/data-types/json/path" >}})
+[JSON path](/content/develop/data-types/json/path.md)
 that identifies which data field to index. Use the `As` struct field
 to provide an alias for the JSON path expression. You can use
 the alias in queries as a short and intuitive way to refer to the
@@ -116,7 +116,7 @@ expression, instead of typing it in full:
 ## Add the data
 
 Add the three sets of user data to the database as
-[JSON]({{< relref "/develop/data-types/json" >}}) objects.
+[JSON](/content/develop/data-types/json/_index.md) objects.
 If you use keys with the `user:` prefix then Redis will index the
 objects automatically as you add them:
 
@@ -126,7 +126,7 @@ objects automatically as you add them:
 ## Query the data
 
 You can now use the index to search the JSON objects. The
-[query]({{< relref "/develop/ai/search-and-query/query" >}})
+[query](/content/develop/ai/search-and-query/query/_index.md)
 below searches for objects that have the text "Paul" in any field
 and have an `age` value in the range 30 to 40:
 
@@ -146,7 +146,7 @@ returning the documents themselves.
 {{< /clients-example >}}
 
 Use an
-[aggregation query]({{< relref "/develop/ai/search-and-query/query/aggregation" >}})
+[aggregation query](/content/develop/ai/search-and-query/query/aggregation.md)
 to count all users in each city.
 
 {{< clients-example set="go_home_json" step="query3" description="Aggregation: Perform aggregation queries to group and count documents by field values using FTAggregateWithArgs" difficulty="intermediate" >}}
@@ -167,8 +167,8 @@ the `idx:users` index used for JSON documents in the previous examples.
 {{< clients-example set="go_home_json" step="make_hash_index" description="Foundational: Create a search index for hash documents with OnHash option and simplified field schema" difficulty="intermediate" >}}
 {{< /clients-example >}}
 
-You use [`HSet()`]({{< relref "/commands/hset" >}}) to add the hash
-documents instead of [`JSONSet()`]({{< relref "/commands/json.set" >}}),
+You use [`HSet()`](/content/commands/hset.md) to add the hash
+documents instead of [`JSONSet()`](/content/commands/json.set.md),
 but the same flat `userX` maps work equally well with either
 hash or JSON:
 
@@ -186,5 +186,5 @@ in a string under the key "$"):
 
 ## More information
 
-See the [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) docs
+See the [Redis Search](/content/develop/ai/search-and-query/_index.md) docs
 for a full description of all query features with examples.
