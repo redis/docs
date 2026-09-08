@@ -91,4 +91,4 @@ Statistics:
 The `Metrics Endpoints` column shows the externally-reachable metrics URLs of each component,
 which RDI discovers from the component's `Ingress` resources. It is empty for a component that
 has no ingress, or while the ingress controller has not assigned an address yet. See
-[Accessing the metrics]({{< relref "/integrate/redis-data-integration/observability#accessing-the-metrics" >}}).
+[Accessing the metrics]({{< relref "/integrate/redis-data-integration/observability#accessing-the-metrics" >}}) for more information.
