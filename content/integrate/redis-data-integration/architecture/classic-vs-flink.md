@@ -106,7 +106,7 @@ The Flink processor also accepts an advanced matcher syntax in a job's `source` 
 `server_name`, `db`, `schema`, and `table` each accept a list of names, and an entry prefixed
 with `regex:` selects all names that match the regular expression. One job can then process
 multiple tables, potentially from different sources, databases, or schemas. See
-[Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}).
+[Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) for more information.
 
 ## Metrics
 
