@@ -90,7 +90,7 @@ for installation details.
 
 Yes. Add one entry per source to the `sources` section of `config.yaml`. Each source has its
 own collector, which captures change records independently of the other sources. See
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}).
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
 
 ## Can RDI automatically track changes to the source database schema?
 

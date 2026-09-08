@@ -73,7 +73,7 @@ At this point, the pipeline is ready to deploy.
 
 This tutorial uses one source database, but a pipeline can capture from several source databases
 into the same Redis target. See
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}).
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
 
 ### Create a context (optional) {#create-context}
 
