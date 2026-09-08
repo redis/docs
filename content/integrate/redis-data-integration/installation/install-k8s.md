@@ -428,7 +428,7 @@ Specifically, ensure that one or both of the following Helm chart values is set:
 Before deploying a pipeline, you must configure each source database to enable CDC. See the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
 section to learn how to do this. A pipeline can capture from more than one source database,
-and each one has to be prepared. See
+so you must prepare each one each source separately. See
 [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for details.
 
 ## Deploy a pipeline
