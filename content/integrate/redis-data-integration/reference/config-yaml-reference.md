@@ -469,7 +469,7 @@ redis.wait.retry.delay.ms: 1000
 <a name="sourcesadvancedsource"></a>
 #### sources\.advanced\.source: Advanced source settings
 
-Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The named properties below cover the most commonly tuned settings: `spanner.*` properties apply to the `flink` collector type, all others apply to the `cdc` collector type. Any other property from the Debezium documentation can still be set as a free-form key-value pair, except for `topic.prefix`, which RDI derives from the source name.**
+Advanced configuration properties for the source database connection and CDC behavior. **Applies to the `cdc` and `flink` collector types.**<br/><br/>For the `cdc` collector type, available properties depend on the source database — refer to the relevant Debezium connector documentation: [MySQL](https://debezium.io/documentation/reference/stable/connectors/mysql.html), [MariaDB](https://debezium.io/documentation/reference/stable/connectors/mariadb.html), [PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html), [Oracle](https://debezium.io/documentation/reference/stable/connectors/oracle.html), [SQL Server](https://debezium.io/documentation/reference/stable/connectors/sqlserver.html), [Db2](https://debezium.io/documentation/reference/stable/connectors/db2.html), [MongoDB](https://debezium.io/documentation/reference/stable/connectors/mongodb.html). When using a property from those pages, omit the `debezium.source.` prefix.<br/><br/>**The named properties below cover the most commonly tuned settings: `spanner.*` properties apply to the `flink` collector type, all others apply to the `cdc` collector type. Any other property from the Debezium documentation can still be set as a free-form key-value pair, except for `topic.prefix`, which RDI derives from the source name, and the keystore properties, which RDI configures from a source's TLS secret.**
 
 
 **Properties**
@@ -504,8 +504,6 @@ Advanced configuration properties for the source database connection and CDC beh
 |**Additional Properties**|`string`, `number`, `boolean`|||
 
 **Minimal Properties:** 1  
-
-
 **Example**
 
 ```yaml
