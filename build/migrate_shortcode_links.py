@@ -34,7 +34,7 @@ import re
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".claude", "hooks"))
 import check_shortcode_paths as csp  # noqa: E402  (reuse mount-aware path resolution)
 
-RELREF_RX = re.compile(r'\]\(\{\{<\s*relref\s+"([^"]*)"\s*>\}\}\)')
+RELREF_RX = re.compile(r'\]\(\{\{<\s*relref\s+"([^"]*)"\s*>\}\}([^)]*)\)')
 CALLOUT_RX = re.compile(
     r'\{\{<\s*(note|warning|tip|info|alert)\s*>\}\}(.*?)\{\{<\s*/\1\s*>\}\}',
     re.DOTALL,
@@ -44,7 +44,12 @@ SKIP_HREF_PREFIXES = ("http://", "https://", "mailto:", "#", "/content/")
 
 
 def relref_to_plain(text):
-    return RELREF_RX.sub(lambda m: f"]({m.group(1)})", text)
+    """Unwrap `]({{< relref "X" >}})` to `](X)`. Also handles a trailing
+    anchor/query written OUTSIDE the shortcode -- `]({{< relref "X" >}}#anchor)`
+    or `]({{< relref "X" >}}?group=y)` -- which house style uses in ~105 files
+    (e.g. content/develop/data-types/_index.md's `?group=` command-reference
+    links). Group 2 is "" when there's nothing between `>}}` and `)`."""
+    return RELREF_RX.sub(lambda m: f"]({m.group(1)}{m.group(2)})", text)
 
 
 def callouts_to_blockquote(text):
@@ -107,14 +112,16 @@ def linkify(text, root):
         href = m.group(1)
         if href.startswith(SKIP_HREF_PREFIXES):
             return m.group(0)
-        base_ref, frag = href, ""
-        if "#" in href:
-            base_ref, anchor = href.split("#", 1)
-            frag = "#" + anchor
+        # Split on the FIRST '#' or '?', whichever comes first -- a '?query'
+        # suffix (house style uses this for command-reference links, e.g.
+        # /commands/?group=string) needs preserving just as much as a
+        # '#anchor' does; dropping it would silently lose the query string.
+        split = re.search(r"[#?]", href)
+        base_ref, suffix = (href[:split.start()], href[split.start():]) if split else (href, "")
         target = _find_content_file(root, base_ref)
         if target is None:
             return m.group(0)  # doesn't resolve to a page -- leave untouched
-        return f"](/{target}{frag})"
+        return f"](/{target}{suffix})"
 
     return LINK_RX.sub(repl, text)
 
