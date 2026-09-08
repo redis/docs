@@ -14,8 +14,8 @@ weight: 50
 
 Jedis uses **exceptions** to signal errors. Code examples in the documentation often omit error handling for brevity, but it is essential in production code. This page explains how Jedis's error handling works and how to apply common error handling patterns.
 
-For an overview of error types and handling strategies, see [Error handling]({{< relref "/develop/clients/error-handling" >}}).
-See also [Production usage]({{< relref "/develop/clients/jedis/produsage" >}})
+For an overview of error types and handling strategies, see [Error handling](/content/develop/clients/error-handling.md).
+See also [Production usage](/content/develop/clients/jedis/produsage.md)
 for more information on connection management, timeouts, and other aspects of
 app reliability.
 
@@ -44,7 +44,7 @@ Jedis organizes exceptions in a hierarchy rooted at `JedisException`, which exte
 ### Key exceptions
 
 The following exceptions are the most commonly encountered in Jedis applications.
-See [Categories of errors]({{< relref "/develop/clients/error-handling#categories-of-errors" >}})
+See [Categories of errors](/content/develop/clients/error-handling.md#categories-of-errors)
 for a more detailed discussion of these errors and their causes.
 
 | Exception | When it occurs | Recoverable | Recommended action |
@@ -56,14 +56,14 @@ for a more detailed discussion of these errors and their causes.
 
 ## Applying error handling patterns
 
-The [Error handling]({{< relref "/develop/clients/error-handling" >}}) overview
+The [Error handling](/content/develop/clients/error-handling.md) overview
 describes four main patterns. The sections below show how to implement them in
 Jedis:
 
 ### Pattern 1: Fail fast
 
 Catch specific exceptions that represent unrecoverable errors and re-throw them (see
-[Pattern 1: Fail fast]({{< relref "/develop/clients/error-handling#pattern-1-fail-fast" >}})
+[Pattern 1: Fail fast](/content/develop/clients/error-handling.md#pattern-1-fail-fast)
 for a full description):
 
 ```java
@@ -78,7 +78,7 @@ try (RedisClient jedis = RedisClient.create()) {
 ### Pattern 2: Graceful degradation
 
 Catch specific errors and fall back to an alternative, where possible (see
-[Pattern 2: Graceful degradation]({{< relref "/develop/clients/error-handling#pattern-2-graceful-degradation" >}})
+[Pattern 2: Graceful degradation](/content/develop/clients/error-handling.md#pattern-2-graceful-degradation)
 for a full description):
 
 ```java
@@ -99,7 +99,7 @@ return database.get(key);
 ### Pattern 3: Retry with backoff
 
 Retry on temporary errors like connection failures (see
-[Pattern 3: Retry with backoff]({{< relref "/develop/clients/error-handling#pattern-3-retry-with-backoff" >}})
+[Pattern 3: Retry with backoff](/content/develop/clients/error-handling.md#pattern-3-retry-with-backoff)
 for a full description):
 
 ```java
@@ -128,7 +128,7 @@ for (int attempt = 0; attempt < maxRetries; attempt++) {
 ### Pattern 4: Log and continue
 
 Log non-critical errors and continue (see
-[Pattern 4: Log and continue]({{< relref "/develop/clients/error-handling#pattern-4-log-and-continue" >}})
+[Pattern 4: Log and continue](/content/develop/clients/error-handling.md#pattern-4-log-and-continue)
 for a full description):
 
 ```java
@@ -142,5 +142,5 @@ try (RedisClient jedis = RedisClient.create()) {
 
 ## See also
 
-- [Error handling]({{< relref "/develop/clients/error-handling" >}})
-- [Production usage]({{< relref "/develop/clients/jedis/produsage" >}})
+- [Error handling](/content/develop/clients/error-handling.md)
+- [Production usage](/content/develop/clients/jedis/produsage.md)
