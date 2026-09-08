@@ -68,6 +68,7 @@ to learn more about the available connection options.
 
 {{< clients-example set="go_home_json" step="connect" description="Foundational: Establish a connection to Redis with RESP2 protocol for Redis Search operations" difficulty="beginner" >}}
 {{< /clients-example >}}
+&nbsp;
 
 > [!NOTE]
 > The connection options in the example specify
