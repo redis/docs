@@ -260,7 +260,7 @@ This makes it easy to attribute rejected records to their source. See
 Before RDI supported multiple sources per pipeline, every source-scoped resource had
 a name including the word `source` instead of the actual source name in `config.yaml`.
 For a source that existed before you upgraded to a version that supports multiple sources,
-those names are kept unchanged, whatever the source is called in `config.yaml`.
+those names are kept unchanged, regardless of what the source is called in `config.yaml`.
 In particular, for such a source:
 
 - Its secret environment variables are still named `SOURCE_DB_*`, so its `connection` section
