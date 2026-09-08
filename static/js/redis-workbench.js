@@ -3077,10 +3077,30 @@
   /* One paste, not a log file. Above this the rest is left unrun and said so. */
   var MAX_PASTED = 60;
 
+  /* A prompt, and so a line the reader typed rather than one Redis printed:
+     `redis> ` in this site's examples, a bare `> ` in the 64 command pages that
+     use that form, and the host:port prompt a real redis-cli shows. The same
+     two forms the redis-cli shortcode recognises — see
+     layouts/shortcodes/redis-cli.html, which is where the convention lives. */
+  var PASTED_PROMPT = /^[^\s>]*>\s+/;
+
   function pastedCommands(text) {
-    return text.split(/\r?\n/).map(function (line) {
-      /* A block copied out of a terminal brings its prompts with it. */
-      return line.trim().replace(/^redis>\s*/i, '').replace(/^\$\s+/, '').trim();
+    var lines = text.split(/\r?\n/).map(function (line) {
+      return line.trim();
+    });
+    /* A block with prompts in it is a whole transcript: prompts, commands and
+       the replies in between. Then only the prompted lines are commands, and
+       running the rest would send Redis its own output — which is what the
+       shortcode learned the hard way ("unknown command '(integer)'"). */
+    var prompted = lines.filter(function (line) { return PASTED_PROMPT.test(line); });
+    if (prompted.length) {
+      return prompted.map(function (line) { return line.replace(PASTED_PROMPT, ''); })
+        .filter(function (line) { return line; });
+    }
+    /* No prompts: a plain list of commands, one per line. */
+    return lines.map(function (line) {
+      /* `$ redis-cli SET k v` and the like: the shell prompt, not the command. */
+      return line.replace(/^\$\s+/, '');
     }).filter(function (line) {
       /* Blank lines separate examples; a # line is a comment in every snippet
          in these docs, and is not a command. */
