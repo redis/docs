@@ -25,7 +25,7 @@ so you must prepare each source database before you can use it with RDI.
 A pipeline can capture from more than one source database, and you must prepare each of them
 separately. Follow the page for each source's database type. See
 [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
-for how to configure several sources in one pipeline.
+to learn how to configure several sources in one pipeline.
 
 RDI supports the following source databases:
 
