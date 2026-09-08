@@ -15,9 +15,9 @@ title: Issue commands
 weight: 5
 ---
 
-Unlike the other [client libraries]({{< relref "/develop/clients" >}}),
+Unlike the other [client libraries](/content/develop/clients/_index.md),
 `hiredis` doesn't provide an extensive API to construct the many different
-Redis [commands]({{< relref "/commands" >}}). However, it does provide a lightweight and
+Redis [commands](/commands). However, it does provide a lightweight and
 flexible API to help you construct commands and parse their replies from
 your own code.
 
@@ -34,9 +34,9 @@ void *redisCommand(redisContext *c, const char *format, ...);
 
 This function receives a `redisContext` pointer and a pointer
 to a string containing the command (see
-[Connect]({{< relref "/develop/clients/hiredis/connect" >}})
+[Connect](/content/develop/clients/hiredis/connect.md)
 to learn how to obtain the context pointer). The command text is the
-same as the equivalent [`redis-cli`]({{< relref "/develop/tools/cli" >}})
+same as the equivalent [`redis-cli`](/content/develop/tools/cli.md)
 command. For example, to issue the command:
 
 ```
@@ -49,7 +49,7 @@ you would use the following command with an existing `redisContext* c`:
 redisReply *reply = redisCommand(c, "SET foo bar");
 ```
 
-See the [Command reference]({{< relref "/commands" >}}) for examples
+See the [Command reference](/commands) for examples
 of CLI commands that you can use with `hiredis`. Most code examples
 in other sections of the docs also have a CLI tab showing
 command sequences that are equivalent to the code.
@@ -67,8 +67,8 @@ redisReply *reply = redisCommand(c, "SET key:%s %s", myKeyNumber, myValue);
 ```
 
 You may need to include binary data in the command (for example, to store
-[vector embeddings]({{< relref "/develop/ai/search-and-query/vectors" >}})
-in fields of a [hash]({{< relref "/develop/data-types/hashes" >}})) object.
+[vector embeddings](/content/develop/ai/search-and-query/vectors/_index.md)
+in fields of a [hash](/content/develop/data-types/hashes.md)) object.
 To do this, use the `%b` format specifier and pass a pointer to the
 data buffer, followed by a `size_t` value indicating its length in bytes.
 As the example below shows, you can freely mix `%s` and `%b` specifiers
@@ -151,7 +151,7 @@ void(redisAsyncContext *c, void *reply, void *privdata);
 The first parameter is the asynchronous connection context and
 the second is a pointer to the reply object. Use a cast to
 `(redisReply *)` to access the reply in the usual way (see 
-[Handle command replies]({{< relref "/develop/clients/hiredis/handle-replies" >}})
+[Handle command replies](/content/develop/clients/hiredis/handle-replies.md)
 for a full description of `redisReply`). The last parameter
 is the custom data pointer that you supplied during the
 `redisAsyncCommand()` call. This is passed to your function
@@ -211,5 +211,5 @@ called with a `NULL` reply pointer.
 The information in the `redisReply` object has several formats,
 and the format for a particular reply depends on the command that generated it.
 See
-[Handle replies]({{< relref "/develop/clients/hiredis/handle-replies" >}})
+[Handle replies](/content/develop/clients/hiredis/handle-replies.md)
 to learn about the different reply formats and how to use them.
