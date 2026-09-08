@@ -156,7 +156,7 @@ Workload Identity or a service account credentials file.
 **Optional**: If you prefer to use a service account credentials file instead of Workload Identity
 authentication, you'll need to create a Spanner-specific secret named
 `<source>-db-credentials`, where `<source>` is the name of the source in `config.yaml`.
-The source configured in the next step is named `spanner`, so its secret is
+The example below assumes a source named `spanner`, so its corresponding secret is
 `spanner-db-credentials`. See
 [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
 for the source naming rules.
