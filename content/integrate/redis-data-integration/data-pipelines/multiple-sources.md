@@ -45,6 +45,13 @@ A source name must:
 
 The names `rdi` and `target` are reserved and cannot be used for sources.
 
+{{< warning >}}If your pipeline has a source created before RDI supported multiple sources, do not name a new
+source after any schema or database of that older source. The change data streams of the older
+source do not contain a source name segment, so a new source named after one of its schemas would claim keys
+that belong to the older source, and resetting or removing the new source would delete the older
+source's data. See
+[Existing names are kept after an upgrade](#existing-names-are-kept-after-an-upgrade).{{< /warning >}}
+
 RDI derives the environment variables that contain the source's credentials from the source
 name. For example, the `connection` section of a source named `mysql` references `${MYSQL_DB_USERNAME}`
 and `${MYSQL_DB_PASSWORD}`. See
@@ -184,11 +191,14 @@ To add a source, set its secrets first, then add it to `config.yaml` and deploy.
 source does not interrupt other sources that are already running.
 
 To remove a source, delete its entry from `config.yaml` and deploy. RDI removes the source's
-collector and deletes the source's keys from the RDI database. No further action is
+collector and deletes that source's data from the RDI database, including its change data streams,
+Debezium offsets, schema history, dead-letter queue entries, statistics, deduplication state,
+and record counters. The other sources keep their data, and RDI stops the whole pipeline
+while the deletion runs and starts it again afterwards. No further action is
 needed for this cleanup, but it means that a source you add later under the same name starts
 from a new
 [initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}})
-rather than resuming from the position it had reached.
+rather than from the position it had reached.
 
 The source's secrets are not deleted, so remove them yourself with
 [`redis-di delete-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete-secret" >}})
@@ -200,6 +210,7 @@ to removing the source and adding a new source with the new name. This implies i
 - You must create the source's secrets under the new name and update `${...}` references in
   its `connection` section.
 - You must update `server_name` for every job that reads from the source.
+- The data present in the RDI database under the old name is deleted, as it is for any removed source.
 - The source starts with a new
   [initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}).
 
@@ -220,9 +231,14 @@ pipeline. Generally, stopping one source leaves the others running, and when one
 Stopping a source scales its collector down to zero replicas and leaves the rest of the
 source's resources in place. RDI records a captured position for each source, so when you restart a collector, it resumes from where it stopped.
 
-Resetting a single source deletes only that source's keys, so a new
-[initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}) is taken for that source,
-while the stream processor and the other sources keep running.
+Resetting a single source deletes that source's data from the RDI database, including its change data streams, Debezium
+offsets, schema history, dead-letter queue entries, statistics, deduplication state, and record counters.
+A new [initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}) is then
+taken for that source, while every other source keeps its data. RDI stops the whole pipeline while
+the reset runs and starts it again afterwards, exactly as it does for a reset of the whole
+pipeline.
+
+Data that is not partitioned by source is never deleted by a per-source reset.
 
 ## Monitor each source
 

@@ -5109,7 +5109,7 @@
       "post": {
         "tags": ["v2", "pipelines"],
         "summary": "Reset Pipeline",
-        "description": "Resets a pipeline.",
+        "description": "Resets a pipeline, or a single source when one is given.",
         "operationId": "reset_pipeline_api_v2_pipelines__name__reset_post",
         "security": [
           {
@@ -5127,6 +5127,24 @@
               "title": "Name"
             },
             "description": "Pipeline name"
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Reset only this source; the other sources keep their data. The whole pipeline is stopped while the reset runs and starts again afterwards. Must be an existing source that is not of type 'external'.",
+              "title": "Source"
+            },
+            "description": "Reset only this source; the other sources keep their data. The whole pipeline is stopped while the reset runs and starts again afterwards. Must be an existing source that is not of type 'external'."
           }
         ],
         "responses": {
@@ -5159,6 +5177,16 @@
               }
             },
             "description": "Forbidden"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
           },
           "404": {
             "content": {
