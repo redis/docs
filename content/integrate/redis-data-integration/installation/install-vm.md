@@ -278,7 +278,7 @@ fails with `423 Locked` and a message saying that the pipeline is standing by be
 currently a leader election follower. Operations such as deploy, start, stop, reset, and delete
 can only be performed against the primary instance.
 
-Setting pipeline secrets works on a standby instance. Secrets are maintained per
+You can still set pipeline secrets for an instance when it is on standby. Secrets are maintained per
 instance and are not replicated between the two, because they can legitimately differ in some cases.
 
 You may find it useful to trigger a failover deliberately to check that RDI is correctly configured to handle it. See [Test HA failover]({{< relref "/integrate/redis-data-integration/installation/ha-test" >}}) to learn how to do this.
