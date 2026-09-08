@@ -30,8 +30,7 @@ The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` w
 ## API v1 and multiple sources
 
 API v1 handles single-source pipelines only, so
-[a pipeline with several sources]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
-has to be managed through API v2. In particular:
+you must use API v2 to manage [a pipeline with several sources]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}). In particular:
 
 - `POST /api/v1/pipelines`, `PATCH /api/v1/pipelines`, and `POST /api/v1/pipelines/sources/dry-run` reject a configuration with more than one source with `422 Unprocessable Content` and `Only a single source per pipeline is supported`.
 - `PUT /api/v1/secrets`, `PUT /api/v1/secrets/{secret_name}`, and the v1 source management endpoints only handle a pipeline whose single source still uses the legacy `source` names, which covers a pipeline that predates per-source naming and one that you create through v1. They reject any other pipeline with `Use API v2 to manage sources and secrets of this pipeline.`
