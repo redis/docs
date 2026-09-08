@@ -14,7 +14,7 @@ title: Redis prefetch cache with StackExchange.Redis
 weight: 6
 ---
 
-This guide shows you how to implement a Redis prefetch cache in C# with [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/). It includes a small local web server built with ASP.NET Core minimal APIs so you can watch the cache pre-load at startup, see a background sync worker apply primary mutations within milliseconds, and break the cache to confirm that reads never fall back to the primary.
+This guide shows you how to implement a Redis prefetch cache in C# with [StackExchange.Redis](https://seredis.dev/). It includes a small local web server built with ASP.NET Core minimal APIs so you can watch the cache pre-load at startup, see a background sync worker apply primary mutations within milliseconds, and break the cache to confirm that reads never fall back to the primary.
 
 ## Overview
 
@@ -418,7 +418,7 @@ If a key is missing for an ID that still exists in the primary, the prefetch did
 
 ## Learn more
 
-* [StackExchange.Redis documentation](https://stackexchange.github.io/StackExchange.Redis/) - Install and use the StackExchange.Redis client
+* [StackExchange.Redis documentation](https://seredis.dev/) - Install and use the StackExchange.Redis client
 * [HSET command]({{< relref "/commands/hset" >}}) - Write hash fields
 * [HGETALL command]({{< relref "/commands/hgetall" >}}) - Read every field of a hash
 * [EXPIRE command]({{< relref "/commands/expire" >}}) - Set key expiration in seconds

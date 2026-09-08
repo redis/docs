@@ -45,11 +45,15 @@ Redis Software's port usage falls into three general categories:
 | TCP | 8002, 8004, 8006 | <span title="Configurable">&#x2705; Yes</span> | Internal | Default system health monitoring (envoy admin, envoy management server, gossip envoy admin)|
 | TCP | 8444, 9080 | <span title="Not configurable">&#x274c; No</span> | Internal | Traffic between web proxy and cnm_http/cm |
 
+{{< note >}}
+The cluster uses ports 20000-29999 for internal shard traffic. You can't change the range, but `reserved_ports` excludes specific ports or port ranges from shard assignment.
+{{< /note >}}
+
 ## Change port configuration
 
 ### Reserve ports
 
-Redis Software reserves some ports by default (`system_reserved_ports`). To reserve other ports or port ranges and prevent the cluster from assigning them to database endpoints, configure `reserved_ports` using one of the following methods:
+Redis Software reserves some ports by default (`system_reserved_ports`). To reserve other ports or port ranges and prevent the cluster from assigning them to database endpoints or internal shard traffic, configure `reserved_ports` using one of the following methods:
 
 - [rladmin cluster config]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/cluster/config" >}})
 
@@ -60,7 +64,7 @@ Redis Software reserves some ports by default (`system_reserved_ports`). To rese
     For example:
 
     ```sh
-    rladmin cluster config reserved_ports 11000 13000-13010
+    rladmin cluster config reserved_ports 11000 13000-13010 20048
     ```
 
 - [Update cluster settings]({{< relref "/operate/rs/8.0/references/rest-api/requests/cluster#put-cluster" >}}) REST API request
@@ -74,7 +78,7 @@ Redis Software reserves some ports by default (`system_reserved_ports`). To rese
 
     ```sh
     PUT /v1/cluster
-    { "reserved_ports": ["11000", "13000-13010"] }
+    { "reserved_ports": ["11000", "13000-13010", "20048"] }
     ```
 
 ### Change the Cluster Manager UI port

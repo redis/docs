@@ -221,7 +221,6 @@ Active-Active databases support append-only file (AOF) persistence only. Snapsho
     
 To enable causal consistency for an existing Active-Active database, use the REST API.
 
-<!-- Also in getting-started-crdbs.md -->
 ## Test Active-Active database connections
 
 With the Redis database created, you are ready to connect to your database. See [Connect to Active-Active databases]({{< relref "/operate/rs/7.22/databases/active-active/connect.md" >}}) for tutorials and examples of multiple connection methods.

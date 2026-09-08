@@ -139,19 +139,22 @@ The only practical difference between OpenAI and Azure OpenAI is the variables r
 
 
 ```python
+# NBVAL_SKIP
 # additionally to the API Key, setup the API endpoint and version
 api_key = os.environ.get("AZURE_OPENAI_API_KEY") or getpass.getpass("Enter your AzureOpenAI API key: ")
 api_version = os.environ.get("OPENAI_API_VERSION") or getpass.getpass("Enter your AzureOpenAI API version: ")
 azure_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT") or getpass.getpass("Enter your AzureOpenAI API endpoint: ")
 deployment_name = os.environ.get("AZURE_OPENAI_DEPLOYMENT_NAME", "text-embedding-ada-002")
 
-# Skip Azure examples when required values are missing (e.g. CI or Run All without Azure).
+# Skip Azure examples when required values are missing (e.g. Run All without Azure configured).
 _azure_configured = bool(azure_endpoint and api_key and api_version)
 
 ```
 
 
 ```python
+# NBVAL_SKIP
+# Depends on the Azure OpenAI cell above, which is not executed in CI.
 from redisvl.utils.vectorize import AzureOpenAITextVectorizer
 
 if not _azure_configured:
@@ -175,6 +178,8 @@ else:
 
 
 ```python
+# NBVAL_SKIP
+# Depends on the Azure OpenAI cell above, which is not executed in CI.
 # Just like OpenAI, AzureOpenAI supports batching embeddings and asynchronous requests.
 sentences = [
     "That is a happy dog",
@@ -235,6 +240,8 @@ Make sure the Ollama daemon is running with `ollama serve`. By default, the Olla
 
 
 ```python
+# NBVAL_SKIP
+# No Ollama server in CI, so this only burns time on connection retries.
 from redisvl.utils.vectorize import OllamaTextVectorizer
 
 ollama_model = os.environ.get("OLLAMA_MODEL", "nomic-embed-text")
@@ -253,6 +260,8 @@ except (ImportError, ConnectionError, ValueError) as exc:
 
 
 ```python
+# NBVAL_SKIP
+# Depends on the Ollama cell above, which is not executed in CI.
 if ollama is not None:
     embeddings = ollama.embed_many(sentences, batch_size=2)
     print("Number of embeddings:", len(embeddings))
@@ -264,6 +273,8 @@ else:
 
 
 ```python
+# NBVAL_SKIP
+# Depends on the Ollama cell above, which is not executed in CI.
 if ollama is not None:
     embeddings = await ollama.aembed_many(sentences, batch_size=2)
     print("Number of async embeddings:", len(embeddings))
@@ -296,6 +307,8 @@ GCP_LOCATION=<your gcp geo region for vertex ai>
 
 
 ```python
+# NBVAL_SKIP
+# Deprecated vectorizer; not executed in CI so notebook validation makes no API calls.
 from redisvl.utils.vectorize import VertexAIVectorizer
 
 
@@ -346,7 +359,8 @@ GOOGLE_APPLICATION_CREDENTIALS=<path to your gcp JSON creds>
 
 
 ```python
-# NBVAL_SKIP  (docs example; not executed in CI so notebook validation makes no API calls)
+# NBVAL_SKIP
+# Docs example; not executed in CI so notebook validation makes no API calls.
 from redisvl.utils.vectorize import GoogleGenAIVectorizer
 
 # Auto-detects the backend: GEMINI_API_KEY -> Gemini, else GCP project/location -> Vertex AI.
@@ -444,6 +458,30 @@ print(test[:10])
 test = vo.embed("This is a test sentence.", input_type='document')
 print("Vector dimensions: ", len(test))
 print(test[:10])
+```
+
+#### Contextualized embeddings
+
+VoyageAI's `voyage-context-*` models support *contextualized* chunk embeddings. The `VoyageAIVectorizer` automatically routes `voyage-context-*` models to the contextualized embeddings API: pass your list of chunk strings to `embed_many` and you get one embedding back per chunk. Each input string is sent as its own auto-chunked document, so the inputs are embedded **independently** (a chunk's embedding does not depend on the other strings in the list). This preserves the one-embedding-per-input contract and keeps the embeddings cache deterministic.
+
+
+```python
+# Contextualized embeddings (voyage-context-* models). Each input string is sent
+# as its own auto-chunked document and embedded independently, so the vectorizer
+# returns exactly one embedding per input string. Requires voyageai>=0.5.0.
+context_vo = VoyageAIVectorizer(
+    model="voyage-context-4",  # See https://docs.voyageai.com/docs/contextualized-chunk-embeddings
+    api_config={"api_key": api_key},
+)
+
+chunks = [
+    "That is a happy dog",
+    "That is a happy person",
+    "Today is a sunny day",
+]
+context_embeddings = context_vo.embed_many(chunks, input_type="document")
+print("Number of embeddings:", len(context_embeddings))
+print("Vector dimensions:", len(context_embeddings[0]))
 ```
 
 ### Mistral AI

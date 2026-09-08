@@ -1,6 +1,8 @@
 ---
 Title: rename_field
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/data-transformation-block-types/rename_field/
+- /integrate/redis-data-integration/write-behind/reference/data-transformation-block-types/rename_field/
 alwaysopen: false
 categories:
   - docs

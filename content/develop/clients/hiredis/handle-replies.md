@@ -226,7 +226,7 @@ reply = NULL;
 Arrays (reply type `REDIS_REPLY_ARRAY`) and maps (reply type `REDIS_REPLY_MAP`)
 are returned by commands that retrieve several values at the
 same time. For both types, the number of elements in the reply is contained in
-`reply->elements` and the pointer to the array itself is is `reply->element`.
+`reply->elements` and the pointer to the array itself is `reply->element`.
 Each item in the array is of type `redisReply`. The array elements
 are typically simple types rather than arrays or maps.
 

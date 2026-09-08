@@ -86,9 +86,7 @@ The following keys may be included in the mapped reply:
   1. The Redis version that the entry applies to.
   2. The description of the change.
 * **arguments:** an array of maps that describe the command's arguments.
-  Please refer to the [Redis command arguments][td] page for more information.
-
-[td]: /develop/reference/command-arguments
+  Please refer to the [Redis command arguments]({{< relref "/develop/reference/command-arguments" >}}) page for more information.
 
 ## Optional arguments
 
@@ -185,7 +183,7 @@ redis> COMMAND DOCS SET
               5)  1) "name"
                   2) "ifdeq-digest"
                   3) "type"
-                  4) "integer"
+                  4) "string"
                   5) "display_text"
                   6) "ifdeq-digest"
                   7) "token"
@@ -195,7 +193,7 @@ redis> COMMAND DOCS SET
               6)  1) "name"
                   2) "ifdne-digest"
                   3) "type"
-                  4) "integer"
+                  4) "string"
                   5) "display_text"
                   6) "ifdne-digest"
                   7) "token"

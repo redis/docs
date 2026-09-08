@@ -116,6 +116,22 @@
           "description": "Synonym groups and their terms"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_syndump(index_name)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          }
+        ],
+        "returns": {
+          "type": "Hash",
+          "description": "each term mapped to the synonym group ids it belongs to"
+        }
+      }
     ]
   }
 }

@@ -1,0 +1,129 @@
+{{- /*
+  Expand jupyter-example shortcodes into fenced Markdown code blocks for the
+  JSON/Markdown output formats.
+
+  The interactive Thebe widget in layouts/shortcodes/jupyter-example.html only
+  renders for the HTML output. Without this partial, jupyter-example shortcodes are
+  removed by the catch-all shortcode strip in process-markdown-content.html, so the
+  code never reaches the JSON/Markdown outputs (and therefore the docs feed).
+
+  This mirrors the step extraction of the HTML shortcode: it resolves the source file
+  via data/examples.json[set][lang_filter] (or an explicit source=), then emits the
+  code between "<prefix> STEP_START {step}" and "<prefix> STEP_END", excluding
+  REMOVE_START/REMOVE_END and HIDE_START/HIDE_END blocks and marker comments.
+
+  Input: dict with:
+    - "RawContent": content to process
+    - "Site": the Hugo site object (for data/examples.json access)
+  Output: processed content string
+*/ -}}
+{{- $content := .RawContent -}}
+{{- $site := .Site -}}
+
+{{- /* Earlier partials in the pipeline re-escape their output, so shortcode attribute
+       quotes may arrive as HTML entities (set=&#34;landing&#34;). Unescape first so the
+       attribute parsing below matches literal quotes (mirrors markdown-code-examples.html). */ -}}
+{{- $content = $content | replaceRE "&#34;" "\"" -}}
+{{- $content = $content | replaceRE "&quot;" "\"" -}}
+{{- $content = $content | replaceRE "&lt;" "<" -}}
+{{- $content = $content | replaceRE "&gt;" ">" -}}
+{{- $content = $content | replaceRE "&amp;" "&" -}}
+{{- $content = $content | replaceRE "&#39;" "'" -}}
+
+{{- /* examples.json language value -> Markdown code-fence language */ -}}
+{{- $fenceLangs := dict "node.js" "javascript" "c#" "csharp" -}}
+
+{{- /* Match self-closing ({{< jupyter-example ... />}}) and paired forms */ -}}
+{{- $selfClosingPattern := `\{\{<\s*jupyter-example\s+([^>]*)/>\}\}` -}}
+{{- $pairedPattern := `\{\{<\s*jupyter-example\s+([^>]*[^/])>\}\}\s*\{\{<\s*/jupyter-example\s*>\}\}` -}}
+
+{{- $processed := $content -}}
+{{- $allMatches := slice -}}
+{{- range findRE $selfClosingPattern $content -}}
+  {{- $allMatches = $allMatches | append (dict "match" . "pattern" $selfClosingPattern) -}}
+{{- end -}}
+{{- range findRE $pairedPattern $content -}}
+  {{- $allMatches = $allMatches | append (dict "match" . "pattern" $pairedPattern) -}}
+{{- end -}}
+
+{{- range $entry := $allMatches -}}
+  {{- $match := $entry.match -}}
+  {{- $attrs := replaceRE $entry.pattern `$1` $match -}}
+
+  {{- /* Parse shortcode attributes */ -}}
+  {{- $set := "" -}}
+  {{- with findRESubmatch `(?:^|\s)set="([^"]*)"` $attrs -}}{{- $set = index (index . 0) 1 -}}{{- end -}}
+  {{- $step := "" -}}
+  {{- with findRESubmatch `(?:^|\s)step="([^"]*)"` $attrs -}}{{- $step = index (index . 0) 1 -}}{{- end -}}
+  {{- $langFilter := "" -}}
+  {{- with findRESubmatch `(?:^|\s)lang_filter="([^"]*)"` $attrs -}}{{- $langFilter = index (index . 0) 1 -}}{{- end -}}
+  {{- if not $langFilter -}}
+    {{- with findRESubmatch `(?:^|\s)lang="([^"]*)"` $attrs -}}{{- $langFilter = index (index . 0) 1 -}}{{- end -}}
+  {{- end -}}
+  {{- $description := "" -}}
+  {{- with findRESubmatch `(?:^|\s)description="([^"]*)"` $attrs -}}{{- $description = index (index . 0) 1 -}}{{- end -}}
+  {{- $source := "" -}}
+  {{- with findRESubmatch `(?:^|\s)source="([^"]*)"` $attrs -}}{{- $source = index (index . 0) 1 -}}{{- end -}}
+  {{- $language := "" -}}
+  {{- with findRESubmatch `(?:^|\s)language="([^"]*)"` $attrs -}}{{- $language = index (index . 0) 1 -}}{{- end -}}
+
+  {{- /* Resolve source/language from examples.json when set + lang_filter are given */ -}}
+  {{- if and $set $langFilter -}}
+    {{- with index $site.Data.examples $set -}}
+      {{- with index . $langFilter -}}
+        {{- if not $source -}}{{- $source = index . "source" -}}{{- end -}}
+        {{- with index . "language" -}}{{- $language = . -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not $language -}}{{- $language = lower $langFilter -}}{{- end -}}
+
+  {{- /* Extract the step code from the source file */ -}}
+  {{- $replacement := "" -}}
+  {{- if and $source $step (fileExists $source) -}}
+    {{- $fileContent := readFile $source -}}
+    {{- $commentPrefix := "#" -}}
+    {{- if findRE `// STEP_START` $fileContent 1 -}}{{- $commentPrefix = "//" -}}{{- end -}}
+    {{- $stepStartCurrent := printf "%s STEP_START %s" $commentPrefix $step -}}
+    {{- $stepStartAny := printf "%s STEP_START" $commentPrefix -}}
+    {{- $stepEnd := printf "%s STEP_END" $commentPrefix -}}
+    {{- $removeStart := printf "%s REMOVE_START" $commentPrefix -}}
+    {{- $removeEnd := printf "%s REMOVE_END" $commentPrefix -}}
+    {{- $hideStart := printf "%s HIDE_START" $commentPrefix -}}
+    {{- $hideEnd := printf "%s HIDE_END" $commentPrefix -}}
+    {{- $inCurrentStep := false -}}
+    {{- $inRemove := false -}}
+    {{- $inHide := false -}}
+    {{- $stepLines := slice -}}
+    {{- range $line := split $fileContent "\n" -}}
+      {{- $trimmed := trim $line " \t" -}}
+      {{- if hasPrefix $trimmed $removeStart -}}{{- $inRemove = true -}}
+      {{- else if hasPrefix $trimmed $removeEnd -}}{{- $inRemove = false -}}
+      {{- else if $inRemove -}}
+      {{- else if hasPrefix $trimmed $hideStart -}}{{- $inHide = true -}}
+      {{- else if hasPrefix $trimmed $hideEnd -}}{{- $inHide = false -}}
+      {{- else if $inHide -}}
+      {{- else if eq $trimmed $stepStartCurrent -}}{{- $inCurrentStep = true -}}
+      {{- else if hasPrefix $trimmed $stepStartAny -}}{{- $inCurrentStep = false -}}
+      {{- else if hasPrefix $trimmed $stepEnd -}}{{- $inCurrentStep = false -}}
+      {{- else if $inCurrentStep -}}
+        {{- $stepLines = $stepLines | append $line -}}
+      {{- end -}}
+    {{- end -}}
+
+    {{- if gt (len $stepLines) 0 -}}
+      {{- $stepCode := delimit $stepLines "\n" -}}
+      {{- $langLower := lower $language -}}
+      {{- $fenceLang := index $fenceLangs $langLower | default $langLower -}}
+      {{- if $description -}}
+        {{- $replacement = printf "%s\n\n" $description -}}
+      {{- end -}}
+      {{- $replacement = printf "%s```%s\n%s\n```\n\n" $replacement $fenceLang $stepCode -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Replace this shortcode occurrence (empty replacement if extraction failed, matching prior strip behavior) */ -}}
+  {{- $processed = replace $processed $match $replacement 1 -}}
+{{- end -}}
+
+{{- return $processed -}}

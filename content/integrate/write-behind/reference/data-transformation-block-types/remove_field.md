@@ -1,6 +1,8 @@
 ---
 Title: remove_field
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/data-transformation-block-types/remove_field/
+- /integrate/redis-data-integration/write-behind/reference/data-transformation-block-types/remove_field/
 alwaysopen: false
 categories:
   - docs

@@ -14,6 +14,8 @@ tocEmbedHeaders: true
 ---
 Both Redis Software and [Redis Cloud]({{< relref "/operate/rc" >}}) are compatible with Redis Open Source. 
 
+If you're planning a move from a self-managed Redis Open Source deployment to Redis Software, see [Move from Redis Open Source to Redis Software]({{< relref "/operate/rs/installing-upgrading/move-from-open-source" >}}) for how configuration and deployment differ.
+
 {{< embed-md "rc-rs-oss-compatibility.md"  >}}
 
 ## RESP compatibility

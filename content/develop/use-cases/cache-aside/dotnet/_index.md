@@ -14,7 +14,7 @@ title: Redis cache-aside with StackExchange.Redis
 weight: 6
 ---
 
-This guide shows you how to implement a Redis cache-aside layer in C# with [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/). It includes a small local web server built on ASP.NET Core's minimal API so you can see cache hits, misses, invalidation on write, and stampede protection in action.
+This guide shows you how to implement a Redis cache-aside layer in C# with [StackExchange.Redis](https://seredis.dev/). It includes a small local web server built on ASP.NET Core's minimal API so you can see cache hits, misses, invalidation on write, and stampede protection in action.
 
 ## Overview
 
@@ -351,7 +351,7 @@ redis-cli TTL cache:product:p-001
 
 ## Learn more
 
-* [StackExchange.Redis docs](https://stackexchange.github.io/StackExchange.Redis/) - Install and use the .NET Redis client
+* [StackExchange.Redis docs](https://seredis.dev/) - Install and use the .NET Redis client
 * [SET command]({{< relref "/commands/set" >}}) - Set a string with TTL options (`EX`, `PX`, `NX`)
 * [HSET command]({{< relref "/commands/hset" >}}) - Write hash fields
 * [HGETALL command]({{< relref "/commands/hgetall" >}}) - Read every field of a hash

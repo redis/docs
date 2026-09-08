@@ -3,7 +3,7 @@
     "info": {
         "title": "Redis Agent Memory API",
         "version": "1.0.0",
-        "description": "API for storing, retrieving, and searching Redis Agent Memory session memory and long-term memory.\n\nAuthentication depends on your deployment. Use the credential issued for your Agent Memory service or store. For self-managed deployments, see the self-managed Agent Memory guide for authentication options.\n"
+        "description": "API for storing, retrieving, and searching Redis Agent Memory session memory and long-term memory.\n\nAuthentication depends on your deployment. Use the credential issued for your Redis Agent Memory service or store. For self-managed deployments, see the self-managed Redis Agent Memory guide for authentication options.\n"
     },
     "paths": {
         "/health": {
@@ -24,6 +24,132 @@
                 },
                 "tags": [
                     "Service Health"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/health": {
+            "get": {
+                "description": "Returns read-only health for applicable store-scoped RAM features.",
+                "operationId": "StoreHealth",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "StoreHealth 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/StoreHealthResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Store Health"
                 ]
             }
         },
@@ -677,6 +803,138 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Long-Term Memory"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/long-term-memory/{memoryId}/fields": {
+            "patch": {
+                "description": "Atomically updates a custom-typed long-term memory's text and/or attributes, scoped to the caller's bound memory type. Used by the custom-extraction worker.",
+                "operationId": "UpdateLongTermMemoryFields",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateLongTermMemoryFieldsRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "The store instance ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "The store instance ID."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "memoryId",
+                        "in": "path",
+                        "description": "The memory record ID.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "The memory record ID."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateLongTermMemoryFields 200 response"
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
                                 }
                             }
                         }
@@ -1615,6 +1873,13 @@
                         "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "Unique actor identifier (1-255 chars). Can represent a user, agent, or any participant."
                     },
+                    "namespace": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Optional namespace for the session, used as the namespace of every long-term memory extracted from it.\n\nLike `ownerId`, this is a session-level value taken from the first event: the value sent with the first event of a session is stored on the session, and values sent with later events are ignored. Omit it to leave extracted memories without a namespace."
+                    },
                     "role": {
                         "$ref": "#/components/schemas/MessageRole"
                     },
@@ -1652,6 +1917,79 @@
                 "required": [
                     "event"
                 ]
+            },
+            "AttributeFilterClause": {
+                "description": "Filter clause for a single record attribute. Exactly one member is set; the member must match the attribute's declared field type.",
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "title": "string",
+                        "properties": {
+                            "string": {
+                                "type": "string",
+                                "description": "Match a string attribute equal to this value."
+                            }
+                        },
+                        "required": [
+                            "string"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "title": "number",
+                        "properties": {
+                            "number": {
+                                "type": "number",
+                                "description": "Match a numeric attribute equal to this value.",
+                                "format": "double"
+                            }
+                        },
+                        "required": [
+                            "number"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "title": "boolean",
+                        "properties": {
+                            "boolean": {
+                                "type": "boolean",
+                                "description": "Match a boolean attribute equal to this value."
+                            }
+                        },
+                        "required": [
+                            "boolean"
+                        ]
+                    },
+                    {
+                        "type": "object",
+                        "title": "list",
+                        "properties": {
+                            "list": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "description": "Match a list attribute that contains all of these values."
+                            }
+                        },
+                        "required": [
+                            "list"
+                        ]
+                    }
+                ]
+            },
+            "AttributeFilterMap": {
+                "type": "object",
+                "additionalProperties": {
+                    "$ref": "#/components/schemas/AttributeFilterClause"
+                },
+                "description": "Per-attribute filter clauses keyed by the custom memory type's field name."
+            },
+            "AttributeMap": {
+                "type": "object",
+                "additionalProperties": {},
+                "description": "Structured record attributes: a map from the custom memory type's field name to that field's value. Values are arbitrary JSON matching the field's declared type (str, int, float, bool, list[str], list[float], or object)."
             },
             "AuthenticationErrorResponseContent": {
                 "type": "object",
@@ -1893,7 +2231,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
-                        "description": "Type of memory."
+                        "description": "Type of memory. Built-in or a custom type registered on the store."
                     },
                     "sessionId": {
                         "type": "string",
@@ -1914,7 +2252,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Namespace for logical grouping (1-64 chars, alphanumeric and dashes)."
+                        "description": "Optional namespace for logical grouping (1-64 chars, alphanumeric and dashes). Omit to create the record without a namespace. Records created here are explicit writes, so this value is taken as given; extraction instead inherits the source session's namespace."
                     },
                     "topics": {
                         "type": "array",
@@ -1926,6 +2264,9 @@
                         },
                         "maxItems": 50,
                         "description": "Topic tags for categorization (max 50 topics, each 1-100 chars)."
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/AttributeMap"
                     }
                 },
                 "required": [
@@ -2095,7 +2436,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
-                        "description": "Type of memory."
+                        "description": "Type of memory. Built-in or a custom type registered on the store."
                     },
                     "sessionId": {
                         "type": "string",
@@ -2116,7 +2457,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Namespace for logical grouping."
+                        "description": "Namespace for logical grouping. Absent when the record has none: either it was written directly without one, or it was extracted from a session that has no namespace."
                     },
                     "topics": {
                         "type": "array",
@@ -2128,6 +2469,9 @@
                         },
                         "maxItems": 50,
                         "description": "Topic tags for categorization."
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/AttributeMap"
                     },
                     "createdAt": {
                         "type": "string",
@@ -2176,6 +2520,13 @@
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
                         "description": "The owner of the session, set from the actorId of the first event."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "The namespace of the session, set from the namespace of the first event. Absent when the first event did not supply one; long-term memories extracted from this session then carry no namespace."
                     },
                     "events": {
                         "type": "array",
@@ -2264,6 +2615,9 @@
                     },
                     "createdAt": {
                         "$ref": "#/components/schemas/CreatedAtFilter"
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/AttributeFilterMap"
                     }
                 }
             },
@@ -2287,7 +2641,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
-                        "description": "Type of memory."
+                        "description": "Type of memory. Built-in or a custom type registered on the store."
                     },
                     "sessionId": {
                         "type": "string",
@@ -2308,7 +2662,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Namespace for logical grouping."
+                        "description": "Namespace for logical grouping. Absent when the record has none: either it was written directly without one, or it was extracted from a session that has no namespace."
                     },
                     "topics": {
                         "type": "array",
@@ -2320,6 +2674,9 @@
                         },
                         "maxItems": 50,
                         "description": "Topic tags for categorization."
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/AttributeMap"
                     },
                     "createdAt": {
                         "type": "string",
@@ -2378,7 +2735,7 @@
             },
             "NamespaceFilter": {
                 "type": "object",
-                "description": "Filter by namespace. Matching is case-insensitive.",
+                "description": "Filter by namespace. Matching is case-insensitive.\n\nNamespace is optional, so records without one need care. The positive operators (`eq`, `in`, `all`) require the field to be present and therefore never match a record that has no namespace — including memories extracted from a session that has none. `ne` is a plain negation and *does* match those records, so use `eq` or `in` when you need strict namespace isolation rather than `ne` against the namespaces you want to exclude.\n\nOmit this filter to search across every namespace, and use it to keep recall inside one project, workspace, team, environment, or tenant.",
                 "properties": {
                     "eq": {
                         "type": "string",
@@ -2401,7 +2758,7 @@
                             "maxLength": 64,
                             "minLength": 1,
                             "pattern": "^[a-zA-Z0-9-]+$",
-                            "description": "Namespace for logical grouping of long-term memory records (1-64 chars, alphanumeric and dashes)."
+                            "description": "Namespace for logical grouping (1-64 chars, alphanumeric and dashes).\n\nThis is the shared namespace format for both session memory and long-term memory: sessions carry it as session-level state, and long-term memory records carry it per record. The same constraints apply everywhere it is used.\n\nNamespace is always optional; a record without one is valid. Applications use it to isolate memories by project, workspace, team, environment, or tenant. See `NamespaceFilter` for how records without a namespace behave under search.\n\nA namespace reaches a record one of two ways. Records written directly carry whatever namespace the caller sets. Records produced by extraction inherit the namespace of the session they were extracted from, which is fixed when that session is created; a session with no namespace yields records with no namespace. Existing records are never backfilled when a namespace is introduced later."
                         },
                         "description": "Matches any of the given values."
                     },
@@ -2412,7 +2769,7 @@
                             "maxLength": 64,
                             "minLength": 1,
                             "pattern": "^[a-zA-Z0-9-]+$",
-                            "description": "Namespace for logical grouping of long-term memory records (1-64 chars, alphanumeric and dashes)."
+                            "description": "Namespace for logical grouping (1-64 chars, alphanumeric and dashes).\n\nThis is the shared namespace format for both session memory and long-term memory: sessions carry it as session-level state, and long-term memory records carry it per record. The same constraints apply everywhere it is used.\n\nNamespace is always optional; a record without one is valid. Applications use it to isolate memories by project, workspace, team, environment, or tenant. See `NamespaceFilter` for how records without a namespace behave under search.\n\nA namespace reaches a record one of two ways. Records written directly carry whatever namespace the caller sets. Records produced by extraction inherit the namespace of the session they were extracted from, which is fixed when that session is created; a session with no namespace yields records with no namespace. Existing records are never backfilled when a namespace is introduced later."
                         },
                         "description": "Matches all of the given values."
                     }
@@ -2721,14 +3078,64 @@
                     },
                     "metadata": {
                         "description": "Metadata as a JSON object (e.g., model name, token count). Always present; defaults to an empty object when no metadata was supplied."
+                    },
+                    "summarizedEvents": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Cumulative number of session events folded into this summary across all summarization cycles. Always positive. A value of 1 may indicate a summary created before this field was tracked; it self-corrects to a real count on the next summarization cycle.",
+                        "format": "int64"
                     }
                 },
                 "required": [
                     "createdAt",
                     "metadata",
+                    "summarizedEvents",
                     "summarizedUpToEventId",
                     "text",
                     "updatedAt"
+                ]
+            },
+            "StoreHealthFeature": {
+                "type": "object",
+                "description": "Feature-level store health.",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/StoreHealthStatus"
+                    }
+                },
+                "required": [
+                    "status"
+                ]
+            },
+            "StoreHealthFeatureMap": {
+                "type": "object",
+                "additionalProperties": {
+                    "$ref": "#/components/schemas/StoreHealthFeature"
+                }
+            },
+            "StoreHealthResponseContent": {
+                "type": "object",
+                "description": "Store-scoped RAM feature health.",
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/StoreHealthStatus"
+                    },
+                    "features": {
+                        "$ref": "#/components/schemas/StoreHealthFeatureMap"
+                    }
+                },
+                "required": [
+                    "features",
+                    "status"
+                ]
+            },
+            "StoreHealthStatus": {
+                "type": "string",
+                "description": "Store health status.",
+                "enum": [
+                    "healthy",
+                    "degraded",
+                    "unavailable"
                 ]
             },
             "TimeoutErrorResponseContent": {
@@ -2876,6 +3283,38 @@
                     "/errors/unexpected-error"
                 ]
             },
+            "UpdateLongTermMemoryFieldsRequestContent": {
+                "type": "object",
+                "description": "Type- and namespace-scoped field update request for a custom-typed long-term memory record.",
+                "properties": {
+                    "memoryType": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "The caller's bound memory type. The update is rejected unless the record's stored memoryType matches."
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "The caller's namespace. The update is rejected with 409 unless the record's stored namespace matches exactly.\n\nOmit it to assert that the record has no namespace — an omitted value matches only records stored without one, it does not mean \"any namespace\". The check is applied atomically with the update, so a record cannot be re-filed into another namespace between the check and the write."
+                    },
+                    "text": {
+                        "type": "string",
+                        "maxLength": 50000,
+                        "minLength": 1,
+                        "description": "Updated text content (1-50000 chars). Omit to leave the text unchanged."
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/AttributeMap"
+                    }
+                },
+                "required": [
+                    "memoryType"
+                ]
+            },
             "UpdateLongTermMemoryRequestContent": {
                 "type": "object",
                 "description": "Partial update request for a long-term memory record.",
@@ -2891,7 +3330,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
-                        "description": "Updated memory type."
+                        "description": "Updated memory type. Built-in or a custom type registered on the store."
                     },
                     "topics": {
                         "type": "array",
@@ -2906,7 +3345,7 @@
                     },
                     "namespace": {
                         "type": "string",
-                        "description": "Updated namespace. When provided, must be 1-64 chars alphanumeric and dashes; omit the field or send an empty string to clear."
+                        "description": "Updated namespace. When provided, must be 1-64 chars alphanumeric and dashes; omit the field or send an empty string to clear.\n\nThis is the only way to change the namespace of an existing record, including one produced by extraction: a record inherits its session's namespace at creation and is not revised afterwards, so use this to re-file a record or to add a namespace to one created before the session had any."
                     },
                     "ownerId": {
                         "type": "string",
@@ -2938,7 +3377,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
-                        "description": "Type of memory."
+                        "description": "Type of memory. Built-in or a custom type registered on the store."
                     },
                     "sessionId": {
                         "type": "string",
@@ -2959,7 +3398,7 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Namespace for logical grouping."
+                        "description": "Namespace for logical grouping. Absent when the record has none: either it was written directly without one, or it was extracted from a session that has no namespace."
                     },
                     "topics": {
                         "type": "array",
@@ -2971,6 +3410,9 @@
                         },
                         "maxItems": 50,
                         "description": "Topic tags for categorization."
+                    },
+                    "attributes": {
+                        "$ref": "#/components/schemas/AttributeMap"
                     },
                     "createdAt": {
                         "type": "string",

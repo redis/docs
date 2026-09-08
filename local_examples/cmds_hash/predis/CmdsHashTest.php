@@ -133,7 +133,9 @@ class CmdsHashTest extends TestCase
         $hValsResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);
         echo "HMSET myhash field1 Hello field2 World: " . ($hValsResult1 ? 'OK' : 'FAIL') . "\n"; // >>> OK
 
+        // HVALS follows the hash's field order, which Redis does not promise, so sort.
         $hValsResult2 = $this->redis->hvals('myhash');
+        sort($hValsResult2);
         echo "HVALS myhash: " . json_encode($hValsResult2) . "\n"; // >>> ["Hello","World"]
         // STEP_END
 
@@ -170,6 +172,28 @@ class CmdsHashTest extends TestCase
         $this->assertEquals(2, count($hExpireResult3));
         $this->assertTrue(array_reduce($hExpireResult3, function($carry, $ttl) { return $carry && $ttl > 0; }, true)); // TTL should be positive
         $this->assertEquals([-2], $hExpireResult4);
+        // REMOVE_END
+
+        // STEP_START hlen
+        // REMOVE_START
+        $this->redis->del('myhash');
+        // REMOVE_END
+
+        $hLenResult1 = $this->redis->hset('myhash', 'field1', 'Hello');
+        echo "HSET myhash field1 Hello: " . $hLenResult1 . "\n"; // >>> 1
+
+        $hLenResult2 = $this->redis->hset('myhash', 'field2', 'World');
+        echo "HSET myhash field2 World: " . $hLenResult2 . "\n"; // >>> 1
+
+        $hLenResult3 = $this->redis->hlen('myhash');
+        echo "HLEN myhash: " . $hLenResult3 . "\n"; // >>> 2
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals(1, $hLenResult1);
+        $this->assertEquals(1, $hLenResult2);
+        $this->assertEquals(2, $hLenResult3);
+        $this->redis->del('myhash');
         // REMOVE_END
     }
 

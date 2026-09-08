@@ -1,6 +1,8 @@
 ---
 Title: redis-di configure
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/cli/redis-di-configure/
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-configure/
 alwaysopen: false
 categories:
   - docs

@@ -29,6 +29,8 @@ To learn how to install Redis and `redis-cli`, see the following installation gu
 
 - [Redis Software with Docker]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
 
+If you only need `redis-cli` on your local machine to connect to a remote database, you can [install the standalone `redis-cli` binary]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}) on Linux or macOS, without installing the full Redis Open Source distribution.
+
 ## Connect to a database
 
 To run Redis commands with `redis-cli`, you need to connect to your Redis database.

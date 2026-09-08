@@ -139,8 +139,13 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
         * **Email**: user.mail
         * **FirstName**: user.givenname
         * **LastName**: user.surname
-        * **redisAccountMapping**: "<sm_account_id>=owner"
-            * The `redisAccountMapping` contains Redis Cloud account IDs and user roles pairs. The key-value pair consists of the lowercase role name (owner, member, manager, billing_admin, or viewer) and your **Redis Cloud Account ID** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}). 
+        * **redisAccountMapping**: `<sm_account_id>=owner`
+
+            The `redisAccountMapping` claim maps Redis Cloud accounts to the role each user receives. Its value is a comma-separated list of `accountId=role` pairs, for example `2613034=owner,2923247=member`.
+
+            * **`accountId`** must be the numeric **Redis Cloud Account ID** found in your [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}). Non-numeric values are silently skipped.
+            * **`role`** must be lowercase and one of `owner`, `member`, `manager`, `billing_admin`, or `viewer`. Note the underscore in `billing_admin`.
+            * Redis Cloud reads a **single value** for this claim. If it resolves to multiple values, only one is used — see [Claim conditions and user groups](#claim-conditions-and-user-groups).
 
           {{<image filename="images/rc/saml/ad_saml_14.png" >}}
         
@@ -178,9 +183,70 @@ To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
 ## Claim conditions and user groups
 
-If your users are going to be part of different Groups, you can create a Claim Condition for the `redisAccountMapping` attribute.
+The simple `redisAccountMapping` value shown above gives every user assigned to the application the same role. If different users need different roles, or you prefer to manage roles with directory groups, you can build the claim value from each user's group membership instead.
+
+However you build it, Redis Cloud reads `redisAccountMapping` as a single string of comma-separated `accountId=role` pairs, so the emitted value must resolve to clean `accountId=role` pairs using the same format described in [Step 3](#step-3-finish-saml-configuration-in-microsoft-entra-id).
+
+### Map roles from directory groups (regex replace)
+
+Microsoft Entra can build the claim value from the names of the groups a user belongs to, using **Apply a regex replace to groups claim content**.
+
+1. Create one directory group per role, using a `redis-<role>` naming convention:
+
+    * `redis-owner`
+    * `redis-member`
+    * `redis-manager`
+    * `redis-billing_admin` — note the **underscore**, so the group name matches the `billing_admin` role token exactly
+    * `redis-viewer`
+
+1. On the `redisAccountMapping` claim, set the source to **Attribute**, choose the **groups** attribute, and enable **Apply a regex replace to groups claim content**.
+
+1. Set the regex and replacement patterns:
+
+    * **Regex pattern**: `^redis-(?<role>owner|member|manager|billing_admin|viewer)$`
+    * **Replacement pattern**: `<accountId>={role}` — replace `<accountId>` with your numeric Redis Cloud Account ID. To map more than one account, comma-join the pairs, for example `2613034={role},2923247={role}`.
+
+    {{< warning >}}
+The substitution token is `{role}` — **curly braces only**. Do **not** write `${role}`. Entra emits the `$` as a literal character, producing a value like `2613034=$owner`, which Redis Cloud rejects with `saml-config-invalid-account-mapping` because `$owner` is not a valid role token.
+    {{< /warning >}}
+
+1. Make sure **Emit groups as role claims** is **turned off**. When it is on, the value is emitted under the `http://schemas.microsoft.com/ws/2008/06/identity/claims/role` claim type instead of your custom `redisAccountMapping` claim name, so Redis Cloud never receives the mapping.
+
+{{< note >}}
+Set the group claim **Source attribute** to the group **name**, not **Group ID**. If the source is Group ID, the emitted value is a GUID that never matches the `redis-<role>` regex. For groups synced from on-premises Active Directory, use `sAMAccountName`; for cloud-only groups, enable the group-name option.
+{{< /note >}}
 
 {{<image filename="images/rc/saml/ad_saml_20.png" >}}
+
+### Users in multiple groups
+
+The group-claim regex emits **one value per matching group**, so a user who belongs to more than one `redis-<role>` group produces a multi-valued claim.
+
+This does not fail login, but because Redis Cloud reads only a single value, the broker forwards one of the values (typically the first). The user then resolves to a single group's role rather than a combination, which makes the effective role unpredictable.
+
+* Assign each user to a **single** `redis-<role>` group per account set, so the resulting role is deterministic.
+* If users need **different roles in different accounts**, do not build the value from groups. Instead, store the full `accountId=role,...` string in a per-user directory or extension attribute and emit that attribute directly, with no regex. This always produces a single value.
+
+## Troubleshooting
+
+### `saml-config-invalid-account-mapping`
+
+This error means the `redisAccountMapping` claim reached Redis Cloud, but no valid `accountId=role` pair could be parsed from its value. Check the emitted value for:
+
+* **Stray characters** — most often a literal `$` from writing `${role}` instead of `{role}` in the regex replacement pattern, which produces `accountId=$owner`.
+* **A wrong role token** — the role must be exactly `owner`, `member`, `manager`, `billing_admin`, or `viewer`, in lowercase. Values like `Owner` or `billing-admin` (hyphen) are rejected.
+* **A non-numeric account ID** — `accountId` must be the numeric Redis Cloud Account ID from [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}).
+
+Multi-group membership (a multi-valued claim) does **not** cause this error. Login succeeds, but the user resolves to a single group's role — see [Users in multiple groups](#users-in-multiple-groups).
+
+### Verify the emitted claim
+
+To confirm the claim value before users sign in:
+
+* Use Entra's **Test this application** on the SAML-based sign-on screen, or
+* Capture the SAML assertion during login — with a tool such as [SAML-tracer](https://addons.mozilla.org/firefox/addon/saml-tracer/), or a HAR capture taken with **Preserve log** enabled from the start of the login flow.
+
+Confirm that `redisAccountMapping` contains clean `accountId=role` pairs, with no `$` or other stray characters and no duplicate account IDs.
 
 ## IdP initiated SSO
 

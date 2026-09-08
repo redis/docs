@@ -288,6 +288,27 @@
           "description": "Query results and profiling information"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_profile(index_name, *args)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "args",
+            "type": "Array",
+            "description": "the profile arguments, e.g. \"SEARCH\", \"QUERY\", \"<query>\""
+          }
+        ],
+        "returns": {
+          "type": "Array",
+          "description": "the raw profile reply (results plus a profiling tree)"
+        }
+      }
     ]
   }
 }

@@ -99,7 +99,7 @@ await cluster.close();
 
 ## Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
+When you deploy your application, use TLS and follow the [Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.
 
 ```js
 const client = createClient({
@@ -132,21 +132,21 @@ You can also use discrete parameters and UNIX sockets. Details can be found in t
 
 Client-side caching is a technique to reduce network traffic between
 the client and server, resulting in better performance. See
-[Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
+[Client-side caching introduction](/content/develop/clients/client-side-caching.md)
 for more information about how client-side caching works and how to use it effectively.
 
-{{< note >}}Client-side caching requires `node-redis` v5.1.0 or later.
-To maximize compatibility with all Redis products, client-side caching
-is supported by Redis v7.4 or later.
-
-The [Redis server products]({{< relref "/operate" >}}) support
-[opt-in/opt-out]({{< relref "/develop/reference/client-side-caching#opt-in-and-opt-out-caching" >}}) mode
-and [broadcasting mode]({{< relref "/develop/reference/client-side-caching#broadcasting-mode" >}})
-for CSC, but these modes are not currently implemented by `node-redis`.
-{{< /note >}}
+> [!NOTE]
+> Client-side caching requires `node-redis` v5.1.0 or later.
+> To maximize compatibility with all Redis products, client-side caching
+> is supported by Redis v7.4 or later.
+>
+> The [Redis server products](/content/operate/_index.md) support
+> [opt-in/opt-out](/content/develop/reference/client-side-caching.md#opt-in-and-opt-out-caching) mode
+> and [broadcasting mode](/content/develop/reference/client-side-caching.md#broadcasting-mode)
+> for CSC, but these modes are not currently implemented by `node-redis`.
 
 To enable client-side caching, specify the
-[RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+[RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
 protocol and configure the cache with the `clientSideCache` parameter
 when you connect. If you want `node-redis` to create the cache for you,
 then you can pass a simple configuration object in `clientSideCache`, as
@@ -216,8 +216,8 @@ client.get("city");     // Retrieved from cache
 ```
 
 You can see the cache working if you connect to the same Redis database
-with [`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run the
-[`MONITOR`]({{< relref "/commands/monitor" >}}) command. If you run the
+with [`redis-cli`](/content/develop/tools/cli.md) and run the
+[`MONITOR`](/content/commands/monitor.md) command. If you run the
 code above but without passing `clientSideCache` during the connection,
 you should see the following in the CLI among the output from `MONITOR`:
 
@@ -335,13 +335,13 @@ createClient({
 Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH.
 
-{{< note >}}Using SCH with node-redis requires v5.9.0 or later for
-basic connections, and v5.11.0 or later for
-[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
-{{< /note >}}
+> [!NOTE]
+> Using SCH with node-redis requires v5.9.0 or later for
+> basic connections, and v5.11.0 or later for
+> [OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections.
 
 Use the configuration options shown in the example below to enable SCH
 during the connection:
@@ -357,9 +357,9 @@ const client = createClient({
 });
 ```
 
-{{< note >}}SCH requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
-protocol, so you must set the `RESP:3` option explicitly when you connect.
-{{< /note >}}
+> [!NOTE]
+> SCH requires the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
+> protocol, so you must set the `RESP:3` option explicitly when you connect.
 
 The available options are:
 
@@ -380,13 +380,13 @@ The available options are:
 -   `maintRelaxedSocketTimeout`: (`number`) The socket timeout to use while the server is 
     performing maintenance. The default is 10000 (10 seconds). If a timeout happens during the maintenance period, the client receives a `SocketTimeoutDuringMaintenance` error.
 
-{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
-either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) or
-[Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
-(see [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) for more information).
-To use relaxed timeouts with these services, you should set `maintEndpointType: 'none'`
-when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
-{{< /note >}}
+> [!NOTE]
+>  Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+> either [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) or
+> [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+> (see [Smart client handoffs](/content/develop/clients/sch.md#redis-cloud) for more information).
+> To use relaxed timeouts with these services, you should set `maintEndpointType: 'none'`
+> when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
 
 ## Connection events
 
@@ -403,7 +403,7 @@ related to connection:
 -   `reconnecting`: (No parameters) The client is about to try reconnecting after the
     connection was lost due to an error.
 -   `sharded-channel-moved`: The cluster slot of a subscribed
-    [sharded pub/sub channel]({{< relref "/develop/pubsub#sharded-pubsub" >}})
+    [sharded pub/sub channel](/content/develop/pubsub/_index.md#sharded-pubsub)
     has been moved to another shard. Note that when you use a
     [`RedisCluster`](#connect-to-a-redis-cluster) connection, this event is automatically
     handled for you. See

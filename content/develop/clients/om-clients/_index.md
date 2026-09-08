@@ -3,6 +3,7 @@ aliases:
 - /develop/connect/om-clients
 - /connect/clients/om-clients/
 - /clients/om-clients/
+- /develop/connect/clients/om-clients/
 categories:
 - docs
 - develop

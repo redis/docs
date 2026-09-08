@@ -10,6 +10,7 @@ linkTitle: Upgrade database version
 weight: 1
 aliases:
   - /rc/databases/upgrade-version
+  - /operate/rc/databases/upgrade-version/
 ---
 
 You can upgrade databases that are not on the latest available version of Redis to a later database version at any time.

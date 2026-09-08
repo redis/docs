@@ -12,171 +12,389 @@ bannerText: Feature Form is currently in preview and subject to change. Feature 
 bannerChildren: true
 ---
 
-Install Feature Form on Kubernetes with the Helm chart and verify the core services.
+Install Redis Feature Form on Kubernetes with the Helm chart, durable PostgreSQL state, OpenID Connect (OIDC) authentication, and a license key.
 
 ## Install
 
-These steps install Feature Form with OIDC authentication and PostgreSQL-backed durable state — the recommended production configuration. The install sequence (after meeting the prerequisites):
+Prerequisites: For production environments, use an external PostgreSQL database and keep credentials and the license key in Kubernetes Secrets.
 
-1. Get the chart
-2. Choose auth and state values
-3. Pick the base chart or a profile
-4. Install with Helm
-5. Validate pods and services
-6. Record the endpoints
-7. Install the `ff` CLI
+To get started:
+
+1. Get the chart.
+2. Create the namespace and Secrets.
+3. Create a values file.
+4. Render and install the release.
+5. Verify the deployment.
+6. Install and connect the `ff` command-line interface (CLI).
 
 ### Prerequisites
 
 - Kubernetes 1.27+.
 - Helm 3.14+.
-- An OIDC issuer URL and client ID — see [Configure authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}) to set one up before installing.
-- A PostgreSQL connection path or existing secret.
+- Network access to the chart and image repositories. Configure `imagePullSecrets` if your cluster requires registry credentials.
+- An OIDC issuer URL, an API audience, and a CLI client configured for device authorization. See [Register a CLI client]({{< relref "/operate/featureform/configure-auth#register-a-cli-client" >}}).
+- An external PostgreSQL database for production state. Its role must be able to create and alter Feature Form tables during migrations.
+- A Feature Form license key from your Redis account team.
+- A public domain name and Transport Layer Security (TLS) certificate for each externally exposed endpoint.
 
 ### 1. Get the chart
 
-The Feature Form Helm chart is published as an OCI artifact on Docker Hub:
+The Feature Form Helm chart is published as an Open Container Initiative (OCI) artifact on Docker Hub:
 
 ```text
 oci://registry-1.docker.io/redisfeatureform/featureform
 ```
 
-Helm pulls the chart directly from this path with the `--version` flag — no `helm pull` step is required unless you want a local copy. Pin to the same version as the server and dashboard images you intend to run.
+Install the chart directly from this path. Always pin `--version` to the Feature Form version you intend to run.
 
-### 2. Choose auth and state values
+### 2. Create the namespace and Secrets
 
-Pick one PostgreSQL-backed state path before installation:
+Create the release namespace before creating referenced Secrets:
 
-- `postgres.url` for a connection string.
-- `postgres.secretName` to point at an existing Kubernetes secret holding the connection details.
-- `addons.statePostgres.enabled=true` to install the chart's bundled state PostgreSQL.
+```bash
+kubectl create namespace <namespace>
+```
 
-External PostgreSQL is the documented durable default.
+Use your normal secret-management process to create these Secrets in the same namespace as Feature Form:
 
-### 3. Pick the base chart or a profile
+- `featureform-postgres`, with a `POSTGRES_URL` key containing the PostgreSQL connection URL. Require TLS according to your database policy.
+- `featureform-license`, with the license key stored in `license.key`.
 
-Pick one based on what infrastructure already exists in your cluster and what observability you need:
+The Secret names and local file paths in these examples aren't required. If you choose different Secret names or keys, update the matching `postgres.*` and `license.*` settings in the values file. You can also choose a different values filename and pass it to Helm with `--values`.
 
-- **Base chart** — for environments where Postgres, Redis, and other provider infrastructure already exist.
-- **`profiles/memory.yaml`** — local or test-only installs; uses in-memory state (not durable).
-- **`profiles/provider-stack.yaml`** — adds bundled Postgres and Redis addons so you don't need external infrastructure.
-- **`profiles/observability-postgres.yaml`** — adds Prometheus and Grafana with durable Postgres state.
-- **`profiles/provider-observability.yaml`** — both bundled providers and observability.
+For example, create the PostgreSQL Secret from a restricted environment file whose entry is `POSTGRES_URL=<postgres-connection-url>`:
 
-### 4. Install with Helm
+```bash
+kubectl --namespace <namespace> create secret generic featureform-postgres \
+  --from-env-file=<path-to-postgres-secret-env-file>
+```
+
+Create the license Secret from a restricted key file:
+
+```bash
+kubectl --namespace <namespace> create secret generic featureform-license \
+  --from-file=license.key=<path-to-license-key-file>
+```
+
+Create an image-pull Secret as well if your cluster requires registry authentication.
+
+Add this entry when you create `values-production.yaml`:
+
+```yaml
+imagePullSecrets:
+  - name: <registry-secret-name>
+```
+
+### 3. Create a values file
+
+Create `values-production.yaml` and set `auth.deploymentID` to a stable, lowercase ASCII identifier for this Feature Form environment, such as `acme-featureform-prod-us-west-2`. Keep the value the same across replicas and upgrades, and use a different value for each environment.
+
+Feature Form accepts any value that isn't empty after trimming whitespace. Changing it requires CLI users to sign in again.
+
+```yaml
+stateBackend: postgres
+
+auth:
+  enabled: true
+  oidcIssuerURL: "https://idp.example.com/realms/featureform"
+  oidcClientID: "featureform-api"
+  oidcCLIClientID: "featureform-cli"
+  oidcCLIScopes: "openid profile offline_access"
+  oidcCLILoginMethods: "device_code"
+  deploymentID: "<stable-deployment-id>"
+  publicRestEndpoint: "https://api.example.com"
+  publicGrpcEndpoint: "grpc.example.com:443"
+
+postgres:
+  url: ""
+  secretName: featureform-postgres
+  secretKey: POSTGRES_URL
+
+license:
+  existingSecret: featureform-license
+  secretKey: license.key
+
+rest:
+  ingress:
+    enabled: true
+    className: "<ingress-class-name>"
+    hosts:
+      - host: api.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: featureform-api-tls
+        hosts:
+          - api.example.com
+
+grpc:
+  ingress:
+    enabled: true
+    className: "<ingress-class-name>"
+    annotations:
+      "<grpc-backend-annotation>": "<grpc-backend-value>"
+    hosts:
+      - host: grpc.example.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - secretName: featureform-grpc-tls
+        hosts:
+          - grpc.example.com
+```
+
+In `values-production.yaml`, replace the ingress class and gRPC backend annotation placeholders with the values required by your maintained ingress controller. The controller must support gRPC backends and TLS termination.
+
+`auth.publicRestEndpoint` and `auth.publicGrpcEndpoint` show the public endpoints through authentication discovery. Use addresses reachable by your CLI users. If internal services reach the identity provider through a different URL, configure the internal and public OIDC URLs as described in [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
+
+### 4. Render and install the release
+
+Render the chart before changing the cluster:
+
+```bash
+helm template featureform \
+  oci://registry-1.docker.io/redisfeatureform/featureform \
+  --version <featureform-version> \
+  --namespace <namespace> \
+  --values values-production.yaml \
+  > /tmp/featureform-rendered.yaml
+```
+
+Install the release and wait for its workloads to become ready:
 
 ```bash
 helm upgrade --install featureform \
   oci://registry-1.docker.io/redisfeatureform/featureform \
   --version <featureform-version> \
-  --set postgres.url=postgres://featureform:featureform@my-postgres:5432/featureform?sslmode=disable \
-  --set auth.oidcIssuerURL=https://idp.example.com/realms/featureform \
-  --set auth.oidcClientID=featureform-api \
-  --set rest.ingress.enabled=true \
-  --set rest.ingress.className=nginx \
-  --set rest.ingress.hosts[0].host=api.example.com \
-  --set rest.ingress.hosts[0].paths[0].path=/ \
-  --set rest.ingress.hosts[0].paths[0].pathType=Prefix
+  --namespace <namespace> \
+  --values values-production.yaml \
+  --wait \
+  --timeout 10m
 ```
 
-### 5. Validate pods and services
+### 5. Verify the deployment
+
+Confirm the server rollout, services, and PostgreSQL migration init container:
 
 ```bash
-kubectl get pods -n <namespace>
-kubectl get svc -n <namespace>
-kubectl describe deployment featureform-featureform-server -n <namespace>
+kubectl --namespace <namespace> rollout status \
+  deployment/featureform-featureform-server
+kubectl --namespace <namespace> get pods
+kubectl --namespace <namespace> get services
 ```
 
-The deployment is healthy when:
-
-- Pods show `STATUS Running` with `READY 1/1`.
-- Both REST and gRPC services are present.
-- When PostgreSQL state is enabled, the migration init container shows `STATUS Completed` (`kubectl logs <pod> -c migrate` for details).
-
-### 6. Record the endpoints
-
-Capture the URLs or hosts your teams will need:
-
-- REST API endpoint
-- gRPC endpoint
-- dashboard URL if enabled
-- Grafana URL if enabled
-
-Find them with:
+Confirm that the `migrate` init container completed with exit code `0` for every server pod:
 
 ```bash
-kubectl get ingress -n <namespace>   # ingress hosts
-kubectl get svc -n <namespace>       # LoadBalancer EXTERNAL-IPs
+kubectl --namespace <namespace> get pods \
+  --selector app.kubernetes.io/instance=featureform,app.kubernetes.io/component=server \
+  --output jsonpath='{range .items[*]}{.metadata.name}{"\t"}{range .status.initContainerStatuses[?(@.name=="migrate")]}{.state.terminated.reason}{"\t"}{.state.terminated.exitCode}{"\n"}{end}{end}'
 ```
 
-### 7. Install the `ff` CLI
+Each line must end with `Completed` and `0`. If the status fields are empty, wait for the init container to finish and run the command again.
 
-The Feature Form CLI ships as the `redis-featureform` package on PyPI. **Don't run `pip install featureform`** — that installs an unrelated upstream project. Install into a virtual environment, pinned to the same version as your deployment:
+If migration fails, inspect its logs before restarting the pod:
 
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+kubectl --namespace <namespace> logs <server-pod> --container migrate
+```
+
+Verify the mounted license. Inspect the printed `Status:` value rather than relying only on the command's exit status:
+
+```bash
+kubectl --namespace <namespace> exec \
+  deployment/featureform-featureform-server \
+  -- featureformctl license status
+```
+
+Then verify REST readiness through the public endpoint:
+
+```bash
+curl --fail --silent --show-error https://api.example.com/health/ready
+```
+
+The readiness endpoint checks the server and registered scheduler dependencies. It doesn't prove that every external provider is healthy.
+
+### 6. Install and connect the `ff` CLI
+
+The Feature Form CLI ships as the `redis-featureform` package on PyPI. **Don't run `pip install featureform`** — that installs an unrelated upstream project. Install it in a virtual environment and pin it to the deployment version:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install redis-featureform==<featureform-version>
-ff --help
+ff version --client-only
 ```
 
-### Common pitfalls
+When you expose the gRPC endpoint publicly, connect the CLI through that endpoint. gRPC is the CLI default, but the explicit transport makes the saved profile clear:
 
-- **One shared server deployment exposes both REST and gRPC.** They're not separate deployments — don't try to scale them independently or expose them on different services.
-- **`auth.enabled=false` is not supported.** The chart refuses to render. Configure OIDC and set `auth.enabled=true`.
-- **`stateBackend=memory` is not durable.** Workspace state, applied resources, and serving metadata are lost on pod restart. Use this only for ephemeral testing.
-- **`dashboard.enabled=true` alone won't render the dashboard.** You also need `dashboard.publicAPIURL`, `dashboard.auth.*`, and a resolvable auth URL — see [Dashboard requirements](#dashboard-requirements).
+```bash
+ff --server grpc.example.com:443 --transport grpc \
+  auth login --profile production
+```
+
+If you expose only REST, log in through that endpoint instead:
+
+```bash
+ff --server https://api.example.com --transport rest \
+  auth login --profile production
+```
+
+If neither endpoint is public, forward the gRPC service from one terminal:
+
+```bash
+kubectl --namespace <namespace> port-forward \
+  service/featureform-featureform-grpc 9090:9090
+```
+
+Then log in from another terminal:
+
+```bash
+ff --server localhost:9090 --transport grpc \
+  auth login --profile production
+```
+
+After login, verify the authenticated principal and the selected endpoint:
+
+```bash
+ff auth status
+ff auth whoami
+ff ping
+```
+
+Login creates or updates the `production` profile and makes it active for subsequent commands. `ff ping` returns a failure status when the selected endpoint is unavailable.
+
+## Configure production state
+
+Use external PostgreSQL so Feature Form state survives restarts and remains consistent across server replicas. Protect the database with your normal TLS, availability, monitoring, backup, and restore controls. Back up the database before upgrading Feature Form.
+
+This database stores durable Feature Form application state. Register production data providers separately after deploying Feature Form.
+
+Before starting the server, the chart runs an init container that applies all pending schema migrations. The database role must be able to create and alter the Feature Form schema. A migration failure keeps the server pod from becoming ready.
 
 ## Configure external access
 
-After installation, publish the right Feature Form endpoints for users, automation, and optional UI access.
+All services default to `ClusterIP`. Choose one exposure model:
 
-### REST ingress example
+- Use `rest.ingress.*`, `grpc.ingress.*`, and `dashboard.ingress.*` for separate hosts.
+- Use `ingress.*` for one host with chart-managed paths for the API and dashboard.
+- Use the service `type=LoadBalancer` values when your platform terminates TLS at a load balancer.
 
-Append these flags to the `helm upgrade --install` command to publish REST through ingress:
+Don't combine `ingress.*` with service-specific ingress settings. The chart rejects that configuration.
 
-```bash
---set rest.ingress.enabled=true \
---set rest.ingress.className=nginx \
---set rest.ingress.hosts[0].host=api.example.com \
---set rest.ingress.hosts[0].paths[0].path=/ \
---set rest.ingress.hosts[0].paths[0].pathType=Prefix
-```
-
-### gRPC exposure guidance
-
-Use `grpc.ingress.*` only with an ingress controller that supports gRPC backends. If ingress isn't an option, use `grpc.service.type=LoadBalancer`.
+Terminate TLS at the ingress controller or load balancer. Use `grpc.ingress.*` only with a controller that supports gRPC backends. If ingress isn't suitable, use `grpc.service.type=LoadBalancer` and `rest.service.type=LoadBalancer`.
 
 ### Dashboard requirements
 
 Enabling the dashboard requires:
 
-- `dashboard.enabled=true`
-- a resolvable public API URL
-- dashboard auth secrets
-- a resolvable auth URL
+- `dashboard.enabled=true`.
+- `dashboard.publicAPIURL`, a REST ingress host, or unified `ingress.*` configuration.
+- A resolvable dashboard authentication URL.
+- An OIDC client secret and dashboard session secret. Use `dashboard.auth.existingSecret` for production.
 
-### Unified ingress
+The dashboard Secret keys default to `FEATUREFORM_OIDC_CLIENT_SECRET` and `FEATUREFORM_DASHBOARD_AUTH_SECRET`.
 
-Unified ingress publishes one host with chart-managed paths for API, dashboard, and optionally Grafana. Do not combine it with service-specific ingress settings.
+## Configure availability and capacity
 
-### Direct load balancers
+The chart defaults to one server replica. For multiple replicas, use PostgreSQL state. Configure resource requests before enabling horizontal autoscaling. Each server replica also runs scheduler workers, so adding replicas increases both API and job-processing capacity.
 
-If your platform prefers direct external services, expose:
+This example sets resource boundaries, two or more replicas, and a PodDisruptionBudget:
 
-- `rest.service.type=LoadBalancer`
-- `grpc.service.type=LoadBalancer`
-- `dashboard.service.type=LoadBalancer`
+```yaml
+server:
+  resources:
+    requests:
+      cpu: <server-cpu-request>
+      memory: <server-memory-request>
+    limits:
+      cpu: <server-cpu-limit>
+      memory: <server-memory-limit>
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: <maximum-server-replicas>
+    targetCPUUtilizationPercentage: 80
 
-### Troubleshooting
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+```
 
-- **Missing ingress hosts.** Set `rest.ingress.hosts[0].host` and `paths`. If ingress isn't a fit, switch to `rest.service.type=LoadBalancer` instead.
-- **Unified ingress mixed with service-specific ingresses.** Pick one — either configure `unifiedIngress.*`, or the per-service `rest.ingress.*` / `grpc.ingress.*` / `dashboard.ingress.*`, never both.
-- **Dashboard enabled without API URL or auth secrets.** `dashboard.enabled=true` also requires `dashboard.publicAPIURL` and the `dashboard.auth.*` settings listed in [Dashboard requirements](#dashboard-requirements).
-- **Grafana ingress configured without the observability stack enabled.** Enable observability via `profiles/observability-postgres.yaml` (or the matching `observability.*` keys) before adding Grafana ingress.
+Horizontal Pod Autoscaling requires the Kubernetes resource metrics API. Use `server.nodeSelector`, `server.tolerations`, `server.affinity`, or `server.topologySpreadConstraints` when your cluster requires workload placement controls.
+
+By default, each server process starts two effective scheduler workers. To bound per-replica job concurrency, use `scheduler.workerCount` and `scheduler.workerMaxInflight`. Tune these values with server replica count and downstream provider capacity; increasing API replicas also increases the number of workers that can claim jobs.
+
+## Configure Kubernetes Secret access
+
+No token is needed to consume Secrets already referenced by pod environment variables or volumes. The chart doesn't mount a Kubernetes service-account token by default.
+
+If you register a Kubernetes secret provider for server-side secret resolution, enable the token mount and grant the Feature Form service account `get` access to the required Secret objects. For Secrets in the release namespace:
+
+```yaml
+serviceAccount:
+  automountServiceAccountToken: true
+
+rbac:
+  create: true
+  rules:
+    - apiGroups: [""]
+      resources: ["secrets"]
+      resourceNames: ["<provider-secret-name>"]
+      verbs: ["get"]
+```
+
+{{< note >}}
+These `rbac.*` values configure Kubernetes permissions. Feature Form application roles are configured separately in [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}).
+{{< /note >}}
+
+## Configure observability
+
+The server exports metrics and traces through OpenTelemetry Protocol (OTLP). Because the Helm chart disables both signals by default, set the endpoint and enable the signals you want. Configure an external collector using an authority without a URL scheme:
+
+```yaml
+observability:
+  otlpEndpoint: "otel-collector.telemetry.svc.cluster.local:4317"
+  tracingEnabled: true
+  metricsEnabled: true
+  serviceName: featureform
+  serviceVersion: "<featureform-version>"
+  environment: production
+  logLevel: info
+  traceSampleRate: 0.1
+```
+
+Feature Form writes server logs to standard output and standard error. Collect them with your Kubernetes logging system.
+
+## Upgrade and roll back
+
+Before upgrading:
+
+1. Back up the Feature Form PostgreSQL database.
+2. Confirm the license key is valid for the target release.
+3. Render the target chart version with the current values file.
+4. Upgrade with an explicit `--version`, `--wait`, and `--timeout`.
+5. Verify the migration init container, server rollout, license status, REST readiness, and `ff ping`.
+
+Keep the server, dashboard, chart, and `ff` versions aligned. Replacing an external license Secret doesn't restart the server; roll out the server deployment after updating the key.
+
+Helm rollback restores chart-managed resources, but it doesn't reverse PostgreSQL migrations or restore externally managed Secrets. Preserve the database backup, previous license key, image version, and Helm revision until the rollback window closes.
+
+## Troubleshoot installation
+
+- **Helm reports missing authentication values.** Set `auth.enabled=true`, `auth.oidcIssuerURL`, `auth.oidcClientID`, and a stable `auth.deploymentID`.
+- **A pod shows `ImagePullBackOff`.** Confirm registry network access and configure `imagePullSecrets` when credentials are required.
+- **The migration init container fails.** Check PostgreSQL reachability, TLS settings, credentials, and the database role's schema permissions.
+- **The server reports a missing or invalid license.** Check the Secret name and `license.key` entry, then inspect `featureformctl license status` without printing the key.
+- **OIDC discovery or login fails.** Verify the internal and public issuer URLs, client IDs, redirect URIs, and endpoint reachability.
+- **The dashboard fails chart validation.** Supply its public API URL, authentication URL, OIDC client secret, and session secret.
+- **Ingress values conflict.** Configure either unified `ingress.*` or service-specific ingress settings, not both.
 
 ## Next steps
 
-- [Configure authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}) — set up OIDC and grant roles.
+- [Configure authentication and role-based access control]({{< relref "/operate/featureform/configure-auth" >}}) — set up OIDC and grant roles.
 - [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}) — create your first workspace.
-- [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}) — connect Postgres, Redis, S3, and other backends.
+- [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}) — connect production data infrastructure.
 - [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}) — verify the install end to end.

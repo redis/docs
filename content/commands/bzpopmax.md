@@ -75,11 +75,9 @@ non-empty, with the given keys being checked in the order that they are given.
 The `timeout` argument is interpreted as a double value specifying the maximum
 number of seconds to block. A timeout of zero can be used to block indefinitely.
 
-See the [BZPOPMIN documentation][cb] for the exact semantics, since `BZPOPMAX`
+See the [BZPOPMIN documentation]({{< relref "/commands/bzpopmin" >}}) for the exact semantics, since `BZPOPMAX`
 is identical to [`BZPOPMIN`]({{< relref "/commands/bzpopmin" >}}) with the only difference being that it pops members
 with the highest scores instead of popping the ones with the lowest scores.
-
-[cb]: /commands/bzpopmin
 
 ## Required arguments
 

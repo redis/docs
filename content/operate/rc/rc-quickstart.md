@@ -159,8 +159,8 @@ See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with th
 
 See the following guides to get started with different Redis use cases:
 - [Data structure store]({{< relref "/develop/get-started/data-store" >}})
-- [Document database]({{< relref "/develop/get-started/document-database" >}})
-- [Vector database]({{< relref "/develop/get-started/vector-database" >}})
+- [Document database]({{< relref "/develop/get-started/search-tutorial" >}})
+- [Vector database]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})
 - [RAG with Redis]({{< relref "/develop/get-started/rag" >}})
 - [Redis for AI]({{< relref "/develop/ai" >}})
 
@@ -169,6 +169,8 @@ See the following guides to get started with different Redis use cases:
 The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}).
 
 To run `redis-cli`, [install Redis]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine.
+
+If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, you can [install the standalone `redis-cli` binary]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}) on Linux or macOS.
 
 See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-cli`.
 

@@ -15,6 +15,18 @@ toc: 'true'
 weight: 72
 ---
 
+{{< warning >}}
+Redis Software 6.4 reached end of life on August 31, 2025. It no longer
+receives security patches, bug fixes, or maintenance releases.
+Support for 6.4-specific issues is limited per your subscription agreement,
+and you may be asked to upgrade before an issue can be investigated.
+
+Upgrade to a supported version. Reaching the latest version may require an
+intermediate upgrade first — see the
+[supported upgrade paths]({{< relref "/operate/rs/references/upgrade-paths" >}})
+and the [Redis Software product lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}).
+{{< /warning >}}
+
 ​[​Redis Enterprise Software version 6.4.2](https://redis.io/downloads/#software) is now available!
 
 This version offers:

@@ -8,6 +8,8 @@ categories:
 description: null
 linktitle: View and edit Pro plan
 weight: 40
+aliases:
+- /operate/rc/subscriptions/view-flexible-subscription/
 ---
 To view the details of a Redis Cloud Pro subscription:
 

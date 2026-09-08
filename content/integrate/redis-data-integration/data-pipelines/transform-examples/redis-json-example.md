@@ -1,6 +1,9 @@
 ---
 Title: Write to a Redis JSON document
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-json-example/
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-json-example/
+- /integrate/redis-data-integration/data-transformation/examples/redis-json-example/
+- /integrate/redis-data-integration/ingest/data-transformation/examples/redis-json-example/
 alwaysopen: false
 categories:
 - docs

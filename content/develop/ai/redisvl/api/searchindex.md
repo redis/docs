@@ -164,11 +164,18 @@ index.create(overwrite=True, drop=True)
 Delete the search index while optionally dropping all keys associated
 with the index.
 
+`FT.DROPINDEX` resolves index aliases, so if this schema’s name happens
+to be an alias, the index the alias points at is dropped instead – along
+with its documents when `drop` is True. [exists](#exists) reports an alias
+as absent to keep [create](#create) away from this path.
+
 * **Parameters:**
   **drop** (*bool* *,* *optional*) – Delete the key / documents pairs in the
   index. Defaults to True.
 * **Raises:**
-  **redis.exceptions.ResponseError** – If the index does not exist.
+  [**RedisSearchError**]({{< relref "exceptions/#redissearcherror" >}}) – If the index cannot be deleted, for example when it
+      does not exist. The original `redis-py` exception is available
+      as `__cause__`.
 
 #### `disconnect()`
 
@@ -277,6 +284,11 @@ Check if the index exists in Redis.
   True if the index exists, False otherwise.
 * **Return type:**
   bool
+* **Raises:**
+  [**RedisSearchError**]({{< relref "exceptions/#redissearcherror" >}}) – If the check fails for any reason other than the
+      index not existing, such as a connection failure or insufficient
+      permissions. The original `redis-py` exception is available as
+      `__cause__`.
 
 #### `expire_keys(keys, ttl)`
 
@@ -433,8 +445,8 @@ optional preprocessing steps, and setting optional expiration
 * **Return type:**
   List[str]
 * **Raises:**
-  * **SchemaValidationError** – If validation fails when validate_on_load is enabled.
-  * **RedisVLError** – If there’s an error loading data to Redis.
+  * [**SchemaValidationError**]({{< relref "exceptions/#schemavalidationerror" >}}) – If validation fails when validate_on_load is enabled.
+  * [**RedisVLError**]({{< relref "exceptions/#redisvlerror" >}}) – If there’s an error loading data to Redis.
 
 #### `paginate(query, page_size=30)`
 
@@ -537,11 +549,14 @@ JSON indexes they are merged at the document root (`$`) with
 `JSON.MERGE` (RFC 7396), so nested objects merge recursively, arrays
 are replaced wholesale, and a `None` value deletes that path.
 
-Because the read phase (an `FT.AGGREGATE` cursor) cannot safely run
-while the index is being written, all matching keys are resolved into
-memory *before* any write, then updated in batches. Memory use is
-therefore proportional to the match count; for very large match sets,
-narrow the filter and run in partitions (see the user guide).
+The read phase (an `FT.AGGREGATE` cursor) is drained in full *before*
+any write, holding every matching key in memory in between. Interleaving
+the two does not terminate: RediSearch has no in-place update, so each
+write appends a new, higher document id ahead of the cursor, which hands
+that document back to be written again. Memory use is therefore
+proportional to the match count; for very large match sets, narrow the
+filter and run in partitions (see "Bulk Delete and Update" in the
+search-and-indexing concepts guide).
 
 * **Parameters:**
   * **filter_expression** (*Union* *[* *str* *,* [*FilterExpression*]({{< relref "filter/#filterexpression" >}}) *]*) – Selects the
@@ -595,6 +610,15 @@ still existing (applied atomically), so such a document is
 isn’t counted in `processed`. `processed` therefore reflects the
 documents actually written, which can be less than `matched` under
 concurrent deletion.
+
+`processed` counts **distinct** documents — a document is written
+*at most* once, even though the resolving cursor can emit it on more
+than one page — but there is no *at least* once guarantee. It can
+exceed `matched` if the match set grew after the initial count, and
+fall short of it either from a concurrent deletion or because the
+cursor itself returned fewer rows than matched (which Redis
+documents as possible). A short `processed` is therefore not
+evidence of any particular cause.
 
 #### `property client: Redis | RedisCluster | None`
 
@@ -774,11 +798,18 @@ await index.create(overwrite=True, drop=True)
 
 Delete the search index.
 
+`FT.DROPINDEX` resolves index aliases, so if this schema’s name happens
+to be an alias, the index the alias points at is dropped instead – along
+with its documents when `drop` is True. [exists](#exists) reports an alias
+as absent to keep [create](#create) away from this path.
+
 * **Parameters:**
   **drop** (*bool* *,* *optional*) – Delete the documents in the index.
   Defaults to True.
 * **Raises:**
-  **redis.exceptions.ResponseError** – If the index does not exist.
+  [**RedisSearchError**]({{< relref "exceptions/#redissearcherror" >}}) – If the index cannot be deleted, for example when it
+      does not exist. The original `redis-py` exception is available
+      as `__cause__`.
 
 #### `async disconnect()`
 
@@ -852,6 +883,11 @@ Check if the index exists in Redis.
   True if the index exists, False otherwise.
 * **Return type:**
   bool
+* **Raises:**
+  [**RedisSearchError**]({{< relref "exceptions/#redissearcherror" >}}) – If the check fails for any reason other than the
+      index not existing, such as a connection failure or insufficient
+      permissions. The original `redis-py` exception is available as
+      `__cause__`.
 
 #### `async expire_keys(keys, ttl)`
 
@@ -1005,8 +1041,8 @@ optional preprocessing steps, and setting optional expiration
 * **Return type:**
   List[str]
 * **Raises:**
-  * **SchemaValidationError** – If validation fails when validate_on_load is enabled.
-  * **RedisVLError** – If there’s an error loading data to Redis.
+  * [**SchemaValidationError**]({{< relref "exceptions/#schemavalidationerror" >}}) – If validation fails when validate_on_load is enabled.
+  * [**RedisVLError**]({{< relref "exceptions/#redisvlerror" >}}) – If there’s an error loading data to Redis.
 
 ```python
 data = [{"test": "foo"}, {"test": "bar"}]

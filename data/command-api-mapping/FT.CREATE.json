@@ -249,6 +249,131 @@
           "description": "OK on success"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "create_index(name, schema, storage_type: \"hash\", prefix: nil, stopwords: nil, max_text_fields: false, skip_initial_scan: false, definition: nil)",
+        "params": [
+          {
+            "name": "name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "schema",
+            "type": "Search::Schema",
+            "description": "the field schema, built with Search::Schema.build"
+          },
+          {
+            "name": "storage_type",
+            "type": "String",
+            "description": "the data type to index (\"hash\" or \"json\")"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "key prefix for indexed/added documents"
+          },
+          {
+            "name": "stopwords",
+            "type": "Array<String>",
+            "description": "custom stopword list"
+          },
+          {
+            "name": "max_text_fields",
+            "type": "Boolean",
+            "description": "emit MAXTEXTFIELDS"
+          },
+          {
+            "name": "skip_initial_scan",
+            "type": "Boolean",
+            "description": "emit SKIPINITIALSCAN (do not backfill existing keys)"
+          },
+          {
+            "name": "definition",
+            "type": "Search::IndexDefinition",
+            "description": "a prebuilt ON/PREFIX/FILTER clause; takes precedence over storage_type/prefix"
+          }
+        ],
+        "returns": {
+          "type": "Search::Index",
+          "description": "a stateful index bound to the client, exposing #add/#search/#aggregate/#drop"
+        }
+      },
+      {
+        "signature": "ft_create(index_name, schema, storage_type = nil, prefix: nil, stopwords: nil, max_text_fields: false, skip_initial_scan: false, definition: nil, temporary: nil, no_term_offsets: false, no_highlight: false, no_field_flags: false, no_term_frequencies: false)",
+        "params": [
+          {
+            "name": "index_name",
+            "type": "String",
+            "description": "the index name"
+          },
+          {
+            "name": "schema",
+            "type": "Search::Schema",
+            "description": "the field schema; the SCHEMA clause is rendered from it"
+          },
+          {
+            "name": "storage_type",
+            "type": "String, Symbol",
+            "description": "the data type to index, e.g. \"HASH\" or \"JSON\" (ON <type>); ignored when definition is given"
+          },
+          {
+            "name": "prefix",
+            "type": "String",
+            "description": "index keys whose name starts with \"<prefix>:\"; ignored when definition is given"
+          },
+          {
+            "name": "stopwords",
+            "type": "Array<String>",
+            "description": "a custom stopword list (STOPWORDS)"
+          },
+          {
+            "name": "max_text_fields",
+            "type": "Boolean",
+            "description": "emit MAXTEXTFIELDS"
+          },
+          {
+            "name": "skip_initial_scan",
+            "type": "Boolean",
+            "description": "emit SKIPINITIALSCAN"
+          },
+          {
+            "name": "definition",
+            "type": "Search::IndexDefinition",
+            "description": "a prebuilt ON/PREFIX/FILTER clause; takes precedence over storage_type/prefix"
+          },
+          {
+            "name": "temporary",
+            "type": "Integer",
+            "description": "index lifetime in seconds (TEMPORARY <seconds>)"
+          },
+          {
+            "name": "no_term_offsets",
+            "type": "Boolean",
+            "description": "emit NOOFFSETS"
+          },
+          {
+            "name": "no_highlight",
+            "type": "Boolean",
+            "description": "emit NOHL"
+          },
+          {
+            "name": "no_field_flags",
+            "type": "Boolean",
+            "description": "emit NOFIELDS"
+          },
+          {
+            "name": "no_term_frequencies",
+            "type": "Boolean",
+            "description": "emit NOFREQS"
+          }
+        ],
+        "returns": {
+          "type": "String",
+          "description": "\"OK\" on success"
+        }
+      }
     ]
   }
 }

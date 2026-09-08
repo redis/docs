@@ -15,6 +15,22 @@ the main doc page but with `index.html.md` added. For example, the Markdown vers
 this page is available at
 [ai-agent-resources/index.html.md](https://redis.io/docs/latest/ai-agent-resources/index.html.md).
 
+## Bulk downloads
+
+To take whole products at once rather than page by page, use the **Download documentation**
+button in the sidebar of any documentation page. Choose the products you want, a version for
+each, and a format, and you get a single `.tar.gz`.
+
+The archives are also plain files, so you can fetch them directly:
+
+```
+https://redis.io/docs/latest/downloads/bundles/<product>-<version>-<format>.tar.gz
+```
+
+For example, `redis-software-latest-md.tar.gz` or `commands-latest-json.tar.gz`. Formats are
+`md` (one Markdown file per page), `md-single` (a product in one Markdown file), `html`, and
+`json`. Products are `develop`, `integrations`, `redisvl`, `redis-software`, `redis-cloud`, `redis-kubernetes`, `redis-open-source`, `redis-iris`, `redis-feature-form`, `redis-insight`, `redis-data-integration`, `glossary`, and `commands`.
+
 ## JSON documentation feeds
 
 Redis documentation is available in structured JSON format optimized for RAG (Retrieval-Augmented Generation) systems.
@@ -28,7 +44,7 @@ A single file containing all documentation pages in [NDJSON](https://github.com/
 | NDJSON | [docs.ndjson](https://redis.io/docs/latest/docs.ndjson) | ~30 MB |
 | Gzipped | [docs.ndjson.gz](https://redis.io/docs/latest/docs.ndjson.gz) | ~5 MB |
 
-Both files contain ~4,100 documents.
+Both files contain one record per documentation page, currently more than 2,600.
 
 ### Per-page JSON
 
@@ -37,16 +53,145 @@ Each documentation page has a corresponding JSON file at the same URL with `/ind
 - Page: `https://redis.io/docs/latest/commands/set/`
 - JSON: `https://redis.io/docs/latest/commands/set/index.json`
 
+### What the feeds cover
+
+The feeds contain one record for every documentation page. They deliberately do **not**
+contain the taxonomy pages that appear in
+[sitemap.xml](https://redis.io/docs/latest/sitemap.xml), so a straight comparison of the two
+shows the sitemap with more URLs.
+
+The excluded pages are:
+
+- the `categories/` listing and each `categories/<name>` page
+- the `tags/` listing and each `tags/<name>` page
+- the documentation home page
+
+These are generated index pages that list other pages. They carry no documentation prose of
+their own, so a record for them would add navigation noise without adding content. The
+exclusion is a consequence of how the output formats are configured rather than a filter
+applied afterwards: JSON and Markdown are produced for Hugo's `section` and `page` kinds
+only, and taxonomy, term and home pages are none of those.
+
+Two consequences worth knowing if you diff the feed against the sitemap:
+
+- Pages excluded from Hugo's page lists with `_build.list: never` are **absent from the
+  sitemap but present in the feeds**, because they are still built and rendered. They are
+  real documentation pages, usually reference material reached by direct link rather than by
+  browsing.
+- Both figures move. The feed is rebuilt at least daily and the corpus grows, so treat any
+  page count as a snapshot.
+
+### Schema version
+
+Every record carries a `schema_version` integer, and the same value appears in the
+`json metadata` block of the Markdown output. It is currently **2**.
+
+It increments only when the **shape** of a record changes: a field added, removed or
+renamed, or a new value entering the [role vocabulary](#section-roles). It does **not**
+change when page content changes, and it does not change when the value inside a field
+changes without the field itself changing. Use `content_hash` to detect content changes;
+use `schema_version` to detect when your parser might need attention.
+
+Version 2 added the `aliases` field to page records, and a new `page_type` value,
+`moved`, for the [redirect records](#pages-that-have-moved) served at a moved page's
+old URL. Version 1 was the initial shape: `sections`, `examples`, `content_hash`,
+`page_type`, `id` and `since`.
+
+## Pages that have moved
+
+When a page moves, its old URL keeps working — but until now it served only an HTML
+redirect, so appending `/index.json` to it returned 404 and a move was
+indistinguishable from a deletion. Two things now fix that.
+
+### A redirect record at the old URL
+
+Appending `/index.json` to a moved page's URL returns a record with
+`page_type` set to `moved`:
+
+```json
+{
+  "schema_version": 2,
+  "id": "develop/ai/agent-memory",
+  "title": "Moved",
+  "url": "https://redis.io/docs/latest/develop/ai/agent-memory/",
+  "page_type": "moved",
+  "moved_to": "https://redis.io/docs/latest/develop/ai/context-engine/agent-memory/"
+}
+```
+
+**Check `page_type` before assuming the shape of a record.** A `moved` record
+deliberately carries no `sections`, `examples` or `content_hash` — there is no content
+at that URL, only a pointer. Fetch `moved_to` to get the page itself.
+
+These records are **not** included in `docs.ndjson`. The feed is one record per
+documentation page, and adding roughly a thousand pointer records would make any count
+of the corpus ambiguous. Use the map below if you need them in bulk.
+
+### A map of every redirect
+
+`https://redis.io/docs/latest/redirects.json` lists every alias the site publishes and
+the page it resolves to:
+
+```json
+{
+  "schema_version": 2,
+  "base_url": "https://redis.io/docs/latest/",
+  "generated": "2026-08-07T15:00:00Z",
+  "count": 1061,
+  "ambiguous_count": 27,
+  "shadowed_count": 10,
+  "redirects": [
+    {"from": "/develop/ai/langcache", "to": "https://redis.io/docs/latest/develop/ai/context-engine/langcache/", "moved_on": "2026-05-11"}
+  ],
+  "ambiguous": [
+    {"from": "/develop/use/pipelining", "candidates": ["https://redis.io/docs/latest/develop/using-commands/", "https://redis.io/docs/latest/develop/using-commands/pipelining/"]}
+  ],
+  "shadowed": [
+    {"from": "/glossary", "declared": ["https://redis.io/docs/latest/glossary/"]}
+  ]
+}
+```
+
+Four things worth knowing before you rely on it:
+
+- `from` is normalized to a leading slash and no trailing slash. `to` is absolute,
+  matching the `url` field on page records. Every key in `redirects` has a redirect
+  record of its own at `<from>/index.json`, so you can resolve one URL without
+  fetching the whole map.
+- **It is an alias map, not a move log.** Many entries are vanity or legacy paths that
+  were never a page's location. Where we can date a move from the repository history,
+  the entry carries a `moved_on`; entries without one are not undated moves, they are
+  aliases that were never a page's location in the first place.
+- **A URL missing from the map is not necessarily gone.** We publish redirects we can
+  establish, not a complete account of every URL that ever existed. In particular we
+  deliberately do not publish a list of deleted pages: the repository history cannot
+  reliably tell a deletion from a move it failed to detect, and telling you a page was
+  deleted when it merely moved would be worse than telling you nothing.
+- `ambiguous` holds the keys that more than one page claims, with every candidate
+  listed. We publish them separately rather than picking one, because the site itself
+  resolves those arbitrarily — so any single answer we gave you would sometimes
+  disagree with what you would actually be served. Treat an `ambiguous` key as
+  unresolved.
+- `shadowed` holds aliases a page declares that the site does not act on, because a
+  real page already occupies that URL — so the URL serves its own content rather than
+  redirecting. They are listed for completeness and **must not** be followed as
+  redirects; doing so would take a reader away from a live page.
+
+The map covers the current version of the documentation. Version-specific
+documentation is outside both machine-readable feeds.
+
 ### JSON schema
 
 Each document contains:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `id` | string | URL slug identifier |
+| `schema_version` | integer | Version of the record format. See [Schema version](#schema-version). |
+| `id` | string | Unique identifier, the page's path without a file extension (for example `develop/clients/redis-py`) |
 | `title` | string | Page title |
 | `url` | string | Canonical URL |
 | `summary` | string | Short description |
+| `since` | string | Redis version the command was introduced in. Present on command pages only. |
 | `page_type` | string | `"content"` (has prose) or `"index"` (navigation only) |
 | `content_hash` | string | SHA256 hash for cache invalidation (content pages only) |
 | `sections` | array | Content split by headings with semantic roles |
@@ -54,9 +199,11 @@ Each document contains:
 | `children` | array | Child pages (index pages only) |
 
 Each **section** contains:
-- `id`: Slugified heading
+- `id`: Slugified heading, matching the heading's anchor on the rendered page, so
+  `<url>#<section id>` links to that section
 - `title`: Original heading text
-- `role`: Semantic role (`overview`, `syntax`, `example`, `parameters`, `returns`, etc.)
+- `role`: Semantic role, assigned from the heading text. See
+  [Section roles](#section-roles) for the current values.
 - `text`: Section content (code blocks replaced with `[code example]` placeholder)
 
 Each **example** contains:
@@ -64,6 +211,40 @@ Each **example** contains:
 - `language`: Language from code fence (`python`, `go`, `plaintext`, etc.)
 - `code`: The code content
 - `section_id`: Which section this example came from
+
+### Section roles
+
+Each section carries a `role`, derived from its heading text. These are the values currently
+in use:
+
+| Role | Assigned when the heading begins with |
+|------|----------------------------------------|
+| `overview` | `overview`, `introduction`, `about`, `description` |
+| `syntax` | `syntax`, `usage`, `command`, `signature` |
+| `example` | `example`, `demo`, `sample`, `code example` |
+| `parameters` | `option`, `parameter`, `argument`, `flag` |
+| `returns` | `return`, `response`, `output`, `result` |
+| `errors` | `error`, `exception`, `troubleshoot` |
+| `performance` | `performance`, `complexity`, `benchmark` |
+| `limits` | `limit`, `constraint`, `restriction` |
+| `related` | `see also`, `related`, `learn more`, `reference` |
+| `setup` | `install`, `setup`, `getting started`, `quickstart` |
+| `configuration` | `configur`, `setting` |
+| `security` | `security`, `auth`, `permission`, `acl` |
+| `history` | `history`, `changelog`, `version history` |
+| `compatibility` | `compatib`, `support`, `version` |
+| `content` | none of the above |
+
+The table is in priority order and the first match wins, which matters where the patterns
+overlap: a heading of "Version history" is `history` rather than `compatibility`, because
+`history` is tested first.
+
+A page's introductory text, before its first heading, is also given the `overview` role.
+
+{{< note >}}This vocabulary is descriptive, not a contract. It reflects the values produced
+today and may gain entries, or change how a heading maps to a role, without notice. If you
+filter or rank on `role`, treat an unrecognized value as `content` rather than discarding the
+section, and do not assume a value you rely on will keep its current name.{{< /note >}}
 
 ### Verifying content_hash
 

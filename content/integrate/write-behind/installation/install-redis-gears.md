@@ -1,6 +1,9 @@
 ---
 Title: Install RedisGears for Redis Data Integration
-aliases: null
+aliases:
+- /integrate/redis-data-integration/installation/install-redis-gears/
+- /integrate/redis-data-integration/write behind/installation/install-redis-gears/
+- /integrate/redis-data-integration/write-behind/installation/install-redis-gears/
 alwaysopen: false
 categories:
 - docs

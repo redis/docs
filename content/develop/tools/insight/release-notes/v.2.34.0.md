@@ -4,6 +4,8 @@ linkTitle: v2.34.0 (September 2023)
 date: 2023-09-28 00:00:00 +0000
 description: RedisInsight v2.34
 weight: 1
+aliases:
+- /develop/connect/insight/release-notes/v.2.34.0/
 ---
 ## 2.34 (September 2023)
 This is the General Availability (GA) release of RedisInsight 2.34.

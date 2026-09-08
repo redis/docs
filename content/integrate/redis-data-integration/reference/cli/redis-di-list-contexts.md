@@ -6,6 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/cli/redis-di-list-contexts/
 ---
 
 Lists all contexts from the `~/.redis-di` context file and indicates which one is active. See the

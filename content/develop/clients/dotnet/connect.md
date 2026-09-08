@@ -13,6 +13,8 @@ description: Connect your .NET application to a Redis database
 linkTitle: Connect
 title: Connect to the server
 weight: 20
+aliases:
+- /develop/connect/clients/dotnet/connect/
 ---
 
 ## Basic connection
@@ -42,7 +44,7 @@ Console.WriteLine(db.StringGet("foo")); // prints bar
 ## Connect to a Redis cluster
 
 The basic connection will use the
-[Cluster API]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}})
+[Cluster API](/content/operate/rs/clusters/optimize/oss-cluster-api.md)
 if it is available without any special configuration. However, if you know
 the addresses and ports of several cluster nodes, you can specify them all
 during connection in the `Endpoints` parameter:
@@ -67,7 +69,7 @@ Console.WriteLine(db.StringGet("foo")); // prints bar
 
 ## Connect to your production Redis with TLS
 
-When you deploy your application, use TLS and follow the [Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}}) guidelines.
+When you deploy your application, use TLS and follow the [Redis security](/content/operate/oss_and_stack/management/security/_index.md) guidelines.
 
 Before connecting your application to the TLS-enabled Redis server, ensure that your certificates and private keys are in the correct format.
 
@@ -142,5 +144,5 @@ connections efficiently. StackExchange.Redis uses a different approach called
 single connection. StackExchange.Redis manages multiplexing for you automatically.
 This gives high performance without requiring any extra coding.
 See
-[Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
+[Connection pools and multiplexing](/content/develop/clients/pools-and-muxing.md)
 for more information.

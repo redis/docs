@@ -73,6 +73,10 @@ For all other AWS clusters, select an availability zone ID from the **Zone IDs**
 
 {{<image filename="images/rc/availability-zones-aws-hosted-no-multi-az.png" width="80%" alt="For hosted AWS clusters, select availability zone IDs from the Zone IDs list." >}}
 
+{{< note >}}
+Multi-AZ requires a region with at least three availability zones. Regions with fewer than three availability zones don't support Multi-AZ deployments.
+{{< /note >}}
+
 If **Multi-AZ** is enabled, you must select three availability zones from the list.
 
 {{<image filename="images/rc/availability-zones-multi-az.png" width="80%" alt="Select Manual selection to select three availability zones when Multi-AZ is enabled." >}}

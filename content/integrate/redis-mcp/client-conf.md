@@ -11,6 +11,8 @@ linkTitle: Configure client apps
 description: Configure client apps to use the Redis MCP server.
 type: integration
 weight: 20
+aliases:
+- /integrate/redis-mcp/ciient-conf/
 ---
 
 When you have [installed]({{< relref "/integrate/redis-mcp/install" >}})

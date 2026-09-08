@@ -10,7 +10,7 @@ linkTitle: FIPS compliance
 weight: 60
 ---
 
-You can run your Redis Software for Kubernetes cluster in FIPS 140-3 compliance mode, where cryptographic operations use validated, FIPS-approved algorithms. FIPS mode is available starting with operator version 8.2.0.
+You can run your Redis Software for Kubernetes cluster in FIPS 140-3 compliance mode, which uses cryptographic libraries based on FIPS 140-3 validated modules and enables the use of FIPS-approved cryptographic algorithms. FIPS mode is available starting with operator version 8.2.0.
 
 When you enable FIPS mode, the operator deploys a FIPS-compatible image in place of the standard one.
 
@@ -19,7 +19,7 @@ When you enable FIPS mode, the operator deploys a FIPS-compatible image in place
 FIPS compliance depends on the underlying platform, not only on Redis:
 
 - **FIPS-configured nodes.** A container runs in FIPS mode only if the host node is configured for FIPS. On OpenShift, the cluster must be installed in FIPS mode. Redis does not configure the host; this is the responsibility of your platform.
-- **amd64 architecture.** The FIPS-compatible Redis Enterprise image is built for `amd64` only. There is no arm64 FIPS image.
+- **amd64 architecture.** The FIPS-compatible Redis Software image is built for `amd64` only. There is no arm64 FIPS image.
 
 ## Enable FIPS mode
 

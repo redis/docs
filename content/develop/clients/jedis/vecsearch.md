@@ -25,14 +25,14 @@ topics:
 weight: 3
 ---
 
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
-lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
-or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
+lets you index vector fields in [hash](/content/develop/data-types/hashes.md)
+or [JSON](/content/develop/data-types/json/_index.md) objects (see the
+[Vectors](/content/develop/ai/search-and-query/vectors/_index.md) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[vector distance](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -45,14 +45,14 @@ The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
-{{< note >}}From [v6.0.0](https://github.com/redis/jedis/releases/tag/v6.0.0) onwards,
-`Jedis` uses query dialect 2 by default.
-Redis Search methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
-will explicitly request this dialect, overriding the default set for the server.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> From [v6.0.0](https://github.com/redis/jedis/releases/tag/v6.0.0) onwards,
+> `Jedis` uses query dialect 2 by default.
+> Redis Search methods such as [`ftSearch()`](/content/commands/ft.search.md)
+> will explicitly request this dialect, overriding the default set for the server.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for more information.
 
 ## Initialize
 
@@ -136,12 +136,12 @@ the index doesn't already exist, which is why you need the
 
 Next, create the index.
 The schema in the example below includes three fields: the text content to index, a
-[tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+[tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}})
+[HNSW](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index)
 indexing, the
-[L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[L2](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
@@ -154,7 +154,7 @@ prefix `doc:` that identifies the hash objects to index.
 ## Add data
 
 You can now supply the data objects, which will be indexed automatically
-when you add them with [`hset()`]({{< relref "/commands/hset" >}}), as long as
+when you add them with [`hset()`](/content/commands/hset.md), as long as
 you use the `doc:` prefix specified in the index definition.
 
 Use the `predict()` method of the `Predictor` object
@@ -180,10 +180,10 @@ sorted to rank them in order of ascending distance.
 
 The code below creates the query embedding using the `predict()` method, as with
 the indexing, and passes it as a parameter when the query executes (see
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about using query parameters with embeddings).
 The query is a
-[K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
+[K nearest neighbors (KNN)](/content/develop/ai/search-and-query/vectors/_index.md#knn-vector-search)
 search that sorts the results in order of vector distance from the query vector.
 
 {{< clients-example set="HomeQueryVec" step="query" lang_filter="Java-Sync" description="Vector similarity search: Find semantically similar documents by comparing query embeddings with indexed vectors using L2 distance" difficulty="intermediate" >}}
@@ -212,7 +212,7 @@ is the result judged to be most similar in meaning to the query text
 
 Indexing JSON documents is similar to hash indexing, but there are some
 important differences. JSON allows much richer data modeling with nested fields, so
-you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+you must supply a [path](/content/develop/data-types/json/path.md) in the schema
 to identify each field you want to index. However, you can declare a short alias for each
 of these paths (using the `as()` option) to avoid typing it in full for
 every query. Also, you must specify `IndexDataType.JSON` when you create the index.
@@ -227,8 +227,8 @@ An important difference with JSON indexing is that the vectors are
 specified using arrays of `float` instead of binary strings, so you don't need
 a helper method to convert the array to a binary string.
 
-Use [`jsonSet()`]({{< relref "/commands/json.set" >}}) to add the data
-instead of [`hset()`]({{< relref "/commands/hset" >}}). Use instances
+Use [`jsonSet()`](/content/commands/json.set.md) to add the data
+instead of [`hset()`](/content/commands/hset.md). Use instances
 of `JSONObject` to supply the data instead of `Map`, as you would for
 hash objects.
 
@@ -258,6 +258,6 @@ ID: jdoc:3, Distance: 1.48624765873, Content: Today is a sunny day
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.

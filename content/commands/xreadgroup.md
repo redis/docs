@@ -20,6 +20,18 @@ arguments:
   optional: true
   token: COUNT
   type: integer
+- display_text: maxcount
+  name: maxcount
+  optional: true
+  since: 8.10.0
+  token: MAXCOUNT
+  type: integer
+- display_text: maxsize
+  name: maxsize
+  optional: true
+  since: 8.10.0
+  token: MAXSIZE
+  type: integer
 - display_text: milliseconds
   name: milliseconds
   optional: true
@@ -28,6 +40,7 @@ arguments:
 - display_text: min-idle-time
   name: min-idle-time
   optional: true
+  since: 8.4.0
   token: CLAIM
   type: integer
 - display_text: noack
@@ -71,6 +84,11 @@ description: Returns new or historical messages from a stream for a consumer in 
   group. Blocks until a message is available otherwise.
 group: stream
 hidden: false
+history:
+- - 8.4.0
+  - Added the `CLAIM` option.
+- - 8.10.0
+  - Added the `MAXCOUNT` and `MAXSIZE` options.
 key_specs:
 - RO: true
   access: true
@@ -90,8 +108,9 @@ railroad_diagram: /images/railroad/xreadgroup.svg
 since: 5.0.0
 summary: Returns new or historical messages from a stream for a consumer in a group.
   Blocks until a message is available otherwise.
-syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [BLOCK\_milliseconds]\n\
-  \  [CLAIM\_min-idle-time] [NOACK] STREAMS\_key [key ...] id [id ...]"
+syntax_fmt: "XREADGROUP GROUP\_group consumer [COUNT\_count] [MAXCOUNT\_maxcount]\n\
+  \  [MAXSIZE\_maxsize] [BLOCK\_milliseconds] [CLAIM\_min-idle-time]\n  [NOACK] STREAMS\_\
+  key [key ...] id [id ...]"
 title: XREADGROUP
 ---
 {{< note >}}
@@ -126,6 +145,18 @@ The keys to read from, followed by an ID for each key. Use `>` to read messages 
 <details open><summary><code>COUNT count</code></summary>
 
 The maximum number of entries to return per stream.
+
+</details>
+
+<details open><summary><code>MAXCOUNT maxcount</code></summary>
+
+Added in Redis 8.10. The maximum number of entries to return in total across all streams named in the command. Unlike `COUNT`, which limits entries on a per-stream basis, `MAXCOUNT` applies a single cumulative budget for the whole command. It must be a positive integer, and it must be greater than or equal to `COUNT` when both are given. When `COUNT` is omitted, `MAXCOUNT` alone bounds the total. It works for both new (`>`) reads and history/pending entries list (PEL) reads. See [The MAXCOUNT and MAXSIZE options](#the-maxcount-and-maxsize-options) for details.
+
+</details>
+
+<details open><summary><code>MAXSIZE maxsize</code></summary>
+
+Added in Redis 8.10. The maximum size, in bytes, of the reply across all streams named in the command. It must be a positive integer. At least one entry is always returned, so a single entry larger than `MAXSIZE` is still returned rather than yielding an empty reply. For `MAXSIZE`, the limit is checked before delivering the next new or PEL entry, so a skipped entry is neither sent nor added to the consumer's PEL. See [The MAXCOUNT and MAXSIZE options](#the-maxcount-and-maxsize-options) for details.
 
 </details>
 
@@ -237,6 +268,47 @@ When using `CLAIM`, the following ordering guarantees apply per stream:
 For example, if there are 20 idle pending entries and 200 incoming entries (in all the specified streams together):
 - When calling `XREADGROUP ... CLAIM ...`, you would retrieve 220 entries in the reply
 - When calling `XREADGROUP ... COUNT 100 ... CLAIM ...`, you would retrieve the 20 idle pending entries + 80 incoming entries in the reply
+
+### The MAXCOUNT and MAXSIZE options
+
+Added in Redis 8.10, the `MAXCOUNT` and `MAXSIZE` options cap the *cumulative*
+reply across all streams named in a single command. This is different from
+`COUNT`, which limits the number of entries returned on a *per-stream* basis.
+Because `XREADGROUP` accepts multiple streams in one call, a read over N streams
+with `COUNT C` can return up to `N * C` entries, and the total reply size is
+otherwise unbounded. `MAXCOUNT` and `MAXSIZE` give clients a reliable way to
+bound the work and memory of a single multi-stream read.
+
+* `MAXCOUNT` caps the total number of entries returned across all streams. It
+  must be a positive integer, and it must be greater than or equal to `COUNT`
+  when both are given (since it is a cumulative cap over a per-stream limit).
+  When `COUNT` is omitted, `MAXCOUNT` alone bounds the total, filling from
+  the first stream onward.
+* `MAXSIZE` caps the total reply size in bytes. It must be a positive integer.
+* At least one entry is always returned. The byte budget is never enforced
+  until at least one entry has been emitted across the whole reply, so a single
+  entry larger than `MAXSIZE` is still returned rather than yielding an empty
+  reply.
+* When both options are given, whichever bound is reached first wins.
+
+Both caps apply to new (`>`) reads and to history/PEL reads, and they are honored
+after a blocking client is unblocked. For `MAXSIZE`, the limit is checked
+*before* delivering the next new or PEL entry, so a skipped entry is neither sent
+nor added to the consumer's PEL.
+
+Given three streams, each with 100 entries that the consumer reads as new
+messages:
+
+```
+> XREADGROUP GROUP g c COUNT 50 STREAMS s1 s2 s3 > > >
+# returns 150 entries total (50 per stream)
+
+> XREADGROUP GROUP g c COUNT 50 MAXCOUNT 80 STREAMS s1 s2 s3 > > >
+# returns 80 entries total — capped across all streams
+
+> XREADGROUP GROUP g c MAXCOUNT 5 MAXSIZE 100000 STREAMS s1 s2 s3 > > >
+# returns 5 entries (MAXCOUNT is the tighter bound)
+```
 
 ### What happens when a message is delivered to a consumer?
 

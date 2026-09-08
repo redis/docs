@@ -1,6 +1,8 @@
 ---
 Title: Write-behind architecture
-aliases: /integrate/redis-data-integration/write-behind/architecture/
+aliases:
+- /integrate/redis-data-integration/write-behind/architecture/
+- /integrate/redis-data-integration/write behind/architecture/
 alwaysopen: false
 categories:
 - docs

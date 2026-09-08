@@ -12,6 +12,8 @@ linktitle: November 2023
 tags:
 - changelog
 weight: 74
+aliases:
+- /operate/rc/changelog/november-2023/
 ---
 
 ## New features

@@ -12,7 +12,7 @@ weight: 50
 ---
 
 
-Agents use Redis for data storage, [vector search]({{< relref "/develop/get-started/vector-database" >}}), and [conversation memory]({{< relref "/develop/get-started/rag" >}}). The interactive builder generates code in your preferred programming language with your choice of model.
+Agents use Redis for data storage, [vector search]({{< relref "/develop/get-started/search-tutorial/vector-search" >}}), and [conversation memory]({{< relref "/develop/get-started/rag" >}}). The interactive builder generates code in your preferred programming language with your choice of model.
 
 ## Get started
 
@@ -30,11 +30,12 @@ Redis powers these capabilities with fast, reliable data storage and retrieval t
 
 ## What you can build
 
-Choose from three types of intelligent agents:
+Choose from four types of intelligent agents:
 
 - **Recommendation engines**: Personalized product and content recommendations
 - **Conversational assistants**: Chatbots with memory and context awareness
 - **Knowledge assistants**: RAG agents that ingest documents, answer questions with citations, and use semantic caching
+- **Redis Iris conversational assistants**: Conversational agents backed by managed [Redis Iris Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — session and long-term memory with no vector index to build
 
 The agent builder will generate complete, working code examples for your chosen agent type.
 

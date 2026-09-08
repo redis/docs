@@ -31,11 +31,11 @@ outcomes:
 
   code_examples:
     description: "Adding/modifying code examples"
-    guidance: "Read [`for-ais-only/tcedocs/README.md`](for-ais-only/tcedocs/README.md) first, especially the sections on [Writing effective descriptions](for-ais-only/tcedocs/README.md#writing-effective-descriptions) and [Choosing difficulty levels](for-ais-only/tcedocs/README.md#choosing-difficulty-levels). Then review examples in [`content/develop/data-types/strings.md`](../content/develop/data-types/strings.md) to see the pattern in action. Once you understand the pattern, proceed with adding or modifying your code examples."
+    guidance: "For tabbed multi-language examples (the `clients-example` shortcode), use the [`tce-examples`](.claude/skills/tce-examples/SKILL.md) skill — it covers auditing a page for missing client coverage, generating examples across every client, testing them against a live Redis, and reviewing them. Start there rather than working from prose. For background, read [`for-ais-only/tcedocs/README.md`](for-ais-only/tcedocs/README.md), especially [Writing effective descriptions](for-ais-only/tcedocs/README.md#writing-effective-descriptions) and [Choosing difficulty levels](for-ais-only/tcedocs/README.md#choosing-difficulty-levels), then review [`content/develop/data-types/strings.md`](content/develop/data-types/strings.md) to see the pattern in action. Client identity (display names, paths, filename conventions) comes from [`build/example-test-harness/clients.tsv`](build/example-test-harness/clients.tsv)."
 
   render_hook:
     description: "Creating a new render hook"
-    guidance: "Read [`for-ais-only/render_hook_docs/README.md`](for-ais-only/render_hook_docs/README.md) for an overview, then study [`for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md`](for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md) (Lessons 1-12). Review existing render hooks in [`layouts/_default/_markup/`](../layouts/_default/_markup/) as examples. Once you understand the patterns, implement your render hook."
+    guidance: "Read [`for-ais-only/render_hook_docs/README.md`](for-ais-only/render_hook_docs/README.md) for an overview, then study [`for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md`](for-ais-only/render_hook_docs/AI_RENDER_HOOK_LESSONS.md) (Lessons 1-12). Review existing render hooks in [`layouts/_default/_markup/`](layouts/_default/_markup/) as examples. Once you understand the patterns, implement your render hook."
 
   metadata:
     description: "Working with page metadata"
@@ -43,7 +43,7 @@ outcomes:
 
   build_system:
     description: "Understanding the build system"
-    guidance: "Read [`for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md`](for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md) for an overview, then check the [`Makefile`](../Makefile) and [`build/make.py`](../build/make.py) for specific implementation details. Once you understand the system, proceed with your build-related task."
+    guidance: "Read [`for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md`](for-ais-only/BUILD_SYSTEM_ARCHITECTURE.md) for an overview, then check the [`Makefile`](Makefile) and [`build/make.py`](build/make.py) for specific implementation details. Once you understand the system, proceed with your build-related task."
 
   general:
     description: "Other tasks"

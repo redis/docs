@@ -1,6 +1,9 @@
 ---
 Title: Monitoring guide
-aliases: /integrate/redis-data-integration/write-behind/monitoring-guide/
+aliases:
+- /integrate/redis-data-integration/write-behind/monitoring-guide/
+- /integrate/redis-data-integration/monitoring-guide/
+- /integrate/redis-data-integration/write behind/monitoring-guide/
 alwaysopen: false
 categories:
 - docs

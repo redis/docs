@@ -81,10 +81,6 @@ It's best if your application doesn't read its own recent writes. Those writes c
 1. Lost forever, if the local replica has an event such as a double failure or loss of persistent files.
 1. Temporarily unavailable, but will be available at a later time if the local replica's failure is temporary.
 
-<!--- {{< note >}}
-Sample code that maps a hash slot to a key name can be found in this Python script.
-{{< /note >}} --->
-
 ## Failback decision
 
 Your application can use the same checks described above to continue monitoring the state of the failed replica after failover.

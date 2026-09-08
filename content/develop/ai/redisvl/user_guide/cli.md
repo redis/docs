@@ -241,19 +241,14 @@ By default rvl first checks if you have `REDIS_URL` environment variable defined
 !rvl index listall --host localhost --port 6379
 ```
 
-# NBVAL_SKIP
-# Not run in CI. This cell would block until the nbval cell timeout
-# connect to rediss://jane_doe:password123@localhost:6379
-!rvl index listall --user jane_doe -a password123 --ssl
-
 
 ```python
+# NBVAL_SKIP
+# Not run in CI: there is no TLS-enabled Redis to connect to, so the client
+# blocks on the handshake until the nbval cell timeout expires.
 # connect to rediss://jane_doe:password123@localhost:6379
 !rvl index listall --user jane_doe -a password123 --ssl
 ```
-
-    Index deleted successfully
-
 
 
 ```python

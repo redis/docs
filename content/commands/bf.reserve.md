@@ -62,7 +62,7 @@ The required number of bits per item, given the desired `error_rate` and the opt
 
 <details open><summary><code>key</code></summary>
 
-is key name for the the Bloom filter to be created.
+is key name for the Bloom filter to be created.
 </details>
 
 <details open><summary><code>error_rate</code></summary>

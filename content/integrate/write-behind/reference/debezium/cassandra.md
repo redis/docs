@@ -1,6 +1,8 @@
 ---
 Title: Write-behind configuration for cassandra
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/debezium/cassandra/
+- /integrate/redis-data-integration/write-behind/reference/debezium/cassandra/
 alwaysopen: false
 categories:
   - docs

@@ -51,7 +51,7 @@ When you enable **Remote backup**, additional options appear.  The options vary 
 | **Interval** | Defines the frequency of automatic backups.  Paid Redis Cloud Essentials databases are backed up every 24 hours.  Redis Cloud Pro databases can be set to 24, 12, 6, 4, 2, or 1 hour backup intervals. |
 | **Set backup time** | When checked, this lets you set the hour of the **Backup time**. (_Redis Cloud Pro only_) |
 | **Backup time** | Defines the hour automatic backups are made.  Note that actual backup times will vary up in order to minimize customer access disruptions.  (_Redis Cloud Pro only_)<br/> Times are expressed in [Coordinated Universal Time](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) (UTC).|
-| **Storage type** | Defines the provider of the storage location, which can be: `AWS S3`, `Google Cloud Storage`, `Azure Blob Storage`, or `FTP` (FTPS). |
+| **Storage type** | Defines the provider of the storage location, which can be: `AWS S3`, `Google Cloud Storage`, `Azure Blob Storage`, `FTP` (FTPS), or `Redis-managed repo`. `Redis-managed repo` is only available for databases created through the [Heroku]({{< relref "/operate/rc/cloud-integrations/heroku" >}}) or [Vercel]({{< relref "/operate/rc/cloud-integrations/vercel" >}}) integrations. |
 | **Backup destination** | Defines a URI representing the backup storage location. |
 
 ## Back up and export data on demand

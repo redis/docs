@@ -1,6 +1,9 @@
 ---
 Title: Data transformation pipeline
-aliases: null
+aliases:
+- /integrate/redis-data-integration/data-transformation/data-transformation-pipeline/
+- /integrate/redis-data-integration/ingest/data-pipelines/data-transformation-pipeline/
+- /integrate/redis-data-integration/write-behind/data-transformation/data-transformation-pipeline/
 alwaysopen: false
 categories:
 - docs

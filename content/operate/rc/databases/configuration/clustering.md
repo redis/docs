@@ -6,7 +6,8 @@ categories:
 - operate
 - rc
 description: Redis Cloud uses clustering to manage very large databases (25 GB and
-  larger).  Here, you'll learn how to manage clustering and how to use hashing policies
+  larger) or high-throughput databases (25,000 ops/sec and higher).  Here, you'll
+  learn how to manage clustering and how to use hashing policies
   to control how data is managed.
 linkTitle: Clustering
 weight: $weight
@@ -21,7 +22,7 @@ For very large databases, Redis Cloud distributes database data to different clo
 
 - The operations performed against the database are CPU intensive enough to degrade performance.
 
-    Clustering distributes operational load, whether to instances on the same server or across multiple servers.
+    Multiple shards should be used when throughput grows to 25,000 ops/sec. Clustering distributes operational load, whether to instances on the same server or across multiple servers.
 
 This distribution is called _clustering_ because it manages the way data is distributed throughout the cluster of nodes that support the database.
 
@@ -100,7 +101,7 @@ The Redis hashing policy is identical to the [hashing policy used by Redis Open 
 - Your application does not use hashtags in database key names.
 - Your application uses binary data as key names.
 
-The Redis hashing policy allows for faster scaling where available.
+The Redis hashing policy allows for [Smooth Scaling](#smooth-scaling) where available.
 
 ### Standard hashing policy
 
@@ -192,6 +193,35 @@ The OSS Cluster API is only supported on Redis Cloud Pro databases. You can enab
 
 After you select OSS Cluster API, you can select **Use external endpoint** if you want to use the external endpoint for the database. Selecting **Use external endpoint** will block the private endpoint for this database.
 
-The OSS Cluster API is supported only when a database uses the [standard hashing policy](#standard-hashing-policy).
+The OSS Cluster API is supported when a database uses the [standard hashing policy](#standard-hashing-policy) or the [Redis hashing policy](#redis-hashing-policy).
 
 Review [OSS Cluster API architecture]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api" >}}) to determine if you should enable this feature for your database.
+
+## Smooth scaling {#smooth-scaling}
+
+Smooth scaling is an improved resharding method for Redis Cloud Pro databases. Compared to traditional resharding, it is significantly faster and reduces latency spikes and disconnects during scaling.
+
+{{< note >}}
+Smooth scaling is available for databases that meet the following prerequisites. Other databases continue to use traditional scaling.
+{{< /note >}}
+
+### Prerequisites
+
+Smooth scaling is used automatically when a database meets all of the following conditions:
+
+| Requirement | Detail |
+|---|---|
+| Hashing policy | Must use the [Redis hashing policy](#redis-hashing-policy). Databases using the Standard or Custom hashing policy use traditional scaling instead. |
+| Database version | Redis 8.4 or later. |
+
+### Not supported
+
+Smooth scaling is not available for:
+
+- Active-Active databases
+- Flex (Auto Tiering) databases
+- Existing databases that use the Standard or Custom hashing policy
+
+### Backward compatibility
+
+You do not need to make any changes to your application code. The changes related to smooth scaling are implemented internally and do not affect RESP commands or how clients connect to and communicate with the database.

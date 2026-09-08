@@ -20,11 +20,11 @@ arguments:
   - display_text: ifdeq-digest
     name: ifdeq-digest
     token: IFDEQ
-    type: integer
+    type: string
   - display_text: ifdne-digest
     name: ifdne-digest
     token: IFDNE
-    type: integer
+    type: string
   name: condition
   optional: true
   type: oneof

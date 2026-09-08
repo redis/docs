@@ -6,6 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/cli/redis-di-reset/
 ---
 
 Resets a pipeline into initial full-sync mode, so it reloads a snapshot of the source data before

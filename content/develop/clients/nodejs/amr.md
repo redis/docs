@@ -28,7 +28,7 @@ The `@redis/entraid` code fetches and renews the authentication tokens for you a
 
 ## Install
 
-Install [`node-redis`]({{< relref "/develop/clients/nodejs" >}}) and
+Install [`node-redis`](/content/develop/clients/nodejs/_index.md) and
 `@redis/entraid` with the following commands:
 
 ```bash
@@ -155,7 +155,7 @@ authorityConfig: {
   },
 // ...
 ```
-See Microsoft's [Authority]([Authority](https://learn.microsoft.com/en-us/entra/identity-platform/msal-client-application-configuration#authority))
+See Microsoft's [Authority](https://learn.microsoft.com/en-us/entra/identity-platform/msal-client-application-configuration#authority)
 docs for more information.
 
 ### Authenticate with a service principal
@@ -338,13 +338,13 @@ console.log(`Database size is ${size}`);
 ## RESP2 PUB/SUB limitations
 
 If you are using the
-[RESP2]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+[RESP2](/content/develop/reference/protocol-spec.md#resp-versions)
 protocol, you should
-be aware that [pub/sub]({{< relref "/develop/pubsub" >}}) can
+be aware that [pub/sub](/content/develop/pubsub/_index.md) can
 cause complications with reauthentication.
 
 After a connection enters PUB/SUB mode, the socket is blocked and can't process
-out-of-band commands like [`AUTH`]({{< relref "/commands/auth" >}}). This means that
+out-of-band commands like [`AUTH`](/content/commands/auth.md). This means that
 connections in PUB/SUB mode can't be reauthenticated when the tokens are refreshed.
 As a result, PUB/SUB connections will be evicted by the Redis proxy when their tokens expire. 
 You must reconnect with fresh tokens when this happens.

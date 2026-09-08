@@ -134,6 +134,16 @@ Return the Redis Query string for the Tag filter
 
 A Text is a FilterField representing a text field in a Redis index.
 
+{{< note >}}
+`==` and `!=` match the value as a quoted phrase. Any `"` in the
+value becomes a space first, so the value cannot close that phrase; a
+quote already separates tokens at index time, so this matches the same
+documents that escaping it never could. A value of nothing but quotes
+therefore becomes an empty phrase, which `==` matches no document
+against. `%` is the pattern operator and interpolates its value
+untouched.
+{{< /note >}}
+
 * **Parameters:**
   **field** (*str*)
 
@@ -173,6 +183,14 @@ f = Text("job") % "%%engine%%"      # fuzzy match w/ Levenshtein Distance
 f = Text("job") % "engineer|doctor" # contains either term in field
 f = Text("job") % "engineer doctor" # contains both terms in field
 ```
+
+{{< note >}}
+The value is interpolated raw, which is what makes `*`, `%%` and
+`|` work. A value carrying a `)` therefore closes this clause and
+has its remainder parsed as query syntax, past any surrounding
+filter. Pass only patterns your own code composes; for a value you
+did not construct, use `==`, which matches it as a literal phrase.
+{{< /note >}}
 
 #### `__ne__(other)`
 
@@ -308,11 +326,25 @@ Return the Redis Query string for the Numeric filter
 Operator for searching values between two numeric values.
 
 * **Parameters:**
-  * **start** (*int*)
-  * **end** (*int*)
-  * **inclusive** (*str*)
+  * **start** (*Union* *[* *int* *,* *float* *]*) – The lower bound of the range.
+  * **end** (*Union* *[* *int* *,* *float* *]*) – The upper bound of the range.
+  * **inclusive** (*str* *,* *optional*) – Which bounds to include: "both",
+    "neither", "left" or "right". Defaults to "both".
+* **Raises:**
+  * **TypeError** – If either bound is not an `int`, a `float`, or
+        another `numbers.Real`. numpy scalars qualify; `Decimal`
+        and `str` do not.
+  * **ValueError** – If either bound is NaN, or if `inclusive` is not one
+        of the four accepted values.
 * **Return type:**
   [FilterExpression](#filterexpression)
+
+```python
+from redisvl.query.filter import Num
+
+f = Num("age").between(18, 65)
+f = Num("age").between(18, 65, inclusive="neither")
+```
 
 ## Geo
 
@@ -320,6 +352,12 @@ Operator for searching values between two numeric values.
 
 A Geo is a FilterField representing a geographic (lat/lon) field in a
 Redis index.
+
+{{< note >}}
+Redis indexes latitudes only within +/-85.05112878 degrees (EPSG:900913).
+A document or a query center nearer a pole than that is silently
+excluded: the query returns no error and no results, at any radius.
+{{< /note >}}
 
 * **Parameters:**
   **field** (*str*)
@@ -370,21 +408,160 @@ A GeoRadius is a GeoSpec representing a geographic radius.
 Create a GeoRadius specification (GeoSpec)
 
 * **Parameters:**
-  * **longitude** (*float*) – The longitude of the center of the radius.
-  * **latitude** (*float*) – The latitude of the center of the radius.
-  * **radius** (*int* *,* *optional*) – The radius of the circle. Defaults to 1.
+  * **longitude** (*float*) – The longitude of the center of the radius, in
+    degrees, from -180 to 180.
+  * **latitude** (*float*) – The latitude of the center of the radius, in
+    degrees, from -90 to 90.
+  * **radius** (*float* *,* *optional*) – The radius of the circle, in `unit`,
+    greater than 0. Fractional radii are sent as given, so 0.5 with
+    a unit of "km" is half a kilometre. Defaults to 1.
   * **unit** (*str* *,* *optional*) – The unit of the radius. Defaults to "km".
 * **Raises:**
-  **ValueError** – If the unit is not one of "m", "km", "mi", or "ft".
+  * **TypeError** – If a coordinate or the radius is not an `int`, a
+        `float`, or another `numbers.Real`. numpy scalars qualify;
+        `Decimal` and `str` do not.
+  * **ValueError** – If a coordinate is NaN, infinite, or outside its range,
+        if the radius is NaN, infinite, or not greater than 0, or if
+        the unit is not a string spelling one of "m", "km", "mi", or
+        "ft".
 
 #### `__init__(longitude, latitude, radius=1, unit='km')`
 
 Create a GeoRadius specification (GeoSpec)
 
 * **Parameters:**
-  * **longitude** (*float*) – The longitude of the center of the radius.
-  * **latitude** (*float*) – The latitude of the center of the radius.
-  * **radius** (*int* *,* *optional*) – The radius of the circle. Defaults to 1.
+  * **longitude** (*float*) – The longitude of the center of the radius, in
+    degrees, from -180 to 180.
+  * **latitude** (*float*) – The latitude of the center of the radius, in
+    degrees, from -90 to 90.
+  * **radius** (*float* *,* *optional*) – The radius of the circle, in `unit`,
+    greater than 0. Fractional radii are sent as given, so 0.5 with
+    a unit of "km" is half a kilometre. Defaults to 1.
   * **unit** (*str* *,* *optional*) – The unit of the radius. Defaults to "km".
 * **Raises:**
-  **ValueError** – If the unit is not one of "m", "km", "mi", or "ft".
+  * **TypeError** – If a coordinate or the radius is not an `int`, a
+        `float`, or another `numbers.Real`. numpy scalars qualify;
+        `Decimal` and `str` do not.
+  * **ValueError** – If a coordinate is NaN, infinite, or outside its range,
+        if the radius is NaN, infinite, or not greater than 0, or if
+        the unit is not a string spelling one of "m", "km", "mi", or
+        "ft".
+
+## Timestamp
+
+### `class Timestamp(field)`
+
+A timestamp filter for querying date/time fields in Redis.
+
+This filter can handle various date and time formats, including:
+- datetime objects (with or without timezone)
+- date objects
+- ISO-8601 formatted strings
+- Unix timestamps (as integers or floats)
+
+All timestamps are converted to Unix timestamps in UTC for consistency.
+Bare date values and date-only ISO strings are anchored to the UTC calendar
+day, not the host’s local day, and naive datetimes are read as UTC.
+
+* **Parameters:**
+  **field** (*str*)
+
+#### `__eq__(other)`
+
+Filter for timestamps equal to the specified value.
+For date objects (without time), this matches the entire UTC calendar
+day, from 00:00:00 to 23:59:59.999999 UTC.
+
+* **Parameters:**
+  **other** (*datetime* *|* *date* *|* *str* *|* *int* *|* *float*) – A datetime, date, ISO string, or Unix timestamp
+* **Returns:**
+  The filter object for method chaining
+* **Return type:**
+  self
+
+#### `__ge__(other)`
+
+Filter for timestamps greater than or equal to the specified value.
+
+For a bare date (or date-only ISO string), this means from the *start* of
+that UTC day, so the day itself is included.
+
+* **Parameters:**
+  **other** – A datetime, date, ISO string, or Unix timestamp
+* **Returns:**
+  The filter object for method chaining
+* **Return type:**
+  self
+
+#### `__gt__(other)`
+
+Filter for timestamps greater than the specified value.
+
+For a bare date (or date-only ISO string), this means after the *end* of
+that UTC day, so the day itself is excluded.
+
+* **Parameters:**
+  **other** – A datetime, date, ISO string, or Unix timestamp
+* **Returns:**
+  The filter object for method chaining
+* **Return type:**
+  self
+
+#### `__le__(other)`
+
+Filter for timestamps less than or equal to the specified value.
+
+For a bare date (or date-only ISO string), this means through the *end* of
+that UTC day, so the day itself is included.
+
+* **Parameters:**
+  **other** – A datetime, date, ISO string, or Unix timestamp
+* **Returns:**
+  The filter object for method chaining
+* **Return type:**
+  self
+
+#### `__lt__(other)`
+
+Filter for timestamps less than the specified value.
+
+For a bare date (or date-only ISO string), this means before the *start*
+of that UTC day, so the day itself is excluded.
+
+* **Parameters:**
+  **other** – A datetime, date, ISO string, or Unix timestamp
+* **Returns:**
+  The filter object for method chaining
+* **Return type:**
+  self
+
+#### `__ne__(other)`
+
+Filter for timestamps not equal to the specified value.
+For date objects (without time), this excludes the entire UTC calendar
+day, from 00:00:00 to 23:59:59.999999 UTC.
+
+* **Parameters:**
+  **other** (*datetime* *|* *date* *|* *str* *|* *int* *|* *float*) – A datetime, date, ISO string, or Unix timestamp
+* **Returns:**
+  The filter object for method chaining
+* **Return type:**
+  self
+
+#### `between(start, end, inclusive='both')`
+
+Filter for timestamps between start and end (inclusive).
+
+Bare dates (and date-only ISO strings) span whole UTC calendar days:
+start anchors to 00:00:00 of its day and end to 23:59:59.999999 of its
+day, so both endpoint days are covered in full.
+
+* **Parameters:**
+  * **start** – A datetime, date, ISO string, or Unix timestamp
+  * **end** – A datetime, date, ISO string, or Unix timestamp
+  * **inclusive** (*str*) – Which endpoints to include – "both" (default), "left",
+    "right", or "neither".
+* **Returns:**
+  The filter object for method chaining
+* **Return type:**
+  self

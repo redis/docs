@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TCE per-client review verdict",
+  "description": "Structured result of one Codex review of one client's TCE example file. Passed to `codex exec --output-schema` so the orchestrator can gate on findings without parsing prose.",
+  "type": "object",
+  "additionalProperties": false,
+  "//": "NOTE: `codex exec --output-schema` uses OpenAI structured outputs in strict mode, which requires `required` to list EVERY key in `properties` at every level. There is no way to mark a field optional — a schema with a genuinely optional field is rejected with a 400 before the model runs. Fields that may have nothing to say use an empty string or empty array instead.",
+  "required": ["client", "file", "verdict", "findings", "not_checked"],
+  "properties": {
+    "client": {
+      "type": "string",
+      "description": "Client key from build/example-test-harness/clients.tsv (e.g. redis-py, lettuce-async, seredis)."
+    },
+    "file": {
+      "type": "string",
+      "description": "Repo-relative path of the example file reviewed."
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["pass", "fail"],
+      "description": "fail if any finding has severity high; otherwise pass."
+    },
+    "findings": {
+      "type": "array",
+      "description": "Actionable defects only. Empty when the file is correct — do not pad with observations about what is right.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["severity", "category", "line", "summary", "why_it_matters", "suggested_fix"],
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "high = wrong on the rendered page or wrong for the reader (bad output comment, wrong API, leaked scaffolding, wrong C# flavour). medium = inconsistent with the reference or the set. low = style."
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "output-comment-mismatch",
+              "step-name-drift",
+              "wrong-api-signature",
+              "marker-placement",
+              "leaked-scaffolding",
+              "dropped-existing-step",
+              "csharp-flavor",
+              "assertion-weak",
+              "cleanup-missing",
+              "other"
+            ]
+          },
+          "line": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "1-indexed line in `file`. 0 when the finding is about the file as a whole."
+          },
+          "summary": {
+            "type": "string",
+            "description": "One sentence stating the defect."
+          },
+          "why_it_matters": {
+            "type": "string",
+            "description": "The concrete consequence — what a reader or maintainer sees because of this. Not a restatement of the summary."
+          },
+          "suggested_fix": {
+            "type": "string",
+            "description": "The minimal change that resolves it. Empty string when there is nothing useful to suggest — strict mode forbids optional fields."
+          }
+        }
+      }
+    },
+    "not_checked": {
+      "type": "array",
+      "description": "Anything the review could not assess (a file it could not read, an API it could not confirm). Empty array when nothing was skipped. Better to declare a gap than to guess.",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -1,6 +1,9 @@
 ---
 Title: Write to a Redis sorted set
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-sorted-set-example/
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/transform-examples/redis-sorted-set-example/
+- /integrate/redis-data-integration/data-transformation/examples/redis-sorted-set-example/
+- /integrate/redis-data-integration/ingest/data-transformation/examples/redis-sorted-set-example/
 alwaysopen: false
 categories:
 - docs

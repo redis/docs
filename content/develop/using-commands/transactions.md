@@ -3,6 +3,7 @@ aliases:
 - /develop/interact/transactions
 - /manual/transactions/
 - /interact/transactions/
+- /develop/reference/transactions/
 categories:
 - docs
 - develop

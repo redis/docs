@@ -6,6 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/cli/redis-di-describe-job/
 ---
 
 Describes a single job of a pipeline, printing its source properties followed by tables that

@@ -25,7 +25,7 @@ public class CmdsStringExample {
             RedisAsyncCommands<String, String> asyncCommands = connection.async();
 
             // REMOVE_START
-            asyncCommands.del("key1", "key2", "nonexisting").toCompletableFuture().join();
+            asyncCommands.del("key1", "key2", "mykey", "nonexisting").toCompletableFuture().join();
             // REMOVE_END
 
             // STEP_START mget
@@ -34,18 +34,45 @@ public class CmdsStringExample {
                     .thenCompose(res2 -> asyncCommands.mget("key1", "key2", "nonexisting"))
                     .thenAccept(res3 -> {
                         System.out.println(res3);
-                        // >>> [KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting, null]]
+                        // >>> [KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting].empty]
                         // REMOVE_START
                         assertThat(res3.toString()).isEqualTo(
-                                "[KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting, null]]");
+                                "[KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting].empty]");
                         // REMOVE_END
                     })
                     .toCompletableFuture();
             // STEP_END
 
             mgetExample.join();
+
+            // STEP_START incr
+            CompletableFuture<Void> incrExample = asyncCommands.set("mykey", "10")
+                    .thenCompose(incrResult1 -> {
+                        System.out.println(incrResult1);    // >>> OK
+                        // REMOVE_START
+                        assertThat(incrResult1).isEqualTo("OK");
+                        // REMOVE_END
+                        return asyncCommands.incr("mykey");
+                    })
+                    .thenCompose(incrResult2 -> {
+                        System.out.println(incrResult2);    // >>> 11
+                        // REMOVE_START
+                        assertThat(incrResult2).isEqualTo(11L);
+                        // REMOVE_END
+                        return asyncCommands.get("mykey");
+                    })
+                    .thenAccept(incrResult3 -> {
+                        System.out.println(incrResult3);    // >>> 11
+                        // REMOVE_START
+                        assertThat(incrResult3).isEqualTo("11");
+                        // REMOVE_END
+                    })
+                    .toCompletableFuture();
+            // STEP_END
+
+            incrExample.join();
             // REMOVE_START
-            asyncCommands.del("key1", "key2", "nonexisting").toCompletableFuture().join();
+            asyncCommands.del("key1", "key2", "mykey", "nonexisting").toCompletableFuture().join();
             // REMOVE_END
         } finally {
             redisClient.shutdown();

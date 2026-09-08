@@ -1,6 +1,9 @@
 ---
 Title: Prepare Oracle and Oracle RAC for RDI
-aliases: /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/oracle/
+aliases:
+- /integrate/redis-data-integration/ingest/data-pipelines/prepare-dbs/oracle/
+- /integrate/redis-data-integration/ingest/data-transformation/prepare-dbs/oracle/
+- /integrate/redis-data-integration/ingest/installation/prepare-dbs/oracle/
 alwaysopen: false
 categories:
 - docs

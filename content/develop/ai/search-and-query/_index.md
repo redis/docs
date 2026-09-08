@@ -42,14 +42,15 @@ Redis Search features allow you to use Redis as a:
 
 Here are the next steps to get you started:
 
-1. Follow our [quick start guide]({{< relref "/develop/get-started/document-database" >}}) to get some initial hands-on experience.
+1. Follow our [quick start guide]({{< relref "/develop/get-started/search-tutorial" >}}) to get some initial hands-on experience.
 1. Learn how to [create an index]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
 1. Learn how to [query your data]({{< relref "/develop/ai/search-and-query/query/" >}}).
 1. [Install Redis Insight]({{< relref "/operate/redisinsight" >}}), connect it to your Redis database, and then use [Redis Copilot]({{< relref "/develop/tools/insight" >}}#redis-copilot) to help you learn how to execute complex queries against your own data using simple, plain language prompts.
+1. Open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template to generate a working RAG agent built on Redis vector search.
 
-{{< alert title="Try it out" >}}
-Experiment with Redis Search interactively in the [Redis playground](https://redis.io/try/sandbox) — no installation required.
-{{< /alert >}}
+{{< tip >}}
+See Redis vector search in a real workflow: [Redis Repo Memory](https://github.com/marketplace/actions/redis-repo-memory) is a GitHub Action that surfaces related past PRs, issues, and commits on every pull request. Add it to any repository in a few minutes.
+{{< /tip >}}
 
 ## Enable Redis Search
 
@@ -58,6 +59,10 @@ See
 [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
 [Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}})
 for full installation instructions.
+
+{{< alert title="Try it out" >}}
+Experiment with Redis Search interactively in the [Redis playground](https://redis.io/try/sandbox) — no installation required.
+{{< /alert >}}
 
 ## License and source code
 

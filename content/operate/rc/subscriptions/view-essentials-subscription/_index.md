@@ -9,6 +9,8 @@ categories:
 description: null
 hideListLinks: true
 weight: 30
+aliases:
+- /operate/rc/subscriptions/view-fixed-subscription/
 ---
 To view the details of a Redis Cloud Essentials subscription:
 
