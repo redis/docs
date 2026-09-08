@@ -503,6 +503,12 @@
       {
         "name": "depth",
         "type": "integer"
+      },
+      {
+        "name": "cell_size",
+        "type": "integer",
+        "token": "CELL_SIZE",
+        "optional": true
       }
     ],
     "since": "2.0.0",
@@ -523,6 +529,12 @@
       {
         "name": "probability",
         "type": "double"
+      },
+      {
+        "name": "cell_size",
+        "type": "integer",
+        "token": "CELL_SIZE",
+        "optional": true
       }
     ],
     "since": "2.0.0",
