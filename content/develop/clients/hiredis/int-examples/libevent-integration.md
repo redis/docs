@@ -41,7 +41,7 @@ install the `libhiredis` and `libevent` libraries):
 cc main.c -L/usr/local/lib -lhiredis -levent
 ```
 
-See [Build and install]({{< relref "/develop/clients/hiredis#build-and-install" >}})
+See [Build and install](/content/develop/clients/hiredis/_index.md#build-and-install)
 to learn how to build `hiredis`, if you have not already done so.
 
 Now, add the following code in `main.c`. An explanation follows the
@@ -135,13 +135,13 @@ The code calls
 to initialize the core
 [`event_base`](https://libevent.org/doc/structevent__base.html)
 object that manages the event loop. It then creates a standard
-[asynchronous connection]({{< relref "/develop/clients/hiredis/connect#asynchronous-connection" >}})
+[asynchronous connection](/content/develop/clients/hiredis/connect.md#asynchronous-connection)
 to Redis and uses the `libevent` adapter function `redisLibeventAttach()` to
 attach the connection to the event loop.
 
-After setting the [connection callbacks]({{< relref "/develop/clients/hiredis/connect#asynchronous-connection" >}}), the code issues two asynchronous
+After setting the [connection callbacks](/content/develop/clients/hiredis/connect.md#asynchronous-connection), the code issues two asynchronous
 Redis commands (see
-[Construct asynchronous commands]({{< relref "/develop/clients/hiredis/issue-commands#construct-asynchronous-commands" >}})
+[Construct asynchronous commands](/content/develop/clients/hiredis/issue-commands.md#construct-asynchronous-commands)
 for more information).
 The final step is to call
 [`event_base_dispatch()`](https://libevent.org/doc/event_8h.html#a19d60cb72a1af398247f40e92cf07056)
@@ -160,7 +160,7 @@ Disconnected...
 ```
 
 You can use the
-[`KEYS`]({{< relref "/commands/keys" >}}) command from
-[`redis-cli`]({{< relref "/develop/tools/cli" >}}) or
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) to check
+[`KEYS`](/content/commands/keys.md) command from
+[`redis-cli`](/content/develop/tools/cli.md) or
+[Redis Insight](/content/develop/tools/insight/_index.md) to check
 that the "testkey" string key was added to the Redis database.
