@@ -24,23 +24,23 @@ weight: 5
 ---
 
 [Jedis](https://github.com/redis/jedis) is a synchronous Java client for Redis.
-Use [Lettuce]({{< relref "/develop/clients/lettuce" >}}) if you need
+Use [Lettuce](/content/develop/clients/lettuce/_index.md) if you need
 a more advanced Java client that also supports asynchronous and reactive connections.
 The sections below explain how to install `Jedis` and connect your application
 to a Redis database.
 
-{{< note >}}Jedis 7.2.0 introduced a new client connection API:
+> [!NOTE]
+> Jedis 7.2.0 introduced a new client connection API:
+>
+> | New API class | Replaces | Use case |
+> | :-- | :-- | :-- |
+> | `RedisClient` | `UnifiedJedis`, `JedisPool`, `JedisPooled` | Single connection (with connection pooling) |
+> | `RedisClusterClient` | `JedisCluster` | Redis Cluster connections |
+> | `RedisSentinelClient` | `JedisSentinelPool` | Redis Sentinel connections |
+>
+> The old client classes are now considered deprecated.
 
-| New API class | Replaces | Use case |
-| :-- | :-- | :-- |
-| `RedisClient` | `UnifiedJedis`, `JedisPool`, `JedisPooled` | Single connection (with connection pooling) |
-| `RedisClusterClient` | `JedisCluster` | Redis Cluster connections |
-| `RedisSentinelClient` | `JedisSentinelPool` | Redis Sentinel connections |
-
-The old client classes are now considered deprecated.
-{{< /note >}}
-
-`Jedis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`Jedis` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 ## Install
 
@@ -87,12 +87,12 @@ Connect to localhost on port 6379:
 {{< /clients-example >}}
 
 After you have connected, you can check the connection by storing and
-retrieving a simple [string]({{< relref "/develop/data-types/strings" >}}) value:
+retrieving a simple [string](/content/develop/data-types/strings/_index.md) value:
 
 {{< clients-example set="landing" step="set_get_string" lang_filter="Java-Sync" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-Store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
+Store and retrieve a [hash](/content/develop/data-types/hashes.md):
 
 {{< clients-example set="landing" step="set_get_hash" lang_filter="Java-Sync" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" >}}
 {{< /clients-example >}}
