@@ -53,7 +53,7 @@ covers the source naming rules.
 {{< note >}}The scope-prefixed keys `SOURCE_DB_*` and `TARGET_DB_*` are also accepted, and can be
 used without specifying `--db`. RDI accepts a `SOURCE_DB_*` key only for a pipeline with
 exactly one source that predates per-source naming. See
-[Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).{{< /note >}}
+[Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}) for more information.{{< /note >}}
 
 {{< note >}}
 {{< embed-md "rdi-tls-secrets.md" >}}

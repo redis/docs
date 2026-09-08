@@ -46,7 +46,7 @@ A source name must:
 The names `rdi` and `target` are reserved and cannot be used for sources.
 
 RDI derives the environment variables that contain the source's credentials from the source
-name, so the `connection` section of a source named `mysql` references `${MYSQL_DB_USERNAME}`
+name. For example, the `connection` section of a source named `mysql` references `${MYSQL_DB_USERNAME}`
 and `${MYSQL_DB_PASSWORD}`. See
 [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
 for details of how RDI derives those names and for the full list of secret keys.
@@ -84,7 +84,7 @@ Sources of different types can be mixed freely, but a source's collector `type` 
 MongoDB, `flink` for a Spanner connection, and `riotx` for a Snowflake connection. RDI
 rejects any other combination when you deploy the pipeline. See
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
-for how to prepare each source database.
+to learn how to prepare each source database.
 
 The following example captures from a MySQL database and a PostgreSQL database, each with its
 own credentials:
@@ -161,8 +161,8 @@ source:
   table: customers
 ```
 
-When a pipeline has more than one source, every job must set `server_name`, and the value has
-to match one of the sources in `config.yaml`. RDI rejects the pipeline when a job has no
+When a pipeline has more than one source, every job must set `server_name`, and the value
+must match one of the sources in `config.yaml`. RDI rejects the pipeline when a job has no
 `server_name`, or when its `server_name` matches no source.
 
 In a pipeline with a single source, `server_name` is optional. If you omit it, the
