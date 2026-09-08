@@ -65,7 +65,7 @@ It connects to a single standalone node over an unencrypted connection: Cluster,
 
 ### Beekeeper Studio
 
-[Beekeeper Studio](https://www.beekeeperstudio.io) Beekeeper Studio is a free, open-source database manager that supports a range of databases like Redis, MongoDB, PostgreSQL, MySQL and more.
+[Beekeeper Studio](https://www.beekeeperstudio.io/db/redis-client/) Beekeeper Studio is a free, open-source database manager that supports a range of databases like Redis, MongoDB, PostgreSQL, MySQL and more.
 Beekeeper Studio is a desktop app, and is available for Linux, macOS, and Windows with full feature parity across all operating systems. 
 
 Redis support includes
@@ -76,4 +76,4 @@ Redis support includes
 
 It connects to a Redis server directly or over an SSH tunnel, with TLS/SSL supported, and authenticates with either a password or a username and password against Redis 6+ ACLs.
 
-[Download for free on their website](https://beekeeperstudio.io/get)
+[Download for free on their website](https://www.beekeeperstudio.io/db/redis-client/)
