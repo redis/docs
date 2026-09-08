@@ -174,11 +174,10 @@ described in [Uninstall RDI]({{< relref "/integrate/redis-data-integration/insta
 and then install the old version.
 {{< /note >}}
 
-## Source names after the upgrade
+## Source names before and after the upgrade
 
-For a source that existed before upgrading to a version that supports multiple sources, the
-resource names from before the upgrade are kept unchanged, so it will keep running without
-changes.
+For a source that existed before upgrading to an RDI version that supports multiple sources, the
+resource names from before the upgrade are kept unchanged. The source will keep running correctly without changes.
 
 For more details on how to handle sources created after upgrading, see
 [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).
