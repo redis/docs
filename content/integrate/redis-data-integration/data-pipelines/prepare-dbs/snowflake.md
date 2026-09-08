@@ -162,7 +162,7 @@ redis-di set-secret USERNAME --db snowflake your_username
 redis-di set-secret KEY --db snowflake --file /path/to/rsa_key.p8
 ```
 
-If the `.p8` file is protected by a passphrase, also set that passphrase:
+If the `.p8` file is protected by a passphrase, you must also set that passphrase:
 
 ```bash
 redis-di set-secret KEY_PASSWORD --db snowflake your_passphrase
