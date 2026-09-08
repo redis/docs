@@ -81,13 +81,20 @@ One or more set keys to intersect.
 ## Examples
 
 {{% redis-cli %}}
-SADD key1 "a"
-SADD key1 "b"
-SADD key1 "c"
-SADD key2 "c"
-SADD key2 "d"
-SADD key2 "e"
-SINTER key1 key2
+redis> SADD key1 "a"
+(integer) 1
+redis> SADD key1 "b"
+(integer) 1
+redis> SADD key1 "c"
+(integer) 1
+redis> SADD key2 "c"
+(integer) 1
+redis> SADD key2 "d"
+(integer) 1
+redis> SADD key2 "e"
+(integer) 1
+redis> SINTER key1 key2
+1) "c"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
@@ -109,3 +116,7 @@ SINTER key1 key2
 [Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set.
 
 {{< /multitabs >}}
+
+## See also
+
+[`SINTERCARD`]({{< relref "commands/sintercard" >}}) | [`SINTERSTORE`]({{< relref "commands/sinterstore" >}})

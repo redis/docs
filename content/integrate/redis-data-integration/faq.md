@@ -24,14 +24,27 @@ Redis Enterprise shards (primary and replica) for the staging database.
 
 ## How does RDI track data changes in the source database?
 
-RDI uses mechanisms that are specific for each of the supported
-source databases:
+RDI uses change data capture (CDC) mechanisms that are specific to each of the
+supported source databases:
 
-- **Oracle**:  RDI uses `logminer` to parse the Oracle `binary log` and `archive logs`. This
-  lists any changes in a database view that RDI can query.
-- **MySQL/MariaDB**: RDI uses `binary log replication` to get all the commits.
-- **PostgreSQL**:  RDI uses the `pgoutput` plugin.
-- **SQL Server**: RDI uses the CDC mechanism.
+- **Oracle**: RDI uses `LogMiner` to read Oracle's `redo logs` and `archive logs`,
+  or, alternatively, `XStream`.
+- **MySQL/MariaDB**: RDI uses `binary log` (binlog) replication to capture all commits.
+- **PostgreSQL**: RDI uses the `pgoutput` logical decoding plugin. The same
+  applies to the PostgreSQL-compatible databases that RDI supports, including
+  Supabase, AlloyDB for PostgreSQL, Amazon Aurora/RDS for PostgreSQL, and Neon.
+- **SQL Server**: RDI uses the database's built-in CDC feature.
+- **MongoDB**: RDI uses `change streams` to read the `oplog`. The source must be
+  a replica set, sharded cluster, or MongoDB Atlas deployment, because a
+  standalone MongoDB server has no oplog.
+- **Google Cloud Spanner**: RDI uses `Spanner change streams` for the streaming
+  phase and the JDBC driver for the initial snapshot. Spanner is supported only
+  when RDI is deployed on Kubernetes with Helm.
+- **Snowflake** (preview): RDI uses `Snowflake Streams`. Snowflake is supported
+  only when RDI is deployed on Kubernetes with Helm.
+
+For the complete list of supported source databases and versions, see
+[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}}).
 
 ## How much data can RDI process?
 
@@ -49,11 +62,21 @@ replica of an Active-Active replication setup or an Auto tiering database.
 
 ## Can I use Active-Active for the RDI database?
 
-Yes, starting with RDI 1.16.0, you can use Active-Active for the RDI database. This is useful if you
-want to create a disaster recovery setup for RDI using Google Cloud Storage (GCS) to provide a reliable lease mechanism for leader election.
-The configuration for the GCS is available only for [Helm based installations]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
+Yes, starting with RDI 1.16.0, you can use Active-Active for the RDI database. This is
+supported whether or not you also run a disaster recovery (DR) setup for RDI.
 
-**Important:** You should only use this configuration when both sites use the same source configuration.
+If you have two RDI instances sharing a single RDI database then they will use that database for leader election, so
+they need no other lease mechanism. This is how high availability (HA) works for VM
+installations. See
+[Installing with High Availability]({{< relref "/integrate/redis-data-integration/installation/install-vm#installing-with-high-availability" >}}).
+
+In a DR setup, each site runs its own RDI instance against its local instance of the
+Active-Active RDI database, so leader election needs an external lease. Google Cloud Storage
+(GCS) is currently the only supported lease mechanism, and you can configure it only for
+[Helm based installations]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
+
+**Important:** Use a DR setup only when both sites capture changes from the same source
+database server. Both RDI instances must point at that same server, not at a replica of it.
 
 ## Can I run multiple RDI installations in the same Kubernetes cluster?
 

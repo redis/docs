@@ -105,10 +105,21 @@ Skip `offset` matching members and return up to `count` of them. A negative `cou
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
-ZREVRANGEBYLEX myzset [c -
-ZREVRANGEBYLEX myzset (c -
-ZREVRANGEBYLEX myzset (g [aaa
+redis> ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g
+(integer) 7
+redis> ZREVRANGEBYLEX myzset [c -
+1) "c"
+2) "b"
+3) "a"
+redis> ZREVRANGEBYLEX myzset (c -
+1) "b"
+2) "a"
+redis> ZREVRANGEBYLEX myzset (g [aaa
+1) "f"
+2) "e"
+3) "d"
+4) "c"
+5) "b"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -133,15 +133,24 @@ The aggregate function to apply to all non-empty elements in `[start, end]`. One
 ## Examples
 
 {{% redis-cli %}}
-ARMSET myarray 0 "10" 1 "20" 2 "30"
-AROP myarray 0 2 SUM
-AROP myarray 0 2 MIN
-AROP myarray 0 2 MAX
-AROP myarray 0 2 MATCH "10"
-AROP myarray 0 2 USED
-ARMSET flags 0 "255" 1 "15" 2 "240"
-AROP flags 0 2 AND
-AROP flags 0 2 OR
+redis> ARMSET myarray 0 "10" 1 "20" 2 "30"
+(integer) 3
+redis> AROP myarray 0 2 SUM
+"60"
+redis> AROP myarray 0 2 MIN
+"10"
+redis> AROP myarray 0 2 MAX
+"30"
+redis> AROP myarray 0 2 MATCH "10"
+(integer) 1
+redis> AROP myarray 0 2 USED
+(integer) 3
+redis> ARMSET flags 0 "255" 1 "15" 2 "240"
+(integer) 3
+redis> AROP flags 0 2 AND
+(integer) 0
+redis> AROP flags 0 2 OR
+(integer) 255
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -28,6 +28,10 @@ There are two types of batch that you can use:
     See the [Transactions]({{< relref "develop/using-commands/transactions" >}})
     page for more information.
 
+If you want the client to batch concurrent commands into pipelines for you
+without writing any pipeline code, see
+[Automatic pipelining]({{< relref "/develop/clients/go/autopipeline" >}}).
+
 ## Execute a pipeline
 
 To execute commands in a pipeline, you first create a pipeline object
@@ -74,7 +78,7 @@ to `Pipelined()`, described above:
 
 Redis supports *optimistic locking* to avoid inconsistent updates
 to different keys. The basic idea is to watch for changes to any
-keys that you use in a transaction while you are are processing the
+keys that you use in a transaction while you are processing the
 updates. If the watched keys do change, you must restart the updates
 with the latest data from the keys. See
 [Transactions]({{< relref "develop/using-commands/transactions" >}})

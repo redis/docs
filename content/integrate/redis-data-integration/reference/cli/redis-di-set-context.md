@@ -8,6 +8,7 @@ categories: ["redis-di"]
 aliases:
   - /integrate/redis-data-integration/reference/cli/redis-di-add-context/
   - /integrate/redis-data-integration/reference/cli/redis-di-delete-all-contexts/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-set-context/
 ---
 
 Creates or updates a context in the `~/.redis-di` context file. A context stores an API connection

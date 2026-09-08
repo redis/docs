@@ -72,10 +72,14 @@ The string to append to the existing value.
 ## Examples
 
 {{% redis-cli %}}
-EXISTS mykey
-APPEND mykey "Hello"
-APPEND mykey " World"
-GET mykey
+redis> EXISTS mykey
+(integer) 0
+redis> APPEND mykey "Hello"
+(integer) 5
+redis> APPEND mykey " World"
+(integer) 11
+redis> GET mykey
+"Hello World"
 {{% /redis-cli %}}
 
 ## Details
@@ -113,10 +117,14 @@ An example sampling the temperature of a sensor using fixed-size strings (using
 a binary format is better in real implementations).
 
 {{% redis-cli %}}
-APPEND ts "0043"
-APPEND ts "0035"
-GETRANGE ts 0 3
-GETRANGE ts 4 7
+redis> APPEND ts "0043"
+(integer) 4
+redis> APPEND ts "0035"
+(integer) 8
+redis> GETRANGE ts 0 3
+"0043"
+redis> GETRANGE ts 4 7
+"0035"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

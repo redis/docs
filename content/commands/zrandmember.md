@@ -94,10 +94,11 @@ Also return the score of each returned member. Can only be used together with `c
 ## Examples
 
 {{% redis-cli %}}
-ZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei
-ZRANDMEMBER dadi
-ZRANDMEMBER dadi
-ZRANDMEMBER dadi -5 WITHSCORES
+redis> ZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei
+(integer) 6
+redis> ZRANDMEMBER dadi
+redis> ZRANDMEMBER dadi
+redis> ZRANDMEMBER dadi -5 WITHSCORES
 {{% /redis-cli %}}
 
 ## Details

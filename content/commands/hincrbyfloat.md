@@ -93,11 +93,16 @@ The floating-point amount to add to the field's value. A negative value decremen
 ## Examples
 
 {{% redis-cli %}}
-HSET mykey field 10.50
-HINCRBYFLOAT mykey field 0.1
-HINCRBYFLOAT mykey field -5
-HSET mykey field 5.0e3
-HINCRBYFLOAT mykey field 2.0e2
+redis> HSET mykey field 10.50
+(integer) 1
+redis> HINCRBYFLOAT mykey field 0.1
+"10.6"
+redis> HINCRBYFLOAT mykey field -5
+"5.6"
+redis> HSET mykey field 5.0e3
+(integer) 0
+redis> HINCRBYFLOAT mykey field 2.0e2
+"5200"
 {{% /redis-cli %}}
 
 ## Implementation details

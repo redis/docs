@@ -113,12 +113,18 @@ Interpret `start` and `end` as byte offsets (`BYTE`, the default) or bit offsets
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "foobar"
-BITCOUNT mykey
-BITCOUNT mykey 0 0
-BITCOUNT mykey 1 1
-BITCOUNT mykey 1 1 BYTE
-BITCOUNT mykey 5 30 BIT
+redis> SET mykey "foobar"
+OK
+redis> BITCOUNT mykey
+(integer) 26
+redis> BITCOUNT mykey 0 0
+(integer) 4
+redis> BITCOUNT mykey 1 1
+(integer) 6
+redis> BITCOUNT mykey 1 1 BYTE
+(integer) 6
+redis> BITCOUNT mykey 5 30 BIT
+(integer) 17
 {{% /redis-cli %}}
 
 ## Details
@@ -145,9 +151,7 @@ web site simply calling the `BITCOUNT` command against the bitmap.
 
 A similar pattern where user IDs are used instead of days is described
 in the article called "[Fast easy realtime metrics using Redis
-bitmaps][hbgc212fermurb]".
-
-[hbgc212fermurb]: http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps
+bitmaps](http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps)".
 
 ### Performance considerations
 

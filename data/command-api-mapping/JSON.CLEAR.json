@@ -324,6 +324,27 @@
           "description": "The number of values cleared."
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "json_clear(key, path = nil)",
+        "params": [
+          {
+            "name": "key",
+            "type": "String",
+            "description": ""
+          },
+          {
+            "name": "path",
+            "type": "String",
+            "description": "an optional JSONPath (defaults to the root \"$\")"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of values cleared"
+        }
+      }
     ]
   }
 }

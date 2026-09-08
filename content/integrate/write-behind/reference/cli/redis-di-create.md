@@ -1,6 +1,8 @@
 ---
 Title: redis-di create
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/cli/redis-di-create/
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-create/
 alwaysopen: false
 categories:
   - docs

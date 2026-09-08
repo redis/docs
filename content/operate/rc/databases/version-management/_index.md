@@ -10,6 +10,8 @@ linkTitle: Version management
 weight: 36
 hideListLinks: true
 tocEmbedHeaders: true
+aliases:
+- /operate/rc/databases/version-management/version-management/
 ---
 
 Redis Cloud provides comprehensive database version management that prioritizes customer control over major changes. 

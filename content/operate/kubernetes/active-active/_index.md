@@ -72,7 +72,7 @@ For examples, see the [YAML examples]({{< relref "/operate/kubernetes/reference/
 
 The operator automates Active-Active certificate updates. When you update the proxy or syncer certificate secret on a participating cluster's REC, the operator detects the change and propagates the new certificate to the other participating clusters.
 
-For details, see [Manage REC certificates]({{< relref "/operate/kubernetes/security/manage-rec-certificates" >}}) and [cert-manager integration]({{< relref "/operate/kubernetes/security/cert-manager" >}}).
+For details, see [Manage REC certificates]({{< relref "/operate/kubernetes/security/certificates/manage-rec-certificates" >}}) and [cert-manager integration]({{< relref "/operate/kubernetes/security/certificates/cert-manager" >}}).
 
 ### Limitations
 

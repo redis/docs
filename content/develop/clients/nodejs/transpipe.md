@@ -21,11 +21,11 @@ There are two types of batch that you can use:
 -   **Pipelines** avoid network and processing overhead by sending several commands
     to the server together in a single communication. The server then sends back
     a single communication with all the responses. See the
-    [Pipelining]({{< relref "/develop/using-commands/pipelining" >}}) page for more
+    [Pipelining](/content/develop/using-commands/pipelining.md) page for more
     information.
 -   **Transactions** guarantee that all the included commands will execute
     to completion without being interrupted by commands from other clients.
-    See the [Transactions]({{< relref "develop/using-commands/transactions" >}})
+    See the [Transactions](/content/develop/using-commands/transactions.md)
     page for more information.
 
 ## Execute a pipeline
@@ -60,7 +60,7 @@ await Promise.all([
 ```
 
 You can also create a pipeline object using the
-[`multi()`]({{< relref "/commands/multi" >}}) method
+[`multi()`](/content/commands/multi.md) method
 and then add commands to it using methods that resemble the standard
 command methods (for example, `set()` and `get()`). The commands are
 buffered in the pipeline and only execute when you call the
@@ -109,10 +109,10 @@ console.log(res3); // >>> 3
 
 Redis supports *optimistic locking* to avoid inconsistent updates
 to different keys. The basic idea is to watch for changes to any
-keys that you use in a transaction while you are are processing the
+keys that you use in a transaction while you are processing the
 updates. If the watched keys do change, you must restart the updates
 with the latest data from the keys. See
-[Transactions]({{< relref "develop/using-commands/transactions" >}})
+[Transactions](/content/develop/using-commands/transactions.md)
 for more information about optimistic locking.
 
 The code below reads a string

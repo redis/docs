@@ -83,10 +83,11 @@ The number of members to return. A positive `count` returns up to that many dist
 ## Examples
 
 {{% redis-cli %}}
-SADD myset one two three
-SRANDMEMBER myset
-SRANDMEMBER myset 2
-SRANDMEMBER myset -5
+redis> SADD myset one two three
+(integer) 3
+redis> SRANDMEMBER myset
+redis> SRANDMEMBER myset 2
+redis> SRANDMEMBER myset -5
 {{% /redis-cli %}}
 
 ## Details

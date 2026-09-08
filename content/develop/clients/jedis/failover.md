@@ -27,7 +27,7 @@ weight: 50
 Jedis supports [Client-side geographic failover](https://en.wikipedia.org/wiki/Failover)
 to improve the availability of connections to Redis databases. This page explains
 how to configure Jedis for failover. For an overview of the concepts,
-see the main [Client-side geographic failover]({{< relref "/develop/clients/failover" >}}) page.
+see the main [Client-side geographic failover](/content/develop/clients/failover.md) page.
 
 ## Failover configuration
 
@@ -40,10 +40,10 @@ The example below shows a simple case with a list of two servers,
 target. If `redis-east` fails, Jedis should fail over to
 `redis-west`.
 
-{{< note >}}Jedis v6 supported failover/failback using a special
-`UnifiedJedis` constructor. You should update existing code to use
-the approach shown below for Jedis v7 and later.
-{{< /note >}}
+> [!NOTE]
+> Jedis v6 supported failover/failback using a special
+> `UnifiedJedis` constructor. You should update existing code to use
+> the approach shown below for Jedis v7 and later.
 
 First, add the `resilience4j` dependencies to your project. If you
 are using [Maven](https://maven.apache.org/), add the following
@@ -77,7 +77,7 @@ compileOnly 'io.github.resilience4j:resilience4j-retry:1.7.1'
 ```
 
 In your source file, create some simple configuration for the client and
-[connection pool]({{< relref "/develop/clients/jedis/connect#connect-with-a-connection-pool" >}}),
+[connection pool](/content/develop/clients/jedis/connect.md#connect-with-a-connection-pool),
 as you would for a standard connection.
 
 ```java
@@ -95,7 +95,7 @@ poolConfig.setTimeBetweenEvictionRuns(Duration.ofSeconds(1));
 ```
 
 Supply the weighted list of endpoints using the `MultiDbConfig` builder
-(see [Selecting a failover target]({{< relref "/develop/clients/failover#selecting-a-failover-target" >}}) for a full description of how
+(see [Selecting a failover target](/content/develop/clients/failover.md#selecting-a-failover-target) for a full description of how
 the weighted list is used).
 Use the `weight` option to order the endpoints, with the highest
 weight being tried first.
@@ -149,7 +149,7 @@ but will also handle the connection management and failover transparently.
 ### Circuit breaker configuration
 
 The `MultiDbConfig.CircuitBreakerConfig` builder lets you pass several options to configure
-the circuit breaker (see [Detecting connection problems]({{< relref "/develop/clients/failover#detecting-connection-problems" >}}) for more information on how the
+the circuit breaker (see [Detecting connection problems](/content/develop/clients/failover.md#detecting-connection-problems) for more information on how the
 circuit breaker works):
 
 | Builder method | Default value | Description|
@@ -244,7 +244,7 @@ The `MultiDbConfig` builder lets you configure the failback behavior using the f
 ## Health check configuration
 
 Each health check consists of one or more separate "probes", each of which is a simple
-test (such as a [`PING`]({{< relref "/commands/ping" >}}) command) to determine if the database is available. The results of the separate probes are combined
+test (such as a [`PING`](/content/commands/ping.md) command) to determine if the database is available. The results of the separate probes are combined
 using a configurable policy to determine if the database is healthy.
 
 There are several strategies available for health checks that you can deploy using the
@@ -268,7 +268,7 @@ The sections below explain the available strategies in more detail.
 ### `PingStrategy` (default)
 
 The default strategy, `PingStrategy`, periodically sends a Redis
-[`PING`]({{< relref "/commands/ping" >}}) command
+[`PING`](/content/commands/ping.md) command
 and checks that it gives the expected response. Any unexpected response
 or exception indicates an unhealthy server. Although `PingStrategy` is
 very simple, it is a good basic approach for most Redis deployments.
@@ -293,12 +293,12 @@ MultiDbConfig.DatabaseConfig dbConfig =
 ### `LagAwareStrategy` (preview)
 
 `LagAwareStrategy` (currently in preview) is designed specifically for
-Redis Software [Active-Active]({{< relref "/operate/rs/databases/active-active" >}})
+Redis Software [Active-Active](/content/operate/rs/databases/active-active/_index.md)
 deployments. It uses the Redis Software REST API to check database availability
 and can also optionally check replication lag.
 
 `LagAwareStrategy` determines the health of the server using the
-[REST API]({{< relref "/operate/rs/references/rest-api" >}}). The example
+[REST API](/content/operate/rs/references/rest-api/_index.md). The example
 below shows how to configure `LagAwareStrategy` and activate it using
 the `healthCheckStrategy()` method of the `MultiDbConfig.DatabaseConfig`
 builder.
@@ -419,7 +419,7 @@ a healthy endpoint.
 
 You can still keep retrying commands after a `JedisTemporarilyNotAvailableException` is thrown (for example,
 you could add this exception to the `includedExceptionList`, as described
-in the [Retry configuration]({{< relref "#retry-configuration" >}}) section). However, if the number of
+in the [Retry configuration](#retry-configuration) section). However, if the number of
 failover attempts exceeds the value set by `maxNumFailoverAttempts()`, commands will throw a `JedisPermanentlyNotAvailableException`. Note that this is intended to notify your app
 that the problem is likely to be persistent, but it *doesn't* mean that Jedis will stop trying
 to connect to a healthy endpoint if one becomes available.

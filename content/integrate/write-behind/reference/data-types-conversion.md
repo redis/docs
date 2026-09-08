@@ -1,6 +1,8 @@
 ---
 Title: Data type conversion
-aliases: /integrate/redis-data-integration/write-behind/reference/data-types-conversion/
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/data-types-conversion/
+- /integrate/redis-data-integration/reference/data-types-conversion/
 alwaysopen: false
 categories:
   - docs

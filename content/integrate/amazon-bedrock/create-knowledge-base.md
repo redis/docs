@@ -15,6 +15,8 @@ summary: With Amazon Bedrock, users can access foundational AI models from a var
   artificial intelligence.
 type: integration
 weight: 2
+aliases:
+- /integrate/aws-bedrock/create-knowledge-base/
 ---
 
 After you have set up a vector database with Redis Cloud, you can use it to create a knowledge base for your models.

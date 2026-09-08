@@ -60,12 +60,18 @@ The name of the key.
 ## Examples
 
 {{% redis-cli %}}
-SET key1 "value"
-LPUSH key2 "value"
-SADD key3 "value"
-TYPE key1
-TYPE key2
-TYPE key3
+redis> SET key1 "value"
+OK
+redis> LPUSH key2 "value"
+(integer) 1
+redis> SADD key3 "value"
+(integer) 1
+redis> TYPE key1
+string
+redis> TYPE key2
+list
+redis> TYPE key3
+set
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

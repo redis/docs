@@ -81,13 +81,22 @@ One or more string values to insert into the ring buffer. Each value is placed a
 ## Examples
 
 {{% redis-cli %}}
-ARRING readings 3 "v0"
-ARRING readings 3 "v1"
-ARRING readings 3 "v2"
-ARRING readings 3 "v3"
-ARGET readings 0
-ARCOUNT readings
-ARLASTITEMS readings 3
+redis> ARRING readings 3 "v0"
+(integer) 0
+redis> ARRING readings 3 "v1"
+(integer) 1
+redis> ARRING readings 3 "v2"
+(integer) 2
+redis> ARRING readings 3 "v3"
+(integer) 0
+redis> ARGET readings 0
+"v3"
+redis> ARCOUNT readings
+(integer) 3
+redis> ARLASTITEMS readings 3
+1) "v1"
+2) "v2"
+3) "v3"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

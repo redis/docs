@@ -22,6 +22,8 @@ topics:
 - smart-client-handoffs
 - resilience
 weight: 50
+aliases:
+- /develop/clients/sce/
 ---
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and

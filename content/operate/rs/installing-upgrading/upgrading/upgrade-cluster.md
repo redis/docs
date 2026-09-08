@@ -230,8 +230,6 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
 
 After all nodes are upgraded, the cluster is fully upgraded. Certain features introduced in the new version of Redis Software only become available after upgrading the entire cluster.
 
-After upgrading from version 6.0.x to 6.2.x, restart `cnm_exec` on each cluster node to enable more advanced state machine handling capabilities:
-
 ```sh
 supervisorctl restart cnm_exec
 ```

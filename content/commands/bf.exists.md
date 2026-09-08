@@ -50,14 +50,14 @@ is an item to check.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.ADD bf item1
 (integer) 1
 redis> BF.EXISTS bf item1
 (integer) 1
 redis> BF.EXISTS bf item2
 (integer) 0
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

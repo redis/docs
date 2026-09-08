@@ -100,11 +100,8 @@ inherit all the characteristics of `Key_B`.
 
 Note that calling `EXPIRE`/[`PEXPIRE`]({{< relref "/commands/pexpire" >}}) with a non-positive timeout or
 [`EXPIREAT`]({{< relref "/commands/expireat" >}})/[`PEXPIREAT`]({{< relref "/commands/pexpireat" >}}) with a time in the past will result in the key being
-[deleted][del] rather than expired (accordingly, the emitted [key event][ntf]
+[deleted]({{< relref "/commands/del" >}}) rather than expired (accordingly, the emitted [key event]({{< relref "/develop/pubsub/keyspace-notifications" >}})
 will be `del`, not `expired`).
-
-[del]: /commands/del
-[ntf]: /develop/use/keyspace-notifications
 
 ## Required arguments
 

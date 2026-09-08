@@ -4,6 +4,8 @@ linkTitle: v2.30.0 (July 2023)
 date: 2023-07-27 00:00:00 +0000
 description: RedisInsight v2.30
 weight: 1
+aliases:
+- /develop/connect/insight/release-notes/v.2.30.0/
 ---
 ## 2.30 (July 2023)
 This is the General Availability (GA) release of RedisInsight 2.30.

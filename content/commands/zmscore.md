@@ -71,9 +71,14 @@ One or more members whose scores to return.
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZMSCORE myzset "one" "two" "nofield"
+redis> ZADD myzset 1 "one"
+(integer) 1
+redis> ZADD myzset 2 "two"
+(integer) 1
+redis> ZMSCORE myzset "one" "two" "nofield"
+1) "1"
+2) "2"
+3) (nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

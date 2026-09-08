@@ -1,6 +1,8 @@
 ---
 Title: Write-behind configuration guide
-aliases: /integrate/redis-data-integration/write-behind/configuration-guide/
+aliases:
+- /integrate/redis-data-integration/write-behind/configuration-guide/
+- /integrate/redis-data-integration/write behind/configuration-guide/
 alwaysopen: false
 categories:
 - docs

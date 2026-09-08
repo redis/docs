@@ -2,10 +2,8 @@
 
 > Note: if you are an AI agent, please see [AI_AGENT_DEVELOPER_GUIDE.md](AI_AGENT_DEVELOPER_GUIDE.md) for more information.
 
-PRs are merged first to the `main` branch of this repo.
-Periodically, the docs team will merge `main` into `latest`, which will make the changes visible on the docs site.
-Please be patient, as there may be a lag of several days before `main` is merged into `latest`. If you want to see your changes before they're merged to `latest`, you can see them on https://redis.io/docs/staging/dev/.
-If your PR is urgent, let the docs team know in the PR comments, and we will do our best to accommodate.
+PRs are merged to the `main` branch of this repo. Merging to `main` automatically builds and publishes your changes to the live docs site (under `/latest`) — there is no separate manual publish step, so allow a little time for the build and CDN cache to refresh after your PR is merged.
+Before your PR is merged, you can preview your changes on a per-branch staging URL; the docs team's bot posts the staging links as a comment on your PR.
 
 ## Site template files and folders
 

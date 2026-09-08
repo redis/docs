@@ -81,8 +81,10 @@ One or more elements to add to the HyperLogLog. With no elements, the command on
 ## Examples
 
 {{% redis-cli %}}
-PFADD hll a b c d e f g
-PFCOUNT hll
+redis> PFADD hll a b c d e f g
+(integer) 1
+redis> PFCOUNT hll
+(integer) 7
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -328,8 +328,14 @@ For more information about managing keys, please refer to the [The Redis Keyspac
 Give the following commands, showing iteration of a hash key, a try in the interactive console:
 
 {{% redis-cli %}}
-HMSET hash name Jack age 33
-HSCAN hash 0
+redis> HMSET hash name Jack age 33
+OK
+redis> HSCAN hash 0
+1) "0"
+2) 1) "name"
+   2) "Jack"
+   3) "age"
+   4) "33"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

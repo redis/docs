@@ -1,6 +1,8 @@
 ---
 Title: Data transformation
-aliases: null
+aliases:
+- /integrate/redis-data-integration/data-transformation/
+- /integrate/redis-data-integration/write-behind/data-transformation/
 alwaysopen: false
 categories:
 - docs

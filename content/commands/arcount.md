@@ -55,9 +55,12 @@ The name of the key that holds the array.
 ## Examples
 
 {{% redis-cli %}}
-ARSET myarray 0 "a"
-ARSET myarray 5 "b"
-ARCOUNT myarray
+redis> ARSET myarray 0 "a"
+(integer) 1
+redis> ARSET myarray 5 "b"
+(integer) 1
+redis> ARCOUNT myarray
+(integer) 2
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

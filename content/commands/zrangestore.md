@@ -154,9 +154,13 @@ Skip `offset` matching members and return up to `count` of them. Requires `BYSCO
 ## Examples
 
 {{% redis-cli %}}
-ZADD srczset 1 "one" 2 "two" 3 "three" 4 "four"
-ZRANGESTORE dstzset srczset 2 -1
-ZRANGE dstzset 0 -1
+redis> ZADD srczset 1 "one" 2 "two" 3 "three" 4 "four"
+(integer) 4
+redis> ZRANGESTORE dstzset srczset 2 -1
+(integer) 2
+redis> ZRANGE dstzset 0 -1
+1) "three"
+2) "four"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -79,6 +79,7 @@ Redis is the **ideal foundation** for AI agents because it excels at the three t
 - **Short-term**: Conversation context and session state
 - **Long-term**: User preferences and learned patterns
 - Flexible data structures (Hashes, Lists, Streams, JSON) for different memory types
+- **Managed option**: The [Redis Iris Context Engine]({{< relref "/develop/ai/context-engine/agent-memory" >}}) provides short-term (session) and long-term memory as a managed service — with semantic long-term search — so you don't have to build the vector index and storage yourself
 - [Explore Redis data structures →](/develop/data-types/)
 
 ## Types of agents you can build
@@ -365,6 +366,7 @@ Ready to build your AI agent with Redis?
 - [Redis quick start guide]({{< relref "/develop/get-started" >}}) for setting up Redis
 
 **Learn more:**
+- [Redis Iris Context Engine — Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) for managed session and long-term agent memory
 - [Redis Vector Search documentation]({{< relref "develop/ai/search-and-query/vectors" >}})
 - [RedisVL Python library]({{< relref "develop/clients/redis-vl" >}}) for vector operations and AI workflows
 - [Redis data structures guide](/develop/data-types/)

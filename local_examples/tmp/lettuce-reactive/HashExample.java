@@ -161,6 +161,99 @@ public class HashExample {
             // STEP_END
 
             Mono.when(getRides, getCrashesOwners).block();
+
+            // STEP_START hexpire
+            Map<String, String> sensor1 = new HashMap<>();
+            sensor1.put("air_quality", "256");
+            sensor1.put("battery_level", "89");
+
+            // Set a TTL of 60 seconds on two fields of the hash.
+            Mono<List<Long>> hExpire = reactiveCommands.del("sensor:sensor1")
+                    .then(reactiveCommands.hset("sensor:sensor1", sensor1))
+                    .then(reactiveCommands.hexpire("sensor:sensor1", 60, "air_quality", "battery_level").collectList())
+                    .doOnNext(result -> {
+                        System.out.println(result);
+                        // >>> [1, 1]
+                        // REMOVE_START
+                        assertThat(result).isEqualTo(Arrays.asList(1L, 1L));
+                        // REMOVE_END
+                    });
+
+            hExpire.block();
+
+            // Retrieve the remaining TTL for those fields.
+            Mono<List<Long>> hTtl = reactiveCommands.httl("sensor:sensor1", "air_quality", "battery_level")
+                    .collectList().doOnNext(result -> {
+                        System.out.println(result.size());
+                        // >>> 2
+                        // REMOVE_START
+                        assertThat(result).hasSize(2);
+                        assertThat(result.stream().allMatch(ttl -> ttl > 0 && ttl <= 60)).isTrue();
+                        // REMOVE_END
+                    });
+
+            hTtl.block();
+            // STEP_END
+
+            // STEP_START hpexpire
+            // Set the TTL of the 'air_quality' field in milliseconds.
+            Mono<List<Long>> hpExpire = reactiveCommands.del("sensor:sensor1")
+                    .then(reactiveCommands.hset("sensor:sensor1", sensor1))
+                    .then(reactiveCommands.hpexpire("sensor:sensor1", 60000, "air_quality").collectList())
+                    .doOnNext(result -> {
+                        System.out.println(result);
+                        // >>> [1]
+                        // REMOVE_START
+                        assertThat(result).isEqualTo(Arrays.asList(1L));
+                        // REMOVE_END
+                    });
+
+            hpExpire.block();
+
+            // Retrieve the remaining TTL in milliseconds.
+            Mono<List<Long>> hpTtl = reactiveCommands.hpttl("sensor:sensor1", "air_quality")
+                    .collectList().doOnNext(result -> {
+                        System.out.println(result.size());
+                        // >>> 1
+                        // REMOVE_START
+                        assertThat(result).hasSize(1);
+                        assertThat(result.stream().allMatch(pttl -> pttl > 0 && pttl <= 60000)).isTrue();
+                        // REMOVE_END
+                    });
+
+            hpTtl.block();
+            // STEP_END
+
+            // STEP_START hexpireat
+            long expireAtSeconds = System.currentTimeMillis() / 1000L + 24 * 60 * 60;
+
+            // Set the expiration of 'air_quality' to a Unix time 24 hours from now.
+            Mono<List<Long>> hExpireAt = reactiveCommands.del("sensor:sensor1")
+                    .then(reactiveCommands.hset("sensor:sensor1", sensor1))
+                    .then(reactiveCommands.hexpireat("sensor:sensor1", expireAtSeconds, "air_quality").collectList())
+                    .doOnNext(result -> {
+                        System.out.println(result);
+                        // >>> [1]
+                        // REMOVE_START
+                        assertThat(result).isEqualTo(Arrays.asList(1L));
+                        // REMOVE_END
+                    });
+
+            hExpireAt.block();
+
+            // Retrieve the expiration time as a Unix timestamp in seconds.
+            Mono<List<Long>> hExpireTime = reactiveCommands.hexpiretime("sensor:sensor1", "air_quality")
+                    .collectList().doOnNext(result -> {
+                        System.out.println(result.size());
+                        // >>> 1
+                        // REMOVE_START
+                        assertThat(result).hasSize(1);
+                        assertThat(result.get(0)).isGreaterThan(System.currentTimeMillis() / 1000L);
+                        // REMOVE_END
+                    });
+
+            hExpireTime.block();
+            // STEP_END
         } finally {
             redisClient.shutdown();
         }

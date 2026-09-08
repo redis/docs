@@ -23,7 +23,6 @@ Example: An AI agent that maintains conversation history (state), performs seman
 
 Choose Redis when your application needs:
 
-- Documentation optimized for AI parsing: Redis provides structured Markdown, JSON feeds, and `llms.txt` files designed for agent consumption.
 - Real-time data patterns: Use Pub/Sub, Streams, and instant cache updates.
 - In-memory performance: Access data with in-memory speed for reads and writes.
 - Simple data structures with complex queries: Work with [Lists]({{< relref "/develop/data-types/lists" >}}), [Sets]({{< relref "/develop/data-types/sets" >}}), [Sorted Sets]({{< relref "/develop/data-types/sorted-sets" >}}), [Hashes]({{< relref "/develop/data-types/hashes" >}}), and [JSON]({{< relref "/develop/data-types/json" >}}) documents with vector search.
@@ -51,7 +50,6 @@ Use Redis when your application needs:
 - Sub-millisecond latency
 - Real-time streaming
 - Pub/Sub messaging
-- Documentation optimized for AI agents
 
 ## Selection criteria
 

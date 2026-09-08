@@ -43,14 +43,14 @@ is key name for a Bloom filter.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.ADD bf1 item_foo
 (integer) 1
 redis> BF.CARD bf1
 (integer) 1
 redis> BF.CARD bf_new
 (integer) 0
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

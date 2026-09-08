@@ -28,7 +28,7 @@ Redis implements rolling updates for software upgrades in Kubernetes deployments
 
 4. When upgrading existing clusters running on RHEL7-based images, make sure to select a RHEL7-based image for the new version. See [release notes]({{< relref "/operate/kubernetes/release-notes/" >}}) for more info.
 
-5. If you want to migrate from RHEL7-based images to RHEL8-based images, you'll need to upgrade to version 7.2.4-2 with a RHEL7-based image, then you'll be able to migrate to a RHEL8-based image when upgrading to 7.2.4-**TBD**.
+5. If you want to migrate from RHEL7-based images to RHEL8-based images, you'll need to upgrade to version 7.2.4-2 with a RHEL7-based image, then you'll be able to migrate to a RHEL8-based image when upgrading to a later 7.2.4 build.
 
 ## Upgrade the operator
 

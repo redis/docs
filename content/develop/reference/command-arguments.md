@@ -43,7 +43,7 @@ Every element in the _arguments_ array is a map with the following fields:
   - **block:** the argument is a container for nested arguments.
     This type enables grouping arguments and applying a property (such as _optional_) to all (see the [`XADD`]({{< relref "/commands/xadd" >}}) example below).
 * **key_spec_index:** this value is available for every argument of the _key_ type.
-  It is a 0-based index of the specification in the command's [key specifications][tr] that corresponds to the argument.
+  It is a 0-based index of the specification in the command's [key specifications]({{< relref "/develop/reference/key-specs.md" >}}) that corresponds to the argument.
 * **token**: a constant literal that precedes the argument (user input) itself.
 * **summary:** a short description of the argument.
 * **since:** the debut Redis version of the argument (or for module commands, the module version).
@@ -56,8 +56,6 @@ Every element in the _arguments_ array is a map with the following fields:
 * **value:** the argument's value.
   For arguments types other than _oneof_ and _block_, this is a string that describes the value in the command's syntax.
   For the _oneof_ and _block_ types, this is an array of nested arguments, each being a map as described in this section.
-
-[tr]: /develop/reference/key-specs.md
 
 ## Example
 

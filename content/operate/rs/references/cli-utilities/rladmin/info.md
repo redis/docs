@@ -200,3 +200,34 @@ proxy:1
     max_threads: 8
     threads: 3
 ```
+
+## `info metrics`
+
+Shows the cluster-wide [metrics configuration]({{<relref "/operate/rs/monitoring/metrics_stream_engine/metrics-configuration">}}) for the v2 metrics stream engine.
+
+```sh
+rladmin info metrics
+```
+
+### Parameters
+
+None
+
+### Returns
+
+Returns the current metrics configuration. To update it, use [`rladmin metrics config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/metrics#metrics-config">}}).
+
+### Example
+
+``` sh
+$ rladmin info metrics
+Metrics configuration:
+    key_distribution_enabled: True
+    key_size_buckets: 128M,512M
+    key_items_buckets: 1M,8M
+    local_storage_max_size_mb: 1024
+    local_storage_retention_days: 8
+    expose_db_tags: True
+    metrics_tag_keys_exposed: env,team
+    max_requests_in_flight: 2
+```

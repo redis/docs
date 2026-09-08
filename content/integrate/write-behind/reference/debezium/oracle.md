@@ -1,6 +1,8 @@
 ---
 Title: Write-behind configuration for oracle
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/debezium/oracle/
+- /integrate/redis-data-integration/write-behind/reference/debezium/oracle/
 alwaysopen: false
 categories:
   - docs

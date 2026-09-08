@@ -20,7 +20,7 @@ You can learn more about access control, data protection and encryption, secure 
 
 For security-related contacts, open an issue on GitHub, or when you feel it
 is really important to preserve the security of the communication, use this
-[downloadable GPG key](/operate/oss_and_stack/management/security/gpgkey.txt).
+[downloadable GPG key](gpgkey.txt).
 
 ## Security model
 

@@ -147,10 +147,14 @@ One or more source keys.
 1. Basic usage example using the `AND` operator:
 
 {{% redis-cli %}}
-BITFIELD key1 SET i8 #0 255
-BITFIELD key2 SET i8 #0 85
-BITOP AND dest key1 key2
-BITFIELD dest GET i8 #0
+redis> BITFIELD key1 SET i8 #0 255
+1) (integer) 0
+redis> BITFIELD key2 SET i8 #0 85
+1) (integer) 0
+redis> BITOP AND dest key1 key2
+(integer) 1
+redis> BITFIELD dest GET i8 #0
+1) (integer) 85
 {{% /redis-cli %}}
 
 2. Suppose you want to expose people to a book-related ad. The target audience is people who love to read books and are interested in fantasy, adventure, or science fiction. Assume you have the following bitmaps:
@@ -185,9 +189,7 @@ Different bitmaps can be combined in order to obtain a target bitmap where
 the population counting operation is performed.
 
 See the article called "[Fast easy realtime metrics using Redis
-bitmaps][hbgc212fermurb]" for an interesting use cases.
-
-[hbgc212fermurb]: http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps
+bitmaps](http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps)" for an interesting use cases.
 
 ### Performance considerations
 

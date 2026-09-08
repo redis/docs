@@ -89,11 +89,16 @@ The end offset, zero-based and inclusive. A negative value counts from the end o
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "This is a string"
-GETRANGE mykey 0 3
-GETRANGE mykey -3 -1
-GETRANGE mykey 0 -1
-GETRANGE mykey 10 100
+redis> SET mykey "This is a string"
+OK
+redis> GETRANGE mykey 0 3
+"This"
+redis> GETRANGE mykey -3 -1
+"ing"
+redis> GETRANGE mykey 0 -1
+"This is a string"
+redis> GETRANGE mykey 10 100
+"string"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -24,7 +24,7 @@ public class CmdsStringExample {
             RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();
 
             // REMOVE_START
-            reactiveCommands.del("key1", "key2", "nonexisting").block();
+            reactiveCommands.del("key1", "key2", "mykey", "nonexisting").block();
             // REMOVE_END
 
             // STEP_START mget
@@ -33,18 +33,45 @@ public class CmdsStringExample {
                     .flatMap(res2 -> reactiveCommands.mget("key1", "key2", "nonexisting").collectList())
                     .doOnNext(res3 -> {
                         System.out.println(res3);
-                        // >>> [KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting, null]]
+                        // >>> [KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting].empty]
                         // REMOVE_START
                         assertThat(res3.toString()).isEqualTo(
-                                "[KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting, null]]");
+                                "[KeyValue[key1, Hello], KeyValue[key2, World], KeyValue[nonexisting].empty]");
                         // REMOVE_END
                     })
                     .then();
             // STEP_END
 
             mgetExample.block();
+
+            // STEP_START incr
+            Mono<Void> incrExample = reactiveCommands.set("mykey", "10")
+                    .flatMap(incrResult1 -> {
+                        System.out.println(incrResult1);    // >>> OK
+                        // REMOVE_START
+                        assertThat(incrResult1).isEqualTo("OK");
+                        // REMOVE_END
+                        return reactiveCommands.incr("mykey");
+                    })
+                    .flatMap(incrResult2 -> {
+                        System.out.println(incrResult2);    // >>> 11
+                        // REMOVE_START
+                        assertThat(incrResult2).isEqualTo(11L);
+                        // REMOVE_END
+                        return reactiveCommands.get("mykey");
+                    })
+                    .doOnNext(incrResult3 -> {
+                        System.out.println(incrResult3);    // >>> 11
+                        // REMOVE_START
+                        assertThat(incrResult3).isEqualTo("11");
+                        // REMOVE_END
+                    })
+                    .then();
+            // STEP_END
+
+            incrExample.block();
             // REMOVE_START
-            reactiveCommands.del("key1", "key2", "nonexisting").block();
+            reactiveCommands.del("key1", "key2", "mykey", "nonexisting").block();
             // REMOVE_END
         } finally {
             redisClient.shutdown();

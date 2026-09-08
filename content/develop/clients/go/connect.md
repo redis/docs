@@ -183,3 +183,146 @@ either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) 
 To use relaxed timeouts with these services, you should set `EndpointType: maintnotifications.EndpointTypeNone`
 when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
 {{< /note >}}
+
+## Connect using client-side caching
+
+Client-side caching is a technique to reduce network traffic between
+the client and server, resulting in better performance. See
+[Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
+for more information about how client-side caching works and how to use it effectively.
+
+{{< note >}}Client-side caching is an experimental feature of go-redis and its
+API may change in a minor release.
+
+Client-side caching requires go-redis v9.22.0 or later.
+To maximize compatibility with all Redis products, client-side caching
+is supported by Redis v7.4 or later.
+
+Client-side caching requires the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+protocol, so you must set `Protocol: 3` explicitly when you connect. On a RESP2
+connection, client-side caching silently does nothing. It is also limited to
+standalone clients and to logical database 0; on any other database it is
+disabled with a log warning.
+{{< /note >}}
+
+To enable client-side caching, pass a `ClientSideCacheConfig` object when you
+connect on a `Protocol: 3` client. Passing an empty `ClientSideCacheConfig{}`
+enables caching with the default settings:
+
+```go
+import (
+    "context"
+    "github.com/redis/go-redis/v9"
+)
+
+func main() {
+    ctx := context.Background()
+
+    client := redis.NewClient(&redis.Options{
+        Addr:                  "localhost:6379",
+        Protocol:              3, // RESP3 required for client-side caching
+        ClientSideCacheConfig: &redis.ClientSideCacheConfig{},
+    })
+
+    client.Set(ctx, "city", "New York", 0)
+    client.Get(ctx, "city") // Retrieved from the server and cached
+    client.Get(ctx, "city") // Retrieved from the cache
+}
+```
+
+You can see the cache working if you connect to the same Redis database
+with [`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run the
+[`MONITOR`]({{< relref "/commands/monitor" >}}) command. With caching enabled,
+the server sees the first `Get("city")` call but not the second, which the
+client satisfies from the cache.
+
+### How invalidation works
+
+Redis tracks the keys each connection reads and sends an invalidation message
+when one of them changes. go-redis keeps a single cache shared by every
+connection in the client's pool: each connection enables tracking on the
+server, and go-redis applies the invalidation messages in the background.
+
+Because invalidation is asynchronous, an entry is evicted shortly after the
+data changes rather than at the instant of the write. Use `DrainInterval` to
+control how often invalidations are applied, and `MaxStaleness` to put a hard
+time limit on how long any entry can be served (see
+[Configuration options](#configuration-options) for more information).
+
+### Configuration options
+
+The `ClientSideCacheConfig` object accepts the following options to tune the
+cache:
+
+| Name | Description |
+| :-- | :-- |
+| `MaxEntries` | The maximum number of entries the cache can hold. Zero or negative means unlimited. If both `MaxEntries` and `MaxMemoryBytes` are unlimited, `MaxEntries` defaults to 10,000 so the cache cannot grow without bound. |
+| `MaxMemoryBytes` | An approximate memory limit for the cache. Zero or negative means unlimited. The cache is divided into 16 shards that each enforce a 16th of this limit, so set it to at least 16 times the size of your largest cached reply. |
+| `MaxStaleness` | The longest time an entry can be served after it was cached, regardless of invalidation. This is a safety net for a missed invalidation rather than the main way entries are kept fresh, so set it well above the time an invalidation takes to arrive. Zero, the default, disables it. |
+| `DrainInterval` | How often go-redis checks idle connections for invalidation messages and applies them. The default is 5ms and the minimum is 1ms. |
+
+### Monitoring the cache
+
+Use the `CSCStats()` method to read the cache statistics for a client:
+
+```go
+stats := client.CSCStats()
+fmt.Printf("Cache hits: %d, misses: %d\n", stats.Hits, stats.Misses)
+fmt.Printf("Entries: %d, memory: %d bytes\n", stats.Entries, stats.MemoryUsageBytes)
+```
+
+### Supplying your own cache
+
+Set the `ClientSideCache` option to use your own cache instead of the built-in
+one. It accepts any value that implements the
+[`Cache`](https://pkg.go.dev/github.com/redis/go-redis/v9#Cache) interface and
+takes precedence over `ClientSideCacheConfig`. You can also use it to share a
+single cache between several clients, but only when those clients connect to the
+same server and database.
+
+The simplest approach is to wrap the built-in cache, which `NewLocalCache()`
+returns, and override only the methods you want to change. The example below
+counts lookups and passes everything else through:
+
+```go
+type countingCache struct {
+    *redis.LocalCache
+    lookups atomic.Int64
+}
+
+func (c *countingCache) Get(ctx context.Context, cacheKey string) ([]byte, bool) {
+    c.lookups.Add(1)
+    return c.LocalCache.Get(ctx, cacheKey)
+}
+
+cache := &countingCache{
+    LocalCache: redis.NewLocalCache(redis.ClientSideCacheConfig{MaxEntries: 1000}),
+}
+
+client := redis.NewClient(&redis.Options{
+    Addr:            "localhost:6379",
+    Protocol:        3,
+    ClientSideCache: cache,
+})
+```
+
+{{< note >}}Embed the concrete `*redis.LocalCache` type, as shown above, rather
+than the `Cache` interface. Cache statistics come from an optional `Stats()`
+method that the `Cache` interface doesn't declare, so a wrapper that embeds the
+interface still compiles but makes `CSCStats()` report zeros.
+{{< /note >}}
+
+To write a cache from scratch, you should implement all eight `Cache` methods: `Get()` for
+lookups, `Reserve()`, `FulfillOwned()`, and `Cancel()` to ensure that only one
+caller fetches a missing key, and `DeleteByRedisKey()`, `DeleteByCacheKey()`,
+`EvictByConn()`, and `Flush()` to remove entries when invalidation arrives.
+go-redis calls these methods from several goroutines at once, so your
+implementation must be thread-safe, and must treat cache keys and Redis keys as
+opaque strings and preserve them exactly. It must also stop waiting for an
+in-progress reservation when the context is canceled. You should also implement
+`Stats() redis.CSCStats` if you want to use the `CSCStats()` function with your cache.
+
+If you only want to change how the cache estimates the memory used by an entry, you
+don't need a full cache implementation. Instead, set the `Sizer` field of
+`ClientSideCacheConfig` to a function that returns a size in bytes. The
+built-in cache will then use it in place of its own approximation.

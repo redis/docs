@@ -10,7 +10,10 @@
     ]
   },
   "sandbox": {
-    "excludedCommands": ["gh"]
+    "excludedCommands": ["gh", "docker"],
+    "network": {
+      "allowLocalBinding": true
+    }
   },
   "hooks": {
     "PostToolUse": [

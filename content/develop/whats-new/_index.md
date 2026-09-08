@@ -12,6 +12,12 @@ hideListLinks: true
 weight: 10
 ---
 
+## Q3 2026 (July - September) Updates
+
+### Redis Version Updates
+
+- [Redis 8.10]({{< relref "/develop/whats-new/8-10" >}}) - New commands (`LMOVEM`/`BLMOVEM`, `SUNIONCARD`/`SDIFFCARD`, `FT.ALIASLIST`, `TS.NRANGE`/`TS.NREVRANGE`, `TS.READ`), hash templates, `FT.AGGREGATE` `COLLECT` reducer and stricter query timeout enforcement, extensive JSONPath extensions, plus core, Search, and JSON performance improvements.
+
 ## Q2 2026 (April - June) Updates
 
 ### Redis Version Updates

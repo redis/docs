@@ -14,7 +14,7 @@ title: Redis streaming with StackExchange.Redis
 weight: 6
 ---
 
-This guide shows you how to build a Redis-backed event-streaming pipeline in C# with [StackExchange.Redis](https://stackexchange.github.io/StackExchange.Redis/). It includes a small local web server built with ASP.NET Core's minimal API so you can produce events into a single Redis Stream, watch two independent consumer groups read it at their own pace, and recover stuck deliveries with `XAUTOCLAIM` after simulating a consumer crash.
+This guide shows you how to build a Redis-backed event-streaming pipeline in C# with [StackExchange.Redis](https://seredis.dev/). It includes a small local web server built with ASP.NET Core's minimal API so you can produce events into a single Redis Stream, watch two independent consumer groups read it at their own pace, and recover stuck deliveries with `XAUTOCLAIM` after simulating a consumer crash.
 
 ## Overview
 
@@ -506,4 +506,4 @@ This example uses the following Redis commands:
   [`XINFO GROUPS`]({{< relref "/commands/xinfo-groups" >}}), and
   [`XINFO CONSUMERS`]({{< relref "/commands/xinfo-consumers" >}}) for observability.
 
-See the [StackExchange.Redis docs](https://stackexchange.github.io/StackExchange.Redis/) for the full client reference, and the [Streams overview]({{< relref "/develop/data-types/streams" >}}) for the deeper conceptual model — consumer groups, the PEL, claim semantics, capped streams, and the differences with Kafka partitions.
+See the [StackExchange.Redis docs](https://seredis.dev/) for the full client reference, and the [Streams overview]({{< relref "/develop/data-types/streams" >}}) for the deeper conceptual model — consumer groups, the PEL, claim semantics, capped streams, and the differences with Kafka partitions.

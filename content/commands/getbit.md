@@ -74,10 +74,14 @@ The zero-based bit offset to read.
 ## Examples
 
 {{% redis-cli %}}
-SETBIT mykey 7 1
-GETBIT mykey 0
-GETBIT mykey 7
-GETBIT mykey 100
+redis> SETBIT mykey 7 1
+(integer) 0
+redis> GETBIT mykey 0
+(integer) 0
+redis> GETBIT mykey 7
+(integer) 1
+redis> GETBIT mykey 100
+(integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

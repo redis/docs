@@ -118,14 +118,13 @@ docker run -d --name redis -p 6379:6379 redis
 #### Homebrew
 
 ```bash
-brew tap redis/redis
-brew install --cask redis
+brew install redis
 ```
 
 Start Redis:
 
 ```bash
-redis-server $(brew --prefix)/etc/redis.conf
+brew services start redis
 ```
 
 [Full Homebrew installation guide]({{< relref "/operate/oss_and_stack/install/install-stack/homebrew" >}})
@@ -174,5 +173,7 @@ The latest version of Redis Open Source has been tested on the following platfor
 While you can install Redis Open Source on any of the platforms listed below, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
 You can also download [Redis Insight]({{< relref "/operate/redisinsight/install/" >}}), a free developer companion tool with an intuitive GUI and advanced CLI, which you can use alongside Redis Open Source.
+
+If you only need the Redis CLI (`redis-cli`) to connect to a remote Redis server, and not the full Redis Open Source distribution, see [Install redis-cli]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}).
 
 <hr/>

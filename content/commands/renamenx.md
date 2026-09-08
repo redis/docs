@@ -94,10 +94,14 @@ The new key name. The command fails if a key with this name already exists.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-SET myotherkey "World"
-RENAMENX mykey myotherkey
-GET myotherkey
+redis> SET mykey "Hello"
+OK
+redis> SET myotherkey "World"
+OK
+redis> RENAMENX mykey myotherkey
+(integer) 0
+redis> GET myotherkey
+"World"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

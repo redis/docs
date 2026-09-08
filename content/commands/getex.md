@@ -121,11 +121,16 @@ Remove the time to live associated with the key. See [`PERSIST`]({{< relref "/co
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-GETEX mykey
-TTL mykey
-GETEX mykey EX 60
-TTL mykey
+redis> SET mykey "Hello"
+OK
+redis> GETEX mykey
+"Hello"
+redis> TTL mykey
+(integer) -1
+redis> GETEX mykey EX 60
+"Hello"
+redis> TTL mykey
+(integer) 60
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

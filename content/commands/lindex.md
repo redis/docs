@@ -75,11 +75,16 @@ The zero-based index of the element to return. Negative indexes count from the t
 ## Examples
 
 {{% redis-cli %}}
-LPUSH mylist "World"
-LPUSH mylist "Hello"
-LINDEX mylist 0
-LINDEX mylist -1
-LINDEX mylist 3
+redis> LPUSH mylist "World"
+(integer) 1
+redis> LPUSH mylist "Hello"
+(integer) 2
+redis> LINDEX mylist 0
+"Hello"
+redis> LINDEX mylist -1
+"World"
+redis> LINDEX mylist 3
+(nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

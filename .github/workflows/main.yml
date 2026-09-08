@@ -10,9 +10,11 @@ env:
   BUCKET: docs-prod-learn-redis-com
 
 jobs:
-  # Discover versions and build the latest docs
-  setup_and_build_latest:
-    name: Setup and build latest docs
+  # Discover versions and compute deployment paths. This job is intentionally
+  # lightweight (checkout only) so the versioned matrix builds can start
+  # without waiting for the full latest build.
+  discover_versions:
+    name: Discover versions
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -25,28 +27,16 @@ jobs:
       bucket_path: ${{ steps.set-paths.outputs.bucket_path }}
 
     steps:
-    - name: Free up disk space
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/local/lib/android
-        sudo rm -rf /opt/ghc
-        sudo rm -rf /opt/hostedtoolcache/CodeQL
-
     - name: Validate the branch name
       env:
         BRANCH_NAME: ${{ github.ref_name }}
       run: |
-        if [[ "$BRANCH_NAME" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
+        if [[ "$BRANCH_NAME" =~ ^[a-zA-Z0-9_./-]+$ ]]; then
           echo "The branch name $BRANCH_NAME is valid."
         else
           echo "ERROR: Invalid branch name $BRANCH_NAME!"
           exit 1
         fi
-
-    - name: Install Hugo
-      run: |
-        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
     - name: Check the branch out
       uses: actions/checkout@v4
@@ -55,9 +45,7 @@ jobs:
       id: set-paths
       run: |
         if [[ "${{ github.ref_name }}" == "main" ]]; then
-          echo "hugo_root_path=docs/staging/dev" >> $GITHUB_OUTPUT
-          echo "bucket_path=staging/dev" >> $GITHUB_OUTPUT
-        elif [[ "${{ github.ref_name }}" == "latest" ]]; then
+          # main is the production branch: merges publish straight to /latest.
           echo "hugo_root_path=docs/latest" >> $GITHUB_OUTPUT
           echo "bucket_path=latest" >> $GITHUB_OUTPUT
         elif [[ "${{ endsWith(github.ref_name, '-build') }}" == "true" ]]; then
@@ -89,20 +77,46 @@ jobs:
         echo "  RDI: ${rdi_versions}"
         echo "  RedisVL: ${redisvl_versions}"
 
+  # Build the latest docs
+  setup_and_build_latest:
+    name: Setup and build latest docs
+    needs: discover_versions
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+
+    steps:
+    - name: Install Hugo
+      run: |
+        wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+        && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+    - name: Check the branch out
+      uses: actions/checkout@v4
+      with:
+        # Full history, because `make ci` runs build/generate_page_moves.py, which
+        # reads git rename records to date each entry in the published redirect map.
+        # checkout defaults to fetch-depth: 1, and in a shallow clone that scan finds
+        # nothing and reports zero moves without failing -- so the map would ship with
+        # no dates at all while a local full-clone build shows hundreds. Only this job
+        # needs it; the versioned matrix builds run bare `hugo` and never generate the
+        # map. See DOC-6951.
+        fetch-depth: 0
+
     - name: Install dependencies
       run: make deps
 
     - name: Build latest (without versioned content)
       run: |
         set -x
-        hugo_root_path="${{ steps.set-paths.outputs.hugo_root_path }}"
+        hugo_root_path="${{ needs.discover_versions.outputs.hugo_root_path }}"
         sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
 
         # Remove all versioned directories for the latest build
-        kubernetes_versions='${{ steps.discover.outputs.kubernetes_versions }}'
-        rs_versions='${{ steps.discover.outputs.rs_versions }}'
-        rdi_versions='${{ steps.discover.outputs.rdi_versions }}'
-        redisvl_versions='${{ steps.discover.outputs.redisvl_versions }}'
+        kubernetes_versions='${{ needs.discover_versions.outputs.kubernetes_versions }}'
+        rs_versions='${{ needs.discover_versions.outputs.rs_versions }}'
+        rdi_versions='${{ needs.discover_versions.outputs.rdi_versions }}'
+        redisvl_versions='${{ needs.discover_versions.outputs.redisvl_versions }}'
 
         for version in $(echo "$kubernetes_versions" | jq -r '.[]'); do
           rm -rf "content/operate/kubernetes/${version}"
@@ -123,13 +137,25 @@ jobs:
         echo "$rdi_versions" | jq -r '.[]' > rdi-versions
         echo "$redisvl_versions" | jq -r '.[]' > redisvl-versions
 
-        make all
+        # `make ci` skips `clean` (the CI workspace is a fresh checkout, and
+        # `clean` would delete the node_modules that `make deps` just installed).
+        make ci
 
     - name: List client examples
       run: ls "${{ github.workspace }}/examples"
 
     - name: List files to be published
       run: ls "${{ github.workspace }}/public"
+
+    # Packaged here rather than in the deploy job so the archives travel as their
+    # own artifact instead of bloating build-latest. This build has no versioned
+    # content, so it covers every unversioned product plus the current release of
+    # the versioned ones; the matrix jobs below add the archived versions.
+    - name: Package download bundles
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source public --out bundles \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
 
     - name: Upload latest artifact
       uses: actions/upload-artifact@v4
@@ -138,27 +164,27 @@ jobs:
         path: public/
         retention-days: 1
 
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-latest
+        path: bundles/
+        retention-days: 1
+
   # Build Kubernetes versions in parallel
   build_kubernetes:
     name: Build Kubernetes ${{ matrix.version }}
-    needs: setup_and_build_latest
-    if: ${{ needs.setup_and_build_latest.outputs.kubernetes_versions != '[]' }}
+    needs: discover_versions
+    if: ${{ needs.discover_versions.outputs.kubernetes_versions != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJson(needs.setup_and_build_latest.outputs.kubernetes_versions) }}
+        version: ${{ fromJson(needs.discover_versions.outputs.kubernetes_versions) }}
 
     steps:
-    - name: Free up disk space
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/local/lib/android
-        sudo rm -rf /opt/ghc
-        sudo rm -rf /opt/hostedtoolcache/CodeQL
-
     - name: Install Hugo
       run: |
         wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
@@ -177,12 +203,12 @@ jobs:
       run: |
         set -x
         version="${{ matrix.version }}"
-        hugo_root_path="${{ needs.setup_and_build_latest.outputs.hugo_root_path }}"
+        hugo_root_path="${{ needs.discover_versions.outputs.hugo_root_path }}"
 
         sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
 
         # Remove all other kubernetes versions
-        kubernetes_versions='${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}'
+        kubernetes_versions='${{ needs.discover_versions.outputs.kubernetes_versions }}'
         for v in $(echo "$kubernetes_versions" | jq -r '.[]'); do
           if [[ "$v" != "$version" ]]; then
             rm -rf "content/operate/kubernetes/${v}"
@@ -202,12 +228,30 @@ jobs:
         sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/kubernetes\/\` \"operate\/kubernetes\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
 
         # Create version files for docs-nav.html dropdowns
-        echo '${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
-        echo '${{ needs.setup_and_build_latest.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
-        echo '${{ needs.setup_and_build_latest.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
-        echo '${{ needs.setup_and_build_latest.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
+        echo '${{ needs.discover_versions.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
+        echo '${{ needs.discover_versions.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
+        echo '${{ needs.discover_versions.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
+        echo '${{ needs.discover_versions.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
 
         hugo -d "output"
+
+        # Hugo writes one sitemap at the root of the build output, but deploy_kubernetes
+        # uploads only the versioned subdirectory, so that file never reaches the
+        # bucket -- and the latest build deletes these version directories before it
+        # builds, so its sitemap cannot list them either. Result: no sitemap anywhere
+        # listed a versioned page. Write a subtree sitemap into the directory that
+        # does ship, so the existing rsync picks it up with no deploy changes.
+        python3 build/generate_version_sitemap.py \
+          --sitemap output/sitemap.xml \
+          --subtree "operate/kubernetes/${version}" \
+          --output "output/operate/kubernetes/${version}/sitemap.xml"
+
+    - name: Package download bundles for Kubernetes ${{ matrix.version }}
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source output --out bundles \
+          --only redis-kubernetes --version "${{ matrix.version }}" \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
@@ -216,27 +260,36 @@ jobs:
         path: output/
         retention-days: 1
 
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-kubernetes-${{ matrix.version }}
+        path: bundles/
+        retention-days: 1
+
+    # Uploaded separately as well so deploy_version_sitemaps can collect every
+    # version's sitemap without downloading four dozen full site builds.
+    - name: Upload Kubernetes ${{ matrix.version }} sitemap
+      uses: actions/upload-artifact@v4
+      with:
+        name: sitemap-kubernetes-${{ matrix.version }}
+        path: output/operate/kubernetes/${{ matrix.version }}/sitemap.xml
+        retention-days: 1
+
   # Build RS versions in parallel
   build_rs:
     name: Build RS ${{ matrix.version }}
-    needs: setup_and_build_latest
-    if: ${{ needs.setup_and_build_latest.outputs.rs_versions != '[]' }}
+    needs: discover_versions
+    if: ${{ needs.discover_versions.outputs.rs_versions != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJson(needs.setup_and_build_latest.outputs.rs_versions) }}
+        version: ${{ fromJson(needs.discover_versions.outputs.rs_versions) }}
 
     steps:
-    - name: Free up disk space
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/local/lib/android
-        sudo rm -rf /opt/ghc
-        sudo rm -rf /opt/hostedtoolcache/CodeQL
-
     - name: Install Hugo
       run: |
         wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
@@ -255,12 +308,12 @@ jobs:
       run: |
         set -x
         version="${{ matrix.version }}"
-        hugo_root_path="${{ needs.setup_and_build_latest.outputs.hugo_root_path }}"
+        hugo_root_path="${{ needs.discover_versions.outputs.hugo_root_path }}"
 
         sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
 
         # Remove all other rs versions
-        rs_versions='${{ needs.setup_and_build_latest.outputs.rs_versions }}'
+        rs_versions='${{ needs.discover_versions.outputs.rs_versions }}'
         for v in $(echo "$rs_versions" | jq -r '.[]'); do
           if [[ "$v" != "$version" ]]; then
             rm -rf "content/operate/rs/${v}"
@@ -280,12 +333,26 @@ jobs:
         sed -i "12i \{\{ \$gh_path = replaceRE \`\^operate\/rs\/\` \"operate\/rs\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
 
         # Create version files for docs-nav.html dropdowns
-        echo '${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
-        echo '${{ needs.setup_and_build_latest.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
-        echo '${{ needs.setup_and_build_latest.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
-        echo '${{ needs.setup_and_build_latest.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
+        echo '${{ needs.discover_versions.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
+        echo '${{ needs.discover_versions.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
+        echo '${{ needs.discover_versions.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
+        echo '${{ needs.discover_versions.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
 
         hugo -d "output"
+
+        # See the Kubernetes build: the root sitemap is never deployed, so write one
+        # into the versioned subdirectory that is.
+        python3 build/generate_version_sitemap.py \
+          --sitemap output/sitemap.xml \
+          --subtree "operate/rs/${version}" \
+          --output "output/operate/rs/${version}/sitemap.xml"
+
+    - name: Package download bundles for RS ${{ matrix.version }}
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source output --out bundles \
+          --only redis-software --version "${{ matrix.version }}" \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
@@ -294,27 +361,34 @@ jobs:
         path: output/
         retention-days: 1
 
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-rs-${{ matrix.version }}
+        path: bundles/
+        retention-days: 1
+
+    - name: Upload RS ${{ matrix.version }} sitemap
+      uses: actions/upload-artifact@v4
+      with:
+        name: sitemap-rs-${{ matrix.version }}
+        path: output/operate/rs/${{ matrix.version }}/sitemap.xml
+        retention-days: 1
+
   # Build RDI versions in parallel
   build_rdi:
     name: Build RDI ${{ matrix.version }}
-    needs: setup_and_build_latest
-    if: ${{ needs.setup_and_build_latest.outputs.rdi_versions != '[]' }}
+    needs: discover_versions
+    if: ${{ needs.discover_versions.outputs.rdi_versions != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJson(needs.setup_and_build_latest.outputs.rdi_versions) }}
+        version: ${{ fromJson(needs.discover_versions.outputs.rdi_versions) }}
 
     steps:
-    - name: Free up disk space
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/local/lib/android
-        sudo rm -rf /opt/ghc
-        sudo rm -rf /opt/hostedtoolcache/CodeQL
-
     - name: Install Hugo
       run: |
         wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
@@ -333,12 +407,12 @@ jobs:
       run: |
         set -x
         version="${{ matrix.version }}"
-        hugo_root_path="${{ needs.setup_and_build_latest.outputs.hugo_root_path }}"
+        hugo_root_path="${{ needs.discover_versions.outputs.hugo_root_path }}"
 
         sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
 
         # Remove all other rdi versions
-        rdi_versions='${{ needs.setup_and_build_latest.outputs.rdi_versions }}'
+        rdi_versions='${{ needs.discover_versions.outputs.rdi_versions }}'
         for v in $(echo "$rdi_versions" | jq -r '.[]'); do
           if [[ "$v" != "$version" ]]; then
             rm -rf "content/integrate/redis-data-integration/${v}"
@@ -358,12 +432,26 @@ jobs:
         sed -i "12i \{\{ \$gh_path = replaceRE \`\^integrate\/redis-data-integration\/\` \"integrate\/redis-data-integration\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
 
         # Create version files for docs-nav.html dropdowns
-        echo '${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
-        echo '${{ needs.setup_and_build_latest.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
-        echo '${{ needs.setup_and_build_latest.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
-        echo '${{ needs.setup_and_build_latest.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
+        echo '${{ needs.discover_versions.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
+        echo '${{ needs.discover_versions.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
+        echo '${{ needs.discover_versions.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
+        echo '${{ needs.discover_versions.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
 
         hugo -d "output"
+
+        # See the Kubernetes build: the root sitemap is never deployed, so write one
+        # into the versioned subdirectory that is.
+        python3 build/generate_version_sitemap.py \
+          --sitemap output/sitemap.xml \
+          --subtree "integrate/redis-data-integration/${version}" \
+          --output "output/integrate/redis-data-integration/${version}/sitemap.xml"
+
+    - name: Package download bundles for RDI ${{ matrix.version }}
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source output --out bundles \
+          --only redis-data-integration --version "${{ matrix.version }}" \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
@@ -372,27 +460,34 @@ jobs:
         path: output/
         retention-days: 1
 
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-rdi-${{ matrix.version }}
+        path: bundles/
+        retention-days: 1
+
+    - name: Upload RDI ${{ matrix.version }} sitemap
+      uses: actions/upload-artifact@v4
+      with:
+        name: sitemap-rdi-${{ matrix.version }}
+        path: output/integrate/redis-data-integration/${{ matrix.version }}/sitemap.xml
+        retention-days: 1
+
   # Build RedisVL versions in parallel
   build_redisvl:
     name: Build RedisVL ${{ matrix.version }}
-    needs: setup_and_build_latest
-    if: ${{ needs.setup_and_build_latest.outputs.redisvl_versions != '[]' }}
+    needs: discover_versions
+    if: ${{ needs.discover_versions.outputs.redisvl_versions != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJson(needs.setup_and_build_latest.outputs.redisvl_versions) }}
+        version: ${{ fromJson(needs.discover_versions.outputs.redisvl_versions) }}
 
     steps:
-    - name: Free up disk space
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/local/lib/android
-        sudo rm -rf /opt/ghc
-        sudo rm -rf /opt/hostedtoolcache/CodeQL
-
     - name: Install Hugo
       run: |
         wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
@@ -411,12 +506,12 @@ jobs:
       run: |
         set -x
         version="${{ matrix.version }}"
-        hugo_root_path="${{ needs.setup_and_build_latest.outputs.hugo_root_path }}"
+        hugo_root_path="${{ needs.discover_versions.outputs.hugo_root_path }}"
 
         sed -i "s#baseURL = \"https://redis.io\"#baseURL = \"https://redis.io/${hugo_root_path}\"#g" config.toml
 
         # Remove all other redisvl versions
-        redisvl_versions='${{ needs.setup_and_build_latest.outputs.redisvl_versions }}'
+        redisvl_versions='${{ needs.discover_versions.outputs.redisvl_versions }}'
         for v in $(echo "$redisvl_versions" | jq -r '.[]'); do
           if [[ "$v" != "$version" ]]; then
             rm -rf "content/develop/ai/redisvl/${v}"
@@ -436,12 +531,26 @@ jobs:
         sed -i "12i \{\{ \$gh_path = replaceRE \`\^develop\/ai\/redisvl\/\` \"develop\/ai\/redisvl\/${version}\/\" \$gh_path }}" layouts/partials/meta-links.html
 
         # Create version files for docs-nav.html dropdowns
-        echo '${{ needs.setup_and_build_latest.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
-        echo '${{ needs.setup_and_build_latest.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
-        echo '${{ needs.setup_and_build_latest.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
-        echo '${{ needs.setup_and_build_latest.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
+        echo '${{ needs.discover_versions.outputs.kubernetes_versions }}' | jq -r '.[]' > kubernetes-versions
+        echo '${{ needs.discover_versions.outputs.rs_versions }}' | jq -r '.[]' > rs-versions
+        echo '${{ needs.discover_versions.outputs.rdi_versions }}' | jq -r '.[]' > rdi-versions
+        echo '${{ needs.discover_versions.outputs.redisvl_versions }}' | jq -r '.[]' > redisvl-versions
 
         hugo -d "output"
+
+        # See the Kubernetes build: the root sitemap is never deployed, so write one
+        # into the versioned subdirectory that is.
+        python3 build/generate_version_sitemap.py \
+          --sitemap output/sitemap.xml \
+          --subtree "develop/ai/redisvl/${version}" \
+          --output "output/develop/ai/redisvl/${version}/sitemap.xml"
+
+    - name: Package download bundles for RedisVL ${{ matrix.version }}
+      run: |
+        python3 build/make_doc_bundles.py \
+          --source output --out bundles \
+          --only redisvl --version "${{ matrix.version }}" \
+          --url-base "https://redis.io/${{ needs.discover_versions.outputs.hugo_root_path }}/"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
@@ -450,10 +559,26 @@ jobs:
         path: output/
         retention-days: 1
 
+    - name: Upload download bundles
+      uses: actions/upload-artifact@v4
+      with:
+        name: bundles-redisvl-${{ matrix.version }}
+        path: bundles/
+        retention-days: 1
+
+    - name: Upload RedisVL ${{ matrix.version }} sitemap
+      uses: actions/upload-artifact@v4
+      with:
+        name: sitemap-redisvl-${{ matrix.version }}
+        path: output/develop/ai/redisvl/${{ matrix.version }}/sitemap.xml
+        retention-days: 1
+
   # Deploy latest build to GCS
   deploy_latest:
     name: Deploy latest
-    needs: setup_and_build_latest
+    needs:
+      - discover_versions
+      - setup_and_build_latest
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -470,6 +595,12 @@ jobs:
         name: build-latest
         path: public/
 
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-latest
+        path: bundles/
+
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
       with:
@@ -485,7 +616,7 @@ jobs:
 
     - name: Deploy latest to GCS
       run: |
-        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+        bucket_path="${{ needs.discover_versions.outputs.bucket_path }}"
 
         # The -d flag mirrors the bucket to this build, deleting any object not
         # present locally -- including older fingerprinted css/index.min.{hash}.css
@@ -502,18 +633,59 @@ jobs:
           done
         }
 
-        gsutil -m rsync -r -c -j html -d -x '^(css|scss)/' public gs://$BUCKET/$bucket_path
-        gsutil -m rsync -r -c -j html -d -x '^(css|scss)/' public gs://$BUCKET/docs/$bucket_path
-        upload_assets "gs://$BUCKET/$bucket_path"
-        upload_assets "gs://$BUCKET/docs/$bucket_path"
+        # Download bundles for /docs/downloads/. gsutil guesses
+        # "Content-Encoding: gzip" from the .tar.gz extension, which would make
+        # browsers inflate the archive on the way in and save a plain tar under a
+        # .tar.gz name. Pin the content type on upload so there is nothing to
+        # guess, then clear any encoding that slipped through anyway (a header
+        # with no value removes it).
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
+        # The two destinations are independent, so run their sync pipelines
+        # concurrently. Within each destination the destructive sync still runs
+        # before the additive css/scss upload. The bundles are excluded from the
+        # mirror because the versioned deploy jobs write their archives into the
+        # same directory and this job does not have them -- `-d` would delete them.
+        sync_dest() {
+          local dest="$1"
+          gsutil -m rsync -r -c -j html -d -x '^(css|scss)/|^downloads/bundles/' public "$dest"
+          upload_assets "$dest"
+        }
+
+        sync_dest "gs://$BUCKET/$bucket_path" &
+        pid_root=$!
+        sync_dest "gs://$BUCKET/docs/$bucket_path" &
+        pid_docs=$!
+
+        # Propagate failures: either sync failing fails the step.
+        wait "$pid_root"
+        wait "$pid_docs"
+
+        # Only under docs/, which is where the versioned deploy jobs add their own
+        # archives and where the picker page resolves its links from (baseURL
+        # already carries the docs/ prefix).
+        upload_bundles "gs://$BUCKET/docs/$bucket_path"
 
   # Deploy Kubernetes versions to GCS
   deploy_kubernetes:
     name: Deploy Kubernetes ${{ matrix.version }}
     needs:
+      - discover_versions
       - setup_and_build_latest
       - build_kubernetes
-    if: ${{ needs.setup_and_build_latest.outputs.kubernetes_versions != '[]' }}
+      # deploy_latest mirrors public -> docs/<path> with `-d`, which deletes any
+      # versioned subdir present at mirror time. Gate the versioned deploy on it
+      # so the destructive latest sync always completes before we write versioned
+      # content into the same tree.
+      - deploy_latest
+    if: ${{ needs.discover_versions.outputs.kubernetes_versions != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -521,7 +693,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJson(needs.setup_and_build_latest.outputs.kubernetes_versions) }}
+        version: ${{ fromJson(needs.discover_versions.outputs.kubernetes_versions) }}
     env:
       PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
       PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
@@ -533,6 +705,12 @@ jobs:
       with:
         name: build-kubernetes-${{ matrix.version }}
         path: output/
+
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-kubernetes-${{ matrix.version }}
+        path: bundles/
 
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
@@ -550,7 +728,7 @@ jobs:
     - name: Deploy Kubernetes ${{ matrix.version }} to GCS
       run: |
         version="${{ matrix.version }}"
-        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+        bucket_path="${{ needs.discover_versions.outputs.bucket_path }}"
 
         # Matrix Hugo builds can produce different CSS hashes than deploy_latest,
         # so versioned pages 404 on /css/index.min.{hash}.css. Additively rsync
@@ -566,23 +744,41 @@ jobs:
           done
         }
 
-        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+        # This version's download bundles join the ones deploy_latest uploaded
+        # into the same directory. See deploy_latest for why the object metadata
+        # is pinned by hand.
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
+        if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/kubernetes "gs://${BUCKET}/kubernetes-${version}/operate/kubernetes"
           gsutil -m rsync -r -c -j html -d "output/operate/kubernetes/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/kubernetes/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/kubernetes "gs://${BUCKET}/${bucket_path}/kubernetes-${version}/operate/kubernetes"
           gsutil -m rsync -r -c -j html -d "output/operate/kubernetes/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/kubernetes/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy RS versions to GCS
   deploy_rs:
     name: Deploy RS ${{ matrix.version }}
     needs:
+      - discover_versions
       - setup_and_build_latest
       - build_rs
-    if: ${{ needs.setup_and_build_latest.outputs.rs_versions != '[]' }}
+      # See deploy_kubernetes: gate on deploy_latest so its destructive mirror
+      # runs before versioned content is written into the same tree.
+      - deploy_latest
+    if: ${{ needs.discover_versions.outputs.rs_versions != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -590,7 +786,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJson(needs.setup_and_build_latest.outputs.rs_versions) }}
+        version: ${{ fromJson(needs.discover_versions.outputs.rs_versions) }}
     env:
       PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
       PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
@@ -602,6 +798,12 @@ jobs:
       with:
         name: build-rs-${{ matrix.version }}
         path: output/
+
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-rs-${{ matrix.version }}
+        path: bundles/
 
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
@@ -619,7 +821,7 @@ jobs:
     - name: Deploy RS ${{ matrix.version }} to GCS
       run: |
         version="${{ matrix.version }}"
-        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+        bucket_path="${{ needs.discover_versions.outputs.bucket_path }}"
 
         upload_assets() {
           local dest="$1"
@@ -630,23 +832,41 @@ jobs:
           done
         }
 
-        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+        # This version's download bundles join the ones deploy_latest uploaded
+        # into the same directory. See deploy_latest for why the object metadata
+        # is pinned by hand.
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
+        if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/rs "gs://${BUCKET}/rs-${version}/operate/rs"
           gsutil -m rsync -r -c -j html -d "output/operate/rs/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/rs/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/operate/rs "gs://${BUCKET}/${bucket_path}/rs-${version}/operate/rs"
           gsutil -m rsync -r -c -j html -d "output/operate/rs/${version}" "gs://${BUCKET}/docs/${bucket_path}/operate/rs/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy RDI versions to GCS
   deploy_rdi:
     name: Deploy RDI ${{ matrix.version }}
     needs:
+      - discover_versions
       - setup_and_build_latest
       - build_rdi
-    if: ${{ needs.setup_and_build_latest.outputs.rdi_versions != '[]' }}
+      # See deploy_kubernetes: gate on deploy_latest so its destructive mirror
+      # runs before versioned content is written into the same tree.
+      - deploy_latest
+    if: ${{ needs.discover_versions.outputs.rdi_versions != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -654,7 +874,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJson(needs.setup_and_build_latest.outputs.rdi_versions) }}
+        version: ${{ fromJson(needs.discover_versions.outputs.rdi_versions) }}
     env:
       PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
       PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
@@ -666,6 +886,12 @@ jobs:
       with:
         name: build-rdi-${{ matrix.version }}
         path: output/
+
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-rdi-${{ matrix.version }}
+        path: bundles/
 
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
@@ -683,7 +909,7 @@ jobs:
     - name: Deploy RDI ${{ matrix.version }} to GCS
       run: |
         version="${{ matrix.version }}"
-        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+        bucket_path="${{ needs.discover_versions.outputs.bucket_path }}"
 
         upload_assets() {
           local dest="$1"
@@ -694,23 +920,41 @@ jobs:
           done
         }
 
-        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+        # This version's download bundles join the ones deploy_latest uploaded
+        # into the same directory. See deploy_latest for why the object metadata
+        # is pinned by hand.
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
+        if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/integrate/redis-data-integration "gs://${BUCKET}/redis-data-integration-${version}/integrate/redis-data-integration"
           gsutil -m rsync -r -c -j html -d "output/integrate/redis-data-integration/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/redis-data-integration/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/integrate/redis-data-integration "gs://${BUCKET}/${bucket_path}/redis-data-integration-${version}/integrate/redis-data-integration"
           gsutil -m rsync -r -c -j html -d "output/integrate/redis-data-integration/${version}" "gs://${BUCKET}/docs/${bucket_path}/integrate/redis-data-integration/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
   # Deploy RedisVL versions to GCS
   deploy_redisvl:
     name: Deploy RedisVL ${{ matrix.version }}
     needs:
+      - discover_versions
       - setup_and_build_latest
       - build_redisvl
-    if: ${{ needs.setup_and_build_latest.outputs.redisvl_versions != '[]' }}
+      # See deploy_kubernetes: gate on deploy_latest so its destructive mirror
+      # runs before versioned content is written into the same tree.
+      - deploy_latest
+    if: ${{ needs.discover_versions.outputs.redisvl_versions != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -718,7 +962,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJson(needs.setup_and_build_latest.outputs.redisvl_versions) }}
+        version: ${{ fromJson(needs.discover_versions.outputs.redisvl_versions) }}
     env:
       PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
       PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
@@ -730,6 +974,12 @@ jobs:
       with:
         name: build-redisvl-${{ matrix.version }}
         path: output/
+
+    - name: Download download bundles
+      uses: actions/download-artifact@v4
+      with:
+        name: bundles-redisvl-${{ matrix.version }}
+        path: bundles/
 
     - name: 'Google auth'
       uses: 'google-github-actions/auth@v2'
@@ -747,7 +997,7 @@ jobs:
     - name: Deploy RedisVL ${{ matrix.version }} to GCS
       run: |
         version="${{ matrix.version }}"
-        bucket_path="${{ needs.setup_and_build_latest.outputs.bucket_path }}"
+        bucket_path="${{ needs.discover_versions.outputs.bucket_path }}"
 
         upload_assets() {
           local dest="$1"
@@ -758,21 +1008,149 @@ jobs:
           done
         }
 
-        if [[ "${{ github.ref_name }}" == "latest" ]]; then
+        # This version's download bundles join the ones deploy_latest uploaded
+        # into the same directory. See deploy_latest for why the object metadata
+        # is pinned by hand.
+        upload_bundles() {
+          local dest="$1/downloads/bundles"
+          gsutil -m -h "Content-Type:application/gzip" -h "Cache-Control:public, max-age=600" \
+            cp bundles/*.tar.gz "$dest/"
+          gsutil -m cp bundles/*.json "$dest/"
+          gsutil -m setmeta -h "Content-Encoding" "$dest/*.tar.gz" \
+            || echo "::warning::could not clear Content-Encoding on $dest"
+        }
+
+        if [[ "$bucket_path" == "latest" ]]; then
           gsutil -m rsync -r -c -j html -d output/develop/ai/redisvl "gs://${BUCKET}/redisvl-${version}/develop/ai/redisvl"
           gsutil -m rsync -r -c -j html -d "output/develop/ai/redisvl/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/redisvl/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         elif [[ "$bucket_path" == staging/* ]]; then
           gsutil -m rsync -r -c -j html -d output/develop/ai/redisvl "gs://${BUCKET}/${bucket_path}/redisvl-${version}/develop/ai/redisvl"
           gsutil -m rsync -r -c -j html -d "output/develop/ai/redisvl/${version}" "gs://${BUCKET}/docs/${bucket_path}/develop/ai/redisvl/${version}"
           upload_assets "gs://${BUCKET}/docs/${bucket_path}"
+          upload_bundles "gs://${BUCKET}/docs/${bucket_path}"
         fi
 
-  # Deploy custom 404 page (only on latest branch)
+  # Deploy custom 404 page (only for the production latest build)
+  # Republish /sitemap.xml with the versioned pages folded in.
+  #
+  # deploy_latest publishes the sitemap Hugo rendered for the latest build, which by
+  # construction cannot list a versioned page: that build deletes the version
+  # directories before Hugo runs. The versioned builds do render those pages, but
+  # only their versioned subdirectory is deployed, so their sitemaps never ship.
+  # This job runs after both and overwrites the published file with the union --
+  # ~2,700 latest URLs plus ~3,100 versioned ones -- so the address the SEO team
+  # already references gains the missing pages with no change on their side.
+  #
+  # One flat urlset rather than a sitemap index, deliberately: their file is itself
+  # a sitemap index, and the protocol does not allow one index to nest inside
+  # another. At ~5,800 URLs this is well inside the 50,000 URL / 50 MB ceiling.
+  deploy_complete_sitemap:
+    name: Deploy complete sitemap
+    needs:
+      - discover_versions
+      - build_kubernetes
+      - build_rs
+      - build_rdi
+      - build_redisvl
+      # deploy_latest mirrors public -> docs/<path> with `-d`, which would delete
+      # this file. Same gating reason as the versioned deploy jobs.
+      - deploy_latest
+    # A build job is skipped when its product has no version directories (RDI has
+    # none today), and a skipped `needs` would skip this job too -- hence
+    # `!cancelled()` rather than a plain dependency. Only deploy_latest is
+    # load-bearing; the rest contribute artifacts when they run. The last clause
+    # stands the job down entirely when nothing is versioned, so that an empty
+    # artifact set is a no-op instead of a failed merge.
+    if: >-
+      ${{ !cancelled()
+      && needs.deploy_latest.result == 'success'
+      && !(needs.discover_versions.outputs.kubernetes_versions == '[]'
+           && needs.discover_versions.outputs.rs_versions == '[]'
+           && needs.discover_versions.outputs.rdi_versions == '[]'
+           && needs.discover_versions.outputs.redisvl_versions == '[]') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    env:
+      PROD_PROJECT_ID: ${{ secrets.GCP_PROJECT_PROD }}
+      PROD_SERVICE_ACCOUNT: ${{ secrets.PROD_SERVICE_ACCOUNT }}
+      PROD_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.PROD_WORKLOAD_IDENTITY_PROVIDER }}
+
+    steps:
+    - name: Check the branch out
+      uses: actions/checkout@v4
+
+    - name: Download the versioned sitemaps
+      uses: actions/download-artifact@v4
+      with:
+        pattern: sitemap-*
+        path: sitemaps/
+
+    # The latest build's own sitemap is the other half of the union. Taken from its
+    # artifact rather than from the bucket so the merge reflects the build being
+    # deployed rather than whatever a concurrent run happened to leave published.
+    - name: Download the latest build's sitemap
+      uses: actions/download-artifact@v4
+      with:
+        name: build-latest
+        path: latest-build/
+
+    - name: Merge every sitemap into one
+      run: |
+        mkdir -p sitemaps/latest
+        cp latest-build/sitemap.xml sitemaps/latest/sitemap.xml
+
+        # One sitemap per discovered version, plus the latest build's. Fewer means a
+        # matrix build failed or dropped its artifact, and overwriting the published
+        # file with a partial one would silently drop those pages from search again --
+        # the exact regression this job exists to prevent.
+        expected=$( (
+          echo '${{ needs.discover_versions.outputs.kubernetes_versions }}'
+          echo '${{ needs.discover_versions.outputs.rs_versions }}'
+          echo '${{ needs.discover_versions.outputs.rdi_versions }}'
+          echo '${{ needs.discover_versions.outputs.redisvl_versions }}'
+        ) | jq -s 'map(length) | add')
+        expected=$((expected + 1))
+        echo "Expecting ${expected} sitemaps (versions + latest)"
+
+        python3 build/merge_sitemaps.py sitemaps \
+          --output sitemap.xml \
+          --expect "$expected"
+
+    - name: 'Google auth'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        service_account: '${{ env.PROD_SERVICE_ACCOUNT }}'
+        workload_identity_provider: '${{ env.PROD_WORKLOAD_IDENTITY_PROVIDER }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        project_id: '${{ env.PROD_PROJECT_ID }}'
+        version: '>= 363.0.0'
+
+    - name: Deploy the complete sitemap to GCS
+      run: |
+        bucket_path="${{ needs.discover_versions.outputs.bucket_path }}"
+
+        # Mirrors the versioned deploy jobs, which act on latest and staging only.
+        if [[ "$bucket_path" == "latest" || "$bucket_path" == staging/* ]]; then
+          # Both destinations deploy_latest mirrors to, so the two copies of
+          # sitemap.xml do not disagree about which pages exist.
+          gsutil cp sitemap.xml "gs://${BUCKET}/${bucket_path}/sitemap.xml"
+          gsutil cp sitemap.xml "gs://${BUCKET}/docs/${bucket_path}/sitemap.xml"
+        fi
+
   deploy_404:
     name: Deploy 404 page
-    needs: setup_and_build_latest
-    if: ${{ github.ref_name == 'latest' }}
+    needs:
+      - discover_versions
+      - setup_and_build_latest
+    if: ${{ needs.discover_versions.outputs.bucket_path == 'latest' }}
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'

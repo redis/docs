@@ -117,11 +117,16 @@ The unit for the returned distance: meters (`M`, the default), kilometers (`KM`)
 ## Examples
 
 {{% redis-cli %}}
-GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
-GEODIST Sicily Palermo Catania
-GEODIST Sicily Palermo Catania km
-GEODIST Sicily Palermo Catania mi
-GEODIST Sicily Foo Bar
+redis> GEOADD Sicily 13.361389 38.115556 "Palermo" 15.087269 37.502669 "Catania"
+(integer) 2
+redis> GEODIST Sicily Palermo Catania
+"166274.1516"
+redis> GEODIST Sicily Palermo Catania km
+"166.2742"
+redis> GEODIST Sicily Palermo Catania mi
+"103.3182"
+redis> GEODIST Sicily Foo Bar
+(nil)
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

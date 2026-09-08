@@ -14,9 +14,11 @@ linkTitle: RAG with Redis
 stack: true
 title: RAG with Redis
 weight: 4
+aliases:
+- /develop/ai/rag/
 ---
 ### What is Retrieval Augmented Generation (RAG)?
-Large Language Models (LLMs) generate human-like text but are limited by the data they were trained on. RAG enhances LLMs by integrating them with external, domain-specific data stored in a Redis [vector database]({{< relref "/develop/get-started/vector-database" >}}).
+Large Language Models (LLMs) generate human-like text but are limited by the data they were trained on. RAG enhances LLMs by integrating them with external, domain-specific data stored in a Redis [vector database]({{< relref "/develop/get-started/search-tutorial/vector-search" >}}).
 
 RAG involves three main steps:
 
@@ -26,6 +28,10 @@ RAG involves three main steps:
 
 RAG enables LLMs to use real-time information, improving the accuracy and relevance of generated content.
 Redis is ideal for RAG due to its speed, versatility, and familiarity.
+
+{{< tip >}}
+To generate a complete RAG agent with document ingestion, hybrid retrieval, and citations, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template.
+{{< /tip >}}
 
 ### The role of Redis in RAG
 

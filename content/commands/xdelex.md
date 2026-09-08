@@ -114,12 +114,35 @@ The command provides fine-grained control over stream entry deletion, particular
 ## Examples
 
 {{% redis-cli %}}
-XADD mystream * field1 value1
-XADD mystream * field2 value2
-XADD mystream * field3 value3
-XRANGE mystream - +
-XDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56
-XRANGE mystream - +
+redis> XADD mystream * field1 value1
+"1784722083515-0"
+redis> XADD mystream * field2 value2
+"1784722083516-0"
+redis> XADD mystream * field3 value3
+"1784722083517-0"
+redis> XRANGE mystream - +
+1) 1) "1784722083515-0"
+   2) 1) "field1"
+      2) "value1"
+2) 1) "1784722083516-0"
+   2) 1) "field2"
+      2) "value2"
+3) 1) "1784722083517-0"
+   2) 1) "field3"
+      2) "value3"
+redis> XDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56
+1) (integer) -1
+2) (integer) -1
+redis> XRANGE mystream - +
+1) 1) "1784722083515-0"
+   2) 1) "field1"
+      2) "value1"
+2) 1) "1784722083516-0"
+   2) 1) "field2"
+      2) "value2"
+3) 1) "1784722083517-0"
+   2) 1) "field3"
+      2) "value3"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -81,10 +81,15 @@ The number of members to pop. Without it, a single member is popped.
 ## Examples
 
 {{% redis-cli %}}
-ZADD myzset 1 "one"
-ZADD myzset 2 "two"
-ZADD myzset 3 "three"
-ZPOPMAX myzset
+redis> ZADD myzset 1 "one"
+(integer) 1
+redis> ZADD myzset 2 "two"
+(integer) 1
+redis> ZADD myzset 3 "three"
+(integer) 1
+redis> ZPOPMAX myzset
+1) "three"
+2) "3"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

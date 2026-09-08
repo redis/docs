@@ -1,0 +1,167 @@
+{{/*
+  Download-documentation widget: a button that opens a dialog where the reader
+  picks products, a version for each versioned product, and a file format.
+  Everything happens on the page -- there is no separate download page.
+
+  Included once per page from docs-nav.html and docs-nav-collapsed.html (which
+  render the trigger button too, via download-docs-trigger.html) and from
+  meta-links.html. A native <dialog> renders in the browser's top layer, so it is
+  unaffected by the sidebar's own overflow and stacking.
+
+  Everything on offer comes from data/doc_bundles.json, which
+  build/make_doc_bundles.py also reads when it names the archives, so every row
+  maps to a file that exists. static/js/download-docs.js does the rest.
+
+  Tailwind's preflight zeroes padding and border width on form controls, so every
+  <select> here has to ask for both -- without them the text sits flush against an
+  invisible edge and off-centre.
+*/}}
+{{- $config := site.Data.doc_bundles -}}
+{{- $control := "h-8 rounded border border-slate-300 bg-white px-2 text-sm text-redis-ink-900" -}}
+{{/* Version dropdowns get a fixed width so the column lines up: left to size
+     themselves, "latest" and "v0.25.0" come out visibly different. Centred, because
+     at a fixed width a short label like "v8.0" otherwise sits off to one side. */}}
+{{- $versionControl := printf "%s w-28 text-center" $control -}}
+{{/* The divider under the sticky header is an inset shadow rather than a border:
+     with border-collapse a border on a sticky cell detaches as the body scrolls. */}}
+{{- $headCell := "sticky top-0 z-10 bg-slate-50 py-2 text-left font-medium text-redis-ink-900 shadow-[inset_0_-2px_0_0_#B9C2C6]" -}}
+
+{{/* data-offline-hide on the dialog and its script: the downloadable HTML copies
+     have no widget to open and no bucket to fetch from, and dropping the product
+     table trims every page. See build/make_doc_bundles.py. */}}
+<dialog id="download-docs-dialog" aria-labelledby="download-docs-title" data-offline-hide
+        class="w-[min(48rem,calc(100vw-2rem))] rounded-lg p-0 text-base font-sans
+               backdrop:bg-redis-ink-900 backdrop:bg-opacity-50">
+  <div class="p-6">
+    <div class="flex items-start gap-4">
+      <div>
+        <h2 id="download-docs-title" class="text-xl font-semibold text-redis-ink-900">
+          Download documentation
+        </h2>
+        <p class="mt-1 text-sm text-slate-600">
+          Choose the products and versions you want. Everything arrives as one
+          <code>.tar.gz</code>, with a directory per product.
+        </p>
+      </div>
+      <button type="button" data-close-download aria-label="Close"
+              class="ml-auto -mt-1 -mr-1 rounded p-1 text-slate-500 hover:bg-slate-100">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+             stroke-linecap="round" class="h-5 w-5" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+    </div>
+
+    <form data-docs-download class="mt-5 text-sm"
+          data-bundle-base="{{ "downloads/bundles" | relURL }}">
+
+      <div class="flex flex-wrap items-center gap-3 pb-2">
+        <label for="download-docs-format" class="font-medium text-redis-ink-900">Format</label>
+        <select id="download-docs-format" name="format" class="{{ $control }}">
+          {{ range $config.formats }}
+            <option value="{{ .id }}" data-description="{{ .description }}">
+              {{ .label }} &mdash; {{ .summary }}
+            </option>
+          {{ end }}
+        </select>
+      </div>
+      <p data-format-hint class="pb-4 text-xs text-slate-600"></p>
+
+      {{/* The page the reader is on. Its title and file are filled in by the script
+           from location, not by Hugo: this partial is partialCached, so one copy of
+           its markup serves every page and nothing page-specific can be baked in. */}}
+      <div class="mb-4 rounded border border-slate-200">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr>
+              <th scope="col" class="{{ $headCell }} pl-3">This page</th>
+              <th scope="col" class="{{ $headCell }} pr-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-slate-100 align-middle">
+              <td class="py-2.5 pl-3">
+                <span data-page-title class="block text-redis-ink-900"></span>
+                <span data-page-file class="block text-xs text-slate-600"></span>
+              </td>
+              <td class="w-32 py-2 pr-3 text-right">
+                <button type="button" data-download-page
+                        class="rounded-md border border-slate-300 px-4 py-1.5 font-medium
+                               text-redis-ink-900 hover:bg-slate-50">
+                  Download
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="max-h-[19rem] overflow-y-auto rounded border border-slate-200">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr>
+              <th scope="col" class="{{ $headCell }} w-10 pl-3">
+                <input type="checkbox" data-select-all aria-label="Select every product">
+              </th>
+              <th scope="col" class="{{ $headCell }}">Products</th>
+              <th scope="col" class="{{ $headCell }} pr-3">Version</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ range $config.docsets }}
+              {{- $docset := . -}}
+              {{- $id := printf "download-docs-%s" $docset.id -}}
+              {{/* Centred, so a one-line name lines up with the 32px version dropdown
+                   beside it. Rows carrying a description stay top-aligned instead, or the
+                   checkbox floats between the two lines rather than sitting next to the
+                   name. None of the described products is versioned, so no row needs both. */}}
+              <tr class="border-t border-slate-100 hover:bg-slate-50 {{ if $docset.description }}align-top{{ else }}align-middle{{ end }}">
+                <td class="py-2.5 pl-3">
+                  <input type="checkbox" id="{{ $id }}" name="docset" value="{{ $docset.id }}"
+                         data-title="{{ $docset.title }}">
+                </td>
+                <td class="py-2.5 pr-4">
+                  <label for="{{ $id }}" class="block cursor-pointer text-redis-ink-900">
+                    {{ $docset.title }}
+                  </label>
+                  {{ with $docset.description }}
+                    <span class="block text-xs text-slate-600">{{ . }}</span>
+                  {{ end }}
+                </td>
+                <td class="py-2 pr-3">
+                  {{ if $docset.versions }}
+                    <select name="version-{{ $docset.id }}"
+                            aria-label="{{ $docset.title }} version"
+                            class="{{ $versionControl }}">
+                      <option value="latest">latest</option>
+                      {{ range partialCached "doc-bundle-versions.html" $docset $docset.id }}
+                        <option value="{{ .v }}">v{{ .v }}</option>
+                      {{ end }}
+                    </select>
+                  {{ end }}
+                </td>
+              </tr>
+            {{ end }}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-end gap-3 pt-4">
+        <p data-download-status role="status" aria-live="polite"
+           class="mr-auto text-xs text-slate-600"></p>
+        <button type="button" data-close-download
+                class="rounded-md border border-slate-300 px-4 py-2 font-medium text-redis-ink-900
+                       hover:bg-slate-50">
+          Cancel
+        </button>
+        <button type="submit" data-download-submit disabled
+                class="rounded-md bg-redis-red-500 px-5 py-2 font-medium text-white
+                       hover:bg-redis-red-600 disabled:opacity-50 disabled:cursor-not-allowed">
+          Download
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script src='{{ relURL "js/download-docs.js" }}' defer data-offline-hide></script>

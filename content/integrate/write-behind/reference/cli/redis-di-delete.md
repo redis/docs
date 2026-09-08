@@ -1,6 +1,7 @@
 ---
 Title: redis-di delete
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-delete/
 alwaysopen: false
 categories:
   - docs

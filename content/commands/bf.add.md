@@ -51,12 +51,12 @@ is an item to add.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.ADD bf item1
 (integer) 1
 redis> BF.ADD bf item1
 (integer) 0
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

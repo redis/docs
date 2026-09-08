@@ -62,7 +62,7 @@ The required number of bits per item, given the desired `error_rate` and the opt
 
 <details open><summary><code>key</code></summary>
 
-is key name for the the Bloom filter to be created.
+is key name for the Bloom filter to be created.
 </details>
 
 <details open><summary><code>error_rate</code></summary>
@@ -97,25 +97,25 @@ Otherwise, you use an `expansion` of `1` to reduce memory consumption. The defau
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.RESERVE bf 0.01 1000
 OK
-{{< / highlight >}}
+{{% /redis-cli %}}
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.RESERVE bf 0.01 1000
 (error) ERR item exists
-{{< / highlight >}}
+{{% /redis-cli %}}
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.RESERVE bf_exp 0.01 1000 EXPANSION 2
 OK
-{{< / highlight >}}
+{{% /redis-cli %}}
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.RESERVE bf_non 0.01 1000 NONSCALING
 OK
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

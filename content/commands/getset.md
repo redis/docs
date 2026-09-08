@@ -78,9 +78,12 @@ The new value to set.
 ## Examples
 
 {{% redis-cli %}}
-SET mykey "Hello"
-GETSET mykey "World"
-GET mykey
+redis> SET mykey "Hello"
+OK
+redis> GETSET mykey "World"
+"Hello"
+redis> GET mykey
+"World"
 {{% /redis-cli %}}
 
 ## Details
@@ -92,9 +95,12 @@ For example, you can call [INCR]({{< relref "/commands/incr" >}}) on the key `my
 This can be done using `GETSET mycounter "0"`:
 
 {{% redis-cli %}}
-INCR mycounter
-GETSET mycounter "0"
-GET mycounter
+redis> INCR mycounter
+(integer) 1
+redis> GETSET mycounter "0"
+"1"
+redis> GET mycounter
+"0"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

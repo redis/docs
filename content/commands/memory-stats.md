@@ -51,6 +51,7 @@ values. The following metrics are reported:
      caches
 *   `functions.caches`: the summed size in bytes of the overheads of the Function scripts'
      caches
+*   `hash.templates`: Total memory in bytes used by all compact hash templates (see [`INFO`]({{< relref "/commands/info" >}})'s `used_memory_hash_templates`). Added in Redis 8.10.
 *   `dbXXX`: For each of the server's databases, the overheads of the main and
      expiry dictionaries (`overhead.hashtable.main` and
     `overhead.hashtable.expires`, respectively) are reported in bytes

@@ -157,6 +157,27 @@
           "description": "Number of terms deleted"
         }
       }
+    ],
+    "redis_rb": [
+      {
+        "signature": "ft_dictdel(dict_name, *terms)",
+        "params": [
+          {
+            "name": "dict_name",
+            "type": "String",
+            "description": "the dictionary name"
+          },
+          {
+            "name": "terms",
+            "type": "Array<String>",
+            "description": "the terms to remove"
+          }
+        ],
+        "returns": {
+          "type": "Integer",
+          "description": "the number of terms removed"
+        }
+      }
     ]
   }
 }

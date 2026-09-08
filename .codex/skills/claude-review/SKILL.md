@@ -14,6 +14,12 @@ Read these before reviewing:
 - [`references/review-style.md`](references/review-style.md) for output format and severity.
 - [`references/claude-review-patterns.md`](references/claude-review-patterns.md) for recurring review patterns.
 
+If the change touches tabbed code examples — `local_examples/`, a client repo's doctests,
+`data/examples.json`, the client config in `config.toml`, or
+`.claude/skills/tce-examples/` — also read
+[`references/tce-review-patterns.md`](references/tce-review-patterns.md). Those defects mostly
+survive a green test run, so the test result is not the review.
+
 Treat the pattern file as a map of places to inspect, not as evidence. The current diff and current workspace always win.
 
 ## Workflow

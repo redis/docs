@@ -6,6 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
+- /integrate/redis-data-integration/ingest/reference/config-yaml-reference/
 ---
 
 Configuration file for Redis Data Integration (RDI) source collectors and target connections.

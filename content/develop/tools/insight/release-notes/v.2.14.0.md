@@ -4,6 +4,8 @@ linkTitle: v2.14.0 (Nov 2022)
 date: 2022-11-28 00:00:00 +0000
 description: RedisInsight v2.14.0
 weight: 3
+aliases:
+- /develop/connect/insight/release-notes/v.2.14.0/
 ---
 ## 2.14.0 (November 2022)
 This is the General Availability (GA) release of RedisInsight 2.14.

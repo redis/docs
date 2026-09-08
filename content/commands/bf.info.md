@@ -86,7 +86,7 @@ Return the expansion rate.
 
 ## Examples
 
-{{< highlight bash >}}
+{{% redis-cli %}}
 redis> BF.ADD bf1 observation1
 (integer) 1
 redis> BF.INFO bf1
@@ -102,7 +102,7 @@ redis> BF.INFO bf1
 10) (integer) 2
 redis> BF.INFO bf1 CAPACITY
 1) (integer) 100
-{{< / highlight >}}
+{{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility
 

@@ -43,6 +43,7 @@ If you want to include double quotes in a query from the CLI, enclose the JSONPa
 JSON.GET store '$.inventory["mountain_bikes"]'
 ```
 
+
 ## JSONPath syntax
 
 The following JSONPath syntax table was adapted from Goessner's [path syntax comparison](https://goessner.net/articles/JsonPath/index.html#e2).
@@ -56,13 +57,344 @@ The following JSONPath syntax table was adapted from Goessner's [path syntax com
 | [] | Subscript operator, accesses an array element. |
 | [,] | Union, selects multiple elements. |
 | [start\:end\:step] | Array slice where *start*, *end*, and *step* are index values. You can omit values from the slice (for example, `[3:]`, `[:8:2]`) to use the default values: *start* defaults to the first index, *end* defaults to the last index, and *step* defaults to `1`. Use `[*]` or `[:]` to select all elements. |
-| ?() | Filters a JSON object or array. Supports comparison operators <nobr>(`==`, `!=`, `<`, `<=`, `>`, `>=`, `=~`)</nobr>, logical operators <nobr>(`&&`, `\|\|`)</nobr>, and parenthesis <nobr>(`(`, `)`)</nobr>. |
+| ?() | Filters a JSON object or array. Supports comparison operators <nobr>(`==`, `!=`, `<`, `<=`, `>`, `>=`, `=~`)</nobr>, logical operators <nobr>(`&&`, `\|\|`, `!`)</nobr>, arithmetic operators <nobr>(`+`, `-`, `*`, `/`, `%`)</nobr>, membership operators <nobr>(`in`, `nin`)</nobr>, set-relation operators <nobr>(`subsetof`, `anyof`, `noneof`)</nobr>, the <nobr>(`size`/`sizeof`, `empty`)</nobr> operators, and parenthesis <nobr>(`(`, `)`)</nobr>. |
 | () | Script expression. |
 | @ | The current element, used in filter or script expressions. |
+| ~ | Returns the names of an object's members as a list of strings. |
 
-## JSONPath examples
+Beginning with Redis 8.10, the JSON data type supports a richer JSONPath syntax, with additional operators and functions:
 
-The following JSONPath examples use this JSON document, which stores details about items in a store's inventory:
+- Projection expressions at the top level of a JSONPath query
+- `==` and `!=` can now compare any literal, including array and object literals
+- Filter negation operator: `!`
+- `size`/`sizeof` and `empty` operators on string, array, object, and nodelist
+- `in` and `nin` operators: membership test on an array and nodelist
+- Operators on numbers: binary `-`, `+`, `*`, `/`, `%`, and unary `-` and `+`
+- Operator on object: `~`
+- `length()` function on array, object, and string
+- Functions on number: `abs()`, `ceiling()`, `floor()`
+- Functions on string: `match()`, `search()`
+- Strings concatenation with `concat()`
+- Functions on array: `first()`, `last()`, `index()`, `append()`
+- Aggregation functions on array: `min()`, `max()`, `avg()`, `sum()`, `stddev()`
+- Function on object: `keys()`
+- Function on nodelist: `count()`
+- Function on nodelist with exactly one node: `value()`
+- Relations functions on array and nodelist: `subsetof()`, `anyof()`, `noneof()`
+
+{{< warning >}}
+Beginning with Redis 8.10, two changes to path parsing may affect existing queries:
+
+- To access a field whose name contains a tilde (`~`), use bracket notation, for example `$["a~b"]`. A tilde is no longer valid in a field name using dot notation.
+- The words `in`, `nin`, `subsetof`, `anyof`, `noneof`, `size`, `sizeof`, and `empty` are now reserved as operators. To access a field with one of these names, use `$.size` or `$["size"]`.
+{{< /warning >}}
+
+## Evaluation semantics
+
+The following rules apply to the operators and functions described below:
+
+- **The "Nothing" result.** Any operand that cannot be evaluated — a non-numeric arithmetic operand, division or modulo by zero, an out-of-range index, a wrong argument count, a type mismatch, or an arithmetic overflow to a non-finite value — evaluates to *Nothing*. Inside a filter, a *Nothing* result makes the surrounding condition false, so the element is skipped. As a projection, it produces an empty reply (`[]`). Evaluation never returns an error and never fails the query for these cases.
+- **Number coercion.** The `==`, `!=`, `in`, `nin`, and set-relation operators treat integer and floating-point numbers with the same value as equal (for example, `1` equals `1.0`). The ordering operators (`<`, `<=`, `>`, `>=`) cannot compare against an array or object literal, so such a comparison never matches.
+- **Node lists match on "any".** When an operand selects more than one node (for example, `@.*`), a comparison or operator holds if *any* selected node satisfies it.
+- **Arithmetic operators must be surrounded by spaces.** `@.a + 1` is addition, but `@.a+1` is a reference to a field literally named `a+1`, because the field-name character set includes characters such as `+`, `-`, `/`, `%`, `$`, `^`, `:`, and `_`.
+- **Functions are arity-checked.** Calling a function with the wrong number of arguments produces *Nothing* rather than silently using a subset of the arguments.
+
+## Filter expression operators
+
+The following operators can be used within a filter expression (`?()`).
+
+### Negation `!`
+
+The `!` operator negates a filter condition. It binds more tightly than the logical `&&` and `||` operators, so use parentheses to negate a compound condition. A double negation (`!!`) is equivalent to an existence test.
+
+```
+> JSON.SET doc $ '[{"a":1,"b":1},{"b":2},{"a":1},{"c":3}]'
+OK
+> JSON.GET doc '$[?!@.a]'
+"[{\"b\":2},{\"c\":3}]"
+> JSON.GET doc '$[?!(@.a==1)]'
+"[{\"b\":2},{\"c\":3}]"
+> JSON.GET doc '$[?!@.a && @.b]'
+"[{\"b\":2}]"
+```
+
+### Comparing array and object literals
+
+The `==` and `!=` operators can compare any JSON literal, including array and object literals, on either side of the operator. Comparison is by structural (deep) equality. A comparison between values of different types is always false.
+
+```
+> JSON.SET doc $ '{"arrs":[[1],[2],[1,2],[1,[2]]],"objs":[{"x":1},{"x":2},{"y":1}]}'
+OK
+> JSON.GET doc '$.arrs[?(@ == [1])]'
+"[[1]]"
+> JSON.GET doc '$.arrs[?(@ == [1,[2]])]'
+"[[1,[2]]]"
+> JSON.GET doc '$.objs[?(@ == {"x":1})]'
+"[{\"x\":1}]"
+```
+
+### Arithmetic operators
+
+The binary operators `+`, `-`, `*`, `/`, and `%` and the unary operators `-` and `+` operate on numbers. Precedence, from highest to lowest, is: unary `-`/`+`, then `*`/`/`/`%`, then `+`/`-`. Use parentheses to override precedence. Division always produces a floating-point result. Division or modulo by zero produces *Nothing*, so no element matches.
+
+Remember that arithmetic operators must be surrounded by spaces (see [Evaluation semantics](#evaluation-semantics)).
+
+```
+> JSON.SET doc $ '[{"a":2,"b":3},{"a":5,"b":2}]'
+OK
+> JSON.GET doc '$[?@.a + 1 == 3]'
+"[{\"a\":2,\"b\":3}]"
+> JSON.GET doc '$[?@.a + @.b * 2 == 8]'
+"[{\"a\":2,\"b\":3}]"
+> JSON.GET doc '$[?(@.a + @.b) * 2 == 10]'
+"[{\"a\":2,\"b\":3}]"
+```
+
+### Membership: `in` and `nin`
+
+`value in array` matches when `value` is a member of `array`; `value nin array` is its strict negation. The right-hand side can be an array literal or a path to an array. Membership uses the same structural comparison and number coercion as `==`. If the right-hand side is not an array, `in` is false (so `nin` is true).
+
+```
+> JSON.SET doc $ '{"a":[1,2,3,4],"allow":[2,3]}'
+OK
+> JSON.GET doc '$.a[?@ in [2,4]]'
+"[2,4]"
+> JSON.GET doc '$.a[?@ nin [2,4]]'
+"[1,3]"
+> JSON.GET doc '$.a[?@ in $.allow]'
+"[2,3]"
+```
+
+### Set relations: `subsetof`, `anyof`, and `noneof`
+
+These operators compare two arrays (each side can be an array literal or a path to an array):
+
+- `subsetof` matches when every element of the left array is a member of the right array. An empty array is a subset of any array.
+- `anyof` matches when the two arrays have a non-empty intersection. An empty array never matches.
+- `noneof` matches when the two arrays have an empty intersection. An empty array always matches.
+
+```
+> JSON.SET doc $ '{"a":[[1,2],[1,5],[]]}'
+OK
+> JSON.GET doc '$.a[?@ subsetof [1,2,3]]'
+"[[1,2],[]]"
+> JSON.SET doc $ '{"a":[[1,9],[8,9],[]]}'
+OK
+> JSON.GET doc '$.a[?@ anyof [1,2,3]]'
+"[[1,9]]"
+> JSON.SET doc $ '{"a":[[4,5],[1,9],[]]}'
+OK
+> JSON.GET doc '$.a[?@ noneof [1,2,3]]'
+"[[4,5],[]]"
+```
+
+### `size` (`sizeof`) and `empty`
+
+`left sizeof n` matches when the size of `left` equals the integer `n`, where size is the number of characters in a string, the number of elements in an array, or the number of members in an object. A non-integer `n` is truncated toward zero; a non-numeric `n` never matches. `size` is an alias for `sizeof`.
+
+`left empty true` matches an empty string, array, or object; `left empty false` matches a non-empty one.
+
+```
+> JSON.SET doc $ '{"a":[[4,5],[1],[7,8,9]]}'
+OK
+> JSON.GET doc '$.a[?@ sizeof 2]'
+"[[4,5]]"
+> JSON.SET doc $ '{"a":[[],[1],"",[2,3],{},{"k":1}]}'
+OK
+> JSON.GET doc '$.a[?@ empty true]'
+"[[],\"\",{}]"
+> JSON.GET doc '$.a[?@ empty false]'
+"[[1],[2,3],{\"k\":1}]"
+```
+
+### Get-keys operator `~`
+
+The terminal `~` operator returns the member names of an object as a flat list of strings. Applied to the root (`$~`), it returns the top-level keys. Applied to a multiple-match receiver, it flattens the keys of every matched object. A non-object receiver contributes no keys.
+
+```
+> JSON.SET doc $ '{"obj":{"x":1,"y":2},"books":[{"t":"a"},{"t":"b"}]}'
+OK
+> JSON.GET doc '$.obj~'
+"[\"x\",\"y\"]"
+> JSON.GET doc '$~'
+"[\"obj\",\"books\"]"
+> JSON.GET doc '$.books~'
+"[]"
+```
+
+Because `~` is terminal, expressions such as `$.obj~.x`, `$.obj~~`, and `$.obj.keys()~` are parse errors. For a composable alternative that can be chained with other functions, use the [`keys()`](#keys) function.
+
+## Functions
+
+Functions can appear inside filter expressions and, when they return a value, as top-level [projection expressions](#projection-expressions). A function can be written in prefix form, `length($.arr)`, or in postfix (method) form, `$.arr.length()`. A path segment immediately followed by `(` is a method call, so `$.arr.length()` is a function call while `$.arr.length` is a reference to a field named `length`.
+
+### `length()`
+
+Returns the number of characters in a string, elements in an array, or members in an object. Any other type produces *Nothing*.
+
+```
+> JSON.SET doc $ '{"a":[[1,2,3],[1],"abcd","x"]}'
+OK
+> JSON.GET doc '$.a[?length(@) > 2]'
+"[[1,2,3],\"abcd\"]"
+```
+
+### `count()`
+
+Returns the number of nodes selected by a query. An absent path counts as `0`; a single node counts as `1`.
+
+```
+> JSON.SET doc $ '[{"a":1,"b":2,"c":3},{"a":1}]'
+OK
+> JSON.GET doc '$[?count(@.*) == 3]'
+"[{\"a\":1,\"b\":2,\"c\":3}]"
+```
+
+### `value()`
+
+Returns the value of a query that selects exactly one node. A query that selects zero or more than one node produces *Nothing*.
+
+```
+> JSON.SET doc $ '[{"a":1},{"a":2}]'
+OK
+> JSON.GET doc '$[?value(@.a) == 1]'
+"[{\"a\":1}]"
+```
+
+### `keys()`
+
+Returns the member names of an object as a list of strings, like the `~` operator. Unlike `~`, `keys()` is composable and can be chained with other functions.
+
+```
+> JSON.SET doc $ '{"obj":{"x":1,"y":2}}'
+OK
+> JSON.GET doc '$.obj.keys()'
+"[\"x\",\"y\"]"
+> JSON.GET doc '$.obj.keys().count()'
+"[2]"
+```
+
+### `match()` and `search()`
+
+Both test a string against a regular expression pattern ([RFC 9485](https://datatracker.ietf.org/doc/rfc9485/) I-Regexp). `match()` requires the whole string to match (anchored), while `search()` matches any substring (the same behavior as the `=~` operator). An invalid pattern produces no match.
+
+```
+> JSON.SET doc $ '{"a":["abc","xabc","a","b"]}'
+OK
+> JSON.GET doc '$.a[?match(@, "a.*")]'
+"[\"abc\",\"a\"]"
+> JSON.SET doc $ '{"a":["abc","xyz","b"]}'
+OK
+> JSON.GET doc '$.a[?search(@, "b")]'
+"[\"abc\",\"b\"]"
+```
+
+### `concat()`
+
+Concatenates its string arguments into a single string. It requires at least one argument, and any non-string argument produces *Nothing*.
+
+```
+> JSON.SET doc $ '{"a":[{"x":"a","y":"b"},{"x":"a","y":"c"}]}'
+OK
+> JSON.GET doc '$.a[?concat(@.x, @.y) == "ab"]'
+"[{\"x\":\"a\",\"y\":\"b\"}]"
+```
+
+### `abs()`, `ceiling()`, and `floor()`
+
+Operate on a number: `abs()` returns the absolute value, `ceiling()` rounds up to the nearest integer, and `floor()` rounds down. An integer argument stays an integer and a floating-point argument stays a float. A result that overflows the signed 64-bit integer range produces *Nothing*.
+
+```
+> JSON.SET doc $ '{"a":[2.1,3.9,1.0]}'
+OK
+> JSON.GET doc '$.a[?ceiling(@) == 3]'
+"[2.1]"
+> JSON.SET doc $ '{"a":[2.1,2.9,3.5]}'
+OK
+> JSON.GET doc '$.a[?floor(@) == 2]'
+"[2.1,2.9]"
+> JSON.SET doc $ '{"a":[{"n":-5},{"n":5},{"n":-3}]}'
+OK
+> JSON.GET doc '$.a[?abs(@.n) == 5]'
+"[{\"n\":-5},{\"n\":5}]"
+```
+
+### `first()`, `last()`, and `index()`
+
+`first(array)` and `last(array)` return the first and last element of an array. `index(array, n)` returns the element at index `n`; a negative `n` counts from the end, a fractional `n` is truncated toward zero, and an out-of-range index produces *Nothing*.
+
+```
+> JSON.SET doc $ '{"a":[{"n":[1,2]},{"n":[9,8]}]}'
+OK
+> JSON.GET doc '$.a[?first(@.n) == 1]'
+"[{\"n\":[1,2]}]"
+> JSON.GET doc '$.a[?last(@.n) == 8]'
+"[{\"n\":[9,8]}]"
+> JSON.GET doc '$.a[?index(@.n, -1) == 2]'
+"[{\"n\":[1,2]}]"
+```
+
+### `min()`, `max()`, `avg()`, `sum()`, and `stddev()`
+
+These aggregation functions operate on an array of numbers. `stddev()` returns the *population* standard deviation (dividing by N). The functions are strict: an array that contains any non-numeric element, or an empty array, produces *Nothing* — elements are never silently skipped.
+
+```
+> JSON.SET doc $ '{"a":[{"n":[3,1,2]},{"n":[5,6]}]}'
+OK
+> JSON.GET doc '$.a[?sum(@.n) == 6]'
+"[{\"n\":[3,1,2]}]"
+> JSON.GET doc '$.a[?avg(@.n) == 2]'
+"[{\"n\":[3,1,2]}]"
+```
+
+### `append()`
+
+`append(value, ...)` returns the matched array with the given value or values added after its elements. It is a read-only query-time projection and does not modify the stored document — to mutate an array in place, use the [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}) command instead. A multiple-value argument is added as a single element (it is not spread), and a *Nothing* argument makes the whole result *Nothing*.
+
+```
+> JSON.SET doc $ '{"arr":[1,2,3]}'
+OK
+> JSON.GET doc '$.arr.append(9)'
+"[1,2,3,9]"
+> JSON.SET doc $ '{"books":[{"t":"a","price":30},{"t":"b","price":5}]}'
+OK
+> JSON.GET doc '$.books[?(@.price >= 10)].append({"t":"X"})'
+"[{\"t\":\"a\",\"price\":30},{\"t\":\"X\"}]"
+```
+
+## Projection expressions
+
+The top level of a JSONPath query can be an expression that *computes* a value — arithmetic, a function call, a get-keys operator, and so on — rather than only selecting nodes from the document. A query that is a plain path (for example, `$.a.b`, `$..x`, or even a fully parenthesized path such as `($.a)`) still selects nodes; anything else (for example, `$.a + 1`, `-$.a`, `$.arr.length()`, `length($.arr)`, `$.obj~`, or `$.obj.keys()`) is a projection.
+
+A projection that evaluates to *Nothing* produces an empty reply (`[]`).
+
+```
+> JSON.SET doc $ '{"a":2,"b":4,"arr":[1,2,3]}'
+OK
+> JSON.GET doc '$.a + 1'
+"[3]"
+> JSON.GET doc '$.a * $.b'
+"[8]"
+> JSON.GET doc '($.a + $.b) / 2'
+"[3.0]"
+> JSON.GET doc '$.arr.length()'
+"[3]"
+> JSON.GET doc '$.a / 0'
+"[]"
+```
+
+When [`JSON.GET`]({{< relref "commands/json.get/" >}}) is given more than one path, projections and plain paths can be mixed, and each path becomes a key in the returned object:
+
+```
+> JSON.GET doc '$.a + 1' '$.b'
+"{\"$.a + 1\":[3],\"$.b\":[4]}"
+```
+
+[`JSON.MGET`]({{< relref "commands/json.mget/" >}}) evaluates the projection independently for each key. A missing key, or a per-key evaluation error, yields a null reply for that key rather than failing the whole request.
+
+## Multi-language JSONPath examples
+
+The following multi-language JSONPath examples use this JSON document, which stores details about items in a store's inventory:
 
 {{< trimmable head="12" tail="8" >}}
 ```json
@@ -213,6 +545,8 @@ OK
 > JSON.GET bikes:inventory '$.inventory.mountain_bikes[?(@.specs.material =~ @.regex_pat)].model'
 "[\"Quaoar\",\"Weywot\"]"
 {{< /clients-example >}}
+
+See [Filter expression operators](#filter-expression-operators) for more information.
 
 ### Update examples
 

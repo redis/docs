@@ -59,9 +59,10 @@ A message to return instead of `PONG`.
 ## Examples
 
 {{% redis-cli %}}
-PING
-
-PING "hello world"
+redis> PING
+PONG
+redis> PING "hello world"
+"hello world"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

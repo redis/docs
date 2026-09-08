@@ -439,5 +439,53 @@ mod cmds_hash_tests {
         let _: Result<i32, _> = r.del("myhash").await;
         // REMOVE_END
         // STEP_END
+
+        // STEP_START hlen
+        match r.hset("myhash", "field1", "Hello").await {
+            Ok(res15) => {
+                let res15: i32 = res15;
+                println!("{res15}");    // >>> 1
+                // REMOVE_START
+                assert_eq!(res15, 1);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting hash field: {e}");
+                return;
+            }
+        }
+
+        match r.hset("myhash", "field2", "World").await {
+            Ok(res16) => {
+                let res16: i32 = res16;
+                println!("{res16}");    // >>> 1
+                // REMOVE_START
+                assert_eq!(res16, 1);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error setting hash field: {e}");
+                return;
+            }
+        }
+
+        match r.hlen("myhash").await {
+            Ok(res17) => {
+                let res17: usize = res17;
+                println!("{res17}");    // >>> 2
+                // REMOVE_START
+                assert_eq!(res17, 2);
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting hash length: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("myhash").await;
+        // REMOVE_END
+        // STEP_END
     }
 }

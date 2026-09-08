@@ -37,8 +37,12 @@ call.
 ## Examples
 
 {{% redis-cli %}}
-TIME
-TIME
+redis> TIME
+1) "1784722081"
+2) "827551"
+redis> TIME
+1) "1784722081"
+2) "828843"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

@@ -3,18 +3,22 @@
 Check interactive "Try it" payload sizes across the docs.
 
 The external "Try it" button on a `clients-example` block opens
-`redis.io/cli?commands=<base64>&autorun=true`, where <base64> is the URL-safe
-base64 of a JSON array of the block's CLI commands. The server rejects the
-request with "Request Line is too large (N > 4094)" once the **HTTP request
-line** exceeds ~4094 bytes. The request line is `GET /cli?commands=<base64>&
-autorun=true HTTP/1.1`, i.e. the base64 payload plus ~40 bytes of scaffolding,
-so the base64 must be ≲ 4054 bytes. Two subtleties this checker accounts for:
+`redis.io/cli?commands=<base64>&autorun=true&snippet=<id>&source=<page>`, where
+<base64> is the URL-safe base64 of a JSON array of the block's CLI commands and
+snippet/source attribute the run to a docs page (see wrapper.html). The server
+rejects the request with "Request Line is too large (N > 4094)" once the **HTTP
+request line** exceeds ~4094 bytes. The request line is `GET /cli?commands=
+<base64>&autorun=true&snippet=...&source=... HTTP/1.1`, i.e. the base64 payload
+plus ~40 bytes of scaffolding plus the attribution params (see
+_attribution_len). Three subtleties this checker accounts for:
 
   * The cap is on the request line / URL, not the raw typed command text.
     Sizes are computed to match the browser exactly: base64 of
     JSON.stringify(cmds) (compact separators, real UTF-8) — see _payload_b64_len.
   * A block with `needs_prereq="true"` has its set's `prereq="true"` block
     prepended by the button, so it inherits the prereq's payload size.
+  * The &snippet=/&source= attribution params also count against the request
+    line; their length is added per block — see _attribution_len.
 
 A block is only subject to the limit if its external button is actually shown:
 `try_it != "false"` and `runnable != "false"`. Blocks over the limit should get
@@ -36,6 +40,7 @@ import json
 import os
 import re
 import sys
+from urllib.parse import quote
 
 # Match a shortcode attribute value. The negative lookbehind on a word char
 # stops `prereq="..."` from also matching inside `needs_prereq="..."`.
@@ -124,6 +129,27 @@ def payload_for(b, set_prereq):
     return cmds
 
 
+def _attribution_len(b):
+    """Bytes the button appends for &source=...&snippet=... attribution params.
+
+    The link now carries the originating page and snippet so the backend can
+    attribute runs (see layouts/partials/tabs/wrapper.html). These extend the
+    request line and so count against the same server cap as the base64 payload.
+
+    snippet is the codetabs id, built exactly as the template does:
+    "<set>-step<step>". source is the page's RelPermalink; only its LENGTH
+    matters here, and it tracks the content path closely, so derive a
+    /docs/latest/<path>/ proxy from the file path (a few bytes of slack is
+    already baked into --overhead). Both are encodeURIComponent'd (=> "/" -> %2F).
+    """
+    snippet = f'{b["set"] or ""}-step{b["step"] or ""}'
+    rel = re.sub(r"^.*?/?content/", "", b["file"].replace(os.sep, "/"))
+    rel = re.sub(r"(_index)?\.md$", "", rel)
+    source = "/docs/latest/" + rel.strip("/") + "/"
+    enc = lambda s: quote(s, safe="")  # mirror JS encodeURIComponent
+    return len("&snippet=" + enc(snippet) + "&source=" + enc(source))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -149,7 +175,9 @@ def main():
         if b["try_it"] == "false" or b["runnable"] == "false" or not b["cmds"]:
             continue
         b64 = _payload_b64_len(payload_for(b, set_prereq))
-        size = b64 + args.overhead  # estimated HTTP request-line length
+        # estimated HTTP request-line length: base64 payload + fixed scaffolding
+        # + the &source=/&snippet= attribution params the button now appends.
+        size = b64 + args.overhead + _attribution_len(b)
         if size > args.limit:
             over.append((size, b64, b))
         elif size > args.limit * args.warn_frac:

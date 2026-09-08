@@ -88,7 +88,7 @@ To modify the database:
     ```
 
 1. Change the specification (only properties in `spec` section) and save the changes.  
-    For more details, see [RedisEnterpriseDatabaseSpec](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_database_api.md#redisenterprisedatabasespec) or [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}). 
+    For more details, see [Options for Redis Enterprise databases]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}). 
 
 1. Monitor the status to see when the changes take effect:
 
@@ -97,6 +97,8 @@ To modify the database:
     ```
 
     When the status is `active`, the database is ready for use.
+
+To add tags to a database and expose them as metric labels, see [Enrich database metrics with tags]({{< relref "/operate/kubernetes/re-databases/enrich-metrics-with-tags" >}}).
 
 ## Delete a database
 

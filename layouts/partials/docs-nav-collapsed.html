@@ -2,19 +2,28 @@
   <nav class="w-full md:w-96 z-40 bg-white md:fixed md:pt-6 h-fit md:h-full max-h-[calc(100vh-7rem)] leading-7">
     {{ $navRoot := cond (eq .Site.Home.Type "docs") .Site.Home .FirstSection -}}
     <div id="sidebar" class="max-h-[calc(100vh-8rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col">
+      {{/* data-offline-hide: a downloadable HTML copy holds one product, so it keeps
+           only that product's entry. See build/make_doc_bundles.py. */}}
       {{ if in (slice "Develop" "Integrate" "Operate" "Commands") $navRoot.LinkTitle }}
-        <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Develop" }} font-bold {{ end }}' href='{{ relURL "develop" }}'>Develop with Redis</a>
-        <a class='px-6 py-4 hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Integrate" }} font-bold {{ end }}' href='{{ relURL "integrate" }}'>Libraries and tools</a>
-        <a class='px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Operate" }} font-bold {{ end }}' href='{{ relURL "operate" }}'>Redis products</a>
+        <a {{ if ne $navRoot.LinkTitle "Develop" }}data-offline-hide{{ end }} class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 {{ if eq $navRoot.LinkTitle "Develop" }} font-bold {{ end }}' href='{{ relURL "develop" }}'>Develop with Redis</a>
+        <a {{ if ne $navRoot.LinkTitle "Integrate" }}data-offline-hide{{ end }} class='px-6 py-4 hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Integrate" }} font-bold {{ end }}' href='{{ relURL "integrate" }}'>Libraries and tools</a>
+        <a {{ if ne $navRoot.LinkTitle "Operate" }}data-offline-hide{{ end }} class='px-6 py-4 rounded-b-md hover:bg-redis-pen-200 border-t border-redis-ink-900 border-opacity-50 {{ if eq $navRoot.LinkTitle "Operate" }} font-bold {{ end }}' href='{{ relURL "operate" }}'>Redis products</a>
       {{ else }}
         <a class='px-6 py-4 rounded-t-md hover:bg-redis-pen-200 font-bold' href="{{ $navRoot.RelPermalink }}">{{ $navRoot.LinkTitle }}</a>
         <div class="hidden md:block w-full py-6"></div>
       {{ end }}       
     </div>
     {{ if in (slice "Commands" "Integrate") $navRoot.LinkTitle }}
-    <div id="sidebar-cmd" class="max-h-[calc(100vh-8rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col mt-4">
+    <div id="sidebar-cmd" {{ if ne $navRoot.LinkTitle "Commands" }}data-offline-hide{{ end }} class="max-h-[calc(100vh-8rem)] border border-opacity-50 border-redis-ink-900 rounded-md flex flex-col mt-4">
       <a class='px-6 py-4 hover:bg-redis-pen-200 text-redis-red-600 {{ if eq $navRoot.LinkTitle "Commands" }} font-bold {{ end }}' href='{{ relURL "commands" }}'>Commands</a>
     </div>
     {{ end }}
+    <div class="mt-4 shrink-0">
+      {{ partialCached "download-docs-trigger.html" (dict
+           "title" "Download documentation"
+           "iconClass" "h-5 w-5"
+           "class" "flex h-9 w-9 items-center justify-center rounded-md border border-opacity-50 border-redis-ink-900 text-redis-ink-900 hover:bg-redis-pen-200") "sidebar" }}
+    </div>
+    {{ partialCached "download-docs.html" . }}
   </nav>
 </div>

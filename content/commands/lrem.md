@@ -90,12 +90,19 @@ The value to remove.
 ## Examples
 
 {{% redis-cli %}}
-RPUSH mylist "hello"
-RPUSH mylist "hello"
-RPUSH mylist "foo"
-RPUSH mylist "hello"
-LREM mylist -2 "hello"
-LRANGE mylist 0 -1
+redis> RPUSH mylist "hello"
+(integer) 1
+redis> RPUSH mylist "hello"
+(integer) 2
+redis> RPUSH mylist "foo"
+(integer) 3
+redis> RPUSH mylist "hello"
+(integer) 4
+redis> LREM mylist -2 "hello"
+(integer) 2
+redis> LRANGE mylist 0 -1
+1) "hello"
+2) "foo"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

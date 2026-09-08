@@ -1,143 +1,68 @@
 # Agent Skills
 
-This directory contains skills that teach AI agents how to perform specific tasks in this codebase. Each skill has a `SKILL.md` file with detailed instructions.
-
-## How Skills Work
-
-When you ask Augment Agent (using the VS Code plugin or Auggie CLI) to do something, it searches the codebase for relevant context—including these skill files. If your request matches a skill's purpose, Augment uses those instructions to do the job correctly.
-
-**Pro tip**: Reference a skill directly in your prompt for best results:
-> "Using the generate-tce-examples skill, add an HMGET example for all supported languages."
+This directory holds skills written for the Augment agent. It is **no longer the primary
+location** — Claude Code skills live in [`.claude/skills/`](../../.claude/skills/) and Codex
+skills in [`.codex/skills/`](../../.codex/skills/).
 
 ## Available Skills
 
-### `extract-redis-cli-examples`
-
-Analyzes Redis command documentation pages to find CLI examples and determine which ones need multi-language code implementations.
-
-**Use when**: You want to audit a docs page and identify what examples are missing.
-
-### `generate-tce-examples`
-
-Creates tabbed code examples (TCEs) across 12 client languages (Python, Node.js (2), Go, Java (3), C#, PHP, Rust (2), and C) for Redis commands.
-
-**Use when**: You need to implement the same Redis example in multiple languages, with proper test markers and assertions.
-
-**Assets**: Contains reference templates and `*_TEST_PATTERNS.md` files for each language in the `assets/` subdirectory.
-
 ### `redis-use-case-ports`
 
-Orchestrates a full Redis use-case implementation across all 9 supported client libraries (`redis-py`, `node-redis`, `go-redis`, Jedis, Lettuce, StackExchange.Redis, Predis, `redis-rb`, `redis-rs`) using a parallel-build + synthesise + audit workflow.
+Orchestrates a full Redis use-case implementation across all 9 supported client libraries
+(`redis-py`, `node-redis`, `go-redis`, Jedis, Lettuce, StackExchange.Redis, Predis, `redis-rb`,
+`redis-rs`) using a parallel-build → synthesise → audit workflow.
 
-**Use when**: A new use case (cache-aside, session store, rate limiter, leaderboard, etc.) needs to be ported to all 9 clients with consistent helper APIs, demo behaviour, and prose structure — and you want to use parallel sub-agents rather than implementing serially.
+**Use when**: A new use case (cache-aside, session store, rate limiter, leaderboard, etc.)
+needs to be ported to all 9 clients with consistent helper APIs, demo behaviour, and prose
+structure — and you want parallel sub-agents rather than implementing serially.
 
-**Assets**: Contains `brief-template.md` (for parallel build agents), `report-template.md` (structured agent output), `audit-checklist.md` (known bug classes — a living document), `cross-diff-checklist.md` (consistency rules across clients), `redis-conventions.md` (repo-specific layout and Hugo conventions), and `html-template.html` (shared demo UI).
+**Assets**: `brief-template.md` (for parallel build agents), `report-template.md` (structured
+agent output), `audit-checklist.md` (known bug classes — a living document),
+`cross-diff-checklist.md` (consistency rules across clients), `redis-conventions.md`
+(repo-specific layout and Hugo conventions), and `html-template.html` (shared demo UI).
 
-## Setup
+## Moved: tabbed code examples
 
-The `generate-tce-examples` agent skill requires a very specific setup that includes (1) a clone of the `redis/docs` repo and
-(2) a `clients` directory that contains clones of all the client repos and an `examples` directory structure that's used for testing.
+`extract-redis-cli-examples` and `generate-tce-examples` have been replaced by a single phased
+skill at **[`.claude/skills/tce-examples/`](../../.claude/skills/tce-examples/SKILL.md)**.
 
-At the top level, you'll have the following:
+It covers the same ground — auditing a page for missing client coverage, then generating
+examples across every supported client — plus live testing and Codex review. The per-client
+`*_TEST_PATTERNS.md` files and working samples moved with it, into
+`.claude/skills/tce-examples/assets/`.
 
-```
-/path/to/
-├── clients
-└── docs
-```
+What changed, beyond the location:
 
-The `clients` directory is used for agent skill reference and looks like this:
+- **Auditing is scripted.** `scripts/audit_page.py` wraps the repo's own parsers
+  (`build/components/cli_parser.py`, `build/components/markdown_parser.py`) instead of
+  restating their rules in prose.
+- **Client identity has one source.** `build/example-test-harness/clients.tsv` replaces the
+  five overlapping tables the old skill carried, which had drifted from `config.toml`.
+- **Generation is parallel.** One sub-agent per client, spawned together, from a shared brief.
+- **Testing is driven, not manual.** See below.
 
-```
-/path/to/clients
-├── NRedisStack
-├── StackExchange.Redis
-├── examples
-├── go-redis
-├── ioredis
-├── jedis
-├── lettuce
-├── node-redis
-├── predis
-├── redis-py
-├── redis-rb
-├── redis-rs
-└── redis-vl-python
-```
+## Test environment setup
 
-The examples directory structure is used to test generated examples and has the following structure:
+The tabbed-code-example test environment used to be a zip file passed around by hand. It is
+now generated:
 
-```
-/path/to/clients/examples
-├── NRedisStack (a full clone of the NRedisStack repo)
-│   └── tests
-│       └── Doc
-│           └── nredisstack_sample_test.cs
-├── go-redis
-│   ├── sample_test.go
-│   ├── go.mod
-│   └── run.sh
-├── hiredis
-│   ├── sample_test.c
-│   └── run.sh
-├── ioredis
-│   ├── sample_test.js
-│   ├── package.json
-│   └── run.sh
-├── jedis
-│   ├── pom.xml
-│   ├── run.sh
-│   └── src
-│       └── test
-│           └── java
-│               └── io
-│                   └── redis
-│                       └── examples
-│                           └── SampleTest.java
-├── lettuce-async
-│   ├── pom.xml
-│   ├── run.sh
-│   └── src
-│       └── test
-│           └── java
-│               └── io
-│                   └── redis
-│                       └── examples
-│                           └── async
-│                               └── SampleTest.java
-├── lettuce-reactive
-│   ├── pom.xml
-│   ├── run.sh
-│   └── src
-│       └── test
-│           └── java
-│               └── io
-│                   └── redis
-│                       └── examples
-│                           └── reactive
-│                               └── SampleTest.java
-├── node-redis
-│   ├── sample_test.js
-│   ├── package.json
-│   └── run.sh
-├── predis
-│   ├── SampleTest.php
-│   ├── composer.json
-│   └── run.sh
-├── redis-py
-│   ├── sample_test.py
-│   ├── requirements.txt
-│   └── run.sh
-├── rust-async
-│   ├── Cargo.toml
-│   ├── run.sh
-│   └── tests
-│       └── sample_test.rs
-└── rust-sync
-│   ├── Cargo.toml
-│   ├── run.sh
-│   └── tests
-│       └── sample_test.rs
+```bash
+build/example-test-harness/bootstrap.sh        # scaffold tmp/clients/examples/, clone client repos
+build/example-test-harness/bootstrap.sh --check   # report gaps, change nothing
 ```
 
-A zip file containing this structure will be made upon request. Ping `David Dougherty` in Slack.
+`bootstrap.sh` materialises the (gitignored) `tmp/clients/examples/` tree from the tracked
+manifests in `build/example-test-harness/fidelity/`, clones the client repos it needs, and
+reports which toolchains are missing. Then:
+
+```bash
+build/example-test-harness/run.sh cmds_hash              # portable: cached deps, no clones needed
+build/example-test-harness/run.sh --fidelity cmds_hash   # fidelity: real manifests, real clones
+build/example-test-harness/run.sh --list cmds_hash       # just resolve source paths
+```
+
+Both modes need a scratch Redis on `localhost:6379` — they `FLUSHALL` between clients, so do
+not point them at anything you care about.
+
+See [`.claude/skills/tce-examples/reference/testing.md`](../../.claude/skills/tce-examples/reference/testing.md)
+for which mode to use when, and for the false-green traps both modes now guard against.

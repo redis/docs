@@ -32,6 +32,15 @@ def load_and_validate_json_files(public_dir: Path) -> list[tuple[Path, dict]]:
         try:
             with open(json_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
+                # Redirect tombstones live at a moved page's old URL and share the
+                # index.json name, so rglob picks them up. They are deliberately
+                # kept out of the feed: they would add roughly 1,100 near-empty
+                # records to 2,600 real ones and make every "how many documents"
+                # figure ambiguous. Consumers resolve a moved URL either per-URL at
+                # its own /index.json, or in bulk from /redirects.json. See
+                # DOC-6951.
+                if data.get('page_type') == 'moved':
+                    continue
                 # Check for our expected fields
                 if all(key in data for key in ['id', 'title', 'url']):
                     valid_files.append((json_file, data))

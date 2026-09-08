@@ -19,7 +19,7 @@ weight: 75
 instrumentation to collect metrics. This can be very helpful for
 diagnosing problems and improving the performance and connection resiliency of
 your application. See the
-[Observability overview]({{< relref "/develop/clients/observability" >}})
+[Observability overview](/content/develop/clients/observability.md)
 for an introduction to Redis client observability and a reference guide for the
 available metrics.
 
@@ -74,13 +74,13 @@ The available options for `MetricConfig` are described in the table below:
 | `meterProvider` |  | Uses this provider instead of the global provider from `@opentelemetry/api`. |
 | `includeCommands` | `[]` | List of Redis commands to track. If set, only these commands will be tracked. Note that you should use the Redis command name rather than the node-redis method name where the two differ. |
 | `excludeCommands` | `[]` | List of Redis commands to exclude from tracking. If set, all commands except these will be tracked. Note that you should use the Redis command name rather than the node-redis method name where the two differ. |
-| `enabledMetricGroups` | `['connection-basic', 'resiliency']` | List of metric groups to enable. By default, only `connection-basic` and `resiliency` are enabled. See [Redis metric groups]({{< relref "/develop/clients/observability#redis-metric-groups" >}}) for a list of available groups. |
+| `enabledMetricGroups` | `['connection-basic', 'resiliency']` | List of metric groups to enable. By default, only `connection-basic` and `resiliency` are enabled. See [Redis metric groups](/content/develop/clients/observability.md#redis-metric-groups) for a list of available groups. |
 | `hidePubSubChannelNames` | `false` | If true, channel names in pub/sub metrics will be hidden. |
 | `hideStreamNames` | `false` | If true, stream names in streaming metrics will be hidden. |
-| `bucketsOperationDuration` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`operation.duration`]({{< relref "/develop/clients/observability/#metric-db.client.operation.duration" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
-| `bucketsConnectionCreateTime` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`connection.create_time`]({{< relref "/develop/clients/observability/#metric-db.client.connection.create_time" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
-| `bucketsConnectionWaitTime` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`connection.wait_time`]({{< relref "/develop/clients/observability/#metric-db.client.connection.wait_time" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
-| `bucketsStreamProcessingDuration` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`stream.lag`]({{< relref "/develop/clients/observability/#metric-redis.client.stream.lag" >}}) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
+| `bucketsOperationDuration` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`operation.duration`](/content/develop/clients/observability.md#metric-db.client.operation.duration) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
+| `bucketsConnectionCreateTime` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`connection.create_time`](/content/develop/clients/observability.md#metric-db.client.connection.create_time) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
+| `bucketsConnectionWaitTime` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`connection.wait_time`](/content/develop/clients/observability.md#metric-db.client.connection.wait_time) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
+| `bucketsStreamProcessingDuration` | `[0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1, 5, 10]` | List of bucket boundaries for the [`stream.lag`](/content/develop/clients/observability.md#metric-redis.client.stream.lag) histogram (see [Custom histogram buckets](#custom-histogram-buckets) below). |
 
 ### Custom histogram buckets
 

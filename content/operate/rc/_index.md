@@ -59,6 +59,7 @@ Manage [secure connections]({{< relref "/operate/rc/security" >}}) to cloud data
 Use the [REST API]({{< relref "/operate/rc/api" >}}) to manage Redis Cloud databases and subscriptions.
 - [Get started with the REST API]({{< relref "/operate/rc/api/get-started" >}})
 - REST API [reference]({{< relref "/operate/rc/api/api-reference" >}}) & [examples]({{< relref "/operate/rc/api/examples" >}})
+- [`redisctl`](https://github.com/redis/redisctl) — a CLI tool that wraps the Redis Cloud and Redis Software APIs for terminal-based management
 
 ## Migrate to Redis Cloud
 Follow the step-by-step guide for your source environment:

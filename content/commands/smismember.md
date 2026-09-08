@@ -71,9 +71,13 @@ One or more members to check for.
 ## Examples
 
 {{% redis-cli %}}
-SADD myset "one"
-SADD myset "one"
-SMISMEMBER myset "one" "notamember"
+redis> SADD myset "one"
+(integer) 1
+redis> SADD myset "one"
+(integer) 0
+redis> SMISMEMBER myset "one" "notamember"
+1) (integer) 1
+2) (integer) 0
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

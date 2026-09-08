@@ -1,6 +1,7 @@
 ---
 Title: redis-di dump-support-package
-aliases: null
+aliases:
+- /integrate/redis-data-integration/write-behind/reference/cli/redis-di-dump-support-package/
 alwaysopen: false
 categories:
   - docs

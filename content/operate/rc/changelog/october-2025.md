@@ -12,6 +12,8 @@ linktitle: October 2025
 weight: 65
 tags:
 - changelog
+aliases:
+- /operate/rc/changelog/september-2025/
 ---
 
 ## New features

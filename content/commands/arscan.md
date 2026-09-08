@@ -96,11 +96,24 @@ The maximum number of index-value pairs to return. When omitted, all elements in
 ## Examples
 
 {{% redis-cli %}}
-ARSET myarray 0 "a"
-ARSET myarray 5 "b"
-ARSET myarray 9 "c"
-ARSCAN myarray 0 10
-ARSCAN myarray 0 10 LIMIT 2
+redis> ARSET myarray 0 "a"
+(integer) 1
+redis> ARSET myarray 5 "b"
+(integer) 1
+redis> ARSET myarray 9 "c"
+(integer) 1
+redis> ARSCAN myarray 0 10
+1) 1) (integer) 0
+   2) "a"
+2) 1) (integer) 5
+   2) "b"
+3) 1) (integer) 9
+   2) "c"
+redis> ARSCAN myarray 0 10 LIMIT 2
+1) 1) (integer) 0
+   2) "a"
+2) 1) (integer) 5
+   2) "b"
 {{% /redis-cli %}}
 
 ## Redis Software and Redis Cloud compatibility

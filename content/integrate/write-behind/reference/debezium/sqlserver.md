@@ -1,6 +1,8 @@
 ---
 Title: Write-behind configuration for sqlserver
-aliases: null
+aliases:
+- /integrate/redis-data-integration/reference/debezium/sqlserver/
+- /integrate/redis-data-integration/write-behind/reference/debezium/sqlserver/
 alwaysopen: false
 categories:
   - docs
