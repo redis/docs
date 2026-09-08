@@ -164,7 +164,7 @@ In the Supabase dashboard, go to
 1. Download the Supabase CA certificate.
 
 Store the database username, password, and CA certificate as RDI secrets. Pass the
-source name with `--db`; the source configured in the next step is named `supabase`:
+source name with `--db` (the source configured in the example below is named `supabase`):
 
 ```bash
 redis-di set-secret USERNAME --db supabase rdi_replication

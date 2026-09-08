@@ -79,14 +79,14 @@ The main sections of these files are:
   With the
   [Flink processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}),
   `server_name`, `db`, `schema`, and `table` each accept either a single name or a list of names.
-  An entry prefixed with `regex:` selects all names that match the regular expression, which has
-  to match the whole name. For example, `server_name: [mysql, postgresql]` selects two sources,
+  An entry prefixed with `regex:` selects all names that match the regular expression (note that this
+  must match the whole name, not just a substring). For example, `server_name: [mysql, postgresql]` selects two sources,
   and `table: "regex:orders_[0-9]+"` selects every numbered `orders` table. A job processes the
   records that match all of the properties it sets, so a single job can process multiple tables,
   potentially from different sources, databases, or schemas.
 
   The classic processor takes a single name in each of these properties. It rejects a list or a
-  `regex:` entry when you deploy the pipeline, so write one job per table instead.
+  `regex:` entry when you deploy the pipeline, so you should use one job per table instead.
 
 - `transform`: This is an optional section describing the transformation that the pipeline
   applies to the data before writing it to the target. The `uses` property specifies a
