@@ -66,7 +66,7 @@ dotnet new console -n VecQueryExample
 ```
 
 In the app's project folder, add
-[`NRedisStack`]({{< relref "/develop/clients/dotnet" >}}`):
+[`NRedisStack`](/content/develop/clients/dotnet/_index.md):
 
 ```bash
 dotnet add package NRedisStack
