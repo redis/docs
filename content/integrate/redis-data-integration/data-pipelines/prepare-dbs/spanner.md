@@ -174,9 +174,9 @@ Be sure to adjust the file path (`~/spanner-reader-account.json`) if your servic
 stored elsewhere.
 
 {{< note >}}`redis-di set-secret` has no key for this secret, so you must
-create it with `kubectl`. A secret created that way also has to be labeled so that the RDI operator
+create it with `kubectl`. A secret created that way must also be labeled so that the RDI operator
 discovers it as a pipeline secret. See
-[Set secrets for K8s/Helm deployment using Kubectl command]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}).{{< /note >}}
+[Set secrets for K8s/Helm deployment using Kubectl command]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}) for more information.{{< /note >}}
 
 {{< note >}}
 If you create the `spanner-db-credentials` secret, you must also set `use_credentials_file: true`
