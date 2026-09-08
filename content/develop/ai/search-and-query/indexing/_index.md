@@ -597,12 +597,10 @@ For JSON documents, you must use the `RETURN` parameter to specify the attribute
 
 Use the optional `TAGS` keyword to specify the strings that will surround (or highlight) the matching search terms.
 
-<!-- TODO(DOC-6994): add a version statement here once the maintenance lines are confirmed.
-Earlier releases reject HIGHLIGHT and SUMMARIZE on every JSON index. See the matching TODO in
-advanced-concepts/highlight. -->
+JSON support for `HIGHLIGHT` and `SUMMARIZE` was added in the 8.4, 8.6, 8.8, and 8.10 maintenance lines. Redis Open Source 8.2 and earlier reject both options on every JSON index.
 
 {{< note >}}
-`HIGHLIGHT` and `SUMMARIZE` are not supported when the JSONPath leads to multiple values (such as arrays indexed as `TEXT`). A single-value JSONPath that resolves to an array or object is accepted, but the value is returned unhighlighted. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight#json-indexes" >}}) for the full rules and error messages, and [Index limitations](#index-limitations) for other multi-value behavior.
+`HIGHLIGHT` and `SUMMARIZE` are not supported when the JSONPath leads to multiple values (such as arrays indexed as `TEXT`). A single-value JSONPath that resolves to an array or object is accepted, but the value is returned unhighlighted. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight#json-indexes" >}}) for the full rules, error messages, and the exact version in each maintenance line, and [Index limitations](#index-limitations) for other multi-value behavior.
 {{< /note >}}
 
 For example, highlight the word "bluetooth" with bold HTML tags in item names and descriptions:

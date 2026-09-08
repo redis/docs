@@ -93,13 +93,12 @@ In the command `SUMMARIZE FIELDS 1 bar HIGHLIGHT FIELDS 1 baz`, `bar` is returne
 
 ## JSON indexes
 
-<!-- TODO(DOC-6994): confirm the maintenance lines and the first patch version in each before
-publishing, then replace the sentence below. DOC-6994 says "8.4 onward", the 8.2 backport
-merged but has no Jira fix version, and the 8.6 backport was still open. Follow the wording
-pattern used for search-bg-index-sleep-duration-us in administration/configuration. -->
-
 `HIGHLIGHT` and `SUMMARIZE` work on a JSON index when the field maps to a single-value
-[JSONPath]({{< relref "/develop/data-types/json/path" >}}) such as `$.name`. Earlier releases
+[JSONPath]({{< relref "/develop/data-types/json/path" >}}) such as `$.name`.
+
+Added in the 8.4 maintenance line (v8.4.14), the 8.6 line (v8.6.10), the 8.8 line (v8.8.1),
+the 8.10 line (v8.10.1), and Redis Open Source 8.12. Not available in Redis Open Source 8.2
+or earlier, and not present in the initial 8.4.0, 8.6.0, 8.8.0, or 8.10.0 releases, which
 reject `HIGHLIGHT` and `SUMMARIZE` on every JSON index.
 
 Three rules apply to JSON indexes but not to hash indexes:
@@ -115,7 +114,7 @@ Three rules apply to JSON indexes but not to hash indexes:
     no single value to highlight. The error applies to any field in the returned or
     highlighted set, whatever its schema type.
 
-* **Raw JSONPath aliases cannot be highlighted.** In a `RETURN` clause such as`RETURN 3 $.name AS alias`, the alias
+* **Projection aliases created from raw JSONPath cannot be highlighted.** In a `RETURN` clause such as `RETURN 3 $.name AS alias`, the alias
     `alias` is not a schema field, so naming it in `HIGHLIGHT FIELDS` or `SUMMARIZE FIELDS`
     fails with ``Property `alias` is not in schema``. Name the schema field explicitly instead of using the alias.
 
