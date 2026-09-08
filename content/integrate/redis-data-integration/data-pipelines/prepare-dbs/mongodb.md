@@ -144,22 +144,20 @@ source's `CERT` and `KEY` secrets. See
 [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
 for the full list of source database TLS and mTLS secrets.
 
-When you use MongoDB X.509 authentication, include all of the following
-properties in the source `advanced.source` section:
+When you use MongoDB X.509 authentication, enable TLS in the source `advanced.source` section:
 
 ```yaml
 advanced:
   source:
     mongodb.ssl.enabled: true
-    mongodb.ssl.keystore: /debezium/certs/mongodb_db_keystore
-    mongodb.ssl.keystore.password: debezium
 ```
 
-The keystore is named after the source, so a source named `mongodb` uses
-`/debezium/certs/mongodb_db_keystore`. The RDI Collector builds it from the source
-database client certificate and private key secrets. Debezium requires the
-`mongodb.ssl.keystore` and `mongodb.ssl.keystore.password` properties to present
-the client certificate to MongoDB.
+RDI builds the keystore that presents the client certificate to MongoDB from the source's
+`CERT` and `KEY` secrets, and configures the collector to use it.
+
+{{< note >}}Do not set `mongodb.ssl.keystore` or `mongodb.ssl.keystore.password` yourself. RDI
+manages the keystore, so these properties are not only unnecessary, they are rejected when you
+deploy the pipeline.{{< /note >}}
 
 For X.509 authentication, the MongoDB connection string must also include the
 required authentication options, such as `authMechanism=MONGODB-X509` and
