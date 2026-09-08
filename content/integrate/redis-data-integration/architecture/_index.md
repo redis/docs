@@ -148,8 +148,8 @@ The diagram below shows all RDI components and the interactions between them:
 RDI provides two implementations of the stream processor, *classic* and
 *Flink*. You select the implementation per pipeline through the
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-property in `config.yaml`. The default is `classic`, so existing pipelines
-keep their behavior unchanged.
+property in `config.yaml`. The default is `flink`, so set `classic` explicitly to run a
+pipeline on the classic processor.
 
 See
 [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})

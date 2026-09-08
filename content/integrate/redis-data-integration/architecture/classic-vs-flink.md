@@ -69,7 +69,7 @@ for VM installations.
 The two processors share the same `config.yaml` envelope and the same
 `connections`, `sources`, `targets`, and `jobs` sections. The only
 differences are inside the `processors:` block, which is selected via
-`processors.type` (`classic` or `flink`, default `classic`). Properties
+`processors.type` (`classic` or `flink`, default `flink`). Properties
 that apply to only one implementation are annotated with
 **Classic processor only.** or **Flink processor only.** in the
 [pipeline configuration reference]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}}),

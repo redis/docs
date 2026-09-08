@@ -211,11 +211,12 @@ The
 fully supported on both VM and Kubernetes installations after upgrading to
 RDI 1.19.0. Once the upgrade completes, it is always available —
 no opt-in is required, and the defaults are sized for typical workloads.
-On RDI 1.19.0, existing classic pipelines keep using that processor until
-you switch them by setting
+
+{{< warning >}}The Flink processor is the default as of RDI 2.0.0.
+Upgrading to that release or later moves a pipeline whose `config.yaml` does not set
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink` in their `config.yaml`.
-RDI 2.0.0 changes this default; see [Upgrading to RDI 2.0.0](#upgrading-to-rdi-200).
+onto the Flink processor when you next deploy it. To keep such a pipeline on the classic
+processor, set `processors.type` to `classic` before you upgrade.{{< /warning >}}
 
 On Kubernetes, to override the Flink processor defaults, add an
 `operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file as

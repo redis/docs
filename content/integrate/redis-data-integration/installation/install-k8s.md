@@ -322,9 +322,8 @@ oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
 
 ### Configure the Flink processor
 
-RDI ships with two stream processor implementations: the default *classic*
-processor and the
-[Apache Flink](https://flink.apache.org/)-based *Flink* processor.
+RDI ships with two stream processor implementations: the *classic* processor and the
+default [Apache Flink](https://flink.apache.org/)-based *Flink* processor.
 See
 [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
 for an overview of the differences and
@@ -356,10 +355,9 @@ operator:
 
 Configuring the Flink processor at the Helm chart level only sets the values
 that the operator will use when deploying the JobManager and TaskManager workloads.
-To run a specific pipeline on the Flink processor, set
+A pipeline runs on the Flink processor unless its `config.yaml` sets
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink` in that pipeline's `config.yaml`. Pipelines without this setting
-continue to use the classic processor. Fine-tune the Flink runtime
+to `classic`. Fine-tune the Flink runtime
 through the `processors.advanced` section of `config.yaml` (see the
 [configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
 

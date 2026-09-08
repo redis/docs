@@ -66,12 +66,12 @@ targets:
       password: ${TARGET_DB_PASSWORD}
 
 processors:
-  type: flink
   target_data_type: hash
 ```
 
-Keep `type: flink` for new pipelines. The other processor properties have defaults,
-so add them only when you need to change the default behavior.
+The processor properties all have defaults, so add them only when you need to change the
+default behavior. In particular, the pipeline runs on the Flink processor unless you set
+`type` to `classic`.
 
 ## Build the file with an AI assistant
 
@@ -184,12 +184,13 @@ that you should set as described in [Set secrets]({{< relref "/integrate/redis-d
 
 ### Processors
 
-The `processors` section selects the stream processor and configures its behavior.
-Use the Flink processor for new pipelines:
+The `processors` section selects the stream processor and configures its behavior. The default
+is the Flink processor, which is what we recommend. To run a pipeline on the classic processor instead,
+set `type` to `classic`:
 
 ```yaml
 processors:
-  type: flink
+  type: classic
 ```
 
 See [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
@@ -261,7 +262,6 @@ setting for its output.
 
 ```yaml
 processors:
-  type: flink
   target_data_type: hash
 ```
 
@@ -275,7 +275,6 @@ healthy replica is available:
 
 ```yaml
 processors:
-  type: flink
   wait_enabled: true
   wait_timeout: 1000
   retry_on_replica_failure: true
@@ -426,9 +425,9 @@ targets:
 # Settings that control how the processor writes the captured records to the targets.
 processors:
   # Processor implementation to run, one of `classic` or `flink`.
-  # The default is `classic` for backward compatibility, while `flink` is strongly recommended for new pipelines.
+  # The default is `flink`, which is the recommended processor.
   # See https://redis.io/docs/latest/integrate/redis-data-integration/faq/#which-processor-should-i-use
-  type: flink
+  # type: flink
 
   # Maximum number of records read from the source streams in a single batch.
   # read_batch_size: 2000
