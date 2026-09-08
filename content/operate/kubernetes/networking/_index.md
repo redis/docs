@@ -48,6 +48,12 @@ This feature only supports automatic Ingress creation for Active-Active database
 
 See [Enable cluster-aware clients (OSS Cluster API)]({{< relref "/operate/kubernetes/networking/cluster-aware-clients" >}}) for configuration details.
 
+## Smart client handoffs
+
+[Smart client handoffs]({{< relref "/operate/kubernetes/networking/smart-client-handoffs" >}}) (SCH) let the cluster notify clients about planned maintenance so they can reconnect gracefully during upgrades. SCH is supported when your application and the Redis Enterprise cluster run within the same Kubernetes pod network.
+
+See [Enable smart client handoffs (SCH)]({{< relref "/operate/kubernetes/networking/smart-client-handoffs" >}}) for configuration details.
+
 ## REC domain name
 
 The RedisEnterpriseCluster does not support custom domain names. Domain names for the REC are in the following format: `<rec-name>.<namespace>.svc.cluster.local`.
