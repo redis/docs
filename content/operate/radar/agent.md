@@ -10,7 +10,7 @@ linkTitle: Agent
 weight: 25
 ---
 
-The Radar agent collects telemetry from Redis deployments that Radar can't reach over the network. You install it on a host inside your network, and it connects outbound to Radar. Radar never needs inbound access to your network.
+The Radar agent collects telemetry from Redis deployments that Radar can't reach over the network. You install it on a host inside your network, and it opens an outbound connection to Radar. Radar never needs inbound access to your network.
 
 ## When to connect clusters with an agent
 
@@ -18,7 +18,9 @@ Use an agent when Radar can't open a connection to the cluster you want to see. 
 
 You don't need an agent for Redis Cloud, Amazon ElastiCache, or Google Memorystore. Radar reaches those over their provider APIs, so [connecting the account]({{< relref "/operate/radar/connect" >}}) is all the setup they need.
 
-The agent makes one outbound connection to Radar over Transport Layer Security (TLS), using gRPC, and separate local connections to each Redis endpoint you configure. Your network only has to allow the outbound connection to Radar. To verify Radar's certificate against a private certificate authority (CA), set `tls.ca_file`. That file then becomes the only trust bundle the agent uses for Radar, replacing the host's system roots rather than adding to them. Use `tls.server_name` to override the certificate name the agent verifies.
+The agent makes one connection to Radar over Transport Layer Security (TLS), using gRPC, and separate local connections to each Redis endpoint you configure.
+
+To verify Radar's certificate against a private certificate authority (CA), set `tls.ca_file`. That file then becomes the only trust bundle the agent uses for Radar, replacing the host's system roots rather than adding to them. Use `tls.server_name` to override the certificate name the agent verifies.
 
 The agent runs in one of two modes. They differ in where your source credentials live.
 
