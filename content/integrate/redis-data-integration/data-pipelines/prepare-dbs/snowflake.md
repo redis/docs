@@ -144,7 +144,7 @@ For enhanced security, use key-pair authentication:
 
 Before deploying the RDI pipeline, configure the necessary secrets with
 [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}}).
-Pass the source name with `--db`; the source configured in the next step is named `snowflake`.
+Pass the source name with `--db` (the source configured in the following example is named `snowflake` for demonstration purposes).
 
 ### Password authentication
 
