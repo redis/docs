@@ -24,14 +24,14 @@ topics:
 weight: 30
 ---
 
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
-lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
-or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
+lets you index vector fields in [hash](/content/develop/data-types/hashes.md)
+or [JSON](/content/develop/data-types/json/_index.md) objects (see the
+[Vectors](/content/develop/ai/search-and-query/vectors/_index.md) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[vector distance](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -44,14 +44,14 @@ The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
-{{< note >}}From [v3.0.0](https://github.com/predis/predis/releases/tag/v3.0.0) onwards,
-`Predis` uses query dialect 2 by default.
-Redis Search methods such as [`ftSearch()`]({{< relref "/commands/ft.search" >}})
-will explicitly request this dialect, overriding the default set for the server.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> From [v3.0.0](https://github.com/predis/predis/releases/tag/v3.0.0) onwards,
+> `Predis` uses query dialect 2 by default.
+> Redis Search methods such as [`ftSearch()`](/content/commands/ft.search.md)
+> will explicitly request this dialect, overriding the default set for the server.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for more information.
 
 ## Initialize
 
@@ -101,7 +101,7 @@ $extractor = pipeline('embeddings', 'Xenova/all-MiniLM-L6-v2');
 
 Connect to Redis and delete any index previously created with the
 name `vector_idx`. (The
-[`ftdropindex()`]({{< relref "/commands/ft.dropindex" >}})
+[`ftdropindex()`](/content/commands/ft.dropindex.md)
 call throws an exception if the index doesn't already exist, which is
 why you need the `try...catch` block.)
 
@@ -118,16 +118,16 @@ try {
 
 Next, create the index.
 The schema in the example below includes three fields: the text content to index, a
-[tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+[tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 
+[HNSW](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index) 
 indexing, the
-[L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[L2](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
-The `CreateArguments` parameter to [`ftcreate()`]({{< relref "/commands/ft.create" >}})
+The `CreateArguments` parameter to [`ftcreate()`](/content/commands/ft.create.md)
 specifies hash objects for storage and a prefix `doc:` that identifies the hash objects
 to index.
 
@@ -156,7 +156,7 @@ $client->ftcreate("vector_idx", $schema,
 ## Add data
 
 You can now supply the data objects, which will be indexed automatically
-when you add them with [`hmset()`]({{< relref "/commands/hset" >}}), as long as
+when you add them with [`hmset()`](/content/commands/hset.md), as long as
 you use the `doc:` prefix specified in the index definition.
 
 Use the `$extractor()` function as shown below to create the embedding that
@@ -173,7 +173,7 @@ vector array as a binary string. The built-in
 [`pack()`](https://www.php.net/manual/en/function.pack.php) function is a convenient
 way to do this in PHP, using the `g*` format specifier to denote a packed
 array of `float` values. Note that if you are using
-[JSON]({{< relref "/develop/data-types/json" >}})
+[JSON](/content/develop/data-types/json/_index.md)
 objects to store your documents instead of hashes, then you should store
 the `float` array directly without first converting it to a binary
 string (see [Differences with JSON documents](#differences-with-json-documents)
@@ -218,10 +218,10 @@ sorted to rank them in order of ascending distance.
 
 The code below creates the query embedding using the `$extractor()` function, as with
 the indexing, and passes it as a parameter when the query executes (see
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about using query parameters with embeddings).
 The query is a
-[K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
+[K nearest neighbors (KNN)](/content/develop/ai/search-and-query/vectors/_index.md#knn-vector-search)
 search that sorts the results in order of vector distance from the query vector.
 
 The results are returned as an array with the number of results in the
@@ -290,7 +290,7 @@ is the result judged to be most similar in meaning to the query text
 
 Indexing JSON documents is similar to hash indexing, but there are some
 important differences. JSON allows much richer data modeling with nested fields, so
-you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+you must supply a [path](/content/develop/data-types/json/path.md) in the schema
 to identify each field you want to index. However, you can declare a short alias for each
 of these paths to avoid typing it in full for
 every query. Also, you must specify `JSON` with the `on()` option when you create the index.
@@ -321,8 +321,8 @@ $client->ftcreate("vector_json_idx", $jsonSchema,
 );
 ```
 
-Use [`jsonset()`]({{< relref "/commands/json.set" >}}) to add the data
-instead of [`hmset()`]({{< relref "/commands/hset" >}}). The arrays
+Use [`jsonset()`](/content/commands/json.set.md) to add the data
+instead of [`hmset()`](/content/commands/hset.md). The arrays
 that specify the fields have roughly the same structure as the ones used for
 `hmset()` but you should use the standard library function
 [`json_encode()`](https://www.php.net/manual/en/function.json-encode.php)
@@ -417,6 +417,6 @@ Field: vector_distance, Value: 44.6189727783
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
