@@ -33,57 +33,60 @@ If Radar uses a private CA, point the agent at its certificate bundle instead: `
 
 ## Install the agent
 
+Each Radar release publishes standalone agent tarballs, so a collector host runs the agent without running Radar itself.
+
 Install the agent on a host that can reach both Radar and the Redis endpoints you want to collect from.
 
-<!-- TODO(DOC-7023): five open questions for the Radar team. Resolve before merging.
-  1. What operating systems and CPU architectures does the agent support? The feature summary
-     says Linux x86-64 and ARM64, but the Agents UI shows agents running darwin/arm64 and
-     windows/amd64. These steps are written for Linux with systemd, so the answer decides
-     whether this section needs a platform matrix or a second procedure.
-  2. What is the agent download named on the Redis Download Center? Step 1 says "for your
-     platform" because the filename is unknown, and customers need to know what to look for.
-     The release-artifact naming spec (RED-214910) does not list an agent archive yet.
-  3. How does a customer verify the download? The feature summary describes GitHub
-     attestations, which conflicts with distribution through the Redis Download Center. If it
-     is a checksum file, the command belongs here and the per-release values and versioned
-     archive names belong in the release notes, as install.md does for the RPM.
-  4. Is the service account named `mcm`, and what owner and mode do /etc/radar-agent and
-     /var/lib/radar-agent need?
-  5. What is the systemd unit named? Step 6 needs it to give the commands.
-  Steps 2, 3, 5 and 6 are deliberately left as titles without commands, pending these answers.
--->
+1. Get the tarball for your platform, and the `SHA256SUMS` file published beside it, from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**.
 
-1. Get the agent archive for your platform from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**.
+   Take the `radar-agent-fips-` build only if the host runs in Federal Information Processing Standards (FIPS) 140-3 mode. It refuses to start otherwise.
 
    <br>
 
 2. Verify the download.
 
-   <br>
-
-3. Extract the archive and install the binary.
-
-   The archive contains the `radar-agent` binary, a systemd unit and environment template, and an example static configuration.
+   ```bash
+   sha256sum -c radar-agent-<tag>.SHA256SUMS
+   ```
 
    <br>
 
-4. Confirm the version you installed.
+3. Extract the archive and confirm the version.
 
    ```bash
-   radar-agent version
+   tar -xzf radar-agent-<tag>-linux-amd64.tar.gz
+   cd radar-agent-<tag>-linux-amd64
+   ./radar-agent version
    ```
 
    The agent must report version `1.0.0` or newer. Radar rejects anything older.
 
    <br>
 
-5. Create the service account and directories.
+4. Create the `mcm` service identity the unit runs as.
 
-   The agent runs as the `mcm` service account and uses two directories: `/etc/radar-agent` for configuration and `/var/lib/radar-agent` for runtime state. Both hold secrets, so make them readable only by their owner.
+   ```bash
+   sudo groupadd --system mcm
+   sudo useradd --system --gid mcm --home-dir / --no-create-home \
+     --shell /sbin/nologin --comment "Radar service identity" mcm
+   ```
 
    <br>
 
-6. Install the systemd service from the template in the archive, then reload, start, and enable it.
+5. Install the binary, the unit, and the environment file.
+
+   ```bash
+   sudo install -d -m 0755 /usr/libexec/mcm
+   sudo install -o root -g root -m 0755 radar-agent /usr/libexec/mcm/radar-agent
+   sudo install -d -o root -g mcm -m 0750 /etc/radar-agent
+   sudo install -o root -g mcm -m 0640 systemd/radar-agent.env /etc/radar-agent/radar-agent.env
+   sudo install -o root -g root -m 0644 systemd/radar-agent.service /usr/lib/systemd/system/
+   sudo systemctl daemon-reload
+   ```
+
+   The unit keeps state in `/var/lib/radar-agent`, which systemd creates at mode `0700` on first start. If you install the binary elsewhere, update the paths in the unit.
+
+Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mcm/radar-agent <command>`.
 
 ## Set up a managed agent
 
@@ -98,7 +101,7 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 2. Run the activation command on the agent host.
 
    ```bash
-   radar-agent activate \
+   sudo -u mcm /usr/libexec/mcm/radar-agent activate \
      --endpoint <radar-agent-grpc-host>:9443 \
      --state-dir /var/lib/radar-agent \
      --display-name <agent-name>
@@ -112,7 +115,7 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 
    {{<image filename="images/radar/settings-agents.png" alt="The Agents tab, showing pending activations with Approve and Deny actions above the registered agents list" width="90%">}}
 
-   Activation requests expire, so approve it while the command is still waiting.
+   The activation expires 15 minutes after the command prints the code, so approve it while the command is still waiting.
 
    <br>
 
@@ -122,13 +125,19 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 
    <br>
 
-5. Start the agent.
+5. Set the daemon arguments and start the service.
+
+   Edit `/etc/radar-agent/radar-agent.env` and replace the default `RADAR_AGENT_DAEMON_ARGS` line with:
 
    ```bash
-   radar-agent daemon --managed --state-dir /var/lib/radar-agent --metrics-addr 127.0.0.1:9090
+   RADAR_AGENT_DAEMON_ARGS=--managed --state-dir /var/lib/radar-agent --metrics-addr 127.0.0.1:9090
    ```
 
    `--metrics-addr` is optional. It exposes the agent's health and metrics endpoints on the address you give it.
+
+   ```bash
+   sudo systemctl enable --now radar-agent.service
+   ```
 
 To change an agent's sources later, go to **Settings > Agents**, find the agent under **Registered agents**, and select **Edit connections**.
 
@@ -156,14 +165,18 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 
    <br>
 
-3. Create `/etc/radar-agent/config.yaml` from the example in the archive, and fill in the agent ID, the token, and one UUID per source.
+3. Copy `examples/static-agent.yaml` from the archive and fill in the agent ID, the token, and one UUID per source. See [Configuration reference](#configuration-reference) for every setting. Install it with the ownership the service expects.
+
+   ```bash
+   sudo install -o root -g mcm -m 0640 config.yaml /etc/radar-agent/config.yaml
+   ```
 
    <br>
 
 4. Validate the configuration.
 
    ```bash
-   radar-agent validate --config /etc/radar-agent/config.yaml
+   sudo -u mcm /usr/libexec/mcm/radar-agent validate --config /etc/radar-agent/config.yaml
    ```
 
    <br>
@@ -171,7 +184,7 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 5. Collect from every source and print a redacted summary without submitting to Radar.
 
    ```bash
-   radar-agent dry-run --config /etc/radar-agent/config.yaml
+   sudo -u mcm /usr/libexec/mcm/radar-agent dry-run --config /etc/radar-agent/config.yaml
    ```
 
    <br>
@@ -179,17 +192,19 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 6. Submit one collection to confirm the connection to Radar works.
 
    ```bash
-   radar-agent once --config /etc/radar-agent/config.yaml
+   sudo -u mcm /usr/libexec/mcm/radar-agent once --config /etc/radar-agent/config.yaml
    ```
 
    Radar creates each source the first time it receives data from that source, and uses your `name` value as the display label when that value is valid.
 
    <br>
 
-7. Start the agent.
+7. Start the service.
+
+   The default `RADAR_AGENT_DAEMON_ARGS` in `/etc/radar-agent/radar-agent.env` already points at `/etc/radar-agent/config.yaml`. To expose health and metrics, add `--metrics-addr 127.0.0.1:9090` to that line.
 
    ```bash
-   radar-agent daemon --config /etc/radar-agent/config.yaml --metrics-addr 127.0.0.1:9090
+   sudo systemctl enable --now radar-agent.service
    ```
 
 {{< note >}}
@@ -231,7 +246,7 @@ When the agent host can't reach Radar at all, collect and submit in two steps fr
 1. On the host that can reach your Redis sources, collect to a file.
 
    ```bash
-   radar-agent export --config /etc/radar-agent/config.yaml --output telemetry.json
+   sudo -u mcm /usr/libexec/mcm/radar-agent export --config /etc/radar-agent/config.yaml --output telemetry.json
    ```
 
    <br>
@@ -239,7 +254,7 @@ When the agent host can't reach Radar at all, collect and submit in two steps fr
 2. Move the file to a host that can reach Radar, then submit it.
 
    ```bash
-   radar-agent submit-export --config /etc/radar-agent/config.yaml --input telemetry.json
+   sudo -u mcm /usr/libexec/mcm/radar-agent submit-export --config /etc/radar-agent/config.yaml --input telemetry.json
    ```
 
 The exported file holds sanitized telemetry only. It never contains your Radar token or your source credentials. The configuration file on each host does contain them, so protect both hosts.
@@ -259,7 +274,7 @@ To expose health and metrics endpoints on the agent host, pass `--metrics-addr` 
 These endpoints are unauthenticated. Bind them to loopback, as in `--metrics-addr 127.0.0.1:9090`, or put a firewall in front of them.
 {{< /warning >}}
 
-Use `radar-agent health` to read the health snapshot the daemon writes locally. Use `journalctl` for the agent's logs and `systemctl` to restart it.
+To read the health snapshot the daemon writes locally, run `sudo -u mcm /usr/libexec/mcm/radar-agent health`. Use `journalctl` for the agent's logs and `systemctl` to restart the service.
 
 Both `/etc/radar-agent/config.yaml` and `/var/lib/radar-agent/agent-key.json` hold secrets, so restrict them to their owner. Never set `tls.insecure_skip_verify` outside local development, because it turns off certificate verification. To block an agent, revoke its key under **Settings > Access keys**. Revoking takes effect centrally, and the agent can no longer connect.
 
@@ -267,13 +282,27 @@ Source passwords and the agent's token are redacted from logs, diagnostics, heal
 
 ## Upgrade or remove the agent
 
-To upgrade, replace the binary, run `radar-agent validate` if you use static mode, then restart the service. Keep `/etc/radar-agent` and `/var/lib/radar-agent` in place, because the agent needs its state to stay registered.
+To upgrade, get the new tarball, verify it, and replace the binary in place. Your configuration and environment file are untouched. If you use static mode, revalidate the configuration before restarting:
+
+```bash
+sudo -u mcm /usr/libexec/mcm/radar-agent validate --config /etc/radar-agent/config.yaml
+sudo systemctl restart radar-agent.service
+```
+
+Keep `/etc/radar-agent` and `/var/lib/radar-agent` in place, because the agent needs its state to stay registered.
 
 Radar enforces a version policy on every request. An agent older than the minimum supported version is rejected until you upgrade it. An agent newer than the Radar deployment supports is also rejected, and Radar asks for a server upgrade instead.
 
-If Radar's database is reset, activate the managed agent again: remove the old state directory, run `radar-agent activate`, then start the daemon.
+If Radar's database is reset, activate the managed agent again: remove the old state directory, run `sudo -u mcm /usr/libexec/mcm/radar-agent activate`, then start the service.
 
-To remove the agent, run `systemctl stop` and `systemctl disable` on the service, then delete the binary, `/etc/radar-agent`, and `/var/lib/radar-agent`. Revoke its key in Radar under **Settings > Access keys**.
+To stop collecting from this host, turn off the service and delete its configuration and state.
+
+```bash
+sudo systemctl disable --now radar-agent.service
+sudo rm -rf /etc/radar-agent /var/lib/radar-agent
+```
+
+Then delete `/usr/libexec/mcm/radar-agent` and `/usr/lib/systemd/system/radar-agent.service`, and revoke the agent's key in Radar under **Settings > Access keys**.
 
 ## Next steps
 

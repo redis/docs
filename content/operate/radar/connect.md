@@ -35,7 +35,7 @@ Connect Redis Software clusters and Redis Open Source instances that you run you
 For every connection you need:
 
 - **Credentials for the cluster or instance.** Radar uses the same management interface you do, so it needs an account there. Read access is enough.
-- **Network access from Radar to the source.** Radar connects outbound. Nothing needs to connect back to Radar, so no inbound rule is required on the Radar host.
+- **Network access from Radar to the source.** Radar connects outbound. Nothing needs to connect back to Radar, so no inbound rule is required on the Radar host. If Radar can't reach a cluster directly, install an agent inside that network instead. See [Connect clusters with an agent]({{< relref "/operate/radar/agent" >}}).
 
 ### Connect a Redis Software cluster
 
