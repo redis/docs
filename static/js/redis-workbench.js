@@ -1730,6 +1730,9 @@
     this.expiredName = null;
     this.openElement = null;
     this.jsonPath = null;
+    /* No key survives a flush, so no map has been drawn for one. */
+    this.geoKeys = {};
+    this.valueShown = null;
     /* Nothing left to filter by. */
     this.indexFilter = null;
     this.indexDocs = null;
@@ -2249,6 +2252,10 @@
   /* Nothing selected, or nothing left to select. Says which, because "no keys
      yet" and "pick one" are different situations for a reader. */
   dock.clearValue = function () {
+    /* No key's value is on screen now — said here as well as in renderValue,
+       because a geo key that is reopened checks this to decide whether its map
+       is still up. Left stale, it would hold the empty pane while GEOPOS ran. */
+    this.valueShown = null;
     this.valuePane.replaceChildren();
     this.valuePane.appendChild(el('p', 'rwb-empty', this.expiredName
       ? this.expiredName + ' has expired.'
@@ -2398,6 +2405,8 @@
   dock.renderVectorElement = function (key, element, detail) {
     var self = this;
     var pane = this.valuePane;
+    /* An element of a vector set, not the value of a key. */
+    this.valueShown = null;
     pane.replaceChildren();
 
     var head = el('div', 'rwb-value-head');
@@ -3082,6 +3091,8 @@
      Insight puts under it. Everything else FT.INFO returns is left to FT.INFO. */
   dock.renderIndex = function (name, info) {
     var pane = this.valuePane;
+    /* An index's schema, not the value of a key. */
+    this.valueShown = null;
     pane.replaceChildren();
 
     var head = el('div', 'rwb-value-head');
