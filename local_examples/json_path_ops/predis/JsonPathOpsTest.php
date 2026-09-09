@@ -212,6 +212,222 @@ class JsonPathOpsTest extends TestCase
         $this->redis->del('doc');
         // REMOVE_END
 
+        // STEP_START func_length
+        $res32 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => [[1, 2, 3], [1], "abcd", "x"]]
+        ));
+        echo $res32 . PHP_EOL; // >>> OK
+
+        $res33 = $this->redis->jsonget('doc', '', '', '', '$.a[?length(@) > 2]');
+        echo $res33 . PHP_EOL; // >>> [[1,2,3],"abcd"]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res32);
+        $this->assertEquals('[[1,2,3],"abcd"]', $res33);
+        $this->redis->del('doc');
+        // REMOVE_END
+
+        // STEP_START func_count
+        $res34 = $this->redis->jsonset('doc', '$', json_encode(
+            [["a" => 1, "b" => 2, "c" => 3], ["a" => 1]]
+        ));
+        echo $res34 . PHP_EOL; // >>> OK
+
+        $res35 = $this->redis->jsonget('doc', '', '', '', '$[?count(@.*) == 3]');
+        echo $res35 . PHP_EOL; // >>> [{"a":1,"b":2,"c":3}]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res34);
+        $this->assertEquals('[{"a":1,"b":2,"c":3}]', $res35);
+        $this->redis->del('doc');
+        // REMOVE_END
+
+        // STEP_START func_value
+        $res36 = $this->redis->jsonset('doc', '$', json_encode(
+            [["a" => 1], ["a" => 2]]
+        ));
+        echo $res36 . PHP_EOL; // >>> OK
+
+        $res37 = $this->redis->jsonget('doc', '', '', '', '$[?value(@.a) == 1]');
+        echo $res37 . PHP_EOL; // >>> [{"a":1}]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res36);
+        $this->assertEquals('[{"a":1}]', $res37);
+        $this->redis->del('doc');
+        // REMOVE_END
+
+        // STEP_START func_keys
+        $res38 = $this->redis->jsonset('doc', '$', json_encode(
+            ["obj" => ["x" => 1, "y" => 2]]
+        ));
+        echo $res38 . PHP_EOL; // >>> OK
+
+        $res39 = $this->redis->jsonget('doc', '', '', '', '$.obj.keys()');
+        echo $res39 . PHP_EOL; // >>> ["x","y"]
+
+        $res40 = $this->redis->jsonget('doc', '', '', '', '$.obj.keys().count()');
+        echo $res40 . PHP_EOL; // >>> [2]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res38);
+        $this->assertEquals('["x","y"]', $res39);
+        $this->assertEquals('[2]', $res40);
+        $this->redis->del('doc');
+        // REMOVE_END
+
+        // STEP_START func_match_search
+        $res41 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => ["abc", "xabc", "a", "b"]]
+        ));
+        echo $res41 . PHP_EOL; // >>> OK
+
+        $res42 = $this->redis->jsonget('doc', '', '', '', '$.a[?match(@, "a.*")]');
+        echo $res42 . PHP_EOL; // >>> ["abc","a"]
+
+        $res43 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => ["abc", "xyz", "b"]]
+        ));
+        echo $res43 . PHP_EOL; // >>> OK
+
+        $res44 = $this->redis->jsonget('doc', '', '', '', '$.a[?search(@, "b")]');
+        echo $res44 . PHP_EOL; // >>> ["abc","b"]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res41);
+        $this->assertEquals('["abc","a"]', $res42);
+        $this->assertEquals('OK', $res43);
+        $this->assertEquals('["abc","b"]', $res44);
+        $this->redis->del('doc');
+        // REMOVE_END
+
+        // STEP_START func_concat
+        $res45 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => [["x" => "a", "y" => "b"], ["x" => "a", "y" => "c"]]]
+        ));
+        echo $res45 . PHP_EOL; // >>> OK
+
+        $res46 = $this->redis->jsonget('doc', '', '', '', '$.a[?concat(@.x, @.y) == "ab"]');
+        echo $res46 . PHP_EOL; // >>> [{"x":"a","y":"b"}]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res45);
+        $this->assertEquals('[{"x":"a","y":"b"}]', $res46);
+        $this->redis->del('doc');
+        // REMOVE_END
+
+        // STEP_START func_math
+        $res47 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => [2.1, 3.9, 1.0]]
+        ));
+        echo $res47 . PHP_EOL; // >>> OK
+
+        $res48 = $this->redis->jsonget('doc', '', '', '', '$.a[?ceiling(@) == 3]');
+        echo $res48 . PHP_EOL; // >>> [2.1]
+
+        $res49 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => [2.1, 2.9, 3.5]]
+        ));
+        echo $res49 . PHP_EOL; // >>> OK
+
+        $res50 = $this->redis->jsonget('doc', '', '', '', '$.a[?floor(@) == 2]');
+        echo $res50 . PHP_EOL; // >>> [2.1,2.9]
+
+        $res51 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => [["n" => -5], ["n" => 5], ["n" => -3]]]
+        ));
+        echo $res51 . PHP_EOL; // >>> OK
+
+        $res52 = $this->redis->jsonget('doc', '', '', '', '$.a[?abs(@.n) == 5]');
+        echo $res52 . PHP_EOL; // >>> [{"n":-5},{"n":5}]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res47);
+        $this->assertEquals('[2.1]', $res48);
+        $this->assertEquals('OK', $res49);
+        $this->assertEquals('[2.1,2.9]', $res50);
+        $this->assertEquals('OK', $res51);
+        $this->assertEquals('[{"n":-5},{"n":5}]', $res52);
+        $this->redis->del('doc');
+        // REMOVE_END
+
+        // STEP_START func_array_access
+        $res53 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => [["n" => [1, 2]], ["n" => [9, 8]]]]
+        ));
+        echo $res53 . PHP_EOL; // >>> OK
+
+        $res54 = $this->redis->jsonget('doc', '', '', '', '$.a[?first(@.n) == 1]');
+        echo $res54 . PHP_EOL; // >>> [{"n":[1,2]}]
+
+        $res55 = $this->redis->jsonget('doc', '', '', '', '$.a[?last(@.n) == 8]');
+        echo $res55 . PHP_EOL; // >>> [{"n":[9,8]}]
+
+        $res56 = $this->redis->jsonget('doc', '', '', '', '$.a[?index(@.n, -1) == 2]');
+        echo $res56 . PHP_EOL; // >>> [{"n":[1,2]}]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res53);
+        $this->assertEquals('[{"n":[1,2]}]', $res54);
+        $this->assertEquals('[{"n":[9,8]}]', $res55);
+        $this->assertEquals('[{"n":[1,2]}]', $res56);
+        $this->redis->del('doc');
+        // REMOVE_END
+
+        // STEP_START func_aggregate
+        $res57 = $this->redis->jsonset('doc', '$', json_encode(
+            ["a" => [["n" => [3, 1, 2]], ["n" => [5, 6]]]]
+        ));
+        echo $res57 . PHP_EOL; // >>> OK
+
+        $res58 = $this->redis->jsonget('doc', '', '', '', '$.a[?sum(@.n) == 6]');
+        echo $res58 . PHP_EOL; // >>> [{"n":[3,1,2]}]
+
+        $res59 = $this->redis->jsonget('doc', '', '', '', '$.a[?avg(@.n) == 2]');
+        echo $res59 . PHP_EOL; // >>> [{"n":[3,1,2]}]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res57);
+        $this->assertEquals('[{"n":[3,1,2]}]', $res58);
+        $this->assertEquals('[{"n":[3,1,2]}]', $res59);
+        $this->redis->del('doc');
+        // REMOVE_END
+
+        // STEP_START func_append
+        $res60 = $this->redis->jsonset('doc', '$', json_encode(
+            ["arr" => [1, 2, 3]]
+        ));
+        echo $res60 . PHP_EOL; // >>> OK
+
+        $res61 = $this->redis->jsonget('doc', '', '', '', '$.arr.append(9)');
+        echo $res61 . PHP_EOL; // >>> [1,2,3,9]
+
+        $res62 = $this->redis->jsonset('doc', '$', json_encode(
+            ["books" => [["t" => "a", "price" => 30], ["t" => "b", "price" => 5]]]
+        ));
+        echo $res62 . PHP_EOL; // >>> OK
+
+        $res63 = $this->redis->jsonget('doc', '', '', '', '$.books[?(@.price >= 10)].append({"t":"X"})');
+        echo $res63 . PHP_EOL; // >>> [{"t":"a","price":30},{"t":"X"}]
+        // STEP_END
+
+        // REMOVE_START
+        $this->assertEquals('OK', $res60);
+        $this->assertEquals('[1,2,3,9]', $res61);
+        $this->assertEquals('OK', $res62);
+        $this->assertEquals('[{"t":"a","price":30},{"t":"X"}]', $res63);
+        $this->redis->del('doc');
+        // REMOVE_END
+
     }
 
     protected function tearDown(): void

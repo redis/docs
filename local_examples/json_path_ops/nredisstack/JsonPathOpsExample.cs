@@ -215,6 +215,194 @@ public class JsonPathOpsExample
         db.KeyDelete("doc");
         // REMOVE_END
 
+        // STEP_START func_length
+        bool res32 = db.JSON().Set("doc", "$", "{\"a\":[[1,2,3],[1],\"abcd\",\"x\"]}");
+        Console.WriteLine(res32);   // >>> True
+
+        RedisResult res33 = db.JSON().Get("doc", path: "$.a[?length(@) > 2]");
+        Console.WriteLine(res33);   // >>> [[1,2,3],"abcd"]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res32);
+        Assert.Equal("[[1,2,3],\"abcd\"]", (string?)res33);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START func_count
+        bool res34 = db.JSON().Set("doc", "$", "[{\"a\":1,\"b\":2,\"c\":3},{\"a\":1}]");
+        Console.WriteLine(res34);   // >>> True
+
+        RedisResult res35 = db.JSON().Get("doc", path: "$[?count(@.*) == 3]");
+        Console.WriteLine(res35);   // >>> [{"a":1,"b":2,"c":3}]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res34);
+        Assert.Equal("[{\"a\":1,\"b\":2,\"c\":3}]", (string?)res35);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START func_value
+        bool res36 = db.JSON().Set("doc", "$", "[{\"a\":1},{\"a\":2}]");
+        Console.WriteLine(res36);   // >>> True
+
+        RedisResult res37 = db.JSON().Get("doc", path: "$[?value(@.a) == 1]");
+        Console.WriteLine(res37);   // >>> [{"a":1}]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res36);
+        Assert.Equal("[{\"a\":1}]", (string?)res37);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START func_keys
+        bool res38 = db.JSON().Set("doc", "$", "{\"obj\":{\"x\":1,\"y\":2}}");
+        Console.WriteLine(res38);   // >>> True
+
+        RedisResult res39 = db.JSON().Get("doc", path: "$.obj.keys()");
+        Console.WriteLine(res39);   // >>> ["x","y"]
+
+        RedisResult res40 = db.JSON().Get("doc", path: "$.obj.keys().count()");
+        Console.WriteLine(res40);   // >>> [2]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res38);
+        Assert.Equal("[\"x\",\"y\"]", (string?)res39);
+        Assert.Equal("[2]", (string?)res40);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START func_match_search
+        bool res41 = db.JSON().Set("doc", "$", "{\"a\":[\"abc\",\"xabc\",\"a\",\"b\"]}");
+        Console.WriteLine(res41);   // >>> True
+
+        RedisResult res42 = db.JSON().Get("doc", path: "$.a[?match(@, \"a.*\")]");
+        Console.WriteLine(res42);   // >>> ["abc","a"]
+
+        bool res43 = db.JSON().Set("doc", "$", "{\"a\":[\"abc\",\"xyz\",\"b\"]}");
+        Console.WriteLine(res43);   // >>> True
+
+        RedisResult res44 = db.JSON().Get("doc", path: "$.a[?search(@, \"b\")]");
+        Console.WriteLine(res44);   // >>> ["abc","b"]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res41);
+        Assert.Equal("[\"abc\",\"a\"]", (string?)res42);
+        Assert.True(res43);
+        Assert.Equal("[\"abc\",\"b\"]", (string?)res44);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START func_concat
+        bool res45 = db.JSON().Set("doc", "$", "{\"a\":[{\"x\":\"a\",\"y\":\"b\"},{\"x\":\"a\",\"y\":\"c\"}]}");
+        Console.WriteLine(res45);   // >>> True
+
+        RedisResult res46 = db.JSON().Get("doc", path: "$.a[?concat(@.x, @.y) == \"ab\"]");
+        Console.WriteLine(res46);   // >>> [{"x":"a","y":"b"}]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res45);
+        Assert.Equal("[{\"x\":\"a\",\"y\":\"b\"}]", (string?)res46);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START func_math
+        bool res47 = db.JSON().Set("doc", "$", "{\"a\":[2.1,3.9,1.0]}");
+        Console.WriteLine(res47);   // >>> True
+
+        RedisResult res48 = db.JSON().Get("doc", path: "$.a[?ceiling(@) == 3]");
+        Console.WriteLine(res48);   // >>> [2.1]
+
+        bool res49 = db.JSON().Set("doc", "$", "{\"a\":[2.1,2.9,3.5]}");
+        Console.WriteLine(res49);   // >>> True
+
+        RedisResult res50 = db.JSON().Get("doc", path: "$.a[?floor(@) == 2]");
+        Console.WriteLine(res50);   // >>> [2.1,2.9]
+
+        bool res51 = db.JSON().Set("doc", "$", "{\"a\":[{\"n\":-5},{\"n\":5},{\"n\":-3}]}");
+        Console.WriteLine(res51);   // >>> True
+
+        RedisResult res52 = db.JSON().Get("doc", path: "$.a[?abs(@.n) == 5]");
+        Console.WriteLine(res52);   // >>> [{"n":-5},{"n":5}]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res47);
+        Assert.Equal("[2.1]", (string?)res48);
+        Assert.True(res49);
+        Assert.Equal("[2.1,2.9]", (string?)res50);
+        Assert.True(res51);
+        Assert.Equal("[{\"n\":-5},{\"n\":5}]", (string?)res52);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START func_array_access
+        bool res53 = db.JSON().Set("doc", "$", "{\"a\":[{\"n\":[1,2]},{\"n\":[9,8]}]}");
+        Console.WriteLine(res53);   // >>> True
+
+        RedisResult res54 = db.JSON().Get("doc", path: "$.a[?first(@.n) == 1]");
+        Console.WriteLine(res54);   // >>> [{"n":[1,2]}]
+
+        RedisResult res55 = db.JSON().Get("doc", path: "$.a[?last(@.n) == 8]");
+        Console.WriteLine(res55);   // >>> [{"n":[9,8]}]
+
+        RedisResult res56 = db.JSON().Get("doc", path: "$.a[?index(@.n, -1) == 2]");
+        Console.WriteLine(res56);   // >>> [{"n":[1,2]}]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res53);
+        Assert.Equal("[{\"n\":[1,2]}]", (string?)res54);
+        Assert.Equal("[{\"n\":[9,8]}]", (string?)res55);
+        Assert.Equal("[{\"n\":[1,2]}]", (string?)res56);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START func_aggregate
+        bool res57 = db.JSON().Set("doc", "$", "{\"a\":[{\"n\":[3,1,2]},{\"n\":[5,6]}]}");
+        Console.WriteLine(res57);   // >>> True
+
+        RedisResult res58 = db.JSON().Get("doc", path: "$.a[?sum(@.n) == 6]");
+        Console.WriteLine(res58);   // >>> [{"n":[3,1,2]}]
+
+        RedisResult res59 = db.JSON().Get("doc", path: "$.a[?avg(@.n) == 2]");
+        Console.WriteLine(res59);   // >>> [{"n":[3,1,2]}]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res57);
+        Assert.Equal("[{\"n\":[3,1,2]}]", (string?)res58);
+        Assert.Equal("[{\"n\":[3,1,2]}]", (string?)res59);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START func_append
+        bool res60 = db.JSON().Set("doc", "$", "{\"arr\":[1,2,3]}");
+        Console.WriteLine(res60);   // >>> True
+
+        RedisResult res61 = db.JSON().Get("doc", path: "$.arr.append(9)");
+        Console.WriteLine(res61);   // >>> [1,2,3,9]
+
+        bool res62 = db.JSON().Set("doc", "$", "{\"books\":[{\"t\":\"a\",\"price\":30},{\"t\":\"b\",\"price\":5}]}");
+        Console.WriteLine(res62);   // >>> True
+
+        RedisResult res63 = db.JSON().Get("doc", path: "$.books[?(@.price >= 10)].append({\"t\":\"X\"})");
+        Console.WriteLine(res63);   // >>> [{"t":"a","price":30},{"t":"X"}]
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res60);
+        Assert.Equal("[1,2,3,9]", (string?)res61);
+        Assert.True(res62);
+        Assert.Equal("[{\"t\":\"a\",\"price\":30},{\"t\":\"X\"}]", (string?)res63);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
 
         // HIDE_START
     }
