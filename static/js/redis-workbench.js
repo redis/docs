@@ -2320,12 +2320,15 @@
          map, and painting the members table over it for the length of a round
          trip put a frame of table between every click on a map and the map
          coming back. Nothing is drawn until the coordinates land. */
-      var known = view.geo && self.geoKeys[name];
+      /* Held back only when what is on screen is this key's own map: holding it
+         back while another key's value is up would leave the reader looking at
+         the key they just left for the length of a round trip. */
+      var known = view.geo && self.geoKeys[name] && self.valueShown === name;
       if (!known) self.renderValue(key, { view: view, commands: probe.commands });
       self.end();
       if (view.geo) {
         self.geoKeys[name] = true;
-        return self.readGeo(key, view, probe.commands);
+        return self.readGeo(key, view, probe.commands, !known);
       }
     }, function () {
       self.end();
@@ -2750,8 +2753,14 @@
      rest. Distances come from GEOSEARCH FROMMEMBER rather than a GEODIST per
      pair: one command instead of N, sorted by the server, and the same command
      the docs teach for "what is near this". */
-  dock.readGeo = function (key, table, ran) {
+  dock.readGeo = function (key, table, ran, painted) {
     var self = this;
+    /* The members table, for the cases where there is no map to draw and
+       nothing has been drawn yet. */
+    function fallback() {
+      if (painted || self.selected !== key.name) return;
+      self.renderValue(key, { view: table, commands: ran });
+    }
     var members = table.geo.slice(0, MAX_MAP_POINTS);
     var search = this.geoOptions();
     var where = 'GEOPOS ' + quote(key.name) + ' ' + members.map(quote).join(' ');
@@ -2774,9 +2783,15 @@
         if (!isFinite(lon) || !isFinite(lat)) return;
         places.push({ name: members[index], lon: lon, lat: lat });
       });
-      if (!places.length) return;
+      /* No coordinates came back — every member was removed between the two
+         reads, or none of them decoded. There is no map to draw, so the members
+         are what this key has to show. */
+      if (!places.length) return fallback();
 
       function show(ranAll, found) {
+        /* The reader may have opened something else while this was in flight.
+           Their choice outranks a reply that was already on its way. */
+        if (self.selected !== key.name) return;
         self.renderValue(key, {
           commands: ran.concat(ranAll),
           view: {
@@ -2836,7 +2851,11 @@
       return run([query]).then(function (found) {
         show(commands.concat([query]), found[0]);
       });
-    }, function () { /* no map, and the table is already up */ });
+    }, function () {
+      /* GEOPOS itself failed. Whatever the reason, the members are still worth
+         showing if nothing else has been. */
+      fallback();
+    });
   };
 
   /* Measure from here. Re-reads rather than patching the view: the map has to
