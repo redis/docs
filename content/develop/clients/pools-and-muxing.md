@@ -27,13 +27,13 @@ code by making as few separate connections as possible.
 Managing connections in your own code can be tricky, so the Redis
 client libraries give you some help. The two basic approaches to
 connection management are called *connection pooling* and *multiplexing*.
-The [`redis-py`]({{< relref "/develop/clients/redis-py" >}}),
-[`jedis`]({{< relref "/develop/clients/jedis" >}}), and
-[`go-redis`]({{< relref "/develop/clients/go" >}}) clients support
+The [`redis-py`](/content/develop/clients/redis-py/_index.md),
+[`jedis`](/content/develop/clients/jedis/_index.md), and
+[`go-redis`](/content/develop/clients/go/_index.md) clients support
 connection pooling, while
-[`StackExchange.Redis`]({{< relref "/develop/clients/dotnet" >}})
+[`StackExchange.Redis`](/content/develop/clients/dotnet/_index.md)
 supports multiplexing.
-[`Lettuce`]({{< relref "/develop/clients/lettuce" >}})
+[`Lettuce`](/content/develop/clients/lettuce/_index.md)
 supports both approaches.
 
 ## Connection pooling
@@ -71,11 +71,11 @@ used to identify where to send the response data from your commands.
 
 Note that it is not a problem if the multiplexer receives several commands close
 together in time. When this happens, the multiplexer can often combine the commands into a
-[pipeline]({{< relref "/develop/using-commands/pipelining" >}}), which
+[pipeline](/content/develop/using-commands/pipelining.md), which
 improves efficiency.
 
 Multiplexing offers high efficiency but works transparently without requiring
 any special code to enable it in your app. The main disadvantage of multiplexing compared to
 connection pooling is that it can't support the blocking "pop" commands (such as
-[`BLPOP`]({{< relref "/commands/blpop" >}})) since these would stall the
+[`BLPOP`](/content/commands/blpop.md)) since these would stall the
 connection for all callers.
