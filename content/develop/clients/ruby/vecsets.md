@@ -32,7 +32,7 @@ You can use vector sets to store any type of numeric vector but they are
 particularly optimized to work with text embedding vectors (see
 [Redis for AI](/content/develop/ai/_index.md) to learn more about text
 embeddings). The example below shows how to use the
-[`informers`](https://github.com/andreibondarev/informers) gem to generate
+[`informers`](https://github.com/ankane/informers) gem to generate
 vector embeddings and then store and retrieve them using a vector set with
 `redis-rb`.
 
