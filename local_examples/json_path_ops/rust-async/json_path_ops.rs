@@ -893,5 +893,120 @@ mod json_path_ops_tests {
         // REMOVE_END
         // STEP_END
 
+        // STEP_START proj_basic
+        let _: bool = match r.json_set("doc", "$", &json!({"a":2,"b":4,"arr":[1,2,3]})).await {
+            Ok(v) => v,
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        };
+
+        match r.json_get("doc", "$.a + 1").await {
+            Ok(res1) => {
+                let res1: String = res1;
+                println!("{res1}");    // >>> [3]
+                // REMOVE_START
+                assert_eq!(res1, "[3]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a * $.b").await {
+            Ok(res2) => {
+                let res2: String = res2;
+                println!("{res2}");    // >>> [8]
+                // REMOVE_START
+                assert_eq!(res2, "[8]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "($.a + $.b) / 2").await {
+            Ok(res3) => {
+                let res3: String = res3;
+                println!("{res3}");    // >>> [3.0]
+                // REMOVE_START
+                assert_eq!(res3, "[3.0]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.arr.length()").await {
+            Ok(res4) => {
+                let res4: String = res4;
+                println!("{res4}");    // >>> [3]
+                // REMOVE_START
+                assert_eq!(res4, "[3]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        match r.json_get("doc", "$.a / 0").await {
+            Ok(res5) => {
+                let res5: String = res5;
+                println!("{res5}");    // >>> []
+                // REMOVE_START
+                assert_eq!(res5, "[]");
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc").await;
+        // REMOVE_END
+        // STEP_END
+
+        // STEP_START proj_multipath
+        let _: bool = match r.json_set("doc", "$", &json!({"a":2,"b":4,"arr":[1,2,3]})).await {
+            Ok(v) => v,
+            Err(e) => {
+                println!("Error setting doc: {e}");
+                return;
+            }
+        };
+
+        match r.json_get("doc", &["$.a + 1", "$.b"]).await {
+            Ok(res6) => {
+                let res6: String = res6;
+                // The reply's key order is not guaranteed, so parse it into a
+                // Value and compare that structurally rather than relying on
+                // the raw string's key order.
+                println!("{res6}");
+                // REMOVE_START
+                let parsed: serde_json::Value = serde_json::from_str(&res6).unwrap();
+                assert_eq!(parsed, json!({"$.a + 1": [3], "$.b": [4]}));
+                // REMOVE_END
+            },
+            Err(e) => {
+                println!("Error getting doc: {e}");
+                return;
+            }
+        }
+
+        // REMOVE_START
+        let _: Result<i32, _> = r.del("doc").await;
+        // REMOVE_END
+        // STEP_END
     }
 }

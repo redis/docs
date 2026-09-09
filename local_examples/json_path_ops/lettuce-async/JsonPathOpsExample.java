@@ -603,6 +603,81 @@ public class JsonPathOpsExample {
             asyncCommands.del("doc").toCompletableFuture().join();
             // REMOVE_END
 
+            // STEP_START proj_basic
+            CompletableFuture<Void> projBasicExample = asyncCommands
+                    .jsonSet("doc", JsonPath.ROOT_PATH,
+                            parser.createJsonValue("{\"a\":2,\"b\":4,\"arr\":[1,2,3]}"))
+                    .thenCompose(res1 -> {
+                        System.out.println(res1); // >>> OK
+                        // REMOVE_START
+                        assertThat(res1).isEqualTo("OK");
+                        // REMOVE_END
+                        return asyncCommands.jsonGet("doc", JsonPath.of("$.a + 1"));
+                    }).thenCompose(res2 -> {
+                        System.out.println(res2); // >>> [[3]]
+                        // REMOVE_START
+                        assertThat(res2.toString()).isEqualTo("[[3]]");
+                        // REMOVE_END
+                        return asyncCommands.jsonGet("doc", JsonPath.of("$.a * $.b"));
+                    }).thenCompose(res3 -> {
+                        System.out.println(res3); // >>> [[8]]
+                        // REMOVE_START
+                        assertThat(res3.toString()).isEqualTo("[[8]]");
+                        // REMOVE_END
+                        return asyncCommands.jsonGet("doc", JsonPath.of("($.a + $.b) / 2"));
+                    }).thenCompose(res4 -> {
+                        System.out.println(res4); // >>> [[3.0]]
+                        // REMOVE_START
+                        assertThat(res4.toString()).isEqualTo("[[3.0]]");
+                        // REMOVE_END
+                        return asyncCommands.jsonGet("doc", JsonPath.of("$.arr.length()"));
+                    }).thenCompose(res5 -> {
+                        System.out.println(res5); // >>> [[3]]
+                        // REMOVE_START
+                        assertThat(res5.toString()).isEqualTo("[[3]]");
+                        // REMOVE_END
+                        return asyncCommands.jsonGet("doc", JsonPath.of("$.a / 0"));
+                    }).thenAccept(res6 -> {
+                        System.out.println(res6); // >>> [[]]
+                        // REMOVE_START
+                        assertThat(res6.toString()).isEqualTo("[[]]");
+                        // REMOVE_END
+                    }).toCompletableFuture();
+            // STEP_END
+
+            projBasicExample.join();
+            // REMOVE_START
+            asyncCommands.del("doc").toCompletableFuture().join();
+            // REMOVE_END
+
+            // STEP_START proj_multipath
+            CompletableFuture<Void> projMultipathExample = asyncCommands
+                    .jsonSet("doc", JsonPath.ROOT_PATH,
+                            parser.createJsonValue("{\"a\":2,\"b\":4,\"arr\":[1,2,3]}"))
+                    .thenCompose(res7 -> {
+                        System.out.println(res7); // >>> OK
+                        // REMOVE_START
+                        assertThat(res7).isEqualTo("OK");
+                        // REMOVE_END
+                        return asyncCommands.jsonGet("doc", JsonPath.of("$.a + 1"), JsonPath.of("$.b"));
+                    }).thenAccept(res8 -> {
+                        // The multi-path JSON.GET reply is a single JSON object keyed by path,
+                        // and Redis does not guarantee key order, so look up each path rather
+                        // than comparing the object's rendered string.
+                        JsonObject paths = res8.get(0).asJsonObject();
+                        System.out.println(paths); // >>> {"$.a + 1":[3],"$.b":[4]}
+                        // REMOVE_START
+                        assertThat(paths.size()).isEqualTo(2);
+                        assertThat(paths.get("$.a + 1").toString()).isEqualTo("[3]");
+                        assertThat(paths.get("$.b").toString()).isEqualTo("[4]");
+                        // REMOVE_END
+                    }).toCompletableFuture();
+            // STEP_END
+
+            projMultipathExample.join();
+            // REMOVE_START
+            asyncCommands.del("doc").toCompletableFuture().join();
+            // REMOVE_END
         } finally {
             redisClient.shutdown();
         }

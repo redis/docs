@@ -403,6 +403,55 @@ public class JsonPathOpsExample
         db.KeyDelete("doc");
         // REMOVE_END
 
+        // STEP_START proj_basic
+        bool res64 = db.JSON().Set("doc", "$", "{\"a\":2,\"b\":4,\"arr\":[1,2,3]}");
+        Console.WriteLine(res64);   // >>> True
+
+        RedisResult res65 = db.JSON().Get("doc", path: "$.a + 1");
+        Console.WriteLine(res65);   // >>> [3]
+
+        RedisResult res66 = db.JSON().Get("doc", path: "$.a * $.b");
+        Console.WriteLine(res66);   // >>> [8]
+
+        RedisResult res67 = db.JSON().Get("doc", path: "($.a + $.b) / 2");
+        Console.WriteLine(res67);   // >>> [3.0]
+
+        RedisResult res68 = db.JSON().Get("doc", path: "$.arr.length()");
+        Console.WriteLine(res68);   // >>> [3]
+
+        RedisResult res69 = db.JSON().Get("doc", path: "$.a / 0");
+        Console.WriteLine(res69);   // >>> []
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res64);
+        Assert.Equal("[3]", (string?)res65);
+        Assert.Equal("[8]", (string?)res66);
+        Assert.Equal("[3.0]", (string?)res67);
+        Assert.Equal("[3]", (string?)res68);
+        Assert.Equal("[]", (string?)res69);
+        db.KeyDelete("doc");
+        // REMOVE_END
+
+        // STEP_START proj_multipath
+        bool res70 = db.JSON().Set("doc", "$", "{\"a\":2,\"b\":4,\"arr\":[1,2,3]}");
+        Console.WriteLine(res70);   // >>> True
+
+        RedisResult res71 = db.JSON().Get("doc", paths: new[] { "$.a + 1", "$.b" });
+        Console.WriteLine(res71);   // >>> {"$.a + 1":[3],"$.b":[4]}
+        // STEP_END
+
+        // REMOVE_START
+        Assert.True(res70);
+        // The key order of the multi-path JSON.GET reply is not guaranteed,
+        // so parse it into a dictionary and compare structurally rather than
+        // comparing the raw JSON text.
+        var res71Map = JsonSerializer.Deserialize<Dictionary<string, int[]>>((string)res71!);
+        Assert.Equal(2, res71Map!.Count);
+        Assert.Equal(new[] { 3 }, res71Map["$.a + 1"]);
+        Assert.Equal(new[] { 4 }, res71Map["$.b"]);
+        db.KeyDelete("doc");
+        // REMOVE_END
 
         // HIDE_START
     }
