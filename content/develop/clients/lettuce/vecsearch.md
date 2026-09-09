@@ -25,14 +25,14 @@ topics:
 weight: 3
 ---
 
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
-lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
-or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
+lets you index vector fields in [hash](/content/develop/data-types/hashes.md)
+or [JSON](/content/develop/data-types/json/_index.md) objects (see the
+[Vectors](/content/develop/ai/search-and-query/vectors/_index.md) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[vector distance](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -146,14 +146,14 @@ Next, create the index.
 The schema in the example below includes three fields:
 
 -   The text content to index
--   A [tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+-   A [tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
     field to represent the "genre" of the text
 -   The embedding vector generated from the original text content
 
 The `embedding` field specifies
-[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 
+[HNSW](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index) 
 indexing, the
-[L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[L2](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 vector distance metric, `Float32` values to represent the vector's components,
 and 384 dimensions, as required by the `all-MiniLM-L6-v2` embedding model.
 
@@ -166,7 +166,7 @@ prefix `doc:` that identifies the hash objects to index.
 ## Add data
 
 You can now supply the data objects, which will be indexed automatically
-when you add them with [`hset()`]({{< relref "/commands/hset" >}}), as long as
+when you add them with [`hset()`](/content/commands/hset.md), as long as
 you use the `doc:` prefix specified in the index definition.
 
 Use the `predict()` method of the `Predictor` object
@@ -196,10 +196,10 @@ sorted to rank them in order of ascending distance.
 
 The code below creates the query embedding using the `predict()` method, as with
 the indexing, and passes it as a parameter when the query executes (see
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about using query parameters with embeddings).
 The query is a
-[K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
+[K nearest neighbors (KNN)](/content/develop/ai/search-and-query/vectors/_index.md#knn-vector-search)
 search that sorts the results in order of vector distance from the query vector.
 
 {{< clients-example set="home_query_vec" step="query" lang_filter="Java-Async,Java-Reactive" description="Semantic search: Execute a KNN vector search with semantic similarity ranking on hash documents" difficulty="advanced" >}}
@@ -229,7 +229,7 @@ is the result that is most similar in meaning to the query text
 
 Indexing JSON documents is similar to hash indexing, but there are some
 important differences. JSON allows much richer data modeling with nested fields, so
-you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+you must supply a [path](/content/develop/data-types/json/path.md) in the schema
 to identify each field you want to index. However, you can declare a short alias for each
 of these paths (using the `as()` option) to avoid typing it in full for
 every query. Also, you must specify `CreateArgs.TargetType.JSON` when you create the index.
@@ -245,8 +245,8 @@ specified using arrays of `float` instead of binary strings. This means
 you don't need to use the `ByteBufferCodec` connection, and you can use
 [`Arrays.toString()`](https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html#toString-float:A-) to convert the `float` array to a suitable JSON string.
 
-Use [`jsonSet()`]({{< relref "/commands/json.set" >}}) to add the data
-instead of [`hset()`]({{< relref "/commands/hset" >}}). Use instances
+Use [`jsonSet()`](/content/commands/json.set.md) to add the data
+instead of [`hset()`](/content/commands/hset.md). Use instances
 of `JSONObject` to supply the data instead of `Map`, as you would for
 hash objects.
 
@@ -277,6 +277,6 @@ ID: jdoc:3, Content: Today is a sunny day, Distance: 1.49569523335
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.
