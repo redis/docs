@@ -399,13 +399,13 @@ limits the attributes returned from the document. `num` is the number of attribu
 <details open>
 <summary><code>SUMMARIZE ...</code></summary>
 
-returns only the sections of the attribute that contain the matched text. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}}) for more information.
+returns only the sections of the attribute that contain the matched text. On a JSON index, `SUMMARIZE` requires `RETURN` with explicit attribute names and does not support multi-value JSONPaths; JSON support was added in the 8.4 maintenance line (v8.4.14) and the 8.6, 8.8, and 8.10 lines. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight#json-indexes" >}}) for the exact versions and the full rules.
 </details>
 
 <details open>
 <summary><code>HIGHLIGHT ...</code></summary>
 
-formats occurrences of matched text. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}}) for more information.
+formats occurrences of matched text. On a JSON index, `HIGHLIGHT` requires `RETURN` with explicit attribute names and does not support multi-value JSONPaths; JSON support was added in the 8.4 maintenance line (v8.4.14) and the 8.6, 8.8, and 8.10 lines. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight#json-indexes" >}}) for the exact versions and the full rules.
 </details>
 
 <details open>

@@ -297,6 +297,8 @@ Summarization will fragment the text into smaller sized snippets. Each snippet w
 
 Highlighting will highlight the found term and its variants with a user-defined tag. This may be used to display the matched text in a different typeface using a markup language, or to otherwise make the text appear differently.
 
+JSON indexes have additional requirements. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight#json-indexes" >}}).
+
 ## Autocomplete
 
 Another important feature for Redis Open Source is its autocomplete engine. This allows users to create dictionaries of weighted terms, and then query them for completion suggestions to a given user prefix. Completions can have payloads, which are user-provided pieces of data that can be used for display. For example, completing the names of users, it is possible to add extra metadata about users to be displayed.

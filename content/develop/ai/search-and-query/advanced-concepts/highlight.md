@@ -90,3 +90,91 @@ The `RETURN` keyword is treated specially, as it overrides any fields specified 
 In the command `RETURN 1 foo SUMMARIZE FIELDS 1 bar HIGHLIGHT FIELDS 1 baz`, the fields `foo` is returned as-is, while `bar` and `baz` are not returned, because `RETURN` was specified, but did not include those fields.
 
 In the command `SUMMARIZE FIELDS 1 bar HIGHLIGHT FIELDS 1 baz`, `bar` is returned summarized and `baz` is returned highlighted.
+
+## JSON indexes
+
+`HIGHLIGHT` and `SUMMARIZE` work on a JSON index when the field maps to a single-value
+[JSONPath]({{< relref "/develop/data-types/json/path" >}}) such as `$.name`.
+
+Added in the 8.4 maintenance line (v8.4.14), the 8.6 line (v8.6.10), the 8.8 line (v8.8.1),
+the 8.10 line (v8.10.1), and Redis Open Source 8.12. Not available in Redis Open Source 8.2
+or earlier, and not present in the initial 8.4.0, 8.6.0, 8.8.0, or 8.10.0 releases, which
+reject `HIGHLIGHT` and `SUMMARIZE` on every JSON index.
+
+Three rules apply to JSON indexes but not to hash indexes:
+
+* **`RETURN` is required.** Pass `RETURN` with explicit field names. Without it, Redis loads
+    the document as a single serialized value, so the individual fields are not available to
+    the highlighter. `HIGHLIGHT` or `SUMMARIZE` with no `RETURN`, or with `RETURN 0`, fails
+    with `HIGHLIGHT/SUMMARIZE on JSON indexes requires RETURN with explicit field names`.
+
+* **Multi-value JSONPaths are rejected.** A path such as `$.tags[*]` or `$..name` fails with
+    `HIGHLIGHT/SUMMARIZE is not supported for JSON fields with multi-value JSONPath`. Each
+    value in a multi-value path is indexed separately, with its own byte offsets, so there is
+    no single value to highlight. The error applies to any field in the returned or
+    highlighted set, whatever its schema type.
+
+* **Projection aliases created from raw JSONPath cannot be highlighted.** In a `RETURN` clause such as `RETURN 3 $.name AS alias`, the alias
+    `alias` is not a schema field, so naming it in `HIGHLIGHT FIELDS` or `SUMMARIZE FIELDS`
+    fails with ``Property `alias` is not in schema``. Name the schema field explicitly instead of using the alias.
+
+A single-value JSONPath that resolves to a JSON array or object, such as `$.colors` where
+`colors` is an array, is accepted but not highlighted. Redis returns the loaded value
+unchanged, without an error.
+
+Hash indexes keep their existing behavior. `RETURN` is optional, and `HIGHLIGHT` without
+`RETURN` highlights every returned `TEXT` field.
+
+### JSON examples
+
+Index two fields with single-value JSONPaths and one with a multi-value JSONPath:
+
+```sql
+127.0.0.1:6379> JSON.SET item:1 $ '{"name":"Noise-cancelling Bluetooth headphones","description":"Wireless Bluetooth headphones with noise-cancelling technology","tags":["audio","wireless"]}'
+OK
+127.0.0.1:6379> FT.CREATE itemIdx ON JSON PREFIX 1 item: SCHEMA $.name AS name TEXT $.description AS description TEXT $.tags[*] AS tags TEXT
+OK
+```
+
+`RETURN` names both fields, and `HIGHLIGHT FIELDS` highlights only `name`:
+
+```sql
+127.0.0.1:6379> FT.SEARCH itemIdx '@name:(bluetooth)' RETURN 2 name description HIGHLIGHT FIELDS 1 name TAGS '<b>' '</b>'
+1) "1"
+2) "item:1"
+3) 1) "name"
+   2) "Noise-cancelling <b>Bluetooth</b> headphones"
+   3) "description"
+   4) "Wireless Bluetooth headphones with noise-cancelling technology"
+```
+
+Without `RETURN`, the same query fails:
+
+```sql
+127.0.0.1:6379> FT.SEARCH itemIdx '@name:(bluetooth)' HIGHLIGHT
+(error) HIGHLIGHT/SUMMARIZE on JSON indexes requires RETURN with explicit field names
+```
+
+Highlighting `tags`, which uses the multi-value JSONPath `$.tags[*]`, also fails:
+
+```sql
+127.0.0.1:6379> FT.SEARCH itemIdx 'bluetooth' RETURN 1 tags HIGHLIGHT FIELDS 1 tags
+(error) HIGHLIGHT/SUMMARIZE is not supported for JSON fields with multi-value JSONPath
+```
+
+The equivalent hash index needs no `RETURN`:
+
+```sql
+127.0.0.1:6379> HSET item:hash name "Noise-cancelling Bluetooth headphones"
+(integer) 1
+127.0.0.1:6379> FT.CREATE hashIdx ON HASH PREFIX 1 item:hash SCHEMA name TEXT
+OK
+127.0.0.1:6379> FT.SEARCH hashIdx '@name:(bluetooth)' HIGHLIGHT FIELDS 1 name TAGS '<b>' '</b>'
+1) "1"
+2) "item:hash"
+3) 1) "name"
+   2) "Noise-cancelling <b>Bluetooth</b> headphones"
+```
+
+For more about indexing and querying JSON documents, see
+[Index and query JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
