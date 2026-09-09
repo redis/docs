@@ -16,6 +16,10 @@ weight: 1
 
 This guide shows you how to build a small Redis-backed agent memory layer in Python with [`redis-py`]({{< relref "/develop/clients/redis-py" >}}) and the [`sentence-transformers`](https://www.sbert.net/) library, using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built with the Python standard library so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
 
+{{% note %}}
+[Redis Agent Memory in Redis Iris](https://redis.io/agent-memory/) is Redis’s official managed path for teams that want agent memory as a service, not another subsystem to build and operate themselves. [Redis Iris](https://redis.io/iris/) is the real-time context engine for agents, designed to deliver fresh, relevant context at runtime, and Redis Agent Memory is the part of Iris that makes context compound across turns, sessions, channels, and agents.
+{{% /note %}}
+
 ## Overview
 
 The memory layer splits across three Redis primitives, each handling one tier:
