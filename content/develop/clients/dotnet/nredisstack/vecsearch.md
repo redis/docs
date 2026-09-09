@@ -27,14 +27,14 @@ topics:
 weight: 40
 ---
 
-[Redis Search]({{< relref "/develop/ai/search-and-query" >}})
-lets you index vector fields in [hash]({{< relref "/develop/data-types/hashes" >}})
-or [JSON]({{< relref "/develop/data-types/json" >}}) objects (see the
-[Vectors]({{< relref "/develop/ai/search-and-query/vectors" >}}) 
+[Redis Search](/content/develop/ai/search-and-query/_index.md)
+lets you index vector fields in [hash](/content/develop/data-types/hashes.md)
+or [JSON](/content/develop/data-types/json/_index.md) objects (see the
+[Vectors](/content/develop/ai/search-and-query/vectors/_index.md) 
 reference page for more information).
 Among other things, vector fields can store *text embeddings*, which are AI-generated vector
 representations of the semantic information in pieces of text. The
-[vector distance]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[vector distance](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 between two embeddings indicates how similar they are semantically. By comparing the
 similarity of an embedding generated from some query text with embeddings stored in hash
 or JSON fields, Redis can retrieve documents that closely match the query in terms
@@ -48,14 +48,14 @@ for the embeddings. The code is first demonstrated for hash documents with a
 separate section to explain the
 [differences with JSON documents](#differences-with-json-documents).
 
-{{< note >}}From [v1.0.0](https://github.com/redis/NRedisStack/releases/tag/v1.0.0)
-onwards, `NRedisStack` uses query dialect 2 by default.
-Redis Search methods such as [`FT().Search()`]({{< relref "/commands/ft.search" >}})
-will explicitly request this dialect, overriding the default set for the server.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for more information.
-{{< /note >}}
+> [!NOTE]
+> From [v1.0.0](https://github.com/redis/NRedisStack/releases/tag/v1.0.0)
+> onwards, `NRedisStack` uses query dialect 2 by default.
+> Redis Search methods such as [`FT().Search()`](/content/commands/ft.search.md)
+> will explicitly request this dialect, overriding the default set for the server.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for more information.
 ## Initialize
 
 The example is probably easiest to follow if you start with a new
@@ -66,7 +66,7 @@ dotnet new console -n VecQueryExample
 ```
 
 In the app's project folder, add
-[`NRedisStack`]({{< relref "/develop/clients/dotnet" >}}`):
+[`NRedisStack`](/content/develop/clients/dotnet/_index.md):
 
 ```bash
 dotnet add package NRedisStack
@@ -113,9 +113,9 @@ using Azure.AI.OpenAI;
 
 ## Define a function to obtain the embedding model
 
-{{< note >}}Ignore this step if you are using an Azure OpenAI
-embedding model.
-{{< /note >}}
+> [!NOTE]
+> Ignore this step if you are using an Azure OpenAI
+> embedding model.
 
 A few steps are involved in initializing the embedding model
 (known as a `PredictionEngine`, in Microsoft terminology), so
@@ -163,9 +163,9 @@ static PredictionEngine<TextData, TransformedTextData> GetPredictionEngine(){
 
 ## Define a function to generate an embedding
 
-{{< note >}}Ignore this step if you are using an Azure OpenAI
-embedding model.
-{{< /note >}}
+> [!NOTE]
+> Ignore this step if you are using an Azure OpenAI
+> embedding model.
 
 Our embedding model represents the vectors as an array of `float` values,
 but when you store vectors in a Redis hash object, you must encode the vector
@@ -203,9 +203,9 @@ static byte[] GetEmbedding(
 
 ## Generate an embedding from Azure OpenAI
 
-{{< note >}}Ignore this step if you are using a Microsoft.ML
-embedding model.
-{{< /note >}}
+> [!NOTE]
+> Ignore this step if you are using a Microsoft.ML
+> embedding model.
 
 Azure OpenAI can be a convenient way to access an embedding model, because
 you don't need to manage and scale the server infrastructure yourself.
@@ -257,12 +257,12 @@ try { db.FT().DropIndex("vector_idx");} catch {}
 
 Next, create the index.
 The schema in the example below includes three fields: the text content to index, a
-[tag]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}})
+[tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
 field to represent the "genre" of the text, and the embedding vector generated from
 the original text content. The `embedding` field specifies
-[HNSW]({{< relref "/develop/ai/search-and-query/vectors#hnsw-index" >}}) 
+[HNSW](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index) 
 indexing, the
-[L2]({{< relref "/develop/ai/search-and-query/vectors#distance-metrics" >}})
+[L2](/content/develop/ai/search-and-query/vectors/_index.md#distance-metrics)
 vector distance metric, `Float32` values to represent the vector's components,
 and 150 dimensions, as required by our embedding model.
 
@@ -294,7 +294,7 @@ db.FT().Create(
 ## Add data
 
 You can now supply the data objects, which will be indexed automatically
-when you add them with [`HashSet()`]({{< relref "/commands/hset" >}}), as long as
+when you add them with [`HashSet()`](/content/commands/hset.md), as long as
 you use the `doc:` prefix specified in the index definition.
 
 Firstly, create an instance of the `PredictionEngine` model using our
@@ -351,10 +351,10 @@ sorted to rank them in order of ascending distance.
 
 The code below creates the query embedding using the `GetEmbedding()` method, as with
 the indexing, and passes it as a parameter when the query executes (see
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about using query parameters with embeddings).
 The query is a
-[K nearest neighbors (KNN)]({{< relref "/develop/ai/search-and-query/vectors#knn-vector-search" >}})
+[K nearest neighbors (KNN)](/content/develop/ai/search-and-query/vectors/_index.md#knn-vector-search)
 search that sorts the results in order of vector distance from the query vector.
 
 (As before, replace `GetEmbedding()` with `GetEmbeddingFromAzure()` if you are using
@@ -386,9 +386,9 @@ foreach (var doc in res.Documents) {
 
 ## Declare `TextData` and `TransformedTextData`
 
-{{< note >}}Ignore this step if you are using an Azure OpenAI
-embedding model.
-{{< /note >}}
+> [!NOTE]
+> Ignore this step if you are using an Azure OpenAI
+> embedding model.
 
 As we noted in the section above about the
 [embedding model](#define-a-function-to-obtain-the-embedding-model),
@@ -441,7 +441,7 @@ is the result that is most similar in meaning to the query text
 
 Indexing JSON documents is similar to hash indexing, but there are some
 important differences. JSON allows much richer data modeling with nested fields, so
-you must supply a [path]({{< relref "/develop/data-types/json/path" >}}) in the schema
+you must supply a [path](/content/develop/data-types/json/path.md) in the schema
 to identify each field you want to index. However, you can declare a short alias for each
 of these paths to avoid typing it in full for
 every query. Also, you must specify `IndexType.JSON` with the `On()` option when you
@@ -502,8 +502,8 @@ static float[] GetFloatEmbedding(
 You should make a similar modification to the `GetEmbeddingFromAzure()` function
 if you are using Azure OpenAI with JSON.
 
-Use [`JSON().set()`]({{< relref "/commands/json.set" >}}) to add the data
-instead of [`HashSet()`]({{< relref "/commands/hset" >}}):
+Use [`JSON().set()`](/content/commands/json.set.md) to add the data
+instead of [`HashSet()`](/content/commands/hset.md):
 
 ```cs
 var jSentence1 = "That is a very happy person";
@@ -590,6 +590,6 @@ ID: jdoc:3, Properties: [
 ## Learn more
 
 See
-[Vector search]({{< relref "/develop/ai/search-and-query/query/vector-search" >}})
+[Vector search](/content/develop/ai/search-and-query/query/vector-search.md)
 for more information about the indexing options, distance metrics, and query format
 for vectors.

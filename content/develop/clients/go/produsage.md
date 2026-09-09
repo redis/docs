@@ -43,7 +43,7 @@ of them may not apply to your particular use case.
 If your code doesn't access the Redis server continuously then it
 might be useful to make a "health check" periodically (perhaps once
 every few seconds). You can do this using a simple
-[`PING`]({{< relref "/commands/ping" >}}) command:
+[`PING`](/content/commands/ping.md) command:
 
 ```go
 err := rdb.Ping(ctx).Err()
@@ -64,7 +64,7 @@ you should also always check that the error value is `nil` before
 proceeding. Errors can be returned for failed connections, network
 problems, and invalid command parameters, among other things.
 
-See [Error handling]({{< relref "/develop/clients/go/error-handling" >}}) for a
+See [Error handling](/content/develop/clients/go/error-handling.md) for a
 more detailed discussion of error handling approaches in `go-redis`.
 
 ### Monitor performance and errors
@@ -72,7 +72,7 @@ more detailed discussion of error handling approaches in `go-redis`.
 `go-redis` supports [OpenTelemetry](https://opentelemetry.io/). This lets
 you trace command execution and monitor your server's performance.
 You can use this information to detect problems before they are reported
-by users. See [Observability]({{< relref "/develop/clients/go/observability" >}})
+by users. See [Observability](/content/develop/clients/go/observability.md)
 for more information.
 
 ### Retries
@@ -134,7 +134,7 @@ Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
 
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH and
-[Connect using Smart client handoffs]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}})
+[Connect using Smart client handoffs](/content/develop/clients/go/connect.md#connect-using-smart-client-handoffs-sch)
 for example code.

@@ -63,9 +63,9 @@ approach called *tracking*.
 
 When client-side caching is enabled, the Redis server remembers or *tracks* the set of keys
 that each client connection has previously read. This includes cases where the client
-reads data directly, as with the [`GET`]({{< relref "/commands/get" >}})
+reads data directly, as with the [`GET`](/content/commands/get.md)
 command, and also where the server calculates values from the stored data,
-as with [`STRLEN`]({{< relref "/commands/strlen" >}}). When any client
+as with [`STRLEN`](/content/commands/strlen.md). When any client
 writes new data to a tracked key, the server sends an invalidation message
 to all clients that have accessed that key previously. This message warns
 the clients that their cached copies of the data are no longer valid and the clients
@@ -73,11 +73,11 @@ will evict the stale data in response. Next time a client reads from
 the same key, it will access the database directly and refresh its cache
 with the updated data.
 
-{{< note >}}If any connection from a client gets disconnected (including
-one from a connection pool), then the client will flush all keys from the
-client-side cache. Caching then resumes for subsequent reads from the
-connections that are still active.
-{{< /note >}}
+> [!NOTE]
+> If any connection from a client gets disconnected (including
+> one from a connection pool), then the client will flush all keys from the
+> client-side cache. Caching then resumes for subsequent reads from the
+> connections that are still active.
 
 The sequence diagram below shows how two clients might interact as they
 access and update the same key:
@@ -90,33 +90,33 @@ The following client libraries support CSC from the stated version onwards:
 
 | Client | Version |
 | :-- | :-- |
-| [`redis-py`]({{< relref "/develop/clients/redis-py/connect#connect-using-client-side-caching" >}}) | v5.1.0 |
-| [`Jedis`]({{< relref "/develop/clients/jedis/connect#connect-using-client-side-caching" >}}) | v5.2.0 |
-| [`node-redis`]({{< relref "/develop/clients/nodejs/connect#connect-using-client-side-caching" >}}) | v5.1.0 |
-| [`go-redis`]({{< relref "/develop/clients/go/connect#connect-using-client-side-caching" >}}) | v9.22.0 |
+| [`redis-py`](/content/develop/clients/redis-py/connect.md#connect-using-client-side-caching) | v5.1.0 |
+| [`Jedis`](/content/develop/clients/jedis/connect.md#connect-using-client-side-caching) | v5.2.0 |
+| [`node-redis`](/content/develop/clients/nodejs/connect.md#connect-using-client-side-caching) | v5.1.0 |
+| [`go-redis`](/content/develop/clients/go/connect.md#connect-using-client-side-caching) | v9.22.0 |
 
-Note that some other clients support the [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}) command to configure CSC on the server, but this does not mean they support the
+Note that some other clients support the [`CLIENT TRACKING`](/content/commands/client-tracking.md) command to configure CSC on the server, but this does not mean they support the
 features required for CSC themselves.
 
 ## Which commands can cache data?
 
 All read-only commands (with the `@read`
-[ACL category]({{< relref "/operate/oss_and_stack/management/security/acl" >}}))
+[ACL category](/content/operate/oss_and_stack/management/security/acl.md))
 will use cached data, except for the following:
 
 -   Any commands for the
-    [probabilistic]({{< relref "/develop/data-types/probabilistic" >}}) and
-    [time series]({{< relref "/develop/data-types/timeseries" >}}) data types.
+    [probabilistic](/content/develop/data-types/probabilistic/_index.md) and
+    [time series](/content/develop/data-types/timeseries/_index.md) data types.
     These types are designed to be updated frequently, which means that caching
     has little or no benefit.
--   Non-deterministic commands such as [`HRANDFIELD`]({{< relref "/commands/hrandfield" >}}),
-    [`HSCAN`]({{< relref "/commands/hscan" >}}),
-    and [`ZRANDMEMBER`]({{< relref "/commands/zrandmember" >}}). By design, these commands
+-   Non-deterministic commands such as [`HRANDFIELD`](/content/commands/hrandfield.md),
+    [`HSCAN`](/content/commands/hscan.md),
+    and [`ZRANDMEMBER`](/content/commands/zrandmember.md). By design, these commands
     give different results each time they are called.
 -   Redis Search commands (with the `FT.*` prefix), such as
-    [`FT.SEARCH`]({{< relref "commands/ft.search" >}}).
+    [`FT.SEARCH`](/content/commands/ft.search.md).
 
-You can use the [`MONITOR`]({{< relref "/commands/monitor" >}}) command to
+You can use the [`MONITOR`](/content/commands/monitor.md) command to
 check the server's behavior when you are using client-side caching. Because `MONITOR` only
 reports activity from the server, you should find the first cacheable
 access to a key causes a response from the server. However, subsequent
@@ -130,35 +130,35 @@ gets cached after it is used for the first time. Subsets of that data
 or values calculated from it are retrieved from the server as usual and
 then cached separately. For example:
 
--   The whole string retrieved by [`GET`]({{< relref "/commands/get" >}})
+-   The whole string retrieved by [`GET`](/content/commands/get.md)
     is added to the cache. Parts of the same string retrieved by
-    [`SUBSTR`]({{< relref "/commands/substr" >}}) are calculated on the
+    [`SUBSTR`](/content/commands/substr.md) are calculated on the
     server the first time and then cached separately from the original
     string.
--   Using [`GETBIT`]({{< relref "/commands/getbit" >}}) or
-    [`BITFIELD`]({{< relref "/commands/bitfield" >}}) on a string
+-   Using [`GETBIT`](/content/commands/getbit.md) or
+    [`BITFIELD`](/content/commands/bitfield.md) on a string
     caches the returned values separately from the original string.
 -   For composite data types accessed by keys
-    ([hash]({{< relref "/develop/data-types/hashes" >}}),
-    [JSON]({{< relref "/develop/data-types/json" >}}),
-    [set]({{< relref "/develop/data-types/sets" >}}), and
-    [sorted set]({{< relref "/develop/data-types/sorted-sets" >}})),
+    ([hash](/content/develop/data-types/hashes.md),
+    [JSON](/content/develop/data-types/json/_index.md),
+    [set](/content/develop/data-types/sets.md), and
+    [sorted set](/content/develop/data-types/sorted-sets.md)),
     the whole object is cached separately from the individual fields.
     So the results of `JSON.GET mykey $` and `JSON.GET mykey $.myfield` create
     separate entries in the cache.
--   Ranges from [lists]({{< relref "/develop/data-types/lists" >}}),
-    [streams]({{< relref "/develop/data-types/streams" >}}),
-    and [sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
+-   Ranges from [lists](/content/develop/data-types/lists.md),
+    [streams](/content/develop/data-types/streams/_index.md),
+    and [sorted sets](/content/develop/data-types/sorted-sets.md)
     are cached separately from the object they form a part of. Likewise,
-    subsets returned by [`SINTER`]({{< relref "/commands/sinter" >}}) and
-    [`SDIFF`]({{< relref "/commands/sdiff" >}}) create separate cache entries.
--   For multi-key read commands such as [`MGET`]({{< relref "/commands/mget" >}}),
+    subsets returned by [`SINTER`](/content/commands/sinter.md) and
+    [`SDIFF`](/content/commands/sdiff.md) create separate cache entries.
+-   For multi-key read commands such as [`MGET`](/content/commands/mget.md),
     the ordering of the keys is significant. For example `MGET name:1 name:2` is
     cached separately from `MGET name:2 name:1` because the server returns the
     values in the order you specify.
 -   Boolean or numeric values calculated from data types (for example 
-    [`SISMEMBER`]({{< relref "/commands/sismember" >}})) and
-    [`LLEN`]({{< relref "/commands/llen" >}}) are cached separately from the
+    [`SISMEMBER`](/content/commands/sismember.md)) and
+    [`LLEN`](/content/commands/llen.md) are cached separately from the
     object they refer to.
 
 ## Usage recommendations
@@ -187,7 +187,7 @@ limitations:
     can calculate an estimate for this number by dividing the 
     maximum desired size of the
     cache in memory by the average size of the items you want to store
-    (use the [`MEMORY USAGE`]({{< relref "/commands/memory-usage" >}})
+    (use the [`MEMORY USAGE`](/content/commands/memory-usage.md)
     command to get the memory footprint of a key). For example, if you had
     10MB (or 10485760 bytes) available for the cache, and the average
     size of an item was 80 bytes, you could fit approximately
@@ -200,5 +200,5 @@ limitations:
     The Redis server implements extra features for client-side caching that are not used by
     the main Redis clients, but may be useful for custom clients and other
     advanced applications. See
-    [Client-side caching reference]({{< relref "/develop/reference/client-side-caching" >}})
+    [Client-side caching reference](/content/develop/reference/client-side-caching.md)
     for a full technical guide to all the options available for client-side caching.

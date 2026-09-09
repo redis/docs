@@ -47,36 +47,36 @@ client avoid disruptions in service during the maintenance period:
     see no disruption in service. These transparent reconnections to new endpoints
     are known as *pre-handoffs*.
 
-{{< note >}}SCH does not work with blocking connections.
-These include connections used for blocking operations like
-[`BLPOP`]({{< relref "/commands/blpop" >}}) and also
-[pub/sub]({{< relref "/develop/pubsub" >}}) subscriptions.
-All non-blocking operations are safe to use with SCH.
-{{< /note >}}
+> [!NOTE]
+> SCH does not work with blocking connections.
+> These include connections used for blocking operations like
+> [`BLPOP`](/content/commands/blpop.md) and also
+> [pub/sub](/content/develop/pubsub/_index.md) subscriptions.
+> All non-blocking operations are safe to use with SCH.
 
 ## SCH support in Redis client libraries
 
 SCH is enabled automatically on the client side during connection
-if you select the [RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+if you select the [RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
 protocol, which is a requirement for SCH. However, you can
 configure some parameters, such as the timeouts to use
 during maintenance.
 
 The table below lists the Redis client libraries that support SCH,
 and the versions that added support for basic connections and
-[OSS Cluster API]({{< relref "/operate/rs/databases/configure/oss-cluster-api" >}}) connections.
+[OSS Cluster API](/content/operate/rs/databases/configure/oss-cluster-api.md) connections.
 
 | Client | Basic connection | OSS Cluster API | Client-side geographic failover |
 | :-- | :-- | :-- | :-- |
-| [redis-py]({{< relref "/develop/clients/redis-py/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | v7.2.0 | Disabled |
-| [node-redis]({{< relref "/develop/clients/nodejs/connect#connect-using-smart-client-handoffs-sch" >}}) | v5.9.0 | v5.11.0 | Disabled |
-| [Lettuce]({{< relref "/develop/clients/lettuce/connect#connect-using-smart-client-handoffs-sch" >}}) | v7.0.0 | - | Disabled |
-| [go-redis]({{< relref "/develop/clients/go/connect#connect-using-smart-client-handoffs-sch" >}}) | v9.16.0 | v9.18.0 | Disabled |
+| [redis-py](/content/develop/clients/redis-py/connect.md#connect-using-smart-client-handoffs-sch) | v7.0.0 | v7.2.0 | Disabled |
+| [node-redis](/content/develop/clients/nodejs/connect.md#connect-using-smart-client-handoffs-sch) | v5.9.0 | v5.11.0 | Disabled |
+| [Lettuce](/content/develop/clients/lettuce/connect.md#connect-using-smart-client-handoffs-sch) | v7.0.0 | - | Disabled |
+| [go-redis](/content/develop/clients/go/connect.md#connect-using-smart-client-handoffs-sch) | v9.16.0 | v9.18.0 | Disabled |
 
-{{< note >}}SCH is currently disabled when a client is configured for
-[Client-side geographic failover]({{< relref "/develop/clients/failover" >}}).
-Integration of the two features is planned for a future release.
-{{< /note >}}
+> [!NOTE]
+> SCH is currently disabled when a client is configured for
+> [Client-side geographic failover](/content/develop/clients/failover.md).
+> Integration of the two features is planned for a future release.
 
 ## SCH support in Redis server products
 
@@ -85,8 +85,8 @@ Integration of the two features is planned for a future release.
 SCH is fully supported and enabled by default on Redis Cloud, except when you
 are using one of the following options:
 
-- [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}})
-- [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
+- [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md)
+- [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
 
 These services don't currently allow for pre-handoffs, but you still get the
 benefit of relaxed timeouts during database version upgrades. All other
@@ -95,7 +95,7 @@ configurations have full support for both relaxed timeouts and pre-handoffs.
 ### Redis Software
 
 You must enable SCH explicitly on self-managed Redis Software servers by using the
-[v1/cluster]({{< relref "/operate/rs/references/rest-api/requests/cluster" >}})
+[v1/cluster](/content/operate/rs/references/rest-api/requests/cluster/_index.md)
 REST API request to set the `client_maint_notifications` option to `true`.
 The example below shows how to do this using the
 [`curl`](https://curl.se/) command line utility:
@@ -119,8 +119,8 @@ the specific upgrade method you use, as detailed in the table below.
 
 ### Redis Enterprise for Kubernetes
 
-SCH is not currently supported for [Kubernetes]({{< relref "/operate/kubernetes" >}}) clusters.
+SCH is not currently supported for [Kubernetes](/content/operate/kubernetes/_index.md) clusters.
 
 ### Redis Open Source
 
-SCH is not currently supported for [Redis Open Source]({{< relref "/operate/oss_and_stack" >}}).
+SCH is not currently supported for [Redis Open Source](/content/operate/oss_and_stack/_index.md).

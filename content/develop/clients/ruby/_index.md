@@ -23,7 +23,7 @@ weight: 11
 The sections below explain how to install `redis-rb` and connect your application
 to a Redis database.
 
-`redis-rb` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`redis-rb` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 ## Install
 
