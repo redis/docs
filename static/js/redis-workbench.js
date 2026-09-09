@@ -2985,6 +2985,14 @@
   dock.renderDistances = function (section) {
     var self = this;
     var reply = section.reply;
+    /* No reply yet, which is not the same as an empty one. The map goes up
+       before the search that measures from it comes back — on the first pick and
+       after a unit change, where the radius has to be fitted to the coordinates
+       first — and reading that as "nothing in range" told the reader something
+       untrue about their own data for a round trip. */
+    if (reply === null || reply === undefined) {
+      return el('p', 'rwb-hint', 'Measuring from ' + section.from + '…');
+    }
     if (reply && reply.error) {
       return el('p', 'rwb-text rwb-failed', '(error) ' + cellText(reply.value));
     }
