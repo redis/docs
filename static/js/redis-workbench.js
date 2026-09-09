@@ -292,6 +292,29 @@
     return cli().formatReply(value);
   }
 
+  /* Does this sorted set hold places? There is no geo type to ask about: GEOADD
+     writes a member's 52-bit geohash as its score, and TYPE answers `zset` either
+     way. A geohash is a whole number in the top of that range — 1367859900908957
+     for San Francisco — where the scores of a leaderboard, a rate limiter or a
+     priority queue are small, and often fractional. So: every score a whole
+     number above the floor, or no map.
+
+     Getting it wrong is cheap in one direction and not the other. A plain sorted
+     set drawn as a map would be nonsense — GEOPOS decodes score 1 to the corner
+     of the world, (-180, -85.05) — so the test is deliberately strict, and a geo
+     key whose members all sit near longitude -180 simply keeps its table. */
+  var GEO_SCORE_FLOOR = 1e12;
+  var GEO_SCORE_CEILING = 4503599627370496;      /* 2^52, the whole geohash space */
+
+  function looksGeo(rows) {
+    if (!rows.length) return false;
+    return rows.every(function (row) {
+      var score = Number(cellText(row[1]));
+      return isFinite(score) && score % 1 === 0
+        && score >= GEO_SCORE_FLOOR && score <= GEO_SCORE_CEILING;
+    });
+  }
+
   /* [a, b, c, d] -> [[a, b], [c, d]]; the RESP2 shape of HGETALL, ZRANGE
      WITHSCORES, TS.INFO and friends. */
   function pairs(flat) {
@@ -752,6 +775,10 @@
               kind: 'table',
               head: ['Member', 'Score'],
               rows: rows,
+              /* A geo key *is* a sorted set — GEOADD writes the geohash as the
+                 score — so the map is offered off the same reply. */
+              geo: looksGeo(rows)
+                ? rows.map(function (row) { return cellText(row[0]); }) : null,
               limited: known && size > PREVIEW_ITEMS
                 ? { shown: rows.length, of: plural(size, 'member') } : null
             };
@@ -880,6 +907,12 @@
     setupRan: {},
     ranCommands: [],
     jsonPath: null,
+    /* The key the value column is showing, so a redraw of the same one can keep
+       the reader's scroll position. */
+    valueShown: null,
+    /* Keys a map has been drawn for, by name: their second round trip is
+       expected, so the pane waits for it rather than flashing the table. */
+    geoKeys: {},
     selected: null,
     truncated: false,
     /* command batches seen while closed, discovered at first open */
@@ -1130,6 +1163,9 @@
     split.appendChild(this.columnDivider('Resize the key list', 1));
 
     var valueColumn = el('div', 'rwb-col rwb-col-value');
+    /* The column scrolls, not the pane inside it — so this is what has to be put
+       back where the reader left it when the pane is redrawn. */
+    this.valueColumn = valueColumn;
     var valueHead = el('div', 'rwb-col-head');
     valueHead.appendChild(el('span', 'rwb-col-title', 'Value'));
     valueColumn.appendChild(valueHead);
@@ -2275,11 +2311,22 @@
       return Promise.resolve();
     }
     return run(commands).then(function (replies) {
-      self.renderValue(key, {
-        view: probe.build(replies),
-        commands: probe.commands
-      });
+      var view = probe.build(replies);
+      /* The table first, the map a moment later. Where the coordinates are can
+         only be asked once the members are known, so it is a second round trip —
+         and one worth not making the reader wait for.
+
+         Except on a key already known to be geo: then what is on screen is a
+         map, and painting the members table over it for the length of a round
+         trip put a frame of table between every click on a map and the map
+         coming back. Nothing is drawn until the coordinates land. */
+      var known = view.geo && self.geoKeys[name];
+      if (!known) self.renderValue(key, { view: view, commands: probe.commands });
       self.end();
+      if (view.geo) {
+        self.geoKeys[name] = true;
+        return self.readGeo(key, view, probe.commands);
+      }
     }, function () {
       self.end();
     });
@@ -2670,6 +2717,277 @@
     }, function () { self.end(); });
   };
 
+  /* How many places to plot. Beyond this the dots are a smudge and the labels are
+     unreadable, and the table underneath still holds every one of them. */
+  var MAX_MAP_POINTS = 60;
+
+  /* Which pane of a value the reader last had open, by key name. */
+  dock.valueTabs = {};
+
+  dock.chosenPane = function (of, panes) {
+    var wanted = this.valueTabs[of];
+    var found = panes.filter(function (spec) { return spec.id === wanted; })[0];
+    return found || panes[0];
+  };
+
+  /* Distances are asked for in one of these; the second is what a reader in the
+     United States would reach for. GEOSEARCH takes both. */
+  var GEO_UNITS = [
+    { unit: 'km', label: 'km', per: 1 },
+    { unit: 'mi', label: 'mi', per: 0.621371 }
+  ];
+
+  dock.geoOptions = function () {
+    if (!this.geo) this.geo = { from: null, unit: 'km', radius: null };
+    return this.geo;
+  };
+
+  /* Where the members of a geo key are, and — once one of them has been picked —
+     how far the rest are from it.
+
+     GEOPOS rather than decoding the geohash scores here: it is one command, it is
+     the command a reader would run, and it goes in the READ WITH line with the
+     rest. Distances come from GEOSEARCH FROMMEMBER rather than a GEODIST per
+     pair: one command instead of N, sorted by the server, and the same command
+     the docs teach for "what is near this". */
+  dock.readGeo = function (key, table, ran) {
+    var self = this;
+    var members = table.geo.slice(0, MAX_MAP_POINTS);
+    var search = this.geoOptions();
+    var where = 'GEOPOS ' + quote(key.name) + ' ' + members.map(quote).join(' ');
+    /* Only for a member this key still has: a sweep can have removed the one the
+       reader picked. */
+    var from = search.from && members.indexOf(search.from) !== -1 ? search.from : null;
+    /* Both in one batch when the radius is already known. It is not known on the
+       first pick, or after the unit changed, and fitting one needs the
+       coordinates GEOPOS is being asked for — so that case takes a second round
+       trip rather than searching a radius of nothing. */
+    var commands = from && search.radius
+      ? [where, geoSearchCommand(key.name, from, search)] : [where];
+
+    return run(commands).then(function (replies) {
+      var places = [];
+      (ok(replies[0]) || []).forEach(function (spot, index) {
+        if (!Array.isArray(spot) || spot.length < 2) return;
+        var lon = Number(cellText(spot[0]));
+        var lat = Number(cellText(spot[1]));
+        if (!isFinite(lon) || !isFinite(lat)) return;
+        places.push({ name: members[index], lon: lon, lat: lat });
+      });
+      if (!places.length) return;
+
+      function show(ranAll, found) {
+        self.renderValue(key, {
+          commands: ran.concat(ranAll),
+          view: {
+            kind: 'panes',
+            of: key.name,
+            facts: table.facts,
+            panes: [
+              /* The value itself first, and so the default: this column answers
+                 "what is in this key", and for a geo key that is a sorted set of
+                 members and geohashes. The map is the reading of it, one click
+                 away. */
+              { id: 'members', label: 'Members', render: function () {
+                var block = el('div');
+                block.appendChild(renderTable(table.head, table.rows));
+                if (table.limited) {
+                  block.appendChild(el('p', 'rwb-limited', 'Showing '
+                    + table.limited.shown + ' of ' + table.limited.of));
+                }
+                return block;
+              } },
+              { id: 'map', label: 'Map', render: function () {
+                var block = el('div');
+                block.appendChild(renderMap(places, {
+                  from: from,
+                  of: table.geo.length > places.length ? table.geo.length : 0,
+                  /* The pane is in the document already, so its width is known
+                     before the map is built. Less the padding either side. */
+                  width: (self.valuePane.clientWidth || 0) - 20,
+                  pick: function (name) { self.pickGeoFrom(key, name); }
+                }));
+                if (from) {
+                  block.appendChild(el('div', 'rwb-group', 'Distance from ' + from));
+                  block.appendChild(self.geoControls(key, search));
+                  block.appendChild(self.renderDistances({
+                    from: from, reply: found, key: key, search: search
+                  }));
+                } else {
+                  block.appendChild(el('p', 'rwb-hint',
+                    'Click a place to measure from it — GEOSEARCH answers with '
+                    + 'what is within a radius of it, nearest first.'));
+                }
+                return block;
+              } }
+            ]
+          }
+        });
+      }
+
+      if (!from) return show(commands, null);
+      if (commands.length > 1) return show(commands, replies[1]);
+      /* Far enough to hold the whole key, so the first search answers with
+         everything rather than nothing. */
+      search.radius = fittingRadius(places, search.unit);
+      var query = geoSearchCommand(key.name, from, search);
+      /* The map goes up now; the distances land a moment later. */
+      show(commands, null);
+      return run([query]).then(function (found) {
+        show(commands.concat([query]), found[0]);
+      });
+    }, function () { /* no map, and the table is already up */ });
+  };
+
+  /* Measure from here. Re-reads rather than patching the view: the map has to
+     mark the new origin and the distances all change. */
+  dock.pickGeoFrom = function (key, name) {
+    var search = this.geoOptions();
+    search.from = search.from === name ? null : name;
+    return this.openKey(key.name);
+  };
+
+  function geoSearchCommand(name, from, search) {
+    return 'GEOSEARCH ' + quote(name) + ' FROMMEMBER ' + quote(from)
+      + ' BYRADIUS ' + search.radius + ' ' + search.unit
+      + ' ASC WITHDIST COUNT ' + MAX_MAP_POINTS;
+  }
+
+  /* A radius that reaches every place in the key, rounded up so it reads as a
+     round number in the box. Worked out here rather than asked of the server:
+     the coordinates are already in hand. */
+  function fittingRadius(places, unit) {
+    var far = 0;
+    places.forEach(function (one) {
+      places.forEach(function (other) {
+        far = Math.max(far, haversine(one, other));
+      });
+    });
+    var per = GEO_UNITS.filter(function (each) { return each.unit === unit; })[0].per;
+    var wanted = Math.max(1, far * per) * 1.1;
+    var size = Math.pow(10, Math.floor(Math.log(wanted) / Math.LN10));
+    return Math.ceil(wanted / size) * size;
+  }
+
+  /* Great-circle distance in kilometres. The same formula GEODIST uses, on the
+     same sphere radius Redis assumes (6372.797 km). */
+  function haversine(one, other) {
+    var rad = Math.PI / 180;
+    var dLat = (other.lat - one.lat) * rad;
+    var dLon = (other.lon - one.lon) * rad;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+      + Math.cos(one.lat * rad) * Math.cos(other.lat * rad)
+      * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return 6372.797 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  /* The radius to search, and the unit to say it in — the two arguments of
+     GEOSEARCH BYRADIUS a reader would change by hand. */
+  dock.geoControls = function (key, search) {
+    var self = this;
+    var row = el('form', 'rwb-vsim-controls');
+
+    var units = el('div', 'rwb-vsim-counts');
+    units.setAttribute('role', 'group');
+    units.setAttribute('aria-label', 'Distance unit');
+    GEO_UNITS.forEach(function (choice) {
+      var on = choice.unit === search.unit;
+      var chip = el('button', 'rwb-chip' + (on ? ' rwb-chip-on' : ''), choice.label);
+      chip.type = 'button';
+      chip.title = 'Measure in ' + choice.label;
+      chip.setAttribute('aria-pressed', on ? 'true' : 'false');
+      chip.addEventListener('click', function () {
+        if (on) return;
+        search.unit = choice.unit;
+        /* The radius went with the old unit: 1000 km is not 1000 mi. Dropped, so
+           the next read fits one to the key again. */
+        search.radius = null;
+        self.openKey(key.name);
+      });
+      units.appendChild(chip);
+    });
+    row.appendChild(units);
+
+    var radius = el('input', 'rwb-vsim-filter');
+    radius.type = 'text';
+    radius.inputMode = 'decimal';
+    radius.value = String(search.radius);
+    radius.title = 'How far to search, in ' + search.unit;
+    radius.setAttribute('aria-label', 'Radius in ' + search.unit);
+    row.appendChild(radius);
+
+    var go = el('button', 'rwb-btn', 'Search');
+    go.type = 'submit';
+    go.title = 'Run GEOSEARCH with this radius';
+    row.appendChild(go);
+
+    row.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var wanted = parseFloat(radius.value);
+      if (isFinite(wanted) && wanted > 0) search.radius = wanted;
+      /* Where the caret was, to put it back in the box that replaces this one:
+         the reply redraws the pane, so the box the reader typed into is gone by
+         the time the distances are up. */
+      var caret = radius.selectionStart;
+      var back = function () { self.focusGeoRadius(caret); };
+      var reading = self.openKey(key.name);
+      if (reading && reading.then) reading.then(back); else back();
+    });
+    return row;
+  };
+
+  dock.focusGeoRadius = function (caret) {
+    if (!this.valuePane) return;
+    var box = this.valuePane.querySelector('.rwb-vsim-filter');
+    if (!box) return;
+    /* preventScroll, or focusing the box scrolls the column to it — which is
+       the very thing the reader did not ask for. */
+    box.focus({ preventScroll: true });
+    var at = typeof caret === 'number' ? Math.min(caret, box.value.length)
+      : box.value.length;
+    box.setSelectionRange(at, at);
+  };
+
+  /* GEOSEARCH's answer: the places within the radius, nearest first, each with
+     its distance. The bar is the distance as a share of the farthest one — so
+     the nearest is a stub and the farthest fills the track, which is the way
+     round a reader expects "further" to look. */
+  dock.renderDistances = function (section) {
+    var self = this;
+    var reply = section.reply;
+    if (reply && reply.error) {
+      return el('p', 'rwb-text rwb-failed', '(error) ' + cellText(reply.value));
+    }
+    var rows = (ok(reply) || []).map(function (hit) {
+      return Array.isArray(hit)
+        ? { name: cellText(hit[0]), away: Number(cellText(hit[1])) }
+        : { name: cellText(hit), away: NaN };
+    });
+    if (!rows.length) {
+      return el('p', 'rwb-empty',
+        'Nothing within ' + section.search.radius + ' ' + section.search.unit + '.');
+    }
+    var far = Math.max.apply(null, rows.map(function (row) {
+      return isNaN(row.away) ? 0 : row.away;
+    })) || 1;
+    return renderBars(rows.map(function (row) {
+      var here = row.name === section.from;
+      return {
+        name: row.name,
+        share: isNaN(row.away) ? 0 : row.away / far,
+        label: isNaN(row.away) ? '—' : trimNumber(row.away) + ' ' + section.search.unit,
+        mark: here ? 'from here' : null,
+        title: 'Measure from ' + row.name + ' instead',
+        pick: here ? null : function () { self.pickGeoFrom(section.key, row.name); }
+      };
+    }));
+  };
+
+  /* 8955.05, 12.3, 0.4 — two decimals at most, and none where they say nothing. */
+  function trimNumber(value) {
+    return String(Math.round(value * 100) / 100);
+  }
+
   dock.openIndex = function (name) {
     var self = this;
     this.selected = name;
@@ -2841,6 +3159,14 @@
       ? { name: typing.dataset.rwbKey, text: typing.value,
           caret: typing.selectionStart, focused: document.activeElement === typing }
       : null;
+    /* And where the reader had scrolled to, if this is the same key being
+       redrawn. Every command redraws this column, so a reader who had scrolled
+       down to the controls under a map was sent back to the top by their own
+       Enter. A different key starts at the top, which is where its value
+       begins. */
+    var column = this.valueColumn;
+    var keepScroll = column && this.valueShown === key.name ? column.scrollTop : 0;
+    this.valueShown = key.name;
     pane.replaceChildren();
 
     var head = el('div', 'rwb-value-head');
@@ -2895,6 +3221,7 @@
       this.pathCarried = null;
       this.focusJsonPath(caret);
     }
+    if (column && keepScroll) column.scrollTop = keepScroll;
   };
 
   function renderView(view, onOpenRow) {
@@ -2916,6 +3243,43 @@
       });
       return wrap;
     }
+    /* Panes rather than one long column, where a value has two ways of being
+       read that a reader picks between — a geo key's map and its members. The
+       choice is remembered per key: a sweep re-renders the value on every
+       command, and having that snap back to the first pane would make the map
+       unusable while typing. */
+    if (view.kind === 'panes') {
+      var panes = el('div', 'rwb-vpanes');
+      var strip = el('div', 'rwb-vtabs');
+      strip.setAttribute('role', 'tablist');
+      var body = el('div', 'rwb-vbody');
+      var chosen = dock.chosenPane(view.of, view.panes);
+
+      view.panes.forEach(function (spec) {
+        var tab = el('button', 'rwb-tab rwb-vtab', spec.label);
+        tab.type = 'button';
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('aria-selected', spec.id === chosen.id ? 'true' : 'false');
+        tab.addEventListener('click', function () {
+          if (spec.id === chosen.id) return;
+          dock.valueTabs[view.of] = spec.id;
+          chosen = spec;
+          [].forEach.call(strip.children, function (other, index) {
+            other.setAttribute('aria-selected',
+              view.panes[index].id === spec.id ? 'true' : 'false');
+          });
+          /* Both panes are built from replies already in hand, so switching is a
+             redraw and not another round trip. */
+          body.replaceChildren(spec.render());
+        });
+        strip.appendChild(tab);
+      });
+      panes.appendChild(strip);
+      body.appendChild(chosen.render());
+      panes.appendChild(body);
+      return panes;
+    }
+
     if (view.kind === 'sections') {
       var sections = el('div', 'rwb-sections');
       view.sections.forEach(function (section) {
@@ -2926,6 +3290,238 @@
     }
     return el('p', 'rwb-empty', 'Nothing to show.');
   }
+
+  /* A round step that puts two or three lines across the span — the steps a map
+     is drawn with (degrees, then halves, then minutes), not 0.37 of a degree. */
+  var STEPS = [0.01, 0.02, 0.05, 0.1, 0.2, 0.25, 0.5, 1, 2, 5, 10, 15, 20, 30, 45, 60];
+
+  function niceStep(span) {
+    var want = Math.abs(span) / 3;
+    for (var i = 0; i < STEPS.length; i += 1) {
+      if (STEPS[i] >= want) return STEPS[i];
+    }
+    return STEPS[STEPS.length - 1];
+  }
+
+  /* ---- the map ----
+     Places, plotted. Both axes get the same scale — longitude squeezed by the
+     cosine of the latitude they sit at, which is what keeps a city block square
+     rather than stretched — and the drawing is fitted inside the box rather than
+     stretched to fill it (preserveAspectRatio, unlike the time series plot). A
+     map that stretches with the pane is a map that lies about direction. */
+  var MAP = { width: 320, maxWidth: 520, height: 160, pad: 16, dot: '#0284c7',
+    maxLabels: 12 };
+
+  function renderMap(points, section) {
+    var of = section && section.of;
+    var from = section && section.from;
+    var pick = section && section.pick;
+    var wrap = el('div', 'rwb-map');
+    /* Drawn at the size it will be shown at, rather than drawn at 320 wide and
+       scaled to fit: an SVG scaled to a wide column takes its text and its dots
+       up with it, and a map with 18px labels on it is unreadable. The caller
+       measures the column; these bounds keep it a map either way. */
+    var box = {
+      /* Wide enough to read at the narrowest the column gets, and no wider than
+         a map of a handful of places wants to be: past this it is a few dots in
+         an empty field, and the distances below it are pushed off the pane. */
+      width: Math.max(260, Math.min(MAP.maxWidth,
+        Math.round(section && section.width) || MAP.width))
+    };
+    /* Half as tall as it is wide — the aspect a row of places reads best at. */
+    box.height = Math.round(box.width / 2);
+    /* Room for a name at the edge of the plot, in proportion to the plot. A
+       margin narrower than a name means the place at the edge of the key loses
+       its label, so this is wide enough to hold one. */
+    box.pad = Math.max(24, Math.round(box.width * 0.09));
+    var mid = points.reduce(function (sum, place) { return sum + place.lat; }, 0)
+      / points.length;
+    /* Degrees of longitude are shorter than degrees of latitude everywhere but
+       the equator, by this much. */
+    var squeeze = Math.cos(mid * Math.PI / 180) || 1;
+
+    var xs = points.map(function (place) { return place.lon * squeeze; });
+    var ys = points.map(function (place) { return -place.lat; });
+    var lowX = Math.min.apply(null, xs);
+    var highX = Math.max.apply(null, xs);
+    var lowY = Math.min.apply(null, ys);
+    var highY = Math.max.apply(null, ys);
+    var room = { x: box.width - box.pad * 2, y: box.height - box.pad * 2 };
+    /* One scale for both axes, so nothing is distorted; a single place, or a row
+       of places on one line, has no span to fit and simply sits in the middle. */
+    var scale = Math.min(
+      highX - lowX ? room.x / (highX - lowX) : Infinity,
+      highY - lowY ? room.y / (highY - lowY) : Infinity
+    );
+    if (!isFinite(scale)) scale = 1;
+    var centre = { x: (lowX + highX) / 2, y: (lowY + highY) / 2 };
+
+    function at(place, index) {
+      return {
+        x: box.width / 2 + (place.lon * squeeze - centre.x) * scale,
+        y: box.height / 2 + (-place.lat - centre.y) * scale,
+        index: index
+      };
+    }
+
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'rwb-map-plot');
+    svg.setAttribute('viewBox', '0 0 ' + box.width + ' ' + box.height);
+    svg.setAttribute('width', String(box.width));
+    svg.setAttribute('height', String(box.height));
+    /* Fitted, not stretched — and with the box measured from the column, there
+       is nothing left to fit: one unit of the drawing is one pixel on screen. */
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', plural(points.length, 'place') + ' plotted, '
+      + points.map(function (place) { return place.name; }).join(', '));
+
+    /* Whole degrees of latitude and longitude, drawn under the places and
+       labelled at the edges. Without them the dots say how the places sit
+       relative to each other but not where on earth they are, or how far apart:
+       three dots in a triangle look the same across a city and across a
+       continent. Two or three lines per axis — enough to read the position and
+       the scale off, few enough to stay out of the way. */
+    var span = {
+      lon: { low: (centre.x - (box.width / 2) / scale) / squeeze,
+        high: (centre.x + (box.width / 2) / scale) / squeeze },
+      /* y grows downwards, so the top edge is the higher latitude. */
+      lat: { low: -(centre.y + (box.height / 2) / scale),
+        high: -(centre.y - (box.height / 2) / scale) }
+    };
+    [
+      { of: 'lon', at: function (value) {
+        return box.width / 2 + (value * squeeze - centre.x) * scale; } },
+      { of: 'lat', at: function (value) {
+        return box.height / 2 + (-value - centre.y) * scale; } }
+    ].forEach(function (axis) {
+      var range = span[axis.of];
+      var step = niceStep(range.high - range.low);
+      var first = Math.ceil(range.low / step);
+      /* Counted from the first line rather than added up, so a step of 0.1 does
+         not drift into 0.30000000000000004 by the third one. */
+      for (var n = 0; first * step + n * step <= range.high; n += 1) {
+        var value = (first + n) * step;
+        var place = axis.at(value);
+        var down = axis.of === 'lat';
+        var rule = document.createElementNS(svg.namespaceURI, 'line');
+        rule.setAttribute('class', 'rwb-map-rule');
+        rule.setAttribute('x1', String(down ? 0 : place));
+        rule.setAttribute('x2', String(down ? box.width : place));
+        rule.setAttribute('y1', String(down ? place : 0));
+        rule.setAttribute('y2', String(down ? place : box.height));
+        rule.setAttribute('vector-effect', 'non-scaling-stroke');
+        svg.appendChild(rule);
+
+        var tick = document.createElementNS(svg.namespaceURI, 'text');
+        tick.setAttribute('class', 'rwb-map-tick');
+        tick.setAttribute('x', String(down ? 3 : place + 3));
+        tick.setAttribute('y', String(down ? place - 3 : box.height - 4));
+        tick.textContent = degreeLabel(value, axis.of);
+        svg.appendChild(tick);
+      }
+    });
+
+    var named = [];
+    points.forEach(function (place, index) {
+      var spot = at(place, index);
+      var here = place.name === from;
+      var dot = document.createElementNS(svg.namespaceURI, 'circle');
+      dot.setAttribute('class', 'rwb-map-dot' + (here ? ' rwb-map-dot-from' : ''));
+      dot.setAttribute('cx', String(spot.x));
+      dot.setAttribute('cy', String(spot.y));
+      dot.setAttribute('r', here ? '5' : '3');
+      /* Exact coordinates on hover, for every point — the labels are only for
+         the few, and rounding is for reading, not for trusting. */
+      var title = document.createElementNS(svg.namespaceURI, 'title');
+      title.textContent = place.name + ' — ' + place.lat.toFixed(5) + ', '
+        + place.lon.toFixed(5);
+      dot.appendChild(title);
+      /* A dot is the handle for "measure from here". Focusable and answering to
+         Enter as well as a click: it is a control, whatever it is drawn as. */
+      if (pick) {
+        dot.setAttribute('role', 'button');
+        dot.setAttribute('tabindex', '0');
+        dot.setAttribute('aria-pressed', here ? 'true' : 'false');
+        dot.addEventListener('click', function () { pick(place.name); });
+        dot.addEventListener('keydown', function (event) {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          pick(place.name);
+        });
+      }
+      svg.appendChild(dot);
+
+      if (points.length <= MAP.maxLabels) named.push({ name: place.name, spot: spot });
+    });
+
+    /* Names, while there are few enough for them to be read. Each takes the
+       first place that is inside the plot and clear of the names already put
+       down: right of its dot, then left, then a line under either. A name with
+       nowhere to go is left off rather than printed over its neighbour — the dot
+       still says who it is on hover. Naples sat on top of Bari before this, and
+       Catania sat on top of Caltanissetta after the first attempt at it. */
+    var taken = [];
+    named.forEach(function (item) {
+      /* How wide the name will be, near enough: the labels are 10px, so six
+         pixels a character is a safe overestimate. Measuring would mean being in
+         the document, and this drawing is not in it yet. */
+      var wide = item.name.length * 6;
+      var tries = [
+        { x: item.spot.x + 6, y: item.spot.y + 3, end: false },
+        { x: item.spot.x - 6, y: item.spot.y + 3, end: true },
+        { x: item.spot.x + 6, y: item.spot.y + 14, end: false },
+        { x: item.spot.x - 6, y: item.spot.y + 14, end: true },
+        { x: item.spot.x + 6, y: item.spot.y - 8, end: false },
+        { x: item.spot.x - 6, y: item.spot.y - 8, end: true }
+      ];
+      for (var i = 0; i < tries.length; i += 1) {
+        var spot = tries[i];
+        var left = spot.end ? spot.x - wide : spot.x;
+        var right = left + wide;
+        var top = spot.y - 8;
+        if (left < 2 || right > box.width - 2) continue;
+        if (top < 0 || spot.y > box.height - 2) continue;
+        var clash = taken.some(function (other) {
+          return left < other.right + 2 && right + 2 > other.left
+            && top < other.bottom && spot.y > other.top;
+        });
+        if (clash) continue;
+        taken.push({ left: left, right: right, top: top, bottom: spot.y + 2 });
+        var label = document.createElementNS(svg.namespaceURI, 'text');
+        label.setAttribute('class', 'rwb-map-label');
+        label.setAttribute('x', String(spot.x));
+        label.setAttribute('y', String(spot.y));
+        if (spot.end) label.setAttribute('text-anchor', 'end');
+        label.textContent = item.name;
+        svg.appendChild(label);
+        return;
+      }
+    });
+    wrap.appendChild(svg);
+
+    /* The span of the plot is on the axes, and the count is in the key list, so
+       neither needs saying under the map. What does need saying is a map that is
+       not all of the key — in the same words the rest of the dock uses. */
+    if (of) {
+      wrap.appendChild(el('p', 'rwb-limited',
+        'Showing ' + points.length + ' of ' + plural(of, 'place')));
+    }
+    return wrap;
+  }
+
+  /* 45°N, 9°E — a signed number leaves the reader working out which way is which,
+     and a bare 9 could be either axis. */
+  function degreeLabel(value, axis) {
+    /* A step that lands on zero can land on -0.0000001 instead. */
+    var at = Math.abs(value) < 1e-9 ? 0 : value;
+    var text = String(Math.round(Math.abs(at) * 100) / 100) + '°';
+    /* The equator and the prime meridian belong to no hemisphere. */
+    if (!at) return text;
+    if (axis === 'lat') return text + (at > 0 ? 'N' : 'S');
+    return text + (at > 0 ? 'E' : 'W');
+  }
+
 
   function renderTable(head, rows, onOpenRow) {
     if (!rows || !rows.length) return el('p', 'rwb-empty', 'Empty.');
