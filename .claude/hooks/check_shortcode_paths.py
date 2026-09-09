@@ -60,12 +60,16 @@ HARD_RULES = [
 RELREF_DISABLED = os.environ.get("SHORTCODE_SKIP_RELREF") == "1"
 RELREF_RX = re.compile(r'\{\{[<%]\s*relref\s+["\']([^"\']+)["\']')
 
-# Plain `/content/<path>.md` links (the relref-replacement notation), same
-# diff-scoping as relref. Requires the literal .md/_index.md/index.md suffix
-# the converters emit -> see module docstring. Set SHORTCODE_SKIP_PLAIN_LINK=1
-# to turn it off.
+# Plain `/content/<path>.md[?query][#fragment]` links (the relref-replacement
+# notation), same diff-scoping as relref. Requires the literal .md/_index.md/
+# index.md suffix the converters emit -> see module docstring. The optional
+# `?query` (house style's `?group=` command-reference links) is what linkify
+# preserves when it rewrites such a link -- resolve_plain_link/_norm_relref
+# already strip both `?` and `#` before resolving, this just makes sure the
+# regex captures that href shape in the first place. Set
+# SHORTCODE_SKIP_PLAIN_LINK=1 to turn it off.
 PLAIN_LINK_DISABLED = os.environ.get("SHORTCODE_SKIP_PLAIN_LINK") == "1"
-PLAIN_LINK_RX = re.compile(r'\]\((/content/[^)\s]+\.md(?:#[^)\s]*)?)\)')
+PLAIN_LINK_RX = re.compile(r'\]\((/content/[^)\s]+\.md(?:\?[^)\s#]*)?(?:#[^)\s]*)?)\)')
 
 
 def find_root(start):
