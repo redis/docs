@@ -50,6 +50,8 @@ separate section to explain the
 > [!NOTE]
 > The redis-rb Query Engine requires redis-rb v6.0.0 or later.
 
+&nbsp;
+
 > [!NOTE]
 > `redis-rb` uses query dialect 2 by default.
 > Redis Search methods such as [`search()`](/content/commands/ft.search.md)
