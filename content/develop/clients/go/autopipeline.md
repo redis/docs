@@ -154,10 +154,10 @@ commands instead of 200. As soon as you supply `AutoPipelineOptions`, either on
 the client or to `AutoPipelineWithOptions()`, that preset no longer applies, and
 a `MaxBatchSize` you leave unset means 200.
 
-Connection and buffer tuning is not part of `AutoPipelineOptions`. Batches use
-the client's pipeline connections, which you size with the
-`PipelineReadBufferSize`, `PipelineWriteBufferSize`, and `PipelinePoolSize`
-fields of the client's options.
+Connection and buffer tuning is not part of `AutoPipelineOptions`. Batches run
+on the client's separate pipeline connection pool, which you size with the
+fields described in
+[Connection pooling]({{< relref "/develop/clients/go/produsage#connection-pooling" >}}).
 
 Each client holds at most two autopipeliners: one for the blocking method and
 one for the asynchronous method. Each of them is a
