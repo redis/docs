@@ -16,8 +16,8 @@ go-redis uses **explicit error returns** following Go's idiomatic error handling
 but it is essential in production code.
 This page explains how go-redis's error handling works and how to apply
 some common error handling patterns. For an overview of error types and handling
-strategies, see [Error handling]({{< relref "/develop/clients/error-handling" >}}).
-See also [Production usage]({{< relref "/develop/clients/go/produsage" >}})
+strategies, see [Error handling](/content/develop/clients/error-handling.md).
+See also [Production usage](/content/develop/clients/go/produsage.md)
 for more information on connection management, timeouts, and other aspects of
 app reliability.
 
@@ -41,19 +41,19 @@ Common error types from go-redis include:
 | `net.OpError` | Network error | ✅ | Retry with backoff or fall back to alternative |
 | `redis.ResponseError` | Redis error response | ❌ | Fix the command or arguments |
 
-See [Categories of errors]({{< relref "/develop/clients/error-handling#categories-of-errors" >}})
+See [Categories of errors](/content/develop/clients/error-handling.md#categories-of-errors)
 for a more detailed discussion of these errors and their causes.
 
 ## Applying error handling patterns
 
-The [Error handling]({{< relref "/develop/clients/error-handling" >}}) overview
+The [Error handling](/content/develop/clients/error-handling.md) overview
 describes four main patterns. The sections below show how to implement them in
 go-redis:
 
 ### Pattern 1: Fail fast
 
 Return the error immediately if it represents an unrecoverable situation (see
-[Pattern 1: Fail fast]({{< relref "/develop/clients/error-handling#pattern-1-fail-fast" >}})
+[Pattern 1: Fail fast](/content/develop/clients/error-handling.md#pattern-1-fail-fast)
 for a full description):
 
 ```go
@@ -67,7 +67,7 @@ if err != nil {
 ### Pattern 2: Graceful degradation
 
 Check for specific errors and fall back to an alternative (see
-[Pattern 2: Graceful degradation]({{< relref "/develop/clients/error-handling#pattern-2-graceful-degradation" >}})
+[Pattern 2: Graceful degradation](/content/develop/clients/error-handling.md#pattern-2-graceful-degradation)
 for a full description):
 
 ```go
@@ -90,16 +90,16 @@ return result, nil
 ### Pattern 3: Retry with backoff
 
 Retry on temporary errors such as timeouts (see
-[Pattern 3: Retry with backoff]({{< relref "/develop/clients/error-handling#pattern-3-retry-with-backoff" >}})
+[Pattern 3: Retry with backoff](/content/develop/clients/error-handling.md#pattern-3-retry-with-backoff)
 for a full description). go-redis has built-in retry logic with
-configurable timing and backoffs. See [Retries]({{< relref "/develop/clients/go/produsage#retries" >}}) for more information. Note also that
+configurable timing and backoffs. See [Retries](/content/develop/clients/go/produsage.md#retries) for more information. Note also that
 you can configure timeouts (which are one of the most common causes of
-temporary errors) for connections and commands. See [Timeouts]({{< relref "/develop/clients/go/produsage#timeouts" >}}) for more information.
+temporary errors) for connections and commands. See [Timeouts](/content/develop/clients/go/produsage.md#timeouts) for more information.
 
 ### Pattern 4: Log and continue
 
 Log non-critical errors and continue (see
-[Pattern 4: Log and continue]({{< relref "/develop/clients/error-handling#pattern-4-log-and-continue" >}})
+[Pattern 4: Log and continue](/content/develop/clients/error-handling.md#pattern-4-log-and-continue)
 for a full description):
 
 ```go
@@ -115,10 +115,10 @@ if err != nil {
 ```
 
 Note that go-redis also supports [OpenTelemetry](https://opentelemetry.io/)
-instrumentation to monitor performance and trace the execution of Redis commands. See [Observability]({{< relref "/develop/clients/go#observability" >}}) for more information.
+instrumentation to monitor performance and trace the execution of Redis commands. See [Observability](/content/develop/clients/go/_index.md#observability) for more information.
 
 ## See also
 
-- [Error handling]({{< relref "/develop/clients/error-handling" >}})
-- [Production usage]({{< relref "/develop/clients/go/produsage" >}})
-- [Observability]({{< relref "/develop/clients/go#observability" >}})
+- [Error handling](/content/develop/clients/error-handling.md)
+- [Production usage](/content/develop/clients/go/produsage.md)
+- [Observability](/content/develop/clients/go/_index.md#observability)
