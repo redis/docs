@@ -106,7 +106,7 @@ Your account's default credit card applies to all active subscriptions. To chang
 
 3.  In the **Change default credit card** dialog, select **Confirm**.
 
-    Changing your default credit card applies that card to all active subscriptions in your account.
+    Changing your default credit card applies that card to all active subscriptions in your account that use a credit card as their payment method.
 
 If your account has more than one credit card actively used across different subscriptions, an Account Admin or Billing Admin must choose a single default card. Starting October 1, 2026, that admin sees a dialog on login listing each stored card by its last 4 digits, expiration date, and name on card. You must select a card and select **Confirm Default Card** to continue to the console; you can't close or dismiss this dialog without selecting a card.
 
