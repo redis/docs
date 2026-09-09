@@ -1,5 +1,6 @@
 ---
 aliases:
+- /develop/use-cases/agent-memory/php
 - /develop/use-cases/agent-memory/predis
 categories:
 - docs
@@ -8,15 +9,15 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed agent memory layer in PHP with Predis, TransformersPHP, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
+description: Build a Redis-backed memory layer in PHP with Predis, TransformersPHP, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
 linkTitle: Predis example (PHP)
-title: Redis agent memory with Predis
+title: Redis memory layer with Predis
 weight: 8
 ---
 
-This guide shows you how to build a small Redis-backed agent memory layer in PHP with [Predis]({{< relref "/develop/clients/php" >}}) and the [TransformersPHP](https://transformers.codewithkyrian.com/) library, using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built on PHP's `stream_socket_server` so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
+This guide shows you how to build a small Redis-backed memory layer in PHP with [Predis]({{< relref "/develop/clients/php" >}}) and the [TransformersPHP](https://transformers.codewithkyrian.com/) library, using only standard Redis commands — no Redis Agent Memory SDK, no managed service. It includes a local web server built on PHP's `stream_socket_server` so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
 
-The embedder is [TransformersPHP](https://transformers.codewithkyrian.com/) running the ONNX-exported [`Xenova/all-MiniLM-L6-v2`](https://huggingface.co/Xenova/all-MiniLM-L6-v2) model through ONNX Runtime via FFI, which is the same encoder the [Python example]({{< relref "/develop/use-cases/agent-memory/redis-py" >}}) uses. Embeddings produced by the two implementations are numerically very close — paraphrase distances drift by less than 0.02 — so a memory written by one demo can be recalled by the other against the same Redis instance, and the distance bands the Python walkthrough quotes carry over to this one without recalibration. One quirk worth flagging up front: TransformersPHP 0.6 accepts a `normalize: true` keyword on the `feature-extraction` / `embeddings` pipeline but silently returns un-normalized vectors anyway, so the `Embedder` wrapper L2-normalizes in PHP code before handing the vector to recall or dedup — see [Embedder.php](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/Embedder.php) for the workaround.
+The embedder is [TransformersPHP](https://transformers.codewithkyrian.com/) running the ONNX-exported [`Xenova/all-MiniLM-L6-v2`](https://huggingface.co/Xenova/all-MiniLM-L6-v2) model through ONNX Runtime via FFI, which is the same encoder the [Python example]({{< relref "/develop/use-cases/memory-layer/redis-py" >}}) uses. Embeddings produced by the two implementations are numerically very close — paraphrase distances drift by less than 0.02 — so a memory written by one demo can be recalled by the other against the same Redis instance, and the distance bands the Python walkthrough quotes carry over to this one without recalibration. One quirk worth flagging up front: TransformersPHP 0.6 accepts a `normalize: true` keyword on the `feature-extraction` / `embeddings` pipeline but silently returns un-normalized vectors anyway, so the `Embedder` wrapper L2-normalizes in PHP code before handing the vector to recall or dedup — see [Embedder.php](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/php/src/Embedder.php) for the workaround.
 
 ## Overview
 
@@ -49,7 +50,7 @@ The embedding is computed once and reused for steps 3 and 4 — there's no point
 
 ## The session store
 
-`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/AgentSession.php)):
+`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/php/src/AgentSession.php)):
 
 ```php
 <?php
@@ -102,7 +103,7 @@ Every write — `start`, `appendTurn`, `setScratchpad` — runs the [`HSET`]({{<
 
 ## The long-term memory store
 
-`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/LongTermMemory.php)):
+`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/php/src/LongTermMemory.php)):
 
 ```php
 <?php
@@ -215,7 +216,7 @@ You can override per write with `ttlSeconds: ...` on `remember`, or pass a diffe
 
 ## The event log
 
-`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/AgentEventLog.php)):
+`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/php/src/AgentEventLog.php)):
 
 ```php
 <?php
@@ -257,7 +258,7 @@ Those caveats are deliberate. A more conservative implementation would obscure t
 
 ## Pre-seeding long-term memory
 
-In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `SeedMemory.php` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/php/src/SeedMemory.php)):
+In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `SeedMemory.php` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/php/src/SeedMemory.php)):
 
 ```php
 <?php
@@ -295,7 +296,7 @@ The server holds one `Embedder`, one `AgentSession`, one `LongTermMemory`, and o
 
     ```bash
     git clone https://github.com/redis/docs.git
-    cd docs/content/develop/use-cases/agent-memory/php
+    cd docs/content/develop/use-cases/memory-layer/php
     ```
 
 2.  Install the dependencies. TransformersPHP ships an installer plugin that downloads
