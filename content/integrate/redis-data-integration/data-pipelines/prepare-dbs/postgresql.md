@@ -82,6 +82,13 @@ Follow the steps below to enable CDC with [Amazon RDS for PostgreSQL](https://aw
     [security for PostgreSQL logical replication](https://www.postgresql.org/docs/current/logical-replication-security.html)
     for more information.
 
+
+## Azure Database for PostgreSQL
+If you are using [Azure Database for PostgreSQL](https://azure.microsoft.com/en-us/services/postgresql/) you need to 
+manually set the `wal_level` parameter in the Azure portal for your PostgreSQL server. Go to the `server parameters` 
+section, search for `wal_level` and set it to logical. Then save and restart the server.
+
+
 ## Install the logical decoding output plug-in
 
 As of PostgreSQL 9.4, the only way to read changes to the write-ahead-log is to
