@@ -2774,10 +2774,18 @@
     }
     var members = table.geo.slice(0, MAX_MAP_POINTS);
     var search = this.geoOptions(key.name);
-    var where = 'GEOPOS ' + quote(key.name) + ' ' + members.map(quote).join(' ');
     /* Only for a member this key still has: a sweep can have removed the one the
-       reader picked. */
-    var from = search.from && members.indexOf(search.from) !== -1 ? search.from : null;
+       reader picked. Looked for in the whole key rather than in the slice being
+       drawn — the distances come from GEOSEARCH, which answers with the nearest
+       members, and the nearest need not be among the first MAX_MAP_POINTS in
+       geohash order. Clicking one of those rows used to set an origin this read
+       then treated as missing, and the measurement disappeared. */
+    var from = search.from && table.geo.indexOf(search.from) !== -1
+      ? search.from : null;
+    /* And it is plotted whether or not it fell in the slice, so the map can mark
+       where the measuring is from. */
+    if (from && members.indexOf(from) === -1) members.push(from);
+    var where = 'GEOPOS ' + quote(key.name) + ' ' + members.map(quote).join(' ');
     /* Both in one batch when the radius is already known. It is not known on the
        first pick, or after the unit changed, and fitting one needs the
        coordinates GEOPOS is being asked for — so that case takes a second round
