@@ -2720,9 +2720,12 @@
     }, function () { self.end(); });
   };
 
-  /* How many places to plot. Beyond this the dots are a smudge and the labels are
-     unreadable, and the table underneath still holds every one of them. */
-  var MAX_MAP_POINTS = 60;
+  /* How many places to plot, and how many distances to measure. A readability
+     limit rather than a technical one: GEOPOS with this many members is 151
+     arguments against the sandbox's cap of 1024, so a few hundred would fit in
+     the one command. Past this the dots crowd into a smudge — and the members
+     table underneath still holds every one of them, whatever the map draws. */
+  var MAX_MAP_POINTS = 150;
 
   /* Which pane of a value the reader last had open, by key name. */
   dock.valueTabs = {};
