@@ -2740,8 +2740,19 @@
     { unit: 'mi', label: 'mi', per: 0.621371 }
   ];
 
-  dock.geoOptions = function () {
-    if (!this.geo) this.geo = { from: null, unit: 'km', radius: null };
+  dock.geoOptions = function (name) {
+    if (!this.geo) this.geo = { name: name, from: null, unit: 'km', radius: null };
+    /* Where to measure from and how far to look belong to the key they were
+       chosen on. Carried across, a member name two keys share would start a
+       search the reader never asked for on the second one, and a radius fitted
+       to Sicily is the wrong radius for a key of bike stations — and being set
+       already, it would not be fitted again. km or mi is a preference about
+       reading rather than about the data, so that one follows the reader. */
+    if (this.geo.name !== name) {
+      this.geo.name = name;
+      this.geo.from = null;
+      this.geo.radius = null;
+    }
     return this.geo;
   };
 
@@ -2762,7 +2773,7 @@
       self.renderValue(key, { view: table, commands: ran });
     }
     var members = table.geo.slice(0, MAX_MAP_POINTS);
-    var search = this.geoOptions();
+    var search = this.geoOptions(key.name);
     var where = 'GEOPOS ' + quote(key.name) + ' ' + members.map(quote).join(' ');
     /* Only for a member this key still has: a sweep can have removed the one the
        reader picked. */
@@ -2861,7 +2872,7 @@
   /* Measure from here. Re-reads rather than patching the view: the map has to
      mark the new origin and the distances all change. */
   dock.pickGeoFrom = function (key, name) {
-    var search = this.geoOptions();
+    var search = this.geoOptions(key.name);
     search.from = search.from === name ? null : name;
     return this.openKey(key.name);
   };
