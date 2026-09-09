@@ -3061,6 +3061,118 @@
 
   /* The widget is injected by the js/cli.js shim, so window.RedisCli may not
      exist yet when the DOM is ready; wait for it briefly rather than racing it. */
+  /* ---------------------------------------------------------- pasted blocks --
+
+     A reader with a multi-command example on the clipboard used to get one line
+     of it. The prompt is a single-line input, so the browser flattens the
+     newlines and only the first command survives — which reads as the terminal
+     ignoring what was pasted.
+
+     A paste with a newline in it is a list of commands, so run them in order,
+     the way a "Try it" snippet runs. One listener in the capture phase covers
+     the dock's terminal, a page's own inline terminals, and any terminal added
+     after this ran, without the widget's own paste handling ever seeing it.
+     A single-line paste is left alone: that is text being typed. */
+
+  /* One paste, not a log file. Above this the rest is left unrun and said so. */
+  var MAX_PASTED = 60;
+
+  /* A prompt, and so a line the reader typed rather than one Redis printed:
+     `redis> ` in this site's examples, a bare `> ` in the 64 command pages that
+     use that form, and the host:port prompt a real redis-cli shows. The same
+     two forms the redis-cli shortcode recognises — see
+     layouts/shortcodes/redis-cli.html, which is where the convention lives. */
+  var PASTED_PROMPT = /^[^\s>]*>\s+/;
+
+  /* What one pasted line can carry in front of a command: those prompts, and the
+     `$` of a shell line — the same two a pasted block strips, so one line and
+     three behave alike. */
+  var PASTED_SINGLE = /^(?:[^\s>]*>|\$)\s+/;
+
+  function pastedCommands(text) {
+    var lines = text.split(/\r?\n/).map(function (line) {
+      return line.trim();
+    });
+    /* A block with prompts in it is a whole transcript: prompts, commands and
+       the replies in between. Then only the prompted lines are commands, and
+       running the rest would send Redis its own output — which is what the
+       shortcode learned the hard way ("unknown command '(integer)'"). */
+    var prompted = lines.filter(function (line) { return PASTED_PROMPT.test(line); });
+    if (prompted.length) {
+      return prompted.map(function (line) { return line.replace(PASTED_PROMPT, ''); })
+        .filter(function (line) { return line; });
+    }
+    /* No prompts: a plain list of commands, one per line. */
+    return lines.map(function (line) {
+      /* `$ redis-cli SET k v` and the like: the shell prompt, not the command. */
+      return line.replace(/^\$\s+/, '');
+    }).filter(function (line) {
+      /* Blank lines separate examples; a # line is a comment in every snippet
+         in these docs, and is not a command. */
+      return line && line.charAt(0) !== '#';
+    });
+  }
+
+  /* In batches the backend will accept, one after the other rather than at once,
+     so the transcript reads in the order the reader pasted. */
+  function runPasted(form, commands) {
+    var chunks = [];
+    for (var i = 0; i < commands.length; i += MAX_BATCH) {
+      chunks.push(commands.slice(i, i + MAX_BATCH));
+    }
+    return chunks.reduce(function (chain, chunk) {
+      return chain.then(function () {
+        /* 'interactive': a person pasted these. Labelling them 'preset' would
+           count them among the page's own snippets in the usage metrics. */
+        return cli().run(form, chunk, 'interactive');
+      });
+    }, Promise.resolve());
+  }
+
+  function onPaste(event) {
+    var input = event.target;
+    if (!input || input.tagName !== 'INPUT' || input.disabled) return;
+    var form = input.closest && input.closest('form.redis-cli');
+    if (!form || !cli() || !cli().run) return;
+    var text = event.clipboardData && event.clipboardData.getData('text');
+    if (!text) return;
+    /* One line is one command, and pasting it is usually the start of editing
+       it — so it goes in the box rather than running. Its prompt still comes
+       off: `redis> PING 1` copied off a page is a command with four characters
+       in front of it, and leaving them there means the reader's next keystroke
+       is an error. */
+    if (text.indexOf('\n') === -1) {
+      var single = text.trim();
+      if (!PASTED_SINGLE.test(single)) return;
+      event.preventDefault();
+      var stripped = single.replace(PASTED_SINGLE, '');
+      var before = input.value.slice(0, input.selectionStart);
+      var after = input.value.slice(input.selectionEnd);
+      input.value = before + stripped + after;
+      var caret = before.length + stripped.length;
+      input.setSelectionRange(caret, caret);
+      return;
+    }
+    var commands = pastedCommands(text);
+    if (!commands.length) return;
+    event.preventDefault();
+    var skipped = commands.length - MAX_PASTED;
+    if (skipped > 0) commands = commands.slice(0, MAX_PASTED);
+    runPasted(form, commands).then(function () {
+      if (skipped <= 0) return;
+      /* Said in the transcript rather than a status line: the transcript is
+         where the reader is looking, and an inline terminal has no status line. */
+      var pre = form.querySelector('pre');
+      if (pre) {
+        pre.appendChild(document.createTextNode(
+          '(' + skipped + ' more pasted ' + (skipped === 1 ? 'line' : 'lines')
+          + ' not run: ' + MAX_PASTED + ' at a time)\n'));
+      }
+    });
+  }
+
+  document.addEventListener('paste', onPaste, true);
+
   function mountWhenReady() {
     if (!pageHasRedis()) return;
     var deadline = 15000;
