@@ -306,6 +306,34 @@
   var GEO_SCORE_FLOOR = 1e12;
   var GEO_SCORE_CEILING = 4503599627370496;      /* 2^52, the whole geohash space */
 
+  /* Where a map is on offer at all. A geo key is a sorted set — GEOADD writes
+     the geohash as the score — and nothing in the reply says which it is, so a
+     score alone cannot decide it: a rate limiter written with
+     `ZADD key <now_ms> <request>` has scores of about 1.76e12, inside the
+     geohash range, and those decode to a pile of dots off Antarctica.
+
+     The page is the honest signal. On the pages that teach these commands the
+     reader is looking at coordinates; anywhere else a sorted set is a sorted
+     set. The paths are matched loosely at the end, so /commands/geoadd/ works
+     the same under /docs/latest/ and under a staging prefix. */
+  var GEO_COMMANDS = ['geoadd', 'geodist', 'geohash', 'geopos', 'georadius',
+    'georadiusbymember', 'georadiusbymember_ro', 'geosearch', 'geosearchstore'];
+
+  function pageWantsMap() {
+    var path;
+    try {
+      path = window.location.pathname.replace(/\/+$/, '');
+    } catch (err) {
+      return false;
+    }
+    if (/\/develop\/data-types\/geospatial$/.test(path)) return true;
+    for (var i = 0; i < GEO_COMMANDS.length; i += 1) {
+      var tail = '/commands/' + GEO_COMMANDS[i];
+      if (path.length >= tail.length && path.slice(-tail.length) === tail) return true;
+    }
+    return false;
+  }
+
   function looksGeo(rows) {
     if (!rows.length) return false;
     return rows.every(function (row) {
@@ -775,9 +803,9 @@
               kind: 'table',
               head: ['Member', 'Score'],
               rows: rows,
-              /* A geo key *is* a sorted set — GEOADD writes the geohash as the
-                 score — so the map is offered off the same reply. */
-              geo: looksGeo(rows)
+              /* The map is offered off this same reply, on the pages where a
+                 sorted set of geohashes is what the reader came to read. */
+              geo: pageWantsMap() && looksGeo(rows)
                 ? rows.map(function (row) { return cellText(row[0]); }) : null,
               limited: known && size > PREVIEW_ITEMS
                 ? { shown: rows.length, of: plural(size, 'member') } : null
