@@ -44,7 +44,7 @@ For (1), this is the producer’s responsibility, and for (2), Redis will calcul
 
 ## Idempotency modes
 
-Use the [`XADD`]({{< relref "/commands/xadd" >}}) command with idempotency parameters, `IDMP` or `IDMPAUTO`:
+Use the [`XADD`](/content/commands/xadd.md) command with idempotency parameters, `IDMP` or `IDMPAUTO`:
 
 ```
 XADD mystream IDMP producer-1 iid-1 * field value      # producer-1 (pid) and iid-1 (iid) are provided manually
@@ -90,7 +90,7 @@ Here's an illustration of how message processing in Redis Streams works with and
 
 ## Stream configuration
 
-Configure idempotency settings for a stream using [`XCFGSET`]({{< relref "/commands/xcfgset" >}}):
+Configure idempotency settings for a stream using [`XCFGSET`](/content/commands/xcfgset.md):
 
 ```
 XCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000
@@ -143,7 +143,7 @@ Producers can use the same iid without conflicts, as long as long as the pids ar
 
 ## Monitoring
 
-Use [`XINFO STREAM`]({{< relref "/commands/xinfo-stream" >}}) to monitor idempotency metrics:
+Use [`XINFO STREAM`](/content/commands/xinfo-stream.md) to monitor idempotency metrics:
 
 ```
 XINFO STREAM mystream
