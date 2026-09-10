@@ -181,6 +181,36 @@ You can connect to your database by using the database `private-dns-entry` and `
 
 After you've connected to your database, you can view the connection details in the Redis Cloud console in your subscription's **Connectivity > PrivateLink** tab or by going to the [connection wizard]({{< relref "/operate/rc/databases/connect" >}}) for your database. The private endpoint will point to the PrivateLink VPC resource endpoint or service network that you created.
 
+{{< note >}}
+The connection wizard and other parts of the console show your database's [public endpoint]({{< relref "/operate/rc/databases/connect" >}}), which is different from the `private-dns-entry` the discovery script returns. The public endpoint hostname is publicly resolvable and, by default, returns your database's address inside the Redis-managed VPC. That's correct behavior, and it's what [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}) and [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) consumers rely on. For PrivateLink, that address is overridden only inside your consumer VPC, by the private hosted zone that AWS creates there. Resolving the public endpoint hostname from anywhere else — including from on-premises over Direct Connect or a VPN — returns the unreachable Redis-managed VPC address, not an error. Use the database's `private-dns-entry` from your consumer VPC, or see [Connect from on-premises](#connect-from-on-premises) if you're connecting from outside it.
+{{< /note >}}
+
+## Connect from on-premises
+
+The private hosted zone that overrides the public endpoint hostname inside your consumer VPC doesn't extend to on-premises networks connected over Direct Connect or a VPN, even though they can reach the consumer VPC. Use one of the following approaches instead.
+
+Certificate verification decides which approach you need. Redis Cloud issues server certificates for its own hostnames, not for AWS-owned PrivateLink hostnames. If you use TLS, or expect to, your connection string must use the database's public endpoint hostname so that certificate verification succeeds, which means you need one of the two DNS-based approaches below. If you don't use TLS, you can connect directly with the resource endpoint's default DNS name.
+
+### Use the resource endpoint's default DNS name
+
+AWS documents this as a supported way to reach a resource endpoint from on-premises, not a workaround:
+
+> DNS requests from outside the VPC still return the private IP addresses of the resource endpoint's network interfaces. You can use these DNS names to access the resource from on premises, as long as you have access to the VPC that the resource endpoint is in, through VPN or Direct Connect.
+
+Find the resource endpoint's default DNS name in the AWS console, under the endpoint's details, and use it directly in your connection string. This requires no DNS configuration on either side, but it doesn't work with TLS, because the hostname doesn't match your database's certificate.
+
+### Add a CNAME to the public endpoint hostname
+
+If you want to keep using the database's public endpoint hostname, including with TLS, create a CNAME record in your own DNS that points the hostname to the resource endpoint's default DNS name. This needs one DNS record and no changes on the AWS or Redis Cloud side.
+
+Use a CNAME record, not an A record to the resource endpoint's network interface addresses. Those addresses aren't guaranteed to stay the same if the resource endpoint is recreated.
+
+### Use a Route 53 Resolver inbound endpoint
+
+For a fully AWS-native setup, create a [Route 53 Resolver inbound endpoint](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-forwarding-inbound-queries.html) in the consumer VPC and configure conditional forwarding from on-premises for your database's public endpoint domain. This also works with TLS, since it resolves the same public endpoint hostname your certificate expects. See [Integrating AWS Transit Gateway with AWS PrivateLink and Amazon Route 53 Resolver](https://aws.amazon.com/blogs/networking-and-content-delivery/integrating-aws-transit-gateway-with-aws-privatelink-and-amazon-route-53-resolver/) for the reference architecture.
+
+Route 53 Resolver endpoints are billed per elastic network interface per hour, with a two-interface minimum. See [Amazon Route 53 pricing](https://aws.amazon.com/route53/pricing/). This option costs more than a CNAME record, so it suits consumers of several PrivateLink services rather than a single database.
+
 ## Disassociate connection
 
 To disassociate a PrivateLink connection:
