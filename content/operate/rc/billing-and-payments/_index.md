@@ -40,11 +40,15 @@ The following tabs are available:
     
     Select this button to pay your invoice.
 
-- The **Payment Methods** tab lists your current payment methods.  You can add a new payment method, associate different payment methods with specific subscriptions, and remove payment methods.
+- The **Payment Methods** tab lists your current payment methods. Your account uses a single default credit card for all active subscriptions. A **Default** badge identifies that card, but only when your account has more than one stored card; if you have only one card, it's implicitly the default.
 
     {{<image filename="images/rc/billing-payment-method-tab.png" alt="The Payments Methods tab helps you manage payments for your subscriptions." >}}
 
-    Select **Add credit card** to enter new credit card details, or **Add marketplace account** to add a [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account.
+    Select **Add credit card** to enter new credit card details, or **Add marketplace account** to add a [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) or [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/aws-marketplace/" >}}) account. See [Set the default credit card](#set-the-default-credit-card) and [Remove a credit card](#remove-a-credit-card).
+
+    {{< note >}}
+If your account has more than one stored credit card, Redis Cloud shows a banner on login and on the Payment Methods page asking you to remove any cards you're not using: "Please remove any unused cards from your account. You can manage your credit cards anytime from the Billing & Payments page." You can dismiss this banner and continue using the console.
+    {{< /note >}}
 
 - The **Credits** tab shows coupon credits that have been applied to your account, if any.
 
@@ -87,6 +91,38 @@ To add a new credit card:
 3.  Select the **Add Credit Card** button to save your changes.
 
     {{<image filename="images/rc/button-billing-save-card.png" width="150px" alt="Use the Save Card button to save new payment details." >}}
+
+    {{< note >}}
+If this is the only credit card on your account, Redis Cloud automatically sets it as your default card. While your account has only one stored card, **Add credit card** is unavailable and you can't remove that card; use **Update Card** to change its details instead.
+    {{< /note >}}
+
+## Set the default credit card
+
+Your account's default credit card applies to all active subscriptions. To change it:
+
+1. In the [Redis Cloud console](https://cloud.redis.io/), select **Billing & Payments > Payment Methods**.
+
+2.  Locate the card you want to use, then select **Set as Default**.
+
+3.  In the **Change default credit card** dialog, select **Confirm**.
+
+    Changing your default credit card applies that card to all active subscriptions in your account that use a credit card as their payment method.
+
+If your account has more than one credit card actively used across different subscriptions, an Account Admin or Billing Admin must choose a single default card. Starting October 1, 2026, that admin sees a dialog on login listing each stored card by its last 4 digits, expiration date, and name on card. You must select a card and select **Confirm Default Card** to continue to the console; you can't close or dismiss this dialog without selecting a card.
+
+After you confirm a default card, Redis Cloud applies it to all active subscriptions in your account.
+
+## Remove a credit card
+
+To remove a credit card you no longer use:
+
+1. In the [Redis Cloud console](https://cloud.redis.io/), select **Billing & Payments > Payment Methods**.
+
+2.  Locate the card, then select **Remove**.
+
+You can't remove your default credit card. If you try, Redis Cloud shows this message: "You cannot delete your default credit card. Please set another card as default first." [Set a different card as default](#set-the-default-credit-card) first, then remove the one you no longer need.
+
+If your account has only one stored credit card, **Remove** is unavailable, because your account always needs a default credit card.
 
 ## Add marketplace account
 
