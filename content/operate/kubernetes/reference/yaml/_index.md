@@ -72,6 +72,7 @@ kubectl get events --sort-by=.metadata.creationTimestamp
 - [Rack awareness examples]({{< relref "/operate/kubernetes/reference/yaml/rack-awareness" >}}) - Rack-aware cluster configuration and required RBAC
 - [Active-Active examples]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) - Multi-cluster Active-Active database setup
 - [Multi-namespace examples]({{< relref "/operate/kubernetes/reference/yaml/multi-namespace" >}}) - Cross-namespace operator and cluster configurations
+- [Access control examples]({{< relref "/operate/kubernetes/reference/yaml/access-control" >}}) - Users, roles, role bindings, and ACLs for role-based access control
 - [Log collector RBAC examples]({{< relref "/operate/kubernetes/reference/yaml/log-collector-rbac" >}}) - RBAC permissions for log collection in restricted and all modes
 
 ## Best practices

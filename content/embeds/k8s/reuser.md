@@ -1,0 +1,19 @@
+```yaml
+apiVersion: app.redislabs.com/v1alpha1
+kind: RedisEnterpriseUser
+metadata:
+  name: some-db-user
+  labels:
+    app: redis-enterprise
+spec:
+  # The email address for the user.
+  email: some-db-user@example.com
+
+  # The username associated with the user.
+  username: some-db-user
+
+  # Names of one or more secrets holding the user's password.
+  # Each secret must have a key named 'password'.
+  passwordSecrets:
+  - name: some-db-user-secret
+```
