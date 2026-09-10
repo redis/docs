@@ -79,7 +79,7 @@ as well, like [`HINCRBY`](/content/commands/hincrby.md):
 (integer) 4972
 {{< /clients-example >}}
 
-You can find the [full list of hash commands in the documentation](/commands#hash).
+You can find the [full list of hash commands in the documentation](/commands?group=hash).
 
 It is worth noting that small hashes (i.e., a few elements with small values) are
 encoded in special way in memory that make them very memory efficient.
