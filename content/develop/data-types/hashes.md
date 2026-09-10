@@ -49,8 +49,8 @@ While hashes are handy to represent *objects*, actually the number of fields you
 put inside a hash has no practical limits (other than available memory), so you can use
 hashes in many different ways inside your application.
 
-The command [`HSET`]({{< relref "/commands/hset" >}}) sets multiple fields of the hash, while [`HGET`]({{< relref "/commands/hget" >}}) retrieves
-a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET`]({{< relref "/commands/hget" >}}) but returns an array of values:
+The command [`HSET`](/content/commands/hset.md) sets multiple fields of the hash, while [`HGET`](/content/commands/hget.md) retrieves
+a single field. [`HMGET`](/content/commands/hmget.md) is similar to [`HGET`](/content/commands/hget.md) but returns an array of values:
 
 {{< clients-example set="hash_tutorial" step="hmget" description="Retrieve multiple field values from a hash using HMGET when you need to reduce round trips to the server" buildsUpon="set_get_all" >}}
 # Recreate the bike:1 hash so this example runs on its own.
@@ -65,7 +65,7 @@ a single field. [`HMGET`]({{< relref "/commands/hmget" >}}) is similar to [`HGET
 {{< /clients-example >}}
 
 There are commands that are able to perform operations on individual fields
-as well, like [`HINCRBY`]({{< relref "/commands/hincrby" >}}):
+as well, like [`HINCRBY`](/content/commands/hincrby.md):
 
 {{< clients-example set="hash_tutorial" step="hincrby" description="Increment hash field values for counters using HINCRBY (creates field if missing, initializes to 0)" buildsUpon="set_get_all" >}}
 # Recreate the bike:1 hash so this example runs on its own.
@@ -79,7 +79,7 @@ as well, like [`HINCRBY`]({{< relref "/commands/hincrby" >}}):
 (integer) 4972
 {{< /clients-example >}}
 
-You can find the [full list of hash commands in the documentation]({{< relref "/commands#hash" >}}).
+You can find the [full list of hash commands in the documentation](/commands?group=hash).
 
 It is worth noting that small hashes (i.e., a few elements with small values) are
 encoded in special way in memory that make them very memory efficient.
@@ -108,32 +108,32 @@ encoded in special way in memory that make them very memory efficient.
 ## Field expiration
 
 Redis 7.4 introduced the ability to specify an expiration time or a time-to-live (TTL) value for individual hash fields.
-This capability is comparable to [key expiration]({{< relref "/develop/using-commands/keyspace#key-expiration" >}}) and includes a number of similar commands.
+This capability is comparable to [key expiration](/content/develop/using-commands/keyspace.md#key-expiration) and includes a number of similar commands.
 
 Use the following commands to set either an exact expiration time or a TTL value for specific fields:
 
-* [`HEXPIRE`]({{< relref "/commands/hexpire" >}}): set the remaining TTL in seconds.
-* [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}): set the remaining TTL in milliseconds.
-* [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}): set the expiration time to a timestamp[^1] specified in seconds.
-* [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}): set the expiration time to a timestamp specified in milliseconds.
+* [`HEXPIRE`](/content/commands/hexpire.md): set the remaining TTL in seconds.
+* [`HPEXPIRE`](/content/commands/hpexpire.md): set the remaining TTL in milliseconds.
+* [`HEXPIREAT`](/content/commands/hexpireat.md): set the expiration time to a timestamp[^1] specified in seconds.
+* [`HPEXPIREAT`](/content/commands/hpexpireat.md): set the expiration time to a timestamp specified in milliseconds.
 
 [^1]: all timestamps are specified in seconds or milliseconds since the [Unix epoch](https://en.wikipedia.org/wiki/Unix_time).
 
 Use the following commands to retrieve either the exact time when or the remaining TTL until specific fields will expire:
 
-* [`HEXPIRETIME`]({{< relref "/commands/hexpiretime" >}}): get the expiration time as a timestamp in seconds.
-* [`HPEXPIRETIME`]({{< relref "/commands/hpexpiretime" >}}): get the expiration time as a timestamp in milliseconds.
-* [`HTTL`]({{< relref "/commands/httl" >}}): get the remaining TTL in seconds.
-* [`HPTTL`]({{< relref "/commands/hpttl" >}}): get the remaining TTL in milliseconds.
+* [`HEXPIRETIME`](/content/commands/hexpiretime.md): get the expiration time as a timestamp in seconds.
+* [`HPEXPIRETIME`](/content/commands/hpexpiretime.md): get the expiration time as a timestamp in milliseconds.
+* [`HTTL`](/content/commands/httl.md): get the remaining TTL in seconds.
+* [`HPTTL`](/content/commands/hpttl.md): get the remaining TTL in milliseconds.
 
 Use the following command to remove the expiration of specific fields:
 
-* [`HPERSIST`]({{< relref "/commands/hpersist" >}}): remove the expiration.
+* [`HPERSIST`](/content/commands/hpersist.md): remove the expiration.
 
 Redis 8.0 introduced the following commands:
 
-* [`HGETEX`]({{< relref "/commands/HGETEX" >}}): Get the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
-* [`HSETEX`]({{< relref "/commands/HSETEX" >}}): Set the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
+* [`HGETEX`](/content/commands/hgetex.md): Get the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
+* [`HSETEX`](/content/commands/hsetex.md): Set the value of one or more fields of a given hash key and optionally set their expiration time or time-to-live (TTL).
 
 ### Common field expiration use cases
 
@@ -211,11 +211,11 @@ Redis 8.10 introduced *compact hashes*, a way to reduce the memory used by hashe
 **Compact hashes work well when:**
 
 - Many keys share the same, mostly stable set of field names — classic object mapping, such as one hash per user, order, or session. The more keys that share a field set, the greater the memory saving.
-- Reads and value updates stay as fast as on a regular hash. Reading any field (for example, [`HGET`]({{< relref "/commands/hget" >}}), [`HGETALL`]({{< relref "/commands/hgetall" >}}), or [`HRANDFIELD`]({{< relref "/commands/hrandfield" >}})) and overwriting an existing field's value (`HSET key field value` where `field` already exists) are unaffected.
+- Reads and value updates stay as fast as on a regular hash. Reading any field (for example, [`HGET`](/content/commands/hget.md), [`HGETALL`](/content/commands/hgetall.md), or [`HRANDFIELD`](/content/commands/hrandfield.md)) and overwriting an existing field's value (`HSET key field value` where `field` already exists) are unaffected.
 
 **Compact hashes are not a good fit when:**
 
-- **Field names change often.** Adding a new field with [`HSET`]({{< relref "/commands/hset" >}}) or removing one with [`HDEL`]({{< relref "/commands/hdel" >}}) detaches the key from its shared field-name set and re-resolves it against the new set, creating a new one if that layout hasn't been seen before. A workload that constantly adds or removes field names erodes the benefit. Note also that once a hash becomes a compact hash, it stays one for the life of the key: it moves between field-name sets as its fields change, but never reverts to a plain hash.
+- **Field names change often.** Adding a new field with [`HSET`](/content/commands/hset.md) or removing one with [`HDEL`](/content/commands/hdel.md) detaches the key from its shared field-name set and re-resolves it against the new set, creating a new one if that layout hasn't been seen before. A workload that constantly adds or removes field names erodes the benefit. Note also that once a hash becomes a compact hash, it stays one for the life of the key: it moves between field-name sets as its fields change, but never reverts to a plain hash.
 - **Field names are unique or highly dynamic per key.** With little sharing, a key ends up with its own field-name set, which carries some metadata overhead. A set used by only a few keys can therefore consume more memory than a plain hash. Compact hashes pay off when hundreds or thousands of keys share a set.
 - **Hashes are very large.** Because a compact hash is transferred as a single blob during replication and slot migration, very large hash keys may reduce or negate the benefit.
 
@@ -223,15 +223,15 @@ There are two ways to opt in.
 
 ### Bulk import with HIMPORT
 
-The [`HIMPORT`]({{< relref "/commands/himport" >}}) command family lets a client import many hashes that share the same field names efficiently. You declare the shared field names once with [`HIMPORT PREPARE`]({{< relref "/commands/himport-prepare" >}}), then create each key with [`HIMPORT SET`]({{< relref "/commands/himport-set" >}}) by sending only its values. This reduces network traffic and per-command work compared with running [`HSET`]({{< relref "/commands/hset" >}}) once per key, and hints Redis to store the new keys as compact hashes. See [`HIMPORT`]({{< relref "/commands/himport" >}}) for the full workflow and its subcommands.
+The [`HIMPORT`](/content/commands/himport.md) command family lets a client import many hashes that share the same field names efficiently. You declare the shared field names once with [`HIMPORT PREPARE`](/content/commands/himport-prepare.md), then create each key with [`HIMPORT SET`](/content/commands/himport-set.md) by sending only its values. This reduces network traffic and per-command work compared with running [`HSET`](/content/commands/hset.md) once per key, and hints Redis to store the new keys as compact hashes. See [`HIMPORT`](/content/commands/himport.md) for the full workflow and its subcommands.
 
 ### Automatic conversion
 
-For workloads that can't adopt a new command, Redis can convert eligible hashes to compact hashes on its own, with no code change. All the following settings default to `0` (off) and can be changed at runtime with [`CONFIG SET`]({{< relref "/commands/config-set" >}}).
+For workloads that can't adopt a new command, Redis can convert eligible hashes to compact hashes on its own, with no code change. All the following settings default to `0` (off) and can be changed at runtime with [`CONFIG SET`](/content/commands/config-set.md).
 
 #### On the write path
 
-These convert hashes created or modified by normal commands (such as [`HSET`]({{< relref "/commands/hset" >}})), so an existing application gains the memory saving with no code change. They take effect lazily, like `hash-max-listpack-entries`: a change applies to a given hash only on its next write, not the moment you run [`CONFIG SET`]({{< relref "/commands/config-set" >}}).
+These convert hashes created or modified by normal commands (such as [`HSET`](/content/commands/hset.md)), so an existing application gains the memory saving with no code change. They take effect lazily, like `hash-max-listpack-entries`: a change applies to a given hash only on its next write, not the moment you run [`CONFIG SET`](/content/commands/config-set.md).
 
 | Config | Meaning |
 |---|---|
@@ -256,7 +256,7 @@ The disassembly threshold avoids wasting memory on field-name sets shared by onl
 
 Most Redis hash commands are O(1).
 
-A few commands, such as [`HKEYS`]({{< relref "/commands/hkeys" >}}), [`HVALS`]({{< relref "/commands/hvals" >}}), [`HGETALL`]({{< relref "/commands/hgetall" >}}), and most of the expiration-related commands, are O(n), where _n_ is the number of field-value pairs.
+A few commands, such as [`HKEYS`](/content/commands/hkeys.md), [`HVALS`](/content/commands/hvals.md), [`HGETALL`](/content/commands/hgetall.md), and most of the expiration-related commands, are O(n), where _n_ is the number of field-value pairs.
 
 ## Limits
 
