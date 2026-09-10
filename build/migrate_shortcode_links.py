@@ -10,6 +10,9 @@ Formalizes the three ad hoc converters used to migrate develop/clients/redis-py
 Stages, and why this order is load-bearing:
   1. relref-to-plain   -- unwrap `]({{< relref "X" >}})` to `](X)`.
   2. callouts-to-blockquote -- `{{< note >}}...{{< /note >}}` to `> [!NOTE]...`.
+     Also handles the `{{% note %}}` percent form and a `title=` attribute
+     (`alert` maps onto the `note` alert type; a title matching the type's
+     default label is dropped as redundant).
      MUST run before stage 3: shortcode callouts pipe their inner content
      through markdownify with no page context, so a link inside one resolves
      against site root, not the page -- only a native blockquote resolves
@@ -35,10 +38,24 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".claude", "hoo
 import check_shortcode_paths as csp  # noqa: E402  (reuse mount-aware path resolution)
 
 RELREF_RX = re.compile(r'\]\(\{\{<\s*relref\s+"([^"]*)"\s*>\}\}([^)]*)\)')
+# Matches both delimiter forms (`{{< note >}}` and `{{% note %}}`) and an
+# optional run of attributes on the opening tag (e.g. `title="..."`),
+# without requiring the open/close delimiter to match each other -- real
+# Hugo content always pairs them correctly, so being lenient here only
+# widens what converts, never what breaks.
 CALLOUT_RX = re.compile(
-    r'\{\{<\s*(note|warning|tip|info|alert)\s*>\}\}(.*?)\{\{<\s*/\1\s*>\}\}',
+    r'\{\{[<%]\s*(note|warning|tip|info|alert)((?:\s+\w+="[^"]*")*)\s*[%>]\}\}'
+    r'(.*?)\{\{[<%]\s*/\1\s*[%>]\}\}',
     re.DOTALL,
 )
+# The `alert` shortcode has no fixed type of its own (it's `note`/`warning`/
+# etc. with a custom title bolted on) -- render hooks have no such shortcode,
+# so it maps onto the plain `note` alert type. A `title=` attribute that just
+# restates the type's default label (e.g. `alert title="Note"`) is dropped
+# rather than carried over as a redundant `> [!NOTE] Note`.
+CALLOUT_DEFAULT_LABEL = {
+    "note": "Note", "warning": "Warning", "tip": "Tip", "info": "Info", "alert": "Note",
+}
 LINK_RX = re.compile(r'\]\(([^)\s]+)\)')
 SKIP_HREF_PREFIXES = ("http://", "https://", "mailto:", "#", "/content/")
 
@@ -54,10 +71,16 @@ def relref_to_plain(text):
 
 def callouts_to_blockquote(text):
     def repl(m):
-        kind, body = m.group(1), m.group(2).strip("\n")
+        kind, attrs, body = m.group(1), m.group(2), m.group(3).strip("\n")
+        out_type = "note" if kind == "alert" else kind
+        title_m = re.search(r'\btitle="([^"]*)"', attrs)
+        title = title_m.group(1) if title_m else ""
+        if title.strip().lower() == CALLOUT_DEFAULT_LABEL[kind].lower():
+            title = ""
+        header = f"> [!{out_type.upper()}]" + (f" {title}" if title else "")
         lines = body.split("\n")
         quoted = "\n".join(f"> {line}" if line else ">" for line in lines)
-        return f"> [!{kind.upper()}]\n{quoted}"
+        return f"{header}\n{quoted}"
 
     return CALLOUT_RX.sub(repl, text)
 
