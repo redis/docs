@@ -153,9 +153,8 @@ tests:
 
 ## FIPS-oriented posture
 
-`security.profile: fips` sets `GODEBUG=fips140=on` on every container this
-release renders (Data Plane, Control Plane, and, in bundled mode, the
-Identity Service):
+In a valid `security.profile: fips` deployment, the chart sets
+`GODEBUG=fips140=on` on the Data Plane and Control Plane containers:
 
 ```yaml
 security:

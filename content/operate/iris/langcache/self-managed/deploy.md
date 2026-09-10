@@ -12,9 +12,10 @@ hideListLinks: true
 ---
 
 One `helm install` of the `langcache` chart deploys the Data Plane, the
-Control Plane, and a bundled Identity Service. There is no
-separate lighter-weight install path; every self-managed LangCache
-deployment uses all three components.
+Control Plane, and either a bundled Identity Service or a connection to an
+external Identity Service. There is no separate lighter-weight install
+path; every self-managed LangCache deployment uses the Data Plane, Control
+Plane, and one Identity Service mode.
 
 Before you begin, review [prerequisites]({{< relref "/operate/iris/langcache/self-managed/prerequisites" >}})
 and prepare the config overlays described in
@@ -92,11 +93,6 @@ controlplane:
     secretName: cp-overlay
   configData:
     profile: prod
-    embedders:
-      openai:
-        models:
-          - model: text-embedding-3-small
-            dimensions: 1536
 
 identityService:
   mode: bundled
@@ -114,6 +110,10 @@ all default to `autoGenerate: true`, so the chart mints those tokens for
 you on first install; see
 [Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}})
 to retrieve them, or set `existingSecret` to bring your own.
+
+The chart renders the Control Plane's embedding contract from
+`dataplane.embedding.*`, so set the provider, model, and dimensions only
+under `dataplane.embedding`.
 
 ## Install the chart
 

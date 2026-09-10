@@ -61,8 +61,8 @@ Response:
 
 `databaseId` must match an entry in the Control Plane's configured
 `databases` registry. `defaultSearchThreshold` is a float between 0 and 1.
-`defaultTtlMillis` is `-1` for no expiration, or a positive number of
-milliseconds.
+`defaultTtlMillis` accepts `-1` or `0` for no expiration, or a positive
+number of milliseconds.
 
 Get a cache:
 

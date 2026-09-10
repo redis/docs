@@ -8,3 +8,9 @@ params:
   sourcefile: ./openapi-control-plane.json
   sortOperationsAlphabetically: false
 ---
+
+All Control Plane API requests require the admin bearer token:
+
+```http
+Authorization: Bearer <admin-token>
+```

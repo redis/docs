@@ -72,7 +72,7 @@ Create `cp-overlay.yaml`. Provide the same Metadata Redis as the Data Plane,
 plus the `databases` registry — one entry per Cache Redis target, keyed by a
 logical ID you choose. The Control Plane never receives an embedding
 credential; it only needs the public provider/model/dimensions contract
-(set as `controlplane.configData`, matching `dataplane.embedding`).
+that the chart renders from `dataplane.embedding.*`.
 
 ```yaml
 metadata:
@@ -97,20 +97,14 @@ controlplane:
     secretName: cp-overlay
   configData:
     profile: prod
-    embedders:
-      openai:
-        models:
-          - model: text-embedding-3-small
-            dimensions: 1536
 ```
 
 The `databases` map must use the same logical IDs your operators will pass
 as `databaseId` when creating caches through the Control Plane API. The
-`embedders` block must describe exactly one provider with exactly one model
-— the embedding contract that cache creation and the Data Plane's
-`dataplane.embedding` values must agree on exactly. It must not set
-`authorized: true` because on-prem cache creation cannot accept per-cache embedding
-credentials.
+chart derives the Control Plane's `embedders` config from
+`dataplane.embedding.provider` and `dataplane.embedding.models.*`. On-prem
+cache creation uses that single provider/model/dimensions contract and
+does not accept per-cache embedding credentials.
 
 ## Identity Service metadata (bundled mode only)
 

@@ -13,8 +13,8 @@ hideListLinks: true
 
 LangCache self-managed is distributed as container images on Docker Hub plus
 the `langcache` Helm chart. One `helm install` of the chart deploys the
-LangCache Data Plane, the LangCache Control Plane, and a
-bundled Identity Service.
+LangCache Data Plane, the LangCache Control Plane, and either a bundled
+Identity Service or a connection to an external Identity Service.
 
 You provide the Redis databases, embedding provider credentials, Kubernetes
 exposure, and license material used by the deployment.
