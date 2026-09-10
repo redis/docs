@@ -24,18 +24,18 @@ weight: 60
 [![Discord](https://img.shields.io/discord/697882427875393627?style=flat-square)](https://discord.gg/QUkjSsk)
 [![Github](https://img.shields.io/static/v1?label=&message=repository&color=5961FF&logo=github)](https://github.com/RedisJSON/RedisJSON/)
 
-The JSON capability of Redis Open Source provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with [Redis Search]({{< relref "/develop/ai/search-and-query/" >}}) to let you [index and query JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}}).
+The JSON capability of Redis Open Source provides JavaScript Object Notation (JSON) support for Redis. It lets you store, update, and retrieve JSON values in a Redis database, similar to any other Redis data type. Redis JSON also works seamlessly with [Redis Search](/content/develop/ai/search-and-query/_index.md) to let you [index and query JSON documents](/content/develop/ai/search-and-query/indexing/_index.md).
 
 ## Primary features
 
 * Full support for the JSON standard
-* A [JSONPath](http://goessner.net/articles/JsonPath/) syntax for selecting/updating elements inside documents (see [JSONPath syntax]({{< relref "/develop/data-types/json/path#jsonpath-syntax" >}}))
+* A [JSONPath](http://goessner.net/articles/JsonPath/) syntax for selecting/updating elements inside documents (see [JSONPath syntax](/content/develop/data-types/json/path.md#jsonpath-syntax))
 * Documents stored as binary data in a tree structure, allowing fast access to sub-elements
 * Typed atomic operations for all JSON value types
 
 ## Use Redis with JSON
 
-The first JSON command to try is [`JSON.SET`]({{< relref "commands/json.set/" >}}), which sets a Redis key with a JSON value. [`JSON.SET`]({{< relref "commands/json.set/" >}}) accepts all JSON value types. This example creates a JSON string:
+The first JSON command to try is [`JSON.SET`](/content/commands/json.set.md), which sets a Redis key with a JSON value. [`JSON.SET`](/content/commands/json.set.md) accepts all JSON value types. This example creates a JSON string:
 
 {{< clients-example set="json_tutorial" step="set_get" description="Foundational: Set and retrieve JSON values using JSON.SET and JSON.GET to store and access JSON documents" prereq="true" >}}
 > JSON.SET bike $ '"Hyperion"'
@@ -46,9 +46,9 @@ OK
 1) "string"
 {{< /clients-example >}}
 
-Note how the commands include the dollar sign character `$`. This is the [path]({{< relref "/develop/data-types/json/path" >}}) to the value in the JSON document (in this case it just means the root).
+Note how the commands include the dollar sign character `$`. This is the [path](/content/develop/data-types/json/path.md) to the value in the JSON document (in this case it just means the root).
 
-Here are a few more string operations. [`JSON.STRLEN`]({{< relref "commands/json.strlen/" >}}) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`]({{< relref "commands/json.strappend/" >}}).
+Here are a few more string operations. [`JSON.STRLEN`](/content/commands/json.strlen.md) tells you the length of the string, and you can append another string to it with [`JSON.STRAPPEND`](/content/commands/json.strappend.md).
 
 {{< clients-example set="json_tutorial" step="str" description="String operations: Manipulate JSON strings using JSON.STRLEN to get length and JSON.STRAPPEND to concatenate values" buildsUpon="set_get" needs_prereq="true" >}}
 > JSON.STRLEN bike $
@@ -59,7 +59,7 @@ Here are a few more string operations. [`JSON.STRLEN`]({{< relref "commands/json
 "[\"Hyperion (Enduro bikes)\"]"
 {{< /clients-example >}}
 
-Numbers can be [incremented]({{< relref "commands/json.numincrby/" >}}) and [multiplied]({{< relref "commands/json.nummultby/" >}}):
+Numbers can be [incremented](/content/commands/json.numincrby.md) and [multiplied](/content/commands/json.nummultby.md):
 
 {{< clients-example set="json_tutorial" step="num" description="Numeric operations: Perform atomic arithmetic on JSON numbers using JSON.NUMINCRBY to increment and JSON.NUMMULTBY to multiply values" buildsUpon="set_get" >}}
 > JSON.SET crashes $ 0
@@ -89,7 +89,7 @@ OK
 "[[\"Deimos\",{\"crashes\":0}]]"
 {{< /clients-example >}}
 
-Beginning with Redis 8.8, the JSON data type supports the ability to force a particular type when storing floating point homogeneous arrays (FPHAs)using the `FPHA BF16|FP16|FP32|FP64` option to the [`JSON.SET`]({{< relref "/commands/json.set" >}}) command. Here's an example:
+Beginning with Redis 8.8, the JSON data type supports the ability to force a particular type when storing floating point homogeneous arrays (FPHAs)using the `FPHA BF16|FP16|FP32|FP64` option to the [`JSON.SET`](/content/commands/json.set.md) command. Here's an example:
 
 ```
 > JSON.SET fp_array $ '[[1,2,3,4e3],[5,6.0,7,8]]' FPHA FP16
@@ -98,7 +98,7 @@ OK
 "[[[1.0,2.0,3.0,4000.0],[5.0,6.0,7.0,8.0]]]"
 ```
 
-The [`JSON.DEL`]({{< relref "commands/json.del/" >}}) command deletes any JSON value you specify with the `path` parameter.
+The [`JSON.DEL`](/content/commands/json.del.md) command deletes any JSON value you specify with the `path` parameter.
 
 You can manipulate arrays with a dedicated subset of JSON commands:
 
@@ -139,10 +139,10 @@ OK
 ## Format CLI output
 
 The CLI has a raw output mode that lets you add formatting to the output from
-[`JSON.GET`]({{< relref "commands/json.get/" >}}) to make
+[`JSON.GET`](/content/commands/json.get.md) to make
 it more readable. To use this, run `redis-cli` with the `--raw` option
 and include formatting keywords such as `INDENT`, `NEWLINE`, and `SPACE`
-with [`JSON.GET`]({{< relref "commands/json.get/" >}}):
+with [`JSON.GET`](/content/commands/json.get.md):
 
 ```bash
 $ redis-cli --raw
@@ -160,8 +160,8 @@ $ redis-cli --raw
 
 The Redis JSON data type is part of Redis Open Source and it is also available in Redis Software and Redis Cloud.
 See
-[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-[Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}})
+[Install Redis Open Source](/content/operate/oss_and_stack/install/install-stack/_index.md) or
+[Install Redis Software](/content/operate/rs/installing-upgrading/install/_index.md)
 for full installation instructions.
 
 ## Limitation
