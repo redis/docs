@@ -52,14 +52,14 @@ applications such as:
 
 Redis time series are available in Redis Open Source, Redis Software, and Redis Cloud.
 See
-[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-[Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}})
+[Install Redis Open Source](/content/operate/oss_and_stack/install/install-stack/_index.md) or
+[Install Redis Software](/content/operate/rs/installing-upgrading/install/_index.md)
 for full installation instructions.
 
 ## Create a time series
 
-You can create a new empty time series with the [`TS.CREATE`]({{< relref "commands/ts.create/" >}})
-command, specifying a key name. Alternatively, if you use [`TS.ADD`]({{< relref "commands/ts.add/" >}})
+You can create a new empty time series with the [`TS.CREATE`](/content/commands/ts.create.md)
+command, specifying a key name. Alternatively, if you use [`TS.ADD`](/content/commands/ts.add.md)
 to add data to a time series key that does not exist, it is automatically created (see
 [Adding data points](#adding-data-points) below for more information about `TS.ADD`).
 
@@ -185,8 +185,8 @@ for queries and aggregations.
 
 ## Add data points
 
-You can add individual data points with [`TS.ADD`]({{< relref "commands/ts.add/" >}}),
-but you can also use [`TS.MADD`]({{< relref "commands/ts.madd/" >}}) to add multiple data
+You can add individual data points with [`TS.ADD`](/content/commands/ts.add.md),
+but you can also use [`TS.MADD`](/content/commands/ts.madd.md) to add multiple data
 points to one or more time series in a single command. (Note that unlike `TS.ADD`, `TS.MADD`
 doesn't create any new time series if you specify keys that don't exist.) The return value
 is an array containing the number of samples in each time series after the operation.
@@ -209,7 +209,7 @@ OK
 
 ## Query data points
 
-Use [`TS.GET`]({{< relref "commands/ts.get/" >}}) to retrieve the data point
+Use [`TS.GET`](/content/commands/ts.get.md) to retrieve the data point
 with the highest timestamp in a time series. This returns both the timestamp and the value.
 
 {{< clients-example set="time_series_tutorial" step="get" description="Foundational: Use TS.GET to get the latest value and timestamp" difficulty="beginner" buildsUpon="madd" >}}
@@ -227,13 +227,13 @@ with the highest timestamp in a time series. This returns both the timestamp and
 2) 10.3
 {{< /clients-example >}}
 
-Use [`TS.RANGE`]({{< relref "commands/ts.range/" >}}) to retrieve data points
+Use [`TS.RANGE`](/content/commands/ts.range.md) to retrieve data points
 from a time series that fall within a given timestamp range. The range is inclusive,
 meaning that samples whose timestamp equals the start or end of the range are included.
 You can use `-` and `+` as the start and end of the range, respectively, to
 indicate the minimum and maximum timestamps in the series. The response is
 an array of timestamp-value pairs returned in ascending order by timestamp.
-If you want the results in descending order, use [`TS.REVRANGE`]({{< relref "commands/ts.revrange/" >}}) with the same parameters.
+If you want the results in descending order, use [`TS.REVRANGE`](/content/commands/ts.revrange.md) with the same parameters.
 
 {{< clients-example set="time_series_tutorial" step="range" description="Range queries: Retrieve data points within a timestamp range using TS.RANGE (ascending) or TS.REVRANGE (descending) when you need to analyze historical data" difficulty="intermediate" buildsUpon="madd" >}}
 # Add 5 data points to a time series named "rg:1".
@@ -335,9 +335,9 @@ OK
 
 The `TS.GET`, `TS.RANGE`, and `TS.REVRANGE` commands also have
 corresponding
-[`TS.MGET`]({{< relref "commands/ts.mget/" >}}),
-[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}), and
-[`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) versions that
+[`TS.MGET`](/content/commands/ts.mget.md),
+[`TS.MRANGE`](/content/commands/ts.mrange.md), and
+[`TS.MREVRANGE`](/content/commands/ts.mrevrange.md) versions that
 operate on multiple time series. `TS.MGET` returns the data point with the highest
 timestamp from each time series, while `TS.MRANGE` and `TS.MREVRANGE`
 return data points from a range of timestamps in each time series.
@@ -349,7 +349,7 @@ specific labels. (See [Creating a time series](#creating-a-time-series)
 above to learn how to add labels to a time series.) The filter expressions
 use a simple syntax that lets you include or exclude time series based on
 the presence or value of a label. See the description in the
-[`TS.MGET`]({{< relref "commands/ts.mget#required-arguments" >}}) command reference
+[`TS.MGET`](/content/commands/ts.mget.md#required-arguments) command reference
 for details of the filter syntax. You can also request that
 data points be returned with all their labels or with a selected subset of them.
 
@@ -594,8 +594,8 @@ Bucket(25ms):          |__________________________||_________________________||_
 ### Aggregation across timeseries
 
 By default, the results from
-[`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) and
-[`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}}) are grouped by time series. However, you can use the `GROUPBY` and `REDUCE` options to group them by label and apply an aggregation over elements
+[`TS.MRANGE`](/content/commands/ts.mrange.md) and
+[`TS.MREVRANGE`](/content/commands/ts.mrevrange.md) are grouped by time series. However, you can use the `GROUPBY` and `REDUCE` options to group them by label and apply an aggregation over elements
 that have the same timestamp and the same label value (this feature is available from RedisTimeSeries v1.6 onwards).
 
 For example, the following commands create four time series, two for the UK and two for the US, and add some data points. The first `TS.MRANGE` command groups the results by country and applies a `max` aggregation to find the maximum sample value in each country at each timestamp. The second `TS.MRANGE` command uses the same grouping, but applies an `avg` aggregation.
@@ -679,12 +679,12 @@ NaN values are useful in scenarios where you need to distinguish between:
 
 ### NaN Behavior
 
-- **Adding NaN values**: Use [`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}}) to insert NaN values
-- **Querying NaN values**: All raw measurement queries ([`TS.GET`]({{< relref "commands/ts.get/" >}}), [`TS.RANGE`]({{< relref "commands/ts.range/" >}}), etc.) include NaN values in results
+- **Adding NaN values**: Use [`TS.ADD`](/content/commands/ts.add.md) and [`TS.MADD`](/content/commands/ts.madd.md) to insert NaN values
+- **Querying NaN values**: All raw measurement queries ([`TS.GET`](/content/commands/ts.get.md), [`TS.RANGE`](/content/commands/ts.range.md), etc.) include NaN values in results
 - **Aggregation with NaN**: All existing aggregators except `countNaN` and `countAll` ignore NaN values. Use `countNaN` and `countAll` to count NaN and total values
-- **Increment/Decrement**: [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}) and [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}}) return errors when the current value or operand is NaN
+- **Increment/Decrement**: [`TS.INCRBY`](/content/commands/ts.incrby.md) and [`TS.DECRBY`](/content/commands/ts.decrby.md) return errors when the current value or operand is NaN
 - **Duplicate policies**: Special handling for `MIN`, `MAX`, and `SUM` policies when mixing NaN and non-NaN values
-- **Filtering**: [`FILTER_BY_VALUE`]({{< relref "commands/ts.range#filter_by_value-min-max-since-redistimeseries-v16" >}}) parameters cannot be NaN values
+- **Filtering**: [`FILTER_BY_VALUE`](/content/commands/ts.range.md#filter_by_value-min-max-since-redistimeseries-v16) parameters cannot be NaN values
 - **Ignore duplicates**: NaN values are never considered duplicates when using `IGNORE` parameters
 
 ```bash
@@ -741,7 +741,7 @@ aggregation incrementally on data as it arrives. The values from the
 aggregation buckets are stored in a separate time series, leaving the original
 series unchanged.
 
-Use [`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}}) to create a
+Use [`TS.CREATERULE`](/content/commands/ts.createrule.md) to create a
 compaction rule, specifying the source and destination time series keys, an
 aggregator, and the bucket duration. Note that the destination time
 series must already exist when you create the rule and also that the compaction will
@@ -834,7 +834,7 @@ that bucket.
 
 ## Delete data points
 
-Use [`TS.DEL`]({{< relref "commands/ts.del/" >}}) to delete data points
+Use [`TS.DEL`](/content/commands/ts.del.md) to delete data points
 that fall within a given timestamp range. The range is inclusive, meaning that
 samples whose timestamp equals the start or end of the range are deleted.
 If you want to delete a single timestamp, use it as both the start and end of the range.
@@ -984,4 +984,4 @@ find projects that help you integrate RedisTimeSeries with other tools, includin
 ## More information
 
 The other pages in this section describe RedisTimeSeries concepts in more detail.
-See also the [time series command reference]({{< relref "/commands/" >}}?group=timeseries).
+See also the [time series command reference](/commands/?group=timeseries).
