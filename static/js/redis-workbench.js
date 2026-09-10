@@ -2366,7 +2366,19 @@
          back while another key's value is up would leave the reader looking at
          the key they just left for the length of a round trip. */
       var known = view.geo && self.geoKeys[name] && self.valueShown === name;
-      if (!known) self.renderValue(key, { view: view, commands: probe.commands });
+      if (!known) {
+        /* A geo key gets its tabs from this reply, with the map pane saying what
+           it is waiting for: the strip appearing when GEOPOS answered pushed the
+           table down a round trip after the reader began reading it. */
+        self.renderValue(key, {
+          commands: probe.commands,
+          view: view.geo
+            ? self.geoPanes(key, view, function () {
+              return el('p', 'rwb-hint', 'Reading where these places are…');
+            })
+            : view
+        });
+      }
       self.end();
       if (view.geo) {
         self.geoKeys[name] = true;
@@ -2811,6 +2823,33 @@
      rest. Distances come from GEOSEARCH FROMMEMBER rather than a GEODIST per
      pair: one command instead of N, sorted by the server, and the same command
      the docs teach for "what is near this". */
+  /* Members and Map, from whatever is known so far. The strip is drawn from the
+     first reply rather than waiting for the coordinates: appearing a round trip
+     later, it pushed the table down just as the reader started reading it. Until
+     GEOPOS answers, the map pane says what it is waiting for. */
+  dock.geoPanes = function (key, table, drawMap) {
+    return {
+      kind: 'panes',
+      of: key.name,
+      facts: table.facts,
+      panes: [
+        /* The value itself first, and so the default: this column answers "what
+           is in this key", and for a geo key that is a sorted set of members and
+           geohashes. The map is the reading of it, one click away. */
+        { id: 'members', label: 'Members', render: function () {
+          var block = el('div');
+          block.appendChild(renderTable(table.head, table.rows));
+          if (table.limited) {
+            block.appendChild(el('p', 'rwb-limited', 'Showing '
+              + table.limited.shown + ' of ' + table.limited.of));
+          }
+          return block;
+        } },
+        { id: 'map', label: 'Map', render: drawMap }
+      ]
+    };
+  };
+
   dock.readGeo = function (key, table, ran, painted) {
     var self = this;
     /* The members table, for the cases where there is no map to draw and
@@ -2860,25 +2899,7 @@
         if (self.selected !== key.name) return;
         self.renderValue(key, {
           commands: ran.concat(ranAll),
-          view: {
-            kind: 'panes',
-            of: key.name,
-            facts: table.facts,
-            panes: [
-              /* The value itself first, and so the default: this column answers
-                 "what is in this key", and for a geo key that is a sorted set of
-                 members and geohashes. The map is the reading of it, one click
-                 away. */
-              { id: 'members', label: 'Members', render: function () {
-                var block = el('div');
-                block.appendChild(renderTable(table.head, table.rows));
-                if (table.limited) {
-                  block.appendChild(el('p', 'rwb-limited', 'Showing '
-                    + table.limited.shown + ' of ' + table.limited.of));
-                }
-                return block;
-              } },
-              { id: 'map', label: 'Map', render: function () {
+          view: self.geoPanes(key, table, function () {
                 var block = el('div');
                 block.appendChild(renderMap(places, {
                   from: from,
@@ -2904,9 +2925,7 @@
                     + 'what is within a radius of it, nearest first.'));
                 }
                 return block;
-              } }
-            ]
-          }
+          })
         });
       }
 
