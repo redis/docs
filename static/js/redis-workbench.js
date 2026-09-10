@@ -793,9 +793,15 @@
           }
         };
       case 'zset':
+        /* On a geo page this one reply is also the map's list of places, so it
+           reads as much of the key as the map can draw rather than the preview
+           every other type gets: a map of the first hundred members of a
+           two-hundred-member key is a map with a hole in it, and the hole is
+           wherever geohash order happens to cut. */
+        var zsetWanted = pageWantsMap() ? MAX_MAP_POINTS : PREVIEW_ITEMS;
         return {
           commands: ['ZRANGE ' + key + ' 0 '
-            + (known && size <= PREVIEW_ITEMS ? '-1' : String(PREVIEW_ITEMS - 1))
+            + (known && size <= zsetWanted ? '-1' : String(zsetWanted - 1))
             + ' WITHSCORES'],
           build: function (r) {
             var rows = pairs(ok(r[0]));
@@ -807,7 +813,7 @@
                  sorted set of geohashes is what the reader came to read. */
               geo: pageWantsMap() && looksGeo(rows)
                 ? rows.map(function (row) { return cellText(row[0]); }) : null,
-              limited: known && size > PREVIEW_ITEMS
+              limited: known && size > zsetWanted
                 ? { shown: rows.length, of: plural(size, 'member') } : null
             };
           }
@@ -2757,12 +2763,12 @@
     }, function () { self.end(); });
   };
 
-  /* How many places to plot, and how many distances to measure. A readability
-     limit rather than a technical one: GEOPOS with this many members is 151
-     arguments against the sandbox's cap of 1024, so a few hundred would fit in
-     the one command. Past this the dots crowd into a smudge — and the members
-     table underneath still holds every one of them, whatever the map draws. */
-  var MAX_MAP_POINTS = 150;
+  /* How many places to read, plot and measure. This is the argument budget, not
+     a matter of taste: GEOPOS names every member it asks about, and the backend
+     refuses a command of more than 1024 arguments. Every place that is read is
+     drawn — a map that quietly leaves some out is worse than a crowded one —
+     and a key with more members than this says so under the plot. */
+  var MAX_MAP_POINTS = 1000;
 
   /* Which pane of a value the reader last had open, by key name. */
   dock.valueTabs = {};
@@ -2875,7 +2881,11 @@
                 var block = el('div');
                 block.appendChild(renderMap(places, {
                   from: from,
-                  of: table.geo.length > places.length ? table.geo.length : 0,
+                  /* Against the key's own length: the list this was read from
+                     is itself capped, so comparing the two said nothing about
+                     the members that were never read. */
+                  of: typeof key.size === 'number' && key.size > places.length
+                    ? key.size : 0,
                   /* The pane is in the document already, so its width is known
                      before the map is built. Less the padding either side. */
                   width: (self.valuePane.clientWidth || 0) - 20,
