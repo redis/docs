@@ -317,7 +317,8 @@
      set. The paths are matched loosely at the end, so /commands/geoadd/ works
      the same under /docs/latest/ and under a staging prefix. */
   var GEO_COMMANDS = ['geoadd', 'geodist', 'geohash', 'geopos', 'georadius',
-    'georadiusbymember', 'georadiusbymember_ro', 'geosearch', 'geosearchstore'];
+    'georadius_ro', 'georadiusbymember', 'georadiusbymember_ro', 'geosearch',
+    'geosearchstore'];
 
   function pageWantsMap() {
     var path;
