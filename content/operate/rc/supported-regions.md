@@ -25,6 +25,12 @@ Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/s
 
 {{< rc-supported-regions provider="aws" >}}
 
+{{< note >}}
+The AWS `me-central-1` region is temporarily unavailable due to an ongoing AWS regional
+issue, even though it's listed as a supported region.
+{{< /note >}}
+<!--DOC-7056: remove once AWS resolves the regional issue-->
+
 ## Google Cloud
 
 Redis Cloud supports databases in the following Google Cloud regions.
