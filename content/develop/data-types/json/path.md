@@ -33,7 +33,7 @@ RedisJSON v2.0 introduced [JSONPath](http://goessner.net/articles/JsonPath/) sup
 
 A JSONPath query can resolve to several locations in a JSON document. In this case, the JSON commands apply the operation to every possible location. This is a major improvement over [legacy path](#legacy-path-syntax) queries, which only operate on the first path.
 
-Notice that the structure of the command response often differs when using JSONPath. See the [Commands]({{< relref "/commands/" >}}?group=json) page for more details.
+Notice that the structure of the command response often differs when using JSONPath. See the [Commands](/commands/?group=json) page for more details.
 
 The new syntax supports bracket notation, which allows the use of special characters like colon ":" or whitespace in key names.
 
@@ -84,12 +84,11 @@ Beginning with Redis 8.10, the JSON data type supports a richer JSONPath syntax,
 
 These operators can be used within a filter expression (`?()`). Functions can appear inside filter expressions and, when they return a value, as top-level [projection expressions](#projection-expressions). A function can be written in prefix form, `length($.arr)`, or in postfix (method) form, `$.arr.length()`. A path segment immediately followed by `(` is a method call, so `$.arr.length()` is a function call while `$.arr.length` is a reference to a field named `length`.
 
-{{< warning >}}
-Beginning with Redis 8.10, two changes to path parsing may affect existing queries:
-
-- To access a field whose name contains a tilde (`~`), use bracket notation, for example `$["a~b"]`. A tilde is no longer valid in a field name using dot notation.
-- The words `in`, `nin`, `subsetof`, `anyof`, `noneof`, `size`, `sizeof`, and `empty` are now reserved as operators. To access a field with one of these names, use `$.size` or `$["size"]`.
-{{< /warning >}}
+> [!WARNING]
+> Beginning with Redis 8.10, two changes to path parsing may affect existing queries:
+>
+> - To access a field whose name contains a tilde (`~`), use bracket notation, for example `$["a~b"]`. A tilde is no longer valid in a field name using dot notation.
+> - The words `in`, `nin`, `subsetof`, `anyof`, `noneof`, `size`, `sizeof`, and `empty` are now reserved as operators. To access a field with one of these names, use `$.size` or `$["size"]`.
 
 ## Evaluation semantics
 
@@ -164,7 +163,7 @@ First, create the JSON document in your database:
 
 ### Access examples
 
-The following examples use the [`JSON.GET`]({{< relref "commands/json.get/" >}}) command to retrieve data from various paths in the JSON document.
+The following examples use the [`JSON.GET`](/content/commands/json.get.md) command to retrieve data from various paths in the JSON document.
 
 You can use the wildcard operator `*` to return a list of all items in the inventory:
 
@@ -501,7 +500,7 @@ OK
 
 #### `append()`
 
-`append(value, ...)` returns the matched array with the given value or values added after its elements. It is a read-only query-time projection and does not modify the stored document — to mutate an array in place, use the [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}) command instead. A multiple-value argument is added as a single element (it is not spread), and a *Nothing* argument makes the whole result *Nothing*.
+`append(value, ...)` returns the matched array with the given value or values added after its elements. It is a read-only query-time projection and does not modify the stored document — to mutate an array in place, use the [`JSON.ARRAPPEND`](/content/commands/json.arrappend.md) command instead. A multiple-value argument is added as a single element (it is not spread), and a *Nothing* argument makes the whole result *Nothing*.
 
 {{< clients-example set="json_path_ops" step="func_append" description="Append function: Use append() as a read-only, query-time projection that adds a value after an array's elements without modifying the stored document" difficulty="advanced" >}}
 > JSON.SET doc $ '{"arr":[1,2,3]}'
@@ -518,7 +517,7 @@ OK
 
 You can also use JSONPath queries when you want to update specific sections of a JSON document.
 
-For example, you can pass a JSONPath to the [`JSON.SET`]({{< relref "commands/json.set/" >}}) command to update a specific field. This example changes the price of the first item in the headphones list:
+For example, you can pass a JSONPath to the [`JSON.SET`](/content/commands/json.set.md) command to update a specific field. This example changes the price of the first item in the headphones list:
 
 {{< clients-example set="json_tutorial" step="update_bikes" description="Bulk updates: Use JSONPath with JSON.NUMINCRBY to update multiple numeric values across the document when you need to apply arithmetic operations to multiple fields" difficulty="intermediate" buildsUpon="get_bikes" needs_prereq="true" >}}
 > JSON.GET bikes:inventory $..price
@@ -538,7 +537,7 @@ OK
 "[1500,2072,3264,1500,3941]"
 {{< /clients-example >}}
 
-JSONPath queries also work with other JSON commands that accept a path as an argument. For example, you can add a new color option for a set of headphones with [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}):
+JSONPath queries also work with other JSON commands that accept a path as an argument. For example, you can add a new color option for a set of headphones with [`JSON.ARRAPPEND`](/content/commands/json.arrappend.md):
 
 {{< clients-example set="json_tutorial" step="update_filters2" description="Array updates with filters: Use JSON.ARRAPPEND with filter expressions to add elements to arrays matching conditions when you need to modify collections selectively" difficulty="advanced" buildsUpon="update_filters1" needs_prereq="true" >}}
 > JSON.ARRAPPEND bikes:inventory '$.inventory.*[?(@.price<2000)].colors' '"pink"'
@@ -569,14 +568,14 @@ OK
 "[]"
 {{< /clients-example >}}
 
-When [`JSON.GET`]({{< relref "commands/json.get/" >}}) is given more than one path, projections and plain paths can be mixed, and each path becomes a key in the returned object. The order of keys in that object is not guaranteed.
+When [`JSON.GET`](/content/commands/json.get.md) is given more than one path, projections and plain paths can be mixed, and each path becomes a key in the returned object. The order of keys in that object is not guaranteed.
 
 {{< clients-example set="json_path_ops" step="proj_multipath" description="Multi-path queries: Pass more than one path to JSON.GET to have each path's result returned under its own key in a single reply" difficulty="advanced" >}}
 > JSON.GET doc '$.a + 1' '$.b'
 "{\"$.a + 1\":[3],\"$.b\":[4]}"
 {{< /clients-example >}}
 
-[`JSON.MGET`]({{< relref "commands/json.mget/" >}}) evaluates the projection independently for each key. A missing key, or a per-key evaluation error, yields a null reply for that key rather than failing the whole request.
+[`JSON.MGET`](/content/commands/json.mget.md) evaluates the projection independently for each key. A missing key, or a per-key evaluation error, yields a null reply for that key rather than failing the whole request.
 
 ## Legacy path syntax
 
