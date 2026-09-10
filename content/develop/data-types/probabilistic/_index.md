@@ -27,6 +27,6 @@ and other sensitive data.
 
 Probabilistic data structures are available as part of Redis Open Source and they are available in Redis Software and Redis Cloud.
 See
-[Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-[Install Redis Software]({{< relref "/operate/rs/installing-upgrading/install" >}})
+[Install Redis Open Source](/content/operate/oss_and_stack/install/install-stack/_index.md) or
+[Install Redis Software](/content/operate/rs/installing-upgrading/install/_index.md)
 for full installation instructions.
