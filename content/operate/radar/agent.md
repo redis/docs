@@ -39,14 +39,14 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 
 1. Get the tarball for your platform, and the `SHA256SUMS` file published beside it, from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**.
 
-   Take the `radar-agent-fips-` build only if the host runs in Federal Information Processing Standards (FIPS) 140-3 mode. It refuses to start otherwise.
+   Take the `radar-agent-fips-` build only if you require Federal Information Processing Standards (FIPS) 140-3. It refuses to start unless FIPS 140-3 mode is active in its runtime.
 
    <br>
 
 2. Verify the download.
 
    ```bash
-   sha256sum -c radar-agent-<tag>.SHA256SUMS
+   sha256sum --ignore-missing -c radar-agent-<tag>.SHA256SUMS
    ```
 
    <br>
@@ -65,6 +65,8 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 
 4. Create the `mcm` service identity the unit runs as.
 
+   Skip this step if the host already runs Radar from the RPM, which creates `mcm` for you.
+
    ```bash
    sudo groupadd --system mcm
    sudo useradd --system --gid mcm --home-dir / --no-create-home \
@@ -73,7 +75,7 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 
    <br>
 
-5. Install the binary, the unit, and the environment file.
+5. Install the binary, the unit, and the environment file, then create the state directory.
 
    ```bash
    sudo install -d -m 0755 /usr/libexec/mcm
@@ -81,10 +83,11 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
    sudo install -d -o root -g mcm -m 0750 /etc/radar-agent
    sudo install -o root -g mcm -m 0640 systemd/radar-agent.env /etc/radar-agent/radar-agent.env
    sudo install -o root -g root -m 0644 systemd/radar-agent.service /usr/lib/systemd/system/
+   sudo install -d -o mcm -g mcm -m 0700 /var/lib/radar-agent
    sudo systemctl daemon-reload
    ```
 
-   The unit keeps state in `/var/lib/radar-agent`, which systemd creates at mode `0700` on first start. If you install the binary elsewhere, update the paths in the unit.
+   `/var/lib/radar-agent` holds runtime state. Create it now, because a managed agent writes to it during activation, before the service first starts. If you install the binary elsewhere, update the paths in the unit.
 
 Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mcm/radar-agent <command>`.
 
@@ -98,7 +101,7 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
    <br>
 
-2. Run the activation command on the agent host.
+2. Copy the endpoint from the dialog, then activate the agent on its host.
 
    ```bash
    sudo -u mcm /usr/libexec/mcm/radar-agent activate \
@@ -165,7 +168,13 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 
    <br>
 
-3. Copy `examples/static-agent.yaml` from the archive and fill in the agent ID, the token, and one UUID per source. See [Configuration reference](#configuration-reference) for every setting. Install it with the ownership the service expects.
+3. Copy the example configuration from the archive, fill it in, and install it.
+
+   ```bash
+   cp examples/static-agent.yaml config.yaml
+   ```
+
+   Set the agent ID, the token, and one UUID per source. See [Configuration reference](#configuration-reference) for every setting. Then install it with the ownership the service expects.
 
    ```bash
    sudo install -o root -g mcm -m 0640 config.yaml /etc/radar-agent/config.yaml
