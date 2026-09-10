@@ -69,7 +69,7 @@ Some examples of use cases for this data structure is counting unique queries
 performed by users in a search form every day, number of unique visitors to a web page and other similar cases.
 
 Redis is also able to perform the union of HLLs, please check the
-[full documentation](/commands#hyperloglog) for more information.
+[full documentation](/commands?group=hyperloglog) for more information.
 
 ## Use cases
 
