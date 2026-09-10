@@ -2380,10 +2380,7 @@
         });
       }
       self.end();
-      if (view.geo) {
-        self.geoKeys[name] = true;
-        return self.readGeo(key, view, probe.commands, !known);
-      }
+      if (view.geo) return self.readGeo(key, view, probe.commands);
     }, function () {
       self.end();
     });
@@ -2850,13 +2847,21 @@
     };
   };
 
-  dock.readGeo = function (key, table, ran, painted) {
+  dock.readGeo = function (key, table, ran) {
     var self = this;
-    /* The members table, for the cases where there is no map to draw and
-       nothing has been drawn yet. */
-    function fallback() {
-      if (painted || self.selected !== key.name) return;
-      self.renderValue(key, { view: table, commands: ran });
+    /* No coordinates, so no map — said in the map pane rather than left as it
+       was. The pane is already up saying it is reading them, and returning
+       without drawing anything left that sentence on screen for good: `run`
+       resolves even when a command errors, so there is no rejection to fall
+       back from. */
+    function noMap(why) {
+      if (self.selected !== key.name) return;
+      self.renderValue(key, {
+        commands: ran,
+        view: self.geoPanes(key, table, function () {
+          return el('p', 'rwb-hint', why);
+        })
+      });
     }
     var members = table.geo.slice(0, MAX_MAP_POINTS);
     var search = this.geoOptions(key.name);
@@ -2889,14 +2894,22 @@
         places.push({ name: members[index], lon: lon, lat: lat });
       });
       /* No coordinates came back — every member was removed between the two
-         reads, or none of them decoded. There is no map to draw, so the members
-         are what this key has to show. */
-      if (!places.length) return fallback();
+         reads, or none of them decoded. */
+      if (!places.length) {
+        var trouble = replies[0] && replies[0].error
+          ? '(error) ' + cellText(replies[0].value)
+          : 'No coordinates came back for these members.';
+        return noMap(trouble);
+      }
 
       function show(ranAll, found) {
         /* The reader may have opened something else while this was in flight.
            Their choice outranks a reply that was already on its way. */
         if (self.selected !== key.name) return;
+        /* Only now has this key had a map drawn for it. Set before the
+           coordinates arrived, a key whose GEOPOS failed would have counted as
+           mapped, and the next open of it would have skipped its first paint. */
+        self.geoKeys[key.name] = true;
         self.renderValue(key, {
           commands: ran.concat(ranAll),
           view: self.geoPanes(key, table, function () {
@@ -2941,9 +2954,9 @@
         show(commands.concat([query]), found[0]);
       });
     }, function () {
-      /* GEOPOS itself failed. Whatever the reason, the members are still worth
-         showing if nothing else has been. */
-      fallback();
+      /* The request itself never got a reply — offline, or the sandbox refused
+         the batch. */
+      noMap('Could not read where these places are.');
     });
   };
 
