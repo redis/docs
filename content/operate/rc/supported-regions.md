@@ -8,7 +8,9 @@ categories:
 description: null
 linktitle: Supported regions
 weight: 90
+bannerText: The AWS `me-central-1` region is temporarily unavailable due to an ongoing AWS regional issue, even though it's listed as a supported region.
 ---
+<!--DOC-7056: remove bannerText once AWS resolves the regional issue-->
 
 Your choice of cloud provider and region may affect latency between your application and your database, and may affect what connectivity options are available for your database.
 
@@ -24,12 +26,6 @@ Redis Cloud supports databases in the following Amazon Web Services (AWS) region
 Redis Cloud Pro databases on AWS support [VPC Peering]({{< relref "/operate/rc/security/vpc-peering#aws-vpc-peering" >}}), [Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}), and [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}).
 
 {{< rc-supported-regions provider="aws" >}}
-
-{{< note >}}
-The AWS `me-central-1` region is temporarily unavailable due to an ongoing AWS regional
-issue, even though it's listed as a supported region.
-{{< /note >}}
-<!--DOC-7056: remove once AWS resolves the regional issue-->
 
 ## Google Cloud
 
