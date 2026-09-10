@@ -88,10 +88,12 @@ kubectl -n <namespace-name> rollout status deployment/langcache-controlplane
 Rotating an auto-generated token (admin token, internal token, Identity
 Service control token, or the Data Plane's Identity Service runtime
 credential) is different: those Secrets are Helm-managed, not
-`existingSecret`, so there is no checksum to bump. Set `autoGenerate: false`
-temporarily and supply a new `existingSecret`, or delete the underlying
-Secret and let the next `helm upgrade` regenerate it — confirm which
-behavior your chart version implements before relying on it in production.
+`existingSecret`, so there is no checksum to bump. The chart looks up the
+existing Secret on every `helm upgrade` and keeps its value stable unless
+the Secret is gone, so either set `autoGenerate: false` and supply a new
+`existingSecret`, or delete the underlying Secret (it carries a
+`helm.sh/resource-policy: keep` annotation, so `helm uninstall` won't do
+this for you) and let the next `helm upgrade` mint a fresh one.
 
 Rotate agent keys minted for LangCache caches through the Identity Service;
 see [API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples#identity-service-api-examples" >}}).
