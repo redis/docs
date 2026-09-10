@@ -12,7 +12,7 @@ hideListLinks: true
 ---
 
 One `helm install` of the `langcache` chart deploys the Data Plane, the
-Control Plane, and (by default) a bundled Identity Service. There is no
+Control Plane, and a bundled Identity Service. There is no
 separate lighter-weight install path; every self-managed LangCache
 deployment uses all three components.
 
@@ -26,7 +26,7 @@ Decide before you install:
 
 | Mode | Use when | Values |
 | --- | --- | --- |
-| Bundled (default) | This is your first LangCache install, or your suite doesn't already run an Identity Service. | `identityService.mode: bundled` |
+| Bundled | This is your first LangCache install, or your suite doesn't already run an Identity Service. | `identityService.mode: bundled` |
 | External | Your suite already runs an Identity Service (for example, alongside self-managed Redis Agent Memory) and you want LangCache to share it. | `identityService.mode: external` |
 
 This guide uses bundled mode. For external mode, see
@@ -208,3 +208,9 @@ helm upgrade langcache redis-ai/langcache \
   -f langcache-values.yaml \
   --atomic --wait
 ```
+
+## Next steps
+
+- [Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}) to mint agent keys and configure the Identity Service mode you chose.
+- [API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples" >}}) to start calling the Data Plane.
+- [Operations]({{< relref "/operate/iris/langcache/self-managed/operations" >}}) for backups, secret rotation, and FIPS posture.

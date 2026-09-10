@@ -20,8 +20,8 @@ Plane, the Control Plane, and (in bundled mode) the Identity Service:
 - **Redis URLs, the database registry, and the embedding credential**,
   which never go in `values.yaml` or a rendered ConfigMap. Each component
   reads its own pre-created overlay Secret, deep-merged over its rendered
-  base config at container startup (later files win — the chart passes each
-  overlay as an additional `--config` flag).
+  base config at container startup. The chart passes each overlay as an
+  additional `--config` flag, so later files win.
 
 You always create the overlay Secrets yourself; the chart only tells each
 component where to mount and read them.
@@ -109,13 +109,13 @@ as `databaseId` when creating caches through the Control Plane API. The
 `embedders` block must describe exactly one provider with exactly one model
 — the embedding contract that cache creation and the Data Plane's
 `dataplane.embedding` values must agree on exactly. It must not set
-`authorized: true`; on-prem cache creation cannot accept per-cache embedding
+`authorized: true` because on-prem cache creation cannot accept per-cache embedding
 credentials.
 
 ## Identity Service metadata (bundled mode only)
 
-When `identityService.mode: bundled` (the default), the bundled Identity
-Service needs its own Metadata Redis connection — it can be the same Redis
+When `identityService.mode: bundled` is set, the bundled Identity
+Service needs its own Metadata Redis connection. This connection can be the same Redis
 instance as the Control Plane's Metadata Redis, in a separate namespace.
 
 ```yaml
@@ -154,3 +154,8 @@ credential across separately rotated Secrets.
 Store `dp-overlay.yaml`, `cp-overlay.yaml`, and `ids-metadata.yaml` outside
 your values files and outside git, the same as any other credential
 material.
+
+## Next steps
+
+With your overlay Secrets and values ready, continue to
+[Deploy self-managed LangCache]({{< relref "/operate/iris/langcache/self-managed/deploy" >}}).

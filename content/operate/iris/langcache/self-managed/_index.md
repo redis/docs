@@ -11,8 +11,8 @@ weight: 40
 hideListLinks: true
 ---
 
-LangCache is a semantic caching service that stores LLM responses for fast,
-cheaper retrieval. Applications send prompts to LangCache, which returns a
+LangCache is a semantic caching service that stores LLM responses for faster,
+cheaper retrieval. Applications send prompts to LangCache, which either returns a
 cached response for a semantically similar prior prompt or calls out to your
 embedding provider and stores a new entry when there is no match.
 
@@ -34,8 +34,8 @@ key to deploy it. Contact your Redis representative or
 
 One `helm install` of the `langcache` chart always creates the Data Plane and
 the Control Plane, plus either a bundled or an external Identity Service.
-There is no lighter-weight "Data Plane only" install for self-managed
-LangCache — every cache is created and managed through the Control Plane, and
+There is no lighter-weight install of only the Data Plane for self-managed
+LangCache. Every cache is created and managed through the Control Plane, and
 every Data Plane request is authenticated by the Identity Service.
 
 | Component | Purpose | Default service |

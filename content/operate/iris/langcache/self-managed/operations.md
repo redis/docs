@@ -208,3 +208,9 @@ directly. Write a NetworkPolicy for your cluster's CNI that default-denies
 ingress to the `langcache`, `langcache-controlplane`, and (bundled mode)
 `langcache-identity-service` Services, then allow TCP traffic on their
 respective ports (`9000`, `9100`, `9200`) from approved callers only.
+
+## See also
+
+- [Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}}) for the Redis roles being backed up and rotated here.
+- [Authentication and authorization]({{< relref "/operate/iris/langcache/self-managed/authentication" >}}) for how the tokens and agent keys rotated above are used.
+- [Configuration and troubleshooting]({{< relref "/operate/iris/langcache/self-managed/reference" >}}) for symptoms and fixes if a rotation or update doesn't take effect.

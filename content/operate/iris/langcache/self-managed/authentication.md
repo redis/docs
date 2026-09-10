@@ -75,16 +75,15 @@ In external mode, you must give this token to the Identity Service's owner
 (see [External Identity Service](#external-identity-service)).
 
 The admin token and internal token must always be different values; the
-Control Plane rejects config where they match.
+Control Plane rejects a configuration where admin token and internal token match.
 
 ## Identity Service modes
 
-Choose exactly one mode at install time — there is no default that applies
-without choosing.
+You must choose either Bundled Identity Service or External Identity Service at install time.
 
-### Bundled
+### Bundled Identity Service
 
-`identityService.mode: bundled` (the default) renders the Identity Service
+`identityService.mode: bundled` renders the Identity Service
 Deployment and Service, auto-generates its control token and the Data
 Plane's own runtime introspection credential, and wires everything together
 automatically:
@@ -124,7 +123,7 @@ identityService:
       secretKey: token
 ```
 
-`langcache-dp-ids-credential` is minted out of band by the suite-level
+The `langcache-dp-ids-credential` is minted out of band by the suite-level
 Identity Service owner, scoped to `api-key-introspect` on product
 `langcache`. You must also ask that owner to configure the external
 Identity Service's own `product_validation.langcache` against this
@@ -201,3 +200,11 @@ Gateway rules:
   trusted applications.
 - Callers must not be able to bypass the gateway and reach the Data Plane
   directly unless they also present a valid LangCache agent key.
+
+## Next steps
+
+With an admin token, internal token, and agent key in hand, see
+[API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples" >}})
+to create a cache and start calling the Data Plane, or
+[Operations]({{< relref "/operate/iris/langcache/self-managed/operations" >}})
+to rotate these credentials going forward.

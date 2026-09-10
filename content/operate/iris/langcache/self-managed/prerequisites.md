@@ -13,7 +13,7 @@ hideListLinks: true
 
 LangCache self-managed is distributed as container images on Docker Hub plus
 the `langcache` Helm chart. One `helm install` of the chart deploys the
-LangCache Data Plane, the LangCache Control Plane, and (by default) a
+LangCache Data Plane, the LangCache Control Plane, and a
 bundled Identity Service.
 
 You provide the Redis databases, embedding provider credentials, Kubernetes
@@ -90,7 +90,7 @@ removes Control Plane cache records.
 
 The chart never puts Redis URLs, the database registry, or the embedding
 credential in `values.yaml` or a rendered ConfigMap. Each of the Data Plane,
-Control Plane, and (bundled) Identity Service reads its own pre-created
+Control Plane, and bundled Identity Service reads its own pre-created
 overlay Secret, deep-merged over its rendered base config at runtime. See
 [Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}})
 for the overlay content each component expects.
@@ -191,3 +191,9 @@ release-derived names in the verification commands throughout this guide.
 | Config overlays | `dataplane.secrets.*`, `controlplane.secrets.*`, `identityService.bundled.metadata.*` | Pointing the chart at your pre-created overlay Secrets. |
 | Rotation | `*.existingSecretChecksum` fields throughout | Rolling pods after an externally managed Secret changes. |
 {{< /table-scrollable >}}
+
+## Next steps
+
+Continue to [Configuration]({{< relref "/operate/iris/langcache/self-managed/configuration" >}})
+to prepare the Data Plane, Control Plane, and Identity Service overlay
+Secrets, then [Deploy self-managed LangCache]({{< relref "/operate/iris/langcache/self-managed/deploy" >}}).
