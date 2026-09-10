@@ -15,7 +15,7 @@ Redis Radar gives you one place to view the status of every Redis cluster in you
 
 Redis Cloud's hosted Radar needs no setup. There's no subscription toggle to turn on and nothing to request from your account team.
 
-1. Go to [`redis-radar.redis.io`](https://redis-radar.redis.io).
+1. Go to [`radar.redis.io`](http://radar.redis.io).
 2. Sign in with your Redis Cloud credentials. If you don't have a Redis Cloud account, create one first.
 
 Radar uses the same sign-in as the rest of Redis Cloud, so any Redis Cloud account can sign in.
