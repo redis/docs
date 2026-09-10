@@ -54,8 +54,10 @@ token material to the chart as Kubernetes Secrets and set the chart's
 
 | Need | Reference |
 | --- | --- |
-| Helm chart values and README | `langcache/helm/` in the LangCache source repository |
+| Helm chart repository | `https://helm.redis.io/ai`, chart `langcache` |
+| Helm chart values and README | `langcache/helm/` in the LangCache source repository, or the synced copy in `RedisLabs/redis-enterprise-helm` at `ai/charts/langcache` |
+| Container images | Docker Hub: [redislabs/iris-langcache-data](https://hub.docker.com/r/redislabs/iris-langcache-data/tags), [redislabs/iris-langcache-control](https://hub.docker.com/r/redislabs/iris-langcache-control/tags), [redislabs/iris-identity-service](https://hub.docker.com/r/redislabs/iris-identity-service/tags) |
 | LangCache API reference (Data Plane) | [LangCache API]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}}) |
 | Control Plane API reference | [Control Plane API reference]({{< relref "/operate/iris/langcache/self-managed/control-plane-api-reference" >}}) |
 | LangCache overview | [LangCache overview]({{< relref "/develop/ai/context-engine/langcache" >}}) |
-| Container images and chart access | Contact your Redis representative or [contact sales](https://redis.io/contact/) |
+| License key | Contact your Redis representative or [contact sales](https://redis.io/contact/) |

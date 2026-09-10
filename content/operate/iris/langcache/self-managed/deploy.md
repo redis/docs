@@ -117,17 +117,28 @@ to retrieve them, or set `existingSecret` to bring your own.
 
 ## Install the chart
 
-Install from the chart package or repository your Redis representative
-provides. From the chart's own root directory (`langcache/helm/` in the
-source layout):
+Add the Helm repository when installing from the public repository:
 
 ```bash
-helm install langcache . \
+helm repo add redis-ai https://helm.redis.io/ai
+helm repo update redis-ai
+helm search repo redis-ai/langcache --versions
+```
+
+Install with `langcache` as the Helm release name:
+
+```bash
+helm install langcache redis-ai/langcache \
+  --version <chart-version> \
   --namespace <namespace-name> \
   --create-namespace \
   -f langcache-values.yaml \
   --atomic --wait
 ```
+
+If you installed from a chart package or a local checkout instead, replace
+`redis-ai/langcache --version <chart-version>` with the chart path (for
+example `.` from the chart's own root directory).
 
 On small clusters, install without `--atomic --wait`, then watch pod
 status:
@@ -191,7 +202,8 @@ and [API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples
 ## Update
 
 ```bash
-helm upgrade langcache . \
+helm upgrade langcache redis-ai/langcache \
+  --version <chart-version> \
   --namespace <namespace-name> \
   -f langcache-values.yaml \
   --atomic --wait

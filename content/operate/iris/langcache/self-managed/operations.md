@@ -76,7 +76,8 @@ shasum -a 256 ./dp-overlay.yaml | awk '{print $1}'
 Apply the updated values and verify the workloads rolled:
 
 ```bash
-helm upgrade langcache . \
+helm upgrade langcache redis-ai/langcache \
+  --version <chart-version> \
   --namespace <namespace-name> \
   -f langcache-values.yaml
 
@@ -106,7 +107,8 @@ For every update:
 4. Verify pod rollout and health endpoints.
 
 ```bash
-helm upgrade langcache . \
+helm upgrade langcache redis-ai/langcache \
+  --version <chart-version> \
   --namespace <namespace-name> \
   -f langcache-values.yaml \
   --atomic --wait
@@ -121,7 +123,8 @@ The chart can render `helm test` resources when `tests.enabled: true`. This
 renders the shared security-profile check and the minimal RBAC it needs:
 
 ```bash
-helm upgrade --install langcache . \
+helm upgrade --install langcache redis-ai/langcache \
+  --version <chart-version> \
   --namespace <namespace-name> \
   -f langcache-values.yaml \
   --set tests.enabled=true

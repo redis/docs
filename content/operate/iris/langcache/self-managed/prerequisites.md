@@ -29,7 +29,7 @@ Kubernetes cluster.
 | Item | Where it comes from |
 | ---- | ------------------- |
 | Container images | `redislabs/iris-langcache-data`, `redislabs/iris-langcache-control`, and (bundled Identity Service) `redislabs/iris-identity-service` on Docker Hub |
-| Helm chart | `langcache` chart, synced to the Redis Enterprise Helm chart repository. Contact your Redis representative for the exact repository coordinates and chart version, or for a chart package. |
+| Helm chart | `langcache` chart, published to `https://helm.redis.io/ai` (the same repository as the self-managed Redis Agent Memory chart), or a chart package provided by Redis. |
 | Redis databases | You provide Metadata Redis and one or more Cache Redis databases |
 | License key | Contact your Redis representative or [contact sales](https://redis.io/contact/). |
 | Provider credentials | You provide embedding provider credentials (currently an OpenAI-compatible provider) |
@@ -76,9 +76,9 @@ removes Control Plane cache records.
 
 - **Connected install:** the cluster must be able to pull the LangCache and
   Identity Service images from Docker Hub (or your mirrored registry) and
-  reach the Helm chart repository.
+  reach `https://helm.redis.io/ai`.
 - **Air-gapped install:** mirror the images into an internal registry and
-  use a locally available chart package.
+  use a locally downloaded chart package.
 - **Runtime access:** LangCache pods must reach the Redis databases and the
   embedding provider endpoint used by the deployment. The Data Plane must
   also reach the Identity Service (bundled or external); the Control Plane
