@@ -69,11 +69,17 @@ boundary for cached entries.
 
 | API surface | Endpoint prefix | Purpose |
 | --- | --- | --- |
-| Cache entries | `/v1/caches/{cacheId}/entries` | Set, search, delete, and flush cached entries. |
+| Cache entries | `/v1/caches/{cacheId}/entries` | Set, search, and delete cached entries. |
+| Cache flush | `/v1/caches/{cacheId}/flush` | Flush all entries in a cache. |
 | Conversational search | `/v1/caches/{cacheId}/conversations/search` | Search using conversation history context. |
 | Cache health | `/v1/caches/{cacheId}/health` | Cache-scoped health status. |
 | Control Plane | `/v1/caches`, `/v1/embedding-providers` | Self-managed administration for caches. |
 | Identity Service | `/v1/api-keys` | Mint, list, update, revoke, and rotate agent keys and their cache grants. |
+
+The [LangCache API]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}})
+reference does not yet document conversational search or cache health; for
+those two, use [API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples" >}})
+until the shared schema is updated.
 
 Start with [prerequisites]({{< relref "/operate/iris/langcache/self-managed/prerequisites" >}}),
 then follow [Deploy self-managed LangCache]({{< relref "/operate/iris/langcache/self-managed/deploy" >}}).

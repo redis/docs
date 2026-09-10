@@ -107,6 +107,15 @@ kubectl -n <namespace-name> get secret langcache-identity-service-control-token 
   -o jsonpath="{.data.token}" | base64 -d
 ```
 
+The chart also auto-generates a separate credential the Data Plane itself
+uses to call the Identity Service's introspection endpoint (scoped to
+`api-key-introspect` on product `langcache` only):
+
+```bash
+kubectl -n <namespace-name> get secret langcache-identity-service-dp-credential \
+  -o jsonpath="{.data.token}" | base64 -d
+```
+
 ### External Identity Service
 
 `identityService.mode: external` renders no Identity Service workload at
