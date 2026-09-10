@@ -23,7 +23,7 @@ Redis arrays are sparse, index-addressable data structures that map integer inde
 
 ## Basic usage
 
-Use [`ARSET`]({{< relref "/commands/arset" >}}) to write one or more contiguous values starting at a given index, and [`ARGET`]({{< relref "/commands/arget" >}}) to read the value at an index. Accessing an unset index returns a nil reply.
+Use [`ARSET`](/content/commands/arset.md) to write one or more contiguous values starting at a given index, and [`ARGET`](/content/commands/arget.md) to read the value at an index. Accessing an unset index returns a nil reply.
 
 {{< clients-example set="arrays_tutorial" step="arset_arget" description="Write contiguous values with ARSET and read a single index with ARGET; an unset index returns nil" >}}
 > ARSET events:1 0 "login" "click" "purchase"
@@ -34,7 +34,7 @@ Use [`ARSET`]({{< relref "/commands/arset" >}}) to write one or more contiguous 
 (nil)
 {{< /clients-example >}}
 
-To write values at arbitrary, non-contiguous indexes, use [`ARMSET`]({{< relref "/commands/armset" >}}). To read several indexes in one round trip, use [`ARMGET`]({{< relref "/commands/armget" >}}):
+To write values at arbitrary, non-contiguous indexes, use [`ARMSET`](/content/commands/armset.md). To read several indexes in one round trip, use [`ARMGET`](/content/commands/armget.md):
 
 {{< clients-example set="arrays_tutorial" step="armset_armget" description="Write to arbitrary, non-contiguous indexes with ARMSET and read several indexes in one round trip with ARMGET" >}}
 > ARMSET metrics 0 "10" 5 "20" 100 "30"
@@ -50,8 +50,8 @@ To write values at arbitrary, non-contiguous indexes, use [`ARMSET`]({{< relref 
 
 Redis arrays expose two distinct size measurements:
 
-- [`ARLEN`]({{< relref "/commands/arlen" >}}) returns the *logical length*: the highest set index plus one.
-- [`ARCOUNT`]({{< relref "/commands/arcount" >}}) returns the number of *non-empty* elements.
+- [`ARLEN`](/content/commands/arlen.md) returns the *logical length*: the highest set index plus one.
+- [`ARCOUNT`](/content/commands/arcount.md) returns the number of *non-empty* elements.
 
 For a sparse array, these values can differ substantially:
 
@@ -68,7 +68,7 @@ For a sparse array, these values can differ substantially:
 
 ## Reading ranges
 
-[`ARGETRANGE`]({{< relref "/commands/argetrange" >}}) returns every position in a range—including empty slots as nil—in index order. Reversing `start` and `end` reverses the direction:
+[`ARGETRANGE`](/content/commands/argetrange.md) returns every position in a range—including empty slots as nil—in index order. Reversing `start` and `end` reverses the direction:
 
 {{< clients-example set="arrays_tutorial" step="argetrange" description="Read every position in a range with ARGETRANGE, including empty slots returned as nil" >}}
 > ARMSET seq 0 "a" 1 "b" 3 "d"
@@ -80,7 +80,7 @@ For a sparse array, these values can differ substantially:
 4) "d"
 {{< /clients-example >}}
 
-To iterate only the elements that exist and retrieve their indexes alongside their values, use [`ARSCAN`]({{< relref "/commands/arscan" >}}). It skips empty slots and returns a flat list of alternating index-value pairs, with an optional `LIMIT` to cap the result size:
+To iterate only the elements that exist and retrieve their indexes alongside their values, use [`ARSCAN`](/content/commands/arscan.md). It skips empty slots and returns a flat list of alternating index-value pairs, with an optional `LIMIT` to cap the result size:
 
 {{< clients-example set="arrays_tutorial" step="arscan" description="Iterate only the elements that exist with ARSCAN, retrieving each index alongside its value" buildsUpon="argetrange" >}}
 > ARSCAN seq 0 3
@@ -94,7 +94,7 @@ To iterate only the elements that exist and retrieve their indexes alongside the
 
 ## Sequential insertion
 
-[`ARINSERT`]({{< relref "/commands/arinsert" >}}) appends values using an internal cursor that advances automatically after each call. Use [`ARNEXT`]({{< relref "/commands/arnext" >}}) to inspect where the next insert would land, and [`ARSEEK`]({{< relref "/commands/arseek" >}}) to reposition the cursor:
+[`ARINSERT`](/content/commands/arinsert.md) appends values using an internal cursor that advances automatically after each call. Use [`ARNEXT`](/content/commands/arnext.md) to inspect where the next insert would land, and [`ARSEEK`](/content/commands/arseek.md) to reposition the cursor:
 
 {{< clients-example set="arrays_tutorial" step="arinsert" description="Append values with ARINSERT using an auto-advancing cursor, inspect it with ARNEXT, and reposition it with ARSEEK" >}}
 > ARINSERT log "event1"
@@ -111,7 +111,7 @@ To iterate only the elements that exist and retrieve their indexes alongside the
 
 ## Ring buffer mode
 
-[`ARRING`]({{< relref "/commands/arring" >}}) turns an array into a fixed-size circular buffer. Each call inserts a value at `insert_idx % size`, wrapping back to index `0` once the window is full and overwriting the oldest entry:
+[`ARRING`](/content/commands/arring.md) turns an array into a fixed-size circular buffer. Each call inserts a value at `insert_idx % size`, wrapping back to index `0` once the window is full and overwriting the oldest entry:
 
 {{< clients-example set="arrays_tutorial" step="arring" description="Use ARRING to maintain a fixed-size circular buffer that wraps and overwrites the oldest entry once full" >}}
 > ARRING readings 3 "v0"
@@ -126,7 +126,7 @@ To iterate only the elements that exist and retrieve their indexes alongside the
 "v3"
 {{< /clients-example >}}
 
-[`ARLASTITEMS`]({{< relref "/commands/arlastitems" >}}) retrieves the *N* most recently inserted elements in chronological order. Pass the `REV` flag to reverse the order:
+[`ARLASTITEMS`](/content/commands/arlastitems.md) retrieves the *N* most recently inserted elements in chronological order. Pass the `REV` flag to reverse the order:
 
 {{< clients-example set="arrays_tutorial" step="arlastitems" description="Retrieve the N most recently inserted elements with ARLASTITEMS, optionally reversing the order with REV" buildsUpon="arring" >}}
 > ARLASTITEMS readings 3
@@ -141,7 +141,7 @@ To iterate only the elements that exist and retrieve their indexes alongside the
 
 ## Aggregate operations
 
-[`AROP`]({{< relref "/commands/arop" >}}) performs a single-pass aggregate over a contiguous range of elements:
+[`AROP`](/content/commands/arop.md) performs a single-pass aggregate over a contiguous range of elements:
 
 | Operation | Description |
 |-----------|-------------|
@@ -165,7 +165,7 @@ To iterate only the elements that exist and retrieve their indexes alongside the
 
 ## Searching elements
 
-[`ARGREP`]({{< relref "/commands/argrep" >}}) finds elements in a range whose values match one or more textual predicates and returns their indexes. Empty slots are skipped. Four predicate forms are supported: `EXACT` (full equality), `MATCH` (substring), `GLOB` (the same wildcard syntax as [`SCAN`]({{< relref "/commands/scan" >}}) `MATCH`), and `RE` (regular expression). Multiple predicates are combined with `OR` by default, or with `AND` when the option is given. Pass `NOCASE` for case-insensitive comparisons, `WITHVALUES` to return matching values alongside their indexes, and `LIMIT` to cap the number of matches.
+[`ARGREP`](/content/commands/argrep.md) finds elements in a range whose values match one or more textual predicates and returns their indexes. Empty slots are skipped. Four predicate forms are supported: `EXACT` (full equality), `MATCH` (substring), `GLOB` (the same wildcard syntax as [`SCAN`](/content/commands/scan.md) `MATCH`), and `RE` (regular expression). Multiple predicates are combined with `OR` by default, or with `AND` when the option is given. Pass `NOCASE` for case-insensitive comparisons, `WITHVALUES` to return matching values alongside their indexes, and `LIMIT` to cap the number of matches.
 
 This is particularly useful when an array stores line-indexed text such as a log file, where each element holds one line:
 
@@ -188,7 +188,7 @@ The special values `-` and `+` denote the first and last index of the array. Com
 
 ## Deleting elements
 
-[`ARDEL`]({{< relref "/commands/ardel" >}}) deletes one or more elements by index and returns the count of elements actually removed. [`ARDELRANGE`]({{< relref "/commands/ardelrange" >}}) removes all elements within an index range; reversing `start` and `end` is supported:
+[`ARDEL`](/content/commands/ardel.md) deletes one or more elements by index and returns the count of elements actually removed. [`ARDELRANGE`](/content/commands/ardelrange.md) removes all elements within an index range; reversing `start` and `end` is supported:
 
 {{< clients-example set="arrays_tutorial" step="ardel" description="Delete elements by index with ARDEL or remove a whole index range with ARDELRANGE" buildsUpon="arop" >}}
 > ARDEL scores 1
@@ -201,7 +201,7 @@ Deleting the last remaining element removes the key entirely.
 
 ## Introspection
 
-[`ARINFO`]({{< relref "/commands/arinfo" >}}) returns metadata about an array's internal structure, including its logical length, element count, and next insert index. Pass the `FULL` option to include per-slice statistics such as fill rates and counts of dense versus sparse slices:
+[`ARINFO`](/content/commands/arinfo.md) returns metadata about an array's internal structure, including its logical length, element count, and next insert index. Pass the `FULL` option to include per-slice statistics such as fill rates and counts of dense versus sparse slices:
 
 ```
 > ARINFO readings
@@ -221,20 +221,20 @@ The following configuration parameters affect array behavior:
 - `array-sparse-kmax`
 - `array-sparse-kmin`
 
-See the [Redis configuration page]({{< relref "/operate/oss_and_stack/management/config" >}}) for details.
+See the [Redis configuration page](/content/operate/oss_and_stack/management/config.md) for details.
 
 ## Performance
 
-Most array commands are O(1), including [`ARSET`]({{< relref "/commands/arset" >}}), [`ARGET`]({{< relref "/commands/arget" >}}), [`ARDEL`]({{< relref "/commands/ardel" >}}), [`ARINSERT`]({{< relref "/commands/arinsert" >}}), [`ARNEXT`]({{< relref "/commands/arnext" >}}), [`ARSEEK`]({{< relref "/commands/arseek" >}}), [`ARCOUNT`]({{< relref "/commands/arcount" >}}), and [`ARLEN`]({{< relref "/commands/arlen" >}}). Operations that touch N elements—such as [`ARGETRANGE`]({{< relref "/commands/argetrange" >}}), [`ARSCAN`]({{< relref "/commands/arscan" >}}), [`ARDELRANGE`]({{< relref "/commands/ardelrange" >}}), [`AROP`]({{< relref "/commands/arop" >}}), and [`ARLASTITEMS`]({{< relref "/commands/arlastitems" >}})—are O(N). The underlying sliced-array encoding handles both dense and sparse access patterns efficiently, so large index gaps consume very little memory.
+Most array commands are O(1), including [`ARSET`](/content/commands/arset.md), [`ARGET`](/content/commands/arget.md), [`ARDEL`](/content/commands/ardel.md), [`ARINSERT`](/content/commands/arinsert.md), [`ARNEXT`](/content/commands/arnext.md), [`ARSEEK`](/content/commands/arseek.md), [`ARCOUNT`](/content/commands/arcount.md), and [`ARLEN`](/content/commands/arlen.md). Operations that touch N elements—such as [`ARGETRANGE`](/content/commands/argetrange.md), [`ARSCAN`](/content/commands/arscan.md), [`ARDELRANGE`](/content/commands/ardelrange.md), [`AROP`](/content/commands/arop.md), and [`ARLASTITEMS`](/content/commands/arlastitems.md)—are O(N). The underlying sliced-array encoding handles both dense and sparse access patterns efficiently, so large index gaps consume very little memory.
 
 ## Alternatives
 
 Arrays complement rather than replace the other Redis collection types:
 
-- Use [Redis lists]({{< relref "/develop/data-types/lists" >}}) when you need push/pop operations at either end, or when you need to insert elements between existing ones.
-- Use [Redis hashes]({{< relref "/develop/data-types/hashes" >}}) when values are addressed by field name rather than by numeric index.
-- Use [Redis streams]({{< relref "/develop/data-types/streams" >}}) when you need an append-only event log with consumer groups and acknowledgements.
+- Use [Redis lists](/content/develop/data-types/lists.md) when you need push/pop operations at either end, or when you need to insert elements between existing ones.
+- Use [Redis hashes](/content/develop/data-types/hashes.md) when values are addressed by field name rather than by numeric index.
+- Use [Redis streams](/content/develop/data-types/streams/_index.md) when you need an append-only event log with consumer groups and acknowledgements.
 
 ## Limits
 
-[`ARGETRANGE`]({{< relref "/commands/argetrange" >}}) enforces a hard limit of 1,000,000 elements per call to guard against accidentally large range reads.
+[`ARGETRANGE`](/content/commands/argetrange.md) enforces a hard limit of 1,000,000 elements per call to guard against accidentally large range reads.
