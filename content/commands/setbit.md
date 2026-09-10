@@ -119,7 +119,7 @@ the entire bitmap.
 
 Bitmaps are not an actual data type, but a set of bit-oriented operations
 defined on the String type (for more information refer to the
-[Bitmaps section of the Data Types Introduction page][ti]). This means that
+[Bitmaps section of the Data Types Introduction page]({{< relref "/develop/data-types#bitmaps" >}})). This means that
 bitmaps can be used with string commands, and most importantly with [`SET`]({{< relref "/commands/set" >}}) and
 [`GET`]({{< relref "/commands/get" >}}).
 
@@ -146,8 +146,6 @@ response's bytes by extracting the bit values using native bit operations in its
 native programming language. Symmetrically, it is also possible to set an entire
 bitmap by performing the bits-to-bytes encoding in the client and calling [`SET`]({{< relref "/commands/set" >}})
 with the resultant string.
-
-[ti]: /develop/data-types-intro#bitmaps
 
 ### Pattern: setting multiple bits
 

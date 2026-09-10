@@ -27,7 +27,7 @@ weight: 55
 StackExchange.Redis supports [Client-side geographic failover](https://en.wikipedia.org/wiki/Failover)
 to improve the availability of connections to Redis databases. This page explains
 how to configure StackExchange.Redis for failover. For an overview of the concepts,
-see the main [Client-side geographic failover]({{< relref "/develop/clients/failover" >}}) page.
+see the main [Client-side geographic failover](/content/develop/clients/failover.md) page.
 
 ## Failover configuration
 
@@ -40,25 +40,25 @@ using StackExchange.Redis;
 using StackExchange.Redis.Availability;
 ```
 
-{{< note >}}The failover feature is fully supported and intended for production use.
-However, because it is a large, new API surface, the types in the
-`StackExchange.Redis.Availability` namespace are marked with the `[Experimental]`
-attribute so that the library can reserve the right to adjust them without the usual
-backwards-compatibility guarantees. (This marker is expected to be removed in a later
-3.1.x release.) As a result, the compiler reports the `SER007` diagnostic when you use
-these types. Suppressing this diagnostic is the normal way to use the feature. To do so,
-either add the following to your `.csproj` file:
-
-```xml
-<NoWarn>$(NoWarn);SER007</NoWarn>
-```
-
-or suppress it locally in your source file:
-
-```csharp
-#pragma warning disable SER007
-```
-{{< /note >}}
+> [!NOTE]
+> The failover feature is fully supported and intended for production use.
+> However, because it is a large, new API surface, the types in the
+> `StackExchange.Redis.Availability` namespace are marked with the `[Experimental]`
+> attribute so that the library can reserve the right to adjust them without the usual
+> backwards-compatibility guarantees. (This marker is expected to be removed in a later
+> 3.1.x release.) As a result, the compiler reports the `SER007` diagnostic when you use
+> these types. Suppressing this diagnostic is the normal way to use the feature. To do so,
+> either add the following to your `.csproj` file:
+>
+> ```xml
+> <NoWarn>$(NoWarn);SER007</NoWarn>
+> ```
+>
+> or suppress it locally in your source file:
+>
+> ```csharp
+> #pragma warning disable SER007
+> ```
 
 The example below shows a simple case with a list of two servers,
 `redis-east` and `redis-west`, where `redis-east` is the preferred
@@ -88,7 +88,7 @@ RedisValue value = await db.StringGetAsync("mykey");
 
 `ConnectGroupAsync()` returns a connection that you use
 just like a standard multiplexer, but it also handles the connection management and
-failover transparently. The [`IDatabase`]({{< relref "/develop/clients/dotnet/connect" >}})
+failover transparently. The [`IDatabase`](/content/develop/clients/dotnet/connect.md)
 and `ISubscriber` instances obtained from the multiplexer also work with a group
 as they do with an individual endpoint.
 
@@ -96,7 +96,7 @@ as they do with an individual endpoint.
 
 Each endpoint is represented by a `ConnectionGroupMember`, which you can create from a
 connection string or from a
-[`ConfigurationOptions`]({{< relref "/develop/clients/dotnet/connect" >}}) instance.
+[`ConfigurationOptions`](/content/develop/clients/dotnet/connect.md) instance.
 Use `ConfigurationOptions` when you need to provide credentials, TLS settings, or other
 options for each endpoint individually:
 
@@ -128,7 +128,7 @@ endpoint:
 
 | Property | Default | Description |
 | :-- | :-- | :-- |
-| `Weight` | `0` | Priority of the endpoint, with higher values being tried first (see [Selecting a failover target]({{< relref "/develop/clients/failover#selecting-a-failover-target" >}}) for a full description of how the weighted list is used). |
+| `Weight` | `0` | Priority of the endpoint, with higher values being tried first (see [Selecting a failover target](/content/develop/clients/failover.md#selecting-a-failover-target) for a full description of how the weighted list is used). |
 | `HealthCheck` | Group default | Per-member [health check](#health-check-configuration) override. |
 | `CircuitBreaker` | Group default | Per-member [circuit breaker](#circuit-breaker-configuration) override. |
 | `FailbackDelay` | Group default | Per-member [failback delay](#failback-configuration) override. |
@@ -182,7 +182,7 @@ await using var conn = await ConnectionMultiplexer.ConnectGroupAsync(members, op
 
 A circuit breaker passively monitors the traffic already flowing over a connection and
 closes the connection when it detects that the connection has become unstable
-(see [Detecting connection problems]({{< relref "/develop/clients/failover#detecting-connection-problems" >}}) for more information on how the
+(see [Detecting connection problems](/content/develop/clients/failover.md#detecting-connection-problems) for more information on how the
 circuit breaker works). Configure the circuit breaker for the whole group using the
 `CircuitBreaker` option of `MultiGroupOptions`:
 
@@ -262,7 +262,7 @@ The `RetryPolicy.Builder` class provides the following properties:
 | `JitterMax` | `0.5` | Upper bound of the random delay (in seconds) added to each retry, to avoid stampedes. |
 | `FailoverDelay` | `5` | Maximum time (in seconds) to wait when a retry is expecting a failover. |
 | `MaxCommandRetryCategory` | `CommandRetryWriteLastWins` | The most "dangerous" command category that will be retried (see [Which operations are safe to retry?](#which-operations-are-safe-to-retry)) |
-| `MaxAttemptsOnWatchConflict` | `3` | Maximum number of attempts allowed for a watched transaction that keeps failing (see [Watch keys for changes]({{< relref "/develop/clients/dotnet/transpipe#watch-keys-for-changes" >}}) for more information). |
+| `MaxAttemptsOnWatchConflict` | `3` | Maximum number of attempts allowed for a watched transaction that keeps failing (see [Watch keys for changes](/content/develop/clients/dotnet/transpipe.md#watch-keys-for-changes) for more information). |
 
 The retry mechanism classifies errors in the same way as the circuit breaker
 (see [Circuit breaker configuration](#circuit-breaker-configuration)). Only transient
@@ -272,7 +272,7 @@ errors are retried.
 
 Commands are generally safe to retry if they are *idempotent* (that is to say, multiple invocations
 of the same command have the same result as a single invocation). This excludes
-commands like [`INCR`]({{< relref "/commands/incr" >}}) that modify whatever value
+commands like [`INCR`](/content/commands/incr.md) that modify whatever value
 is currently stored in the database.
 
 Each command belongs to a *retry category* that describes how "dangerous" it is
@@ -341,7 +341,7 @@ for more information).
 ## Health check configuration
 
 Each health check consists of one or more separate *probes*, each of which is a simple
-test (such as a [`PING`]({{< relref "/commands/ping" >}}) command) to determine if the
+test (such as a [`PING`](/content/commands/ping.md) command) to determine if the
 member is available. The results of the separate probes are combined using a configurable
 policy to determine whether the member is healthy. When a member fails its health check,
 it is flagged as unhealthy and traffic is routed to other healthy members instead. When
@@ -390,7 +390,7 @@ StackExchange.Redis provides the following built-in probe types:
 
 | Probe | Description |
 | :-- | :-- |
-| `HealthCheckProbe.Ping` (default) | Sends a [`PING`]({{< relref "/commands/ping" >}}) command. Lightweight, and recommended for most scenarios. |
+| `HealthCheckProbe.Ping` (default) | Sends a [`PING`](/content/commands/ping.md) command. Lightweight, and recommended for most scenarios. |
 | `HealthCheckProbe.IsConnected` | Checks the socket connection status without sending any command. Even more lightweight than `Ping`, but only verifies the connection, not that Redis is responsive. |
 | `HealthCheckProbe.StringSet` | Writes a random value and reads it back to verify read/write capability. More comprehensive, but higher overhead than `Ping`. This probe automatically skips replica servers. |
 
@@ -411,7 +411,7 @@ You can supply your own health check probe by deriving a new class from
 `HealthCheckProbe`, or from `HealthCheckProbePolicy` for a custom evaluation policy. For
 example, you might use this to integrate with external monitoring tools or to implement
 checks that are specific to your application. See the
-[StackExchange.Redis failover documentation](https://stackexchange.github.io/StackExchange.Redis/Failover#advanced-customization)
+[StackExchange.Redis failover documentation](https://seredis.dev/Failover.html#advanced-customization)
 for details and examples.
 
 ## Managing members at runtime
@@ -487,7 +487,7 @@ conn.ConnectionChanged += (sender, args) =>
 
 ## Pub/Sub and re-subscription
 
-A connection group supports [Pub/Sub]({{< relref "/develop/pubsub" >}}) messaging with
+A connection group supports [Pub/Sub](/content/develop/pubsub/_index.md) messaging with
 automatic re-subscription to channels during failover, so you don't have to detect
 failovers and re-subscribe manually. When you subscribe to a channel, the subscription is
 established against *all* members (for immediate pickup during a failover), and the library

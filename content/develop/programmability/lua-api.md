@@ -633,29 +633,29 @@ An executing script may call the [`redis.setresp`](#redis.setresp) function duri
 
 Once Redis' replies are in RESP3 protocol, all of the [RESP2 to Lua conversion](#resp2-to-lua-type-conversion) rules apply, with the following additions:
 
-* [RESP3 map reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#map-type) -> Lua table with a single _map_ field containing a Lua table representing the fields and values of the map.
-* [RESP set reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#set-reply) -> Lua table with a single _set_ field containing a Lua table representing the elements of the set as fields, each with the Lua Boolean value of `true`.
-* [RESP3 null](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#null-reply) -> Lua `nil`.
-* [RESP3 true reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#boolean-reply) -> Lua true boolean value.
-* [RESP3 false reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#boolean-reply) -> Lua false boolean value.
-* [RESP3 double reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#double-type) -> Lua table with a single _double_ field containing a Lua number representing the double value.
-* [RESP3 big number reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#big-number-type) -> Lua table with a single _big_number_ field containing a Lua string representing the big number value.
-* [Redis verbatim string reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#verbatim-string-type) -> Lua table with a single _verbatim_string_ field containing a Lua table with two fields, _string_ and _format_, representing the verbatim string and its format, respectively.
+* [RESP3 map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) -> Lua table with a single _map_ field containing a Lua table representing the fields and values of the map.
+* [RESP set reply]({{< relref "/develop/reference/protocol-spec#sets" >}}) -> Lua table with a single _set_ field containing a Lua table representing the elements of the set as fields, each with the Lua Boolean value of `true`.
+* [RESP3 null]({{< relref "/develop/reference/protocol-spec#nulls" >}}) -> Lua `nil`.
+* [RESP3 true reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) -> Lua true boolean value.
+* [RESP3 false reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) -> Lua false boolean value.
+* [RESP3 double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) -> Lua table with a single _double_ field containing a Lua number representing the double value.
+* [RESP3 big number reply]({{< relref "/develop/reference/protocol-spec#big-numbers" >}}) -> Lua table with a single _big_number_ field containing a Lua string representing the big number value.
+* [Redis verbatim string reply]({{< relref "/develop/reference/protocol-spec#verbatim-strings" >}}) -> Lua table with a single _verbatim_string_ field containing a Lua table with two fields, _string_ and _format_, representing the verbatim string and its format, respectively.
 
 **Note:**
-the RESP3 [big number](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#big-number-type) and [verbatim strings](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#verbatim-string-type) replies are only supported as of Redis v7.0 and greater. 
-Also, presently, RESP3's [attributes](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#attribute-type), [streamed strings](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#streamed-strings) and [streamed aggregate data types](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#streamed-aggregate-data-types) are not supported by the Redis Lua API.
+the RESP3 [big number]({{< relref "/develop/reference/protocol-spec#big-numbers" >}}) and [verbatim strings]({{< relref "/develop/reference/protocol-spec#verbatim-strings" >}}) replies are only supported as of Redis v7.0 and greater. 
+Also, presently, RESP3's [attributes]({{< relref "/develop/reference/protocol-spec#attributes" >}}), [streamed strings]({{< relref "/develop/reference/protocol-spec#streamed-strings" >}}) and [streamed aggregated data types]({{< relref "/develop/reference/protocol-spec#streamed-aggregated-data-types" >}}) are not supported by the Redis Lua API.
 
 ### Lua to RESP3 type conversion
 
 Regardless of the script's choice of protocol version set for replies with the [`redis.setresp()` function] when it calls `redis.call()` or `redis.pcall()`, the user may opt-in to using RESP3 (with the `HELLO 3` command) for the connection.
 Although the default protocol for incoming client connections is RESP2, the script should honor the user's preference and return adequately-typed RESP3 replies, so the following rules apply on top of those specified in the [Lua to RESP2 type conversion](#lua-to-resp2-type-conversion) section when that is the case.
 
-* Lua Boolean -> [RESP3 Boolean reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#boolean-reply) (note that this is a change compared to the RESP2, in which returning a Boolean Lua `true` returned the number 1 to the Redis client, and returning a `false` used to return a `null`.
-* Lua table with a single _map_ field set to an associative Lua table -> [RESP3 map reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#map-type).
-* Lua table with a single _set_ field set to an associative Lua table -> [RESP3 set reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#set-type). Values can be set to anything and are discarded anyway.
-* Lua table with a single _double_ field to an associative Lua table -> [RESP3 double reply](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#double-type).
-* Lua nil -> [RESP3 null](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md#null-reply).
+* Lua Boolean -> [RESP3 Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) (note that this is a change compared to the RESP2, in which returning a Boolean Lua `true` returned the number 1 to the Redis client, and returning a `false` used to return a `null`.
+* Lua table with a single _map_ field set to an associative Lua table -> [RESP3 map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}).
+* Lua table with a single _set_ field set to an associative Lua table -> [RESP3 set reply]({{< relref "/develop/reference/protocol-spec#sets" >}}). Values can be set to anything and are discarded anyway.
+* Lua table with a single _double_ field to an associative Lua table -> [RESP3 double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}).
+* Lua nil -> [RESP3 null]({{< relref "/develop/reference/protocol-spec#nulls" >}}).
 
 However, if the connection is set use the RESP2 protocol, and even if the script replies with RESP3-typed responses, Redis will automatically perform a RESP3 to RESP2 conversion of the reply as is the case for regular commands.
 That means, for example, that returning the RESP3 map type to a RESP2 connection will result in the reply being converted to a flat RESP2 array that consists of alternating field names and their values, rather than a RESP3 map.

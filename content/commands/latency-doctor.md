@@ -72,9 +72,7 @@ I have a few advices for you:
 
 **Note:** the doctor has erratic psychological behaviors, so we recommend interacting with it carefully.
 
-For more information refer to the [Latency Monitoring Framework page][lm].
-
-[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md
+For more information refer to the [Latency Monitoring Framework page]({{< relref "/operate/oss_and_stack/management/optimization/latency-monitor.md" >}}).
 
 ## Redis Software and Redis Cloud compatibility
 

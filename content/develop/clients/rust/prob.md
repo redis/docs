@@ -16,28 +16,27 @@ weight: 45
 ---
 
 Redis supports several
-[probabilistic data types]({{< relref "/develop/data-types/probabilistic" >}})
+[probabilistic data types](/content/develop/data-types/probabilistic/_index.md)
 that let you calculate values approximately rather than exactly.
 The `redis-rs` high-level command traits include support for
-[Bloom filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}})
+[Bloom filter](/content/develop/data-types/probabilistic/bloom-filter.md)
 set membership and
-[HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
+[HyperLogLog](/content/develop/data-types/probabilistic/hyperloglogs.md)
 cardinality estimation.
 
-{{< note >}}
-This page covers Bloom filters and HyperLogLog because `redis-rs` provides
-dedicated high-level methods for them. Other probabilistic data types,
-such as Cuckoo filters, Count-min sketch, t-digest, and Top-K, can still be
-called with low-level Redis commands, but they don't currently have dedicated
-high-level `redis-rs` methods.
-{{< /note >}}
+> [!NOTE]
+> This page covers Bloom filters and HyperLogLog because `redis-rs` provides
+> dedicated high-level methods for them. Other probabilistic data types,
+> such as Cuckoo filters, Count-min sketch, t-digest, and Top-K, can still be
+> called with low-level Redis commands, but they don't currently have dedicated
+> high-level `redis-rs` methods.
 
 ## Set membership
 
-A [Bloom filter]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}})
+A [Bloom filter](/content/develop/data-types/probabilistic/bloom-filter.md)
 lets you track whether or not a particular item has been added to a set.
 Instead of storing the items themselves, like a
-[set]({{< relref "/develop/data-types/sets" >}}), a Bloom filter records the
+[set](/content/develop/data-types/sets.md), a Bloom filter records the
 presence or absence of the
 [hash value](https://en.wikipedia.org/wiki/Hash_function) of each item. This
 gives a very compact representation of the set's membership with a fixed memory
@@ -75,6 +74,6 @@ can count up to 2^64 items with less than 1% standard error using a maximum
 
 See the following pages to learn more:
 
-- [HyperLogLog]({{< relref "/develop/data-types/probabilistic/hyperloglogs" >}})
+- [HyperLogLog](/content/develop/data-types/probabilistic/hyperloglogs.md)
 - [`redis-rs` command trait](https://docs.rs/redis/latest/redis/trait.Commands.html)
 - [`redis-rs` async command trait](https://docs.rs/redis/latest/redis/trait.AsyncCommands.html)

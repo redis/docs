@@ -21,7 +21,7 @@ Here's how to subscribe to Redis Cloud with AWS Marketplace:
 
 1.  Search AWS Marketplace for [Redis Cloud: Real-Time Data Layer for AI Apps & Agents](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) and subscribe to the listing.
 
-    {{<image filename="images/rc/aws-marketplace-rc-flexible-plan.png" alt="The Redis Cloud listing on AWS Marketplace" >}}
+    {{<image filename="images/rc/aws-marketplace-rc-listing.png" alt="The Redis Cloud listing on AWS Marketplace" >}}
 
     Or, click on the URL provided by your Redis seller for a private offer for [Redis Cloud - Annual Commits](https://aws.amazon.com/marketplace/pp/prodview-e6y7ork67pjwg?sr=0-3&ref_=beagle&applicationId=AWSMPContessa) and accept the private offer.
 
@@ -57,7 +57,7 @@ If you are the owner of more than one Redis Cloud account and have already assoc
 
 ## Switch from Annual to Pay as You Go
 
-If you have an Annual private offer and want to switch to a Pay as You Go subscription, you can do so by subscribing to the [Redis Cloud Pay as you go with 14-day free trial](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) listing. Both existing and future resources will continue to be billed under the Annual offer until it expires, after which they will be billed under the Pay as You Go offer.
+If you have an Annual private offer and want to switch to a Pay as You Go subscription, you can do so by subscribing to the [Redis Cloud: Real-Time Data Layer for AI Apps & Agents](https://aws.amazon.com/marketplace/pp/prodview-mwscixe4ujhkq) listing. Both existing and future resources will continue to be billed under the Annual offer until it expires, after which they will be billed under the Pay as You Go offer.
 
 ## Disconnect AWS Marketplace account
 

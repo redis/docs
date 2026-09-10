@@ -23,6 +23,12 @@ What gets checked:
     refs are skipped (Hugo's global-lookup fallback can't be replicated cheaply).
     Resolution is a plain filesystem check that also follows Hugo module mounts
     (config.toml [[module.mounts]]) so mounted content isn't wrongly flagged.
+  * plain `/content/<path>.md` links — the repo-root-relative notation the
+    render-link.html hook resolves in place of relref (DOC-6909). Same
+    diff-scoping and resolution as relref, after trimming the "/content"
+    prefix: this is deliberately the one form the migration converters emit
+    (explicit .md/_index.md/index.md suffix), not the full extensionless
+    space Hugo could otherwise resolve.
 """
 
 import sys
@@ -50,9 +56,20 @@ HARD_RULES = [
 ]
 
 # relref is validated only for ABSOLUTE targets, diff-scoped to links the current
-# edit introduced (see head_relrefs). Set SHORTCODE_SKIP_RELREF=1 to turn it off.
+# edit introduced (see head_text). Set SHORTCODE_SKIP_RELREF=1 to turn it off.
 RELREF_DISABLED = os.environ.get("SHORTCODE_SKIP_RELREF") == "1"
 RELREF_RX = re.compile(r'\{\{[<%]\s*relref\s+["\']([^"\']+)["\']')
+
+# Plain `/content/<path>.md[?query][#fragment]` links (the relref-replacement
+# notation), same diff-scoping as relref. Requires the literal .md/_index.md/
+# index.md suffix the converters emit -> see module docstring. The optional
+# `?query` (house style's `?group=` command-reference links) is what linkify
+# preserves when it rewrites such a link -- resolve_plain_link/_norm_relref
+# already strip both `?` and `#` before resolving, this just makes sure the
+# regex captures that href shape in the first place. Set
+# SHORTCODE_SKIP_PLAIN_LINK=1 to turn it off.
+PLAIN_LINK_DISABLED = os.environ.get("SHORTCODE_SKIP_PLAIN_LINK") == "1"
+PLAIN_LINK_RX = re.compile(r'\]\((/content/[^)\s]+\.md(?:\?[^)\s#]*)?(?:#[^)\s]*)?)\)')
 
 
 def find_root(start):
@@ -241,14 +258,22 @@ def resolve_relref(root, ref):
                for cand in _mount_variants(path, root))
 
 
+def resolve_plain_link(root, ref):
+    """A `/content/<path>.md` link (PLAIN_LINK_RX already guarantees the
+    prefix). render-link.html resolves these by trimming the leading
+    "/content" and otherwise following the same GetPage path as relref, so
+    reuse resolve_relref on the trimmed remainder."""
+    return resolve_relref(root, ref[len("/content"):])
+
+
 # ---- diff scoping --------------------------------------------------------------
 
-def head_relrefs(path, root):
-    """relref targets in the committed (HEAD) version of the file. Returns:
-      * a list of ref strings  -> file is in HEAD; diff against it.
-      * "NEW"                  -> file is genuinely new/untracked; check all refs.
-      * None                   -> git unavailable/timeout/other error; SKIP relref
-                                  checks entirely (fail safe -> never false-block)."""
+def head_text(path, root):
+    """Committed (HEAD) content of the file. Returns:
+      * the file's text  -> file is in HEAD; diff link occurrences against it.
+      * "NEW"             -> file is genuinely new/untracked; check every link.
+      * None              -> git unavailable/timeout/other error; SKIP link
+                             checks entirely (fail safe -> never false-block)."""
     rel = os.path.relpath(os.path.abspath(path), root)
     try:
         out = subprocess.run(
@@ -258,20 +283,35 @@ def head_relrefs(path, root):
     except Exception:
         return None
     if out.returncode == 0:
-        return RELREF_RX.findall(out.stdout)
+        return out.stdout
     err = (out.stderr or "").lower()
     if "does not exist in" in err or "exists on disk, but not in" in err:
-        return "NEW"  # confirmed new file -> check every relref
-    return None       # not a repo / other failure -> skip relref to avoid false blocks
+        return "NEW"  # confirmed new file -> check every link
+    return None       # not a repo / other failure -> skip links to avoid false blocks
+
+
+def _new_occurrences(text, prior, rx):
+    """Occurrences of rx in text beyond however many were already in prior
+    ("NEW" counts none as prior; otherwise prior is the HEAD text to diff
+    against)."""
+    prior_counts = Counter() if prior == "NEW" else Counter(rx.findall(prior))
+    seen = Counter()
+    for m in rx.finditer(text):
+        ref = m.group(1)
+        seen[ref] += 1
+        if seen[ref] > prior_counts.get(ref, 0):
+            yield ref
 
 
 def check_file(path, root, prior):
     """Return (broken, bad_links).
       broken    = image/embed file refs that don't exist (always checked).
-      bad_links = absolute relrefs that don't resolve. prior controls relref scope:
-                  None  -> skip relref entirely;
-                  "NEW" -> check every relref (new file / dry-run);
-                  list  -> check only occurrences beyond those already in HEAD.
+      bad_links = absolute relrefs / `/content/*.md` links that don't resolve.
+                  prior controls their scope (both share it):
+                  None  -> skip link checks entirely;
+                  "NEW" -> check every occurrence (new file / dry-run);
+                  text  -> check only occurrences beyond those already in
+                           this HEAD text.
     """
     try:
         with open(path, encoding="utf-8") as f:
@@ -285,18 +325,15 @@ def check_file(path, root, prior):
             if not RESOLVERS[key](root, ref, path):
                 broken.append((name, ref))
     bad_links = []
-    if not RELREF_DISABLED and prior is not None:
-        prior_counts = Counter() if prior == "NEW" else Counter(prior)
-        seen = Counter()
-        for m in RELREF_RX.finditer(text):
-            ref = m.group(1)
-            seen[ref] += 1
-            if seen[ref] <= prior_counts.get(ref, 0):
-                continue  # this occurrence already existed in HEAD
-            if not is_abs_relref(ref):
-                continue  # relative / pure-anchor -> skip (can't resolve cheaply)
-            if not resolve_relref(root, ref):
-                bad_links.append(("relref", ref))
+    if prior is not None:
+        if not RELREF_DISABLED:
+            for ref in _new_occurrences(text, prior, RELREF_RX):
+                if is_abs_relref(ref) and not resolve_relref(root, ref):
+                    bad_links.append(("relref", ref))
+        if not PLAIN_LINK_DISABLED:
+            for ref in _new_occurrences(text, prior, PLAIN_LINK_RX):
+                if not resolve_plain_link(root, ref):
+                    bad_links.append(("link", ref))
     return broken, bad_links
 
 
@@ -310,8 +347,9 @@ def run_scan(argv):
     total_broken = total_links = files_with_issue = 0
     sample_broken, sample_links = [], []
     by_type = {}
+    by_link_type = {}
     for fp in files:
-        # scan mode checks ALL relrefs ("NEW"), not just newly-added ones
+        # scan mode checks ALL occurrences ("NEW"), not just newly-added ones
         broken, bad_links = check_file(fp, root, "NEW")
         if broken or bad_links:
             files_with_issue += 1
@@ -324,16 +362,17 @@ def run_scan(argv):
         if bad_links:
             total_links += len(bad_links)
             for sc, ref in bad_links:
+                by_link_type[sc] = by_link_type.get(sc, 0) + 1
                 if len(sample_links) < 40:
                     sample_links.append(f"{os.path.relpath(fp, root)}: {sc} -> {ref}")
     print(f"Scanned {len(files)} files under {root}  ({files_with_issue} with issues)")
     print(f"BROKEN file refs: {total_broken}  {dict(sorted(by_type.items()))}")
-    print(f"BROKEN relref links (absolute, all): {total_links}")
+    print(f"BROKEN links (relref + /content/*.md, absolute, all): {total_links}  {dict(sorted(by_link_type.items()))}")
     if sample_broken:
         print("\n--- sample broken file refs (always block) ---")
         print("\n".join(sample_broken))
     if sample_links:
-        print("\n--- sample broken absolute relrefs (block only when newly added) ---")
+        print("\n--- sample broken relref/link targets (block only when newly added) ---")
         print("\n".join(sample_links))
     return 0
 
@@ -349,7 +388,7 @@ def run_hook():
     root = find_root(fp)
     if not root or "/content/" not in os.path.abspath(fp).replace(os.sep, "/") + "/":
         return 0
-    prior = head_relrefs(fp, root)
+    prior = head_text(fp, root)
     broken, bad_links = check_file(fp, root, prior)
     if not broken and not bad_links:
         return 0
@@ -357,7 +396,8 @@ def run_hook():
     for sc, ref in broken:
         lines.append(f"  [broken file] {sc} points at a file that does not exist: {ref}")
     for sc, ref in bad_links:
-        lines.append(f"  [broken link] relref target does not resolve to a page: {ref}")
+        target = "relref target" if sc == "relref" else "link target"
+        lines.append(f"  [broken link] {target} does not resolve to a page: {ref}")
     sys.stderr.write("\n".join(lines) + "\n")
     return 2
 

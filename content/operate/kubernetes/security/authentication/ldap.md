@@ -47,7 +47,7 @@ spec:
       attribute: memberOf
 ```
 
-Refer to the `RedisEnterpriseCluster` [API reference](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md#ldapspec) for full details on the available fields.
+Refer to the `RedisEnterpriseCluster` [API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specldap" >}}) for full details on the available fields.
 
 ### Bind credentials
 

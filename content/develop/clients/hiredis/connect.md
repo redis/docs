@@ -110,7 +110,7 @@ redisAsyncCommand(c, getCallback, key, "GET %s", key);
 
 The callback functions have a simple signature that receives
 the context object and a status code. See
-[Handling errors]({{< relref "/develop/clients/hiredis/handle-replies#handling-errors" >}})
+[Handling errors](/content/develop/clients/hiredis/handle-replies.md#handling-errors)
 for a list of the possible status codes.
 
 ```c
@@ -135,7 +135,7 @@ Use the `redisAsyncCommand()` function to issue Redis commands
 with an asynchronous connection. This is similar to the equivalent
 synchronous function `redisCommand()` but also lets you supply a callback
 and a custom data pointer to process the response to the command. See
-[Construct asynchronous commands]({{< relref "/develop/clients/hiredis/issue-commands#construct-asynchronous-commands" >}}) for more
+[Construct asynchronous commands](/content/develop/clients/hiredis/issue-commands.md#construct-asynchronous-commands) for more
 information.
 
 Note that you should normally disconnect asynchronously from a

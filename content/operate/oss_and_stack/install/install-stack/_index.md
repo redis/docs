@@ -118,14 +118,13 @@ docker run -d --name redis -p 6379:6379 redis
 #### Homebrew
 
 ```bash
-brew tap redis/redis
-brew install --cask redis
+brew install redis
 ```
 
 Start Redis:
 
 ```bash
-redis-server $(brew --prefix)/etc/redis.conf
+brew services start redis
 ```
 
 [Full Homebrew installation guide]({{< relref "/operate/oss_and_stack/install/install-stack/homebrew" >}})

@@ -67,10 +67,6 @@ To upgrade a module enabled for a database:
         rladmin upgrade db < database-name | database-ID > latest_with_modules
         ```
 
-    {{<warning>}}
-The upgrade process does not validate the module upgrade arguments, and incorrect arguments can cause unexpected downtime. Test module upgrade commands in a test environment before you upgrade modules in production. 
-    {{</warning>}}
-
     - Use `keep_redis_version` to upgrade the modules without upgrading the database to the latest Redis version.
     
         `keep_redis_version` is deprecated as of Redis Software version 7.8.2. To upgrade modules without upgrading the Redis database version, set `redis_version` to the current Redis database version instead.
@@ -80,6 +76,10 @@ The upgrade process does not validate the module upgrade arguments, and incorrec
         ```sh
         and module module_name <module_name> version <new_module_version_number> module_args "<module arguments>"
         ```
+
+        {{<warning>}}
+The upgrade process does not validate the module upgrade arguments, and incorrect arguments can cause unexpected downtime. Test module upgrade commands in a test environment before you upgrade modules in production.
+        {{</warning>}}
 
         For the module arguments, use one of the following:
 

@@ -70,7 +70,7 @@ Select **Save & exit** to exit pipeline setup. You'll come back here when you [d
 If your source database is accessible via a public endpoint and you want to use public connectivity for your data pipeline, proceed to [Share source database credentials](#share-source-database-credentials).
 {{< /note >}} 
 
-If your source database is not accessible via a public endpoint, you need to set up an endpoint service through AWS PrivateLink to be able to connect to it.
+If your source database is not accessible via a public endpoint, you need to set up an endpoint service through AWS PrivateLink to be able to connect to it. For how traffic flows over PrivateLink, how to connect to an on-premises database over AWS Direct Connect, and how to keep the connection available during failover, see the [AWS PrivateLink reference]({{<relref "/operate/rc/rdi/networking/aws-privatelink">}}).
 
 The following diagrams show the network setup for the different database setups:
 

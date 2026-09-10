@@ -65,7 +65,7 @@ The filter can grow up to 32 times.
 
 <details open><summary><code>key</code></summary>
 
-is key name for the the cuckoo filter to be created.
+is key name for the cuckoo filter to be created.
 </details>
 
 <details open><summary><code>capacity</code></summary>

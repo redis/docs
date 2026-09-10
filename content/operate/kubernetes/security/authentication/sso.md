@@ -361,7 +361,7 @@ spec:
         baseAddress: "https://redis-ui.example.com:443"
 ```
 
-Refer to the `RedisEnterpriseCluster` [API reference](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/redis_enterprise_cluster_api.md#ssospec) for full details on the available fields.
+Refer to the `RedisEnterpriseCluster` [API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api#specsso" >}}) for full details on the available fields.
 
 ## Next steps
 

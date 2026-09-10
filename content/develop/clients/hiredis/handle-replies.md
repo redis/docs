@@ -17,13 +17,13 @@ weight: 10
 
 The `redisCommand()` and `redisCommandArgv()` functions return
 a pointer to a `redisReply` object when you issue a command (see
-[Issue commands]({{< relref "/develop/clients/hiredis/issue-commands" >}})
+[Issue commands](/content/develop/clients/hiredis/issue-commands.md)
 for more information). This type supports all
 reply formats defined in the
-[RESP2 and RESP3]({{< relref "/develop/reference/protocol-spec#resp-protocol-description" >}})
+[RESP2 and RESP3](/content/develop/reference/protocol-spec.md#resp-protocol-description)
 protocols, so its content varies greatly between calls.
 
-A simple example is the status response returned by the [`SET`]({{< relref "/commands/set" >}})
+A simple example is the status response returned by the [`SET`](/content/commands/set.md)
 command. The code below shows how to get this from the `redisReply`
 object:
 
@@ -57,12 +57,12 @@ the stale pointer later.
 ## Reply formats
 
 The Redis
-[`RESP`]({{< relref "/develop/reference/protocol-spec#resp-protocol-description" >}})
+[`RESP`](/content/develop/reference/protocol-spec.md#resp-protocol-description)
 protocols support several different reply formats for commands.
 
 You can find the reply format for a command at the end of its
 reference page in the RESP2/RESP3 Reply section (for example, the
-[`INCRBY`]({{< relref "/commands/incrby" >}}) page shows that the
+[`INCRBY`](/content/commands/incrby.md) page shows that the
 command has an integer result). You can also determine the format
 using the `type` field of the reply object. This contains a
 different integer value for each type. The `hiredis.h` header file
@@ -76,19 +76,19 @@ use to access the reply value:
 
 | Constant | Type | Relevant fields of `redisReply` | RESP protocol |
 | :- | :- |:- | :- |
-| `REDIS_REPLY_STATUS` | [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) | `reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2, 3 |
-| `REDIS_REPLY_ERROR` | [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) | `reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2, 3 |
-| `REDIS_REPLY_INTEGER` | [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) | `reply->integer`: the integer value (`long long`)| 2, 3 |
-| `REDIS_REPLY_NIL` | [Null]({{< relref "/develop/reference/protocol-spec#nulls" >}}) | No data | 2, 3 |
-| `REDIS_REPLY_STRING` | [Bulk string]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) |`reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2, 3 |
-| `REDIS_REPLY_ARRAY` | [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 2, 3 |
-| `REDIS_REPLY_DOUBLE` | [Double]({{< relref "/develop/reference/protocol-spec#doubles" >}}) | `reply->str`: double value as string (`char*`)<br/> `reply->len`: the string length (`size_t`) | 3 |
-| `REDIS_REPLY_BOOL` | [Boolean]({{< relref "/develop/reference/protocol-spec#booleans" >}}) | `reply->integer`: the boolean value, 0 or 1 (`long long`) | 3 |
-| `REDIS_REPLY_MAP` | [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 3 |
-| `REDIS_REPLY_SET` | [Set]({{< relref "/develop/reference/protocol-spec#sets" >}}) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 3 |
-| `REDIS_REPLY_PUSH` | [Push]({{< relref "/develop/reference/protocol-spec#pushes" >}}) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 3 |
-| `REDIS_REPLY_BIGNUM` | [Big number]({{< relref "/develop/reference/protocol-spec#big-numbers" >}}) | `reply->str`: number value as string (`char*`)<br/> `reply->len`: the string length (`size_t`) | 3 |
-| `REDIS_REPLY_VERB` | [Verbatim string]({{< relref "/develop/reference/protocol-spec#verbatim-strings" >}}) |`reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`)<br/> `reply->vtype`: content type (`char[3]`) | 3 |
+| `REDIS_REPLY_STATUS` | [Simple string](/content/develop/reference/protocol-spec.md#simple-strings) | `reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2, 3 |
+| `REDIS_REPLY_ERROR` | [Simple error](/content/develop/reference/protocol-spec.md#simple-errors) | `reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2, 3 |
+| `REDIS_REPLY_INTEGER` | [Integer](/content/develop/reference/protocol-spec.md#integers) | `reply->integer`: the integer value (`long long`)| 2, 3 |
+| `REDIS_REPLY_NIL` | [Null](/content/develop/reference/protocol-spec.md#nulls) | No data | 2, 3 |
+| `REDIS_REPLY_STRING` | [Bulk string](/content/develop/reference/protocol-spec.md#bulk-strings) |`reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`) | 2, 3 |
+| `REDIS_REPLY_ARRAY` | [Array](/content/develop/reference/protocol-spec.md#arrays) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 2, 3 |
+| `REDIS_REPLY_DOUBLE` | [Double](/content/develop/reference/protocol-spec.md#doubles) | `reply->str`: double value as string (`char*`)<br/> `reply->len`: the string length (`size_t`) | 3 |
+| `REDIS_REPLY_BOOL` | [Boolean](/content/develop/reference/protocol-spec.md#booleans) | `reply->integer`: the boolean value, 0 or 1 (`long long`) | 3 |
+| `REDIS_REPLY_MAP` | [Map](/content/develop/reference/protocol-spec.md#maps) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 3 |
+| `REDIS_REPLY_SET` | [Set](/content/develop/reference/protocol-spec.md#sets) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 3 |
+| `REDIS_REPLY_PUSH` | [Push](/content/develop/reference/protocol-spec.md#pushes) | `reply->elements`: number of elements (`size_t`)<br/> `reply->element`: array elements (`redisReply`) | 3 |
+| `REDIS_REPLY_BIGNUM` | [Big number](/content/develop/reference/protocol-spec.md#big-numbers) | `reply->str`: number value as string (`char*`)<br/> `reply->len`: the string length (`size_t`) | 3 |
+| `REDIS_REPLY_VERB` | [Verbatim string](/content/develop/reference/protocol-spec.md#verbatim-strings) |`reply->str`: the string value (`char*`)<br/> `reply->len`: the string length (`size_t`)<br/> `reply->vtype`: content type (`char[3]`) | 3 |
 
 ## Reply format processing examples
 
@@ -226,12 +226,12 @@ reply = NULL;
 Arrays (reply type `REDIS_REPLY_ARRAY`) and maps (reply type `REDIS_REPLY_MAP`)
 are returned by commands that retrieve several values at the
 same time. For both types, the number of elements in the reply is contained in
-`reply->elements` and the pointer to the array itself is is `reply->element`.
+`reply->elements` and the pointer to the array itself is `reply->element`.
 Each item in the array is of type `redisReply`. The array elements
 are typically simple types rather than arrays or maps.
 
 The example below shows how to get the items from a
-[list]({{< relref "/develop/data-types/lists" >}}):
+[list](/content/develop/data-types/lists.md):
 
 ```c
 reply = redisCommand(c, "RPUSH things thing0 thing1 thing2 thing3");
@@ -258,8 +258,8 @@ for (int i = 0; i < reply->elements; ++i) {
 A map is essentially the same as an array but it has the extra
 guarantee that the items will be listed in key-value pairs.
 The example below shows how to get all the fields from a
-[hash]({{< relref "/develop/data-types/hashes" >}}) using
-[`HGETALL`]({{< relref "/commands/hgetall" >}}):
+[hash](/content/develop/data-types/hashes.md) using
+[`HGETALL`](/content/commands/hgetall.md):
 
 ```c
 const char *hashCommand[] = {
@@ -308,7 +308,7 @@ this happens, `context->err` will contain an error code
     information about the error.
 -   `REDIS_ERR_EOF`: The server closed the connection which resulted in an empty read.
 -   `REDIS_ERR_PROTOCOL`: There was an error while parsing the
-    [RESP protocol]({{< relref "/develop/reference/protocol-spec" >}}).
+    [RESP protocol](/content/develop/reference/protocol-spec.md).
 -   `REDIS_ERR_OTHER`: Any other error. Currently, it is only used when the connection
     hostname can't be resolved.
 

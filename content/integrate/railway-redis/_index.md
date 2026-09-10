@@ -34,7 +34,7 @@ Since the deployed container is pulled from the [redis](https://hub.docker.com/_
 
 ## Connecting to your Railway Redis Service
 
-It is possible to connect to Redis externally by using the [TCP Proxy](https://docs.railway.com/deploy/exposing-your-app#tcp-proxying?utm_medium=integration&utm_source=docs&utm_campaign=redis) which is enabled by default.
+It is possible to connect to Redis externally by using the [TCP Proxy](https://docs.railway.com/deploy/exposing-your-app?utm_medium=integration&utm_source=docs&utm_campaign=redis#tcp-proxying) which is enabled by default.
 
 ## Backup and Monitoring
 

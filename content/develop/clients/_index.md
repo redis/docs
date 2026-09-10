@@ -27,35 +27,35 @@ for nine main languages:
 
 | Language | Client name | Docs | Supported |
 | :-- | :-- | :-- | :-- |
-| [Python](https://www.python.org/) | [`redis-py`](https://github.com/redis/redis-py) |[`redis-py` guide]({{< relref "/develop/clients/redis-py" >}}) | Yes |
-| [Python](https://www.python.org/) | [`RedisVL`](https://github.com/redis/redis-vl-python) |[RedisVL guide]({{< relref "/develop/ai/redisvl" >}}) | Yes 
-| [C#/.NET](https://learn.microsoft.com/en-us/dotnet/csharp/) | [`StackExchange.Redis`](https://github.com/StackExchange/StackExchange.Redis) |[`StackExchange.Redis` guide]({{< relref "/develop/clients/dotnet" >}}) | Yes |
-| [C#/.NET](https://learn.microsoft.com/en-us/dotnet/csharp/) | [`NRedisStack`](https://github.com/redis/NRedisStack) |[`NRedisStack` guide]({{< relref "/develop/clients/dotnet/nredisstack" >}}) | Yes |
-| [JavaScript](https://nodejs.org/en) | [`node-redis`](https://github.com/redis/node-redis) | [`node-redis` guide]({{< relref "/develop/clients/nodejs" >}}) | Yes |
-| [JavaScript](https://nodejs.org/en) | [`ioredis`](https://github.com/redis/ioredis) | [`ioredis` guide]({{< relref "/develop/clients/ioredis" >}}) | Yes |
-| [Java](https://www.java.com/en/) | [`Jedis`](https://github.com/redis/jedis) | [`Jedis` guide]({{< relref "/develop/clients/jedis" >}}) |  Yes |
-| [Java](https://www.java.com/en/) | [`Lettuce`](https://github.com/redis/lettuce) | [`Lettuce` guide]({{< relref "/develop/clients/lettuce" >}}) | Yes |
-| [Go](https://go.dev/) | [`go-redis`](https://github.com/redis/go-redis) | [`go-redis` guide]({{< relref "/develop/clients/go" >}}) | Yes |
-| [PHP](https://www.php.net/)| [`Predis`](https://github.com/predis/predis) | [`Predis` guide]({{< relref "/develop/clients/php" >}}) | Best effort [*](#best-effort) |
-| [C](https://en.wikipedia.org/wiki/C_(programming_language)) | [`hiredis`](https://github.com/redis/hiredis) | [`hiredis` guide]({{< relref "/develop/clients/hiredis" >}}) | Yes |
-| [Rust](https://www.rust-lang.org/) | [`redis-rs`](https://github.com/redis-rs/redis-rs) | [`redis-rs` guide]({{< relref "/develop/clients/rust" >}}) | Best effort [*](#best-effort) |
-| [Ruby](https://www.ruby-lang.org/en/) | [`redis-rb`](https://github.com/redis/redis-rb) | [`redis-rb` guide]({{< relref "/develop/clients/ruby" >}}) | Yes |
+| [Python](https://www.python.org/) | [`redis-py`](https://github.com/redis/redis-py) |[`redis-py` guide](/content/develop/clients/redis-py/_index.md) | Yes |
+| [Python](https://www.python.org/) | [`RedisVL`](https://github.com/redis/redis-vl-python) |[RedisVL guide](/content/develop/ai/redisvl/_index.md) | Yes 
+| [C#/.NET](https://learn.microsoft.com/en-us/dotnet/csharp/) | [`StackExchange.Redis`](https://github.com/StackExchange/StackExchange.Redis) |[`StackExchange.Redis` guide](/content/develop/clients/dotnet/_index.md) | Yes |
+| [C#/.NET](https://learn.microsoft.com/en-us/dotnet/csharp/) | [`NRedisStack`](https://github.com/redis/NRedisStack) |[`NRedisStack` guide](/content/develop/clients/dotnet/nredisstack/_index.md) | Yes |
+| [JavaScript](https://nodejs.org/en) | [`node-redis`](https://github.com/redis/node-redis) | [`node-redis` guide](/content/develop/clients/nodejs/_index.md) | Yes |
+| [JavaScript](https://nodejs.org/en) | [`ioredis`](https://github.com/redis/ioredis) | [`ioredis` guide](/content/develop/clients/ioredis/_index.md) | Yes |
+| [Java](https://www.java.com/en/) | [`Jedis`](https://github.com/redis/jedis) | [`Jedis` guide](/content/develop/clients/jedis/_index.md) |  Yes |
+| [Java](https://www.java.com/en/) | [`Lettuce`](https://github.com/redis/lettuce) | [`Lettuce` guide](/content/develop/clients/lettuce/_index.md) | Yes |
+| [Go](https://go.dev/) | [`go-redis`](https://github.com/redis/go-redis) | [`go-redis` guide](/content/develop/clients/go/_index.md) | Yes |
+| [PHP](https://www.php.net/)| [`Predis`](https://github.com/predis/predis) | [`Predis` guide](/content/develop/clients/php/_index.md) | Best effort [*](#best-effort) |
+| [C](https://en.wikipedia.org/wiki/C_(programming_language)) | [`hiredis`](https://github.com/redis/hiredis) | [`hiredis` guide](/content/develop/clients/hiredis/_index.md) | Yes |
+| [Rust](https://www.rust-lang.org/) | [`redis-rs`](https://github.com/redis-rs/redis-rs) | [`redis-rs` guide](/content/develop/clients/rust/_index.md) | Best effort [*](#best-effort) |
+| [Ruby](https://www.ruby-lang.org/en/) | [`redis-rb`](https://github.com/redis/redis-rb) | [`redis-rb` guide](/content/develop/clients/ruby/_index.md) | Yes |
 
-{{< note >}}*<a name="best-effort"></a>
-Redis does not provide official support for third-party client libraries.
-However, we contribute new features, offer guidance, and collaborate with the community
-on a best-effort basis to help ensure these libraries remain reliable and up-to-date.
-{{< /note >}}
+> [!NOTE]
+> *<a name="best-effort"></a>
+> Redis does not provide official support for third-party client libraries.
+> However, we contribute new features, offer guidance, and collaborate with the community
+> on a best-effort basis to help ensure these libraries remain reliable and up-to-date.
 
-See [Client library support and versioning policy]({{< relref "/develop/clients/version-support" >}})
+See [Client library support and versioning policy](/content/develop/clients/version-support.md)
 for details about how Redis maintains, versions, and tests the official client libraries.
 
 We also provide several higher-level
-[object mapping (OM)]({{< relref "/develop/clients/om-clients" >}})
-libraries for [Python]({{< relref "/integrate/redisom-for-python" >}}),
-[C#/.NET]({{< relref "/integrate/redisom-for-net" >}}),
-[Node.js]({{< relref "/integrate/redisom-for-node-js" >}}), and
-[Java/Spring]({{< relref "/integrate/redisom-for-java" >}}).
+[object mapping (OM)](/content/develop/clients/om-clients/_index.md)
+libraries for [Python](/content/integrate/redisom-for-python/_index.md),
+[C#/.NET](/content/integrate/redisom-for-net/_index.md),
+[Node.js](/content/integrate/redisom-for-node-js/_index.md), and
+[Java/Spring](/content/integrate/redisom-for-java/_index.md).
 
 ## Community-supported clients
 
@@ -74,10 +74,10 @@ develop or contribute to these libraries directly.
 
 You will need access to a Redis server to use these libraries.
 You can experiment with a local installation of Redis Open Source
-(see [Install Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})) or with a free trial of [Redis Cloud]({{< relref "/operate/rc" >}}).
+(see [Install Redis Open Source](/content/operate/oss_and_stack/install/install-stack/_index.md)) or with a free trial of [Redis Cloud](/content/operate/rc/_index.md).
 To interact with a Redis server without writing code, use the
-[Redis CLI]({{< relref "/develop/tools/cli" >}}) and
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) tools.
+[Redis CLI](/content/develop/tools/cli.md) and
+[Redis Insight](/content/develop/tools/insight/_index.md) tools.
 
 ## Choose a client library for your language
 
@@ -102,7 +102,7 @@ between the options for each language.
     lacks some of the newer features and performance optimizations of `node-redis`.
     Note that there is a migration guide available if you are interested in converting
     your `ioredis` project to `node-redis`
-    (see [Migrate from ioredis]({{< relref "/develop/clients/nodejs/migration" >}})).
+    (see [Migrate from ioredis](/content/develop/clients/nodejs/migration.md)).
 -   [RedisOM for Node.js](https://github.com/redis/redis-om-node) is an object mapping library that
     provides a high-level API for working with Redis data structures.
 
@@ -123,9 +123,9 @@ between the options for each language.
 -   [`NRedisStack`](https://github.com/redis/NRedisStack) builds upon
     `StackExchange.Redis` with
     support for an extended set of data types and features, such as
-    [JSON]({{< relref "/develop/data-types/json" >}}),
-    [Redis search]({{< relref "/develop/ai/search-and-query" >}}), and
-    [Time series]({{< relref "/develop/data-types/timeseries" >}}).
+    [JSON](/content/develop/data-types/json/_index.md),
+    [Redis search](/content/develop/ai/search-and-query/_index.md), and
+    [Time series](/content/develop/data-types/timeseries/_index.md).
 -   [RedisOM for .NET](https://github.com/redis/redis-om-dotnet) is an object mapping library that
     provides a high-level API for working with Redis data structures.
 
@@ -134,7 +134,7 @@ between the options for each language.
 -   [`Predis`](https://github.com/predis/predis) is the recommended PHP client library for
     most use cases. It has "best effort" support from the Redis team (it's a third-party library
     but the Redis team contributes to it and helps with issues) and has good coverage in the
-    [Redis documentation]({{< relref "/develop/clients/php" >}}). However, it is implemented in
+    [Redis documentation](/content/develop/clients/php/_index.md). However, it is implemented in
     PHP, which limits its performance compared to [phpredis](https://github.com/phpredis/phpredis),
     which is implemented in C.
 -   [phpredis](https://github.com/phpredis/phpredis) is a popular and well-maintained PHP client

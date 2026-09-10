@@ -65,6 +65,7 @@ The version columns indicate availability per Redis Query Engine module version 
 | NOGC                              | [search-no-gc](#search-no-gc)                                     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | ON_TIMEOUT                        | [search-on-timeout](#search-on-timeout)                         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_check_mark:   | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | PARTIAL_INDEXED_DOCS              | [search-partial-indexed-docs](#search-partial-indexed-docs)     | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
+| [PARTITIONS](#partitions)         | There is no matching `CONFIG` parameter.                        | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 | RAW_DOCID_ENCODING                | [search-raw-docid-encoding](#search-raw-docid-encoding)         | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
 | SEARCH_THREADS                    | [search-threads](#search-threads)                               | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
 | SEARCH_IO_THREADS                 | [search-io-threads](#search-io-threads)                         | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Not available">&#x274c;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | :white_large_square: | | |
@@ -458,6 +459,19 @@ Valid values: `0` (false), `1` (true)
 
 Default: `0`
 
+### PARTITIONS
+
+The number of coordinator partitions to use in a clustered deployment (Redis Software,
+Redis Cloud, or Redis Open Source in cluster mode). This parameter is deprecated and
+immutable: any value passed to it is ignored, and the number of partitions is always
+determined automatically.
+
+Type: string
+
+Valid values: `AUTO`
+
+Default: `AUTO`
+
 ### search-raw-docid-encoding
 
 Disable compression for DocID inverted indexes to boost CPU performance.
@@ -564,7 +578,7 @@ UPGRADE_INDEX idx PREFIX 1 tt LANGUAGE french LANGUAGE_FIELD MyLang SCORE 0.5 SC
 Available in Redis Query Engine 2.4.8 and later.
 
 The maximum memory resize (in bytes) for vector indexes.
-The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/ai/search-and-query/vectors/#creation-attributes-per-algorithm" >}}).
+The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/ai/search-and-query/vectors#create-a-vector-index" >}}).
 
 Type: integer
 

@@ -36,9 +36,7 @@ stream from the master. It has been replaced in newer versions of Redis by
  [`PSYNC`]({{< relref "/commands/psync" >}}).
 
 For more information about replication in Redis please check the
-[replication page][tr].
-
-[tr]: /operate/oss_and_stack/management/replication
+[replication page]({{< relref "/operate/oss_and_stack/management/replication" >}}).
 
 ## Redis Software and Redis Cloud compatibility
 

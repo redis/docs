@@ -91,6 +91,28 @@ to derive which node in the cluster to communicate with.
 To use Redis Sentinel, every database name must be unique across the cluster.
 {{< /note >}}
 
+## Supported Sentinel commands
+
+The Discovery Service implements only the subset of the [Redis Sentinel commands]({{< relref "/operate/oss_and_stack/management/sentinel#sentinel-commands" >}}) needed for endpoint discovery and high availability. Commands in the open source Sentinel API that are not listed below are not supported.
+
+| Command | Description |
+|---------|-------------|
+| `SENTINEL MASTER <name>` | Show the state and info of the specified primary. |
+| `SENTINEL MASTERS` | Show a list of monitored primaries and their state. |
+| `SENTINEL SLAVES <name>` | Show a list of replicas for this primary, and their state. |
+| `SENTINEL SENTINELS <name>` | Show a list of Sentinel instances for this primary, and their state. |
+| `SENTINEL GET-MASTER-ADDR-BY-NAME <name>` | Return the IP and port of the primary with that name. |
+| `PING` | Returns `PONG`. |
+| `HELLO` | Switch the connection's protocol (RESP2/RESP3). |
+| `SUBSCRIBE` | Subscribe to Sentinel Pub/Sub event channels. |
+| `UNSUBSCRIBE` | Unsubscribe from Sentinel Pub/Sub event channels. |
+
+### `SENTINEL SLAVES` vs. `SENTINEL REPLICAS`
+
+The Discovery Service supports `SENTINEL SLAVES` to list a primary's replicas. It does **not** support `SENTINEL REPLICAS`, the command that open source Redis introduced in Redis 5.0 as the preferred name (`SLAVES` is retained in open source only as a backward-compatible alias).
+
+This matters for client compatibility: a client that issues `SENTINEL REPLICAS` works against open source Redis Sentinel but returns an error against the Redis Software Discovery Service. If your client supports only `SENTINEL REPLICAS`, configure it to use `SENTINEL SLAVES`, or use a client that issues `SENTINEL SLAVES`, when connecting to the Discovery Service.
+
 ## Redis client support
 
 All [recommended Redis client libraries]({{< relref "/develop/clients" >}}) support the Redis Sentinel API, so you can use any of them with the discovery service.

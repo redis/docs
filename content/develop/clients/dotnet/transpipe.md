@@ -21,11 +21,11 @@ There are two types of batch that you can use:
 -   **Pipelines** avoid network and processing overhead by sending several commands
     to the server together in a single communication. The server then sends back
     a single communication with all the responses. See the
-    [Pipelining]({{< relref "/develop/using-commands/pipelining" >}}) page for more
+    [Pipelining](/content/develop/using-commands/pipelining.md) page for more
     information.
 -   **Transactions** guarantee that all the included commands will execute
     to completion without being interrupted by commands from other clients.
-    See the [Transactions]({{< relref "develop/using-commands/transactions" >}})
+    See the [Transactions](/content/develop/using-commands/transactions.md)
     page for more information.
 
 ## Execute a pipeline
@@ -35,7 +35,7 @@ methods. Start the operations without waiting for each one immediately, then
 wait for their tasks after you have queued the commands. The multiplexer sends
 the requests as soon as possible and processes the responses when they arrive.
 See the StackExchange.Redis
-[Pipelines and Multiplexers](https://stackexchange.github.io/StackExchange.Redis/PipelinesMultiplexers.html)
+[Pipelines and Multiplexers](https://seredis.dev/PipelinesMultiplexers.html)
 page for more information.
 
 {{< clients-example set="pipe_trans_tutorial" step="basic_pipe" lang_filter="C#-Async (SE.Redis)" description="Foundational: Use pipelines to batch multiple commands together and reduce network round trips" difficulty="beginner" >}}
@@ -55,16 +55,16 @@ tasks complete after the transaction executes.
 
 Redis supports *optimistic locking* to avoid inconsistent updates
 to different keys. The basic idea is to watch for changes to any
-keys that you use in a transaction while you are are processing the
+keys that you use in a transaction while you are processing the
 updates. If the watched keys do change, you must restart the updates
 with the latest data from the keys. See
-[Transactions]({{< relref "develop/using-commands/transactions" >}})
+[Transactions](/content/develop/using-commands/transactions.md)
 for more information about optimistic locking.
 
 The approach to optimistic locking that other clients use
-(adding the [`WATCH`]({{< relref "/commands/watch" >}}) command
+(adding the [`WATCH`](/content/commands/watch.md) command
 explicitly to a transaction) doesn't work well with the
-[multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
+[multiplexing](/content/develop/clients/pools-and-muxing.md)
 system that `StackExchange.Redis` uses.
 Instead, `StackExchange.Redis` relies on conditional execution of commands
 to get a similar effect.
@@ -85,5 +85,5 @@ You can also use a `When` condition on certain individual commands to
 specify that they only execute when a certain condition holds
 (for example, the command does not change an existing key).
 See
-[Conditional execution]({{< relref "/develop/clients/dotnet/condexec" >}})
+[Conditional execution](/content/develop/clients/dotnet/condexec.md)
 for a full description of transaction and command conditions.

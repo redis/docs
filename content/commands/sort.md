@@ -123,18 +123,14 @@ syntax_fmt: "SORT key [BY\_pattern] [LIMIT\_offset count] [GET\_pattern [GET pat
   \  ...]] [ASC | DESC] [ALPHA] [STORE\_destination]"
 title: SORT
 ---
-Returns or stores the elements contained in the [list][tdtl], [set][tdts] or
-[sorted set][tdtss] at `key`.
+Returns or stores the elements contained in the [list]({{< relref "/develop/data-types#lists" >}}), [set]({{< relref "/develop/data-types#set" >}}) or
+[sorted set]({{< relref "/develop/data-types#sorted-sets" >}}) at `key`.
 
 There is also the [`SORT_RO`]({{< relref "/commands/sort_ro" >}}) read-only variant of this command.
 
 By default, sorting is numeric and elements are compared by their value
 interpreted as double precision floating point number.
 This is `SORT` in its simplest form:
-
-[tdtl]: /develop/data-types#lists
-[tdts]: /develop/data-types#set
-[tdtss]: /develop/data-types#sorted-sets
 
 ```
 SORT mylist

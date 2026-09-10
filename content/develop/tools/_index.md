@@ -62,3 +62,18 @@ The tools above are maintained by Redis. The tools below are maintained by their
 * Server, client, and slow command views built from `INFO`, `CLIENT LIST`, and `SLOWLOG GET`.
 
 It connects to a single standalone node over an unencrypted connection: Cluster, Sentinel, and TLS are not supported. Commands carry the privileges of the user you connect as, so read-only access has to come from a Redis ACL rather than from the tool.
+
+### Beekeeper Studio
+
+[Beekeeper Studio](https://www.beekeeperstudio.io) Beekeeper Studio is a free, open-source database manager that supports a range of databases like Redis, MongoDB, PostgreSQL, MySQL and more.
+Beekeeper Studio is a desktop app, and is available for Linux, macOS, and Windows with full feature parity across all operating systems. 
+
+Redis support includes
+
+* A command console with autocomplete, history, saved commands, and multi-tab editing, plus an AI assistant that can turn natural-language questions into Redis commands.
+* A spreadsheet-style key browser for browsing, filtering, and editing values, including JSON documents via the ReJSON module.
+* One-click export of query results to CSV, Excel, or JSON.
+
+It connects to a Redis server directly or over an SSH tunnel, with TLS/SSL supported, and authenticates with either a password or a username and password against Redis 6+ ACLs.
+
+[Download for free on their website](https://beekeeperstudio.io/get)
