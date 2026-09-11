@@ -79,7 +79,17 @@ in sequential ordering after retrieval.
 
 #### `clear()`
 
-Clears the message history.
+Delete every message, leaving the index in place.
+
+Clears by index membership, so it removes the documents the live index
+covers. Available under `create_index=False`; dropping the index is
+[delete](#delete).
+
+{{< warning >}}
+Under `create_index=False` the live index is unverified, so if its
+prefix differs from this instance’s it removes documents this
+instance never wrote. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
+{{< /warning >}}
 
 * **Return type:**
   None
@@ -94,8 +104,11 @@ Count the number of messages in the conversation history.
 
 #### `delete()`
 
-Clear all message keys and remove the search index.
+Remove every message and drop the search index.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. Use [clear](#clear) to
+      remove the messages and leave the index standing.
 * **Return type:**
   None
 
@@ -251,7 +264,17 @@ in sequential ordering after retrieval.
 
 #### `clear()`
 
-Clears the conversation message history.
+Delete every message, leaving the index in place.
+
+Clears by index membership, so it removes the documents the live index
+covers. Available under `create_index=False`; dropping the index is
+[delete](#delete).
+
+{{< warning >}}
+Under `create_index=False` the live index is unverified, so if its
+prefix differs from this instance’s it removes documents this
+instance never wrote. See [Install RedisVL]({{< relref "../user_guide/installation" >}}).
+{{< /warning >}}
 
 * **Return type:**
   None
@@ -266,8 +289,11 @@ Count the number of messages in the conversation history.
 
 #### `delete()`
 
-Clear all conversation keys and remove the search index.
+Remove every message and drop the search index.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. Use [clear](#clear) to
+      remove the messages and leave the index standing.
 * **Return type:**
   None
 

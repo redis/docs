@@ -80,7 +80,17 @@ Add a reference(s) to an existing route.
 
 #### `clear()`
 
-Flush all routes from the semantic router index.
+Delete every route reference, leaving the index in place.
+
+Clears by index membership. Available under `create_index=False`;
+dropping the index is [delete](#delete).
+
+{{< warning >}}
+The stored `route_config` is left as it was, here and on the
+default path. A separate process calling [from_existing](#from_existing)
+afterwards will report routes whose reference vectors are gone.
+[remove_route](#remove_route) keeps the two in step.
+{{< /warning >}}
 
 * **Return type:**
   None
@@ -89,6 +99,9 @@ Flush all routes from the semantic router index.
 
 Delete the semantic router index and its persisted route config.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. Use [clear](#clear) to
+      remove the route references and leave the index standing.
 * **Return type:**
   None
 
@@ -208,6 +221,11 @@ It takes context as an argument since that’s what pydantic-core passes when ca
 #### `remove_route(route_name)`
 
 Remove a route and all references from the semantic router.
+
+Like [add_route](#add_route), this replaces the router’s stored config with
+this instance’s route list, so removing one route from a router holding
+only a subset drops the rest from the config [from_existing](#from_existing)
+reads.
 
 * **Parameters:**
   **route_name** (*str*) – Name of the route to remove.
