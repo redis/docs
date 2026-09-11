@@ -112,7 +112,7 @@ Different kind of clients have different default limits:
 * **Pub/Sub clients** have a default hard limit of 32 megabytes and a soft limit of 8 megabytes per 60 seconds.
 * **Replicas** have a default hard limit of 256 megabytes and a soft limit of 64 megabyte per 60 seconds.
 
-It is possible to change the limit at runtime using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command or in a permanent way using the Redis configuration file `redis.conf`. See the example `redis.conf` in the Redis distribution for more information about how to set the limit.
+It is possible to change the limit at runtime using the [`CONFIG SET`](/content/commands/config-set.md) command or in a permanent way using the Redis configuration file `redis.conf`. See the example `redis.conf` in the Redis distribution for more information about how to set the limit.
 
 ## Query Buffer Hard Limit
 
@@ -134,7 +134,7 @@ The aggregation takes into account all the memory used by the client connections
 
 Note that replica and master connections aren't affected by the client eviction mechanism. Therefore, such connections are never evicted.
 
-`maxmemory-clients` can be set permanently in the configuration file (`redis.conf`) or via the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
+`maxmemory-clients` can be set permanently in the configuration file (`redis.conf`) or via the [`CONFIG SET`](/content/commands/config-set.md) command.
 This setting can either be 0 (meaning no limit), a size in bytes (possibly with `mb`/`gb` suffix),
 or a percentage of `maxmemory` by using the `%` suffix (e.g. setting it to `10%` would mean 10% of the `maxmemory` configuration).
 
@@ -144,14 +144,14 @@ A value `5%`, for example, can be a good place to start.
 
 It is possible to flag a specific client connection to be excluded from the client eviction mechanism.
 This is useful for control path connections.
-If, for example, you have an application that monitors the server via the [`INFO`]({{< relref "/commands/info" >}}) command and alerts you in case of a problem, you might want to make sure this connection isn't evicted.
+If, for example, you have an application that monitors the server via the [`INFO`](/content/commands/info.md) command and alerts you in case of a problem, you might want to make sure this connection isn't evicted.
 You can do so using the following command (from the relevant client's connection):
 
-[`CLIENT NO-EVICT`]({{< relref "/commands/client-no-evict" >}}) `on`
+[`CLIENT NO-EVICT`](/content/commands/client-no-evict.md) `on`
 
 And you can revert that with:
 
-[`CLIENT NO-EVICT`]({{< relref "/commands/client-no-evict" >}}) `off`
+[`CLIENT NO-EVICT`](/content/commands/client-no-evict.md) `off`
 
 For more information and an example refer to the `maxmemory-clients` section in the default `redis.conf` file.
 
@@ -178,9 +178,9 @@ Timeouts are not to be considered very precise: Redis avoids setting timer event
 
 ## The CLIENT Command
 
-The Redis [`CLIENT`]({{< relref "/commands/client" >}}) command allows you to inspect the state of every connected client, to kill a specific client, and to name connections. It is a very powerful debugging tool if you use Redis at scale.
+The Redis [`CLIENT`](/content/commands/client.md) command allows you to inspect the state of every connected client, to kill a specific client, and to name connections. It is a very powerful debugging tool if you use Redis at scale.
 
-[`CLIENT LIST`]({{< relref "/commands/client-list" >}}) is used in order to obtain a list of connected clients and their state:
+[`CLIENT LIST`](/content/commands/client-list.md) is used in order to obtain a list of connected clients and their state:
 
 ```
 redis 127.0.0.1:6379> client list
@@ -192,19 +192,19 @@ In the above example two clients are connected to the Redis server. Let's look a
 
 * **addr**: The client address, that is, the client IP and the remote port number it used to connect with the Redis server.
 * **fd**: The client socket file descriptor number.
-* **name**: The client name as set by [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}).
+* **name**: The client name as set by [`CLIENT SETNAME`](/content/commands/client-setname.md).
 * **age**: The number of seconds the connection existed for.
 * **idle**: The number of seconds the connection is idle.
-* **flags**: The kind of client (N means normal client, check the [full list of flags]({{< relref "/commands/client-list" >}})).
+* **flags**: The kind of client (N means normal client, check the [full list of flags](/content/commands/client-list.md)).
 * **omem**: The amount of memory used by the client for the output buffer.
 * **cmd**: The last executed command.
 
-See the [`CLIENT LIST`]({{< relref "/commands/client-list" >}}) documentation for the full listing of fields and their purpose.
+See the [`CLIENT LIST`](/content/commands/client-list.md) documentation for the full listing of fields and their purpose.
 
-Once you have the list of clients, you can close a client's connection using the [`CLIENT KILL`]({{< relref "/commands/client-kill" >}}) command, specifying the client address as its argument.
+Once you have the list of clients, you can close a client's connection using the [`CLIENT KILL`](/content/commands/client-kill.md) command, specifying the client address as its argument.
 
-The commands [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}) and [`CLIENT GETNAME`]({{< relref "/commands/client-getname" >}}) can be used to set and get the connection name. Starting with Redis 4.0, the client name is shown in the
-[`SLOWLOG`]({{< relref "/commands/slowlog" >}}) output, to help identify clients that create latency issues.
+The commands [`CLIENT SETNAME`](/content/commands/client-setname.md) and [`CLIENT GETNAME`](/content/commands/client-getname.md) can be used to set and get the connection name. Starting with Redis 4.0, the client name is shown in the
+[`SLOWLOG`](/content/commands/slowlog.md) output, to help identify clients that create latency issues.
 
 ## TCP keepalive
 

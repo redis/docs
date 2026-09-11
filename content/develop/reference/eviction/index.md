@@ -50,8 +50,8 @@ you can use the following directive inside `redis.conf`:
 maxmemory 100mb
 ```
 
-You can also use [`CONFIG SET`]({{< relref "/commands/config-set" >}}) to
-set `maxmemory` at runtime using [`redis-cli`]({{< relref "/develop/tools/cli" >}}):
+You can also use [`CONFIG SET`](/content/commands/config-set.md) to
+set `maxmemory` at runtime using [`redis-cli`](/content/develop/tools/cli.md):
 
 ```bash
 > CONFIG SET maxmemory 100mb
@@ -68,8 +68,8 @@ further growth of the cache.
 ### Setting `maxmemory` for a replicated or persisted instance
 
 If you are using
-[replication]({{< relref "/operate/rs/databases/durability-ha/replication" >}})
-or [persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}})
+[replication](/content/operate/rs/databases/durability-ha/replication.md)
+or [persistence](/content/operate/rs/databases/configure/database-persistence.md)
 for a server, Redis will use some RAM as a buffer to store the set of updates waiting
 to be written to the replicas or AOF files.
 The memory used by this buffer is not included in the total that
@@ -87,7 +87,7 @@ If you are using replication or persistence, we recommend that you set
 necessary for the `noeviction` policy (see [the section below](#eviction-policies)
 for more information about eviction policies).
 
-The [`INFO`]({{< relref "/commands/info" >}}) command returns a
+The [`INFO`](/content/commands/info.md) command returns a
 `mem_not_counted_for_evict` value in the `memory` section (you can use
 the `INFO memory` option to see just this section). This is the amount of
 memory currently used by the buffers. Although the exact amount will vary,
@@ -150,7 +150,7 @@ policy like `allkeys-lru` is more memory efficient since it doesn't need an
 
 ### Using the `INFO` command
 
-The [`INFO`]({{< relref "/commands/info" >}}) command provides several pieces
+The [`INFO`](/content/commands/info.md) command provides several pieces
 of data that are useful for checking the performance of your cache. In particular,
 the `INFO stats` section includes two important entries, `keyspace_hits` (the number of
 times keys were successfully found in the cache) and `keyspace_misses` (the number
@@ -164,9 +164,9 @@ keyspace_hits / (keyspace_hits + keyspace_misses) * 100
 Check that this is roughly equal to what you would expect for your app
 (naturally, a higher percentage indicates better cache performance).
 
-{{< note >}} When the [`EXISTS`]({{< relref "/commands/exists" >}})
-command reports that a key is absent then this is counted as a keyspace miss.
-{{< /note >}}
+> [!NOTE]
+>  When the [`EXISTS`](/content/commands/exists.md)
+> command reports that a key is absent then this is counted as a keyspace miss.
 
 If the percentage of hits is lower than expected, then this might
 mean you are not using the best eviction policy. For example, if
@@ -213,7 +213,7 @@ before every eviction with the `maxmemory-samples` configuration directive:
 maxmemory-samples 5
 ```
 
-See these pages for information on eviction policies in: (1) [Redis Software]({{< relref "/operate/rs/databases/memory-performance/eviction-policy" >}}) and (2) [Redis Cloud]({{< relref "/operate/rc/databases/configuration/data-eviction-policies" >}}).
+See these pages for information on eviction policies in: (1) [Redis Software](/content/operate/rs/databases/memory-performance/eviction-policy.md) and (2) [Redis Cloud](/content/operate/rc/databases/configuration/data-eviction-policies.md).
 
 The reason Redis does not use a true LRU implementation is because it
 costs more memory. However, the approximation is virtually equivalent for an
