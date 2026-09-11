@@ -1,5 +1,6 @@
 ---
 aliases:
+- /develop/use-cases/agent-memory/rust
 - /develop/use-cases/agent-memory/redis-rs
 categories:
 - docs
@@ -8,15 +9,15 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed agent memory layer in Rust with redis-rs, Candle, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
+description: Build a Redis-backed memory layer in Rust with redis-rs, Candle, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
 linkTitle: redis-rs example (Rust)
-title: Redis agent memory with redis-rs
+title: Redis memory layer with redis-rs
 weight: 4
 ---
 
-This guide shows you how to build a small Redis-backed agent memory layer in Rust with [`redis-rs`]({{< relref "/develop/clients/rust" >}}) and the [Candle](https://github.com/huggingface/candle) inference framework, using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built with [`tiny_http`](https://docs.rs/tiny_http) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
+This guide shows you how to build a small Redis-backed memory layer in Rust with [`redis-rs`]({{< relref "/develop/clients/rust" >}}) and the [Candle](https://github.com/huggingface/candle) inference framework, using only standard Redis commands — no Redis Agent Memory SDK, no managed service. It includes a local web server built with [`tiny_http`](https://docs.rs/tiny_http) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
 
-The embedder is [Candle](https://github.com/huggingface/candle) running the canonical [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) PyTorch checkpoint — the same weights the [Python]({{< relref "/develop/use-cases/agent-memory/redis-py" >}}) example loads. Candle reads the `.bin` weights directly, so the vectors produced here are bit-identical to the Python ones, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
+The embedder is [Candle](https://github.com/huggingface/candle) running the canonical [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) PyTorch checkpoint — the same weights the [Python]({{< relref "/develop/use-cases/memory-layer/redis-py" >}}) example loads. Candle reads the `.bin` weights directly, so the vectors produced here are bit-identical to the Python ones, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
 
 ## Overview
 
@@ -49,7 +50,7 @@ The embedding is computed once and reused for steps 3 and 4 — there's no point
 
 ## The session store
 
-`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/rust/src/session_store.rs)):
+`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/rust/src/session_store.rs)):
 
 ```rust
 use agent_memory_demo::session_store::AgentSession;
@@ -96,7 +97,7 @@ Every write — `start`, `append_turn`, `set_goal`, `set_scratchpad` — runs th
 
 ## The long-term memory store
 
-`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/rust/src/long_term_memory.rs)):
+`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/rust/src/long_term_memory.rs)):
 
 ```rust
 use agent_memory_demo::embeddings::LocalEmbedder;
@@ -203,7 +204,7 @@ You can override per write by passing `Some(ttl)` as the last argument to `remem
 
 ## The event log
 
-`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/rust/src/event_log.rs)):
+`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/rust/src/event_log.rs)):
 
 ```rust
 use agent_memory_demo::event_log::AgentEventLog;
@@ -237,7 +238,7 @@ Those caveats are deliberate. A more conservative implementation would obscure t
 
 ## Pre-seeding long-term memory
 
-In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `src/seed_memory.rs` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/rust/src/seed_memory.rs)):
+In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `src/seed_memory.rs` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/rust/src/seed_memory.rs)):
 
 ```rust
 use agent_memory_demo::seed_memory::seed;
@@ -272,7 +273,7 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
 
     ```bash
     git clone https://github.com/redis/docs.git
-    cd docs/content/develop/use-cases/agent-memory/rust
+    cd docs/content/develop/use-cases/memory-layer/rust
     ```
 
 2.  Build the project. You'll need a recent [Rust toolchain](https://www.rust-lang.org/tools/install)

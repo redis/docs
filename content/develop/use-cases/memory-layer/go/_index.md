@@ -1,5 +1,6 @@
 ---
 aliases:
+- /develop/use-cases/agent-memory/go
 - /develop/use-cases/agent-memory/go-redis
 categories:
 - docs
@@ -8,15 +9,15 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed agent memory layer in Go with go-redis, Hugot, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
+description: Build a Redis-backed memory layer in Go with go-redis, Hugot, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
 linkTitle: go-redis example (Go)
-title: Redis agent memory with go-redis
+title: Redis memory layer with go-redis
 weight: 5
 ---
 
-This guide shows you how to build a small Redis-backed agent memory layer in Go with [`go-redis`]({{< relref "/develop/clients/go" >}}) and the [Hugot](https://pkg.go.dev/github.com/knights-analytics/hugot) library, using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built with Go's standard [`net/http`](https://pkg.go.dev/net/http) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
+This guide shows you how to build a small Redis-backed memory layer in Go with [`go-redis`]({{< relref "/develop/clients/go" >}}) and the [Hugot](https://pkg.go.dev/github.com/knights-analytics/hugot) library, using only standard Redis commands — no Redis Agent Memory SDK, no managed service. It includes a local web server built with Go's standard [`net/http`](https://pkg.go.dev/net/http) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
 
-The embedder is [Hugot](https://pkg.go.dev/github.com/knights-analytics/hugot) running the ONNX-exported `sentence-transformers/all-MiniLM-L6-v2` model — the same encoder the [vector search guide]({{< relref "/develop/clients/go/vecsearch" >}}) uses for Go and the same one the [Python]({{< relref "/develop/use-cases/agent-memory/redis-py" >}}) example loads. Hugot drives the same ONNX Runtime kernel under the hood as Python's `onnxruntime`, so the vectors produced here are numerically identical to the Python ones to within rounding noise, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
+The embedder is [Hugot](https://pkg.go.dev/github.com/knights-analytics/hugot) running the ONNX-exported `sentence-transformers/all-MiniLM-L6-v2` model — the same encoder the [vector search guide]({{< relref "/develop/clients/go/vecsearch" >}}) uses for Go and the same one the [Python]({{< relref "/develop/use-cases/memory-layer/redis-py" >}}) example loads. Hugot drives the same ONNX Runtime kernel under the hood as Python's `onnxruntime`, so the vectors produced here are numerically identical to the Python ones to within rounding noise, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
 
 ## Overview
 
@@ -49,7 +50,7 @@ The embedding is computed once and reused for steps 3 and 4 — there's no point
 
 ## The session store
 
-`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/go/session_store.go)):
+`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/go/session_store.go)):
 
 ```go
 import (
@@ -102,7 +103,7 @@ Every write — `Start`, `AppendTurn`, `SetGoal` — runs the [`HSET`]({{< relre
 
 ## The long-term memory store
 
-`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/go/long_term_memory.go)):
+`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/go/long_term_memory.go)):
 
 ```go
 memory := NewLongTermMemory(
@@ -221,7 +222,7 @@ You can override per write by setting `TTLSeconds` on `RememberParams`, or pass 
 
 ## The event log
 
-`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/go/event_log.go)):
+`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/go/event_log.go)):
 
 ```go
 events := NewAgentEventLog(client, "agent:events:", 1000)
@@ -254,7 +255,7 @@ Those caveats are deliberate. A more conservative implementation would obscure t
 
 ## Pre-seeding long-term memory
 
-In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `seed_memory.go` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/go/seed_memory.go)):
+In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `seed_memory.go` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/go/seed_memory.go)):
 
 ```go
 memory := NewLongTermMemory(client, "agentmem:idx", "agent:mem:",
@@ -289,7 +290,7 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
 
     ```bash
     git clone https://github.com/redis/docs.git
-    cd docs/content/develop/use-cases/agent-memory/go
+    cd docs/content/develop/use-cases/memory-layer/go
     ```
 
 2.  Resolve the dependencies. You'll need [Go 1.26](https://go.dev/dl/) or later (the version `go.mod` declares — Hugot tracks recent toolchain releases):

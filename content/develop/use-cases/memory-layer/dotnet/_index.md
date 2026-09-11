@@ -1,5 +1,6 @@
 ---
 aliases:
+- /develop/use-cases/agent-memory/dotnet
 - /develop/use-cases/agent-memory/stackexchange.redis
 categories:
 - docs
@@ -8,15 +9,15 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed agent memory layer in C# with NRedisStack, ONNX Runtime, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
+description: Build a Redis-backed memory layer in C# with NRedisStack, ONNX Runtime, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
 linkTitle: NRedisStack example (C#)
-title: Redis agent memory with NRedisStack
+title: Redis memory layer with NRedisStack
 weight: 3
 ---
 
-This guide shows you how to build a small Redis-backed agent memory layer in C# (.NET 8) with [NRedisStack]({{< relref "/develop/clients/dotnet" >}}) and the ONNX Runtime, using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built with the .NET [`HttpListener`](https://learn.microsoft.com/en-us/dotnet/api/system.net.httplistener) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
+This guide shows you how to build a small Redis-backed memory layer in C# (.NET 8) with [NRedisStack]({{< relref "/develop/clients/dotnet" >}}) and the ONNX Runtime, using only standard Redis commands — no Redis Agent Memory SDK, no managed service. It includes a local web server built with the .NET [`HttpListener`](https://learn.microsoft.com/en-us/dotnet/api/system.net.httplistener) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
 
-The embedder runs the ONNX-exported [`Xenova/all-MiniLM-L6-v2`](https://huggingface.co/Xenova/all-MiniLM-L6-v2) model — the same encoder the [Python]({{< relref "/develop/use-cases/agent-memory/redis-py" >}}) and [Node.js]({{< relref "/develop/use-cases/agent-memory/nodejs" >}}) examples use. .NET ONNX Runtime is the same C++ kernel that powers Python's `onnxruntime`, so the vectors produced here are numerically identical to the Python ones to within rounding noise. The distance bands the Python walkthrough quotes carry over to this demo without recalibration, and a memory written by one demo can be recalled by the other against the same Redis instance.
+The embedder runs the ONNX-exported [`Xenova/all-MiniLM-L6-v2`](https://huggingface.co/Xenova/all-MiniLM-L6-v2) model — the same encoder the [Python]({{< relref "/develop/use-cases/memory-layer/redis-py" >}}) and [Node.js]({{< relref "/develop/use-cases/memory-layer/nodejs" >}}) examples use. .NET ONNX Runtime is the same C++ kernel that powers Python's `onnxruntime`, so the vectors produced here are numerically identical to the Python ones to within rounding noise. The distance bands the Python walkthrough quotes carry over to this demo without recalibration, and a memory written by one demo can be recalled by the other against the same Redis instance.
 
 ## Overview
 
@@ -49,7 +50,7 @@ The embedding is computed once and reused for steps 3 and 4 — there's no point
 
 ## The session store
 
-`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/dotnet/AgentSession.cs)):
+`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/dotnet/AgentSession.cs)):
 
 ```csharp
 using StackExchange.Redis;
@@ -93,7 +94,7 @@ Every write — `Start`, `AppendTurn`, `SetGoal`, `SetScratchpad` — runs the [
 
 ## The long-term memory store
 
-`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/dotnet/LongTermMemory.cs)):
+`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/dotnet/LongTermMemory.cs)):
 
 ```csharp
 using AgentMemoryDemo;
@@ -198,7 +199,7 @@ You can override per write with `ttlSeconds: ...` on `Remember`, or pass a diffe
 
 ## The event log
 
-`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/dotnet/AgentEventLog.cs)):
+`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/dotnet/AgentEventLog.cs)):
 
 ```csharp
 var events = new AgentEventLog(db, maxLen: 1000);
@@ -231,7 +232,7 @@ Those caveats are deliberate. A more conservative implementation would obscure t
 
 ## Pre-seeding long-term memory
 
-In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `SeedMemory.cs` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/dotnet/SeedMemory.cs)):
+In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `SeedMemory.cs` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/dotnet/SeedMemory.cs)):
 
 ```csharp
 using AgentMemoryDemo;
@@ -265,7 +266,7 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
 
     ```bash
     git clone https://github.com/redis/docs.git
-    cd docs/content/develop/use-cases/agent-memory/dotnet
+    cd docs/content/develop/use-cases/memory-layer/dotnet
     ```
 
 2.  Restore and build the project. You'll need the [.NET 8 SDK](https://dotnet.microsoft.com/download)

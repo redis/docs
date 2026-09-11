@@ -1,5 +1,6 @@
 ---
 aliases:
+- /develop/use-cases/agent-memory/java-lettuce
 - /develop/use-cases/agent-memory/lettuce
 categories:
 - docs
@@ -8,17 +9,17 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed agent memory layer in Java with Lettuce, DJL (PyTorch), and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
+description: Build a Redis-backed memory layer in Java with Lettuce, DJL (PyTorch), and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
 linkTitle: Lettuce example (Java)
-title: Redis agent memory with Lettuce
+title: Redis memory layer with Lettuce
 weight: 7
 ---
 
-This guide shows you how to build a small Redis-backed agent memory layer in Java with [Lettuce]({{< relref "/develop/clients/lettuce" >}}) and [DJL](https://djl.ai/) (the Deep Java Library), using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built with the JDK's [`com.sun.net.httpserver`](https://docs.oracle.com/en/java/javase/17/docs/api/jdk.httpserver/com/sun/net/httpserver/package-summary.html) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
+This guide shows you how to build a small Redis-backed memory layer in Java with [Lettuce]({{< relref "/develop/clients/lettuce" >}}) and [DJL](https://djl.ai/) (the Deep Java Library), using only standard Redis commands — no Redis Agent Memory SDK, no managed service. It includes a local web server built with the JDK's [`com.sun.net.httpserver`](https://docs.oracle.com/en/java/javase/17/docs/api/jdk.httpserver/com/sun/net/httpserver/package-summary.html) so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
 
-The embedder is [DJL](https://djl.ai/) (`ai.djl.huggingface.tokenizers` + `ai.djl.pytorch.pytorch-model-zoo`) running the canonical `sentence-transformers/all-MiniLM-L6-v2` PyTorch checkpoint — the same library and model the existing [Lettuce vector-search example]({{< relref "/develop/clients/lettuce/vecsearch" >}}) uses, and the same encoder the [Python]({{< relref "/develop/use-cases/agent-memory/redis-py" >}}) example loads. DJL drives libtorch through the same C++ runtime as Python's PyTorch bindings, so the vectors produced here are numerically identical to the Python ones to within rounding noise, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
+The embedder is [DJL](https://djl.ai/) (`ai.djl.huggingface.tokenizers` + `ai.djl.pytorch.pytorch-model-zoo`) running the canonical `sentence-transformers/all-MiniLM-L6-v2` PyTorch checkpoint — the same library and model the existing [Lettuce vector-search example]({{< relref "/develop/clients/lettuce/vecsearch" >}}) uses, and the same encoder the [Python]({{< relref "/develop/use-cases/memory-layer/redis-py" >}}) example loads. DJL drives libtorch through the same C++ runtime as Python's PyTorch bindings, so the vectors produced here are numerically identical to the Python ones to within rounding noise, and the distance bands the Python walkthrough quotes carry over to this demo without recalibration. A memory written by one demo can be recalled by the other against the same Redis instance.
 
-The big shape difference from the [sister Jedis port]({{< relref "/develop/use-cases/agent-memory/java-jedis" >}}) is that Lettuce 6.7 doesn't ship first-class `FT.*` or `JSON.*` bindings yet. The helper classes send those commands through Lettuce's generic `dispatch()` API with a custom `ProtocolKeyword`, and the FT.SEARCH/FT.INFO replies are parsed by walking the resulting `List<Object>` — see [`LongTermMemory.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/java-lettuce/src/main/java/com/redis/agentmem/LongTermMemory.java) for the parser. The same connection is pinned to RESP2 at startup so the reply shape stays a flat array (Lettuce 6.7 negotiates RESP3 by default, which wraps the data in a map structure the parser would have to special-case).
+The big shape difference from the [sister Jedis port]({{< relref "/develop/use-cases/memory-layer/java-jedis" >}}) is that Lettuce 6.7 doesn't ship first-class `FT.*` or `JSON.*` bindings yet. The helper classes send those commands through Lettuce's generic `dispatch()` API with a custom `ProtocolKeyword`, and the FT.SEARCH/FT.INFO replies are parsed by walking the resulting `List<Object>` — see [`LongTermMemory.java`](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/java-lettuce/src/main/java/com/redis/agentmem/LongTermMemory.java) for the parser. The same connection is pinned to RESP2 at startup so the reply shape stays a flat array (Lettuce 6.7 negotiates RESP3 by default, which wraps the data in a map structure the parser would have to special-case).
 
 ## Overview
 
@@ -51,7 +52,7 @@ The embedding is computed once and reused for steps 3 and 4 — there's no point
 
 ## The session store
 
-`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/java-lettuce/src/main/java/com/redis/agentmem/AgentSession.java)):
+`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/java-lettuce/src/main/java/com/redis/agentmem/AgentSession.java)):
 
 ```java
 import com.redis.agentmem.AgentSession;
@@ -108,7 +109,7 @@ Every write — `start`, `appendTurn`, `setGoal` — runs the [`HSET`]({{< relre
 
 ## The long-term memory store
 
-`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/java-lettuce/src/main/java/com/redis/agentmem/LongTermMemory.java)):
+`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/java-lettuce/src/main/java/com/redis/agentmem/LongTermMemory.java)):
 
 ```java
 import com.redis.agentmem.LocalEmbedder;
@@ -251,7 +252,7 @@ You can override per write by passing a non-null `ttlSeconds` to `remember`, or 
 
 ## The event log
 
-`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/java-lettuce/src/main/java/com/redis/agentmem/AgentEventLog.java)):
+`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/java-lettuce/src/main/java/com/redis/agentmem/AgentEventLog.java)):
 
 ```java
 import com.redis.agentmem.AgentEvent;
@@ -292,7 +293,7 @@ Those caveats are deliberate. A more conservative implementation would obscure t
 
 ## Pre-seeding long-term memory
 
-In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `SeedMemory` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/java-lettuce/src/main/java/com/redis/agentmem/SeedMemory.java)):
+In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `SeedMemory` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/java-lettuce/src/main/java/com/redis/agentmem/SeedMemory.java)):
 
 ```java
 import com.redis.agentmem.SeedMemory;
@@ -328,7 +329,7 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
 
     ```bash
     git clone https://github.com/redis/docs.git
-    cd docs/content/develop/use-cases/agent-memory/java-lettuce
+    cd docs/content/develop/use-cases/memory-layer/java-lettuce
     ```
 
 2.  Build the fat jar. You'll need a [JDK 17](https://adoptium.net/) or later and

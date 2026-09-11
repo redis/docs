@@ -1,5 +1,6 @@
 ---
 aliases:
+- /develop/use-cases/agent-memory/ruby
 - /develop/use-cases/agent-memory/redis-rb
 categories:
 - docs
@@ -8,15 +9,15 @@ categories:
 - oss
 - rs
 - rc
-description: Build a Redis-backed agent memory layer in Ruby with redis-rb, informers, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
+description: Build a Redis-backed memory layer in Ruby with redis-rb, informers, and standard Redis commands — working memory in a Hash, long-term semantic recall as JSON with a vector index, and an event log in a Stream.
 linkTitle: redis-rb example (Ruby)
-title: Redis agent memory with redis-rb
+title: Redis memory layer with redis-rb
 weight: 9
 ---
 
-This guide shows you how to build a small Redis-backed agent memory layer in Ruby with [`redis-rb`]({{< relref "/develop/clients/ruby" >}}) and the [`informers`](https://github.com/ankane/informers) gem, using only standard Redis commands — no agent-memory SDK, no managed service. It includes a local web server built with the standard-library [`WEBrick`](https://github.com/ruby/webrick) HTTP server so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
+This guide shows you how to build a small Redis-backed memory layer in Ruby with [`redis-rb`]({{< relref "/develop/clients/ruby" >}}) and the [`informers`](https://github.com/ankane/informers) gem, using only standard Redis commands — no Redis Agent Memory SDK, no managed service. It includes a local web server built with the standard-library [`WEBrick`](https://github.com/ruby/webrick) HTTP server so you can send turns at the agent, watch working memory update in place, see semantically similar long-term memories recalled in real time, watch the write-time deduplication skip near-duplicates, and inspect the per-thread event log.
 
-The embedder is [`informers`](https://github.com/ankane/informers), Ankane's Ruby port of Hugging Face transformers, running the ONNX-exported [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) encoder through the `onnxruntime` gem — the same 384-d model the [Python example]({{< relref "/develop/use-cases/agent-memory/redis-py" >}}) and every other port use. The Ruby ONNX path produces vectors that match the Python PyTorch reference closely enough that paraphrase distances land on the same numbers down to the fourth decimal place; a memory written by one demo can be recalled by the other against the same Redis instance, and the distance bands the Python walkthrough quotes carry over to this one without recalibration.
+The embedder is [`informers`](https://github.com/ankane/informers), Ankane's Ruby port of Hugging Face transformers, running the ONNX-exported [`sentence-transformers/all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) encoder through the `onnxruntime` gem — the same 384-d model the [Python example]({{< relref "/develop/use-cases/memory-layer/redis-py" >}}) and every other port use. The Ruby ONNX path produces vectors that match the Python PyTorch reference closely enough that paraphrase distances land on the same numbers down to the fourth decimal place; a memory written by one demo can be recalled by the other against the same Redis instance, and the distance bands the Python walkthrough quotes carry over to this one without recalibration.
 
 ## Overview
 
@@ -49,7 +50,7 @@ The embedding is computed once and reused for steps 3 and 4 — there's no point
 
 ## The session store
 
-`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/ruby/lib/session_store.rb)):
+`AgentSession` wraps the working-memory Hash and the rolling turn window ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/ruby/lib/session_store.rb)):
 
 ```ruby
 require 'redis'
@@ -98,7 +99,7 @@ Every write — `start`, `append_turn`, `set_scratchpad` — runs the [`HSET`]({
 
 ## The long-term memory store
 
-`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/ruby/lib/long_term_memory.rb)):
+`LongTermMemory` owns the JSON documents, the vector index, the recall query, and the write-time deduplication ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/ruby/lib/long_term_memory.rb)):
 
 ```ruby
 require_relative 'lib/embeddings'
@@ -199,7 +200,7 @@ You can override per write with `ttl_seconds: ...` on `remember`, or pass a diff
 
 ## The event log
 
-`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/ruby/lib/event_log.rb)):
+`AgentEventLog` is a thin wrapper over a per-thread Redis Stream ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/ruby/lib/event_log.rb)):
 
 ```ruby
 require_relative 'lib/event_log'
@@ -235,7 +236,7 @@ Those caveats are deliberate. A more conservative implementation would obscure t
 
 ## Pre-seeding long-term memory
 
-In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `seed_memory.rb` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/agent-memory/ruby/lib/seed_memory.rb)):
+In a real deployment the memory store fills up organically as the agent reasons over user turns: each turn produces zero or more memories that flow into the store, with deduplication catching repeats. For the demo, `seed_memory.rb` pre-loads a small set of mixed semantic and episodic memories so the very first recall query returns something useful ([source](https://github.com/redis/docs/blob/main/content/develop/use-cases/memory-layer/ruby/lib/seed_memory.rb)):
 
 ```ruby
 require_relative 'lib/seed_memory'
@@ -270,7 +271,7 @@ The server holds one `LocalEmbedder`, one `AgentSession`, one `LongTermMemory`, 
 
     ```bash
     git clone https://github.com/redis/docs.git
-    cd docs/content/develop/use-cases/agent-memory/ruby
+    cd docs/content/develop/use-cases/memory-layer/ruby
     ```
 
 2.  Install the dependencies. Ruby 3.2 or later is required.
