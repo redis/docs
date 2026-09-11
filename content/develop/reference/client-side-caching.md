@@ -18,11 +18,11 @@ aliases: /develop/use/client-side-caching/
 weight: 2
 ---
 
-{{<note>}}This document is intended as an in-depth reference for
-client-side caching. See
-[Client-side caching introduction]({{< relref "/develop/clients/client-side-caching" >}})
-for general usage guidelines.
-{{</note>}}
+> [!NOTE]
+> This document is intended as an in-depth reference for
+> client-side caching. See
+> [Client-side caching introduction](/content/develop/clients/client-side-caching.md)
+> for general usage guidelines.
 
 Client-side caching is a technique used to create high performance services.
 It exploits the memory available on application servers, servers that are
@@ -91,7 +91,7 @@ listening clients. This can be made to work but is tricky and costly from
 the point of view of the bandwidth used, because often such patterns involve
 sending the invalidation messages to every client in the application, even
 if certain clients may not have any copy of the invalidated data. Moreover
-every application query altering the data requires to use the [`PUBLISH`]({{< relref "/commands/publish" >}})
+every application query altering the data requires to use the [`PUBLISH`](/content/commands/publish.md)
 command, costing the database more CPU time to process this command.
 
 Regardless of what schema is used, there is a simple fact: many very large
@@ -141,7 +141,7 @@ Using the new version of the Redis protocol, RESP3, supported by Redis 6, it is 
 
 Here's an example of a complete session using the Redis protocol in the old RESP2 mode involving the following steps: enabling tracking redirecting to another connection, asking for a key, and getting an invalidation message once the key gets modified.
 
-To start, the client opens a first connection that will be used for invalidations, requests the connection ID, and subscribes via Pub/Sub to the special channel that is used to get invalidation messages when in RESP2 modes (remember that RESP2 is the usual Redis protocol, and not the more advanced protocol that you can use, optionally, with Redis 6 using the [`HELLO`]({{< relref "/commands/hello" >}}) command):
+To start, the client opens a first connection that will be used for invalidations, requests the connection ID, and subscribes via Pub/Sub to the special channel that is used to get invalidation messages when in RESP2 modes (remember that RESP2 is the usual Redis protocol, and not the more advanced protocol that you can use, optionally, with Redis 6 using the [`HELLO`](/content/commands/hello.md) command):
 
 ```
 (Connection 1 -- used for invalidations)
@@ -196,14 +196,14 @@ The client will check if there are cached keys in this caching slot, and will ev
 Note that the third element of the Pub/Sub message is not a single key but
 is a Redis array with just a single element. Since we send an array, if there
 are groups of keys to invalidate, we can do that in a single message.
-In case of a flush ([`FLUSHALL`]({{< relref "/commands/flushall" >}}) or [`FLUSHDB`]({{< relref "/commands/flushdb" >}})), a `null` message will be sent.
+In case of a flush ([`FLUSHALL`](/content/commands/flushall.md) or [`FLUSHDB`](/content/commands/flushdb.md)), a `null` message will be sent.
 
 A very important thing to understand about client-side caching used with
 RESP2 and a Pub/Sub connection in order to read the invalidation messages,
 is that using Pub/Sub is entirely a trick **in order to reuse old client
 implementations**, but actually the message is not really sent to a channel
 and received by all the clients subscribed to it. Only the connection we
-specified in the `REDIRECT` argument of the [`CLIENT`]({{< relref "/commands/client" >}}) command will actually
+specified in the `REDIRECT` argument of the [`CLIENT`](/content/commands/client.md) command will actually
 receive the Pub/Sub message, making the feature a lot more scalable.
 
 When RESP3 is used instead, invalidation messages are sent (either in the
@@ -256,7 +256,7 @@ In this mode, by default, keys mentioned in read queries *are not supposed to be
     "bar"
 
 The `CACHING` command affects the command executed immediately after it.
-However, in case the next command is [`MULTI`]({{< relref "/commands/multi" >}}), all the commands in the
+However, in case the next command is [`MULTI`](/content/commands/multi.md), all the commands in the
 transaction will be tracked. Similarly, in case of Lua scripts, all the
 commands executed by the script will be tracked.
 
@@ -356,7 +356,7 @@ future what is good to cache. In general:
 
 * We don't want to cache many keys that change continuously.
 * We don't want to cache many keys that are requested very rarely.
-* We want to cache keys that are requested often and change at a reasonable rate. For an example of key not changing at a reasonable rate, think of a global counter that is continuously [`INCR`]({{< relref "/commands/incr" >}})emented.
+* We want to cache keys that are requested often and change at a reasonable rate. For an example of key not changing at a reasonable rate, think of a global counter that is continuously [`INCR`](/content/commands/incr.md)emented.
 
 However simpler clients may just evict data using some random sampling just
 remembering the last time a given cached value was served, trying to evict
