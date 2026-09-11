@@ -204,7 +204,7 @@ Find the resource endpoint's default DNS name in the AWS console, under the endp
 
 If you want to keep using the database's public endpoint hostname, including with TLS, create a CNAME record in your own DNS that points the hostname to the resource endpoint's default DNS name. This needs one DNS record and no changes on the AWS or Redis Cloud side.
 
-Use a CNAME record, not an A record to the resource endpoint's network interface addresses. Those addresses aren't guaranteed to stay the same if the resource endpoint is recreated.
+Add a CNAME record, not an A record to the resource endpoint's network interface addresses. Those addresses aren't guaranteed to stay the same if the resource endpoint is recreated.
 
 ### Use a Route 53 Resolver inbound endpoint
 
