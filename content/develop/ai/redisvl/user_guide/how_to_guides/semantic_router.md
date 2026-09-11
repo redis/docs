@@ -3,6 +3,8 @@ linkTitle: Route queries with semanticrouter
 title: Route Queries with SemanticRouter
 aliases:
 - /integrate/redisvl/user_guide/how_to_guides/08_semantic_router
+- /integrate/redisvl/user_guide/semantic_router/
+- /develop/ai/redisvl/user_guide/semantic_router/
 weight: 08
 ---
 
