@@ -17,7 +17,7 @@ title: Document payloads
 weight: 12
 ---
 
-> [!NOTE] Warning
+> [!WARNING]
 > The payload feature is deprecated in 2.0
     
 Usually, Redis Open Source stores documents as hashes or JSON. But if you want to access some data for aggregation or scoring functions, Redis can store that data as an inline payload. This will allow us to evaluate the properties of a document for scoring purposes at a very low cost.

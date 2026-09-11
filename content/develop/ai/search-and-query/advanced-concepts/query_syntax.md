@@ -74,7 +74,7 @@ You can use simple syntax for complex queries using these rules:
 
 As of v0.19.3, it is possible to have a query consisting of just a negative expression. For example `-hello` or `-(@title:(foo|bar))`. The results are all the documents not containing the query terms.
 
-> [!NOTE] Warning
+> [!WARNING]
 > Any complex expression can be negated this way, however, caution should be taken here: if a negative expression has little or no results, this is equivalent to traversing and ranking all the documents in the index, which can be slow and cause high CPU consumption.
 
 ## Field modifiers
