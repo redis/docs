@@ -76,4 +76,4 @@ Redis support includes
 
 It connects to a Redis server directly or over an SSH tunnel, with TLS/SSL supported, and authenticates with either a password or a username and password against Redis 6+ ACLs.
 
-[Download for free on their website](https://beekeeperstudio.io/get)
+[Download for free on their website](https://www.beekeeperstudio.io/db/redis-client/)
