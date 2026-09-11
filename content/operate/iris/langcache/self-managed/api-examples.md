@@ -212,25 +212,6 @@ curl -sS -X POST "$DP_URL/v1/caches/$CACHE_ID/flush" \
   -H "Authorization: Bearer $LC_AGENT_KEY"
 ```
 
-### Search using conversation history
-
-```bash
-curl -sS -X POST "$DP_URL/v1/caches/$CACHE_ID/conversations/search" \
-  -H "Authorization: Bearer $LC_AGENT_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "prompt": "What about the capital of Germany?",
-    "context": [
-      "What is the capital of France?",
-      "The capital of France is Paris."
-    ]
-  }'
-```
-
-`context` is prior conversation turns in chronological order. When
-provided, LangCache reformulates the query before searching, then returns
-the reformulated `actualPrompt` alongside the matching entries.
-
 ### Check cache health
 
 ```bash
@@ -241,5 +222,5 @@ curl -sS "$DP_URL/v1/caches/$CACHE_ID/health" \
 For the full request and response schema for cache entries (set, search,
 delete, flush), see the
 [LangCache API reference]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}}).
-That shared reference does not yet cover conversational search or cache
-health; the examples above reflect the same Data Plane API.
+That shared reference does not yet cover cache health; the example above
+reflects the same Data Plane API.

@@ -40,7 +40,7 @@ every Data Plane request is authenticated by the Identity Service.
 
 | Component | Purpose | Default service |
 | --- | --- | --- |
-| LangCache Data Plane | Cache-scoped runtime API for set, search, flush, and conversational search. | `langcache:9000` |
+| LangCache Data Plane | Cache-scoped runtime API for set, search, and flush. | `langcache:9000` |
 | LangCache Control Plane | Admin API for creating and managing caches. | `langcache-controlplane:9100` |
 | Identity Service | Issues and validates the agent keys the Data Plane requires. Bundled by the chart (default) or an external instance your suite already runs. | `langcache-identity-service:9200` (bundled mode) |
 | Cache Redis | Holds cache entries and RediSearch vector indexes. Registered by ID in the Control Plane's database registry — the Data Plane has no database registry of its own. | Customer-provided |
@@ -71,14 +71,13 @@ boundary for cached entries.
 | --- | --- | --- |
 | Cache entries | `/v1/caches/{cacheId}/entries` | Set, search, and delete cached entries. |
 | Cache flush | `/v1/caches/{cacheId}/flush` | Flush all entries in a cache. |
-| Conversational search | `/v1/caches/{cacheId}/conversations/search` | Search using conversation history context. |
 | Cache health | `/v1/caches/{cacheId}/health` | Cache-scoped health status. |
 | Control Plane | `/v1/caches`, `/v1/embedding-providers` | Self-managed administration for caches. |
 | Identity Service | `/v1/api-keys` | Mint, list, update, revoke, and rotate agent keys and their cache grants. |
 
 The [LangCache API]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}})
-reference does not yet document conversational search or cache health; for
-those two, use [API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples" >}})
+reference does not yet document cache health; for that, use
+[API examples]({{< relref "/operate/iris/langcache/self-managed/api-examples" >}})
 until the shared schema is updated.
 
 Start with [prerequisites]({{< relref "/operate/iris/langcache/self-managed/prerequisites" >}}),
