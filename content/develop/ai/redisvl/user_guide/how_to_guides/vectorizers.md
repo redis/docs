@@ -466,6 +466,7 @@ VoyageAI's `voyage-context-*` models support *contextualized* chunk embeddings. 
 
 
 ```python
+# NBVAL_SKIP
 # Contextualized embeddings (voyage-context-* models). Each input string is sent
 # as its own auto-chunked document and embedded independently, so the vectorizer
 # returns exactly one embedding per input string. Requires voyageai>=0.5.0.
