@@ -195,6 +195,7 @@ Certificate verification decides which approach you need. Redis Cloud issues ser
 
 AWS documents this as a supported way to reach a resource endpoint from on-premises, not a workaround:
 
+> [!NOTE]
 > DNS requests from outside the VPC still return the private IP addresses of the resource endpoint's network interfaces. You can use these DNS names to access the resource from on premises, as long as you have access to the VPC that the resource endpoint is in, through VPN or Direct Connect.
 
 Find the resource endpoint's default DNS name in the AWS console, under the endpoint's details, and use it directly in your connection string. This requires no DNS configuration on either side, but it doesn't work with TLS, because the hostname doesn't match your database's certificate.
