@@ -23,7 +23,7 @@ Use workspaces to keep environments such as dev, staging, and prod separate, or 
 
 Every workspace also has a `last_applied_version` counter that increases each time you successfully apply a change. Read commands always return the latest committed version.
 
-To create, inspect, update, or delete workspaces, see [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
+To create, inspect, update, or delete workspaces, see [Manage workspaces](/content/develop/ai/featureform/manage-workspace.md).
 
 ## The resource graph
 
@@ -96,11 +96,10 @@ The Python definitions file is the source of truth for what the graph should loo
 
 By default, `ff apply` replaces the workspace's current graph with the resources defined in the file. Any existing resource not in the file becomes a candidate for removal. To apply a partial set and leave missing resources untouched, run `ff apply --merge` instead.
 
-{{< note >}}
-Definitions files describe features, not infrastructure. Providers and secret backends are registered separately by a workspace admin. Definitions files reference providers by name and assume they already exist. This separation keeps feature authors away from credentials and infrastructure choices.
-{{< /note >}}
+> [!NOTE]
+> Definitions files describe features, not infrastructure. Providers and secret backends are registered separately by a workspace admin. Definitions files reference providers by name and assume they already exist. This separation keeps feature authors away from credentials and infrastructure choices.
 
-For an end-to-end walkthrough of authoring a definitions file and applying it, see the [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}). For the full apply lifecycle and editing loop, see [Define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}) and [Update features]({{< relref "/develop/ai/featureform/update-features" >}}).
+For an end-to-end walkthrough of authoring a definitions file and applying it, see the [Quickstart](/content/develop/ai/featureform/quickstart.md). For the full apply lifecycle and editing loop, see [Define and deploy features](/content/develop/ai/featureform/define-and-deploy-features.md) and [Update features](/content/develop/ai/featureform/update-features.md).
 
 ## Secrets and secret references
 
@@ -113,7 +112,7 @@ Keeping credentials out of the graph has two important consequences:
 
 Every new workspace is created with a built-in `env` secret provider, which makes `env:` references work out of the box for local development. Production deployments typically register a Vault, Kubernetes-secrets, or AWS Secrets Manager backend instead, because the `env` backend offers no rotation, no audit, and exposes values in process listings.
 
-To register a secret provider for a workspace, see [Configure secret providers]({{< relref "/develop/ai/featureform/register-providers#configure-secret-providers" >}}).
+To register a secret provider for a workspace, see [Configure secret providers](/content/develop/ai/featureform/register-providers/_index.md#configure-secret-providers).
 
 ## Providers
 
@@ -140,7 +139,7 @@ One provider often fills more than one role. Postgres, for example, is commonly 
 
 The role model is what lets a graph stay portable: a feature definition doesn't care that compute happens to be Postgres in dev and Spark in prod, only that some provider fills the `compute` role.
 
-To register providers in a workspace, see [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}).
+To register providers in a workspace, see [Register providers](/content/develop/ai/featureform/register-providers/_index.md).
 
 ## Feature views and serving
 
@@ -182,18 +181,17 @@ Applications can read feature values through any of three interfaces:
 - A REST endpoint (`POST /api/v1/serve`).
 - A Python client (`client.serve(...)`).
 
-{{< note >}}
-Reading feature values and reading serving metadata are governed by separate RBAC permissions. For example, a dashboard user can have access to feature view schemas without access to the actual values — or vice versa.
-{{< /note >}}
+> [!NOTE]
+> Reading feature values and reading serving metadata are governed by separate RBAC permissions. For example, a dashboard user can have access to feature view schemas without access to the actual values — or vice versa.
 
-To serve from a feature view in an application, see [Serve features]({{< relref "/develop/ai/featureform/serve-features" >}}). To inspect datasets, training sets, or feature views directly, see [Query data]({{< relref "/develop/ai/featureform/query-data" >}}).
+To serve from a feature view in an application, see [Serve features](/content/develop/ai/featureform/serve-features.md). To inspect datasets, training sets, or feature views directly, see [Query data](/content/develop/ai/featureform/query-data.md).
 
 ## Next steps
 
-- [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}) — one end-to-end walkthrough that exercises every concept on this page.
-- [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}) — create, inspect, update, and delete workspaces.
-- [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}) — connect the workspace to Postgres, Redis, S3, Spark, or an Iceberg catalog, and register secret backends.
-- [Define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}) — author a definitions file and run `ff apply`.
-- [Update features]({{< relref "/develop/ai/featureform/update-features" >}}) — iterate on a graph after the first apply.
-- [Serve features]({{< relref "/develop/ai/featureform/serve-features" >}}) — read from a feature view in an application.
-- [Query data]({{< relref "/develop/ai/featureform/query-data" >}}) — inspect datasets, training sets, and feature views directly.
+- [Quickstart](/content/develop/ai/featureform/quickstart.md) — one end-to-end walkthrough that exercises every concept on this page.
+- [Manage workspaces](/content/develop/ai/featureform/manage-workspace.md) — create, inspect, update, and delete workspaces.
+- [Register providers](/content/develop/ai/featureform/register-providers/_index.md) — connect the workspace to Postgres, Redis, S3, Spark, or an Iceberg catalog, and register secret backends.
+- [Define and deploy features](/content/develop/ai/featureform/define-and-deploy-features.md) — author a definitions file and run `ff apply`.
+- [Update features](/content/develop/ai/featureform/update-features.md) — iterate on a graph after the first apply.
+- [Serve features](/content/develop/ai/featureform/serve-features.md) — read from a feature view in an application.
+- [Query data](/content/develop/ai/featureform/query-data.md) — inspect datasets, training sets, and feature views directly.

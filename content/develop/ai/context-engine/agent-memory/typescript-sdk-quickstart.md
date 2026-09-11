@@ -66,15 +66,13 @@ You also need Node.js and npm.
 1. Select **Create**.
 1. Copy the Redis Agent Memory API key and store it securely.
 
-{{< warning >}}
-Redis Cloud displays the Redis Agent Memory API key only once. If you lose it, [generate a new API key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Redis Cloud displays the Redis Agent Memory API key only once. If you lose it, [generate a new API key](/content/operate/iris/agent-memory/view-service.md#replace-service-api-key).
 
-These settings keep the background stages short enough to observe during the quickstart. For screenshots and configuration details, see [create a Redis Agent Memory service]({{< relref "/operate/iris/agent-memory/create-service" >}}).
+These settings keep the background stages short enough to observe during the quickstart. For screenshots and configuration details, see [create a Redis Agent Memory service](/content/operate/iris/agent-memory/create-service.md).
 
-{{< warning >}}
-Sensitive-data exclusions guide the extraction model but do not guarantee exclusion. Sensitive session content still reaches the model provider. Exclusions do not apply when an application creates long-term memories directly.
-{{< /warning >}}
+> [!WARNING]
+> Sensitive-data exclusions guide the extraction model but do not guarantee exclusion. Sensitive session content still reaches the model provider. Exclusions do not apply when an application creates long-term memories directly.
 
 ## Save the connection values
 
@@ -165,9 +163,8 @@ Session memory stores a conversation as an ordered sequence of events. Add the f
 
 Run the file again. The session response contains the stored message, its role, actor, and timestamps. An application can retrieve this session before the next agent turn and add the events to the model's context.
 
-{{% note %}}
-**What to expect:** The `events` array contains the travel message. Redis Agent Memory adds an `eventId` and `systemTimestamp`, showing that the application can recover the complete event later using only the session ID.
-{{% /note %}}
+> [!NOTE]
+> **What to expect:** The `events` array contains the travel message. Redis Agent Memory adds an `eventId` and `systemTimestamp`, showing that the application can recover the complete event later using only the session ID.
 
 After the event is stored, comment out the call to `addSessionEvent` before subsequent runs to avoid adding the same message again.
 
@@ -193,11 +190,10 @@ Wait at least one minute, then add this search after the session retrieval:
 
 Run the file. The `items` array should contain memories derived from the conversation, such as the vegetarian requirement or preference for spicy food. Extraction is asynchronous, so run the search again if the array is empty.
 
-{{% note %}}
-**What to expect:** Results similar to `User is a vegetarian` and `User prefers spicy food`. Your application did not create these memories directly. Redis Agent Memory derived them from the session event. The exact text and memory types can vary.
-{{% /note %}}
+> [!NOTE]
+> **What to expect:** Results similar to `User is a vegetarian` and `User prefers spicy food`. Your application did not create these memories directly. Redis Agent Memory derived them from the session event. The exact text and memory types can vary.
 
-The extracted memory remains searchable after the session expires, subject to the long term memory TTL. You can change the extraction cadence and both TTLs in the [Redis Agent Memory service configuration]({{< relref "/operate/iris/agent-memory/create-service#memory-configuration" >}}).
+The extracted memory remains searchable after the session expires, subject to the long term memory TTL. You can change the extraction cadence and both TTLs in the [Redis Agent Memory service configuration](/content/operate/iris/agent-memory/create-service.md#memory-configuration).
 
 ## 3. Keep long conversations concise with automatic summarization
 
@@ -244,11 +240,10 @@ After a short wait, retrieve the session again:
 
 Run the retrieval again after a short wait if `summary` is not present. Compare `summary.text` with the recent events. The summary should preserve earlier trip decisions while recent turns remain available in full.
 
-{{% note %}}
-**What to expect:** A `summary` object that preserves details such as Tokyo, Kyoto, the travel dates, and food preferences. `summarizedUpToEventId` identifies the last event covered by the summary, while `events` contains the newer turns that remain in full. The exact summary text can vary.
-{{% /note %}}
+> [!NOTE]
+> **What to expect:** A `summary` object that preserves details such as Tokyo, Kyoto, the travel dates, and food preferences. `summarizedUpToEventId` identifies the last event covered by the summary, while `events` contains the newer turns that remain in full. The exact summary text can vary.
 
-See [automatic summarization configuration]({{< relref "/operate/iris/agent-memory/create-service#automatic-summarization" >}}) for details.
+See [automatic summarization configuration](/content/operate/iris/agent-memory/create-service.md#automatic-summarization) for details.
 
 ## 4. Extract business specific data with a custom memory type
 
@@ -271,11 +266,10 @@ Search for the structured memory:
 
 The result uses `trip_preference` as its `memoryType` and contains travel information extracted from the conversation. The exact text and returned fields depend on the conversation, extraction model, and client.
 
-{{% note %}}
-**What to expect:** A result with `memoryType` set to `trip_preference` that combines the destinations, travel period, and dietary preferences. This shows that the custom type processed the same conversation independently from the built-in memory types.
-{{% /note %}}
+> [!NOTE]
+> **What to expect:** A result with `memoryType` set to `trip_preference` that combines the destinations, travel period, and dietary preferences. This shows that the custom type processed the same conversation independently from the built-in memory types.
 
-See [custom memory types]({{< relref "/operate/iris/agent-memory/create-service#custom-memory-types" >}}) for configuration requirements and limits.
+See [custom memory types](/content/operate/iris/agent-memory/create-service.md#custom-memory-types) for configuration requirements and limits.
 
 ## 5. Guide extraction away from sensitive data
 
@@ -311,18 +305,16 @@ Run the code once, then comment out the call to `addSessionEvent`. Wait at least
 
 Inspect the returned memories. They can retain the hotel name, but should not contain `DEMO-7QX9` because the exclusion prompt covers booking confirmation codes.
 
-{{% note %}}
-**What to expect:** A memory similar to `User booked Hotel Sakura in Tokyo` without the fictional confirmation code. If the code appears, refine the exclusion prompt and test again. Exclusions remain advisory.
-{{% /note %}}
+> [!NOTE]
+> **What to expect:** A memory similar to `User booked Hotel Sakura in Tokyo` without the fictional confirmation code. If the code appears, refine the exclusion prompt and test again. Exclusions remain advisory.
 
-{{< warning >}}
-Semantic exclusions are advisory and do not guarantee that sensitive information is excluded. Session content still reaches the extraction model provider. Do not use real sensitive data in this exercise. Exclusions do not apply to directly created long-term memories.
-{{< /warning >}}
+> [!WARNING]
+> Semantic exclusions are advisory and do not guarantee that sensitive information is excluded. Session content still reaches the extraction model provider. Do not use real sensitive data in this exercise. Exclusions do not apply to directly created long-term memories.
 
-See [sensitive-data exclusions]({{< relref "/operate/iris/agent-memory/create-service#sensitive-data-exclusions" >}}) for configuration details.
+See [sensitive-data exclusions](/content/operate/iris/agent-memory/create-service.md#sensitive-data-exclusions) for configuration details.
 
 ## Next steps
 
 * Review the [TypeScript SDK package and reference](https://www.npmjs.com/package/@redis-iris/agent-memory).
-* Try the [Python SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}) or [REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}).
-* Learn when to [create long term memories directly]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#create-long-term-memories" >}}).
+* Try the [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md) or [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md).
+* Learn when to [create long term memories directly](/content/develop/ai/context-engine/agent-memory/developer-guide.md#create-long-term-memories).

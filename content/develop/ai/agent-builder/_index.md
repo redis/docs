@@ -12,7 +12,7 @@ weight: 50
 ---
 
 
-Agents use Redis for data storage, [vector search]({{< relref "/develop/get-started/search-tutorial/vector-search" >}}), and [conversation memory]({{< relref "/develop/get-started/rag" >}}). The interactive builder generates code in your preferred programming language with your choice of model.
+Agents use Redis for data storage, [vector search](/content/develop/get-started/search-tutorial/vector-search.md), and [conversation memory](/content/develop/get-started/rag.md). The interactive builder generates code in your preferred programming language with your choice of model.
 
 ## Get started
 
@@ -35,7 +35,7 @@ Choose from four types of intelligent agents:
 - **Recommendation engines**: Personalized product and content recommendations
 - **Conversational assistants**: Chatbots with memory and context awareness
 - **Knowledge assistants**: RAG agents that ingest documents, answer questions with citations, and use semantic caching
-- **Redis Iris conversational assistants**: Conversational agents backed by managed [Redis Iris Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) — session and long-term memory with no vector index to build
+- **Redis Iris conversational assistants**: Conversational agents backed by managed [Redis Iris Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) — session and long-term memory with no vector index to build
 
 The agent builder will generate complete, working code examples for your chosen agent type.
 
@@ -64,20 +64,20 @@ The generated code includes detailed setup instructions and best practices to ge
 
 ### Redis AI documentation
 
-- [Redis Vector Search]({{< relref "/develop/ai/search-and-query/vectors/" >}}) - Semantic search capabilities 
-- [Redis Streams](/develop/data-types/streams/) - Real-time data and conversation history
-- [AI Notebooks Collection]({{< relref "/develop/ai/notebook-collection" >}}) - Interactive tutorials and examples 
-- [Ecosystem Integrations]({{< relref "/develop/ai/ecosystem-integrations" >}}) - Redis with AI frameworks
+- [Redis Vector Search](/content/develop/ai/search-and-query/vectors/_index.md) - Semantic search capabilities 
+- [Redis Streams](/content/develop/data-types/streams/_index.md) - Real-time data and conversation history
+- [AI Notebooks Collection](/content/develop/ai/notebook-collection.md) - Interactive tutorials and examples 
+- [Ecosystem Integrations](/content/develop/ai/ecosystem-integrations.md) - Redis with AI frameworks
 
 ### For experienced developers
 
 If you're ready to go beyond the agent builder, these resources cover production-grade managed services and cutting-edge Redis AI projects:
 
-- [Redis Context Engine]({{< relref "/develop/ai/context-engine" >}}) — Managed services for agent memory, semantic caching, and structured data access (Redis Iris)
+- [Redis Context Engine](/content/develop/ai/context-engine/_index.md) — Managed services for agent memory, semantic caching, and structured data access (Redis Iris)
 - [Redis AI Incubator](https://redis.io/ai-incubator/) — Early-stage AI projects and experiments from the Redis team
 
 ### Community and support
 
 - Join the [Redis Discord](https://discord.gg/redis) for community support
 - Explore [Redis AI Resources on GitHub](https://github.com/redis-developer/redis-ai-resources)
-- Watch [AI Video Collection]({{< relref "/develop/ai/ai-videos" >}}) for tutorials and demonstrations
+- Watch [AI Video Collection](/content/develop/ai/ai-videos.md) for tutorials and demonstrations

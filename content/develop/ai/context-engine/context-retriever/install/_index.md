@@ -15,9 +15,8 @@ bannerChildren: true
 
 Context Retriever is distributed as container images on Docker Hub plus a Helm chart shipped in the Redis Enterprise Helm repository. Installation pulls the images from Docker Hub (or your own mirror) and deploys the chart against a Redis database you provide.
 
-{{< note >}}
-This guide is for system administrators deploying Context Retriever on a self-managed Kubernetes cluster.
-{{< /note >}}
+> [!NOTE]
+> This guide is for system administrators deploying Context Retriever on a self-managed Kubernetes cluster.
 
 ## What you need
 
@@ -139,9 +138,8 @@ ADMIN_POD=$(kubectl get pods -n $NS \
 kubectl exec -n $NS "$ADMIN_POD" -- cat /opt/initialAdminKey.txt
 ```
 
-{{< warning >}}
-Save this key immediately. It is only available on first startup and cannot be recovered if lost (see [Troubleshooting](#lost-admin-api-key)).
-{{< /warning >}}
+> [!WARNING]
+> Save this key immediately. It is only available on first startup and cannot be recovered if lost (see [Troubleshooting](#lost-admin-api-key)).
 
 ### Install the CLI (optional)
 
@@ -178,9 +176,8 @@ Context Retriever supports air-gapped clusters by mirroring the published images
 
 Mirror the images and download the chart (steps 1 and 2) on a host with internet access, then transfer them into your air-gapped environment before installing (step 3).
 
-{{< note >}}
-These commands assume the image tag matches the chart version (`$CR_VERSION`). If the images use a different tag, check the chart defaults with `helm show values redis-ai/redis-context-retriever` and set `admin.image.tag` and `mcp.image.tag` accordingly.
-{{< /note >}}
+> [!NOTE]
+> These commands assume the image tag matches the chart version (`$CR_VERSION`). If the images use a different tag, check the chart defaults with `helm show values redis-ai/redis-context-retriever` and set `admin.image.tag` and `mcp.image.tag` accordingly.
 
 1. Mirror both images to your internal registry:
 
@@ -221,9 +218,8 @@ These commands assume the image tag matches the chart version (`$CR_VERSION`). I
      --set 'imagePullSecrets[0].name=regcred'
    ```
 
-{{< note >}}
-If your registry allows unauthenticated pulls, skip creating `regcred` and remove the `--set 'imagePullSecrets[0].name=regcred'` line from the command above.
-{{< /note >}}
+> [!NOTE]
+> If your registry allows unauthenticated pulls, skip creating `regcred` and remove the `--set 'imagePullSecrets[0].name=regcred'` line from the command above.
 
 Your Redis database is separate and must likewise be reachable from the air-gapped cluster.
 
@@ -239,9 +235,8 @@ Your Redis database is separate and must likewise be reachable from the air-gapp
 
 If your Redis presents a TLS certificate signed by a private or self-signed certificate authority (CA) — common with Redis Enterprise — Context Retriever must trust that CA, or the connection fails certificate verification. Use `redis.tlsCA.existingSecrets` to mount one or more CA certificates; the chart adds them to the system trust store of both the Admin and MCP services, so they are trusted automatically with no application configuration. The image's built-in public CA bundle stays trusted — your CAs are added on top.
 
-{{< note >}}
-This requires `redis.tlsEnabled: true`, and each CA Secret must already exist in the release namespace before you install or upgrade.
-{{< /note >}}
+> [!NOTE]
+> This requires `redis.tlsEnabled: true`, and each CA Secret must already exist in the release namespace before you install or upgrade.
 
 ### Create a Secret with the CA certificate
 
@@ -343,9 +338,8 @@ kubectl logs -n $NS -l app.kubernetes.io/component=admin | grep -i license
 
 ### Lost admin API key
 
-{{< warning >}}
-There is no recovery mechanism by design.
-{{< /warning >}}
+> [!WARNING]
+> There is no recovery mechanism by design.
 
 If the key is lost and the pod has restarted, wipe and reinstall:
 

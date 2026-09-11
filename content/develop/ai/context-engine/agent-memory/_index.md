@@ -134,4 +134,4 @@ After your Redis Agent Memory service is ready, choose a client. Each quickstart
   </div>
 </div>
 
-For shared integration concepts, identifiers, and authentication, see the [Redis Agent Memory developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}).
+For shared integration concepts, identifiers, and authentication, see the [Redis Agent Memory developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md).

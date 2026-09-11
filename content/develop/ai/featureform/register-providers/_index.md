@@ -13,12 +13,12 @@ Register the providers and secret backends Redis Feature Form needs before you a
 
 Before you register a provider, make sure you have:
 
-- A [workspace]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
-- The [`redis-featureform` Python package]({{< relref "/develop/ai/featureform/quickstart#install-the-ff-cli" >}}) installed. It includes the Python client and the `ff` command-line interface (CLI).
+- A [workspace](/content/develop/ai/featureform/manage-workspace.md).
+- The [`redis-featureform` Python package](/content/develop/ai/featureform/quickstart.md#install-the-ff-cli) installed. It includes the Python client and the `ff` command-line interface (CLI).
 - Network access from the Feature Form server and its workers to the external system.
 - A registered secret provider for each credential reference in the provider configuration.
 
-The examples show Python first and the equivalent `ff` command second. [Configure authentication]({{< relref "/operate/featureform/configure-auth" >}}) through an active profile or environment variables before you use either interface. `ff.Client.from_env()` reads that configuration, including `FEATUREFORM_BASE_URL` and `FEATUREFORM_TOKEN` when set. The CLI connects to `localhost:9090` by default; use `--server <host:port>` or configure another endpoint when the server is elsewhere.
+The examples show Python first and the equivalent `ff` command second. [Configure authentication](/content/operate/featureform/configure-auth.md) through an active profile or environment variables before you use either interface. `ff.Client.from_env()` reads that configuration, including `FEATUREFORM_BASE_URL` and `FEATUREFORM_TOKEN` when set. The CLI connects to `localhost:9090` by default; use `--server <host:port>` or configure another endpoint when the server is elsewhere.
 
 The Python examples on this page use these workspace-scoped clients:
 
@@ -38,11 +38,11 @@ A provider fills one or more literal roles: `offline-store`, `online-store`, `co
 
 | Provider | Roles | Use it for |
 | --- | --- | --- |
-| [Databricks]({{< relref "/develop/ai/featureform/register-providers/databricks" >}}) | `offline-store`, `compute` | Managed Spark compute with Unity Catalog outputs |
-| [Snowflake]({{< relref "/develop/ai/featureform/register-providers/snowflake" >}}) | `offline-store`, `compute` | Snowflake datasets and SQL compute |
-| [PostgreSQL]({{< relref "/develop/ai/featureform/register-providers/postgresql" >}}) | `offline-store`, `compute` | PostgreSQL datasets and SQL compute |
-| [S3]({{< relref "/develop/ai/featureform/register-providers/s3" >}}) | `offline-store` | Object storage and Spark data or staging access |
-| [Redis]({{< relref "/develop/ai/featureform/register-providers/redis" >}}) | `online-store` | Low-latency feature serving |
+| [Databricks](/content/develop/ai/featureform/register-providers/databricks.md) | `offline-store`, `compute` | Managed Spark compute with Unity Catalog outputs |
+| [Snowflake](/content/develop/ai/featureform/register-providers/snowflake.md) | `offline-store`, `compute` | Snowflake datasets and SQL compute |
+| [PostgreSQL](/content/develop/ai/featureform/register-providers/postgresql.md) | `offline-store`, `compute` | PostgreSQL datasets and SQL compute |
+| [S3](/content/develop/ai/featureform/register-providers/s3.md) | `offline-store` | Object storage and Spark data or staging access |
+| [Redis](/content/develop/ai/featureform/register-providers/redis.md) | `online-store` | Low-latency feature serving |
 | Spark | `compute` | Generic Spark execution |
 | Iceberg catalog | `offline-store` | Catalog-backed Iceberg tables |
 
@@ -193,7 +193,7 @@ ff secret-provider register <secret-provider-name> \
 
 ## Register Redis for online serving
 
-Register a `redis` or `redis-cluster` provider when feature views need an online store. See [Register Redis providers]({{< relref "/develop/ai/featureform/register-providers/redis" >}}) for topology, authentication, TLS, Spark, and Databricks guidance.
+Register a `redis` or `redis-cluster` provider when feature views need an online store. See [Register Redis providers](/content/develop/ai/featureform/register-providers/redis.md) for topology, authentication, TLS, Spark, and Databricks guidance.
 
 ## Keep health checks enabled
 
@@ -201,9 +201,8 @@ Provider registration validates configuration and runs a synchronous health chec
 
 Use `--skip-health-check`, or `skip_health_check=True` in Python, only when the external system is deliberately unavailable during registration. This skips the synchronous check but does not disable recurring monitoring. Use `--disable-monitoring`, or `disable_monitoring=True`, to skip the initial check and disable recurring checks.
 
-{{< note >}}
-A successful health check verifies only the operations documented for that provider. It doesn't prove that every future dataset, table, policy, or workload is accessible.
-{{< /note >}}
+> [!NOTE]
+> A successful health check verifies only the operations documented for that provider. It doesn't prove that every future dataset, table, policy, or workload is accessible.
 
 ## Verify registration
 
@@ -265,4 +264,4 @@ You can pass either `providers` or `secret_providers` as `registry`. The helper 
 
 ## Next steps
 
-After you register the required providers, [define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}).
+After you register the required providers, [define and deploy features](/content/develop/ai/featureform/define-and-deploy-features.md).

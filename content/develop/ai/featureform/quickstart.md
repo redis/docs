@@ -10,10 +10,10 @@ Redis Feature Form is a feature platform for defining, deploying, and serving ma
 
 Before you begin, you'll need: 
 
-- A running [Feature Form deployment]({{< relref "/operate/featureform/deploy" >}}) with durable state
-- An existing [workspace]({{< relref "/develop/ai/featureform/manage-workspace" >}})
-- A working [auth path]({{< relref "/operate/featureform/configure-auth" >}}) for `ff`
-- Reachable Postgres and Redis endpoints for your offline-store and online-store [providers]({{< relref "/develop/ai/featureform/register-providers" >}})
+- A running [Feature Form deployment](/content/operate/featureform/deploy.md) with durable state
+- An existing [workspace](/content/develop/ai/featureform/manage-workspace.md)
+- A working [auth path](/content/operate/featureform/configure-auth.md) for `ff`
+- Reachable Postgres and Redis endpoints for your offline-store and online-store [providers](/content/develop/ai/featureform/register-providers/_index.md)
 - Sample data loaded that matches the quickstart definitions file
 
 ## Install the `ff` CLI
@@ -47,11 +47,11 @@ If a provider uses a secret reference like `env:VAR_NAME`, make sure `VAR_NAME` 
 
 ## 3. Register your providers
 
-See [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}) for steps to register the offline and online providers before applying resources.
+See [Register providers](/content/develop/ai/featureform/register-providers/_index.md) for steps to register the offline and online providers before applying resources.
 
 ## 4. Review your definitions file
 
-Open the Python definitions file you plan to apply and confirm it declares the resources you want in the workspace. See [Typical file structure]({{< relref "/develop/ai/featureform/define-and-deploy-features#typical-file-structure" >}}) for the canonical shape.
+Open the Python definitions file you plan to apply and confirm it declares the resources you want in the workspace. See [Typical file structure](/content/develop/ai/featureform/define-and-deploy-features.md#typical-file-structure) for the canonical shape.
 
 ## 5. Apply the file
 
@@ -94,12 +94,12 @@ ff dataframe query <resource-name> \
   --insecure
 ```
 
-See [Query data]({{< relref "/develop/ai/featureform/query-data" >}}) for the full set of flags and supported kinds.
+See [Query data](/content/develop/ai/featureform/query-data.md) for the full set of flags and supported kinds.
 
 ## Next steps
 
-- [Serve features]({{< relref "/develop/ai/featureform/serve-features" >}}) at inference time from a feature view in your graph.
-- [Update features]({{< relref "/develop/ai/featureform/update-features" >}}) to iterate on a definitions file you've already applied.
+- [Serve features](/content/develop/ai/featureform/serve-features.md) at inference time from a feature view in your graph.
+- [Update features](/content/develop/ai/featureform/update-features.md) to iterate on a definitions file you've already applied.
 
 
 
