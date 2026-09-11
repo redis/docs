@@ -36,6 +36,7 @@ Radar reads each cluster's management interface using credentials you supply, th
 This approach has two significant consequences:
 
 - **Radar needs credentials for every cluster you want to see.** Getting that access in place is most of the setup work. See [Connect clusters]({{< relref "/operate/radar/connect" >}}).
+- **Radar must be able to reach each cluster.** Where it can't, such as a cluster behind a firewall or on an isolated network, an agent you install inside that network collects and submits on Radar's behalf. See [Connect clusters with an agent]({{< relref "/operate/radar/agent" >}}).
 - **Radar shows the last successful state collection rather than live state.** Radar collects the state of every connected cluster — Redis Software, Redis Open Source, Redis Cloud, Amazon ElastiCache, and Google Memorystore — on a fixed interval, so a value is only as fresh as the last time Radar reached that cluster. Radar shows that age alongside the data.
 
 ## Next steps
