@@ -18,7 +18,7 @@ aliases:
 weight: 4
 ---
 
-This is step 4 of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). It builds on the [index]({{< relref "/develop/get-started/search-tutorial/indexing" >}}) and the queries from [the previous step]({{< relref "/develop/get-started/search-tutorial/search" >}}).
+This is step 4 of the [Redis Search tutorial](/content/develop/get-started/search-tutorial/_index.md). It builds on the [index](/content/develop/get-started/search-tutorial/indexing.md) and the queries from [the previous step](/content/develop/get-started/search-tutorial/search.md).
 
 <details><summary>Reload products data and re-create index</summary>
 {{% redis-cli prereq="true" set="search_tutorial" %}}
@@ -58,7 +58,7 @@ OK
 - What is the average price per category?
 - Which brand has the highest average rating?
 
-These are **aggregation** questions. They summarize across many documents instead of returning them one by one. The [FT.AGGREGATE]({{< relref "/commands/ft.aggregate" >}}) command handles them by running your results through a pipeline of steps. The three you will use most are:
+These are **aggregation** questions. They summarize across many documents instead of returning them one by one. The [FT.AGGREGATE](/content/commands/ft.aggregate.md) command handles them by running your results through a pipeline of steps. The three you will use most are:
 
 - **`GROUPBY`** &mdash; collect documents into groups that share a field value.
 - **`REDUCE`** &mdash; compute something for each group, such as a count or an average.
@@ -132,7 +132,7 @@ Swap `COUNT` for a different reducer to compute other summaries. This calculates
    4) "86.995"
 {{< /clients-example >}}
 
-`REDUCE AVG 1 @price` reads as "apply the AVG reducer to one field: `price`". The `SORTBY 2 @avg_price DESC` clause sorts by the computed `avg_price` value; the `2` is the number of arguments that follow (`@avg_price` and `DESC`). Other reducers include `SUM`, `MIN`, `MAX`, and `COUNT_DISTINCT`; see the [aggregation reference]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}}) for the full list.
+`REDUCE AVG 1 @price` reads as "apply the AVG reducer to one field: `price`". The `SORTBY 2 @avg_price DESC` clause sorts by the computed `avg_price` value; the `2` is the number of arguments that follow (`@avg_price` and `DESC`). Other reducers include `SUM`, `MIN`, `MAX`, and `COUNT_DISTINCT`; see the [aggregation reference](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md) for the full list.
 
 ## Calculate new values with APPLY
 
@@ -188,12 +188,11 @@ The real power of `FT.AGGREGATE` is chaining these steps. This finds the average
    4) "4.45"
 {{< /clients-example >}}
 
-(The output is truncated; eight brands are returned in all.) You can keep extending the pipeline &mdash; apply multiple reducers under one `GROUPBY`, chain a second `GROUPBY`, add `FILTER` and `LIMIT` steps, and more. See the [aggregation queries]({{< relref "/develop/ai/search-and-query/query/aggregation" >}}) guide for deeper examples.
+(The output is truncated; eight brands are returned in all.) You can keep extending the pipeline &mdash; apply multiple reducers under one `GROUPBY`, chain a second `GROUPBY`, add `FILTER` and `LIMIT` steps, and more. See the [aggregation queries](/content/develop/ai/search-and-query/query/aggregation.md) guide for deeper examples.
 
-{{% alert title="Try it in Redis Insight" color="info" %}}
-Aggregation results are tabular by nature, so they are especially easy to read in the [Redis Insight Search workspace]({{< relref "/develop/tools/insight/search-workspace" >}}). Paste any `FT.AGGREGATE` command from this page into the query editor to see each group as a row.
-{{% /alert %}}
+> [!NOTE] Try it in Redis Insight
+> Aggregation results are tabular by nature, so they are especially easy to read in the [Redis Insight Search workspace](/content/develop/tools/insight/search-workspace.md). Paste any `FT.AGGREGATE` command from this page into the query editor to see each group as a row.
 
 ## Next steps
 
-You can now find, filter, and summarize structured data. The final step goes beyond keywords and exact values to search by *meaning*. Continue to [vector and hybrid search]({{< relref "/develop/get-started/search-tutorial/vector-search" >}}).
+You can now find, filter, and summarize structured data. The final step goes beyond keywords and exact values to search by *meaning*. Continue to [vector and hybrid search](/content/develop/get-started/search-tutorial/vector-search.md).

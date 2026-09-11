@@ -20,23 +20,21 @@ aliases:
 weight: 5
 ---
 
-This is the final step of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}). It builds on everything so far: the [catalog]({{< relref "/develop/get-started/search-tutorial/data-modeling" >}}), the [index]({{< relref "/develop/get-started/search-tutorial/indexing" >}}), and the [search]({{< relref "/develop/get-started/search-tutorial/search" >}}) syntax.
+This is the final step of the [Redis Search tutorial](/content/develop/get-started/search-tutorial/_index.md). It builds on everything so far: the [catalog](/content/develop/get-started/search-tutorial/data-modeling.md), the [index](/content/develop/get-started/search-tutorial/indexing.md), and the [search](/content/develop/get-started/search-tutorial/search.md) syntax.
 
-{{% alert title="Version requirement" color="warning" %}}
-The hybrid search section uses [FT.HYBRID]({{< relref "/commands/ft.hybrid" >}}), which requires Redis 8.8 or later. Vector search with `FT.SEARCH` works on earlier versions with Redis Search.
-{{% /alert %}}
+> [!NOTE] Version requirement
+> The hybrid search section uses [FT.HYBRID](/content/commands/ft.hybrid.md), which requires Redis 8.8 or later. Vector search with `FT.SEARCH` works on earlier versions with Redis Search.
 
 So far you have matched products by the words they contain and the exact values of their fields. But a shopper searching for "*something to listen to music on a run*" will not use the word *headphones* or *earbuds*, and a keyword search would miss them. **Vector search** solves this by matching on *meaning* rather than exact words.
 
-{{% alert title="Which client library?" color="info" %}}
-This tutorial performs vector search with `redis-cli` and the core Redis commands, and shows `redis-py` for Python. If you want a higher-level Python experience, [RedisVL]({{< relref "/develop/clients/redis-vl" >}}) is a client library purpose-built for vector workflows. You can also find vector search examples for the other client libraries:
-
-- [`redis-py` (Python)]({{< relref "/develop/clients/redis-py/vecsearch" >}})
-- [`NRedisStack` (C#/.NET)]({{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}})
-- [`node-redis` (JavaScript/Node.js)]({{< relref "/develop/clients/nodejs/vecsearch" >}})
-- [`jedis` (Java)]({{< relref "/develop/clients/jedis/vecsearch" >}})
-- [`go-redis` (Go)]({{< relref "/develop/clients/go/vecsearch" >}})
-{{% /alert %}}
+> [!NOTE] Which client library?
+> This tutorial performs vector search with `redis-cli` and the core Redis commands, and shows `redis-py` for Python. If you want a higher-level Python experience, [RedisVL](/content/develop/clients/redis-vl.md) is a client library purpose-built for vector workflows. You can also find vector search examples for the other client libraries:
+>
+> - [`redis-py` (Python)](/content/develop/clients/redis-py/vecsearch.md)
+> - [`NRedisStack` (C#/.NET)](/content/develop/clients/dotnet/nredisstack/vecsearch.md)
+> - [`node-redis` (JavaScript/Node.js)](/content/develop/clients/nodejs/vecsearch.md)
+> - [`jedis` (Java)](/content/develop/clients/jedis/vecsearch.md)
+> - [`go-redis` (Go)](/content/develop/clients/go/vecsearch.md)
 
 ## How vector search works
 
@@ -111,7 +109,7 @@ OK
 OK
 {{< /clients-example >}}
 
-The vector field definition reads: index `$.embedding` as a `VECTOR` field using the `FLAT` algorithm, with `6` attributes following &mdash; `TYPE FLOAT32`, `DIM 768` (the model's dimension), and `DISTANCE_METRIC COSINE`. `FLAT` does an exact search and is a good default for small datasets; for large datasets you would choose `HNSW`. For all the options, see the [vector search concepts]({{< relref "/develop/ai/search-and-query/vectors" >}}) page.
+The vector field definition reads: index `$.embedding` as a `VECTOR` field using the `FLAT` algorithm, with `6` attributes following &mdash; `TYPE FLOAT32`, `DIM 768` (the model's dimension), and `DISTANCE_METRIC COSINE`. `FLAT` does an exact search and is a good default for small datasets; for large datasets you would choose `HNSW`. For all the options, see the [vector search concepts](/content/develop/ai/search-and-query/vectors/_index.md) page.
 
 ## K-nearest neighbors (KNN)
 
@@ -128,9 +126,8 @@ Here is what each part does:
 - **`PARAMS 2 query_vector "..."`** supplies the query vector's binary value. The `2` means two arguments follow: the parameter name and its value.
 - **`SORTBY score ASC`** orders results closest-first, and **`DIALECT 2`** selects the query dialect that vector search requires.
 
-{{% alert title="Note" color="info" %}}
-The query vector's binary value is long, so it is shortened in the example above. In a real application your client library builds it for you from the model's output, as in the [embedding step](#generate-and-store-embeddings) above.
-{{% /alert %}}
+> [!NOTE]
+> The query vector's binary value is long, so it is shortened in the example above. In a real application your client library builds it for you from the model's output, as in the [embedding step](#generate-and-store-embeddings) above.
 
 For a phrase like "*portable music for the outdoors*", this returns the products whose descriptions are closest in meaning &mdash; the portable speaker and the earbuds rank highly &mdash; even though they share no specific keyword with the query.
 
@@ -146,7 +143,7 @@ FT.SEARCH idx:catalog "(@category:{Audio})=>[KNN 3 @embedding $query_vector AS s
 
 Keyword search and vector search each have strengths. Keyword search is precise when the user knows the exact term; vector search is forgiving when they describe what they want in their own words. **Hybrid search** runs both at once and fuses the results, giving you the best of each.
 
-The [FT.HYBRID]({{< relref "/commands/ft.hybrid" >}}) command takes a `SEARCH` clause (a full-text query, exactly like `FT.SEARCH`) and a `VSIM` clause (a vector similarity query), and combines their rankings. This searches for the keyword *wireless* and, at the same time, for products semantically similar to the query vector (here, an embedding of "*wireless headphones for listening to music*"):
+The [FT.HYBRID](/content/commands/ft.hybrid.md) command takes a `SEARCH` clause (a full-text query, exactly like `FT.SEARCH`) and a `VSIM` clause (a vector similarity query), and combines their rankings. This searches for the keyword *wireless* and, at the same time, for products semantically similar to the query vector (here, an embedding of "*wireless headphones for listening to music*"):
 
 ```
 FT.HYBRID idx:catalog SEARCH "wireless" VSIM @embedding $query_vector KNN 2 K 5 LOAD 1 @name PARAMS 2 query_vector "\x9a\x99\x19\x3f..."
@@ -156,11 +153,10 @@ As with the KNN examples, the query vector's binary value is shortened above; yo
 
 The result blends two rankings: products that literally mention *wireless* and products whose meaning is closest to the query vector. For this query, the wireless headphones and earbuds come out on top &mdash; they satisfy both the keyword and the meaning &mdash; followed by other wireless items and the nearest semantic matches such as the portable speaker.
 
-By default, `FT.HYBRID` fuses the two rankings with a method called Reciprocal Rank Fusion. You can tune the balance with a `COMBINE` clause, and add `FILTER`, `LOAD`, `APPLY`, and `SORTBY` steps just as you would in an aggregation. See the [FT.HYBRID]({{< relref "/commands/ft.hybrid" >}}) reference for the full syntax.
+By default, `FT.HYBRID` fuses the two rankings with a method called Reciprocal Rank Fusion. You can tune the balance with a `COMBINE` clause, and add `FILTER`, `LOAD`, `APPLY`, and `SORTBY` steps just as you would in an aggregation. See the [FT.HYBRID](/content/commands/ft.hybrid.md) reference for the full syntax.
 
-{{% alert title="Try it in Redis Insight" color="info" %}}
-The [Redis Insight Search workspace]({{< relref "/develop/tools/insight/search-workspace" >}}) is built for exactly this kind of work. Its welcome screen introduces full-text, vector, and hybrid search, it can load a ready-made vector dataset, and its editor handles the vector parameters for you &mdash; a much friendlier way to experiment with vector and hybrid queries than pasting binary blobs into `redis-cli`.
-{{% /alert %}}
+> [!NOTE] Try it in Redis Insight
+> The [Redis Insight Search workspace](/content/develop/tools/insight/search-workspace.md) is built for exactly this kind of work. Its welcome screen introduces full-text, vector, and hybrid search, it can load a ready-made vector dataset, and its editor handles the vector parameters for you &mdash; a much friendlier way to experiment with vector and hybrid queries than pasting binary blobs into `redis-cli`.
 
 ## What you have learned
 
@@ -174,8 +170,8 @@ Congratulations &mdash; you have gone from an empty database to running hybrid s
 
 ## Where to go next
 
-- **Go deeper on querying** &mdash; the [query documentation]({{< relref "/develop/ai/search-and-query/query" >}}) covers fuzzy matching, geospatial queries, scoring, and more.
-- **Tune your vectors** &mdash; [vector search concepts]({{< relref "/develop/ai/search-and-query/vectors" >}}) explains the `FLAT` and `HNSW` index types, vector range queries, and how to choose between them.
-- **Use a vector-native Python library** &mdash; [RedisVL]({{< relref "/develop/clients/redis-vl" >}}) provides a higher-level API for building vector search and AI applications on Redis.
-- **Build an AI application** &mdash; see how Redis powers retrieval-augmented generation in the [RAG quick start]({{< relref "/develop/get-started/rag" >}}) and [Redis for AI]({{< relref "/develop/ai" >}}).
-- **See also** &mdash; if you need standalone similarity search without a full search index, Redis also offers the [vector sets]({{< relref "/develop/data-types/vector-sets" >}}) data type.
+- **Go deeper on querying** &mdash; the [query documentation](/content/develop/ai/search-and-query/query/_index.md) covers fuzzy matching, geospatial queries, scoring, and more.
+- **Tune your vectors** &mdash; [vector search concepts](/content/develop/ai/search-and-query/vectors/_index.md) explains the `FLAT` and `HNSW` index types, vector range queries, and how to choose between them.
+- **Use a vector-native Python library** &mdash; [RedisVL](/content/develop/clients/redis-vl.md) provides a higher-level API for building vector search and AI applications on Redis.
+- **Build an AI application** &mdash; see how Redis powers retrieval-augmented generation in the [RAG quick start](/content/develop/get-started/rag.md) and [Redis for AI](/content/develop/ai/_index.md).
+- **See also** &mdash; if you need standalone similarity search without a full search index, Redis also offers the [vector sets](/content/develop/data-types/vector-sets/_index.md) data type.
