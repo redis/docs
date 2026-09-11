@@ -211,7 +211,7 @@ Store or update vectors and any metadata in [hashes](/content/develop/data-types
 HSET docs:01 doc_embedding <vector_bytes> category sports
 ```
 
-> [!NOTE] Tip
+> [!TIP]
 > Hash values are stored as binary-safe strings. The value `<vector_bytes>` represents the vector's underlying memory buffer.
 
 A common method for converting vectors to bytes uses the [redis-py](https://redis.readthedocs.io/en/stable/examples/search_vector_similarity_examples.html) client library and the Python [NumPy](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.tobytes.html) library.
@@ -234,7 +234,7 @@ vector_bytes = vector.tobytes()
 redis_client.hset('docs:01', mapping = {"vector": vector_bytes, "category": "sports"})
 ```
 
-> [!NOTE] Tip
+> [!TIP]
 > The vector blob size must match the dimension and float type of the vector field specified in the index's schema; otherwise, indexing will fail.
 
 ### JSON
