@@ -68,7 +68,7 @@ pip install redis-context-retriever
 
 Use the `ctxctl` CLI, the Python client, or the Redis Cloud UI to model your entities and relationships. Context Retriever uses that model to automatically generate retrieval tools that agents call at runtime through its MCP interface — agents never access your database directly.
 
-See the [Redis Cloud setup guide]({{< relref "/operate/iris/context-retriever/create-service" >}}) to create your first Context Retriever service.
+See the [Redis Cloud setup guide](/content/operate/iris/context-retriever/create-service.md) to create your first Context Retriever service.
 
 Redis Context Retriever helps teams expose operational context to AI agents through schema-first retrieval. It models the entities, fields, keys, and relationships that matter to an agent workflow, then presents that context through a governed tool surface the agent can call at runtime. Context Retriever helps an AI Agent understand what business objects exist, how they connect, and which paths are safe to use.
 
@@ -92,7 +92,7 @@ Get started with Redis Context Retriever on Redis Cloud or join the private prev
 
 -tab-sep-
 
-Redis Context Retriever is available for self-managed deployment on Kubernetes as a private preview. See [Install Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/install" >}}).
+Redis Context Retriever is available for self-managed deployment on Kubernetes as a private preview. See [Install Context Retriever](/content/develop/ai/context-engine/context-retriever/install/_index.md).
 
 You need a license key to deploy — [contact Redis](https://redis.io/contact/) to request access.
 

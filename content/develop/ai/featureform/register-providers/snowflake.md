@@ -13,10 +13,10 @@ The provider fills the `offline-store` and `compute` roles for one account, ware
 
 Make sure you have:
 
-- A Feature Form [workspace]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
+- A Feature Form [workspace](/content/develop/ai/featureform/manage-workspace.md).
 - A Snowflake account identifier, warehouse, database, and schema.
 - A Snowflake username with password or key-pair authentication.
-- A [secret provider]({{< relref "/develop/ai/featureform/register-providers#configure-secret-providers" >}}) for each password, private key, or passphrase reference.
+- A [secret provider](/content/develop/ai/featureform/register-providers/_index.md#configure-secret-providers) for each password, private key, or passphrase reference.
 - Network access from the Feature Form server and workers to Snowflake.
 
 Set `host` on `SnowflakeConfig`, or use `--snowflake-host` with the CLI, for a PrivateLink or custom hostname. Without it, Feature Form derives the standard hostname from the account identifier.

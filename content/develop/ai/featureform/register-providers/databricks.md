@@ -21,18 +21,17 @@ The `databricks` provider fills the `offline-store` and `compute` roles. It does
 
 Make sure you have:
 
-- A Feature Form [workspace]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
+- A Feature Form [workspace](/content/develop/ai/featureform/manage-workspace.md).
 - An HTTPS [Databricks workspace URL](https://docs.databricks.com/aws/en/workspace/workspace-details).
 - A personal access token (PAT), or an OAuth machine-to-machine (M2M) client ID and client secret.
-- A non-Databricks [secret provider]({{< relref "/develop/ai/featureform/register-providers#configure-secret-providers" >}}) that can resolve the PAT or OAuth client secret.
+- A non-Databricks [secret provider](/content/develop/ai/featureform/register-providers/_index.md#configure-secret-providers) that can resolve the PAT or OAuth client secret.
 - Every Unity Catalog catalog the workflow needs, plus a schema and Volume for execution artifacts. One catalog can serve multiple purposes.
 - Either an existing cluster or the configuration required to create Jobs compute.
 
 The compute principal needs permission to inspect or create its selected compute, submit Databricks Jobs work, access the output catalog, and delete Feature Form-managed tables. Workloads need read and write access to the required catalog locations.
 
-{{< note >}}
-Don't use a `databricks@<provider>:<scope>#<key>` reference to authenticate a `databricks` or `unity-catalog` provider. Feature Form rejects that bootstrap cycle. Use `env`, Vault, Kubernetes secrets, or AWS Secrets Manager for these credentials.
-{{< /note >}}
+> [!NOTE]
+> Don't use a `databricks@<provider>:<scope>#<key>` reference to authenticate a `databricks` or `unity-catalog` provider. Feature Form rejects that bootstrap cycle. Use `env`, Vault, Kubernetes secrets, or AWS Secrets Manager for these credentials.
 
 ## Register providers in dependency order
 
@@ -114,7 +113,7 @@ ff provider register <catalog-provider-name> \
 
 {{< /multitabs >}}
 
-For OAuth M2M authentication with a Kubernetes-backed client secret, first register the Kubernetes secret provider as described in [Configure secret providers]({{< relref "/develop/ai/featureform/register-providers#register-kubernetes-secrets" >}}). Then replace the shared Python workspace configuration or the PAT flags with:
+For OAuth M2M authentication with a Kubernetes-backed client secret, first register the Kubernetes secret provider as described in [Configure secret providers](/content/develop/ai/featureform/register-providers/_index.md#register-kubernetes-secrets). Then replace the shared Python workspace configuration or the PAT flags with:
 
 {{< multitabs id="featureform-configure-databricks-oauth"
     tab1="Python"
@@ -515,7 +514,7 @@ This secret-provider type doesn't have a live health probe, so registration succ
 
 ## Connect Databricks compute to Redis
 
-A feature view needs a Redis `online-store` provider for materialization and inference-time reads. Register Redis as described in [Register Redis providers]({{< relref "/develop/ai/featureform/register-providers/redis" >}}).
+A feature view needs a Redis `online-store` provider for materialization and inference-time reads. Register Redis as described in [Register Redis providers](/content/develop/ai/featureform/register-providers/redis.md).
 
 If the Redis password is stored in a Databricks secret scope, configure the provider with the registered `databricks-secret` provider:
 
