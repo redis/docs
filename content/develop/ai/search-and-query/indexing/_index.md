@@ -23,15 +23,14 @@ In addition to indexing Redis hashes, Redis Open Source can also index JSON docu
 
 ## Create index with JSON schema
 
-When you create an index with the [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) command, include the `ON JSON` keyword to index any existing and future JSON documents stored in the database.
+When you create an index with the [`FT.CREATE`](/content/commands/ft.create.md) command, include the `ON JSON` keyword to index any existing and future JSON documents stored in the database.
 
-To define the `SCHEMA`, you can provide [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions.
+To define the `SCHEMA`, you can provide [JSONPath](/content/develop/data-types/json/path.md) expressions.
 The result of each JSONPath expression is indexed and associated with a logical name called an `attribute` (previously known as a `field`).
 You can use these attributes in queries.
 
-{{% alert title="Note" color="info" %}}
-`attribute` is optional for [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
-{{% /alert %}}
+> [!NOTE]
+> `attribute` is optional for [`FT.CREATE`](/content/commands/ft.create.md).
 
 Use the following syntax to create a JSON index:
 
@@ -51,7 +50,7 @@ See [Index limitations](#index-limitations) for more details about JSON index `S
 
 After you create an index, Redis automatically indexes any existing, modified, or newly created JSON documents stored in the database. For existing documents, indexing runs asynchronously in the background, so it can take some time before the document is available. Modified and newly created documents are indexed synchronously, so the document will be available by the time the add or modify command finishes.
 
-You can use any JSON write command, such as [`JSON.SET`]({{< relref "commands/json.set/" >}}) and [`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}), to create or modify JSON documents.
+You can use any JSON write command, such as [`JSON.SET`](/content/commands/json.set.md) and [`JSON.ARRAPPEND`](/content/commands/json.arrappend.md), to create or modify JSON documents.
 
 The following examples use these JSON documents to represent individual inventory items.
 
@@ -95,7 +94,7 @@ Item 2 JSON document:
 }
 ```
 
-Use [`JSON.SET`]({{< relref "commands/json.set/" >}}) to store these documents in the database:
+Use [`JSON.SET`](/content/commands/json.set.md) to store these documents in the database:
 
 ```sql
 127.0.0.1:6379> JSON.SET item:1 $ '{"name":"Noise-cancelling Bluetooth headphones","description":"Wireless Bluetooth headphones with noise-cancelling technology","connection":{"wireless":true,"type":"Bluetooth"},"price":99.98,"stock":25,"colors":["black","silver"],"embedding":[0.87,-0.15,0.55,0.03]}'
@@ -104,12 +103,12 @@ Use [`JSON.SET`]({{< relref "commands/json.set/" >}}) to store these documents i
 "OK"
 ```
 
-Because indexing is synchronous in this case, the documents will be available on the index as soon as the [`JSON.SET`]({{< relref "commands/json.set/" >}}) command returns.
+Because indexing is synchronous in this case, the documents will be available on the index as soon as the [`JSON.SET`](/content/commands/json.set.md) command returns.
 Any subsequent queries that match the indexed content will return the document.
 
 ## Search the index
 
-To search the index for JSON documents, use the [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command.
+To search the index for JSON documents, use the [`FT.SEARCH`](/content/commands/ft.search.md) command.
 You can search any attribute defined in the `SCHEMA`.
 
 For example, use this query to search for items with the word "earbuds" in the name:
@@ -162,11 +161,10 @@ And lastly, search for the Bluetooth headphones that are most similar to an imag
    4) "{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"connection\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"],\"embedding\":[-0.7,-0.51,0.88,0.14]}"
 ```
 
-For more information about search queries, see [Search query syntax]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_syntax" >}}).
+For more information about search queries, see [Search query syntax](/content/develop/ai/search-and-query/advanced-concepts/query_syntax.md).
 
-{{% alert title="Note" color="info" %}}
-[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) queries require `attribute` modifiers. Don't use JSONPath expressions in queries because the query parser doesn't fully support them.
-{{% /alert %}}
+> [!NOTE]
+> [`FT.SEARCH`](/content/commands/ft.search.md) queries require `attribute` modifiers. Don't use JSONPath expressions in queries because the query parser doesn't fully support them.
 
 ## Understanding TAG field behavior: hash versus JSON
 
@@ -225,7 +223,7 @@ For JSON documents, you have two approaches to create TAG fields with multiple v
 
 ### Approach 1: JSON arrays (recommended)
 
-The preferred method for indexing multiple tag values is using JSON arrays. Each array element becomes a separate tag value. Use the [JSONPath]({{< relref "/develop/data-types/json/path" >}}) wildcard operator `[*]` to index array elements.
+The preferred method for indexing multiple tag values is using JSON arrays. Each array element becomes a separate tag value. Use the [JSONPath](/content/develop/data-types/json/path.md) wildcard operator `[*]` to index array elements.
 
 ```sql
 # Create index with array indexing
@@ -260,13 +258,12 @@ FT.CREATE itemIdx3 ON JSON PREFIX 1 item: SCHEMA $.colors AS colors TAG SEPARATO
 FT.SEARCH itemIdx3 "@colors:{silver}"
 ```
 
-{{% alert title="Important: JSON vs HASH behavior" color="warning" %}}
-- **JSON without SEPARATOR**: `"black,silver"` becomes one tag: `"black,silver"`.
-- **JSON with SEPARATOR ","**: `"black,silver"` becomes two tags: `"black"` and `"silver"`.
-- **Hash (default)**: `"black,silver"` becomes two tags: `"black"` and `"silver"`.
-
-For JSON, always specify `SEPARATOR ","` if you want to split comma-separated strings, or use arrays instead.
-{{% /alert %}}
+> [!NOTE] Important: JSON vs HASH behavior
+> - **JSON without SEPARATOR**: `"black,silver"` becomes one tag: `"black,silver"`.
+> - **JSON with SEPARATOR ","**: `"black,silver"` becomes two tags: `"black"` and `"silver"`.
+> - **Hash (default)**: `"black,silver"` becomes two tags: `"black"` and `"silver"`.
+>
+> For JSON, always specify `SEPARATOR ","` if you want to split comma-separated strings, or use arrays instead.
 
 ### Which approach to choose?
 
@@ -312,7 +309,7 @@ Now you can do full text search for light colored headphones:
 ```
 
 ### Limitations
-- When a JSONPath may lead to multiple values and not only to a single array, e.g., when a JSONPath contains wildcards, etc., specifying `SLOP` or `INORDER` in [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) will return an error, since the order of the values matching the JSONPath is not well defined, leading to potentially inconsistent results.
+- When a JSONPath may lead to multiple values and not only to a single array, e.g., when a JSONPath contains wildcards, etc., specifying `SLOP` or `INORDER` in [`FT.SEARCH`](/content/commands/ft.search.md) will return an error, since the order of the values matching the JSONPath is not well defined, leading to potentially inconsistent results.
 
    For example, using a JSONPath such as `$..b[*]` on a JSON value such as
    ```json
@@ -337,7 +334,7 @@ Now you can do full text search for light colored headphones:
 
 ### Handling phrases in different array slots:
 
-When indexing, a predefined delta is used to increase positional offsets between array slots for multiple text values. This delta controls the level of separation between phrases in different array slots (related to the `SLOP` parameter of [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})).
+When indexing, a predefined delta is used to increase positional offsets between array slots for multiple text values. This delta controls the level of separation between phrases in different array slots (related to the `SLOP` parameter of [`FT.SEARCH`](/content/commands/ft.search.md)).
 This predefined value is set by the configuration parameter `MULTI_TEXT_SLOP` (at module load-time). The default value is 100.
 
 ## Index JSON arrays as NUMERIC
@@ -400,9 +397,9 @@ When JSONPath leads to multiple numerical values:
 
 You can use `GEO` and `GEOSHAPE` fields to store geospatial data,
 such as geographical locations and geometric shapes. See
-[Geospatial indexing]({{< relref "/develop/ai/search-and-query/indexing/geoindex" >}})
+[Geospatial indexing](/content/develop/ai/search-and-query/indexing/geoindex.md)
 to learn how to use these schema types and see the
-[Geospatial]({{< relref "/develop/ai/search-and-query/advanced-concepts/geo" >}})
+[Geospatial](/content/develop/ai/search-and-query/advanced-concepts/geo.md)
 reference page for an introduction to their format and usage.
 
 ## Index JSON arrays as VECTOR
@@ -437,7 +434,7 @@ Now you can search for the two headphones that are most similar to the image emb
    4) "{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"],\"embedding\":[-0.7,-0.51,0.88,0.14]}"
 ```
 
-If you want to index multiple numeric arrays as VECTOR, use a [JSONPath]({{< relref "/develop/data-types/json/path" >}}) leading to multiple numeric arrays using JSONPath operators such as wildcard, filter, union, array slice, and/or recursive descent.
+If you want to index multiple numeric arrays as VECTOR, use a [JSONPath](/content/develop/data-types/json/path.md) leading to multiple numeric arrays using JSONPath operators such as wildcard, filter, union, array slice, and/or recursive descent.
 
 For example, assume that your JSON items include an array of vector embeddings, where each vector represents a different image of the same product. To index these vectors, specify the JSONPath `$.embeddings[*]` in the schema definition during index creation:
 
@@ -450,9 +447,8 @@ OK
 OK
 ```
 
-{{% alert title="Important note" color="info" %}}
-Unlike the case with the NUMERIC type, setting a static path such as `$.embedding` in the schema for the VECTOR type does not allow you to index multiple vectors stored under that field. Hence, if you set `$.embedding` as the path to the index schema, specifying an array of vectors in the `embedding` field in your JSON will cause an indexing failure.
-{{% /alert %}}
+> [!NOTE] Important note
+> Unlike the case with the NUMERIC type, setting a static path such as `$.embedding` in the schema for the VECTOR type does not allow you to index multiple vectors stored under that field. Hence, if you set `$.embedding` as the path to the index schema, specifying an array of vectors in the `embedding` field in your JSON will cause an indexing failure.
 
 Now you can search for the two headphones that are most similar to an image embedding by using vector search KNN query. (Note that the vector queries are supported as of dialect 2.) The distance between a document to the query vector is defined as the minimum distance between the query vector to a vector that matches the JSONPath specified in the schema. For example:
 
@@ -472,7 +468,7 @@ Now you can search for the two headphones that are most similar to an image embe
 ```
 Note that `0.771500051022` is the L2 distance between the query vector and `[-0.8,-0.15,0.33,-0.01]`, which is the second element in the embedding array, and it is lower than the L2 distance between the query vector and `[-0.7,-0.51,0.88,0.14]`, which is the first element in the embedding array.
 
-For more information on vector similarity syntax, see [Vector fields]({{< relref "/develop/ai/search-and-query/vectors" >}}).
+For more information on vector similarity syntax, see [Vector fields](/content/develop/ai/search-and-query/vectors/_index.md).
 
 ## Index JSON objects
 
@@ -515,7 +511,7 @@ You can also search for items with a Bluetooth connection type:
 
 ## Field projection
 
-[`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) returns the entire JSON document by default. If you want to limit the returned search results to specific attributes, you can use field projection.
+[`FT.SEARCH`](/content/commands/ft.search.md) returns the entire JSON document by default. If you want to limit the returned search results to specific attributes, you can use field projection.
 
 ### Return specific attributes
 
@@ -540,7 +536,7 @@ For example, this query only returns the `name` and `price` of each set of headp
 
 ### Project with JSONPath
 
-You can use [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions in a `RETURN` statement to extract any part of the JSON document, even fields that were not defined in the index `SCHEMA`.
+You can use [JSONPath](/content/develop/data-types/json/path.md) expressions in a `RETURN` statement to extract any part of the JSON document, even fields that were not defined in the index `SCHEMA`.
 
 For example, the following query uses the JSONPath expression `$.stock` to return each item's stock in addition to the name and price attributes.
 
@@ -590,15 +586,14 @@ This query returns the field as the alias `"stock"` instead of the JSONPath expr
 
 ### Highlight search terms
 
-You can [highlight]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}}) relevant search terms in any indexed `TEXT` attribute.
+You can [highlight](/content/develop/ai/search-and-query/advanced-concepts/highlight.md) relevant search terms in any indexed `TEXT` attribute.
 
 For JSON documents, you must use the `RETURN` parameter to specify the attributes, followed by `HIGHLIGHT` to indicate which of those attributes to highlight.
 
 Use the optional `TAGS` keyword to specify the strings that will surround (or highlight) the matching search terms.
 
-{{< note >}}
-`HIGHLIGHT` and `SUMMARIZE` are not supported when the JSONPath leads to multiple values (such as arrays indexed as `TEXT`). See [Index limitations](#index-limitations) for details.
-{{< /note >}}
+> [!NOTE]
+> `HIGHLIGHT` and `SUMMARIZE` are not supported when the JSONPath leads to multiple values (such as arrays indexed as `TEXT`). See [Index limitations](#index-limitations) for details.
 
 For example, highlight the word "bluetooth" with bold HTML tags in item names and descriptions:
 
@@ -623,9 +618,9 @@ For example, highlight the word "bluetooth" with bold HTML tags in item names an
 
 ## Aggregate with JSONPath
 
-You can use [aggregation]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}}) to generate statistics or build facet queries.
+You can use [aggregation](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md) to generate statistics or build facet queries.
 
-The `LOAD` option accepts [JSONPath]({{< relref "/develop/data-types/json/path" >}}) expressions. You can use any value in the pipeline, even if the value is not indexed.
+The `LOAD` option accepts [JSONPath](/content/develop/data-types/json/path.md) expressions. You can use any value in the pipeline, even if the value is not indexed.
 
 This example uses aggregation to calculate a 10% price discount for each item and sorts the items from least expensive to most expensive:
 
@@ -646,9 +641,8 @@ This example uses aggregation to calculate a 10% price discount for each item an
    6) "89.982"
 ```
 
-{{% alert title="Note" color="info" %}}
-[`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
-{{% /alert %}}
+> [!NOTE]
+> [`FT.AGGREGATE`](/content/commands/ft.aggregate.md) queries require `attribute` modifiers. Don't use JSONPath expressions in queries, except with the `LOAD` option, because the query parser doesn't fully support them.
 
 ## Index missing or empty values
 As of v2.10, you can search for missing properties, that is, properties that do not exist in a given document, using the `INDEXMISSING` option to `FT.CREATE` in conjunction with the `ismissing` query function with `FT.SEARCH`. You can also search for existing properties with no value (i.e., empty) using the `INDEXEMPTY` option with `FT.CREATE`. Both query types require DIALECT 2. Examples below:

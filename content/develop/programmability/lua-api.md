@@ -20,7 +20,7 @@ weight: 3
 ---
 
 Redis includes an embedded [Lua 5.1](https://www.lua.org/) interpreter.
-The interpreter runs user-defined [ephemeral scripts]({{< relref "/develop/programmability/eval-intro" >}}) and [functions]({{< relref "/develop/programmability/functions-intro" >}}). Scripts run in a sandboxed context and can only access specific Lua packages. This page describes the packages and APIs available inside the execution's context.
+The interpreter runs user-defined [ephemeral scripts](/content/develop/programmability/eval-intro.md) and [functions](/content/develop/programmability/functions-intro.md). Scripts run in a sandboxed context and can only access specific Lua packages. This page describes the packages and APIs available inside the execution's context.
 
 ## Sandbox context
 
@@ -106,7 +106,7 @@ to ensure the correct execution of scripts, both in standalone and clustered dep
 The script **should only** access keys whose names are given as input arguments.
 Scripts **should never** access keys with programmatically-generated names or based on the contents of data structures stored in the database.
 
-The _KEYS_ global variable is available only for [ephemeral scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+The _KEYS_ global variable is available only for [ephemeral scripts](/content/develop/programmability/eval-intro.md).
 It is pre-populated with all key name input arguments.
 
 ### The _ARGV_ global variable {#the-argv-global-variable}
@@ -115,7 +115,7 @@ It is pre-populated with all key name input arguments.
 * Available in scripts: yes
 * Available in functions: no
 
-The _ARGV_ global variable is available only in [ephemeral scripts]({{< relref "/develop/programmability/eval-intro" >}}).
+The _ARGV_ global variable is available only in [ephemeral scripts](/content/develop/programmability/eval-intro.md).
 It is pre-populated with all regular input arguments.
 
 ## _redis_ object {#redis_object}
@@ -137,21 +137,21 @@ Following is the API provided by the _redis_ object instance.
 The `redis.call()` function calls a given Redis command and returns its reply.
 Its inputs are the command and arguments, and once called, it executes the command in Redis and returns the reply.
 
-For example, we can call the [`ECHO`]({{< relref "/commands/echo" >}}) command from a script and return its reply like so:
+For example, we can call the [`ECHO`](/content/commands/echo.md) command from a script and return its reply like so:
 
 ```lua
 return redis.call('ECHO', 'Echo, echo... eco... o...')
 ```
 
 If and when `redis.call()` triggers a runtime exception, the raw exception is raised back to the user as an error, automatically.
-Therefore, attempting to execute the following ephemeral script will fail and generate a runtime exception because [`ECHO`]({{< relref "/commands/echo" >}}) accepts exactly one argument:
+Therefore, attempting to execute the following ephemeral script will fail and generate a runtime exception because [`ECHO`](/content/commands/echo.md) accepts exactly one argument:
 
 ```lua
 redis> EVAL "return redis.call('ECHO', 'Echo,', 'echo... ', 'eco... ', 'o...')" 0
 (error) ERR Wrong number of args calling Redis command from script script: b0345693f4b77517a711221050e76d24ae60b7f7, on @user_script:1.
 ```
 
-Note that the call can fail due to various reasons, see [Execution under low memory conditions]({{< relref "/develop/programmability/eval-intro#execution-under-low-memory-conditions" >}}) and [Script flags](#script_flags)
+Note that the call can fail due to various reasons, see [Execution under low memory conditions](/content/develop/programmability/eval-intro.md#execution-under-low-memory-conditions) and [Script flags](#script_flags)
 
 To handle Redis runtime errors use `redis.pcall()` instead.
 
@@ -192,7 +192,7 @@ redis> EVAL "..." 0 hello world
 * Available in scripts: yes
 * Available in functions: yes
 
-This is a helper function that returns an [error reply]({{< relref "develop/reference/protocol-spec/#simple-errors" >}}).
+This is a helper function that returns an [error reply](/content/develop/reference/protocol-spec.md#simple-errors).
 The helper accepts a single string argument and returns a Lua table with the _err_ field set to that string.
 
 The outcome of the following code is that _error1_ and _error2_ are identical for all intents and purposes:
@@ -225,7 +225,7 @@ Scripts are advised to follow this convention, as shown in the example above, bu
 * Available in scripts: yes
 * Available in functions: yes
 
-This is a helper function that returns a [simple string reply]({{< relref "develop/reference/protocol-spec#simple-strings" >}}).
+This is a helper function that returns a [simple string reply](/content/develop/reference/protocol-spec.md#simple-strings).
 "OK" is an example of a standard Redis status reply.
 The Lua API represents status replies as tables with a single field, _ok_, set with a simple status string.
 
@@ -302,7 +302,7 @@ will produce a line similar to the following in your server's log:
 * Available in scripts: yes
 * Available in functions: yes
 
-This function allows the executing script to switch between [Redis Serialization Protocol (RESP)]({{< relref "/develop/reference/protocol-spec" >}}) versions for the replies returned by [`redis.call()`](#redis.call) and [`redis.pcall()`](#redis.pcall).
+This function allows the executing script to switch between [Redis Serialization Protocol (RESP)](/content/develop/reference/protocol-spec.md) versions for the replies returned by [`redis.call()`](#redis.call) and [`redis.pcall()`](#redis.pcall).
 It expects a single numerical argument as the protocol's version.
 The default protocol version is _2_, but it can be switched to version _3_.
 
@@ -337,12 +337,12 @@ By default, all write commands that a script executes are replicated.
 Sometimes, however, better control over this behavior can be helpful.
 This can be the case, for example, when storing intermediate values in the master alone.
 
-Consider a script that intersects two sets and stores the result in a temporary key with [`SUNIONSTORE`]({{< relref "/commands/sunionstore" >}}).
-It then picks five random elements ([`SRANDMEMBER`]({{< relref "/commands/srandmember" >}})) from the intersection and stores ([`SADD`]({{< relref "/commands/sadd" >}})) them in another set.
+Consider a script that intersects two sets and stores the result in a temporary key with [`SUNIONSTORE`](/content/commands/sunionstore.md).
+It then picks five random elements ([`SRANDMEMBER`](/content/commands/srandmember.md)) from the intersection and stores ([`SADD`](/content/commands/sadd.md)) them in another set.
 Finally, before returning, it deletes the temporary key that stores the intersection of the two source sets.
 
 In this case, only the new set with its five randomly-chosen elements needs to be replicated.
-Replicating the [`SUNIONSTORE`]({{< relref "/commands/sunionstore" >}}) command and the [`DEL`]({{< relref "/commands/del" >}})ition of the temporary key is unnecessary and wasteful.
+Replicating the [`SUNIONSTORE`](/content/commands/sunionstore.md) command and the [`DEL`](/content/commands/del.md)ition of the temporary key is unnecessary and wasteful.
 
 The `redis.set_repl()` function instructs the server how to treat subsequent write commands in terms of replication.
 It accepts a single input argument that only be one of the following:
@@ -382,7 +382,7 @@ You can use it to override the default verbatim script replication mode used by 
 **Note:**
 as of Redis v7.0, verbatim script replication is no longer supported.
 The default, and only script replication mode supported, is script effects' replication.
-For more information, please refer to [`Replicating commands instead of scripts`]({{< relref "/develop/programmability/eval-intro#replicating-commands-instead-of-scripts" >}})
+For more information, please refer to [`Replicating commands instead of scripts`](/content/develop/programmability/eval-intro.md#replicating-commands-instead-of-scripts)
 
 ### `redis.breakpoint()` {#redis.breakpoint}
 
@@ -390,7 +390,7 @@ For more information, please refer to [`Replicating commands instead of scripts`
 * Available in scripts: yes
 * Available in functions: no
 
-This function triggers a breakpoint when using the [Redis Lua debugger]({{< relref "/develop/programmability/lua-debugging" >}}).
+This function triggers a breakpoint when using the [Redis Lua debugger](/content/develop/programmability/lua-debugging.md).
 
 ### `redis.debug(x)` {#redis.debug}
 
@@ -398,7 +398,7 @@ This function triggers a breakpoint when using the [Redis Lua debugger]({{< relr
 * Available in scripts: yes
 * Available in functions: no
 
-This function prints its argument in the [Redis Lua debugger]({{< relref "/develop/programmability/lua-debugging" >}}) console.
+This function prints its argument in the [Redis Lua debugger](/content/develop/programmability/lua-debugging.md) console.
 
 ### `redis.acl_check_cmd(command [,arg...])` {#redis.acl_check_cmd}
 
@@ -406,7 +406,7 @@ This function prints its argument in the [Redis Lua debugger]({{< relref "/devel
 * Available in scripts: yes
 * Available in functions: yes
 
-This function is used for checking if the current user running the script has [ACL]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) permissions to execute the given command with the given arguments.
+This function is used for checking if the current user running the script has [ACL](/content/operate/oss_and_stack/management/security/acl.md) permissions to execute the given command with the given arguments.
 
 The return value is a boolean `true` in case the current user has permissions to execute the command (via a call to [redis.call](#redis.call) or [redis.pcall](#redis.pcall)) or `false` in case they don't.
 
@@ -418,7 +418,7 @@ The function will raise an error if the passed command or its arguments are inva
 * Available in scripts: no
 * Available in functions: yes
 
-This function is only available from the context of the [`FUNCTION LOAD`]({{< relref "/commands/function-load" >}}) command.
+This function is only available from the context of the [`FUNCTION LOAD`](/content/commands/function-load.md) command.
 When called, it registers a function to the loaded library.
 The function can be called either with positional or named arguments.
 
@@ -453,7 +453,7 @@ redis> FUNCTION LOAD "#!lua name=mylib\n redis.register_function{function_name='
 
 **Important:**
 Use script flags with care, which may negatively impact if misused.
-Note that the default for Eval scripts are different than the default for functions that are mentioned below, see [Eval Flags]({{< relref "/develop/programmability/eval-intro#eval-flags" >}})
+Note that the default for Eval scripts are different than the default for functions that are mentioned below, see [Eval Flags](/content/develop/programmability/eval-intro.md#eval-flags)
 
 When you register a function or load an Eval script, the server does not know how it accesses the database.
 By default, Redis assumes that all scripts read and write data.
@@ -468,28 +468,28 @@ You can use the following flags and instruct the server to treat the scripts' ex
 
 * `no-writes`: this flag indicates that the script only reads data but never writes.
 
-    By default, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang]({{< relref "/develop/programmability/eval-intro#eval-flags" >}})) against read-only replicas, as they may attempt to perform writes.
-    Similarly, the server will not allow calling scripts with [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) / [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}).
+    By default, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang](/content/develop/programmability/eval-intro.md#eval-flags)) against read-only replicas, as they may attempt to perform writes.
+    Similarly, the server will not allow calling scripts with [`FCALL_RO`](/content/commands/fcall_ro.md) / [`EVAL_RO`](/content/commands/eval_ro.md).
     Lastly, when data persistence is at risk due to a disk error, execution is blocked as well.
 
     Using this flag allows executing the script:
-    1. With [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) / [`EVAL_RO`]({{< relref "/commands/eval_ro" >}})
+    1. With [`FCALL_RO`](/content/commands/fcall_ro.md) / [`EVAL_RO`](/content/commands/eval_ro.md)
     2. On read-only replicas.
     3. Even if there's a disk error (Redis is unable to persist so it rejects writes).
     4. When over the memory limit since it implies the script doesn't increase memory consumption (see `allow-oom` below)
 
     However, note that the server will return an error if the script attempts to call a write command.
-    Also note that currently [`PUBLISH`]({{< relref "/commands/publish" >}}), [`SPUBLISH`]({{< relref "/commands/spublish" >}}) and [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) are also considered write commands in scripts, because they could attempt to propagate commands to replicas and AOF file.
+    Also note that currently [`PUBLISH`](/content/commands/publish.md), [`SPUBLISH`](/content/commands/spublish.md) and [`PFCOUNT`](/content/commands/pfcount.md) are also considered write commands in scripts, because they could attempt to propagate commands to replicas and AOF file.
 
-    For more information please refer to [Read-only scripts]({{< relref "/develop/programmability/#read-only_scripts" >}})
+    For more information please refer to [Read-only scripts](/content/develop/programmability/_index.md#read-only_scripts)
 
 * `allow-oom`: use this flag to allow a script to execute when the server is out of memory (OOM).
 
-    Unless used, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang]({{< relref "/develop/programmability/eval-intro#eval-flags" >}})) when in an OOM state.
+    Unless used, Redis will deny the execution of flagged scripts (Functions and Eval scripts with [shebang](/content/develop/programmability/eval-intro.md#eval-flags)) when in an OOM state.
     Furthermore, when you use this flag, the script can call any Redis command, including commands that aren't usually allowed in this state.
-    Specifying `no-writes` or using [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}) / [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}) also implies the script can run in OOM state (without specifying `allow-oom`)
+    Specifying `no-writes` or using [`FCALL_RO`](/content/commands/fcall_ro.md) / [`EVAL_RO`](/content/commands/eval_ro.md) also implies the script can run in OOM state (without specifying `allow-oom`)
 
-* `allow-stale`: a flag that enables running the flagged scripts (Functions and Eval scripts with [shebang]({{< relref "/develop/programmability/eval-intro#eval-flags" >}})) against a stale replica when the `replica-serve-stale-data` config is set to `no` .
+* `allow-stale`: a flag that enables running the flagged scripts (Functions and Eval scripts with [shebang](/content/develop/programmability/eval-intro.md#eval-flags)) against a stale replica when the `replica-serve-stale-data` config is set to `no` .
 
     Redis can be set to prevent data consistency problems from using old data by having stale replicas return a runtime error.
     For scripts that do not access the data, this flag can be set to allow stale Redis replicas to run the script.
@@ -509,7 +509,7 @@ You can use the following flags and instruct the server to treat the scripts' ex
     
     This flag has no effect when cluster mode is disabled.
 
-Please refer to [Function Flags]({{< relref "/develop/programmability/functions-intro#function-flags" >}}) and [Eval Flags]({{< relref "/develop/programmability/eval-intro#eval-flags" >}}) for a detailed example.
+Please refer to [Function Flags](/content/develop/programmability/functions-intro.md#function-flags) and [Eval Flags](/content/develop/programmability/eval-intro.md#eval-flags) for a detailed example.
 
 ### `redis.REDIS_VERSION` {#redis.redis_version}
 
@@ -545,14 +545,14 @@ Redis' replies from these functions are converted automatically into Lua's nativ
 Similarly, when a Lua script returns a reply with the `return` keyword,
 that reply is automatically converted to Redis' protocol.
 
-Put differently; there's a one-to-one mapping between Redis' replies and Lua's data types and a one-to-one mapping between Lua's data types and the [Redis Protocol]({{< relref "/develop/reference/protocol-spec" >}}) data types.
+Put differently; there's a one-to-one mapping between Redis' replies and Lua's data types and a one-to-one mapping between Lua's data types and the [Redis Protocol](/content/develop/reference/protocol-spec.md) data types.
 The underlying design is such that if a Redis type is converted into a Lua type and converted back into a Redis type, the result is the same as the initial value.
 
 Type conversion from Redis protocol replies (i.e., the replies from `redis.call()` and `redis.pcall()`) to Lua data types depends on the Redis Serialization Protocol version used by the script.
 The default protocol version during script executions is RESP2.
 The script may switch the replies' protocol versions by calling the `redis.setresp()` function.
 
-Type conversion from a script's returned Lua data type depends on the user's choice of protocol (see the [`HELLO`]({{< relref "/commands/hello" >}}) command).
+Type conversion from a script's returned Lua data type depends on the user's choice of protocol (see the [`HELLO`](/content/commands/hello.md) command).
 
 The following sections describe the type conversion rules between Lua and Redis per the protocol's version.
 
@@ -560,27 +560,27 @@ The following sections describe the type conversion rules between Lua and Redis 
 
 The following type conversion rules apply to the execution's context by default as well as after calling `redis.setresp(2)`:
 
-* [RESP2 integer reply]({{< relref "develop/reference/protocol-spec#integers" >}}) -> Lua number
-* [RESP2 bulk string reply]({{< relref "develop/reference/protocol-spec#bulk-strings" >}}) -> Lua string
-* [RESP2 array reply]({{< relref "develop/reference/protocol-spec#arrays" >}}) -> Lua table (may have other Redis data types nested)
-* [RESP2 status reply]({{< relref "develop/reference/protocol-spec#simple-strings" >}}) -> Lua table with a single _ok_ field containing the status string
-* [RESP2 error reply]({{< relref "develop/reference/protocol-spec#simple-errors" >}}) -> Lua table with a single _err_ field containing the error string
-* [RESP2 null bulk reply]({{< relref "develop/reference/protocol-spec#bulk-strings" >}}) and [RESP2 null multi-bulk reply]({{< relref "develop/reference/protocol-spec#arrays" >}}) -> Lua false boolean type
+* [RESP2 integer reply](/content/develop/reference/protocol-spec.md#integers) -> Lua number
+* [RESP2 bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) -> Lua string
+* [RESP2 array reply](/content/develop/reference/protocol-spec.md#arrays) -> Lua table (may have other Redis data types nested)
+* [RESP2 status reply](/content/develop/reference/protocol-spec.md#simple-strings) -> Lua table with a single _ok_ field containing the status string
+* [RESP2 error reply](/content/develop/reference/protocol-spec.md#simple-errors) -> Lua table with a single _err_ field containing the error string
+* [RESP2 null bulk reply](/content/develop/reference/protocol-spec.md#bulk-strings) and [RESP2 null multi-bulk reply](/content/develop/reference/protocol-spec.md#arrays) -> Lua false boolean type
 
 ## Lua to RESP2 type conversion
 
 The following type conversion rules apply by default as well as after the user had called `HELLO 2`:
 
-* Lua number -> [RESP2 integer reply]({{< relref "develop/reference/protocol-spec#integers" >}}) (the number is converted into an integer)
-* Lua string -> [RESP2 bulk string reply]({{< relref "develop/reference/protocol-spec#bulk-strings" >}})
-* Lua table (indexed, non-associative array) -> [RESP2 array reply]({{< relref "develop/reference/protocol-spec#arrays" >}}) (truncated at the first Lua `nil` value encountered in the table, if any)
-* Lua table with a single _ok_ field -> [RESP2 status reply]({{< relref "develop/reference/protocol-spec#simple-strings" >}})
-* Lua table with a single _err_ field -> [RESP2 error reply]({{< relref "develop/reference/protocol-spec#simple-errors" >}})
-* Lua boolean false -> [RESP2 null bulk reply]({{< relref "develop/reference/protocol-spec#bulk-strings" >}})
+* Lua number -> [RESP2 integer reply](/content/develop/reference/protocol-spec.md#integers) (the number is converted into an integer)
+* Lua string -> [RESP2 bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings)
+* Lua table (indexed, non-associative array) -> [RESP2 array reply](/content/develop/reference/protocol-spec.md#arrays) (truncated at the first Lua `nil` value encountered in the table, if any)
+* Lua table with a single _ok_ field -> [RESP2 status reply](/content/develop/reference/protocol-spec.md#simple-strings)
+* Lua table with a single _err_ field -> [RESP2 error reply](/content/develop/reference/protocol-spec.md#simple-errors)
+* Lua boolean false -> [RESP2 null bulk reply](/content/develop/reference/protocol-spec.md#bulk-strings)
 
 There is an additional Lua-to-Redis conversion rule that has no corresponding Redis-to-Lua conversion rule:
 
-* Lua Boolean `true` -> [RESP2 integer reply]({{< relref "develop/reference/protocol-spec#integers" >}}) with value of 1.
+* Lua Boolean `true` -> [RESP2 integer reply](/content/develop/reference/protocol-spec.md#integers) with value of 1.
 
 There are three additional rules to note about converting Lua to Redis data types:
 
@@ -588,7 +588,7 @@ There are three additional rules to note about converting Lua to Redis data type
   There is no distinction between integers and floats.
   So we always convert Lua numbers into integer replies, removing the decimal part of the number, if any.
   **If you want to return a Lua float, it should be returned as a string**,
-  exactly like Redis itself does (see, for instance, the [`ZSCORE`]({{< relref "/commands/zscore" >}}) command).
+  exactly like Redis itself does (see, for instance, the [`ZSCORE`](/content/commands/zscore.md) command).
 * There's [no simple way to have nils inside Lua arrays](http://www.lua.org/pil/19.1.html) due 
   to Lua's table semantics.
   Therefore, when Redis converts a Lua array to RESP, the conversion stops when it encounters a Lua `nil` value.
@@ -626,36 +626,36 @@ As you can see, the float value of _3.333_ gets converted to an integer _3_, the
 
 ### RESP3 to Lua type conversion
 
-[RESP3](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md) is a newer version of the [Redis Serialization Protocol]({{< relref "/develop/reference/protocol-spec" >}}).
+[RESP3](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md) is a newer version of the [Redis Serialization Protocol](/content/develop/reference/protocol-spec.md).
 It is available as an opt-in choice as of Redis v6.0.
 
 An executing script may call the [`redis.setresp`](#redis.setresp) function during its execution and switch the protocol version that's used for returning replies from Redis' commands (that can be invoked via [`redis.call()`](#redis.call) or [`redis.pcall()`](#redis.pcall)).
 
 Once Redis' replies are in RESP3 protocol, all of the [RESP2 to Lua conversion](#resp2-to-lua-type-conversion) rules apply, with the following additions:
 
-* [RESP3 map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) -> Lua table with a single _map_ field containing a Lua table representing the fields and values of the map.
-* [RESP set reply]({{< relref "/develop/reference/protocol-spec#sets" >}}) -> Lua table with a single _set_ field containing a Lua table representing the elements of the set as fields, each with the Lua Boolean value of `true`.
-* [RESP3 null]({{< relref "/develop/reference/protocol-spec#nulls" >}}) -> Lua `nil`.
-* [RESP3 true reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) -> Lua true boolean value.
-* [RESP3 false reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) -> Lua false boolean value.
-* [RESP3 double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) -> Lua table with a single _double_ field containing a Lua number representing the double value.
-* [RESP3 big number reply]({{< relref "/develop/reference/protocol-spec#big-numbers" >}}) -> Lua table with a single _big_number_ field containing a Lua string representing the big number value.
-* [Redis verbatim string reply]({{< relref "/develop/reference/protocol-spec#verbatim-strings" >}}) -> Lua table with a single _verbatim_string_ field containing a Lua table with two fields, _string_ and _format_, representing the verbatim string and its format, respectively.
+* [RESP3 map reply](/content/develop/reference/protocol-spec.md#maps) -> Lua table with a single _map_ field containing a Lua table representing the fields and values of the map.
+* [RESP set reply](/content/develop/reference/protocol-spec.md#sets) -> Lua table with a single _set_ field containing a Lua table representing the elements of the set as fields, each with the Lua Boolean value of `true`.
+* [RESP3 null](/content/develop/reference/protocol-spec.md#nulls) -> Lua `nil`.
+* [RESP3 true reply](/content/develop/reference/protocol-spec.md#booleans) -> Lua true boolean value.
+* [RESP3 false reply](/content/develop/reference/protocol-spec.md#booleans) -> Lua false boolean value.
+* [RESP3 double reply](/content/develop/reference/protocol-spec.md#doubles) -> Lua table with a single _double_ field containing a Lua number representing the double value.
+* [RESP3 big number reply](/content/develop/reference/protocol-spec.md#big-numbers) -> Lua table with a single _big_number_ field containing a Lua string representing the big number value.
+* [Redis verbatim string reply](/content/develop/reference/protocol-spec.md#verbatim-strings) -> Lua table with a single _verbatim_string_ field containing a Lua table with two fields, _string_ and _format_, representing the verbatim string and its format, respectively.
 
 **Note:**
-the RESP3 [big number]({{< relref "/develop/reference/protocol-spec#big-numbers" >}}) and [verbatim strings]({{< relref "/develop/reference/protocol-spec#verbatim-strings" >}}) replies are only supported as of Redis v7.0 and greater. 
-Also, presently, RESP3's [attributes]({{< relref "/develop/reference/protocol-spec#attributes" >}}), [streamed strings]({{< relref "/develop/reference/protocol-spec#streamed-strings" >}}) and [streamed aggregated data types]({{< relref "/develop/reference/protocol-spec#streamed-aggregated-data-types" >}}) are not supported by the Redis Lua API.
+the RESP3 [big number](/content/develop/reference/protocol-spec.md#big-numbers) and [verbatim strings](/content/develop/reference/protocol-spec.md#verbatim-strings) replies are only supported as of Redis v7.0 and greater. 
+Also, presently, RESP3's [attributes](/content/develop/reference/protocol-spec.md#attributes), [streamed strings](/content/develop/reference/protocol-spec.md#streamed-strings) and [streamed aggregated data types](/content/develop/reference/protocol-spec.md#streamed-aggregated-data-types) are not supported by the Redis Lua API.
 
 ### Lua to RESP3 type conversion
 
 Regardless of the script's choice of protocol version set for replies with the [`redis.setresp()` function] when it calls `redis.call()` or `redis.pcall()`, the user may opt-in to using RESP3 (with the `HELLO 3` command) for the connection.
 Although the default protocol for incoming client connections is RESP2, the script should honor the user's preference and return adequately-typed RESP3 replies, so the following rules apply on top of those specified in the [Lua to RESP2 type conversion](#lua-to-resp2-type-conversion) section when that is the case.
 
-* Lua Boolean -> [RESP3 Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) (note that this is a change compared to the RESP2, in which returning a Boolean Lua `true` returned the number 1 to the Redis client, and returning a `false` used to return a `null`.
-* Lua table with a single _map_ field set to an associative Lua table -> [RESP3 map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}).
-* Lua table with a single _set_ field set to an associative Lua table -> [RESP3 set reply]({{< relref "/develop/reference/protocol-spec#sets" >}}). Values can be set to anything and are discarded anyway.
-* Lua table with a single _double_ field to an associative Lua table -> [RESP3 double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}).
-* Lua nil -> [RESP3 null]({{< relref "/develop/reference/protocol-spec#nulls" >}}).
+* Lua Boolean -> [RESP3 Boolean reply](/content/develop/reference/protocol-spec.md#booleans) (note that this is a change compared to the RESP2, in which returning a Boolean Lua `true` returned the number 1 to the Redis client, and returning a `false` used to return a `null`.
+* Lua table with a single _map_ field set to an associative Lua table -> [RESP3 map reply](/content/develop/reference/protocol-spec.md#maps).
+* Lua table with a single _set_ field set to an associative Lua table -> [RESP3 set reply](/content/develop/reference/protocol-spec.md#sets). Values can be set to anything and are discarded anyway.
+* Lua table with a single _double_ field to an associative Lua table -> [RESP3 double reply](/content/develop/reference/protocol-spec.md#doubles).
+* Lua nil -> [RESP3 null](/content/develop/reference/protocol-spec.md#nulls).
 
 However, if the connection is set use the RESP2 protocol, and even if the script replies with RESP3-typed responses, Redis will automatically perform a RESP3 to RESP2 conversion of the reply as is the case for regular commands.
 That means, for example, that returning the RESP3 map type to a RESP2 connection will result in the reply being converted to a flat RESP2 array that consists of alternating field names and their values, rather than a RESP3 map.
@@ -664,7 +664,7 @@ That means, for example, that returning the RESP3 map type to a RESP2 connection
 
 ### Using `SELECT` inside scripts
 
-You can call the [`SELECT`]({{< relref "/commands/select" >}}) command from your Lua scripts, like you can with any normal client connection.
+You can call the [`SELECT`](/content/commands/select.md) command from your Lua scripts, like you can with any normal client connection.
 However, one subtle aspect of the behavior changed between Redis versions 2.8.11 and 2.8.12.
 Prior to Redis version 2.8.12, the database selected by the Lua script was *set as the current database* for the client connection that had called it.
 As of Redis version 2.8.12, the database selected by the Lua script only affects the execution context of the script, and does not modify the database that's selected by the client calling the script.

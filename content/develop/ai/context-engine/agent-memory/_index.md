@@ -34,7 +34,7 @@ Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API
 * **Context-aware conversations:** Store ordered conversation events with their actor, role, timestamp, and metadata, then retrieve them by session ID. Configure session expiration to control how long the conversation is retained.
 * **Automatic session summarization:** Automatically summarize older conversation events while retaining recent messages in full.
 * **Automatic long-term memory:** Automatically extract durable information from session events in the background. You can also create long-term memories directly from external data.
-* **Sensitive-data exclusions:** Guide automatic extraction away from specified categories of information that should not be kept in long-term memory.
+* **Sensitive-data exclusions:** Guide automatic extraction away from information that should not be kept in long-term memory.
 * **Relevant retrieval:** Search long-term memory using semantic, keyword, or hybrid search.
 * **Multi-session recall:** Retrieve relevant memories across conversations and filter results by owner, session, namespace, topic, or memory type.
 * **Custom memory types:** Define memory types for your business domain, with structured fields and instructions that control what Redis Agent Memory extracts.

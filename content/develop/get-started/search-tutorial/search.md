@@ -18,7 +18,7 @@ aliases:
 weight: 3
 ---
 
-This is step 3 of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}).
+This is step 3 of the [Redis Search tutorial](/content/develop/get-started/search-tutorial/_index.md).
 
 <details><summary>Reload products data and re-create index</summary>
 {{% redis-cli prereq="true" set="search_tutorial" %}}
@@ -52,7 +52,7 @@ OK
 
 </details>
 
-Now the fun part: asking questions. The [FT.SEARCH]({{< relref "/commands/ft.search" >}}) command does two jobs:
+Now the fun part: asking questions. The [FT.SEARCH](/content/commands/ft.search.md) command does two jobs:
 
 - **Selection** &mdash; choose *which* documents to return, by matching text, tags, and numeric ranges.
 - **Projection** &mdash; choose *which fields* of each matching document to return.
@@ -126,7 +126,7 @@ This finds every product in the `Audio` category and returns the name and price 
    4) "199.99"
 {{< /clients-example >}}
 
-Because `features` was indexed as a multi-value tag (the `[*]` from the [previous step]({{< relref "/develop/get-started/search-tutorial/indexing" >}})), the same syntax filters on individual list elements. This finds every `waterproof` product:
+Because `features` was indexed as a multi-value tag (the `[*]` from the [previous step](/content/develop/get-started/search-tutorial/indexing.md)), the same syntax filters on individual list elements. This finds every `waterproof` product:
 
 {{< clients-example set="search_tutorial" step="search_tag_array" description="Tag filter on arrays: Match a single element of a multi-value TAG field" difficulty="beginner" >}}
 > FT.SEARCH idx:catalog "@features:{waterproof}" RETURN 1 name
@@ -184,7 +184,7 @@ Real questions usually combine several conditions. Listing expressions one after
    4) "89.99"
 {{< /clients-example >}}
 
-Only the BudsMini Earbuds satisfy both conditions. You can also express OR with `|` and negation with `-`. See [Combined queries]({{< relref "/develop/ai/search-and-query/query/combined" >}}) for the full set of operators.
+Only the BudsMini Earbuds satisfy both conditions. You can also express OR with `|` and negation with `-`. See [Combined queries](/content/develop/ai/search-and-query/query/combined.md) for the full set of operators.
 
 ## Projection: return only what you need
 
@@ -218,10 +218,9 @@ This returns the three most expensive products, newest pricing first, with only 
 
 The total is still `12` (the count of all matches), but only three documents are returned because of `LIMIT 0 3`.
 
-{{% alert title="Try it in Redis Insight" color="info" %}}
-The [Redis Insight Search workspace]({{< relref "/develop/tools/insight/search-workspace" >}}) has a query editor that understands your index schema. As you type `@`, it suggests field names and tag values, and it renders results as a table instead of the numbered list you see in `redis-cli`. It is a comfortable place to experiment with the queries on this page.
-{{% /alert %}}
+> [!NOTE] Try it in Redis Insight
+> The [Redis Insight Search workspace](/content/develop/tools/insight/search-workspace.md) has a query editor that understands your index schema. As you type `@`, it suggests field names and tag values, and it renders results as a table instead of the numbered list you see in `redis-cli`. It is a comfortable place to experiment with the queries on this page.
 
 ## Next steps
 
-`FT.SEARCH` finds and returns documents. When you need to *summarize* across many documents &mdash; counts, averages, totals per group &mdash; you use a different command. Continue to [aggregation]({{< relref "/develop/get-started/search-tutorial/aggregation" >}}).
+`FT.SEARCH` finds and returns documents. When you need to *summarize* across many documents &mdash; counts, averages, totals per group &mdash; you use a different command. Continue to [aggregation](/content/develop/get-started/search-tutorial/aggregation.md).

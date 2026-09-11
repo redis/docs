@@ -18,7 +18,7 @@ Transitioning a Redis Open Source with Redis Search environment from development
 
 ## Configuration parameter considerations
 
-Redis Search offers several configurable parameters that influence query results and performance. While a full list of these parameters and their functions can be found [here]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}}), this section highlights the most commonly adjusted parameters for production environments.
+Redis Search offers several configurable parameters that influence query results and performance. While a full list of these parameters and their functions can be found [here](/content/develop/ai/search-and-query/advanced-concepts/dialects.md), this section highlights the most commonly adjusted parameters for production environments.
 
 ### 1. `TIMEOUT`
 
@@ -56,10 +56,10 @@ Redis Search offers several configurable parameters that influence query results
 
 ### 4. `DEFAULT_DIALECT`
 
-- Purpose: specifies the default query dialect used by [`FT.SEARCH`]({{< relref "commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate" >}}) commands.
-- Default: [Dialect 1]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}}).
+- Purpose: specifies the default query dialect used by [`FT.SEARCH`](/content/commands/ft.search.md) and [`FT.AGGREGATE`](/content/commands/ft.aggregate.md) commands.
+- Default: [Dialect 1](/content/develop/ai/search-and-query/advanced-concepts/dialects.md).
 - Recommendations:
-  - Update the default to [**Dialect 4**]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-4" >}}) for better performance and access to advanced features.
+  - Update the default to [**Dialect 4**](/content/develop/ai/search-and-query/advanced-concepts/dialects.md#dialect-4) for better performance and access to advanced features.
   - Individual commands can override this parameter if necessary, but setting a higher default ensures consistent performance across queries.
 
 ## Testing
@@ -67,8 +67,8 @@ Redis Search offers several configurable parameters that influence query results
 ### 1. Correctness
 - Run a few test queries and check the results are what you expect.
 - Use the following tools to validate and debug:
-  - Redis CLI: use the [`MONITOR`]({{< relref "commands/monitor" >}}) command or [profiling features]({{< relref "/develop/tools/insight#profiler" >}}) in Redis Insight to analyze commands.
-  - [`FT.PROFILE`]({{< relref "commands/ft.profile" >}}): Provides detailed insights into individual query execution paths, helping identify bottlenecks and inefficiencies.
+  - Redis CLI: use the [`MONITOR`](/content/commands/monitor.md) command or [profiling features](/content/develop/tools/insight/_index.md#profiler) in Redis Insight to analyze commands.
+  - [`FT.PROFILE`](/content/commands/ft.profile.md): Provides detailed insights into individual query execution paths, helping identify bottlenecks and inefficiencies.
 
 ### 2. Performance
 - Test query performance in a controlled test environment that mirrors production as closely as possible.
