@@ -113,8 +113,11 @@ To start Redis, use the following command:
 cd ~/src/redis-<version>
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-build_dir/bin/redis-server redis-full.conf
+build_dir/bin/redis-server redis.conf
 ```
+
+> [!NOTE]
+> Before Redis 8.10, specify `redis-full.conf` instead of `redis.conf`.
 
 To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
 

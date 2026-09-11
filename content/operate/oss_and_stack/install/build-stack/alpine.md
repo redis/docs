@@ -101,8 +101,11 @@ To start Redis, use the following command:
 
 ```bash
 cd /usr/src/redis-<version>
-./src/redis-server redis-full.conf
+./src/redis-server redis.conf
 ```
+
+> [!NOTE]
+> Before Redis 8.10, specify `redis-full.conf` instead of `redis.conf`.
 
 To validate that the available modules have been installed, run the [`INFO`]({{< relref "/commands/info" >}}) command and look for lines similar to the following:
 
