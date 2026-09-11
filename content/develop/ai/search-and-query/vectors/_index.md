@@ -22,20 +22,19 @@ weight: 8
 
 Redis includes a [high-performance vector database](https://redis.io/blog/benchmarking-results-for-vector-databases/) that lets you perform semantic searches over vector embeddings. You can augment these searches with filtering over text, numerical, geospatial, and tag metadata.
 
-To quickly get started, check out the [Redis vector quickstart guide]({{< relref "develop/get-started/search-tutorial/vector-search" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo. To generate a working example, open the [AI agent builder]({{< relref "/develop/ai/agent-builder" >}}) and choose the **Knowledge Assistant** template.
+To quickly get started, check out the [Redis vector quickstart guide](/content/develop/get-started/search-tutorial/vector-search.md) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo. To generate a working example, open the [AI agent builder](/content/develop/ai/agent-builder/_index.md) and choose the **Knowledge Assistant** template.
 
-{{< alert title="See vector search in action" >}}
-[Redis Repo Memory](https://github.com/marketplace/actions/redis-repo-memory) is a GitHub Action that gives your repository a memory: on every pull request it embeds the change and uses Redis KNN vector search to surface semantically related past PRs, issues, and commits — a concise, real-world example of the concepts on this page. See the [source on GitHub](https://github.com/redis-learn/redis-repo-memory).
-{{< /alert >}}
+> [!NOTE] See vector search in action
+> [Redis Repo Memory](https://github.com/marketplace/actions/redis-repo-memory) is a GitHub Action that gives your repository a memory: on every pull request it embeds the change and uses Redis KNN vector search to surface semantically related past PRs, issues, and commits — a concise, real-world example of the concepts on this page. See the [source on GitHub](https://github.com/redis-learn/redis-repo-memory).
 
 
 ## Overview
 
-1. [**Create a vector index**]({{< relref "develop/ai/search-and-query/vectors#create-a-vector-index" >}}): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`]({{< relref "develop/ai/search-and-query/vectors#flat-index" >}}), [`HNSW`]({{< relref "develop/ai/search-and-query/vectors#hnsw-index" >}}) and [`SVS-VAMANA`]({{< relref "develop/ai/search-and-query/vectors#svs-vamana-index" >}}) vector index types.
-1. [**Store and update vectors**]({{< relref "develop/ai/search-and-query/vectors#store-and-update-vectors" >}}): Redis stores vectors and metadata in hashes or JSON objects.
-1. [**Search with vectors**]({{< relref "develop/ai/search-and-query/vectors#search-with-vectors" >}}): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN]({{< relref "develop/ai/search-and-query/vectors#knn-vector-search" >}})), [vector range queries]({{< relref "develop/ai/search-and-query/vectors#vector-range-queries" >}}), and [metadata filters]({{< relref "develop/ai/search-and-query/vectors#filters" >}}).
-1. [**Configure vector queries at runtime**]({{< relref "develop/ai/search-and-query/vectors#runtime-query-params" >}}).
-1. [**Vector search examples**]({{< relref "develop/ai/search-and-query/vectors#vector-search-examples" >}}): Explore several vector search examples that cover different use cases and techniques.
+1. [**Create a vector index**](/content/develop/ai/search-and-query/vectors/_index.md#create-a-vector-index): Redis maintains a secondary index over your data with a defined schema (including vector fields and metadata). Redis supports [`FLAT`](/content/develop/ai/search-and-query/vectors/_index.md#flat-index), [`HNSW`](/content/develop/ai/search-and-query/vectors/_index.md#hnsw-index) and [`SVS-VAMANA`](/content/develop/ai/search-and-query/vectors/_index.md#svs-vamana-index) vector index types.
+1. [**Store and update vectors**](/content/develop/ai/search-and-query/vectors/_index.md#store-and-update-vectors): Redis stores vectors and metadata in hashes or JSON objects.
+1. [**Search with vectors**](/content/develop/ai/search-and-query/vectors/_index.md#search-with-vectors): Redis supports several advanced querying strategies with vector fields including k-nearest neighbor ([KNN](/content/develop/ai/search-and-query/vectors/_index.md#knn-vector-search)), [vector range queries](/content/develop/ai/search-and-query/vectors/_index.md#vector-range-queries), and [metadata filters](/content/develop/ai/search-and-query/vectors/_index.md#filters).
+1. [**Configure vector queries at runtime**](/content/develop/ai/search-and-query/vectors/_index.md#runtime-query-params).
+1. [**Vector search examples**](/content/develop/ai/search-and-query/vectors/_index.md#vector-search-examples): Explore several vector search examples that cover different use cases and techniques.
 
 ## Create a vector index
 
@@ -51,7 +50,7 @@ FT.CREATE <index_name>
     [<index_attribute_name> <index_attribute_value> ...]
 ```
 
-Refer to the full [indexing]({{< relref "develop/ai/search-and-query/indexing/" >}}) documentation for additional fields, options, and noted limitations.
+Refer to the full [indexing](/content/develop/ai/search-and-query/indexing/_index.md) documentation for additional fields, options, and noted limitations.
 
 **Parameters**
 
@@ -158,7 +157,7 @@ Choose the `SVS-VAMANA` index type when all of the following requirements apply:
 
 | Attribute                  | Description                              | Default value |
 |:---------------------------|:-----------------------------------------|:-------------:|
-| `COMPRESSION`              | Compression algorithm; one of `LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`. See [this page]({{< relref "/develop/ai/search-and-query/vectors/svs-compression" >}}) for more information. | none |
+| `COMPRESSION`              | Compression algorithm; one of `LVQ8`, `LVQ4`, `LVQ4x4`, `LVQ4x8`, `LeanVec4x8`, or `LeanVec8x8`. See [this page](/content/develop/ai/search-and-query/vectors/svs-compression.md) for more information. | none |
 | `CONSTRUCTION_WINDOW_SIZE` | The search window size to use during graph construction. A higher search window size will yield a higher quality graph since more overall vertexes are considered, but will increase construction time. | 200 |
 | `GRAPH_MAX_DEGREE`         | Sets the maximum number of edges per node; equivalent to `HNSW’s M*2`. A higher max degree may yield a higher quality graph in terms of recall for performance, but the memory footprint of the graph is directly proportional to the maximum degree. | 32 |
 | `SEARCH_WINDOW_SIZE`       | The size of the search window; the same as `HSNW's EF_RUNTIME`. Increasing the search window size and capacity generally yields more accurate but slower search results. | 10 |
@@ -166,9 +165,8 @@ Choose the `SVS-VAMANA` index type when all of the following requirements apply:
 | `TRAINING_THRESHOLD`       | Number of vectors needed to learn compression parameters. Applicable only when used with `COMPRESSION`. Increase if recall is low. Note: setting this too high may slow down search.If a value is provided, it must be less than `100 * DEFAULT_BLOCK_SIZE`, where `DEFAULT_BLOCK_SIZE` is 1024. | `10 * DEFAULT_BLOCK_SIZE` |
 | `REDUCE`              | The dimension used when using `LeanVec4x8` or `LeanVec8x8` compression for dimensionality reduction. If a value is provided, it should be less than `DIM`. Lowering it can speed up search and reduce memory use. | `DIM / 2` |
 
-{{< warning >}}
-Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. Intel's proprietary LVQ and LeanVec optimizations are not available in Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
-{{< /warning >}}
+> [!WARNING]
+> Some advanced vector compression features may depend on hardware or Intel's proprietary optimizations. Intel's proprietary LVQ and LeanVec optimizations are not available in Redis Open Source. On non-Intel platforms and Redis Open Source platforms, `SVS-VAMANA` with `COMPRESSION` will fall back to basic, 8-bit scalar quantization implementation: all values in a vector are scaled using the global minimum and maximum, and then each dimension is quantized independently into 256 levels using 8-bit precision.
 
 **Example**
 
@@ -205,7 +203,7 @@ On index creation, the `<storage_type>` dictates how vector and metadata are str
 
 ### Hash
 
-Store or update vectors and any metadata in [hashes]({{< relref "develop/data-types/hashes/" >}}) using the [`HSET`]({{< relref "commands/hset/" >}}) command.
+Store or update vectors and any metadata in [hashes](/content/develop/data-types/hashes.md) using the [`HSET`](/content/commands/hset.md) command.
 
 **Example**
 
@@ -213,9 +211,8 @@ Store or update vectors and any metadata in [hashes]({{< relref "develop/data-ty
 HSET docs:01 doc_embedding <vector_bytes> category sports
 ```
 
-{{% alert title="Tip" color="warning" %}}
-Hash values are stored as binary-safe strings. The value `<vector_bytes>` represents the vector's underlying memory buffer.
-{{% /alert  %}}
+> [!NOTE] Tip
+> Hash values are stored as binary-safe strings. The value `<vector_bytes>` represents the vector's underlying memory buffer.
 
 A common method for converting vectors to bytes uses the [redis-py](https://redis.readthedocs.io/en/stable/examples/search_vector_similarity_examples.html) client library and the Python [NumPy](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.tobytes.html) library.
 
@@ -237,12 +234,11 @@ vector_bytes = vector.tobytes()
 redis_client.hset('docs:01', mapping = {"vector": vector_bytes, "category": "sports"})
 ```
 
-{{% alert title="Tip" color="warning" %}}
-The vector blob size must match the dimension and float type of the vector field specified in the index's schema; otherwise, indexing will fail.
-{{% /alert  %}}
+> [!NOTE] Tip
+> The vector blob size must match the dimension and float type of the vector field specified in the index's schema; otherwise, indexing will fail.
 
 ### JSON
-You can store or update vectors and any associated metadata in [JSON]({{< relref "develop/data-types/json/" >}}) using the [`JSON.SET`]({{< relref "commands/json.set/" >}}) command.
+You can store or update vectors and any associated metadata in [JSON](/content/develop/data-types/json/_index.md) using the [`JSON.SET`](/content/commands/json.set.md) command.
 
 To store vectors in Redis as JSON, you store the vector as a JSON array of floats. Note that this differs from vector storage in Redis hashes, which are instead stored as raw bytes.
 
@@ -253,7 +249,7 @@ JSON.SET docs:01 $ '{"doc_embedding":[0.34,0.63,-0.54,-0.69,0.98,0.61], "categor
 ```
 
 One of the benefits of JSON is schema flexibility. As of v2.6.1, JSON supports multi-value indexing.
-This allows you to index multiple vectors under the same [JSONPath]({{< relref "/develop/data-types/json/path" >}}).
+This allows you to index multiple vectors under the same [JSONPath](/content/develop/data-types/json/path.md).
 
 Here are some examples of multi-value indexing with vectors:
 
@@ -264,13 +260,13 @@ JSON.SET docs:01 $ '{"doc_embedding":[[1,2,3,4], [5,6,7,8]]}'
 JSON.SET docs:01 $ '{"chunk1":{"doc_embedding":[1,2,3,4]}, "chunk2":{"doc_embedding":[5,6,7,8]}}'
 ```
 
-Additional information and examples are available in the [Indexing JSON documents]({{< relref "develop/ai/search-and-query/indexing/#index-json-arrays-as-vector" >}}) section.
+Additional information and examples are available in the [Indexing JSON documents](/content/develop/ai/search-and-query/indexing/_index.md#index-json-arrays-as-vector) section.
 
 ## Search with vectors
 
-You can run vector search queries with the [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) or [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}) commands.
+You can run vector search queries with the [`FT.SEARCH`](/content/commands/ft.search.md) or [`FT.AGGREGATE`](/content/commands/ft.aggregate.md) commands.
 
-To issue a vector search query with `FT.SEARCH`, you must set the `DIALECT` option to >= `2`. See the [dialects documentation]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}}) for more information.
+To issue a vector search query with `FT.SEARCH`, you must set the `DIALECT` option to >= `2`. See the [dialects documentation](/content/develop/ai/search-and-query/advanced-concepts/dialects.md) for more information.
 
 ### KNN vector search
 
@@ -290,11 +286,11 @@ FT.SEARCH <index_name>
 | Parameter         | Description                                                                                       |
 |:------------------|:--------------------------------------------------------------------------------------------------|
 | `index_name`  | Name of the index.  |
-| `primary_filter_query`  | [Filter]({{< relref "develop/ai/search-and-query/vectors#filters" >}}) criteria. Use `*` when no filters are required.  |
+| `primary_filter_query`  | [Filter](/content/develop/ai/search-and-query/vectors/_index.md#filters) criteria. Use `*` when no filters are required.  |
 | `top_k` | Number of nearest neighbors to fetch from the index.  |
 | `vector_field`  | Name of the vector field to search against.  |
 | `vector_blob_param`  | The query vector, passed in as a blob of raw bytes. The blob's byte size must match the vector field's dimensions and type.  |
-| `vector_query_params` (optional) | An optional section for marking one or more vector query parameters passed through the `PARAMS` section. Valid parameters should be provided as key-value pairs. See which [runtime query params]({{< relref "develop/ai/search-and-query/vectors#runtime-query-params" >}}) are supported for each vector index type.  |
+| `vector_query_params` (optional) | An optional section for marking one or more vector query parameters passed through the `PARAMS` section. Valid parameters should be provided as key-value pairs. See which [runtime query params](/content/develop/ai/search-and-query/vectors/_index.md#runtime-query-params) are supported for each vector index type.  |
 | `distance_field` (optional) | The optional distance field name used in the response and/or for sorting. By default, the distance field name is `__<vector_field>_score` and it can be used for sorting without using `AS <distance_field>` in the query.  |
 | `vector_query_params_count` | The number of vector query parameters.  |
 | `vector_query_param_name` | The name of the vector query parameter.  |
@@ -309,7 +305,7 @@ FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\x
 **Use query attributes**
 
 Alternatively, as of v2.6, `<vector_query_params>` and `<distance_field>` name can be specified in runtime
-[query attributes]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_attributes" >}}) as shown below.
+[query attributes](/content/develop/ai/search-and-query/advanced-concepts/query_attributes.md) as shown below.
 
 ```
 [KNN <top_k> @<vector_field> $<vector_blob_param>]=>{$yield_distance_as: <distance_field>}
@@ -341,7 +337,7 @@ FT.SEARCH <index_name>
 | `vector_field`  | Name of the vector field in the index. |
 | `radius` or `radius_param` | The maximum semantic distance allowed between the query vector and indexed vectors. You can provide the value directly in the query, passed to the `PARAMS` section, or as a query attribute.
 | `vector_blob_param`  | The query vector, passed in as a blob of raw bytes. The blob's byte size must match the vector field's dimensions and type. |
-| `vector_query_params` (optional) | An optional section for marking one or more vector query parameters passed through the `PARAMS` section. Valid parameters should be provided as key-value pairs. See which [runtime query params]({{< relref "develop/ai/search-and-query/vectors#runtime-query-params" >}}) are supported for each vector index type.  |
+| `vector_query_params` (optional) | An optional section for marking one or more vector query parameters passed through the `PARAMS` section. Valid parameters should be provided as key-value pairs. See which [runtime query params](/content/develop/ai/search-and-query/vectors/_index.md#runtime-query-params) are supported for each vector index type.  |
 | `vector_query_params_count` | The number of vector query parameters.  |
 | `vector_query_param_name` | The name of the vector query parameter.  |
 | `vector_query_param_value` | The value of the vector query parameter.  |
@@ -468,20 +464,17 @@ Optional runtime parameters for SVS-VAMANA indexes are:
 
 ### Important notes
 
-{{% alert title="Important notes" color="info" %}}
-
-1. When performing a KNN vector search, you specify `<top_k>` nearest neighbors. However, the default Redis query `LIMIT` parameter (used for pagination) is 10. In order to get `<top_k>` returned results, you must also specify `LIMIT 0 <top_k>` in your search command. See examples below.
-
-2. By default, the results are sorted by their document's score. To sort by vector similarity score, use `SORTBY <distance_field>`. See examples below.
-
-3. Depending on your chosen distance metric, the calculated distance between vectors in an index have different bounds. For example, `Cosine` distance is bounded by `2`, while `L2` distance is not bounded. When performing a vector range query, the best practice is to adjust the `<radius>` parameter based on your use case and required recall or precision metrics.
-
-{{% /alert %}}
+> [!NOTE] Important notes
+> 1. When performing a KNN vector search, you specify `<top_k>` nearest neighbors. However, the default Redis query `LIMIT` parameter (used for pagination) is 10. In order to get `<top_k>` returned results, you must also specify `LIMIT 0 <top_k>` in your search command. See examples below.
+>
+> 2. By default, the results are sorted by their document's score. To sort by vector similarity score, use `SORTBY <distance_field>`. See examples below.
+>
+> 3. Depending on your chosen distance metric, the calculated distance between vectors in an index have different bounds. For example, `Cosine` distance is bounded by `2`, while `L2` distance is not bounded. When performing a vector range query, the best practice is to adjust the `<radius>` parameter based on your use case and required recall or precision metrics.
 
 
 ## Vector search examples
 
-Below are a number of examples to help you get started. For more comprehensive walkthroughs, see the [Redis vector quickstart guide]({{< relref "develop/get-started/search-tutorial/vector-search" >}}) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
+Below are a number of examples to help you get started. For more comprehensive walkthroughs, see the [Redis vector quickstart guide](/content/develop/get-started/search-tutorial/vector-search.md) and the [Redis AI Resources](https://github.com/redis-developer/redis-ai-resources) Github repo.
 
 ### KNN vector search examples
 
@@ -491,7 +484,7 @@ Return the 10 nearest neighbor documents for which the `doc_embedding` vector fi
 FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY __vector_score DIALECT 2
 ```
 
-Return the top 10 nearest neighbors and customize the `K` and `EF_RUNTIME` parameters using query parameters. See the "Optional arguments" section in [FT.SEARCH command]({{< relref "commands/ft.search" >}}). Set the `EF_RUNTIME` value to 150, assuming `doc_embedding` is an `HNSW` index:
+Return the top 10 nearest neighbors and customize the `K` and `EF_RUNTIME` parameters using query parameters. See the "Optional arguments" section in [FT.SEARCH command](/content/commands/ft.search.md). Set the `EF_RUNTIME` value to 150, assuming `doc_embedding` is an `HNSW` index:
 
 ```
 FT.SEARCH documents "*=>[KNN $K @doc_embedding $BLOB EF_RUNTIME $EF]" PARAMS 6 BLOB "\x12\xa9\xf5\x6c" K 10 EF 150 DIALECT 2
@@ -503,7 +496,7 @@ Assign a custom name to the distance field (`vector_distance`) and then sort usi
 FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB AS vector_distance]" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
 ```
 
-Use [query attributes]({{< relref "develop/ai/search-and-query/advanced-concepts/query_attributes" >}}) syntax to specify optional parameters and the distance field name:
+Use [query attributes](/content/develop/ai/search-and-query/advanced-concepts/query_attributes.md) syntax to specify optional parameters and the distance field name:
 
 ```
 FT.SEARCH documents "*=>[KNN 10 @doc_embedding $BLOB]=>{$EF_RUNTIME: $EF; $YIELD_DISTANCE_AS: vector_distance}" PARAMS 4 EF 150 BLOB "\x12\xa9\xf5\x6c" SORTBY vector_distance DIALECT 2
@@ -569,7 +562,7 @@ Use a higher ratio for better accuracy when precision is more important than per
 FT.SEARCH products "*=>[KNN 20 @product_embedding $BLOB]=>{$SHARD_K_RATIO: 0.8; $YIELD_DISTANCE_AS: similarity}" PARAMS 2 BLOB "\x12\xa9\xf5\x6c" SORTBY similarity DIALECT 2
 ```
 
-[`FT.HYBRID`]({{< relref "/commands/ft.hybrid" >}}) also supports `SHARD_K_RATIO` as part of its `KNN` clause. The following query combines a text search for `laptop` with vector similarity, returning the top 100 nearest neighbors with each shard providing 50% of the requested results:
+[`FT.HYBRID`](/content/commands/ft.hybrid.md) also supports `SHARD_K_RATIO` as part of its `KNN` clause. The following query combines a text search for `laptop` with vector similarity, returning the top 100 nearest neighbors with each shard providing 50% of the requested results:
 
 ```
 FT.HYBRID products-idx SEARCH "laptop" VSIM @description_vector $query_vec KNN 4 K 100 SHARD_K_RATIO 0.5 PARAMS 2 query_vec "\x12\xa9\xf5\x6c"

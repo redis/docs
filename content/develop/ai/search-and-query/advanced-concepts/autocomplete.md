@@ -23,11 +23,11 @@ weight: 7
 Redis Search provides an autocomplete feature using suggestions that are stored in a [trie-based](https://en.wikipedia.org/wiki/Trie) data structure.
 This feature allows you to store and retrieve ranked suggestions based on user input prefixes, making it useful for applications like search boxes, command completion, and chatbot responses.
 
-This guide covers how to use the [`FT.SUGADD`]({{< relref "/commands/ft.sugadd" >}}), [`FT.SUGGET`]({{< relref "/commands/ft.sugget" >}}), [`FT.SUGDEL`]({{< relref "/commands/ft.sugdel" >}}), and [`FT.SUGLEN`]({{< relref "/commands/ft.suglen" >}}) commands to implement autocomplete, and some examples of how you can use these commands with [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
+This guide covers how to use the [`FT.SUGADD`](/content/commands/ft.sugadd.md), [`FT.SUGGET`](/content/commands/ft.sugget.md), [`FT.SUGDEL`](/content/commands/ft.sugdel.md), and [`FT.SUGLEN`](/content/commands/ft.suglen.md) commands to implement autocomplete, and some examples of how you can use these commands with [`FT.SEARCH`](/content/commands/ft.search.md).
 
 ## Add autocomplete suggestions
 
-To add phrases or words to a suggestions dictionary, use the [`FT.SUGADD`]({{< relref "/commands/ft.sugadd" >}}) command.
+To add phrases or words to a suggestions dictionary, use the [`FT.SUGADD`](/content/commands/ft.sugadd.md) command.
 You will assign a score to each entry, which determines its ranking in the results.
 
 ```
@@ -50,7 +50,7 @@ The `FT.SUGADD` command can take two optional arguments:
 
 ## Retrieve suggestions
 
-To get autocomplete suggestions for a given prefix, use the [`FT.SUGGET`]({{< relref "/commands/ft.sugget" >}}) command.
+To get autocomplete suggestions for a given prefix, use the [`FT.SUGGET`](/content/commands/ft.sugget.md) command.
 
 ```
 redis> FT.SUGGET autocomplete "he"
