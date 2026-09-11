@@ -187,7 +187,7 @@ The connection wizard and other parts of the console show your database's [publi
 
 ## Connect from on-premises
 
-The private hosted zone that overrides the public endpoint hostname inside your consumer VPC doesn't extend to on-premises networks connected over Direct Connect or a VPN, even though they can reach the consumer VPC. Use one of the following approaches instead.
+The private hosted zone that overrides the public endpoint hostname inside your consumer VPC doesn't extend to on-premises networks connected over Direct Connect or a VPN, even though they can reach the consumer VPC. The sections below describe other approaches that you can use instead.
 
 Certificate verification decides which approach you need. Redis Cloud issues server certificates for its own hostnames, not for AWS-owned PrivateLink hostnames. If you use TLS, or expect to, your connection string must use the database's public endpoint hostname so that certificate verification succeeds, which means you need one of the two DNS-based approaches below. If you don't use TLS, you can connect directly with the resource endpoint's default DNS name.
 
