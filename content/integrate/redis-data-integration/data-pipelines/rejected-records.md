@@ -41,25 +41,19 @@ RDI stores rejected records in the RDI database as capped Redis streams. Each DL
 stream corresponds to a source table and tracks the records rejected for that
 table.
 
-DLQ stream names use the `dlq:` prefix followed by the source data stream name.
-In current RDI versions, the stream name is typically:
-
-```text
-dlq:data:{rdi}:<schema_or_database>.<table>
-```
-
-For example, rejected records for the `public.users` table are stored in:
-
-```text
-dlq:data:{rdi}:public.users
-```
-
-For sources that include the source name in the stream qualifier, the final part
-can contain three components:
+A DLQ stream is named after the source data stream it corresponds to, with a `dlq:` prefix:
 
 ```text
 dlq:data:{rdi}:<source>.<schema_or_database>.<table>
 ```
+
+For example, rejected records for the `public.users` table of a source named `postgresql`
+are stored in `dlq:data:{rdi}:postgresql.public.users`.
+
+The dead-letter queue endpoints and the CLI report table names are in the same form,
+so you can easily attribute a rejected record to the source it came from. Sources that existed
+before the upgrade to RDI v2.0.0 or above do not have the source segment
+in the key because these earlier RDI versions did not support multiple sources.
 
 Some RDI versions or configurations can use a hash-tagged variant such as
 `dlq:{data:rdi:<schema_or_database>.<table>}`. To find all DLQ streams in the

@@ -322,9 +322,8 @@ oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
 
 ### Configure the Flink processor
 
-RDI ships with two stream processor implementations: the default *classic*
-processor and the
-[Apache Flink](https://flink.apache.org/)-based *Flink* processor.
+RDI ships with two stream processor implementations: the *classic* processor and the
+default [Apache Flink](https://flink.apache.org/)-based *Flink* processor.
 See
 [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
 for an overview of the differences and
@@ -356,10 +355,9 @@ operator:
 
 Configuring the Flink processor at the Helm chart level only sets the values
 that the operator will use when deploying the JobManager and TaskManager workloads.
-To run a specific pipeline on the Flink processor, set
+A pipeline runs on the Flink processor unless its `config.yaml` sets
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink` in that pipeline's `config.yaml`. Pipelines without this setting
-continue to use the classic processor. Fine-tune the Flink runtime
+to `classic`. Fine-tune the Flink runtime
 through the `processors.advanced` section of `config.yaml` (see the
 [configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
 
@@ -423,15 +421,17 @@ Specifically, ensure that one or both of the following Helm chart values is set:
 - `controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz`
 - `controller.service.externalTrafficPolicy=Local`
 
-## Prepare your source database
+## Prepare your source databases
 
-Before deploying a pipeline, you must configure your source database to enable CDC. See the
+Before deploying a pipeline, you must configure each source database to enable CDC. See the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
-section to learn how to do this.
+section to learn how to do this. A pipeline can capture from more than one source database,
+so you must prepare each one each source separately. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for details.
 
 ## Deploy a pipeline
 
-When the Helm installation is complete and you have prepared the source database for CDC,
+When the Helm installation is complete and you have prepared your source databases for CDC,
 you are ready to start using RDI. See the guides on how to
 [configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})

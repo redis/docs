@@ -1034,8 +1034,8 @@ sources:
       type: oracle
       host: host.docker.internal
       port: 1521
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
+      user: ${ORACLE_DB_USERNAME}
+      password: ${ORACLE_DB_PASSWORD}
     advanced:
       source:
         database.dbname: ORCLCDB
@@ -1118,8 +1118,8 @@ sources:
       type: oracle
       host: oracle
       port: 1521
-      user: ${SOURCE_DB_USERNAME}
-      password: ${SOURCE_DB_PASSWORD}
+      user: ${ORACLE_DB_USERNAME}
+      password: ${ORACLE_DB_PASSWORD}
       database: ORCLCDB
     advanced:
       source:

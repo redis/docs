@@ -69,7 +69,7 @@ for VM installations.
 The two processors share the same `config.yaml` envelope and the same
 `connections`, `sources`, `targets`, and `jobs` sections. The only
 differences are inside the `processors:` block, which is selected via
-`processors.type` (`classic` or `flink`, default `classic`). Properties
+`processors.type` (`classic` or `flink`, default `flink`). Properties
 that apply to only one implementation are annotated with
 **Classic processor only.** or **Flink processor only.** in the
 [pipeline configuration reference]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}}),
@@ -101,6 +101,12 @@ See
 for examples and
 [`redis.lookup`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/lookup" >}})
 for the full property list.
+
+The Flink processor also accepts an advanced matcher syntax in a job's `source` section, where
+`server_name`, `db`, `schema`, and `table` each accept a list of names, and an entry prefixed
+with `regex:` selects all names that match the regular expression. One job can then process
+multiple tables, potentially from different sources, databases, or schemas. See
+[Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) for more information.
 
 ## Metrics
 

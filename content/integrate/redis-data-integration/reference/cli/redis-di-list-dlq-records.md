@@ -16,6 +16,10 @@ and paging with `--limit`, `--offset`, and `--sort-order`. The operation code is
 Use [`list-dlqs`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlqs" >}})
 to see all the pipeline's dead-letter queues and their record counts.
 
+The DLQ name is its source-qualified table name, `<source>.<schema_or_database>.<table>`, as
+[`list-dlqs`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-dlqs" >}})
+reports it.
+
 ## Usage
 
 ```
@@ -48,8 +52,8 @@ This command also accepts the
 
 ```bash
 # Newest 20 rejected records of a queue
-redis-di list-dlq-records inventory.customers
+redis-di list-dlq-records mysql.inventory.customers
 
 # Oldest 100 records, as JSON
-redis-di list-dlq-records inventory.customers --limit 100 --sort-order asc -o json
+redis-di list-dlq-records mysql.inventory.customers --limit 100 --sort-order asc -o json
 ```

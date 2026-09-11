@@ -29,7 +29,7 @@ The pipeline name is an optional argument that defaults to `default`.
 | `--dir`             | Directory containing the pipeline configuration (default `.`).                       |
 | `--dry-run`         | Validate the configuration without deploying.                                        |
 | `--validate-tables` | Validate the configuration against the source and target databases (default `true`). |
-| `--validate-cdc`    | Validate the source database CDC configuration.                                      |
+| `--validate-cdc`    | Validate the CDC configuration of the source databases.                              |
 | `--start`           | Start the pipeline after deploying (default `true`).                                 |
 | `--wait`            | Wait for the pipeline to reach the expected state (default `true`).                  |
 | `--timeout`         | Maximum time to wait for the pipeline to reach the expected state (default `2m`).    |

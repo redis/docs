@@ -16,8 +16,8 @@ type: integration
 weight: 35
 ---
 
-RDI ships with two stream processor implementations. The default *classic*
-processor is implemented in Python. The *Flink* processor is built on top of
+RDI ships with two stream processor implementations. The *classic*
+processor is implemented in Python. The default *Flink* processor is built on top of
 [Apache Flink](https://flink.apache.org/). Both run on VM and Kubernetes
 installations. The Flink processor can achieve much higher throughput
 during snapshots, scales horizontally by changing the number of TaskManager replicas,
@@ -64,7 +64,7 @@ resources in step 4.
 
 In the pipeline's `config.yaml`, set
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink`:
+to `flink` (or remove this property, since `flink` is the default):
 
 ```yaml
 processors:
@@ -134,7 +134,7 @@ for the `ServiceMonitor` configuration and the available metrics.
 
 ## Rolling back
 
-To revert a pipeline to the classic processor, set `processors.type` back to
-`classic` (or remove the property) and redeploy the pipeline. The
+To revert a pipeline to the classic processor, set `processors.type` to
+`classic` and redeploy the pipeline. The
 `processors.advanced` section is silently ignored by the classic processor,
 so you don't need to remove it before switching back.

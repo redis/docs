@@ -19,10 +19,11 @@ redis-di list-secrets [flags]
 
 ## Options
 
-| Option             | Description                                          |
-| :----------------- | :--------------------------------------------------- |
-| `-p`, `--pipeline` | Pipeline to target (default `default`).              |
-| `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`. |
+| Option             | Description                                                         |
+| :----------------- | :------------------------------------------------------------------ |
+| `-p`, `--pipeline` | Pipeline to target (default `default`).                             |
+| `--db`             | List only the secrets of this database: a source name, or `target`. |
+| `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`.                |
 
 This command also accepts the
 [global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
@@ -31,5 +32,6 @@ This command also accepts the
 
 ```bash
 redis-di list-secrets
+redis-di list-secrets --db mysql
 redis-di list-secrets -p my-pipeline
 ```

@@ -86,6 +86,12 @@ deployment, use separate Kubernetes clusters. See
 [Install on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
 for installation details.
 
+## Can one pipeline capture from several source databases?
+
+Yes. Add one entry per source to the `sources` section of `config.yaml`. Each source has its
+own collector, which captures change records independently of the other sources. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
+
 ## Can RDI automatically track changes to the source database schema?
 
 If you don't configure RDI to capture a specific set of tables in the schema then it will
@@ -161,18 +167,14 @@ processor. It also adds optional expression and `redis.lookup` result
 caching.
 
 **We strongly recommend using the Flink processor** for new pipelines and
-migrating existing pipelines to it, to benefit from these improvements. The
-*classic* processor is still the default, so pipelines keep using it until
-you opt in, and it remains a fully supported choice — for example, when you
-want to ensure your pipelines continue to work as before until you have
-consciously migrated them. In a future release, however, the Flink processor
-will become the default and the classic processor may be deprecated, so adopting
-the Flink processor now avoids a later migration.
+migrating existing pipelines to it, to benefit from these improvements. It is
+the default, so a pipeline whose `config.yaml` does not set a processor type
+uses it. The *classic* processor remains a fully supported choice for now.
+It may be deprecated in a future release.
 
-Switch a pipeline to the Flink processor by setting
+To switch a pipeline to the classic processor, set
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink` (`classic` is the default). You can adopt it per pipeline without
-changing the others.
+to `classic`. You can do that per pipeline without changing the others.
 
 See
 [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
