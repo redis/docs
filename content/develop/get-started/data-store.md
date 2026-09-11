@@ -49,7 +49,7 @@ The first step is to connect to Redis. You can find further details about the co
 
 &nbsp;
 
-> [!NOTE] Tip
+> [!TIP]
 > You can copy and paste the connection details from the Redis Cloud database configuration page. Here is an example connection string of a Cloud database that is hosted in the AWS region `us-east-1` and listens on port 16379: `redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com:16379`. The connection string has the format `host:port`. You must also copy and paste the username and password of your Cloud database and then either pass the credentials to your client or use the [AUTH command](/content/commands/auth.md) after the connection is established.
 
 ## Store and retrieve data
