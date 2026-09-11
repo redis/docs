@@ -18,18 +18,18 @@ title: Query syntax
 weight: 19
 ---
 
-{{< note >}}The query syntax that RediSearch uses has improved over time,
-adding new features and making queries simpler to write. However,
-changing the syntax like this could potentially break existing queries that rely on
-an older version of the syntax. To avoid this problem, RediSearch supports
-different query syntax *dialects* to ensure backward compatibility.
-Any breaking changes to the syntax are introduced in a new dialect, while
-RediSearch continues to support older dialects. This means you can always choose
-the correct dialect to support the query you are using.
-See
-[Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-for full details of the dialects and the RediSearch versions that introduced them.
-{{< /note >}}
+> [!NOTE]
+> The query syntax that RediSearch uses has improved over time,
+> adding new features and making queries simpler to write. However,
+> changing the syntax like this could potentially break existing queries that rely on
+> an older version of the syntax. To avoid this problem, RediSearch supports
+> different query syntax *dialects* to ensure backward compatibility.
+> Any breaking changes to the syntax are introduced in a new dialect, while
+> RediSearch continues to support older dialects. This means you can always choose
+> the correct dialect to support the query you are using.
+> See
+> [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+> for full details of the dialects and the RediSearch versions that introduced them.
 
 ## Basic syntax
 
@@ -63,7 +63,7 @@ You can use simple syntax for complex queries using these rules:
 * Georadius matches on geo fields with the syntax `@field:[{lon} {lat} {radius} {m|km|mi|ft}]`.
 * As of 2.6, range queries on vector fields with the syntax `@field:[VECTOR_RANGE {radius} $query_vec]`, where `query_vec` is given as a query parameter.
 * As of v2.4, k-nearest neighbors (KNN) queries on vector fields with or without pre-filtering with the syntax `{filter_query}=>[KNN {num} @field $query_vec]`.
-* Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}).
+* Tag field filters with the syntax `@field:{tag | tag | ...}`. See the full documentation on [tags](/content/develop/ai/search-and-query/advanced-concepts/tags.md).
 * Optional terms or clauses: `foo ~bar` means bar is optional but documents containing `bar` will rank higher.
 * Fuzzy matching on terms: `%hello%` means all terms with Levenshtein distance of 1 from it. Use multiple pairs of '%' brackets, up to three deep, to increase the Levenshtein distance.
 * An expression in a query can be wrapped in parentheses to disambiguate, for example, `(hello|hella) (world|werld)`.
@@ -74,9 +74,8 @@ You can use simple syntax for complex queries using these rules:
 
 As of v0.19.3, it is possible to have a query consisting of just a negative expression. For example `-hello` or `-(@title:(foo|bar))`. The results are all the documents not containing the query terms.
 
-{{% alert title="Warning" color="warning" %}}
-Any complex expression can be negated this way, however, caution should be taken here: if a negative expression has little or no results, this is equivalent to traversing and ranking all the documents in the index, which can be slow and cause high CPU consumption.
-{{% /alert %}}
+> [!WARNING]
+> Any complex expression can be negated this way, however, caution should be taken here: if a negative expression has little or no results, this is equivalent to traversing and ranking all the documents in the index, which can be slow and cause high CPU consumption.
 
 ## Field modifiers
 
@@ -127,8 +126,8 @@ If a field in the schema is defined as NUMERIC, it is possible to use the FILTER
 ## Tag filters
 
 As of v0.91, you can use a special field type called a
-[_tag field_]({{< relref "/develop/ai/search-and-query/advanced-concepts/tags" >}}), with simpler
-[tokenization]({{< relref "/develop/ai/search-and-query/advanced-concepts/escaping#tokenization-rules-for-tag-fields" >}})
+[_tag field_](/content/develop/ai/search-and-query/advanced-concepts/tags.md), with simpler
+[tokenization](/content/develop/ai/search-and-query/advanced-concepts/escaping.md#tokenization-rules-for-tag-fields)
 and encoding in the index. You can't access the values in these fields using a general fieldless search. Instead, you use special syntax:
 
 ```
@@ -143,9 +142,8 @@ Example:
 
 Tags can have multiple words or include other punctuation marks other than the field's separator (`,` by default). The following characters in tags should be escaped with a backslash (`\`): `$`, `{`, `}`, `\`, and `|`.
 
-{{% alert title="Note" color="warning" %}}
-Before RediSearch 2.4, it was also recommended to escape spaces. The reason was that, if a multiword tag included stopwords, a syntax error was returned. So tags, like "to be or not to be" needed be escaped as "to\ be\ or\ not\ to\ be". For good measure, you also could escape all spaces within tags. Starting with RediSearch 2.4, using [`DIALECT 2`]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}}) or greater you can use spaces in a `tag` query, even with stopwords.
-{{% /alert %}}
+> [!NOTE]
+> Before RediSearch 2.4, it was also recommended to escape spaces. The reason was that, if a multiword tag included stopwords, a syntax error was returned. So tags, like "to be or not to be" needed be escaped as "to\ be\ or\ not\ to\ be". For good measure, you also could escape all spaces within tags. Starting with RediSearch 2.4, using [`DIALECT 2`](/content/develop/ai/search-and-query/advanced-concepts/dialects.md#dialect-2) or greater you can use spaces in a `tag` query, even with stopwords.
 
 Notice that multiple tags in the same clause create a union of documents containing either tags. To create an intersection of documents containing all tags, you should repeat the tag filter several times. For example:
 
@@ -161,7 +159,7 @@ Tag clauses can be combined into any subclause, used as negative expressions, op
 
 ## Geo filters
 
-As of v0.21, it is possible to add geo radius queries directly into the query language with the syntax `@field:[{lon} {lat} {radius} {m|km|mi|ft}]`. This filters the result to a given radius from a lon,lat point, defined in meters, kilometers, miles or feet. See Redis's own [`GEORADIUS`]({{< relref "/commands/georadius" >}}) command for more details.
+As of v0.21, it is possible to add geo radius queries directly into the query language with the syntax `@field:[{lon} {lat} {radius} {m|km|mi|ft}]`. This filters the result to a given radius from a lon,lat point, defined in meters, kilometers, miles or feet. See Redis's own [`GEORADIUS`](/content/commands/georadius.md) command for more details.
 
 Radius filters can be added into the query just like numeric filters. For example, in a database of businesses, looking for Chinese restaurants near San Francisco (within a 5km radius) would be expressed as: `chinese restaurant @location:[-122.41 37.77 5 km]`.
 
@@ -177,7 +175,7 @@ There is a new schema field type called `GEOSHAPE`, which can be specified as ei
 - `FLAT` for Cartesian X Y coordinates
 - `SPHERICAL` for geographic longitude and latitude coordinates. This is the default coordinate system.
 
-Finally, there's new [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) syntax that allows you to query for polygons that either contain or are within a given geoshape.
+Finally, there's new [`FT.SEARCH`](/content/commands/ft.search.md) syntax that allows you to query for polygons that either contain or are within a given geoshape.
 
 `@field:[{WITHIN|CONTAINS} $geometry] PARAMS 2 geometry {geometry}`
 
@@ -195,7 +193,7 @@ Next, create the data structures that represent the geometries in the picture.
 HSET shape:1 t "this is my house" g "POLYGON((2 2, 2 8, 6 11, 10 8, 10 2, 2 2))"
 HSET shape:2 t "this is a square in my house" g "POLYGON((4 4, 4 6, 6 6, 6 4, 4 4))"
 ```
-Finally, use [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) to query the geometries. Note the use of `DIALECT 3`, which is required. Here are a few examples.
+Finally, use [`FT.SEARCH`](/content/commands/ft.search.md) to query the geometries. Note the use of `DIALECT 3`, which is required. Here are a few examples.
 
 Search for a polygon that contains a specified point:
 
@@ -252,11 +250,10 @@ FT.SEARCH polygon_idx "@g:[CONTAINS $poly]" PARAMS 2 poly 'POLYGON((4 4, 4 6, 6 
 
 Note that both the house and box shapes were returned.
 
-{{< alert title="Note" >}}
-GEOSHAPE does not support JSON multi-value or SORTABLE options.
-{{< /alert >}}
+> [!NOTE]
+> GEOSHAPE does not support JSON multi-value or SORTABLE options.
 
-For more examples, see the [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) and [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command pages.
+For more examples, see the [`FT.CREATE`](/content/commands/ft.create.md) and [`FT.SEARCH`](/content/commands/ft.search.md) command pages.
 
 ## Vector search
 
@@ -282,7 +279,7 @@ The general syntax for hybrid query is `{some filter query}=>[ KNN {num|$num} @v
 
   `@vector_field:[VECTOR_RANGE 0.5 $query_vec]`
 
-As of v2.4, the KNN vector search can be used at most once in a query, while, as of v2.6, the vector range filter can be used multiple times in a query. For more information on vector similarity syntax, see [Querying vector fields]({{< relref "/develop/ai/search-and-query/vectors" >}}), and [Vector search examples]({{< relref "develop/ai/search-and-query/vectors#vector-search-examples" >}}) sections.
+As of v2.4, the KNN vector search can be used at most once in a query, while, as of v2.6, the vector range filter can be used multiple times in a query. For more information on vector similarity syntax, see [Querying vector fields](/content/develop/ai/search-and-query/vectors/_index.md), and [Vector search examples](/content/develop/ai/search-and-query/vectors/_index.md#vector-search-examples) sections.
 
 ## Prefix matching
 
@@ -320,9 +317,8 @@ As of v2.6.0, the dictionary can be used for infix (contains) or suffix queries 
 
 These queries are CPU intensive because they require iteration over the whole dictionary.
 
-{{% alert title="Note" color="warning" %}}
-All notes about prefix searches also apply to infix/suffix queries.
-{{% /alert %}}
+> [!NOTE]
+> All notes about prefix searches also apply to infix/suffix queries.
 
 ### Using a suffix trie
 
@@ -460,4 +456,4 @@ You can't combine this with any other filters, field modifiers, or anything insi
 
 The query parser is built using the Lemon Parser Generator and a Ragel based lexer. You can see the `DIALECT 2` grammar definition [at this git repo](https://github.com/RediSearch/RediSearch/blob/master/src/query_parser/v2/parser.y).
 
-You can also see the [search-default-dialect]({{< relref "/develop/ai/search-and-query/administration/configuration#search-default-dialect" >}}) configuration parameter.
+You can also see the [search-default-dialect](/content/develop/ai/search-and-query/administration/configuration.md#search-default-dialect) configuration parameter.

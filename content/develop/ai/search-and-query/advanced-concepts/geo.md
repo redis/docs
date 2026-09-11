@@ -23,14 +23,14 @@ Redis Search supports geospatial data. This feature
 lets you store geographical locations and geometric shapes
 in the fields of JSON objects.
 
-{{< note >}}Take care not to confuse the geospatial indexing
-features in Redis Search with the
-[Geospatial data type]({{< relref "/develop/data-types/geospatial" >}})
-that Redis also supports. Although there are some similarities between
-these two features, the data type is intended for simpler use
-cases and doesn't have the range of format options and queries
-available in Redis Search.
-{{< /note >}}
+> [!NOTE]
+> Take care not to confuse the geospatial indexing
+> features in Redis Search with the
+> [Geospatial data type](/content/develop/data-types/geospatial.md)
+> that Redis also supports. Although there are some similarities between
+> these two features, the data type is intended for simpler use
+> cases and doesn't have the range of format options and queries
+> available in Redis Search.
 
 You can index these fields and use queries to find the objects
 by their location or the relationship of their shape to other shapes.
@@ -55,13 +55,13 @@ or for games, simulations, and other artificial scenarios.
 ## Storing geospatial data
 
 Redis supports two different
-[schema types]({{< relref "/develop/ai/search-and-query/indexing/field-and-type-options" >}})
+[schema types](/content/develop/ai/search-and-query/indexing/field-and-type-options.md)
 for geospatial data:
 
 -   [`GEO`](#geo): This uses a simple format where individual geospatial
     points are specified as numeric longitude-latitude pairs.
     
--   [`GEOSHAPE`](#geoshape): [Redis Open Source]({{< relref "/operate/oss_and_stack" >}}) also
+-   [`GEOSHAPE`](#geoshape): [Redis Open Source](/content/operate/oss_and_stack/_index.md) also
     supports `GEOSHAPE` indexing in v7.2 and later.
     This uses a subset of the 
     [Well-Known Text (WKT)](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry)
@@ -81,7 +81,7 @@ strings. Note that the longitude value comes first in the
 string.
 
 For example, you could index the `location` fields of the
-the [JSON]({{< relref "/develop/data-types/json" >}}) objects
+the [JSON](/content/develop/data-types/json/_index.md) objects
 shown below as `GEO`:
 
 ```json
@@ -113,9 +113,9 @@ FT.SEARCH productidx '@location:[-104.800644 38.846127 100 mi]'
 
 Note that `GEO` fields are stored in C `double` type variables and they are limited to approximately 15 to 17 digits of precision.
 
-See [Geospatial queries]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}})
+See [Geospatial queries](/content/develop/ai/search-and-query/query/geo-spatial.md)
 for more information about the available query options and see
-[Geospatial indexing]({{< relref "/develop/ai/search-and-query/indexing/geoindex" >}})
+[Geospatial indexing](/content/develop/ai/search-and-query/indexing/geoindex.md)
 for examples of indexing `GEO` fields.
 
 ## `GEOSHAPE`
@@ -191,9 +191,9 @@ There are four query operations that you can use with `GEOSHAPE` fields:
     shape.
 
 See
-[Geospatial queries]({{< relref "/develop/ai/search-and-query/query/geo-spatial" >}})
+[Geospatial queries](/content/develop/ai/search-and-query/query/geo-spatial.md)
 for more information about these query types and see
-[Geospatial indexing]({{< relref "/develop/ai/search-and-query/indexing/geoindex" >}})
+[Geospatial indexing](/content/develop/ai/search-and-query/indexing/geoindex.md)
 for examples of indexing `GEOSHAPE` fields.
 
 ## Limitations of geographical coordinates
