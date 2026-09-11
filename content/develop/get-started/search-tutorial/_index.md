@@ -86,7 +86,7 @@ First, connect to your Redis database. The following example connects with `redi
 
 &nbsp;
 
-> [!NOTE] Tip
+> [!TIP]
 > If you are using Redis Cloud, copy the connection details from your database's configuration page. A Cloud connection string has the form `host:port`, for example `redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com:16379`. You also need the database username and password, which you can pass to your client or supply with the [AUTH command](/content/commands/auth.md) after connecting.
 
 ## Next steps
