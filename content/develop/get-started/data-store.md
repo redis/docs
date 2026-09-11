@@ -36,19 +36,21 @@ The easiest way to get started with Redis is to use Redis Cloud:
 
 2. Follow the instructions to create a free database.
 
-You can alternatively follow the [installation guides]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) to install Redis on your local machine.
+You can alternatively follow the [installation guides](/content/operate/oss_and_stack/install/install-stack/_index.md) to install Redis on your local machine.
 
 ## Connect
 
-The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [Tools section]({{< relref "/develop/tools" >}}). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
+The first step is to connect to Redis. You can find further details about the connection options in this documentation site's [Tools section](/content/develop/tools/_index.md). The following example shows how to connect to a Redis server that runs on localhost (`-h 127.0.0.1`) and listens on the default port (`-p 6379`): 
 
 {{< clients-example set="search_quickstart" step="connect" description="Foundational: Connect to a Redis server" difficulty="beginner" runnable="false" try_it="false" >}}
 > redis-cli -h 127.0.0.1 -p 6379
 {{< /clients-example>}}
 <br/>
-{{% alert title="Tip" color="warning" %}}
-You can copy and paste the connection details from the Redis Cloud database configuration page. Here is an example connection string of a Cloud database that is hosted in the AWS region `us-east-1` and listens on port 16379: `redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com:16379`. The connection string has the format `host:port`. You must also copy and paste the username and password of your Cloud database and then either pass the credentials to your client or use the [AUTH command]({{< relref "/commands/auth" >}}) after the connection is established.
-{{% /alert  %}}
+
+&nbsp;
+
+> [!NOTE] Tip
+> You can copy and paste the connection details from the Redis Cloud database configuration page. Here is an example connection string of a Cloud database that is hosted in the AWS region `us-east-1` and listens on port 16379: `redis-16379.c283.us-east-1-4.ec2.cloud.redislabs.com:16379`. The connection string has the format `host:port`. You must also copy and paste the username and password of your Cloud database and then either pass the credentials to your client or use the [AUTH command](/content/commands/auth.md) after the connection is established.
 
 ## Store and retrieve data
 
@@ -81,24 +83,24 @@ Hashes are the equivalent of dictionaries (dicts or hash maps). Among other thin
 8) "4972"
 {{< /clients-example >}}
 
-You can get a complete overview of available data types in this documentation site's [data types section]({{< relref "/develop/data-types/" >}}). Each data type has commands allowing you to manipulate or retrieve data. The [commands reference]({{< relref "/commands/" >}}) provides a sophisticated explanation.
+You can get a complete overview of available data types in this documentation site's [data types section](/content/develop/data-types/_index.md). Each data type has commands allowing you to manipulate or retrieve data. The [commands reference](/commands/) provides a sophisticated explanation.
 
 ## Scan the keyspace
 
-Each item within Redis has a unique key. All items live within the Redis [keyspace]({{< relref "/develop/using-commands/keyspace" >}}). You can scan the Redis keyspace via the [SCAN command]({{< relref "/commands/scan" >}}). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
+Each item within Redis has a unique key. All items live within the Redis [keyspace](/content/develop/using-commands/keyspace.md). You can scan the Redis keyspace via the [SCAN command](/content/commands/scan.md). Here is an example that scans for the first 100 keys that have the prefix `bike:`:
 
 ```
 SCAN 0 MATCH "bike:*" COUNT 100
 ```
 
-[SCAN]({{< relref "/commands/scan" >}}) returns a cursor position, allowing you to scan iteratively for the next batch of keys until you reach the cursor value 0.
+[SCAN](/content/commands/scan.md) returns a cursor position, allowing you to scan iteratively for the next batch of keys until you reach the cursor value 0.
 
 ## Next steps
 
 You can address more use cases with Redis by reading these additional quick start guides:
 
-* [Redis as a document database]({{< relref "/develop/get-started/search-tutorial" >}})
-* [Redis as a vector database]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})
+* [Redis as a document database](/content/develop/get-started/search-tutorial/_index.md)
+* [Redis as a vector database](/content/develop/get-started/search-tutorial/vector-search.md)
 
 ## Continue learning with Redis University
 
