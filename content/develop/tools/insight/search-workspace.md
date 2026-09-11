@@ -17,7 +17,7 @@ title: Search workspace
 weight: 5
 ---
 
-The **Search** workspace in Redis Insight is a dedicated space for working with [Redis Search]({{< relref "/develop/ai/search-and-query" >}}). From a single page you can browse the search indexes in your database, create new indexes from sample or existing data, build and run queries with a schema-aware editor, and save queries to a reusable library.
+The **Search** workspace in Redis Insight is a dedicated space for working with [Redis Search](/content/develop/ai/search-and-query/_index.md). From a single page you can browse the search indexes in your database, create new indexes from sample or existing data, build and run queries with a schema-aware editor, and save queries to a reusable library.
 
 To open the workspace, select **Search** in the menu at the top of the screen.
 
@@ -43,7 +43,7 @@ If your database contains at least one search index, the Search workspace opens 
 
 ## Search indexes list
 
-The Search workspace lists the [search indexes]({{< relref "/develop/ai/search-and-query/indexing" >}}) defined in the connected database.
+The Search workspace lists the [search indexes](/content/develop/ai/search-and-query/indexing/_index.md) defined in the connected database.
 
 The list shows the following information for each index. Several columns include an info button that explains the column when selected.
 
@@ -105,13 +105,13 @@ The schema is shown in a table with the following columns:
 
 {{< image filename="images/ri/ri-search-create-existing.png" alt="Creating an index from existing data with automatic field detection" >}}
 
-{{< note >}}
-The first time you create an index from existing data, Redis Insight shows a short guided tour of the page. Select **Skip tour** to dismiss it, or **Next** to step through it.
-{{< /note >}}
+> [!NOTE]
+> The first time you create an index from existing data, Redis Insight shows a short guided tour of the page. Select **Skip tour** to dismiss it, or **Next** to step through it.
+
 &nbsp;
-{{< note >}}
-Nested JSON objects and arrays cannot be indexed directly. If Redis Insight detects one, it removes the field and shows a warning that explains why.
-{{< /note >}}
+
+> [!NOTE]
+> Nested JSON objects and arrays cannot be indexed directly. If Redis Insight detects one, it removes the field and shows a warning that explains why.
 
 #### Configure field types
 
@@ -130,7 +130,7 @@ To add a field, select **+ Add field**; to change a detected field, select its *
 The create-index page provides two views of your index definition:
 
 - **Table view** &mdash; the visual schema editor described above.
-- **Command view** &mdash; the equivalent [`FT.CREATE`]({{< relref "/commands/ft.create" >}}) command that Redis Insight will run.
+- **Command view** &mdash; the equivalent [`FT.CREATE`](/content/commands/ft.create.md) command that Redis Insight will run.
 
 {{< image filename="images/ri/ri-search-command-view.png" alt="The generated FT.CREATE command in command view" >}}
 
@@ -148,12 +148,12 @@ The rest of the page is split into two resizable panes: the query editor on top 
 
 ### Query editor
 
-The **Query editor** tab lets you write and run [Redis Query Engine commands]({{< relref "/develop/ai/search-and-query/query" >}}) (such as `FT.SEARCH` and `FT.AGGREGATE`) against the selected index, with syntax highlighting and schema-aware autocomplete. Start typing `FT.` to see available search commands, index names, and fields based on your current query.
+The **Query editor** tab lets you write and run [Redis Query Engine commands](/content/develop/ai/search-and-query/query/_index.md) (such as `FT.SEARCH` and `FT.AGGREGATE`) against the selected index, with syntax highlighting and schema-aware autocomplete. Start typing `FT.` to see available search commands, index names, and fields based on your current query.
 
 The action bar at the bottom of the editor pane provides the following actions:
 
-- **Explain** &mdash; show the execution plan for the query (using [`FT.EXPLAIN`]({{< relref "/commands/ft.explain" >}})) so you can understand how it will run. Available for `FT.SEARCH` and `FT.AGGREGATE` queries.
-- **Profile** &mdash; profile the query (using [`FT.PROFILE`]({{< relref "/commands/ft.profile" >}})) to see where time is spent and identify bottlenecks. Available for `FT.SEARCH` and `FT.AGGREGATE` queries.
+- **Explain** &mdash; show the execution plan for the query (using [`FT.EXPLAIN`](/content/commands/ft.explain.md)) so you can understand how it will run. Available for `FT.SEARCH` and `FT.AGGREGATE` queries.
+- **Profile** &mdash; profile the query (using [`FT.PROFILE`](/content/commands/ft.profile.md)) to see where time is spent and identify bottlenecks. Available for `FT.SEARCH` and `FT.AGGREGATE` queries.
 - **Save** &mdash; save the current query to the Query library for reuse.
 - **Run** &mdash; run the query and view the results in the lower pane.
 
@@ -189,7 +189,7 @@ To save your own query, write it in the **Query editor** tab, select **Save**, a
 
 ## Navigate between the Browse and Search workspaces
 
-The [Browse]({{< relref "/develop/tools/insight#browser" >}}) and Search workspaces are connected so you can move between your raw data and your indexes.
+The [Browse](/content/develop/tools/insight/_index.md#browser) and Search workspaces are connected so you can move between your raw data and your indexes.
 
 ### Make data searchable from the Browse workspace
 

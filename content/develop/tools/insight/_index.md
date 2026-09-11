@@ -45,9 +45,8 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 
 {{< image filename="images/ri/ri-databases.png" alt="The databases screen" >}}
 
-{{< note >}}
-When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) for more information.
-{{< /note >}}
+> [!NOTE]
+> When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation](/content/operate/oss_and_stack/management/security/acl.md) for more information.
 
 ### Connect to Azure Managed Redis with ease
 
@@ -58,9 +57,8 @@ Automatically discover databases across subscriptions and connect using Microsof
 - Multi-account support for switching between Azure accounts
 - Improved, user-friendly error handling
 
-{{< note >}}
-This feature requires Azure-side configuration. Please coordinate with your Azure administrator and follow [the setup guide](https://github.com/redis/RedisInsight/blob/main/docs/azure-setup.md) to configure the necessary permissions.
-{{< /note>}}
+> [!NOTE]
+> This feature requires Azure-side configuration. Please coordinate with your Azure administrator and follow [the setup guide](https://github.com/redis/RedisInsight/blob/main/docs/azure-setup.md) to configure the necessary permissions.
 
 ### Redis Copilot
 
@@ -82,17 +80,17 @@ Here's an example of using Redis Copilot to search data using a simple, natural 
 
 {{< image filename="images/ri/ri-redis-copilot-query.png" alt="An example of using Redis Copilot to search data" >}}
 
-See the [Redis Insight Copilot FAQ]({{< relref "/develop/tools/insight/copilot-faq" >}}) for more information.
+See the [Redis Insight Copilot FAQ](/content/develop/tools/insight/copilot-faq.md) for more information.
 
 ### RDI in Redis Insight
 
-Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an RDI management plane, and create, test, and deploy RDI pipelines. Read more about this feature [here]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+Redis Insight includes Redis Data Integration (RDI) connectivity, which allows you to connect to an RDI management plane, and create, test, and deploy RDI pipelines. Read more about this feature [here](/content/develop/tools/insight/rdi-connector.md).
 
 ### Browser
 
 Browse, filter and visualize your key-value Redis data structures.
 * [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) support for lists, hashes, strings, sets, sorted sets, streams, arrays, and vector sets.
-* CRUD support for [JSON]({{< relref "/develop/data-types/json/" >}}).
+* CRUD support for [JSON](/content/develop/data-types/json/_index.md).
 * Group keys according to their namespaces.
 
 * View, validate, and manage your key values in a human-readable format using formatters that prettify and highlight data in different formats (for example, Unicode, JSON, MessagePack, HEX, and ASCII) in the Browser tool.
@@ -107,7 +105,7 @@ Analyze every command sent to Redis in real time. To use the profiler, click  **
 
 ### CLI
 
-The CLI is accessible at any time within the application. To use the CLI, click  **>_ CLI** at the bottom left of the screen. It should reveal the CLI window, and there you can start typing Redis [commands]({{< relref "/commands" >}}).
+The CLI is accessible at any time within the application. To use the CLI, click  **>_ CLI** at the bottom left of the screen. It should reveal the CLI window, and there you can start typing Redis [commands](/commands).
 
 The CLI includes the following features:
 
@@ -129,7 +127,7 @@ Workbench is an advanced command line interface with intelligent command auto-co
 Workbench also includes:
 
 * Visualizations of your indexes, queries, and aggregations.
-* Visualizations of your [time series]({{< relref "/develop/data-types/timeseries/" >}}) data.
+* Visualizations of your [time series](/content/develop/data-types/timeseries/_index.md) data.
 
 {{< image filename="images/ri/ri-workbench-timeseries.png" alt="Visualizations of time series data" >}}
 
@@ -139,9 +137,8 @@ Workbench also includes:
 
 Use the database analysis tool to optimize the performance and memory usage of your Redis database. Check data type distribution and memory allocation and review the summary of key expiration time and memory to be freed over time. Inspect the top keys and namespaces sorted by consumed memory or key length and count of keys, respectively. Capture and track the changes in your database by viewing historical analysis reports. Next figure shows a sample database analysis report.
 
-{{< note >}}
-The database analysis tool will only analyze up to 10,000 keys. If more than 10,000 keys are present, the tool will attempt to use extrapolation in its analysis.
-{{< /note >}}
+> [!NOTE]
+> The database analysis tool will only analyze up to 10,000 keys. If more than 10,000 keys are present, the tool will attempt to use extrapolation in its analysis.
 
 {{< image filename="images/ri/ri-analysis.png" alt="The database analysis tool" >}}
 
@@ -155,9 +152,9 @@ View and manage the list of consumer groups. See existing consumers in a given c
 
 ### Search workspace
 
-The dedicated **Search** workspace lets you work with [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) from a single page: browse the search indexes in your database, create indexes from sample or existing data, build and run queries with a schema-aware editor that includes Profile and Explain actions, and save queries to a reusable Query Library. You can also move between the Browser and Search workspaces to make data searchable and view the indexes associated with a key.
+The dedicated **Search** workspace lets you work with [Redis Search](/content/develop/ai/search-and-query/_index.md) from a single page: browse the search indexes in your database, create indexes from sample or existing data, build and run queries with a schema-aware editor that includes Profile and Explain actions, and save queries to a reusable Query Library. You can also move between the Browser and Search workspaces to make data searchable and view the indexes associated with a key.
 
-Read more about this feature [here]({{< relref "/develop/tools/insight/search-workspace" >}}).
+Read more about this feature [here](/content/develop/tools/insight/search-workspace.md).
 
 {{< image filename="images/ri/ri-search-indexes-list.png" alt="The Search workspace" >}}
 
@@ -194,13 +191,12 @@ These are the locations on supported platforms:
 - **Windows**: In the `C:\Users\<your-username>\.redis-insight` directory.
 - **Linux**: In the `/home/<your-username>/.redis-insight` directory.
 
-{{< note >}}
-You can install Redis Insight on operating systems that are not officially supported, but it may not behave as expected.
-{{< /note >}}
+> [!NOTE]
+> You can install Redis Insight on operating systems that are not officially supported, but it may not behave as expected.
 
 ## Redis Insight API (only for Docker)
 
-If you are running Redis Insight from [Docker]({{< relref "/operate/redisinsight/install/install-on-docker" >}}),
+If you are running Redis Insight from [Docker](/content/operate/redisinsight/install/install-on-docker.md),
 you can access the API from `http://localhost:5540/api/docs`.
 
 ## Feedback
