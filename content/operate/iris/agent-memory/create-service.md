@@ -194,7 +194,7 @@ Custom detectors match patterns you write yourself, such as tenant IDs, internal
 | Setting name          |Description|
 |:----------------------|:----------|
 | **Name** | A name for the detector, unique within the service. Must start with a letter and contain only letters, digits, underscores, or dashes (1-64 characters). A match is reported under this name. |
-| **Pattern** | A regular expression, up to 512 characters. Patterns use RE2 syntax, which does not support backreferences or lookaround. |
+| **Pattern** | A regular expression, up to 512 characters. Patterns use [RE2 syntax](https://github.com/google/re2/wiki/Syntax), which does not support backreferences or lookaround. |
 | **On match** | What happens to a memory the pattern matches. See [On match](#on-match). |
 | **Status** | Whether the detector is applied. Turn it off to keep the pattern without applying it. |
 

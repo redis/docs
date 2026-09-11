@@ -129,7 +129,7 @@ Exclusions fields:
 | `builtInDetectors.detectors[].id` | Required. A detector ID from `/v1/detectors`. |
 | `customDetectors.detectors[].name` | Required. 1-64 characters, starting with a letter, followed by letters, digits, underscores, or dashes. Unique within the store, and not a built-in detector ID. |
 | `matcher.kind` | Required. Use `regex`. |
-| `matcher.regex.pattern` | Required when `kind` is `regex`. 1-512 characters, evaluated by RE2, so lookaround is unavailable. Rejected if it does not compile, or if it can match without consuming text. |
+| `matcher.regex.pattern` | Required when `kind` is `regex`. 1-512 characters, using [RE2 syntax](https://github.com/google/re2/wiki/Syntax), so lookaround is unavailable. Rejected if it does not compile, or if it can match without consuming text. |
 | `action` | Optional on any detector. Use `redact` to replace the matched text or `drop` to discard the memory. Defaults to `redact`. |
 | `semantic.prompt` | Required when `semantic.enabled` is `true`. Up to 2,000 characters. |
 
