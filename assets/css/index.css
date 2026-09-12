@@ -1863,3 +1863,49 @@ a[href*="#no-click"], img[src*="#no-click"] {
   white-space: nowrap;
   border: 0;
 }
+
+/* Qualified chat widget accommodations. The widget (production only,
+   injected via GTM, owned by web/marketing) replaces root scrolling with a
+   <body> scroller: it measures the root scrollbar width N, then applies
+   html { width: calc(100dvw - N); margin-right: N; overflow: hidden } and
+   body { width: calc(100% + N) }, expecting body's scrollbar to land where
+   the root scrollbar was. When N > 0 (classic, always-visible scrollbars:
+   Windows, or macOS with a mouse), body overshoots html's box by N and
+   html's own overflow: hidden clips body's scrollbar out of view — the page
+   scrollbar disappears the moment the widget loads. The widget marks <html>
+   with q-docked-target while it is active and q-docked while the chat panel
+   is open. */
+
+/* While the chat is closed, neutralize the width/margin compensation on
+   both elements so body fills the window exactly and its scrollbar sits at
+   the window edge, unclipped. While the panel is docked open (q-docked) the
+   widget's own geometry must win, so none of this applies then. */
+html[q-docked-target]:not([q-docked]) {
+  width: 100dvw !important;
+  min-width: 100dvw !important;
+  max-width: 100dvw !important;
+  margin-right: 0 !important;
+}
+
+html[q-docked-target]:not([q-docked]) body {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* The html { scrollbar-gutter: stable } rule set earlier in this file would
+   re-reserve a gutter inside the widget's overflow-hidden html box and push
+   body's scrollbar inboard by another scrollbar-width. Scoped to the widget
+   being active so normal pages keep the stable gutter. */
+html[q-docked-target] {
+  scrollbar-gutter: auto !important;
+}
+
+/* While the chat is closed, the widget's invisible #q-messenger-frame
+   iframe overlays page content near the right edge with pointer events
+   enabled, stealing clicks and hovers from whatever is underneath —
+   including the page scrollbar, since Firefox hit-tests page content before
+   non-root scrollbars. Let events pass through; q-docked restores normal
+   pointer events for the open panel. */
+html:not([q-docked]) #q-messenger-frame {
+  pointer-events: none !important;
+}
