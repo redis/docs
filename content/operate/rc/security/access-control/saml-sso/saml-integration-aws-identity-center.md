@@ -145,7 +145,7 @@ The final step in our SAML integration with AWS IAM identity Center is to activa
 
    {{<image filename="images/rc/saml/aws_iam_identity_center_saml_18.png" >}}
 
-If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
+If everything is configured correctly, you will see the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
 To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 

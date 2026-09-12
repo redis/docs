@@ -164,7 +164,7 @@ A logout notification screen displays, letting you know that you are redirected 
 
    {{<image filename="images/rc/saml/google_workspace_saml_18.png" >}}
 
-If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
+If everything is configured correctly, you will see the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
 To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 

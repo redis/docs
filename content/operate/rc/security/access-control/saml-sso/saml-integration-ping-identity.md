@@ -171,7 +171,7 @@ To activate SAML, you must have a local user (or social sign-on user) with the *
 
     {{<image filename="images/rc/saml/ping_identity_saml_20.png" >}}
 
-If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
+If everything is configured correctly, you will see the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
 To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 

@@ -248,7 +248,7 @@ Replace `<ID>` so it matches the AssertionConsumerService Location URL ID (the c
 
     {{<image filename="images/rc/saml/sm_saml_10.png" >}}
 
-If everything is configured correctly, you will see the the Redis Cloud console screen. Your local account is now considered a SAML account. 
+If everything is configured correctly, you will see the Redis Cloud console screen. Your local account is now considered a SAML account. 
 
 To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
