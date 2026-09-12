@@ -183,7 +183,7 @@ To log in to the Redis Cloud console from now on, click on **Sign in with SSO**.
 
 1. In Ping Identity, go to **Administrators > Connections > Applications** and select your application name. Select the **Configuration** tab and select **Edit**.
 
-1. Go to **Target Application URL** and enter: **https://{enviroment}/#/login/?idpId={idpId}**, where idpId is the ID found in the Location field, after the last '/'
+1. Go to **Target Application URL** and enter: **https://{environment}/#/login/?idpId={idpId}**, where idpId is the ID found in the Location field, after the last '/'
 
 1. Select **Save**.
 
