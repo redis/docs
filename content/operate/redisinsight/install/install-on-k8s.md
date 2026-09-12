@@ -99,10 +99,10 @@ $ minikube list
 |-------------|----------------------|--------------|---------------------------------------------|
 ```
 
-## Create the Redis Insight deployment with persistant storage
+## Create the Redis Insight deployment with persistent storage
 
 Below is an annotated YAML file that will create a Redis Insight
-deployment in a K8s cluster. It will assign a peristent volume created from a volume claim template.
+deployment in a K8s cluster. It will assign a persistent volume created from a volume claim template.
 Write access to the container is configured in an init container. When using deployments
 with persistent writeable volumes, it's best to set the strategy to `Recreate`. Otherwise you may find yourself
 with two pods trying to use the same volume.
