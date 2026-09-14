@@ -33,6 +33,8 @@ Redis Iris is a production-ready context engine for AI agents that:
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Requires no database management</strong> — All four services are fully managed on Redis Cloud via REST API</span></li>
 </ul>
 
+If you already know Redis, some of this looks familiar but works differently than you'd expect — see [Redis Iris concepts](/content/develop/ai/context-engine/concepts.md) before you start building.
+
 ## Why use Redis Iris?
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
