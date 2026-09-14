@@ -205,6 +205,21 @@ EXEC xp_servicecontrol N'START',N'SQLServerAGENT';
 GO
 ```
 
+## 5. Using SQL Server with custom data fields
+
+When using custom data types, you need to ensure that the Debezium user has the necessary permissions to access 
+those types. You can grant these permissions using the following SQL commands:
+
+```sql
+USE <db-name>;
+
+GRANT REFERENCES ON TYPE::<schema>.<type-name> TO <db-user>;
+```
+
+Without granting these permissions you may encounter errors like:
+`"The column "Account" is referenced as PRIMARY KEY, but a matching column is not defined in table "DB.dbo.MyTable"!"`
+
+
 ## SQL Server capture job agent configuration parameters
 
 In SQL Server, the parameters that control the behavior of the capture job agent
