@@ -54,6 +54,26 @@ curl --fail-with-body --silent --show-error \
   "$AGENT_MEMORY_URL/health" | jq
 ```
 
+## Create a namespace
+
+Create a personal namespace for the user's travel memories. Run this request once and keep the returned ID in your shell:
+
+```sh
+NAMESPACE_ID=$(curl --fail-with-body --silent --show-error \
+  --request POST \
+  --header "Authorization: Bearer $API_KEY" \
+  --header 'Content-Type: application/json' \
+  --data "$(jq -n --arg owner "$OWNER_ID" \
+    '{name: "travel", scope: "PERSONAL", ownerId: $owner}')" \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/namespaces" | jq -er '.namespace.namespaceId')
+export NAMESPACE_ID
+printf '%s\n' "$NAMESPACE_ID"
+```
+
+Continue only after the request succeeds and prints a namespace ID. Save that ID for later runs. Creating the same namespace again returns `409 Conflict`; use the existing namespace ID instead. If you lose the ID, list personal roots with `GET /v1/stores/{storeId}/namespaces?scope=PERSONAL&ownerId=<owner-id>`.
+
+Use a fresh `SESSION_ID` if you already ran this quickstart without a namespace. The session events will reference this namespace, and memories extracted from the session will use it.
+
 ## 1. Build conversation context with session memory
 
 Session memory stores a conversation as an ordered sequence of events. Add a user message that contains details the travel agent will need later:
@@ -69,6 +89,7 @@ curl --fail-with-body --silent --show-error \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON | jq
 {
   "sessionId": "$SESSION_ID",
+  "namespaceRef": {"namespaceId": "$NAMESPACE_ID"},
   "actorId": "$OWNER_ID",
   "role": "USER",
   "content": [
@@ -110,6 +131,7 @@ curl --fail-with-body --silent --show-error \
 {
   "text": "What dietary requirements and food preferences does the user have?",
   "filter": {
+    "namespaceRef": {"eq": "$NAMESPACE_ID"},
     "ownerId": {
       "eq": "$OWNER_ID"
     }
@@ -171,6 +193,7 @@ curl --fail-with-body --silent --show-error \
 {
   "text": "What are the requirements for the user's trip?",
   "filter": {
+    "namespaceRef": {"eq": "$NAMESPACE_ID"},
     "ownerId": {
       "eq": "$OWNER_ID"
     },
@@ -183,10 +206,64 @@ curl --fail-with-body --silent --show-error \
 JSON
 ```
 
-The result uses `trip_preference` as its `memoryType` and contains travel information extracted from the conversation. The exact text and returned fields depend on the conversation, extraction model, and client.
+The `items` array contains records with `memoryType` set to `trip_preference`. Custom fields are inside each record's `attributes` object. For example, a result can include this excerpt:
 
-> [!NOTE]
-> **What to expect:** A result with `memoryType` set to `trip_preference` that combines the destinations, travel period, and dietary preferences. This shows that the custom type processed the same conversation independently from the built-in memory types.
+```json
+{
+  "memoryType": "trip_preference",
+  "attributes": {
+    "destinations": ["Tokyo", "Kyoto"],
+    "travel_period": "next month",
+    "dietary_requirements": ["vegetarian"],
+    "food_preferences": ["spicy food"]
+  }
+}
+```
+
+The values depend on the conversation and extraction model. An application can use `dietary_requirements` to constrain restaurant recommendations, while `food_preferences` helps rank suitable choices. Check that each field is present and has the expected type before using it.
+
+To inspect the structured fields, run the search with this `jq` filter in place of the final `jq` command:
+
+```sh
+jq 'if (.items | length) == 0 then
+      {status: "No matching trip preferences yet. Retry after a short wait."}
+    else
+      .items[] | {id, attributes}
+    end'
+```
+
+If results remain empty, check that the type is enabled and that the owner and namespace IDs match the stored records. An empty result does not mean the user has no dietary requirements.
+
+### Create a custom memory directly
+
+If your application already has structured trip data, write it directly using the registered `trip_preference` type. This optional example represents data from a form and uses the same namespace:
+
+```sh
+curl --fail-with-body --silent --show-error \
+  --request POST \
+  --header "Authorization: Bearer $API_KEY" \
+  --header 'Content-Type: application/json' \
+  --data @- \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/long-term-memory" <<JSON | jq
+{
+  "memories": [{
+    "id": "trip-form-1",
+    "text": "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
+    "ownerId": "$OWNER_ID",
+    "memoryType": "trip_preference",
+    "namespaceRef": {"namespaceId": "$NAMESPACE_ID"},
+    "attributes": {
+      "destinations": ["Tokyo", "Kyoto"],
+      "travel_period": "next month",
+      "dietary_requirements": ["vegetarian"],
+      "food_preferences": ["spicy food"]
+    }
+  }]
+}
+JSON
+```
+
+Inspect the bulk response for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Run this write once; the memory ID identifies the record within the store.
 
 See [custom memory types](/content/operate/iris/agent-memory/create-service.md#custom-memory-types) for configuration requirements and limits.
 
@@ -205,6 +282,7 @@ curl --fail-with-body --silent --show-error \
   "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory/events" <<JSON | jq
 {
   "sessionId": "$SESSION_ID",
+  "namespaceRef": {"namespaceId": "$NAMESPACE_ID"},
   "actorId": "$OWNER_ID",
   "role": "USER",
   "content": [
@@ -229,6 +307,7 @@ curl --fail-with-body --silent --show-error \
 {
   "text": "Where is the user staying in Tokyo?",
   "filter": {
+    "namespaceRef": {"eq": "$NAMESPACE_ID"},
     "ownerId": {
       "eq": "$OWNER_ID"
     }
@@ -249,6 +328,8 @@ Inspect the returned memories. They can retain the hotel name, but should not co
 See [sensitive-data exclusions](/content/operate/iris/agent-memory/create-service.md#sensitive-data-exclusions) for configuration details.
 
 ## Next steps
+
+* Learn how to [organize memories with namespaces]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#organize-memories-with-namespaces" >}}).
 
 * Follow the [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md) or [TypeScript SDK quickstart](/content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md).
 * Learn when to [create long term memories directly](/content/develop/ai/context-engine/agent-memory/developer-guide.md#create-long-term-memories).

@@ -91,7 +91,7 @@ Agent: Good to know! I'll help you find some vegetarian-friendly restaurants in 
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h4 class="text-redis-ink-900 font-semibold mb-3">Custom memory types</h4>
-    <p>Stores domain-specific information in a custom <code>trip_preference</code> type with fields such as <code>destination</code>, <code>travel_period</code>, and <code>dietary_requirement</code>.</p>
+    <p>Stores domain-specific information in a custom <code>trip_preference</code> type with fields such as <code>destinations</code>, <code>travel_period</code>, and <code>dietary_requirements</code>.</p>
   </div>
 </div>
 
@@ -114,7 +114,9 @@ Get started with Redis Agent Memory on Redis Cloud or join the private preview f
 
 ### Choose a quickstart
 
-After your Redis Agent Memory service is ready, choose a client. Each quickstart follows the same travel planning scenario through session memory, automatic extraction, summarization, custom memory types, and sensitive-data exclusions.
+After your Redis Agent Memory service is ready, choose a client. Each quickstart follows the same travel planning scenario through namespaces, session memory, automatic extraction, summarization, custom memory types, and sensitive-data exclusions.
+
+Use the developer guide to [organize memories with namespaces]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#organize-memories-with-namespaces" >}}) and [use custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#define-custom-memory-types" >}}).
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
   <div class="p-5 border border-redis-pen-300 rounded-lg">

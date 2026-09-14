@@ -39,8 +39,12 @@ Keep the API key out of source control, application logs, and other unsecured lo
 
 ## Install the SDK
 
+Create and activate a virtual environment with [uv](https://docs.astral.sh/uv/):
+
 ```sh
-python -m pip install redis-agent-memory
+uv venv
+source .venv/bin/activate
+uv pip install "redis-agent-memory==0.4.0"
 ```
 
 ## Create the client and check the service health
@@ -87,13 +91,35 @@ python quickstart.py
 
 A healthy response confirms that the client can reach Redis Agent Memory and authenticate with the API key. The first store request validates the Store ID.
 
+## Create a namespace
+
+Add this code after the health check, inside the `with` block. It creates a personal namespace for the user's travel memories when `NAMESPACE_ID` is not set:
+
+```python
+        namespace_id = os.environ.get("NAMESPACE_ID")
+        if not namespace_id:
+            created_namespace = agent_memory.create_namespace(request={
+                "name": "travel",
+                "scope": models.NamespaceScope.PERSONAL,
+                "owner_id": USER_ID,
+            })
+            namespace_id = created_namespace.namespace.namespace_id
+            print(f'export NAMESPACE_ID="{namespace_id}"')
+        namespace_ref = {"namespace_id": namespace_id}
+```
+
+Run the file once, then run the printed `export` command in your shell before running the file again. Later runs reuse that ID. Creating the same namespace again returns `409 Conflict`. If you lose the ID, use `list_namespaces` with `scope="PERSONAL"` and `owner_id=USER_ID` to find it.
+
+Use a fresh `SESSION_ID` if you already ran this quickstart without a namespace. The session events will reference this namespace, and memories extracted from the session will use it.
+
 ## 1. Build conversation context with session memory
 
-Session memory stores a conversation as an ordered sequence of events. Add the following code after the health check, inside the `with` block:
+Session memory stores a conversation as an ordered sequence of events. Add the following code after the namespace setup, inside the `with` block:
 
 ```python
         event = agent_memory.add_session_event(
             session_id=SESSION_ID,
+            namespace_ref=namespace_ref,
             actor_id=USER_ID,
             role=models.MessageRole.USER,
             content=[models.Text(
@@ -117,7 +143,7 @@ Run the file again. The session response contains the stored message, its role, 
 > [!NOTE]
 > **What to expect:** The `events` array contains the travel message. Redis Agent Memory adds an `eventId` and `systemTimestamp`, showing that the application can recover the complete event later using only the session ID.
 
-After the event is stored, comment out the call to `add_session_event` before subsequent runs to avoid adding the same message again.
+After the event is stored, comment out its creation and the `show("Created event", event)` line before subsequent runs. Keep the namespace setup and session retrieval. This avoids adding the same message again.
 
 ## 2. Recall automatically extracted information
 
@@ -130,6 +156,7 @@ Wait at least one minute, then add this search after the session retrieval:
             request={
                 "text": "What dietary requirements and food preferences does the user have?",
                 "filter_": {
+                    "namespace_ref": {"eq": namespace_id},
                     "owner_id": {
                         "eq": USER_ID,
                     }
@@ -172,6 +199,7 @@ Add this code after the first session event to continue the conversation past th
         for role, text in turns:
             agent_memory.add_session_event(
                 session_id=SESSION_ID,
+                namespace_ref=namespace_ref,
                 actor_id=USER_ID if role == models.MessageRole.USER else "travel-agent",
                 role=role,
                 content=[models.Text(text=text)],
@@ -210,6 +238,7 @@ Search for the structured memory:
             request={
                 "text": "What are the requirements for the user's trip?",
                 "filter_": {
+                    "namespace_ref": {"eq": namespace_id},
                     "owner_id": {"eq": USER_ID},
                     "memory_type": {"eq": "trip_preference"},
                 },
@@ -219,10 +248,62 @@ Search for the structured memory:
         show("Trip preference memories", custom_results)
 ```
 
-The result uses `trip_preference` as its `memoryType` and contains travel information extracted from the conversation. The exact text and returned fields depend on the conversation, extraction model, and client.
+The `items` array contains records with `memoryType` set to `trip_preference`. Custom fields are inside each record's `attributes` object. For example, a result can include this excerpt:
 
-> [!NOTE]
-> **What to expect:** A result with `memoryType` set to `trip_preference` that combines the destinations, travel period, and dietary preferences. This shows that the custom type processed the same conversation independently from the built-in memory types.
+```json
+{
+  "memoryType": "trip_preference",
+  "attributes": {
+    "destinations": ["Tokyo", "Kyoto"],
+    "travel_period": "next month",
+    "dietary_requirements": ["vegetarian"],
+    "food_preferences": ["spicy food"]
+  }
+}
+```
+
+The values depend on the conversation and extraction model. An application can use `dietary_requirements` to constrain restaurant recommendations, while `food_preferences` helps rank suitable choices. Check that each field is present and has the expected type before using it.
+
+Add this code after the custom-memory search to collect dietary requirements for the next agent turn:
+
+```python
+        dietary_requirements = set()
+        if not custom_results.items:
+            print("No matching trip preferences yet. Retry after a short wait.")
+        for memory in custom_results.items:
+            attributes = memory.attributes or {}
+            requirements = attributes.get("dietary_requirements", [])
+            if isinstance(requirements, list):
+                dietary_requirements.update(
+                    value for value in requirements if isinstance(value, str)
+                )
+        print("Restaurant requirements:", sorted(dietary_requirements))
+```
+
+If results remain empty, check that the type is enabled and that the owner and namespace IDs match the stored records. An empty result does not mean the user has no dietary requirements.
+
+### Create a custom memory directly
+
+If your application already has structured trip data, write it directly using the registered `trip_preference` type. This optional example represents data from a form and uses the same namespace:
+
+```python
+        direct_result = agent_memory.bulk_create_long_term_memories(memories=[{
+            "id": "trip-form-1",
+            "text": "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
+            "owner_id": USER_ID,
+            "memory_type": "trip_preference",
+            "namespace_ref": namespace_ref,
+            "attributes": {
+                "destinations": ["Tokyo", "Kyoto"],
+                "travel_period": "next month",
+                "dietary_requirements": ["vegetarian"],
+                "food_preferences": ["spicy food"],
+            },
+        }])
+        show("Directly created trip preference", direct_result)
+```
+
+Inspect the bulk response for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Run this write once; the memory ID identifies the record within the store.
 
 See [custom memory types](/content/operate/iris/agent-memory/create-service.md#custom-memory-types) for configuration requirements and limits.
 
@@ -233,6 +314,7 @@ The semantic exclusion prompt tells Redis Agent Memory which information should 
 ```python
         sensitive_event = agent_memory.add_session_event(
             session_id=SESSION_ID,
+            namespace_ref=namespace_ref,
             actor_id=USER_ID,
             role=models.MessageRole.USER,
             content=[models.Text(
@@ -246,13 +328,14 @@ The semantic exclusion prompt tells Redis Agent Memory which information should 
         show("Event with excluded information", sensitive_event)
 ```
 
-Run the code once, then comment out the call to `add_session_event`. Wait at least one minute and search for the safe hotel information:
+Run the code once, then comment out the event creation and its `show` line. Wait at least one minute and search for the safe hotel information:
 
 ```python
         exclusion_results = agent_memory.search_long_term_memory(
             request={
                 "text": "Where is the user staying in Tokyo?",
                 "filter_": {
+                    "namespace_ref": {"eq": namespace_id},
                     "owner_id": {"eq": USER_ID},
                 },
                 "limit": 5,
@@ -272,6 +355,8 @@ Inspect the returned memories. They can retain the hotel name, but should not co
 See [sensitive-data exclusions](/content/operate/iris/agent-memory/create-service.md#sensitive-data-exclusions) for configuration details.
 
 ## Next steps
+
+* Learn how to [organize memories with namespaces]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#organize-memories-with-namespaces" >}}).
 
 * Review the [Python SDK package and reference](https://pypi.org/project/redis-agent-memory/).
 * Try the [TypeScript SDK quickstart](/content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md) or [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md).

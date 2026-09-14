@@ -92,7 +92,7 @@ Keep the API key out of source control, application logs, and other unsecured lo
 mkdir agent-memory-quickstart
 cd agent-memory-quickstart
 npm init -y
-npm install @redis-iris/agent-memory
+npm install @redis-iris/agent-memory@0.3.0
 npm install --save-dev tsx
 ```
 
@@ -139,13 +139,36 @@ npx tsx quickstart.ts
 
 A healthy response confirms that the client can reach Redis Agent Memory and authenticate with the API key. The first store request validates the Store ID.
 
+## Create a namespace
+
+Add this code after the health check, inside `run`. It creates a personal namespace for the user's travel memories when `NAMESPACE_ID` is not set:
+
+```typescript
+  let namespaceId = process.env.NAMESPACE_ID;
+  if (!namespaceId) {
+    const createdNamespace = await agentMemory.createNamespace({
+      name: "travel",
+      scope: "PERSONAL",
+      ownerId: userId,
+    });
+    namespaceId = createdNamespace.namespace.namespaceId;
+    console.log(`export NAMESPACE_ID="${namespaceId}"`);
+  }
+  const namespaceRef = { namespaceId };
+```
+
+Run the file once, then run the printed `export` command in your shell before running the file again. Later runs reuse that ID. Creating the same namespace again returns `409 Conflict`. If you lose the ID, use `listNamespaces` with `scope: "PERSONAL"` and `ownerId: userId` to find it.
+
+Use a fresh `sessionId` if you already ran this quickstart without a namespace. The session events will reference this namespace, and memories extracted from the session will use it.
+
 ## 1. Build conversation context with session memory
 
-Session memory stores a conversation as an ordered sequence of events. Add the following code after the health check, inside `run`:
+Session memory stores a conversation as an ordered sequence of events. Add the following code after the namespace setup, inside `run`:
 
 ```typescript
   const event = await agentMemory.addSessionEvent({
     sessionId,
+    namespaceRef,
     actorId: userId,
     role: "USER",
     content: [{
@@ -166,7 +189,7 @@ Run the file again. The session response contains the stored message, its role, 
 > [!NOTE]
 > **What to expect:** The `events` array contains the travel message. Redis Agent Memory adds an `eventId` and `systemTimestamp`, showing that the application can recover the complete event later using only the session ID.
 
-After the event is stored, comment out the call to `addSessionEvent` before subsequent runs to avoid adding the same message again.
+After the event is stored, comment out its creation and the two lines that print it before subsequent runs. Keep the namespace setup and session retrieval. This avoids adding the same message again.
 
 ## 2. Recall automatically extracted information
 
@@ -178,6 +201,7 @@ Wait at least one minute, then add this search after the session retrieval:
   const results = await agentMemory.searchLongTermMemory({
     text: "What dietary requirements and food preferences does the user have?",
     filter: {
+      namespaceRef: { eq: namespaceId },
       ownerId: {
         eq: userId,
       },
@@ -218,6 +242,7 @@ Add this code after the first session event to continue the conversation past th
   for (const turn of turns) {
     await agentMemory.addSessionEvent({
       sessionId,
+      namespaceRef,
       actorId: turn.actorId,
       role: turn.role,
       content: [{ text: turn.text }],
@@ -255,6 +280,7 @@ Search for the structured memory:
   const customResults = await agentMemory.searchLongTermMemory({
     text: "What are the requirements for the user's trip?",
     filter: {
+      namespaceRef: { eq: namespaceId },
       ownerId: { eq: userId },
       memoryType: { eq: "trip_preference" },
     },
@@ -264,10 +290,66 @@ Search for the structured memory:
   console.dir(customResults, { depth: null });
 ```
 
-The result uses `trip_preference` as its `memoryType` and contains travel information extracted from the conversation. The exact text and returned fields depend on the conversation, extraction model, and client.
+The `items` array contains records with `memoryType` set to `trip_preference`. Custom fields are inside each record's `attributes` object. For example, a result can include this excerpt:
 
-> [!NOTE]
-> **What to expect:** A result with `memoryType` set to `trip_preference` that combines the destinations, travel period, and dietary preferences. This shows that the custom type processed the same conversation independently from the built-in memory types.
+```json
+{
+  "memoryType": "trip_preference",
+  "attributes": {
+    "destinations": ["Tokyo", "Kyoto"],
+    "travel_period": "next month",
+    "dietary_requirements": ["vegetarian"],
+    "food_preferences": ["spicy food"]
+  }
+}
+```
+
+The values depend on the conversation and extraction model. An application can use `dietary_requirements` to constrain restaurant recommendations, while `food_preferences` helps rank suitable choices. Check that each field is present and has the expected type before using it.
+
+Add this code after the custom-memory search to collect dietary requirements for the next agent turn:
+
+```typescript
+  const dietaryRequirements = new Set<string>();
+  if (customResults.items.length === 0) {
+    console.log("No matching trip preferences yet. Retry after a short wait.");
+  }
+  for (const memory of customResults.items) {
+    const requirements = memory.attributes?.dietary_requirements;
+    if (Array.isArray(requirements)) {
+      for (const value of requirements) {
+        if (typeof value === "string") dietaryRequirements.add(value);
+      }
+    }
+  }
+  console.log("Restaurant requirements:", [...dietaryRequirements].sort());
+```
+
+If results remain empty, check that the type is enabled and that the owner and namespace IDs match the stored records. An empty result does not mean the user has no dietary requirements.
+
+### Create a custom memory directly
+
+If your application already has structured trip data, write it directly using the registered `trip_preference` type. This optional example represents data from a form and uses the same namespace:
+
+```typescript
+  const directResult = await agentMemory.bulkCreateLongTermMemories({
+    memories: [{
+      id: "trip-form-1",
+      text: "The user plans to visit Tokyo and Kyoto next month and requires vegetarian food.",
+      ownerId: userId,
+      memoryType: "trip_preference",
+      namespaceRef,
+      attributes: {
+        destinations: ["Tokyo", "Kyoto"],
+        travel_period: "next month",
+        dietary_requirements: ["vegetarian"],
+        food_preferences: ["spicy food"],
+      },
+    }],
+  });
+  console.dir(directResult, { depth: null });
+```
+
+Inspect the bulk response for per-record errors. Run the custom-memory search again to retrieve the record. Direct creation does not wait for background extraction and does not apply the extraction prompt or sensitive-data exclusions. Run this write once; the memory ID identifies the record within the store.
 
 See [custom memory types](/content/operate/iris/agent-memory/create-service.md#custom-memory-types) for configuration requirements and limits.
 
@@ -278,6 +360,7 @@ The semantic exclusion prompt tells Redis Agent Memory which information should 
 ```typescript
   const sensitiveEvent = await agentMemory.addSessionEvent({
     sessionId,
+    namespaceRef,
     actorId: userId,
     role: "USER",
     content: [{
@@ -289,12 +372,13 @@ The semantic exclusion prompt tells Redis Agent Memory which information should 
   console.dir(sensitiveEvent, { depth: null });
 ```
 
-Run the code once, then comment out the call to `addSessionEvent`. Wait at least one minute and search for the safe hotel information:
+Run the code once, then comment out the event creation and the two lines that print it. Wait at least one minute and search for the safe hotel information:
 
 ```typescript
   const exclusionResults = await agentMemory.searchLongTermMemory({
     text: "Where is the user staying in Tokyo?",
     filter: {
+      namespaceRef: { eq: namespaceId },
       ownerId: { eq: userId },
     },
     limit: 5,
@@ -314,6 +398,8 @@ Inspect the returned memories. They can retain the hotel name, but should not co
 See [sensitive-data exclusions](/content/operate/iris/agent-memory/create-service.md#sensitive-data-exclusions) for configuration details.
 
 ## Next steps
+
+* Learn how to [organize memories with namespaces]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#organize-memories-with-namespaces" >}}).
 
 * Review the [TypeScript SDK package and reference](https://www.npmjs.com/package/@redis-iris/agent-memory).
 * Try the [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md) or [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md).

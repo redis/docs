@@ -246,37 +246,55 @@ curl -sS "$DP_URL/v1/stores/$STORE_ID/session-memory?includeAll=true" \
 
 ### Create long-term memories directly
 
+Create a personal namespace for the user's preferences and save its ID. Run this once, then reuse the ID for later writes:
+
+```bash
+NAMESPACE_ID=$(curl --fail-with-body -sS -X POST "$DP_URL/v1/stores/$STORE_ID/namespaces" \
+  -H "Authorization: Bearer $RAM_AGENT_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"preferences","scope":"PERSONAL","ownerId":"user-001"}' \
+  | jq -er '.namespace.namespaceId')
+export NAMESPACE_ID
+```
+
+After the request succeeds, place the memory in that namespace:
+
 ```bash
 curl -sS -X POST "$DP_URL/v1/stores/$STORE_ID/long-term-memory" \
   -H "Authorization: Bearer $RAM_AGENT_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
+  -d "$(jq -n --arg ns "$NAMESPACE_ID" '{
     "memories": [
       {
         "id": "pref-email-updates",
         "text": "User prefers email updates.",
         "memoryType": "semantic",
         "ownerId": "user-001",
-        "namespace": "preferences",
+        "namespaceRef": {"namespaceId": $ns},
         "topics": ["communications"]
       }
     ]
-  }'
+  }')"
 ```
 
+See [organize memories with namespaces]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#organize-memories-with-namespaces" >}}) for hierarchy, search, and migration guidance.
+
 ### Search long-term memory
+
+Filter by the namespace ID to recall preferences from that namespace:
 
 ```bash
 curl -sS -X POST "$DP_URL/v1/stores/$STORE_ID/long-term-memory/search" \
   -H "Authorization: Bearer $RAM_AGENT_KEY" \
   -H "Content-Type: application/json" \
-  -d '{
+  -d "$(jq -n --arg ns "$NAMESPACE_ID" '{
     "text": "How should we contact this user?",
     "filter": {
+      "namespaceRef": {"eq": $ns},
       "ownerId": {
         "eq": "user-001"
       }
     },
     "limit": 5
-  }'
+  }')"
 ```
