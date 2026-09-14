@@ -195,7 +195,7 @@ choose.
 
 When a connector captures large objects (for example, Oracle `CLOB`/`BLOB`), an
 update event never contains the value of an *unchanged* LOB column. Instead, the
-column carries a placeholder. The default placeholder is `__debezium_unavailable_value`,
+column contains a placeholder. The default placeholder is `__debezium_unavailable_value`,
 which you can change with `advanced.source.unavailable.value.placeholder` on the
 source (the Helm chart exposes this as `processor.lob.placeholder`). RDI skips these
 placeholder values rather than writing them to Redis as user data.
@@ -453,7 +453,7 @@ What is available for updates depends on `capture.mode`:
 
 - A *create* event always includes the full document.
 - An *update* event includes the full document only when `capture.mode` is
-  `change_streams_update_full`; otherwise it carries only the changed fields
+  `change_streams_update_full`; otherwise it includes only the changed fields
   (`updatedFields`/`removedFields`). A `*_with_pre_image` mode is required to include
   the prior document state.
 

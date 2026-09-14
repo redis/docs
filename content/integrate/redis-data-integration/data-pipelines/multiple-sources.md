@@ -265,14 +265,14 @@ pipeline status is not broken down per source. RDI reports the whole pipeline in
 single source fails, so you should use the `Components` section to find out which one has failed.
 
 Each Debezium collector has its own metric collection, named after the collector, such as
-`collector-mysql_metrics`. The Spanner and Snowflake collectors don't have metric collections.
+`collector-mysql_metrics`. The Flink and RIOT-X collectors don't have metric collections.
 
 In Prometheus, you can break the per-stream record counters down per source, since the stream
 name contains the source name. With the
 [Flink processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
 the counters are reported by
-`flink_jobmanager_job_operator_coordinator_stream_type_rdiRecords`, which carries a `stream`
-label; with the classic processor they are reported by `rdi_incoming_entries`, which carries an
+`flink_jobmanager_job_operator_coordinator_stream_type_rdiRecords`, which has a `stream`
+label; with the classic processor they are reported by `rdi_incoming_entries`, which has an
 equivalent `data_source` label. See
 [Flink processor metrics]({{< relref "/integrate/redis-data-integration/observability#flink-processor-metrics" >}}),
 [Stream processor metrics]({{< relref "/integrate/redis-data-integration/observability#stream-processor-metrics" >}}),
