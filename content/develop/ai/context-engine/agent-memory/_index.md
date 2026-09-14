@@ -24,7 +24,7 @@ When enabled, automatic summarization compacts session memory by summarizing old
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< image-card image="images/ai-brain.svg" alt="Concepts icon" title="Concepts — What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/concepts" >}}
+  {{< image-card image="images/ai-model.svg" alt="Concepts icon" title="Concepts — What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/concepts" >}}
   {{< image-card image="images/python-sdk-mark.svg" alt="Python SDK mark" title="Python SDK quickstart — Explore Redis Agent Memory with Python" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
   {{< image-card image="images/typescript-sdk-mark.svg" alt="TypeScript SDK mark" title="TypeScript SDK quickstart — Explore Redis Agent Memory with TypeScript" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
   {{< image-card image="images/rest-api-mark.svg" alt="REST API mark" title="REST API quickstart — Explore Redis Agent Memory with curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}

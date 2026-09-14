@@ -15,7 +15,8 @@ Give your AI agents the context layer they need to reliably act on business data
 
 Redis Iris eliminates the infrastructure burden of building context-aware AI agents — persistent memory, semantic caching, governed data access, and live data sync, all on Redis Cloud.
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
+  {{< image-card image="images/ai-model.svg" alt="Concepts icon" title="Concepts — How familiar Redis patterns work differently in Redis Iris" url="/develop/ai/context-engine/concepts" >}}
   {{< image-card image="images/ai-brain.svg" alt="Agent Memory icon" title="Agent Memory — Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
   {{< image-card image="images/ai-LLM-memory.svg" alt="LangCache icon" title="LangCache — Semantic caching to reduce LLM costs and improve response times" url="/develop/ai/context-engine/langcache" >}}
   {{< image-card image="images/ai-cube.svg" alt="Context Retriever icon" title="Context Retriever — Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}

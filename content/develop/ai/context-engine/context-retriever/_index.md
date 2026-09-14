@@ -18,7 +18,7 @@ Give your agents structured, governed access to business data — without buildi
 Context Retriever lets you define your data model once. It automatically generates the retrieval tools agents call at runtime, so agents always work with accurate, live data through a controlled interface rather than guessing at SQL or calling databases directly.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< image-card image="images/ai-brain.svg" alt="Concepts icon" title="Concepts — Governed tool-calling instead of direct database access, and why it matters" url="/develop/ai/context-engine/context-retriever/concepts" >}}
+  {{< image-card image="images/ai-model.svg" alt="Concepts icon" title="Concepts — Governed tool-calling instead of direct database access, and why it matters" url="/develop/ai/context-engine/context-retriever/concepts" >}}
   {{< image-card image="images/ai-cube.svg" alt="Quick start icon" title="Quick Start — Create a Context Retriever service on Redis Cloud" url="/operate/iris/context-retriever/create-service" >}}
   {{< image-card image="images/ai-lib.svg" alt="Python SDK icon" title="Python SDK and CLI — Model entities and deploy tools with the redis-context-retriever package" url="https://pypi.org/project/redis-context-retriever/" >}}
   {{< image-card image="images/ai-brain.svg" alt="Admin keys icon" title="Manage Access — Create and manage agent keys to control what each agent can access" url="/operate/iris/context-retriever/view-admin-keys" >}}
