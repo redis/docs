@@ -101,12 +101,12 @@ If you plan to use Spanner as a source for your pipeline, you'll also need
 [redis/rdi-flink-collector](https://hub.docker.com/r/redis/rdi-flink-collector).
 
 If you plan to use Snowflake as a source for any of your pipelines, you'll also need
-[riotx/riotx:v1.8.0](https://hub.docker.com/r/riotx/riotx):
+[riotx/riotx:v1.12.0](https://hub.docker.com/r/riotx/riotx):
 [RIOT-X](https://redis.github.io/riotx/), a data ingestion and replication tool for Redis.
 
 In addition, the RDI Helm chart uses the following 3rd party images:
 
--   [redislabs/debezium-server:3.5.0.Final-rdi.1](https://hub.docker.com/r/redislabs/debezium-server),
+-   [redislabs/debezium-server:3.5.0.Final-rdi.3](https://hub.docker.com/r/redislabs/debezium-server),
     based on `quay.io/debezium/server/3.5.0.Final` with minor modifications:
     [Debezium](https://debezium.io/), an open source distributed platform for change data capture.
 -   [redis/reloader:v1.4.13](https://hub.docker.com/r/redis/reloader), originally `ghcr.io/stakater/reloader:v1.4.13`:
