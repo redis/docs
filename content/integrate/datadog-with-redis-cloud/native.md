@@ -32,7 +32,7 @@ The native Datadog integration is available on Redis Cloud Pro only. On Essentia
 |---|---|---|
 | Setup | Manual, per cluster | From the console, account-level |
 | Maintenance | Ongoing (reconfigure after redeployments) | None |
-| Data scope | Cluster-level only | Account-level, with auto-discovery of subscriptions and databases |
+| Data scope | Cluster-level/Subscription-level only | Account-level, with auto-discovery of subscriptions and databases |
 | Infrastructure | A Datadog Agent per cluster | None |
 
 The [agent-based integration]({{< relref "/integrate/datadog-with-redis-cloud" >}}) remains available for Essentials plans and for Pro accounts that haven't migrated yet.
@@ -103,6 +103,7 @@ A prebuilt Redis Cloud dashboard is available in Datadog after you activate the 
 
 {{< image filename="/images/rc/datadog-native-dashboard.png" alt="The prebuilt Redis Cloud Database dashboard in Datadog" >}}
 
+<!-- Remove this fallback once Datadog adds the Redis Cloud dashboard to their out-of-the-box dashboards -->
 If the dashboard isn't available yet, import it manually: in Datadog, go to **Dashboards > New Dashboard > Import dashboard JSON**, then select the dashboard JSON file.
 
 ## Metrics reference
@@ -133,7 +134,7 @@ All metrics use the `rdse2.` prefix. The following table lists a subset of the a
 
 ## Migrate from the agent-based integration
 
-If you currently use the agent-based integration, the console provides a guided migration flow. You can enable the native push integration without downtime, then disable the legacy agent afterward.
+Both the agent-based and native integrations can run in parallel. You can enable the native push integration without downtime, then disable the legacy agent afterward.
 
 To avoid a gap in observability, complete the migration and verify that metrics are arriving in Datadog before you disable the Datadog Agent. Data collected by the legacy agent remains available in its existing dashboard.
 
@@ -144,10 +145,10 @@ To avoid a gap in observability, complete the migration and verify that metrics 
 
 From there, you can:
 
-- Replace the API key.
-- Change the Datadog region.
 - Test the connection.
 - Disable the integration.
+
+To replace the API key or change the Datadog region, disable the integration, then set it up again with the new key or region.
 
 ## Troubleshoot
 
