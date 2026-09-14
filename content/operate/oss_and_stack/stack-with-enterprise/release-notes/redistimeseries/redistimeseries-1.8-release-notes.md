@@ -16,10 +16,24 @@ weight: 96
 ---
 ## Requirements
 
-RedisTimeSeries v1.8.23 requires:
+RedisTimeSeries v1.8.26 requires:
 
 - Minimum Redis compatibility version (database): 6.0.16
 - Minimum Redis Enterprise Software version (cluster): 6.2.8
+
+## v1.8.26 (Sep 2026)
+
+This is a maintenance release for RedisTimeSeries 1.8.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security:**
+  - Prevent heap buffer overflows and invalid memory access when restoring malformed time-series data.
+
+- Bug fixes:
+  - Fix `TS.INCRBY` replication to preserve the primary’s timestamp when using server-generated timestamps.
 
 ## v1.8.23 (May 2026)
 
