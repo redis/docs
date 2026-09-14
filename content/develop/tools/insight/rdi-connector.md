@@ -17,10 +17,10 @@ title: RDI in Redis Insight
 weight: 4
 ---
 
-Redis Data Integration (RDI) and its [ingest pipeline capability]({{< relref "/integrate/redis-data-integration" >}}) is an end-to-end solution for mirroring your application's primary database in Redis. RDI employs a capture data change mechanism and a stream processor to map and transform source data such as relational tables into fast Redis data structures that match your use cases.
-You can read more about RDI's ingest architecture [on these pages]({{< relref "/integrate/redis-data-integration/architecture" >}}).
+Redis Data Integration (RDI) and its [ingest pipeline capability](/content/integrate/redis-data-integration/_index.md) is an end-to-end solution for mirroring your application's primary database in Redis. RDI employs a capture data change mechanism and a stream processor to map and transform source data such as relational tables into fast Redis data structures that match your use cases.
+You can read more about RDI's ingest architecture [on these pages](/content/integrate/redis-data-integration/architecture/_index.md).
 
-As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to [RDI management planes]({{< relref "/integrate/redis-data-integration/architecture" >}}#how-rdi-is-deployed), create, test, and deploy [RDI pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}), and view RDI statistics.
+As of version `2.54.0`, Redis Insight includes RDI connectivity, which allows you to connect to [RDI management planes](/content/integrate/redis-data-integration/architecture/_index.md#how-rdi-is-deployed), create, test, and deploy [RDI pipelines](/content/integrate/redis-data-integration/data-pipelines/_index.md), and view RDI statistics.
 
 ## Connect
 
@@ -81,7 +81,7 @@ After you make your selections and click **Apply**, Redis Insight will populate 
 
 The **Insert template** menu is only available when the editor panel is empty.
 
-See the [RDI documentation]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}}) for information about required fields.
+See the [RDI documentation](/content/integrate/redis-data-integration/reference/config-yaml-reference.md) for information about required fields.
 
 ### Test your target database connection
 
@@ -97,7 +97,7 @@ In the **Pipeline Management** pane, click the `+` next to the **Transform and V
 
 Next, click the job name you just created. You can either begin manually editing your transformation job or you can select **Insert template**, which will populate a sample, non-functional job template in the editor.
 
-The [RDI documentation]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) has several examples of transformation jobs that can help get you started. Note: RDI uses a very specific YAML format for job files. See [here]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}#job-files) for more information.
+The [RDI documentation](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md) has several examples of transformation jobs that can help get you started. Note: RDI uses a very specific YAML format for job files. See [here](/content/integrate/redis-data-integration/data-pipelines/_index.md#job-files) for more information.
 
 ## Use the built-in editors
 
@@ -108,11 +108,10 @@ The Redis Insight pipeline file editors are context-aware. They provide auto-com
 
 {{< image filename="images/ri/ri-rdi-pl-addl-editors.png" alt="SQL and JMESPath editors" >}}
 
-Here's a [reference]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}}) to the supported JMESPath extension functions and expressions that you can use in your job files.
+Here's a [reference](/content/integrate/redis-data-integration/reference/jmespath-custom-functions.md) to the supported JMESPath extension functions and expressions that you can use in your job files.
 
-{{< warning >}}
-Any changes you make in the editors will be lost if you exit Redis Insight without saving your work. To save any changes you made to your pipeline files, deploy them to your RDI server (see below) or download the modified files as a ZIP file to your local computer. Redis Insight will prepend a green circle on unsaved/undeployed files. Redis Insight will also show errors (if present) using an exclamation point icon.
-{{< /warning >}}
+> [!WARNING]
+> Any changes you make in the editors will be lost if you exit Redis Insight without saving your work. To save any changes you made to your pipeline files, deploy them to your RDI server (see below) or download the modified files as a ZIP file to your local computer. Redis Insight will prepend a green circle on unsaved/undeployed files. Redis Insight will also show errors (if present) using an exclamation point icon.
 
 {{< image filename="images/ri/ri-rdi-pl-unsaved.png" alt="Unsaved pipeline" >}}
 

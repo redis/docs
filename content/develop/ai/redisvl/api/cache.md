@@ -113,7 +113,9 @@ response = await cache.acheck(
 
 #### `async aclear()`
 
-Async clear all cache keys when RedisVL manages the index lifecycle.
+Async delete every cache entry, leaving the index in place.
+
+See [clear](#clear) for the caveats, which apply identically here.
 
 * **Return type:**
   None
@@ -122,6 +124,8 @@ Async clear all cache keys when RedisVL manages the index lifecycle.
 
 Async delete the cache and its index entirely.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. See [delete](#delete).
 * **Return type:**
   None
 
@@ -269,7 +273,17 @@ response = cache.check(
 
 #### `clear()`
 
-Clear all cache keys when RedisVL manages the index lifecycle.
+Delete every cache entry, leaving the index in place.
+
+Clears by key prefix, not by index membership, so it removes every key
+under `{name}:` and nothing outside it. Available under
+`create_index=False`; dropping the index is [delete](#delete).
+
+{{< warning >}}
+Under `create_index=False` the prefix is unverified, so this can
+delete keys the index never covered and miss entries it does. See
+[Install RedisVL]({{< relref "../user_guide/installation" >}}).
+{{< /warning >}}
 
 * **Return type:**
   None
@@ -278,6 +292,9 @@ Clear all cache keys when RedisVL manages the index lifecycle.
 
 Delete the cache and its index entirely.
 
+* **Raises:**
+  **ValueError** – If `create_index=False`. Use [clear](#clear) to
+      empty the cache and leave the index standing.
 * **Return type:**
   None
 
@@ -915,7 +932,25 @@ cache = EmbeddingsCache(
 
 #### `async aclear()`
 
-Async clear the cache of all keys.
+Asynchronously clear the cache of all keys.
+
+Deletes every Redis key under the cache’s prefix (`<name>:`) with
+`SCAN` + `DEL`. The cache object itself stays usable for future
+writes.
+
+{{< note >}}
+`SCAN` is not a point-in-time snapshot, so this is a best-effort
+sweep rather than an atomic flush:
+{{< /note >}}
+
+- Keys written by other clients while the sweep is in progress may
+  or may not be deleted, so the cache is not guaranteed to be empty
+  when this returns. Quiesce writers first if you need that.
+- `SCAN` may return the same key on more than one page. `DEL`
+  on an already-deleted key is a no-op, so this is harmless.
+- Deletion is not atomic across keys. If the call raises partway
+  through, some keys are already gone. The operation is idempotent,
+  so retrying is safe and converges.
 
 * **Return type:**
   None
@@ -1196,6 +1231,12 @@ Each item in the input list should be a dictionary with the following fields:
 * **Return type:**
   List[str]
 
+{{< note >}}
+The batch is pipelined, not transactional, so on a Redis Cluster it
+fans out across shards. If it fails partway, some entries will have
+been written; the operation is idempotent, so simply retry it.
+{{< /note >}}
+
 ```python
 # Store multiple embeddings asynchronously
 keys = await cache.amset([
@@ -1243,6 +1284,24 @@ key = await cache.aset(
 #### `clear()`
 
 Clear the cache of all keys.
+
+Deletes every Redis key under the cache’s prefix (`<name>:`) with
+`SCAN` + `DEL`. The cache object itself stays usable for future
+writes.
+
+{{< note >}}
+`SCAN` is not a point-in-time snapshot, so this is a best-effort
+sweep rather than an atomic flush:
+{{< /note >}}
+
+- Keys written by other clients while the sweep is in progress may
+  or may not be deleted, so the cache is not guaranteed to be empty
+  when this returns. Quiesce writers first if you need that.
+- `SCAN` may return the same key on more than one page. `DEL`
+  on an already-deleted key is a no-op, so this is harmless.
+- Deletion is not atomic across keys. If the call raises partway
+  through, some keys are already gone. The operation is idempotent,
+  so retrying is safe and converges.
 
 * **Return type:**
   None
@@ -1514,6 +1573,12 @@ Each item in the input list should be a dictionary with the following fields:
   List of Redis keys where the embeddings were stored.
 * **Return type:**
   List[str]
+
+{{< note >}}
+The batch is pipelined, not transactional, so on a Redis Cluster it
+fans out across shards. If it fails partway, some entries will have
+been written; the operation is idempotent, so simply retry it.
+{{< /note >}}
 
 ```python
 # Store multiple embeddings

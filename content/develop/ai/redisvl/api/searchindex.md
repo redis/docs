@@ -10,6 +10,7 @@ aliases:
 |-------------------------------------------|----------------------------------------------------------------------------------------------|
 | [SearchIndex](#searchindex-api)           | Primary class to write, read, and search across data structures in Redis.                    |
 | [AsyncSearchIndex](#asyncsearchindex-api) | Async version of the SearchIndex to write, read, and search across data structures in Redis. |
+| [SearchResults](#searchresults-api)       | List of result documents returned by a query, which also reports result completeness.        |
 
 <a id="searchindex-api"></a>
 
@@ -109,6 +110,14 @@ available and in-place for future insertions or updates.
 NOTE: This method requires custom behavior for Redis Cluster because
 here, we can’t easily give control of the keys we’re clearing to the
 user so they can separate them based on hash tag.
+
+{{< note >}}
+The sweep enumerates through the index, so it removes only what the
+index currently returns, and it can stop early – against an index
+still being backfilled, or when a page’s keys cannot be deleted. The
+returned count is the only signal, and `0` does not distinguish an
+empty index from a sweep that deleted nothing. Re-running is safe.
+{{< /note >}}
 
 * **Returns:**
   Count of records deleted from Redis.
@@ -462,7 +471,7 @@ generator.
   * **page_size** (*int* *,* *optional*) – The number of results to return in each
     batch. Defaults to 30.
 * **Yields:**
-  A generator yielding batches of search results.
+  A generator yielding non-empty `SearchResults` batches.
 * **Raises:**
   * **TypeError** – If the page_size argument is not of type int.
   * **ValueError** – If the page_size argument is less than or equal to zero.
@@ -483,7 +492,22 @@ considerations and the expected volume of search results.
 {{< /note >}}
 
 {{< note >}}
-For stable pagination, the query must have a sort_by clause.
+For stable pagination, the query must have a sort_by clause on a
+**unique** field. Redis documents that `LIMIT` without sorting is
+non-deterministic, so pages may otherwise repeat or miss documents.
+Very deep pagination is also bounded server-side by
+`search-max-search-results` (1,000,000 by default, but 10,000 on
+some managed tiers), past which the search errors rather than ending.
+{{< /note >}}
+
+{{< note >}}
+A yielded batch may contain fewer than `page_size` documents, and an
+empty batch is never yielded. On Redis 8+ a matched document whose
+data expires while the search is running is skipped; each batch
+reports how many were skipped via `dropped_count` (and
+`complete`), including skips inherited from a page that was dropped
+in its entirety. Pagination still runs to the end of the result set in
+that case.
 {{< /note >}}
 
 #### `query(query)`
@@ -754,6 +778,9 @@ available and in-place for future insertions or updates.
 NOTE: This method requires custom behavior for Redis Cluster because here,
 we can’t easily give control of the keys we’re clearing to the user so they
 can separate them based on hash tag.
+
+See [clear](#clear) for the sweep’s caveats, which apply
+identically here.
 
 * **Returns:**
   Count of records deleted from Redis.
@@ -1077,7 +1104,7 @@ generator.
   * **page_size** (*int* *,* *optional*) – The number of results to return in each
     batch. Defaults to 30.
 * **Yields:**
-  An async generator yielding batches of search results.
+  An async generator yielding non-empty `SearchResults` batches.
 * **Raises:**
   * **TypeError** – If the page_size argument is not of type int.
   * **ValueError** – If the page_size argument is less than or equal to zero.
@@ -1098,7 +1125,22 @@ considerations and the expected volume of search results.
 {{< /note >}}
 
 {{< note >}}
-For stable pagination, the query must have a sort_by clause.
+For stable pagination, the query must have a sort_by clause on a
+**unique** field. Redis documents that `LIMIT` without sorting is
+non-deterministic, so pages may otherwise repeat or miss documents.
+Very deep pagination is also bounded server-side by
+`search-max-search-results` (1,000,000 by default, but 10,000 on
+some managed tiers), past which the search errors rather than ending.
+{{< /note >}}
+
+{{< note >}}
+A yielded batch may contain fewer than `page_size` documents, and an
+empty batch is never yielded. On Redis 8+ a matched document whose
+data expires while the search is running is skipped; each batch
+reports how many were skipped via `dropped_count` (and
+`complete`), including skips inherited from a page that was dropped
+in its entirety. Pagination still runs to the end of the result set in
+that case.
 {{< /note >}}
 
 #### `async query(query)`
@@ -1191,3 +1233,37 @@ All key prefixes configured for this index.
 
 The underlying storage type for the search index; either
 hash or json.
+
+<a id="searchresults-api"></a>
+
+## SearchResults
+
+### `class SearchResults(iterable=(), dropped_count=0)`
+
+A list of result documents that also reports result completeness.
+
+This is a drop-in `list` — iteration, indexing, `len()`, and every other
+list operation behave exactly as before, so existing callers need no
+changes. It additionally carries:
+
+- `dropped_count`: the number of matched documents that were skipped
+  because their field payload came back missing (the Redis 8.8+
+  background-search TTL/expiry race); `0` in the normal case.
+- `complete`: `False` when `dropped_count > 0`, i.e. the result set may
+  be missing one or more matches that the server reported but could not
+  materialize.
+
+Callers that need completeness guarantees — audit/compliance queries, eval
+harnesses, or agents making control-flow decisions — can inspect these to
+detect and react to a partial result (e.g. retry, reconcile against a
+`CountQuery`, or annotate a downstream answer as incomplete). Everyone else
+can ignore them. Note that operations returning a new list (slicing,
+`sorted()`, concatenation) yield a plain `list` without this metadata.
+
+* **Parameters:**
+  * **iterable** (*Any*)
+  * **dropped_count** (*int*)
+
+#### `property complete: bool`
+
+True when no matched documents were dropped from this result set.

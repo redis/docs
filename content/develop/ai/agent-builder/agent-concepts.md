@@ -73,14 +73,14 @@ Redis is the **ideal foundation** for AI agents because it excels at the three t
 - SVS-VAMANA leverages Intel hardware acceleration for enhanced performance
 - Hybrid search combining vector similarity with metadata filtering
 - Real-time updates without index rebuilds
-- [Learn more about Redis Vector Search →]({{< relref "/develop/ai/search-and-query/vectors/" >}})
+- [Learn more about Redis Vector Search →](/content/develop/ai/search-and-query/vectors/_index.md)
 
 **Agent memory**
 - **Short-term**: Conversation context and session state
 - **Long-term**: User preferences and learned patterns
 - Flexible data structures (Hashes, Lists, Streams, JSON) for different memory types
-- **Managed option**: The [Redis Iris Context Engine]({{< relref "/develop/ai/context-engine/agent-memory" >}}) provides short-term (session) and long-term memory as a managed service — with semantic long-term search — so you don't have to build the vector index and storage yourself
-- [Explore Redis data structures →](/develop/data-types/)
+- **Managed option**: The [Redis Iris Context Engine](/content/develop/ai/context-engine/agent-memory/_index.md) provides short-term (session) and long-term memory as a managed service — with semantic long-term search — so you don't have to build the vector index and storage yourself
+- [Explore Redis data structures →](/content/develop/data-types/_index.md)
 
 ## Types of agents you can build
 
@@ -237,7 +237,7 @@ Understanding how to map agent memory needs to Redis data structures is crucial 
 - Key benefits: Automatic ordering, range queries, consumer groups, guaranteed delivery
 - Implementation: Store user/agent message pairs with rich contextual metadata
 - Retention: Use XTRIM for automatic cleanup based on age or count limits
-- [Learn about Redis Streams →](/develop/data-types/streams/)
+- [Learn about Redis Streams →](/content/develop/data-types/streams/_index.md)
 
 
 ### Redis Hashes for User Profiles
@@ -246,7 +246,7 @@ Understanding how to map agent memory needs to Redis data structures is crucial 
 - Key benefits: Memory efficient field-level operations, atomic updates, O(1) field access
 - Implementation: Multi-layered profile system with preferences, behavior patterns, and learned data
 - Scaling: Hash tags for cluster distribution, field expiration for data lifecycle management
-- [Learn about Redis Hashes →](/develop/data-types/hashes/)
+- [Learn about Redis Hashes →](/content/develop/data-types/hashes.md)
 
 ### Redis JSON for Complex State
 
@@ -254,7 +254,7 @@ Understanding how to map agent memory needs to Redis data structures is crucial 
 - Key benefits: JSONPath queries, atomic nested updates, schema validation, efficient storage
 - Implementation: Multi-step task orchestration, complex decision trees, dynamic configurations
 - Querying: Advanced JSONPath expressions for complex data retrieval and manipulation
-- [Learn about Redis JSON →](/develop/data-types/json/)
+- [Learn about Redis JSON →](/content/develop/data-types/json/_index.md)
 
 ### Redis Sets for Relationships and Tags
 
@@ -262,7 +262,7 @@ Understanding how to map agent memory needs to Redis data structures is crucial 
 - Key benefits: O(1) membership testing, efficient set operations, automatic deduplication
 - Implementation: Complex relationship modeling, real-time recommendation engines, access control
 - Operations: Union, intersection, difference for advanced analytics and personalization
-- [Learn about Redis Sets →](/develop/data-types/sets/)
+- [Learn about Redis Sets →](/content/develop/data-types/sets.md)
 
 ### Redis Vector Sets for Semantic Search
 
@@ -270,7 +270,7 @@ Understanding how to map agent memory needs to Redis data structures is crucial 
 - Key benefits: High-performance vector similarity search, multiple distance metrics, real-time indexing
 - Implementation: RAG systems, semantic memory, content discovery, personalized recommendations
 - Queries: K-nearest neighbor search, range queries, hybrid filtering with metadata
-- [Learn about Redis Vector Sets →]({{< relref "/develop/data-types/vector-sets" >}})
+- [Learn about Redis Vector Sets →](/content/develop/data-types/vector-sets/_index.md)
 
 ### Redis Sorted Sets for Rankings and Priorities
 
@@ -278,7 +278,7 @@ Understanding how to map agent memory needs to Redis data structures is crucial 
 - Key benefits: O(log N) insertions, range queries by score/rank, atomic score updates
 - Implementation: Real-time recommendation scoring, task prioritization, performance analytics
 - Queries: Range by score, rank, lexicographical order, and complex aggregations
-- [Learn about Redis Sorted Sets →](/develop/data-types/sorted-sets/)
+- [Learn about Redis Sorted Sets →](/content/develop/data-types/sorted-sets.md)
 
 ## Reliability features
 
@@ -330,7 +330,7 @@ Production-ready agents include built-in reliability features:
 - Load balancing: Distribute requests across agent instances
 - Redis clustering: Scale data storage across multiple nodes
 - Caching layers: CDN for static content, Redis for dynamic data
-- [Learn about Redis scaling →]({{< relref "/operate/rs/clusters" >}})
+- [Learn about Redis scaling →](/content/operate/rs/clusters/_index.md)
 
 ### Cost Optimization
 
@@ -338,7 +338,7 @@ Production-ready agents include built-in reliability features:
 - Redis memory optimization: Efficient data structures and TTL policies
 - API rate limiting: Prevent excessive external API calls
 - Resource monitoring: Track and optimize compute and storage costs
-- [Redis performance optimization →]({{< relref "/operate/rs/databases/memory-performance" >}})
+- [Redis performance optimization →](/content/operate/rs/databases/memory-performance/_index.md)
 
 ---
 
@@ -362,17 +362,17 @@ Conversational assistants, recommendation engines, and complex multi-agent syste
 Ready to build your AI agent with Redis?
 
 **Get started:**
-- [Use the agent builder]({{< relref "/develop/ai/agent-builder" >}}) to generate your code and get started
-- [Redis quick start guide]({{< relref "/develop/get-started" >}}) for setting up Redis
+- [Use the agent builder](/content/develop/ai/agent-builder/_index.md) to generate your code and get started
+- [Redis quick start guide](/content/develop/get-started/_index.md) for setting up Redis
 
 **Learn more:**
-- [Redis Iris Context Engine — Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) for managed session and long-term agent memory
-- [Redis Vector Search documentation]({{< relref "develop/ai/search-and-query/vectors" >}})
-- [RedisVL Python library]({{< relref "develop/clients/redis-vl" >}}) for vector operations and AI workflows
-- [Redis data structures guide](/develop/data-types/)
-- [Redis client libraries]({{< relref "/develop/clients" >}}) for your programming language
+- [Redis Iris Context Engine — Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) for managed session and long-term agent memory
+- [Redis Vector Search documentation](/content/develop/ai/search-and-query/vectors/_index.md)
+- [RedisVL Python library](/content/develop/clients/redis-vl.md) for vector operations and AI workflows
+- [Redis data structures guide](/content/develop/data-types/_index.md)
+- [Redis client libraries](/content/develop/clients/_index.md) for your programming language
 
 **Deploy and scale:**
-- [Redis Cloud]({{< relref "/operate/rc" >}}) for managed Redis hosting
-- [Redis Software]({{< relref "/operate/rs" >}}) for on-premises deployment
-- [Performance optimization]({{< relref "/operate/rs/databases/memory-performance" >}}) best practices
+- [Redis Cloud](/content/operate/rc/_index.md) for managed Redis hosting
+- [Redis Software](/content/operate/rs/_index.md) for on-premises deployment
+- [Performance optimization](/content/operate/rs/databases/memory-performance/_index.md) best practices

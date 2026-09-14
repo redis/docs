@@ -18,13 +18,13 @@ aliases:
 weight: 1
 ---
 
-This is step 1 of the [Redis Search tutorial]({{< relref "/develop/get-started/search-tutorial" >}}).
+This is step 1 of the [Redis Search tutorial](/content/develop/get-started/search-tutorial/_index.md).
 
 Before you can search anything, you need to decide how to store it. Redis gives you two natural ways to represent a structured record like a product: as a **hash** or as a **JSON document**. Both can be indexed and searched. This page explains the difference, helps you choose, and then loads the tutorial dataset.
 
 ## A record as a hash
 
-A [hash]({{< relref "/develop/data-types/hashes" >}}) stores a flat set of field-value pairs under a single key. It is the simplest way to represent a record and maps neatly onto a row of fields:
+A [hash](/content/develop/data-types/hashes.md) stores a flat set of field-value pairs under a single key. It is the simplest way to represent a record and maps neatly onto a row of fields:
 
 {{< clients-example set="search_tutorial" step="hash_example" description="Foundational: Store a record as a hash with HSET when your data is a flat set of fields" difficulty="beginner" >}}
 > HSET hproduct:1 name "Aurora AcousticPro Headphones" brand "Aurora" category "Audio" price 199.99 rating 4.6
@@ -35,7 +35,7 @@ Hashes are compact and fast, but they are **flat**: every value is a string or n
 
 ## A record as a JSON document
 
-The [JSON]({{< relref "/develop/data-types/json" >}}) data type stores a full JSON document under a key. It can represent nested objects and arrays directly, which matches how application data usually looks:
+The [JSON](/content/develop/data-types/json/_index.md) data type stores a full JSON document under a key. It can represent nested objects and arrays directly, which matches how application data usually looks:
 
 {{< clients-example set="search_tutorial" step="json_example" description="Foundational: Store a record as a JSON document with JSON.SET when your data has nested objects or arrays" difficulty="beginner" max_lines="6" prereq="true" >}}
 > JSON.SET product:1 $ '{"name":"Aurora AcousticPro Headphones","brand":"Aurora","category":"Audio","price":199.99,"rating":4.6,"features":["wireless","noise-cancelling","bluetooth"],"specs":{"color":"midnight black","weight_grams":268}}'
@@ -55,9 +55,8 @@ Both hashes and JSON documents can be indexed and searched by Redis Search, so y
 
 For this tutorial, the catalog records have arrays (`features`) and a nested object (`specs`), so **we will use JSON documents** for the rest of the tutorial. If you are coming from a background where every record is a flat row, JSON is also a gentle way to keep your existing object shapes.
 
-{{% alert title="Note" color="info" %}}
-This is a modeling choice, not a limitation. The indexing and query commands you will learn (`FT.CREATE`, `FT.SEARCH`, `FT.AGGREGATE`) work with both hashes and JSON. The main practical difference shows up when indexing arrays, which you will see on the [next page]({{< relref "/develop/get-started/search-tutorial/indexing" >}}).
-{{% /alert %}}
+> [!NOTE]
+> This is a modeling choice, not a limitation. The indexing and query commands you will learn (`FT.CREATE`, `FT.SEARCH`, `FT.AGGREGATE`) work with both hashes and JSON. The main practical difference shows up when indexing arrays, which you will see on the [next page](/content/develop/get-started/search-tutorial/indexing.md).
 
 ## Load the dataset
 
@@ -77,7 +76,7 @@ Now load the full catalog of 12 products. Each product is stored as a JSON docum
 > JSON.SET product:12 $ '{"name":"Vista Action Cam 4K","brand":"Vista","category":"Cameras","description":"A pocket-sized action camera that shoots stabilized 4K video and is waterproof without a case. Mount it on a helmet or bike and capture your adventures in sharp detail.","price":299.0,"rating":4.3,"review_count":455,"stock":33,"release_year":2023,"features":["camera","4k","waterproof","wifi"],"specs":{"color":"black","weight_grams":128,"warranty_years":1}}'
 {{< /clients-example >}}
 
-You can read any single document back by its key with [JSON.GET]({{< relref "/commands/json.get" >}}):
+You can read any single document back by its key with [JSON.GET](/content/commands/json.get.md):
 
 {{< clients-example set="search_tutorial" step="get_one" description="Foundational: Read one JSON document back by its key with JSON.GET" difficulty="beginner" >}}
 > JSON.GET product:1 $.name
@@ -88,4 +87,4 @@ At this point the data is in Redis, but you can only fetch it one key at a time.
 
 ## Next steps
 
-Continue to [creating an index]({{< relref "/develop/get-started/search-tutorial/indexing" >}}) to make this data searchable.
+Continue to [creating an index](/content/develop/get-started/search-tutorial/indexing.md) to make this data searchable.

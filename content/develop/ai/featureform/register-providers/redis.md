@@ -22,10 +22,10 @@ The `redis-cluster` provider discovers the cluster topology from its startup end
 
 Make sure you have:
 
-- A Feature Form [workspace]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
+- A Feature Form [workspace](/content/develop/ai/featureform/manage-workspace.md).
 - Network access to Redis from the Feature Form server and any compute runtime that materializes feature views.
 - A Redis host and port, or at least one Redis Cluster startup endpoint.
-- A registered [secret provider]({{< relref "/develop/ai/featureform/register-providers#configure-secret-providers" >}}) for the Redis password, if authentication is enabled.
+- A registered [secret provider](/content/develop/ai/featureform/register-providers/_index.md#configure-secret-providers) for the Redis password, if authentication is enabled.
 - Certificate material available to each runtime that needs it, if Redis requires TLS or mutual TLS (mTLS).
 
 The Python examples use this workspace-scoped provider client:
@@ -211,7 +211,7 @@ For both `job_cluster` and `existing_cluster` Spark materialization, configure `
 databricks@<databricks-secret-provider-name>:<secret-scope>#<redis-password-key>
 ```
 
-See [Connect Databricks compute to Redis]({{< relref "/develop/ai/featureform/register-providers/databricks#connect-databricks-compute-to-redis" >}}) for equivalent Python and CLI examples and the Databricks secret bootstrap requirements.
+See [Connect Databricks compute to Redis](/content/develop/ai/featureform/register-providers/databricks.md#connect-databricks-compute-to-redis) for equivalent Python and CLI examples and the Databricks secret bootstrap requirements.
 
 Redis TLS certificate paths must also be mounted at the configured locations in the Databricks runtime. Secret-backed Redis TLS certificate fields aren't projected to Spark.
 
@@ -285,4 +285,4 @@ Changing endpoints or TLS settings can interrupt materialization and serving if 
 | Spark rejects secret-backed TLS certificates | Mount certificate files in the Spark runtime and use the TLS path fields |
 | Existing Databricks cluster can't resolve the Redis password | Use a Databricks secret reference from a registered `databricks-secret` provider |
 
-See [Serve features]({{< relref "/develop/ai/featureform/serve-features" >}}) for the serving workflow. To provision a managed deployment, see the [Redis Cloud quick start]({{< relref "/operate/rc/rc-quickstart" >}}).
+See [Serve features](/content/develop/ai/featureform/serve-features.md) for the serving workflow. To provision a managed deployment, see the [Redis Cloud quick start](/content/operate/rc/rc-quickstart.md).

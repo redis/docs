@@ -16,7 +16,7 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    Before you begin, install the following dependencies in your development environment:
 
-   - **[`redis-cli`]({{< relref "/develop/tools/cli" >}})**: command-line tool that connects to a deployment and runs Redis commands
+   - **[`redis-cli`](/content/develop/tools/cli.md)**: command-line tool that connects to a deployment and runs Redis commands
    - **[Docker](https://docs.docker.com/get-docker/)**: platform that runs software in containers, including local Redis deployments
 
    Select the tab corresponding to your deployment method to see which of these you need.
@@ -33,16 +33,16 @@ This section shows how to set up a Redis deployment and connect to it with `redi
      curl -fsSL https://packages.redis.io/redis-cli/install.sh | sh
      ```
 
-     See [Install redis-cli]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}) for more information.
+     See [Install redis-cli](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md) for more information.
 
    -tab-sep-
 
-   - [Docker](https://docs.docker.com/get-docker/) installed, to run the Docker quick start in step 2. To install without Docker, see the [Redis Software on Linux quick start]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) for its own system requirements.
+   - [Docker](https://docs.docker.com/get-docker/) installed, to run the Docker quick start in step 2. To install without Docker, see the [Redis Software on Linux quick start](/content/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md) for its own system requirements.
    - A command-line HTTP client such as `curl`, if you want to create a database with the REST API in step 2.
 
    -tab-sep-
 
-   - [Docker](https://docs.docker.com/get-docker/) installed, to run the Docker quick start in step 2. To install without Docker, see [Install Redis on Linux, macOS, or from source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) for its own system requirements.
+   - [Docker](https://docs.docker.com/get-docker/) installed, to run the Docker quick start in step 2. To install without Docker, see [Install Redis on Linux, macOS, or from source](/content/operate/oss_and_stack/install/install-stack/_index.md) for its own system requirements.
 
    {{< /multitabs >}}
 
@@ -59,18 +59,18 @@ This section shows how to set up a Redis deployment and connect to it with `redi
 
    To create additional or different types of databases from the console, see:
 
-   - [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) — a cost-efficient, fully managed database for low-throughput workloads, training, and prototyping.
-   - [Create a Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) — a dedicated, "pay as you go" database for production workloads that need higher throughput, larger datasets, and advanced features like Active-Active and clustering.
+   - [Create an Essentials database](/content/operate/rc/databases/create-database/create-essentials-database.md) — a cost-efficient, fully managed database for low-throughput workloads, training, and prototyping.
+   - [Create a Pro database](/content/operate/rc/databases/create-database/create-pro-database-new.md) — a dedicated, "pay as you go" database for production workloads that need higher throughput, larger datasets, and advanced features like Active-Active and clustering.
 
    -tab-sep-
 
-   [Redis Software]({{< relref "/operate/rs/" >}}) is a self-managed Redis cluster you install and run on your own infrastructure. The fastest way to try it is with Docker:
+   [Redis Software](/content/operate/rs/_index.md) is a self-managed Redis cluster you install and run on your own infrastructure. The fastest way to try it is with Docker:
 
    ```sh
    docker run -d --cap-add sys_resource --name RE -p 8443:8443 -p 9443:9443 -p 12000:12000 redislabs/redis
    ```
 
-   See the [Redis Software on Docker quick start]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) for the full procedure, or the [Redis Software on Linux quick start]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}) to install without Docker.
+   See the [Redis Software on Docker quick start](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md) for the full procedure, or the [Redis Software on Linux quick start](/content/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md) to install without Docker.
 
    You can create databases with Redis Software using the console or the REST API. To create a database with the REST API:
 
@@ -84,17 +84,17 @@ This section shows how to set up a Redis deployment and connect to it with `redi
    }
    ```
 
-   See [Create a database]({{< relref "/operate/rs/databases/create" >}}) for the full procedure, including the console method and additional configuration fields.
+   See [Create a database](/content/operate/rs/databases/create.md) for the full procedure, including the console method and additional configuration fields.
 
    -tab-sep-
 
-   [Redis Open Source]({{< relref "/operate/oss_and_stack/" >}}) is the free, self-managed core Redis server. The fastest way to run it is with Docker:
+   [Redis Open Source](/content/operate/oss_and_stack/_index.md) is the free, self-managed core Redis server. The fastest way to run it is with Docker:
 
    ```sh
    docker run -d --name redis -p 6379:6379 redis:latest
    ```
 
-   Starting the server creates your database — there's no separate create step. See [Run Redis on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}}) for the full procedure, or [Install Redis on Linux, macOS, or from source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) to install without Docker.
+   Starting the server creates your database — there's no separate create step. See [Run Redis on Docker](/content/operate/oss_and_stack/install/install-stack/docker.md) for the full procedure, or [Install Redis on Linux, macOS, or from source](/content/operate/oss_and_stack/install/install-stack/_index.md) to install without Docker.
 
    {{< /multitabs >}}
 
@@ -113,7 +113,7 @@ This section shows how to set up a Redis deployment and connect to it with `redi
    redis-cli -h <hostname> -p <portnumber> -a <password>
    ```
 
-   See [Connect to a Redis Cloud database]({{< relref "/operate/rc/databases/connect" >}}) for the full procedure, including Redis Insight and client library options.
+   See [Connect to a Redis Cloud database](/content/operate/rc/databases/connect/_index.md) for the full procedure, including Redis Insight and client library options.
 
    -tab-sep-
 
@@ -123,7 +123,7 @@ This section shows how to set up a Redis deployment and connect to it with `redi
    docker exec -it <container_name_or_ID> redis-cli -h <host_or_IP> -p <port>
    ```
 
-   See [Connect to a Redis Software database]({{< relref "/operate/rs/databases/connect" >}}) for the full procedure and for further options, including Redis Insight and client library connections.
+   See [Connect to a Redis Software database](/content/operate/rs/databases/connect/_index.md) for the full procedure and for further options, including Redis Insight and client library connections.
 
    -tab-sep-
 
@@ -133,7 +133,7 @@ This section shows how to set up a Redis deployment and connect to it with `redi
    docker exec -it redis redis-cli
    ```
 
-   See [Redis CLI]({{< relref "/develop/tools/cli" >}}) for the full procedure, including non-Docker installs and [Redis Insight]({{< relref "/develop/tools/insight" >}}) as a GUI alternative to the CLI.
+   See [Redis CLI](/content/develop/tools/cli.md) for the full procedure, including non-Docker installs and [Redis Insight](/content/develop/tools/insight/_index.md) as a GUI alternative to the CLI.
 
    {{< /multitabs >}}
 
@@ -143,7 +143,7 @@ In the next section, you'll learn how to create an application that connects to 
 
 ## Create your first Redis application
 
-To connect to your Redis deployment in an application, you can use one of the official [Redis client libraries]({{< relref "/develop/clients" >}}).
+To connect to your Redis deployment in an application, you can use one of the official [Redis client libraries](/content/develop/clients/_index.md).
 
 Select your preferred programming language from the tabs in each step below.
 
@@ -165,7 +165,7 @@ Select your preferred programming language from the tabs in each step below.
        tab9="PHP"
        tab10="RedisVL" >}}
 
-   Create a project directory and [install redis-py]({{< relref "/develop/clients/redis-py/_index.md#install" >}}):
+   Create a project directory and [install redis-py](/content/develop/clients/redis-py/_index.md#install):
 
    ```sh
    mkdir python-quickstart
@@ -175,7 +175,7 @@ Select your preferred programming language from the tabs in each step below.
 
    -tab-sep-
 
-   Create a project directory and [install node-redis]({{< relref "/develop/clients/nodejs/_index.md#install" >}}):
+   Create a project directory and [install node-redis](/content/develop/clients/nodejs/_index.md#install):
 
    ```sh
    mkdir node-quickstart
@@ -186,7 +186,7 @@ Select your preferred programming language from the tabs in each step below.
 
    -tab-sep-
 
-   Add [Jedis]({{< relref "/develop/clients/jedis/_index.md" >}}) as a dependency in your Maven project's `pom.xml`:
+   Add [Jedis](/content/develop/clients/jedis/_index.md) as a dependency in your Maven project's `pom.xml`:
 
    ```xml
    <dependency>
@@ -198,7 +198,7 @@ Select your preferred programming language from the tabs in each step below.
 
    -tab-sep-
 
-   Create a project directory and [install go-redis]({{< relref "/develop/clients/go/_index.md" >}}):
+   Create a project directory and [install go-redis](/content/develop/clients/go/_index.md):
 
    ```sh
    mkdir go-quickstart
@@ -209,7 +209,7 @@ Select your preferred programming language from the tabs in each step below.
 
    -tab-sep-
 
-   Create a project directory and [install StackExchange.Redis]({{< relref "/develop/clients/dotnet/_index.md" >}}):
+   Create a project directory and [install StackExchange.Redis](/content/develop/clients/dotnet/_index.md):
 
    ```sh
    mkdir csharp-quickstart
@@ -220,7 +220,7 @@ Select your preferred programming language from the tabs in each step below.
 
    -tab-sep-
 
-   Create a project directory and [install redis-rb]({{< relref "/develop/clients/ruby/_index.md#install" >}}):
+   Create a project directory and [install redis-rb](/content/develop/clients/ruby/_index.md#install):
 
    ```sh
    mkdir ruby-quickstart
@@ -230,7 +230,7 @@ Select your preferred programming language from the tabs in each step below.
 
    -tab-sep-
 
-   [Build and install hiredis]({{< relref "/develop/clients/hiredis/_index.md#build-and-install" >}}) from source:
+   [Build and install hiredis](/content/develop/clients/hiredis/_index.md#build-and-install) from source:
 
    ```sh
    git clone https://github.com/redis/hiredis.git
@@ -241,7 +241,7 @@ Select your preferred programming language from the tabs in each step below.
 
    -tab-sep-
 
-   Create a project directory and [add the `redis` crate]({{< relref "/develop/clients/rust/_index.md#install" >}}) as a dependency in `Cargo.toml`:
+   Create a project directory and [add the `redis` crate](/content/develop/clients/rust/_index.md#install) as a dependency in `Cargo.toml`:
 
    ```toml
    [dependencies]
@@ -250,7 +250,7 @@ Select your preferred programming language from the tabs in each step below.
 
    -tab-sep-
 
-   Use [Composer]({{< relref "/develop/clients/php/_index.md#install" >}}) to install Predis:
+   Use [Composer](/content/develop/clients/php/_index.md#install) to install Predis:
 
    ```sh
    composer require predis/predis
@@ -258,7 +258,7 @@ Select your preferred programming language from the tabs in each step below.
 
    -tab-sep-
 
-   Create a project directory and [install RedisVL]({{< relref "/develop/ai/redisvl/install" >}}):
+   Create a project directory and [install RedisVL](/content/develop/ai/redisvl/install.md):
 
    ```sh
    mkdir redisvl-quickstart
@@ -477,13 +477,13 @@ Select your preferred programming language from the tabs in each step below.
    index.create(overwrite=True)
    ```
 
-   See the [RedisVL getting started guide]({{< relref "/develop/ai/redisvl/user_guide/getting_started" >}}) for the full procedure, including loading data and running vector searches.
+   See the [RedisVL getting started guide](/content/develop/ai/redisvl/user_guide/getting_started.md) for the full procedure, including loading data and running vector searches.
 
    {{< /multitabs >}}
 
 4. Add your connection string
 
-   The examples in step 3 connect to `localhost:6379`. Replace that with your actual deployment's host, port, and password — from the [Redis Cloud connection wizard](https://cloud.redis.io), the [Redis Software connection details]({{< relref "/operate/rs/databases/connect" >}}), or `localhost:6379` if you're already running Redis Open Source locally.
+   The examples in step 3 connect to `localhost:6379`. Replace that with your actual deployment's host, port, and password — from the [Redis Cloud connection wizard](https://cloud.redis.io), the [Redis Software connection details](/content/operate/rs/databases/connect/_index.md), or `localhost:6379` if you're already running Redis Open Source locally.
 
    {{< multitabs id="getting-started-connstring"
        tab1="Python"
@@ -658,16 +658,16 @@ Select your preferred programming language from the tabs in each step below.
 
    Each of the following quick starts shows a complete example application for a specific use case:
 
-   - [Data structure store]({{< relref "/develop/get-started/data-store" >}})
-   - [Document database]({{< relref "/develop/get-started/search-tutorial" >}})
-   - [Vector database]({{< relref "/develop/get-started/search-tutorial/vector-search" >}})
+   - [Data structure store](/content/develop/get-started/data-store.md)
+   - [Document database](/content/develop/get-started/search-tutorial/_index.md)
+   - [Vector database](/content/develop/get-started/search-tutorial/vector-search.md)
 
-   Refer to the [Redis use cases]({{< relref "/develop/use-cases" >}}) page for a complete set of use cases with code examples in your programming language.
+   Refer to the [Redis use cases](/content/develop/use-cases/_index.md) page for a complete set of use cases with code examples in your programming language.
 
 ### Next steps
 
 To learn more about developing with Redis, see the following resources:
 
-- [Explore all client libraries]({{< relref "/develop/clients" >}})
-- [Redis products overview]({{< relref "/operate/" >}})
-- [Develop with Redis]({{< relref "/develop/" >}})
+- [Explore all client libraries](/content/develop/clients/_index.md)
+- [Redis products overview](/content/operate/_index.md)
+- [Develop with Redis](/content/develop/_index.md)

@@ -21,13 +21,13 @@ title: Redis programmability
 weight: 50
 ---
 
-Redis provides a programming interface that lets you execute custom scripts on the server itself. In Redis 7 and beyond, you can use [Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}) to manage and run your scripts. In Redis 6.2 and below, you use [Lua scripting with the EVAL command]({{< relref "/develop/programmability/eval-intro" >}}) to program the server.
+Redis provides a programming interface that lets you execute custom scripts on the server itself. In Redis 7 and beyond, you can use [Redis Functions](/content/develop/programmability/functions-intro.md) to manage and run your scripts. In Redis 6.2 and below, you use [Lua scripting with the EVAL command](/content/develop/programmability/eval-intro.md) to program the server.
 
 ## Background
 
 Redis is, by [definition](https://github.com/redis/redis/blob/3eaa2cdc44a9b0742f0695f44911b92547995836/MANIFESTO#L7), a _"domain-specific language for abstract data types"_.
-The language that Redis speaks consists of its [commands]({{< relref "/commands" >}}).
-Most the commands specialize at manipulating core [data types]({{< relref "/develop/data-types" >}}) in different ways.
+The language that Redis speaks consists of its [commands](/commands).
+Most the commands specialize at manipulating core [data types](/content/develop/data-types/_index.md) in different ways.
 In many cases, these commands provide all the functionality that a developer requires for managing application data in Redis.
 
 The term **programmability** in Redis means having the ability to execute arbitrary user-defined logic by the server.
@@ -40,13 +40,13 @@ Such APIs can encapsulate business logic and maintain a data model across multip
 User scripts are executed in Redis by an embedded, sandboxed scripting engine.
 Presently, Redis supports a single scripting engine, the [Lua 5.1](https://www.lua.org/) interpreter.
 
-Please refer to the [Redis Lua API Reference]({{< relref "/develop/programmability/lua-api" >}}) page for complete documentation.
+Please refer to the [Redis Lua API Reference](/content/develop/programmability/lua-api.md) page for complete documentation.
 
 ## Running scripts
 
 Redis provides two means for running scripts.
 
-Firstly, and ever since Redis 2.6.0, the [`EVAL`]({{< relref "/commands/eval" >}}) command enables running server-side scripts.
+Firstly, and ever since Redis 2.6.0, the [`EVAL`](/content/commands/eval.md) command enables running server-side scripts.
 Eval scripts provide a quick and straightforward way to have Redis run your scripts ad-hoc.
 However, using them means that the scripted logic is a part of your application (not an extension of the Redis server).
 Every applicative instance that runs a script must have the script's source code readily available for loading at any time.
@@ -60,11 +60,11 @@ In this case, loading a function to the database becomes an administrative deplo
 
 Please refer to the following pages for more information:
 
-* [Redis Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}})
-* [Redis Functions]({{< relref "/develop/programmability/functions-intro" >}})
+* [Redis Eval Scripts](/content/develop/programmability/eval-intro.md)
+* [Redis Functions](/content/develop/programmability/functions-intro.md)
 
 When running a script or a function, Redis guarantees its atomic execution.
-The script's execution blocks all server activities during its entire time, similarly to the semantics of [transactions]({{< relref "develop/using-commands/transactions" >}}).
+The script's execution blocks all server activities during its entire time, similarly to the semantics of [transactions](/content/develop/using-commands/transactions.md).
 These semantics mean that all of the script's effects either have yet to happen or had already happened.
 The blocking semantics of an executed script apply to all connected clients at all times.
 
@@ -75,15 +75,15 @@ However, if you intend to use a slow script in your application, be aware that a
 ## Read-only scripts
 
 A read-only script is a script that only executes commands that don't modify any keys within Redis.
-Read-only scripts can be executed either by adding the `no-writes` [flag]({{< relref "/develop/programmability/lua-api#script_flags" >}}) to the script or by executing the script with one of the read-only script command variants: [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}), [`EVALSHA_RO`]({{< relref "/commands/evalsha_ro" >}}), or [`FCALL_RO`]({{< relref "/commands/fcall_ro" >}}).
+Read-only scripts can be executed either by adding the `no-writes` [flag](/content/develop/programmability/lua-api.md#script_flags) to the script or by executing the script with one of the read-only script command variants: [`EVAL_RO`](/content/commands/eval_ro.md), [`EVALSHA_RO`](/content/commands/evalsha_ro.md), or [`FCALL_RO`](/content/commands/fcall_ro.md).
 They have the following properties:
 
 * They can always be executed on replicas.
-* They can always be killed by the [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}) command. 
+* They can always be killed by the [`SCRIPT KILL`](/content/commands/script-kill.md) command. 
 * They never fail with OOM error when redis is over the memory limit.
 * They are not blocked during write pauses, such as those that occur during coordinated failovers.
 * They cannot execute any command that may modify the data set.
-* Currently [`PUBLISH`]({{< relref "/commands/publish" >}}), [`SPUBLISH`]({{< relref "/commands/spublish" >}}) and [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) are also considered write commands in scripts, because they could attempt to propagate commands to replicas and AOF file.
+* Currently [`PUBLISH`](/content/commands/publish.md), [`SPUBLISH`](/content/commands/spublish.md) and [`PFCOUNT`](/content/commands/pfcount.md) are also considered write commands in scripts, because they could attempt to propagate commands to replicas and AOF file.
 
 In addition to the benefits provided by all read-only scripts, the read-only script commands have the following advantages:
 
@@ -94,8 +94,8 @@ In addition to the benefits provided by all read-only scripts, the read-only scr
 
 Read-only scripts and read-only script commands were introduced in Redis 7.0
 
-* Before Redis 7.0.1 [`PUBLISH`]({{< relref "/commands/publish" >}}), [`SPUBLISH`]({{< relref "/commands/spublish" >}}) and [`PFCOUNT`]({{< relref "/commands/pfcount" >}}) were not considered write commands in scripts
-* Before Redis 7.0.1 the `no-writes` [flag]({{< relref "/develop/programmability/lua-api#script_flags" >}}) did not imply `allow-oom`
+* Before Redis 7.0.1 [`PUBLISH`](/content/commands/publish.md), [`SPUBLISH`](/content/commands/spublish.md) and [`PFCOUNT`](/content/commands/pfcount.md) were not considered write commands in scripts
+* Before Redis 7.0.1 the `no-writes` [flag](/content/develop/programmability/lua-api.md#script_flags) did not imply `allow-oom`
 * Before Redis 7.0.1 the `no-writes` flag did not permit the script to run during write pauses.
 
 
@@ -117,7 +117,7 @@ This default timeout is enormous since a script usually runs in less than a mill
 The limit is in place to handle accidental infinite loops created during development.
 
 It is possible to modify the maximum time a script can be executed with millisecond precision,
-either via `redis.conf` or by using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
+either via `redis.conf` or by using the [`CONFIG SET`](/content/commands/config-set.md) command.
 The configuration parameter affecting max execution time is called `busy-reply-threshold`.
 
 When a script reaches the timeout threshold, it isn't terminated by Redis automatically.
@@ -127,6 +127,6 @@ Interrupting the execution of a script has the potential of leaving the dataset 
 Therefore, when a script executes longer than the configured timeout, the following happens:
 
 * Redis logs that a script is running for too long.
-* It starts accepting commands again from other clients but will reply with a BUSY error to all the clients sending normal commands. The only commands allowed in this state are [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}), [`FUNCTION KILL`]({{< relref "/commands/function-kill" >}}), and `SHUTDOWN NOSAVE`.
-* It is possible to terminate a script that only executes read-only commands using the [`SCRIPT KILL`]({{< relref "/commands/script-kill" >}}) and [`FUNCTION KILL`]({{< relref "/commands/function-kill" >}}) commands. These commands do not violate the scripting semantic as no data was written to the dataset by the script yet.
+* It starts accepting commands again from other clients but will reply with a BUSY error to all the clients sending normal commands. The only commands allowed in this state are [`SCRIPT KILL`](/content/commands/script-kill.md), [`FUNCTION KILL`](/content/commands/function-kill.md), and `SHUTDOWN NOSAVE`.
+* It is possible to terminate a script that only executes read-only commands using the [`SCRIPT KILL`](/content/commands/script-kill.md) and [`FUNCTION KILL`](/content/commands/function-kill.md) commands. These commands do not violate the scripting semantic as no data was written to the dataset by the script yet.
 * If the script had already performed even a single write operation, the only command allowed is `SHUTDOWN NOSAVE` that stops the server without saving the current data set on disk (basically, the server is aborted).

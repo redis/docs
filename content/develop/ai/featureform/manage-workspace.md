@@ -18,7 +18,7 @@ The tasks on this page require one of two roles:
 - A global admin (`global_admin`) creates workspaces and grants access.
 - A workspace admin (`workspace_admin`) verifies their access, runs health checks, and updates or deletes the workspace.
 
-For the full list of built-in roles and the scope model, see [Authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}).
+For the full list of built-in roles and the scope model, see [Authentication and RBAC](/content/operate/featureform/configure-auth.md).
 
 This page covers the `ff` CLI. The Feature Form dashboard supports the same workspace operations with a UI when you prefer.
 
@@ -121,9 +121,8 @@ Update affects metadata only—it doesn't touch providers, the resource graph, o
 
 ## Delete a workspace
 
-{{< warning >}}
-Deleting a workspace permanently removes all workspace-scoped data: providers, secret references, the resource graph, catalog entries, and serving metadata. This cannot be undone.
-{{< /warning >}}
+> [!WARNING]
+> Deleting a workspace permanently removes all workspace-scoped data: providers, secret references, the resource graph, catalog entries, and serving metadata. This cannot be undone.
 
 ```bash
 ff workspace delete <workspace-id> --force
@@ -139,6 +138,6 @@ ff workspace delete <workspace-id> --force
 
 ## Next steps
 
-- [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}) to connect a workspace to its storage, compute, and catalog systems.
-- See [Authentication and RBAC]({{< relref "/operate/featureform/configure-auth" >}}) for the deployment-wide role and scope model.
-- See [Concepts]({{< relref "/develop/ai/featureform/concepts" >}}) for the workspace, resource graph, and serving model.
+- [Register providers](/content/develop/ai/featureform/register-providers/_index.md) to connect a workspace to its storage, compute, and catalog systems.
+- See [Authentication and RBAC](/content/operate/featureform/configure-auth.md) for the deployment-wide role and scope model.
+- See [Concepts](/content/develop/ai/featureform/concepts.md) for the workspace, resource graph, and serving model.

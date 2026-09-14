@@ -5,7 +5,7 @@ linkTitle: Update features
 weight: 50
 ---
 
-After the first `ff apply`, most changes will be iterative: edit the definitions file, preview the delta, apply, and verify. For the full apply mechanics and failure modes, see [Define and deploy features]({{< relref "/develop/ai/featureform/define-and-deploy-features" >}}).
+After the first `ff apply`, most changes will be iterative: edit the definitions file, preview the delta, apply, and verify. For the full apply mechanics and failure modes, see [Define and deploy features](/content/develop/ai/featureform/define-and-deploy-features.md).
 
 ## Typical cycle
 

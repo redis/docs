@@ -77,20 +77,20 @@ POST /v1/caches/{cacheId}/entries
 }
 ```
 
-See [LangCache API examples]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) and the [Agent Memory REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}) for more.
+See [LangCache API examples](/content/develop/ai/context-engine/langcache/api-examples.md) and the [Agent Memory REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md) for more.
 
 Redis Iris context engine includes four services:
 
-- **[LangCache]({{< relref "/develop/ai/context-engine/langcache" >}})**: A semantic caching service that stores and reuses LLM responses for similar queries, reducing API costs and improving response latency.
-- **[Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})**: A persistent memory service that maintains short-term session memory and long-term memory across agent interactions.
-- **[Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}})**: Turns your business data into structured tools that AI agents can safely and reliably use, defined once and reused across all agents.
-- **[Data integration]({{< relref "/develop/ai/context-engine/data-integration" >}})**: Syncs live data from your existing relational databases into Redis Cloud so agents always have access to fresh, accurate business data.
+- **[LangCache](/content/develop/ai/context-engine/langcache/_index.md)**: A semantic caching service that stores and reuses LLM responses for similar queries, reducing API costs and improving response latency.
+- **[Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md)**: A persistent memory service that maintains short-term session memory and long-term memory across agent interactions.
+- **[Context Retriever](/content/develop/ai/context-engine/context-retriever/_index.md)**: Turns your business data into structured tools that AI agents can safely and reliably use, defined once and reused across all agents.
+- **[Data integration](/content/develop/ai/context-engine/data-integration/_index.md)**: Syncs live data from your existing relational databases into Redis Cloud so agents always have access to fresh, accurate business data.
 
-All four services are available on [Redis Cloud]({{< relref "/operate/iris" >}}) using the REST API, with no database setup or management required.
+All four services are available on [Redis Cloud](/content/operate/iris/_index.md) using the REST API, with no database setup or management required.
 
 ## LangCache
 
-[LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}) uses semantic similarity to match incoming prompts against previously cached LLM responses. When LangCache finds a semantically similar response in the cache, it returns that response immediately without making an LLM call.
+[LangCache](/content/develop/ai/context-engine/langcache/_index.md) uses semantic similarity to match incoming prompts against previously cached LLM responses. When LangCache finds a semantically similar response in the cache, it returns that response immediately without making an LLM call.
 
 **Key benefits:**
 
@@ -101,11 +101,11 @@ All four services are available on [Redis Cloud]({{< relref "/operate/iris" >}})
 
 LangCache works well for AI assistants, chatbots, RAG applications, AI agents, and centralized AI gateway services.
 
-[Get started with LangCache]({{< relref "/develop/ai/context-engine/langcache" >}})
+[Get started with LangCache](/content/develop/ai/context-engine/langcache/_index.md)
 
 ## Agent Memory
 
-[Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) gives AI agents a structured, persistent memory layer using a two-tier model:
+[Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) gives AI agents a structured, persistent memory layer using a two-tier model:
 
 - **Session memory** (short-term or working memory): Holds the current conversation state and session metadata, with configurable TTL-based expiration.
 - **Long-term memory**: Stores information extracted from past sessions, including user preferences and learned patterns, as text with vector embeddings for semantic retrieval.
@@ -114,7 +114,7 @@ Promotion from session memory to long-term memory is automatic and non-blocking.
 
 Agent Memory is available through Python and TypeScript SDKs and a REST API.
 
-[Get started with Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}})
+[Get started with Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md)
 
 ## Context Retriever
 
@@ -129,11 +129,11 @@ You define your data model once, specifying the entities that matter (such as cu
 - **Controlled access**: Each agent requires a key, and access tags automatically filter what data each agent can see.
 - **Governed by design**: Agents can only use tools that have been explicitly defined, with no direct database access.
 
-[Get started with Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}})
+[Get started with Context Retriever](/content/develop/ai/context-engine/context-retriever/_index.md)
 
 ## Data integration
 
-AI agents are only as reliable as the data they work with. [Redis Data Integration (RDI)]({{< relref "/operate/rc/rdi" >}}) keeps your Redis Cloud database in sync with your existing relational databases, including Oracle, MySQL, PostgreSQL, and SQL Server, so agents always have access to current, accurate business data without querying slow primary databases directly.
+AI agents are only as reliable as the data they work with. [Redis Data Integration (RDI)](/content/operate/rc/rdi/_index.md) keeps your Redis Cloud database in sync with your existing relational databases, including Oracle, MySQL, PostgreSQL, and SQL Server, so agents always have access to current, accurate business data without querying slow primary databases directly.
 
 RDI uses a data pipeline that performs an initial sync of your source data into Redis, then captures changes in real time. Updates from your primary database appear in Redis within seconds, eliminating stale data and cache misses. Your agents interact only with Redis, which provides fast and predictable query performance.
 
@@ -144,4 +144,4 @@ RDI uses a data pipeline that performs an initial sync of your source data into 
 - **Minimal setup**: No infrastructure to manage. Redis Cloud handles the pipeline.
 - **Broad source support**: Works with Oracle, MySQL, PostgreSQL, MariaDB, SQL Server, and AWS Aurora.
 
-[Get started with Data integration]({{< relref "/develop/ai/context-engine/data-integration" >}})
+[Get started with Data integration](/content/develop/ai/context-engine/data-integration/_index.md)

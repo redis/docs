@@ -71,7 +71,7 @@ cache = EmbeddingsCache(
 ### Storing Embeddings
 
 Let's store some text with its embedding in the cache. The `set` method takes the following parameters:
-- `text`: The input text that was embedded
+- `content`: The input text that was embedded
 - `model_name`: The name of the embedding model used
 - `embedding`: The embedding vector
 - `metadata`: Optional metadata associated with the embedding

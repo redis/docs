@@ -15,9 +15,9 @@ title: Redis subkey notifications
 weight: 5
 ---
 
-Subkey notifications, added in Redis 8.8, extend Redis's existing [keyspace notification]({{< relref "/develop/pubsub/keyspace-notifications" >}}) system to include the key, the subkey (for example, the field for hashes, the path for JSON documents, and the element for arrays), and the event type.
+Subkey notifications, added in Redis 8.8, extend Redis's existing [keyspace notification](/content/develop/pubsub/keyspace-notifications.md) system to include the key, the subkey (for example, the field for hashes, the path for JSON documents, and the element for arrays), and the event type.
 
-With standard keyspace notifications, when a hash field is modified via [`HSET`]({{< relref "/commands/hset" >}}), [`HDEL`]({{< relref "/commands/hdel" >}}), or [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), the subscriber receives the key name and the event type but not which specific fields were affected. Subkey notifications solve this by carrying the affected field names in the message payload.
+With standard keyspace notifications, when a hash field is modified via [`HSET`](/content/commands/hset.md), [`HDEL`](/content/commands/hdel.md), or [`HEXPIRE`](/content/commands/hexpire.md), the subscriber receives the key name and the event type but not which specific fields were affected. Subkey notifications solve this by carrying the affected field names in the message payload.
 
 Subkey notifications are delivered through Pub/Sub channels and are independent of the standard keyspace/keyevent notification channels. Enabling subkey notifications does **not** implicitly enable standard keyspace notifications, and vice versa.
 
@@ -73,16 +73,16 @@ The following commands emit subkey notifications. Currently, only hash commands 
 
 | Command | Event | Subkeys included |
 |---|---|---|
-| [`HSET`]({{< relref "/commands/hset" >}}) / [`HMSET`]({{< relref "/commands/hmset" >}}) | `hset` | All fields being set |
-| [`HSETNX`]({{< relref "/commands/hsetnx" >}}) | `hset` | The field (only if it was set) |
-| [`HDEL`]({{< relref "/commands/hdel" >}}) | `hdel` | All fields deleted |
-| [`HGETDEL`]({{< relref "/commands/hgetdel" >}}) | `hdel` / `hexpired` | Deleted or lazily expired fields |
-| [`HGETEX`]({{< relref "/commands/hgetex" >}}) | `hexpire` / `hpersist` / `hdel` / `hexpired` | Affected fields per event type |
-| [`HINCRBY`]({{< relref "/commands/hincrby" >}}) | `hincrby` | The field |
-| [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) | `hincrbyfloat` | The field |
-| [`HEXPIRE`]({{< relref "/commands/hexpire" >}}) / [`HPEXPIRE`]({{< relref "/commands/hpexpire" >}}) / [`HEXPIREAT`]({{< relref "/commands/hexpireat" >}}) / [`HPEXPIREAT`]({{< relref "/commands/hpexpireat" >}}) | `hexpire` | Fields whose TTLs were updated |
-| [`HPERSIST`]({{< relref "/commands/hpersist" >}}) | `hpersist` | Fields that were persisted |
-| [`HSETEX`]({{< relref "/commands/hsetex" >}}) | `hset` / `hdel` / `hexpire` / `hexpired` | Affected fields per event type |
+| [`HSET`](/content/commands/hset.md) / [`HMSET`](/content/commands/hmset.md) | `hset` | All fields being set |
+| [`HSETNX`](/content/commands/hsetnx.md) | `hset` | The field (only if it was set) |
+| [`HDEL`](/content/commands/hdel.md) | `hdel` | All fields deleted |
+| [`HGETDEL`](/content/commands/hgetdel.md) | `hdel` / `hexpired` | Deleted or lazily expired fields |
+| [`HGETEX`](/content/commands/hgetex.md) | `hexpire` / `hpersist` / `hdel` / `hexpired` | Affected fields per event type |
+| [`HINCRBY`](/content/commands/hincrby.md) | `hincrby` | The field |
+| [`HINCRBYFLOAT`](/content/commands/hincrbyfloat.md) | `hincrbyfloat` | The field |
+| [`HEXPIRE`](/content/commands/hexpire.md) / [`HPEXPIRE`](/content/commands/hpexpire.md) / [`HEXPIREAT`](/content/commands/hexpireat.md) / [`HPEXPIREAT`](/content/commands/hpexpireat.md) | `hexpire` | Fields whose TTLs were updated |
+| [`HPERSIST`](/content/commands/hpersist.md) | `hpersist` | Fields that were persisted |
+| [`HSETEX`](/content/commands/hsetex.md) | `hset` / `hdel` / `hexpire` / `hexpired` | Affected fields per event type |
 | Subkey expiration (active or lazy) | `hexpired` | All expired fields, batched into a single notification |
 
 ### Watching events in real time

@@ -17,9 +17,9 @@ weight: 4
 
 ## Overview
 
-[`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) is a powerful Redis Search command for performing advanced data aggregation, filtering, sorting, and transformations on indexed hash or JSON documents. This reference page provides a structured breakdown of syntax, ordering rules, and best practices.
+[`FT.AGGREGATE`](/content/commands/ft.aggregate.md) is a powerful Redis Search command for performing advanced data aggregation, filtering, sorting, and transformations on indexed hash or JSON documents. This reference page provides a structured breakdown of syntax, ordering rules, and best practices.
 
-The [main aggregations page]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}}) has a simple diagram showing how `FT.AGGREGATE` pipelines are constructed, but it doesn't tell the whole story. For example, you can create more complex aggregation pipelines by applying multiple `REDUCE` functions under a single `GROUPBY` clause, or you can chain groupings and mix in additional mapping steps:
+The [main aggregations page](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md) has a simple diagram showing how `FT.AGGREGATE` pipelines are constructed, but it doesn't tell the whole story. For example, you can create more complex aggregation pipelines by applying multiple `REDUCE` functions under a single `GROUPBY` clause, or you can chain groupings and mix in additional mapping steps:
 
 `GROUPBY` ... `REDUCE` ... `APPLY` ... `GROUPBY` ... `REDUCE`
 
@@ -322,7 +322,7 @@ This is not allowed and you'll get a syntax error.
 ## LIMIT and WITHCURSOR used together
 
 While you wouldn't ordinarily use `LIMIT` and `WITHCURSOR` together in the same query, you can do so if necessary.
-`LIMIT`, as the name suggests, will limit the total number of results returned for the given query. `WITHCURSOR` will paginate the results in chunks of size `COUNT`. You can use the [cursor API]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations/#cursor-api" >}}) to retrieve more results, as shown below.
+`LIMIT`, as the name suggests, will limit the total number of results returned for the given query. `WITHCURSOR` will paginate the results in chunks of size `COUNT`. You can use the [cursor API](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md#cursor-api) to retrieve more results, as shown below.
 
 ```sh
 FT.AGGREGATE products "*"
@@ -367,6 +367,6 @@ FT.AGGREGATE products "*"
 
 See the following resources for more information:
 
-- [Aggregations]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}}) discussion page.
+- [Aggregations](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md) discussion page.
 - [`FT.AGGREGATE` command page](https://redis.io/docs/latest/commands/ft.aggregate/)
 - [Redis Search source code](https://github.com/RediSearch/RediSearch/tree/master/src/aggregate)

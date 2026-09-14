@@ -26,7 +26,7 @@ Redis Open Source supports the following Redis Search features. This article pro
 
 * Secondary indexing
 * Vector indexing
-* Index on [JSON]({{< relref "/develop/data-types/json/" >}}) documents
+* Index on [JSON](/content/develop/data-types/json/_index.md) documents
 * Full-text indexing of multiple fields in a document
 * Incremental indexing without performance loss
 * Document deletion and updating with index garbage collection
@@ -35,26 +35,26 @@ Redis Open Source supports the following Redis Search features. This article pro
 ## Query features
 
 * Multi-field queries
-* Query on [JSON]({{< relref "/develop/data-types/json/" >}}) documents
-* [Aggregation]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}})
+* Query on [JSON](/content/develop/data-types/json/_index.md) documents
+* [Aggregation](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md)
 * Boolean queries with AND, OR, and NOT operators between subqueries
 * Optional query clauses
 * Retrieval of full document contents or only their IDs
 * Exact phrase search and slop-based search
 * Numeric filters and ranges
-* Geo-filtering using Redis [geo commands]({{< relref "/commands/" >}}?group=geo)
-* [Vector search]({{< relref "/develop/ai/search-and-query/vectors" >}})
-* [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
-* [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
+* Geo-filtering using Redis [geo commands](/commands/?group=geo)
+* [Vector search](/content/develop/ai/search-and-query/vectors/_index.md)
+* [Key and field expiration behavior](/content/develop/ai/search-and-query/advanced-concepts/expiration.md)
+* [Search commands in MULTI/EXEC transactions and Lua scripts](/content/develop/ai/search-and-query/advanced-concepts/transactions.md)
 
 
 ## Full-text search features
 
-* [Prefix-based searches]({{< relref "/develop/ai/search-and-query/query/#prefix-matching" >}})
+* [Prefix-based searches](/content/develop/ai/search-and-query/query/_index.md#prefix-matching)
 * Field weights
-* [Auto-complete]({{< relref "develop/ai/search-and-query/administration/overview#auto-complete" >}}) and fuzzy prefix suggestions
-* [Stemming]({{< relref "/develop/ai/search-and-query/advanced-concepts/stemming" >}})-based query expansion for [many languages]({{< relref "develop/ai/search-and-query/advanced-concepts/stemming#supported-languages" >}}) using [Snowball](http://snowballstem.org/)
-* Support for custom functions for query expansion and scoring (see [Extensions]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}))
+* [Auto-complete](/content/develop/ai/search-and-query/administration/overview.md#auto-complete) and fuzzy prefix suggestions
+* [Stemming](/content/develop/ai/search-and-query/advanced-concepts/stemming.md)-based query expansion for [many languages](/content/develop/ai/search-and-query/advanced-concepts/stemming.md#supported-languages) using [Snowball](http://snowballstem.org/)
+* Support for custom functions for query expansion and scoring (see [Extensions](/content/develop/ai/search-and-query/administration/extensions.md))
 * Unicode support (UTF-8 input required)
 * Document ranking
 

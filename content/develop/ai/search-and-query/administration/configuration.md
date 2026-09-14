@@ -17,13 +17,12 @@ linkTitle: Configuration parameters
 title: Configuration parameters
 weight: 1
 ---
-{{< note >}}
-As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for Redis Search are now set in the following ways:
-* At load time via your `redis.conf` file.
-* At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
-
-Also, Redis 8 persists Redis Search configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
-{{< /note >}}
+> [!NOTE]
+> As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for Redis Search are now set in the following ways:
+> * At load time via your `redis.conf` file.
+> * At run time (where applicable) using the [`CONFIG SET`](/content/commands/config-set.md) command.
+>
+> Also, Redis 8 persists Redis Search configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`](/content/commands/config-rewrite.md) command).
 
 ## Redis Search configuration parameters
 
@@ -86,9 +85,8 @@ The version columns indicate availability per Redis Query Engine module version 
 
 {{</table-scrollable>}}
 
-{{< note >}}
-Parameter names for Redis Open Source versions < 8.0, while deprecated, will still be supported in Redis 8.
-{{< /note >}}
+> [!NOTE]
+> Parameter names for Redis Open Source versions < 8.0, while deprecated, will still be supported in Redis 8.
 
 ---
 
@@ -127,7 +125,7 @@ Default: `0`
 
 ### search-cursor-max-idle
 
-The maximum idle time (in ms) that can be set to the [cursor api]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations#cursor-api" >}}).
+The maximum idle time (in ms) that can be set to the [cursor api](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md#cursor-api).
 
 Type: integer
 
@@ -148,9 +146,9 @@ Default: `1`
 ### search-default-dialect
 
 The default
-[DIALECT]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
-to be used by [`FT.CREATE`]({{< relref "/commands/ft.create/" >}}), [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}), [`FT.EXPLAIN`]({{< relref "/commands/ft.explain/" >}}), [`FT.EXPLAINCLI`]({{< relref "/commands/ft.explaincli/" >}}), and [`FT.SPELLCHECK`]({{< relref "/commands/ft.spellcheck/" >}}).
-See [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}})
+[DIALECT](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
+to be used by [`FT.CREATE`](/content/commands/ft.create.md), [`FT.AGGREGATE`](/content/commands/ft.aggregate.md), [`FT.EXPLAIN`](/content/commands/ft.explain.md), [`FT.EXPLAINCLI`](/content/commands/ft.explaincli.md), and [`FT.SPELLCHECK`](/content/commands/ft.spellcheck.md).
+See [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md)
 for more information.
 
 Default: `1`
@@ -158,7 +156,7 @@ Default: `1`
 ### search-ext-load
 
 If present, Redis will try to load an extension dynamic library from the specified file path.
-See [Extensions]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}) for details.
+See [Extensions](/content/develop/ai/search-and-query/administration/extensions.md) for details.
 
 Type: string
 
@@ -216,7 +214,7 @@ Default: `0`
 
 ### search-friso-ini
 
-If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries]({{< relref "/develop/ai/search-and-query/advanced-concepts/chinese#using-custom-dictionaries" >}}) for more details.
+If present, load the custom Chinese dictionary from the specified path. See [Using custom dictionaries](/content/develop/ai/search-and-query/advanced-concepts/chinese.md#using-custom-dictionaries) for more details.
 
 Type: string
 
@@ -256,13 +254,12 @@ Redis Cloud defaults:
 
 Available in Redis Query Engine v2.6.24, v2.8.21, and v2.10.9 and their later maintenance releases, and in Redis Open Source 8.0 and later.
 
-The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`]({{< relref "/commands/ft.aggregate/" >}}). Cursors are also opened internally by  Redis Search for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
+The maximum number of cursors that can be opened, per shard, at any given time. Cursors can be opened by the user via [`FT.AGGREGATE WITHCURSOR`](/content/commands/ft.aggregate.md). Cursors are also opened internally by  Redis Search for long-running queries. Once `INDEX_CURSOR_LIMIT` is reached, any further attempts to open a cursor will result in an error.
 
-{{% alert title="Notes" color="info" %}}
-* Caution should be used in modifying this parameter.  Every open cursor results in additional memory usage.
-* Cursor usage should be regulated first by use of [`FT.CURSOR DEL`]({{< relref "/commands/ft.cursor-del/" >}}) and/or [`MAXIDLE`]({{< relref "/commands/ft.aggregate/" >}}) prior to modifying `INDEX_CURSOR_LIMIT`
-* See [Cursor API]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations#cursor-api" >}}) for more details.
-{{% /alert %}}
+> [!NOTE] Notes
+> * Caution should be used in modifying this parameter.  Every open cursor results in additional memory usage.
+> * Cursor usage should be regulated first by use of [`FT.CURSOR DEL`](/content/commands/ft.cursor-del.md) and/or [`MAXIDLE`](/content/commands/ft.aggregate.md) prior to modifying `INDEX_CURSOR_LIMIT`
+> * See [Cursor API](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md#cursor-api) for more details.
 
 Type: integer
 
@@ -339,10 +336,10 @@ Sets the hard upper bound, in milliseconds, for the effective query timeout when
 If the effective timeout exceeds this limit, Redis caps it instead of rejecting the query.
 This also applies to `TIMEOUT 0`, which normally means unlimited. RESP3 clients receive a
 `MaxTimeoutCapped` warning when the timeout is capped. The limit applies to
-[`FT.SEARCH`]({{< relref "/commands/ft.search/" >}}),
-[`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate/" >}}),
-[`FT.CURSOR READ`]({{< relref "/commands/ft.cursor-read/" >}}), and
-[`FT.HYBRID`]({{< relref "/commands/ft.hybrid/" >}}).
+[`FT.SEARCH`](/content/commands/ft.search.md),
+[`FT.AGGREGATE`](/content/commands/ft.aggregate.md),
+[`FT.CURSOR READ`](/content/commands/ft.cursor-read.md), and
+[`FT.HYBRID`](/content/commands/ft.hybrid.md).
 
 Set this parameter to `0` to disable the limit. The limit is also inactive when
 `search-workers` is greater than `0`.
@@ -512,11 +509,10 @@ The default amount of time in milliseconds that a search query is allowed to run
 
 If the effective timeout is exceeded, Redis returns the top results accumulated so far, or an error depending on the policy set with [`search-on-timeout`](#search-on-timeout). The timeout can be disabled by setting it to `0`.
 
-{{% alert title="Notes" color="info" %}}
-* `search-timeout` refers to query time only.
-* Parsing the query is not counted towards `search-timeout`.
-* If `search-timeout` was not reached during the search, finalizing operations such as loading document content or reducers continue.
-{{% /alert %}}
+> [!NOTE] Notes
+> * `search-timeout` refers to query time only.
+> * Parsing the query is not counted towards `search-timeout`.
+> * If `search-timeout` was not reached during the search, finalizing operations such as loading document content or reducers continue.
 
 Type: integer
 
@@ -555,11 +551,11 @@ Default: `20`
 There is no matching `CONFIG` parameter for `UPGRADE_INDEX`; it is available only as an `FT.CONFIG` parameter or as a module load-time argument.
 
 Relevant only when loading an v1.x RDB file. Specify the argument for upgrading the index.
-This configuration setting is a special configuration option introduced to upgrade indexes from v1.x Redis Search versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE]({{< relref "/commands/ft.create/" >}}) command page. 
+This configuration setting is a special configuration option introduced to upgrade indexes from v1.x Redis Search versions, otherwise known as legacy indexes. This configuration option needs to be given for each legacy index, followed by the index name and all valid options for the index description (also referred to as the `ON` arguments for following hashes) as described on [FT.CREATE](/content/commands/ft.create.md) command page. 
 
 Type: string
 
-Default: there is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`]({{< relref "/commands/ft.create/" >}}) command.
+Default: there is no default for index name, and the other arguments have the same defaults as with the [`FT.CREATE`](/content/commands/ft.create.md) command.
 
 **Example**
 
@@ -568,17 +564,16 @@ UPGRADE_INDEX idx PREFIX 1 tt LANGUAGE french LANGUAGE_FIELD MyLang SCORE 0.5 SC
     PAYLOAD_FIELD MyPayload UPGRADE_INDEX idx1
 ```
 
-{{% alert title="Notes" color="info" %}}
-* If the RDB file does not contain a legacy index that's specified in the configuration, a warning message will be added to the log file, and loading will continue.
-* If the RDB file contains a legacy index that wasn't specified in the configuration, loading will fail and the server won't start.
-{{% /alert %}}
+> [!NOTE] Notes
+> * If the RDB file does not contain a legacy index that's specified in the configuration, a warning message will be added to the log file, and loading will continue.
+> * If the RDB file contains a legacy index that wasn't specified in the configuration, loading will fail and the server won't start.
 
 ### search-vss-max-resize
 
 Available in Redis Query Engine 2.4.8 and later.
 
 The maximum memory resize (in bytes) for vector indexes.
-The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`]({{< relref "/develop/ai/search-and-query/vectors#create-a-vector-index" >}}).
+The maximum memory resize (in bytes) for vector indexes. This value will override default memory limits if you need to allow for a large [`BLOCK_SIZE`](/content/develop/ai/search-and-query/vectors/_index.md#create-a-vector-index).
 
 Type: integer
 
@@ -620,9 +615,8 @@ Valid values: `IGNORE`, `RETURN`, `FAIL`
 
 Default: `IGNORE`
 
-{{% alert title="Notes" color="info" %}}
-To prevent potential out-of-memory conditions, it is recommended that you set this parameter to FAIL or RETURN rather than IGNORE.
-{{% /alert %}}
+> [!NOTE] Notes
+> To prevent potential out-of-memory conditions, it is recommended that you set this parameter to FAIL or RETURN rather than IGNORE.
 
 ## Set configuration parameters at module load-time (deprecated)
 
@@ -630,13 +624,13 @@ These methods are deprecated beginning with Redis 8.
 
 Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line, or after the `loadmodule` directive in a Redis config file. For example:
 
-In [redis.conf]({{< relref "/operate/oss_and_stack/management/config" >}}):
+In [redis.conf](/content/operate/oss_and_stack/management/config.md):
 
 ```
 loadmodule ./redisearch.so [OPT VAL]...
 ```
 
-From the [Redis CLI]({{< relref "/develop/tools/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
+From the [Redis CLI](/content/develop/tools/cli.md), using the [MODULE LOAD](/content/commands/module-load.md) command:
 
 ```
 127.0.0.6379> MODULE LOAD redisearch.so [OPT VAL]...
@@ -667,4 +661,4 @@ FT.CONFIG GET OPT1
 FT.CONFIG GET *
 ```
 
-Values set using [`FT.CONFIG SET`]({{< relref "/commands/ft.config-set/" >}}) are not persisted after server restart.
+Values set using [`FT.CONFIG SET`](/content/commands/ft.config-set.md) are not persisted after server restart.
