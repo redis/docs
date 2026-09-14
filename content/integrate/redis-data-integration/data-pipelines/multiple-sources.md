@@ -68,10 +68,15 @@ lists the names derived from a source named `mysql`.
 | Environment variable prefix | `MYSQL_DB_` |
 | Certificate directory | `/etc/certificates/mysql_db/` |
 | Collector deployment | `collector-mysql` |
-| Change data streams | `data:{rdi}:mysql.<schema_or_database>.<table>` |
-| Dead-letter queue streams | `dlq:data:{rdi}:mysql.<schema_or_database>.<table>` |
+| Change data streams | `data:{rdi}:mysql.<qualified_table_name>` |
+| Dead-letter queue streams | `dlq:data:{rdi}:mysql.<qualified_table_name>` |
 | Metric collection | `collector-mysql_metrics` |
 | Metrics endpoint path on a VM installation | `/collector-mysql/metrics` |
+
+In the stream names, `<qualified_table_name>` is the qualified table name:
+`<database>.<table>` for MySQL and MariaDB, `<database>.<collection>` for MongoDB,
+`<schema>.<table>` for Oracle, PostgreSQL, Snowflake, and Spanner, and
+`<database>.<schema>.<table>` for SQL Server.
 
 Each source also accepts an optional `name` property, which is a display name
 of up to 100 characters. Unlike the source name, it is not used as an identifier,
@@ -123,7 +128,7 @@ sources:
     schemas:
       - public
     tables:
-      public.customers: {}
+      public.clients: {}
 targets:
   target:
     connection:
@@ -170,7 +175,12 @@ source:
 
 When a pipeline has more than one source, every job must set `server_name`, and the value
 must match one of the sources in `config.yaml`. RDI rejects the pipeline when a job has no
-`server_name`, or when its `server_name` matches no source.
+`server_name`, or when its `server_name` matches no source. The one exception is the default
+job for `table: "*"`: it is a source-agnostic catch-all, so it needs no `server_name`.
+
+For a source that existed before RDI supported multiple sources, set `server_name` to `rdi`
+rather than to the name the source has in `config.yaml`. See
+[Existing names are kept after an upgrade](#existing-names-are-kept-after-an-upgrade).
 
 In a pipeline with a single source, `server_name` is optional. If you omit it, the
 job does not filter by source.
@@ -238,8 +248,6 @@ taken for that source, while every other source keeps its data. RDI stops the wh
 the reset runs and starts it again afterwards, exactly as it does for a reset of the whole
 pipeline.
 
-Data that is not partitioned by source is never deleted by a per-source reset.
-
 ## Monitor each source
 
 Use [`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
@@ -256,17 +264,23 @@ Note that while the sources are independent of each other in the data they captu
 pipeline status is not broken down per source. RDI reports the whole pipeline in an error state when a
 single source fails, so you should use the `Components` section to find out which one has failed.
 
-Each source's collector has its own metric collection, named after the collector, such as
-`collector-mysql_metrics`. In Prometheus, the stream processor's `rdi_incoming_entries` and
-`rdi_stream_event_latency_ms` metrics contain a `data_source` label that identifies the stream
-the value belongs to, including the source name, so you can break both of them down per
-source. See
-[Stream processor metrics]({{< relref "/integrate/redis-data-integration/observability#stream-processor-metrics" >}})
+Each Debezium collector has its own metric collection, named after the collector, such as
+`collector-mysql_metrics`. The Spanner and Snowflake collectors don't have metric collections.
+
+In Prometheus, you can break the per-stream record counters down per source, since the stream
+name contains the source name. With the
+[Flink processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+the counters are reported by
+`flink_jobmanager_job_operator_coordinator_stream_type_rdiRecords`, which carries a `stream`
+label; with the classic processor they are reported by `rdi_incoming_entries`, which carries an
+equivalent `data_source` label. See
+[Flink processor metrics]({{< relref "/integrate/redis-data-integration/observability#flink-processor-metrics" >}}),
+[Stream processor metrics]({{< relref "/integrate/redis-data-integration/observability#stream-processor-metrics" >}}),
 and, for the per-source collector endpoints,
 [Accessing the metrics]({{< relref "/integrate/redis-data-integration/observability#accessing-the-metrics" >}}).
 
 Dead-letter queue streams have Redis keys containing a
-`<source>.<schema_or_database>.<table>` section.
+`<source>.<qualified_table_name>` section.
 This makes it easy to attribute rejected records to their source. See
 [Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}) for more information.
 
@@ -282,10 +296,10 @@ In particular, for such a source:
   can keep referencing these secrets.
 - Its Kubernetes secrets are still named `source-db` and `source-db-ssl`.
 - Its Kubernetes deployment and other resources are still named `collector-source`.
-- Its data streams are still named `data:{rdi}:<schema_or_database>.<table>`, and its offset
+- Its data streams are still named `data:{rdi}:<qualified_table_name>`, and its offset
   and schema history keys are still `metadata:debezium:offsets` and
   `metadata:debezium:schema_history`.
-- Its `server_name` is still `rdi`.
+- Its `server_name` is still `rdi`, or, for a Spanner source, its instance ID.
 
 For a source you add after the upgrade, RDI derives all of these names from the source name,
 as described on this page.
