@@ -14,7 +14,9 @@ pipeline uses to connect to its source and target databases (see
 [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
 for the secret keys). Every secret belongs to one database, which you name with `--db`: a source, or
 `target`. RDI combines the key and the database into the environment variable that `config.yaml`
-references, so `PASSWORD` with `--db mysql` becomes `${MYSQL_DB_PASSWORD}`.
+references, so `PASSWORD` with `--db mysql` becomes `${MYSQL_DB_PASSWORD}`. For a source that
+existed before RDI supported multiple sources, the variable is still named `SOURCE_DB_PASSWORD`; see
+[Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).
 
 The secret value comes from the `[value]` argument, the `--file` option, or the `--literal` option.
 If you provide none of these on an interactive terminal, the command prompts for the value without

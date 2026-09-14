@@ -63,6 +63,8 @@ The main sections of these files are:
     [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
     This is required when the pipeline has more than one source but is optional in a pipeline with a single source. See
     [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
+    For a source that existed before RDI supported multiple sources, use `rdi` instead, as described in
+    [Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).
   - `db`: Database name (optional). This refers to a database name you supplied in
     [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
   - `schema`: Database schema (optional). This refers to a schema name you supplied in

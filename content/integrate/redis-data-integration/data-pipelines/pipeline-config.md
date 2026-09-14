@@ -119,7 +119,10 @@ RDI also derives the environment variables that contain the source's credentials
 source name, for example `${MYSQL_DB_USERNAME}` and `${MYSQL_DB_PASSWORD}` for a source
 named `mysql`. See
 [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
-for the source naming rules and for capturing from more than one source database.
+for the source naming rules and for capturing from more than one source database. For a source
+that existed before RDI supported multiple sources, these variables are still named
+`SOURCE_DB_*`; see
+[Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).
 
 The example configuration contains the following data:
 
