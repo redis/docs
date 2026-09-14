@@ -39,10 +39,15 @@ Before you can set up your source connectivity and secrets, you need the AWS Acc
 
 1. On the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab.
 1. Select **Add pipeline**, or resume an existing draft. To add a source to a running pipeline, select **Add source** on its **Dashboard**.
+
+    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The Add pipeline control is available while the workspace is being created." width=80% >}}
+
 1. For a new pipeline, complete **Settings**, including the target database, and select **Continue**.
 1. In **Add sources**, select the source type and enter a unique **Source name**. This name identifies the source in the pipeline configuration and transformation jobs. See [Add sources]({{< relref "/operate/rc/rdi/define#pipeline-setup" >}}) for naming rules.
 1. Select **Continue** to open **Configure source**.
 1. Under **Source connectivity**, copy the **Role ARN** and extract its AWS account ID.
+
+    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The source connectivity Role ARN and availability zones." width=80% >}}
 
     The account ID is the number after `arn:aws:iam::`. For example, `arn:aws:iam::123456789012:role/redis-data-pipeline` contains account ID `123456789012`.
 

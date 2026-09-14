@@ -43,12 +43,21 @@ Before you can create your first Data Integration pipeline for a Redis Cloud sub
 This example creates one PostgreSQL source. You can [add more sources]({{< relref "/operate/rc/rdi/view-edit#add-source" >}}) after the pipeline is running.
 
 1. On the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab and select **Add pipeline**.
+
+    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The Add pipeline control is available while the workspace is being created." width=80% >}}
+
 1. In **Settings**, select your target database and choose **Hash** or **JSON** as the default data structure, then select **Continue**.
 1. In **Add sources**, select **PostgreSQL**.
 1. Enter `postgresql` as the **Source name**. This is the source identifier used in the pipeline configuration and transformation jobs.
 1. Select **Continue** to open **Configure source**.
 1. Under **Source connectivity**, copy the **Role ARN**. Use it as `redis_privatelink_arn` in the Terraform configuration.
+
+    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The source connectivity Role ARN and availability zones." width=80% >}}
+
 1. Under **Secrets**, copy the **Role ARN**. Use it as `redis_secrets_arn` in the Terraform configuration.
+
+    {{<image filename="images/rc/rdi/rdi-credentials-arn.png" alt="The Role ARN in the Secrets section." width=80% >}}
+
 1. Select **Save & exit** while you create the source resources.
 
 ## Create the source database and network resources
@@ -107,14 +116,27 @@ If you lose any outputs, run `terraform output` to view them again.
 1. Open **Configure source** and select `postgresql` in the **Sources** list.
 1. Under **Source connectivity**, enter the Terraform `vpc_endpoint_service_name` output as the **Private Link service name**.
 1. Select **Connect to Private Link** and wait for connectivity to complete.
+
+    {{<image filename="images/rc/rdi/rdi-source-configuration-source-connectivity-privatelink.png" alt="AWS Private Link connectivity with the service name and Connect to Private Link control." width=80% >}}
+
 1. Under **Secrets**, enter the `secret_arn` output as **Credentials Secret ARN**.
 1. Select **Validate** to check access to the secret.
+
+    {{<image filename="images/rc/rdi/rdi-source-configuration-secrets.png" alt="The Credentials Secret ARN field, transit security options, and Validate control." width=80% >}}
+
 1. Under **Source configuration**, enter the `database` and `port` Terraform outputs in the matching fields.
 1. Select **Test source** and correct any validation errors, then select **Continue**.
 1. In **Select data**, select the schemas, tables, and columns to ingest. Review the selected key for each table.
+
+    {{<image filename="images/rc/rdi/rdi-dataset-schema-selected.png" alt="Selecting a schema shows its tables for ingestion." width=75% >}}
+
+    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="Selecting a table shows its columns and the columns selected for ingestion." width=75% >}}
+
 1. Select **Continue** to open **Add transformations**. For this example, you can keep the default mapping without adding jobs.
 1. Select **Continue to review & deploy**.
 1. Review the source and target, then select **Deploy pipeline**.
+
+    {{<image filename="images/rc/rdi/rdi-confirm-deploy.png" alt="The Deploy pipeline button." width=175px >}}
 
 The source first imports its selected data, then captures ongoing changes. Open the pipeline's **Dashboard** or **Metrics** tab to follow its progress.
 

@@ -21,6 +21,8 @@ Before you can create your first Data Integration pipeline for a Redis Cloud sub
 
 {{< embed-md "rc-rdi-create-rdi-workspace.md" >}}
 
+{{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The Add pipeline control is available while the workspace is being created." width=80% >}}
+
 ## View workspace status and details
 
 You can view your workspace in one of the following ways:

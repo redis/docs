@@ -153,6 +153,8 @@ The **Settings** tab contains the default data structure (**Hash** or **JSON**) 
 
 Select **Edit** to change these settings, then **Save changes** and **Apply and restart**. Review [processor properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}}) before changing them. New RDI 2.0.0 pipelines use Flink by default; existing pipelines retain their configured processor.
 
+{{<image filename="images/rc/rdi/rdi-processor-advanced-properties.png" alt="The processor advanced properties editor with key and value fields." width=80% >}}
+
 ## Configuration
 
 Select a source in the **Sources** list to view its connectivity, secret references, and collector configuration. The connection details and secrets of a deployed source are read-only in this view.
@@ -162,6 +164,9 @@ Select a source in the **Sources** list to view its connectivity, secret referen
 1. Select the source in **Configuration**.
 1. Select **Edit collector properties**.
 1. Update the [collector source properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsource-advanced-source-settings" >}}) or [collector sink properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#sourcesadvancedsink-rdi-collector-stream-writer-configuration" >}}) for that source.
+
+    {{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties dialog with separate collector source and sink properties." width=80% >}}
+
 1. Save the properties and review the restart confirmation before applying the changes.
 
 Do not set `topic.prefix`; RDI derives it from the source name. For MySQL, MariaDB, and MongoDB mTLS connections, RDI derives keystore settings from the source's certificate secrets unless you explicitly override them. See [Configure source secrets]({{< relref "/operate/rc/rdi/define#secrets" >}}).
@@ -175,7 +180,19 @@ Select a source in the **Sources** list to view the schemas, tables, columns, an
 ### Edit dataset
 
 1. Select the source, then select **Edit**.
+
+    {{<image filename="images/rc/rdi/rdi-view-edit-button.png" alt="The Edit button." width=100px >}}
+
 1. Select the schemas, tables, and columns to ingest. Review the record key for each selected table and correct any missing-key warnings.
+
+    {{<image filename="images/rc/rdi/rdi-dataset-schema-selected.png" alt="Selecting a schema shows its tables for ingestion." width=75% >}}
+
+    {{<image filename="images/rc/rdi/rdi-select-columns.png" alt="Selecting a table shows its columns and the columns selected for ingestion." width=75% >}}
+
+    {{<image filename="images/rc/rdi/rdi-dataset-missing-unique-key.png" alt="The missing unique key warning with the affected table and its columns." width=75% >}}
+
+    {{<image filename="images/rc/rdi/rdi-unique-key-selected.png" alt="The key control beside the column used to identify a record." width=500px >}}
+
 1. Select **Save changes**.
 1. Review the restart warning and select **Apply and restart**.
 
