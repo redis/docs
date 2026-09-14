@@ -18,6 +18,8 @@ Use an agent for Redis Software and Redis Open Source deployments behind a firew
 
 The agent always connects to Radar over Transport Layer Security (TLS), using gRPC, and makes separate local connections to each Redis endpoint you configure.
 
+Radar accepts those connections on its agent gRPC endpoint, which isn't enabled on every Radar deployment. Confirm the endpoint is available before you install an agent, and get its host and port from whoever administers your Radar deployment.
+
 The agent runs in one of two modes. They differ in where your source credentials live.
 
 | Mode | Radar holds source credentials | You maintain | Choose it when |
@@ -101,16 +103,21 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
    <br>
 
-2. Copy the endpoint from the dialog, then activate the agent on its host.
+2. Copy the whole activation command from the dialog, then run it on the agent host as the service identity.
+
+   Keep every argument the dialog generated. On Redis Cloud, the dialog adds `--tenant-activation-id`, a short-lived handle bound to your tenant, and the agent gRPC service rejects an activation that omits it. A self-managed install doesn't generate one.
+
+   Replace the endpoint and the agent name. The endpoint is your deployment's public agent gRPC host and port. The dialog shows a placeholder, and the public port isn't necessarily `9443`.
 
    ```bash
    sudo -u mcm /usr/libexec/mcm/radar-agent activate \
-     --endpoint <radar-agent-grpc-host>:9443 \
+     --endpoint <radar-agent-grpc-host>:<port> \
      --state-dir /var/lib/radar-agent \
-     --display-name <agent-name>
+     --display-name <agent-name> \
+     --tenant-activation-id <tenant-activation-id>
    ```
 
-   The command prints an activation code and waits for approval. You use that code to identify this host in Radar.
+   When the dialog shows a **Start before** time, run the command before it. The command prints an activation code and waits for approval. You use that code to identify this host in Radar.
 
    <br>
 
@@ -122,9 +129,11 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
    <br>
 
-4. Enter the Redis Software or Redis Open Source connection details in the approval form.
+4. Enter the Redis Software or Redis Open Source connection details in the approval form, then select **Confirm approval**.
 
-   Radar stores these credentials and sends them to the agent.
+   Radar stores these credentials and sends them to the agent. Entering the details doesn't submit the approval; **Confirm approval** does.
+
+   Wait for the agent to print `Activation approved; managed credential stored.` before you continue. The daemon needs that credential to start.
 
    <br>
 
@@ -190,7 +199,19 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 
    <br>
 
-5. Collect from every source and print a redacted summary without submitting to Radar.
+5. Create the redaction salt.
+
+   The example configuration turns redaction on and reads the salt from `/var/lib/radar-agent/redaction-salt`. The agent reads that file and doesn't create it, so generate it once before the first collection.
+
+   ```bash
+   sudo -u mcm sh -c 'umask 077 && openssl rand -hex 32 > /var/lib/radar-agent/redaction-salt'
+   ```
+
+   Keep the same salt across restarts and upgrades. A new salt changes what existing values redact to, so don't overwrite it if you repeat these steps.
+
+   <br>
+
+6. Collect from every source and print a redacted summary without submitting to Radar.
 
    ```bash
    sudo -u mcm /usr/libexec/mcm/radar-agent dry-run --config /etc/radar-agent/config.yaml
@@ -198,7 +219,7 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 
    <br>
 
-6. Submit one collection to confirm the connection to Radar works.
+7. Submit one collection to confirm the connection to Radar works.
 
    ```bash
    sudo -u mcm /usr/libexec/mcm/radar-agent once --config /etc/radar-agent/config.yaml
@@ -208,7 +229,7 @@ Managed mode stores the credential it was issued in `/var/lib/radar-agent/agent-
 
    <br>
 
-7. Start the service.
+8. Start the service.
 
    The default `RADAR_AGENT_DAEMON_ARGS` in `/etc/radar-agent/radar-agent.env` already points at `/etc/radar-agent/config.yaml`. To expose health and metrics, add `--metrics-addr 127.0.0.1:9090` to that line.
 
@@ -250,7 +271,39 @@ To keep secrets out of the file, reference environment variables instead of lite
 
 ### Collect from an isolated network
 
-When the agent host can't reach Radar at all, collect and submit in two steps from different hosts. Both commands take `--config`, so install the agent and its configuration file on both hosts.
+When the agent host can't reach Radar at all, collect and submit in two steps from different hosts. Install the agent on both hosts, and give each one only the configuration it needs. `export` requires your source credentials and no Radar token, and `submit-export` requires the Radar endpoint and token and no sources. Use the same `agent.id` in both files.
+
+This keeps your source credentials on the collector, which is the custody benefit static mode exists for.
+
+On the collector, the sources and the redaction salt:
+
+```yaml
+agent:
+  id: "<agent-id>"
+
+redaction:
+  enabled: true
+  salt_file: "/var/lib/radar-agent/redaction-salt"
+
+sources:
+  - id: "<source-uuid>"
+    name: "<source-name>"
+    type: redis_enterprise
+    base_url: "https://<cluster-host>:9443"
+    username: "<username>"
+    password: "<password>"
+```
+
+On the submission host, the Radar endpoint and token:
+
+```yaml
+agent:
+  id: "<agent-id>"
+
+radar:
+  endpoint: "<radar-agent-grpc-host>:<port>"
+  agent_key: "<key-id>.<secret>"
+```
 
 1. On the host that can reach your Redis sources, collect to a file.
 
@@ -266,7 +319,7 @@ When the agent host can't reach Radar at all, collect and submit in two steps fr
    sudo -u mcm /usr/libexec/mcm/radar-agent submit-export --config /etc/radar-agent/config.yaml --input telemetry.json
    ```
 
-The exported file holds sanitized telemetry only. It never contains your Radar token or your source credentials. The configuration file on each host does contain them, so protect both hosts.
+The exported file holds sanitized telemetry only. It never contains your Radar token or your source credentials. Each configuration file does hold secrets for its own half, so protect both hosts.
 
 ## Monitor and secure the agent
 
@@ -283,7 +336,13 @@ To expose health and metrics endpoints on the agent host, pass `--metrics-addr` 
 These endpoints are unauthenticated. Bind them to loopback, as in `--metrics-addr 127.0.0.1:9090`, or put a firewall in front of them.
 {{< /warning >}}
 
-To read the health snapshot the daemon writes locally, run `sudo -u mcm /usr/libexec/mcm/radar-agent health`. Use `journalctl` for the agent's logs and `systemctl` to restart the service.
+The daemon writes a local health snapshot only when you start it with `--health-file`, and the `health` command needs that same path. Add `--health-file /var/lib/radar-agent/health.json` to `RADAR_AGENT_DAEMON_ARGS` in `/etc/radar-agent/radar-agent.env`, restart the service, then read it:
+
+```bash
+sudo -u mcm /usr/libexec/mcm/radar-agent health --health-file /var/lib/radar-agent/health.json
+```
+
+`--metrics-addr` serves health over HTTP but doesn't write this file. Use `journalctl` for the agent's logs and `systemctl` to restart the service.
 
 Both `/etc/radar-agent/config.yaml` and `/var/lib/radar-agent/agent-key.json` hold secrets, so restrict them to their owner. Never set `tls.insecure_skip_verify` outside local development, because it turns off certificate verification. To block an agent, revoke its key under **Settings > Access keys**. Revoking takes effect centrally, and the agent can no longer connect.
 
@@ -291,7 +350,7 @@ Source passwords and the agent's token are redacted from logs, diagnostics, heal
 
 ## Upgrade or remove the agent
 
-To upgrade, get the new tarball, verify it, and replace the binary in place. Your configuration and environment file are untouched. If you use static mode, revalidate the configuration before restarting:
+To upgrade, get the new tarball, verify it, and replace the binary in place. Your configuration and environment file are untouched. If you run a static agent whose configuration file holds both source and Radar credentials, revalidate it before restarting:
 
 ```bash
 sudo -u mcm /usr/libexec/mcm/radar-agent validate --config /etc/radar-agent/config.yaml
@@ -302,7 +361,15 @@ Keep `/etc/radar-agent` and `/var/lib/radar-agent` in place, because the agent n
 
 Radar enforces a version policy on every request. An agent older than the minimum supported version is rejected until you upgrade it. An agent newer than the Radar deployment supports is also rejected, and Radar asks for a server upgrade instead.
 
-If Radar's database is reset, activate the managed agent again: remove the old state directory, run `sudo -u mcm /usr/libexec/mcm/radar-agent activate`, then start the service.
+If Radar's database is reset, activate the managed agent again. Stop the service before you clear the managed registration state. Recreate the state directory if you removed it, because `/var/lib` is owned by root and `mcm` can't create the directory during activation.
+
+```bash
+sudo systemctl stop radar-agent.service
+sudo rm -rf /var/lib/radar-agent
+sudo install -d -o mcm -g mcm -m 0700 /var/lib/radar-agent
+```
+
+Then repeat [Set up a managed agent](#set-up-a-managed-agent) and start the service again. On Redis Cloud, get a fresh tenant activation handle from the dialog first.
 
 To stop collecting from this host, turn off the service and delete its configuration and state.
 
