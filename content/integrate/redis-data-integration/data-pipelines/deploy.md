@@ -51,8 +51,8 @@ shows these references in use, and
 covers the source naming rules.
 
 {{< note >}}The scope-prefixed keys `SOURCE_DB_*` and `TARGET_DB_*` are also accepted, and can be
-used without specifying `--db`. RDI accepts a `SOURCE_DB_*` key only for a pipeline with
-exactly one source created before RDI supported multiple sources. See
+used without specifying `--db`. RDI accepts a `SOURCE_DB_*` key only for a pipeline with exactly
+one source. Prefer the per-database keys with `--db`, which work for any pipeline. See
 [Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}) for more information.{{< /note >}}
 
 {{< note >}}
