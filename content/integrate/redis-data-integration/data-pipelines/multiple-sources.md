@@ -301,8 +301,12 @@ In particular, for such a source:
   `metadata:debezium:schema_history`.
 - Its `server_name` is still `rdi`, or, for a Spanner source, its instance ID.
 
-For a source you add after the upgrade, RDI derives all of these names from the source name,
-as described on this page.
+These names are permanent. If you remove such a source from `config.yaml` and later add a source
+with the same name, RDI applies the names from before the upgrade to it again rather than 
+deriving them from the source name.
+
+For a source you add after the upgrade under any other name, RDI derives all of these names
+from the source name, as described on this page.
 
 See [Upgrading RDI]({{< relref "/integrate/redis-data-integration/installation/upgrade" >}})
 for more information.
