@@ -19,7 +19,8 @@ Cut LLM costs and improve response times with semantic caching.
 
 LangCache checks whether a semantically similar prompt has been answered before and returns the cached response instantly — no LLM call required. When there's no match, your app calls the LLM as usual and stores the result for future use.
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
+  {{< image-card image="images/ai-model.svg" alt="Concepts icon" title="Concepts — Why a cache hit isn't binary anymore, and how to choose a similarity threshold" url="/develop/ai/context-engine/langcache/concepts" >}}
   {{< image-card image="images/ai-LLM-memory.svg" alt="Quick start icon" title="Quick Start — Create a LangCache service on Redis Cloud and make your first API call" url="/operate/iris/langcache/create-service" >}}
   {{< image-card image="images/ai-search.svg" alt="API examples icon" title="API and SDK Examples — Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/context-engine/langcache/api-examples" >}}
   {{< image-card image="images/ai-brain-2.svg" alt="Monitor icon" title="Monitor Cache — Track hit rates, usage, and performance in Redis Cloud" url="/operate/iris/langcache/monitor-cache" >}}
