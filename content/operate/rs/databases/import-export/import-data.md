@@ -270,6 +270,32 @@ POST /v1/bdbs/<database-id>/actions/import
 }
 ```
 
+#### Import from a source encrypted with a customer-provided key (SSE-C)
+
+To import from an S3 or S3-compatible source encrypted with a customer-provided key ([SSE-C](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html)), add an `encryption` object to the source in `dataset_import_sources`:
+
+```json
+{
+  "dataset_import_sources": [
+    {
+      "type": "s3",
+      "bucket_name": "backups",
+      "subdir": "test-db",
+      "filename": "<filename>.rdb",
+      "access_key_id": "XXXXXXXXXXXXX",
+      "secret_access_key": "XXXXXXXXXXXXXXXX",
+      "encryption": {
+        "type": "sse-c",
+        "sse_customer_key": "<base64-encoded 32-byte key>"
+      }
+    }
+  ]
+}
+```
+
+- `sse_customer_key` must be a base64-encoded string that decodes to exactly 32 bytes (AES-256).
+- SSE-C encryption is only available for S3 and S3-compatible storage locations, and only for this one import request. You can't add `encryption` to a database's persisted [dataset_import_sources]({{<relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources">}}) configuration.
+
 ### Google Cloud Storage
 
 Before you import data from a [Google Cloud](https://developers.google.com/console/) storage bucket, make sure you have:
