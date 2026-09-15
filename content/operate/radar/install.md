@@ -51,7 +51,7 @@ Before you install:
 
 ### PostgreSQL
 
-Radar requires PostgreSQL 16 or later. For production, set up your own external, managed [PostgreSQL](https://www.postgresql.org/docs/) database before you install Radar. You need to provision, back up, and tune it yourself, since Radar only connects to it and creates the roles and schema it needs on startup.
+Radar requires PostgreSQL 16 or later. Redis tests Radar against PostgreSQL 16 and 18. For production, set up your own external, managed [PostgreSQL](https://www.postgresql.org/docs/) database before you install Radar. You need to provision, back up, and tune it yourself, since Radar only connects to it and creates the roles and schema it needs on startup.
 
 For evaluation or testing, you can skip that step: the Helm chart and the Compose bundle can each start a PostgreSQL container for you, though neither is hardened for production use.
 
@@ -83,11 +83,11 @@ In that line, both `enabled` and `required` should read `true`. Search your logs
 
 ### Package and service names
 
-Radar's packages, services, and paths use an `mcm` prefix. The RPM is named `mcm`, its services are `mcm-api` and `mcm-worker`, and its configuration lives in `/etc/mcm/`. The Docker Compose bundle's container images are `mcm-app`, `mcm-worker`, and `mcm-migrate`; the Helm chart's default image repositories use a `radar-` prefix instead.
+Radar's services and paths use an `mcm` prefix. The RPM is named `radar`, its services are `mcm-api` and `mcm-worker`, and its configuration lives in `/etc/mcm/`. Container images use a `radar-` prefix in both the Docker Compose bundle and the Helm chart: `radar-app`, `radar-worker`, and `radar-migrate`.
 
 ## Install on RHEL with the RPM
 
-The RPM installs native binaries and needs no container runtime. It also installs the `mcmctl` diagnostics command.
+The RPM installs native binaries and needs no container runtime. It also installs the `radar` diagnostics command.
 
 {{< note >}}
 The RPM listens only on loopback by default. A successful RPM install is not yet reachable from any other machine until you put a proxy in front of it.
@@ -97,7 +97,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    ```bash
    sha256sum -c SHA256SUMS
-   sudo dnf install -y ./mcm-<version>-<release>.x86_64.rpm
+   sudo dnf install -y ./radar-<version>-<release>.x86_64.rpm
    ```
 
    The package requires `postgresql-server` and `postgresql-contrib` version 16 or later. If PostgreSQL software is absent, `dnf` installs it as a dependency. Installing the package never creates, starts, or tunes a database.
@@ -143,10 +143,10 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 4. Check the configuration.
 
    ```bash
-   sudo mcmctl doctor
+   sudo radar doctor
    ```
 
-   Before the first start, `mcmctl doctor` reports that schema migration has not run yet. That is expected; the configuration and database connectivity checks should still pass.
+   Before the first start, `radar doctor` reports that schema migration has not run yet. That is expected; the configuration and database connectivity checks should still pass.
 
    <br>
 
@@ -165,7 +165,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    ```bash
    curl -fsS http://127.0.0.1:8080/healthz/ready
-   sudo mcmctl doctor
+   sudo radar doctor
    ```
 
    <br>
@@ -195,10 +195,10 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    ```bash
    sudo systemctl restart mcm-api.service
-   sudo mcmctl doctor
+   sudo radar doctor
    ```
 
-   `mcmctl doctor` checks runtime health through the configured address. If it reports a runtime-health failure after you change the listen address, confirm the service bound to the interface you expected and that the proxy forwards to the same address.
+   `radar doctor` checks runtime health through the configured address. If it reports a runtime-health failure after you change the listen address, confirm the service bound to the interface you expected and that the proxy forwards to the same address.
 
    {{< warning >}}
    Do not expose Radar directly on a public interface. Terminate TLS and apply access controls at the edge.
