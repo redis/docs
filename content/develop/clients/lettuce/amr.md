@@ -89,7 +89,7 @@ test it by obtaining a token, as shown in the following example:
 
 ```java
 // Test that the Entra ID credentials provider can resolve credentials.
-credentials.resolveCredentials()
+credentials.resolveCredentialsAsync()
         .doOnNext(c-> System.out.println(c.getUsername()))
         .block();
 ```
@@ -188,7 +188,7 @@ try (EntraIDTokenAuthConfigBuilder builder = EntraIDTokenAuthConfigBuilder.build
 }
 
 // Optionally test the credentials provider.
-// credentialsSP.resolveCredentials().doOnNext(c -> System.out.println("SPI ID :" + c.getUsername())).block();
+// credentialsSP.resolveCredentialsAsync().doOnNext(c -> System.out.println("SPI ID :" + c.getUsername())).block();
 
 // Enable automatic re-authentication.
 ClientOptions clientOptions = ClientOptions.builder()
