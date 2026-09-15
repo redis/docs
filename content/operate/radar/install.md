@@ -400,10 +400,43 @@ sha256sum -c radar-v<version>.SHA256SUMS
 | Method | What to transfer | How it installs |
 |---|---|---|
 | RPM | The `.rpm` and the dependency closure, including `postgresql-server` if the host has no offline PostgreSQL | `dnf install` from the local file |
-| Helm | `images.tar.gz`, the packaged chart, and the bundled values file | `docker load` the images onto the nodes, then install the chart |
+| Helm | The chart package, `radar-<version>.tgz`, and the container images listed in the release notes for your version | Copy the images into a registry the cluster can pull from, then install the chart from the package. See [Helm on an air-gapped cluster](#helm-on-an-air-gapped-cluster). |
 | Docker Compose | `images.tar.gz` and the Compose files | `docker load`, then `docker compose up` |
 
 Your PostgreSQL database and the clusters you plan to monitor still need to be reachable from the Radar host over the network.
+
+### Helm on an air-gapped cluster
+
+1. On a machine with internet access, download the chart package.
+
+   ```bash
+   helm repo add radar https://helm.redis.io/radar
+   helm pull radar/radar --version <version>
+   ```
+
+   The command saves `radar-<version>.tgz`, which includes `values-openshift.yaml`.
+
+   <br>
+
+2. Copy each image listed under **Downloads** in the [release notes]({{< relref "/operate/radar/release-notes" >}}) for your version into your registry, keeping its repository path. For example, with `skopeo`:
+
+   ```bash
+   skopeo copy --all \
+     docker://docker.io/redislabs/radar:app-v<version> \
+     docker://registry.example.com/redislabs/radar:app-v<version>
+   ```
+
+   The `--all` option copies every platform of a multi-platform image, such as `busybox`, rather than only the platform of the machine that runs the copy.
+
+   <br>
+
+3. Install from the package. Follow [Install on Kubernetes with Helm](#install-on-kubernetes-with-helm), substitute `./radar-<version>.tgz` for `radar/radar`, and add the registry values file. For OpenShift, extract the values file from the package instead of running `helm pull`:
+
+   ```bash
+   tar -xzf radar-<version>.tgz radar/values-openshift.yaml
+   ```
+
+   <br>
 
 ## Next steps
 
