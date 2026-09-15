@@ -404,7 +404,7 @@ Confirm you've replaced every sample value, especially the credential encryption
 
 Air-gapped installation uses the same three methods.
 
-Transfer the release artifacts to the target host or to an offline repository it can reach, then verify them:
+Transfer the release artifacts to the target host or to an offline repository it can reach. If they include a `radar-v<version>.SHA256SUMS` file, verify them:
 
 ```bash
 sha256sum -c radar-v<version>.SHA256SUMS
