@@ -141,4 +141,4 @@ To send cluster and database alerts by email:
 1. In **Configuration** for the database, click **Edit**.
 1. Select the **Alerts** section to open it.
 1. Select **Receive email alerts** and click **Save**.
-1. In **Access Control**, select the [database and cluster alerts]({{< relref "/operate/rs/security/access-control/manage-users" >}}) that you want each user to receive.
+1. In **Access Control**, select the [database and cluster alerts]({{< relref "/operate/rs/security/access-control/create-users#add-users" >}}) that you want each user to receive.
