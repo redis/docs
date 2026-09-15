@@ -293,6 +293,19 @@ To install from a chart package file instead, such as on a cluster with no inter
 
    Set `image.registry` rather than `global.imageRegistry`. In chart 2026.9.5 and earlier, `global.imageRegistry` does not apply to the Radar images, and the `busybox` image has no registry setting, so its repository includes the registry. If you use the chart's bundled PostgreSQL container, also set `postgresql.image.registry`.
 
+   In the same chart versions, the `helm test` pod doesn't receive `global.imagePullSecrets` and runs as the namespace's `default` service account. If your registry requires authentication, attach the pull secret to that service account so `helm test` can pull `busybox`. On OpenShift:
+
+   ```bash
+   oc secrets link default registry-creds --for=pull -n radar
+   ```
+
+   On Kubernetes:
+
+   ```bash
+   kubectl patch serviceaccount default -n radar \
+     -p '{"imagePullSecrets": [{"name": "registry-creds"}]}'
+   ```
+
    **For OpenShift**, use the OpenShift values file instead, which lets OpenShift assign namespace-scoped user IDs and switches the external access path from an ingress to a route. The file ships inside the chart, so extract it first.
 
    ```bash
