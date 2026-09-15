@@ -52,9 +52,11 @@ values. The following metrics are reported:
 *   `functions.caches`: the summed size in bytes of the overheads of the Function scripts'
      caches
 *   `hash.templates`: Total memory in bytes used by all compact hash templates (see [`INFO`]({{< relref "/commands/info" >}})'s `used_memory_hash_templates`). Added in Redis 8.10.
-*   `dbXXX`: For each of the server's databases, the overheads of the main and
-     expiry dictionaries (`overhead.hashtable.main` and
-    `overhead.hashtable.expires`, respectively) are reported in bytes
+*   `dbXXX`: For each of the server's databases, the overheads of the main,
+     expiry, and [blessed-key]({{< relref "/commands/bless" >}}) dictionaries
+     (`overhead.hashtable.main`, `overhead.hashtable.expires`, and
+    `overhead.hashtable.blessed`, respectively) are reported in bytes.
+    `overhead.hashtable.blessed` was added in Redis 8.12.
 *   `overhead.db.hashtable.lut`: Total overhead of dictionary buckets in databases (Added in Redis 7.4)
 *   `overhead.db.hashtable.rehashing`: Temporary memory overhead of database dictionaries currently being rehashed (Added in Redis 7.4) 
 *   `overhead.total`: The sum of all overheads, i.e. `startup.allocated`,
