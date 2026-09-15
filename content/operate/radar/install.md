@@ -96,7 +96,6 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 1. Install the package.
 
    ```bash
-   sha256sum -c SHA256SUMS
    sudo dnf install -y ./radar-<version>-<release>.x86_64.rpm
    ```
 
@@ -380,7 +379,7 @@ sha256sum -c SHA256SUMS
 
 | Method | What to transfer | How it installs |
 |---|---|---|
-| RPM | The `.rpm`, `SHA256SUMS`, and the dependency closure, including `postgresql-server` if the host has no offline PostgreSQL | `dnf install` from the local file |
+| RPM | The `.rpm` and the dependency closure, including `postgresql-server` if the host has no offline PostgreSQL | `dnf install` from the local file |
 | Helm | `images.tar.gz`, the packaged chart, and the bundled values file | `docker load` the images onto the nodes, then install the chart |
 | Docker Compose | `images.tar.gz` and the Compose files | `docker load`, then `docker compose up` |
 
