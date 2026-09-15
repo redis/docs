@@ -216,7 +216,9 @@ helm repo add radar https://helm.redis.io/radar
 helm repo update radar
 ```
 
-If you install from a source checkout or from an air-gapped bundle instead, substitute `./helm/radar` or the bundle's `radar-*.tgz` file for `radar/radar` in the `helm install` commands below.
+The chart version matches the Radar version. Replace `<version>` in the commands with the release you install, such as `2026.9.5`, and use that release's container images. Each release's [release notes]({{< relref "/operate/radar/release-notes" >}}) list its chart version and images under **Downloads**.
+
+To install from a chart package file instead, such as on a cluster with no internet access, substitute the `radar-<version>.tgz` file for `radar/radar` in the `helm install` commands. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
 1. Create the namespace.
 
@@ -262,6 +264,7 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
 
    ```bash
    helm install radar radar/radar \
+     --version <version> \
      --namespace radar \
      --set database.host=postgres.example.com \
      --set database.existingSecret=radar-db \
@@ -287,9 +290,10 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
    **For OpenShift**, use the OpenShift values file instead, which lets OpenShift assign namespace-scoped user IDs and switches the external access path from an ingress to a route. The file ships inside the chart, so extract it first.
 
    ```bash
-   helm pull radar/radar --untar --untardir .
+   helm pull radar/radar --version <version> --untar --untardir .
 
    helm install radar radar/radar \
+     --version <version> \
      --namespace radar \
      -f ./radar/values-openshift.yaml \
      --set database.host=postgres.example.com \
