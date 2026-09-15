@@ -430,7 +430,7 @@ Your PostgreSQL database and the clusters you plan to monitor still need to be r
 
    <br>
 
-3. Install from the package. Follow [Install on Kubernetes with Helm](#install-on-kubernetes-with-helm), substitute `./radar-<version>.tgz` for `radar/radar`, and add the registry values file. For OpenShift, extract the values file from the package instead of running `helm pull`:
+3. Install from the package. Follow [Install on Kubernetes with Helm](#install-on-kubernetes-with-helm) without adding the Helm repository, substitute `./radar-<version>.tgz` for `radar/radar`, and add the registry values file. For OpenShift, extract the values file from the package instead of running `helm pull`:
 
    ```bash
    tar -xzf radar-<version>.tgz radar/values-openshift.yaml
