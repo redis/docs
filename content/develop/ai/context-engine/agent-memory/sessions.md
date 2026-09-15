@@ -32,6 +32,40 @@ Each stored event can include:
 
 Before an agent turn, retrieve the session by `sessionId` and provide the relevant events to the agent. Use these events as conversation context for the model.
 
+## List sessions
+
+Use `GET /v1/stores/{storeId}/session-memory` to find session IDs by owner or namespace. Reuse the curl connection values from the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart#save-the-connection-values" >}}).
+
+To list sessions in one namespace, set `NAMESPACE_ID` to the stable ID returned when you [create a namespace]({{< relref "/develop/ai/context-engine/agent-memory/namespaces#create-a-personal-namespace" >}}):
+
+```sh
+curl --fail-with-body --silent --show-error \
+  --header "Authorization: Bearer $API_KEY" \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory?namespaceRef=$NAMESPACE_ID" | jq
+```
+
+`namespaceRef` matches the namespace ID exactly, including case. It excludes descendant namespaces, sessions with only a deprecated `namespace` label, and sessions without a namespace resource.
+
+Add `filterOwnerId` to return sessions that match both the namespace and the owner:
+
+```sh
+curl --fail-with-body --silent --show-error \
+  --header "Authorization: Bearer $API_KEY" \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory?namespaceRef=$NAMESPACE_ID&filterOwnerId=$OWNER_ID" | jq
+```
+
+You can also use `filterOwnerId` alone. To list all sessions, omit both filters and set `includeAll=true`:
+
+```sh
+curl --fail-with-body --silent --show-error \
+  --header "Authorization: Bearer $API_KEY" \
+  "$AGENT_MEMORY_URL/v1/stores/$STORE_ID/session-memory?includeAll=true" | jq
+```
+
+Do not combine `includeAll=true` with either filter. A request without a filter must set `includeAll=true`.
+
+The response contains session IDs in `items` and the number of matching sessions in `total`. If the response includes `nextPageToken`, pass it as `pageToken` with the same filters to fetch the next page. See the [List Sessions API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}#operation/ListSessions) for pagination limits.
+
 ## Configure session retention
 
 The session-memory time to live (TTL) controls how long sessions remain available. Configure it according to the retention requirements of your application. When a session expires, its events are no longer available through session-memory retrieval.

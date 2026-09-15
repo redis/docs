@@ -2052,6 +2052,18 @@
                         }
                     },
                     {
+                        "name": "namespaceRef",
+                        "in": "query",
+                        "description": "Filter sessions by stable namespace ID. Matching is exact and case-sensitive, excludes deprecated namespace labels and sessions without a namespace resource, and does not include descendants. Combined with filterOwnerId using AND. Mutually exclusive with includeAll.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Filter sessions by stable namespace ID. Matching is exact and case-sensitive, excludes deprecated namespace labels and sessions without a namespace resource, and does not include descendants. Combined with filterOwnerId using AND. Mutually exclusive with includeAll."
+                        }
+                    },
+                    {
                         "name": "includeAll",
                         "in": "query",
                         "description": "Set to true to list all sessions. Required when no filter is given; mutually exclusive with filters.",
