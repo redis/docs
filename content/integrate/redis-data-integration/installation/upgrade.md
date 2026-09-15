@@ -74,7 +74,7 @@ run the CLI binary of the previous RDI version, which still provided the `redis-
     sudo redis-di upgrade --rdi-host <RDI_REDIS_HOST> --rdi-port <RDI_REDIS_PORT>
     ```
 
-{{< note >}}If the `collector-source` or the `processor` pods are not in the `Running` state after
+{{< note >}}If the `collector` or `processor` pods are not in the `Running` state after
 the upgrade, you must run `redis-di deploy` and check again that they are both in the
 `Running` state.
 {{< /note >}}
@@ -174,6 +174,14 @@ described in [Uninstall RDI]({{< relref "/integrate/redis-data-integration/insta
 and then install the old version.
 {{< /note >}}
 
+## Source names before and after the upgrade
+
+For a source that existed before upgrading to an RDI version that supports multiple sources, the
+resource names from before the upgrade are kept unchanged. The source will keep running correctly without changes.
+
+For more details on how to handle sources created after upgrading, see
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).
+
 ## Enabling the Flink processor
 
 The
@@ -181,11 +189,12 @@ The
 fully supported on both VM and Kubernetes installations after upgrading to
 RDI 1.19.0. Once the upgrade completes, it is always available —
 no opt-in is required, and the defaults are sized for typical workloads.
-Upgrading does not change the processor used by existing pipelines, which keep
-running on the classic processor until you explicitly switch them by
-setting
+
+{{< warning >}}The Flink processor is the default as of RDI 2.0.0.
+Upgrading to that release or later moves a pipeline whose `config.yaml` does not set
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink` in their `config.yaml`.
+onto the Flink processor when you next deploy it. To keep such a pipeline on the classic
+processor, set `processors.type` to `classic` before you upgrade.{{< /warning >}}
 
 On Kubernetes, to override the Flink processor defaults, add an
 `operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file as
@@ -203,7 +212,7 @@ The upgrade process replaces the current RDI components with their new versions:
 -   Firstly, the control plane components are replaced. At this point, the pipeline
     is still active but monitoring will be disconnected.
 -   Secondly, the pipeline data plane components are replaced.
-    If a pipeline is active while upgrading, the `collector-source` and `processor`
+    If a pipeline is active while upgrading, the `collector` and `processor`
     pods will be restarted. The pipeline will pause for up to two minutes but it 
     will catch up very quickly after restarting. 
     The pipeline data and state are both stored in Redis, so data will not

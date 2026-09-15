@@ -45,7 +45,7 @@ Before you can create your first Data Integration pipeline for a Redis Cloud sub
     {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Data Integration tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
 1. Select **PostgreSQL** as the source database type.
     {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=80% >}}
-1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.
+1. Enter a name for your source database in the **Source name** field. This is a display label for the source database on Redis Cloud. It does not affect the pipeline's configuration.
 1. Select **Continue to source** to move to the **Source configuration** step.
 
     {{<image filename="images/rc/rdi/rdi-continue-to-source-button.png" alt="The select source database type list." width=200px >}}
