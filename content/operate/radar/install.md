@@ -218,7 +218,15 @@ helm repo update radar
 
 If you install from a source checkout or from an air-gapped bundle instead, substitute `./helm/radar` or the bundle's `radar-*.tgz` file for `radar/radar` in the `helm install` commands below.
 
-1. Create the database secret. Store the database connection string in a secret.
+1. Create the namespace.
+
+   ```bash
+   kubectl create namespace radar
+   ```
+
+   <br>
+
+2. Create the database secret. Store the database connection string in a secret.
 
    ```bash
    kubectl create secret generic radar-db \
@@ -228,7 +236,7 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
 
    <br>
 
-2. Create the credentials secret. Generate the credential encryption key as a file and load it with `--from-file`.
+3. Create the credentials secret. Generate the credential encryption key as a file and load it with `--from-file`.
 
    ```bash
    head -c 32 /dev/urandom > kek.bin
@@ -248,12 +256,11 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
 
    <br>
 
-3. Install the chart.
+4. Install the chart.
 
    ```bash
    helm install radar radar/radar \
      --namespace radar \
-     --create-namespace \
      --set database.existingSecret=radar-db \
      --set credentials.existingSecret=radar-credentials \
      --set ingress.enabled=true \
@@ -281,7 +288,6 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
 
    helm install radar radar/radar \
      --namespace radar \
-     --create-namespace \
      -f ./radar/values-openshift.yaml \
      --set database.existingSecret=radar-db \
      --set credentials.existingSecret=radar-credentials \
@@ -292,7 +298,7 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
 
    <br>
 
-4. Verify the install.
+5. Verify the install.
 
    ```bash
    kubectl get pods -n radar
@@ -309,7 +315,7 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
 
    <br>
 
-5. Provide remote access. 
+6. Provide remote access. 
    
    The API server and UI are served on port 80 of an in-cluster service. Expose it with an ingress, an OpenShift route, or a `LoadBalancer` service, and terminate TLS there.
 
