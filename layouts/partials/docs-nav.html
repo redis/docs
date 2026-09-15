@@ -164,8 +164,8 @@
         {{- $vers := slice -}}
         {{- $lines := slice -}}
 
-        {{ if fileExists "redis-data-integration-versions" }}
-          {{- $txt := readFile "redis-data-integration-versions" -}}
+        {{ if fileExists "rdi-versions" }}
+          {{- $txt := readFile "rdi-versions" -}}
           {{- $lines = split $txt "\n" -}}
 
           {{- range $lines }}
