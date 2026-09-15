@@ -39,7 +39,7 @@ What you have to do differs by method, so each install method below ends with it
 
 All three are supported and built from the same release. You can install any of them on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
-Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**. Get the container images from Docker Hub, and the Helm chart.
+Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**. Get the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`.
 
 ## Before you start
 
@@ -51,7 +51,7 @@ Before you install:
 
 ### PostgreSQL
 
-For production, set up your own external, managed [PostgreSQL](https://www.postgresql.org/docs/) database before you install Radar. You need to provision, back up, and tune it yourself, since Radar only connects to it and creates the roles and schema it needs on startup.
+Radar requires PostgreSQL 16 or later. For production, set up your own external, managed [PostgreSQL](https://www.postgresql.org/docs/) database before you install Radar. You need to provision, back up, and tune it yourself, since Radar only connects to it and creates the roles and schema it needs on startup.
 
 For evaluation or testing, you can skip that step: the Helm chart and the Compose bundle can each start a PostgreSQL container for you, though neither is hardened for production use.
 
@@ -100,7 +100,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
    sudo dnf install -y ./mcm-<version>-<release>.x86_64.rpm
    ```
 
-   The package depends on RHEL's `postgresql-server`, so `dnf` installs PostgreSQL software if it is absent. It does not create or start a database.
+   The package requires `postgresql-server` and `postgresql-contrib` version 16 or later. If PostgreSQL software is absent, `dnf` installs it as a dependency. Installing the package never creates, starts, or tunes a database.
 
    <br>
 
@@ -210,6 +210,15 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
 A production install has four parts you supply: the PostgreSQL connection, the credential encryption key, image pull access, and an external access path.
 
+Add the Redis Helm repository first. The commands below install from it.
+
+```bash
+helm repo add radar https://helm.redis.io/radar
+helm repo update radar
+```
+
+If you install from a source checkout or from an air-gapped bundle instead, substitute `./helm/radar` or the bundle's `radar-*.tgz` file for `radar/radar` in the commands below.
+
 1. Create the database secret. Store the database connection string in a secret.
 
    ```bash
@@ -243,7 +252,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
 3. Install the chart.
 
    ```bash
-   helm install radar ./helm/radar \
+   helm install radar radar/radar \
      --namespace radar \
      --create-namespace \
      --set database.existingSecret=radar-db \
@@ -266,13 +275,15 @@ A production install has four parts you supply: the PostgreSQL connection, the c
        - name: registry-creds
    ```
 
-   **For OpenShift**, use the OpenShift values file instead, which lets OpenShift assign namespace-scoped user IDs and switches the external access path from an ingress to a route.
+   **For OpenShift**, use the OpenShift values file instead, which lets OpenShift assign namespace-scoped user IDs and switches the external access path from an ingress to a route. The file ships inside the chart, so extract it first.
 
    ```bash
-   helm install radar ./helm/radar \
+   helm pull radar/radar --untar --untardir .
+
+   helm install radar radar/radar \
      --namespace radar \
      --create-namespace \
-     -f ./helm/radar/values-openshift.yaml \
+     -f ./radar/values-openshift.yaml \
      --set database.existingSecret=radar-db \
      --set credentials.existingSecret=radar-credentials \
      --set route.host=radar.apps.example.com
