@@ -39,21 +39,13 @@ Each Radar release publishes standalone agent tarballs, so a collector host runs
 
 Install the agent on a host that can reach both Radar and the Redis endpoints you want to collect from.
 
-1. Get the tarball for your platform, and the `SHA256SUMS` file published beside it, from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**.
+1. Get the tarball for your platform from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**.
 
    Take the `radar-agent-fips-` build only if you require Federal Information Processing Standards (FIPS) 140-3. It refuses to start unless FIPS 140-3 mode is active in its runtime.
 
    <br>
 
-2. Verify the download.
-
-   ```bash
-   sha256sum --ignore-missing -c radar-agent-<tag>.SHA256SUMS
-   ```
-
-   <br>
-
-3. Extract the archive and confirm the version.
+2. Extract the archive and confirm the version.
 
    ```bash
    tar -xzf radar-agent-<tag>-linux-amd64.tar.gz
@@ -65,7 +57,7 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 
    <br>
 
-4. Create the `mcm` service identity the unit runs as.
+3. Create the `mcm` service identity the unit runs as.
 
    Skip this step if the host already runs Radar from the RPM, which creates `mcm` for you.
 
@@ -77,7 +69,7 @@ Install the agent on a host that can reach both Radar and the Redis endpoints yo
 
    <br>
 
-5. Install the binary, the unit, and the environment file, then create the state directory.
+4. Install the binary, the unit, and the environment file, then create the state directory.
 
    ```bash
    sudo install -d -m 0755 /usr/libexec/mcm
