@@ -1900,6 +1900,17 @@ html[q-docked-target] {
   scrollbar-gutter: auto !important;
 }
 
+/* The widget also stamps its "overflow trap" on <main> with
+   contain: layout, which makes <main> the containing block for every
+   position: fixed descendant — so the pinned left sidebar and right table
+   of contents scroll away with the content. The containment exists to keep
+   float layouts from collapsing under the trap's overflow: clip; <main> has
+   no floated children, so it is safe to drop. Element-qualified to out-rank
+   the widget's attribute-only selector. */
+main[data-q-overflow-trap] {
+  contain: none !important;
+}
+
 /* While the chat is closed, the widget's invisible #q-messenger-frame
    iframe overlays page content near the right edge with pointer events
    enabled, stealing clicks and hovers from whatever is underneath —
