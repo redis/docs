@@ -99,7 +99,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
    sudo dnf install -y ./radar-<version>-<release>.x86_64.rpm
    ```
 
-   The package requires `postgresql-server` and `postgresql-contrib` version 16 or later. If PostgreSQL software is absent, `dnf` installs it as a dependency. Installing the package never creates, starts, or tunes a database.
+   The package requires `postgresql-server` and `postgresql-contrib` version 16 or later, from the `postgresql:16` module stream. Enable that stream before you install, since `dnf` resolves the dependency only from a stream you have already enabled. Installing the package never creates, starts, or tunes a database.
 
    <br>
 
@@ -216,7 +216,7 @@ helm repo add radar https://helm.redis.io/radar
 helm repo update radar
 ```
 
-If you install from a source checkout or from an air-gapped bundle instead, substitute `./helm/radar` or the bundle's `radar-*.tgz` file for `radar/radar` in the commands below.
+If you install from a source checkout or from an air-gapped bundle instead, substitute `./helm/radar` or the bundle's `radar-*.tgz` file for `radar/radar` in the `helm install` commands below.
 
 1. Create the database secret. Store the database connection string in a secret.
 
@@ -341,7 +341,7 @@ The Compose bundle runs Radar on a single host. It ships the container images, t
 1. Load the images.
 
    ```bash
-   sha256sum -c SHA256SUMS
+   sha256sum -c radar-v<version>.SHA256SUMS
    docker load -i images.tar.gz
    ```
 
@@ -374,7 +374,7 @@ Air-gapped installation uses the same three methods.
 Transfer the release artifacts to the target host or to an offline repository it can reach, then verify them:
 
 ```bash
-sha256sum -c SHA256SUMS
+sha256sum -c radar-v<version>.SHA256SUMS
 ```
 
 | Method | What to transfer | How it installs |
