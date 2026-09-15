@@ -320,7 +320,7 @@ To install from a chart package file instead, such as on a cluster with no inter
    helm test radar --namespace radar
    ```
 
-   Expect a running API pod, a running worker pod, and a completed migration job. To check health without an external access path, use the following commands.
+   Expect a running API pod and a running worker pod. With an external database, Helm deletes the migration job once it succeeds, so the job is listed only while it runs or if it fails. With the bundled PostgreSQL container, the completed job stays listed for seven days by default. To check health without an external access path, use the following commands.
 
    ```bash
    kubectl port-forward -n radar svc/radar 8080:80
