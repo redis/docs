@@ -23,6 +23,7 @@ Redis integrates with a wide range of AI frameworks, platforms, and tools to enh
 
 ## Additional integrations
 
+- [**AISIX AI Gateway & Redis**](https://docs.api7.ai/ai-gateway/traffic-controls/caching): Use Redis to share response cache entries and coordinate [rate-limit counters](https://docs.api7.ai/ai-gateway/traffic-controls/rate-limits) across AISIX gateway instances.
 - [**Microsoft Semantic Kernel**](https://learn.microsoft.com/en-us/semantic-kernel/concepts/vector-store-connectors/out-of-the-box-connectors/redis-connector?pivots=programming-language-csharp): Use Redis as a vector store connector with Microsoft's Semantic Kernel framework.
 - [**DocArray**](https://docs.docarray.org/user_guide/storing/index_redis/): Leverage Redis as a document store and vector database with Jina AI's DocArray.
 - [**Redis Cloud on Vercel**](https://redis.io/blog/redis-cloud-now-available-on-vercel-marketplace/): Deploy and manage Redis databases directly from your Vercel dashboard with the Redis Cloud integration. Refer to the [setup guide]({{< relref "/operate/rc/cloud-integrations/vercel" >}}) for more details.
