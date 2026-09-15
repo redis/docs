@@ -295,6 +295,12 @@ If AOF is activated, these additional fields will be added:
 *   `aof_pending_bio_fsync`: Number of fsync pending jobs in background I/O
      queue
 *   `aof_delayed_fsync`: Delayed fsync counter
+*   `aof_cmd_duration`: Best-effort estimate, in microseconds, of AOF replay
+     time for commands written since the last rewrite, load, or AOF reset.
+     For commands propagated without a known duration (for example via
+     `RM_Replicate` or `RM_ReplicateVerbatim`), this is approximated using
+     leftover time from the triggering top-level command, or, for a blocked
+     client, its measured background execution time.
 
 If a load operation is on-going, these additional fields will be added:
 
