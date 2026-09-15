@@ -234,6 +234,8 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
      --from-literal=DATABASE_URL='postgres://radar:secret@postgres.example.com:5432/radar?sslmode=require'
    ```
 
+   The chart also needs the database hostname as `database.host`, separate from the connection string. It uses the hostname to wait for the database before it starts the API server, the worker, and the migration job. If your database listens on a port other than 5432, also set `database.port`.
+
    <br>
 
 3. Create the credentials secret. Generate the credential encryption key as a file and load it with `--from-file`.
@@ -261,6 +263,7 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
    ```bash
    helm install radar radar/radar \
      --namespace radar \
+     --set database.host=postgres.example.com \
      --set database.existingSecret=radar-db \
      --set credentials.existingSecret=radar-credentials \
      --set ingress.enabled=true \
@@ -289,6 +292,7 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
    helm install radar radar/radar \
      --namespace radar \
      -f ./radar/values-openshift.yaml \
+     --set database.host=postgres.example.com \
      --set database.existingSecret=radar-db \
      --set credentials.existingSecret=radar-credentials \
      --set route.host=radar.apps.example.com
