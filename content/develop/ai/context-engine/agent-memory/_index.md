@@ -23,7 +23,14 @@ When enabled, automatic summarization compacts session memory by summarizing old
 
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
-Follow the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) with Python, TypeScript, or curl.
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  {{< image-card image="images/ai-brain.svg" alt="Concepts icon" title="Concepts — Understand the memory model" url="/develop/ai/context-engine/agent-memory/concepts" >}}
+  {{< image-card image="images/ai-cube.svg" alt="Quickstart icon" title="Quickstart — Make your first requests" url="/develop/ai/context-engine/agent-memory/quickstart" >}}
+  {{< image-card image="images/ai-lib.svg" alt="Developer guide icon" title="Developer guide — Add memory to your application" url="/develop/ai/context-engine/agent-memory/developer-guide" >}}
+  {{< image-card image="images/ai-LLM-memory.svg" alt="Sessions icon" title="Sessions — Store conversation events" url="/develop/ai/context-engine/agent-memory/sessions" >}}
+  {{< image-card image="images/ai-brain-2.svg" alt="Long-term memory icon" title="Long-term memory — Recall information across conversations" url="/develop/ai/context-engine/agent-memory/long-term-memory" >}}
+  {{< image-card image="images/ai-semantic-routing.svg" alt="Namespaces icon" title="Namespaces — Organize your memories" url="/develop/ai/context-engine/agent-memory/namespaces" >}}
+</div>
 
 ## Why use Redis Agent Memory?
 
