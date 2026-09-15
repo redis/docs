@@ -83,7 +83,7 @@ In that line, both `enabled` and `required` should read `true`. Search your logs
 
 ### Package and service names
 
-Radar's services and paths use an `mcm` prefix. The RPM is named `radar`, its services are `mcm-api` and `mcm-worker`, and its configuration lives in `/etc/mcm/`. Container images use a `radar-` prefix in both the Docker Compose bundle and the Helm chart: `radar-app`, `radar-worker`, and `radar-migrate`.
+Radar's services and paths use an `mcm` prefix. The RPM is named `radar`, its services are `mcm-api` and `mcm-worker`, and its configuration lives in `/etc/mcm/`. The Helm chart pulls one Docker Hub repository, `redislabs/radar`, and selects each component by tag: `app-v<version>`, `worker-v<version>`, and `migrate-v<version>`. The Docker Compose bundle's container images use a `radar-` prefix: `radar-app`, `radar-worker`, and `radar-migrate`.
 
 ## Install on RHEL with the RPM
 
@@ -278,14 +278,20 @@ To install from a chart package file instead, such as on a cluster with no inter
 
    With an external database, as configured here, the chart runs schema migration as a Kubernetes job before the API server and worker start. If you use the chart's bundled PostgreSQL container instead, migration instead runs after the API and worker pods start, so expect them to restart briefly until the migration job completes. Migrations apply forward only; there is no automated rollback.
 
-   **For a private or air-gapped registry**, override the image source.
+   **For a private or air-gapped registry**, mirror the images listed in the release notes for your version, keeping each image's repository path, then point the chart at your registry. Save these values to a file, such as `registry-values.yaml`, and add `-f registry-values.yaml` to the `helm install` command.
 
    ```yaml
+   image:
+     registry: registry.example.com
+   dbWaitInitContainer:
+     image:
+       repository: registry.example.com/library/busybox
    global:
-     imageRegistry: registry.example.com/redislabs
      imagePullSecrets:
        - name: registry-creds
    ```
+
+   Set `image.registry` rather than `global.imageRegistry`. In chart 2026.9.5 and earlier, `global.imageRegistry` does not apply to the Radar images, and the `busybox` image has no registry setting, so its repository includes the registry. If you use the chart's bundled PostgreSQL container, also set `postgresql.image.registry`.
 
    **For OpenShift**, use the OpenShift values file instead, which lets OpenShift assign namespace-scoped user IDs and switches the external access path from an ingress to a route. The file ships inside the chart, so extract it first.
 
