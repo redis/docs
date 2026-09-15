@@ -23,11 +23,7 @@ When enabled, automatic summarization compacts session memory by summarizing old
 
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
-  {{< image-card image="images/python-sdk-mark.svg" alt="Python SDK mark" title="Python SDK quickstart — Explore Redis Agent Memory with Python" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
-  {{< image-card image="images/typescript-sdk-mark.svg" alt="TypeScript SDK mark" title="TypeScript SDK quickstart — Explore Redis Agent Memory with TypeScript" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
-  {{< image-card image="images/rest-api-mark.svg" alt="REST API mark" title="REST API quickstart — Explore Redis Agent Memory with curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}
-</div>
+Follow the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) with Python, TypeScript, or curl.
 
 ## Why use Redis Agent Memory?
 
@@ -35,35 +31,13 @@ Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API
 * **Automatic session summarization:** Automatically summarize older conversation events while retaining recent messages in full.
 * **Automatic long-term memory:** Automatically extract durable information from session events in the background. You can also create long-term memories directly from external data.
 * **Sensitive-data exclusions:** Guide automatic extraction away from information that should not be kept in long-term memory.
-* **Relevant retrieval:** Search long-term memory using semantic, keyword, or hybrid search.
+* **Relevant retrieval:** Search long-term memory semantically and narrow results with filters.
 * **Multi-session recall:** Retrieve relevant memories across conversations and filter results by owner, session, namespace, topic, or memory type.
 * **Custom memory types:** Define memory types for your business domain, with structured fields and instructions that control what Redis Agent Memory extracts.
 
 ## Two-tier memory model
 
-Redis Agent Memory provides two memory tiers:
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">Session memory</h3>
-    <p>Stores the ordered events and metadata for a conversation.</p>
-    <ul class="space-y-2">
-      <li><strong>Configurable retention:</strong> Set a TTL to control how long session events are retained.</li>
-      <li><strong>Automatic summarization:</strong> Condense older events after a configured threshold while retaining recent events in full, reducing the conversation history sent to the model's context window.</li>
-    </ul>
-  </div>
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">Long-term memory</h3>
-    <p>Stores durable information that can be retrieved across sessions using semantic, keyword, or hybrid search.</p>
-    <ul class="space-y-2">
-      <li><strong>Automatic extraction:</strong> Process session events asynchronously and store important information with vector embeddings and metadata.</li>
-      <li><strong>Custom memory types:</strong> Define domain-specific memories with structured fields and extraction instructions.</li>
-      <li><strong>Sensitive-data exclusions:</strong> Guide automatic extraction away from specified sensitive information.</li>
-      <li><strong>Direct memory creation:</strong> Create memories through the API or import knowledge from external sources.</li>
-      <li><strong>Configurable retention:</strong> Set a separate TTL for long-term memories.</li>
-    </ul>
-  </div>
-</div>
+Session memory keeps the current conversation available to the agent. Long-term memory preserves useful information across conversations. See [Concepts]({{< relref "/develop/ai/context-engine/agent-memory/concepts" >}}) for an overview of both and the optional namespaces that organize them.
 
 ### Example: Travel planning agent
 
@@ -112,28 +86,17 @@ Get started with Redis Agent Memory on Redis Cloud or join the private preview f
   </div>
 </div>
 
-### Choose a quickstart
+### Follow the quickstart
 
-After your Redis Agent Memory service is ready, choose a client. Each quickstart follows the same travel planning scenario through namespaces, session memory, automatic extraction, summarization, custom memory types, and sensitive-data exclusions.
+After your service is ready, follow the [quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}). Choose Python, TypeScript, or curl to explore the same travel planning scenario.
 
-Use the developer guide to [organize memories with namespaces]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#organize-memories-with-namespaces" >}}) and [use custom memory types]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#define-custom-memory-types" >}}).
+## Explore the documentation
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">Python SDK</h3>
-    <p>Explore the Redis Agent Memory workflow with the Python SDK.</p>
-    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}">Open the Python quickstart</a></p>
-  </div>
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">TypeScript SDK</h3>
-    <p>Explore the Redis Agent Memory workflow with the TypeScript SDK.</p>
-    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}">Open the TypeScript quickstart</a></p>
-  </div>
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">REST API</h3>
-    <p>Explore the Redis Agent Memory workflow with <code>curl</code>.</p>
-    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}">Open the REST API quickstart</a></p>
-  </div>
-</div>
+* [Concepts]({{< relref "/develop/ai/context-engine/agent-memory/concepts" >}}): Understand session memory, long-term memory, and namespaces.
+* [Quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}): Store a conversation and recall an extracted memory.
+* [Developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}): Put the pieces together in an application.
+* [Sessions]({{< relref "/develop/ai/context-engine/agent-memory/sessions" >}}): Store conversation events and configure retention and summarization.
+* [Long-term memory]({{< relref "/develop/ai/context-engine/agent-memory/long-term-memory" >}}): Create and retrieve memories across conversations, including custom memory types.
+* [Namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}): Organize memories and manage namespace hierarchies.
 
-For shared integration concepts, identifiers, and authentication, see the [Redis Agent Memory developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md).
+* [API reference]({{< relref "/develop/ai/context-engine/agent-memory/api-reference" >}}): Look up request and response schemas.

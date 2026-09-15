@@ -77,7 +77,7 @@ POST /v1/caches/{cacheId}/entries
 }
 ```
 
-See [LangCache API examples](/content/develop/ai/context-engine/langcache/api-examples.md) and the [Agent Memory REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md) for more.
+See [LangCache API examples](/content/develop/ai/context-engine/langcache/api-examples.md) and the [Agent Memory quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) for more.
 
 Redis Iris context engine includes four services:
 

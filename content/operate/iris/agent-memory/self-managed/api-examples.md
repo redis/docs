@@ -277,7 +277,7 @@ curl -sS -X POST "$DP_URL/v1/stores/$STORE_ID/long-term-memory" \
   }')"
 ```
 
-See [organize memories with namespaces]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide#organize-memories-with-namespaces" >}}) for hierarchy, search, and migration guidance.
+See [organize memories with namespaces]({{< relref "/develop/ai/context-engine/agent-memory/namespaces" >}}) for hierarchy, search, and management guidance.
 
 ### Search long-term memory
 

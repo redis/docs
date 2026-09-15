@@ -51,7 +51,7 @@ The **General settings** section provides the connection details and general set
 
 Select the **Copy** button next to the Store ID and API Base URL to copy them to the clipboard.
 
-Follow the [Redis Agent Memory REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}) to use the connection information and API key.
+Follow the [Redis Agent Memory quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}) to use the connection information and API key.
 
 ### Memory configuration
 
