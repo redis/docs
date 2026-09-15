@@ -268,9 +268,9 @@ If you install from a source checkout or from an air-gapped bundle instead, subs
      --set credentials.existingSecret=radar-credentials \
      --set ingress.enabled=true \
      --set ingress.className=nginx \
-     --set ingress.hosts[0].host=radar.example.com \
-     --set ingress.hosts[0].paths[0].path=/ \
-     --set ingress.hosts[0].paths[0].pathType=Prefix
+     --set 'ingress.hosts[0].host=radar.example.com' \
+     --set 'ingress.hosts[0].paths[0].path=/' \
+     --set 'ingress.hosts[0].paths[0].pathType=Prefix'
    ```
 
    With an external database, as configured here, the chart runs schema migration as a Kubernetes job before the API server and worker start. If you use the chart's bundled PostgreSQL container instead, migration instead runs after the API and worker pods start, so expect them to restart briefly until the migration job completes. Migrations apply forward only; there is no automated rollback.
