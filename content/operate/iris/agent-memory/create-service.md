@@ -53,7 +53,7 @@ This is the only time the value of the user key is available. Save it to a secur
 If you lose the service key value, you will need to [generate a new service key]({{< relref "/operate/iris/agent-memory/view-service#replace-service-api-key" >}}) to be able to use the Agent Memory API.
     {{</warning>}}
 
-    After Redis Cloud creates your service, [continue with the REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}).
+    After Redis Cloud creates your service, [continue with the quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}).
 
 - If you want to customize your Redis Agent Memory service, select **Create custom**.
 
@@ -248,6 +248,6 @@ If an error occurs, verify that your database is active. For help, [contact supp
 
 ## Next steps
 
-After Redis Cloud creates your service, [continue with the REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}).
+After Redis Cloud creates your service, [continue with the quickstart]({{< relref "/develop/ai/context-engine/agent-memory/quickstart" >}}).
 
 You can also [view and edit the service]({{< relref "/operate/iris/agent-memory/view-service" >}}).
