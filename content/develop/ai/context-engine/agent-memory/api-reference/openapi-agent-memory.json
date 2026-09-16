@@ -117,6 +117,16 @@
                             }
                         }
                     },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -253,6 +263,16 @@
                             }
                         }
                     },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -289,7 +309,7 @@
                 ]
             },
             "post": {
-                "description": "Creates long-term memories in bulk.",
+                "description": "Creates long-term memories in bulk. Records without namespace or namespaceRef use automatic routing when the store's routing policy is enabled. If routing is disabled or no destination qualifies, the record is created without a namespace. An explicit namespaceRef must pass destination admission and is never rerouted. Routing and admission failures are reported per record in errors.",
                 "operationId": "BulkCreateLongTermMemories",
                 "requestBody": {
                     "content": {
@@ -383,6 +403,172 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "MemoryFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MemoryFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Long-Term Memory"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/long-term-memory/move": {
+            "post": {
+                "description": "Moves long-term memories to an explicit namespaceRef or automatically routes each memory when namespaceRef is omitted. If routing is disabled or no destination qualifies, the memory keeps its current placement and receives a per-item error. An explicit destination must pass admission and is never rerouted. Returns 409 when the explicit destination is archived; automatic routing and admission failures are reported per item in errors.",
+                "operationId": "MoveLongTermMemories",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MoveLongTermMemoriesRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "MoveLongTermMemories 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MoveLongTermMemoriesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
                                 }
                             }
                         }
@@ -522,12 +708,22 @@
                             }
                         }
                     },
-                    "424": {
-                        "description": "FailedDependencyError 424 response",
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "MemoryFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MemoryFailedDependencyErrorResponseContent"
                                 }
                             }
                         }
@@ -661,6 +857,16 @@
                             }
                         }
                     },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -697,7 +903,7 @@
                 ]
             },
             "patch": {
-                "description": "Partially updates a long-term memory by its ID.",
+                "description": "Partially updates a long-term memory by its ID. The merged record must pass admission at its destination. Updates never select a different destination automatically.",
                 "operationId": "UpdateLongTermMemory",
                 "requestBody": {
                     "content": {
@@ -797,6 +1003,16 @@
                             }
                         }
                     },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "413": {
                         "description": "PayloadTooLargeError 413 response",
                         "content": {
@@ -807,12 +1023,22 @@
                             }
                         }
                     },
-                    "424": {
-                        "description": "FailedDependencyError 424 response",
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "MemoryFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MemoryFailedDependencyErrorResponseContent"
                                 }
                             }
                         }
@@ -845,7 +1071,7 @@
         },
         "/v1/stores/{storeId}/long-term-memory/{memoryId}/fields": {
             "patch": {
-                "description": "Atomically updates a custom-typed long-term memory's text and/or attributes, scoped to the caller's bound memory type. Used by the custom-extraction worker.",
+                "description": "Atomically updates a custom-typed long-term memory's text and/or attributes, scoped to the caller's bound memory type. Used by the custom-extraction worker. New text must pass destination admission before the update is applied.",
                 "operationId": "UpdateLongTermMemoryFields",
                 "requestBody": {
                     "content": {
@@ -939,6 +1165,162 @@
                             }
                         }
                     },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "MemoryFailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MemoryFailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Long-Term Memory"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/namespace-routing": {
+            "get": {
+                "description": "Returns the store's namespace routing policy. An empty disabled policy is returned when none has been saved.",
+                "operationId": "GetNamespaceRouting",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetNamespaceRouting 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetNamespaceRoutingResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -971,7 +1353,969 @@
                     }
                 },
                 "tags": [
-                    "Long-Term Memory"
+                    "Namespaces"
+                ]
+            },
+            "put": {
+                "description": "Replaces the store's namespace routing policy. Namespaces remain hierarchy records; routing is an ordered store-level document of plug-in strategies.",
+                "operationId": "PutNamespaceRouting",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PutNamespaceRoutingRequestContent"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "PutNamespaceRouting 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PutNamespaceRoutingResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Namespaces"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/namespaces": {
+            "get": {
+                "description": "Lists namespace roots or direct children.",
+                "operationId": "ListNamespaces",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "description": "List direct children of this namespace. Omit to list roots.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "List direct children of this namespace. Omit to list roots."
+                        }
+                    },
+                    {
+                        "name": "scope",
+                        "in": "query",
+                        "description": "Restrict root results to one scope. Cannot be combined with parentId.",
+                        "schema": {
+                            "$ref": "#/components/schemas/NamespaceScope"
+                        }
+                    },
+                    {
+                        "name": "ownerId",
+                        "in": "query",
+                        "description": "Restrict personal root results to an owner. Cannot be combined with parentId; ignored for shared roots.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Restrict personal root results to an owner. Cannot be combined with parentId; ignored for shared roots."
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Maximum number of namespaces to return. Defaults to 100. Allowed range: 1-1000.",
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "maximum": 1000,
+                            "minimum": 1,
+                            "description": "Maximum number of namespaces to return. Defaults to 100. Allowed range: 1-1000.",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageToken",
+                        "in": "query",
+                        "description": "Opaque token from a previous response for the next page.",
+                        "schema": {
+                            "type": "string",
+                            "description": "Opaque token from a previous response for the next page."
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ListNamespaces 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ListNamespacesResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Namespaces"
+                ]
+            },
+            "post": {
+                "description": "Creates a namespace resource as a root, direct child, or explicit hierarchy path. Returns 409 when an active or archived namespace already occupies the requested location.",
+                "operationId": "CreateNamespace",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateNamespaceRequestContent"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CreateNamespace 201 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateNamespaceResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Namespaces"
+                ]
+            }
+        },
+        "/v1/stores/{storeId}/namespaces/{namespaceId}": {
+            "delete": {
+                "description": "Deletes an empty leaf namespace. Returns 409 when the namespace has children or memory placements, or when it changed concurrently.",
+                "operationId": "DeleteNamespace",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "namespaceId",
+                        "in": "path",
+                        "description": "Server-generated namespace identifier.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Server-generated namespace identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "DeleteNamespace 204 response"
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Namespaces"
+                ]
+            },
+            "get": {
+                "description": "Gets one namespace by its canonical ID.",
+                "operationId": "GetNamespace",
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "namespaceId",
+                        "in": "path",
+                        "description": "Server-generated namespace identifier.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Server-generated namespace identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "GetNamespace 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetNamespaceResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Namespaces"
+                ]
+            },
+            "patch": {
+                "description": "Renames or archives a namespace. Returns 409 when the namespace changed concurrently, an active or archived sibling already uses the requested name, or the namespace is archived.",
+                "operationId": "UpdateNamespace",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateNamespaceRequestContent"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "storeId",
+                        "in": "path",
+                        "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Store identifier (1-64 chars, alphanumeric and dashes). Generated store IDs are typically 32-character UUIDs without dashes."
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "namespaceId",
+                        "in": "path",
+                        "description": "Server-generated namespace identifier.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Server-generated namespace identifier."
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UpdateNamespace 200 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateNamespaceResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "BadRequestError 400 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BadRequestErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "AuthenticationError 401 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "ForbiddenError 403 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ForbiddenErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NotFoundError 404 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotFoundErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "408": {
+                        "description": "TimeoutError 408 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TimeoutErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "ConflictError 409 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConflictErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "413": {
+                        "description": "PayloadTooLargeError 413 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "424": {
+                        "description": "FailedDependencyError 424 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FailedDependencyErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "TooManyRequestsError 429 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TooManyRequestsErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "UnexpectedError 500 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UnexpectedErrorResponseContent"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Namespaces"
                 ]
             }
         },
@@ -1025,6 +2369,18 @@
                             "minLength": 1,
                             "pattern": "^[a-zA-Z0-9-]+$",
                             "description": "Filter sessions by owner. Matching is case-sensitive. Mutually exclusive with includeAll."
+                        }
+                    },
+                    {
+                        "name": "namespaceRef",
+                        "in": "query",
+                        "description": "Filter sessions by stable namespace ID. Matching is exact and case-sensitive, excludes deprecated namespace labels and sessions without a namespace resource, and does not include descendants. Combined with filterOwnerId using AND. Mutually exclusive with includeAll.",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Filter sessions by stable namespace ID. Matching is exact and case-sensitive, excludes deprecated namespace labels and sessions without a namespace resource, and does not include descendants. Combined with filterOwnerId using AND. Mutually exclusive with includeAll."
                         }
                     },
                     {
@@ -1104,6 +2460,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
                                 }
                             }
                         }
@@ -1244,6 +2610,16 @@
                             }
                         }
                     },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -1372,6 +2748,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
                                 }
                             }
                         }
@@ -1522,6 +2908,16 @@
                             }
                         }
                     },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -1663,6 +3059,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PayloadTooLargeErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
                                 }
                             }
                         }
@@ -1817,6 +3223,16 @@
                             }
                         }
                     },
+                    "423": {
+                        "description": "ResourceSuspendedError 423 response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceSuspendedErrorResponseContent"
+                                }
+                            }
+                        }
+                    },
                     "424": {
                         "description": "FailedDependencyError 424 response",
                         "content": {
@@ -1878,7 +3294,11 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Optional namespace for the session, used as the namespace of every long-term memory extracted from it.\n\nLike `ownerId`, this is a session-level value taken from the first event: the value sent with the first event of a session is stored on the session, and values sent with later events are ignored. Omit it to leave extracted memories without a namespace."
+                        "description": "Optional deprecated namespace label for the session. This label does not create or resolve a namespace resource. Do not supply it with namespaceRef.\n\nLike `ownerId`, this is a session-level value taken from the first event: the value sent with the first event of a session is stored on the session, and values sent with later events are ignored. Omit it to leave extracted memories without a namespace.",
+                        "deprecated": true
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRefInput"
                     },
                     "role": {
                         "$ref": "#/components/schemas/MessageRole"
@@ -2191,6 +3611,45 @@
                     "id"
                 ]
             },
+            "ConflictErrorResponseContent": {
+                "type": "object",
+                "description": "The request conflicts with the current state of the resource.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 409,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ConflictErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ConflictErrorType": {
+                "type": "string",
+                "description": "Problem type URI for conflict errors.",
+                "enum": [
+                    "/errors/conflict"
+                ]
+            },
             "Content": {
                 "description": "A single content item in a message. Exactly one member is set.",
                 "oneOf": [
@@ -2252,7 +3711,11 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Optional namespace for logical grouping (1-64 chars, alphanumeric and dashes). Omit to create the record without a namespace. Records created here are explicit writes, so this value is taken as given; extraction instead inherits the source session's namespace."
+                        "description": "Optional deprecated namespace label. It does not create or resolve a namespace resource. Do not supply it with namespaceRef. If both fields are omitted, the record uses automatic routing when enabled; if routing is disabled or no destination qualifies, it is created without a namespace.",
+                        "deprecated": true
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRefInput"
                     },
                     "topics": {
                         "type": "array",
@@ -2273,6 +3736,52 @@
                     "id",
                     "ownerId",
                     "text"
+                ]
+            },
+            "CreateNamespaceRequestContent": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9_-]+$",
+                        "description": "One namespace segment. Use with scope for a root or parentId for a child."
+                    },
+                    "path": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "A complete hierarchy path to create. Missing segments are created as needed. Mutually exclusive with name and parentId. The path does not encode scope."
+                    },
+                    "scope": {
+                        "$ref": "#/components/schemas/NamespaceScope"
+                    },
+                    "parentId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Parent namespace for a direct child."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Owner for a personal root or path. Required for personal scope; omit for shared roots and children."
+                    }
+                }
+            },
+            "CreateNamespaceResponseContent": {
+                "type": "object",
+                "properties": {
+                    "namespace": {
+                        "$ref": "#/components/schemas/Namespace"
+                    }
+                },
+                "required": [
+                    "namespace"
                 ]
             },
             "CreatedAtFilter": {
@@ -2457,7 +3966,11 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Namespace for logical grouping. Absent when the record has none: either it was written directly without one, or it was extracted from a session that has no namespace."
+                        "description": "Deprecated namespace label. Absent when the record uses namespaceRef or has no namespace.",
+                        "deprecated": true
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRef"
                     },
                     "topics": {
                         "type": "array",
@@ -2489,6 +4002,28 @@
                     "id",
                     "text",
                     "updatedAt"
+                ]
+            },
+            "GetNamespaceResponseContent": {
+                "type": "object",
+                "properties": {
+                    "namespace": {
+                        "$ref": "#/components/schemas/Namespace"
+                    }
+                },
+                "required": [
+                    "namespace"
+                ]
+            },
+            "GetNamespaceRoutingResponseContent": {
+                "type": "object",
+                "properties": {
+                    "policy": {
+                        "$ref": "#/components/schemas/NamespaceRoutingPolicy"
+                    }
+                },
+                "required": [
+                    "policy"
                 ]
             },
             "GetSessionEventResponseContent": {
@@ -2526,7 +4061,11 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "The namespace of the session, set from the namespace of the first event. Absent when the first event did not supply one; long-term memories extracted from this session then carry no namespace."
+                        "description": "Deprecated namespace label for the session, set from the first event. Absent when the session uses namespaceRef or has no namespace.",
+                        "deprecated": true
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRef"
                     },
                     "events": {
                         "type": "array",
@@ -2564,6 +4103,24 @@
                     "healthy"
                 ]
             },
+            "ListNamespacesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Namespace"
+                        }
+                    },
+                    "nextPageToken": {
+                        "type": "string",
+                        "description": "Opaque token for fetching the next page. Omitted when no more results."
+                    }
+                },
+                "required": [
+                    "items"
+                ]
+            },
             "ListSessionsResponseContent": {
                 "type": "object",
                 "description": "Paginated list of session IDs for a store.",
@@ -2594,6 +4151,20 @@
                     "total"
                 ]
             },
+            "LlmPromptSpec": {
+                "type": "object",
+                "description": "Customer-authored prompt evaluated by the LLM routing strategy.",
+                "properties": {
+                    "prompt": {
+                        "type": "string",
+                        "maxLength": 2000,
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "prompt"
+                ]
+            },
             "LongTermMemoryFilter": {
                 "type": "object",
                 "description": "Grouping of filter conditions for long-term memory search.",
@@ -2606,6 +4177,13 @@
                     },
                     "namespace": {
                         "$ref": "#/components/schemas/NamespaceFilter"
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRefFilter"
+                    },
+                    "unnamespaced": {
+                        "type": "boolean",
+                        "description": "When true, matches only records that have neither a deprecated namespace label nor a namespace resource placement. This scope is always combined with every other filter condition. Do not supply namespace or namespaceRef with this field."
                     },
                     "topics": {
                         "$ref": "#/components/schemas/TopicsFilter"
@@ -2620,6 +4198,70 @@
                         "$ref": "#/components/schemas/AttributeFilterMap"
                     }
                 }
+            },
+            "MatcherKind": {
+                "type": "string",
+                "description": "The matching techniques this API supports.",
+                "enum": [
+                    "regex"
+                ]
+            },
+            "MatcherSpec": {
+                "type": "object",
+                "description": "How a detector matches, as a tagged union of techniques.\n\nExactly the block naming the declared kind must be present; a block belonging to\nany other kind is rejected rather than guessed at. Further kinds are additive.",
+                "properties": {
+                    "kind": {
+                        "$ref": "#/components/schemas/MatcherKind"
+                    },
+                    "regex": {
+                        "$ref": "#/components/schemas/RegexSpec"
+                    }
+                },
+                "required": [
+                    "kind"
+                ]
+            },
+            "MemoryFailedDependencyErrorResponseContent": {
+                "type": "object",
+                "description": "A resource or model-provider dependency required by Agent Memory could not complete the request.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 424,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/MemoryFailedDependencyErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "MemoryFailedDependencyErrorType": {
+                "type": "string",
+                "description": "Problem type URI for Agent Memory failed-dependency errors.",
+                "enum": [
+                    "/errors/resource-unavailable",
+                    "/errors/database-out-of-memory",
+                    "/errors/invalid-model-credentials",
+                    "/errors/model-quota-exceeded"
+                ]
             },
             "MemoryRecord": {
                 "type": "object",
@@ -2662,7 +4304,11 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Namespace for logical grouping. Absent when the record has none: either it was written directly without one, or it was extracted from a session that has no namespace."
+                        "description": "Deprecated namespace label. Absent when the record uses namespaceRef or has no namespace.",
+                        "deprecated": true
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRef"
                     },
                     "topics": {
                         "type": "array",
@@ -2733,23 +4379,146 @@
                     "SYSTEM"
                 ]
             },
+            "MoveLongTermMemoriesRequestContent": {
+                "type": "object",
+                "properties": {
+                    "memoryIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes). Client-provided for idempotent long-term memory creation."
+                        },
+                        "maxItems": 100,
+                        "minItems": 1
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRefInput"
+                    }
+                },
+                "required": [
+                    "memoryIds"
+                ]
+            },
+            "MoveLongTermMemoriesResponseContent": {
+                "type": "object",
+                "properties": {
+                    "moved": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Memory record identifier (1-64 chars, alphanumeric and dashes). Client-provided for idempotent long-term memory creation."
+                        }
+                    },
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BulkOperationError"
+                        }
+                    }
+                },
+                "required": [
+                    "moved"
+                ]
+            },
+            "Namespace": {
+                "type": "object",
+                "description": "A namespace hierarchy record.",
+                "properties": {
+                    "namespaceId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Server-generated namespace identifier."
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9_-]+$",
+                        "description": "One case-sensitive namespace path segment."
+                    },
+                    "parentId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Server-generated namespace identifier."
+                    },
+                    "rootId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Server-generated namespace identifier."
+                    },
+                    "ownerId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "An opaque application-user ID selected by the platform for a namespace root."
+                    },
+                    "scope": {
+                        "$ref": "#/components/schemas/NamespaceScope"
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/NamespaceState"
+                    },
+                    "revision": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "path": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Current case-sensitive path, derived from the live hierarchy."
+                    }
+                },
+                "required": [
+                    "createdAt",
+                    "name",
+                    "namespaceId",
+                    "path",
+                    "revision",
+                    "rootId",
+                    "scope",
+                    "state",
+                    "updatedAt"
+                ]
+            },
             "NamespaceFilter": {
                 "type": "object",
-                "description": "Filter by namespace. Matching is case-insensitive.\n\nNamespace is optional, so records without one need care. The positive operators (`eq`, `in`, `all`) require the field to be present and therefore never match a record that has no namespace — including memories extracted from a session that has none. `ne` is a plain negation and *does* match those records, so use `eq` or `in` when you need strict namespace isolation rather than `ne` against the namespaces you want to exclude.\n\nOmit this filter to search across every namespace, and use it to keep recall inside one project, workspace, team, environment, or tenant.",
+                "description": "Filter by namespace. Matching is case-insensitive.\n\nNamespace is optional, so records without one need care. The positive operators (`eq`, `in`, `all`) require the field to be present and therefore never match a record that has no namespace \u2014 including memories extracted from a session that has none. `ne` is a plain negation and *does* match those records, so use `eq` or `in` when you need strict namespace isolation rather than `ne` against the namespaces you want to exclude.\n\nOmit this filter to search across every namespace, and use it to keep recall inside one project, workspace, team, environment, or tenant.",
                 "properties": {
                     "eq": {
                         "type": "string",
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Equals the given value."
+                        "description": "Equals the given value.",
+                        "deprecated": true
                     },
                     "ne": {
                         "type": "string",
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Not equal to the given value."
+                        "description": "Not equal to the given value.",
+                        "deprecated": true
                     },
                     "in": {
                         "type": "array",
@@ -2758,7 +4527,8 @@
                             "maxLength": 64,
                             "minLength": 1,
                             "pattern": "^[a-zA-Z0-9-]+$",
-                            "description": "Namespace for logical grouping (1-64 chars, alphanumeric and dashes).\n\nThis is the shared namespace format for both session memory and long-term memory: sessions carry it as session-level state, and long-term memory records carry it per record. The same constraints apply everywhere it is used.\n\nNamespace is always optional; a record without one is valid. Applications use it to isolate memories by project, workspace, team, environment, or tenant. See `NamespaceFilter` for how records without a namespace behave under search.\n\nA namespace reaches a record one of two ways. Records written directly carry whatever namespace the caller sets. Records produced by extraction inherit the namespace of the session they were extracted from, which is fixed when that session is created; a session with no namespace yields records with no namespace. Existing records are never backfilled when a namespace is introduced later."
+                            "description": "Deprecated flat namespace label for logical grouping. The value is 1-64 alphanumeric characters or dashes and has no hierarchy or scope semantics. Matching through `filter.namespace` is case-insensitive.\n\nThe field remains optional for backward compatibility. New integrations should use `namespaceRef` to reference an existing namespace resource.\n\nRecords produced by extraction inherit the namespace label stored on the session when the session was created.\n\nThis shape is deprecated: Use namespaceRef to reference a namespace resource.",
+                            "deprecated": true
                         },
                         "description": "Matches any of the given values."
                     },
@@ -2769,11 +4539,160 @@
                             "maxLength": 64,
                             "minLength": 1,
                             "pattern": "^[a-zA-Z0-9-]+$",
-                            "description": "Namespace for logical grouping (1-64 chars, alphanumeric and dashes).\n\nThis is the shared namespace format for both session memory and long-term memory: sessions carry it as session-level state, and long-term memory records carry it per record. The same constraints apply everywhere it is used.\n\nNamespace is always optional; a record without one is valid. Applications use it to isolate memories by project, workspace, team, environment, or tenant. See `NamespaceFilter` for how records without a namespace behave under search.\n\nA namespace reaches a record one of two ways. Records written directly carry whatever namespace the caller sets. Records produced by extraction inherit the namespace of the session they were extracted from, which is fixed when that session is created; a session with no namespace yields records with no namespace. Existing records are never backfilled when a namespace is introduced later."
+                            "description": "Deprecated flat namespace label for logical grouping. The value is 1-64 alphanumeric characters or dashes and has no hierarchy or scope semantics. Matching through `filter.namespace` is case-insensitive.\n\nThe field remains optional for backward compatibility. New integrations should use `namespaceRef` to reference an existing namespace resource.\n\nRecords produced by extraction inherit the namespace label stored on the session when the session was created.\n\nThis shape is deprecated: Use namespaceRef to reference a namespace resource.",
+                            "deprecated": true
                         },
                         "description": "Matches all of the given values."
                     }
                 }
+            },
+            "NamespaceRef": {
+                "type": "object",
+                "description": "Reference to a namespace resource with its stable identifier and current display data.",
+                "properties": {
+                    "namespaceId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Stable namespace resource identifier."
+                    },
+                    "name": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9_-]+$",
+                        "description": "Current namespace name."
+                    },
+                    "path": {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "minLength": 1,
+                        "description": "Current namespace path."
+                    }
+                },
+                "required": [
+                    "name",
+                    "namespaceId",
+                    "path"
+                ]
+            },
+            "NamespaceRefFilter": {
+                "type": "object",
+                "description": "Filter by stable namespace resource identifier. Supports exact or any-of matching and matches only resource-backed records, never deprecated namespace labels.",
+                "properties": {
+                    "eq": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Equals the given value."
+                    },
+                    "in": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "maxLength": 64,
+                            "minLength": 1,
+                            "pattern": "^[a-zA-Z0-9-]+$",
+                            "description": "Server-generated namespace identifier."
+                        },
+                        "description": "Matches any of the given values."
+                    }
+                }
+            },
+            "NamespaceRefInput": {
+                "type": "object",
+                "description": "Reference to an existing namespace resource for a write or namespace-scoped operation.",
+                "properties": {
+                    "namespaceId": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9-]+$",
+                        "description": "Stable namespace resource identifier."
+                    }
+                },
+                "required": [
+                    "namespaceId"
+                ]
+            },
+            "NamespaceRoutingPolicy": {
+                "type": "object",
+                "description": "Store-level automatic namespace routing and admission policy. Global rules target shared namespaces only. Accept rules select candidates in list order. All enabled reject rules for a destination apply regardless of their position or how the destination was selected.",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "rules": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/NamespaceRoutingRule"
+                        },
+                        "maxItems": 32
+                    }
+                },
+                "required": [
+                    "enabled"
+                ]
+            },
+            "NamespaceRoutingRule": {
+                "type": "object",
+                "description": "One routing or admission rule. action is accept or reject. Strategies run in list order and the first match fires the rule. An accept with no strategies always matches; a reject with no strategies never matches. A matching accept selects a candidate. Every enabled reject for that destination must pass before placement. A veto skips that candidate during automatic routing and fails explicit placement.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+                        "description": "Routing rule identifier (1-64 chars). Published in logs, so it is an identifier rather than free text."
+                    },
+                    "destination": {
+                        "$ref": "#/components/schemas/NamespaceRefInput"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "action": {
+                        "$ref": "#/components/schemas/RoutingRuleAction"
+                    },
+                    "strategies": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/RouteCondition"
+                        },
+                        "maxItems": 8
+                    }
+                },
+                "required": [
+                    "action",
+                    "destination",
+                    "enabled",
+                    "id"
+                ]
+            },
+            "NamespaceScope": {
+                "type": "string",
+                "description": "The root scope of a namespace hierarchy.",
+                "enum": [
+                    "PERSONAL",
+                    "SHARED"
+                ]
+            },
+            "NamespaceState": {
+                "type": "string",
+                "description": "Whether a namespace accepts new children and placements.",
+                "enum": [
+                    "ACTIVE",
+                    "ARCHIVED"
+                ]
+            },
+            "NamespaceUpdateState": {
+                "type": "string",
+                "description": "The archive-only state transition accepted by UpdateNamespace.",
+                "enum": [
+                    "ARCHIVED"
+                ]
             },
             "NotFoundErrorResponseContent": {
                 "type": "object",
@@ -2893,6 +4812,116 @@
                 "description": "Problem type URI for payload-too-large errors.",
                 "enum": [
                     "/errors/payload-too-large"
+                ]
+            },
+            "PutNamespaceRoutingRequestContent": {
+                "type": "object",
+                "properties": {
+                    "policy": {
+                        "$ref": "#/components/schemas/NamespaceRoutingPolicy"
+                    }
+                },
+                "required": [
+                    "policy"
+                ]
+            },
+            "PutNamespaceRoutingResponseContent": {
+                "type": "object",
+                "properties": {
+                    "policy": {
+                        "$ref": "#/components/schemas/NamespaceRoutingPolicy"
+                    }
+                },
+                "required": [
+                    "policy"
+                ]
+            },
+            "RegexSpec": {
+                "type": "object",
+                "description": "A regular expression to match against.\n\nEvaluated by RE2, which runs in linear time \u2014 so an expensive pattern is not a\ndenial-of-service risk, but lookaround and backreferences are unavailable.\nRejected on write if it does not compile, or if it can match without consuming\ntext: such a pattern matches at every position, so it would exclude every memory\nthe store writes.",
+                "properties": {
+                    "pattern": {
+                        "type": "string",
+                        "maxLength": 512,
+                        "minLength": 1,
+                        "description": "The pattern, in RE2 syntax."
+                    }
+                },
+                "required": [
+                    "pattern"
+                ]
+            },
+            "ResourceSuspendedErrorResponseContent": {
+                "type": "object",
+                "description": "The requested resource exists but is suspended by an administrator.",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "A short, human-readable summary of the problem\n                                      type.  It SHOULD NOT change from occurrence to occurrence of the\n                                      problem, except for purposes of localization (e.g., using\n                                      proactive content negotiation; see [RFC7231], Section 3.4)."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "default": 423,
+                        "description": "The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem.",
+                        "format": "int32"
+                    },
+                    "detail": {
+                        "type": "string",
+                        "description": "A human-readable explanation specific to this occurrence of the problem."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/ResourceSuspendedErrorType"
+                    }
+                },
+                "required": [
+                    "status",
+                    "title",
+                    "type"
+                ]
+            },
+            "ResourceSuspendedErrorType": {
+                "type": "string",
+                "description": "Problem type URI for suspended resources.",
+                "enum": [
+                    "/errors/resource-suspended"
+                ]
+            },
+            "RouteCondition": {
+                "type": "object",
+                "description": "One plug-in strategy invocation. Exactly the block naming the declared kind must be present. List order is evaluation order.",
+                "properties": {
+                    "kind": {
+                        "$ref": "#/components/schemas/RouteStrategyKind"
+                    },
+                    "llmPrompt": {
+                        "$ref": "#/components/schemas/LlmPromptSpec"
+                    },
+                    "matcher": {
+                        "$ref": "#/components/schemas/MatcherSpec"
+                    }
+                },
+                "required": [
+                    "kind"
+                ]
+            },
+            "RouteStrategyKind": {
+                "type": "string",
+                "description": "Routing strategy kinds. Unknown kinds are rejected. New kinds register on the evaluator without changing namespace records.",
+                "enum": [
+                    "llm_prompt",
+                    "matcher_spec"
+                ]
+            },
+            "RoutingRuleAction": {
+                "type": "string",
+                "description": "Whether the rule accepts into the destination or rejects that destination.",
+                "enum": [
+                    "accept",
+                    "reject"
                 ]
             },
             "SearchLongTermMemoryRequestContent": {
@@ -3299,7 +5328,11 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "The caller's namespace. The update is rejected with 409 unless the record's stored namespace matches exactly.\n\nOmit it to assert that the record has no namespace — an omitted value matches only records stored without one, it does not mean \"any namespace\". The check is applied atomically with the update, so a record cannot be re-filed into another namespace between the check and the write."
+                        "description": "The caller's current deprecated namespace label. The update is rejected with 409 unless the record still stores that label. Do not supply it with namespaceRef.\n\nOmit both namespace and namespaceRef to assert that the record has no namespace placement. Omission does not mean \"any namespace\".",
+                        "deprecated": true
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRefInput"
                     },
                     "text": {
                         "type": "string",
@@ -3345,7 +5378,11 @@
                     },
                     "namespace": {
                         "type": "string",
-                        "description": "Updated namespace. When provided, must be 1-64 chars alphanumeric and dashes; omit the field or send an empty string to clear.\n\nThis is the only way to change the namespace of an existing record, including one produced by extraction: a record inherits its session's namespace at creation and is not revised afterwards, so use this to re-file a record or to add a namespace to one created before the session had any."
+                        "description": "Updated deprecated namespace label. When provided, it must be 1-64 alphanumeric characters or dashes. Send an empty string to clear it.\nDo not supply it with namespaceRef.\n\nThis shape is deprecated: Use namespaceRef to reference a namespace resource.",
+                        "deprecated": true
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRefInput"
                     },
                     "ownerId": {
                         "type": "string",
@@ -3398,7 +5435,11 @@
                         "maxLength": 64,
                         "minLength": 1,
                         "pattern": "^[a-zA-Z0-9-]+$",
-                        "description": "Namespace for logical grouping. Absent when the record has none: either it was written directly without one, or it was extracted from a session that has no namespace."
+                        "description": "Deprecated namespace label. Absent when the record uses namespaceRef or has no namespace.",
+                        "deprecated": true
+                    },
+                    "namespaceRef": {
+                        "$ref": "#/components/schemas/NamespaceRef"
                     },
                     "topics": {
                         "type": "array",
@@ -3430,6 +5471,32 @@
                     "id",
                     "text",
                     "updatedAt"
+                ]
+            },
+            "UpdateNamespaceRequestContent": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 64,
+                        "minLength": 1,
+                        "pattern": "^[a-zA-Z0-9_-]+$",
+                        "description": "One case-sensitive namespace path segment."
+                    },
+                    "state": {
+                        "$ref": "#/components/schemas/NamespaceUpdateState"
+                    }
+                }
+            },
+            "UpdateNamespaceResponseContent": {
+                "type": "object",
+                "properties": {
+                    "namespace": {
+                        "$ref": "#/components/schemas/Namespace"
+                    }
+                },
+                "required": [
+                    "namespace"
                 ]
             }
         }
