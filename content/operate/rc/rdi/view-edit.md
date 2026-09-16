@@ -15,7 +15,7 @@ weight: 4
 
 To manage a pipeline, select it from your workspace on the **Data Integration** page or from the **Data Integration** tab of your subscription or database.
 
-The pipeline page has six tabs:
+The pipeline page has the following tabs:
 
 - [Dashboard](#dashboard)
 - [Metrics](#metrics)
@@ -38,11 +38,10 @@ Each source has a card showing its database type, name, activity, and status. Ex
 
 {{<image filename="images/rc/rdi/rdi-2-source-actions.png" alt="Source actions for configuration, dataset, transformations, stop, reset, and deletion." width=350px >}}
 
-A pipeline can be streaming, stopped, or in an error or transitional state. Use the source cards and **Metrics** tab to identify the affected source before taking recovery action. Pipeline health and individual source status can differ, for example when one source is stopped.
+A pipeline can be streaming, stopped, or in an error or transitional state. If there is a problem, you can use the source cards and **Metrics** tab to identify the affected source before taking remedial action. Pipeline health and individual source status can differ, for example when one source is stopped.
 
 ### Add a source {#add-source}
 
-1. Check the **Source name** assignment for every existing transformation job. Jobs without a source assignment, or with an assignment to a removed source, must be corrected before adding a source.
 1. On **Dashboard**, select **Add source**.
 1. In **Add sources**, select **Add source** in the **Sources** list, choose the new database type, and enter a unique source name. Existing sources remain listed with their connection details read-only.
 1. Complete **Configure source**, **Select data**, and **Add transformations** for the new source. See [Create data pipeline]({{< relref "/operate/rc/rdi/define" >}}) for the configuration steps.
@@ -50,7 +49,7 @@ A pipeline can be streaming, stopped, or in an error or transitional state. Use 
 
 {{<image filename="images/rc/rdi/rdi-2-add-sources.png" alt="Add-source wizard showing existing sources and the Add source control." width=100% >}}
 
-Adding a source keeps the existing pipeline's shared target and settings, so the add-source wizard starts at **Add sources**. A source whose setup has not finished appears as **Pending setup** in the workspace. Resume its draft to complete setup. Wait for source removal to finish before adding another source.
+Adding a source keeps the existing pipeline's shared target and settings, so the wizard starts at **Add sources**. A source with an incomplete setup appears with **Pending setup** in the workspace. You can resume an existing draft setup at any time to complete it. If you remove a source, wait for the removal process to finish before adding another source.
 
 When extending an older single-source pipeline, preserve the original source name and its existing job assignments. You do not need to recreate the pipeline to add a source.
 
@@ -59,7 +58,7 @@ When extending an older single-source pipeline, preserve the original source nam
 1. On **Dashboard**, open the source card's **More actions** menu.
 1. Select **Stop source**, then confirm with **Stop source**.
 
-Stopping one source pauses data capture from that source without stopping the other sources. Starting it again resumes from its saved position. To resume it, open the same menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running.
+Stopping one source pauses data capture from that source without stopping the other sources. Starting it again resumes from its saved position. To resume a source, open its **More actions** menu and select **Start source**, then confirm with **Start source**. A source processes data only while the pipeline is running. See [How does stopping sources affect billing?]({{< relref "/operate/rc/rdi/faq#stopping-and-billing" >}}).
 
 ### Reset a source {#reset-source}
 
@@ -71,9 +70,11 @@ Resetting one source starts a new snapshot and reprocesses its selected data.
 
 {{<image filename="images/rc/rdi/rdi-2-reset-source.png" alt="Reset source confirmation explaining that other sources retain their data and the pipeline temporarily stops." width=600px >}}
 
-The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. Other sources retain their internal data. The whole pipeline stops while the reset runs and starts again afterwards. A source reset does not flush the shared target database.
+The reset clears that source's internal RDI streams, offsets, schema history, rejected records, and processing counters. The whole pipeline and all its sources restart during the reset. Other sources keep their saved positions and resume streaming. All records already in the shared target database remain, including those from the reset source. The new snapshot can overwrite records for that source. See [What happens when I reset one source?]({{< relref "/operate/rc/rdi/faq#reset-one-source" >}}).
 
 ### Remove a source {#remove-source}
+
+Before deleting a source, remove or reassign transformation jobs that refer to it and apply the changes. RDI rejects deletion while a transformation job still refers to the source.
 
 1. On **Dashboard**, open the source card's **More actions** menu.
 1. Select **Delete source**.
@@ -83,7 +84,7 @@ The reset clears that source's internal RDI streams, offsets, schema history, re
 
 Deleting a source removes its data selection and internal RDI state, including streams, offsets, schema history, rejected records, and processing counters. Records already written to the target Redis database remain there. Other sources retain their data. The whole pipeline stops while RDI cleans up the removed source and starts again afterwards.
 
-Source deletion cannot be undone. Review transformation-job source assignments after removing a source.
+Source deletion cannot be undone. To remove its records from the target, see [Can I flush data for a single source?]({{< relref "/operate/rc/rdi/faq#flush-one-source" >}}).
 
 ### Change target database
 
@@ -151,7 +152,7 @@ The **Settings** tab contains the default data structure (**Hash** or **JSON**) 
 
 {{<image filename="images/rc/rdi/rdi-2-settings.png" alt="Pipeline-wide Settings tab with default data structure and processor properties." width=100% >}}
 
-Select **Edit** to change these settings, then **Save changes** and **Apply and restart**. Review [processor properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}}) before changing them. New RDI 2.0.0 pipelines use Flink by default; existing pipelines retain their configured processor.
+Select **Edit** to change these settings, then **Save changes** and **Apply and restart**. Review [processor properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}}) before changing them. RDI 2.0.0 uses Flink by default when no processor type is explicitly configured.
 
 {{<image filename="images/rc/rdi/rdi-processor-advanced-properties.png" alt="The processor advanced properties editor with key and value fields." width=80% >}}
 
@@ -168,8 +169,6 @@ Select a source in the **Sources** list to view its connectivity, secret referen
     {{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties dialog with separate collector source and sink properties." width=80% >}}
 
 1. Save the properties and review the restart confirmation before applying the changes.
-
-Do not set `topic.prefix`; RDI derives it from the source name. For MySQL, MariaDB, and MongoDB mTLS connections, RDI derives keystore settings from the source's certificate secrets unless you explicitly override them. See [Configure source secrets]({{< relref "/operate/rc/rdi/define#secrets" >}}).
 
 ## Dataset
 
@@ -208,27 +207,37 @@ The **Transformations** tab lists the pipeline's jobs, their source assignments,
 
 1. Select **Edit** on **Transformations**.
 1. Add, upload, or edit the [transformation jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) needed for your tables.
-1. Check each job's **Source name** assignment. For a new source, `source.server_name` matches its source name. For an upgraded single-source pipeline, preserve the existing assignment, such as `rdi` for a Debezium source.
+1. Select the **Source name** for each job.
 1. Resolve job validation errors and select **Save changes**.
 1. Review the restart warning and select **Apply and restart**.
 
-The Flink processor accepts lists and `regex:` entries in source matchers, but rejects jobs whose matchers overlap on a table. The default data structure and processor properties are in [Settings](#settings).
+The Flink processor accepts lists and `regex:` entries in source selection patterns, but rejects jobs where more than one job can apply to a given table. The default data structure and processor properties are in [Settings](#settings).
 
 ## Reset data pipeline
 
-Resetting the whole pipeline starts a new snapshot for every source and reprocesses their selected data.
+Resetting the whole pipeline clears its internal RDI state and starts a new snapshot for every source. RDI reprocesses the selected data using the current transformations. Reset alone does not delete records from the target database. See [What happens when I reset the pipeline?]({{< relref "/operate/rc/rdi/faq#reset-pipeline" >}}).
 
 1. Open **Pipeline actions** and select **Reset pipeline**.
-1. Review the confirmation and select **Reset pipeline**.
+1. Review the confirmation and select **Reset data pipeline**.
 
-To resnapshot only one source while preserving other sources' internal data, use [Reset a source](#reset-source).
+To re-run the snapshot for just one source while preserving other sources' internal data, see [Reset a source](#reset-source).
 
 ## Stop and restart data pipeline
 
 1. Open **Pipeline actions** and select **Stop pipeline**.
 1. Confirm with **Stop pipeline**.
 
-Stopping the pipeline pauses processing for all sources. To resume, open **Pipeline actions**, select **Start pipeline**, and confirm with **Start pipeline**. Use the [source actions](#stop-and-start-source) to control one source separately.
+Stopping the pipeline pauses processing for all sources. To resume, open **Pipeline actions**, select **Start pipeline**, and confirm with **Start pipeline**. Use the [source actions](#stop-and-start-source) to control an individual source separately. Stopping all sources individually leaves the processor running. See [Billing]({{< relref "/operate/rc/rdi/faq#billing" >}}) for the difference in charges.
+
+## Flush the target database
+
+Flushing permanently deletes **all data** from the target database, including records from every source and data written outside RDI. It does not reset source positions or automatically reload the data.
+
+1. [Stop the pipeline](#stop-and-restart-data-pipeline) and wait until it is stopped.
+1. Open **Pipeline actions** and select **Flush target database**. This action is disabled while the pipeline is running.
+1. Check the target database and confirm with **Flush target database**.
+
+To refill the target, follow [How do I reload data after a flush?]({{< relref "/operate/rc/rdi/faq#reload-after-flush" >}}).
 
 ## Delete pipeline
 

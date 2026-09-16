@@ -92,7 +92,7 @@ An RDI data pipeline connects one or more source databases to one target Redis d
 
 Each source first imports its selected data during the *initial sync* phase, then captures changes during the *streaming* phase. The pipeline transforms the captured records and writes them to Redis. You can monitor and manage each source from the pipeline dashboard.
 
-Starting with RDI 2.0.0, new pipelines use the Flink processor by default. Existing pipelines retain their configured processor. See [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}) for supported transformations and processor behavior.
+Starting with RDI 2.0.0, new pipelines use the Flink processor by default. See [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}) for supported transformations and processor behavior.
 
 For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/redis-data-integration/architecture">}}).
 
@@ -151,6 +151,10 @@ To create a new data pipeline, you need to:
 Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.
 
 For complete production setups, including SQL Server failover handling, see [Production use cases]({{<relref "/operate/rc/rdi/use-cases">}}).
+
+## Billing and common questions
+
+See the [RDI Cloud FAQ]({{< relref "/operate/rc/rdi/faq" >}}) for billing examples, reset and flush behavior, and working with multiple sources.
 
 ## Maintenance windows
 

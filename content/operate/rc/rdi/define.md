@@ -19,7 +19,7 @@ In the [Redis Cloud console](https://cloud.redis.io/), open your target database
 
 {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The Add pipeline control is available while the workspace is being created." width=80% >}}
 
-Creating a pipeline has six steps:
+To create a pipeline:
 
 1. [**Settings**](#settings): Select the shared target, default data structure, and processor properties.
 1. [**Add sources**](#pipeline-setup): Select source types and give each source a unique name.
@@ -41,16 +41,16 @@ Creating a pipeline has six steps:
 
 1. Select **Continue**.
 
-New RDI 2.0.0 pipelines use the Flink processor by default. Existing pipelines retain their configured processor. Check [processor differences]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}) before using processor-specific properties or transformations.
+New RDI 2.0.0 pipelines use the Flink processor by default. Check [processor differences]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}) before using processor-specific properties or transformations.
 
 ## Add sources {#pipeline-setup}
 
 1. Select a source database type: **MySQL**, **MariaDB**, **Oracle**, **SQL Server**, **PostgreSQL**, **MongoDB**, or **Snowflake** (Preview).
-1. Enter a unique **Source name**, for example `inventory-mysql`. Use up to 22 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter and end with a letter or number. The names `rdi`, `source`, `target`, and `api` are reserved for new sources.
+1. Enter a unique **Source name**, for example `inventory-mysql`. Use up to 22 characters: lowercase letters, numbers, and hyphens. Start with a lowercase letter and end with a letter or number. The names `rdi`, `source`, `target`, and `api` cannot be used for sources.
 1. To include another source, select **Add source** in the **Sources** list and repeat these steps. You can combine different database types or add several sources of the same type.
 1. Select **Continue**.
 
-The source name identifies the source in the pipeline configuration and transformation jobs; it is not just a display label. Keep the names and job assignments of an existing single-source pipeline when you add another source. Existing sources retain their names even if those names would not be accepted for a new source.
+The source name identifies the source in the pipeline configuration and transformation jobs; it is not just a display label. These naming rules were introduced with RDI 2.0.0. Sources that existed before the upgrade retain their names, even if they do not meet these rules.
 
 Select a source in the **Sources** list to configure its connection and dataset. Each source has separate progress indicators for its details, configuration, and data selection.
 
@@ -99,8 +99,6 @@ Under **Transit security**, select the mode required by your source:
 
     {{<image filename="images/rc/rdi/rdi-define-mtls.png" alt="mTLS transit security with certificate, private key, and optional password secret ARN fields." width=80% >}}
 
-For MySQL, MariaDB, and MongoDB sources, RDI 2.0.0 derives the Debezium keystore settings from the source certificate secrets. You do not need to add `database.ssl.keystore` or `mongodb.ssl.keystore` and their passwords to the advanced source properties. Explicit advanced settings still override the derived values.
-
 Select **Validate** to check access to the selected source's secrets. Repeat this for each source. The AWS secret contents and permissions are described in [Share source database credentials]({{< relref "/operate/rc/rdi/setup#share-source-database-credentials" >}}).
 
 ### Source configuration {#source-configuration-section}
@@ -121,14 +119,12 @@ Use **Collector properties** for additional source and sink settings. These sett
 
 {{<image filename="images/rc/rdi/rdi-advanced-properties.png" alt="The advanced properties dialog with separate collector source and sink properties." width=80% >}}
 
-RDI derives `topic.prefix` from the source name. Do not set `topic.prefix` in the advanced source properties.
-
 ## Select data {#dataset}
 
 Select each source in the **Sources** list and choose the data to ingest from that source.
 
 {{< warning >}}
-Do not write data directly to the target database outside of RDI. Writing to the target database from other sources can cause transformation failures and data inconsistencies. If you need to reset the pipeline and resync from the source, any data written to the target outside of RDI will be lost.
+Do not write data directly to keys managed by RDI. Changes from another application can cause transformation failures or data inconsistencies, and RDI can overwrite them. A pipeline reset does not flush the target database. **Flush target database** is a separate action that deletes all target data, including data written outside RDI. See [Data recovery]({{< relref "/operate/rc/rdi/faq#data-recovery" >}}).
 {{< /warning >}}
 
 1. Select a schema in **Schemas** to see its tables.
@@ -155,7 +151,7 @@ The available schema, table, and column controls depend on the source type. Each
 Transformation jobs are optional. Without a matching job, RDI writes records using the pipeline's default data structure.
 
 1. Select **Upload jobs** to upload the [transformation job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}) needed for your selected tables.
-1. Check the **Source name** assignment for each job. In a multi-source pipeline, `source.server_name` identifies the source the job reads from. Use the source name for new sources. For an upgraded single-source pipeline, preserve the existing assignment, such as `rdi` for a Debezium source.
+1. Check the **Source name** assignment for each job. In a multi-source pipeline, `source.server_name` identifies the source the job reads from. Select the source name you chose during setup.
 1. Review each job's validation status and correct errors.
 
     {{<image filename="images/rc/rdi/rdi-2-transformation-jobs.png" alt="Example transformation jobs with their source assignments and validation status." width=100% >}}

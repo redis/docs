@@ -15,7 +15,7 @@ weight: 3
 
 ## Prepare source database
 
-Prepare every source database before adding it to a pipeline. Each source needs its own change data capture (CDC) configuration, connectivity, and credentials. See [Prerequisites]({{<relref "/operate/rc/rdi#prerequisites">}}) to find a list of supported source databases and database versions.
+Prepare every source database before adding it to a pipeline. Each source needs its own change data capture (CDC) configuration, connectivity, and credentials. See [Prerequisites]({{<relref "/operate/rc/rdi#prerequisites">}}) for a list of supported source databases and database versions.
 
 See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type:
 - [MongoDB Atlas]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/mongodb">}})
@@ -383,8 +383,6 @@ Review the key policy and key settings, and then select **Finish** to create the
 ### Create database credentials secrets
 
 To let Redis Cloud access your source database, you need to create AWS secrets for the source database's credentials and certificates. 
-
-For MySQL, MariaDB, and MongoDB sources, RDI 2.0.0 builds the source keystore from these certificate secrets and configures Debezium automatically. Manual advanced keystore properties are optional overrides.
 
 The required secrets depend on your source database's security configuration. The following table shows the required secrets for each configuration:
 

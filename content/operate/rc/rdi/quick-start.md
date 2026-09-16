@@ -48,7 +48,7 @@ This example creates one PostgreSQL source. You can [add more sources]({{< relre
 
 1. In **Settings**, select your target database and choose **Hash** or **JSON** as the default data structure, then select **Continue**.
 1. In **Add sources**, select **PostgreSQL**.
-1. Enter `postgresql` as the **Source name**. This is the source identifier used in the pipeline configuration and transformation jobs.
+1. Enter a **Source name** of your choice, for example `inventory-postgres`.
 1. Select **Continue** to open **Configure source**.
 1. Under **Source connectivity**, copy the **Role ARN**. Use it as `redis_privatelink_arn` in the Terraform configuration.
 
@@ -113,7 +113,7 @@ If you lose any outputs, run `terraform output` to view them again.
 
 1. Return to your database's **Data Integration** tab in the [Redis Cloud console](https://cloud.redis.io/).
 1. Open the draft pipeline's actions menu and select **Resume pipeline setup**.
-1. Open **Configure source** and select `postgresql` in the **Sources** list.
+1. Open **Configure source** and select your PostgreSQL source in the **Sources** list.
 1. Under **Source connectivity**, enter the Terraform `vpc_endpoint_service_name` output as the **Private Link service name**.
 1. Select **Connect to Private Link** and wait for connectivity to complete.
 
