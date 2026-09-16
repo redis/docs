@@ -14,7 +14,7 @@ title: Redis session store with Java (Lettuce)
 weight: 5
 ---
 
-This guide shows you how to implement a Redis-backed session store in Java with [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}). It includes both asynchronous and reactive store APIs, plus a small local demo server built on Java's built-in `HttpServer`.
+This guide shows you how to implement a Redis-backed session store in Java with [`Lettuce`](/content/develop/clients/lettuce/_index.md). It includes both asynchronous and reactive store APIs, plus a small local demo server built on Java's built-in `HttpServer`.
 
 ## Overview
 
@@ -35,7 +35,7 @@ For Lettuce, we generally show asynchronous and reactive APIs rather than a sync
 
 * Async with `RedisAsyncCommands` works well for standard Java applications using `CompletableFuture`
 * Reactive with `RedisReactiveCommands` is a good fit when you are already using Reactor
-* For synchronous Java session-store examples, we recommend [Jedis]({{< relref "/develop/use-cases/session-store/java-jedis" >}})
+* For synchronous Java session-store examples, we recommend [Jedis](/content/develop/use-cases/session-store/java-jedis/_index.md)
 
 ## How it works
 
@@ -124,11 +124,11 @@ session:abc123...
 
 The implementation uses:
 
-* [`HSET`]({{< relref "/commands/hset" >}}) to create and update session fields
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) to load the session
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) to update counters
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) to implement sliding expiration
-* [`DEL`]({{< relref "/commands/del" >}}) to remove a session on logout
+* [`HSET`](/content/commands/hset.md) to create and update session fields
+* [`HGETALL`](/content/commands/hgetall.md) to load the session
+* [`HINCRBY`](/content/commands/hincrby.md) to update counters
+* [`EXPIRE`](/content/commands/expire.md) to implement sliding expiration
+* [`DEL`](/content/commands/del.md) to remove a session on logout
 
 The store treats `created_at`, `last_accessed_at`, and `session_ttl` as reserved internal fields, so caller-provided session data cannot overwrite them.
 
@@ -288,6 +288,6 @@ You now have Redis-backed session examples in Java using both Jedis and Lettuce.
 
 For more Redis data modeling patterns, see:
 
-* [Session store overview]({{< relref "/develop/use-cases/session-store" >}})
-* [Lettuce guide]({{< relref "/develop/clients/lettuce" >}})
-* [Jedis session store]({{< relref "/develop/use-cases/session-store/java-jedis" >}})
+* [Session store overview](/content/develop/use-cases/session-store/_index.md)
+* [Lettuce guide](/content/develop/clients/lettuce/_index.md)
+* [Jedis session store](/content/develop/use-cases/session-store/java-jedis/_index.md)

@@ -14,20 +14,20 @@ title: Redis semantic cache with redis-py
 weight: 1
 ---
 
-This guide shows you how to build a small Redis-backed semantic cache for LLM responses in Python with [`redis-py`]({{< relref "/develop/clients/redis-py" >}}) and the [`sentence-transformers`](https://www.sbert.net/) library. It includes a local web server built with the Python standard library so you can send paraphrased prompts at a mock LLM, watch the cache decide hit or miss, sweep the cosine-distance threshold, and see the cumulative latency and token savings build up.
+This guide shows you how to build a small Redis-backed semantic cache for LLM responses in Python with [`redis-py`](/content/develop/clients/redis-py/_index.md) and the [`sentence-transformers`](https://www.sbert.net/) library. It includes a local web server built with the Python standard library so you can send paraphrased prompts at a mock LLM, watch the cache decide hit or miss, sweep the cosine-distance threshold, and see the cumulative latency and token savings build up.
 
 ## Overview
 
-Each cache entry is stored as a single Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) at `cache:<id>`. The hash holds the original prompt, the LLM's response, the raw `float32` bytes of a 384-dimensional embedding of the prompt, and metadata fields — tenant, locale, model version, safety flag — plus a `created_ts` and a `hit_count`. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers the embedding field and every metadata field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call with a `KNN` clause does the vector lookup *and* the TAG pre-filter in the same round trip — no cross-store joins.
+Each cache entry is stored as a single Redis [Hash](/content/develop/data-types/hashes.md) at `cache:<id>`. The hash holds the original prompt, the LLM's response, the raw `float32` bytes of a 384-dimensional embedding of the prompt, and metadata fields — tenant, locale, model version, safety flag — plus a `created_ts` and a `hit_count`. A single [Redis Search](/content/develop/ai/search-and-query/_index.md) index covers the embedding field and every metadata field, so one [`FT.SEARCH`](/content/commands/ft.search.md) call with a `KNN` clause does the vector lookup *and* the TAG pre-filter in the same round trip — no cross-store joins.
 
-The lookup is thresholded: [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) always returns the nearest entry that satisfies the filters, but the application only serves it as a hit when the reported cosine distance is at or below `distance_threshold`. Anything further away is treated as a miss; the caller runs the LLM and writes the new prompt, response, and embedding back to the same key pattern with a TTL.
+The lookup is thresholded: [`FT.SEARCH`](/content/commands/ft.search.md) always returns the nearest entry that satisfies the filters, but the application only serves it as a hit when the reported cosine distance is at or below `distance_threshold`. Anything further away is treated as a miss; the caller runs the LLM and writes the new prompt, response, and embedding back to the same key pattern with a TTL.
 
 That gives you:
 
-* A single round trip for lookup — vector KNN + metadata pre-filter in one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
+* A single round trip for lookup — vector KNN + metadata pre-filter in one [`FT.SEARCH`](/content/commands/ft.search.md).
 * Tens of milliseconds on a hit vs. a multi-second LLM call on a miss; the embedding step is the bottleneck either way, and that's a model-side cost, not a Redis one.
 * Tenant, locale, and model-version isolation enforced inside the query, not in application code — a write under one tenant cannot be served to another.
-* Bounded memory: every entry has an [`EXPIRE`]({{< relref "/commands/expire" >}}) TTL, and a database-level [eviction policy]({{< relref "/develop/reference/eviction" >}}) (LRU / LFU) caps the cache size under pressure.
+* Bounded memory: every entry has an [`EXPIRE`](/content/commands/expire.md) TTL, and a database-level [eviction policy](/content/develop/reference/eviction/index.md) (LRU / LFU) caps the cache size under pressure.
 
 ## How it works
 
@@ -36,8 +36,8 @@ A query goes through three stages: **embed**, **lookup**, and (on a miss) **call
 ### Hit path (the goal)
 
 1. The application calls `embedder.encode_one(prompt)` to turn the incoming text into a 384-dimensional `float32` vector.
-2. `cache.lookup(query_vec, tenant=..., locale=..., model_version=...)` runs [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) with a TAG pre-filter and a `KNN 1` clause. Redis returns the closest cached prompt that satisfies the filters along with its cosine distance.
-3. If the distance is at or below the threshold, the cache returns a `CacheHit` containing the cached response. The helper also pipelines an [`HINCRBY`]({{< relref "/commands/hincrby" >}}) on `hit_count` and an [`EXPIRE`]({{< relref "/commands/expire" >}}) refresh, so a frequently used answer keeps its TTL and the demo UI can see which entries are load-bearing.
+2. `cache.lookup(query_vec, tenant=..., locale=..., model_version=...)` runs [`FT.SEARCH`](/content/commands/ft.search.md) with a TAG pre-filter and a `KNN 1` clause. Redis returns the closest cached prompt that satisfies the filters along with its cosine distance.
+3. If the distance is at or below the threshold, the cache returns a `CacheHit` containing the cached response. The helper also pipelines an [`HINCRBY`](/content/commands/hincrby.md) on `hit_count` and an [`EXPIRE`](/content/commands/expire.md) refresh, so a frequently used answer keeps its TTL and the demo UI can see which entries are load-bearing.
 4. The LLM is not called at all. The application returns the cached response to the user.
 
 ### Miss path
@@ -45,7 +45,7 @@ A query goes through three stages: **embed**, **lookup**, and (on a miss) **call
 When the distance is above the threshold — or there is no candidate in scope at all — the helper returns a `CacheMiss` instead, carrying the distance of the nearest candidate (if any) for logging. The application then:
 
 1. Calls the LLM with the prompt.
-2. Calls `cache.put(prompt, response, embedding, tenant=..., locale=..., model_version=...)`. The same embedding the lookup used is reused — no re-encode. The helper writes the Hash with [`HSET`]({{< relref "/commands/hset" >}}) and an [`EXPIRE`]({{< relref "/commands/expire" >}}) TTL in a pipeline.
+2. Calls `cache.put(prompt, response, embedding, tenant=..., locale=..., model_version=...)`. The same embedding the lookup used is reused — no re-encode. The helper writes the Hash with [`HSET`](/content/commands/hset.md) and an [`EXPIRE`](/content/commands/expire.md) TTL in a pipeline.
 3. Returns the LLM's response to the user. The next semantically similar prompt under the same metadata scope will be a hit.
 
 ## The cache helper
@@ -227,8 +227,8 @@ The server holds one `LocalEmbedder`, one `RedisSemanticCache`, and one `MockLLM
     ```
 
 3.  Make sure a Redis instance with the Redis Search module is running locally on
-    port 6379. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or
-    [Redis 8 with Search]({{< relref "/develop/ai/search-and-query" >}}) both work.
+    port 6379. [Redis Stack](/content/operate/oss_and_stack/install/install-stack/_index.md) or
+    [Redis 8 with Search](/content/develop/ai/search-and-query/_index.md) both work.
 
 4.  Start the demo server. The first run downloads the `all-MiniLM-L6-v2` model
     (~80 MB) into the local Hugging Face cache:
