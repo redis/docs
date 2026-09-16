@@ -216,7 +216,7 @@ USE <db-name>;
 GRANT REFERENCES ON TYPE::<schema>.<type-name> TO <db-user>;
 ```
 
-Without granting these permissions you may encounter errors like:
+If you don't grant these permissions you may encounter errors like:
 `"The column "Account" is referenced as PRIMARY KEY, but a matching column is not defined in table "DB.dbo.MyTable"!"`
 
 
