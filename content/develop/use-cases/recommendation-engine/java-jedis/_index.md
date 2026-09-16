@@ -15,20 +15,20 @@ title: Redis recommendation engine with Jedis
 weight: 6
 ---
 
-This guide shows you how to build a small Redis-backed product recommendation service in Java with the [Jedis]({{< relref "/develop/clients/jedis" >}}) client library and the [Deep Java Library](https://djl.ai/) (DJL) with its HuggingFace tokenizer integration and the ONNX Runtime inference engine. It includes a local web server built on the JDK's `com.sun.net.httpserver` so you can embed a natural-language query, run a KNN retrieval with structured pre-filters in one round trip, feed clicks back as a session signal, and watch the next recommendation incorporate them immediately.
+This guide shows you how to build a small Redis-backed product recommendation service in Java with the [Jedis](/content/develop/clients/jedis/_index.md) client library and the [Deep Java Library](https://djl.ai/) (DJL) with its HuggingFace tokenizer integration and the ONNX Runtime inference engine. It includes a local web server built on the JDK's `com.sun.net.httpserver` so you can embed a natural-language query, run a KNN retrieval with structured pre-filters in one round trip, feed clicks back as a session signal, and watch the next recommendation incorporate them immediately.
 
 ## Overview
 
-Each product is stored as a single Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) at `product:<id>`. The hash holds the structured metadata (name, description, category, brand, price, rating, in-stock flag) alongside the raw `float32` bytes of a 384-dimensional embedding. A single [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) index covers every field, so one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call with a `KNN` clause does the vector similarity *and* the TAG / NUMERIC / TEXT pre-filtering in the same pass &mdash; no cross-store joins.
+Each product is stored as a single Redis [Hash](/content/develop/data-types/hashes.md) at `product:<id>`. The hash holds the structured metadata (name, description, category, brand, price, rating, in-stock flag) alongside the raw `float32` bytes of a 384-dimensional embedding. A single [Redis Search](/content/develop/ai/search-and-query/_index.md) index covers every field, so one [`FT.SEARCH`](/content/commands/ft.search.md) call with a `KNN` clause does the vector similarity *and* the TAG / NUMERIC / TEXT pre-filtering in the same pass &mdash; no cross-store joins.
 
-Per-user state lives in `user:<id>:features`: a session vector written as an exponentially weighted average of recently-clicked item embeddings, plus per-category affinity counters incremented atomically with [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}). [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) does *not* read that hash directly; instead, the application reads it on the next request and passes the session vector to `FT.SEARCH` as the query parameter. The two-step is what lets a click feed the very next recommendation without a batch cycle or cache invalidation.
+Per-user state lives in `user:<id>:features`: a session vector written as an exponentially weighted average of recently-clicked item embeddings, plus per-category affinity counters incremented atomically with [`HINCRBYFLOAT`](/content/commands/hincrbyfloat.md). [`FT.SEARCH`](/content/commands/ft.search.md) does *not* read that hash directly; instead, the application reads it on the next request and passes the session vector to `FT.SEARCH` as the query parameter. The two-step is what lets a click feed the very next recommendation without a batch cycle or cache invalidation.
 
 That gives you:
 
-* A single round trip for retrieval &mdash; vector KNN + structured filters in one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}).
+* A single round trip for retrieval &mdash; vector KNN + structured filters in one [`FT.SEARCH`](/content/commands/ft.search.md).
 * Sub-millisecond hot path once the query is embedded; embedding the query is the bottleneck, and that's a model-side cost, not a Redis one.
 * Real-time session signals &mdash; a click writes a new session vector and bumps an affinity counter; the next query reads them and folds them in.
-* No-downtime embedding refresh &mdash; [`HSET`]({{< relref "/commands/hset" >}}) on the vector field, and the HNSW index reflects the change on the next query.
+* No-downtime embedding refresh &mdash; [`HSET`](/content/commands/hset.md) on the vector field, and the HNSW index reflects the change on the next query.
 
 ## How it works
 
@@ -38,7 +38,7 @@ There are two distinct paths: a **query path** runs every time the application w
 
 1. The application calls `embedder.encodeOne(queryText)` to turn a natural-language query into a 384-dimensional `float32` vector. DJL's `Predictor` runs the [HuggingFace tokenizer](https://github.com/deepjavalibrary/djl/tree/master/extensions/tokenizers) and ONNX Runtime inference end-to-end.
 2. The application reads the user's session vector and affinities from the user features hash. If a session vector exists, it gets blended into the query vector with a tunable weight, so the user's recent clicks pull retrieval toward what they've been engaging with.
-3. `recommender.candidateRetrieve(queryVec, opts)` runs [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) with a pre-filter clause built from the request's TAG / NUMERIC / TEXT inputs, followed by a `KNN k @embedding $vec` clause. Redis returns up to `k` candidates with the cosine distance to the query (lower is closer).
+3. `recommender.candidateRetrieve(queryVec, opts)` runs [`FT.SEARCH`](/content/commands/ft.search.md) with a pre-filter clause built from the request's TAG / NUMERIC / TEXT inputs, followed by a `KNN k @embedding $vec` clause. Redis returns up to `k` candidates with the cosine distance to the query (lower is closer).
 4. `recommender.rerank(candidates, userFeatures, affinityWeight)` subtracts a log-scaled per-category affinity bonus from each candidate's distance and re-sorts the list closest-first. The log scaling keeps repeated clicks from running away with the ranking.
 
 ### Click path (per user interaction)
@@ -46,12 +46,12 @@ There are two distinct paths: a **query path** runs every time the application w
 When the user clicks a product, `recommender.recordClick(userId, productId, ewmaAlpha, affinityStep)` does the following:
 
 1. Reads the clicked item's embedding from its hash.
-2. Reads the user's previous session vector from the user features hash, blends the new click in via an exponentially weighted moving average, and writes the new session vector back with [`HSET`]({{< relref "/commands/hset" >}}). This is a read-modify-write &mdash; atomic against any single write but not against a concurrent click for the same user. In practice, per-user click streams don't generate the contention to make this matter, and if a deployment does, the read and write can be wrapped in [`WATCH/MULTI/EXEC`]({{< relref "/commands/multi" >}}) or a small Lua script.
-3. Bumps the per-category affinity counter with [`HINCRBYFLOAT`]({{< relref "/commands/hincrbyfloat" >}}) &mdash; atomic, no read needed &mdash; and the click count with [`HINCRBY`]({{< relref "/commands/hincrby" >}}).
+2. Reads the user's previous session vector from the user features hash, blends the new click in via an exponentially weighted moving average, and writes the new session vector back with [`HSET`](/content/commands/hset.md). This is a read-modify-write &mdash; atomic against any single write but not against a concurrent click for the same user. In practice, per-user click streams don't generate the contention to make this matter, and if a deployment does, the read and write can be wrapped in [`WATCH/MULTI/EXEC`](/content/commands/multi.md) or a small Lua script.
+3. Bumps the per-category affinity counter with [`HINCRBYFLOAT`](/content/commands/hincrbyfloat.md) &mdash; atomic, no read needed &mdash; and the click count with [`HINCRBY`](/content/commands/hincrby.md).
 
 The next query path picks both changes up the next time it reads the user features hash.
 
-Refreshing an item's embedding follows a similar shape: encode the new text, write the vector bytes back with [`HSET`]({{< relref "/commands/hset" >}}), and the HNSW index reflects the change on the next query without a rebuild.
+Refreshing an item's embedding follows a similar shape: encode the new text, write the vector bytes back with [`HSET`](/content/commands/hset.md), and the HNSW index reflects the change on the next query without a rebuild.
 
 ## The recommender helper
 
@@ -221,7 +221,7 @@ try (LocalEmbedder embedder = new LocalEmbedder()) {
 }
 ```
 
-In production the equivalent lives in an offline pipeline: embed once on catalogue updates and ship the vectors into Redis with [`HSET`]({{< relref "/commands/hset" >}}). The serving tier still embeds the *query* on each request, but that's usually fronted by a dedicated model server or batched at the API gateway rather than co-located with the data tier as it is in this demo.
+In production the equivalent lives in an offline pipeline: embed once on catalogue updates and ship the vectors into Redis with [`HSET`](/content/commands/hset.md). The serving tier still embeds the *query* on each request, but that's usually fronted by a dedicated model server or batched at the API gateway rather than co-located with the data tier as it is in this demo.
 
 The shared `catalog.json` wire format (model name, dim, list of products with base64-encoded `float32` LE bytes for the vector) is identical to what the Python, Node, and Go ports produce, so you can re-use any port's catalog with the Java demo as long as the embedding model matches.
 
@@ -249,7 +249,7 @@ The server holds one `LocalEmbedder` and one `Recommender` for the lifetime of t
 
 Before running the demo, make sure that:
 
-* Redis 7.0 or later with the Redis Search module is running and accessible. By default the demo connects to `localhost:6379`. [Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) or [Redis 8 with Search]({{< relref "/develop/ai/search-and-query" >}}) both work.
+* Redis 7.0 or later with the Redis Search module is running and accessible. By default the demo connects to `localhost:6379`. [Redis Stack](/content/operate/oss_and_stack/install/install-stack/_index.md) or [Redis 8 with Search](/content/develop/ai/search-and-query/_index.md) both work.
 * JDK 17 or later is installed (the demo's inline HTML uses text blocks, which require JDK 15+; 17+ keeps the demo on a current LTS).
 * [Maven](https://maven.apache.org/) 3.9 or later for dependency resolution. DJL pulls in a couple of dozen transitive jars, so a manual `javac -cp ...` build is impractical; the `pom.xml` shipped next to the source files lets Maven handle that.
 

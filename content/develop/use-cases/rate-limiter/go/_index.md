@@ -14,7 +14,7 @@ title: Token bucket rate limiter with Redis and Go
 weight: 3
 ---
 
-This guide shows you how to implement a distributed token bucket rate limiter using Redis and Lua scripts in Go with the [`go-redis`]({{< relref "/develop/clients/go" >}}) client library.
+This guide shows you how to implement a distributed token bucket rate limiter using Redis and Lua scripts in Go with the [`go-redis`](/content/develop/clients/go/_index.md) client library.
 
 ## Overview
 
@@ -25,7 +25,7 @@ Rate limiting is a critical technique for controlling the rate at which operatio
 * Ensuring fair resource allocation across multiple clients
 * Throttling background jobs or batch operations
 
-The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Go implementation using the [`go-redis`]({{< relref "/develop/clients/go" >}}) client library, taking advantage of Go's `context.Context` for cancellation and timeouts, explicit error handling, and goroutine safety.
+The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Go implementation using the [`go-redis`](/content/develop/clients/go/_index.md) client library, taking advantage of Go's `context.Context` for cancellation and timeouts, explicit error handling, and goroutine safety.
 
 ## How it works
 
@@ -97,12 +97,12 @@ return {allowed, tokens}
 
 ### Script breakdown
 
-1. **State retrieval**: Uses [`HMGET`]({{< relref "/commands/hmget" >}}) to fetch the current token count and last refill time from a hash
+1. **State retrieval**: Uses [`HMGET`](/content/commands/hmget.md) to fetch the current token count and last refill time from a hash
 2. **Initialization**: On first use, sets tokens to full capacity
 3. **Token refill calculation**: Computes how many tokens should be added based on elapsed time
 4. **Capacity enforcement**: Uses `math.min()` to ensure tokens never exceed capacity
 5. **Token consumption**: Decrements the token count if available
-6. **State update**: Uses [`HMSET`]({{< relref "/commands/hmset" >}}) to save the new state
+6. **State update**: Uses [`HMSET`](/content/commands/hmset.md) to save the new state
 7. **Return value**: Returns both the decision (allowed/denied) and remaining tokens
 
 ### Why atomicity matters
@@ -113,7 +113,7 @@ Without atomic execution, race conditions could occur:
 * **Lost updates**: Concurrent updates could overwrite each other's changes
 * **Inconsistent state**: Token count and refill time could become desynchronized
 
-Using [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/commands/evalsha" >}}) ensures the entire operation executes atomically, making it safe for distributed systems.
+Using [`EVAL`](/content/commands/eval.md) or [`EVALSHA`](/content/commands/evalsha.md) ensures the entire operation executes atomically, making it safe for distributed systems.
 
 ## Installation
 
@@ -196,7 +196,7 @@ The `key` parameter identifies what you're rate limiting. Common patterns:
 
 ### Script caching with EVALSHA
 
-The Go implementation uses [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for optimal performance. On first use, the Lua script is loaded into Redis with `SCRIPT LOAD`, and subsequent calls use the cached SHA1 hash. If the script is evicted from the cache, the module automatically falls back to [`EVAL`]({{< relref "/commands/eval" >}}) and reloads the script. The script loading is protected with a `sync.Once` to ensure thread safety across goroutines.
+The Go implementation uses [`EVALSHA`](/content/commands/evalsha.md) for optimal performance. On first use, the Lua script is loaded into Redis with `SCRIPT LOAD`, and subsequent calls use the cached SHA1 hash. If the script is evicted from the cache, the module automatically falls back to [`EVAL`](/content/commands/eval.md) and reloads the script. The script loading is protected with a `sync.Once` to ensure thread safety across goroutines.
 
 ```go
 // The package handles script caching automatically.
@@ -658,9 +658,9 @@ handle `429 Too Many Requests` and retry with backoff.
 
 ## Learn more
 
-* [EVAL command]({{< relref "/commands/eval" >}}) - Execute Lua scripts
-* [EVALSHA command]({{< relref "/commands/evalsha" >}}) - Execute cached Lua scripts
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Introduction to Redis Lua scripting
-* [HMGET command]({{< relref "/commands/hmget" >}}) - Get multiple hash fields
-* [HMSET command]({{< relref "/commands/hmset" >}}) - Set multiple hash fields
-* [Go client]({{< relref "/develop/clients/go" >}}) - Redis Go client documentation
+* [EVAL command](/content/commands/eval.md) - Execute Lua scripts
+* [EVALSHA command](/content/commands/evalsha.md) - Execute cached Lua scripts
+* [Lua scripting](/content/develop/programmability/eval-intro.md) - Introduction to Redis Lua scripting
+* [HMGET command](/content/commands/hmget.md) - Get multiple hash fields
+* [HMSET command](/content/commands/hmset.md) - Set multiple hash fields
+* [Go client](/content/develop/clients/go/_index.md) - Redis Go client documentation
