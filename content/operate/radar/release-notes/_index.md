@@ -34,6 +34,7 @@ STS releases receive security and bug fixes for 6 months after release. LTS rele
 
 Install a new release when you're ready to upgrade. See [Install Radar]({{< relref "/operate/radar/install" >}}).
 
-| Release                                                            | Support track | What changed     |
-|--------------------------------------------------------------------|---------------|------------------|
-| [2026.9.2]({{< relref "/operate/radar/release-notes/2026-9-2" >}}) | STS           | Initial release. |
+| Release                                                            | Support track | What changed                         |
+|--------------------------------------------------------------------|---------------|--------------------------------------|
+| [2026.9.5]({{< relref "/operate/radar/release-notes/2026-9-5" >}}) | STS           | Connect clusters with an agent.      |
+| [2026.9.2]({{< relref "/operate/radar/release-notes/2026-9-2" >}}) | STS           | Initial release.                     |
