@@ -6,7 +6,7 @@ weight: 10
 alwaysopen: false
 categories: ["redis-di"]
 aliases:
-- /integrate/redis-data-integration/ingest/reference/cli/redis-di-deploy/
+  - /integrate/redis-data-integration/ingest/reference/cli/redis-di-deploy/
 ---
 
 Deploys a pipeline, creating it or updating it from the configuration in the `--dir` directory. The

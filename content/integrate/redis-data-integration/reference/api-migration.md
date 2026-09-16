@@ -29,28 +29,28 @@ The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` w
 
 ## Endpoint mapping
 
-| API v1 | API v2 |
-| --- | --- |
-| `GET /api/v1/pipelines` | `GET /api/v2/pipelines` |
-| `POST /api/v1/pipelines` | `POST /api/v2/pipelines` |
-| `PATCH /api/v1/pipelines` | `PATCH /api/v2/pipelines/{name}` |
-| `GET /api/v1/status` | `GET /api/v2/pipelines/{name}/status` |
-| `POST /api/v1/pipelines/start` | `POST /api/v2/pipelines/{name}/start` |
-| `POST /api/v1/pipelines/stop` | `POST /api/v2/pipelines/{name}/stop` |
-| `POST /api/v1/pipelines/reset` | `POST /api/v2/pipelines/{name}/reset` |
-| `GET /api/v1/monitoring/statistics` | `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` |
-| `GET /api/v1/pipelines/config/schemas` | `GET /api/v2/schemas/config` |
-| `GET /api/v1/pipelines/jobs/functions` | `GET /api/v2/functions` |
-| `GET /api/v1/pipelines/jobs/schemas` | `GET /api/v2/schemas/jobs` |
-| `PUT /api/v1/pipelines/sources` and source subresources | `PATCH /api/v2/pipelines/{name}` with `sources` in the payload |
-| `PUT /api/v1/pipelines/targets` and target subresources | `PATCH /api/v2/pipelines/{name}` with `targets` in the payload |
-| `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | `PATCH /api/v2/pipelines/{name}` with `processors` in the payload |
-| Secret provider endpoints | `POST`, `PUT`, or `DELETE /api/v2/pipelines/{name}/secrets[/{key}]` |
-| Source metadata, schemas, databases, tables, and columns endpoints | `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` with the appropriate filters |
-| `POST /api/v1/pipelines/sources/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
-| `POST /api/v1/pipelines/targets/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
-| `POST /api/v1/pipelines/undeploy` | `DELETE /api/v2/pipelines/{name}` |
-| `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
+| API v1                                                                           | API v2                                                                                   |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `GET /api/v1/pipelines`                                                          | `GET /api/v2/pipelines`                                                                  |
+| `POST /api/v1/pipelines`                                                         | `POST /api/v2/pipelines`                                                                 |
+| `PATCH /api/v1/pipelines`                                                        | `PATCH /api/v2/pipelines/{name}`                                                         |
+| `GET /api/v1/status`                                                             | `GET /api/v2/pipelines/{name}/status`                                                    |
+| `POST /api/v1/pipelines/start`                                                   | `POST /api/v2/pipelines/{name}/start`                                                    |
+| `POST /api/v1/pipelines/stop`                                                    | `POST /api/v2/pipelines/{name}/stop`                                                     |
+| `POST /api/v1/pipelines/reset`                                                   | `POST /api/v2/pipelines/{name}/reset`                                                    |
+| `GET /api/v1/monitoring/statistics`                                              | `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}`                      |
+| `GET /api/v1/pipelines/config/schemas`                                           | `GET /api/v2/schemas/config`                                                             |
+| `GET /api/v1/pipelines/jobs/functions`                                           | `GET /api/v2/functions`                                                                  |
+| `GET /api/v1/pipelines/jobs/schemas`                                             | `GET /api/v2/schemas/jobs`                                                               |
+| `PUT /api/v1/pipelines/sources` and source subresources                          | `PATCH /api/v2/pipelines/{name}` with `sources` in the payload                           |
+| `PUT /api/v1/pipelines/targets` and target subresources                          | `PATCH /api/v2/pipelines/{name}` with `targets` in the payload                           |
+| `PUT /api/v1/pipelines/processors` and `PUT /api/v1/pipelines/processors/{prop}` | `PATCH /api/v2/pipelines/{name}` with `processors` in the payload                        |
+| Secret provider endpoints                                                        | `POST`, `PUT`, or `DELETE /api/v2/pipelines/{name}/secrets[/{key}]`                      |
+| Source metadata, schemas, databases, tables, and columns endpoints               | `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` with the appropriate filters |
+| `POST /api/v1/pipelines/sources/dry-run`                                         | `POST /api/v2/pipelines?dry_run=true`                                                    |
+| `POST /api/v1/pipelines/targets/dry-run`                                         | `POST /api/v2/pipelines?dry_run=true`                                                    |
+| `POST /api/v1/pipelines/undeploy`                                                | `DELETE /api/v2/pipelines/{name}`                                                        |
+| `POST /api/v1/trace/start`                                                       | `POST /api/v2/pipelines/{name}/traces`                                                   |
 
 API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the complete list.
 
@@ -58,13 +58,13 @@ API v2 also adds endpoints for DLQ inspection, target flushing, metric collectio
 
 Most v1 endpoints have a v2 replacement. However, the following endpoints remain available under v1 because the current API v2 design does not define a corresponding endpoint:
 
-| v1 endpoint | Notes |
-| --- | --- |
-| `GET /api/v1/me` | Returns the authenticated user. |
-| `GET /api/v1/pipelines/strategies` | Returns pipeline strategies. |
-| `POST /api/v1/login` | API v2 continues to use this endpoint for authentication. |
+| v1 endpoint                                               | Notes                                                                         |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `GET /api/v1/me`                                          | Returns the authenticated user.                                               |
+| `GET /api/v1/pipelines/strategies`                        | Returns pipeline strategies.                                                  |
+| `POST /api/v1/login`                                      | API v2 continues to use this endpoint for authentication.                     |
 | `GET /api/v1/pipelines/config/templates/ingest/{db_type}` | Used by the CLI to scaffold pipeline configuration and will remain available. |
-| `GET /api/v1/pipelines/jobs/templates/ingest` | Used to scaffold jobs and will remain available. |
+| `GET /api/v1/pipelines/jobs/templates/ingest`             | Used to scaffold jobs and will remain available.                              |
 
 ## Replace action polling with pipeline-status polling
 
