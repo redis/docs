@@ -34,9 +34,11 @@ which applies to Kubernetes only.
 
 ## Before you migrate
 
-For an upgrade from RDI 1.19.0 to 2.0.0, complete the processor migration on
-1.19.0 before running the 2.0.0 installer. Save your existing configuration
-and jobs, and wait for the initial snapshot to finish.
+This procedure changes the pipeline processor. It does not upgrade RDI. You
+can complete the migration while RDI is running version 1.19.0.
+
+Before you start, save your existing configuration and jobs. Wait for the
+initial snapshot to finish.
 
 {{< warning >}}
 Switching processors with records still in the RDI input streams can leave
@@ -72,7 +74,7 @@ Existing pipelines continue to run on the classic processor until you switch
 them in [Step 4](#step-4-switch-processors-and-resume-collection).
 
 For VM installations, skip this step. You can configure per-pipeline Flink
-resources in [Step 7](#step-7-tune-the-flink-processor-optional).
+resources in [Step 6](#step-6-tune-the-flink-processor-optional).
 
 ## Step 2: Disable source collection
 
@@ -110,6 +112,8 @@ Connect an authenticated Redis client to the **RDI database** that stores
 the pipeline's input streams. Check the actual stream lengths, rather than
 the target database or the consumer-group counters.
 
+### Check with Redis commands
+
 For the default pipeline on RDI 1.19.0, find its input stream keys with
 [`SCAN`]({{< relref "/commands/scan" >}}):
 
@@ -132,6 +136,22 @@ After the collector has stopped, require every input stream to have length
 `0` in three complete checks, five seconds apart. Repeat the scan in each
 check and include every stream found. Missing statistics, a connection
 error, or an unexpected empty stream inventory is not proof of a drain.
+
+### Check with `redis-di`
+
+On RDI 1.19.0, you can also use the packaged CLI:
+
+```bash
+redis-di describe default
+redis-di list-metric-collections -p default -o json
+redis-di get-metric-collection <classic-processor-collection-name> -p default -o json
+```
+
+Replace `default` if your pipeline has a different name. The `Pending` value
+for each classic processor stream in these commands is the current stream
+length. It must list every input stream and agree with the `XLEN` checks. This
+value is different from the pending count of a consumer group. An `XPENDING`
+count or group lag of `0` is not enough to continue.
 
 If records remain, keep the classic processor selected and resolve its
 processing errors before continuing. Do not delete stream entries, reset
@@ -162,17 +182,10 @@ redis-di deploy default --dir <pipeline-directory>
 Wait for the classic processor to terminate and the Flink JobManager and
 TaskManager workloads to become healthy. Confirm that collection resumes
 from the saved source position and changes committed during the pause reach
-the target. Verify new inserts, updates, and deletes before upgrading RDI.
+the target. Verify new inserts, updates, and deletes. The processor migration
+is complete after these checks pass.
 
-## Step 5: Upgrade to RDI 2.0.0
-
-If you are upgrading from 1.19.0 to 2.0.0, follow
-[Upgrading RDI]({{< relref "/integrate/redis-data-integration/installation/upgrade" >}})
-after the processor migration succeeds. Keep `processors.type: flink`
-explicitly configured. After the upgrade, verify that the pipeline is
-healthy and new source changes continue to reach the target.
-
-## Step 6: Adapt deprecated and classic-only properties
+## Step 5: Adapt deprecated and classic-only properties
 
 Some `processors` properties are no-ops, classic-only, or have moved to
 `processors.advanced` for the Flink processor. The following table lists the
@@ -194,7 +207,7 @@ and the Flink processor silently ignores classic-only top-level properties, so k
 both top-level properties and their `processors.advanced` equivalents lets
 you switch back without further edits.
 
-## Step 7: Tune the Flink processor (optional)
+## Step 6: Tune the Flink processor (optional)
 
 Fine-tune the Flink processor through the `processors.advanced` section.
 For example:
@@ -221,7 +234,7 @@ See the
 [`processors.advanced` reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
 for the full set of available properties.
 
-## Step 8: Update observability
+## Step 7: Update observability
 
 The Flink processor exposes Prometheus metrics directly
 from the Flink JobManager and TaskManager pods.
@@ -232,7 +245,7 @@ for the `ServiceMonitor` configuration and the available metrics.
 ## Rolling back
 
 To revert a pipeline to the classic processor, set `processors.type` back to
-`classic` and redeploy the pipeline. Do not remove the property: RDI 2.0.0
-defaults to the Flink processor. The
+`classic` and redeploy the pipeline. Keep the processor type explicit so that
+the result does not depend on the default for the installed RDI version. The
 `processors.advanced` section is silently ignored by the classic processor,
 so you don't need to remove it before switching back.
