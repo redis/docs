@@ -19,7 +19,7 @@ weight: 8
 
 Use Redis as the memory layer when each reasoning step needs to recall both *what just happened in this session* and *what the agent has learned over time* under a strict per-step latency budget — without standing up a separate vector database, message broker, and session store for each tier.
 
-When you are ready for production, [Redis Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) is the fastest way to get a production-ready memory layer running — as a managed service on Redis Cloud, or self-managed on-prem.
+When you are ready for production, [Redis Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md) is the fastest way to get a production-ready memory layer running — as a managed service on Redis Cloud, or self-managed on-prem.
 
 ## Why the problem is hard
 
@@ -31,7 +31,7 @@ LLMs are stateless. Every API call starts from zero unless the application suppl
 
 The core difficulty is that an agent needs *several kinds* of memory at once — short-lived working state per thread, durable semantic recall by meaning, and an audit trail of recent actions — each with its own retention rule and access pattern. Mapping all three onto a single primitive (only a vector index, only a key-value store, only an append log) forces compromises that show up as either lost context or extra LLM calls. Memory must also stay bounded; without deduplication, summarization, and background consolidation, stale context piles up and degrades downstream accuracy.
 
-This pattern is distinct from generic [session storage]({{< relref "/develop/use-cases/session-store" >}}) (spans a single user session, no semantic recall), from [semantic caching]({{< relref "/develop/use-cases/semantic-cache" >}}) (deduplicates LLM calls, not accumulated agent knowledge), and from RAG retrieval against an external document corpus (static reference material, not the agent's own experience).
+This pattern is distinct from generic [session storage](/content/develop/use-cases/session-store/_index.md) (spans a single user session, no semantic recall), from [semantic caching](/content/develop/use-cases/semantic-cache/_index.md) (deduplicates LLM calls, not accumulated agent knowledge), and from RAG retrieval against an external document corpus (static reference material, not the agent's own experience).
 
 ## What you can expect from a Redis solution
 
@@ -45,37 +45,37 @@ You can:
 
 ## How Redis supports the solution
 
-In practice, each tier of the memory layer maps onto a Redis primitive that's already in the cluster. **Working memory** for an active session is a [Hash]({{< relref "/develop/data-types/hashes" >}}) at a deterministic key such as `agent:session:{thread_id}`, holding the running scratchpad, current goal, and recent turns — written with [`HSET`]({{< relref "/commands/hset" >}}) and read in one round trip with [`HGETALL`]({{< relref "/commands/hgetall" >}}). **Long-term memory** — both episodic ("what happened in past sessions") and semantic ("what the agent has learned about this user or domain") — lives as [JSON]({{< relref "/develop/data-types/json" >}}) documents that carry an embedding vector, indexed by [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) on a [HNSW vector field]({{< relref "/develop/ai/search-and-query/vectors" >}}) together with tag fields (user, namespace, kind, source thread). The agent recalls memories with one [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call that combines vector similarity with metadata filtering, and the same similarity check runs at write time to deduplicate near-identical memories before they enter the store. **A time-ordered event log** of the agent's recent actions and observations is a [Stream]({{< relref "/develop/data-types/streams" >}}) appended with [`XADD`]({{< relref "/commands/xadd" >}}), replayed with [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}), and bounded with [`XTRIM`]({{< relref "/commands/xtrim" >}}).
+In practice, each tier of the memory layer maps onto a Redis primitive that's already in the cluster. **Working memory** for an active session is a [Hash](/content/develop/data-types/hashes.md) at a deterministic key such as `agent:session:{thread_id}`, holding the running scratchpad, current goal, and recent turns — written with [`HSET`](/content/commands/hset.md) and read in one round trip with [`HGETALL`](/content/commands/hgetall.md). **Long-term memory** — both episodic ("what happened in past sessions") and semantic ("what the agent has learned about this user or domain") — lives as [JSON](/content/develop/data-types/json/_index.md) documents that carry an embedding vector, indexed by [Redis Search](/content/develop/ai/search-and-query/_index.md) on a [HNSW vector field](/content/develop/ai/search-and-query/vectors/_index.md) together with tag fields (user, namespace, kind, source thread). The agent recalls memories with one [`FT.SEARCH`](/content/commands/ft.search.md) call that combines vector similarity with metadata filtering, and the same similarity check runs at write time to deduplicate near-identical memories before they enter the store. **A time-ordered event log** of the agent's recent actions and observations is a [Stream](/content/develop/data-types/streams/_index.md) appended with [`XADD`](/content/commands/xadd.md), replayed with [`XREVRANGE`](/content/commands/xrevrange.md), and bounded with [`XTRIM`](/content/commands/xtrim.md).
 
 Redis provides the following features that make it a good fit for a memory layer:
 
--   [Hashes]({{< relref "/develop/data-types/hashes" >}}) hold per-session working memory under one key, so loading or persisting a thread's state takes a single round trip.
--   [JSON]({{< relref "/develop/data-types/json" >}}) documents store each long-term memory together with its embedding vector and metadata, so a similarity search returns everything the agent needs without a second lookup.
--   [Redis Search]({{< relref "/develop/ai/search-and-query" >}}) with [HNSW vector indexes]({{< relref "/develop/ai/search-and-query/vectors" >}}) recalls memories by meaning in sub-millisecond time, and the same [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) call applies TAG and NUMERIC filters so user, namespace, and kind scoping happen inside the query rather than in application code.
--   [Streams]({{< relref "/develop/data-types/streams" >}}) keep an ordered log of agent actions and observations, [`XTRIM`]({{< relref "/commands/xtrim" >}}) bounds retention without manual cleanup, and consumer groups let downstream workers — summarizers, consolidators — replay the log without losing position.
--   [`EXPIRE`]({{< relref "/commands/expire" >}}) automates memory decay per tier — short TTLs on working memory, longer on episodic long-term memories, no TTL on semantic ones — so stale context falls off without a separate cleanup job. (The event log is bounded separately, by [`XADD MAXLEN`]({{< relref "/commands/xadd" >}}) on the Stream, not by `EXPIRE`.)
+-   [Hashes](/content/develop/data-types/hashes.md) hold per-session working memory under one key, so loading or persisting a thread's state takes a single round trip.
+-   [JSON](/content/develop/data-types/json/_index.md) documents store each long-term memory together with its embedding vector and metadata, so a similarity search returns everything the agent needs without a second lookup.
+-   [Redis Search](/content/develop/ai/search-and-query/_index.md) with [HNSW vector indexes](/content/develop/ai/search-and-query/vectors/_index.md) recalls memories by meaning in sub-millisecond time, and the same [`FT.SEARCH`](/content/commands/ft.search.md) call applies TAG and NUMERIC filters so user, namespace, and kind scoping happen inside the query rather than in application code.
+-   [Streams](/content/develop/data-types/streams/_index.md) keep an ordered log of agent actions and observations, [`XTRIM`](/content/commands/xtrim.md) bounds retention without manual cleanup, and consumer groups let downstream workers — summarizers, consolidators — replay the log without losing position.
+-   [`EXPIRE`](/content/commands/expire.md) automates memory decay per tier — short TTLs on working memory, longer on episodic long-term memories, no TTL on semantic ones — so stale context falls off without a separate cleanup job. (The event log is bounded separately, by [`XADD MAXLEN`](/content/commands/xadd.md) on the Stream, not by `EXPIRE`.)
 -   Sub-millisecond reads and writes from memory keep each turn of the agent loop under budget, and a single Redis instance can carry working memory, long-term recall, the event log, semantic caching, and RAG retrieval at zero marginal infrastructure cost.
 
 ## Ecosystem
 
 The following libraries, frameworks, and managed services build on Redis for a memory layer:
 
--   **Python**: [RedisVL]({{< relref "/develop/ai/redisvl" >}}) provides vector-index, session-manager, and semantic-memory helpers you can compose into a memory layer.
--   **Frameworks**: [LangChain]({{< relref "/integrate/langchain-redis" >}}) supports Redis as a chat history and memory backend, and [LangGraph & Redis](https://redis.io/blog/langgraph-redis-build-smarter-ai-agents-with-memory-persistence/) ships a Redis checkpointer for persisting graph state across runs.
--   **AWS**: [Amazon Bedrock]({{< relref "/integrate/amazon-bedrock" >}}) agent runtimes integrate with Redis for memory persistence and vector search.
+-   **Python**: [RedisVL](/content/develop/ai/redisvl/_index.md) provides vector-index, session-manager, and semantic-memory helpers you can compose into a memory layer.
+-   **Frameworks**: [LangChain](/content/integrate/langchain-redis/_index.md) supports Redis as a chat history and memory backend, and [LangGraph & Redis](https://redis.io/blog/langgraph-redis-build-smarter-ai-agents-with-memory-persistence/) ships a Redis checkpointer for persisting graph state across runs.
+-   **AWS**: [Amazon Bedrock](/content/integrate/amazon-bedrock/_index.md) agent runtimes integrate with Redis for memory persistence and vector search.
 -   **Any language**: standard Redis client libraries cover the pattern below for custom agent loops.
--   **Managed**: [Redis Agent Memory Server]({{< relref "/develop/ai/context-engine/agent-memory" >}}) is a managed agent memory service with REST and MCP interfaces, working and long-term memory tiers, deduplication, summarization, and background consolidation — useful when you'd rather not build and operate the pattern below yourself.
+-   **Managed**: [Redis Agent Memory Server](/content/develop/ai/context-engine/agent-memory/_index.md) is a managed agent memory service with REST and MCP interfaces, working and long-term memory tiers, deduplication, summarization, and background consolidation — useful when you'd rather not build and operate the pattern below yourself.
 
 ## Code examples to build your own Redis memory layer
 
 The following guides show how to build a small Redis-backed memory layer using only standard Redis commands — working memory in a hash per thread, long-term memory as JSON documents with a vector index, an event log in a stream, and per-tier TTLs for decay. Each guide includes a runnable interactive demo where you can send turns, watch working memory update, see semantic recall against past memories, and inspect the event log.
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/memory-layer/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/memory-layer/nodejs" >}})
-* [NRedisStack (C#)]({{< relref "/develop/use-cases/memory-layer/dotnet" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/memory-layer/rust" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/memory-layer/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/memory-layer/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/memory-layer/java-lettuce" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/memory-layer/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/memory-layer/ruby" >}})
+* [redis-py (Python)](/content/develop/use-cases/memory-layer/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/memory-layer/nodejs/_index.md)
+* [NRedisStack (C#)](/content/develop/use-cases/memory-layer/dotnet/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/memory-layer/rust/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/memory-layer/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/memory-layer/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/memory-layer/java-lettuce/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/memory-layer/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/memory-layer/ruby/_index.md)
