@@ -99,11 +99,9 @@ redis-di deploy --dir <pipeline-config-directory>
 
 Wait for the deployment to finish and the source collector to stop. Keep
 the pipeline active so the classic processor can process the remaining input records.
-Do not use `redis-di stop` for this step, because it also stops the processor.
 
 Applications can continue writing to the source database while collection
-is disabled. Make sure the database change log retains the whole paused
-interval. When the collector restarts, it resumes from the saved source
+is disabled. When the collector restarts, it resumes from the saved source
 position and processes those changes.
 
 ## Step 3: Wait for the input streams to empty
@@ -118,14 +116,11 @@ Do not include DLQ streams. Use any of the following methods.
 Run:
 
 ```bash
-redis-di describe default
+redis-di describe
 ```
 
 In the **Statistics** table, the **Pending** value for each classic processor
-stream is its current length. Confirm that every input stream is listed and
-that the values agree with the Redis command checks below. This **Pending**
-value is different from consumer-group pending entries. `XPENDING` or group
-lag of `0` alone does not prove that a stream is empty.
+stream is its current length. Confirm that every input stream is listed.
 
 ### Check with Redis commands
 
@@ -156,24 +151,6 @@ XLEN <input-stream-key>
 
 Run a complete `SCAN` and all `XLEN` commands in each of the three checks.
 
-### Check with Redis Insight
-
-1.  Connect Redis Insight to the RDI database and open **Browse**.
-1.  Filter by the pipeline's input stream pattern. For the default pipeline,
-    use `data:{rdi}:*`. Confirm that all input streams are listed.
-1.  Open each stream, select **Stream Data**, and use the refresh button.
-    Confirm that **Entries** is `0`.
-1.  Repeat the complete inventory and entry check three times, five seconds
-    apart.
-
-You can also open the built-in **CLI** and run the `SCAN` and `XLEN` commands
-shown above. The Browser and CLI results must contain the same streams and
-lengths.
-
-If records remain, keep the classic processor running and resolve its
-processing errors before continuing. Do not delete stream entries, reset the
-pipeline, or move consumer-group positions to make the count reach `0`.
-
 ## Step 4: Switch processors and resume collection
 
 After the drain check passes, remove the source's `active: false` setting
@@ -186,7 +163,9 @@ processors:
   type: flink
 ```
 
-RDI 1.19.0 requires this setting because its default processor is `classic`.
+RDI 1.19.x requires this setting because its default processor is `classic`.
+On RDI 2.0.0 the default processor is `flink`, so this setting is no longer
+required.
 
 Keep the remaining configuration and jobs, then redeploy the complete
 configuration directory:

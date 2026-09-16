@@ -21,23 +21,6 @@ Before upgrading to RDI 2.0.0, review the
 [processor default change](#upgrading-to-rdi-200).
 {{< /note >}}
 
-## Upgrading to RDI 2.0.0
-
-RDI 2.0.0 changes the default processor from `classic` to `flink`. This default
-applies when the pipeline's `config.yaml` omits `processors.type`.
-
-For an existing classic pipeline, choose one of these options before upgrading:
-
-- To migrate to Flink, first follow
-  [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
-  on RDI 1.19.0. This stops the collector and drains the input streams before
-  switching processors. Then upgrade RDI.
-- To keep the classic processor, set `processors.type: classic` in the
-  pipeline's `config.yaml` and deploy it before upgrading.
-
-If your pipeline already uses `processors.type: flink`, no processor change
-is needed. Continue with the upgrade instructions for your installation.
-
 ## Upgrading a VM installation
 
 Follow the steps below to upgrade an existing
@@ -196,19 +179,26 @@ described in [Uninstall RDI]({{< relref "/integrate/redis-data-integration/insta
 and then install the old version.
 {{< /note >}}
 
-## Upgrading to RDI 2.0.0 {#rdi-200}
+## Upgrading to RDI 2.0.0
 
 RDI 2.0.0 changes several behaviors that affect a pipeline upgraded from RDI 1.19.x or earlier.
 
 ### The Flink processor becomes the default
 
-A pipeline whose `config.yaml` does not set `processors.type` deploys the Flink processor instead
-of the classic one from RDI 2.0.0 on. See
-[Enabling the Flink processor](#enabling-the-flink-processor) below.
+RDI 2.0.0 changes the default processor from `classic` to `flink`. This default
+applies when the pipeline's `config.yaml` omits `processors.type`.
 
-If your pipeline uses the classic processor, we recommend migrating it to the Flink processor deliberately either
-before or after the upgrade to 2.0.0, rather than letting this happen during the upgrade. See
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
+For an existing pipeline that uses the classic processor, choose one of these options before upgrading:
+
+- To migrate to the Flink processor, first follow
+  [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
+  on RDI 1.19.0. This stops the collector and drains the input streams before
+  switching processors. Then upgrade RDI.
+- To keep the classic processor, set `processors.type: classic` in the
+  pipeline's `config.yaml` and deploy it before upgrading.
+
+If your pipeline already uses `processors.type: flink`, no processor change
+is needed. Continue with the upgrade instructions for your installation.
 
 ### Clearing a pipeline replaces deleting it
 
