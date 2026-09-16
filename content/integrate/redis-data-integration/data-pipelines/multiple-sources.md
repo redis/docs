@@ -212,7 +212,25 @@ rather than from the position it had reached.
 
 The source's secrets are not deleted, so remove them yourself with
 [`redis-di delete-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete-secret" >}})
-if you no longer need them.
+if you no longer need them. The records the pipeline wrote to the target database are not deleted
+either.
+
+Adding the same source again is straightforward, unless the source you removed predates RDI's support
+for multiple sources. For such a source the names from before the upgrade are kept only while it
+exists, so any source you add under the same name is treated as a new source, for which RDI derives the
+names instead. Adapt the configuration accordingly:
+
+- Set the source's secrets again, for example
+  `redis-di set-secret PASSWORD --db mysql <password>`.
+- Change the secret references in its `connection` section from `${SOURCE_DB_*}` to
+  `${MYSQL_DB_*}`, for a source named `mysql`.
+- Change `server_name` from `rdi` to the source name in every job associated with it.
+
+See
+[Redeploying a configuration after clearing a pipeline](#redeploying-a-configuration-after-clearing-a-pipeline)
+for a before and after example, and
+[Existing names are kept after an upgrade](#existing-names-are-kept-after-an-upgrade)
+for the full list of names involved.
 
 Note that renaming a source is not supported. Renaming a source in `config.yaml` is equivalent
 to removing the source and adding a new source with the new name. This implies in particular:
@@ -301,12 +319,70 @@ In particular, for such a source:
   `metadata:debezium:schema_history`.
 - Its `server_name` is still `rdi`, or, for a Spanner source, its instance ID.
 
-These names are permanent. If you remove such a source from `config.yaml` and later add a source
-with the same name, RDI applies the names from before the upgrade to it again rather than 
-deriving them from the source name.
+RDI keeps these names in a mapping from the source name in `config.yaml` to
+the internal name the source had before the upgrade. This mapping lasts only as long as the source
+does: RDI discards it as soon as the source is removed from the configuration, whether you remove that one
+source or
+[clear the whole pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#clear-a-pipeline" >}}).
+A source you add afterwards under the same name is treated as a new source, so
+RDI derives its names from the source name. See
+[Add or remove a source](#add-or-remove-a-source) for what you have to change in that case.
 
 For a source you add after the upgrade under any other name, RDI derives all of these names
 from the source name, as described on this page.
 
 See [Upgrading RDI]({{< relref "/integrate/redis-data-integration/installation/upgrade" >}})
 for more information.
+
+## Redeploying a configuration after clearing a pipeline
+
+A configuration exported from an upgraded pipeline still references the names from before the
+upgrade, so deploying it again after
+[clearing the pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#clear-a-pipeline" >}})
+fails, because the mapping that made those names resolve is gone.
+
+A source and a job of such an upgraded pipeline:
+
+```yaml
+sources:
+  mysql:
+    connection:
+      user: ${SOURCE_DB_USERNAME}
+      password: ${SOURCE_DB_PASSWORD}
+```
+
+```yaml
+source:
+  server_name: rdi
+  db: inventory
+  table: customers
+```
+
+The same source and job, adapted to deploy as a new source named `mysql`:
+
+```yaml
+sources:
+  mysql:
+    connection:
+      user: ${MYSQL_DB_USERNAME}
+      password: ${MYSQL_DB_PASSWORD}
+```
+
+```yaml
+source:
+  server_name: mysql
+  db: inventory
+  table: customers
+```
+
+Set the source's secrets under its actual name before you deploy:
+
+```bash
+redis-di set-secret USERNAME --db mysql <username>
+redis-di set-secret PASSWORD --db mysql <password>
+```
+
+The source then takes a fresh
+[initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}), because the position it had
+reached was deleted along with the rest of its data. Records the pipeline already wrote to the
+target database are not deleted, so the snapshot overwrites them.

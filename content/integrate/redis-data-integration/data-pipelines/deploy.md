@@ -375,23 +375,35 @@ pipeline stops while the reset runs and starts again afterwards:
 redis-di reset --source mysql
 ```
 
-## Undeploy a pipeline
+## Clear a pipeline {#clear-a-pipeline}
 
-To remove a pipeline, use the
-[`redis-di delete`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete" >}})
-command. This stops the pipeline and deletes it, along with its configuration and status, from RDI.
-The secrets you set for the pipeline are not affected.
+To stop a pipeline and discard its configuration, deploy an empty configuration with the
+`--empty` option of
+[`redis-di deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}}):
 
 ```bash
-redis-di delete <pipeline>
+redis-di deploy --empty
 ```
 
-Because deleting a pipeline is destructive, the command asks for confirmation unless you add the
-`--force` option. If you omit the pipeline name, the `default` pipeline is deleted.
+RDI removes the pipeline's data plane components and deletes its data from the RDI database,
+including the change data streams, offsets, schema history, dead-letter queue entries,
+statistics, deduplication state, and record counters of every source. The pipeline itself
+remains, with an empty configuration, so you can deploy a new configuration to it at any time.
+
+The pipeline secrets are not affected, so remove them yourself with
+[`redis-di delete-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete-secret" >}})
+if you no longer need them. The records the pipeline wrote to the target database are not
+deleted either.
+
+{{< note >}}Clearing a pipeline discards the source aliases of any source that predates RDI's
+support for multiple sources, so if you deploy such a source again under the same name you
+must set its secrets again, and also change its secret references and job `server_name` values. See
+[Redeploying a configuration after clearing a pipeline]({{< relref "/integrate/redis-data-integration/installation/upgrade#redeploying-a-configuration-after-clearing-a-pipeline" >}})
+for a before and after example.{{< /note >}}
 
 ## Wait for changes to complete {#wait}
 
-The commands that change a pipeline's state, namely `deploy`, `delete`, `start`, `stop`, `reset`,
+The commands that change a pipeline's state, namely `deploy`, `start`, `stop`, `reset`,
 `set-secret`, and `delete-secret`, do not return as soon as the API accepts the request. By default,
 they wait for the pipeline to finish transitioning to the expected state, polling its status until it
 succeeds, reaches an error, or the `--timeout` (2 minutes by default) elapses. This is usually what

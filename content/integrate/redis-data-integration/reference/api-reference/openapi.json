@@ -4241,30 +4241,6 @@
               "title": "Dry Run"
             },
             "description": "Only validate the provided configuration without making changes"
-          },
-          {
-            "name": "validate_tables",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "description": "Validate against source and target databases via collector API",
-              "default": true,
-              "title": "Validate Tables"
-            },
-            "description": "Validate against source and target databases via collector API"
-          },
-          {
-            "name": "validate_cdc",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "description": "Validate CDC configuration via collector API",
-              "default": false,
-              "title": "Validate Cdc"
-            },
-            "description": "Validate CDC configuration via collector API"
           }
         ],
         "requestBody": {
@@ -4758,7 +4734,7 @@
       "delete": {
         "tags": ["v2", "pipelines"],
         "summary": "Delete Pipeline",
-        "description": "Replaces a pipeline with an empty inactive pipeline.",
+        "description": "Deletes a pipeline by name.",
         "operationId": "delete_pipeline_api_v2_pipelines__name__delete",
         "security": [
           {
@@ -4811,6 +4787,16 @@
               }
             },
             "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/redis_di_api__models__errors__ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
           },
           "423": {
             "content": {

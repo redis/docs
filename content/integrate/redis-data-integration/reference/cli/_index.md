@@ -98,7 +98,6 @@ The commands group as follows:
   [`get`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get" >}}),
   [`describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}}) (alias `status`),
   [`deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}}) (alias `set`),
-  [`delete`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete" >}}),
   [`start`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-start" >}}),
   [`stop`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-stop" >}}), and
   [`reset`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-reset" >}}).

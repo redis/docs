@@ -196,13 +196,49 @@ described in [Uninstall RDI]({{< relref "/integrate/redis-data-integration/insta
 and then install the old version.
 {{< /note >}}
 
-## Source names before and after the upgrade
+## Upgrading to RDI 2.0.0 {#rdi-200}
 
-For a source that existed before upgrading to an RDI version that supports multiple sources, the
-resource names from before the upgrade are kept unchanged. The source will keep running correctly without changes.
+RDI 2.0.0 changes several behaviors that affect a pipeline upgraded from RDI 1.19.x or earlier.
 
-For more details on how to handle sources created after upgrading, see
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).
+### The Flink processor becomes the default
+
+A pipeline whose `config.yaml` does not set `processors.type` deploys the Flink processor instead
+of the classic one from RDI 2.0.0 on. See
+[Enabling the Flink processor](#enabling-the-flink-processor) below.
+
+If your pipeline uses the classic processor, we recommend migrating it to the Flink processor deliberately either
+before or after the upgrade to 2.0.0, rather than letting this happen during the upgrade. See
+[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
+
+### Clearing a pipeline replaces deleting it
+
+`DELETE /api/v2/pipelines/{name}` no longer empties a pipeline, and `redis-di delete` no longer
+works. Clear the configuration with `redis-di deploy --empty`, or with
+`PUT /api/v2/pipelines/{name}` and an empty configuration, instead. See
+[Clear a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#clear-a-pipeline" >}}).
+
+Clearing a pipeline is not the same as resetting it or flushing the target database. Clearing
+removes the configuration and the pipeline's data from the RDI database, while resetting keeps the
+configuration and re-snapshots the sources; neither one deletes any records from the target
+database.
+
+### Redeploying a configuration after clearing a pipeline
+
+A configuration of an upgraded pipeline still references the names from before the upgrade, so
+deploying it again after clearing the pipeline fails. See
+[Redeploying a configuration after clearing a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#redeploying-a-configuration-after-clearing-a-pipeline" >}})
+for what you have to change, with a before and after example.
+
+### API changes
+
+RDI 2.0.0 changes several API v2 query parameters and response fields. Most of them affect only
+an API client, and are listed in the
+[RDI 2.0.0 release notes]({{< relref "/integrate/redis-data-integration/release-notes/rdi-2-0-0" >}}).
+
+The one to check for is the metric collections endpoint, which now keys `data_streams.streams`
+by the source-qualified table name, such as `mysql.inventory.addresses`, instead of by the Redis
+stream name. Update any dashboard or script that reads the previous form. See
+[Observability]({{< relref "/integrate/redis-data-integration/observability" >}}) for the metrics RDI reports.
 
 ## Enabling the Flink processor
 

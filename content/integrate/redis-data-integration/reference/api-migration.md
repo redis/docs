@@ -59,7 +59,7 @@ you must use API v2 to manage [a pipeline with several sources]({{< relref "/int
 | Source metadata, schemas, databases, tables, and columns endpoints | `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` with the appropriate filters |
 | `POST /api/v1/pipelines/sources/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
 | `POST /api/v1/pipelines/targets/dry-run` | `POST /api/v2/pipelines?dry_run=true` |
-| `POST /api/v1/pipelines/undeploy` | `DELETE /api/v2/pipelines/{name}` |
+| `POST /api/v1/pipelines/undeploy` | `PUT /api/v2/pipelines/{name}` with an empty configuration |
 | `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
 
 API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the complete list.
