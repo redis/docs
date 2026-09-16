@@ -78,14 +78,17 @@ resources in [Step 6](#step-6-tune-the-flink-processor-optional).
 
 ## Step 2: Disable source collection
 
-In your existing `config.yaml`, add `active: false` under the source. Use
-your existing source name and preserve all other source, target, processor,
-and job settings. This example shows only the field to change:
+In your existing `config.yaml`, add `active: false` under the source and set
+`processors.type` to `classic`. Use your existing source name and preserve
+all other source, target, processor, and job settings. This example shows
+only the fields to change:
 
 ```yaml
 sources:
   <existing-source-name>:
     active: false
+processors:
+  type: classic
 ```
 
 Deploy the complete configuration directory, including the existing jobs:
@@ -99,25 +102,30 @@ the pipeline active so the classic processor can process the remaining input rec
 Do not use `redis-di stop` for this step, because it also stops the processor.
 
 Applications can continue writing to the source database while collection
-is disabled. When the collector restarts, it resumes from the saved source
-position and processes changes made during the pause.
+is disabled. Make sure the database change log retains the whole paused
+interval. When the collector restarts, it resumes from the saved source
+position and processes those changes.
 
 ## Step 3: Wait for the input streams to empty
 
-After the collector has stopped, monitor and wait for every input stream
-to have a length of `0`. Use either of the following methods.
+After the collector has stopped, wait for every input stream to have a length
+of `0` in three complete checks, five seconds apart. An error, missing
+statistics, or an unexpectedly empty stream list does not count as `0`.
+Do not include DLQ streams. Use any of the following methods.
 
 ### Check with `redis-di`
 
 Run:
 
 ```bash
-redis-di describe
+redis-di describe default
 ```
 
 In the **Statistics** table, the **Pending** value for each classic processor
-stream is its current length. Repeat the command until **Pending** is `0`
-for every stream.
+stream is its current length. Confirm that every input stream is listed and
+that the values agree with the Redis command checks below. This **Pending**
+value is different from consumer-group pending entries. `XPENDING` or group
+lag of `0` alone does not prove that a stream is empty.
 
 ### Check with Redis commands
 
@@ -146,10 +154,25 @@ For every input stream returned, run
 XLEN <input-stream-key>
 ```
 
-Repeat `XLEN` until every input stream has a length of `0`.
+Run a complete `SCAN` and all `XLEN` commands in each of the three checks.
+
+### Check with Redis Insight
+
+1.  Connect Redis Insight to the RDI database and open **Browse**.
+1.  Filter by the pipeline's input stream pattern. For the default pipeline,
+    use `data:{rdi}:*`. Confirm that all input streams are listed.
+1.  Open each stream, select **Stream Data**, and use the refresh button.
+    Confirm that **Entries** is `0`.
+1.  Repeat the complete inventory and entry check three times, five seconds
+    apart.
+
+You can also open the built-in **CLI** and run the `SCAN` and `XLEN` commands
+shown above. The Browser and CLI results must contain the same streams and
+lengths.
 
 If records remain, keep the classic processor running and resolve its
-processing errors before continuing.
+processing errors before continuing. Do not delete stream entries, reset the
+pipeline, or move consumer-group positions to make the count reach `0`.
 
 ## Step 4: Switch processors and resume collection
 
