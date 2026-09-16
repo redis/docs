@@ -16,6 +16,15 @@ type: integration
 weight: 30
 ---
 
+{{< warning >}}
+Before upgrading a classic processor pipeline from RDI 1.19.0 to 2.0.0,
+follow [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
+Disable source collection, drain the input streams, and explicitly select
+the Flink processor before running the upgrade. If you intend to keep the
+classic processor, explicitly set `processors.type: classic` before upgrading;
+do not rely on an omitted processor type, because the default changes in 2.0.0.
+{{< /warning >}}
+
 ## Upgrading a VM installation
 
 Follow the steps below to upgrade an existing
