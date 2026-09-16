@@ -25,7 +25,7 @@ and uses Flink checkpointing for fault tolerance. See [Stream processor implemen
 for an overview.
 
 The classic processor is the default in RDI 1.19.0. The Flink processor is the
-default starting with RDI 2.0.0. Select the processor explicitly when migrating.
+default starting with RDI 2.0.0.
 
 This page describes how to migrate an existing pipeline from the classic
 processor to the Flink processor. The steps are the same on VMs and Kubernetes,
@@ -34,24 +34,24 @@ which applies to Kubernetes only.
 
 ## Before you migrate
 
-This procedure changes the pipeline processor. It does not upgrade RDI. You
-can complete the migration while RDI is running version 1.19.0.
+This procedure migrates the pipeline processor on RDI 1.19.0. It does not
+upgrade RDI.
 
 Before you start, save your existing configuration and jobs. Wait for the
-initial snapshot to finish.
+initial snapshot to finish. Interrupting it causes the snapshot to restart
+from the beginning.
 
 {{< warning >}}
 Switching processors with records still in the RDI input streams can leave
-records unprocessed. Stop collection and let the classic processor empty
-the streams before switching. Zero consumer-group pending records or lag
-does not prove that a stream is empty.
+records unprocessed. Stop the collector and let the classic processor empty
+the streams before switching.
 {{< /warning >}}
 
 Confirm that your pipeline is compatible with the Flink processor:
 
 -   `JSON.MERGE` semantics differ from the classic processor's Lua-based merge
     when null values are involved (see
-    [`use_native_json_merge`]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
+    [`use_native_json_merge`]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}})).
     The Flink processor always uses the native `JSON.MERGE` command when the
     target database supports it.
 -   Ensure your Kubernetes cluster or VM has enough capacity for the Flink JobManager
@@ -78,52 +78,66 @@ resources in [Step 6](#step-6-tune-the-flink-processor-optional).
 
 ## Step 2: Disable source collection
 
-In your existing `config.yaml`, add `active: false` under the source and
-keep `processors.type` set to `classic`. Use your existing source name and
-preserve all other source, target, processor, and job settings. This example
-shows only the fields to change:
+In your existing `config.yaml`, add `active: false` under the source. Use
+your existing source name and preserve all other source, target, processor,
+and job settings. This example shows only the field to change:
 
 ```yaml
 sources:
   <existing-source-name>:
     active: false
-processors:
-  type: classic
 ```
 
 Deploy the complete configuration directory, including the existing jobs:
 
 ```bash
-redis-di deploy default --dir <pipeline-directory>
+redis-di deploy --dir <pipeline-config-directory>
 ```
 
-Replace `default` if your pipeline has a different name. Wait for the
-deployment to finish and the source collector to stop. Keep the pipeline
-active so the classic processor can process the remaining input records.
+Wait for the deployment to finish and the source collector to stop. Keep
+the pipeline active so the classic processor can process the remaining input records.
 Do not use `redis-di stop` for this step, because it also stops the processor.
 
 Applications can continue writing to the source database while collection
-is disabled. Ensure that its change logs retain all changes for the entire
-pause, so collection can resume from the saved position.
+is disabled. When the collector restarts, it resumes from the saved source
+position and processes changes made during the pause.
 
 ## Step 3: Wait for the input streams to empty
 
-Connect an authenticated Redis client to the **RDI database** that stores
-the pipeline's input streams. Check the actual stream lengths, rather than
-the target database or the consumer-group counters.
+After the collector has stopped, monitor and wait for every input stream
+to have a length of `0`. Use either of the following methods.
+
+### Check with `redis-di`
+
+Run:
+
+```bash
+redis-di describe
+```
+
+In the **Statistics** table, the **Pending** value for each classic processor
+stream is its current length. Repeat the command until **Pending** is `0`
+for every stream.
 
 ### Check with Redis commands
 
-For the default pipeline on RDI 1.19.0, find its input stream keys with
+Connect an authenticated Redis client to the **RDI database** that stores
+the pipeline's input streams, not the target database. Find the input stream
+keys with
 [`SCAN`]({{< relref "/commands/scan" >}}):
 
 ```text
 SCAN 0 MATCH data:{rdi}:* COUNT 1000 TYPE stream
 ```
 
-Repeat `SCAN` with the returned cursor until it returns cursor `0`. A scan
-can return an empty page before it finishes. For a different pipeline,
-use its input stream prefix. Do not include dead letter queue (DLQ) streams.
+If the returned cursor is not `0`, pass it to the next command:
+
+```text
+SCAN <returned-cursor> MATCH data:{rdi}:* COUNT 1000 TYPE stream
+```
+
+Repeat with each new cursor until the returned cursor is `0`, even if an
+intermediate result contains no keys.
 
 For every input stream returned, run
 [`XLEN`]({{< relref "/commands/xlen" >}}):
@@ -132,33 +146,10 @@ For every input stream returned, run
 XLEN <input-stream-key>
 ```
 
-After the collector has stopped, require every input stream to have length
-`0` in three complete checks, five seconds apart. Repeat the scan in each
-check and include every stream found. Missing statistics, a connection
-error, or an unexpected empty stream inventory is not proof of a drain.
+Repeat `XLEN` until every input stream has a length of `0`.
 
-### Check with `redis-di`
-
-On RDI 1.19.0, you can also use the packaged CLI:
-
-```bash
-redis-di describe default
-redis-di list-metric-collections -p default -o json
-redis-di get-metric-collection <classic-processor-collection-name> -p default -o json
-```
-
-Replace `default` if your pipeline has a different name. The `Pending` value
-for each classic processor stream in these commands is the current stream
-length. It must list every input stream and agree with the `XLEN` checks. This
-value is different from the pending count of a consumer group. An `XPENDING`
-count or group lag of `0` is not enough to continue.
-
-If records remain, keep the classic processor selected and resolve its
-processing errors before continuing. Do not delete stream entries, reset
-the pipeline, or change consumer-group positions to obtain an empty count.
-Check rejected records separately: empty input streams do not prove that
-every record reached the target or that DLQ history will survive a processor
-change.
+If records remain, keep the classic processor running and resolve its
+processing errors before continuing.
 
 ## Step 4: Switch processors and resume collection
 
@@ -172,11 +163,13 @@ processors:
   type: flink
 ```
 
+RDI 1.19.0 requires this setting because its default processor is `classic`.
+
 Keep the remaining configuration and jobs, then redeploy the complete
 configuration directory:
 
 ```bash
-redis-di deploy default --dir <pipeline-directory>
+redis-di deploy --dir <pipeline-config-directory>
 ```
 
 Wait for the classic processor to terminate and the Flink JobManager and
@@ -231,7 +224,7 @@ processors:
 ```
 
 See the
-[`processors.advanced` reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
+[`processors.advanced` reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processorsadvanced-advanced-configuration" >}})
 for the full set of available properties.
 
 ## Step 7: Update observability
@@ -245,7 +238,6 @@ for the `ServiceMonitor` configuration and the available metrics.
 ## Rolling back
 
 To revert a pipeline to the classic processor, set `processors.type` back to
-`classic` and redeploy the pipeline. Keep the processor type explicit so that
-the result does not depend on the default for the installed RDI version. The
-`processors.advanced` section is silently ignored by the classic processor,
-so you don't need to remove it before switching back.
+`classic` and redeploy the pipeline. This setting is required on RDI 2.0.0,
+where the default is `flink`. The classic processor silently ignores
+`processors.advanced`, so you don't need to remove it before switching back.
