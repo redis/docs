@@ -207,7 +207,7 @@ GO
 
 ## 5. Using SQL Server with custom data fields
 
-When using custom data types, you need to ensure that the Debezium user has the necessary permissions to access 
+When using custom data types, you must ensure that the Debezium user has the necessary permissions to access 
 those types. You can grant these permissions using the following SQL commands:
 
 ```sql
