@@ -15,7 +15,7 @@ title: Redis session store with Java and Jedis
 weight: 4
 ---
 
-This guide shows you how to implement a Redis-backed session store in Java with [`Jedis`]({{< relref "/develop/clients/jedis" >}}). It includes a small local web server built with Java's built-in `HttpServer` so you can see the session lifecycle end to end.
+This guide shows you how to implement a Redis-backed session store in Java with [`Jedis`](/content/develop/clients/jedis/_index.md). It includes a small local web server built with Java's built-in `HttpServer` so you can see the session lifecycle end to end.
 
 ## Overview
 
@@ -89,11 +89,11 @@ session:abc123...
 
 The implementation uses:
 
-* [`HSET`]({{< relref "/commands/hset" >}}) to create and update session fields
-* [`HGETALL`]({{< relref "/commands/hgetall" >}}) to load the session
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) to update counters
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) to implement sliding expiration
-* [`DEL`]({{< relref "/commands/del" >}}) to remove a session on logout
+* [`HSET`](/content/commands/hset.md) to create and update session fields
+* [`HGETALL`](/content/commands/hgetall.md) to load the session
+* [`HINCRBY`](/content/commands/hincrby.md) to update counters
+* [`EXPIRE`](/content/commands/expire.md) to implement sliding expiration
+* [`DEL`](/content/commands/del.md) to remove a session on logout
 
 The store treats `created_at`, `last_accessed_at`, and `session_ttl` as reserved internal fields, so caller-provided session data cannot overwrite them.
 
@@ -282,6 +282,6 @@ You now have a complete Redis-backed session example in Java using Jedis. From h
 
 For more Redis data modeling patterns, see:
 
-* [Session store overview]({{< relref "/develop/use-cases/session-store" >}})
-* [Jedis guide]({{< relref "/develop/clients/jedis" >}})
-* [Redis data types]({{< relref "/develop/data-types" >}})
+* [Session store overview](/content/develop/use-cases/session-store/_index.md)
+* [Jedis guide](/content/develop/clients/jedis/_index.md)
+* [Redis data types](/content/develop/data-types/_index.md)
