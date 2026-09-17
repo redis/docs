@@ -44,7 +44,7 @@ Each reported event has the following fields:
 * All-time maximum latency for this event.
 
 "All-time" means the maximum latency since the Redis instance was
-started, or the time that events were reset [`LATENCY RESET`]({{< relref "/commands/latency-reset" >}}).
+started, or the time that events were reset [`LATENCY RESET`](/content/commands/latency-reset.md).
 
 ## Examples
 
@@ -61,7 +61,7 @@ OK
    4) (integer) 1001
 ```
 
-For more information refer to the [Latency Monitoring Framework page]({{< relref "/operate/oss_and_stack/management/optimization/latency-monitor.md" >}}).
+For more information refer to the [Latency Monitoring Framework page](/content/operate/oss_and_stack/management/optimization/latency-monitor.md).
 
 ## Redis Software and Redis Cloud compatibility
 

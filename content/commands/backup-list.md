@@ -39,7 +39,7 @@ While the backup is still in the `incrementing` state, only the BASE file is pin
 1) "/var/lib/redis/backupdir/appendonly.aof.3.base.rdb"
 ```
 
-After [`BACKUP SEAL`]({{< relref "/commands/backup-seal" >}}), the INCR file and the manifest are pinned as well:
+After [`BACKUP SEAL`](/content/commands/backup-seal.md), the INCR file and the manifest are pinned as well:
 
 ```
 127.0.0.1:6379> BACKUP LIST
@@ -52,7 +52,7 @@ After [`BACKUP SEAL`]({{< relref "/commands/backup-seal" >}}), the INCR file and
 
 `BACKUP LIST` reports the absolute paths of the files that have been pinned by hard links so far. This lets the data plane start uploading the BASE snapshot while Redis is still accumulating incremental writes, before the backup is sealed. After the backup is sealed, the list also includes the INCR file and the manifest.
 
-For the full workflow, see [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}#online-backups-with-the-backup-command-family).
+For the full workflow, see [Redis persistence](/content/operate/oss_and_stack/management/persistence.md#online-backups-with-the-backup-command-family).
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -76,8 +76,8 @@ For the full workflow, see [Redis persistence]({{< relref "/operate/oss_and_stac
 
 ## See also
 
-[`BACKUP START`]({{< relref "commands/backup-start/" >}}) | [`BACKUP SEAL`]({{< relref "commands/backup-seal/" >}}) | [`BACKUP STATUS`]({{< relref "commands/backup-status/" >}}) | [`BACKUP ABORT`]({{< relref "commands/backup-abort/" >}}) | [`BACKUP CLEANUP`]({{< relref "commands/backup-cleanup/" >}})
+[`BACKUP START`](/content/commands/backup-start.md) | [`BACKUP SEAL`](/content/commands/backup-seal.md) | [`BACKUP STATUS`](/content/commands/backup-status.md) | [`BACKUP ABORT`](/content/commands/backup-abort.md) | [`BACKUP CLEANUP`](/content/commands/backup-cleanup.md)
 
 ## Related topics
 
-- [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}})
+- [Redis persistence](/content/operate/oss_and_stack/management/persistence.md)

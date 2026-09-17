@@ -40,7 +40,7 @@ title: LATENCY GRAPH
 ---
 Produces an ASCII-art style graph for the specified event.
 
-`LATENCY GRAPH` lets you intuitively understand the latency trend of an `event` via state-of-the-art visualization. It can be used for quickly grasping the situation before resorting to means such parsing the raw data from [`LATENCY HISTORY`]({{< relref "/commands/latency-history" >}}) or external tooling.
+`LATENCY GRAPH` lets you intuitively understand the latency trend of an `event` via state-of-the-art visualization. It can be used for quickly grasping the situation before resorting to means such parsing the raw data from [`LATENCY HISTORY`](/content/commands/latency-history.md) or external tooling.
 
 Valid values for `event` are:
 * `active-defrag-cycle`
@@ -103,7 +103,7 @@ first graphed event happened 15 seconds ago.
 The graph is normalized in the min-max scale so that the zero (the underscore
 in the lower row) is the minimum, and a # in the higher row is the maximum.
 
-For more information refer to the [Latency Monitoring Framework page]({{< relref "/operate/oss_and_stack/management/optimization/latency-monitor.md" >}}).
+For more information refer to the [Latency Monitoring Framework page](/content/operate/oss_and_stack/management/optimization/latency-monitor.md).
 
 ## Redis Software and Redis Cloud compatibility
 

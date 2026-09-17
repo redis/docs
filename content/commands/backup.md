@@ -25,6 +25,6 @@ title: BACKUP
 ---
 This is a container command for backup management commands.
 
-To see the list of available commands you can call [`BACKUP HELP`]({{< relref "/commands/backup-help" >}}).
+To see the list of available commands you can call [`BACKUP HELP`](/content/commands/backup-help.md).
 
-For a conceptual overview of how the `BACKUP` command family creates online backups, see [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}#online-backups-with-the-backup-command-family).
+For a conceptual overview of how the `BACKUP` command family creates online backups, see [Redis persistence](/content/operate/oss_and_stack/management/persistence.md#online-backups-with-the-backup-command-family).
