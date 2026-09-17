@@ -44,9 +44,8 @@ syntax_fmt: "CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight\n
   \ [weight ...]]"
 title: CMS.MERGE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Merges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1. 
@@ -100,14 +99,14 @@ OK
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: non-existent key or destination key is not of the same width and/or depth.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: non-existent key or destination key is not of the same width and/or depth.
 
 -tab-sep-
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) `OK` if executed correctly.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: non-existent key or destination key is not of the same width and/or depth.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) `OK` if executed correctly.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: non-existent key or destination key is not of the same width and/or depth.
 
 {{< /multitabs >}}

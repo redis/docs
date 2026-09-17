@@ -140,23 +140,23 @@ Get the latest maximum daily temperature (the temperature with the highest times
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pair representing (timestamp, value) of the sample with the highest timestamp.
-* An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when the time series is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) of a single ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) pair representing (timestamp, value) of the sample with the highest timestamp.
+* An empty [Array reply](/content/develop/reference/protocol-spec.md#arrays) when the time series is empty.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, key does not exist, etc.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of a single ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pair representing (timestamp, value) of the sample with the highest timestamp.
-* An empty [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) when the time series is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, key does not exist, etc.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) of a single ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Double reply](/content/develop/reference/protocol-spec.md#doubles)) pair representing (timestamp, value) of the sample with the highest timestamp.
+* An empty [Array reply](/content/develop/reference/protocol-spec.md#arrays) when the time series is empty.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, key does not exist, etc.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.MGET`]({{< relref "commands/ts.mget/" >}})  
+[`TS.MGET`](/content/commands/ts.mget.md)  
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

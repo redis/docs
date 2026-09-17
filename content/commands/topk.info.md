@@ -67,14 +67,14 @@ TOPK.INFO topk
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs. For decay, a [simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) is used to represent the floating point value.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) of [simple string](/content/develop/reference/protocol-spec.md#simple-strings) and [integer](/content/develop/reference/protocol-spec.md#integers) pairs. For decay, a [simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) is used to represent the floating point value.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
 
 -tab-sep-
 
 One of the following:
 
-* [A map]({{< relref "/develop/reference/protocol-spec#maps" >}}) of [simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) and [integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) pairs. For decay, a [double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) is used to represent the floating point value.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
+* [A map](/content/develop/reference/protocol-spec.md#maps) of [simple string](/content/develop/reference/protocol-spec.md#simple-strings) and [integer](/content/develop/reference/protocol-spec.md#integers) pairs. For decay, a [double reply](/content/develop/reference/protocol-spec.md#doubles) is used to represent the floating point value.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.
 
 {{< /multitabs >}}

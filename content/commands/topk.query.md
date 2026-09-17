@@ -70,12 +70,12 @@ redis> TOPK.QUERY topk 42 nonexist
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}): `1` if an item is in the Top-K or `0` otherwise.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: non-existant key or key of the incorrect type.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [integer replies](/content/develop/reference/protocol-spec.md#integers): `1` if an item is in the Top-K or `0` otherwise.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: non-existant key or key of the incorrect type.
 
 -tab-sep-
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [boolean replies]({{< relref "/develop/reference/protocol-spec#booleans" >}}): `true` if an item is in the Top-K or `false` otherwise.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: non-existant key or key of the incorrect type.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [boolean replies](/content/develop/reference/protocol-spec.md#booleans): `true` if an item is in the Top-K or `false` otherwise.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: non-existant key or key of the incorrect type.
 
 {{< /multitabs >}}
