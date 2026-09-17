@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: Answers about RDI Cloud data recovery, multiple sources, and billing.
+description: Answers about RDI Cloud data recovery, multiple sources, upgrades, and billing.
 hideListLinks: true
 weight: 6
 ---
@@ -56,6 +56,16 @@ Stop the affected source before deleting its records and allow its pending recor
 ### Does deleting a source delete its target data?
 
 No. Deleting a source removes its pipeline configuration and internal RDI state. Records it already wrote to the target remain. You must remove or reassign transformation jobs that refer to the source before deleting it. See [Remove a source]({{< relref "/operate/rc/rdi/view-edit#remove-source" >}}).
+
+## Upgrades and maintenance
+
+### What happens during an RDI Cloud upgrade?
+
+Redis manages RDI upgrades in Redis Cloud. Maintenance follows your Redis Cloud Pro subscription's [maintenance window]({{< relref "/operate/rc/rdi#maintenance-windows" >}}).
+
+During an upgrade, monitoring may be temporarily unavailable, and ingestion pauses while the pipeline components restart. A streaming pipeline then resumes from its saved state and processes the changes accumulated during the interruption.
+
+A routine upgrade does not flush the target database or require you to reset the pipeline. Existing target records remain available, but they may temporarily lag behind the source data.
 
 ## Billing
 
