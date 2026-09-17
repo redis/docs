@@ -56,12 +56,11 @@ summary: Returns the number of members of the intersect of multiple sorted sets.
 syntax_fmt: "ZINTERCARD numkeys key [key ...] [LIMIT\_limit]"
 title: ZINTERCARD
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is similar to [`ZINTER`]({{< relref "/commands/zinter" >}}), but instead of returning the result set, it returns just the cardinality of the result.
+This command is similar to [`ZINTER`](/content/commands/zinter.md), but instead of returning the result set, it returns just the cardinality of the result.
 
 Keys that do not exist are considered to be empty sets.
 With one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).
