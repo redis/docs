@@ -61,7 +61,7 @@ To run this application you'll need:
 
 * [git](https://git-scm.com/download) - to clone the repo to your machine. 
 * [Python 3.9 or higher](https://www.python.org/downloads/).
-* A [Redis Stack](https://redis.io) database, or Redis with the [Search and Query]({{< relref "/develop/ai/search-and-query/" >}}) and [JSON]({{< relref "/develop/data-types/json/" >}}) features installed. We've provided a `docker-compose.yml` for this. You can also [sign up for a free 30Mb database with Redis Cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users) - be sure to check the Redis Stack option when creating your cloud database.
+* A [Redis Stack](https://redis.io) database, or Redis with the [Search and Query](/content/develop/ai/search-and-query/_index.md) and [JSON](/content/develop/data-types/json/_index.md) features installed. We've provided a `docker-compose.yml` for this. You can also [sign up for a free 30Mb database with Redis Cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users) - be sure to check the Redis Stack option when creating your cloud database.
 * [curl](https://curl.se/), or [Postman](https://www.postman.com/) - to send HTTP requests to the application.  We'll provide examples using curl in this document.
 * Optional: [Redis Insight](https://redis.com/redis-enterprise/redis-insight/), a free data visualization and database management tool for Redis.  When downloading Redis Insight, be sure to select version 2.x or use the version that comes with Redis Stack.
 
@@ -288,7 +288,7 @@ $ redis-cli
 "{\"$.skills[0]\":[\"synths\"],\"$.address\":[{\"pk\":\"01FX8SSSDNRDSRB3HMVH00NQTT\",\"street_number\":56,\"unit\":\"4A\",\"street_name\":\"The Rushes\",\"city\":\"Birmingham\",\"state\":\"West Midlands\",\"postal_code\":\"B91 6HG\",\"country\":\"United Kingdom\"}]}"
 ```
 
-For more information on the JSON Path syntax used to query JSON documents in Redis, see the [documentation]({{<relref "/develop/data-types/json/path#jsonpath-syntax">}}).
+For more information on the JSON Path syntax used to query JSON documents in Redis, see the [documentation](/content/develop/data-types/json/path.md#jsonpath-syntax).
 
 ### Find a Person by ID
 
@@ -726,7 +726,7 @@ The server responds with an `ok` response regardless of whether the ID provided 
 
 This is an example of how to run arbitrary Redis commands against instances of a model saved in Redis.  Let's see how we can set the time to live (TTL) on a person, so that Redis will expire the JSON document after a configurable number of seconds have passed.
 
-The function `expire_by_id` in `app.py` handles this as follows.  It takes two parameters: `id` - the ID of a person to expire, and `seconds` - the number of seconds in the future to expire the person after.  This requires us to run the Redis [`EXPIRE`]({{< relref "/commands/expire" >}}) command against the person's key.  To do this, we need to access the Redis connection from the `Person` model like so:
+The function `expire_by_id` in `app.py` handles this as follows.  It takes two parameters: `id` - the ID of a person to expire, and `seconds` - the number of seconds in the future to expire the person after.  This requires us to run the Redis [`EXPIRE`](/content/commands/expire.md) command against the person's key.  To do this, we need to access the Redis connection from the `Person` model like so:
 
 ```py
   person_to_expire = Person.get(id)
