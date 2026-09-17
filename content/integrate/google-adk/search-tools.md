@@ -17,7 +17,7 @@ type: integration
 weight: 3
 ---
 
-adk-redis provides five in-process search tools that wrap [RedisVL]({{< relref "/develop/ai/redisvl" >}}) query types into ADK-compatible tools. The LLM sees each tool as a callable function and gets back structured results. For multi-agent or polyglot deployments, the same RedisVL index can also be served over MCP via the `rvl mcp` server and consumed with ADK's native `McpToolset` (see the [RedisVL MCP server](#redisvl-mcp-server) section below).
+adk-redis provides five in-process search tools that wrap [RedisVL](/content/develop/ai/redisvl/_index.md) query types into ADK-compatible tools. The LLM sees each tool as a callable function and gets back structured results. For multi-agent or polyglot deployments, the same RedisVL index can also be served over MCP via the `rvl mcp` server and consumed with ADK's native `McpToolset` (see the [RedisVL MCP server](#redisvl-mcp-server) section below).
 
 ## Overview
 
@@ -207,4 +207,4 @@ The `name` and `description` on each tool matter: the LLM reads them to decide w
 - [redis_search_tools example](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_search_tools): vector, text, and range tools with a product catalog
 - [redis_sql_search example](https://github.com/redis-developer/adk-redis/tree/main/examples/redis_sql_search): SQL `SELECT` against a bound index
 - [redisvl_mcp_search example](https://github.com/redis-developer/adk-redis/tree/main/examples/redisvl_mcp_search): same corpus served via `rvl mcp` + ADK `McpToolset`
-- [RedisVL documentation]({{< relref "/develop/ai/redisvl" >}})
+- [RedisVL documentation](/content/develop/ai/redisvl/_index.md)
