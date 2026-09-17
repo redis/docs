@@ -37,18 +37,18 @@ mimicking the effect of disconnecting and reconnecting again.
 When the command is called from a regular client connection, it does the
 following:
 
-* Discards the current [`MULTI`]({{< relref "/commands/multi" >}}) transaction block, if one exists.
-* Unwatches all keys [`WATCH`]({{< relref "/commands/watch" >}})ed by the connection.
-* Disables [`CLIENT TRACKING`]({{< relref "/commands/client-tracking" >}}), if in use.
-* Sets the connection to [`READWRITE`]({{< relref "/commands/readwrite" >}}) mode.
-* Cancels the connection's [`ASKING`]({{< relref "/commands/asking" >}}) mode, if previously set.
-* Sets [`CLIENT REPLY`]({{< relref "/commands/client-reply" >}}) to `ON`.
+* Discards the current [`MULTI`](/content/commands/multi.md) transaction block, if one exists.
+* Unwatches all keys [`WATCH`](/content/commands/watch.md)ed by the connection.
+* Disables [`CLIENT TRACKING`](/content/commands/client-tracking.md), if in use.
+* Sets the connection to [`READWRITE`](/content/commands/readwrite.md) mode.
+* Cancels the connection's [`ASKING`](/content/commands/asking.md) mode, if previously set.
+* Sets [`CLIENT REPLY`](/content/commands/client-reply.md) to `ON`.
 * Sets the protocol version to RESP2.
-* [`SELECT`]({{< relref "/commands/select" >}})s database 0.
-* Exits [`MONITOR`]({{< relref "/commands/monitor" >}}) mode, when applicable.
-* Aborts Pub/Sub's subscription state ([`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) and [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}})), when
+* [`SELECT`](/content/commands/select.md)s database 0.
+* Exits [`MONITOR`](/content/commands/monitor.md) mode, when applicable.
+* Aborts Pub/Sub's subscription state ([`SUBSCRIBE`](/content/commands/subscribe.md) and [`PSUBSCRIBE`](/content/commands/psubscribe.md)), when
   appropriate.
-* Deauthenticates the connection, requiring a call [`AUTH`]({{< relref "/commands/auth" >}}) to reauthenticate when
+* Deauthenticates the connection, requiring a call [`AUTH`](/content/commands/auth.md) to reauthenticate when
   authentication is enabled.
 * Turns off `NO-EVICT` mode.
 * Turns off `NO-TOUCH` mode.

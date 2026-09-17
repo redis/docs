@@ -30,10 +30,10 @@ summary: Discards a transaction.
 syntax_fmt: DISCARD
 title: DISCARD
 ---
-Flushes all previously queued commands in a [transaction]({{< relref "/develop/using-commands/transactions" >}}) and restores the
+Flushes all previously queued commands in a [transaction](/content/develop/using-commands/transactions.md) and restores the
 connection state to normal.
 
-If [`WATCH`]({{< relref "/commands/watch" >}}) was used, `DISCARD` unwatches all keys watched by the connection.
+If [`WATCH`](/content/commands/watch.md) was used, `DISCARD` unwatches all keys watched by the connection.
 
 ## Redis Software and Redis Cloud compatibility
 

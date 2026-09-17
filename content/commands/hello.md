@@ -62,7 +62,7 @@ title: HELLO
 
 Switches to a different protocol version, optionally authenticates the connection and sets the connection name. When you call HELLO with no arguments, or with a protocol version (2 or 3) and optional authentication information, the command also returns server and connection properties.
 
-Redis 6 and later support two protocols: RESP2 and RESP3. RESP3 lets Redis return more semantic replies. For example, [HGETALL]({{< relref "/commands/hgetall" >}}) returns a [map]({{< relref "/develop/reference/protocol-spec#maps" >}}) instead of an [array]({{< relref "/develop/reference/protocol-spec#arrays" >}}), so a client library does not need command-specific logic to convert the reply into a hash before returning it to the caller.
+Redis 6 and later support two protocols: RESP2 and RESP3. RESP3 lets Redis return more semantic replies. For example, [HGETALL](/content/commands/hgetall.md) returns a [map](/content/develop/reference/protocol-spec.md#maps) instead of an [array](/content/develop/reference/protocol-spec.md#arrays), so a client library does not need command-specific logic to convert the reply into a hash before returning it to the caller.
 
 In Redis 6+, connections start in RESP2 mode, so clients implementing RESP2 do
 not need to updated or changed.
@@ -77,13 +77,13 @@ The RESP protocol version to switch to (`2` or `3`). Required if any other optio
 
 <details open><summary><code>AUTH username password</code></summary>
 
-Authenticate the connection in addition to switching to the specified protocol version. This makes calling [`AUTH`]({{< relref "/commands/auth" >}}) before `HELLO` unnecessary when setting up a new connection. Note that the `username` can be set to "default" to authenticate against a server that does not use ACLs, but rather the simpler `requirepass` mechanism of Redis prior to version 6.
+Authenticate the connection in addition to switching to the specified protocol version. This makes calling [`AUTH`](/content/commands/auth.md) before `HELLO` unnecessary when setting up a new connection. Note that the `username` can be set to "default" to authenticate against a server that does not use ACLs, but rather the simpler `requirepass` mechanism of Redis prior to version 6.
 
 </details>
 
 <details open><summary><code>SETNAME clientname</code></summary>
 
-Set the name of the current connection. This is equivalent to calling [`CLIENT SETNAME`]({{< relref "/commands/client-setname" >}}).
+Set the name of the current connection. This is equivalent to calling [`CLIENT SETNAME`](/content/commands/client-setname.md).
 
 </details>
 
@@ -124,7 +124,7 @@ command and specify the value "3" as the `protover` argument, like so:
 
 Because `HELLO` replies with useful information, and given that `protover` is
 optional or can be set to "2", client library authors may consider using this
-command instead of the canonical [`PING`]({{< relref "/commands/ping" >}}) when setting up the connection.
+command instead of the canonical [`PING`](/content/commands/ping.md) when setting up the connection.
 
 
 ## Redis Software and Redis Cloud compatibility

@@ -74,13 +74,13 @@ syntax_fmt: "CLIENT TRACKING <ON | OFF> [REDIRECT\_client-id] [PREFIX\_prefix\n 
 title: CLIENT TRACKING
 ---
 This command enables the tracking feature of the Redis server, which is used
-for [server assisted client side caching]({{< relref "/develop/clients/client-side-caching#tracking" >}}).
+for [server assisted client side caching](/content/develop/clients/client-side-caching.md#tracking).
 
 When tracking is enabled Redis remembers the keys that the connection
 requested, in order to send later invalidation messages when such keys are
 modified. Invalidation messages are sent in the same connection (only available
 when the RESP3 protocol is used) or redirected in a different connection
-(available with RESP2 and Pub/Sub). You can use broadcasting mode to receive notifications for all keys that match the key prefixes you subscribe to, regardless of which keys you request. For details, see [the client-side caching documentation]({{< relref "/develop/reference/client-side-caching" >}}). This page only describes the options for this subcommand.
+(available with RESP2 and Pub/Sub). You can use broadcasting mode to receive notifications for all keys that match the key prefixes you subscribe to, regardless of which keys you request. For details, see [the client-side caching documentation](/content/develop/reference/client-side-caching.md). This page only describes the options for this subcommand.
 
 In order to enable tracking, use:
 
@@ -101,7 +101,7 @@ Turn key-invalidation tracking on or off for the connection.
 
 <details open><summary><code>REDIRECT client-id</code></summary>
 
-Send invalidation messages to the connection with the specified ID. The connection must exist. You can get the ID of a connection using [`CLIENT ID`]({{< relref "/commands/client-id" >}}). If the redirected connection terminates while in RESP3 mode, the connection with tracking enabled receives tracking-redir-broken push messages to signal the disconnection.
+Send invalidation messages to the connection with the specified ID. The connection must exist. You can get the ID of a connection using [`CLIENT ID`](/content/commands/client-id.md). If the redirected connection terminates while in RESP3 mode, the connection with tracking enabled receives tracking-redir-broken push messages to signal the disconnection.
 
 </details>
 
