@@ -26,7 +26,7 @@ You need to set up your Redis Cloud database before you can set it as the vector
 1. [Store database credentials in AWS secrets manager](#store-secret)
 1. [Create a vector index in your database](#create-vector-index) for Bedrock to use
 
-After you set up the database, you can use the database information to set it as your knowledge base database when you [create a knowledge base]({{< relref "/integrate/amazon-bedrock/create-knowledge-base" >}}).
+After you set up the database, you can use the database information to set it as your knowledge base database when you [create a knowledge base](/content/integrate/amazon-bedrock/create-knowledge-base.md).
 
 ## Sign up and create a database  {#sign-up-create-subscription}
 
@@ -73,7 +73,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/create-pro-db-settings.png" alt="The database settings section.">}}
 
-    If you'd like to select all of the configuration options yourself, select **Custom settings**. See [Create a Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}) for more details.
+    If you'd like to select all of the configuration options yourself, select **Custom settings**. See [Create a Redis Cloud Pro database](/content/operate/rc/databases/create-database/create-pro-database-new.md#custom-settings) for more details.
 
 1. Redis will generate a database name for you. If you want to change it, you can do so in the **Database name** field.
 
@@ -85,7 +85,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/pro-easy-create-size-throughput.png" alt="The Dataset size, throughput, and High availability settings.">}}
  
-    - Select [**High availability**]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) if it is not already selected.
+    - Select [**High availability**](/content/operate/rc/databases/configuration/high-availability.md) if it is not already selected.
     - Set the Dataset size of your database based on the amount of data that Bedrock will pull from your Simple Storage Service (S3) [bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). See [Find out the size of your S3 buckets](https://aws.amazon.com/blogs/storage/find-out-the-size-of-your-amazon-s3-buckets/) to find out how much knowledge base data is stored in your S3 bucket and pick the closest size, rounded up, from the table below. 
 
         | Total Size of Documents in S3 | Database size without replication | Database size with replication |
@@ -101,7 +101,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
     {{<image filename="images/rc/pro-easy-create-optimal-settings.png" alt="The optimal database settings.">}}
 
-    If you want to change these settings, select [**Switch to custom settings**]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}).
+    If you want to change these settings, select [**Switch to custom settings**](/content/operate/rc/databases/create-database/create-pro-database-new.md#custom-settings).
 
 1. You will not need to enter a payment method, as it's automatically assigned to your AWS Marketplace account. Select **Confirm & pay** to create your new database.
 
@@ -113,7 +113,7 @@ To set up a Redis Cloud instance for Bedrock, you need to:
 
 ## Enable TLS and get certificates {#get-certs}
 
-For your database to be fully secure, you must enable [Transport Layer Security (TLS)]({{< relref "/operate/rc/security/database-security/tls-ssl#enable-tls" >}}) for your database with client authentication.
+For your database to be fully secure, you must enable [Transport Layer Security (TLS)](/content/operate/rc/security/database-security/tls-ssl.md#enable-tls) for your database with client authentication.
 
 1. Select **Databases** from the [Redis Cloud console](https://cloud.redis.io/) menu and then select your database from the list.
 
@@ -149,9 +149,8 @@ For your database to be fully secure, you must enable [Transport Layer Security 
 
         - `redis-db-<database_id>.key` – the certificate's private key.
 
-        {{<note>}}
-You must download the certificate using the button at this point.  After your changes have been applied, the full bundle of public and private keys will no longer be available for download.
-        {{</note>}}
+        > [!NOTE]
+        > You must download the certificate using the button at this point.  After your changes have been applied, the full bundle of public and private keys will no longer be available for download.
     
     - If you provide a client certificate, you will see the certificate details before you save your changes.
 
@@ -167,7 +166,7 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 - `username`: Database username
 - `password`: Database password
-- `serverCertificate`: Contents of the [server certificate]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) (`redis_ca.pem`)
+- `serverCertificate`: Contents of the [server certificate](/content/operate/rc/security/database-security/tls-ssl.md#download-certificates) (`redis_ca.pem`)
 - `clientCertificate`: Contents of the client certificate (`redis_user.crt`)
 - `clientPrivateKey`: Contents of the client private key (`redis_user_private.key`)
 
@@ -175,11 +174,11 @@ After you store this secret, you can view and copy the [Amazon Resource Name (AR
 
 ## Create a vector index in your database {#create-vector-index}
 
-After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE]({{< relref "commands/ft.create" >}}) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
+After your Redis Cloud database is set up, create a search index with a vector field using [FT.CREATE](/content/commands/ft.create.md) as your knowledge base for Amazon Bedrock. You can accomplish this using **Redis Insight** or `redis-cli`.
 
 ### Redis Insight
 
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
+[Redis Insight](/content/develop/tools/insight/_index.md) is a free Redis GUI that allows you to visualize and optimize your data in Redis. 
 
 To create your vector index in Redis Insight:
 
@@ -205,7 +204,7 @@ To create your vector index in Redis Insight:
 
     {{<image filename="images/rc/ri-bedrock-workbench.png" width=50px alt="The Redis Insight workbench icon." >}}
 
-1. Enter the [FT.CREATE]({{< relref "commands/ft.create" >}}) command to create an index. 
+1. Enter the [FT.CREATE](/content/commands/ft.create.md) command to create an index. 
 
     ```text
     FT.CREATE <index_name>                    
@@ -233,7 +232,7 @@ To create your vector index in Redis Insight:
 
 ### `redis-cli`
 
-The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/" >}}).
+The [`redis-cli`](/content/develop/tools/cli.md) command-line utility lets you connect and run Redis commands directly from the command line. To use `redis-cli`, you can [install Redis](/content/operate/oss_and_stack/stack-with-enterprise/install/_index.md).
 
 Public endpoint and port details are available from the **Databases** list or the database's **Configuration** screen. Select **Connect** to view how to connect to your database with `redis-cli`.
 
@@ -242,7 +241,7 @@ redis-cli -h <endpoint> -p <port> --tls --cacert redis_ca.pem \
     --cert redis_user.crt --key redis_user_private.key
 ```
 
-After you are connected with `redis-cli`, create an index using [FT.CREATE]({{< relref "commands/ft.create" >}}). 
+After you are connected with `redis-cli`, create an index using [FT.CREATE](/content/commands/ft.create.md). 
 
 ```text
 FT.CREATE <index_name>                    
@@ -265,4 +264,4 @@ Replace the following fields:
 
 ## Next steps
 
-After your Redis database is set up, you can use it to [create a knowledge base]({{< relref "/integrate/amazon-bedrock/create-knowledge-base" >}}) in Amazon Bedrock.
+After your Redis database is set up, you can use it to [create a knowledge base](/content/integrate/amazon-bedrock/create-knowledge-base.md) in Amazon Bedrock.
