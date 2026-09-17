@@ -112,14 +112,14 @@ A subscriber's `messages` list holds JSON records of the form:
 
 The implementation uses:
 
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) to fan a JSON-encoded message out to every subscriber of a channel
-* [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) for exact-match subscribers (called from the worker)
-* [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) for glob-style pattern subscribers (called from the worker)
-* [`PUBSUB CHANNELS`]({{< relref "/commands/pubsub-channels" >}}) to list the channels with at least one active exact-match subscriber
-* [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}) to count subscribers per channel
-* [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) to count active pattern subscriptions server-wide
-* [`LPUSH`]({{< relref "/commands/lpush" >}}) and [`LTRIM`]({{< relref "/commands/ltrim" >}}) on each subscriber's messages list to keep a recent-history buffer
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) on each subscriber's meta hash to maintain a `received_total` counter that the demo UI can read
+* [`PUBLISH`](/content/commands/publish.md) to fan a JSON-encoded message out to every subscriber of a channel
+* [`SUBSCRIBE`](/content/commands/subscribe.md) for exact-match subscribers (called from the worker)
+* [`PSUBSCRIBE`](/content/commands/psubscribe.md) for glob-style pattern subscribers (called from the worker)
+* [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md) to list the channels with at least one active exact-match subscriber
+* [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md) to count subscribers per channel
+* [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) to count active pattern subscriptions server-wide
+* [`LPUSH`](/content/commands/lpush.md) and [`LTRIM`](/content/commands/ltrim.md) on each subscriber's messages list to keep a recent-history buffer
+* [`HINCRBY`](/content/commands/hincrby.md) on each subscriber's meta hash to maintain a `received_total` counter that the demo UI can read
 * The Predis `pubSubLoop()` method to iterate incoming pub/sub events without writing the protocol-decode loop by hand
 
 ## Publishing messages
@@ -410,7 +410,7 @@ This port keeps each subscriber as a **separate OS process**, with its full stat
 
 ### Pub/sub is at-most-once — pair it with durable state if you need replay
 
-A subscriber that's offline when a message is published misses it permanently. For events you can't afford to lose, write the durable record (the order row, the cache key version, the audit log entry) to its primary store, then `PUBLISH` a notification so live consumers can pick it up immediately. On reconnect, consumers reconcile by reading the durable store, not by waiting for missed pub/sub messages. If you actually need replay or at-least-once delivery, switch to [Redis Streams]({{< relref "/develop/data-types/streams" >}}) with consumer groups.
+A subscriber that's offline when a message is published misses it permanently. For events you can't afford to lose, write the durable record (the order row, the cache key version, the audit log entry) to its primary store, then `PUBLISH` a notification so live consumers can pick it up immediately. On reconnect, consumers reconcile by reading the durable store, not by waiting for missed pub/sub messages. If you actually need replay or at-least-once delivery, switch to [Redis Streams](/content/develop/data-types/streams/_index.md) with consumer groups.
 
 ### Use a separate connection per subscriber (and a *second* one for any non-pubsub work)
 
@@ -422,7 +422,7 @@ A flat namespace gets ugly fast — `email`, `email_high_priority`, `email_high_
 
 ### Don't do heavy work in the message-handling loop
 
-The worker reads messages from a single socket. If the per-message work blocks (synchronous HTTP call, big computation, slow DB write), the next message waits behind it and the subscriber's effective throughput drops to whatever the work's latency is. For heavier work, push the message onto a Redis [list]({{< relref "/develop/data-types/lists" >}}) or [stream]({{< relref "/develop/data-types/streams" >}}) and let a separate pool of workers consume it — exactly the pattern in the [job-queue use case]({{< relref "/develop/use-cases/job-queue" >}}).
+The worker reads messages from a single socket. If the per-message work blocks (synchronous HTTP call, big computation, slow DB write), the next message waits behind it and the subscriber's effective throughput drops to whatever the work's latency is. For heavier work, push the message onto a Redis [list](/content/develop/data-types/lists.md) or [stream](/content/develop/data-types/streams/_index.md) and let a separate pool of workers consume it — exactly the pattern in the [job-queue use case](/content/develop/use-cases/job-queue/_index.md).
 
 ### Tune the subscriber message buffer for your traffic shape
 
@@ -430,7 +430,7 @@ The demo caps each subscriber's Redis-side message list at 50 (via `LTRIM 0 49`)
 
 ### Sharded pub/sub on a Redis Cluster
 
-On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. If you're scaling pub/sub on a cluster, prefer the sharded commands and pick channel names whose hash distribution matches your traffic. Predis 3.x exposes both via `ssubscribe()` on the pub/sub loop and `executeRaw(['SPUBLISH', ...])`.
+On a Redis Cluster, plain `PUBLISH` fans every message out to every node via the cluster bus, which becomes a hotspot at high throughput. Redis 7.0 added [sharded pub/sub](/content/develop/pubsub/_index.md#sharded-pubsub): channels are hashed to slots, and `SPUBLISH` / `SSUBSCRIBE` only touch the shard that owns the slot. If you're scaling pub/sub on a cluster, prefer the sharded commands and pick channel names whose hash distribution matches your traffic. Predis 3.x exposes both via `ssubscribe()` on the pub/sub loop and `executeRaw(['SPUBLISH', ...])`.
 
 ### Inspect pub/sub state directly in Redis
 
@@ -470,13 +470,13 @@ redis-cli --scan --pattern 'demo:pubsub:sub:*:pid' \
 
 This example uses the following Redis commands:
 
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) to fan a message out to every subscriber of a channel.
-* [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) and [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) for exact-match topic subscriptions.
-* [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) and [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}) for glob-style pattern subscriptions.
-* [`PUBSUB CHANNELS`]({{< relref "/commands/pubsub-channels" >}}) to list channels with at least one active exact-match subscriber.
-* [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}) to count subscribers per named channel.
-* [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) to count active pattern subscriptions server-wide.
-* [`LPUSH`]({{< relref "/commands/lpush" >}}), [`LTRIM`]({{< relref "/commands/ltrim" >}}), and [`LRANGE`]({{< relref "/commands/lrange" >}}) for the per-subscriber recent-message buffers.
-* [`HSET`]({{< relref "/commands/hset" >}}), [`HGETALL`]({{< relref "/commands/hgetall" >}}), and [`HINCRBY`]({{< relref "/commands/hincrby" >}}) for the cross-request stats and per-subscription meta.
+* [`PUBLISH`](/content/commands/publish.md) to fan a message out to every subscriber of a channel.
+* [`SUBSCRIBE`](/content/commands/subscribe.md) and [`UNSUBSCRIBE`](/content/commands/unsubscribe.md) for exact-match topic subscriptions.
+* [`PSUBSCRIBE`](/content/commands/psubscribe.md) and [`PUNSUBSCRIBE`](/content/commands/punsubscribe.md) for glob-style pattern subscriptions.
+* [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md) to list channels with at least one active exact-match subscriber.
+* [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md) to count subscribers per named channel.
+* [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) to count active pattern subscriptions server-wide.
+* [`LPUSH`](/content/commands/lpush.md), [`LTRIM`](/content/commands/ltrim.md), and [`LRANGE`](/content/commands/lrange.md) for the per-subscriber recent-message buffers.
+* [`HSET`](/content/commands/hset.md), [`HGETALL`](/content/commands/hgetall.md), and [`HINCRBY`](/content/commands/hincrby.md) for the cross-request stats and per-subscription meta.
 
 See the [Predis README](https://github.com/predis/predis) for full client reference, including the [pub/sub consumer](https://github.com/predis/predis/blob/main/src/Consumer/PubSub/Consumer.php) returned by `pubSubLoop()`.
