@@ -74,18 +74,18 @@ is suggestion string to index.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the suggestion was deleted, 0 if it was not found.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): 1 if the suggestion was deleted, 0 if it was not found.
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 1 if the suggestion was deleted, 0 if it was not found.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): 1 if the suggestion was deleted, 0 if it was not found.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.SUGGET`]({{< relref "commands/ft.sugget/" >}}) | [`FT.SUGADD`]({{< relref "commands/ft.sugadd/" >}}) | [`FT.SUGLEN`]({{< relref "commands/ft.suglen/" >}}) 
+[`FT.SUGGET`](/content/commands/ft.sugget.md) | [`FT.SUGADD`](/content/commands/ft.sugadd.md) | [`FT.SUGLEN`](/content/commands/ft.suglen.md) 
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)
