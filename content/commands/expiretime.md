@@ -48,7 +48,7 @@ title: EXPIRETIME
 ---
 Returns the absolute Unix timestamp (since January 1, 1970) in seconds at which the given key will expire.
 
-See also the [`PEXPIRETIME`]({{< relref "/commands/pexpiretime" >}}) command which returns the same information with milliseconds resolution.
+See also the [`PEXPIRETIME`](/content/commands/pexpiretime.md) command which returns the same information with milliseconds resolution.
 
 ## Required arguments
 
