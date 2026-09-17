@@ -96,7 +96,7 @@ run the CLI binary of the previous RDI version, which still provided the `redis-
     sudo redis-di upgrade --rdi-host <RDI_REDIS_HOST> --rdi-port <RDI_REDIS_PORT>
     ```
 
-{{< note >}}If the `collector-source` or the `processor` pods are not in the `Running` state after
+{{< note >}}If the `collector` or `processor` pods are not in the `Running` state after
 the upgrade, you must run `redis-di deploy` and check again that they are both in the
 `Running` state.
 {{< /note >}}
@@ -196,6 +196,57 @@ described in [Uninstall RDI]({{< relref "/integrate/redis-data-integration/insta
 and then install the old version.
 {{< /note >}}
 
+## Upgrading to RDI 2.0.0
+
+RDI 2.0.0 changes several behaviors that affect a pipeline upgraded from RDI 1.19.x or earlier.
+
+### The Flink processor becomes the default
+
+RDI 2.0.0 changes the default processor from `classic` to `flink`. This default
+applies when the pipeline's `config.yaml` omits `processors.type`.
+
+For an existing pipeline that uses the classic processor, choose one of these options before upgrading:
+
+- To migrate to the Flink processor, first follow
+  [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
+  on RDI 1.19.0. This stops the collector and drains the input streams before
+  switching processors. Then upgrade RDI.
+- To keep the classic processor, set `processors.type: classic` in the
+  pipeline's `config.yaml` and deploy it before upgrading.
+
+If your pipeline already uses `processors.type: flink`, no processor change
+is needed. Continue with the upgrade instructions for your installation.
+
+### Clearing a pipeline replaces deleting it
+
+`DELETE /api/v2/pipelines/{name}` no longer empties a pipeline, and `redis-di delete` no longer
+works. Clear the configuration with `redis-di deploy --empty`, or with
+`PUT /api/v2/pipelines/{name}` and an empty configuration, instead. See
+[Clear a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#clear-a-pipeline" >}}).
+
+Clearing a pipeline is not the same as resetting it or flushing the target database. Clearing
+removes the configuration and the pipeline's data from the RDI database, while resetting keeps the
+configuration and re-snapshots the sources; neither one deletes any records from the target
+database.
+
+### Redeploying a configuration after clearing a pipeline
+
+A configuration of an upgraded pipeline still references the names from before the upgrade, so
+deploying it again after clearing the pipeline fails. See
+[Redeploying a configuration after clearing a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#redeploying-a-configuration-after-clearing-a-pipeline" >}})
+for what you have to change, with a before and after example.
+
+### API changes
+
+RDI 2.0.0 changes several API v2 query parameters and response fields. Most of them affect only
+an API client, and are listed in the
+[RDI 2.0.0 release notes]({{< relref "/integrate/redis-data-integration/release-notes/rdi-2-0-0" >}}).
+
+The one to check for is the metric collections endpoint, which now keys `data_streams.streams`
+by the source-qualified table name, such as `mysql.inventory.addresses`, instead of by the Redis
+stream name. Update any dashboard or script that reads the previous form. See
+[Observability]({{< relref "/integrate/redis-data-integration/observability" >}}) for the metrics RDI reports.
+
 ## Enabling the Flink processor
 
 The
@@ -225,7 +276,7 @@ The upgrade process replaces the current RDI components with their new versions:
 -   Firstly, the control plane components are replaced. At this point, the pipeline
     is still active but monitoring will be disconnected.
 -   Secondly, the pipeline data plane components are replaced.
-    If a pipeline is active while upgrading, the `collector-source` and `processor`
+    If a pipeline is active while upgrading, the `collector` and `processor`
     pods will be restarted. The pipeline will pause for up to two minutes but it 
     will catch up very quickly after restarting. 
     The pipeline data and state are both stored in Redis, so data will not

@@ -34,21 +34,6 @@ questions:
                     sentiment: "indeterminate"
             yes:
                 value: "Yes"
-                nextQuestion: singleSource
-    singleSource:
-        text: |
-            Are you transferring data from a single source database?
-        whyAsk: |
-            RDI is designed to work with a single source database. Multiple sources create conflicting change events.
-        answers:
-            no:
-                value: "No"
-                outcome:
-                    label: "❌ RDI won't work with multiple source databases"
-                    id: multipleSourcesOrActiveActive
-                    sentiment: "negative"
-            yes:
-                value: "Yes"
                 nextQuestion: consistency
     consistency:
         text: |

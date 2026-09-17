@@ -179,14 +179,16 @@ pipeline, or move consumer-group positions to make the count reach `0`.
 After the drain check passes, remove the source's `active: false` setting
 from the existing `config.yaml` and set
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink`:
+to `flink` (or remove this property, since `flink` is the default):
 
 ```yaml
 processors:
   type: flink
 ```
 
-RDI 1.19.0 requires this setting because its default processor is `classic`.
+RDI 1.19.x requires this setting because its default processor is `classic`.
+On RDI 2.0.0 the default processor is `flink`, so this setting is no longer
+required.
 
 Keep the remaining configuration and jobs, then redeploy the complete
 configuration directory:
