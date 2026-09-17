@@ -77,3 +77,15 @@ Redis support includes
 It connects to a Redis server directly or over an SSH tunnel, with TLS/SSL supported, and authenticates with either a password or a username and password against Redis 6+ ACLs.
 
 [Download for free on their website](https://www.beekeeperstudio.io/db/redis-client/)
+
+### Tabularis
+
+[Tabularis](https://github.com/TabularisDB/tabularis) is an open-source desktop SQL workspace for Windows, macOS, and Linux, licensed under Apache 2.0. PostgreSQL, MySQL/MariaDB, and SQLite ship built in; Redis is added as a plugin installed from inside the app (Settings > Available Plugins), so Redis keys appear in the same explorer, data grid, and editor as the relational databases a team already opens there. The Redis plugin, written in Rust, provides:
+
+* A key browser that lists every key with its type, a value preview, and TTL, plus virtual tables that group keys by prefix.
+* Type-specific tables for hashes, lists, sets, sorted sets, and streams, with inline insert, update, and delete from the data grid.
+* Server statistics parsed from `INFO` (version, memory, clients, keyspace) and a list of active Pub/Sub channels with subscriber counts.
+
+It connects to a single node over TCP or TLS, authenticating with a password or a username and password against Redis 6+ ACLs, and lets you pick logical databases 0 to 15 from the connection form. Cluster and Sentinel discovery are not implemented. A second, read-only Redis plugin written in Go is also available from the same plugin registry.
+
+[Download Tabularis](https://github.com/TabularisDB/tabularis/releases) · [Redis plugin (Rust)](https://github.com/nicholas-papachriston/tabularis-redis-plugin) · [Redis plugin (Go)](https://github.com/gzamboni/tabularis-redis-plugin-go)

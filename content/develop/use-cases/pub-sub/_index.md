@@ -35,7 +35,7 @@ the publisher side, and a way to route events through named topics so subscriber
 they care about without coordinating with publishers.
 
 If you also need persistence, replay, or at-least-once delivery, the answer is
-[Redis Streams]({{< relref "/develop/data-types/streams" >}}), not pub/sub — the two solve
+[Redis Streams](/content/develop/data-types/streams/_index.md), not pub/sub — the two solve
 different problems on the same infrastructure.
 
 ## What you can expect from a Redis solution
@@ -65,26 +65,26 @@ message is published misses it for good.
 
 Redis provides the following features that make it a good fit for broadcast messaging:
 
--   [`PUBLISH`]({{< relref "/commands/publish" >}}) for fan-out from any client to every active
+-   [`PUBLISH`](/content/commands/publish.md) for fan-out from any client to every active
     subscriber of a channel, with a sub-millisecond hop through Redis.
--   [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}}) and
-    [`UNSUBSCRIBE`]({{< relref "/commands/unsubscribe" >}}) for exact-match channel
+-   [`SUBSCRIBE`](/content/commands/subscribe.md) and
+    [`UNSUBSCRIBE`](/content/commands/unsubscribe.md) for exact-match channel
     subscriptions, the simplest topic-based routing model.
--   [`PSUBSCRIBE`]({{< relref "/commands/psubscribe" >}}) and
-    [`PUNSUBSCRIBE`]({{< relref "/commands/punsubscribe" >}}) for glob-style pattern
+-   [`PSUBSCRIBE`](/content/commands/psubscribe.md) and
+    [`PUNSUBSCRIBE`](/content/commands/punsubscribe.md) for glob-style pattern
     subscriptions (`cache:invalidate:*`, `news.*.headline`), so a subscriber can listen to whole
     topic hierarchies without pre-registering every channel.
--   [`PUBSUB CHANNELS`]({{< relref "/commands/pubsub-channels" >}}),
-    [`PUBSUB NUMSUB`]({{< relref "/commands/pubsub-numsub" >}}), and
-    [`PUBSUB NUMPAT`]({{< relref "/commands/pubsub-numpat" >}}) for introspection — list active
+-   [`PUBSUB CHANNELS`](/content/commands/pubsub-channels.md),
+    [`PUBSUB NUMSUB`](/content/commands/pubsub-numsub.md), and
+    [`PUBSUB NUMPAT`](/content/commands/pubsub-numpat.md) for introspection — list active
     channels, count subscribers per channel, count active pattern subscriptions.
--   [Sharded pub/sub]({{< relref "/develop/pubsub#sharded-pubsub" >}})
-    ([`SSUBSCRIBE`]({{< relref "/commands/ssubscribe" >}}),
-    [`SPUBLISH`]({{< relref "/commands/spublish" >}})) in Redis 7.0+ so the same pattern scales
+-   [Sharded pub/sub](/content/develop/pubsub/_index.md#sharded-pubsub)
+    ([`SSUBSCRIBE`](/content/commands/ssubscribe.md),
+    [`SPUBLISH`](/content/commands/spublish.md)) in Redis 7.0+ so the same pattern scales
     horizontally on a Redis Cluster without every message touching every node.
 -   No message storage overhead — messages are delivered to active subscribers and discarded
     immediately, keeping the messaging path stateless and fast.
--   [Keyspace notifications]({{< relref "/develop/pubsub/keyspace-notifications" >}}) for
+-   [Keyspace notifications](/content/develop/pubsub/keyspace-notifications.md) for
     receiving events about key changes (`SET`, expiration, eviction) through the same pub/sub
     transport.
 
@@ -94,7 +94,7 @@ The following frameworks and libraries use Redis pub/sub for broadcast messaging
 
 -   **Node.js**: [Socket.IO](https://socket.io/) Redis adapter for cross-node WebSocket fan-out
 -   **Python**: [`redis-py`](https://redis.readthedocs.io/) subscribers with
-    [FastAPI]({{< relref "/integrate/fastapi" >}}) or [Django Channels](https://channels.readthedocs.io/)
+    [FastAPI](/content/integrate/fastapi/_index.md) or [Django Channels](https://channels.readthedocs.io/)
     for WebSocket push and event listeners
 -   **Java**: [Spring Data Redis](https://spring.io/projects/spring-data-redis) message listener
     containers for inter-service messaging
@@ -110,12 +110,12 @@ The following frameworks and libraries use Redis pub/sub for broadcast messaging
 The following guides show how to build a simple Redis-backed pub/sub broadcaster.
 Each guide includes a runnable interactive demo for each of the following client libraries:
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/pub-sub/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/pub-sub/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/pub-sub/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/pub-sub/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/pub-sub/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/pub-sub/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/pub-sub/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/pub-sub/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/pub-sub/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/pub-sub/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/pub-sub/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/pub-sub/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/pub-sub/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/pub-sub/java-lettuce/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/pub-sub/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/pub-sub/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/pub-sub/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/pub-sub/rust/_index.md)

@@ -14,7 +14,7 @@ title: Token bucket rate limiter with Redis and Java (Lettuce)
 weight: 5
 ---
 
-This guide shows you how to implement a distributed token bucket rate limiter using Redis and Lua scripts in Java with the [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) client library.
+This guide shows you how to implement a distributed token bucket rate limiter using Redis and Lua scripts in Java with the [`Lettuce`](/content/develop/clients/lettuce/_index.md) client library.
 
 ## Overview
 
@@ -25,7 +25,7 @@ Rate limiting is a critical technique for controlling the rate at which operatio
 * Ensuring fair resource allocation across multiple clients
 * Throttling background jobs or batch operations
 
-The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Java implementation using the [`Lettuce`]({{< relref "/develop/clients/lettuce" >}}) client library, taking advantage of Lettuce's `RedisClient` for connection management, `StatefulRedisConnection` for multiplexed connections, and support for synchronous, asynchronous, and reactive command execution.
+The **token bucket algorithm** is a popular rate limiting approach that allows bursts of traffic while maintaining an average rate limit over time. This guide covers the Java implementation using the [`Lettuce`](/content/develop/clients/lettuce/_index.md) client library, taking advantage of Lettuce's `RedisClient` for connection management, `StatefulRedisConnection` for multiplexed connections, and support for synchronous, asynchronous, and reactive command execution.
 
 ## How it works
 
@@ -97,12 +97,12 @@ return {allowed, tokens}
 
 ### Script breakdown
 
-1. **State retrieval**: Uses [`HMGET`]({{< relref "/commands/hmget" >}}) to fetch the current token count and last refill time from a hash
+1. **State retrieval**: Uses [`HMGET`](/content/commands/hmget.md) to fetch the current token count and last refill time from a hash
 2. **Initialization**: On first use, sets tokens to full capacity
 3. **Token refill calculation**: Computes how many tokens should be added based on elapsed time
 4. **Capacity enforcement**: Uses `math.min()` to ensure tokens never exceed capacity
 5. **Token consumption**: Decrements the token count if available
-6. **State update**: Uses [`HMSET`]({{< relref "/commands/hmset" >}}) to save the new state
+6. **State update**: Uses [`HMSET`](/content/commands/hmset.md) to save the new state
 7. **Return value**: Returns both the decision (allowed/denied) and remaining tokens
 
 ### Why atomicity matters
@@ -113,7 +113,7 @@ Without atomic execution, race conditions could occur:
 * **Lost updates**: Concurrent updates could overwrite each other's changes
 * **Inconsistent state**: Token count and refill time could become desynchronized
 
-Using [`EVAL`]({{< relref "/commands/eval" >}}) or [`EVALSHA`]({{< relref "/commands/evalsha" >}}) ensures the entire operation executes atomically, making it safe for distributed systems.
+Using [`EVAL`](/content/commands/eval.md) or [`EVALSHA`](/content/commands/evalsha.md) ensures the entire operation executes atomically, making it safe for distributed systems.
 
 ## Installation
 
@@ -137,7 +137,7 @@ Add the Lettuce dependency to your project:
 
 ### Lettuce vs Jedis
 
-Unlike [`Jedis`]({{< relref "/develop/clients/jedis" >}}), which uses a connection pool (`JedisPool`) with one thread per connection, Lettuce uses a single `RedisClient` with multiplexed connections through `StatefulRedisConnection`. This means:
+Unlike [`Jedis`](/content/develop/clients/jedis/_index.md), which uses a connection pool (`JedisPool`) with one thread per connection, Lettuce uses a single `RedisClient` with multiplexed connections through `StatefulRedisConnection`. This means:
 
 * **No connection pool needed**: A single connection handles multiple concurrent requests
 * **Thread-safe by default**: The `StatefulRedisConnection` and its command interfaces are thread-safe
@@ -203,7 +203,7 @@ The `key` parameter identifies what you're rate limiting. Common patterns:
 
 ### Script caching with EVALSHA
 
-The Java implementation uses [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for optimal performance. On first use, the Lua script is loaded into Redis using Lettuce's `scriptLoad()` command, and subsequent calls use the cached SHA1 hash. If the script is evicted from the cache, the class automatically falls back to [`EVAL`]({{< relref "/commands/eval" >}}) and reloads the script. The script SHA is computed once on first use and cached for subsequent calls.
+The Java implementation uses [`EVALSHA`](/content/commands/evalsha.md) for optimal performance. On first use, the Lua script is loaded into Redis using Lettuce's `scriptLoad()` command, and subsequent calls use the cached SHA1 hash. If the script is evicted from the cache, the class automatically falls back to [`EVAL`](/content/commands/eval.md) and reloads the script. The script SHA is computed once on first use and cached for subsequent calls.
 
 ```java
 // The class handles script caching automatically.
@@ -692,9 +692,9 @@ handle `429 Too Many Requests` and retry with backoff.
 
 ## Learn more
 
-* [EVAL command]({{< relref "/commands/eval" >}}) - Execute Lua scripts
-* [EVALSHA command]({{< relref "/commands/evalsha" >}}) - Execute cached Lua scripts
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) - Introduction to Redis Lua scripting
-* [HMGET command]({{< relref "/commands/hmget" >}}) - Get multiple hash fields
-* [HMSET command]({{< relref "/commands/hmset" >}}) - Set multiple hash fields
-* [Lettuce client]({{< relref "/develop/clients/lettuce" >}}) - Redis Lettuce client documentation
+* [EVAL command](/content/commands/eval.md) - Execute Lua scripts
+* [EVALSHA command](/content/commands/evalsha.md) - Execute cached Lua scripts
+* [Lua scripting](/content/develop/programmability/eval-intro.md) - Introduction to Redis Lua scripting
+* [HMGET command](/content/commands/hmget.md) - Get multiple hash fields
+* [HMSET command](/content/commands/hmset.md) - Set multiple hash fields
+* [Lettuce client](/content/develop/clients/lettuce/_index.md) - Redis Lettuce client documentation

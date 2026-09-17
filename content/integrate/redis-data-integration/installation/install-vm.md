@@ -17,7 +17,7 @@ weight: 10
 ---
 
 This guide explains how to install Redis Data Integration (RDI) on one or more VMs and integrate it with
-your source database. You can also
+your source databases. You can also
 [Install RDI on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
 
 {{< note >}}We recommend you always use the latest version, which is RDI v{{< rdi-version >}}.
@@ -269,17 +269,31 @@ to renew the lease in the RDI database, it will lose the leadership and a failov
 will take place. After the failover, the secondary instance will become the primary one, 
 and the RDI pipeline will be active on that VM.
 
+The secondary instance keeps the pipeline and its configuration, and reports it with the
+`standby` status, but runs none of its collectors or its stream processor, and it does not
+touch the pipeline's keys in the RDI database. A standby pipeline is read-only, so
+running [`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
+against the secondary instance works and shows `Status: standby`. Attempting to change a standby pipeline
+fails with `423 Locked` and a message saying that the pipeline is standing by because this instance is
+currently a leader election follower. Operations such as deploy, start, stop, reset, and delete
+can only be performed against the primary instance.
+
+You can still set pipeline secrets for an instance when it is on standby. Secrets are maintained per
+instance and are not replicated between the two, because they can legitimately differ in some cases.
+
 You may find it useful to trigger a failover deliberately to check that RDI is correctly configured to handle it. See [Test HA failover]({{< relref "/integrate/redis-data-integration/installation/ha-test" >}}) to learn how to do this.
 
-## Prepare your source database
+## Prepare your source databases
 
-Before deploying a pipeline, you must configure your source database to enable CDC. See the
+Before deploying a pipeline, you must configure each source database to enable CDC. See the
 [Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
-section to learn how to do this.
+section to learn how to do this. A pipeline can capture from more than one source database,
+and you must prepare each one separately. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
 
 ## Deploy a pipeline
 
-When the installation is complete, and you have prepared the source database for CDC,
+When the installation is complete, and you have prepared your source databases for CDC,
 you are ready to start using RDI. See the guides on how to
 [configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
 [deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
@@ -296,19 +310,17 @@ for your platform.{{< /note >}}
 
 ## Configure the Flink processor
 
-RDI ships with two stream processor implementations: the default *classic*
-processor and the
-[Apache Flink](https://flink.apache.org/)-based *Flink* processor. 
+RDI ships with two stream processor implementations: the *classic* processor and the
+default [Apache Flink](https://flink.apache.org/)-based *Flink* processor.
 See
 [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
 for an overview of the differences and
 [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
 for a side-by-side comparison.
 
-To run a specific pipeline on the Flink processor, set
+A pipeline runs on the Flink processor unless its `config.yaml` sets
 [`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-to `flink` in that pipeline's `config.yaml` and redeploy it. Pipelines without
-this setting continue to use the classic processor. Fine-tune the Flink runtime
+to `classic`. Fine-tune the Flink runtime
 through the `processors.advanced` section of `config.yaml` (see the
 [configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
 
@@ -331,4 +343,4 @@ This will uninstall RDI and its dependencies, are you sure? [y, N]
 ```
 
 If you type anything other than "y" here, the script will abort without making any changes
-to RDI or your source database.
+to RDI or your source databases.

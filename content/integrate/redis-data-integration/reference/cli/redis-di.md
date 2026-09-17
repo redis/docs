@@ -56,7 +56,6 @@ authentication modes. Setting both `--cacert` and `--insecure` is also an error.
 | [`get`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get" >}})                                         | Gets a pipeline                                                          |
 | [`describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})                               | Describes a pipeline with its status (alias `status`)                    |
 | [`deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})                                   | Deploys a pipeline with the specified configuration (alias `set`)        |
-| [`delete`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete" >}})                                   | Deletes a pipeline                                                       |
 | [`start`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-start" >}})                                     | Starts a pipeline                                                        |
 | [`stop`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-stop" >}})                                       | Stops a pipeline                                                         |
 | [`reset`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-reset" >}})                                     | Resets a pipeline                                                        |

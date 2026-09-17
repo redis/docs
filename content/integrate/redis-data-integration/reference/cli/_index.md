@@ -86,6 +86,11 @@ Pipeline-scoped commands take the pipeline name as an optional positional argume
 take their own key or name as the positional argument and target the pipeline with the `-p` / `--pipeline`
 option, which also defaults to `default`.
 
+There are two command options that select a particular database of the pipeline. The secret commands take `--db` with
+a source name or `target` to address that database's secrets, and the `start`, `stop`, and `reset` commands take
+`--source` with a source name to act on that source alone. See
+[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
+
 The commands group as follows:
 
 - **Information**: [`info`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-info" >}}).
@@ -93,7 +98,6 @@ The commands group as follows:
   [`get`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get" >}}),
   [`describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}}) (alias `status`),
   [`deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}}) (alias `set`),
-  [`delete`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete" >}}),
   [`start`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-start" >}}),
   [`stop`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-stop" >}}), and
   [`reset`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-reset" >}}).

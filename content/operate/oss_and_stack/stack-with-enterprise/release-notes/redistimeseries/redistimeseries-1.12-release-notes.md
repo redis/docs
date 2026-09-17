@@ -14,10 +14,26 @@ weight: 94
 ---
 ## Requirements
 
-RedisTimeSeries v1.12.14 requires:
+RedisTimeSeries v1.12.17 requires:
 
 - Minimum Redis compatibility version (database): 7.4
 - Minimum Redis Enterprise Software version (cluster): 7.8
+
+## v1.12.17 (Sep 2026)
+
+This is a maintenance release for RedisTimeSeries 1.12.
+
+Update urgency: `SECURITY`: There are security fixes in the release.
+
+Details:
+
+- **Security**
+
+  - Prevent heap buffer overflows and invalid memory access when restoring malformed time-series data.
+
+- Bug fixes:
+
+  - Fix `TS.INCRBY` replication to preserve the primary’s timestamp when using server-generated timestamps.
 
 ## v1.12.14 (May 2026)
 

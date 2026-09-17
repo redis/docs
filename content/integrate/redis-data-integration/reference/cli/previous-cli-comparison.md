@@ -119,7 +119,7 @@ Other common tasks changed as follows:
 | Continuously refresh status | `redis-di status --live` | `watch -n 1 redis-di describe [pipeline]` |
 | List pipelines | Not available | `redis-di list` |
 | Get a pipeline | Not available | `redis-di get [pipeline]` |
-| Delete a pipeline | Not available | `redis-di delete [pipeline]` |
+| Clear a pipeline | Not available | `redis-di deploy --empty` |
 | Inspect rejected records | `redis-di get-rejected [options]` | `redis-di list-dlqs`, then `redis-di list-dlq-records <dlq>`; `get-rejected` remains an alias |
 | Inspect jobs | `redis-di list-jobs` and `redis-di describe-job <job>` | The same commands, with `--pipeline <pipeline>` for a non-default pipeline |
 | Manage secrets | `redis-di set-secret <key> <value>` or `rdi-secret.sh` | `list-secrets`, `get-secret`, `describe-secret`, `set-secret`, and `delete-secret` |

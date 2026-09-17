@@ -41,28 +41,28 @@ RDI stores rejected records in the RDI database as capped Redis streams. Each DL
 stream corresponds to a source table and tracks the records rejected for that
 table.
 
-DLQ stream names use the `dlq:` prefix followed by the source data stream name.
-In current RDI versions, the stream name is typically:
+A DLQ stream is named after the source data stream it corresponds to, with a `dlq:` prefix:
 
 ```text
-dlq:data:{rdi}:<schema_or_database>.<table>
+dlq:data:{rdi}:<source>.<qualified_table_name>
 ```
 
-For example, rejected records for the `public.users` table are stored in:
+Above, `<qualified_table_name>` is the qualified table name: `<database>.<table>`
+for MySQL and MariaDB, `<database>.<collection>` for MongoDB, `<schema>.<table>` for Oracle,
+PostgreSQL, Snowflake, and Spanner, and `<database>.<schema>.<table>` for SQL Server.
 
-```text
-dlq:data:{rdi}:public.users
-```
+For example, rejected records for the `public.users` table of a source named `postgresql`
+are stored in `dlq:data:{rdi}:postgresql.public.users`, and those for the `dbo.users` table of
+the `inventory` database of a source named `sqlserver` are stored in
+`dlq:data:{rdi}:sqlserver.inventory.dbo.users`.
 
-For sources that include the source name in the stream qualifier, the final part
-can contain three components:
-
-```text
-dlq:data:{rdi}:<source>.<schema_or_database>.<table>
-```
+The dead-letter queue endpoints and the CLI report table names are in the same form,
+so you can easily attribute a rejected record to the source it came from. Sources that existed
+before the upgrade to RDI v2.0.0 or above do not have the source segment
+in the key because these earlier RDI versions did not support multiple sources.
 
 Some RDI versions or configurations can use a hash-tagged variant such as
-`dlq:{data:rdi:<schema_or_database>.<table>}`. To find all DLQ streams in the
+`dlq:{data:rdi:<qualified_table_name>}`. To find all DLQ streams in the
 RDI database, scan for stream keys that start with `dlq:`.
 
 The maximum number of records stored per DLQ stream is controlled by

@@ -14,7 +14,7 @@ title: Rolling sensor graph demo with Rust
 weight: 5
 ---
 
-This guide shows you how to build a compact rolling sensor graph demo in Rust with [`redis-rs`]({{< relref "/develop/clients/rust" >}}) and Redis time series support. The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
+This guide shows you how to build a compact rolling sensor graph demo in Rust with [`redis-rs`](/content/develop/clients/rust/_index.md) and Redis time series support. The example simulates three power sensors, ingests readings into Redis, and serves a local browser dashboard that updates in real time.
 
 ## Overview
 
@@ -36,7 +36,7 @@ The example has three main parts:
 2. A `RedisTimeSeriesStore` creates the time series keys and issues Redis TimeSeries queries through `redis::cmd(...)`
 3. A small local HTTP server built with `axum` renders three stacked combined graph-and-bucket views and polls a JSON snapshot endpoint
 
-Each sensor is stored in its own time series with labels such as `sensor_type`, `sensor_id`, `zone`, and `unit`. The dashboard uses [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) to ingest new readings and [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) to query both raw samples and aggregated bucket summaries. The aggregate queries use aligned buckets so the bucket boundaries stay stable as the visible window moves.
+Each sensor is stored in its own time series with labels such as `sensor_type`, `sensor_id`, `zone`, and `unit`. The dashboard uses [`TS.MADD`](/content/commands/ts.madd.md) to ingest new readings and [`TS.RANGE`](/content/commands/ts.range.md) to query both raw samples and aggregated bucket summaries. The aggregate queries use aligned buckets so the bucket boundaries stay stable as the visible window moves.
 
 ## The Rust files
 
@@ -80,10 +80,10 @@ The demo uses a 12-second retention period so the graphs visibly slide forward a
 
 The implementation uses these time series commands directly through `redis-rs`:
 
-* [`TS.CREATE`]({{< relref "/commands/ts.create" >}}) - Create one time series per sensor with retention and labels
-* [`TS.MADD`]({{< relref "/commands/ts.madd" >}}) - Batch-ingest readings from all three sensors every 500ms
-* [`TS.GET`]({{< relref "/commands/ts.get" >}}) - Fetch the latest reading for a sensor
-* [`TS.RANGE`]({{< relref "/commands/ts.range" >}}) - Read raw recent samples and aggregated 3-second buckets
+* [`TS.CREATE`](/content/commands/ts.create.md) - Create one time series per sensor with retention and labels
+* [`TS.MADD`](/content/commands/ts.madd.md) - Batch-ingest readings from all three sensors every 500ms
+* [`TS.GET`](/content/commands/ts.get.md) - Fetch the latest reading for a sensor
+* [`TS.RANGE`](/content/commands/ts.range.md) - Read raw recent samples and aggregated 3-second buckets
 * `ALIGN 0` with `TS.RANGE ... AGGREGATION` - Keep bucket boundaries stable as the visible window moves
 
 ## Prerequisites
@@ -174,8 +174,8 @@ This example intentionally keeps the server and UI small so the Redis behavior i
 
 ## Learn more
 
-* [Rust client guide]({{< relref "/develop/clients/rust" >}}) - Install and use the Rust client
-* [Time series overview]({{< relref "/develop/data-types/timeseries" >}}) - Time series concepts and commands
-* [TS.RANGE command]({{< relref "/commands/ts.range" >}}) - Query raw and aggregated ranges from a time series
-* [TS.MADD command]({{< relref "/commands/ts.madd" >}}) - Add multiple samples in one call
-* [TS.CREATE command]({{< relref "/commands/ts.create" >}}) - Create a time series with labels and retention
+* [Rust client guide](/content/develop/clients/rust/_index.md) - Install and use the Rust client
+* [Time series overview](/content/develop/data-types/timeseries/_index.md) - Time series concepts and commands
+* [TS.RANGE command](/content/commands/ts.range.md) - Query raw and aggregated ranges from a time series
+* [TS.MADD command](/content/commands/ts.madd.md) - Add multiple samples in one call
+* [TS.CREATE command](/content/commands/ts.create.md) - Create a time series with labels and retention

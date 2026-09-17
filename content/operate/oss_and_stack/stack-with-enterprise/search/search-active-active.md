@@ -24,7 +24,6 @@ You can run search operations on any instance of an Active-Active database.
 
 Active-Active databases do not support the following Redis Search commands: 
 
-- [`FT.DROPINDEX` ]({{< relref "commands/ft.dropindex" >}})
 - [`FT.SUGADD`]({{< relref "commands/ft.sugadd" >}})
 - [`FT.SUGGET`]({{< relref "commands/ft.sugget" >}})
 - [`FT.SUGDEL`]({{< relref "commands/ft.sugdel" >}})

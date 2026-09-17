@@ -16,7 +16,7 @@ weight: 10
 
 ### Redis Version Updates
 
-- [Redis 8.10](/content/develop/whats-new/8-10.md) - New commands (`LMOVEM`/`BLMOVEM`, `SUNIONCARD`/`SDIFFCARD`, `FT.ALIASLIST`, `TS.NRANGE`/`TS.NREVRANGE`, `TS.READ`), hash templates, `FT.AGGREGATE` `COLLECT` reducer and stricter query timeout enforcement, extensive JSONPath extensions, plus core, Search, and JSON performance improvements.
+- [Redis 8.10](/content/develop/whats-new/8-10.md) - Compact Hashes for lower memory usage and higher throughput; incremental backup and restore; extensive JSONPath extensions; new commands for Lists, Sets, Search, and Time Series, including `LMOVEM/BLMOVEM`, `SUNIONCARD/SDIFFCARD`, `FT.ALIASLIST`, `TS.NRANGE/TS.NREVRANGE`, and `TS.READ`; a new `FT.AGGREGATE COLLECT` reducer; stricter query timeout enforcement; and performance improvements across Redis core and Streams.
 
 ## Q2 2026 (April - June) Updates
 

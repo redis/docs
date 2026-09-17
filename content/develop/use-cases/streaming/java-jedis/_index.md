@@ -15,20 +15,20 @@ title: Redis streaming with Jedis
 weight: 4
 ---
 
-This guide shows you how to build a Redis-backed event-streaming pipeline in Java with the [Jedis]({{< relref "/develop/clients/jedis" >}}) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can produce events into a single Redis Stream, watch two independent consumer groups read it at their own pace, and recover stuck deliveries with `XAUTOCLAIM` after simulating a consumer crash.
+This guide shows you how to build a Redis-backed event-streaming pipeline in Java with the [Jedis](/content/develop/clients/jedis/_index.md) client library. It includes a small local web server built on the JDK's `com.sun.net.httpserver` so you can produce events into a single Redis Stream, watch two independent consumer groups read it at their own pace, and recover stuck deliveries with `XAUTOCLAIM` after simulating a consumer crash.
 
 ## Overview
 
-A Redis Stream is an append-only log of field/value entries with auto-generated, time-ordered IDs. Producers append with [`XADD`]({{< relref "/commands/xadd" >}}); consumers belong to *consumer groups* and read with [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}). The group as a whole tracks a single `last-delivered-id` cursor, and each consumer gets its own pending-entries list (PEL) of messages it has been handed but not yet acknowledged. Once a consumer has processed an entry it calls [`XACK`]({{< relref "/commands/xack" >}}) to clear the entry from its PEL; entries left unacknowledged past an idle threshold can be reassigned to a healthy consumer with [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}).
+A Redis Stream is an append-only log of field/value entries with auto-generated, time-ordered IDs. Producers append with [`XADD`](/content/commands/xadd.md); consumers belong to *consumer groups* and read with [`XREADGROUP`](/content/commands/xreadgroup.md). The group as a whole tracks a single `last-delivered-id` cursor, and each consumer gets its own pending-entries list (PEL) of messages it has been handed but not yet acknowledged. Once a consumer has processed an entry it calls [`XACK`](/content/commands/xack.md) to clear the entry from its PEL; entries left unacknowledged past an idle threshold can be reassigned to a healthy consumer with [`XAUTOCLAIM`](/content/commands/xautoclaim.md).
 
 That gives you:
 
 * Ordered, durable history that many independent consumer groups can read at their own pace
 * At-least-once delivery, with per-consumer pending lists and automatic recovery of crashed consumers
 * Horizontal scaling within a group &mdash; add a consumer and Redis automatically splits the work
-* Replay of any range with [`XRANGE`]({{< relref "/commands/xrange" >}}), independent of consumer-group state
-* Bounded retention through [`XADD MAXLEN ~`]({{< relref "/commands/xadd" >}}) or
-  [`XTRIM MINID ~`]({{< relref "/commands/xtrim" >}}), without a separate cleanup job
+* Replay of any range with [`XRANGE`](/content/commands/xrange.md), independent of consumer-group state
+* Bounded retention through [`XADD MAXLEN ~`](/content/commands/xadd.md) or
+  [`XTRIM MINID ~`](/content/commands/xtrim.md), without a separate cleanup job
 
 In this example, producers append order events (`order.placed`, `order.paid`, `order.shipped`, `order.cancelled`) to a single stream at `demo:events:orders`. Two consumer groups read the same stream:
 
@@ -39,11 +39,11 @@ In this example, producers append order events (`order.placed`, `order.paid`, `o
 
 The flow looks like this:
 
-1. The application calls `stream.produce(eventType, payload)` which runs [`XADD`]({{< relref "/commands/xadd" >}}) with an approximate [`MAXLEN ~`]({{< relref "/commands/xadd" >}}) cap. Redis assigns an auto-generated time-ordered ID.
-2. Each consumer thread loops on [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) with the special ID `>` (meaning "deliver entries this group has not yet delivered to anyone") and a short block timeout.
-3. After processing each entry, the consumer calls [`XACK`]({{< relref "/commands/xack" >}}) so Redis can drop it from the group's pending list.
-4. If a consumer is killed (or crashes) before acking, its entries sit in the group's PEL. A periodic [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) sweep reassigns idle entries to a healthy consumer.
-5. Anyone &mdash; including code outside the consumer groups &mdash; can read history with [`XRANGE`]({{< relref "/commands/xrange" >}}) without affecting any group's cursor.
+1. The application calls `stream.produce(eventType, payload)` which runs [`XADD`](/content/commands/xadd.md) with an approximate [`MAXLEN ~`](/content/commands/xadd.md) cap. Redis assigns an auto-generated time-ordered ID.
+2. Each consumer thread loops on [`XREADGROUP`](/content/commands/xreadgroup.md) with the special ID `>` (meaning "deliver entries this group has not yet delivered to anyone") and a short block timeout.
+3. After processing each entry, the consumer calls [`XACK`](/content/commands/xack.md) so Redis can drop it from the group's pending list.
+4. If a consumer is killed (or crashes) before acking, its entries sit in the group's PEL. A periodic [`XAUTOCLAIM`](/content/commands/xautoclaim.md) sweep reassigns idle entries to a healthy consumer.
+5. Anyone &mdash; including code outside the consumer groups &mdash; can read history with [`XRANGE`](/content/commands/xrange.md) without affecting any group's cursor.
 
 Each consumer group has its own cursor (`last-delivered-id`) and its own pending list, so the two groups in this demo process the same events without coordinating with each other.
 
@@ -112,16 +112,16 @@ demo:events:orders
 
 The ID is `{milliseconds}-{sequence}`, monotonically increasing within the stream, so you can range-query by approximate wall-clock time without an extra index. (IDs are ordered within a stream, not across streams &mdash; two events appended to different streams at the same millisecond can produce the same ID.) The implementation uses:
 
-* [`XADD ... MAXLEN ~ n`]({{< relref "/commands/xadd" >}}), pipelined, for batch production with a retention cap
-* [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) with the special ID `>` for fresh deliveries to a consumer
-* [`XACK`]({{< relref "/commands/xack" >}}) on every processed entry
-* [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) for sweeping idle pending entries to a healthy consumer
-* [`XRANGE`]({{< relref "/commands/xrange" >}}) for replay and audit
-* [`XPENDING`]({{< relref "/commands/xpending" >}}) for inspecting the per-group pending list
-* [`XINFO STREAM`]({{< relref "/commands/xinfo-stream" >}}),
-  [`XINFO GROUPS`]({{< relref "/commands/xinfo-groups" >}}), and
-  [`XINFO CONSUMERS`]({{< relref "/commands/xinfo-consumers" >}}) for surface-level observability
-* [`XTRIM`]({{< relref "/commands/xtrim" >}}) for explicit retention enforcement
+* [`XADD ... MAXLEN ~ n`](/content/commands/xadd.md), pipelined, for batch production with a retention cap
+* [`XREADGROUP`](/content/commands/xreadgroup.md) with the special ID `>` for fresh deliveries to a consumer
+* [`XACK`](/content/commands/xack.md) on every processed entry
+* [`XAUTOCLAIM`](/content/commands/xautoclaim.md) for sweeping idle pending entries to a healthy consumer
+* [`XRANGE`](/content/commands/xrange.md) for replay and audit
+* [`XPENDING`](/content/commands/xpending.md) for inspecting the per-group pending list
+* [`XINFO STREAM`](/content/commands/xinfo-stream.md),
+  [`XINFO GROUPS`](/content/commands/xinfo-groups.md), and
+  [`XINFO CONSUMERS`](/content/commands/xinfo-consumers.md) for surface-level observability
+* [`XTRIM`](/content/commands/xtrim.md) for explicit retention enforcement
 
 ## Producing events
 
@@ -211,7 +211,7 @@ stream.ensureGroup("analytics",     "0-0");
 
 Each group has its own cursor. Producing 5 events results in `notifications` and `analytics` each receiving all 5, with no coordination between them. Within `notifications`, the work is split across `worker-a` and `worker-b`: Redis hands each `XREADGROUP` call whatever entries are not yet delivered to anyone in the group, so adding a second worker doubles throughput without any rebalance logic.
 
-The `"0-0"` argument means "deliver everything in the stream from the beginning" &mdash; useful in a demo and for fresh groups bootstrapping from history. In production, a brand-new group reading a long-existing stream usually starts at `$` ("only events after this point") and uses [`XRANGE`]({{< relref "/commands/xrange" >}}) explicitly if it needs history.
+The `"0-0"` argument means "deliver everything in the stream from the beginning" &mdash; useful in a demo and for fresh groups bootstrapping from history. In production, a brand-new group reading a long-existing stream usually starts at `$` ("only events after this point") and uses [`XRANGE`](/content/commands/xrange.md) explicitly if it needs history.
 
 ## Recovering crashed consumers with XAUTOCLAIM
 
@@ -489,17 +489,17 @@ If a group's `lag` is growing while consumers' `idle` times are short, consumers
 
 This example uses the following Redis commands:
 
-* [`XADD`]({{< relref "/commands/xadd" >}}) to append an event with an approximate `MAXLEN` cap.
-* [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) to read new entries for a consumer in a group.
-* [`XACK`]({{< relref "/commands/xack" >}}) to acknowledge a processed entry.
-* [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) to reassign idle pending entries to a healthy consumer.
-* [`XRANGE`]({{< relref "/commands/xrange" >}}) for replay and audit, independent of consumer-group state.
-* [`XPENDING`]({{< relref "/commands/xpending" >}}) to inspect the per-group pending list with idle times and delivery counts.
-* [`XTRIM`]({{< relref "/commands/xtrim" >}}) for explicit retention enforcement.
-* [`XGROUP CREATE`]({{< relref "/commands/xgroup-create" >}}) and
-  [`XGROUP DELCONSUMER`]({{< relref "/commands/xgroup-delconsumer" >}}) to manage groups and consumers.
-* [`XINFO STREAM`]({{< relref "/commands/xinfo-stream" >}}),
-  [`XINFO GROUPS`]({{< relref "/commands/xinfo-groups" >}}), and
-  [`XINFO CONSUMERS`]({{< relref "/commands/xinfo-consumers" >}}) for observability.
+* [`XADD`](/content/commands/xadd.md) to append an event with an approximate `MAXLEN` cap.
+* [`XREADGROUP`](/content/commands/xreadgroup.md) to read new entries for a consumer in a group.
+* [`XACK`](/content/commands/xack.md) to acknowledge a processed entry.
+* [`XAUTOCLAIM`](/content/commands/xautoclaim.md) to reassign idle pending entries to a healthy consumer.
+* [`XRANGE`](/content/commands/xrange.md) for replay and audit, independent of consumer-group state.
+* [`XPENDING`](/content/commands/xpending.md) to inspect the per-group pending list with idle times and delivery counts.
+* [`XTRIM`](/content/commands/xtrim.md) for explicit retention enforcement.
+* [`XGROUP CREATE`](/content/commands/xgroup-create.md) and
+  [`XGROUP DELCONSUMER`](/content/commands/xgroup-delconsumer.md) to manage groups and consumers.
+* [`XINFO STREAM`](/content/commands/xinfo-stream.md),
+  [`XINFO GROUPS`](/content/commands/xinfo-groups.md), and
+  [`XINFO CONSUMERS`](/content/commands/xinfo-consumers.md) for observability.
 
-See the [Jedis guide]({{< relref "/develop/clients/jedis" >}}) for the full client reference, and the [Streams overview]({{< relref "/develop/data-types/streams" >}}) for the deeper conceptual model &mdash; consumer groups, the PEL, claim semantics, capped streams, and the differences with Kafka partitions.
+See the [Jedis guide](/content/develop/clients/jedis/_index.md) for the full client reference, and the [Streams overview](/content/develop/data-types/streams/_index.md) for the deeper conceptual model &mdash; consumer groups, the PEL, claim semantics, capped streams, and the differences with Kafka partitions.
