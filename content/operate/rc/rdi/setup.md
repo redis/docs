@@ -15,7 +15,7 @@ weight: 3
 
 ## Prepare source database
 
-Before using the pipeline, you must first prepare your source database to use the Debezium connector for change data capture (CDC). See [Prerequisites]({{<relref "/operate/rc/rdi#prerequisites">}}) to find a list of supported source databases and database versions.
+Prepare every source database before adding it to a pipeline. Each source needs its own change data capture (CDC) configuration, connectivity, and credentials. See [Prerequisites]({{<relref "/operate/rc/rdi#prerequisites">}}) for a list of supported source databases and database versions.
 
 See [Prepare source databases]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/">}}) to find steps for your database type:
 - [MongoDB Atlas]({{<relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/mongodb">}})
@@ -37,32 +37,24 @@ See the [RDI architecture overview]({{< relref "/integrate/redis-data-integratio
 
 Before you can set up your source connectivity and secrets, you need the AWS Account ID for your Redis Cloud cluster so that you can give it access to your connectivity and secrets. 
 
-1. On the [Redis Cloud console](https://cloud.redis.io/), go to your target database and select the **Data Integration** tab.
-1. Select **Add pipeline**.
-    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The workspace section of the Data Integration tab for a database. Select Add pipeline to add a pipeline." width=80% >}}
-1. Select your source database type. The following database types are supported:
-    - MySQL
-    - mariaDB
-    - Oracle
-    - SQL Server
-    - PostgreSQL
-    - MongoDB
-    - Snowflake
-    {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=80% >}}
-1. Enter a name for your source database in the **Source name** field. This is a display label for the source database on Redis Cloud. It does not affect the pipeline's configuration.
-1. Select **Continue to source** to move to the **Source configuration** step.
+1. On the [Redis Cloud console](https://cloud.redis.io/), open your target database's **Data Integration** tab.
+1. Select **Add pipeline**, or resume an existing draft. To add a source to a running pipeline, select **Add source** on its **Dashboard**.
 
-    {{<image filename="images/rc/rdi/rdi-continue-to-source-button.png" alt="The select source database type list." width=200px >}}
+    {{<image filename="images/rc/rdi/rdi-workspace-add-pipeline.png" alt="The Add pipeline control is available while the workspace is being created." width=80% >}}
 
-1. Under **Source connectivity**, save the provided ARN and extract the AWS account ID for the account associated with your Redis Cloud cluster from it. 
+1. For a new pipeline, complete **Settings**, including the target database, and select **Continue**.
+1. In **Add sources**, select the source type and enter a unique **Source name**. This name identifies the source in the pipeline configuration and transformation jobs. See [Add sources]({{< relref "/operate/rc/rdi/define#pipeline-setup" >}}) for naming rules.
+1. Select **Continue** to open **Configure source**.
+1. Under **Source connectivity**, copy the **Role ARN** and extract its AWS account ID.
 
-    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The Private Link Role ARN and availability zones." width=80% >}}
+    {{<image filename="images/rc/rdi/rdi-setup-connectivity-arn.png" alt="The source connectivity Role ARN and availability zones." width=80% >}}
 
-    The AWS account ID is the string of numbers after `arn:aws:iam::` in the ARN. For example, if the ARN is `arn:aws:iam::123456789012:role/redis-data-pipeline`, the AWS account ID is `123456789012`.
+    The account ID is the number after `arn:aws:iam::`. For example, `arn:aws:iam::123456789012:role/redis-data-pipeline` contains account ID `123456789012`.
 
-1. If your source database is accessible via the public endpoint and you want to use public connectivity for your data pipeline, select **Public endpoint** and save the **Redis Cloud outbound IP address** to add to your source database's allow list. 
+1. For a source using **Public Endpoint**, also copy the Redis Cloud outbound IP address to add to the source database's allowlist.
+1. Select **Save & exit** to return to setup after preparing connectivity and secrets.
 
-Select **Save & exit** to exit pipeline setup. You'll come back here when you [define your source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}).
+Repeat the preparation for each source. Keep track of which endpoint service and secrets belong to each source; configuring one source does not configure the others.
 
 ## Set up AWS Private Link connectivity {#set-up-connectivity}
 
@@ -366,7 +358,7 @@ Copy the connection string from the **Private Endpoint** connection method only.
 
 ## Share source database credentials
 
-You need to share your source database credentials and certificates in an Amazon secret with Redis Cloud so that the pipeline can connect to your database.
+Share the credentials and certificates for each source through AWS Secrets Manager. Enter the matching secret ARNs when you configure that source in the console.
 
 To do this, you need to:
 1. [Create an encryption key](#create-encryption-key) using AWS Key Management Service with the right permissions.
@@ -493,6 +485,4 @@ In the [AWS Management Console](https://console.aws.amazon.com/), use the **Serv
 
 ## Next steps
 
-After you have set up your source database and prepared connectivity and credentials, select **Define source database** to [define your source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}).
-
-{{<image filename="images/rc/rdi/rdi-define-source-database.png" alt="The define source database button." width=200px >}}
+After you have prepared connectivity and credentials for each source, resume your pipeline draft from the workspace and complete **Configure source**. Continue with [Create data pipeline]({{<relref "/operate/rc/rdi/define">}}).
