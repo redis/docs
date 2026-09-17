@@ -92,7 +92,7 @@ An RDI data pipeline connects one or more source databases to one target Redis d
 
 Each source first imports its selected data during the *initial sync* phase, then captures changes during the *streaming* phase. The pipeline transforms the captured records and writes them to Redis. You can monitor and manage each source from the pipeline dashboard.
 
-Starting with RDI 2.0.0, new pipelines use the Flink processor by default. See [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}) for supported transformations and processor behavior.
+RDI Cloud uses the Flink processor for all pipelines.
 
 For more info on how RDI works, see [RDI Architecture]({{<relref "/integrate/redis-data-integration/architecture">}}).
 

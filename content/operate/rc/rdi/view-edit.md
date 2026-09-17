@@ -152,7 +152,7 @@ The **Settings** tab contains the default data structure (**Hash** or **JSON**) 
 
 {{<image filename="images/rc/rdi/rdi-2-settings.png" alt="Pipeline-wide Settings tab with default data structure and processor properties." width=100% >}}
 
-Select **Edit** to change these settings, then **Save changes** and **Apply and restart**. Review [processor properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}}) before changing them. RDI 2.0.0 uses Flink by default when no processor type is explicitly configured.
+Select **Edit** to change these settings, then **Save changes** and **Apply and restart**. RDI Cloud uses the Flink processor. Review [processor properties]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}}) before changing them.
 
 {{<image filename="images/rc/rdi/rdi-processor-advanced-properties.png" alt="The processor advanced properties editor with key and value fields." width=80% >}}
 
@@ -215,7 +215,7 @@ The Flink processor accepts lists and `regex:` entries in source selection patte
 
 ## Reset data pipeline
 
-Resetting the whole pipeline clears its internal RDI state and starts a new snapshot for every source. RDI reprocesses the selected data using the current transformations. Reset alone does not delete records from the target database. See [What happens when I reset the pipeline?]({{< relref "/operate/rc/rdi/faq#reset-pipeline" >}}).
+Resetting the whole pipeline clears its internal RDI state for all sources. A running pipeline restarts and takes a new snapshot for every source. A stopped pipeline remains stopped until you [start it](#stop-and-restart-data-pipeline). RDI reprocesses the selected data using the current transformations. Reset alone does not delete records from the target database. See [What happens when I reset the pipeline?]({{< relref "/operate/rc/rdi/faq#reset-pipeline" >}}).
 
 1. Open **Pipeline actions** and select **Reset pipeline**.
 1. Review the confirmation and select **Reset data pipeline**.

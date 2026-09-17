@@ -41,7 +41,7 @@ To create a pipeline:
 
 1. Select **Continue**.
 
-New RDI 2.0.0 pipelines use the Flink processor by default. Check [processor differences]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}) before using processor-specific properties or transformations.
+RDI Cloud uses the Flink processor.
 
 ## Add sources {#pipeline-setup}
 

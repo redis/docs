@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rc
-description: Answers about RDI Cloud data recovery, multiple sources, upgrades, and billing.
+description: Answers to common questions about RDI on Redis Cloud.
 hideListLinks: true
 weight: 6
 ---
@@ -14,7 +14,7 @@ weight: 6
 
 ### What happens when I reset the pipeline? {#reset-pipeline}
 
-A reset clears the pipeline's internal RDI state, including saved source positions, and restarts ingestion from the beginning. RDI takes a new snapshot of the selected source data, applies the current transformations, and then resumes streaming changes.
+A pipeline reset clears the internal RDI state for all sources, including their saved positions. When the pipeline runs, RDI takes a new snapshot of the selected data from every source, applies the current transformations, and then resumes streaming changes. If you reset a stopped pipeline, it remains stopped until you start it.
 
 A reset does **not** flush the target Redis database. Records already in the target remain until RDI overwrites or deletes them through normal processing. Keys that are no longer produced by the current dataset or transformations can remain in the target after a reset. For example, changing a transformation's key prefix and resetting creates keys with the new prefix without deleting keys with the old prefix.
 
@@ -31,8 +31,8 @@ See [Flush the target database]({{< relref "/operate/rc/rdi/view-edit#flush-the-
 ### How do I reload data after a flush? {#reload-after-flush}
 
 1. Wait for the flush to finish.
-1. [Start the pipeline]({{< relref "/operate/rc/rdi/view-edit#stop-and-restart-data-pipeline" >}}).
-1. [Reset the pipeline]({{< relref "/operate/rc/rdi/view-edit#reset-data-pipeline" >}}) to take new snapshots of all selected source data.
+1. [Reset the pipeline]({{< relref "/operate/rc/rdi/view-edit#reset-data-pipeline" >}}) while it is stopped, and wait for the reset to finish.
+1. [Start the pipeline]({{< relref "/operate/rc/rdi/view-edit#stop-and-restart-data-pipeline" >}}) to take new snapshots of the selected data from all sources.
 1. Check each source's initial sync progress and record counts on the **Dashboard** and **Metrics** tabs. Wait for initial sync to finish before relying on the target as a complete copy of the selected data.
 
 RDI reloads data available in the source databases using the current dataset and transformation settings. It cannot restore data that existed only in the target.
