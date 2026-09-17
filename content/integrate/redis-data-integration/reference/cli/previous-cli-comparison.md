@@ -18,16 +18,16 @@ the RDI REST API.
 
 ## Compare the CLIs
 
-| Area | Previous CLI (before RDI 1.19.0) | Current CLI (RDI 1.19.0 and later) |
-| :--- | :------------------------------- | :---------------------------------- |
-| Implementation | Python application | Self-contained Go binary |
-| Installation types | VM installations | VM, Kubernetes, and Redis Cloud installations |
-| Connection | RDI database and Kubernetes API | RDI REST API |
-| Pipeline scope | The `default` pipeline | Multiple named pipelines; defaults to `default` |
-| Connection options | `--rdi-host`, `--rdi-port`, `--rdi-user`, `--rdi-password`, and RDI database TLS options | `--api-url`, `--user`, `--password`, and API TLS options; Redis Cloud also supports `--account-key` and `--user-key` |
-| Contexts | A list of RDI database connections in `~/.redis-di`, with an `is_active` field on each entry | A map of API connections in `~/.redis-di`, with one `current-context` |
-| Output | Human-readable tables | Compact tables and sectioned descriptions; `list` and `get` commands also support JSON and YAML |
-| Secrets | `set-secret` on VM installations; `rdi-secret.sh` for Kubernetes | Create, inspect, update, and delete operations through `redis-di` on every installation type |
+| Area               | Previous CLI (before RDI 1.19.0)                                                             | Current CLI (RDI 1.19.0 and later)                                                                                   |
+| :----------------- | :------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------- |
+| Implementation     | Python application                                                                           | Self-contained Go binary                                                                                             |
+| Installation types | VM installations                                                                             | VM, Kubernetes, and Redis Cloud installations                                                                        |
+| Connection         | RDI database and Kubernetes API                                                              | RDI REST API                                                                                                         |
+| Pipeline scope     | The `default` pipeline                                                                       | Multiple named pipelines; defaults to `default`                                                                      |
+| Connection options | `--rdi-host`, `--rdi-port`, `--rdi-user`, `--rdi-password`, and RDI database TLS options     | `--api-url`, `--user`, `--password`, and API TLS options; Redis Cloud also supports `--account-key` and `--user-key` |
+| Contexts           | A list of RDI database connections in `~/.redis-di`, with an `is_active` field on each entry | A map of API connections in `~/.redis-di`, with one `current-context`                                                |
+| Output             | Human-readable tables                                                                        | Compact tables and sectioned descriptions; `list` and `get` commands also support JSON and YAML                      |
+| Secrets            | `set-secret` on VM installations; `rdi-secret.sh` for Kubernetes                             | Create, inspect, update, and delete operations through `redis-di` on every installation type                         |
 
 ## Update the connection options
 
@@ -54,14 +54,14 @@ redis-di describe \
 The current CLI does not accept the previous RDI database connection options on
 API-based commands. Update scripts and environment variables as follows:
 
-| Previous setting | Current setting |
-| :--------------- | :-------------- |
-| `--rdi-host` and `--rdi-port` | `--api-url` or `RDI_API_URL` |
-| `--rdi-user` or `RDI_REDIS_USERNAME` | `--user` or `RDI_USER` |
-| `--rdi-password` or `RDI_REDIS_PASSWORD` | `--password` or `RDI_PASSWORD` |
-| `--rdi-cacert` | `--cacert` or `RDI_CACERT` |
+| Previous setting                                | Current setting                                                             |
+| :---------------------------------------------- | :-------------------------------------------------------------------------- |
+| `--rdi-host` and `--rdi-port`                   | `--api-url` or `RDI_API_URL`                                                |
+| `--rdi-user` or `RDI_REDIS_USERNAME`            | `--user` or `RDI_USER`                                                      |
+| `--rdi-password` or `RDI_REDIS_PASSWORD`        | `--password` or `RDI_PASSWORD`                                              |
+| `--rdi-cacert`                                  | `--cacert` or `RDI_CACERT`                                                  |
 | `--rdi-key`, `--rdi-cert`, `--rdi-key-password` | No equivalent; the CLI authenticates to the API instead of the RDI database |
-| `--rdi-namespace` or `RDI_NAMESPACE` | No equivalent; pipeline operations go through the API |
+| `--rdi-namespace` or `RDI_NAMESPACE`            | No equivalent; pipeline operations go through the API                       |
 
 For Redis Cloud, use `--account-key` with `--user-key` instead of `--user` with
 `--password`. See the [CLI reference overview]({{< relref "/integrate/redis-data-integration/reference/cli#connecting-to-the-api" >}})
@@ -89,12 +89,12 @@ redis-di use-context <context-name>
 
 The context commands also changed meaning:
 
-| Task | Previous CLI | Current CLI |
-| :--- | :----------- | :---------- |
-| Create a context | `redis-di add-context <name> [connection options]` | `redis-di set-context <name> [connection options]` |
-| Select the active context | `redis-di set-context <name>` | `redis-di use-context <name>` |
-| Update a context | Recreate the context | `redis-di set-context <name> [options to update]` |
-| Remove all contexts | `redis-di delete-all-contexts` | Delete contexts individually with `redis-di delete-context <name>` |
+| Task                      | Previous CLI                                       | Current CLI                                                        |
+| :------------------------ | :------------------------------------------------- | :----------------------------------------------------------------- |
+| Create a context          | `redis-di add-context <name> [connection options]` | `redis-di set-context <name> [connection options]`                 |
+| Select the active context | `redis-di set-context <name>`                      | `redis-di use-context <name>`                                      |
+| Update a context          | Recreate the context                               | `redis-di set-context <name> [options to update]`                  |
+| Remove all contexts       | `redis-di delete-all-contexts`                     | Delete contexts individually with `redis-di delete-context <name>` |
 
 Passwords and Redis Cloud user keys are not saved in current contexts. Supply them with an
 environment variable, a command option, or the interactive prompt.
@@ -113,20 +113,20 @@ redis-di reset [pipeline]
 
 Other common tasks changed as follows:
 
-| Task | Previous CLI | Current CLI |
-| :--- | :----------- | :---------- |
-| Inspect pipeline status | `redis-di status` | `redis-di describe [pipeline]`; `status` remains an alias |
-| Continuously refresh status | `redis-di status --live` | `watch -n 1 redis-di describe [pipeline]` |
-| List pipelines | Not available | `redis-di list` |
-| Get a pipeline | Not available | `redis-di get [pipeline]` |
-| Delete a pipeline | Not available | `redis-di delete [pipeline]` |
-| Inspect rejected records | `redis-di get-rejected [options]` | `redis-di list-dlqs`, then `redis-di list-dlq-records <dlq>`; `get-rejected` remains an alias |
-| Inspect jobs | `redis-di list-jobs` and `redis-di describe-job <job>` | The same commands, with `--pipeline <pipeline>` for a non-default pipeline |
-| Manage secrets | `redis-di set-secret <key> <value>` or `rdi-secret.sh` | `list-secrets`, `get-secret`, `describe-secret`, `set-secret`, and `delete-secret` |
-| Install or upgrade RDI on a VM | `redis-di install` or `redis-di upgrade` | Run `install.sh` or `upgrade.sh` from the VM installation package |
-| Install or upgrade RDI on Kubernetes | Not available | Use the RDI Helm chart |
-| Trace pipeline records | `redis-di trace` | Removed |
-| Create the RDI database | `redis-di create` | Removed; use the installation workflow |
+| Task                                 | Previous CLI                                           | Current CLI                                                                                   |
+| :----------------------------------- | :----------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
+| Inspect pipeline status              | `redis-di status`                                      | `redis-di describe [pipeline]`; `status` remains an alias                                     |
+| Continuously refresh status          | `redis-di status --live`                               | `watch -n 1 redis-di describe [pipeline]`                                                     |
+| List pipelines                       | Not available                                          | `redis-di list`                                                                               |
+| Get a pipeline                       | Not available                                          | `redis-di get [pipeline]`                                                                     |
+| Delete a pipeline                    | Not available                                          | `redis-di delete [pipeline]`                                                                  |
+| Inspect rejected records             | `redis-di get-rejected [options]`                      | `redis-di list-dlqs`, then `redis-di list-dlq-records <dlq>`; `get-rejected` remains an alias |
+| Inspect jobs                         | `redis-di list-jobs` and `redis-di describe-job <job>` | The same commands, with `--pipeline <pipeline>` for a non-default pipeline                    |
+| Manage secrets                       | `redis-di set-secret <key> <value>` or `rdi-secret.sh` | `list-secrets`, `get-secret`, `describe-secret`, `set-secret`, and `delete-secret`            |
+| Install or upgrade RDI on a VM       | `redis-di install` or `redis-di upgrade`               | Run `install.sh` or `upgrade.sh` from the VM installation package                             |
+| Install or upgrade RDI on Kubernetes | Not available                                          | Use the RDI Helm chart                                                                        |
+| Trace pipeline records               | `redis-di trace`                                       | Removed                                                                                       |
+| Create the RDI database              | `redis-di create`                                      | Removed; use the installation workflow                                                        |
 
 On VM installations, `configure-rdi` and `dump-support-package` remain available through
 `redis-di`. They are not available with a standalone CLI or on Kubernetes, Redis Cloud,
