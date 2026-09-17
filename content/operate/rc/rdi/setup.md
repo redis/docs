@@ -49,7 +49,7 @@ Before you can set up your source connectivity and secrets, you need the AWS Acc
     - MongoDB
     - Snowflake
     {{<image filename="images/rc/rdi/rdi-select-source-db.png" alt="The select source database type list." width=80% >}}
-1. Enter a name for your source database in the **Source name** field. This is a name for the source database that will appear on Redis Cloud.
+1. Enter a name for your source database in the **Source name** field. This is a display label for the source database on Redis Cloud. It does not affect the pipeline's configuration.
 1. Select **Continue to source** to move to the **Source configuration** step.
 
     {{<image filename="images/rc/rdi/rdi-continue-to-source-button.png" alt="The select source database type list." width=200px >}}

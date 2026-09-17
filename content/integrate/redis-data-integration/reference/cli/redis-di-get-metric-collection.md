@@ -32,5 +32,6 @@ This command also accepts the
 ## Example
 
 ```bash
-redis-di get-metric-collection processor -o json
+redis-di get-metric-collection processor_metrics -o json
+redis-di get-metric-collection collector-mysql_metrics -o json
 ```
