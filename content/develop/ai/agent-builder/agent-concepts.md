@@ -323,6 +323,7 @@ Production-ready agents include built-in reliability features:
 - Access controls: Implement proper authentication and authorization
 - Data retention: Automatic cleanup of personal data per regulations
 - Audit logging: Track all data access and modifications
+- Memory integrity: Validate content before it is written to agent memory and verify protected records on read. Memory written from tool results, web pages, or other agents can carry instructions that are replayed into later prompts ([OWASP Top 10 for Agentic Applications, ASI06](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/); [MITRE ATLAS AML.T0080.000](https://atlas.mitre.org/techniques/AML.T0080.000)). [OWASP Agent Memory Guard](https://github.com/OWASP/www-project-agent-memory-guard) is an open-source guard for this with adapters for LangChain, OpenAI Agents SDK, AutoGen, CrewAI, and mem0
 
 ### Scaling Strategies
 
