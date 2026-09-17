@@ -55,7 +55,7 @@ syntax_fmt: SETNX key value
 title: SETNX
 ---
 Set `key` to hold string `value` if `key` does not exist.
-In that case, it is equal to [`SET`]({{< relref "/commands/set" >}}).
+In that case, it is equal to [`SET`](/content/commands/set.md).
 When `key` already holds a value, no operation is performed.
 `SETNX` is short for "**SET** if **N**ot e**X**ists".
 
@@ -90,9 +90,9 @@ redis> GET mykey
 
 **Please note that:**
 
-1. The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref "/develop/clients/patterns/distributed-locks" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
+1. The following pattern is discouraged in favor of [the Redlock algorithm](/content/develop/clients/patterns/distributed-locks.md) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.
 2. We document the old pattern anyway because certain existing implementations link to this page as a reference. Moreover it is an interesting example of how Redis commands can be used in order to mount programming primitives.
-3. Anyway even assuming a single-instance locking primitive, starting with 2.6.12 it is possible to create a much simpler locking primitive, equivalent to the one discussed here, using the [`SET`]({{< relref "/commands/set" >}}) command to acquire the lock, and a simple Lua script to release the lock. The pattern is documented in the [`SET`]({{< relref "/commands/set" >}}) command page.
+3. Anyway even assuming a single-instance locking primitive, starting with 2.6.12 it is possible to create a much simpler locking primitive, equivalent to the one discussed here, using the [`SET`](/content/commands/set.md) command to acquire the lock, and a simple Lua script to release the lock. The pattern is documented in the [`SET`](/content/commands/set.md) command page.
 
 That said, `SETNX` can be used, and was historically used, as a locking primitive. For example, to acquire the lock of the key `foo`, the client could try the
 following:
@@ -118,7 +118,7 @@ timestamp.
 If such a timestamp is equal to the current Unix time the lock is no longer
 valid.
 
-When this happens we can't just call [`DEL`]({{< relref "/commands/del" >}}) against the key to remove the lock
+When this happens we can't just call [`DEL`](/content/commands/del.md) against the key to remove the lock
 and then try to issue a `SETNX`, as there is a race condition here, when
 multiple clients detected an expired lock and are trying to release it.
 
@@ -148,12 +148,12 @@ Let's see how C4, our sane client, uses the good algorithm:
     GETSET lock.foo <current Unix timestamp + lock timeout + 1>
     ```
 
-*   Because of the [`GETSET`]({{< relref "/commands/getset" >}}) semantic, C4 can check if the old value stored at
+*   Because of the [`GETSET`](/content/commands/getset.md) semantic, C4 can check if the old value stored at
     `key` is still an expired timestamp.
     If it is, the lock was acquired.
 
 *   If another client, for instance C5, was faster than C4 and acquired the lock
-    with the [`GETSET`]({{< relref "/commands/getset" >}}) operation, the C4 [`GETSET`]({{< relref "/commands/getset" >}}) operation will return a non
+    with the [`GETSET`](/content/commands/getset.md) operation, the C4 [`GETSET`](/content/commands/getset.md) operation will return a non
     expired timestamp.
     C4 will simply restart from the first step.
     Note that even if C4 set the key a bit a few seconds in the future this is
@@ -161,9 +161,9 @@ Let's see how C4, our sane client, uses the good algorithm:
 
 In order to make this locking algorithm more robust, a
 client holding a lock should always check the timeout didn't expire before
-unlocking the key with [`DEL`]({{< relref "/commands/del" >}}) because client failures can be complex, not just
+unlocking the key with [`DEL`](/content/commands/del.md) because client failures can be complex, not just
 crashing but also blocking a lot of time against some operations and trying
-to issue [`DEL`]({{< relref "/commands/del" >}}) after a lot of time (when the LOCK is already held by another
+to issue [`DEL`](/content/commands/del.md) after a lot of time (when the LOCK is already held by another
 client).
 
 ## Redis Software and Redis Cloud compatibility

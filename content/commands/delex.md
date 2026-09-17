@@ -111,7 +111,7 @@ In 8.4, keys must be of type string when using one of the options above. If no o
 
 ### Hash Digest {#hash-digest}
 
-A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref "/commands/digest" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options.
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`](/content/commands/digest.md) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`](/content/commands/set.md) command's `IFDEQ` and `IFDNE` options.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -126,13 +126,13 @@ A hash digest is a fixed-size numerical representation of a string value, comput
     tab2="RESP3" >}}
 
 One of the following:
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.
-- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.
+- [Integer reply](/content/develop/reference/protocol-spec.md#integers): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.
+- [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.
 
 -tab-sep-
 
 One of the following:
-- [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.
-- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.
+- [Integer reply](/content/develop/reference/protocol-spec.md#integers): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.
+- [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.
 
 {{< /multitabs >}}

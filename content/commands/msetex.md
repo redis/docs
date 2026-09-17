@@ -175,10 +175,10 @@ Retain the time to live associated with the keys.
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 0 if none of the keys were set; 1 if all of the keys were set.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): 0 if none of the keys were set; 1 if all of the keys were set.
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): 0 if none of the keys were set; 1 if all of the keys were set.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): 0 if none of the keys were set; 1 if all of the keys were set.
 
 {{< /multitabs >}}
