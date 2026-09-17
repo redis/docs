@@ -98,6 +98,7 @@
         const regex_kubernetes = new RegExp('/docs/(latest|staging\/.+)/operate/kubernetes/.*')
         const regex_rs = new RegExp('/docs/(latest|staging\/.+)/operate/rs/.*')
         const regex_redisvl = new RegExp('/docs/(latest|staging\/.+)/develop/ai/redisvl/.*')
+        const regex_rdi = new RegExp('/docs/(latest|staging\/.+)/integrate/redis-data-integration/.*')
 
         if (regex_kubernetes.test(currentUrl)){
             // unhide kubernetes version selector
@@ -110,6 +111,10 @@
         else if (regex_redisvl.test(currentUrl)) {
             // unhide redisvl version selector
             document.getElementById( 'versionSelectorRedisvl' ).style.display = '';
+        }
+        else if (regex_rdi.test(currentUrl)) {
+            // unhide rdi version selector
+            document.getElementById( 'versionSelectorRedis-Data-Integration' ).style.display = '';
         }
     }
 
@@ -148,6 +153,9 @@
         let regex;
         if (productLowercase == "kubernetes" || productLowercase == "rs") {
             regex = new RegExp(String.raw`^.+\/operate\/${productLowercase}`,"g");
+        }
+        else if (productLowercase == "redis-data-integration") {
+            regex = new RegExp(String.raw`^.+\/integrate\/${productLowercase}`,"g");
         }
         else {
             regex = new RegExp(String.raw`^.+\/develop\/ai\/${productLowercase}`,"g");
