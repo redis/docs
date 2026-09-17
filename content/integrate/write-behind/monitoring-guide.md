@@ -27,13 +27,13 @@ Write-behind accumulates operating statistics that you can:
 ## Console metrics
 
 Write-behind can display its operating metrics in the console using the
-[`redis-di status`]({{< relref "/integrate/write-behind/reference/cli/redis-di-status" >}})
+[`redis-di status`](/content/integrate/write-behind/reference/cli/redis-di-status.md)
 command. The command provides information about the current Write-behind engine status, target database configuration, and processing statistics broken down by stream. This tool is intended to be used by Operator to get the current snapshot of the system as well as monitoring ongoing data processing (when used in live mode).
 
 ## Prometheus integration
 
 Write-behind allows collecting and exporting its metrics to [Prometheus](https://prometheus.io/) and visualizing them in [Grafana](https://grafana.com/). Operator can start the built-in exporter using the
-[`redis-di monitor`]({{< relref "/integrate/write-behind/reference/cli/redis-di-monitor" >}})
+[`redis-di monitor`](/content/integrate/write-behind/reference/cli/redis-di-monitor.md)
 command. The diagram describes this flow and the components involved:
 
 {{< image filename="/images/rdi/monitoring-diagram.png" >}}
