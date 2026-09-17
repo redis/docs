@@ -82,7 +82,7 @@ syntax_fmt: "HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS\_numfields fie
   \  [field ...]"
 title: HPEXPIRE
 ---
-This command works like [`HEXPIRE`]({{< relref "/commands/hexpire" >}}), but the expiration of a field is
+This command works like [`HEXPIRE`](/content/commands/hexpire.md), but the expiration of a field is
 specified in milliseconds instead of seconds.
 
 ## Required arguments

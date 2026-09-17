@@ -48,9 +48,8 @@ summary: Returns the difference of multiple sets.
 syntax_fmt: SDIFF key [key ...]
 title: SDIFF
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Returns the members of the set resulting from the difference between the first
@@ -117,4 +116,4 @@ redis> SDIFF key1 key2
 
 ## See also
 
-[`SDIFFCARD`]({{< relref "commands/sdiffcard/" >}}) | [`SDIFFSTORE`]({{< relref "commands/sdiffstore" >}})
+[`SDIFFCARD`](/content/commands/sdiffcard.md) | [`SDIFFSTORE`](/content/commands/sdiffstore.md)
