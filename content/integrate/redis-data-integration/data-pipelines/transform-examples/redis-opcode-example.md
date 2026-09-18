@@ -17,7 +17,7 @@ weight: 100
 
 The operation code (`opcode`) is a metadata field that indicates the type of operation that generated the change in the source database. It can be useful for tracking changes and understanding the context of the data being processed.
 
-The opcode is only available in the [full row format]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format#full" >}}), and can be accessed in the `transform` and `output` sections of the job file.
+The opcode is only available in the [full row format](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format.md#full), and can be accessed in the `transform` and `output` sections of the job file.
 
 It has one of the following values:
 

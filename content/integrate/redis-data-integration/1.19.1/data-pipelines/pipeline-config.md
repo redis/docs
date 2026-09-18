@@ -19,27 +19,27 @@ url: '/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config/'
 The main configuration details for an RDI pipeline are in the `config.yaml` file.
 This file specifies the connection details for the source and target databases,
 and also the set of tables you want to capture. You can also add one or more
-[job files]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples" >}})
+[job files](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/_index.md)
 if you want to apply custom transformations to the captured data.
 
 Each section explains one part of the file. Start with the minimal example, then
 add only the optional properties that you need. See the
-[configuration file reference]({{< relref "/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference" >}})
+[configuration file reference](/content/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference.md)
 for all supported properties.
 
 ## Before you start
 
 Before you create `config.yaml`:
 
-1. [Prepare the source database]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs" >}}) for change data capture.
-1. [Install RDI]({{< relref "/integrate/redis-data-integration/1.19.1/installation" >}}).
-1. [Set the secrets]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy#set-secrets" >}}) that the file references.
+1. [Prepare the source database](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/_index.md) for change data capture.
+1. [Install RDI](/content/integrate/redis-data-integration/1.19.1/installation/_index.md).
+1. [Set the secrets](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md#set-secrets) that the file references.
 
 ## Start with a minimal file
 
 The following example shows the required structure of a `config.yaml` file. Values of the
 form "`${name}`" refer to secrets that you should set as described in
-[Set secrets]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy#set-secrets" >}}).
+[Set secrets](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md#set-secrets).
 In particular, you should normally use secrets as shown to set the source
 and target username and password rather than storing them in plain text in this file.
 
@@ -123,14 +123,14 @@ configuration contains the following data:
   so omit the other properties in the source section.
 - `connection`: The connection details for the source database: `type`, `host`, `port`,
   and credentials (`user` and `password`).
-  See the [configuration file reference]({{< relref "/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference#sourcesconnection" >}})
+  See the [configuration file reference](/content/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference.md#sourcesconnection)
   for the required fields for each source database type.
   - If you use [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
     or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect
     to the source database, you may need to specify additional properties in the
     `advanced` section with references to the corresponding certificates depending
     on the source database type. Note that these properties **must** be references to
-    secrets that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy#set-secrets" >}}).
+    secrets that you should set as described in [Set secrets](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md#set-secrets).
 - `databases`: List of all databases to collect data from for source database types
   that support multiple databases, such as `mysql` and `mariadb`.
 - `schemas`: List of all schemas to collect data from for source database types
@@ -172,7 +172,7 @@ or [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) to connect
 to the target database, you must specify the CA certificate (for TLS),
 and the client certificate and private key (for mTLS) in `cacert`, `cert`, and `key`.
 Note that these certificates **must** be references to secrets
-that you should set as described in [Set secrets]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy#set-secrets" >}})
+that you should set as described in [Set secrets](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md#set-secrets)
 (it is not possible to include these certificates as plain text in the file).
 
 ### Processors
@@ -185,8 +185,8 @@ processors:
   type: flink
 ```
 
-See [Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/1.19.1/architecture/classic-vs-flink" >}})
-and [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/1.19.1/installation/migration-classic-to-flink" >}})
+See [Differences between the classic and Flink processors](/content/integrate/redis-data-integration/1.19.1/architecture/classic-vs-flink.md)
+and [Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/1.19.1/installation/migration-classic-to-flink.md)
 for existing pipelines.
 
 ### Tune Classic processor performance
@@ -243,7 +243,7 @@ for the work done by each TaskManager, especially when jobs use transformations.
 The `advanced.source.batch.size`, `advanced.source.batch.timeout.ms`, and
 `advanced.target.batch.size` properties override their top-level aliases when
 both forms are present. Change other Flink settings only when instructed by Redis
-support. See the [configuration file reference]({{< relref "/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference#processorsadvanced" >}})
+support. See the [configuration file reference](/content/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference.md#processorsadvanced)
 for all Flink processor properties.
 
 ### Choose the Redis data type
@@ -258,7 +258,7 @@ processors:
   target_data_type: hash
 ```
 
-See [Job files]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples" >}})
+See [Job files](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/_index.md)
 for the data types available to job outputs.
 
 ### Confirm writes reached a replica
@@ -278,14 +278,14 @@ For the Flink processor, the corresponding properties under
 `processors.advanced.target` take priority over these top-level properties.
 
 See also the
-[RDI configuration file reference]({{< relref "/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference#processors" >}})
+[RDI configuration file reference](/content/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference.md#processors)
 for full details of the other available properties.
 
 ## Extended configuration example
 
 This example combines the commonly used options from this page. Remove properties
 that you don't need. See the
-[configuration file reference]({{< relref "/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference" >}})
+[configuration file reference](/content/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference.md)
 for every supported property.
 
 ```yaml

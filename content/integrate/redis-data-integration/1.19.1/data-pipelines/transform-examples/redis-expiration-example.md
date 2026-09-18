@@ -87,5 +87,5 @@ There are two main approaches you can use to set the expiration time based on a 
           expression: STRFTIME('%s', EXPIRATION_TS) - STRFTIME('%s', 'now')
   ```
 
-For more examples of how to manipulate date and time values, see [Formatting date and time values]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/formatting-date-and-time-values/">}}).
+For more examples of how to manipulate date and time values, see [Formatting date and time values](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/formatting-date-and-time-values.md).
 

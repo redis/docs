@@ -17,11 +17,11 @@ url: '/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples
 ---
 
 By default, RDI adds fields to
-[hash]({{< relref "/develop/data-types/hashes" >}}) or
-[JSON]({{< relref "/develop/data-types/json" >}}) objects in the target
+[hash](/content/develop/data-types/hashes.md) or
+[JSON](/content/develop/data-types/json/_index.md) objects in the target
 database that match the columns of the source table.
 The examples below show how to add extra fields to the target data with the
-[`add_field`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/data-transformation/add_field" >}}) transformation.
+[`add_field`](/content/integrate/redis-data-integration/1.19.1/reference/data-transformation/add_field.md) transformation.
 
 ## Add a single field
 
@@ -30,12 +30,12 @@ The `source` section selects the `customer` table of the
 [`chinook`](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres)
 database (the optional `db` value here corresponds to the
 `sources.<source-name>.connection.database` value defined in
-[`config.yaml`]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config" >}})).
+[`config.yaml`](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md)).
 
 In the `transform` section, the `add_field` transformation adds an extra field called `localphone`
 to the object, which is created by removing the country and area code from the `phone`
 field with the
-[JMESPath]({{< relref "/integrate/redis-data-integration/1.19.1/reference/jmespath-custom-functions" >}}) function `regex_replace()`.
+[JMESPath](/content/integrate/redis-data-integration/1.19.1/reference/jmespath-custom-functions.md) function `regex_replace()`.
 You can also specify `sql` as the `language` if you prefer to create the new
 field with an [SQL](https://en.wikipedia.org/wiki/SQL) expression.
 
@@ -68,7 +68,7 @@ output:
 ```
 
 If you queried the generated target data from the default transformation
-using [`redis-cli`]({{< relref "/develop/tools/cli" >}}), you would
+using [`redis-cli`](/content/develop/tools/cli.md), you would
 see something like the following:
 
 ```
@@ -148,7 +148,7 @@ the JSON object:
 ## Using `add_field` with `remove_field`
 
 You can use the `add_field` and
-[`remove_field`]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-remove-field-example" >}})
+[`remove_field`](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-remove-field-example.md)
 transformations together to completely replace fields from the source. For example,
 if you add a new `fullname` field, you might not need the separate `firstname` and
 `lastname` fields. You can remove them with a job file like the following:

@@ -30,15 +30,14 @@ The supported denormalization techniques are joining
 joining [one-to-many relationships](#joining-one-to-many-relationships) (using nesting),
 both described below.
 
-{{< note >}}
-The [`redis.lookup`]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-lookup-example" >}})
-transformation is *not* a supported way to denormalize data that RDI ingests. RDI
-can't guarantee that a key written by one job is present or up to date when another
-job looks it up, so lookups against pipeline-populated data can miss or return stale
-values. Use the techniques on this page instead. See
-[Reading Redis data with redis.lookup]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-lookup-example" >}})
-for details.
-{{< /note >}}
+> [!NOTE]
+> The [`redis.lookup`](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-lookup-example.md)
+> transformation is *not* a supported way to denormalize data that RDI ingests. RDI
+> can't guarantee that a key written by one job is present or up to date when another
+> job looks it up, so lookups against pipeline-populated data can miss or return stale
+> values. Use the techniques on this page instead. See
+> [Reading Redis data with redis.lookup](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-lookup-example.md)
+> for details.
 
 ## Joining one-to-one relationships
 
@@ -109,20 +108,18 @@ The joined data will look like this in Redis:
 }
 ```
 
-{{< note >}}
-If you don't set `merge` as the `on_update` strategy for all jobs targeting the same key, the entire parent record in Redis will be overwritten whenever any related record in the source database is updated. This will result in the loss of values written by other jobs.
-{{< /note >}}
+> [!NOTE]
+> If you don't set `merge` as the `on_update` strategy for all jobs targeting the same key, the entire parent record in Redis will be overwritten whenever any related record in the source database is updated. This will result in the loss of values written by other jobs.
 
 When using this approach, you must ensure that the `key` expression in the child job matches the key expression in the parent job. If you use a different key expression, the child data will not be written to the same Redis key as the parent data.
 
-In the example above, the `addresses` job uses the default key pattern to write to the same Redis key as the `customers` job. You can find more information about the default key pattern [here]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-set-key-name" >}}).
+In the example above, the `addresses` job uses the default key pattern to write to the same Redis key as the `customers` job. You can find more information about the default key pattern [here](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-set-key-name.md).
 
 You can also use custom keys for the parent entity, as long as you use the same key for all jobs that write to the same Redis key.
 
-{{< note >}}
-If you are using the same key for different jobs, deleting any of the entities will result in the key being removed from the target.
-For an example workaround, see [Write to the same key from multiple jobs]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-write-same-key" >}}).
-{{< /note >}}
+> [!NOTE]
+> If you are using the same key for different jobs, deleting any of the entities will result in the key being removed from the target.
+> For an example workaround, see [Write to the same key from multiple jobs](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/redis-write-same-key.md).
 
 
 ## Joining one-to-many relationships

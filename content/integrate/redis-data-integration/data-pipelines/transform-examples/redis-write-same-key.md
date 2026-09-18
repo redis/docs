@@ -20,16 +20,15 @@ Use this pattern when two or more jobs write related source entities, such as
 
 When multiple jobs write to the same Redis key, a delete event from any of the
 source entities can delete the key from the target. To work around this, use
-[`row_format: full`]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format#full" >}})
+[`row_format: full`](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format.md#full)
 so the job can inspect the
-[`opcode`]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example" >}}),
+[`opcode`](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-opcode-example.md),
 convert delete events into update events before writing to Redis, and write JSON
 documents with `on_update: merge`.
 
-{{< note >}}
-Use the same key expression in all jobs that write to the shared Redis key. For
-delete events, read key values from `before` or `key` because `after` is `null`.
-{{< /note >}}
+> [!NOTE]
+> Use the same key expression in all jobs that write to the shared Redis key. For
+> delete events, read key values from `before` or `key` because `after` is `null`.
 
 ## Customer job
 

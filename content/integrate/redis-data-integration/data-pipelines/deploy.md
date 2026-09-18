@@ -17,14 +17,14 @@ weight: 50
 ---
 
 The sections below explain how to deploy a pipeline after you have created the required
-[configuration]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}).
+[configuration](/content/integrate/redis-data-integration/data-pipelines/_index.md).
 
 ## Set secrets
 
 Before you deploy your pipeline, you must set the authentication secrets for the source
 and target databases. Every secret belongs to one database: a source, identified by its
 name in `config.yaml`, or the target. You name that database with the `--db` option of the
-[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
+[`redis-di set-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-secret.md)
 command.
 
 The table below lists the available secret keys. The username and password are required,
@@ -45,23 +45,23 @@ uppercase (with each dash replaced by an underscore), followed by `_DB_`, follow
 For example, if you set `PASSWORD` with `--db mysql` the corresponding environment variable
 is `MYSQL_DB_PASSWORD`, which the source references as
 `${MYSQL_DB_PASSWORD}`. If you set `PASSWORD` with `--db target`, the environment variable is `TARGET_DB_PASSWORD`. The sample
-[config.yaml file]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#example" >}})
+[config.yaml file](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#example)
 shows these references in use, and
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+[Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md)
 covers the source naming rules.
 
-{{< note >}}The scope-prefixed keys `SOURCE_DB_*` and `TARGET_DB_*` are also accepted, and can be
-used without specifying `--db`. RDI accepts a `SOURCE_DB_*` key only for a pipeline with exactly
-one source. Prefer the per-database keys with `--db`, which work for any pipeline. See
-[Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}) for more information.{{< /note >}}
+> [!NOTE]
+> The scope-prefixed keys `SOURCE_DB_*` and `TARGET_DB_*` are also accepted, and can be
+> used without specifying `--db`. RDI accepts a `SOURCE_DB_*` key only for a pipeline with exactly
+> one source. Prefer the per-database keys with `--db`, which work for any pipeline. See
+> [Existing names are kept after an upgrade](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#existing-names-are-kept-after-an-upgrade) for more information.
 
-{{< note >}}
-{{< embed-md "rdi-tls-secrets.md" >}}
-{{< /note >}}
+> [!NOTE]
+> {{< embed-md "rdi-tls-secrets.md" >}}
   
 ### Set secrets with the CLI
 
-Use [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-set-secret" >}})
+Use [`redis-di set-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-set-secret.md)
 to set secrets for any installation type (VM, Kubernetes, or Redis Cloud).
 
 The command lines for a source named `mysql` are shown below. If your pipeline has multiple sources, you should run the command once for each source, using the appropriate database name.
@@ -123,17 +123,18 @@ redis-di delete-secret CACERT --db mysql
 ```
 
 See the reference pages for
-[`list-secrets`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list-secrets" >}}),
-[`get-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get-secret" >}}),
-[`describe-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe-secret" >}}),
-and [`delete-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete-secret" >}})
+[`list-secrets`](/content/integrate/redis-data-integration/reference/cli/redis-di-list-secrets.md),
+[`get-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-get-secret.md),
+[`describe-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe-secret.md),
+and [`delete-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-secret.md)
 for the full list of options.
 
 ### Set secrets for K8s/Helm deployment using Kubectl command
 
-{{< note >}}It is strongly recommended to manage secrets with the `redis-di` CLI rather than with
-`kubectl` directly. The CLI applies the correct labels automatically, validates the secret keys, and
-works the same way across all installation types.{{< /note >}}
+> [!NOTE]
+> It is strongly recommended to manage secrets with the `redis-di` CLI rather than with
+> `kubectl` directly. The CLI applies the correct labels automatically, validates the secret keys, and
+> works the same way across all installation types.
 
 For a Kubernetes/Helm deployment, you can also use [`kubectl create secret generic`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/)
 to set secrets instead of the CLI. The general pattern of the commands is:
@@ -279,9 +280,9 @@ kubectl label secret target-db-ssl --namespace=rdi --overwrite \
 
 ## Deploy a pipeline
 
-When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}}), you are
+When you have created your configuration, including the [jobs](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md), you are
 ready to deploy. Use the
-[`redis-di deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
+[`redis-di deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md)
 command to deploy a pipeline:
 
 ```bash
@@ -296,22 +297,22 @@ validation and what happens after deployment with the following options:
   example that the tables it references exist. On by default; pass `--validate-tables=false` to skip
   this check, which is useful when the databases are not reachable at deploy time.
 - `--validate-cdc`: Additionally validate that the source database is correctly configured for
-  [change data capture (CDC)]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}).
+  [change data capture (CDC)](/content/integrate/redis-data-integration/architecture/_index.md#overview).
   Off by default; enable it with `--validate-cdc`.
 - `--start`: Start the pipeline as soon as it is deployed. On by default; pass `--start=false` to
   deploy the pipeline without starting it, then start it later with
-  [`redis-di start`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-start" >}}).
+  [`redis-di start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md).
 
-See the [`redis-di deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
+See the [`redis-di deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md)
 reference page for the full list of options.
 
-You can also use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+You can also use [Redis Insight](/content/develop/tools/insight/rdi-connector.md)
 to configure and deploy pipelines for both VM and K8s installations.
 
 ## Display the pipeline status
 
 Once a pipeline is deployed, use the
-[`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
+[`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
 command (also available as `redis-di status`) to display its status. This combines the pipeline
 configuration with its runtime status, showing its overall state, its sources and targets, its jobs
 and components, and its per-stream statistics and performance metrics.
@@ -326,18 +327,18 @@ To watch the status update live, pair the command with `watch`:
 watch -n 1 redis-di describe
 ```
 
-For a shorter overview, [`redis-di list`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-list" >}})
+For a shorter overview, [`redis-di list`](/content/integrate/redis-data-integration/reference/cli/redis-di-list.md)
 prints a one-line summary of the pipeline, and
-[`redis-di get`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-get" >}})
+[`redis-di get`](/content/integrate/redis-data-integration/reference/cli/redis-di-get.md)
 does the same for a single pipeline. See the
-[`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
+[`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
 reference page for details.
 
 ## Start and stop a pipeline
 
-Use [`redis-di stop`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-stop" >}})
+Use [`redis-di stop`](/content/integrate/redis-data-integration/reference/cli/redis-di-stop.md)
 to pause a running pipeline and
-[`redis-di start`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-start" >}})
+[`redis-di start`](/content/integrate/redis-data-integration/reference/cli/redis-di-start.md)
 to resume it. Stopping a pipeline halts data processing without deleting the pipeline or its
 configuration, so you can start it again later from where it left off.
 
@@ -354,13 +355,13 @@ redis-di start --source mysql
 ```
 
 Note that a source can only run if its parent pipeline is running. See
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
+[Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md) for more information.
 
 ## Reset a pipeline
 
-Use [`redis-di reset`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-reset" >}})
+Use [`redis-di reset`](/content/integrate/redis-data-integration/reference/cli/redis-di-reset.md)
 to return a pipeline to initial full-sync mode. This reloads a fresh
-[snapshot]({{< relref "/integrate/redis-data-integration/architecture#overview" >}}) of the source
+[snapshot](/content/integrate/redis-data-integration/architecture/_index.md#overview) of the source
 data and then resumes change data capture (CDC), which is useful when the source and target have
 drifted out of sync.
 
@@ -379,7 +380,7 @@ redis-di reset --source mysql
 
 To stop a pipeline and discard its configuration, deploy an empty configuration with the
 `--empty` option of
-[`redis-di deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}}):
+[`redis-di deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md):
 
 ```bash
 redis-di deploy --empty
@@ -391,15 +392,16 @@ statistics, deduplication state, and record counters of every source. The pipeli
 remains, with an empty configuration, so you can deploy a new configuration to it at any time.
 
 The pipeline secrets are not affected, so remove them yourself with
-[`redis-di delete-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete-secret" >}})
+[`redis-di delete-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-secret.md)
 if you no longer need them. The records the pipeline wrote to the target database are not
 deleted either.
 
-{{< note >}}Clearing a pipeline discards the source aliases of any source that predates RDI's
-support for multiple sources, so if you deploy such a source again under the same name you
-must set its secrets again, and also change its secret references and job `server_name` values. See
-[Redeploying a configuration after clearing a pipeline]({{< relref "/integrate/redis-data-integration/installation/upgrade#redeploying-a-configuration-after-clearing-a-pipeline" >}})
-for a before and after example.{{< /note >}}
+> [!NOTE]
+> Clearing a pipeline discards the source aliases of any source that predates RDI's
+> support for multiple sources, so if you deploy such a source again under the same name you
+> must set its secrets again, and also change its secret references and job `server_name` values. See
+> [Redeploying a configuration after clearing a pipeline](/content/integrate/redis-data-integration/installation/upgrade.md#redeploying-a-configuration-after-clearing-a-pipeline)
+> for a before and after example.
 
 ## Wait for changes to complete {#wait}
 

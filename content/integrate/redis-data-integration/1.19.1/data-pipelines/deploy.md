@@ -17,17 +17,17 @@ url: '/integrate/redis-data-integration/1.19.1/data-pipelines/deploy/'
 ---
 
 The sections below explain how to deploy a pipeline after you have created the required
-[configuration]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines" >}}).
+[configuration](/content/integrate/redis-data-integration/1.19.1/data-pipelines/_index.md).
 
 ## Set secrets
 
 Before you deploy your pipeline, you must set the authentication secrets for the
 source and target databases. Each secret has a name that you pass to the
-[`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-secret" >}})
+[`redis-di set-secret`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-secret.md)
 command to set the secret value.
 You can then refer to these secrets in the `config.yaml` file using the syntax "`${SECRET_NAME}`"
 (the sample
-[config.yaml file]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config#example" >}})
+[config.yaml file](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#example)
 shows these secrets in use).
 
 The table below lists all valid secret names. Note that the
@@ -49,13 +49,12 @@ secrets are only relevant for TLS/mTLS connections.
 | `TARGET_DB_KEY` | (For mTLS only) Target database private key |
 | `TARGET_DB_KEY_PASSWORD` | (For mTLS only) Target database private key password |
 
-{{< note >}}
-{{< embed-md "rdi-tls-secrets.md" >}}
-{{< /note >}}
+> [!NOTE]
+> {{< embed-md "rdi-tls-secrets.md" >}}
   
 ### Set secrets with the CLI
 
-Use [`redis-di set-secret`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-secret" >}})
+Use [`redis-di set-secret`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-secret.md)
 to set secrets for any installation type (VM, Kubernetes, or Redis Cloud).
 
 The specific command lines for source secrets are as follows:
@@ -114,17 +113,18 @@ redis-di delete-secret SOURCE_DB_CACERT
 ```
 
 See the reference pages for
-[`list-secrets`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-secrets" >}}),
-[`get-secret`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-secret" >}}),
-[`describe-secret`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-secret" >}}),
-and [`delete-secret`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete-secret" >}})
+[`list-secrets`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-secrets.md),
+[`get-secret`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-secret.md),
+[`describe-secret`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-secret.md),
+and [`delete-secret`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete-secret.md)
 for the full list of options.
 
 ### Set secrets for K8s/Helm deployment using Kubectl command
 
-{{< note >}}It is strongly recommended to manage secrets with the `redis-di` CLI rather than with
-`kubectl` directly. The CLI applies the correct labels automatically, validates the secret keys, and
-works the same way across all installation types.{{< /note >}}
+> [!NOTE]
+> It is strongly recommended to manage secrets with the `redis-di` CLI rather than with
+> `kubectl` directly. The CLI applies the correct labels automatically, validates the secret keys, and
+> works the same way across all installation types.
 
 For a Kubernetes/Helm deployment, you can also use [`kubectl create secret generic`](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_generic/)
 to set secrets instead of the CLI. The general pattern of the commands is:
@@ -264,9 +264,9 @@ kubectl label secret target-db-ssl --namespace=rdi --overwrite \
 
 ## Deploy a pipeline
 
-When you have created your configuration, including the [jobs]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples" >}}), you are
+When you have created your configuration, including the [jobs](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/_index.md), you are
 ready to deploy. Use the
-[`redis-di deploy`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-deploy" >}})
+[`redis-di deploy`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-deploy.md)
 command to deploy a pipeline:
 
 ```bash
@@ -281,22 +281,22 @@ validation and what happens after deployment with the following options:
   example that the tables it references exist. On by default; pass `--validate-tables=false` to skip
   this check, which is useful when the databases are not reachable at deploy time.
 - `--validate-cdc`: Additionally validate that the source database is correctly configured for
-  [change data capture (CDC)]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#overview" >}}).
+  [change data capture (CDC)](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#overview).
   Off by default; enable it with `--validate-cdc`.
 - `--start`: Start the pipeline as soon as it is deployed. On by default; pass `--start=false` to
   deploy the pipeline without starting it, then start it later with
-  [`redis-di start`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-start" >}}).
+  [`redis-di start`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-start.md).
 
-See the [`redis-di deploy`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-deploy" >}})
+See the [`redis-di deploy`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-deploy.md)
 reference page for the full list of options.
 
-You can also use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+You can also use [Redis Insight](/content/develop/tools/insight/rdi-connector.md)
 to configure and deploy pipelines for both VM and K8s installations.
 
 ## Display the pipeline status
 
 Once a pipeline is deployed, use the
-[`redis-di describe`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe" >}})
+[`redis-di describe`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe.md)
 command (also available as `redis-di status`) to display its status. This combines the pipeline
 configuration with its runtime status, showing its overall state, its sources and targets, its jobs
 and components, and its per-stream statistics and performance metrics.
@@ -311,18 +311,18 @@ To watch the status update live, pair the command with `watch`:
 watch -n 1 redis-di describe
 ```
 
-For a shorter overview, [`redis-di list`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list" >}})
+For a shorter overview, [`redis-di list`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list.md)
 prints a one-line summary of the pipeline, and
-[`redis-di get`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get" >}})
+[`redis-di get`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get.md)
 does the same for a single pipeline. See the
-[`redis-di describe`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe" >}})
+[`redis-di describe`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe.md)
 reference page for details.
 
 ## Start and stop a pipeline
 
-Use [`redis-di stop`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-stop" >}})
+Use [`redis-di stop`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-stop.md)
 to pause a running pipeline and
-[`redis-di start`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-start" >}})
+[`redis-di start`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-start.md)
 to resume it. Stopping a pipeline halts data processing without deleting the pipeline or its
 configuration, so you can start it again later from where it left off.
 
@@ -333,9 +333,9 @@ redis-di start
 
 ## Reset a pipeline
 
-Use [`redis-di reset`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-reset" >}})
+Use [`redis-di reset`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-reset.md)
 to return a pipeline to initial full-sync mode. This reloads a fresh
-[snapshot]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#overview" >}}) of the source
+[snapshot](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#overview) of the source
 data and then resumes change data capture (CDC), which is useful when the source and target have
 drifted out of sync.
 
@@ -346,7 +346,7 @@ redis-di reset
 ## Undeploy a pipeline
 
 To remove a pipeline, use the
-[`redis-di delete`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete" >}})
+[`redis-di delete`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete.md)
 command. This stops the pipeline and deletes it, along with its configuration and status, from RDI.
 The secrets you set for the pipeline are not affected.
 

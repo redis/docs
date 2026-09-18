@@ -35,12 +35,13 @@ mappings on this page follow the
 that reads Spanner change streams rather than Debezium (see the
 [Spanner section](#spanner) for details).
 
-{{< note >}}**RDI does not always pass the collector value through unchanged.** RDI's
-processors normalize several Debezium logical types before they reach your jobs and
-Redis, and drop a few that they cannot represent. The collector-level representations
-in the tables below are therefore the *input* to RDI's processing, not always the
-final Redis value — the per-type notes and [cross-cutting considerations](#cross-cutting-considerations)
-call out where RDI transforms or drops a value.{{< /note >}}
+> [!NOTE]
+> **RDI does not always pass the collector value through unchanged.** RDI's
+> processors normalize several Debezium logical types before they reach your jobs and
+> Redis, and drop a few that they cannot represent. The collector-level representations
+> in the tables below are therefore the *input* to RDI's processing, not always the
+> final Redis value — the per-type notes and [cross-cutting considerations](#cross-cutting-considerations)
+> call out where RDI transforms or drops a value.
 
 It helps to think of the data flow in two layers:
 
@@ -55,14 +56,14 @@ It helps to think of the data flow in two layers:
    representation that each connector produces with its **default** settings.
 2. **How RDI writes it to Redis.** RDI's processors take the collector value,
    normalize some logical types (and drop a few unsupported ones), then write each
-   record to a Redis [Hash]({{< relref "/develop/data-types/hashes" >}}) (the default)
+   record to a Redis [Hash](/content/develop/data-types/hashes.md) (the default)
    or, if you set `target_data_type: json`, to a
-   [JSON]({{< relref "/develop/data-types/json" >}}) document. For Hash targets,
+   [JSON](/content/develop/data-types/json/_index.md) document. For Hash targets,
    every field value is stored as a string; for JSON targets, numbers and booleans
    are stored as native JSON values.
 
 When you need to reformat a value in a job, see
-[Formatting date and time values]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/formatting-date-and-time-values" >}})
+[Formatting date and time values](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/formatting-date-and-time-values.md)
 for worked examples.
 
 ### Setting collector properties
@@ -82,7 +83,7 @@ sources:
         binary.handling.mode: base64
 ```
 
-See [Pipeline configuration]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config" >}})
+See [Pipeline configuration](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md)
 for more about the `advanced` section.
 
 ## Quick configuration summary
@@ -92,7 +93,7 @@ database. Each database has its own section with full detail.
 
 [**Oracle**](#oracle)
 
-- Enable [supplemental logging]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/oracle" >}}) on the tables/schemas you capture.
+- Enable [supplemental logging](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/oracle.md) on the tables/schemas you capture.
 - Set `lob.enabled: true` if you need `CLOB`, `NCLOB`, `BLOB`, or `XMLTYPE`.
 - Choose `binary.handling.mode` for `RAW`/`BLOB` (default is `bytes`).
 - `decimal.handling.mode` defaults to `string` in RDI; set `double` for numeric `NUMBER`/`DECIMAL` values.
@@ -167,7 +168,7 @@ column's declared precision:
 
 RDI's processors may normalize these Debezium temporal types before they reach your
 jobs and Redis (for example, converting a `Date` to epoch milliseconds). See
-[Formatting date and time values]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/formatting-date-and-time-values" >}})
+[Formatting date and time values](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/formatting-date-and-time-values.md)
 for worked examples of converting temporal values in an RDI job.
 
 ### Time zones
@@ -208,7 +209,7 @@ placeholder values rather than writing them to Redis as user data.
   `JSON.MERGE` command (the default from RDI 1.15.0, controlled by
   `use_native_json_merge`), merging a `null` value *removes* the field rather than
   storing it, following [RFC 7396](https://datatracker.ietf.org/doc/html/rfc7396).
-  See [Pipeline configuration]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config" >}}).
+  See [Pipeline configuration](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md).
 
 ### Structured values (structs, arrays, and maps)
 
@@ -227,7 +228,7 @@ but how they are rendered into a Redis Hash or JSON document is noted per type b
 
 RDI captures Oracle changes via the
 [Debezium Oracle connector](https://debezium.io/documentation/reference/3.0/connectors/oracle.html).
-See [Prepare Oracle for RDI]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/oracle" >}})
+See [Prepare Oracle for RDI](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/oracle.md)
 for the required supplemental-logging setup.
 
 ### Supported types
@@ -281,7 +282,7 @@ RDI captures both `mysql` and `mariadb` sources with the
 [Debezium MySQL connector](https://debezium.io/documentation/reference/stable/connectors/mysql.html)
 (`io.debezium.connector.mysql.MySqlConnector`) — it does not use Debezium's separate
 MariaDB connector. The mappings below therefore apply to both source types. See
-[Prepare MySQL/MariaDB for RDI]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/my-sql-mariadb" >}})
+[Prepare MySQL/MariaDB for RDI](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/my-sql-mariadb.md)
 for setup. Enable the binary log in **ROW** mode.
 
 ### Supported types
@@ -321,7 +322,7 @@ RDI captures PostgreSQL changes via the
 [Debezium PostgreSQL connector](https://debezium.io/documentation/reference/3.0/connectors/postgresql.html)
 using logical replication. **Supabase** and **AlloyDB** are PostgreSQL-compatible
 and use the same connector, so the mappings below apply to all three. See
-[Prepare PostgreSQL for RDI]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/postgresql" >}}).
+[Prepare PostgreSQL for RDI](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/postgresql.md).
 
 ### Supported types
 
@@ -380,7 +381,7 @@ you need them.
 RDI captures SQL Server changes via the
 [Debezium SQL Server connector](https://debezium.io/documentation/reference/3.0/connectors/sqlserver.html).
 CDC must be enabled at both the database and table level. See
-[Prepare SQL Server for RDI]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/sql-server" >}}).
+[Prepare SQL Server for RDI](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/sql-server.md).
 
 ### Supported types
 
@@ -422,7 +423,7 @@ types should be confirmed empirically rather than assumed unsupported.
 RDI captures MongoDB changes via the
 [Debezium MongoDB connector](https://debezium.io/documentation/reference/3.0/connectors/mongodb.html),
 which works differently from the relational connectors. See
-[Prepare MongoDB for RDI]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/mongodb" >}}).
+[Prepare MongoDB for RDI](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/mongodb.md).
 
 ### What the collector emits
 
@@ -479,7 +480,7 @@ directly over JDBC, and during streaming it consumes
 [Spanner change streams](https://cloud.google.com/spanner/docs/change-streams) via a
 Flink-based collector (`type: flink`). Spanner is supported only when RDI is deployed
 on Kubernetes/Helm. See
-[Prepare Spanner for RDI]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/spanner" >}})
+[Prepare Spanner for RDI](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/spanner.md)
 for setup.
 
 Because Spanner uses a different collector, its data type handling is not governed by

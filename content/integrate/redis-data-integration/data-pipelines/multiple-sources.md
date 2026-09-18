@@ -20,14 +20,15 @@ same Redis target. The sources can be of different database types and each has i
 own collector, its own credentials, and its own set of Redis streams to ensure it
 is independent of the other sources.
 
-{{< note >}}You must use RDI API v2 to manage a pipeline with several sources. RDI API v1 supports only
-single-source pipelines. See the
-[RDI API migration guide]({{< relref "/integrate/redis-data-integration/reference/api-migration" >}}) for more information.{{< /note >}}
+> [!NOTE]
+> You must use RDI API v2 to manage a pipeline with several sources. RDI API v1 supports only
+> single-source pipelines. See the
+> [RDI API migration guide](/content/integrate/redis-data-integration/reference/api-migration.md) for more information.
 
 ## Name your sources
 
 Each source is an entry in the `sources` section of
-[`config.yaml`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}),
+[`config.yaml`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md),
 with the source name as key:
 
 ```yaml
@@ -45,17 +46,18 @@ A source name must:
 
 The names `rdi` and `target` are reserved and cannot be used for sources.
 
-{{< warning >}}If your pipeline has a source created before RDI supported multiple sources, do not name a new
-source after any schema or database of that older source. The change data streams of the older
-source do not contain a source name segment, so a new source named after one of its schemas would claim keys
-that belong to the older source, and resetting or removing the new source would delete the older
-source's data. See
-[Existing names are kept after an upgrade](#existing-names-are-kept-after-an-upgrade).{{< /warning >}}
+> [!WARNING]
+> If your pipeline has a source created before RDI supported multiple sources, do not name a new
+> source after any schema or database of that older source. The change data streams of the older
+> source do not contain a source name segment, so a new source named after one of its schemas would claim keys
+> that belong to the older source, and resetting or removing the new source would delete the older
+> source's data. See
+> [Existing names are kept after an upgrade](#existing-names-are-kept-after-an-upgrade).
 
 RDI derives the environment variables that contain the source's credentials from the source
 name. For example, the `connection` section of a source named `mysql` references `${MYSQL_DB_USERNAME}`
 and `${MYSQL_DB_PASSWORD}`. See
-[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+[Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
 for details of how RDI derives those names and for the full list of secret keys.
 
 The source name also appears in the resources RDI creates for the source. The table below
@@ -85,9 +87,9 @@ so there is no restriction on the characters you can use.
 ## Configure several sources
 
 Add one entry per source in the `config.yaml` file (see
-[Pipeline configuration file]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}})
+[Pipeline configuration file](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md)
 for a full description of this file).
-[`redis-di scaffold`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-scaffold" >}})
+[`redis-di scaffold`](/content/integrate/redis-data-integration/reference/cli/redis-di-scaffold.md)
 generates a configuration with one source, named by its `--source-name` option, so add any
 further sources by editing `config.yaml`.
 
@@ -95,7 +97,7 @@ Sources of different types can be mixed freely, but a source's collector `type` 
 `connection` type have to match. Use `cdc`, the default, for the relational databases and
 MongoDB, `flink` for a Spanner connection, and `riotx` for a Snowflake connection. RDI
 rejects any other combination when you deploy the pipeline. See
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
+[Prepare source databases](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md)
 to learn how to prepare each source database.
 
 The following example captures from a MySQL database and a PostgreSQL database, each with its
@@ -150,7 +152,7 @@ redis-di set-secret PASSWORD --db postgresql <password>
 ```
 
 The secret keys used as CLI arguments are the same for every source: `USERNAME`, `PASSWORD`, and, for
-[Transport Layer Security (TLS)]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+[Transport Layer Security (TLS)](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
 connections, `CACERT`, `CERT`, `KEY`, and `KEY_PASSWORD`. Use `--db target` for the
 target database: `redis-di set-secret PASSWORD --db target <password>`.
 
@@ -158,12 +160,12 @@ Each source's `connection` section then references its own secrets: `${MYSQL_DB_
 `${MYSQL_DB_PASSWORD}` for `mysql`, `${POSTGRESQL_DB_USERNAME}` and `${POSTGRESQL_DB_PASSWORD}`
 for `postgresql`, and `${TARGET_DB_PASSWORD}` for the target.
 
-See [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+See [Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
 for the full secret reference.
 
 ## Select sources in jobs
 
-A [job]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}})
+A [job](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md)
 selects the source it processes by setting `server_name` to the source name:
 
 ```yaml
@@ -188,11 +190,11 @@ job does not filter by source.
 No two jobs may select the same records, so make sure the source selectors of your jobs do
 not overlap. RDI rejects the pipeline when it finds two jobs that intersect.
 
-With the [Flink processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}),
+With the [Flink processor](/content/integrate/redis-data-integration/architecture/classic-vs-flink.md),
 `server_name` also accepts a list of source names, and an entry prefixed with `regex:` selects
 all sources that match the regular expression, so one job can process multiple tables,
 potentially from different sources, databases, or schemas. See
-[Job files]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples" >}})
+[Job files](/content/integrate/redis-data-integration/data-pipelines/transform-examples/_index.md)
 for details.
 
 ## Add or remove a source
@@ -207,11 +209,11 @@ and record counters. The other sources keep their data, and RDI stops the whole 
 while the deletion runs and starts it again afterwards. No further action is
 needed for this cleanup, but it means that a source you add later under the same name starts
 from a new
-[initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}})
+[initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md)
 rather than from the position it had reached.
 
 The source's secrets are not deleted, so remove them yourself with
-[`redis-di delete-secret`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-delete-secret" >}})
+[`redis-di delete-secret`](/content/integrate/redis-data-integration/reference/cli/redis-di-delete-secret.md)
 if you no longer need them. The records the pipeline wrote to the target database are not deleted
 either.
 
@@ -240,7 +242,7 @@ to removing the source and adding a new source with the new name. This implies i
 - You must update `server_name` for every job that reads from the source.
 - The data present in the RDI database under the old name is deleted, as it is for any removed source.
 - The source starts with a new
-  [initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}).
+  [initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md).
 
 ## Start, stop, and reset a single source
 
@@ -261,21 +263,21 @@ source's resources in place. RDI records a captured position for each source, so
 
 Resetting a single source deletes that source's data from the RDI database, including its change data streams, Debezium
 offsets, schema history, dead-letter queue entries, statistics, deduplication state, and record counters.
-A new [initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}) is then
+A new [initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md) is then
 taken for that source, while every other source keeps its data. RDI stops the whole pipeline while
 the reset runs and starts it again afterwards, exactly as it does for a reset of the whole
 pipeline.
 
 ## Monitor each source
 
-Use [`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
+Use [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
 to see the state of every source at once.
 
 In its output, the `Sources` section lists each source with its sync mode and
 whether it is connected.
 The `Components` section lists one collector per source. Errors are reported against the
 component they came from. See the
-[`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
+[`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
 reference page for more details.
 
 Note that while the sources are independent of each other in the data they capture, the
@@ -287,20 +289,20 @@ Each Debezium collector has its own metric collection, named after the collector
 
 In Prometheus, you can break the per-stream record counters down per source, since the stream
 name contains the source name. With the
-[Flink processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+[Flink processor](/content/integrate/redis-data-integration/architecture/classic-vs-flink.md)
 the counters are reported by
 `flink_jobmanager_job_operator_coordinator_stream_type_rdiRecords`, which has a `stream`
 label; with the classic processor they are reported by `rdi_incoming_entries`, which has an
 equivalent `data_source` label. See
-[Flink processor metrics]({{< relref "/integrate/redis-data-integration/observability#flink-processor-metrics" >}}),
-[Stream processor metrics]({{< relref "/integrate/redis-data-integration/observability#stream-processor-metrics" >}}),
+[Flink processor metrics](/content/integrate/redis-data-integration/observability.md#flink-processor-metrics),
+[Stream processor metrics](/content/integrate/redis-data-integration/observability.md#stream-processor-metrics),
 and, for the per-source collector endpoints,
-[Accessing the metrics]({{< relref "/integrate/redis-data-integration/observability#accessing-the-metrics" >}}).
+[Accessing the metrics](/content/integrate/redis-data-integration/observability.md#accessing-the-metrics).
 
 Dead-letter queue streams have Redis keys containing a
 `<source>.<qualified_table_name>` section.
 This makes it easy to attribute rejected records to their source. See
-[Rejected records]({{< relref "/integrate/redis-data-integration/data-pipelines/rejected-records" >}}) for more information.
+[Rejected records](/content/integrate/redis-data-integration/data-pipelines/rejected-records.md) for more information.
 
 ## Existing names are kept after an upgrade
 
@@ -323,7 +325,7 @@ RDI keeps these names in a mapping from the source name in `config.yaml` to
 the internal name the source had before the upgrade. This mapping lasts only as long as the source
 does: RDI discards it as soon as the source is removed from the configuration, whether you remove that one
 source or
-[clear the whole pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#clear-a-pipeline" >}}).
+[clear the whole pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#clear-a-pipeline).
 A source you add afterwards under the same name is treated as a new source, so
 RDI derives its names from the source name. See
 [Add or remove a source](#add-or-remove-a-source) for what you have to change in that case.
@@ -331,14 +333,14 @@ RDI derives its names from the source name. See
 For a source you add after the upgrade under any other name, RDI derives all of these names
 from the source name, as described on this page.
 
-See [Upgrading RDI]({{< relref "/integrate/redis-data-integration/installation/upgrade" >}})
+See [Upgrading RDI](/content/integrate/redis-data-integration/installation/upgrade.md)
 for more information.
 
 ## Redeploying a configuration after clearing a pipeline
 
 A configuration exported from an upgraded pipeline still references the names from before the
 upgrade, so deploying it again after
-[clearing the pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#clear-a-pipeline" >}})
+[clearing the pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#clear-a-pipeline)
 fails, because the mapping that made those names resolve is gone.
 
 A source and a job of such an upgraded pipeline:
@@ -383,6 +385,6 @@ redis-di set-secret PASSWORD --db mysql <password>
 ```
 
 The source then takes a fresh
-[initial snapshot]({{< relref "/integrate/redis-data-integration/architecture" >}}), because the position it had
+[initial snapshot](/content/integrate/redis-data-integration/architecture/_index.md), because the position it had
 reached was deleted along with the rest of its data. Records the pipeline already wrote to the
 target database are not deleted, so the snapshot overwrites them.
