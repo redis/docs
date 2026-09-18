@@ -14,15 +14,14 @@ weight: 61
 url: '/integrate/redis-data-integration/1.19.1/reference/api-migration/'
 ---
 
-RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for backward compatibility, but Redis recommends moving all integrations to API v2. API v1 will not be extended with new RDI features and may be removed in a future RDI version. See the [RDI API reference]({{< relref "/integrate/redis-data-integration/1.19.1/reference/api-reference" >}}) for the current request and response schemas.
+RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for backward compatibility, but Redis recommends moving all integrations to API v2. API v1 will not be extended with new RDI features and may be removed in a future RDI version. See the [RDI API reference](/content/integrate/redis-data-integration/1.19.1/reference/api-reference.md) for the current request and response schemas.
 
 ## What changes in API v2
 
 API v2 uses the pipeline resource to represent the current state of a pipeline. Operations update that resource and return its current state, so applications no longer need to poll a separate action ID. API v2 scopes related operations under a pipeline name in the request path.
 
-{{< note >}}
-RDI 1.19.0 supports only one pipeline, which must be named `default`. Support for other pipeline names will be added in a future version.
-{{< /note >}}
+> [!NOTE]
+> RDI 1.19.0 supports only one pipeline, which must be named `default`. Support for other pipeline names will be added in a future version.
 
 The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` where a corresponding v2 endpoint is available. You should also review the request and response models, because they can differ between versions.
 
@@ -51,7 +50,7 @@ The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` w
 | `POST /api/v1/pipelines/undeploy` | `DELETE /api/v2/pipelines/{name}` |
 | `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
 
-API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference]({{< relref "/integrate/redis-data-integration/1.19.1/reference/api-reference" >}}) for the complete list.
+API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference](/content/integrate/redis-data-integration/1.19.1/reference/api-reference.md) for the complete list.
 
 ## v1 endpoints without a v2 equivalent
 

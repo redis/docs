@@ -15,22 +15,21 @@ type: integration
 weight: 61
 ---
 
-RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for backward compatibility, but Redis recommends moving all integrations to API v2. API v1 will not be extended with new RDI features and may be removed in a future RDI version. See the [RDI API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the current request and response schemas.
+RDI API v1 is deprecated as of RDI 1.19.0. Existing v1 endpoints remain available for backward compatibility, but Redis recommends moving all integrations to API v2. API v1 will not be extended with new RDI features and may be removed in a future RDI version. See the [RDI API reference](/content/integrate/redis-data-integration/reference/api-reference.md) for the current request and response schemas.
 
 ## What changes in API v2
 
 API v2 uses the pipeline resource to represent the current state of a pipeline. Operations update that resource and return its current state, so applications no longer need to poll a separate action ID. API v2 scopes related operations under a pipeline name in the request path.
 
-{{< note >}}
-RDI 1.19.0 supports only one pipeline, which must be named `default`. Support for other pipeline names will be added in a future version.
-{{< /note >}}
+> [!NOTE]
+> RDI 1.19.0 supports only one pipeline, which must be named `default`. Support for other pipeline names will be added in a future version.
 
 The API version is part of the URL. Update `/api/v1` requests to use `/api/v2` where a corresponding v2 endpoint is available. You should also review the request and response models, because they can differ between versions.
 
 ## API v1 and multiple sources
 
 API v1 handles single-source pipelines only, so
-you must use API v2 to manage [a pipeline with several sources]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}). In particular:
+you must use API v2 to manage [a pipeline with several sources](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md). In particular:
 
 - `POST /api/v1/pipelines`, `PATCH /api/v1/pipelines`, and `POST /api/v1/pipelines/sources/dry-run` reject a configuration with more than one source with `422 Unprocessable Content` and `Only a single source per pipeline is supported`.
 - `PUT /api/v1/secrets`, `PUT /api/v1/secrets/{secret_name}`, and the v1 source management endpoints only handle a pipeline whose single source still uses the legacy `source` names, which covers a pipeline created before RDI supported multiple sources and one that you create through v1. They reject any other pipeline with `Use API v2 to manage sources and secrets of this pipeline.`
@@ -62,7 +61,7 @@ you must use API v2 to manage [a pipeline with several sources]({{< relref "/int
 | `POST /api/v1/pipelines/undeploy` | `PUT /api/v2/pipelines/{name}` with an empty configuration |
 | `POST /api/v1/trace/start` | `POST /api/v2/pipelines/{name}/traces` |
 
-API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference]({{< relref "/integrate/redis-data-integration/reference/api-reference" >}}) for the complete list.
+API v2 also adds endpoints for DLQ inspection, target flushing, metric collections, and API information. See the [API reference](/content/integrate/redis-data-integration/reference/api-reference.md) for the complete list.
 
 ## v1 endpoints without a v2 equivalent
 
@@ -128,7 +127,7 @@ Note:
 2. Add the pipeline name to each v2 request. The only pipeline in 1.19.0 is always named `default`.
 3. Check the pipeline response, or call `GET /api/v2/pipelines/{name}/status`, instead of polling an action ID.
 4. Use `POST /api/v2/pipelines`, `PUT /api/v2/pipelines/{name}`, or `PATCH /api/v2/pipelines/{name}` to update source, target, processor, and secret-provider settings as needed. When using `PATCH`, omit the configuration sections that you do not want to change.
-5. Change secret requests to address a secret by a database-independent key and a `db` parameter. Where a v1 request set `SOURCE_DB_PASSWORD`, a v2 request sets the `PASSWORD` key with `db` naming the source, and `TARGET_DB_PASSWORD` becomes the `PASSWORD` key with `db=target`. See [Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}}). The environment variable that `config.yaml` references is unchanged for a source that existed before RDI supported multiple sources; see [Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).
+5. Change secret requests to address a secret by a database-independent key and a `db` parameter. Where a v1 request set `SOURCE_DB_PASSWORD`, a v2 request sets the `PASSWORD` key with `db` naming the source, and `TARGET_DB_PASSWORD` becomes the `PASSWORD` key with `db=target`. See [Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets). The environment variable that `config.yaml` references is unchanged for a source that existed before RDI supported multiple sources; see [Existing names are kept after an upgrade](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#existing-names-are-kept-after-an-upgrade).
 6. Use `GET /api/v2/pipelines/{name}/metric-collections/{collection_name}` for monitoring and `GET /api/v2/pipelines/{name}/source-schemas/{source_name}` for source metadata.
 7. Test creating, updating, validating, starting, stopping, resetting, and deleting a pipeline on a non-production RDI 1.19.0 or later installation before updating production applications.
 
