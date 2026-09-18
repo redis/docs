@@ -58,7 +58,7 @@ Add one field
 | **field**      | `string` | Field<br/>                                                                                                                                                                                            | yes      |
 | **expression** | `string` | Expression<br/>                                                                                                                                                                                       | yes      |
 | **language**   | `string` | Language<br/>Enum: `"jmespath"`, `"sql"`<br/>                                                                                                                                                         | yes      |
-| **cache**      | `object` | Cache the result of the field expression. See [`cache`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/data-transformation/cache" >}}) for the property list. **Flink processor only.**<br/> | no       |
+| **cache**      | `object` | Cache the result of the field expression. See [`cache`](/content/integrate/redis-data-integration/1.19.1/reference/data-transformation/cache.md) for the property list. **Flink processor only.**<br/> | no       |
 
 **Additional Properties:** not allowed
 
@@ -91,7 +91,7 @@ Fields
 | **field**      | `string` | Field<br/>                                                                                                                                                                                            | yes      |
 | **expression** | `string` | Expression<br/>                                                                                                                                                                                       | yes      |
 | **language**   | `string` | Language<br/>Enum: `"jmespath"`, `"sql"`<br/>                                                                                                                                                         | yes      |
-| **cache**      | `object` | Cache the result of the field expression. See [`cache`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/data-transformation/cache" >}}) for the property list. **Flink processor only.**<br/> | no       |
+| **cache**      | `object` | Cache the result of the field expression. See [`cache`](/content/integrate/redis-data-integration/1.19.1/reference/data-transformation/cache.md) for the property list. **Flink processor only.**<br/> | no       |
 
 **Item Additional Properties:** not allowed
 
