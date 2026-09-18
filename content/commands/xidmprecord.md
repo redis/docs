@@ -98,8 +98,8 @@ is the ID of an existing stream message.
 
 One of the following:
 
-- A [simple string reply]({{< relref "/develop/reference/protocol-spec/#simple-strings" >}}) - `OK` when the provided pid/iid pair already maps to the same stream ID (that is, the command is idempotent).
-- A [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) in one of the following cases:
+- A [simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) - `OK` when the provided pid/iid pair already maps to the same stream ID (that is, the command is idempotent).
+- A [simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in one of the following cases:
     - the key does not exist
     - the key does not refer to a stream
     - the stream ID refers to an non-existent or deleted entry
@@ -110,8 +110,8 @@ One of the following:
 
 One of the following:
 
-- A [simple string reply]({{< relref "/develop/reference/protocol-spec/#simple-strings" >}}) - `OK` when the provided pid/iid pair already maps to the same stream ID (that is, the command is idempotent).
-- A [simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) in one of the following cases:
+- A [simple string reply](/content/develop/reference/protocol-spec.md#simple-strings) - `OK` when the provided pid/iid pair already maps to the same stream ID (that is, the command is idempotent).
+- A [simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in one of the following cases:
     - the key does not exist
     - the key does not refer to a stream
     - the stream ID refers to an non-existent or deleted entry
