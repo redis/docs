@@ -15,7 +15,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 - A Redis Enterprise database that will serve as the pipeline target. The dataset that will be ingested is
   quite small in size, so a single shard database should be enough. RDI also needs to maintain its
   own database on the cluster to store state information. *This requires Redis Enterprise v6.4 or greater*.
-- [Redis Insight]({{< relref "/develop/tools/insight" >}})
+- [Redis Insight](/content/develop/tools/insight/_index.md)
   to edit your pipeline
 - A virtual machine (VM) with one of the following operating systems:  
   {{< embed-md "rdi-os-reqs.md" >}}
@@ -23,7 +23,7 @@ In this tutorial you will learn how to install RDI and set up a pipeline to inge
 ## Overview
 
 The following diagram shows the structure of the pipeline we will create (see
-the [architecture overview]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#overview" >}}) to learn how the pipeline works):
+the [architecture overview](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#overview) to learn how the pipeline works):
 
 {{< image filename="images/rdi/ingest/ingest-qsg.webp" >}}
 
@@ -43,7 +43,7 @@ and is already set up for the RDI collector to use.
 ### Install RDI
 
 Install RDI using the instructions in the
-[VM installation guide]({{< relref "/integrate/redis-data-integration/1.19.1/installation/install-vm" >}}).
+[VM installation guide](/content/integrate/redis-data-integration/1.19.1/installation/install-vm.md).
 
 RDI will create the pipeline template for your chosen source database type at
 `/opt/rdi/config`. You will need this pathname later when you prepare the pipeline for deployment
@@ -62,7 +62,7 @@ Use the Redis Enterprise Cluster Manager UI to create the RDI database with the 
 During the installation, RDI placed the pipeline templates at `/opt/rdi/config`.
 If you go to that folder and run the `ll` command, you will see the pipeline
 configuration file, `config.yaml`, and the `jobs` folder (see the page about
-[Pipelines]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines" >}}) for more information). Use Redis Insight to open
+[Pipelines](/content/integrate/redis-data-integration/1.19.1/data-pipelines/_index.md) for more information). Use Redis Insight to open
 the `config.yaml` file and then edit the following settings:
 
 - Set the `host` to `localhost` and the `port` to 5432.
@@ -74,7 +74,7 @@ At this point, the pipeline is ready to deploy.
 ### Create a context (optional) {#create-context}
 
 To manage and inspect RDI, you can use the
-[`redis-di`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli" >}})
+[`redis-di`](/content/integrate/redis-data-integration/1.19.1/reference/cli/_index.md)
 CLI tool, which has several commands for different purposes. Most of these commands connect to
 the RDI API, which you specify with the `--api-url` option. You can avoid typing this and the other
 connection options repeatedly by saving them in a *context*.
@@ -84,7 +84,7 @@ you use `redis-di`. If you have more than one RDI installation, you can create a
 for each of them and select the one you want to be active using its unique name.
 
 To create a context, use the
-[`redis-di set-context`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-context" >}})
+[`redis-di set-context`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-context.md)
 command. For a VM installation, the API has the same hostname or IP address as your RDI VM and uses
 the default HTTPS port 443:
 
@@ -94,9 +94,9 @@ redis-di set-context <unique-context-name> --api-url https://<host> --user <user
 
 You can save a few other options, such as a CA certificate (`--cacert`) if the API uses a private
 certificate (see the
-[reference page]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-context" >}})
+[reference page](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-context.md)
 for details). When you have created a context, use
-[`redis-di use-context`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-use-context" >}})
+[`redis-di use-context`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-use-context.md)
 to activate it:
 
 ```bash
@@ -104,8 +104,8 @@ redis-di use-context <context name>
 ```
 
 There are also subcommands to
-[list]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-contexts" >}})
-and [delete]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete-context" >}})
+[list](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-contexts.md)
+and [delete](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete-context.md)
 contexts.
 
 ### Deploy the pipeline
@@ -121,23 +121,23 @@ to supply the `--api-url` option if you are not using a
 [context](#create-context) as described above.) RDI first
 validates your pipeline and then deploys it if the configuration is correct.
 
-You can also use [Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+You can also use [Redis Insight](/content/develop/tools/insight/rdi-connector.md)
 to deploy the pipeline, by adding a connection to the RDI API
 endpoint (which has the same hostname or IP address as your RDI VM and uses the default HTTPS port 443) and then clicking the **Deploy** button.
 
 Once the pipeline is running, you can use Redis Insight to view the data flow using the
 pipeline metrics. You can also connect to your target database to see the keys that RDI has written there.
 
-See [Deploy a pipeline]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy" >}})
+See [Deploy a pipeline](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md)
 for more information about deployment settings.
 
 ### View RDI's response to data changes
 
 Once the pipeline has loaded a *snapshot* of all the existing data from the source,
 it enters *change data capture (CDC)* mode (see the
-[architecture overview]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#overview" >}})
+[architecture overview](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#overview)
 and the
-[ingest pipeline lifecycle]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines#pipeline-lifecycle" >}})
+[ingest pipeline lifecycle](/content/integrate/redis-data-integration/1.19.1/data-pipelines/_index.md#pipeline-lifecycle)
 for more information
 ).
 
@@ -147,7 +147,7 @@ To see the RDI pipeline working in CDC mode:
   (see [Generating load on the database](https://github.com/Redislabs-Solution-Architects/rdi-quickstart-postgres?tab=readme-ov-file#generating-load-on-the-database)
   to learn how to do this).
 - Run
-  [`redis-di describe`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe" >}})
+  [`redis-di describe`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe.md)
   to see the flow of records. To watch it update live, pair the command with `watch`, for example
   `watch -n 1 redis-di describe`.
-- Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to look at the data in the target database.
+- Use [Redis Insight](/content/develop/tools/insight/_index.md) to look at the data in the target database.

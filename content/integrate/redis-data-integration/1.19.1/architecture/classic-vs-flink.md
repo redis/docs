@@ -22,9 +22,9 @@ the same Redis target, but they differ in architecture, supported features,
 configuration, observability, error handling, and performance.
 
 This page summarizes those differences. See
-[Which processor should I use?]({{< relref "/integrate/redis-data-integration/1.19.1/faq#which-processor-should-i-use" >}})
+[Which processor should I use?](/content/integrate/redis-data-integration/1.19.1/faq.md#which-processor-should-i-use)
 in the FAQ for the recommendation, and
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/1.19.1/installation/migration-classic-to-flink" >}})
+[Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/1.19.1/installation/migration-classic-to-flink.md)
 for a step-by-step migration guide.
 
 ## At a glance
@@ -60,9 +60,9 @@ processor adds Flink checkpointing on top of the shared
 consumer-group replay mechanism.
 
 See
-[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/1.19.1/installation/install-k8s#configure-the-flink-processor" >}})
+[Configure the Flink processor](/content/integrate/redis-data-integration/1.19.1/installation/install-k8s.md#configure-the-flink-processor)
 for the Kubernetes Helm settings, and
-[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/1.19.1/installation/install-vm#configure-the-flink-processor" >}})
+[Configure the Flink processor](/content/integrate/redis-data-integration/1.19.1/installation/install-vm.md#configure-the-flink-processor)
 for VM installations.
 
 ## Configuration
@@ -73,7 +73,7 @@ differences are inside the `processors:` block, which is selected via
 `processors.type` (`classic` or `flink`, default `classic`). Properties
 that apply to only one implementation are annotated with
 **Classic processor only.** or **Flink processor only.** in the
-[pipeline configuration reference]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config#processors" >}}),
+[pipeline configuration reference](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#processors),
 and are silently ignored by the other implementation. The Flink
 processor exposes additional fine-grained tuning under
 `processors.advanced.*`.
@@ -98,9 +98,9 @@ extensions that are not available with the classic processor:
     defaults; the optional `batch:` block lets you override them.
 
 See
-[Caching expression results]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/caching-expression-results" >}})
+[Caching expression results](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/caching-expression-results.md)
 for examples and
-[`redis.lookup`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/data-transformation/lookup" >}})
+[`redis.lookup`](/content/integrate/redis-data-integration/1.19.1/reference/data-transformation/lookup.md)
 for the full property list.
 
 ## Metrics
@@ -113,7 +113,7 @@ directly from the JobManager and TaskManager pods through Flink's
 native Prometheus reporter; no metrics exporter is deployed.
 
 See
-[Observability — Flink processor metrics]({{< relref "/integrate/redis-data-integration/1.19.1/observability#flink-processor-metrics" >}})
+[Observability — Flink processor metrics](/content/integrate/redis-data-integration/1.19.1/observability.md#flink-processor-metrics)
 for the customer-facing list of metrics.
 
 ## Error handling and DLQ
