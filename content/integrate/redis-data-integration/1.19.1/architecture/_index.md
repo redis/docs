@@ -44,7 +44,7 @@ in sequence:
     [Debezium](https://debezium.io/) for this step.
 
 1.  The collector records the captured changes using
-[Redis streams]({{< relref "/develop/data-types/streams" >}})
+[Redis streams](/content/develop/data-types/streams/_index.md)
     in the RDI database.
 
 1.  A *stream processor* reads data from the streams and applies
@@ -103,11 +103,11 @@ available memory. When RDI detects this situation, it applies a
 Change data is held at the source until RDI clears the backlog and has
 enough free memory to resume streaming.
 
-{{<note>}}The Debezium log sometimes reports that RDI has run out
-of memory (usually while creating the initial snapshot). This is not
-an error, just an informative message to note that RDI has applied
-the backpressure mechanism.
-{{</note>}}
+> [!NOTE]
+> The Debezium log sometimes reports that RDI has run out
+> of memory (usually while creating the initial snapshot). This is not
+> an error, just an informative message to note that RDI has applied
+> the backpressure mechanism.
 
 ## Supported sources
 
@@ -147,14 +147,14 @@ The diagram below shows all RDI components and the interactions between them:
 
 RDI provides two implementations of the stream processor, *classic* and
 *Flink*. You select the implementation per pipeline through the
-[`processors.type`]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config#processors" >}})
+[`processors.type`](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#processors)
 property in `config.yaml`. The default is `classic`, so existing pipelines
 keep their behavior unchanged.
 
 See
-[Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/1.19.1/architecture/classic-vs-flink" >}})
+[Differences between the classic and Flink processors](/content/integrate/redis-data-integration/1.19.1/architecture/classic-vs-flink.md)
 for a side-by-side comparison and
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/1.19.1/installation/migration-classic-to-flink" >}})
+[Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/1.19.1/installation/migration-classic-to-flink.md)
 for guidance on migrating an existing pipeline to the Flink processor.
 
 ## VM and Kubernetes deployments
@@ -172,7 +172,7 @@ The diagram below shows this configuration:
 
 {{< image filename="images/rdi/ingest/ingest-active-passive-vms.webp" >}}
 
-See [Install on VMs]({{< relref "/integrate/redis-data-integration/1.19.1/installation/install-vm" >}})
+See [Install on VMs](/content/integrate/redis-data-integration/1.19.1/installation/install-vm.md)
 for more information.
 
 ### RDI on Kubernetes
@@ -185,8 +185,8 @@ on [Kubernetes (K8s)](https://kubernetes.io/), including Red Hat
     You can also use a different namespace name if you prefer.
 -   [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and
     [services](https://kubernetes.io/docs/concepts/services-networking/service/) for the
-    [RDI operator]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#how-rdi-is-deployed" >}}),
-    [metrics exporter]({{< relref "/integrate/redis-data-integration/1.19.1/observability" >}}), and API server.
+    [RDI operator](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#how-rdi-is-deployed),
+    [metrics exporter](/content/integrate/redis-data-integration/1.19.1/observability.md), and API server.
 -   A [service account](https://kubernetes.io/docs/concepts/security/service-accounts/)
     and [RBAC resources](https://kubernetes.io/docs/reference/access-authn-authz/rbac) for the RDI operator.
 -   A [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) with RDI database details.
@@ -195,7 +195,7 @@ on [Kubernetes (K8s)](https://kubernetes.io/), including Red Hat
 -   Other optional K8s resources such as [ingresses](https://kubernetes.io/docs/concepts/services-networking/ingress/)
     that can be enabled depending on your K8s environment and needs.
 
-See [Install on Kubernetes]({{< relref "/integrate/redis-data-integration/1.19.1/installation/install-k8s" >}})
+See [Install on Kubernetes](/content/integrate/redis-data-integration/1.19.1/installation/install-k8s.md)
 for more information.
 
 ### Secrets and security considerations

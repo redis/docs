@@ -49,7 +49,7 @@ RDI is also available as a fully managed service on Redis Cloud, removing the ne
 
 The Cloud service currently supports AWS-hosted source databases (Amazon RDS, Amazon Aurora, and Amazon EC2), as well as MongoDB Atlas and Snowflake, writing to a Redis Cloud Pro target database.
 
-See [Data Integration]({{< relref "/operate/rc/rdi" >}}) in the Redis Cloud documentation for
+See [Data Integration](/content/operate/rc/rdi/_index.md) in the Redis Cloud documentation for
 full setup instructions, prerequisites, and a quick start guide.
 
 ## Features
@@ -76,7 +76,7 @@ RDI provides enterprise-grade streaming data pipelines with the following featur
 - **Backpressure mechanism** - RDI is designed to backoff writing data when the cache gets
   disconnected, which prevents cascading failure. Since the change data is persisted in the source
   database and Redis is very fast, RDI can easily catch up with missed changes after a short period of
-  disconnection. See [Backpressure mechanism]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#backpressure-mechanism">}}) for more information.
+  disconnection. See [Backpressure mechanism](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#backpressure-mechanism) for more information.
 - **Recovering from full failure** - If the cache fails or gets disconnected for a long time,
   RDI can reconstruct the cache data in Redis using a full snapshot of the defined dataset.
 - **High throughput** - Because RDI uses Redis for staging and writes to Redis as a target,
@@ -89,7 +89,7 @@ RDI provides enterprise-grade streaming data pipelines with the following featur
 
 RDI is highly configurable but it is not intended to be a general
 solution for all data integration tasks. See
-[When to use RDI]({{< relref "/integrate/redis-data-integration/1.19.1/when-to-use" >}})
+[When to use RDI](/content/integrate/redis-data-integration/1.19.1/when-to-use.md)
 to find out if your use case is a good fit for RDI's features.
 
 ## Supported source databases
