@@ -44,7 +44,7 @@ title: CLIENT NO-TOUCH
 ---
 The `CLIENT NO-TOUCH` command controls whether commands sent by the client will alter the LRU/LFU of the keys they access.
 
-When turned on, the current client will not change LFU/LRU stats, unless it sends the [`TOUCH`]({{< relref "/commands/touch" >}}) command.
+When turned on, the current client will not change LFU/LRU stats, unless it sends the [`TOUCH`](/content/commands/touch.md) command.
 
 When turned off, the client touches LFU/LRU stats just as a normal client.
 
@@ -70,14 +70,14 @@ Turn off (`ON`) or on (`OFF`) updates to keys' last-access time and LFU counter 
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the command was successful.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: wrong number of or invalid arguments.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if the command was successful.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: wrong number of or invalid arguments.
 
 -tab-sep-
 
 One of the following:
 
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` if the command was successful.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: wrong number of or invalid arguments.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` if the command was successful.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: wrong number of or invalid arguments.
 
 {{< /multitabs >}}

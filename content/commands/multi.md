@@ -30,13 +30,12 @@ summary: Starts a transaction.
 syntax_fmt: MULTI
 title: MULTI
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-Marks the start of a [transaction]({{< relref "/develop/using-commands/transactions" >}}) block.
-Subsequent commands will be queued for atomic execution using [`EXEC`]({{< relref "/commands/exec" >}}).
+Marks the start of a [transaction](/content/develop/using-commands/transactions.md) block.
+Subsequent commands will be queued for atomic execution using [`EXEC`](/content/commands/exec.md).
 
 ## Redis Software and Redis Cloud compatibility
 
