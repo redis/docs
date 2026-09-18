@@ -116,30 +116,42 @@ spelling in a quote") is exactly what lets you adjudicate the tool findings.
    *context*, not findings — they tell you what the author intended and
    whether the build is healthy. Don't raise them as issues.
 
-3a. **Mine repo memory for prior art — but only via the real squash message,
-    never its comment body.** Redis repo memory's comment lists related PRs
-    and commits ranked by similarity, each with a `sourceUrl` and a
-    `bodySummary`. **The `bodySummary` is not the evidence** — it's often a
-    one-line title echo or empty. It's a pointer, nothing more.
+3a. **Mine repo memory for prior art, cheaply first.** Redis repo memory's
+    comment renders each related item as a one-line title echo — that
+    rendered line is not useful. But the same comment carries a hidden
+    `<!-- redis-repo-memory-data: <base64> -->` block at the bottom: decode
+    it (`base64 -d` the payload, it's a JSON array) to get, per item, a
+    `score` (lower = closer match), a `sourceUrl`, and a `bodySummary`
+    truncated to roughly 500 characters. You already fetched this comment in
+    step 2 — decoding costs nothing.
 
-    For each related item whose title or file path plausibly overlaps a
-    cluster you're about to adjudicate (steps 4–7), follow the link and pull
-    the **real** message:
+    - Use `score` to rank the related items; don't treat the comment's own
+      display order as relevance.
+    - For a `push_summary`/commit-typed item, the `bodySummary` preview is a
+      genuine slice of the real `/reflect`+`/finalize` message (verified: it
+      correctly led with the actual "verified X against the source rather
+      than the PR description" finding, not a title echo). It's often
+      enough on its own to judge relevance, and sometimes enough to cite.
+    - It is **truncated**, though — a real distillation easily runs to
+      1,500+ characters and the cut can land mid-thought, before a second or
+      third finding. Don't treat the preview as complete.
+
+    For the items whose score and preview show real overlap with a cluster
+    you're about to adjudicate (steps 4–7) — same file/subsystem, or the
+    same bot raising a similar-shaped claim — pull the **full** message
+    before citing it as precedent:
 
     - For a PR: `gh pr view <n> --json state,mergedAt,mergeCommit` — if
       merged, the squash commit at `mergeCommit.oid` carries the full
-      `/reflect` + `/finalize` distillation (what was learned, what was
-      rejected, what future-you must not break). Fetch it with
-      `git log -1 --format=%B <oid>` (or `gh api
-      repos/{owner}/{repo}/commits/{oid} --jq .commit.message` if the commit
-      isn't in your local history).
+      distillation. Fetch it with `git log -1 --format=%B <oid>` (or
+      `gh api repos/{owner}/{repo}/commits/{oid} --jq .commit.message` if
+      the commit isn't in your local history).
     - For a bare commit link: the same `git log -1 --format=%B <sha>` — it
       may be a smaller, less distilled message, so weight it accordingly.
 
-    Don't do this for every related item indiscriminately — it costs a
-    network round-trip per item. Do it for the ones that could plausibly
-    bear on a finding you're actually adjudicating this round (same
-    file/subsystem, or the same bot raising a similar-shaped claim).
+    Don't do the full fetch for every related item indiscriminately — it
+    costs a network round-trip per item, on top of decoding the blob. Reach
+    for it only once the cheap preview says it's worth it.
 
     Use what you find as **precedent, cited by PR number**, in step 7's
     adjudication — e.g. "PR #3604's squash message documents that bugbot's
