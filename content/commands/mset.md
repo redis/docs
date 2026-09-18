@@ -56,14 +56,13 @@ summary: Atomically creates or modifies the string values of one or more keys.
 syntax_fmt: MSET key value [key value ...]
 title: MSET
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Sets the given keys to their respective values.
-`MSET` replaces existing values with new values, just as regular [`SET`]({{< relref "/commands/set" >}}).
-See [`MSETNX`]({{< relref "/commands/msetnx" >}}) if you don't want to overwrite existing values.
+`MSET` replaces existing values with new values, just as regular [`SET`](/content/commands/set.md).
+See [`MSETNX`](/content/commands/msetnx.md) if you don't want to overwrite existing values.
 
 `MSET` is atomic, so all given keys are set at once.
 It is not possible for clients to see that some of the keys were updated while
