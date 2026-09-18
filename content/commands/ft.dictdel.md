@@ -72,18 +72,18 @@ term to delete from the dictionary.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of terms deleted from the dictionary.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of terms deleted from the dictionary.
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of terms deleted from the dictionary.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of terms deleted from the dictionary.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.DICTADD`]({{< relref "commands/ft.dictadd/" >}}) | [`FT.DICTDUMP`]({{< relref "commands/ft.dictdump/" >}})
+[`FT.DICTADD`](/content/commands/ft.dictadd.md) | [`FT.DICTDUMP`](/content/commands/ft.dictdump.md)
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)

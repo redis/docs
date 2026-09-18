@@ -72,21 +72,21 @@ Use FT.SYNDUMP to dump the synonyms data structure. This command returns a list 
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of synonym terms and their associated synonym groups.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of synonym terms and their associated synonym groups.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index.
 
 -tab-sep-
 
 One of the following:
-* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are synonym terms and values are arrays of their associated synonym groups.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index.
+* [Map](/content/develop/reference/protocol-spec.md#maps) where keys are synonym terms and values are arrays of their associated synonym groups.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.SYNUPDATE`]({{< relref "commands/ft.synupdate/" >}}) 
+[`FT.SYNUPDATE`](/content/commands/ft.synupdate.md) 
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)

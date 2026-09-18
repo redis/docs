@@ -303,9 +303,8 @@ title: FT.SEARCH
 
 Search the index with a textual query, returning either documents or just ids.
 
-{{< note >}}
-This command will only return keys to which the user has read access.
-{{< /note >}}
+> [!NOTE]
+> This command will only return keys to which the user has read access.
 
 [Examples](#examples)
 
@@ -314,13 +313,13 @@ This command will only return keys to which the user has read access.
 <details open>
 <summary><code>index</code></summary>
 
-is index name. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+is index name. You must first create the index using [`FT.CREATE`](/content/commands/ft.create.md).
 </details>
 
 <details open>
 <summary><code>query</code></summary> 
 
-is text query to search. If it's more than a single word, put it in quotes. Refer to [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}}) for more details.
+is text query to search. If it's more than a single word, put it in quotes. Refer to [Query syntax](/content/develop/ai/search-and-query/query/_index.md) for more details.
 </details>
 
 ## Optional arguments
@@ -352,7 +351,7 @@ also returns the relative internal score of each document. This can be used to m
 <details open>
 <summary><code>WITHPAYLOADS</code></summary>
 
-retrieves optional document payloads. See [`FT.CREATE`]({{< relref "commands/ft.create/" >}}). The payloads follow the document id and, if `WITHSCORES` is set, the scores.
+retrieves optional document payloads. See [`FT.CREATE`](/content/commands/ft.create.md). The payloads follow the document id and, if `WITHSCORES` is set, the scores.
 </details>
 
 <details open>
@@ -364,16 +363,16 @@ returns the value of the sorting key, right after the id and score and/or payloa
 <details open>
 <summary><code>FILTER numeric_attribute min max</code></summary>
 
-limits results to those having numeric values ranging between `min` and `max`, if numeric_attribute is defined as a numeric attribute in [`FT.CREATE`]({{< relref "commands/ft.create/" >}}). 
-  `min` and `max` follow [`ZRANGE`]({{< relref "/commands/zrange" >}}) syntax, and can be `-inf`, `+inf`, and use `(` for exclusive ranges. Multiple numeric filters for different attributes are supported in one query.
-**Deprecated since v2.10**: [Query dialect 2]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}}) explains the query syntax for numeric fields that replaces this argument.
+limits results to those having numeric values ranging between `min` and `max`, if numeric_attribute is defined as a numeric attribute in [`FT.CREATE`](/content/commands/ft.create.md). 
+  `min` and `max` follow [`ZRANGE`](/content/commands/zrange.md) syntax, and can be `-inf`, `+inf`, and use `(` for exclusive ranges. Multiple numeric filters for different attributes are supported in one query.
+**Deprecated since v2.10**: [Query dialect 2](/content/develop/ai/search-and-query/advanced-concepts/dialects.md#dialect-2) explains the query syntax for numeric fields that replaces this argument.
 </details>
 
 <details open>
 <summary><code>GEOFILTER {geo_attribute} {lon} {lat} {radius} m|km|mi|ft</code></summary>
 
-filter the results to a given `radius` from `lon` and `lat`. Radius is given as a number and units. See [`GEORADIUS`]({{< relref "/commands/georadius" >}}) for more details.
-**Deprecated since v2.6**: [Query dialect 3]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-3" >}}) explains the query syntax for geospatial fields that replaces this argument.
+filter the results to a given `radius` from `lon` and `lat`. Radius is given as a number and units. See [`GEORADIUS`](/content/commands/georadius.md) for more details.
+**Deprecated since v2.6**: [Query dialect 3](/content/develop/ai/search-and-query/advanced-concepts/dialects.md#dialect-3) explains the query syntax for geospatial fields that replaces this argument.
 </details>
 
 <details open>
@@ -399,13 +398,13 @@ limits the attributes returned from the document. `num` is the number of attribu
 <details open>
 <summary><code>SUMMARIZE ...</code></summary>
 
-returns only the sections of the attribute that contain the matched text. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}}) for more information.
+returns only the sections of the attribute that contain the matched text. See [Highlighting](/content/develop/ai/search-and-query/advanced-concepts/highlight.md) for more information.
 </details>
 
 <details open>
 <summary><code>HIGHLIGHT ...</code></summary>
 
-formats occurrences of matched text. See [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}}) for more information.
+formats occurrences of matched text. See [Highlighting](/content/develop/ai/search-and-query/advanced-concepts/highlight.md) for more information.
 </details>
 
 <details open>
@@ -429,20 +428,20 @@ requires the terms in the document to have the same order as the terms in the qu
 
 use a stemmer for the supplied language during search for query expansion. If querying documents in Chinese, set to `chinese` to
   properly tokenize the query terms. Defaults to English. If an unsupported language is sent, the command returns an error.
-  See [`FT.CREATE`]({{< relref "commands/ft.create/" >}}) for the list of languages. If `LANGUAGE` was specified as part of index
+  See [`FT.CREATE`](/content/commands/ft.create.md) for the list of languages. If `LANGUAGE` was specified as part of index
   creation, it doesn't need to specified with `FT.SEARCH`.
 </details>
 
 <details open>
 <summary><code>EXPANDER {expander}</code></summary>
 
-uses a custom query expander instead of the stemmer. See [Extensions]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}).
+uses a custom query expander instead of the stemmer. See [Extensions](/content/develop/ai/search-and-query/administration/extensions.md).
 </details>
 
 <details open>
 <summary><code>SCORER {scorer}</code></summary>
 
-uses a [built-in]({{< relref "/develop/ai/search-and-query/advanced-concepts/scoring" >}}) or a [user-provided]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}) scoring function.
+uses a [built-in](/content/develop/ai/search-and-query/advanced-concepts/scoring.md) or a [user-provided](/content/develop/ai/search-and-query/administration/extensions.md) scoring function.
 </details>
 
 <details open>
@@ -454,7 +453,7 @@ returns a textual description of how the scores were calculated. Using this opti
 <details open>
 <summary><code>PAYLOAD {payload}</code></summary>
 
-adds an arbitrary, binary safe payload that is exposed to custom scoring functions. See [Extensions]({{< relref "/develop/ai/search-and-query/administration/extensions" >}}).
+adds an arbitrary, binary safe payload that is exposed to custom scoring functions. See [Extensions](/content/develop/ai/search-and-query/administration/extensions.md).
 </details>
 
 <details open>
@@ -493,14 +492,14 @@ overrides the timeout parameter of the module.
 defines one or more value parameters. Each parameter has a name and a value. 
 
 You can reference parameters in the `query` by a `$`, followed by the parameter name, for example, `$user`. Each such reference in the search query to a parameter name is substituted by the corresponding parameter value. For example, with parameter definition `PARAMS 4 lon 29.69465 lat 34.95126`, the expression `@loc:[$lon $lat 10 km]` is evaluated to `@loc:[29.69465 34.95126 10 km]`. You cannot reference parameters in the query string where concrete values are not allowed, such as in field names, for example, `@loc`. To use `PARAMS`, set
-[`DIALECT`]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-2" >}})
+[`DIALECT`](/content/develop/ai/search-and-query/advanced-concepts/dialects.md#dialect-2)
 to `2` or greater than `2` (this requires [RediSearch v2.4](https://github.com/RediSearch/RediSearch/releases/tag/v2.4.3) or above).
 </details>
 
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary>
 
-selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command. See [Query dialects]({{< relref "/develop/ai/search-and-query/advanced-concepts/dialects" >}}) for more information.
+selects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`](/content/commands/ft.config-set.md) command. See [Query dialects](/content/develop/ai/search-and-query/advanced-concepts/dialects.md) for more information.
 </details>
 
 ## Return
@@ -523,13 +522,11 @@ For example, if 42 documents match the query, the count is 42, even though the r
 1) (integer) 42
 ```
 
-{{% alert title="Notes" color="warning" %}}
- 
-- If you specify `NOCONTENT`, the command returns an array where the first element is the total number of matching documents and the remaining elements are document IDs.
-- If a matching key expires or is updated while a query is running, Redis returns a null array when it tries to load the updated key's value. The key still counts as a matching document.
-- The number of matching documents is accurate unless the query uses the sorting optimizations of `DIALECT 4` or `WITHOUTCOUNT`. These queries stop as soon as they collect the results requested by `LIMIT`, so the reported number is capped at the size of the `LIMIT` window instead of counting every matching document. Add `WITHCOUNT` to a `SORTBY` clause to get an accurate count.
-
-{{% /alert %}}
+> [!NOTE]
+>  
+> - If you specify `NOCONTENT`, the command returns an array where the first element is the total number of matching documents and the remaining elements are document IDs.
+> - If a matching key expires or is updated while a query is running, Redis returns a null array when it tries to load the updated key's value. The key still counts as a matching document.
+> - The number of matching documents is accurate unless the query uses the sorting optimizations of `DIALECT 4` or `WITHOUTCOUNT`. These queries stop as soon as they collect the results requested by `LIMIT`, so the reported number is capped at the size of the `LIMIT` window instead of counting every matching document. Add `WITHCOUNT` to a `SORTBY` clause to get an accurate count.
 
 ### Return multiple values
 
@@ -542,7 +539,7 @@ In order to maintain backward compatibility, the default behavior with RediSearc
 
 To return all the values, use `DIALECT` 3 (or greater, when available).
 
-The `DIALECT` can be specified as a parameter in the FT.SEARCH command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) or by passing it as an argument to the `redisearch` module when it is loaded.
+The `DIALECT` can be specified as a parameter in the FT.SEARCH command. If it is not specified, the `DEFAULT_DIALECT` is used, which can be set using [`FT.CONFIG SET`](/content/commands/ft.config-set.md) or by passing it as an argument to the `redisearch` module when it is loaded.
 
 For example, with the following document and index:
 
@@ -683,7 +680,7 @@ Search for books with semantically similar title to _Planet Earth_. Return top 1
 <details open>
 <summary><b>Vector search with cluster optimization</b></summary>
 
-Search for books with titles that are semantically similar to _Planet Earth_ using cluster optimization. Each shard retrieves 60% of the requested results for improved performance in Redis cluster environments. See the [query attributes]({{< relref "/develop/ai/search-and-query/advanced-concepts/query_attributes" >}}) reference page for more information.
+Search for books with titles that are semantically similar to _Planet Earth_ using cluster optimization. Each shard retrieves 60% of the requested results for improved performance in Redis cluster environments. See the [query attributes](/content/develop/ai/search-and-query/advanced-concepts/query_attributes.md) reference page for more information.
 
 {{< highlight bash >}}
 127.0.0.1:6379> FT.SEARCH books-idx "*=>[KNN 100 @title_embedding $query_vec]=>{$SHARD_K_RATIO: 0.6; $YIELD_DISTANCE_AS: title_score}" PARAMS 2 query_vec <"Planet Earth" embedding BLOB> SORTBY title_score DIALECT 2
@@ -824,7 +821,7 @@ First, create an index using `GEOSHAPE` type with a `FLAT` coordinate system:
 OK
 {{< / highlight >}}
 
-Adding a couple of geometries using [`HSET`]({{< relref "/commands/hset" >}}):
+Adding a couple of geometries using [`HSET`](/content/commands/hset.md):
 
 {{< highlight bash >}}
 127.0.0.1:6379> HSET small geom 'POLYGON((1 1, 1 100, 100 100, 100 1, 1 1))'
@@ -873,31 +870,31 @@ Query with `CONTAINS` operator:
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}): the first element is the total number of documents that match the query. The remaining elements are document IDs followed by their field-value pairs as [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}). The number of documents returned in the reply is limited by `LIMIT`, so it is often smaller than the total number of matching documents.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+* [Array](/content/develop/reference/protocol-spec.md#arrays): the first element is the total number of documents that match the query. The remaining elements are document IDs followed by their field-value pairs as [arrays](/content/develop/reference/protocol-spec.md#arrays). The number of documents returned in the reply is limited by `LIMIT`, so it is often smaller than the total number of matching documents.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, syntax error in query.
 
 -tab-sep-
 
 One of the following:
-* [Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) with the following fields:
-    - `total_results`: [Integer]({{< relref "/develop/reference/protocol-spec#integers" >}}) - the total number of documents that match the query, regardless of how many are returned in `results`
-    - `results`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [maps]({{< relref "/develop/reference/protocol-spec#maps" >}}) containing document information, limited by `LIMIT`
-    - `attributes`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of attribute names
-    - `format`: [Simple string]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}) - result format
-    - `warning`: [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of warning messages
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+* [Map](/content/develop/reference/protocol-spec.md#maps) with the following fields:
+    - `total_results`: [Integer](/content/develop/reference/protocol-spec.md#integers) - the total number of documents that match the query, regardless of how many are returned in `results`
+    - `results`: [Array](/content/develop/reference/protocol-spec.md#arrays) of [maps](/content/develop/reference/protocol-spec.md#maps) containing document information, limited by `LIMIT`
+    - `attributes`: [Array](/content/develop/reference/protocol-spec.md#arrays) of attribute names
+    - `format`: [Simple string](/content/develop/reference/protocol-spec.md#simple-strings) - result format
+    - `warning`: [Array](/content/develop/reference/protocol-spec.md#arrays) of warning messages
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}})
+[`FT.CREATE`](/content/commands/ft.create.md) | [`FT.AGGREGATE`](/content/commands/ft.aggregate.md)
 
 ## Related topics
 
-- [Extensions]({{< relref "/develop/ai/search-and-query/administration/extensions" >}})
-- [Highlighting]({{< relref "/develop/ai/search-and-query/advanced-concepts/highlight" >}})
-- [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}})
-- [Query syntax]({{< relref "/develop/ai/search-and-query/query/" >}})
-- [RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
-- [Search commands in MULTI/EXEC transactions and Lua scripts]({{< relref "/develop/ai/search-and-query/advanced-concepts/transactions" >}})
+- [Extensions](/content/develop/ai/search-and-query/administration/extensions.md)
+- [Highlighting](/content/develop/ai/search-and-query/advanced-concepts/highlight.md)
+- [Key and field expiration behavior](/content/develop/ai/search-and-query/advanced-concepts/expiration.md)
+- [Query syntax](/content/develop/ai/search-and-query/query/_index.md)
+- [RediSearch](/content/develop/ai/search-and-query/_index.md)
+- [Search commands in MULTI/EXEC transactions and Lua scripts](/content/develop/ai/search-and-query/advanced-concepts/transactions.md)

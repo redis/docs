@@ -46,7 +46,7 @@ Return the execution plan for a complex query but formatted for easier reading w
 <details open>
 <summary><code>index</code></summary>
 
-is index name. You must first create the index using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}).
+is index name. You must first create the index using [`FT.CREATE`](/content/commands/ft.create.md).
 </details>
 
 <details open>
@@ -60,13 +60,11 @@ is query string, as if sent to FT.SEARCH`.
 <details open>
 <summary><code>DIALECT {dialect_version}</code></summary>
 
-is dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) command.
+is dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`](/content/commands/ft.config-set.md) command.
 
-{{% alert title="Note" color="warning" %}}
- 
-In the returned response, a `+` on a term is an indication of stemming.
-
-{{% /alert %}}
+> [!NOTE]
+>  
+> In the returned response, a `+` on a term is an indication of stemming.
 
 </details>
 
@@ -124,22 +122,22 @@ $ redis-cli
     tab2="RESP3" >}}
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan in CLI format.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing the query execution plan in CLI format.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, syntax error in query.
 
 -tab-sep-
 
 One of the following:
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) containing the query execution plan in CLI format.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: no such index, syntax error in query.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) containing the query execution plan in CLI format.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: no such index, syntax error in query.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CREATE`]({{< relref "commands/ft.create/" >}}) | [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) | [`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}})
+[`FT.CREATE`](/content/commands/ft.create.md) | [`FT.SEARCH`](/content/commands/ft.search.md) | [`FT.CONFIG SET`](/content/commands/ft.config-set.md)
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)
 

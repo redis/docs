@@ -27,7 +27,7 @@ hidden: false
 linkTitle: FT.CONFIG GET
 module: Search
 railroad_diagram: /images/railroad/ft.config-get.svg
-replaced_by: '[`CONFIG GET`]({{< relref "/commands/config-get" >}})'
+replaced_by: '[`CONFIG GET`](/content/commands/config-get.md)'
 since: 1.0.0
 stack_path: docs/interact/search-and-query
 summary: Retrieves runtime configuration options
@@ -149,18 +149,18 @@ is name of the configuration option, or '*' for all.
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-[Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [arrays]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each sub-array contains a configuration option name and its value.
+[Array](/content/develop/reference/protocol-spec.md#arrays) of [arrays](/content/develop/reference/protocol-spec.md#arrays), where each sub-array contains a configuration option name and its value.
 
 -tab-sep-
 
-[Map]({{< relref "/develop/reference/protocol-spec#maps" >}}) where keys are configuration option names and values are their corresponding values.
+[Map](/content/develop/reference/protocol-spec.md#maps) where keys are configuration option names and values are their corresponding values.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`FT.CONFIG SET`]({{< relref "commands/ft.config-set/" >}}) | [`FT.CONFIG HELP`]({{< relref "commands/ft.config-help/" >}})
+[`FT.CONFIG SET`](/content/commands/ft.config-set.md) | [`FT.CONFIG HELP`](/content/commands/ft.config-help.md)
 
 ## Related topics
 
-[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})
+[RediSearch](/content/develop/ai/search-and-query/_index.md)
