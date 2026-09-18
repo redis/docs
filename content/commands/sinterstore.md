@@ -64,12 +64,11 @@ summary: Stores the intersect of multiple sets in a key.
 syntax_fmt: SINTERSTORE destination key [key ...]
 title: SINTERSTORE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-This command is equal to [`SINTER`]({{< relref "/commands/sinter" >}}), but instead of returning the resulting set,
+This command is equal to [`SINTER`](/content/commands/sinter.md), but instead of returning the resulting set,
 it is stored in `destination`.
 
 If `destination` already exists, it is overwritten.
@@ -131,4 +130,4 @@ redis> SMEMBERS key
 
 ## See also
 
-[`SINTER`]({{< relref "commands/sinter" >}}) | [`SINTERCARD`]({{< relref "commands/sintercard" >}})
+[`SINTER`](/content/commands/sinter.md) | [`SINTERCARD`](/content/commands/sintercard.md)
