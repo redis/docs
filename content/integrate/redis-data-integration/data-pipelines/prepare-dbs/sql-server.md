@@ -102,12 +102,12 @@ EXEC sys.sp_cdc_enable_db
 GO
 ```
 
-{{< note >}}For SQL Server on AWS RDS, you must use a different stored procedure:
-```sql
-EXEC msdb.dbo.rds_cdc_enable_db 'Chinook'
-GO
-```
-{{< /note >}}
+> [!NOTE]
+> For SQL Server on AWS RDS, you must use a different stored procedure:
+> ```sql
+> EXEC msdb.dbo.rds_cdc_enable_db 'Chinook'
+> GO
+> ```
 
 When you enable CDC for the database, it creates a schema called `cdc` and also
 a CDC user, metadata tables, and other system objects. 
@@ -137,11 +137,11 @@ a CDC user, metadata tables, and other system objects.
 
     Repeat this for every table you want to capture.
 
-    {{< note >}}The value for `@role_name` can’t be a fixed database role, such as `db_datareader`. 
-    Specifying a new name will create a corresponding database role that has full access to the
-    captured change data.
-    {{< /note >}}
-  
+    > [!NOTE]
+    > The value for `@role_name` can’t be a fixed database role, such as `db_datareader`. 
+    > Specifying a new name will create a corresponding database role that has full access to the
+    > captured change data.
+
 1. <a id="add-the-debezium-user-to-the-cdc-role"></a>
     Add the Debezium user to the CDC role:
 
@@ -213,8 +213,9 @@ problems while running the capture job agent then you can adjust the capture job
 settings to reduce CPU load. To do this, run the `sys.sp_cdc_change_job` stored procedure
 with your new parameter values.
 
-{{< note >}}A full guide to configuring the SQL Server capture job agent parameters
-is outside the scope of the Redis documentation.{{< /note >}}
+> [!NOTE]
+> A full guide to configuring the SQL Server capture job agent parameters
+> is outside the scope of the Redis documentation.
 
 The following parameters are the most important ones for modifying the capture agent behavior
 of the Debezium SQL Server connector:
@@ -289,11 +290,12 @@ The procedure depends on which Azure SQL product you are using.
 You must be a member of the `db_owner` role on the database — Azure SQL Database has
 no `sysadmin` server role.
 
-{{< warning >}}The identity used to enable CDC must match the type of identity that
-created the database. If the database was created by a Microsoft Entra user, CDC must
-be enabled (and later disabled) by a Microsoft Entra user; SQL logins cannot manage
-CDC on it. The same restriction applies in reverse for databases created by SQL
-logins.{{< /warning >}}
+> [!WARNING]
+> The identity used to enable CDC must match the type of identity that
+> created the database. If the database was created by a Microsoft Entra user, CDC must
+> be enabled (and later disabled) by a Microsoft Entra user; SQL logins cannot manage
+> CDC on it. The same restriction applies in reverse for databases created by SQL
+> logins.
 
 Connect to the user database and run:
 
@@ -318,13 +320,14 @@ CDC service-tier requirements differ between purchasing models:
 If `sys.sp_cdc_enable_db` returns an error such as `Change data capture is not supported for this edition of SQL Server`,
 scale the database up before retrying.
 
-{{< note >}}Capture and cleanup run automatically on Azure SQL Database — there is no
-SQL Server Agent. The internal scheduler runs the capture process every 20 seconds and
-the cleanup process every hour, with a default change-data retention period of three
-days. The capture cadence — the `pollinginterval` parameter described in the
-[SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters)
-section — is fixed on Azure SQL Database and cannot be tuned. The `maxtrans` and
-`maxscans` parameters from that section can still be adjusted via `sp_cdc_change_job`.{{< /note >}}
+> [!NOTE]
+> Capture and cleanup run automatically on Azure SQL Database — there is no
+> SQL Server Agent. The internal scheduler runs the capture process every 20 seconds and
+> the cleanup process every hour, with a default change-data retention period of three
+> days. The capture cadence — the `pollinginterval` parameter described in the
+> [SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters)
+> section — is fixed on Azure SQL Database and cannot be tuned. The `maxtrans` and
+> `maxscans` parameters from that section can still be adjusted via `sp_cdc_change_job`.
 
 Enabling CDC increases transaction log usage on Azure SQL Database because it disables
 the aggressive log truncation behavior of Accelerated Database Recovery. You may need
@@ -363,10 +366,11 @@ SQL Server on Azure VM, or on-premises SQL Server — those use SQL Server Agent
 and the tunable `pollinginterval` parameter described in
 [SQL Server capture job agent configuration parameters](#sql-server-capture-job-agent-configuration-parameters).
 
-{{< warning >}}Run **only one** instance of the scan worker per source database.
-`sys.sp_cdc_scan` holds an exclusive log-reader lock for the duration of each
-call; concurrent callers fail rather than running in parallel, so additional
-replicas add no throughput and only generate error noise.{{< /warning >}}
+> [!WARNING]
+> Run **only one** instance of the scan worker per source database.
+> `sys.sp_cdc_scan` holds an exclusive log-reader lock for the duration of each
+> call; concurrent callers fail rather than running in parallel, so additional
+> replicas add no throughput and only generate error noise.
 
 ##### Requirements
 
@@ -425,14 +429,15 @@ meets your latency target:
 Intervals below 1s are not recommended — each call has a fixed cost on the
 source database and the marginal latency improvement is small.
 
-{{< warning >}}CDC scans consume regular database resources. Every call reads
-the transaction log, competing with the workload for CPU, memory, and log I/O.
-An aggressive interval can degrade the source database, especially on lower
-service tiers or under high write volume. Microsoft provides no SLA on CDC
-freshness on Azure SQL Database; treat measured end-to-end latency under your
-own workload as the source of truth, not the configured interval. If scans
-start falling behind, raise the service tier, raise `maxtrans` and `maxscans`,
-or relax the interval.{{< /warning >}}
+> [!WARNING]
+> CDC scans consume regular database resources. Every call reads
+> the transaction log, competing with the workload for CPU, memory, and log I/O.
+> An aggressive interval can degrade the source database, especially on lower
+> service tiers or under high write volume. Microsoft provides no SLA on CDC
+> freshness on Azure SQL Database; treat measured end-to-end latency under your
+> own workload as the source of truth, not the configured interval. If scans
+> start falling behind, raise the service tier, raise `maxtrans` and `maxscans`,
+> or relax the interval.
 
 ##### Example Kubernetes deployment
 
@@ -548,8 +553,9 @@ EXEC sp_addrolemember N'<cdc-role>', N'<username>'
 GO
 ```
 
-{{< note >}}Use `VIEW DATABASE STATE` rather than `VIEW SERVER STATE`. The server-scoped
-permission does not exist on Azure SQL Database.{{< /note >}}
+> [!NOTE]
+> Use `VIEW DATABASE STATE` rather than `VIEW SERVER STATE`. The server-scoped
+> permission does not exist on Azure SQL Database.
 
 #### Option B: Microsoft Entra service principal
 
@@ -587,13 +593,14 @@ permission does not exist on Azure SQL Database.{{< /note >}}
     GO
     ```
 
-    {{< note >}}`<sp-display-name>` is the **display name** of the app registration — the
-    value shown in the **Name** column on the **App registrations** page — not its client
-    ID. The client ID is used by the RDI connector (see the next section), but the
-    database user must be created from the display name. If the display name is not
-    unique in your Microsoft Entra tenant (display names are not guaranteed unique),
-    disambiguate by adding the `WITH OBJECT_ID = '<sp-object-id>'` clause to the
-    `CREATE USER` statement.{{< /note >}}
+    > [!NOTE]
+    > `<sp-display-name>` is the **display name** of the app registration — the
+    > value shown in the **Name** column on the **App registrations** page — not its client
+    > ID. The client ID is used by the RDI connector (see the next section), but the
+    > database user must be created from the display name. If the display name is not
+    > unique in your Microsoft Entra tenant (display names are not guaranteed unique),
+    > disambiguate by adding the `WITH OBJECT_ID = '<sp-object-id>'` clause to the
+    > `CREATE USER` statement.
 
 ### Configure the RDI source for Azure SQL
 
@@ -666,11 +673,12 @@ redis-di set-secret USERNAME --db sqlserver <client-id>
 redis-di set-secret PASSWORD --db sqlserver <client-secret>
 ```
 
-{{< warning >}}The username value is the client ID (a GUID), but the contained
-database user created in the previous section uses the service principal's **display
-name**. These are two different identifiers for the same principal — mixing them up is
-the most common cause of `Login failed for user '<token-identified principal>'` errors
-at connection time.{{< /warning >}}
+> [!WARNING]
+> The username value is the client ID (a GUID), but the contained
+> database user created in the previous section uses the service principal's **display
+> name**. These are two different identifiers for the same principal — mixing them up is
+> the most common cause of `Login failed for user '<token-identified principal>'` errors
+> at connection time.
 
 #### Other Microsoft Entra authentication modes
 
@@ -785,7 +793,8 @@ documentation for further details.
     GO
     ```
 
-{{< note >}}RDI will *not* correctly capture changes that happen in the time gap between changing
-the source schema (step 1 above) and updating the value of `@capture_instance` (step 2).
-Try to keep the gap as short as possible or perform the update at a time when you expect
-few changes to the data.{{< /note >}}
+> [!NOTE]
+> RDI will *not* correctly capture changes that happen in the time gap between changing
+> the source schema (step 1 above) and updating the value of `@capture_instance` (step 2).
+> Try to keep the gap as short as possible or perform the update at a time when you expect
+> few changes to the data.

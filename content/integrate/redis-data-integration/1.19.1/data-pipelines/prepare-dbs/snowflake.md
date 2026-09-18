@@ -19,8 +19,8 @@ url: '/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/snowfl
 
 This guide describes the steps required to prepare a Snowflake database as a source for Redis Data Integration (RDI) pipelines.
 
-During both the [snapshot]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines#pipeline-lifecycle" >}}) and
-[Change data capture (CDC)]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines#pipeline-lifecycle" >}})
+During both the [snapshot](/content/integrate/redis-data-integration/1.19.1/data-pipelines/_index.md#pipeline-lifecycle) and
+[Change data capture (CDC)](/content/integrate/redis-data-integration/1.19.1/data-pipelines/_index.md#pipeline-lifecycle)
 phases, RDI uses [Snowflake Streams](https://docs.snowflake.com/en/user-guide/streams) to read data from the monitored
 tables. For the initial snapshot, RDI creates the stream with `SHOW_INITIAL_ROWS = TRUE` so it can read the current
 table contents before continuing with ongoing CDC. RDI automatically creates and manages the required streams.
@@ -32,9 +32,8 @@ with links to the sections that explain the steps in full detail.
 You may find it helpful to track your progress with the checklist as you
 complete each step.
 
-{{< note >}}
-Snowflake is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Snowflake as a source database.
-{{< /note >}}
+> [!NOTE]
+> Snowflake is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Snowflake as a source database.
 
 ```checklist {id="snowflakelist"}
 - [ ] [Set up Snowflake permissions](#1-set-up-snowflake-permissions)
@@ -58,20 +57,19 @@ If you configure `cdcDatabase` and `cdcSchema`, grant the CDC permissions there.
 schema. If your Snowflake setup requires it, also grant any additional cross-database privileges needed for the CDC
 schema to reference the source tables.
 
-{{< note >}}
-RDI manages the Snowflake streams it uses for snapshot and CDC. The collector creates the stream in the configured CDC
-schema and later issues `CREATE OR REPLACE STREAM` statements to keep the stream aligned with the expected offset, so
-the RDI role must be able to create and own those stream objects in the CDC schema.
-
-There is one stricter bootstrap requirement for the first stream created on a source table: if Snowflake change
-tracking is not already enabled on that table, only the table owner can create that initial stream. If the source
-tables are not owned by the RDI role, ask a Snowflake administrator or table owner to enable change tracking first:
-
-```sql
-ALTER TABLE MYDB.PUBLIC.customers SET CHANGE_TRACKING = TRUE;
-ALTER TABLE MYDB.PUBLIC.orders SET CHANGE_TRACKING = TRUE;
-```
-{{< /note >}}
+> [!NOTE]
+> RDI manages the Snowflake streams it uses for snapshot and CDC. The collector creates the stream in the configured CDC
+> schema and later issues `CREATE OR REPLACE STREAM` statements to keep the stream aligned with the expected offset, so
+> the RDI role must be able to create and own those stream objects in the CDC schema.
+>
+> There is one stricter bootstrap requirement for the first stream created on a source table: if Snowflake change
+> tracking is not already enabled on that table, only the table owner can create that initial stream. If the source
+> tables are not owned by the RDI role, ask a Snowflake administrator or table owner to enable change tracking first:
+>
+> ```sql
+> ALTER TABLE MYDB.PUBLIC.customers SET CHANGE_TRACKING = TRUE;
+> ALTER TABLE MYDB.PUBLIC.orders SET CHANGE_TRACKING = TRUE;
+> ```
 
 Grant the required permissions to your RDI user:
 
@@ -112,12 +110,11 @@ RDI supports two authentication methods for Snowflake. You must configure one of
 
 Use standard username and password credentials. Store these securely using Kubernetes secrets (see step 3).
 
-{{< note >}}
-Many Snowflake accounts require MFA for password-based sign-ins. If you want to use password authentication for RDI,
-configure the Snowflake user as a service user that is allowed to authenticate non-interactively. Otherwise, use
-private key authentication instead. For more information, see the Snowflake
-[MFA rollout documentation](https://docs.snowflake.com/en/user-guide/security-mfa-rollout).
-{{< /note >}}
+> [!NOTE]
+> Many Snowflake accounts require MFA for password-based sign-ins. If you want to use password authentication for RDI,
+> configure the Snowflake user as a service user that is allowed to authenticate non-interactively. Otherwise, use
+> private key authentication instead. For more information, see the Snowflake
+> [MFA rollout documentation](https://docs.snowflake.com/en/user-guide/security-mfa-rollout).
 
 ### Private key authentication
 
@@ -218,11 +215,10 @@ processors:
   target_data_type: json
 ```
 
-{{< note >}}
-Snowflake uses one configured `database` and one or more source-level `schemas`. In the `tables` section, specify each
-table as `SCHEMA.table`. Even when you configure only one schema, explicit `SCHEMA.table` names are recommended for
-clarity.
-{{< /note >}}
+> [!NOTE]
+> Snowflake uses one configured `database` and one or more source-level `schemas`. In the `tables` section, specify each
+> table as `SCHEMA.table`. Even when you configure only one schema, explicit `SCHEMA.table` names are recommended for
+> clarity.
 
 ### Snowflake connection properties
 
@@ -386,4 +382,4 @@ Once you have followed the steps above, your Snowflake database is ready for RDI
 - [Snowflake Streams Documentation](https://docs.snowflake.com/en/user-guide/streams)
 - [Snowflake Key Pair Authentication](https://docs.snowflake.com/en/user-guide/key-pair-auth)
 - [Snowflake MFA rollout documentation](https://docs.snowflake.com/en/user-guide/security-mfa-rollout)
-- [RDI Deployment Guide]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy" >}})
+- [RDI Deployment Guide](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md)

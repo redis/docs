@@ -53,11 +53,10 @@ SHOW wal_level;
 
 The query should return `logical`.
 
-{{< note >}}
-Enabling logical replication increases the volume of write-ahead log (WAL)
-data that Neon retains. Monitor the project for any impact on storage usage and
-cost.
-{{< /note >}}
+> [!NOTE]
+> Enabling logical replication increases the volume of write-ahead log (WAL)
+> data that Neon retains. Monitor the project for any impact on storage usage and
+> cost.
 
 ## 2. Create a replication role for RDI
 

@@ -23,7 +23,8 @@ This guide describes the steps required to prepare a MongoDB database as a sourc
 - **User privileges:** You must have a MongoDB user with sufficient privileges to read the oplog and collections, and to use change streams.
 - **Network access:** The RDI Collector must be able to connect to all MongoDB nodes in your deployment.
 
-{{< note >}}The MongoDB connector is not capable of monitoring the changes of a standalone MongoDB server, since standalone servers do not have an oplog. The connector will work if the standalone server is converted to a replica set with one member.{{< /note >}}
+> [!NOTE]
+> The MongoDB connector is not capable of monitoring the changes of a standalone MongoDB server, since standalone servers do not have an oplog. The connector will work if the standalone server is converted to a replica set with one member.
 ## Summary
 
 The following table summarizes the considerations to prepare a MongoDB database for RDI.
@@ -136,7 +137,7 @@ mongodb+srv://${SOURCE_DB_USERNAME}:${SOURCE_DB_PASSWORD}@cluster0.mongodb.net/?
 For self-hosted MongoDB deployments that require TLS, set the source CA certificate
 as the `SOURCE_DB_CACERT` secret. For X.509 client certificate authentication, also
 set the `SOURCE_DB_CERT` and `SOURCE_DB_KEY` secrets. See
-[Set secrets]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy#set-secrets" >}})
+[Set secrets](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md#set-secrets)
 for the full list of source database TLS and mTLS secrets.
 
 When you use MongoDB X.509 authentication, include all of the following

@@ -19,16 +19,15 @@ PostgreSQL platform. RDI can connect to a hosted Supabase project
 through any direct PostgreSQL endpoint as long as it is reachable from the RDI
 deployment and supports logical replication.
 
-{{< note >}}
-RDI supports hosted Supabase projects running an
-[RDI-supported PostgreSQL version]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}}).
-The integration was validated with RDI 1.19.0 and hosted Supabase PostgreSQL
-17.6. For self-hosted Supabase deployments, follow the general
-[PostgreSQL preparation guide]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql" >}}).
-This page describes Supabase setup for a self-managed RDI deployment. For the
-managed service, see
-[Use Supabase with RDI on Redis Cloud]({{< relref "/operate/rc/rdi/supabase" >}}).
-{{< /note >}}
+> [!NOTE]
+> RDI supports hosted Supabase projects running an
+> [RDI-supported PostgreSQL version](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md).
+> The integration was validated with RDI 1.19.0 and hosted Supabase PostgreSQL
+> 17.6. For self-hosted Supabase deployments, follow the general
+> [PostgreSQL preparation guide](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/postgresql.md).
+> This page describes Supabase setup for a self-managed RDI deployment. For the
+> managed service, see
+> [Use Supabase with RDI on Redis Cloud](/content/operate/rc/rdi/supabase.md).
 
 Supabase differs from a typical self-managed PostgreSQL source in the following
 ways:
@@ -102,11 +101,10 @@ CREATE ROLE rdi_replication
   WITH LOGIN REPLICATION PASSWORD '<strong-password>';
 ```
 
-{{< warning >}}
-Don't use the Supabase `postgres` administrator account for the RDI connection.
-The RDI role's credentials provide continuous access to captured data, so grant
-the role only the permissions it needs.
-{{< /warning >}}
+> [!WARNING]
+> Don't use the Supabase `postgres` administrator account for the RDI connection.
+> The RDI role's credentials provide continuous access to captured data, so grant
+> the role only the permissions it needs.
 
 ## 4. Grant access to source tables
 

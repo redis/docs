@@ -70,11 +70,11 @@ and prepare your database for use with RDI.
 
 The following example shows the configuration for Oracle LogMiner.
 
-{{< note >}}[Amazon RDS for Oracle](https://aws.amazon.com/rds/oracle/)
-doesn't let you execute the commands
-in the example below or let you log in as `sysdba`. See the
-separate example below to [configure Amazon RDS for Oracle](#config-aws).
-{{< /note >}}
+> [!NOTE]
+> [Amazon RDS for Oracle](https://aws.amazon.com/rds/oracle/)
+> doesn't let you execute the commands
+> in the example below or let you log in as `sysdba`. See the
+> separate example below to [configure Amazon RDS for Oracle](#config-aws).
 
 ```sql
 ORACLE_SID=ORACLCDB dbz_oracle sqlplus /nolog
@@ -102,9 +102,9 @@ exit;
 
 AWS provides its own set of commands to configure LogMiner.
 
-{{< note >}}Before executing these commands,
-you must enable backups on your Oracle AWS RDS instance.
-{{< /note >}}
+> [!NOTE]
+> Before executing these commands,
+> you must enable backups on your Oracle AWS RDS instance.
 
 Check that Oracle has backups enabled with the following command:
 
@@ -141,9 +141,10 @@ in a single table called `inventory.customers`:
 ALTER TABLE inventory.customers ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 ```
 
-{{< note >}}If you enable supplemental logging for *all* table columns, you will
-probably see the size of the Oracle redo logs increase dramatically. Avoid this
-by using supplemental logging only when you need it. {{< /note >}} 
+> [!NOTE]
+> If you enable supplemental logging for *all* table columns, you will
+> probably see the size of the Oracle redo logs increase dramatically. Avoid this
+> by using supplemental logging only when you need it.  
 
 You must also enable minimal supplemental logging at the database level with
 the following command:
@@ -210,11 +211,13 @@ Do not modify other grants, such as the `SELECT ANY TRANSACTION` grant,
 or the set of `SELECT ON V_$` grants, which provide access to dynamic performance views (`V_$`). 
 These grants are required for the connector to function.
 
-{{< note >}}To prevent data loss, if you restrict the scope of the SELECT and FLASHBACK grants, 
-be sure that the modified scope is compatible with the settings in the connector’s include configuration. 
-The privileges that you set for the account must permit reading from all of the tables that you want the connector to capture.{{< /note >}}
+> [!NOTE]
+> To prevent data loss, if you restrict the scope of the SELECT and FLASHBACK grants, 
+> be sure that the modified scope is compatible with the settings in the connector’s include configuration. 
+> The privileges that you set for the account must permit reading from all of the tables that you want the connector to capture.
 
-{{< note >}}This example uses `ORCLCDB` as the container database (CDB) name and `ORCLPDB1` as the pluggable database (PDB) name. Replace these with the CDB and PDB names from your own environment.{{< /note >}}
+> [!NOTE]
+> This example uses `ORCLCDB` as the container database (CDB) name and `ORCLPDB1` as the pluggable database (PDB) name. Replace these with the CDB and PDB names from your own environment.
 
 ```sql
 sqlplus sys/top_secret@//localhost:1521/ORCLCDB as sysdba
@@ -390,8 +393,8 @@ to capture changes.
 Follow the steps in the sections below to configure XStream to work with
 Debezium and RDI.
 
-{{< note >}}You should run all database commands shown below as the `sysdba` user.
-{{< /note >}}
+> [!NOTE]
+> You should run all database commands shown below as the `sysdba` user.
 
 ```sql
 sqlplus sys/<PASSWORD> as sysdba
@@ -589,7 +592,8 @@ SQL> ALTER TABLE CHINOOK.PLAYLISTTRACK ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 SQL> ALTER TABLE CHINOOK.TRACK ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 ```
 
-{{< note >}}The example above uses `orclpdb1` as the PDB name. Replace it with the name of the pluggable database (PDB) that you use in your own environment.{{< /note >}}
+> [!NOTE]
+> The example above uses `orclpdb1` as the PDB name. Replace it with the name of the pluggable database (PDB) that you use in your own environment.
 
 -tab-sep-
 
@@ -615,10 +619,10 @@ SQL> ALTER TABLE CHINOOK.TRACK ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 
 {{< /multitabs >}}
 
-{{< note >}}You must configure supplemental logging explicitly for each table as shown 
-above. Otherwise, only the original sync will be performed and no change data will be 
-captured for the table.
-{{< /note >}}
+> [!NOTE]
+> You must configure supplemental logging explicitly for each table as shown 
+> above. Otherwise, only the original sync will be performed and no change data will be 
+> captured for the table.
 
 ### 5. Create XStream users
 
@@ -626,7 +630,8 @@ captured for the table.
      tab1="Container database (CDB)"
      tab2="Non-container database (Non-CDB)" >}}
 
-{{< note >}}The XStream user examples below use `ORCLCDB` as the CDB name and `ORCLPDB1`/`orclpdb1` as the PDB name in file paths and `ALTER SESSION SET CONTAINER` commands. Replace these with the CDB and PDB names from your own Oracle deployment.{{< /note >}}
+> [!NOTE]
+> The XStream user examples below use `ORCLCDB` as the CDB name and `ORCLPDB1`/`orclpdb1` as the PDB name in file paths and `ALTER SESSION SET CONTAINER` commands. Replace these with the CDB and PDB names from your own Oracle deployment.
 
 Create an XStream administrator user with the following SQL:
 
@@ -692,21 +697,22 @@ SQL> GRANT SELECT ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
 SQL> GRANT LOCK ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
 ```
 
-{{< note >}}If you are using the
-[Debezium XStream documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#creating-xstream-users-for-the-connector),
-you should note that it misses out the last two GRANT statements shown above:
-
-```sql
-GRANT SELECT ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
-GRANT LOCK ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
-```
-
-However, without these, no tables can be read by Debezium, so neither the initial snapshot nor any subsequent updates will produce any data.
-{{< /note >}}
+> [!NOTE]
+> If you are using the
+> [Debezium XStream documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#creating-xstream-users-for-the-connector),
+> you should note that it misses out the last two GRANT statements shown above:
+>
+> ```sql
+> GRANT SELECT ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
+> GRANT LOCK ANY TABLE TO c##dbzxsuser CONTAINER=ALL;
+> ```
+>
+> However, without these, no tables can be read by Debezium, so neither the initial snapshot nor any subsequent updates will produce any data.
 
 -tab-sep-
 
-{{< note >}}The non-CDB architecture is deprecated in Oracle Database 12c and discontinued in Oracle Database 20c.{{< /note >}}
+> [!NOTE]
+> The non-CDB architecture is deprecated in Oracle Database 12c and discontinued in Oracle Database 20c.
 
 For a non-container (non-CDB) Oracle database:
 
@@ -811,7 +817,8 @@ Create the outbound server with the following SQL.
      tab1="Container database (CDB)"
      tab2="Non-container database (Non-CDB)" >}}
 
-{{< note >}}In this example, `ORCLCDB` is the CDB service name and `orclpdb1` is the PDB name. Replace them with the appropriate service and PDB names for your own environment.{{< /note >}}
+> [!NOTE]
+> In this example, `ORCLCDB` is the CDB service name and `orclpdb1` is the PDB name. Replace them with the appropriate service and PDB names for your own environment.
 
 Note that you must connect as the `c##dbzadmin` user created in the previous step,
 not the `sys` user:
@@ -1015,9 +1022,9 @@ In the editor, find the collector section and change the image settings:
 
 Save the configmap. Once it is saved, the operator will restart automatically and will apply the changes.
 
-{{< note >}}After upgrading to another RDI version,
-the changes to the configmap will be lost. You must repeat the above steps after each upgrade.
-{{< /note >}}
+> [!NOTE]
+> After upgrading to another RDI version,
+> the changes to the configmap will be lost. You must repeat the above steps after each upgrade.
 
 ### 9. Enable the Oracle configuration in RDI
 
@@ -1044,7 +1051,8 @@ sources:
         database.out.server.name: dbzxout
 ```
 
-{{< note >}}The values `ORCLCDB` and `ORCLPDB1` in the example above are sample CDB and PDB names. Set `database.dbname` and `database.pdb.name` to the CDB and PDB names for your own Oracle database.{{< /note >}}
+> [!NOTE]
+> The values `ORCLCDB` and `ORCLPDB1` in the example above are sample CDB and PDB names. Set `database.dbname` and `database.pdb.name` to the CDB and PDB names for your own Oracle database.
 
 See the
 [Debezium Oracle documentation](https://debezium.io/documentation/reference/stable/connectors/oracle.html#oracle-connector-properties)
@@ -1127,7 +1135,8 @@ sources:
         lob.enabled: true
 ```
 
-{{< note >}}The XMLTYPE configuration example uses `ORCLCDB` as the CDB name and `ORCLPDB1` as the PDB name. Replace these with your actual CDB and PDB names when configuring XMLTYPE support.{{< /note >}}
+> [!NOTE]
+> The XMLTYPE configuration example uses `ORCLCDB` as the CDB name and `ORCLPDB1` as the PDB name. Replace these with your actual CDB and PDB names when configuring XMLTYPE support.
 
 ### Test XMLTYPE support
 
@@ -1169,7 +1178,7 @@ ALTER TABLE CHINOOK.TAB1 ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
 ```
 
 After you run an initial
-[snapshot]({{< relref "/integrate/redis-data-integration/data-pipelines/#pipeline-lifecycle" >}}),
+[snapshot](/content/integrate/redis-data-integration/data-pipelines/_index.md#pipeline-lifecycle),
 the XML data appears in your Redis target database:
 
 {{< image filename="/images/rdi/ingest/xmltype-example.webp" >}}

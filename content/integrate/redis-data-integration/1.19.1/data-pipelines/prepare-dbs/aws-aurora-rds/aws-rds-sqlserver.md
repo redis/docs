@@ -18,9 +18,8 @@ url: '/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/aws-au
 
 Follow the steps in the sections below to prepare a [Microsoft SQL Server on AWS RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.SQLServer.html) database to work with RDI.
 
-{{< note >}}
-Change Data Capture (CDC) is not supported on SQL Server Express Edition. Only the Standard, Enterprise, and Developer editions support CDC and are supported by RDI.
-{{< /note >}}
+> [!NOTE]
+> Change Data Capture (CDC) is not supported on SQL Server Express Edition. Only the Standard, Enterprise, and Developer editions support CDC and are supported by RDI.
 
 ```checklist {id="rds-sqlserver-list" nointeractive="true" }
 - [ ] [Create the Debezium user](#create-the-debezium-user)
@@ -106,11 +105,10 @@ Change Data Capture (CDC) must be enabled for the database and for each table yo
 
     Replace `<database>` with the name of your database, `<schema>` with the name of the schema containing the table, `<table>` with the name of the table, and `<role>` with the name of a new role that will be created to manage access to the CDC data. 
 
-    {{< note >}}
-The value for `@role_name` can’t be a fixed database role, such as `db_datareader`. 
-Specifying a new name will create a corresponding database role that has full access to the
-captured change data.
-    {{< /note >}}
+    > [!NOTE]
+    > The value for `@role_name` can’t be a fixed database role, such as `db_datareader`. 
+    > Specifying a new name will create a corresponding database role that has full access to the
+    > captured change data.
 
 1. <a id="add-the-debezium-user-to-the-cdc-role"></a>
     Add the Debezium user to the CDC role:

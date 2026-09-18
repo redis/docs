@@ -115,10 +115,11 @@ the MariaDB server restarts.
 
 You can run the query above again to check that `log-bin` is now `ON`.
 
-{{< note >}}If you are using [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) then
-you must enable automated backups for your database before it can use binary logging.
-If you don't enable automated backups first then the settings above will have no
-effect.{{< /note >}}
+> [!NOTE]
+> If you are using [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) then
+> you must enable automated backups for your database before it can use binary logging.
+> If you don't enable automated backups first then the settings above will have no
+> effect.
 
 ## 3. Enable GTIDs
 
@@ -174,7 +175,7 @@ to do this.
 
 RDI captures an initial *snapshot* of the source database when it begins
 the CDC process (see the
-[architecture overview]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#overview" >}})
+[architecture overview](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#overview)
 for more information). If your database is large then the connection could time out
 while RDI is reading the data for the snapshot. You can prevent this using the
 `interactive_timeout` and `wait_timeout` settings in your MySQL configuration file:
