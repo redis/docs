@@ -22,7 +22,8 @@ This guide describes the steps required to prepare a MongoDB database as a sourc
 - **User privileges:** You must have a MongoDB user with sufficient privileges to read the oplog and collections, and to use change streams.
 - **Network access:** The RDI Collector must be able to connect to all MongoDB nodes in your deployment.
 
-{{< note >}}The MongoDB connector is not capable of monitoring the changes of a standalone MongoDB server, since standalone servers do not have an oplog. The connector will work if the standalone server is converted to a replica set with one member.{{< /note >}}
+> [!NOTE]
+> The MongoDB connector is not capable of monitoring the changes of a standalone MongoDB server, since standalone servers do not have an oplog. The connector will work if the standalone server is converted to a replica set with one member.
 ## Summary
 
 The following table summarizes the considerations to prepare a MongoDB database for RDI.
@@ -92,7 +93,7 @@ The RDI Collector requires a MongoDB connection string that includes all relevan
 
 The credential references come from the source name, which is `mongodb` in the examples on
 this page. See
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}})
+[Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md)
 for the source naming rules.
 
 Example (Replica Set):
@@ -141,7 +142,7 @@ mongodb+srv://${MONGODB_DB_USERNAME}:${MONGODB_DB_PASSWORD}@cluster0.mongodb.net
 For self-hosted MongoDB deployments that require TLS, set the source's `CACERT` secret to
 the source CA certificate. For X.509 client certificate authentication, also set the
 source's `CERT` and `KEY` secrets. See
-[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+[Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
 for the full list of source database TLS and mTLS secrets.
 
 When you use MongoDB X.509 authentication, enable TLS in the source `advanced.source` section:
@@ -155,9 +156,10 @@ advanced:
 RDI builds the keystore that presents the client certificate to MongoDB from the source's
 `CERT` and `KEY` secrets, and configures the collector to use it.
 
-{{< note >}}Do not set `mongodb.ssl.keystore` or `mongodb.ssl.keystore.password` yourself. RDI
-manages the keystore, so these properties are not only unnecessary, they are rejected when you
-deploy the pipeline.{{< /note >}}
+> [!NOTE]
+> Do not set `mongodb.ssl.keystore` or `mongodb.ssl.keystore.password` yourself. RDI
+> manages the keystore, so these properties are not only unnecessary, they are rejected when you
+> deploy the pipeline.
 
 For X.509 authentication, the MongoDB connection string must also include the
 required authentication options, such as `authMechanism=MONGODB-X509` and

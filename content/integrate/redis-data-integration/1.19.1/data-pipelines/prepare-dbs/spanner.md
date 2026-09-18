@@ -22,9 +22,8 @@ phase, RDI uses the JDBC driver to connect directly to Spanner and read the curr
 database. In the streaming phase, RDI uses [Spanner's Change Streams](https://cloud.google.com/spanner/docs/change-streams) to capture changes related to
 the monitored schemas and tables.
 
-{{< note >}}
-Spanner is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Spanner as a source database.
-{{< /note >}}
+> [!NOTE]
+> Spanner is only supported with RDI deployed on Kubernetes/Helm. RDI VM mode does not support Spanner as a source database.
 
 The following checklist summarizes the steps to prepare a Spanner
 database for RDI, with links to the sections that explain the steps in
@@ -147,7 +146,7 @@ RDI supports two authentication methods for accessing Spanner:
 
 Before deploying the RDI pipeline, you need to configure the necessary secrets for the target
 database. Instructions for setting up the target database secrets are available in the
-[RDI deployment guide]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy#set-secrets-for-k8shelm-deployment-using-kubectl-command" >}}).
+[RDI deployment guide](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md#set-secrets-for-k8shelm-deployment-using-kubectl-command).
 
 **Optional**: If you prefer to use a service account credentials file instead of Workload Identity
 authentication, you'll need to create a Spanner-specific secret named `source-db-credentials`.
@@ -163,10 +162,9 @@ kubectl create secret generic source-db-credentials --namespace=rdi \
 Be sure to adjust the file path (`~/spanner-reader-account.json`) if your service account key is
 stored elsewhere.
 
-{{< note >}}
-If you create the `source-db-credentials` secret, you must also set `use_credentials_file: true`
-in your RDI configuration to use the credentials file instead of Workload Identity authentication.
-{{< /note >}}
+> [!NOTE]
+> If you create the `source-db-credentials` secret, you must also set `use_credentials_file: true`
+> in your RDI configuration to use the credentials file instead of Workload Identity authentication.
 
 ## 5. Configure RDI for Spanner
 

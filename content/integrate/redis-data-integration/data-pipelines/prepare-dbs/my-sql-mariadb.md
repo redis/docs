@@ -119,10 +119,11 @@ the MariaDB server restarts.
 
 You can run the query above again to check that `log-bin` is now `ON`.
 
-{{< note >}}If you are using [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) then
-you must enable automated backups for your database before it can use binary logging.
-If you don't enable automated backups first then the settings above will have no
-effect.{{< /note >}}
+> [!NOTE]
+> If you are using [Amazon RDS for MySQL](https://aws.amazon.com/rds/mysql/) then
+> you must enable automated backups for your database before it can use binary logging.
+> If you don't enable automated backups first then the settings above will have no
+> effect.
 
 ## 3. Enable GTIDs
 
@@ -178,7 +179,7 @@ to do this.
 
 RDI captures an initial *snapshot* of the source database when it begins
 the CDC process (see the
-[architecture overview]({{< relref "/integrate/redis-data-integration/architecture#overview" >}})
+[architecture overview](/content/integrate/redis-data-integration/architecture/_index.md#overview)
 for more information). If your database is large then the connection could time out
 while RDI is reading the data for the snapshot. You can prevent this using the
 `interactive_timeout` and `wait_timeout` settings in your MySQL configuration file:
@@ -232,7 +233,7 @@ mysql> set @@global.binlog_row_value_options="" ;
 
 To connect to the source database over TLS, set the source's `CACERT` secret to the source CA
 certificate. For mutual TLS, also set the source's `CERT` and `KEY` secrets. See
-[Set secrets]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#set-secrets" >}})
+[Set secrets](/content/integrate/redis-data-integration/data-pipelines/deploy.md#set-secrets)
 for the full list of source database TLS and mTLS secrets.
 
 Select the TLS mode in the source `advanced.source` section, for example:
@@ -246,9 +247,10 @@ advanced:
 RDI builds the keystore that presents the client certificate to the source database from the
 source's `CERT` and `KEY` secrets, and configures the collector to use it.
 
-{{< note >}}Do not set `database.ssl.keystore` or `database.ssl.keystore.password` yourself. RDI
-manages the keystore, so these properties are not only unnecessary, they are rejected when you
-deploy the pipeline.{{< /note >}}
+> [!NOTE]
+> Do not set `database.ssl.keystore` or `database.ssl.keystore.password` yourself. RDI
+> manages the keystore, so these properties are not only unnecessary, they are rejected when you
+> deploy the pipeline.
 
 ## 8. Configuration is complete
 
