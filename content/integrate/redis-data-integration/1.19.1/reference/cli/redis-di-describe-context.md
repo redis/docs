@@ -9,7 +9,7 @@ url: '/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-c
 ---
 
 Describes a single context from the `~/.redis-di` context file, showing its API connection details.
-See the [CLI reference overview]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli#contexts" >}})
+See the [CLI reference overview](/content/integrate/redis-data-integration/1.19.1/reference/cli/_index.md#contexts)
 for more about contexts.
 
 ## Usage
@@ -21,7 +21,7 @@ redis-di describe-context <name> [flags]
 ## Options
 
 This command takes only the
-[global options]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di.md#global-options).
 
 ## Example
 

@@ -10,7 +10,7 @@ url: '/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-metric
 
 Gets a single metric collection of a pipeline, returning its raw metric data. This command is most
 useful with `-o json` or `-o yaml` for scripting and for tools such as `jq`. Use
-[`list-metric-collections`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-metric-collections" >}})
+[`list-metric-collections`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-metric-collections.md)
 to see the available collections.
 
 ## Usage
@@ -27,7 +27,7 @@ redis-di get-metric-collection <name> [flags]
 | `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`. |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di.md#global-options).
 
 ## Example
 

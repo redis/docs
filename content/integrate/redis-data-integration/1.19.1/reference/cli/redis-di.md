@@ -10,7 +10,7 @@ url: '/integrate/redis-data-integration/1.19.1/reference/cli/redis-di/'
 
 `redis-di` is the command line tool that manages Redis Data Integration (RDI). It is a thin client
 over the RDI API and works the same way for VM, Kubernetes, and Redis Cloud installations. See the
-[CLI reference overview]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli" >}}) for an
+[CLI reference overview](/content/integrate/redis-data-integration/1.19.1/reference/cli/_index.md) for an
 introduction to connecting, authentication, and contexts.
 
 ## Usage
@@ -43,44 +43,45 @@ password through an environment variable keeps it out of your shell history.
 | `--version`       |                      | Print the version and build metadata and exit.                                                                  |
 | `-h`, `--help`    |                      | Print help for the CLI or a command.                                                                            |
 
-{{< note >}}Setting both `--user` and `--account-key` is an error, because they select mutually exclusive
-authentication modes. Setting both `--cacert` and `--insecure` is also an error.{{< /note >}}
+> [!NOTE]
+> Setting both `--user` and `--account-key` is an error, because they select mutually exclusive
+> authentication modes. Setting both `--cacert` and `--insecure` is also an error.
 
 ## Commands
 
 | Command                                                                                                                        | Description                                                              |
 | :----------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------- |
-| [`info`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-info" >}})                                       | Displays information about the RDI deployment                            |
-| [`list`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list" >}})                                       | Lists all pipelines                                                      |
-| [`get`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get" >}})                                         | Gets a pipeline                                                          |
-| [`describe`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe" >}})                               | Describes a pipeline with its status (alias `status`)                    |
-| [`deploy`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-deploy" >}})                                   | Deploys a pipeline with the specified configuration (alias `set`)        |
-| [`delete`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete" >}})                                   | Deletes a pipeline                                                       |
-| [`start`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-start" >}})                                     | Starts a pipeline                                                        |
-| [`stop`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-stop" >}})                                       | Stops a pipeline                                                         |
-| [`reset`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-reset" >}})                                     | Resets a pipeline                                                        |
-| [`list-secrets`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-secrets" >}})                       | Lists the secrets of a pipeline                                          |
-| [`get-secret`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-secret" >}})                           | Gets a secret of a pipeline                                              |
-| [`describe-secret`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-secret" >}})                 | Describes a secret of a pipeline                                         |
-| [`set-secret`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-secret" >}})                           | Creates or updates a secret of a pipeline                                |
-| [`delete-secret`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete-secret" >}})                     | Deletes a secret of a pipeline                                           |
-| [`list-dlqs`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-dlqs" >}})                             | Lists the dead-letter queues of a pipeline                               |
-| [`get-dlq`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-dlq" >}})                                 | Gets a dead-letter queue of a pipeline                                   |
-| [`list-dlq-records`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-dlq-records" >}})               | Lists the rejected records of a dead-letter queue (alias `get-rejected`) |
-| [`list-jobs`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-jobs" >}})                             | Lists the jobs of a pipeline                                             |
-| [`get-job`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-job" >}})                                 | Gets a job of a pipeline                                                 |
-| [`describe-job`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-job" >}})                       | Describes a job of a pipeline                                            |
-| [`list-metric-collections`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-metric-collections" >}}) | Lists the metric collections of a pipeline                               |
-| [`get-metric-collection`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-metric-collection" >}})     | Gets a metric collection of a pipeline                                   |
-| [`scaffold`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-scaffold" >}})                               | Generates pipeline configuration files                                   |
-| [`list-contexts`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-contexts" >}})                     | Lists all contexts                                                       |
-| [`describe-context`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-context" >}})               | Describes a context                                                      |
-| [`set-context`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-context" >}})                         | Creates or updates a context                                             |
-| [`use-context`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-use-context" >}})                         | Sets a context to be the active one                                      |
-| [`delete-context`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete-context" >}})                   | Deletes a context                                                        |
-| [`completion`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-completion" >}})                           | Generates a shell autocompletion script                                  |
+| [`info`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-info.md)                                       | Displays information about the RDI deployment                            |
+| [`list`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list.md)                                       | Lists all pipelines                                                      |
+| [`get`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get.md)                                         | Gets a pipeline                                                          |
+| [`describe`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe.md)                               | Describes a pipeline with its status (alias `status`)                    |
+| [`deploy`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-deploy.md)                                   | Deploys a pipeline with the specified configuration (alias `set`)        |
+| [`delete`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete.md)                                   | Deletes a pipeline                                                       |
+| [`start`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-start.md)                                     | Starts a pipeline                                                        |
+| [`stop`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-stop.md)                                       | Stops a pipeline                                                         |
+| [`reset`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-reset.md)                                     | Resets a pipeline                                                        |
+| [`list-secrets`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-secrets.md)                       | Lists the secrets of a pipeline                                          |
+| [`get-secret`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-secret.md)                           | Gets a secret of a pipeline                                              |
+| [`describe-secret`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-secret.md)                 | Describes a secret of a pipeline                                         |
+| [`set-secret`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-secret.md)                           | Creates or updates a secret of a pipeline                                |
+| [`delete-secret`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete-secret.md)                     | Deletes a secret of a pipeline                                           |
+| [`list-dlqs`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-dlqs.md)                             | Lists the dead-letter queues of a pipeline                               |
+| [`get-dlq`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-dlq.md)                                 | Gets a dead-letter queue of a pipeline                                   |
+| [`list-dlq-records`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-dlq-records.md)               | Lists the rejected records of a dead-letter queue (alias `get-rejected`) |
+| [`list-jobs`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-jobs.md)                             | Lists the jobs of a pipeline                                             |
+| [`get-job`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-job.md)                                 | Gets a job of a pipeline                                                 |
+| [`describe-job`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-job.md)                       | Describes a job of a pipeline                                            |
+| [`list-metric-collections`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-metric-collections.md) | Lists the metric collections of a pipeline                               |
+| [`get-metric-collection`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-get-metric-collection.md)     | Gets a metric collection of a pipeline                                   |
+| [`scaffold`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-scaffold.md)                               | Generates pipeline configuration files                                   |
+| [`list-contexts`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-contexts.md)                     | Lists all contexts                                                       |
+| [`describe-context`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-context.md)               | Describes a context                                                      |
+| [`set-context`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-context.md)                         | Creates or updates a context                                             |
+| [`use-context`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-use-context.md)                         | Sets a context to be the active one                                      |
+| [`delete-context`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-delete-context.md)                   | Deletes a context                                                        |
+| [`completion`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-completion.md)                           | Generates a shell autocompletion script                                  |
 
 On VM installations, the CLI also exposes the
-[`configure-rdi`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-configure-rdi" >}}),
-[`dump-support-package`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-dump-support-package" >}}),
+[`configure-rdi`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-configure-rdi.md),
+[`dump-support-package`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-dump-support-package.md),
 and `admin` administration commands.

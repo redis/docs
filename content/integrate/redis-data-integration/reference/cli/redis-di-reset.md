@@ -14,7 +14,7 @@ resuming change data capture. By default, the command waits for the pipeline to 
 state before returning.
 
 With `--source`, only the specified source is reset. See
-[Start, stop, and reset a single source]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#start-stop-and-reset-a-single-source" >}}) for more information.
+[Start, stop, and reset a single source](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#start-stop-and-reset-a-single-source) for more information.
 
 ## Usage
 
@@ -33,7 +33,7 @@ The pipeline name is an optional argument that defaults to `default`.
 | `--timeout` | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 

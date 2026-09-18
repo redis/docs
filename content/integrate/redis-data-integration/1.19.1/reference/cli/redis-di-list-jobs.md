@@ -10,7 +10,7 @@ url: '/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-jobs/
 
 Lists the jobs of a pipeline, one row per job with its source, its transformation and output counts,
 and the target connections of its outputs. Use
-[`describe-job`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-job" >}})
+[`describe-job`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe-job.md)
 for the full view of a single job.
 
 ## Usage
@@ -27,7 +27,7 @@ redis-di list-jobs [flags]
 | `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`. |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di.md#global-options).
 
 ## Example
 

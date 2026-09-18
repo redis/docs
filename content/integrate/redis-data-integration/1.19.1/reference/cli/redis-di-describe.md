@@ -12,7 +12,7 @@ Describes a pipeline, combining its configuration with its runtime status, compo
 metrics in a human-readable, sectioned layout. `status` is an alias for this command.
 
 The RDI version is not shown here, because it is a property of the API connection rather than of the
-pipeline; use [`info`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-info" >}})
+pipeline; use [`info`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-info.md)
 to see it.
 
 ## Usage
@@ -26,7 +26,7 @@ The pipeline name is an optional argument that defaults to `default`.
 ## Options
 
 This command takes only the
-[global options]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di.md#global-options).
 
 ## Example
 

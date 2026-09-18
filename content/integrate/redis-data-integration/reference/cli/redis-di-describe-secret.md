@@ -25,7 +25,7 @@ redis-di describe-secret <key> [flags]
 | `--db`             | Database the secret belongs to: a source name, or `target`. |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 

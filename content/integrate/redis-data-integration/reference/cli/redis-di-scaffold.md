@@ -31,7 +31,7 @@ redis-di scaffold [flags]
 | `--force`       | Skip the confirmation prompt when overwriting an existing file.                                                                 |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 

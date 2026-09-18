@@ -9,7 +9,7 @@ url: '/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-list-metri
 ---
 
 Lists the metric collections of a pipeline. Metric collections hold the raw component metrics that
-the [`describe`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe" >}})
+the [`describe`](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-describe.md)
 command summarizes in its Statistics and Performance sections. This command is most useful with
 `-o json` or `-o yaml` for scripting and for tools such as `jq`.
 
@@ -27,7 +27,7 @@ redis-di list-metric-collections [flags]
 | `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`. |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di.md#global-options).
 
 ## Example
 

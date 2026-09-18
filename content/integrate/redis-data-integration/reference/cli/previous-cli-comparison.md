@@ -64,7 +64,7 @@ API-based commands. Update scripts and environment variables as follows:
 | `--rdi-namespace` or `RDI_NAMESPACE` | No equivalent; pipeline operations go through the API |
 
 For Redis Cloud, use `--account-key` with `--user-key` instead of `--user` with
-`--password`. See the [CLI reference overview]({{< relref "/integrate/redis-data-integration/reference/cli#connecting-to-the-api" >}})
+`--password`. See the [CLI reference overview](/content/integrate/redis-data-integration/reference/cli/_index.md#connecting-to-the-api)
 for all authentication modes.
 
 ## Recreate contexts
@@ -73,7 +73,7 @@ Both CLIs use `~/.redis-di`, but the file formats and stored connection details 
 different. Previous contexts contain RDI database and Kubernetes connection details and
 cannot be used as API contexts.
 
-The standard VM [`upgrade.sh`]({{< relref "/integrate/redis-data-integration/installation/upgrade#upgrading-a-vm-installation" >}})
+The standard VM [`upgrade.sh`](/content/integrate/redis-data-integration/installation/upgrade.md#upgrading-a-vm-installation)
 flow preserves the previous context for the VM administration commands and creates a
 default API context. If you replace the CLI independently and still have a previous-format
 `~/.redis-di` file, back it up before creating current contexts:

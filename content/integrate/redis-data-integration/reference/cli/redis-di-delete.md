@@ -18,7 +18,7 @@ To stop a pipeline and discard its configuration, deploy an empty configuration 
 redis-di deploy --empty
 ```
 
-See [Clear a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#clear-a-pipeline" >}})
+See [Clear a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#clear-a-pipeline)
 for what this removes and what it keeps, and
-[`redis-di deploy`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-deploy" >}})
+[`redis-di deploy`](/content/integrate/redis-data-integration/reference/cli/redis-di-deploy.md)
 for the command's options.
