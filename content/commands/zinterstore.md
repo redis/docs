@@ -90,9 +90,8 @@ syntax_fmt: "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS\_weight\n  [
   \ ...]] [AGGREGATE\_<SUM | MIN | MAX | COUNT>]"
 title: ZINTERSTORE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Computes the intersection of `numkeys` sorted sets given by the specified keys,
@@ -106,7 +105,7 @@ Because intersection requires an element to be a member of every given sorted
 set, this results in the score of every element in the resulting sorted set to
 be equal to the number of input sorted sets.
 
-For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]({{< relref "/commands/zunionstore" >}}).
+For a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`](/content/commands/zunionstore.md).
 
 If `destination` already exists, it is overwritten.
 
