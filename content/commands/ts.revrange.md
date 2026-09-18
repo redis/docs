@@ -365,29 +365,29 @@ Similarly, when the end timestamp for the range query is explicitly stated, you 
     tab2="RESP3" >}}
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) of
   * Without `AGGREGATION` or with a single aggregator:
-    ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) pairs representing (timestamp, value) in reverse chronological order.
+    ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) pairs representing (timestamp, value) in reverse chronological order.
   * With multiple aggregators:
-    ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) tuples representing (timestamp, value...) in reverse chronological order.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.
+    ([Integer reply](/content/develop/reference/protocol-spec.md#integers), multiple [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) tuples representing (timestamp, value...) in reverse chronological order.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid filter value, wrong key type, key does not exist, etc.
 
 -tab-sep-
 
 One of the following:
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) of
   * Without `AGGREGATION` or with a single aggregator:
-    ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) pairs representing (timestamp, value) in reverse chronological order.
+    ([Integer reply](/content/develop/reference/protocol-spec.md#integers), [Double reply](/content/develop/reference/protocol-spec.md#doubles)) pairs representing (timestamp, value) in reverse chronological order.
   * With multiple aggregators:
-    ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), multiple [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}})) tuples representing (timestamp, value...) in reverse chronological order.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.
+    ([Integer reply](/content/develop/reference/protocol-spec.md#integers), multiple [Double reply](/content/develop/reference/protocol-spec.md#doubles)) tuples representing (timestamp, value...) in reverse chronological order.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid filter value, wrong key type, key does not exist, etc.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.RANGE`]({{< relref "commands/ts.range/" >}}) | [`TS.MRANGE`]({{< relref "commands/ts.mrange/" >}}) | [`TS.MREVRANGE`]({{< relref "commands/ts.mrevrange/" >}})
+[`TS.RANGE`](/content/commands/ts.range.md) | [`TS.MRANGE`](/content/commands/ts.mrange.md) | [`TS.MREVRANGE`](/content/commands/ts.mrevrange.md)
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

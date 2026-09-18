@@ -33,7 +33,7 @@ title: CF.COUNT
 ---
 Returns an estimation of the number of times a given item was added to a cuckoo filter.
 
-If you just want to check that a given item was added to a cuckoo filter, use [`CF.EXISTS`]({{< relref "commands/cf.exists/" >}}).
+If you just want to check that a given item was added to a cuckoo filter, use [`CF.EXISTS`](/content/commands/cf.exists.md).
 
 ## Required arguments
 
@@ -74,13 +74,13 @@ redis> CF.COUNT cf item2
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]({{< relref "commands/cf.del/" >}}).
-* [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or wrong key type.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`](/content/commands/cf.del.md).
+* [Simple error](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments or wrong key type.
 
 -tab-sep-
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]({{< relref "commands/cf.del/" >}}).
-* [Simple error]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or wrong key type.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`](/content/commands/cf.del.md).
+* [Simple error](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments or wrong key type.
 
 {{< /multitabs >}}

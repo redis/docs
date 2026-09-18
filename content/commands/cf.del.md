@@ -35,9 +35,8 @@ Deletes an item once from the filter.
 
 If the item exists only once, it will be removed from the filter. If the item was added multiple times, it will still be present.
 
-{{< note >}}
-Never use this command to delete an item unless you are certain you've added the item to the filter. Deleting an item you didn't previously add may corrupt the filter and cause false negatives.
-{{< /note >}}
+> [!NOTE]
+> Never use this command to delete an item unless you are certain you've added the item to the filter. Deleting an item you didn't previously add may corrupt the filter and cause false negatives.
 
 ## Required arguments
 
@@ -88,13 +87,13 @@ redis> CF.DEL cf item2
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) `1` for successfully deleting an item, or `0` if no such item was found in the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or wrong key type.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers) `1` for successfully deleting an item, or `0` if no such item was found in the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments or wrong key type.
 
 -tab-sep-
 
 One of the following:
-* [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}) `true` for successfully deleting an item, or `false` if no such item was found in the filter.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments or wrong key type.
+* [Boolean reply](/content/develop/reference/protocol-spec.md#booleans) `true` for successfully deleting an item, or `false` if no such item was found in the filter.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments or wrong key type.
 
 {{< /multitabs >}}

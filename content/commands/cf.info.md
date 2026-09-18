@@ -76,12 +76,12 @@ One of the following:
     tab1="RESP2" 
     tab2="RESP3" >}}
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays) with argument name ([Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) and value ([Integer reply](/content/develop/reference/protocol-spec.md#integers)) pairs.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
 
 -tab-sep-
 
-* [Map reply]({{< relref "/develop/reference/protocol-spec#maps" >}}) with argument name ([Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}})) and value ([Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}})) pairs.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
+* [Map reply](/content/develop/reference/protocol-spec.md#maps) with argument name ([Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings)) and value ([Integer reply](/content/develop/reference/protocol-spec.md#integers)) pairs.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.
 
 {{< /multitabs >}}
