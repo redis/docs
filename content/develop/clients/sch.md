@@ -80,6 +80,7 @@ and the versions that added support for basic connections and
 > still change. See
 > [Connect using Smart client handoffs (SCH)](/content/develop/clients/dotnet/connect.md#connect-using-smart-client-handoffs-sch)
 > for details.
+&nbsp;
 
 > [!NOTE]
 > SCH is currently disabled when a client is configured for
