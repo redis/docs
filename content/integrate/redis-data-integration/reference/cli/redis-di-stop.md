@@ -29,7 +29,7 @@ The pipeline name is an optional argument that defaults to `default`.
 | `--timeout` | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 

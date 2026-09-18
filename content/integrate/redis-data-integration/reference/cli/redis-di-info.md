@@ -19,4 +19,4 @@ redis-di info [flags]
 ## Options
 
 This command takes only the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).

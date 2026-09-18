@@ -25,7 +25,7 @@ redis-di get-dlq <name> [flags]
 | `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`. |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di.md#global-options).
 
 ## Example
 

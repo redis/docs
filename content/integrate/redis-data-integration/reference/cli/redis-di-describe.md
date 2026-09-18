@@ -13,7 +13,7 @@ Describes a pipeline, combining its configuration with its runtime status, compo
 metrics in a human-readable, sectioned layout. `status` is an alias for this command.
 
 The RDI version is not shown here, because it is a property of the API connection rather than of the
-pipeline; use [`info`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-info" >}})
+pipeline; use [`info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
 to see it.
 
 ## Usage
@@ -27,7 +27,7 @@ The pipeline name is an optional argument that defaults to `default`.
 ## Options
 
 This command takes only the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 
@@ -91,4 +91,4 @@ Statistics:
 The `Metrics Endpoints` column shows the externally-reachable metrics URLs of each component,
 which RDI discovers from the component's `Ingress` resources. It is empty for a component that
 has no ingress, or while the ingress controller has not assigned an address yet. See
-[Accessing the metrics]({{< relref "/integrate/redis-data-integration/observability#accessing-the-metrics" >}}) for more information.
+[Accessing the metrics](/content/integrate/redis-data-integration/observability.md#accessing-the-metrics) for more information.

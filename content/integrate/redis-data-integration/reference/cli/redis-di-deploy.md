@@ -15,7 +15,7 @@ pipeline after deploying and waits for it to reach the expected state. `set` is 
 command.
 
 Pass `--empty` instead of `--dir` to deploy an empty configuration, which clears the pipeline. See
-[Clear a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#clear-a-pipeline" >}}) for
+[Clear a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#clear-a-pipeline) for
 what clearing a pipeline removes and what it keeps.
 
 ## Usage
@@ -40,7 +40,7 @@ The pipeline name is an optional argument that defaults to `default`.
 | `--timeout`         | Maximum time to wait for the pipeline to reach the expected state (default `2m`).    |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 

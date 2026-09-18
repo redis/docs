@@ -10,7 +10,7 @@ aliases:
 ---
 
 Dumps a comprehensive set of RDI forensics data that you can send to Redis support (see
-[Dump support package]({{< relref "/integrate/redis-data-integration/troubleshooting#dump-support-package" >}})).
+[Dump support package](/content/integrate/redis-data-integration/troubleshooting.md#dump-support-package)).
 This is an administration command that is available only on VM installations, where `redis-di`
 forwards it to the bundled `rdi-admin` tool.
 

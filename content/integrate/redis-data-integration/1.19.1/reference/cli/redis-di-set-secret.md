@@ -10,7 +10,7 @@ url: '/integrate/redis-data-integration/1.19.1/reference/cli/redis-di-set-secret
 
 Creates or updates a secret of a pipeline. Secrets hold the credentials and certificates that the
 pipeline uses to connect to the source and target databases (see
-[Set secrets]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy#set-secrets" >}})
+[Set secrets](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md#set-secrets)
 for the list of secret names). You can then refer to a secret in the `config.yaml` file with the
 syntax `${SECRET_NAME}`.
 
@@ -35,7 +35,7 @@ redis-di set-secret <key> [value] [flags]
 | `--timeout`        | Maximum time to wait for the pipeline to reach the expected state (default `2m`). |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/1.19.1/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/1.19.1/reference/cli/redis-di.md#global-options).
 
 ## Example
 
