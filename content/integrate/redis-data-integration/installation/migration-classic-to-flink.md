@@ -21,7 +21,7 @@ processor is implemented in Python. The default *Flink* processor is built on to
 [Apache Flink](https://flink.apache.org/). Both run on VM and Kubernetes
 installations. The Flink processor can achieve much higher throughput
 during snapshots, scales horizontally by changing the number of TaskManager replicas,
-and uses Flink checkpointing for fault tolerance. See [Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
+and uses Flink checkpointing for fault tolerance. See [Stream processor implementations](/content/integrate/redis-data-integration/architecture/_index.md#stream-processor-implementations)
 for an overview.
 
 The classic processor is the default in RDI 1.19.0. The Flink processor is the
@@ -41,22 +41,21 @@ Before you start, save your existing configuration and jobs. Wait for the
 initial snapshot to finish. Interrupting it causes the snapshot to restart
 from the beginning.
 
-{{< warning >}}
-Switching processors with records still in the RDI input streams can leave
-records unprocessed. Stop the collector and let the classic processor empty
-the streams before switching.
-{{< /warning >}}
+> [!WARNING]
+> Switching processors with records still in the RDI input streams can leave
+> records unprocessed. Stop the collector and let the classic processor empty
+> the streams before switching.
 
 Confirm that your pipeline is compatible with the Flink processor:
 
 -   `JSON.MERGE` semantics differ from the classic processor's Lua-based merge
     when null values are involved (see
-    [`use_native_json_merge`]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors-data-processing-configuration" >}})).
+    [`use_native_json_merge`](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#processors-data-processing-configuration)).
     The Flink processor always uses the native `JSON.MERGE` command when the
     target database supports it.
 -   Ensure your Kubernetes cluster or VM has enough capacity for the Flink JobManager
     and TaskManager pods (see
-    [Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}})
+    [Configure the Flink processor](/content/integrate/redis-data-integration/installation/install-k8s.md#configure-the-flink-processor)
     for the default sizing).
 
 ## Step 1: Configure the Flink processor at the Helm chart level (Kubernetes)
@@ -69,7 +68,7 @@ chart level. The defaults are sized for typical workloads, so you can skip
 this step if you don't need to override them. To adjust the JobManager and
 TaskManager defaults, add an `operator.dataPlane.flinkProcessor` block to
 your `rdi-values.yaml` file and run `helm upgrade` as described in
-[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}}).
+[Configure the Flink processor](/content/integrate/redis-data-integration/installation/install-k8s.md#configure-the-flink-processor).
 Existing pipelines continue to run on the classic processor until you switch
 them in [Step 4](#step-4-switch-processors-and-resume-collection).
 
@@ -127,7 +126,7 @@ stream is its current length. Confirm that every input stream is listed.
 Connect an authenticated Redis client to the **RDI database** that stores
 the pipeline's input streams, not the target database. Find the input stream
 keys with
-[`SCAN`]({{< relref "/commands/scan" >}}):
+[`SCAN`](/content/commands/scan.md):
 
 ```text
 SCAN 0 MATCH data:{rdi}:* COUNT 1000 TYPE stream
@@ -143,7 +142,7 @@ Repeat with each new cursor until the returned cursor is `0`, even if an
 intermediate result contains no keys.
 
 For every input stream returned, run
-[`XLEN`]({{< relref "/commands/xlen" >}}):
+[`XLEN`](/content/commands/xlen.md):
 
 ```text
 XLEN <input-stream-key>
@@ -155,7 +154,7 @@ Run a complete `SCAN` and all `XLEN` commands in each of the three checks.
 
 After the drain check passes, remove the source's `active: false` setting
 from the existing `config.yaml` and set
-[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+[`processors.type`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#processors)
 to `flink` (or remove this property, since `flink` is the default):
 
 ```yaml
@@ -226,7 +225,7 @@ processors:
 ```
 
 See the
-[`processors.advanced` reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processorsadvanced-advanced-configuration" >}})
+[`processors.advanced` reference](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#processorsadvanced-advanced-configuration)
 for the full set of available properties.
 
 ## Step 7: Update observability
@@ -234,7 +233,7 @@ for the full set of available properties.
 The Flink processor exposes Prometheus metrics directly
 from the Flink JobManager and TaskManager pods.
 See
-[Flink processor metrics]({{< relref "/integrate/redis-data-integration/observability#flink-processor-metrics" >}})
+[Flink processor metrics](/content/integrate/redis-data-integration/observability.md#flink-processor-metrics)
 for the `ServiceMonitor` configuration and the available metrics.
 
 ## Rolling back

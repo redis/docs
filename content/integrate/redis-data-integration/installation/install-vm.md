@@ -18,10 +18,10 @@ weight: 10
 
 This guide explains how to install Redis Data Integration (RDI) on one or more VMs and integrate it with
 your source databases. You can also
-[Install RDI on Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}}).
+[Install RDI on Kubernetes](/content/integrate/redis-data-integration/installation/install-k8s.md).
 
-{{< note >}}We recommend you always use the latest version, which is RDI v{{< rdi-version >}}.
-{{< /note >}}
+> [!NOTE]
+> We recommend you always use the latest version, which is RDI v{{< rdi-version >}}.
 
 ## Create the RDI database
 
@@ -44,31 +44,31 @@ You would normally install RDI on two VMs for High Availability (HA) but you can
 just one VM if you don't need this. For example, you might not need HA during
 development and testing.
 
-{{< note >}}You can't install RDI on a host where a Redis Enterprise cluster
-is also installed, due to incompatible network rules. If you want to install RDI on a
-host that you have previously used for Redis Enterprise then you must
-use [`iptables`](https://www.netfilter.org/projects/iptables/index.html) to
-"clean" the host before installation with the following command line:
-
-```bash
- sudo iptables-save | awk '/^[*]/ { print $1 } 
-                     /^:[A-Z]+ [^-]/ { print $1 " ACCEPT" ; }
-                     /COMMIT/ { print $0; }' | sudo iptables-restore
-```
-
-You may encounter problems if you use `iptables` v1.6.1 and earlier in
-`nftables` mode. Use `iptables` versions later than v1.6.1 or enable the `iptables`
-legacy mode with the following commands:
-
-```bash
-sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
-sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-```
-
-Also, `iptables` versions 1.8.0-1.8.4 have known issues that can prevent RDI
-from working, especially on RHEL 8. Ideally, use `iptables` v1.8.8, which is
-known to work correctly with RDI.
-{{< /note >}}
+> [!NOTE]
+> You can't install RDI on a host where a Redis Enterprise cluster
+> is also installed, due to incompatible network rules. If you want to install RDI on a
+> host that you have previously used for Redis Enterprise then you must
+> use [`iptables`](https://www.netfilter.org/projects/iptables/index.html) to
+> "clean" the host before installation with the following command line:
+>
+> ```bash
+>  sudo iptables-save | awk '/^[*]/ { print $1 } 
+>                      /^:[A-Z]+ [^-]/ { print $1 " ACCEPT" ; }
+>                      /COMMIT/ { print $0; }' | sudo iptables-restore
+> ```
+>
+> You may encounter problems if you use `iptables` v1.6.1 and earlier in
+> `nftables` mode. Use `iptables` versions later than v1.6.1 or enable the `iptables`
+> legacy mode with the following commands:
+>
+> ```bash
+> sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+> sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+> ```
+>
+> Also, `iptables` versions 1.8.0-1.8.4 have known issues that can prevent RDI
+> from working, especially on RHEL 8. Ideally, use `iptables` v1.8.8, which is
+> known to work correctly with RDI.
 
 The supported OS versions for RDI are:
 
@@ -136,18 +136,18 @@ sudo ufw reload
 
 Follow the steps below for each of your VMs.
 
-{{< note >}}RDI installs executables by default in the `/var` partition, so you must
-ensure it is mounted without the `noexec` option. Use the following command to
-find any partitions mounted with the `noexec` option:
-
-```bash
-mount | grep noexec
-```
-
-If your `/var` partition is listed in the output from this command, you must remount
-it without the `noexec` option. See
-[Using the mount command](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/5/html/deployment_guide/chap-using_the_mount_command) in the Red Hat documentation to learn how to remount a partition.
-{{< /note >}}
+> [!NOTE]
+> RDI installs executables by default in the `/var` partition, so you must
+> ensure it is mounted without the `noexec` option. Use the following command to
+> find any partitions mounted with the `noexec` option:
+>
+> ```bash
+> mount | grep noexec
+> ```
+>
+> If your `/var` partition is listed in the output from this command, you must remount
+> it without the `noexec` option. See
+> [Using the mount command](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/5/html/deployment_guide/chap-using_the_mount_command) in the Red Hat documentation to learn how to remount a partition.
 
 1.  Download the RDI installer from the
     [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
@@ -172,16 +172,17 @@ it without the `noexec` option. See
     sudo ./install.sh
     ```
 
-    {{< note >}}RDI uses [K3s](https://k3s.io/) as part of its implementation.
-    By default, the installer installs K3s in the `/var/lib` directory,
-    but this might be a problem if you have limited space in `/var`
-    or your company policy forbids you to install there. You can
-    select a different directory for the K3s installation using the
-    `--installation-dir` option with `install.sh`:
-```bash
-sudo ./install.sh --installation-dir <custom-installation-directory>
-```
-    {{< /note >}}
+    > [!NOTE]
+    > RDI uses [K3s](https://k3s.io/) as part of its implementation.
+    > By default, the installer installs K3s in the `/var/lib` directory,
+    > but this might be a problem if you have limited space in `/var`
+    > or your company policy forbids you to install there. You can
+    > select a different directory for the K3s installation using the
+    > `--installation-dir` option with `install.sh`:
+    >
+    > ```bash
+    > sudo ./install.sh --installation-dir <custom-installation-directory>
+    > ```
 
     **Advanced**: You can also pass custom K3s parameters to the installer using the
     `INSTALL_K3S_EXEC` environment variable. For example, to set the kubeconfig file 
@@ -195,44 +196,45 @@ sudo ./install.sh --installation-dir <custom-installation-directory>
     [K3s documentation](https://docs.k3s.io/installation/configuration) for a full list of 
     available options.
 
-    {{< warning >}}Only modify K3s parameters if you understand exactly what you are changing 
-    and why. Incorrect K3s configuration can cause RDI installation to fail or result in an 
-    unstable deployment. {{< /warning >}}
+    > [!WARNING]
+    > Only modify K3s parameters if you understand exactly what you are changing 
+    > and why. Incorrect K3s configuration can cause RDI installation to fail or result in an 
+    > unstable deployment. 
     
 
 The RDI installer collects all necessary configuration details and alerts you to potential issues, 
 offering options to abort, apply fixes, or provide additional information. 
 Once complete, it guides you through creating secrets and setting up your pipeline.
 
-{{< note >}}It is strongly recommended to specify a hostname rather than an IP address for
-connecting to your RDI database, for the following reasons:
+> [!NOTE]
+> It is strongly recommended to specify a hostname rather than an IP address for
+> connecting to your RDI database, for the following reasons:
+>
+> -   Any DNS resolution issues will be detected during the installation rather than
+>     later during pipeline deployment.
+> -   If you use TLS, your RDI database CA certificate must contain the hostname you specified
+>     either as a common name (CN) or as a subject alternative name (SAN). CA certificates
+>     usually don't contain IP addresses.
 
--   Any DNS resolution issues will be detected during the installation rather than
-    later during pipeline deployment.
--   If you use TLS, your RDI database CA certificate must contain the hostname you specified
-    either as a common name (CN) or as a subject alternative name (SAN). CA certificates
-    usually don't contain IP addresses.
-{{< /note >}}
-
-{{< note >}}If you specify `localhost` as the address of the RDI database server during
-installation then the connection will fail if the actual IP address changes for the local
-VM. For this reason, we recommend that you don't use `localhost` for the address. However,
-if you do encounter this problem, you can fix it using the following commands on the VM
-that is running RDI itself:
-
-```bash
-sudo k3s kubectl delete nodes --all
-sudo service k3s restart
-```
-{{< /note >}}
+> [!NOTE]
+> If you specify `localhost` as the address of the RDI database server during
+> installation then the connection will fail if the actual IP address changes for the local
+> VM. For this reason, we recommend that you don't use `localhost` for the address. However,
+> if you do encounter this problem, you can fix it using the following commands on the VM
+> that is running RDI itself:
+>
+> ```bash
+> sudo k3s kubectl delete nodes --all
+> sudo service k3s restart
+> ```
 
 After the installation is finished, RDI is ready for use.
 
 ### Supply cloud DNS information
 
-{{< note >}}This section is only relevant if you are installing RDI
-on VMs in a cloud environment.
-{{< /note >}}
+> [!NOTE]
+> This section is only relevant if you are installing RDI
+> on VMs in a cloud environment.
 
 If you are using [Amazon Route 53](https://aws.amazon.com/route53/),
 [Google Cloud DNS](https://cloud.google.com/dns?hl=en), or
@@ -261,7 +263,7 @@ When starting the RDI installation on the second VM, the installer will detect t
 database is already in use and ask you to confirm that you intend to install RDI with HA.
 
 After the installation is complete, you must set the source and target database secrets
-on both VMs as described in [Deploy a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}}). If you use `redis-di` to deploy your configuration, you only need to do this on one of the VMs, not both.
+on both VMs as described in [Deploy a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md). If you use `redis-di` to deploy your configuration, you only need to do this on one of the VMs, not both.
 
 In a High Availability setup, the RDI pipeline is only active on the primary instance (VM).
 The two RDI instances will use the RDI database for leader election. If the primary instance fails 
@@ -272,7 +274,7 @@ and the RDI pipeline will be active on that VM.
 The secondary instance keeps the pipeline and its configuration, and reports it with the
 `standby` status, but runs none of its collectors or its stream processor, and it does not
 touch the pipeline's keys in the RDI database. A standby pipeline is read-only, so
-running [`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
+running [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
 against the secondary instance works and shows `Status: standby`. Attempting to change a standby pipeline
 fails with `423 Locked` and a message saying that the pipeline is standing by because this instance is
 currently a leader election follower. Operations such as deploy, start, stop, reset, and delete
@@ -281,51 +283,52 @@ can only be performed against the primary instance.
 You can still set pipeline secrets for an instance when it is on standby. Secrets are maintained per
 instance and are not replicated between the two, because they can legitimately differ in some cases.
 
-You may find it useful to trigger a failover deliberately to check that RDI is correctly configured to handle it. See [Test HA failover]({{< relref "/integrate/redis-data-integration/installation/ha-test" >}}) to learn how to do this.
+You may find it useful to trigger a failover deliberately to check that RDI is correctly configured to handle it. See [Test HA failover](/content/integrate/redis-data-integration/installation/ha-test.md) to learn how to do this.
 
 ## Prepare your source databases
 
 Before deploying a pipeline, you must configure each source database to enable CDC. See the
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
+[Prepare source databases](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md)
 section to learn how to do this. A pipeline can capture from more than one source database,
 and you must prepare each one separately. See
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
+[Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md) for more information.
 
 ## Deploy a pipeline
 
 When the installation is complete, and you have prepared your source databases for CDC,
 you are ready to start using RDI. See the guides on how to
-[configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
-[deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
+[configure](/content/integrate/redis-data-integration/data-pipelines/_index.md) and
+[deploy](/content/integrate/redis-data-integration/data-pipelines/deploy.md)
 RDI pipelines for more information. You can also configure and deploy a pipeline
-using [Redis Insight]({{< relref "/develop/tools/insight" >}}). See
-[RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+using [Redis Insight](/content/develop/tools/insight/_index.md). See
+[RDI in Redis Insight](/content/develop/tools/insight/rdi-connector.md)
 for full details on how to connect to RDI and deploy pipelines.
 
-{{< note >}}The [`redis-di` CLI]({{< relref "/integrate/redis-data-integration/reference/cli" >}})
-is bundled with the VM installer, so it is already available on the VM where RDI is installed. If you
-prefer to run it from your own laptop or desktop instead, you can
-[download it separately]({{< relref "/integrate/redis-data-integration/installation/install-k8s#download-the-rdi-cli" >}})
-for your platform.{{< /note >}}
+> [!NOTE]
+> The [`redis-di` CLI](/content/integrate/redis-data-integration/reference/cli/_index.md)
+> is bundled with the VM installer, so it is already available on the VM where RDI is installed. If you
+> prefer to run it from your own laptop or desktop instead, you can
+> [download it separately](/content/integrate/redis-data-integration/installation/install-k8s.md#download-the-rdi-cli)
+> for your platform.
 
 ## Configure the Flink processor
 
 RDI ships with two stream processor implementations: the *classic* processor and the
 default [Apache Flink](https://flink.apache.org/)-based *Flink* processor.
 See
-[Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
+[Stream processor implementations](/content/integrate/redis-data-integration/architecture/_index.md#stream-processor-implementations)
 for an overview of the differences and
-[Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+[Differences between the classic and Flink processors](/content/integrate/redis-data-integration/architecture/classic-vs-flink.md)
 for a side-by-side comparison.
 
 A pipeline runs on the Flink processor unless its `config.yaml` sets
-[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+[`processors.type`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#processors)
 to `classic`. Fine-tune the Flink runtime
 through the `processors.advanced` section of `config.yaml` (see the
-[configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
+[configuration reference](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#processors)).
 
 For migrating existing pipelines to the Flink processor, see
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
+[Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md).
 
 ## Uninstall RDI
 

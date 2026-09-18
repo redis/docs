@@ -18,7 +18,7 @@ weight: 20
 
 This guide explains how to use the RDI [Helm chart](https://helm.sh/docs/topics/charts/)
 to install on [Kubernetes](https://kubernetes.io/) (K8s). You can also
-[Install RDI on VMs]({{< relref "/integrate/redis-data-integration/installation/install-vm" >}}).
+[Install RDI on VMs](/content/integrate/redis-data-integration/installation/install-vm.md).
 
 The installation creates the following K8s objects:
 
@@ -26,8 +26,8 @@ The installation creates the following K8s objects:
     You can also use a different namespace name if you prefer.
 -   [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) and 
     [services](https://kubernetes.io/docs/concepts/services-networking/service/) for the 
-    [RDI operator]({{< relref "/integrate/redis-data-integration/architecture#how-rdi-is-deployed" >}}),
-    [metrics exporter]({{< relref "/integrate/redis-data-integration/observability" >}}), and API server.
+    [RDI operator](/content/integrate/redis-data-integration/architecture/_index.md#how-rdi-is-deployed),
+    [metrics exporter](/content/integrate/redis-data-integration/observability.md), and API server.
 -   A [service account](https://kubernetes.io/docs/concepts/security/service-accounts/) 
     and [RBAC resources](https://kubernetes.io/docs/reference/access-authn-authz/rbac) for the RDI operator.
 -   A [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) with RDI database details.
@@ -48,9 +48,9 @@ Complete the following steps before installing the RDI Helm chart:
 
 -   [Create the RDI database](#create-the-rdi-database) on your Redis Enterprise cluster.
 
--   Create a [user]({{< relref "/operate/rs/security/access-control/create-users" >}})
+-   Create a [user](/content/operate/rs/security/access-control/create-users.md)
     for the RDI database if you prefer not to use the default password (see
-    [Access control]({{< relref "/operate/rs/security/access-control" >}}) for
+    [Access control](/content/operate/rs/security/access-control/_index.md) for
     more information).
 
 -   Download the RDI Helm chart tar file from the
@@ -150,7 +150,7 @@ To pull images from a private image registry, you must provide the image pull se
 
 ### Download the RDI CLI
 
-You manage RDI with the [`redis-di` CLI]({{< relref "/integrate/redis-data-integration/reference/cli" >}}),
+You manage RDI with the [`redis-di` CLI](/content/integrate/redis-data-integration/reference/cli/_index.md),
 which you use to deploy pipelines, set secrets, and inspect status. Unlike the VM installation, which
 bundles the CLI, a Kubernetes installation requires you to download it separately from the Redis
 download center.
@@ -177,11 +177,12 @@ chmod +x redis-di
 sudo mv redis-di /usr/local/bin/
 ```
 
-{{< note >}}The macOS and Windows binaries are not currently signed or notarized, so the operating
-system may block them the first time you run them. On macOS, allow the binary to run in
-**System Settings > Privacy & Security**, or remove the quarantine attribute with
-`xattr -d com.apple.quarantine ./redis-di`, and then run it again. On Windows, if Microsoft Defender
-SmartScreen blocks it, choose **More info > Run anyway**.{{< /note >}}
+> [!NOTE]
+> The macOS and Windows binaries are not currently signed or notarized, so the operating
+> system may block them the first time you run them. On macOS, allow the binary to run in
+> **System Settings > Privacy & Security**, or remove the quarantine attribute with
+> `xattr -d com.apple.quarantine ./redis-di`, and then run it again. On Windows, if Microsoft Defender
+> SmartScreen blocks it, choose **More info > Run anyway**.
 
 ## Supported versions of Kubernetes and OpenShift
 
@@ -207,16 +208,18 @@ SmartScreen blocks it, choose **More info > Run anyway**.{{< /note >}}
     helm upgrade --install rdi rdi-<tag>.tgz -f rdi-values.yaml -n rdi --create-namespace
     ```
 
-    {{< note >}}The above command will install RDI in a namespace called
-    `rdi`. If you want to use a different namespace, pass the option
-    `-n <custom-namespace>` to the `helm install` command instead.
-    {{< /note >}}
+    > [!NOTE]
+    > The above command will install RDI in a namespace called
+    > `rdi`. If you want to use a different namespace, pass the option
+    > `-n <custom-namespace>` to the `helm install` command instead.
+
     &nbsp;
-    {{< warning >}}Only one RDI installation is supported per Kubernetes
-    cluster. Installing RDI into multiple namespaces in the same cluster is
-    not supported and will fail. If you need more than one RDI deployment,
-    use separate Kubernetes clusters.
-    {{< /warning >}} 
+
+    > [!WARNING]
+    > Only one RDI installation is supported per Kubernetes
+    > cluster. Installing RDI into multiple namespaces in the same cluster is
+    > not supported and will fail. If you need more than one RDI deployment,
+    > use separate Kubernetes clusters.
 
 ### The `values.yaml` file
 
@@ -275,9 +278,8 @@ also use mTLS, you must set the client certificate and private key contents in
       --set-file connection.ssl.key=<path-to-client-key>
     ```
 
-{{< note >}}
-Please see [these docs]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner#6-additional-kubernetes-configuration" >}}) if this RDI installation is for use with GCP Spanner.
-{{< /note >}}
+> [!NOTE]
+> Please see [these docs](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/spanner.md#6-additional-kubernetes-configuration) if this RDI installation is for use with GCP Spanner.
 
 If you are deploying to [OpenShift](https://docs.openshift.com/), you must
 set `global.openshift` to `true`:
@@ -306,28 +308,28 @@ global:
     allowPrivilegeEscalation: false
 ```
 
-{{< warning >}}The default OpenShift Security Context Constraints (SCCs)
-will not allow RDI to run if `global.securityContext.runAsUser`
-and `global.securityContext.runAsGroup` have their default values of `1000`.
-You must edit your `rdi-values.yaml` file to ensure these values are
-in the valid range for your OpenShift environment.
-
-Use the following [OpenShift CLI](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/cli_tools/openshift-cli-oc) command
-to find the user and group ranges for your project:
-
-```bash
-oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
-```
-{{< /warning >}}
+> [!WARNING]
+> The default OpenShift Security Context Constraints (SCCs)
+> will not allow RDI to run if `global.securityContext.runAsUser`
+> and `global.securityContext.runAsGroup` have their default values of `1000`.
+> You must edit your `rdi-values.yaml` file to ensure these values are
+> in the valid range for your OpenShift environment.
+>
+> Use the following [OpenShift CLI](https://docs.redhat.com/en/documentation/openshift_container_platform/4.19/html/cli_tools/openshift-cli-oc) command
+> to find the user and group ranges for your project:
+>
+> ```bash
+> oc get projects <rid-project-name> -o yaml | grep "openshift.io/sa.scc"
+> ```
 
 ### Configure the Flink processor
 
 RDI ships with two stream processor implementations: the *classic* processor and the
 default [Apache Flink](https://flink.apache.org/)-based *Flink* processor.
 See
-[Stream processor implementations]({{< relref "/integrate/redis-data-integration/architecture#stream-processor-implementations" >}})
+[Stream processor implementations](/content/integrate/redis-data-integration/architecture/_index.md#stream-processor-implementations)
 for an overview of the differences and
-[Differences between the classic and Flink processors]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}})
+[Differences between the classic and Flink processors](/content/integrate/redis-data-integration/architecture/classic-vs-flink.md)
 for a side-by-side comparison.
 
 To configure the Flink processor at the Helm chart level, add the
@@ -356,13 +358,13 @@ operator:
 Configuring the Flink processor at the Helm chart level only sets the values
 that the operator will use when deploying the JobManager and TaskManager workloads.
 A pipeline runs on the Flink processor unless its `config.yaml` sets
-[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
+[`processors.type`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#processors)
 to `classic`. Fine-tune the Flink runtime
 through the `processors.advanced` section of `config.yaml` (see the
-[configuration reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})).
+[configuration reference](/content/integrate/redis-data-integration/reference/config-yaml-reference.md#processors)).
 
 For migrating existing pipelines to the Flink processor, see
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
+[Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md).
 
 ## Check the installation
 
@@ -394,9 +396,9 @@ rdi-reloader-<id>         1/1 	 Running 	0      	  29m
 ```
 
 You can verify that the RDI API works by running
-[`redis-di info`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-info" >}})
+[`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
 against it, or by adding a connection to the RDI API server to
-[Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}}).
+[Redis Insight](/content/develop/tools/insight/rdi-connector.md).
 
 ## Using ingress controllers
 
@@ -424,20 +426,20 @@ Specifically, ensure that one or both of the following Helm chart values is set:
 ## Prepare your source databases
 
 Before deploying a pipeline, you must configure each source database to enable CDC. See the
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/data-pipelines/prepare-dbs" >}})
+[Prepare source databases](/content/integrate/redis-data-integration/data-pipelines/prepare-dbs/_index.md)
 section to learn how to do this. A pipeline can capture from more than one source database,
 so you must prepare each one each source separately. See
-[Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for details.
+[Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md) for details.
 
 ## Deploy a pipeline
 
 When the Helm installation is complete and you have prepared your source databases for CDC,
 you are ready to start using RDI. See the guides on how to
-[configure]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) and
-[deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
+[configure](/content/integrate/redis-data-integration/data-pipelines/_index.md) and
+[deploy](/content/integrate/redis-data-integration/data-pipelines/deploy.md)
 RDI pipelines for more information. You can also configure and deploy a pipeline
-using [Redis Insight]({{< relref "/develop/tools/insight" >}}). See
-[RDI in Redis Insight]({{< relref "/develop/tools/insight/rdi-connector" >}})
+using [Redis Insight](/content/develop/tools/insight/_index.md). See
+[RDI in Redis Insight](/content/develop/tools/insight/rdi-connector.md)
 for full details on how to connect to RDI and deploy pipelines.
 
 ## Uninstall RDI
@@ -452,9 +454,9 @@ helm uninstall rdi -n rdi
 kubectl delete namespace rdi
 ```
 
-{{< note >}}The line `kubectl delete pipeline default -n rdi` is only needed for RDI 1.8.0 or above.
-{{< /note >}}
+> [!NOTE]
+> The line `kubectl delete pipeline default -n rdi` is only needed for RDI 1.8.0 or above.
 
 If you also want to delete the keys from your RDI database, connect to it with
-[`redis-cli`]({{< relref "/develop/tools/cli" >}}) and run a
-[`FLUSHALL`]({{< relref "/commands/flushall" >}}) command.
+[`redis-cli`](/content/develop/tools/cli.md) and run a
+[`FLUSHALL`](/content/commands/flushall.md) command.

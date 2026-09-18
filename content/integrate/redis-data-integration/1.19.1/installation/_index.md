@@ -17,8 +17,8 @@ weight: 20
 url: '/integrate/redis-data-integration/1.19.1/installation/'
 ---
 
-The guides in this section explain the options you have for installing and upgrading RDI on your own servers. See the [Redis Cloud RDI guide]({{< relref "/operate/rc/rdi" >}}) to 
+The guides in this section explain the options you have for installing and upgrading RDI on your own servers. See the [Redis Cloud RDI guide](/content/operate/rc/rdi/_index.md) to 
 learn how to set up RDI for a cloud database.
 Before you use RDI, you must also configure your source database to enable CDC. See the
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs" >}})
+[Prepare source databases](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/_index.md)
 section to learn how to do this.

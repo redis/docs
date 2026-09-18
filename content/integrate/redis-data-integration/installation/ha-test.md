@@ -53,9 +53,9 @@ rdi-reloader-77df5f7854-lwmvz          1/1     Running     0             71m
    Active
    ```
 
-   [`redis-di describe`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe" >}})
+   [`redis-di describe`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe.md)
    shows `Status: standby` on the follower, and
-   [`redis-di info`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-info" >}})
+   [`redis-di info`](/content/integrate/redis-data-integration/reference/cli/redis-di-info.md)
    shows `Leader Election Mode: follower`.
 
 ## Performing the HA Failover Testing

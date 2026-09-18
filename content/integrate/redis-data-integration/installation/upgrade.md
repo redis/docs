@@ -16,15 +16,14 @@ type: integration
 weight: 30
 ---
 
-{{< note >}}
-Before upgrading to RDI 2.0.0, review the
-[processor default change](#upgrading-to-rdi-200).
-{{< /note >}}
+> [!NOTE]
+> Before upgrading to RDI 2.0.0, review the
+> [processor default change](#upgrading-to-rdi-200).
 
 ## Upgrading a VM installation
 
 Follow the steps below to upgrade an existing
-[VM installation]({{< relref "/integrate/redis-data-integration/installation/install-vm" >}})
+[VM installation](/content/integrate/redis-data-integration/installation/install-vm.md)
 of RDI:
 
 1.  Download the RDI installer from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-installation-{{< rdi-version >}}.tar.gz)
@@ -79,10 +78,10 @@ run the CLI binary of the previous RDI version, which still provided the `redis-
     sudo redis-di upgrade --rdi-host <RDI_REDIS_HOST> --rdi-port <RDI_REDIS_PORT>
     ```
 
-{{< note >}}If the `collector` or `processor` pods are not in the `Running` state after
-the upgrade, you must run `redis-di deploy` and check again that they are both in the
-`Running` state.
-{{< /note >}}
+> [!NOTE]
+> If the `collector` or `processor` pods are not in the `Running` state after
+> the upgrade, you must run `redis-di deploy` and check again that they are both in the
+> `Running` state.
 
 ### Upgrading a VM installation with High Availability
 
@@ -90,35 +89,34 @@ If there is an active pipeline, upgrade RDI on the active VM first.
 This will cause a short pipeline downtime of up to two minutes. 
 Afterwards, upgrade RDI on the passive VM. This will not cause any downtime.
 
-{{< warning >}}
-When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI instances may incorrectly consider themselves active after the upgrade. This occurs because the upgrade process doesn't change the cluster id value from its default `cluster-1`, causing both clusters to assume they are the active cluster.
-
-**Symptoms:**
-
-- The upgraded passive node will start collector and processor components
-- Collector may enter a crash loop as it fails to connect to the source
-- Both clusters will restart in a loop
-
-**Workaround:**
-
-After upgrading, manually set a unique cluster ID for one of the installations (preferably on the passive instance):
-
-1. Locate the RDI configuration file on the VM host. The file is typically located at `/etc/rdi/rdi-sys-config.yaml`.
-2. Open the configuration file in a text editor. For example:
-
-   ```bash
-   sudo nano /etc/rdi/rdi-sys-config.yaml
-   ```
-{{< /warning >}}
+> [!WARNING]
+> When upgrading from RDI < 1.8.0 to RDI >= 1.8.0 in a VM HA setup, both RDI instances may incorrectly consider themselves active after the upgrade. This occurs because the upgrade process doesn't change the cluster id value from its default `cluster-1`, causing both clusters to assume they are the active cluster.
+>
+> **Symptoms:**
+>
+> - The upgraded passive node will start collector and processor components
+> - Collector may enter a crash loop as it fails to connect to the source
+> - Both clusters will restart in a loop
+>
+> **Workaround:**
+>
+> After upgrading, manually set a unique cluster ID for one of the installations (preferably on the passive instance):
+>
+> 1. Locate the RDI configuration file on the VM host. The file is typically located at `/etc/rdi/rdi-sys-config.yaml`.
+> 2. Open the configuration file in a text editor. For example:
+>
+>    ```bash
+>    sudo nano /etc/rdi/rdi-sys-config.yaml
+>    ```
 
 ## Upgrading a Kubernetes installation
 
 Follow the steps below to upgrade an existing
-[Kubernetes]({{< relref "/integrate/redis-data-integration/installation/install-k8s" >}})
+[Kubernetes](/content/integrate/redis-data-integration/installation/install-k8s.md)
 installation of RDI:
 
 1.  If you are using a private registry, pull the new versions of all images listed in 
-    [Using a private image registry]({{< relref "/integrate/redis-data-integration/installation/install-k8s#using-a-private-image-registry" >}})
+    [Using a private image registry](/content/integrate/redis-data-integration/installation/install-k8s.md#using-a-private-image-registry)
     and add them to your local registry.
 
 1.  Download the RDI Helm chart tar file from the [Redis download center](https://redis-enterprise-software-downloads.s3.amazonaws.com/redis-di/rdi-{{< rdi-version >}}.tgz)
@@ -141,7 +139,7 @@ installation of RDI:
     ```
 
 Note that you don't need to
-[deploy]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy" >}})
+[deploy](/content/integrate/redis-data-integration/data-pipelines/deploy.md)
 the RDI configuration again after this step.
 
 ### Upgrading to RDI 1.8.0 or later from an earlier version
@@ -173,11 +171,11 @@ then run the `helm upgrade` command again (as described in the section
 but this time with the previous version you were upgrading from, and using
 your saved `rdi-values.yaml` for that version. This will restore your previous working state.
 
-{{< note >}}Downgrading from RDI 1.8.0 or later to an earlier version using `helm upgrade`
-will not work. If you need to perform such an upgrade, uninstall RDI completely first as
-described in [Uninstall RDI]({{< relref "/integrate/redis-data-integration/installation/install-k8s#uninstall-rdi" >}}),
-and then install the old version.
-{{< /note >}}
+> [!NOTE]
+> Downgrading from RDI 1.8.0 or later to an earlier version using `helm upgrade`
+> will not work. If you need to perform such an upgrade, uninstall RDI completely first as
+> described in [Uninstall RDI](/content/integrate/redis-data-integration/installation/install-k8s.md#uninstall-rdi),
+> and then install the old version.
 
 ## Upgrading to RDI 2.0.0
 
@@ -191,7 +189,7 @@ applies when the pipeline's `config.yaml` omits `processors.type`.
 For an existing pipeline that uses the classic processor, choose one of these options before upgrading:
 
 - To migrate to the Flink processor, first follow
-  [Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}})
+  [Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md)
   on RDI 1.19.0. This stops the collector and drains the input streams before
   switching processors. Then upgrade RDI.
 - To keep the classic processor, set `processors.type: classic` in the
@@ -205,7 +203,7 @@ is needed. Continue with the upgrade instructions for your installation.
 `DELETE /api/v2/pipelines/{name}` no longer empties a pipeline, and `redis-di delete` no longer
 works. Clear the configuration with `redis-di deploy --empty`, or with
 `PUT /api/v2/pipelines/{name}` and an empty configuration, instead. See
-[Clear a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/deploy#clear-a-pipeline" >}}).
+[Clear a pipeline](/content/integrate/redis-data-integration/data-pipelines/deploy.md#clear-a-pipeline).
 
 Clearing a pipeline is not the same as resetting it or flushing the target database. Clearing
 removes the configuration and the pipeline's data from the RDI database, while resetting keeps the
@@ -216,19 +214,19 @@ database.
 
 A configuration of an upgraded pipeline still references the names from before the upgrade, so
 deploying it again after clearing the pipeline fails. See
-[Redeploying a configuration after clearing a pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#redeploying-a-configuration-after-clearing-a-pipeline" >}})
+[Redeploying a configuration after clearing a pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#redeploying-a-configuration-after-clearing-a-pipeline)
 for what you have to change, with a before and after example.
 
 ### API changes
 
 RDI 2.0.0 changes several API v2 query parameters and response fields. Most of them affect only
 an API client, and are listed in the
-[RDI 2.0.0 release notes]({{< relref "/integrate/redis-data-integration/release-notes/rdi-2-0-0" >}}).
+[RDI 2.0.0 release notes](/content/integrate/redis-data-integration/release-notes/rdi-2-0-0.md).
 
 The one to check for is the metric collections endpoint, which now keys `data_streams.streams`
 by the source-qualified table name, such as `mysql.inventory.addresses`, instead of by the Redis
 stream name. Update any dashboard or script that reads the previous form. See
-[Observability]({{< relref "/integrate/redis-data-integration/observability" >}}) for the metrics RDI reports.
+[Observability](/content/integrate/redis-data-integration/observability.md) for the metrics RDI reports.
 
 ## Enabling the Flink processor
 
@@ -238,20 +236,21 @@ fully supported on both VM and Kubernetes installations after upgrading to
 RDI 1.19.0. Once the upgrade completes, it is always available —
 no opt-in is required, and the defaults are sized for typical workloads.
 
-{{< warning >}}The Flink processor is the default as of RDI 2.0.0.
-Upgrading to that release or later moves a pipeline whose `config.yaml` does not set
-[`processors.type`]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config#processors" >}})
-onto the Flink processor when you next deploy it. To keep such a pipeline on the classic
-processor, set `processors.type` to `classic` before you upgrade.{{< /warning >}}
+> [!WARNING]
+> The Flink processor is the default as of RDI 2.0.0.
+> Upgrading to that release or later moves a pipeline whose `config.yaml` does not set
+> [`processors.type`](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md#processors)
+> onto the Flink processor when you next deploy it. To keep such a pipeline on the classic
+> processor, set `processors.type` to `classic` before you upgrade.
 
 On Kubernetes, to override the Flink processor defaults, add an
 `operator.dataPlane.flinkProcessor` block to your `rdi-values.yaml` file as
 described in
-[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-k8s#configure-the-flink-processor" >}}).
+[Configure the Flink processor](/content/integrate/redis-data-integration/installation/install-k8s.md#configure-the-flink-processor).
 On VMs, see
-[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/installation/install-vm#configure-the-flink-processor" >}}).
+[Configure the Flink processor](/content/integrate/redis-data-integration/installation/install-vm.md#configure-the-flink-processor).
 For the per-pipeline migration steps, see
-[Migrate from the classic processor to the Flink processor]({{< relref "/integrate/redis-data-integration/installation/migration-classic-to-flink" >}}).
+[Migrate from the classic processor to the Flink processor](/content/integrate/redis-data-integration/installation/migration-classic-to-flink.md).
 
 ## What happens during the upgrade?
 

@@ -22,7 +22,7 @@ processor is implemented in Python. The *Flink* processor is built on top of
 [Apache Flink](https://flink.apache.org/). Both run on VM and Kubernetes
 installations. The Flink processor can achieve much higher throughput
 during snapshots, scales horizontally by changing the number of TaskManager replicas,
-and uses Flink checkpointing for fault tolerance. See [Stream processor implementations]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#stream-processor-implementations" >}})
+and uses Flink checkpointing for fault tolerance. See [Stream processor implementations](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#stream-processor-implementations)
 for an overview.
 
 This page describes how to migrate an existing pipeline from the classic
@@ -36,12 +36,12 @@ Confirm that your pipeline is compatible with the Flink processor:
 
 -   `JSON.MERGE` semantics differ from the classic processor's Lua-based merge
     when null values are involved (see
-    [`use_native_json_merge`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference#processors" >}})).
+    [`use_native_json_merge`](/content/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference.md#processors)).
     The Flink processor always uses the native `JSON.MERGE` command when the
     target database supports it.
 -   Ensure your Kubernetes cluster or VM has enough capacity for the Flink JobManager
     and TaskManager pods (see
-    [Configure the Flink processor]({{< relref "/integrate/redis-data-integration/1.19.1/installation/install-k8s#configure-the-flink-processor" >}})
+    [Configure the Flink processor](/content/integrate/redis-data-integration/1.19.1/installation/install-k8s.md#configure-the-flink-processor)
     for the default sizing).
 
 ## Step 1: Configure the Flink processor at the Helm chart level (Kubernetes)
@@ -54,7 +54,7 @@ chart level. The defaults are sized for typical workloads, so you can skip
 this step if you don't need to override them. To adjust the JobManager and
 TaskManager defaults, add an `operator.dataPlane.flinkProcessor` block to
 your `rdi-values.yaml` file and run `helm upgrade` as described in
-[Configure the Flink processor]({{< relref "/integrate/redis-data-integration/1.19.1/installation/install-k8s#configure-the-flink-processor" >}}).
+[Configure the Flink processor](/content/integrate/redis-data-integration/1.19.1/installation/install-k8s.md#configure-the-flink-processor).
 Existing pipelines continue to run on the classic processor until you switch
 them in step 2.
 
@@ -64,7 +64,7 @@ resources in step 4.
 ## Step 2: Switch the pipeline to the Flink processor
 
 In the pipeline's `config.yaml`, set
-[`processors.type`]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config#processors" >}})
+[`processors.type`](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md#processors)
 to `flink`:
 
 ```yaml
@@ -122,7 +122,7 @@ processors:
 ```
 
 See the
-[`processors.advanced` reference]({{< relref "/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference#processors" >}})
+[`processors.advanced` reference](/content/integrate/redis-data-integration/1.19.1/reference/config-yaml-reference.md#processors)
 for the full set of available properties.
 
 ## Step 5: Update observability
@@ -130,7 +130,7 @@ for the full set of available properties.
 The Flink processor exposes Prometheus metrics directly
 from the Flink JobManager and TaskManager pods.
 See
-[Flink processor metrics]({{< relref "/integrate/redis-data-integration/1.19.1/observability#flink-processor-metrics" >}})
+[Flink processor metrics](/content/integrate/redis-data-integration/1.19.1/observability.md#flink-processor-metrics)
 for the `ServiceMonitor` configuration and the available metrics.
 
 ## Rolling back
