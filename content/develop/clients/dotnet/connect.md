@@ -130,6 +130,92 @@ conn.StringSet("foo", "bar");
 Console.WriteLine(conn.StringGet("foo"));   
 ```
 
+## Connect using Smart client handoffs (SCH)
+
+*Smart client handoffs (SCH)* is a feature of Redis Cloud and
+Redis Software servers that lets them actively notify clients
+about planned server maintenance shortly before it happens. This
+lets a client take action to avoid disruptions in service.
+See [Smart client handoffs](/content/develop/clients/sch.md)
+for more information about SCH.
+
+> [!NOTE]
+> SCH support in `StackExchange.Redis` requires v3.3.0 or later. The feature
+> is functional and tested against real Redis Enterprise deployments, but
+> because it is a large, new API, the types and members involved are
+> marked with the `[Experimental]` attribute. This is so the developers can reserve
+> the right to adjust the API without the usual backwards-compatibility
+> guarantees. As a result, the compiler reports the `SER010` diagnostic when
+> you use them. You can suppress this diagnostic by adding the following to
+> your `.csproj` file:
+>
+> ```xml
+> <NoWarn>$(NoWarn);SER010</NoWarn>
+> ```
+>
+> Alternatively, you can suppress it locally in your source file:
+>
+> ```csharp
+> #pragma warning disable SER010
+> ```
+
+SCH is disabled by default. Enable it with the `MaintenanceNotifications`
+configuration option, either in code or using the `maintNotifications` key
+in a configuration string:
+
+```csharp
+var options = ConfigurationOptions.Parse("host:6379,maintNotifications=Auto,maintRelaxedTimeout=15");
+
+// or, in code:
+var options = new ConfigurationOptions {
+    EndPoints = { "host:6379" },
+    MaintenanceNotifications = MaintenanceNotificationMode.Auto,
+    MaintenanceRelaxedTimeout = TimeSpan.FromSeconds(15),
+};
+
+var muxer = await ConnectionMultiplexer.ConnectAsync(options);
+```
+
+> [!NOTE]
+> `ConfigurationOptions` also has a `Defaults` property that accepts named
+> provider profiles (`amr`, `rediscloud`, `enterprise`) using the `defaults`
+> configuration key. As of v3.3.0, none of these profiles override
+> `MaintenanceNotifications`, so it stays `Disabled` under every profile.
+> Set `maintNotifications` explicitly, regardless of which server product
+> you connect to.
+
+The `ConfigurationOptions` object accepts the following SCH-related parameters:
+
+| Name | Description |
+| :-- | :-- |
+| `MaintenanceNotifications` | Whether to request SCH. The options are `Disabled` (the default), `Enabled` (require SCH and reject the connection, including a fallback to RESP2, if the server can't deliver it), and `Auto` (request SCH and tolerate a server that doesn't support it). |
+| `MaintenanceMovingEndpointType` | The endpoint type to request for a replacement node during a handoff. The options are `ServerDefault` (no preference), `Auto` (the default; derived from the connection's scheme and encryption), `InternalIp`, `InternalFqdn`, `ExternalIp`, `ExternalFqdn`, and `None`. |
+| `MaintenanceRelaxedTimeout` | The timeout to use for commands and connections while the server has announced maintenance. The default is 10 seconds. |
+| `MaintenanceRelaxedWindowMax` | The maximum time to keep using the relaxed timeout if no notification arrives to close the window. The default is three times `MaintenanceRelaxedTimeout`. |
+| `MaintenancePostEventRelaxedDuration` | How long to keep using the relaxed timeout after a closing notification, to cover trailing effects of the maintenance. |
+
+Subscribe to the `ConnectionMultiplexer.ServerMaintenanceEvent` event to
+observe SCH notifications. This is the same event that some servers (such as
+Azure Cache for Redis) already use for their own maintenance notifications
+(see [Production usage](/content/develop/clients/dotnet/produsage.md#server-notification-events)),
+so check the runtime type of the event arguments to tell the two apart:
+
+```csharp
+muxer.ServerMaintenanceEvent += (object sender, ServerMaintenanceEvent e) => {
+    if (e is PushMaintenanceEvent pme) {
+        // A server-native SCH notification.
+        Console.WriteLine($"SCH notification: {pme.NotificationType} at {pme.EndPoint}");
+    } else {
+        // An older, provider-specific notification (for example, from Azure Cache for Redis).
+        Console.WriteLine($"Maintenance event: {e.RawMessage}");
+    }
+};
+```
+
+`RedisConnectionException` and `RedisTimeoutException` both expose a
+`MaintenanceType` property, so you can tell whether a failure happened
+because of ongoing maintenance.
+
 ## Multiplexing
 
 Although example code typically works with a single connection,
