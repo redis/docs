@@ -39,11 +39,11 @@ OK
 
 ## Details
 
-`BACKUP CLEANUP` removes the sealed (or failed) backup artifacts and releases the files that were pinned by hard links, moving the backup state machine from `sealed` back to `idle`. Call it after the data plane has finished copying the files reported by [`BACKUP LIST`]({{< relref "/commands/backup-list" >}}).
+`BACKUP CLEANUP` removes the sealed (or failed) backup artifacts and releases the files that were pinned by hard links, moving the backup state machine from `sealed` back to `idle`. Call it after the data plane has finished copying the files reported by [`BACKUP LIST`](/content/commands/backup-list.md).
 
 By default a sealed backup is kept until you clean it up explicitly. If the `backup-sealed-ttl` configuration setting is non-zero, Redis automatically cleans up a sealed backup after the configured number of seconds; a value of `0` disables automatic cleanup.
 
-For the full workflow, see [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}#online-backups-with-the-backup-command-family).
+For the full workflow, see [Redis persistence](/content/operate/oss_and_stack/management/persistence.md#online-backups-with-the-backup-command-family).
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -67,8 +67,8 @@ For the full workflow, see [Redis persistence]({{< relref "/operate/oss_and_stac
 
 ## See also
 
-[`BACKUP START`]({{< relref "commands/backup-start/" >}}) | [`BACKUP SEAL`]({{< relref "commands/backup-seal/" >}}) | [`BACKUP STATUS`]({{< relref "commands/backup-status/" >}}) | [`BACKUP LIST`]({{< relref "commands/backup-list/" >}}) | [`BACKUP ABORT`]({{< relref "commands/backup-abort/" >}})
+[`BACKUP START`](/content/commands/backup-start.md) | [`BACKUP SEAL`](/content/commands/backup-seal.md) | [`BACKUP STATUS`](/content/commands/backup-status.md) | [`BACKUP LIST`](/content/commands/backup-list.md) | [`BACKUP ABORT`](/content/commands/backup-abort.md)
 
 ## Related topics
 
-- [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}})
+- [Redis persistence](/content/operate/oss_and_stack/management/persistence.md)

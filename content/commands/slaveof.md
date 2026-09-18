@@ -59,7 +59,7 @@ summary: Sets a Redis server as a replica of another, or promotes it to being a 
 syntax_fmt: SLAVEOF <host port | NO ONE>
 title: SLAVEOF
 ---
-**A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`REPLICAOF`]({{< relref "/commands/replicaof" >}}). The command `SLAVEOF` will continue to work for backward compatibility.
+**A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`REPLICAOF`](/content/commands/replicaof.md). The command `SLAVEOF` will continue to work for backward compatibility.
 
 The `SLAVEOF` command can change the replication settings of a replica on the fly.
 If a Redis server is already acting as replica, the command `SLAVEOF` NO ONE will

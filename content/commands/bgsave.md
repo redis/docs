@@ -53,10 +53,10 @@ If `BGSAVE SCHEDULE` is used, the command will immediately return `OK` when an
 AOF rewrite is in progress and schedule the background save to run at the next
 opportunity.
 
-A client may be able to check if the operation succeeded using the [`LASTSAVE`]({{< relref "/commands/lastsave" >}})
+A client may be able to check if the operation succeeded using the [`LASTSAVE`](/content/commands/lastsave.md)
 command.
 
-See the [persistence documentation]({{< relref "/operate/oss_and_stack/management/persistence" >}}) for detailed information.
+See the [persistence documentation](/content/operate/oss_and_stack/management/persistence.md) for detailed information.
 
 ## Optional arguments
 
