@@ -142,18 +142,18 @@ for more information about SCH.
 > [!NOTE]
 > SCH support in `StackExchange.Redis` requires v3.3.0 or later. The feature
 > is functional and tested against real Redis Enterprise deployments, but
-> because it is a large, new API surface, the types and members involved are
-> marked with the `[Experimental]` attribute so that the library can reserve
-> the right to adjust them without the usual backwards-compatibility
+> because it is a large, new API, the types and members involved are
+> marked with the `[Experimental]` attribute. This is so the developers can reserve
+> the right to adjust the API without the usual backwards-compatibility
 > guarantees. As a result, the compiler reports the `SER010` diagnostic when
-> you use them. Suppressing this diagnostic is the normal way to use the
-> feature. To do so, either add the following to your `.csproj` file:
+> you use them. You can suppress this diagnostic by adding the following to
+> your `.csproj` file:
 >
 > ```xml
 > <NoWarn>$(NoWarn);SER010</NoWarn>
 > ```
 >
-> or suppress it locally in your source file:
+> Alternatively, you can suppress it locally in your source file:
 >
 > ```csharp
 > #pragma warning disable SER010
@@ -189,7 +189,7 @@ The `ConfigurationOptions` object accepts the following SCH-related parameters:
 | Name | Description |
 | :-- | :-- |
 | `MaintenanceNotifications` | Whether to request SCH. The options are `Disabled` (the default), `Enabled` (require SCH and reject the connection, including a fallback to RESP2, if the server can't deliver it), and `Auto` (request SCH and tolerate a server that doesn't support it). |
-| `MaintenanceMovingEndpointType` | Which endpoint type to request for a replacement node during a handoff. The options are `ServerDefault` (no preference), `Auto` (the default; derived from the connection's scheme and encryption), `InternalIp`, `InternalFqdn`, `ExternalIp`, `ExternalFqdn`, and `None`. |
+| `MaintenanceMovingEndpointType` | The endpoint type to request for a replacement node during a handoff. The options are `ServerDefault` (no preference), `Auto` (the default; derived from the connection's scheme and encryption), `InternalIp`, `InternalFqdn`, `ExternalIp`, `ExternalFqdn`, and `None`. |
 | `MaintenanceRelaxedTimeout` | The timeout to use for commands and connections while the server has announced maintenance. The default is 10 seconds. |
 | `MaintenanceRelaxedWindowMax` | The maximum time to keep using the relaxed timeout if no notification arrives to close the window. The default is three times `MaintenanceRelaxedTimeout`. |
 | `MaintenancePostEventRelaxedDuration` | How long to keep using the relaxed timeout after a closing notification, to cover trailing effects of the maintenance. |
@@ -198,7 +198,7 @@ Subscribe to the `ConnectionMultiplexer.ServerMaintenanceEvent` event to
 observe SCH notifications. This is the same event that some servers (such as
 Azure Cache for Redis) already use for their own maintenance notifications
 (see [Production usage](/content/develop/clients/dotnet/produsage.md#server-notification-events)),
-so check the runtime type of the event args to tell the two apart:
+so check the runtime type of the event arguments to tell the two apart:
 
 ```csharp
 muxer.ServerMaintenanceEvent += (object sender, ServerMaintenanceEvent e) => {
