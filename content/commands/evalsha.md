@@ -62,17 +62,16 @@ summary: Executes a server-side Lua script by SHA1 digest.
 syntax_fmt: EVALSHA sha1 numkeys [key [key ...]] [arg [arg ...]]
 title: EVALSHA
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Evaluate a script from the server's cache by its SHA1 digest.
 
-The server caches scripts by using the [`SCRIPT LOAD`]({{< relref "/commands/script-load" >}}) command.
-The command is otherwise identical to [`EVAL`]({{< relref "/commands/eval" >}}).
+The server caches scripts by using the [`SCRIPT LOAD`](/content/commands/script-load.md) command.
+The command is otherwise identical to [`EVAL`](/content/commands/eval.md).
 
-Please refer to the [Redis Programmability]({{< relref "/develop/programmability/" >}}) and [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}) for more information about Lua scripts.
+Please refer to the [Redis Programmability](/content/develop/programmability/_index.md) and [Introduction to Eval Scripts](/content/develop/programmability/eval-intro.md) for more information about Lua scripts.
 
 ## Required arguments
 

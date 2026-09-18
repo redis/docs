@@ -41,7 +41,7 @@ title: FUNCTION LIST
 ---
 Return information about loaded functions and libraries.
 
-For more information see [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+For more information see [Introduction to Redis Functions](/content/develop/programmability/functions-intro.md).
 
 ## Optional arguments
 
@@ -67,7 +67,7 @@ The following information is provided for each of the libraries in the response:
   Each function has the following fields:
   * `name:` the name of the function.
   * `description:` the function's description.
-  * `flags:` an array of [function flags]({{< relref "develop/programmability/functions-intro#function-flags" >}}).
+  * `flags:` an array of [function flags](/content/develop/programmability/functions-intro.md#function-flags).
 * `library_code:` the library's source code (when given the `WITHCODE` modifier).
 
 ## Redis Software and Redis Cloud compatibility

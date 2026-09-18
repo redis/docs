@@ -63,14 +63,13 @@ summary: Executes a server-side Lua script.
 syntax_fmt: EVAL script numkeys [key [key ...]] [arg [arg ...]]
 title: EVAL
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
-Executes a server-side [Lua](https:lua.org) script with the embedded Redis [Lua 5.1]({{< relref "develop/programmability/lua-api" >}}) interpreter. The first argument is the script’s source code.
+Executes a server-side [Lua](https:lua.org) script with the embedded Redis [Lua 5.1](/content/develop/programmability/lua-api.md) interpreter. The first argument is the script’s source code.
 
 The second argument is the number of input key name arguments, followed by all the keys accessed by the script.
-These input key names are made available to the script as the [`KEYS` global runtime variable]({{< relref "develop/programmability/lua-api#the-keys-global-variable" >}}).
+These input key names are made available to the script as the [`KEYS` global runtime variable](/content/develop/programmability/lua-api.md#the-keys-global-variable).
 Any additional input arguments should not represent names of keys.
 
 **Important:**
@@ -82,9 +81,9 @@ Scripts should never access keys with programmatically-generated names or based 
 in some cases, users will abuse Lua `EVAL` by embedding values in the script instead of providing them as arguments, thus generating a different script on each call to `EVAL`.
 These values are added to the Lua interpreter and cached in Redis, consuming a large amount of memory over time.
 
-Starting with Redis 7.4, Redis evicts scripts loaded with `EVAL` or [`EVAL_RO`]({{< relref "/commands/eval_ro" >}}) from the script cache when the cache reaches a certain size. Redis evicts the least recently used scripts first. You can view the number of evicted scripts with the `evicted_scripts` field in [`INFO`]({{< relref "/commands/info" >}}).
+Starting with Redis 7.4, Redis evicts scripts loaded with `EVAL` or [`EVAL_RO`](/content/commands/eval_ro.md) from the script cache when the cache reaches a certain size. Redis evicts the least recently used scripts first. You can view the number of evicted scripts with the `evicted_scripts` field in [`INFO`](/content/commands/info.md).
 
-Please refer to the [Redis Programmability]({{< relref "/develop/programmability/" >}}) and [Introduction to Eval Scripts]({{< relref "/develop/programmability/eval-intro" >}}) for more information about Lua scripts.
+Please refer to the [Redis Programmability](/content/develop/programmability/_index.md) and [Introduction to Eval Scripts](/content/develop/programmability/eval-intro.md) for more information about Lua scripts.
 
 ## Required arguments
 
