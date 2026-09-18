@@ -522,7 +522,7 @@ For example, if 42 documents match the query, the count is 42, even though the r
 1) (integer) 42
 ```
 
-> [!NOTE] Notes
+> [!NOTE]
 >  
 > - If you specify `NOCONTENT`, the command returns an array where the first element is the total number of matching documents and the remaining elements are document IDs.
 > - If a matching key expires or is updated while a query is running, Redis returns a null array when it tries to load the updated key's value. The key still counts as a matching document.
