@@ -17,24 +17,25 @@ url: '/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples
 
 The Flink processor can cache the result of any expression that
 produces a value (for example, an
-[`add_field`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/data-transformation/add_field" >}})
-expression, a [`map`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/data-transformation/map" >}})
+[`add_field`](/content/integrate/redis-data-integration/1.19.1/reference/data-transformation/add_field.md)
+expression, a [`map`](/content/integrate/redis-data-integration/1.19.1/reference/data-transformation/map.md)
 expression, the arguments to a
-[`redis.lookup`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/data-transformation/lookup" >}}),
+[`redis.lookup`](/content/integrate/redis-data-integration/1.19.1/reference/data-transformation/lookup.md),
 or a custom output `key`/`expire` expression). Caching is useful when
 the same expression is evaluated repeatedly with the same input field
 values, for example when many incoming records share a common foreign
 key.
 
-{{< note >}}Caching is supported only by the **Flink processor**. The
-classic processor silently ignores `cache:` blocks.{{< /note >}}
+> [!NOTE]
+> Caching is supported only by the **Flink processor**. The
+> classic processor silently ignores `cache:` blocks.
 
 ## The `cache:` block
 
 You enable caching by adding a `cache:` block next to the expression
 you want to cache. Cache keys are derived from the values of the input
 fields referenced by the expression, not from the full record. See
-[`cache`]({{< relref "/integrate/redis-data-integration/1.19.1/reference/data-transformation/cache" >}})
+[`cache`](/content/integrate/redis-data-integration/1.19.1/reference/data-transformation/cache.md)
 for the full property list.
 
 | Property      | Type      | Description                                                    | Default |
@@ -120,7 +121,7 @@ transform:
 ## Caching `key` and `expire` output expressions
 
 A `cache:` block can also be added to the
-[output `key` and `expire` expressions]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/_index" >}})
+[output `key` and `expire` expressions](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/_index.md)
 when those are dynamic. The properties are the same as above.
 
 ```yaml

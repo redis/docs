@@ -19,10 +19,9 @@ type: integration
 weight: 30
 ---
 
-{{<note>}}
-You must enable the [RedisJSON]({{< relref "/develop/data-types/json" >}}) module in the target Redis
-database to use this feature.
-{{</note>}}
+> [!NOTE]
+> You must enable the [RedisJSON](/content/develop/data-types/json/_index.md) module in the target Redis
+> database to use this feature.
 
 In the example below, the data is captured from the source table named `invoice` and is written to the Redis database as a JSON document. The `connection` is an optional parameter that refers to the corresponding connection name defined in `config.yaml`. When you specify the `data_type` parameter for the job, it overrides the system-wide setting `target_data_type` defined in `config.yaml`. 
 

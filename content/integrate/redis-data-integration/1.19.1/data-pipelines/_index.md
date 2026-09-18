@@ -19,7 +19,7 @@ url: '/integrate/redis-data-integration/1.19.1/data-pipelines/'
 
 RDI uses *pipelines* to implement
 [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC). (See the
-[architecture overview]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#overview" >}})
+[architecture overview](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#overview)
 for an introduction to pipelines.)
 The sections below explain how pipelines work and give an overview of how to configure and
 deploy them.
@@ -31,8 +31,8 @@ into Redis data structures. It writes each of these new structures to a Redis ta
 database under its own key. 
 
 By default, RDI transforms the source data into
-[hashes]({{< relref "/develop/data-types/hashes" >}}) or
-[JSON objects]({{< relref "/develop/data-types/json" >}}) for the target with a
+[hashes](/content/develop/data-types/hashes.md) or
+[JSON objects](/content/develop/data-types/json/_index.md) for the target with a
 standard data mapping and a standard format for the key.
 However, you can also provide your own custom transformation [jobs](#job-files)
 for each source table, using your own data mapping and key pattern. You specify these
@@ -57,19 +57,19 @@ can also include filtering logic to skip data that matches a particular conditio
 As part of the transformation, you can specify any of the following data types
 to store the data in Redis:
 
-- [JSON]({{< relref "/develop/data-types/json" >}})
-- [Hashes]({{< relref "/develop/data-types/hashes" >}})
-- [Sets]({{< relref "/develop/data-types/sets" >}})
-- [Streams]({{< relref "/develop/data-types/streams" >}})
-- [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
-- [Strings]({{< relref "/develop/data-types/strings" >}})
+- [JSON](/content/develop/data-types/json/_index.md)
+- [Hashes](/content/develop/data-types/hashes.md)
+- [Sets](/content/develop/data-types/sets.md)
+- [Streams](/content/develop/data-types/streams/_index.md)
+- [Sorted sets](/content/develop/data-types/sorted-sets.md)
+- [Strings](/content/develop/data-types/strings/_index.md)
 
 ### Pipeline lifecycle
 
 After you deploy a pipeline, it goes through the following phases:
 
 1. *Deploy* - when you deploy the pipeline, RDI first validates it before use.
-Then, the [operator]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#how-rdi-is-deployed">}}) creates and configures the collector and stream processor that will run the pipeline.
+Then, the [operator](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#how-rdi-is-deployed) creates and configures the collector and stream processor that will run the pipeline.
 1. *Snapshot* - The collector starts the pipeline by creating a snapshot of the full
 dataset. This involves reading all the relevant source data, transforming it and then
 writing it into the Redis target. This phase typically takes minutes to
@@ -96,11 +96,11 @@ Follow the steps described in the sections below to prepare and run an RDI pipel
 
 Before using the pipeline you must first prepare your source database to use
 the Debezium connector for *change data capture (CDC)*. See the
-[architecture overview]({{< relref "/integrate/redis-data-integration/1.19.1/architecture#overview" >}})
+[architecture overview](/content/integrate/redis-data-integration/1.19.1/architecture/_index.md#overview)
 for more information about CDC.
 Each database type has a different set of preparation steps. You can
 find the preparation guides for the databases that RDI supports in the
-[Prepare source databases]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs" >}})
+[Prepare source databases](/content/integrate/redis-data-integration/1.19.1/data-pipelines/prepare-dbs/_index.md)
 section.
 
 ###  2. Configure the pipeline
@@ -136,7 +136,7 @@ to extract the required data. You should place job files in the `Jobs`
 folder if you want to specify your own data transformations.
 
 See
-[Pipeline configuration file]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config" >}})
+[Pipeline configuration file](/content/integrate/redis-data-integration/1.19.1/data-pipelines/pipeline-config.md)
 for a full description of the `config.yaml` file and some example configurations.
 
 ### 3. Create job files (optional)
@@ -145,13 +145,13 @@ You can use one or more job files to configure which fields from the source tabl
 you want to use, and which data structure you want to write to the target. You
 can also optionally specify a transformation to apply to the data before writing it
 to the target. See the
-[Job files]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples" >}})
+[Job files](/content/integrate/redis-data-integration/1.19.1/data-pipelines/transform-examples/_index.md)
 section for full details of the file format and examples of common tasks for job files.
 
 ### 4. Deploy the pipeline
 
 When your configuration is ready, you must deploy it to start using the pipeline. See
-[Deploy a pipeline]({{< relref "/integrate/redis-data-integration/1.19.1/data-pipelines/deploy" >}})
+[Deploy a pipeline](/content/integrate/redis-data-integration/1.19.1/data-pipelines/deploy.md)
 to learn how to do this.
 
 ## More information

@@ -60,15 +60,15 @@ The main sections of these files are:
   use. You can add the following properties here:
   - `server_name`: The name of the source whose records this job processes, as it appears
     in the `sources` section of
-    [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
+    [config.yaml](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md).
     This is required when the pipeline has more than one source but is optional in a pipeline with a single source. See
-    [Multiple sources in one pipeline]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources" >}}) for more information.
+    [Multiple sources in one pipeline](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md) for more information.
     For a source that existed before RDI supported multiple sources, use `rdi` instead, as described in
-    [Existing names are kept after an upgrade]({{< relref "/integrate/redis-data-integration/data-pipelines/multiple-sources#existing-names-are-kept-after-an-upgrade" >}}).
+    [Existing names are kept after an upgrade](/content/integrate/redis-data-integration/data-pipelines/multiple-sources.md#existing-names-are-kept-after-an-upgrade).
   - `db`: Database name (optional). This refers to a database name you supplied in
-    [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
+    [config.yaml](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md).
   - `schema`: Database schema (optional). This refers to a schema name you supplied in
-    [config.yaml]({{< relref "/integrate/redis-data-integration/data-pipelines/pipeline-config" >}}).
+    [config.yaml](/content/integrate/redis-data-integration/data-pipelines/pipeline-config.md).
   - `table`: Database table name. This refers to a table name you supplied in `config.yaml`. The default
   job doesn't apply to a specific table, so use "*" in place of the table name for this job only.
   - `row_format`: Format of the data to be transformed. This can take the values `partial` (default) to
@@ -79,7 +79,7 @@ The main sections of these files are:
   properties.
 
   With the
-  [Flink processor]({{< relref "/integrate/redis-data-integration/architecture/classic-vs-flink" >}}),
+  [Flink processor](/content/integrate/redis-data-integration/architecture/classic-vs-flink.md),
   `server_name`, `db`, `schema`, and `table` each accept either a single name or a list of names.
   An entry prefixed with `regex:` selects all names that match the regular expression (note that this
   must match the whole name, not just a substring). For example, `server_name: [mysql, postgresql]` selects two sources,
@@ -93,31 +93,31 @@ The main sections of these files are:
 - `transform`: This is an optional section describing the transformation that the pipeline
   applies to the data before writing it to the target. The `uses` property specifies a
   *transformation block* that will use the parameters supplied in the `with` section. See the 
-  [data transformation reference]({{< relref "/integrate/redis-data-integration/reference/data-transformation" >}})
+  [data transformation reference](/content/integrate/redis-data-integration/reference/data-transformation/_index.md)
   for more details about the supported transformation blocks. See also the
-  [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/reference/jmespath-custom-functions" >}})
+  [JMESPath custom functions](/content/integrate/redis-data-integration/reference/jmespath-custom-functions.md)
   reference and [JMESPath functions proposal](https://jmespath.org/proposals/functions.html) for 
   full details of the functions available for the `expression` field.
   You can test your transformation logic using the
-  [dry run]({{< relref "/integrate/redis-data-integration/reference/api-reference/#tag/secure/operation/job_dry_run_api_v1_pipelines_jobs_dry_run_post" >}})
+  [dry run](/content/integrate/redis-data-integration/reference/api-reference.md#tag/secure/operation/job_dry_run_api_v1_pipelines_jobs_dry_run_post)
   feature in the API.
 
-  {{< note >}}If you set `row_format` to `full` under the `source` settings, you can access extra data from the
-  change record in the transformation:
-  - Use the `key` object to access the attributes of the key. For example, `key.id` will give you the value of the `id` column as long as it is part of the primary key.
-  - Use `before.<FIELD_NAME>` to get the value of a field *before* it was updated in the source database
-  - Use `after.<FIELD_NAME>` to get the value of a field *after* it was updated in the source database
-  - Use `after.<FIELD_NAME>` when adding new fields during transformations
-  
-  See [Row Format]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format#full" >}}) for a more detailed explanation of the full format.
-  {{< /note >}}
+  > [!NOTE]
+  > If you set `row_format` to `full` under the `source` settings, you can access extra data from the
+  > change record in the transformation:
+  > - Use the `key` object to access the attributes of the key. For example, `key.id` will give you the value of the `id` column as long as it is part of the primary key.
+  > - Use `before.<FIELD_NAME>` to get the value of a field *before* it was updated in the source database
+  > - Use `after.<FIELD_NAME>` to get the value of a field *after* it was updated in the source database
+  > - Use `after.<FIELD_NAME>` when adding new fields during transformations
+  >
+  > See [Row Format](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-row-format.md#full) for a more detailed explanation of the full format.
  
 - `output`: This is a mandatory section to specify the data structure(s) that
   RDI will write to
   the target along with the text pattern for the key(s) that will access it.
   Note that you can map one record to more than one key in Redis or nest
   a record as a field of a JSON structure (see
-  [Data denormalization]({{< relref "/integrate/redis-data-integration/data-pipelines/data-denormalization" >}})
+  [Data denormalization](/content/integrate/redis-data-integration/data-pipelines/data-denormalization.md)
   for more information about nesting). You can add the following properties in the `output` section:
   - `uses`: This must have the value `redis.write` to specify writing to a Redis data
   structure. You can add more than one block of this type in the same job.
@@ -130,15 +130,16 @@ The main sections of these files are:
       - `language`: Expression language, which must be `jmespath` or `sql`.
     - `expire`: Positive integer value or SQL/JMESPath expression indicating a number of seconds
       for the key to expire. If you don't specify this property, the key will never expire.
-      See [Set custom expiration times / TTL]({{< relref "/integrate/redis-data-integration/data-pipelines/transform-examples/redis-expiration-example" >}}) for more information and examples.
+      See [Set custom expiration times / TTL](/content/integrate/redis-data-integration/data-pipelines/transform-examples/redis-expiration-example.md) for more information and examples.
 
-{{< note >}}In a job file, the `transform` section is optional, but if you don't specify
-a `transform`, you must specify custom key logic in `output.with.key`. You can include
-both of these sections if you want both a custom transform and a custom key.{{< /note >}}
+> [!NOTE]
+> In a job file, the `transform` section is optional, but if you don't specify
+> a `transform`, you must specify custom key logic in `output.with.key`. You can include
+> both of these sections if you want both a custom transform and a custom key.
 
 Another example below shows how you can rename the `fname` field to `first_name` in the table `emp`
 using the
-[`rename_field`]({{< relref "/integrate/redis-data-integration/reference/data-transformation/rename_field" >}}) block. It also demonstrates how you can set the key of this record instead of relying on
+[`rename_field`](/content/integrate/redis-data-integration/reference/data-transformation/rename_field.md) block. It also demonstrates how you can set the key of this record instead of relying on
 the default logic.
 
 ```yaml
@@ -162,16 +163,17 @@ output:
 ```
 
 See the
-[RDI configuration file]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference" >}})
+[RDI configuration file](/content/integrate/redis-data-integration/reference/config-yaml-reference.md)
 reference for full details about the
 available source, transform, and target configuration options and see
 also the
-[data transformation reference]({{< relref "/integrate/redis-data-integration/reference/data-transformation" >}})
+[data transformation reference](/content/integrate/redis-data-integration/reference/data-transformation/_index.md)
 for details of all the available transformation blocks.
 
-{{< note >}}When using the `sql` option as language for the expressions keep in mind that RDI uses the SQL syntax and
-functions supported by SQLite and those may differ from the ANSI-SQL ones. You can find more details in SQLite's
-[official documentation](https://sqlite.org/lang.html).{{< /note >}}
+> [!NOTE]
+> When using the `sql` option as language for the expressions keep in mind that RDI uses the SQL syntax and
+> functions supported by SQLite and those may differ from the ANSI-SQL ones. You can find more details in SQLite's
+> [official documentation](https://sqlite.org/lang.html).
 
 ## Examples
 
