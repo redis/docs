@@ -49,8 +49,7 @@ Also, install `Microsoft.ML`:
 dotnet add package Microsoft.ML
 ```
 
-In a new C# file, import the required classes. Note that the `#pragma`
-directive suppresses warnings about the experimental status of the vector set API:
+In a new C# file, import the required classes:
 
 {{< clients-example set="home_vecsets" step="import" lang_filter="C#-Sync (SE.Redis)" description="Foundational: Import required libraries for vector sets, embeddings, and Redis operations" difficulty="beginner" >}}
 {{< /clients-example >}}
