@@ -4,6 +4,8 @@ linkTitle: Get started
 description: Get Redis running and connect your first application, however you deploy it.
 hideListLinks: true
 weight: 5
+aliases:
+- /develop/getting-started/
 ---
 
 In this guide, you'll learn how to create a Redis deployment in Redis Cloud, Redis Software, or Redis Open Source. Then, you'll learn how to create an application that connects to your deployment.
