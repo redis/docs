@@ -215,9 +215,9 @@ jobs:
           fi
         done
 
-        # relrefs should not include version
+        # relrefs and Markdown links should not include version
         find "content/operate/kubernetes/${version}" -type f | while read file; do
-          awk '{gsub(/\(\{\{< ?relref "\/operate\/kubernetes\/'"${version}"'/, "({{< relref \"/operate/kubernetes") }1' "$file" > tmpfile && mv tmpfile "$file"
+          awk '{gsub(/\(\{\{< ?relref "\/operate\/kubernetes\/'"${version}"'/, "({{< relref \"/operate/kubernetes"); gsub(/\]\(\/content\/operate\/kubernetes\/'"${version}"'\//, "](/content/operate/kubernetes/") }1' "$file" > tmpfile && mv tmpfile "$file"
         done
 
         rsync -a --delete-after "content/operate/kubernetes/${version}"/ content/operate/kubernetes/
@@ -320,9 +320,9 @@ jobs:
           fi
         done
 
-        # relrefs should not include version
+        # relrefs and Markdown links should not include version
         find "content/operate/rs/${version}" -type f | while read file; do
-          awk '{gsub(/\(\{\{< ?relref "\/operate\/rs\/'"${version}"'/, "({{< relref \"/operate/rs") }1' "$file" > tmpfile && mv tmpfile "$file"
+          awk '{gsub(/\(\{\{< ?relref "\/operate\/rs\/'"${version}"'/, "({{< relref \"/operate/rs"); gsub(/\]\(\/content\/operate\/rs\/'"${version}"'\//, "](/content/operate/rs/") }1' "$file" > tmpfile && mv tmpfile "$file"
         done
 
         rsync -a --delete-after "content/operate/rs/${version}"/ content/operate/rs/
@@ -419,9 +419,9 @@ jobs:
           fi
         done
 
-        # relrefs should not include version
+        # relrefs and Markdown links should not include version
         find "content/integrate/redis-data-integration/${version}" -type f | while read file; do
-          awk '{gsub(/\(\{\{< ?relref "\/integrate\/redis-data-integration\/'"${version}"'/, "({{< relref \"/integrate/redis-data-integration") }1' "$file" > tmpfile && mv tmpfile "$file"
+          awk '{gsub(/\(\{\{< ?relref "\/integrate\/redis-data-integration\/'"${version}"'/, "({{< relref \"/integrate/redis-data-integration"); gsub(/\]\(\/content\/integrate\/redis-data-integration\/'"${version}"'\//, "](/content/integrate/redis-data-integration/") }1' "$file" > tmpfile && mv tmpfile "$file"
         done
 
         rsync -a --delete-after "content/integrate/redis-data-integration/${version}"/ content/integrate/redis-data-integration/
@@ -518,9 +518,9 @@ jobs:
           fi
         done
 
-        # relrefs should not include version
+        # relrefs and Markdown links should not include version
         find "content/develop/ai/redisvl/${version}" -type f | while read file; do
-          awk '{gsub(/\(\{\{< ?relref "\/develop\/ai\/redisvl\/'"${version}"'/, "({{< relref \"/develop/ai/redisvl") }1' "$file" > tmpfile && mv tmpfile "$file"
+          awk '{gsub(/\(\{\{< ?relref "\/develop\/ai\/redisvl\/'"${version}"'/, "({{< relref \"/develop/ai/redisvl"); gsub(/\]\(\/content\/develop\/ai\/redisvl\/'"${version}"'\//, "](/content/develop/ai/redisvl/") }1' "$file" > tmpfile && mv tmpfile "$file"
         done
 
         rsync -a --delete-after "content/develop/ai/redisvl/${version}"/ content/develop/ai/redisvl/
