@@ -30,9 +30,8 @@ Redis uses two release types within a major version:
 
 ## Supported versions
 
-{{< note >}}
-**We strongly recommend using the latest available version** to benefit from the newest features, performance improvements, and security updates.
-{{< /note >}}
+> [!NOTE]
+> **We strongly recommend using the latest available version** to benefit from the newest features, performance improvements, and security updates.
 
 | Version | Release type | Status | EOL Date |
 |---------|--------------|--------|----------|

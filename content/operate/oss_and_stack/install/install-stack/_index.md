@@ -24,7 +24,7 @@ The fastest way to run Redis is with Docker:
 docker run -d --name redis -p 6379:6379 redis
 {{< /highlight >}}
 
-See the [Docker page]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}}) for full details, including data persistence, custom configuration, and connecting with `redis-cli`.
+See the [Docker page](/content/operate/oss_and_stack/install/install-stack/docker.md) for full details, including data persistence, custom configuration, and connecting with `redis-cli`.
 
 ---
 
@@ -65,7 +65,7 @@ sudo apt-get update
 sudo apt-get install redis
 ```
 
-[Full APT installation guide]({{< relref "/operate/oss_and_stack/install/install-stack/apt" >}})
+[Full APT installation guide](/content/operate/oss_and_stack/install/install-stack/apt.md)
 
 ---
 
@@ -89,7 +89,7 @@ sudo rpm --import /tmp/redis.key
 sudo yum install redis
 ```
 
-[Full RPM installation guide]({{< relref "/operate/oss_and_stack/install/install-stack/rpm" >}})
+[Full RPM installation guide](/content/operate/oss_and_stack/install/install-stack/rpm.md)
 
 ---
 
@@ -101,7 +101,7 @@ sudo apt install redis-tools
 sudo snap install redis
 ```
 
-[Full Snap installation guide]({{< relref "/operate/oss_and_stack/install/install-stack/snap" >}})
+[Full Snap installation guide](/content/operate/oss_and_stack/install/install-stack/snap.md)
 
 ---
 
@@ -111,7 +111,7 @@ sudo snap install redis
 docker run -d --name redis -p 6379:6379 redis
 ```
 
-[Full Docker installation guide]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
+[Full Docker installation guide](/content/operate/oss_and_stack/install/install-stack/docker.md)
 
 -tab-sep-
 
@@ -127,7 +127,7 @@ Start Redis:
 brew services start redis
 ```
 
-[Full Homebrew installation guide]({{< relref "/operate/oss_and_stack/install/install-stack/homebrew" >}})
+[Full Homebrew installation guide](/content/operate/oss_and_stack/install/install-stack/homebrew.md)
 
 ---
 
@@ -137,7 +137,7 @@ brew services start redis
 docker run -d --name redis -p 6379:6379 redis
 ```
 
-[Full Docker installation guide]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
+[Full Docker installation guide](/content/operate/oss_and_stack/install/install-stack/docker.md)
 
 -tab-sep-
 
@@ -149,7 +149,7 @@ Make sure Docker Desktop is installed and configured to run Linux containers, th
 docker run -d --name redis -p 6379:6379 redis
 ```
 
-[Full Windows / Docker guide]({{< relref "/operate/oss_and_stack/install/install-stack/windows" >}})
+[Full Windows / Docker guide](/content/operate/oss_and_stack/install/install-stack/windows.md)
 
 ---
 
@@ -172,8 +172,8 @@ The latest version of Redis Open Source has been tested on the following platfor
 
 While you can install Redis Open Source on any of the platforms listed below, you might also consider using Redis Cloud by creating a [free account](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
-You can also download [Redis Insight]({{< relref "/operate/redisinsight/install/" >}}), a free developer companion tool with an intuitive GUI and advanced CLI, which you can use alongside Redis Open Source.
+You can also download [Redis Insight](/content/operate/redisinsight/install/_index.md), a free developer companion tool with an intuitive GUI and advanced CLI, which you can use alongside Redis Open Source.
 
-If you only need the Redis CLI (`redis-cli`) to connect to a remote Redis server, and not the full Redis Open Source distribution, see [Install redis-cli]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}).
+If you only need the Redis CLI (`redis-cli`) to connect to a remote Redis server, and not the full Redis Open Source distribution, see [Install redis-cli](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md).
 
 <hr/>

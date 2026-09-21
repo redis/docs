@@ -11,10 +11,9 @@ weight: 35
 
 Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Ubuntu 24.04 (Noble).
 
-{{< note >}}
-Docker images used to produce these build notes:
-- ubuntu:24.04
-{{< /note >}}
+> [!NOTE]
+> Docker images used to produce these build notes:
+> - ubuntu:24.04
 
 ## 1. Install required dependencies
 

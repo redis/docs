@@ -12,10 +12,9 @@ weight: 25
 
 Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Ubuntu 20.04 (Focal).
 
-{{< note >}}
-Docker images used to produce these build notes:
-- ubuntu:20.04
-{{< /note >}}
+> [!NOTE]
+> Docker images used to produce these build notes:
+> - ubuntu:20.04
 
 ## 1. Install required dependencies
 
@@ -60,9 +59,8 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave 
 
 Install CMake using `pip3` and link it for system-wide access.
 
-{{< warning >}}
-CMake version 3.31.6 is the latest supported version. Newer versions cannot be used.
-{{< /warning>}}
+> [!WARNING]
+> CMake version 3.31.6 is the latest supported version. Newer versions cannot be used.
 
 ```bash
 pip3 install cmake==3.31.6

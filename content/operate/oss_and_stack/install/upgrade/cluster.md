@@ -10,18 +10,16 @@ title: Upgrade a Redis cluster to Redis 8
 weight: 30
 ---
 
-{{< note >}}
-The supported upgrade paths are:
-- Redis Open Source 7.x (with or without modules) to Redis 8 in Redis Open Source
-- Redis Stack 7.2 or 7.4 to Redis 8 in Redis Open Source
-{{< /note >}}
+> [!NOTE]
+> The supported upgrade paths are:
+> - Redis Open Source 7.x (with or without modules) to Redis 8 in Redis Open Source
+> - Redis Stack 7.2 or 7.4 to Redis 8 in Redis Open Source
 </br>
-{{< note >}}
-It's essential to practice upgrading Redis in a controlled environment before upgrading it in a production environment.
-Docker is an excellent tool to use for this purpose.
-{{< /note >}}
+> [!NOTE]
+> It's essential to practice upgrading Redis in a controlled environment before upgrading it in a production environment.
+> Docker is an excellent tool to use for this purpose.
 
-Follow these instructions to upgrade a Redis cluster. This guide assumes you have installed Redis using one of the supported methods listed [here]({{< relref "/operate/oss_and_stack/install/archive" >}}).
+Follow these instructions to upgrade a Redis cluster. This guide assumes you have installed Redis using one of the supported methods listed [here](/content/operate/oss_and_stack/install/archive/_index.md).
 
 ### Save your current data
 
@@ -48,17 +46,16 @@ Make a copy of the files contained in each of those directories before proceedin
 Upgrade each node one at a time, starting with the replicas, using these steps:
 
 1. Stop the current version of Redis Open Source or Redis Stack server.
-1. Follow the installation steps that correspond to your [Redis distribution]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) to install Redis 8.
+1. Follow the installation steps that correspond to your [Redis distribution](/content/operate/oss_and_stack/install/install-stack/_index.md) to install Redis 8.
 1. Start Redis 8 if it didn't start automatically.
 
 ### Restore from saved files (if necessary)
 
 If necessary, restore the saved files to their original locations on each node. Then restart Redis on each node.
 
-{{< warning >}}
-Redis Search won't be fully operational until all master shards have completed their upgrades.
-Any queries sent during the upgrade process will either return errors or a message such as "Waiting for all nodes to connect".
-{{< /warning >}}
+> [!WARNING]
+> Redis Search won't be fully operational until all master shards have completed their upgrades.
+> Any queries sent during the upgrade process will either return errors or a message such as "Waiting for all nodes to connect".
 
 ### Verify the upgrade
 

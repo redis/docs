@@ -11,13 +11,12 @@ weight: 15
 
 Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Debian 12 (Bookworm) or Debian 13 (Trixie).
 
-{{< note >}}
-Docker images used to produce these build notes:
-- debian:bookworm
-- debian:bookworm-slim
-- debian:trixie
-- debian:trixie-slim
-{{< /note >}}
+> [!NOTE]
+> Docker images used to produce these build notes:
+> - debian:bookworm
+> - debian:bookworm-slim
+> - debian:trixie
+> - debian:trixie-slim
 
 ## 1. Install required dependencies
 
