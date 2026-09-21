@@ -20,7 +20,7 @@ RG.JEXECUTE <path.to.main.class> [UPGRADE] <JAR file>
 
 Executes a Java function.
 
-The code runs immediately if it uses [`GearsBuilder.run()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run" >}}). Code that uses [`GearsBuilder.register()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register" >}}) will run later, every time certain events occur in the database.
+The code runs immediately if it uses [`GearsBuilder.run()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run.md). Code that uses [`GearsBuilder.register()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register.md) will run later, every time certain events occur in the database.
 
 ## Arguments
 
@@ -33,13 +33,13 @@ The code runs immediately if it uses [`GearsBuilder.run()`]({{< relref "/operate
 
 ## Returns
 
-If the executed code calls [`GearsBuilder.run()`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run" >}}), it returns the output of the executed code.
+If the executed code calls [`GearsBuilder.run()`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run.md), it returns the output of the executed code.
 
 For registered code, it returns the string "`OK`" instead.
 
 ## Examples
 
-The executed code in this example [runs]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run" >}}) immediately:
+The executed code in this example [runs](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/run.md) immediately:
 
 ```sh
 $ redis-cli -x RG.JEXECUTE com.domain.packagename.Reviews < /tmp/rgjvmtest-0.0.1-SNAPSHOT.jar
@@ -47,7 +47,7 @@ $ redis-cli -x RG.JEXECUTE com.domain.packagename.Reviews < /tmp/rgjvmtest-0.0.1
 2) (empty array)
 ```
 
-This example [registers]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register" >}}) the RedisGears code to run every time certain database events occur:
+This example [registers](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsbuilder/register.md) the RedisGears code to run every time certain database events occur:
 
 ```sh
 $ redis-cli -x RG.JEXECUTE com.domain.packagename.App < /tmp/rgjvmtest-0.0.1-SNAPSHOT.jar
