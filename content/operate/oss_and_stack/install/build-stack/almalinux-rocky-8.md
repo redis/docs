@@ -11,31 +11,29 @@ weight: 5
 
 Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running AlmaLinux 8.10 or Rocky Linux 8.10.
 
-{{< note >}}
-Docker images used to produce these build notes:
-- AlmaLinux:
-    - almalinux:8.10
-    - almalinux:8.10-minimal
-- Rocky Linux:
-    - rockylinux/rockylinux:8.10
-    - rockylinux/rockylinux:8.10-minimal
-{{< /note >}}
+> [!NOTE]
+> Docker images used to produce these build notes:
+> - AlmaLinux:
+>     - almalinux:8.10
+>     - almalinux:8.10-minimal
+> - Rocky Linux:
+>     - rockylinux/rockylinux:8.10
+>     - rockylinux/rockylinux:8.10-minimal
 
 ## 1. Prepare the system
 
-{{< note >}}
-For 8.10-minimal, you'll need to install `sudo` and `dnf` as follows:
-
-```bash
-microdnf install dnf sudo -y
-```
-
-For 8.10 (regular), you'll need to install `sudo` as follows:
-
-```bash
-dnf install sudo -y
-```
-{{< /note >}}
+> [!NOTE]
+> For 8.10-minimal, you'll need to install `sudo` and `dnf` as follows:
+>
+> ```bash
+> microdnf install dnf sudo -y
+> ```
+>
+> For 8.10 (regular), you'll need to install `sudo` as follows:
+>
+> ```bash
+> dnf install sudo -y
+> ```
 
 Enable the required repositories and install the base development tools:
 
@@ -156,7 +154,7 @@ cd /usr/src/redis-<version>
 > [!NOTE]
 > Before Redis 8.10, specify `redis-full.conf` instead of `redis.conf`.
 
-To validate that the available modules have been installed, run the [`INFO`]({{< relref "/commands/info" >}}) command and look for lines similar to the following:
+To validate that the available modules have been installed, run the [`INFO`](/content/commands/info.md) command and look for lines similar to the following:
 
 ```bash
 cd /usr/src/redis-<version>

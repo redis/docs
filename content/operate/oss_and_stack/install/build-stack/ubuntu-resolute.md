@@ -11,12 +11,11 @@ weight: 40
 
 Follow the steps below to build and run Redis Open Source with all data structures from its source code on a system running Ubuntu 26.04 (Resolute).
 
-{{< note >}}
-Docker image used to produce these build notes:
-- ubuntu:26.04
-
-Ubuntu 26.04 ships CMake 4.x and clang/LLVM 21 in the default repositories. The Redis modules build requires CMake 3.31.6 or earlier and explicitly passes `-fuse-ld=lld`, so a supported CMake must be pinned with `pip3`, and `lld`, `llvm`, and `libcrypt-dev` must be installed. (`libcrypt-dev` is needed to link the `redisearch` module against `libcrypt`.)
-{{< /note >}}
+> [!NOTE]
+> Docker image used to produce these build notes:
+> - ubuntu:26.04
+>
+> Ubuntu 26.04 ships CMake 4.x and clang/LLVM 21 in the default repositories. The Redis modules build requires CMake 3.31.6 or earlier and explicitly passes `-fuse-ld=lld`, so a supported CMake must be pinned with `pip3`, and `lld`, `llvm`, and `libcrypt-dev` must be installed. (`libcrypt-dev` is needed to link the `redisearch` module against `libcrypt`.)
 
 ## 1. Install required dependencies
 
@@ -54,9 +53,8 @@ sudo apt-get install -y --no-install-recommends \
 
 Install a supported version of CMake using `pip3` inside a virtual environment (Ubuntu enforces [PEP 668](https://peps.python.org/pep-0668/)) and link it for system-wide access.
 
-{{< warning >}}
-CMake version 3.31.6 is the latest supported version. Newer versions cannot be used.
-{{< /warning >}}
+> [!WARNING]
+> CMake version 3.31.6 is the latest supported version. Newer versions cannot be used.
 
 ```bash
 python3 -m venv /opt/cmake-venv
@@ -122,7 +120,7 @@ cd /usr/src/redis-<version>
 > [!NOTE]
 > Before Redis 8.10, specify `redis-full.conf` instead of `redis.conf`.
 
-To validate that the available modules have been installed, run the [`INFO`]({{< relref "/commands/info" >}}) command and look for lines similar to the following:
+To validate that the available modules have been installed, run the [`INFO`](/content/commands/info.md) command and look for lines similar to the following:
 
 ```bash
 cd /usr/src/redis-<version>
