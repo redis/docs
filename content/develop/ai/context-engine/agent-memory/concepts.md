@@ -23,6 +23,8 @@ Redis Agent Memory splits memory the same way people do, and each kind maps to a
 
 Session memory is the working set: the current conversation's events, read and written every turn. Long-term memory is what survives after the session ends — durable enough to recall in a conversation the agent hasn't seen before.
 
+This table is a simplified starting point, not the full picture. Redis Agent Memory also maintains an automatically updated summary of each session as its own long-term memory type, and you can define custom types for domain-specific information. See [Memory types & extraction](/content/operate/iris/agent-memory/create-service.md#memory-types-and-extraction) for the complete set of built-in and custom types.
+
 ## The mental-model shift: this store writes to itself
 
 If you've built session storage in Redis before, you're used to a simple rule: the store only holds what the application writes. Agent Memory breaks that rule on purpose.
@@ -32,7 +34,7 @@ Once summarization and extraction are enabled, the service reads session events 
 - **Summarizes** older events into a compact summary once the session passes a configured threshold, so a long conversation doesn't blow the model's context window.
 - **Extracts long-term memories** — facts and preferences worth keeping — and writes them as separate, searchable records with vector embeddings.
 
-Both are asynchronous. If you search long-term memory immediately after a session event, the memory extracted from that event might not exist yet — this isn't a bug, it's the tradeoff for keeping session writes fast. Long-term writes also deduplicate. A new memory that's a near-paraphrase of an existing one is collapsed into it rather than stored again. The dedup key is semantic similarity, not the exact equality an idempotency key relies on.
+Both are asynchronous. If you search long-term memory immediately after a session event, the memory extracted from that event might not exist yet — this isn't a bug, it's the tradeoff for keeping session writes fast. Extraction also weighs a new memory against existing ones before writing it: rather than rejecting anything that looks similar, it uses model judgment to decide whether a near-identical memory is a true duplicate or is meaningfully different and worth keeping too.
 
 The most common failure mode: code writes a session event, immediately searches long-term memory, and finds nothing. That's not a broken extraction — it hasn't run yet.
 
@@ -44,8 +46,8 @@ Only if your session store's job was holding conversation state. Session memory 
 **What happens if I write directly to long-term memory instead of letting extraction do it?**
 Both paths are supported. Use direct writes for bulk imports or external knowledge sources — anything that didn't originate in a conversation. Automatic extraction is for facts that emerge from session events themselves.
 
-**Why does dedup sometimes skip a memory I expected to be created?**
-Dedup compares the new memory against existing ones by embedding distance, not exact text. A close paraphrase of something already stored increments that memory's hit count instead of creating a new one. If you need every extraction to persist as a distinct record regardless of similarity, create it directly rather than relying on automatic extraction.
+**Why didn't a memory I expected to be created show up?**
+Automatic extraction considers the conversation and existing memories when deciding what to create. If a new memory looks like it may be a duplicate, it isn't stored — even if the wording differs from the existing memory, since the check is based on meaning, not exact text. If your application needs to guarantee a memory exists, create it directly instead of relying on extraction.
 
 ## Further reading
 
