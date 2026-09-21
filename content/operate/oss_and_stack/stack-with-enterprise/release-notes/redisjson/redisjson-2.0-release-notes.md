@@ -114,13 +114,13 @@ RedisJSON is a [high-performance JSON document store](https://redis.com/blog/red
 
 #### Indexing JSON documents
 
-Using [RediSearch](https://redisearch.io), it is now possible to [index, query, and search JSON documents]({{<relref "/develop/ai/search-and-query/indexing">}}), gaining full-text search capabilities and document retrieving based on their content.
+Using [RediSearch](https://redisearch.io), it is now possible to [index, query, and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md), gaining full-text search capabilities and document retrieving based on their content.
 
 To do so, you must install both modules, `RedisJSON` and `RediSearch`, on the same database.
 
 #### Support of JSON Path
 
-The commands [support JSONPath]({{<relref "/develop/data-types/json/path">}}) as specified in the [original specifications](https://goessner.net/articles/JsonPath).
+The commands [support JSONPath](/content/develop/data-types/json/path.md) as specified in the [original specifications](https://goessner.net/articles/JsonPath).
 
 The legacy path syntax is still supported.
 

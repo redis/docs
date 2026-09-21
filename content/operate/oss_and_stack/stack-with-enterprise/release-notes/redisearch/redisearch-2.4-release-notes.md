@@ -227,21 +227,21 @@ All VSS queries or any query using the `PARAMS` option must use Dialect version 
   Hybrid queries are often used in modern ecommerce search applications featuring "visual" similarity plus metadata similarity.
   For example, you can use a single hybrid query to find products that are visually similar to a given image within a price range and/or geo-location.
 
-- Use [`FT.CONFIG SET`]({{< relref "commands/ft.config-set" >}}) to set `DEFAULT_DIALECT` at the module level. By default, `DEFAULT_DIALECT` is set to 1.
+- Use [`FT.CONFIG SET`](/content/commands/ft.config-set.md) to set `DEFAULT_DIALECT` at the module level. By default, `DEFAULT_DIALECT` is set to 1.
 
 - Override `DIALECT`:
 
   It is possible to override the module-level dialect for a specific command at runtime. You can specify the dialect when executing any of the following commands:
 
-    - [`FT.SEARCH`]({{< relref "commands/ft.search" >}})
+    - [`FT.SEARCH`](/content/commands/ft.search.md)
 
-    - [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate" >}})
+    - [`FT.AGGREGATE`](/content/commands/ft.aggregate.md)
 
-    - [`FT.EXPLAIN`]({{< relref "commands/ft.explain" >}})
+    - [`FT.EXPLAIN`](/content/commands/ft.explain.md)
 
-    - [`FT.EXPLAINCLI`]({{< relref "commands/ft.explaincli" >}})
+    - [`FT.EXPLAINCLI`](/content/commands/ft.explaincli.md)
 
-    - [`FT.SPELLCHECK`]({{< relref "commands/ft.spellcheck" >}})
+    - [`FT.SPELLCHECK`](/content/commands/ft.spellcheck.md)
 
   If you do not specify dialect when running any of these commands, they will use the default module-level dialect value.
 
@@ -329,6 +329,5 @@ Another example that illustrates the differences in parser behavior is
 
 - With DIALECT 2, the parser interprets it as searching for either `hello world` OR `"goodbye" moon`.
 
-{{<note>}}
-This is the first GA version of 2.4. The version inside Redis will be 2.4.3 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
-{{</note>}}
+> [!NOTE]
+> This is the first GA version of 2.4. The version inside Redis will be 2.4.3 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.

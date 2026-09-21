@@ -37,12 +37,11 @@ Details:
 
 ## v1.12.14 (May 2026)
 
-{{< note >}}
-Starting with Redis 8, the time series data structure is integral to Redis. You don't need to install this module separately.
-This is not the latest release.
-We no longer release new standalone versions of RedisTimeSeries; we only patch old versions.
-See https://github.com/redis/redis
-{{< /note >}}
+> [!NOTE]
+> Starting with Redis 8, the time series data structure is integral to Redis. You don't need to install this module separately.
+> This is not the latest release.
+> We no longer release new standalone versions of RedisTimeSeries; we only patch old versions.
+> See https://github.com/redis/redis
 
 This is a maintenance release for RedisTimeSeries 1.12.
 
@@ -134,7 +133,6 @@ RedisTimeSeries 1.12 adds a highly requested feature: insertion-filter for close
   - [#1607](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1607) Potential crash after deleting and recreating a source key of a compaction rule (MOD-7338)
   - [#1610](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1610) `COUNT` argument accepts non-positive values (MOD-5413)
 
-{{< note >}}
-- The version inside Redis will be 1.12.2 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
-- Minimal Redis version: 7.4
-{{< /note >}}
+> [!NOTE]
+> - The version inside Redis will be 1.12.2 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
+> - Minimal Redis version: 7.4
