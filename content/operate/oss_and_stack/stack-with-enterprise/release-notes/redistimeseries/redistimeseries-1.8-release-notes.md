@@ -208,11 +208,11 @@ Details:
 - Bug fixes:
 
     - [#1360](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1360) Potential crash when upgrading from v1.6 to 1.8 if there are compactions with `min` or `max` aggregation (MOD-4559)
-    - [#1370](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1370) Potential crash when using [TS.REVRANGE]({{< relref "commands/ts.revrange" >}}) or [TS.MREVRANGE]({{< relref "commands/ts.mrevrange" >}}) with aggregation
-    - [#1347](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1347) When adding samples with [TS.ADD]({{< relref "commands/ts.add" >}}) or [TS.MADD]({{< relref "commands/ts.madd" >}}) using  `*` as timestamp, the timestamp could differ between master and replica shards
+    - [#1370](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1370) Potential crash when using [TS.REVRANGE](/content/commands/ts.revrange.md) or [TS.MREVRANGE](/content/commands/ts.mrevrange.md) with aggregation
+    - [#1347](https://github.com/RedisTimeSeries/RedisTimeSeries/pull/1347) When adding samples with [TS.ADD](/content/commands/ts.add.md) or [TS.MADD](/content/commands/ts.madd.md) using  `*` as timestamp, the timestamp could differ between master and replica shards
 
 - Improvements:
-    - [#1215](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1215) OSS cluster: Support TLS and IPv6; introduce new configuration parameter: [OSS_GLOBAL_PASSWORD]({{< relref "/develop/data-types/timeseries/" >}}configuration/#oss_global_password)
+    - [#1215](https://github.com/RedisTimeSeries/RedisTimeSeries/issues/1215) OSS cluster: Support TLS and IPv6; introduce new configuration parameter: [OSS_GLOBAL_PASSWORD](/content/develop/data-types/timeseries/configuration.md#oss_global_password)
 
 
 ## v1.8 GA (v1.8.3) (November 2022)
@@ -227,15 +227,15 @@ RedisTimeSeries 1.8 introduces seven highly requested features, performance impr
 
 * **Optionally retrieving aggregation results for the latest (still open) bucket for compactions**
 
-  Till version 1.8, when a time series is a compaction, [TS.GET]({{< relref "commands/ts.get" >}}), [TS.MGET]({{< relref "commands/ts.mget" >}}), [TS.RANGE]({{< relref "commands/ts.range" >}}), [TS.REVRANGE]({{< relref "commands/ts.revrange" >}}), [TS.MRANGE]({{< relref "commands/ts.mrange" >}}), [TS.MREVRANGE]({{< relref "commands/ts.mrevrange" >}}) did not report the compacted value of the latest bucket. The reason is that the data in the latest bucket of a compaction is still partial. A bucket is ‘closed’ and compacted only upon the arrival of data that ‘opens’ a ‘new latest’ bucket.
+  Till version 1.8, when a time series is a compaction, [TS.GET](/content/commands/ts.get.md), [TS.MGET](/content/commands/ts.mget.md), [TS.RANGE](/content/commands/ts.range.md), [TS.REVRANGE](/content/commands/ts.revrange.md), [TS.MRANGE](/content/commands/ts.mrange.md), [TS.MREVRANGE](/content/commands/ts.mrevrange.md) did not report the compacted value of the latest bucket. The reason is that the data in the latest bucket of a compaction is still partial. A bucket is ‘closed’ and compacted only upon the arrival of data that ‘opens’ a ‘new latest’ bucket.
 
   There are use cases, however, where the compaction of the latest bucket should be retrieved as well. For example, a user may want to receive the count of events since the start of the decade, and the retention period for raw data is only one month. Till version 1.8, the user would have to run two queries - one on a compaction and one on the latest raw data, and then sum the results. Since version 1.8, by specifying `LATEST`, it is possible to retrieve the latest (possibly partial) bucket as well.
 
-  To report aggregations for the latest bucket, use the new optional `LATEST` flag to [TS.GET]({{< relref "commands/ts.get" >}}), [TS.MGET]({{< relref "commands/ts.mget" >}}), [TS.RANGE]({{< relref "commands/ts.range" >}}), [TS.REVRANGE]({{< relref "commands/ts.revrange" >}}), [TS.MRANGE]({{< relref "commands/ts.mrange" >}}), and [TS.REVRANGE]({{< relref "commands/ts.mrevrange" >}}).
+  To report aggregations for the latest bucket, use the new optional `LATEST` flag to [TS.GET](/content/commands/ts.get.md), [TS.MGET](/content/commands/ts.mget.md), [TS.RANGE](/content/commands/ts.range.md), [TS.REVRANGE](/content/commands/ts.revrange.md), [TS.MRANGE](/content/commands/ts.mrange.md), and [TS.REVRANGE](/content/commands/ts.mrevrange.md).
 
 * **Optionally retrieving aggregation results for empty buckets**
 
-  The commands [TS.RANGE]({{< relref "commands/ts.range" >}}), [TS.REVRANGE]({{< relref "commands/ts.revrange" >}}), [TS.MRANGE]({{< relref "commands/ts.mrange" >}}), and [TS.MREVRANGE]({{< relref "commands/ts.mrevrange" >}}) have an optional `[AGGREGATION aggregator bucketDuration]` parameter. When this parameter is specified, raw reports are aggregated per bucket.
+  The commands [TS.RANGE](/content/commands/ts.range.md), [TS.REVRANGE](/content/commands/ts.revrange.md), [TS.MRANGE](/content/commands/ts.mrange.md), and [TS.MREVRANGE](/content/commands/ts.mrevrange.md) have an optional `[AGGREGATION aggregator bucketDuration]` parameter. When this parameter is specified, raw reports are aggregated per bucket.
 
   Till version 1.8, results were not reported for empty buckets. With `EMPTY`, it is now possible to report aggregations for empty buckets as well.
 
@@ -251,7 +251,7 @@ RedisTimeSeries 1.8 introduces seven highly requested features, performance impr
 
   For the `last` aggregator and the new `twa` aggregator, the `EMPTY` flag is used for gap filling (see below).
 
-  To report aggregations for empty buckets, use the new optional `EMPTY` flag in [TS.RANGE]({{< relref "commands/ts.range" >}}), [TS.REVRANGE]({{< relref "commands/ts.revrange" >}}), [TS.MRANGE]({{< relref "commands/ts.mrange" >}}), and [TS.MREVRANGE]({{< relref "commands/ts.mrevrange" >}}).
+  To report aggregations for empty buckets, use the new optional `EMPTY` flag in [TS.RANGE](/content/commands/ts.range.md), [TS.REVRANGE](/content/commands/ts.revrange.md), [TS.MRANGE](/content/commands/ts.mrange.md), and [TS.MREVRANGE](/content/commands/ts.mrevrange.md).
 
   Regardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for empty buckets that end before the earliest sample or begin after the latest sample in the time series.
 
@@ -273,7 +273,7 @@ RedisTimeSeries 1.8 introduces seven highly requested features, performance impr
 
   {{<image filename="images/modules/GapFilling.png" alt="A graph that illustrates gap-filling.">}}
 
-  Consider we want to use [TS.RANGE]({{< relref "commands/ts.range" >}}) to calculate the average value of each bucket (p1, p2, p3 in the diagram above). Using avg, the value reported for bucket p2 would be NaN, as this bucket contains no samples. If we use `EMPTY` with `twa`, on the other hand, the average value for bucket p2 would be calculated based on the linear interpolation of the value left of p2 and the value right of p2.
+  Consider we want to use [TS.RANGE](/content/commands/ts.range.md) to calculate the average value of each bucket (p1, p2, p3 in the diagram above). Using avg, the value reported for bucket p2 would be NaN, as this bucket contains no samples. If we use `EMPTY` with `twa`, on the other hand, the average value for bucket p2 would be calculated based on the linear interpolation of the value left of p2 and the value right of p2.
 
   When sampling a continuous signal, we can use this ‘gap-filling’ capability to calculate the average value of the signal over equal-width buckets without concern about bucket alignment or missing samples.
 
@@ -281,11 +281,11 @@ RedisTimeSeries 1.8 introduces seven highly requested features, performance impr
 
 * **Ability to control how bucket timestamps are reported**
 
-  Till version 1.8, [TS.RANGE]({{< relref "commands/ts.range" >}}), [TS.REVRANGE]({{< relref "commands/ts.revrange" >}}), [TS.MRANGE]({{< relref "commands/ts.mrange" >}}), and [TS.MREVRANGE]({{< relref "commands/ts.mrevrange" >}}) returned the start time of each reported bucket as its timestamp.
+  Till version 1.8, [TS.RANGE](/content/commands/ts.range.md), [TS.REVRANGE](/content/commands/ts.revrange.md), [TS.MRANGE](/content/commands/ts.mrange.md), and [TS.MREVRANGE](/content/commands/ts.mrevrange.md) returned the start time of each reported bucket as its timestamp.
 
   Changing this behavior and reporting each bucket’s start time, end time, or mid-time is now possible. This is required in many use cases. For example, when drawing bars in trading applications, annotating each bar with the end timestamp of the bucket it represents is very common.
 
-  The way bucket timestamps are reported can be specified with the new optional `BUCKETTIMESTAMP` parameter of [TS.RANGE]({{< relref "commands/ts.range" >}}), [TS.REVRANGE]({{< relref "commands/ts.revrange" >}}), [TS.MRANGE]({{< relref "commands/ts.mrange" >}}), and [TS.MREVRANGE]({{< relref "commands/ts.mrevrange" >}}).
+  The way bucket timestamps are reported can be specified with the new optional `BUCKETTIMESTAMP` parameter of [TS.RANGE](/content/commands/ts.range.md), [TS.REVRANGE](/content/commands/ts.revrange.md), [TS.MRANGE](/content/commands/ts.mrange.md), and [TS.MREVRANGE](/content/commands/ts.mrevrange.md).
 
   `-` or `low`: the bucket's start time (default)
 
@@ -299,7 +299,7 @@ RedisTimeSeries 1.8 introduces seven highly requested features, performance impr
 
   But what if we want to aggregate daily events from 06:00 to 06:00 the next day? We can now specify alignment for compaction rules.
 
-  Alignment can be specified with the new optional `alignTimestamp` parameter of [TS.CREATERULE]({{< relref "commands/ts.createrule" >}}) and the [COMPACTION_POLICY]({{< relref "/develop/data-types/timeseries/configuration" >}}) configuration parameter. Specifying `alignTimestamp` ensures that there is a bucket that starts exactly at `alignTimestamp` and all other buckets are aligned accordingly. `alignTimestamp` is expressed in milliseconds. The default value is 0 (aligned with the epoch).
+  Alignment can be specified with the new optional `alignTimestamp` parameter of [TS.CREATERULE](/content/commands/ts.createrule.md) and the [COMPACTION_POLICY](/content/develop/data-types/timeseries/configuration.md) configuration parameter. Specifying `alignTimestamp` ensures that there is a bucket that starts exactly at `alignTimestamp` and all other buckets are aligned accordingly. `alignTimestamp` is expressed in milliseconds. The default value is 0 (aligned with the epoch).
 
 * **New reducers**
 
@@ -307,8 +307,7 @@ RedisTimeSeries 1.8 introduces seven highly requested features, performance impr
 
   It is now possible, for example, to calculate the maximal temperature per timeframe for each sensor and then report the average temperature (avg reducer) over groups of sensors (grouped by a given label's value).
 
-  This can be specified with the new reducer types ([TS.MRANGE]({{< relref "commands/ts.mrange" >}}) and [TS.MREVRANGE]({{< relref "commands/ts.mrevrange" >}}): `avg`, `range`, `count`, `std.p`, `std.s`, `var.p`, and `var.s`.
+  This can be specified with the new reducer types ([TS.MRANGE](/content/commands/ts.mrange.md) and [TS.MREVRANGE](/content/commands/ts.mrevrange.md): `avg`, `range`, `count`, `std.p`, `std.s`, `var.p`, and `var.s`.
 
-{{<note>}}
-New RDB version (v7). RDB files created with v1.8.3 are not backward compatible. 
-{{</note>}}
+> [!NOTE]
+> New RDB version (v7). RDB files created with v1.8.3 are not backward compatible. 

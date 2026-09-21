@@ -230,7 +230,6 @@ This is the first general availability (GA) release of RedisGears (v1.0.0).
 
     - #[321](https://github.com/RedisGears/RedisGears/issues/321) Return error when unknown argument is given.
 
-{{< note >}}
-- The version inside Redis will be 10000 or 1.0.0 in semantic versioning.
-- This version requires the Redis version to be 6.0 and above.
-{{< /note >}}
+> [!NOTE]
+> - The version inside Redis will be 10000 or 1.0.0 in semantic versioning.
+> - This version requires the Redis version to be 6.0 and above.
