@@ -19,7 +19,7 @@ public GearsBuilder<T> asyncFilter​(
     gears.operations.AsyncFilterOperation<T> filter)
 ```
 
-The `asyncFilter` function allows you to use a [`GearsFuture`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsfuture" >}}) object to asynchronously filter out records in the pipe based on a given condition.
+The `asyncFilter` function allows you to use a [`GearsFuture`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsfuture/_index.md) object to asynchronously filter out records in the pipe based on a given condition.
 
 The filter operation should contain a conditional statement and return a boolean for each record:
 - If `true`, the record will continue through the pipe. 

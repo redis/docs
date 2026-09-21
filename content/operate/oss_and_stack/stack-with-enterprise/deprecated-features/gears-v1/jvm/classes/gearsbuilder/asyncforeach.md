@@ -19,7 +19,7 @@ public GearsBuilder<T> asyncForeach​(
     gears.operations.AsyncForeachOperation<T> foreach)
 ```
 
-The `asyncForeach` function allows you to use a [`GearsFuture`]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsfuture" >}}) object to define a set of operations and run them asynchronously for each record in the pipe.
+The `asyncForeach` function allows you to use a [`GearsFuture`](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/jvm/classes/gearsfuture/_index.md) object to define a set of operations and run them asynchronously for each record in the pipe.
 
 ## Parameters
 
