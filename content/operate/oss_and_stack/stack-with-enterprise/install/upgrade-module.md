@@ -12,23 +12,21 @@ weight: 50
 
 Upgrade a module in Redis Software to get the latest features and fixes.
 
-{{<note>}}
-- If you upgrade a single-node cluster, it does not load the new modules that are bundled with the new cluster version.
-
-- Before you upgrade a database with the RediSearch module enabled to Redis 5.0, you must upgrade the RediSearch module to version 1.4.2 or later.
-{{</note>}}
+> [!NOTE]
+> - If you upgrade a single-node cluster, it does not load the new modules that are bundled with the new cluster version.
+>
+> - Before you upgrade a database with the RediSearch module enabled to Redis 5.0, you must upgrade the RediSearch module to version 1.4.2 or later.
 
 ## Prerequisites
 
-Before you upgrade a module enabled in a database, [install the new version of the module on the cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}}).
+Before you upgrade a module enabled in a database, [install the new version of the module on the cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md).
 
 ## Upgrade a module for a database
 
 After you install an updated module on the cluster, you can upgrade databases to use the new module version.
 
-{{<warning>}}
-After you upgrade the module for a database, the database shards restart. This causes a short interruption in the availability of this database across the cluster.
-{{</warning>}}
+> [!WARNING]
+> After you upgrade the module for a database, the database shards restart. This causes a short interruption in the availability of this database across the cluster.
 
 To upgrade a module enabled for a database:
 
@@ -77,9 +75,9 @@ To upgrade a module enabled for a database:
         and module module_name <module_name> version <new_module_version_number> module_args "<module arguments>"
         ```
 
-        {{<warning>}}
-The upgrade process does not validate the module upgrade arguments, and incorrect arguments can cause unexpected downtime. Test module upgrade commands in a test environment before you upgrade modules in production.
-        {{</warning>}}
+        > [!WARNING]
+        > The upgrade process does not validate the module upgrade arguments, and incorrect arguments can cause unexpected downtime. Test module upgrade commands in a test environment before you upgrade modules in production.
+        >         
 
         For the module arguments, use one of the following:
 

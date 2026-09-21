@@ -16,18 +16,17 @@ This makes commands more efficient and improves replication between clusters bec
 
 This change allows databases with RediSearch to support:
 
-- [Active-Active databases]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/search-active-active" >}})
+- [Active-Active databases](/content/operate/oss_and_stack/stack-with-enterprise/search/search-active-active.md)
 - Database cluster re-sharding
 - Replica Of to a sharded destination database
-- [EXPIRE]({{< relref "/commands/ttl" >}}) of documents reflected in the index
+- [EXPIRE](/content/commands/ttl.md) of documents reflected in the index
 
 In addition, RediSearch 2.x indexes data that already existed in the database at the time that the index was created.
 
 To upgrade a Redis Software database with RediSearch 1.x to RediSearch 2.x, you have to set up a new database with RediSearch 2.x and use the `RediSearch_Syncer.py` script to replicate the data from the old database into the new database.
 
-{{< note >}}
-After you create the database or after you replicate the data, [create an index]({{< relref "commands/ft.create" >}}) with a prefix or filter that defines the keys that you want to index.
-{{< /note >}}
+> [!NOTE]
+> After you create the database or after you replicate the data, [create an index](/content/commands/ft.create.md) with a prefix or filter that defines the keys that you want to index.
 
 ## Prerequisites
 
@@ -71,7 +70,7 @@ To replicate a RediSearch 1.x database to a RediSearch 2.x database:
 
 ### Create a RediSearch 2.x database {#create-db}
 
-1. [Create a database]({{< relref "/operate/rs/databases/create" >}}) and configure its settings.
+1. [Create a database](/content/operate/rs/databases/create.md) and configure its settings.
 
 1. In the **Redis Modules** section:
 
@@ -116,9 +115,9 @@ To replicate a RediSearch 1.x database to a RediSearch 2.x database:
 
     - `--add-prefix <prefix>` (optional) - Adds a prefix to all of the hashes that are replicated to the new database.
 
-        {{<note>}}
-Only use the `add-prefix` option if you want to index all of the hashes in the same index in the source database.
-        {{</note>}}
+        > [!NOTE]
+        > Only use the `add-prefix` option if you want to index all of the hashes in the same index in the source database.
+        >         
 
     The script shows a table with the progress of the replication process.
     Press **F5** to see the updated status.
