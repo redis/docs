@@ -126,7 +126,7 @@ cd /usr/src/redis-<version>
 > [!NOTE]
 > Before Redis 8.10, specify `redis-full.conf` instead of `redis.conf`.
 
-To validate that the available modules have been installed, run the [`INFO`]{{< relref "/commands/info" >}} command and look for lines similar to the following:
+To validate that the available modules have been installed, run the [`INFO`](/content/commands/info.md) command and look for lines similar to the following:
 
 ```
 cd /usr/src/redis-<version>
