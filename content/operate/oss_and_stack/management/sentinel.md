@@ -13,7 +13,7 @@ title: High availability with Redis Sentinel
 weight: 4
 ---
 
-Redis Sentinel provides high availability for Redis when not using [Redis Cluster]({{< relref "/operate/oss_and_stack/management/scaling" >}}). 
+Redis Sentinel provides high availability for Redis when not using [Redis Cluster](/content/operate/oss_and_stack/management/scaling.md). 
 
 Redis Sentinel also provides other collateral tasks such as monitoring,
 notifications and acts as a configuration provider for clients.
@@ -396,9 +396,9 @@ not ports but also IP addresses.
 Remapping ports and addresses creates issues with Sentinel in two ways:
 
 1. Sentinel auto-discovery of other Sentinels no longer works, since it is based on *hello* messages where each Sentinel announce at which port and IP address they are listening for connection. However Sentinels have no way to understand that an address or port is remapped, so it is announcing an information that is not correct for other Sentinels to connect.
-2. Replicas are listed in the [`INFO`](/commands/info) output of a Redis master in a similar way: the address is detected by the master checking the remote peer of the TCP connection, while the port is advertised by the replica itself during the handshake, however the port may be wrong for the same reason as exposed in point 1.
+2. Replicas are listed in the [`INFO`](/content/commands/info.md) output of a Redis master in a similar way: the address is detected by the master checking the remote peer of the TCP connection, while the port is advertised by the replica itself during the handshake, however the port may be wrong for the same reason as exposed in point 1.
 
-Since Sentinels auto detect replicas using masters [`INFO`](/commands/info) output information,
+Since Sentinels auto detect replicas using masters [`INFO`](/content/commands/info.md) output information,
 the detected replicas will not be reachable, and Sentinel will never be able to
 failover the master, since there are no good replicas from the point of view of
 the system, so there is currently no way to monitor with Sentinel a set of
@@ -432,7 +432,7 @@ Enabling the `resolve-hostnames` global configuration allows Sentinel to accept 
 
 Sentinel will accept host names as valid inputs and resolve them, but will still refer to IP addresses when announcing an instance, updating configuration files, etc.
 
-Enabling the `announce-hostnames` global configuration makes Sentinel use host names instead. This affects replies to clients, values written in configuration files, the [`REPLICAOF`](/commands/replicaof) command issued to replicas, etc.
+Enabling the `announce-hostnames` global configuration makes Sentinel use host names instead. This affects replies to clients, values written in configuration files, the [`REPLICAOF`](/content/commands/replicaof.md) command issued to replicas, etc.
 
 This behavior may not be compatible with all Sentinel clients, that may explicitly expect an IP address.
 
@@ -473,7 +473,7 @@ Once you start the three Sentinels, you'll see a few messages they log, like:
     +monitor master mymaster 127.0.0.1 6379 quorum 2
 
 This is a Sentinel event, and you can receive this kind of events via Pub/Sub
-if you [`SUBSCRIBE`](/commands/subscribe) to the event name as specified later in [_Pub/Sub Messages_ section](#pubsub-messages).
+if you [`SUBSCRIBE`](/content/commands/subscribe.md) to the event name as specified later in [_Pub/Sub Messages_ section](#pubsub-messages).
 
 Sentinel generates and logs different events during failure detection and
 failover.
@@ -606,13 +606,13 @@ so forth.
 
 The `SENTINEL` command is the main API for Sentinel. The following is the list of its subcommands (minimal version is noted for where applicable):
 
-* **SENTINEL CONFIG GET `<name>`** (`>= 6.2`) Get the current value of a global Sentinel configuration parameter. The specified name may be a wildcard, similar to the Redis [`CONFIG GET`](/commands/config-get) command.
+* **SENTINEL CONFIG GET `<name>`** (`>= 6.2`) Get the current value of a global Sentinel configuration parameter. The specified name may be a wildcard, similar to the Redis [`CONFIG GET`](/content/commands/config-get.md) command.
 * **SENTINEL CONFIG SET `<name>` `<value>`** (`>= 6.2`) Set the value of a global Sentinel configuration parameter.
 * **SENTINEL CKQUORUM `<master name>`** Check if the current Sentinel configuration is able to reach the quorum needed to failover a master, and the majority needed to authorize the failover. This command should be used in monitoring systems to check if a Sentinel deployment is ok.
 * **SENTINEL FLUSHCONFIG** Force Sentinel to rewrite its configuration on disk, including the current Sentinel state. Normally Sentinel rewrites the configuration every time something changes in its state (in the context of the subset of the state which is persisted on disk across restart). However sometimes it is possible that the configuration file is lost because of operation errors, disk failures, package upgrade scripts or configuration managers. In those cases a way to force Sentinel to rewrite the configuration file is handy. This command works even if the previous configuration file is completely missing.
 * **SENTINEL FAILOVER `<master name>`** Force a failover as if the master was not reachable, and without asking for agreement to other Sentinels (however a new version of the configuration will be published so that the other Sentinels will update their configurations).
 * **SENTINEL GET-MASTER-ADDR-BY-NAME `<master name>`** Return the ip and port number of the master with that name. If a failover is in progress or terminated successfully for this master it returns the address and port of the promoted replica.
-* **SENTINEL INFO-CACHE** (`>= 3.2`) Return cached [`INFO`](/commands/info) output from masters and replicas.
+* **SENTINEL INFO-CACHE** (`>= 3.2`) Return cached [`INFO`](/content/commands/info.md) output from masters and replicas.
 * **SENTINEL IS-MASTER-DOWN-BY-ADDR <ip> <port> <current-epoch> <runid>** Check if the master specified by ip:port is down from current Sentinel's point of view. This command is mostly for internal use.
 * **SENTINEL MASTER `<master name>`** Show the state and info of the specified master.
 * **SENTINEL MASTERS** Show a list of monitored masters and their state.
@@ -628,17 +628,17 @@ The `SENTINEL` command is the main API for Sentinel. The following is the list o
 
 For connection management and administration purposes, Sentinel supports the following subset of Redis' commands:
 
-* **ACL** (`>= 6.2`) This command manages the Sentinel Access Control List. For more information refer to the [ACL]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) documentation page and the [_Sentinel Access Control List authentication_](#sentinel-access-control-list-authentication).
-* **AUTH** (`>= 5.0.1`) Authenticate a client connection. For more information refer to the [`AUTH`](/commands/auth) command and the [_Configuring Sentinel instances with authentication_ section](#configuring-sentinel-instances-with-authentication).
+* **ACL** (`>= 6.2`) This command manages the Sentinel Access Control List. For more information refer to the [ACL](/content/operate/oss_and_stack/management/security/acl.md) documentation page and the [_Sentinel Access Control List authentication_](#sentinel-access-control-list-authentication).
+* **AUTH** (`>= 5.0.1`) Authenticate a client connection. For more information refer to the [`AUTH`](/content/commands/auth.md) command and the [_Configuring Sentinel instances with authentication_ section](#configuring-sentinel-instances-with-authentication).
 * **CLIENT** This command manages client connections. For more information refer to its subcommands' pages.
-* **COMMAND** (`>= 6.2`) This command returns information about commands. For more information refer to the [`COMMAND`](/commands/command) command and its various subcommands.
-* **HELLO** (`>= 6.0`) Switch the connection's protocol. For more information refer to the [`HELLO`](/commands/hello) command.
-* **INFO** Return information and statistics about the Sentinel server. For more information see the [`INFO`](/commands/info) command.
+* **COMMAND** (`>= 6.2`) This command returns information about commands. For more information refer to the [`COMMAND`](/content/commands/command.md) command and its various subcommands.
+* **HELLO** (`>= 6.0`) Switch the connection's protocol. For more information refer to the [`HELLO`](/content/commands/hello.md) command.
+* **INFO** Return information and statistics about the Sentinel server. For more information see the [`INFO`](/content/commands/info.md) command.
 * **PING** This command simply returns PONG.
-* **ROLE** This command returns the string "sentinel" and a list of monitored masters. For more information refer to the [`ROLE`](/commands/role) command.
+* **ROLE** This command returns the string "sentinel" and a list of monitored masters. For more information refer to the [`ROLE`](/content/commands/role.md) command.
 * **SHUTDOWN** Shut down the Sentinel instance.
 
-Lastly, Sentinel also supports the [`SUBSCRIBE`](/commands/subscribe), [`UNSUBSCRIBE`](/commands/unsubscribe), [`PSUBSCRIBE`](/commands/psubscribe) and [`PUNSUBSCRIBE`](/commands/punsubscribe) commands. Refer to the [_Pub/Sub Messages_ section](#pubsub-messages) for more details.
+Lastly, Sentinel also supports the [`SUBSCRIBE`](/content/commands/subscribe.md), [`UNSUBSCRIBE`](/content/commands/unsubscribe.md), [`PSUBSCRIBE`](/content/commands/psubscribe.md) and [`PUNSUBSCRIBE`](/content/commands/punsubscribe.md) commands. Refer to the [_Pub/Sub Messages_ section](#pubsub-messages) for more details.
 
 ### Reconfiguring Sentinel at Runtime
 
@@ -648,7 +648,7 @@ The following is a list of `SENTINEL` subcommands used in order to update the co
 
 * **SENTINEL MONITOR `<name>` `<ip>` `<port>` `<quorum>`** This command tells the Sentinel to start monitoring a new master with the specified name, ip, port, and quorum. It is identical to the `sentinel monitor` configuration directive in `sentinel.conf` configuration file, with the difference that you can't use a hostname in as `ip`, but you need to provide an IPv4 or IPv6 address.
 * **SENTINEL REMOVE `<name>`** is used in order to remove the specified master: the master will no longer be monitored, and will totally be removed from the internal state of the Sentinel, so it will no longer listed by `SENTINEL masters` and so forth.
-* **SENTINEL SET `<name>` [`<option>` `<value>` ...]** The SET command is very similar to the [`CONFIG SET`](/commands/config-set) command of Redis, and is used in order to change configuration parameters of a specific master. Multiple option / value pairs can be specified (or none at all). All the configuration parameters that can be configured via `sentinel.conf` are also configurable using the SET command.
+* **SENTINEL SET `<name>` [`<option>` `<value>` ...]** The SET command is very similar to the [`CONFIG SET`](/content/commands/config-set.md) command of Redis, and is used in order to change configuration parameters of a specific master. Multiple option / value pairs can be specified (or none at all). All the configuration parameters that can be configured via `sentinel.conf` are also configurable using the SET command.
 
 The following is an example of `SENTINEL SET` command in order to modify the `down-after-milliseconds` configuration of a master called `objects-cache`:
 
@@ -662,7 +662,7 @@ Note that there is no equivalent GET command since `SENTINEL MASTER` provides al
 
 Starting with Redis version 6.2, Sentinel also allows getting and setting global configuration parameters which were only supported in the configuration file prior to that.
 
-* **SENTINEL CONFIG GET `<name>`** Get the current value of a global Sentinel configuration parameter. The specified name may be a wildcard, similar to the Redis [`CONFIG GET`](/commands/config-get) command.
+* **SENTINEL CONFIG GET `<name>`** Get the current value of a global Sentinel configuration parameter. The specified name may be a wildcard, similar to the Redis [`CONFIG GET`](/content/commands/config-get.md) command.
 * **SENTINEL CONFIG SET `<name>` `<value>`** Set the value of a global Sentinel configuration parameter.
 
 Global parameters that can be manipulated include:
@@ -718,12 +718,12 @@ forever from the list of replicas monitored by Sentinels.
 In order to do this, you need to send a `SENTINEL RESET mastername` command
 to all the Sentinels: they'll refresh the list of replicas within the next
 10 seconds, only adding the ones listed as correctly replicating from the
-current master [`INFO`](/commands/info) output.
+current master [`INFO`](/content/commands/info.md) output.
 
 ### Pub/Sub messages
 
 A client can use a Sentinel as a Redis-compatible Pub/Sub server
-(but you can't use [`PUBLISH`](/commands/publish)) in order to [`SUBSCRIBE`](/commands/subscribe) or [`PSUBSCRIBE`](/commands/psubscribe) to
+(but you can't use [`PUBLISH`](/content/commands/publish.md)) in order to [`SUBSCRIBE`](/content/commands/subscribe.md) or [`PSUBSCRIBE`](/content/commands/psubscribe.md) to
 channels and get notified about specific events.
 
 The channel name is the same as the name of the event. For instance the
@@ -747,7 +747,7 @@ and is only specified if the instance is not a master itself.
 * **+slave** `<instance details>` -- A new replica was detected and attached.
 * **+failover-state-reconf-slaves** `<instance details>` -- Failover state changed to `reconf-slaves` state.
 * **+failover-detected** `<instance details>` -- A failover started by another Sentinel or any other external entity was detected (An attached replica turned into a master).
-* **+slave-reconf-sent** `<instance details>` -- The leader sentinel sent the [`REPLICAOF`](/commands/replicaof) command to this instance in order to reconfigure it for the new replica.
+* **+slave-reconf-sent** `<instance details>` -- The leader sentinel sent the [`REPLICAOF`](/content/commands/replicaof.md) command to this instance in order to reconfigure it for the new replica.
 * **+slave-reconf-inprog** `<instance details>` -- The replica being reconfigured showed to be a replica of the new master ip:port pair, but the synchronization process is not yet complete.
 * **+slave-reconf-done** `<instance details>` -- The replica is now synchronized with the new master.
 * **-dup-sentinel** `<instance details>` -- One or more sentinels for the specified master were removed as duplicated (this happens for instance when a Sentinel instance is restarted).
@@ -773,7 +773,7 @@ and is only specified if the instance is not a master itself.
 
 The -BUSY error is returned by a Redis instance when a Lua script is running for
 more time than the configured Lua script time limit. When this happens before
-triggering a fail over Redis Sentinel will try to send a [`SCRIPT KILL`](/commands/script-kill)
+triggering a fail over Redis Sentinel will try to send a [`SCRIPT KILL`](/content/commands/script-kill.md)
 command, that will only succeed if the script was read-only.
 
 If the instance is still in an error condition after this try, it will
@@ -783,7 +783,7 @@ Replicas priority
 ---
 
 Redis instances have a configuration parameter called `replica-priority`.
-This information is exposed by Redis replica instances in their [`INFO`](/commands/info) output,
+This information is exposed by Redis replica instances in their [`INFO`](/content/commands/info.md) output,
 and Sentinel uses it in order to pick a replica among the ones that can be
 used in order to failover a master:
 
@@ -806,7 +806,7 @@ used for the asynchronous replication protocol.
 
 ## Redis Access Control List authentication
 
-Starting with Redis 6, user authentication and permission is managed with the [Access Control List (ACL)]({{< relref "/operate/oss_and_stack/management/security/acl" >}}).
+Starting with Redis 6, user authentication and permission is managed with the [Access Control List (ACL)](/content/operate/oss_and_stack/management/security/acl.md).
 
 In order for Sentinels to connect to Redis server instances when they are
 configured with ACL, the Sentinel configuration must include the
@@ -823,24 +823,23 @@ The only Pub/Sub channel that Sentinel uses on a monitored node is `__sentinel__
 this user is granted access to that channel only (`resetchannels &__sentinel__:hello`) rather
 than to all channels (`allchannels`, equivalently `&*`).
 
-{{< warning >}}
-Sentinel discovery relies on the reserved `__sentinel__:hello` Pub/Sub channel on each
-monitored master and replica. Sentinels periodically publish their presence there and
-subscribe to it to discover other Sentinels and learn the current topology. These messages
-carry no authentication and are trusted by receiving Sentinels, so any client that can
-publish to this channel on a monitored node can inject forged topology information and
-trigger spurious failovers or a denial of service.
-
-Because of this, do not grant broad Pub/Sub access on Sentinel-monitored Redis nodes:
-
-* No user needs access to all channels (`allchannels` / `&*`). The Sentinel `auth-user`
-  needs access only to the `__sentinel__:hello` channel (`&__sentinel__:hello`), and no
-  other user should be able to publish to or subscribe to it. Since Redis 7.0, the default
-  value of `acl-pubsub-default` is `resetchannels`, so newly created ACL users have no
-  channel access unless you grant it explicitly. Be especially careful with the legacy
-  `default` user, which may still have broad access.
-* Treat the `__sentinel__:` channel prefix as reserved for Sentinel's internal use.
-{{< /warning >}}
+> [!WARNING]
+> Sentinel discovery relies on the reserved `__sentinel__:hello` Pub/Sub channel on each
+> monitored master and replica. Sentinels periodically publish their presence there and
+> subscribe to it to discover other Sentinels and learn the current topology. These messages
+> carry no authentication and are trusted by receiving Sentinels, so any client that can
+> publish to this channel on a monitored node can inject forged topology information and
+> trigger spurious failovers or a denial of service.
+>
+> Because of this, do not grant broad Pub/Sub access on Sentinel-monitored Redis nodes:
+>
+> * No user needs access to all channels (`allchannels` / `&*`). The Sentinel `auth-user`
+>   needs access only to the `__sentinel__:hello` channel (`&__sentinel__:hello`), and no
+>   other user should be able to publish to or subscribe to it. Since Redis 7.0, the default
+>   value of `acl-pubsub-default` is `resetchannels`, so newly created ACL users have no
+>   channel access unless you grant it explicitly. Be especially careful with the legacy
+>   `default` user, which may still have broad access.
+> * Treat the `__sentinel__:` channel prefix as reserved for Sentinel's internal use.
 
 ### Redis password-only authentication
 
@@ -873,7 +872,7 @@ configured with `requirepass`, the Sentinel configuration must include the
 Configuring Sentinel instances with authentication
 ---
 
-Sentinel instances themselves can be secured by requiring clients to authenticate via the [`AUTH`](/commands/auth) command. Starting with Redis 6.2, the [Access Control List (ACL)]({{< relref "/operate/oss_and_stack/management/security/acl" >}}) is available, whereas previous versions (starting with Redis 5.0.1) support password-only authentication. 
+Sentinel instances themselves can be secured by requiring clients to authenticate via the [`AUTH`](/content/commands/auth.md) command. Starting with Redis 6.2, the [Access Control List (ACL)](/content/operate/oss_and_stack/management/security/acl.md) is available, whereas previous versions (starting with Redis 5.0.1) support password-only authentication. 
 
 Note that Sentinel's authentication configuration should be **applied to each of the instances** in your deployment, and **all instances should use the same configuration**. Furthermore, ACL and password-only authentication should not be used together.
 
@@ -912,12 +911,12 @@ When configured this way, Sentinels will do two things:
 
 This means that **you will have to configure the same `requirepass` password in all the Sentinel instances**. This way every Sentinel can talk with every other Sentinel without any need to configure for each Sentinel the password to access all the other Sentinels, that would be very impractical.
 
-Before using this configuration, make sure your client library can send the [`AUTH`](/commands/auth) command to Sentinel instances.
+Before using this configuration, make sure your client library can send the [`AUTH`](/content/commands/auth.md) command to Sentinel instances.
 
 ### Sentinel clients implementation
 ---
 
-Sentinel requires explicit client support, unless the system is configured to execute a script that performs a transparent redirection of all the requests to the new master instance (virtual IP or other similar systems). The topic of client libraries implementation is covered in the document [Sentinel clients guidelines]({{< relref "/develop/reference/sentinel-clients" >}}).
+Sentinel requires explicit client support, unless the system is configured to execute a script that performs a transparent redirection of all the requests to the new master instance (virtual IP or other similar systems). The topic of client libraries implementation is covered in the document [Sentinel clients guidelines](/content/develop/reference/sentinel-clients.md).
 
 ## More advanced concepts
 
@@ -1036,7 +1035,7 @@ the time the master is also not available from the point of view of the
 Sentinel doing the failover, is considered to be not suitable for the failover
 and is skipped.
 
-In more rigorous terms, a replica whose the [`INFO`](/commands/info) output suggests it has been
+In more rigorous terms, a replica whose the [`INFO`](/content/commands/info.md) output suggests it has been
 disconnected from the master for more than:
 
     (down-after-milliseconds * 10) + milliseconds_since_master_is_in_SDOWN_state
@@ -1111,7 +1110,7 @@ Redis Sentinel also guarantees the *safety* property that every Sentinel will fa
 
 Once a Sentinel is able to failover a master successfully, it will start to broadcast the new configuration so that the other Sentinels will update their information about a given master.
 
-For a failover to be considered successful, it requires that the Sentinel was able to send the `REPLICAOF NO ONE` command to the selected replica, and that the switch to master was later observed in the [`INFO`](/commands/info) output of the master.
+For a failover to be considered successful, it requires that the Sentinel was able to send the `REPLICAOF NO ONE` command to the selected replica, and that the switch to master was later observed in the [`INFO`](/content/commands/info.md) output of the master.
 
 At this point, even if the reconfiguration of the replicas is in progress, the failover is considered to be successful, and all the Sentinels are required to start reporting the new configuration.
 

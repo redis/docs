@@ -16,7 +16,7 @@ Redis scales horizontally with a deployment topology called Redis Cluster.
 This topic will teach you how to set up, test, and operate Redis Cluster in production.
 You will learn about the availability and consistency characteristics of Redis Cluster from the end user's point of view.
 
-If you plan to run a production Redis Cluster deployment or want to understand better how Redis Cluster works internally, consult the [Redis Cluster specification]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}). To learn how Redis Enterprise handles scaling, see [Linear Scaling with Redis Enterprise](https://redis.com/redis-enterprise/technology/linear-scaling-redis-enterprise/).
+If you plan to run a production Redis Cluster deployment or want to understand better how Redis Cluster works internally, consult the [Redis Cluster specification](/content/operate/oss_and_stack/reference/cluster-spec.md). To learn how Redis Enterprise handles scaling, see [Linear Scaling with Redis Enterprise](https://redis.com/redis-enterprise/technology/linear-scaling-redis-enterprise/).
 
 ## Redis Cluster 101
 
@@ -145,7 +145,7 @@ the case of Redis Cluster.
 Basically, there is a trade-off to be made between performance and consistency.
 
 Redis Cluster has support for synchronous writes when absolutely needed,
-implemented via the [`WAIT`](/commands/wait) command. This makes losing writes a lot less
+implemented via the [`WAIT`](/content/commands/wait.md) command. This makes losing writes a lot less
 likely. However, note that Redis Cluster does not implement strong consistency
 even when synchronous replication is used: it is always possible, under more
 complex failure scenarios, that a replica that was not able to receive the write
@@ -167,12 +167,11 @@ However, if the partition lasts enough time for B1 to be promoted to master
 on the majority side of the partition, the writes that Z1 has sent to B
 in the meantime will be lost.
 
-{{% alert title="Note" color="info" %}}
-There is a **maximum window** to the amount of writes Z1 will be able
-to send to B: if enough time has elapsed for the majority side of the
-partition to elect a replica as master, every master node in the minority
-side will have stopped accepting writes.
-{{% /alert %}}
+> [!NOTE]
+> There is a **maximum window** to the amount of writes Z1 will be able
+> to send to B: if enough time has elapsed for the majority side of the
+> partition to elect a replica as master, every master node in the minority
+> side will have stopped accepting writes.
 
 This amount of time is a very important configuration directive of Redis
 Cluster, and is called the **node timeout**.
@@ -328,7 +327,7 @@ to run the script.
 #### Interact with the cluster
 
 To connect to Redis Cluster, you'll need a cluster-aware Redis client. 
-See the [documentation]({{< relref "/develop/clients" >}}) for your client of choice to determine its cluster support.
+See the [documentation](/content/develop/clients/_index.md) for your client of choice to determine its cluster support.
 
 You can also test your Redis Cluster using the `redis-cli` command line utility:
 
@@ -348,10 +347,10 @@ redis 127.0.0.1:7002> get hello
 "world"
 ```
 
-{{% alert title="Note" color="info" %}} 
-If you created the cluster using the script, your nodes may listen
-on different ports, starting from 30001 by default.
-{{% /alert %}}
+> [!NOTE]
+>  
+> If you created the cluster using the script, your nodes may listen
+> on different ports, starting from 30001 by default.
 
 The `redis-cli` cluster support is very basic, so it always uses the fact that
 Redis Cluster nodes are able to redirect a client to the right node.
@@ -576,11 +575,11 @@ write the key `foo` to `42` to every operation, and we would not notice at
 all.
 
 So in the `redis-rb-cluster` repository, there is a more interesting application
-that is called `consistency-test.rb`. It uses a set of counters, by default 1000, and sends [`INCR`](/commands/incr) commands in order to increment the counters.
+that is called `consistency-test.rb`. It uses a set of counters, by default 1000, and sends [`INCR`](/content/commands/incr.md) commands in order to increment the counters.
 
 However instead of just writing, the application does two additional things:
 
-* When a counter is updated using [`INCR`](/commands/incr), the application remembers the write.
+* When a counter is updated using [`INCR`](/content/commands/incr.md), the application remembers the write.
 * It also reads a random counter before every write, and check if the value is what we expected it to be, comparing it with the value it has in memory.
 
 What this means is that this application is a simple **consistency checker**,
@@ -624,7 +623,7 @@ OK
 ```
 
 When I set the counter to 0 the real value was 114, so the program reports
-114 lost writes ([`INCR`](/commands/incr) commands that are not remembered by the cluster).
+114 lost writes ([`INCR`](/content/commands/incr.md) commands that are not remembered by the cluster).
 
 This program is much more interesting as a test case, so we'll use it
 to test the Redis Cluster failover.
@@ -635,10 +634,10 @@ To trigger the failover, the simplest thing we can do (that is also
 the semantically simplest failure that can occur in a distributed system)
 is to crash a single process, in our case a single master.
 
-{{% alert title="Note" color="info" %}} 
-During this test, you should take a tab open with the consistency test
-application running.
-{{% /alert %}} 
+> [!NOTE]
+>  
+> During this test, you should take a tab open with the consistency test
+> application running. 
 
 We can identify a master and crash it with the following command:
 
@@ -700,7 +699,7 @@ Now the masters are running on ports 7000, 7001 and 7005. What was previously
 a master, that is the Redis instance running on port 7002, is now a replica of
 7005.
 
-The output of the [`CLUSTER NODES`](/commands/cluster-nodes) command may look intimidating, but it is actually pretty simple, and is composed of the following tokens:
+The output of the [`CLUSTER NODES`](/content/commands/cluster-nodes.md) command may look intimidating, but it is actually pretty simple, and is composed of the following tokens:
 
 * Node ID
 * ip:port
@@ -719,7 +718,7 @@ on a master. For example, to upgrade the Redis process of one of the
 master nodes it is a good idea to failover it to turn it into a replica
 with minimal impact on availability.
 
-Manual failovers are supported by Redis Cluster using the [`CLUSTER FAILOVER`](/commands/cluster-failover)
+Manual failovers are supported by Redis Cluster using the [`CLUSTER FAILOVER`](/content/commands/cluster-failover.md)
 command, that must be executed in one of the replicas of the master you want
 to failover.
 
@@ -745,11 +744,11 @@ the failover starts, and the old master is informed about the configuration
 switch. When the clients are unblocked on the old master, they are redirected
 to the new master.
 
-{{% alert title="Note" color="info" %}} 
-To promote a replica to master, it must first be known as a replica by a majority of the masters in the cluster.
-  Otherwise, it cannot win the failover election.
-  If the replica has just been added to the cluster (see [Add a new node as a replica](#add-a-new-node-as-a-replica)), you may need to wait a while before sending the [`CLUSTER FAILOVER`](/commands/cluster-failover) command, to make sure the masters in cluster are aware of the new replica.
-{{% /alert %}} 
+> [!NOTE]
+>  
+> To promote a replica to master, it must first be known as a replica by a majority of the masters in the cluster.
+>   Otherwise, it cannot win the failover election.
+>   If the replica has just been added to the cluster (see [Add a new node as a replica](#add-a-new-node-as-a-replica)), you may need to wait a while before sending the [`CLUSTER FAILOVER`](/content/commands/cluster-failover.md) command, to make sure the masters in cluster are aware of the new replica. 
 
 #### Add a new node
 
@@ -784,7 +783,7 @@ new node as first argument, and the address of a random existing node in the
 cluster as second argument.
 
 In practical terms redis-cli here did very little to help us, it just
-sent a [`CLUSTER MEET`](/commands/cluster-meet) message to the node, something that is also possible
+sent a [`CLUSTER MEET`](/content/commands/cluster-meet.md) message to the node, something that is also possible
 to accomplish manually. However redis-cli also checks the state of the
 cluster before to operate, so it is a good idea to perform cluster operations
 always via redis-cli even when you know how the internals work.
@@ -836,7 +835,7 @@ This way we assign the new replica to a specific master.
 
 A more manual way to add a replica to a specific master is to add the new
 node as an empty master, and then turn it into a replica using the
-[`CLUSTER REPLICATE`](/commands/cluster-replicate) command. This also works if the node was added as a replica
+[`CLUSTER REPLICATE`](/content/commands/cluster-replicate.md) command. This also works if the node was added as a replica
 but you want to move it as a replica of a different master.
 
 For example in order to add a replica for the node 127.0.0.1:7005 that is
@@ -882,7 +881,7 @@ Instead, you can use the `call` command:
 
     redis-cli --cluster call 127.0.0.1:7000 cluster forget `<node-id>`
 
-This command will execute [`CLUSTER FORGET`](/commands/cluster-forget) command on every node. 
+This command will execute [`CLUSTER FORGET`](/content/commands/cluster-forget.md) command on every node. 
 
 #### Replica migration
 
@@ -896,10 +895,10 @@ master to another one automatically, without the help of the system administrato
 The automatic reconfiguration of replicas is called *replicas migration* and is
 able to improve the reliability of a Redis Cluster.
 
-{{% alert title="Note" color="info" %}} 
-You can read the details of replicas migration in the [Redis Cluster Specification]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}), here we'll only provide some information about the
-general idea and what you should do in order to benefit from it.
-{{% /alert %}} 
+> [!NOTE]
+>  
+> You can read the details of replicas migration in the [Redis Cluster Specification](/content/operate/oss_and_stack/reference/cluster-spec.md), here we'll only provide some information about the
+> general idea and what you should do in order to benefit from it. 
 
 The reason why you may want to let your cluster replicas to move from one master
 to another under certain condition, is that usually the Redis Cluster is as
@@ -944,7 +943,7 @@ one is not available.
 
 Upgrading masters is a bit more complex, and the suggested procedure is:
 
-1. Use [`CLUSTER FAILOVER`](/commands/cluster-failover) to trigger a manual failover of the master to one of its replicas.
+1. Use [`CLUSTER FAILOVER`](/content/commands/cluster-failover.md) to trigger a manual failover of the master to one of its replicas.
    (See the [Manual failover](#manual-failover) in this topic.)
 2. Wait for the master to turn into a replica.
 3. Finally upgrade the node as you do for replicas.
@@ -980,7 +979,7 @@ N=1 if you have no preexisting sharding, the following steps are needed
 in order to migrate your data set to Redis Cluster:
 
 1. Stop your clients. No automatic live-migration to Redis Cluster is currently possible. You may be able to do it orchestrating a live migration in the context of your application / environment.
-2. Generate an append only file for all of your N masters using the [`BGREWRITEAOF`](/commands/bgrewriteaof) command, and waiting for the AOF file to be completely generated.
+2. Generate an append only file for all of your N masters using the [`BGREWRITEAOF`](/content/commands/bgrewriteaof.md) command, and waiting for the AOF file to be completely generated.
 3. Save your AOF files from aof-1 to aof-N somewhere. At this point you can stop your old instances if you wish (this is useful since in non-virtualized deployments you often need to reuse the same computers).
 4. Create a Redis Cluster composed of N masters and zero replicas. You'll add replicas later. Make sure all your nodes are using the append only file for persistence.
 5. Stop all the cluster nodes, substitute their append only file with your pre-existing append only files, aof-1 for the first node, aof-2 for the second node, up to aof-N.
@@ -999,13 +998,13 @@ may be slow since 2.8 does not implement migrate connection caching, so you
 may want to restart your source instance with a Redis 3.x version before
 to perform such operation.
 
-{{% alert title="Note" color="info" %}} 
-Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.
-{{% /alert %}} 
+> [!NOTE]
+>  
+> Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated. 
 
 ## Learn more
 
-* [Redis Cluster specification]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}})
+* [Redis Cluster specification](/content/operate/oss_and_stack/reference/cluster-spec.md)
 * [Linear Scaling with Redis Enterprise](https://redis.com/redis-enterprise/technology/linear-scaling-redis-enterprise/)
 * [Docker documentation](https://docs.docker.com/engine/userguide/networking/dockernetworks/)
 

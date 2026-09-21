@@ -30,11 +30,11 @@ for a command to be processed by the replicas, however it knows, if needed, what
 replica already processed what command. This allows having optional synchronous replication.
 
 Synchronous replication of certain data can be requested by the clients using
-the [`WAIT`](/commands/wait) command. However [`WAIT`](/commands/wait) is only able to ensure there are the
+the [`WAIT`](/content/commands/wait.md) command. However [`WAIT`](/content/commands/wait.md) is only able to ensure there are the
 specified number of acknowledged copies in the other Redis instances, it does not
 turn a set of Redis instances into a CP system with strong consistency: acknowledged
 writes can still be lost during a failover, depending on the exact configuration
-of the Redis persistence. However, [WAIT]({{< relref "commands/wait" >}}) dramatically reduces the probability of losing a write after a failure event to specific hard-to-trigger failure modes.
+of the Redis persistence. However, [WAIT](/content/commands/wait.md) dramatically reduces the probability of losing a write after a failure event to specific hard-to-trigger failure modes.
 
 You can check the Redis Sentinel or Redis Cluster documentation for more information
 about high availability and failover. The rest of this document mainly describes the basic characteristics of Redis basic replication.
@@ -82,7 +82,7 @@ is actually connected, so basically every given pair of:
 
 Identifies an exact version of the dataset of a master.
 
-When replicas connect to masters, they use the [`PSYNC`](/commands/psync) command to send
+When replicas connect to masters, they use the [`PSYNC`](/content/commands/psync.md) command to send
 their old master replication ID and the offsets they processed so far. This way
 the master can send just the incremental part needed. However if there is not
 enough *backlog* in the master buffers, or if the replica is referring to an
@@ -94,11 +94,11 @@ This is how a full synchronization works in more details:
 The master starts a background saving process to produce an RDB file. At the same time it starts to buffer all new write commands received from the clients. When the background saving is complete, the master transfers the database file to the replica, which saves it on disk, and then loads it into memory. The master will then send all buffered commands to the replica. This is done as a stream of commands and is in the same format of the Redis protocol itself.
 
 You can try it yourself via telnet. Connect to the Redis port while the
-server is doing some work and issue the [`SYNC`](/commands/sync) command. You'll see a bulk
+server is doing some work and issue the [`SYNC`](/content/commands/sync.md) command. You'll see a bulk
 transfer and then every command received by the master will be re-issued
-in the telnet session. Actually [`SYNC`](/commands/sync) is an old protocol no longer used by
+in the telnet session. Actually [`SYNC`](/content/commands/sync.md) is an old protocol no longer used by
 newer Redis instances, but is still there for backward compatibility: it does
-not allow partial resynchronizations, so now [`PSYNC`](/commands/psync) is used instead.
+not allow partial resynchronizations, so now [`PSYNC`](/content/commands/psync.md) is used instead.
 
 As already said, replicas are able to automatically reconnect when the master-replica link goes down for some reason. If the master receives multiple concurrent replica synchronization requests, it performs a single background save in to serve all of them.
 
@@ -160,7 +160,7 @@ To configure basic Redis replication is trivial: just add the following line to 
     replicaof 192.168.1.1 6379
 
 Of course you need to replace 192.168.1.1 6379 with your master IP address (or
-hostname) and port. Alternatively, you can call the [`REPLICAOF`](/commands/replicaof) command and the
+hostname) and port. Alternatively, you can call the [`REPLICAOF`](/content/commands/replicaof.md) command and the
 master host will start a sync with the replica.
 
 There are also a few parameters for tuning the replication backlog taken
@@ -176,9 +176,9 @@ for more details.
 ## Read-only replica
 
 Since Redis 2.6, replicas support a read-only mode that is enabled by default.
-This behavior is controlled by the `replica-read-only` option in the redis.conf file, and can be enabled and disabled at runtime using [`CONFIG SET`](/commands/config-set).
+This behavior is controlled by the `replica-read-only` option in the redis.conf file, and can be enabled and disabled at runtime using [`CONFIG SET`](/content/commands/config-set.md).
 
-Read-only replicas will reject all write commands, so that it is not possible to write to a replica because of a mistake. This does not mean that the feature is intended to expose a replica instance to the internet or more generally to a network where untrusted clients exist, because administrative commands like [`DEBUG`](/commands/debug) or [`CONFIG`](/commands/config) are still enabled. The [Security]({{< relref "/operate/oss_and_stack/management/security/" >}}) page describes how to secure a Redis instance.
+Read-only replicas will reject all write commands, so that it is not possible to write to a replica because of a mistake. This does not mean that the feature is intended to expose a replica instance to the internet or more generally to a network where untrusted clients exist, because administrative commands like [`DEBUG`](/content/commands/debug.md) or [`CONFIG`](/content/commands/config.md) are still enabled. The [Security](/content/operate/oss_and_stack/management/security/_index.md) page describes how to secure a Redis instance.
 
 You may wonder why it is possible to revert the read-only setting
 and have replica instances that can be targeted by write operations.
@@ -201,21 +201,21 @@ Historically, there were some use cases that were considered legitimate for writ
 As of version 7.0, these use cases are now all obsolete and the same can be achieved by other means.
 For example:
 
-* Computing slow Set or Sorted set operations and storing the result in temporary local keys using commands like [`SUNIONSTORE`](/commands/sunionstore) and [`ZINTERSTORE`](/commands/zinterstore).
-  Instead, use commands that return the result without storing it, such as [`SUNION`](/commands/sunion) and [`ZINTER`](/commands/zinter).
+* Computing slow Set or Sorted set operations and storing the result in temporary local keys using commands like [`SUNIONSTORE`](/content/commands/sunionstore.md) and [`ZINTERSTORE`](/content/commands/zinterstore.md).
+  Instead, use commands that return the result without storing it, such as [`SUNION`](/content/commands/sunion.md) and [`ZINTER`](/content/commands/zinter.md).
 
-* Using the [`SORT`](/commands/sort) command (which is not considered a read-only command because of the optional STORE option and therefore cannot be used on a read-only replica).
-  Instead, use [`SORT_RO`](/commands/sort_ro), which is a read-only command.
+* Using the [`SORT`](/content/commands/sort.md) command (which is not considered a read-only command because of the optional STORE option and therefore cannot be used on a read-only replica).
+  Instead, use [`SORT_RO`](/content/commands/sort_ro.md), which is a read-only command.
 
-* Using [`EVAL`](/commands/eval) and [`EVALSHA`](/commands/evalsha) are also not considered read-only commands, because the Lua script may call write commands.
-  Instead, use [`EVAL_RO`](/commands/eval_ro) and [`EVALSHA_RO`](/commands/evalsha_ro) where the Lua script can only call read-only commands.
+* Using [`EVAL`](/content/commands/eval.md) and [`EVALSHA`](/content/commands/evalsha.md) are also not considered read-only commands, because the Lua script may call write commands.
+  Instead, use [`EVAL_RO`](/content/commands/eval_ro.md) and [`EVALSHA_RO`](/content/commands/evalsha_ro.md) where the Lua script can only call read-only commands.
 
 While writes to a replica will be discarded if the replica and the master resync or if the replica is restarted, there is no guarantee that they will sync automatically.
 
 Before version 4.0, writable replicas were incapable of expiring keys with a time to live set.
-This means that if you use [`EXPIRE`](/commands/expire) or other commands that set a maximum TTL for a key, the key will leak, and while you may no longer see it while accessing it with read commands, you will see it in the count of keys and it will still use memory.
+This means that if you use [`EXPIRE`](/content/commands/expire.md) or other commands that set a maximum TTL for a key, the key will leak, and while you may no longer see it while accessing it with read commands, you will see it in the count of keys and it will still use memory.
 Redis 4.0 RC3 and greater versions are able to evict keys with TTL as masters do, with the exceptions of keys written in DB numbers greater than 63 (but by default Redis instances only have 16 databases).
-Note though that even in versions greater than 4.0, using [`EXPIRE`](/commands/expire) on a key that could ever exists on the master can cause inconsistency between the replica and the master.
+Note though that even in versions greater than 4.0, using [`EXPIRE`](/content/commands/expire.md) on a key that could ever exists on the master can cause inconsistency between the replica and the master.
 
 Also note that since Redis 4.0 replica writes are only local, and are not propagated to sub-replicas attached to the instance. Sub-replicas instead will always receive the replication stream identical to the one sent by the top-level master to the intermediate replicas. So for example in the following setup:
 
@@ -279,18 +279,18 @@ and would result in race conditions and diverging data sets, so Redis
 uses three main techniques to make the replication of expired keys
 able to work:
 
-1. Replicas don't expire keys, instead they wait for masters to expire the keys. When a master expires a key (or evict it because of LRU), it synthesizes a [`DEL`](/commands/del) command which is transmitted to all the replicas.
-2. However because of master-driven expire, sometimes replicas may still have in memory keys that are already logically expired, since the master was not able to provide the [`DEL`](/commands/del) command in time. To deal with that the replica uses its logical clock to report that a key does not exist **only for read operations** that don't violate the consistency of the data set (as new commands from the master will arrive). In this way replicas avoid reporting logically expired keys that are still existing. In practical terms, an HTML fragments cache that uses replicas to scale will avoid returning items that are already older than the desired time to live.
+1. Replicas don't expire keys, instead they wait for masters to expire the keys. When a master expires a key (or evict it because of LRU), it synthesizes a [`DEL`](/content/commands/del.md) command which is transmitted to all the replicas.
+2. However because of master-driven expire, sometimes replicas may still have in memory keys that are already logically expired, since the master was not able to provide the [`DEL`](/content/commands/del.md) command in time. To deal with that the replica uses its logical clock to report that a key does not exist **only for read operations** that don't violate the consistency of the data set (as new commands from the master will arrive). In this way replicas avoid reporting logically expired keys that are still existing. In practical terms, an HTML fragments cache that uses replicas to scale will avoid returning items that are already older than the desired time to live.
 3. During Lua scripts executions no key expiries are performed. As a Lua script runs, conceptually the time in the master is frozen, so that a given key will either exist or not for all the time the script runs. This prevents keys expiring in the middle of a script, and is needed to send the same script to the replica in a way that is guaranteed to have the same effects in the data set.
 
 Once a replica is promoted to a master it will start to expire keys independently, and will not require any help from its old master.
 
 ## Configuring replication in Docker and NAT
 
-When Docker, or other types of containers using port forwarding, or Network Address Translation is used, Redis replication needs some extra care, especially when using Redis Sentinel or other systems where the master [`INFO`](/commands/info) or [`ROLE`](/commands/role) commands output is scanned to discover replicas' addresses.
+When Docker, or other types of containers using port forwarding, or Network Address Translation is used, Redis replication needs some extra care, especially when using Redis Sentinel or other systems where the master [`INFO`](/content/commands/info.md) or [`ROLE`](/content/commands/role.md) commands output is scanned to discover replicas' addresses.
 
-The problem is that the [`ROLE`](/commands/role) command, and the replication section of
-the [`INFO`](/commands/info) output, when issued into a master instance, will show replicas
+The problem is that the [`ROLE`](/content/commands/role.md) command, and the replication section of
+the [`INFO`](/content/commands/info.md) output, when issued into a master instance, will show replicas
 as having the IP address they use to connect to the master, which, in
 environments using NAT may be different compared to the logical address of the
 replica instance (the one that clients should use to connect to replicas).
@@ -311,10 +311,10 @@ And are documented in the example `redis.conf` of recent Redis distributions.
 ## The INFO and ROLE command
 
 There are two Redis commands that provide a lot of information on the current
-replication parameters of master and replica instances. One is [`INFO`](/commands/info). If the
+replication parameters of master and replica instances. One is [`INFO`](/content/commands/info.md). If the
 command is called with the `replication` argument as `INFO replication` only
 information relevant to the replication are displayed. Another more
-computer-friendly command is [`ROLE`](/commands/role), that provides the replication status of
+computer-friendly command is [`ROLE`](/content/commands/role.md), that provides the replication status of
 masters and replicas together with their replication offsets, list of connected
 replicas and so forth.
 
@@ -335,7 +335,7 @@ replication ID and offset pair identifies only a single data set.
 Moreover, replicas - when powered off gently and restarted - are able to store
 in the `RDB` file the information needed to resync with their
 master. This is useful in case of upgrades. When this is needed, it is better to
-use the [`SHUTDOWN`](/commands/shutdown) command in order to perform a `save & quit` operation on the
+use the [`SHUTDOWN`](/content/commands/shutdown.md) command in order to perform a `save & quit` operation on the
 replica.
 
 It is not possible to partially sync a replica that restarted via the
