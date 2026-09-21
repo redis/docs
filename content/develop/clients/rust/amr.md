@@ -188,7 +188,7 @@ fn example() -> RedisResult<()> {
 | `set_number_of_retries()` | The maximum number of times to retry a token request before aborting. |
 | `set_min_delay()` | Minimum time to wait before retrying a token request after a failed attempt. This provides a mechanism to request throttling to prevent an excessive number of token requests. |
 | `set_max_delay()` | Maximum time to wait before retrying a token request after a failed attempt. |
-| `set_exponent_base()` | An `f64` value representing the fraction of a token's lifetime that should elapse before attempting to refresh it. For example, a value of 0.75 means that you want to refresh the token after 75% of its lifetime has passed. |
+| `set_exponent_base()` | An `f32` multiplier used to calculate exponential backoff between failed token-refresh attempts. The delay is approximately `min_delay × exponent_base^n`, where `n` is the number of previous attempts, subject to `max_delay`. For example, with `min_delay = 100 ms` and `exponent_base = 2.0`, successive delays are approximately 100 ms, 200 ms, 400 ms, and so on. |
 
 
 ## Connect
