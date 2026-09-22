@@ -109,7 +109,7 @@ reach a larger capacity.
 
 ## More info
 
-- [Probabilistic data structures quick start]({{< relref "/develop/data-types/probabilistic/bloom-filter" >}})
-- [Probabilistic data structure commands]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom/commands" >}})
-- [Probabilistic data structure configuration]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom/config" >}})
+- [Probabilistic data structures quick start](/content/develop/data-types/probabilistic/bloom-filter.md)
+- [Probabilistic data structure commands](/content/operate/oss_and_stack/stack-with-enterprise/bloom/commands.md)
+- [Probabilistic data structure configuration](/content/operate/oss_and_stack/stack-with-enterprise/bloom/config.md)
 - [RedisBloom source](https://github.com/RedisBloom/RedisBloom/)
