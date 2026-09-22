@@ -11,11 +11,11 @@ title: LangCache concepts
 weight: 3
 ---
 
-## The failure mode exact-key caching doesn't have
+## Semantic caching
 
-A standard cache is either right or absent. The key you looked up either matches a stored value exactly, or it's a miss. There's no way for a hit to return the wrong answer, because equality is exact.
+LangCache matches an incoming prompt against stored entries by similarity, not exact text, so two prompts that are close enough are treated as the same request. This similarity match is what lets "What are Product A's features?" and "Tell me about Product A's capabilities" share a cached response.
 
-Semantic caching gives up that guarantee on purpose. LangCache matches an incoming prompt against stored entries by similarity, not exact text, so two prompts that are close enough are treated as the same request. That's the entire point: it's what lets "What are Product A's features?" and "Tell me about Product A's capabilities" share a cached response. It's also the new risk: a prompt that's similar but not equivalent can match and return an answer for a question the user didn't ask. A traditional cache can be stale. A semantic cache can be *wrong*, and that failure looks identical to a correct hit until you check the content.
+A standard, exact-key cache is either right or absent: the key you looked up either matches a stored value exactly, or it's a miss, so a hit can never return the wrong answer. Semantic caching gives up that guarantee: a prompt that's similar but not equivalent can also match, and return an answer for a question the user didn't ask. A traditional cache can be stale. A semantic cache can be *wrong*, and that failure looks identical to a correct hit until you check the content.
 
 ```mermaid {width="70%"}
 graph LR
@@ -28,7 +28,9 @@ graph LR
 
 ## Exact-key caching vs. semantic caching
 
-| | Exact-key caching | LangCache |
+Here's how the two compare:
+
+| | Exact-key caching | Semantic caching (LangCache) |
 |:---|:---|:---|
 | Match criterion | Exact key equality | Similarity above a threshold |
 | Hit/miss | Binary: no in-between | Threshold-tuned: a near-miss is still possible |
@@ -41,14 +43,14 @@ There's no globally correct similarity threshold. A tighter threshold reduces wr
 
 ## FAQ
 
-**Why did I get back a cached response for a question I didn't ask?**
-The incoming prompt matched an existing cache entry above the configured similarity threshold, but the match wasn't semantically equivalent. Tighten the threshold, or inspect the matched entry to see how close the embeddings actually were.
+**Could I get back a response for a different question than the one I asked?**
+Yes. Matching on similarity rather than exact content is an inherent property of semantic caching, not a bug: LangCache matches by similarity, so a prompt that's close enough to a cached one can match even when the two aren't equivalent. Tightening the similarity threshold makes mismatches less likely, or you can inspect a matched entry to see how close the embeddings actually were.
 
-**How do I choose a threshold if there's no default that's "correct"?**
-Start conservative (tighter) and loosen it while monitoring hit rate and spot-checking matches, rather than starting loose and trying to catch bad matches after the fact.
+**Is there a default similarity threshold I should use?**
+No: the right threshold is a tradeoff specific to your use case (see above). If you're picking one for the first time, start conservative (tighter) and loosen it while monitoring hit rate and spot-checking matches, rather than starting loose and trying to catch bad matches after the fact.
 
 **Does LangCache replace my existing cache layer?**
-Only the part of it caching LLM responses by similarity. It doesn't replace general-purpose exact-key caching for anything else in your application.
+Only the part of it caching LLM responses by similarity — LangCache doesn't replace general-purpose exact-key caching for anything else in your application.
 
 See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-context-engine-agent-memory-and-retrieval/) for how LangCache compares to building your own cache or skipping caching for smaller workloads.
 

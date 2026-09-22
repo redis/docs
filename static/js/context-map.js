@@ -65,17 +65,17 @@
   }
 
   // Layout and shape constants
-  const COL_WIDTH = 190;
+  const COL_WIDTH = 160;
   const ROW_HEIGHT = 150;
-  const MARGIN_X = 100;
+  const MARGIN_X = 55;
   const MARGIN_Y = 60;
   const LOOPBACK_GAP = 70;
   const EDGE_GAP = 8;
 
   const SHAPE_HALF = {
-    process: { w: 72, h: 44 },
-    decision: { w: 82, h: 58 },
-    terminal: { w: 72, h: 38 }
+    process: { w: 55, h: 44 },
+    decision: { w: 65, h: 58 },
+    terminal: { w: 55, h: 38 }
   };
 
   function wrapText(text, maxChars) {
@@ -111,7 +111,15 @@
     return { x: cx + dx * t, y: cy + dy * t };
   }
 
-  function buildNodes(rawNodes, topOffset) {
+  // Joins basePath (e.g. "/" or "/docs/latest/") with a site-relative path authored in the
+  // YAML (e.g. "/develop/ai/agent-builder"), so links resolve under whatever subpath this
+  // build is actually deployed at.
+  function resolveUrl(basePath, path) {
+    if (!path) return path;
+    return basePath.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
+  }
+
+  function buildNodes(rawNodes, topOffset, basePath) {
     const nodes = {};
     Object.keys(rawNodes || {}).forEach(id => {
       const n = rawNodes[id];
@@ -122,10 +130,10 @@
       if (n.links) {
         Object.keys(n.links).forEach(linkId => {
           const link = n.links[linkId];
-          if (link && link.url) links.push({ label: link.label || linkId, url: link.url });
+          if (link && link.url) links.push({ label: link.label || linkId, url: resolveUrl(basePath, link.url) });
         });
       }
-      if (n.docsUrl) links.push({ label: 'Read more', url: n.docsUrl });
+      if (n.docsUrl) links.push({ label: 'Read more', url: resolveUrl(basePath, n.docsUrl) });
 
       nodes[id] = {
         id: id,
@@ -152,6 +160,12 @@
       'aria-expanded': 'false',
       'aria-label': node.label
     });
+
+    if (node.description) {
+      const title = svgEl('title');
+      title.textContent = node.label + ': ' + node.description;
+      g.appendChild(title);
+    }
 
     let shape;
     if (node.type === 'decision') {
@@ -264,13 +278,13 @@
     svg.appendChild(text);
   }
 
-  function renderContextMap(container, data) {
+  function renderContextMap(container, data, basePath) {
     const edges = data.edges || {};
     const hasTopLoopback = Object.keys(edges).some(id => edges[id].kind === 'loopback' && edges[id].route === 'top');
     const hasBottomLoopback = Object.keys(edges).some(id => edges[id].kind === 'loopback' && edges[id].route !== 'top');
     const topOffset = hasTopLoopback ? LOOPBACK_GAP : 0;
 
-    const nodes = buildNodes(data.nodes, topOffset);
+    const nodes = buildNodes(data.nodes, topOffset, basePath);
 
     let maxCol = 0;
     let maxRow = 0;
@@ -370,8 +384,15 @@
 
     let current = { type: null, id: null };
 
-    function showPanel(title, description, links) {
+    function showPanel(kind, title, description, links) {
       panel.textContent = '';
+      panel.className = 'context-map-panel context-map-panel--' + kind;
+
+      const eyebrow = document.createElement('span');
+      eyebrow.className = 'context-map-panel-kind';
+      eyebrow.textContent = kind === 'path' ? 'Scenario' : 'Component';
+      panel.appendChild(eyebrow);
+
       const heading = document.createElement('strong');
       heading.textContent = title;
       panel.appendChild(heading);
@@ -420,6 +441,7 @@
       current = { type: null, id: null };
       panel.hidden = true;
       panel.textContent = '';
+      panel.className = 'context-map-panel';
     }
 
     function selectNode(id) {
@@ -431,7 +453,7 @@
       current = { type: 'node', id: id };
       nodeGroups[id].classList.add('is-selected');
       nodeGroups[id].setAttribute('aria-expanded', 'true');
-      showPanel(nodes[id].label, nodes[id].description, nodes[id].links);
+      showPanel('node', nodes[id].label, nodes[id].description, nodes[id].links);
     }
 
     function selectPath(pathId) {
@@ -456,7 +478,7 @@
         });
       });
       pathButtons[pathId].classList.add('is-active');
-      showPanel(paths[pathId].label, paths[pathId].description, []);
+      showPanel('path', paths[pathId].label, paths[pathId].description, []);
     }
 
     Object.keys(pathButtons).forEach(pathId => {
@@ -488,12 +510,13 @@
     sources.forEach(pre => {
       const yamlText = pre.textContent;
       const data = parseContextMapYAML(yamlText);
+      const basePath = pre.getAttribute('data-base-path') || '/';
 
       const container = document.createElement('div');
       container.className = 'context-map-container';
       pre.parentNode.insertBefore(container, pre.nextSibling);
 
-      renderContextMap(container, data);
+      renderContextMap(container, data, basePath);
     });
   });
 })();

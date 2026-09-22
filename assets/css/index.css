@@ -125,7 +125,9 @@ section.prose {
 
 .context-map-diagram {
   font-family: "Space Mono", monospace;
-  font-size: 12px;
+  font-size: 11px;
+  max-width: 100%;
+  height: auto;
 }
 
 .context-map-shape {
@@ -172,11 +174,11 @@ section.prose {
 }
 
 .context-map-controls {
-  @apply flex flex-wrap gap-2 mt-3;
+  @apply flex flex-wrap gap-1.5 mt-3;
 }
 
 .context-map-path-button {
-  @apply px-3 py-1.5 text-sm font-medium border border-redis-pen-300 rounded-full text-redis-pen-600 bg-white transition-colors;
+  @apply px-2 py-1 text-xs font-medium border border-redis-pen-300 rounded-full text-redis-pen-600 bg-white transition-colors;
 }
 
 .context-map-path-button:hover {
@@ -217,7 +219,19 @@ section.prose {
 }
 
 .context-map-panel {
-  @apply mt-4 p-4 border border-redis-pen-300 rounded-lg bg-white;
+  @apply mt-4 p-4 border rounded-lg bg-white;
+}
+
+.context-map-panel--node {
+  @apply border-redis-pen-300;
+}
+
+.context-map-panel--path {
+  @apply border-green-600;
+}
+
+.context-map-panel-kind {
+  @apply block text-xs font-semibold uppercase tracking-wide text-redis-pen-600 mb-1;
 }
 
 .context-map-panel strong {

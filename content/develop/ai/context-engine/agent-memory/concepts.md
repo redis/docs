@@ -11,11 +11,9 @@ title: Redis Agent Memory concepts
 weight: 3
 ---
 
-## The mental-model shift: this store writes to itself
+## Background summarization and extraction
 
-If you've built session storage in Redis before, you're used to a simple rule: the store only holds what the application writes. Agent Memory breaks that rule on purpose.
-
-Once summarization and extraction are enabled, the service reads session events in the background and does two things without an application write:
+Session storage you've built in Redis before likely only holds what the application writes to it. Agent Memory adds a second writer: once you enable summarization and extraction, the service itself reads session events in the background and does two things without an application write:
 
 - **Summarizes** older events into a compact summary once the session passes a configured threshold, so a long conversation doesn't blow the model's context window.
 - **Extracts long-term memories**, facts and preferences worth keeping, and writes them as separate, searchable records with vector embeddings.
@@ -37,13 +35,13 @@ sequenceDiagram
     LTM-->>App: Results, once extraction has run
 ```
 
-Both are asynchronous. If you search long-term memory immediately after a session event, the memory extracted from that event might not exist yet. This isn't a bug; it's the tradeoff for keeping session writes fast. Extraction also weighs a new memory against existing ones before writing it: rather than rejecting anything that looks similar, it uses model judgment to decide whether a near-identical memory is a true duplicate or is meaningfully different and worth keeping too.
+Both run asynchronously, to keep session writes fast. Extraction also weighs a new memory against existing ones before writing it: rather than rejecting anything that looks similar, it uses model judgment to decide whether a near-identical memory is a true duplicate or is meaningfully different and worth keeping too.
 
-The most common failure mode: code writes a session event, immediately searches long-term memory, and finds nothing. That's not a broken extraction. It hasn't run yet.
+If you search long-term memory immediately after a session event, the memory extracted from that event might not exist yet. Extraction lag is the most common cause when code writes a session event, immediately searches long-term memory, and finds nothing: extraction hasn't run yet.
 
 ## Memory types
 
-Redis Agent Memory splits memory the same way people do, and each kind maps to a specific tier in the service:
+You can think of Redis Agent Memory's tiers as analogous to human memory:
 
 | Human memory | What it holds | Redis Agent Memory tier |
 |:---|:---|:---|
@@ -51,14 +49,14 @@ Redis Agent Memory splits memory the same way people do, and each kind maps to a
 | Episodic memory | What happened in a specific past experience | Long-term memory, `episodic` type: a snapshot from one session |
 | Semantic memory | Facts and preferences you've generalized over time | Long-term memory, `semantic` type: durable, cross-session facts |
 
-Session memory is the working set: the current conversation's events, read and written every turn. Long-term memory is what survives after the session ends. It's durable enough to recall in a conversation the agent hasn't seen before.
+Session memory is the working set: the current conversation's events, read and written every turn. Long-term memory is what survives after the session ends, durable enough to recall in a conversation the agent hasn't seen before.
 
 This table is a simplified starting point, not the full picture. Redis Agent Memory also maintains an automatically updated summary of each session as its own long-term memory type, and you can define custom types for domain-specific information. See [Memory types & extraction](/content/operate/iris/agent-memory/create-service.md#memory-types-and-extraction) for the complete set of built-in and custom types.
 
 ## FAQ
 
-**Does this replace my session store?**
-Only if your session store's job was holding conversation state. Session memory in Redis Agent Memory is that store, with automatic TTL-based expiration and no schema to design. It doesn't replace a general-purpose cache or your application's other session data unrelated to the conversation.
+**Does Agent Memory replace my session store?**
+Only if your session store's job was holding conversation state. Session memory in Redis Agent Memory is that store, with automatic TTL-based expiration and no schema to design. Session memory doesn't replace a general-purpose cache or your application's other session data unrelated to the conversation.
 
 **What happens if I write directly to long-term memory instead of letting extraction do it?**
 Both paths are supported. Use direct writes for bulk imports or external knowledge sources: anything that didn't originate in a conversation. Automatic extraction is for facts that emerge from session events themselves.

@@ -6,7 +6,10 @@
   {{ .Page.Store.Set "hasContextMap" true }}
 {{- else -}}
   {{- /* Preserve YAML source for visual display and JavaScript parsing */ -}}
-  <pre class="context-map-source">{{ .Inner | htmlEscape | safeHTML }}</pre>
+  {{- /* basePath lets the JS resolve the site-relative docsUrl/link.url values authored in the
+        YAML against wherever this build is actually deployed (e.g. a /docs/latest/ subpath),
+        since those values are static strings the JS parses, not relref-resolved paths. */ -}}
+  <pre class="context-map-source" data-base-path="{{ "/" | relURL }}">{{ .Inner | htmlEscape | safeHTML }}</pre>
 
   {{- /* Extract id and scope from YAML for metadata (only top-level fields) */ -}}
   {{- $lines := split .Inner "\n" -}}

@@ -17,7 +17,9 @@ Redis Iris reuses Redis primitives you likely already know, but not all of your 
 
 Every service in Iris exists to manage a resource that's smaller than it looks: the model's context window. Agent Memory decides what's worth keeping and summarizes the rest. LangCache avoids spending a model call at all when a similar one already ran. Context Retriever returns exactly the data a tool call needs, not a raw query result. Treat "what goes into the next model call" as a budget you're actively managing at every layer, not something that takes care of itself once you've wired up the right service.
 
-LangCache, Agent Memory, Context Retriever, and Data Integration aren't a fixed sequence: they're a layer of services a request can draw on, in whatever combination it needs, before a model call happens. Select a node for a description of what that service does, with a link to its docs. Select a scenario button to trace the path a request takes.
+LangCache, Agent Memory, Context Retriever, and Data Integration aren't a fixed sequence: they're a layer of services a request can draw on, in whatever combination it needs, before a model call happens.
+
+In the diagram below, you can select a node for a description of what that service does, with a link to its docs. Select a scenario button to trace the path a request takes.
 
 ```context-map {id="iris-request-flow" scope="context-engine"}
 id: iris-request-flow
