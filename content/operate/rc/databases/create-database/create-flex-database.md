@@ -13,7 +13,7 @@ tocEmbedHeaders: true
 
 Flex allows your dataset to span both high-performance RAM and cost-efficient dedicated Flash memory. Flex automatically manages data placement between the two tiers, keeping frequently accessed (“hot”) data in RAM for sub-millisecond latency, while moving less active (“warm”) data to Flash to optimize capacity and cost. This dual memory architecture delivers predictable performance at scale, enabling larger datasets without compromising speed or operational simplicity.
 
-Flex databases are currently compatible with most existing Redis applications, except for applications that use Search and Query and Time Series.
+Flex databases are currently compatible with most existing Redis applications, except for applications that use Time Series. [Search and Query]({{< relref "/develop/ai/search-and-query" >}}) is available on Flex databases on Redis Cloud Pro as a Preview feature; see [Search and Query on Flex](#search-and-query-on-flex-preview).
 
 Flex is available on both Redis Cloud Essentials and Redis Cloud Pro.
 
@@ -33,6 +33,25 @@ Flex is **not** a durable data store. It is designed for performance, elasticity
 For workloads that require durability and recovery across restarts or failures, use Redis Cloud's [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) features.
 
 ## Best practices and limitations
+
+### Search and Query on Flex (Preview)
+
+[Search and Query]({{< relref "/develop/ai/search-and-query" >}}) on Flex databases is available as a Preview feature on Redis Cloud Pro. It isn't available on Redis Cloud Essentials.
+
+To use it, enable the Preview flag for Search and Query on Flex in the Redis Cloud console for your Redis Cloud Pro subscription, then create a Flex database with a Search and Query index on tiered storage.
+
+The Preview supports:
+
+- HASH documents
+- `TEXT` fields, including prefix, infix, suffix, wildcard, and fuzzy matching
+- `TAG` fields
+- `VECTOR` fields with `HNSW` and `FLAT` indexes
+- Loading fields from the keyspace with `SORTBY` and `RETURN`
+- High availability, persistence, backup, and upgrades
+
+JSON documents, `NUMERIC` and `GEO` fields, `FT.AGGREGATE`, `FT.HYBRID`, and background indexing aren't yet available for Search and Query on Flex, even though they're available for Search and Query on Redis Software today. As a Preview feature, the supported feature set will continue to expand ahead of general availability.
+
+Terraform support for Search and Query on Flex is available at Preview level.
 
 ### RAM percentage
 

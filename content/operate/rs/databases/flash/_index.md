@@ -76,7 +76,7 @@ All data is accessed through RAM. If a key or value in flash memory is accessed,
 
 Inactive or infrequently accessed data is referred to as "warm data" and stored in flash memory. When more space is needed in RAM, warm keys and values are moved from RAM to flash storage.
 
-{{<note>}} When using Auto Tiering with Redis Search, indexes are also stored in RAM. Flex does not support Redis Search.{{</note>}}
+{{<note>}} When using Auto Tiering with Redis Search, indexes are also stored in RAM.{{</note>}}
 
 ## RAM to Flash ratio
 
@@ -126,7 +126,7 @@ The following table shows which data types and features are supported for Flex a
 | [Active-Active databases]({{<relref "/operate/rs/databases/active-active">}}) | <span title="Not supported">&#x274c;</span> |<span title="Supported">&#x2705;</span> Requires Redis<br />technical team's approval |
 | [JSON]({{<relref "/develop/data-types/json">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | [Probabilistic data structures]({{<relref "/develop/data-types/#probabilistic-data-types">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
-| [Redis Search]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}}) | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
+| [Redis Search]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | Standard [Redis data types]({{<relref "/develop/data-types">}}) | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> |
 | [Time series]({{<relref "/develop/data-types/timeseries">}}) | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 

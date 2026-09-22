@@ -82,7 +82,7 @@ Actual performance can vary based on your data model, commands, and network late
 | [Active-Active databases]({{<relref "/operate/rs/databases/active-active">}}) | <span title="Not supported">&#x274c;</span>Not supported |
 | [JSON]({{<relref "/develop/data-types/json">}}) | <span title="Supported">&#x2705;</span> Supported |
 | [Probabilistic data structures]({{<relref "/develop/data-types/#probabilistic-data-types">}}) | <span title="Supported">&#x2705;</span> Supported |
-| [Redis Search]({{<relref "/develop/ai/search-and-query">}}) | <span title="Not supported">&#x274c;</span>Not supported |
+| [Redis Search]({{<relref "/develop/ai/search-and-query">}}) | <span title="Supported">&#x2705;</span> Supported |
 | Standard [Redis data types]({{<relref "/develop/data-types">}}) | <span title="Supported">&#x2705;</span> Supported |
 | [Time series]({{<relref "/develop/data-types/timeseries">}}) | <span title="Not supported">&#x274c;</span>Not supported |
 
