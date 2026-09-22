@@ -13,7 +13,20 @@ weight: 3
 
 ## What this doesn't replace
 
-Context Retriever doesn't replace your database. It replaces **direct query access from an agent** — the model you'd otherwise reach for is giving the agent a database connection, or generating SQL for it to run. Your database, its schema, and its own access controls are unchanged; Context Retriever sits between the agent and that database as a fixed, predefined set of callable tools.
+Context Retriever doesn't replace your database. It replaces **direct query access from an agent**: the model you'd otherwise reach for is giving the agent a database connection, or generating SQL for it to run. Your database, its schema, and its own access controls are unchanged; Context Retriever sits between the agent and that database as a fixed, predefined set of callable tools.
+
+```mermaid {width="90%"}
+flowchart LR
+    subgraph Direct["Direct database access"]
+        A1[Agent] --> A2["Generated SQL<br/>or query"]
+        A2 --> A3[(Database)]
+    end
+    subgraph Governed["Context Retriever"]
+        B1[Agent] --> B2["Call a defined tool"]
+        B2 --> B3[Context Retriever]
+        B3 --> B4[(Database)]
+    end
+```
 
 ## Direct data access vs. governed tool-calling
 
@@ -23,23 +36,23 @@ If you've built backend services before, you're used to reasoning about data acc
 |:---|:---|:---|
 | What the agent gets | A query interface (SQL, an ORM, a generic API) | A fixed set of tools generated from your data model |
 | How you scope access | Row/column permissions, roles | Access tags on the agent's key, filtering which tools and data it can reach |
-| What a bad request looks like | A malformed or overly broad query | A call to a tool that isn't defined — Context Retriever doesn't guess a path around it |
+| What a bad request looks like | A malformed or overly broad query | A call to a tool that isn't defined; Context Retriever doesn't guess a path around it |
 | Where you invest | Query optimization, permission grants | Modeling entities and relationships once, reused by every agent |
 
 ## Why agents don't get raw query access
 
-The reason isn't that governance is abstractly good practice — it's that an agent's input often includes content it didn't choose to trust. An agent that summarizes a document, reads a support ticket, or follows a web page can have its next action influenced by text embedded in that content (prompt injection). If that agent also holds a database connection or can generate arbitrary SQL, injected content can turn into an arbitrary query. A fixed tool surface bounds the blast radius: the worst an agent can do is call a tool it was already allowed to call, with parameters that tool already accepts.
+The reason isn't that governance is abstractly good practice: it's that an agent's input often includes content it didn't choose to trust. An agent that summarizes a document, reads a support ticket, or follows a web page can have its next action influenced by text embedded in that content (prompt injection). If that agent also holds a database connection or can generate arbitrary SQL, injected content can turn into an arbitrary query. A fixed tool surface bounds the blast radius: the worst an agent can do is call a tool it was already allowed to call, with parameters that tool already accepts.
 
 ## FAQ
 
 **Why can't my agent run SQL directly?**
-Because "run SQL" means the set of things an agent can do is as large as your schema, and an agent's next action can be influenced by untrusted content it's processing. A fixed tool surface — call this tool with these parameters — bounds that risk to what the tool itself allows.
+Because "run SQL" means the set of things an agent can do is as large as your schema, and an agent's next action can be influenced by untrusted content it's processing. A fixed tool surface (call this tool with these parameters) bounds that risk to what the tool itself allows.
 
 **How is this different from a regular REST API?**
 It's the same idea (a fixed, callable surface instead of a query language) but the tools are generated from your entity model instead of hand-written per endpoint, and access is scoped per agent key via tags rather than a single API-wide permission model.
 
 **What happens when an agent needs a query I haven't defined a tool for?**
-It can't get that data. That's deliberate — Context Retriever doesn't fall back to an open query path. Extend your entity model and regenerate the tool set instead.
+It can't get that data. That's deliberate: Context Retriever doesn't fall back to an open query path. Extend your entity model and regenerate the tool set instead.
 
 See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-context-engine-agent-memory-and-retrieval/) for how this compares to text-to-SQL and OpenAPI-to-MCP approaches.
 

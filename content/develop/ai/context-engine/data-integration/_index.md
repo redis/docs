@@ -71,6 +71,13 @@ RDI pipelines run in two phases:
 - **Initial sync**: Reads a full snapshot of your source data and loads it into the target Redis database.
 - **Streaming**: Captures changes as they happen and applies them to Redis within seconds of the source change.
 
+```mermaid {width="70%"}
+flowchart LR
+    A[(Source database)] -->|Initial sync| B[(Redis)]
+    A -->|CDC stream| B
+    B --> C[Agent]
+```
+
 Data is transformed from relational rows into Redis hashes or JSON documents as part of the pipeline, with no coding required. You define what data to sync and how to map it using configuration, and RDI handles the rest.
 
 ### Why agents need fresh data

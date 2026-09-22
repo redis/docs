@@ -13,16 +13,25 @@ weight: 3
 
 ## The failure mode exact-key caching doesn't have
 
-A standard cache is either right or absent. The key you looked up either matches a stored value exactly, or it's a miss — there's no way for a hit to return the wrong answer, because equality is exact.
+A standard cache is either right or absent. The key you looked up either matches a stored value exactly, or it's a miss. There's no way for a hit to return the wrong answer, because equality is exact.
 
-Semantic caching gives up that guarantee on purpose. LangCache matches an incoming prompt against stored entries by similarity, not exact text, so two prompts that are close enough are treated as the same request. That's the entire point — it's what lets "What are Product A's features?" and "Tell me about Product A's capabilities" share a cached response. It's also the new risk: a prompt that's similar but not equivalent can match and return an answer for a question the user didn't ask. A traditional cache can be stale. A semantic cache can be *wrong*, and that failure looks identical to a correct hit until you check the content.
+Semantic caching gives up that guarantee on purpose. LangCache matches an incoming prompt against stored entries by similarity, not exact text, so two prompts that are close enough are treated as the same request. That's the entire point: it's what lets "What are Product A's features?" and "Tell me about Product A's capabilities" share a cached response. It's also the new risk: a prompt that's similar but not equivalent can match and return an answer for a question the user didn't ask. A traditional cache can be stale. A semantic cache can be *wrong*, and that failure looks identical to a correct hit until you check the content.
+
+```mermaid {width="70%"}
+graph TB
+    A["Incoming prompt"] --> B{"Similarity above<br/>threshold?"}
+    B -->|Yes| C(["Return cached response<br/>(milliseconds)"])
+    B -->|No| D["Call the LLM"]
+    D --> E["Store prompt and response<br/>as a new cache entry"]
+    E --> F(["Return the LLM response"])
+```
 
 ## Exact-key caching vs. semantic caching
 
 | | Exact-key caching | LangCache |
 |:---|:---|:---|
 | Match criterion | Exact key equality | Similarity above a threshold |
-| Hit/miss | Binary — no in-between | Threshold-tuned — a near-miss is still possible |
+| Hit/miss | Binary: no in-between | Threshold-tuned: a near-miss is still possible |
 | Correctness risk | None from the cache itself | A false-positive match can return a wrong answer |
 | Tuning | TTL, eviction policy | TTL, eviction policy, **and** similarity threshold |
 
