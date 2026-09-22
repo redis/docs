@@ -9,32 +9,35 @@ Read the repository-root `AGENTS.md` first for style and site mechanics. This fi
 terminology, mode, and disclosure rules for this directory, and wins where the two
 conflict.
 
-## Name the deployment mode, or the sentence is wrong for half the readers
+## Qualify a statement by deployment mode only where it actually differs
 
-Radar runs in two modes, and they differ on exactly the things pages state most flatly:
-**who holds the credential encryption key**, **how and when deployments are collected**,
-and **how a connector authenticates**.
+Most of what these pages say is true of both modes and is written that way — how
+credentials are stored, how often collection runs, what the views show. Leave those
+unqualified; adding "on a self-managed install" to a sentence that applies to everyone
+makes a hosted reader think it excludes them.
 
-🔴 **Any statement about keys, credentials, or collection behavior needs its mode named.**
-An unqualified sentence is not merely vague — it is incorrect for whichever mode it does
-not describe. The self-managed answers are documented: the reader supplies the encryption
-key at install, and a connector uses a long-lived IAM access key pair or a service-account
-key. Write those as self-managed, because that is what they are.
+**Where the modes genuinely diverge, the pages qualify inline**, and new content should
+match that pattern rather than inventing a structure for it:
 
-🔴 **The hosted answers are not documented in these pages, and inventing them is the
-failure mode this section exists to prevent.** Do not state hosted key handling,
-collection timing, or connector authentication from any other source — no internal
-document, no inference from the self-managed behavior, no "presumably". Name the gap and
-flag it.
+- **Installation.** `install.md` is self-managed. Hosted Radar has no install — the reader
+  signs in — so the Cloud page carries that path and `install.md` links to it. Do not add
+  hosted setup steps to `install.md`.
+- **Custody of the credential encryption key.** On a self-managed install the reader
+  supplies the key and has to back it up. That obligation is theirs alone, so it is stated
+  as self-managed.
+- **How connector credentials are entered**, for providers where the procedure differs.
+  Follow the existing sentence shape: *"On a self-managed install, Radar authenticates
+  with…"*
 
-**Follow the split the page already uses.** Three patterns are in use, all deliberate:
+⚠️ **Do not mistake source type for deployment mode.** `connect.md` splits into
+`## Self-managed connections` and `## Cloud connections`, and those headings describe
+**what you are connecting** — self-managed sources such as Redis Software and Redis Open
+Source, versus cloud sources such as Redis Cloud, ElastiCache, and Memorystore. They do
+**not** describe which Radar you are running. Both headings apply to both modes, and a
+mode-specific detail inside either one is qualified in the sentence, not by the heading.
 
-- **By page.** `install.md` covers self-managed and links to the Cloud page for the hosted
-  path. Do not add hosted install steps to it.
-- **By section.** `connect.md` carries `## Self-managed connections` and
-  `## Cloud connections` as siblings. Add to the matching one.
-- **By file.** Versioned release notes cover self-managed; Cloud changes live in the
-  separate changelog.
+Release notes are the one place the split is structural: versioned notes cover
+self-managed, and hosted changes go in the Cloud changelog.
 
 
 ## Product names
