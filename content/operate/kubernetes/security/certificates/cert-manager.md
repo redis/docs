@@ -29,7 +29,7 @@ Benefits of using cert-manager include:
 
 ## Prerequisites
 
-- Kubernetes cluster with Redis Enterprise operator installed
+- Kubernetes cluster with Redis Software for Kubernetes 8.0.18 or later
 - cert-manager v1.19.0 or later installed
 
 If cert-manager is not already installed, see the [cert-manager installation documentation](https://cert-manager.io/docs/installation/).
@@ -55,6 +55,8 @@ The operator supports multiple field names for backward compatibility:
 | Certificate | `tls.crt`, `cert`, `certificate` |
 | Private key | `tls.key`, `key` |
 | CA certificate | `ca.crt` |
+
+{{<note>}}Support for the `tls.crt` and `tls.key` field names requires Redis Software for Kubernetes 8.0.18 or later. For secret requirements on earlier versions, see [Manage REC certificates]({{< relref "/operate/kubernetes/security/certificates/manage-rec-certificates" >}}).{{</note>}}
 
 {{<note>}}The `ca.crt` field is automatically appended to the certificate chain when present. cert-manager typically populates this field when it has access to the root certificate.{{</note>}}
 
