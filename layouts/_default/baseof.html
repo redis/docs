@@ -134,6 +134,11 @@
     <script src="{{ "js/decision-tree.js" | relURL }}"></script>
     {{ end }}
 
+    <!-- Context map functionality -->
+    {{ if .Page.Store.Get "hasContextMap" }}
+    <script src="{{ "js/context-map.js" | relURL }}"></script>
+    {{ end }}
+
     <!-- OpenTelemetry metrics functionality -->
     {{ if .Page.Store.Get "hasOtelMetrics" }}
     <script src="{{ "js/otel-metrics.js" | relURL }}"></script>

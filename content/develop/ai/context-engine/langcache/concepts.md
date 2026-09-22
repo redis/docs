@@ -18,7 +18,7 @@ A standard cache is either right or absent. The key you looked up either matches
 Semantic caching gives up that guarantee on purpose. LangCache matches an incoming prompt against stored entries by similarity, not exact text, so two prompts that are close enough are treated as the same request. That's the entire point: it's what lets "What are Product A's features?" and "Tell me about Product A's capabilities" share a cached response. It's also the new risk: a prompt that's similar but not equivalent can match and return an answer for a question the user didn't ask. A traditional cache can be stale. A semantic cache can be *wrong*, and that failure looks identical to a correct hit until you check the content.
 
 ```mermaid {width="70%"}
-graph TB
+graph LR
     A["Incoming prompt"] --> B{"Similarity above<br/>threshold?"}
     B -->|Yes| C(["Return cached response<br/>(milliseconds)"])
     B -->|No| D["Call the LLM"]

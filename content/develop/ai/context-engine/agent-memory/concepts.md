@@ -11,20 +11,6 @@ title: Redis Agent Memory concepts
 weight: 3
 ---
 
-## Memory types
-
-Redis Agent Memory splits memory the same way people do, and each kind maps to a specific tier in the service:
-
-| Human memory | What it holds | Redis Agent Memory tier |
-|:---|:---|:---|
-| Working memory | What's being discussed right now | Session memory: the ordered events of the current conversation |
-| Episodic memory | What happened in a specific past experience | Long-term memory, `episodic` type: a snapshot from one session |
-| Semantic memory | Facts and preferences you've generalized over time | Long-term memory, `semantic` type: durable, cross-session facts |
-
-Session memory is the working set: the current conversation's events, read and written every turn. Long-term memory is what survives after the session ends. It's durable enough to recall in a conversation the agent hasn't seen before.
-
-This table is a simplified starting point, not the full picture. Redis Agent Memory also maintains an automatically updated summary of each session as its own long-term memory type, and you can define custom types for domain-specific information. See [Memory types & extraction](/content/operate/iris/agent-memory/create-service.md#memory-types-and-extraction) for the complete set of built-in and custom types.
-
 ## The mental-model shift: this store writes to itself
 
 If you've built session storage in Redis before, you're used to a simple rule: the store only holds what the application writes. Agent Memory breaks that rule on purpose.
@@ -54,6 +40,20 @@ sequenceDiagram
 Both are asynchronous. If you search long-term memory immediately after a session event, the memory extracted from that event might not exist yet. This isn't a bug; it's the tradeoff for keeping session writes fast. Extraction also weighs a new memory against existing ones before writing it: rather than rejecting anything that looks similar, it uses model judgment to decide whether a near-identical memory is a true duplicate or is meaningfully different and worth keeping too.
 
 The most common failure mode: code writes a session event, immediately searches long-term memory, and finds nothing. That's not a broken extraction. It hasn't run yet.
+
+## Memory types
+
+Redis Agent Memory splits memory the same way people do, and each kind maps to a specific tier in the service:
+
+| Human memory | What it holds | Redis Agent Memory tier |
+|:---|:---|:---|
+| Working memory | What's being discussed right now | Session memory: the ordered events of the current conversation |
+| Episodic memory | What happened in a specific past experience | Long-term memory, `episodic` type: a snapshot from one session |
+| Semantic memory | Facts and preferences you've generalized over time | Long-term memory, `semantic` type: durable, cross-session facts |
+
+Session memory is the working set: the current conversation's events, read and written every turn. Long-term memory is what survives after the session ends. It's durable enough to recall in a conversation the agent hasn't seen before.
+
+This table is a simplified starting point, not the full picture. Redis Agent Memory also maintains an automatically updated summary of each session as its own long-term memory type, and you can define custom types for domain-specific information. See [Memory types & extraction](/content/operate/iris/agent-memory/create-service.md#memory-types-and-extraction) for the complete set of built-in and custom types.
 
 ## FAQ
 

@@ -115,6 +115,123 @@ section.prose {
   display: none;
 }
 
+.prose pre.context-map-source {
+  display: none;
+}
+
+.context-map-container {
+  @apply my-6 overflow-x-auto;
+}
+
+.context-map-diagram {
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+}
+
+.context-map-shape {
+  @apply fill-redis-pen-200 stroke-redis-pen-600;
+  stroke-width: 1;
+  transition: fill 0.15s ease, stroke 0.15s ease;
+}
+
+.context-map-node--terminal .context-map-shape {
+  @apply fill-redis-neutral-200;
+}
+
+.context-map-label {
+  @apply fill-redis-ink-900;
+}
+
+.context-map-node {
+  cursor: pointer;
+  outline: none;
+}
+
+.context-map-node.is-hovered .context-map-shape {
+  @apply stroke-redis-red-500;
+  stroke-width: 2;
+}
+
+.context-map-node.is-selected .context-map-shape {
+  @apply fill-red-50 stroke-redis-red-500;
+  stroke-width: 2;
+}
+
+.context-map-node.is-path-active .context-map-shape {
+  @apply fill-green-50 stroke-green-600;
+  stroke-width: 2;
+}
+
+.context-map-edge.is-path-active {
+  @apply stroke-green-600;
+  stroke-width: 2.5;
+}
+
+.context-map-arrowhead.context-map-arrowhead--active {
+  @apply fill-green-600;
+}
+
+.context-map-controls {
+  @apply flex flex-wrap gap-2 mt-3;
+}
+
+.context-map-path-button {
+  @apply px-3 py-1.5 text-sm font-medium border border-redis-pen-300 rounded-full text-redis-pen-600 bg-white transition-colors;
+}
+
+.context-map-path-button:hover {
+  @apply text-redis-ink-900 border-redis-pen-600;
+}
+
+.context-map-path-button.is-active {
+  @apply text-white bg-green-600 border-green-600;
+}
+
+.context-map-node:focus-visible .context-map-shape {
+  @apply stroke-redis-red-500;
+  stroke-width: 2;
+}
+
+.context-map-edge {
+  @apply stroke-redis-pen-300;
+  stroke-width: 1;
+  fill: none;
+}
+
+.context-map-edge--loopback {
+  stroke-dasharray: 4, 3;
+}
+
+.context-map-arrowhead {
+  @apply fill-redis-pen-300;
+}
+
+.context-map-edge-label-bg {
+  fill: white;
+}
+
+.context-map-edge-label {
+  @apply fill-redis-pen-600;
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+}
+
+.context-map-panel {
+  @apply mt-4 p-4 border border-redis-pen-300 rounded-lg bg-white;
+}
+
+.context-map-panel strong {
+  @apply block text-redis-ink-900 font-semibold mb-1;
+}
+
+.context-map-panel p {
+  @apply text-redis-pen-600 mb-2;
+}
+
+.context-map-panel a {
+  @apply text-redis-red-500 font-medium;
+}
+
 .prose pre > code {
   @apply bg-none font-monogeist;
 }
