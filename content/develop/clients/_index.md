@@ -66,6 +66,7 @@ develop or contribute to these libraries directly.
 | :-- | :-- | :-- | :-- |
 | [C++](https://en.wikipedia.org/wiki/C%2B%2B) | Boost.Redis | https://github.com/boostorg/redis | https://www.boost.org/doc/libs/develop/libs/redis/doc/html/index.html |
 | [Dart](https://dart.dev/) | redis_dart_link | https://github.com/toolsetlink/redis_dart_link | https://github.com/toolsetlink/redis_dart_link |
+| [Elixir](https://elixir-lang.org/) | Redix | https://github.com/whatyouhide/redix | https://hexdocs.pm/redix |
 | [PHP](https://www.php.net/) | PhpRedis extension | https://github.com/phpredis/phpredis | https://github.com/phpredis/phpredis/blob/develop/README.md |
 | [Python](https://www.python.org/) | coredis | https://github.com/alisaifee/coredis | https://coredis.readthedocs.io |
 | [Scala](https://www.scala-lang.org/) | Sage | https://github.com/ghostdogpr/sage | https://ghostdogpr.github.io/sage/ |
