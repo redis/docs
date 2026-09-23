@@ -78,6 +78,11 @@
     terminal: { w: 55, h: 38 }
   };
 
+  // How far past a node's own edge a top/bottom-routed loopback travels before turning
+  // in toward it. Must clear the widest shape (decision, halfW 65) plus its gap, with
+  // margin, so the vertical run misses any other node stacked in the same column.
+  const LOOPBACK_SIDE_CLEAR = 90;
+
   function wrapText(text, maxChars) {
     const words = text.split(' ');
     const lines = [];
@@ -240,12 +245,20 @@
     return line;
   }
 
+  // Routes the loopback via a dip (top or bottom) and then into the target's SIDE
+  // (not its top/bottom edge), so the vertical run doesn't cut through any other node
+  // stacked in the same column as the target (e.g. a decision diamond above it).
   function drawLoopbackEdge(svg, from, to, edge, dipY, direction) {
     const sign = direction === 'top' ? -1 : 1;
     const start = { x: from.cx, y: from.cy + sign * (from.halfH + EDGE_GAP) };
-    const end = { x: to.cx, y: to.cy + sign * (to.halfH + EDGE_GAP) };
+    const approachX = to.cx + LOOPBACK_SIDE_CLEAR;
+    const entryX = to.cx + to.halfW + EDGE_GAP;
+
     const d = 'M ' + start.x + ' ' + start.y +
-      ' C ' + start.x + ' ' + dipY + ', ' + end.x + ' ' + dipY + ', ' + end.x + ' ' + end.y;
+      ' L ' + start.x + ' ' + dipY +
+      ' L ' + approachX + ' ' + dipY +
+      ' L ' + approachX + ' ' + to.cy +
+      ' L ' + entryX + ' ' + to.cy;
 
     const path = svgEl('path', {
       d: d,
@@ -255,7 +268,7 @@
     svg.appendChild(path);
 
     if (edge.label) {
-      drawEdgeLabel(svg, (start.x + end.x) / 2, dipY + sign * 4, edge.label);
+      drawEdgeLabel(svg, (start.x + approachX) / 2, dipY + sign * 4, edge.label);
     }
 
     return path;

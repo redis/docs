@@ -173,10 +173,13 @@ In a traditional application, the trust boundary is usually the database: applic
 
 ## Further reading
 
+- [Getting Started with Redis Iris](https://redis.io/tutorials/getting-started-with-redis-iris/): a hands-on walkthrough of LangCache, Agent Memory, and Context Retriever.
 - [Long-horizon AI agents: memory & state infrastructure](https://redis.io/blog/long-horizon-ai-agents-memory-state-infrastructure/): failure modes specific to agents that run longer than a single request.
 - [Agent memory as a moat: how context compounds](https://redis.io/blog/compounding-context-memory-as-the-moat/): governance and retention tradeoffs as context accumulates across services.
 - [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-context-engine-agent-memory-and-retrieval/): build-vs-buy, vendor-comparison, and "isn't this overkill" questions this page doesn't cover.
 
 ## Next steps
 
-See the [Getting Started with Redis Iris](https://redis.io/tutorials/getting-started-with-redis-iris/) tutorial for a hands-on walkthrough of LangCache, Agent Memory, and Context Retriever, or go directly to a service's own concepts page and quickstart.
+- [LangCache concepts]({{< relref "/develop/ai/context-engine/langcache/concepts" >}})
+- [Agent Memory concepts]({{< relref "/develop/ai/context-engine/agent-memory/concepts" >}})
+- [Context Retriever concepts]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}})
