@@ -24,10 +24,9 @@ Configured alerts are shown:
 - In the **log**
 - In email notifications, if you configure [email alerts](#send-alerts-by-email)
 
-{{< note >}}
-If you enable alerts for "Node joined" or "Node removed" actions,
-you must also enable "Receive email alerts" so that the notifications are sent.
-{{< /note >}}
+> [!NOTE]
+> If you enable alerts for "Node joined" or "Node removed" actions,
+> you must also enable "Receive email alerts" so that the notifications are sent.
 
 To enable alerts for a cluster:
 
@@ -55,8 +54,8 @@ To enable alerts for a database:
 To send cluster and database alerts by email:
 
 1. In **Cluster > Alert Settings**, click **Edit**.
-1. Select **Set an email** to configure the [email server settings]({{< relref "/operate/rs/clusters/configure/cluster-settings#configure-email-server-settings" >}}).
+1. Select **Set an email** to configure the [email server settings](/content/operate/rs/clusters/configure/cluster-settings.md#configure-email-server-settings).
 1. In **Configuration** for the database, click **Edit**.
 1. Select the **Alerts** section to open it.
 1. Select **Receive email alerts** and click **Save**.
-1. In **Access Control**, select the [database and cluster alerts]({{< relref "/operate/rs/security/access-control/create-users#add-users" >}}) that you want each user to receive.
+1. In **Access Control**, select the [database and cluster alerts](/content/operate/rs/security/access-control/create-users.md#add-users) that you want each user to receive.

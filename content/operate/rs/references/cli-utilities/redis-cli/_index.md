@@ -13,9 +13,9 @@ toc: 'true'
 weight: $weight
 ---
 
-The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands]({{< relref "/commands" >}}) directly from the command-line terminal or with [interactive mode](#interactive-mode).
+The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands](/commands) directly from the command-line terminal or with [interactive mode](#interactive-mode).
 
-If you want to run Redis commands without `redis-cli`, you can [connect to a database with Redis Insight]({{< relref "/develop/tools/insight" >}}) and use the built-in [CLI]({{< relref "/develop/tools/insight" >}}) prompt instead.
+If you want to run Redis commands without `redis-cli`, you can [connect to a database with Redis Insight](/content/develop/tools/insight/_index.md) and use the built-in [CLI](/content/develop/tools/insight/_index.md) prompt instead.
 
 ## Install `redis-cli`
 
@@ -23,13 +23,13 @@ When you install Redis Software or Redis Open Source, it also installs the `redi
 
 To learn how to install Redis and `redis-cli`, see the following installation guides:
 
-- [Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
+- [Redis Open Source](/content/operate/oss_and_stack/install/install-stack/_index.md)
 
-- [Redis Software]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
+- [Redis Software](/content/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md)
 
-- [Redis Software with Docker]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
+- [Redis Software with Docker](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md)
 
-If you only need `redis-cli` on your local machine to connect to a remote database, you can [install the standalone `redis-cli` binary]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}) on Linux or macOS, without installing the full Redis Open Source distribution.
+If you only need `redis-cli` on your local machine to connect to a remote database, you can [install the standalone `redis-cli` binary](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md) on Linux or macOS, without installing the full Redis Open Source distribution.
 
 ## Connect to a database
 
@@ -58,7 +58,7 @@ To connect to a Redis Software or Redis Cloud database over TLS:
 
 1. Download or copy the Redis Software server (or proxy) certificates.
 
-    - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://cloud.redis.io/).
+    - For Redis Cloud, see [Download certificates](/content/operate/rc/security/database-security/tls-ssl.md#download-certificates) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://cloud.redis.io/).
 
     - For Redis Software, copy the proxy certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
 
@@ -104,15 +104,15 @@ $ redis-cli -h <endpoint> -p 12000 GET mykey
 "Hello world"
 ```
 
-For more information, see [Command line usage]({{< relref "/develop/tools/cli" >}}#command-line-usage).
+For more information, see [Command line usage](/content/develop/tools/cli.md#command-line-usage).
 
 ## Interactive mode
 
-In `redis-cli` [interactive mode]({{< relref "/develop/tools/cli" >}}#interactive-mode), you can:
+In `redis-cli` [interactive mode](/content/develop/tools/cli.md#interactive-mode), you can:
 
 - Run any `redis-cli` command without prefacing it with `redis-cli`.
-- Enter `?` for more information about how to use the `HELP` command and [set `redis-cli` preferences]({{< relref "/develop/tools/cli" >}}#preferences).
-- Enter [`HELP`]({{< relref "/develop/tools/cli" >}}#showing-help-about-redis-commands) followed by the name of a command for more information about the command and its options.
+- Enter `?` for more information about how to use the `HELP` command and [set `redis-cli` preferences](/content/develop/tools/cli.md#preferences).
+- Enter [`HELP`](/content/develop/tools/cli.md#showing-help-about-redis-commands) followed by the name of a command for more information about the command and its options.
 - Press the `Tab` key for command completion.
 - Enter `exit` or `quit` or press `Control+D` to exit interactive mode and return to the terminal prompt.
 
@@ -132,7 +132,7 @@ OK
 
 ### Check slowlog
 
-Run [`slowlog get`]({{< relref "/commands/slowlog-get" >}}) for a list of recent slow commands:
+Run [`slowlog get`](/content/commands/slowlog-get.md) for a list of recent slow commands:
 
 ```sh
 redis-cli -h <endpoint> -p <port> slowlog get <number of entries>
@@ -146,9 +146,9 @@ Scan the database for big keys:
 redis-cli -h <endpoint> -p <port> --bigkeys
 ```
 
-See [Scanning for big keys]({{< relref "/develop/tools/cli" >}}#scanning-for-big-keys) for more information.
+See [Scanning for big keys](/content/develop/tools/cli.md#scanning-for-big-keys) for more information.
 
 ## More info
 
-- [Redis CLI documentation]({{< relref "/develop/tools/cli" >}})
-- [Redis commands reference]({{< relref "/commands/" >}})
+- [Redis CLI documentation](/content/develop/tools/cli.md)
+- [Redis commands reference](/commands/)

@@ -60,9 +60,9 @@ Updates the cluster configuration.
 
 | Parameter | Type/Value | Description |
 |-----------|------------|-------------|
-| audit_address | string | TCP/IP address where a listener can capture [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}}) |
-| audit_port | string | Port where a listener can capture [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}}) |
-| audit_protocol | `tcp`<br/>`local` | Protocol used for [audit event notifications]({{< relref "/operate/rs/security/audit-events" >}})<br/>For production systems, only `tcp` is supported. |
+| audit_address | string | TCP/IP address where a listener can capture [audit event notifications](/content/operate/rs/security/audit-events.md) |
+| audit_port | string | Port where a listener can capture [audit event notifications](/content/operate/rs/security/audit-events.md) |
+| audit_protocol | `tcp`<br/>`local` | Protocol used for [audit event notifications](/content/operate/rs/security/audit-events.md)<br/>For production systems, only `tcp` is supported. |
 | availability_lag_tolerance_ms | integer | Availability lag tolerance in milliseconds |
 | control_cipher_suites | list of ciphers | Cipher suites used for TLS connections to the Cluster Manager UI (specified in the format understood by the BoringSSL library)<br />(previously named `cipher_suites`) |
 | cm_port | integer | UI server listening port |
