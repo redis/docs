@@ -11,7 +11,7 @@ linkTitle: Replica high availability
 weight: 50
 ---
 
-When you enable [database replication]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}),
+When you enable [database replication](/content/operate/rs/databases/durability-ha/replication.md),
 Redis Software creates a replica of each primary shard.  The replica shard will always be 
 located on a different node than the primary shard to make your data highly available.  If the primary shard 
 fails or if the node hosting the primary shard fails, then the replica is promoted to primary.
@@ -25,7 +25,7 @@ the former replica shard which has been promoted to primary and a new replica sh
 
 An available node:
 
-1. Meets replica migration requirements, such as [rack-awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}).
+1. Meets replica migration requirements, such as [rack-awareness](/content/operate/rs/clusters/configure/rack-zone-awareness.md).
 1. Has enough available RAM to store the replica shard.
 1. Does not also contain the primary shard.
 
@@ -42,10 +42,9 @@ For example:
 1. If replica HA is enabled, a new replica shard is created on an available node.
 1. The data from the primary shard is replicated to the new replica shard.
 
-{{< note >}}
-- Replica HA follows all prerequisites of replica migration, such as [rack-awareness]({{< relref "/operate/rs/clusters/configure/rack-zone-awareness.md" >}}).
-- Replica HA migrates as many shards as possible based on available DRAM in the target node. When no DRAM is available, replica HA stops migrating replica shards to that node.
-{{< /note >}}
+> [!NOTE]
+> - Replica HA follows all prerequisites of replica migration, such as [rack-awareness](/content/operate/rs/clusters/configure/rack-zone-awareness.md).
+> - Replica HA migrates as many shards as possible based on available DRAM in the target node. When no DRAM is available, replica HA stops migrating replica shards to that node.
 
 ## Configure high availability for replica shards
 
@@ -64,21 +63,20 @@ To use replication without replication high availability, clear the **Replica hi
 
 You can also enable or turn off replica high availability for a database using `rladmin` or the REST API.
 
-{{< note >}}
-For Active-Active databases, replica HA is enabled for the database by default to make sure that replica shards are available for Active-Active replication.
-{{< /note >}}
+> [!NOTE]
+> For Active-Active databases, replica HA is enabled for the database by default to make sure that replica shards are available for Active-Active replication.
 
 ### Configure cluster policy for replica HA
 
 To enable or turn off replica high availability by default for the entire cluster, use one of the following methods:
 
-- [rladmin tune cluster]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}): 
+- [rladmin tune cluster](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-cluster): 
     
     ```sh
     rladmin tune cluster slave_ha { enabled | disabled }
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy](/content/operate/rs/references/rest-api/requests/cluster/policy.md#put-cluster-policy) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 
@@ -108,9 +106,11 @@ rladmin info cluster
 
 By default, replica HA has a 10-minute grace period after node failure and before new replica shards are created.
 
-{{<note>}}The default grace period is 30 minutes for containerized applications using [Redis Enterprise Software for Kubernetes]({{< relref "/operate/kubernetes/" >}}).{{</note>}}
+> [!NOTE]
+> The default grace period is 30 minutes for containerized applications using [Redis Enterprise Software for Kubernetes](/content/operate/kubernetes/_index.md).
 
-{{<note>}}For Kubernetes deployments, if ReplicaHA (previously SlaveHA) is enabled at the cluster level, you must also manually enable it at the database level for each RedisEnterpriseDatabase (REDB) using the UI or `rladmin`. Without manual database-level configuration, databases will show `slave_ha: disabled (database)` even when cluster-level ReplicaHA is enabled.{{</note>}}
+> [!NOTE]
+> For Kubernetes deployments, if ReplicaHA (previously SlaveHA) is enabled at the cluster level, you must also manually enable it at the database level for each RedisEnterpriseDatabase (REDB) using the UI or `rladmin`. Without manual database-level configuration, databases will show `slave_ha: disabled (database)` even when cluster-level ReplicaHA is enabled.
 
 To configure this grace period from rladmin, run:
 
@@ -148,7 +148,7 @@ database in the cluster until the cooldown period ends. The default is one hour.
 After a database is migrated with replica HA,
 it cannot go through another migration due to another node failure until the cooldown period for the database (`slave_ha_bdb_cooldown_period`) ends. The default is two hours.
 
-To configure cooldown periods, use [`rladmin tune cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster" >}}):
+To configure cooldown periods, use [`rladmin tune cluster`](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-cluster):
 
 - For the cluster:
 
@@ -174,6 +174,6 @@ The following alerts are sent during replica HA activation:
 
 - If two nodes that host a primary shard and its corresponding replica shard go down at the same time, both shards will be lost and replica high availability will not be able to create a new replica shard for any primary shard still running.
 
-    {{< note >}}
-This limitation applies only when cluster quorum is maintained after two nodes fail, such as clusters with at least five nodes. If two nodes fail simultaneously in a cluster with only three nodes, the entire cluster is lost and must be recovered.
-    {{< /note >}}
+    > [!NOTE]
+    > This limitation applies only when cluster quorum is maintained after two nodes fail, such as clusters with at least five nodes. If two nodes fail simultaneously in a cluster with only three nodes, the entire cluster is lost and must be recovered.
+    >

@@ -15,7 +15,7 @@ database.
 
 To test client connectivity:
 
-1. After you [create a Redis database]({{< relref "/operate/rs/databases/create" >}}), copy the database endpoint, which contains the cluster name (FQDN).
+1. After you [create a Redis database](/content/operate/rs/databases/create.md), copy the database endpoint, which contains the cluster name (FQDN).
 
     To view and copy endpoints for a database in the cluster, see the database’s **Configuration > General** section in the Cluster Manager UI:
 
@@ -28,7 +28,7 @@ To test client connectivity:
     endpoint using the IP address rather than the FQDN. If you
     succeed, then DNS is not properly configured. For
     additional details, see
-    [Configure cluster DNS]({{< relref "/operate/rs/networking/cluster-dns" >}}).
+    [Configure cluster DNS](/content/operate/rs/networking/cluster-dns.md).
 
 If any issues occur when testing database connections, [contact
 support](https://redis.com/company/support/).
@@ -38,11 +38,11 @@ support](https://redis.com/company/support/).
 After you create a Redis database, you can connect to your
 database and store data using one of the following methods:
 
-- [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}), the built-in command-line tool
+- [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md), the built-in command-line tool
 
 - [Redis Insight](https://redis.com/redis-enterprise/redis-insight/), a free Redis GUI that is available for macOS, Windows, and Linux 
 
-- An application using a Redis client library, such as [`redis-py`](https://github.com/redis/redis-py) for Python. See the [client list]({{< relref "/develop/clients" >}}) to view all Redis clients by language.
+- An application using a Redis client library, such as [`redis-py`](https://github.com/redis/redis-py) for Python. See the [client list](/content/develop/clients/_index.md) to view all Redis clients by language.
 
 ### Connect with redis-cli
 
@@ -56,25 +56,25 @@ OK
 "123"
 ```
 
-To connect from your own machine rather than from a cluster node, you can [install the standalone `redis-cli` binary]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}) on Linux or macOS.
+To connect from your own machine rather than from a cluster node, you can [install the standalone `redis-cli` binary](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md) on Linux or macOS.
 
-For more `redis-cli` connection examples, see the [`redis-cli` reference]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}).
+For more `redis-cli` connection examples, see the [`redis-cli` reference](/content/operate/rs/references/cli-utilities/redis-cli/_index.md).
 
 ### Connect with Redis Insight
 
 Redis Insight is a free Redis GUI that is available for macOS, Windows, and Linux.
 
-1. [Install Redis Insight]({{< relref "/develop/tools/insight" >}}).
+1. [Install Redis Insight](/content/develop/tools/insight/_index.md).
 
 1. Open Redis Insight and select **Add Redis Database**.
 
 1. Enter the host and port in the **Host** and **Port** fields.
 
-1. Select **Use TLS** if [TLS]({{< relref "/operate/rs/security/encryption/tls" >}}) is set up.
+1. Select **Use TLS** if [TLS](/content/operate/rs/security/encryption/tls/_index.md) is set up.
 
 1. Select **Add Redis Database** to connect to the database.
 
-See the [Redis Insight documentation]({{< relref "/develop/tools/insight" >}}) for more information.
+See the [Redis Insight documentation](/content/develop/tools/insight/_index.md) for more information.
 
 ### Connect with Python
 
