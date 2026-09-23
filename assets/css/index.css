@@ -1879,11 +1879,19 @@ a[href*="#no-click"], img[src*="#no-click"] {
 /* While the chat is closed, neutralize the width/margin compensation on
    both elements so body fills the window exactly and its scrollbar sits at
    the window edge, unclipped. While the panel is docked open (q-docked) the
-   widget's own geometry must win, so none of this applies then. */
+   widget's own geometry must win, so none of this applies then.
+
+   Full width is written with the widget's own variables rather than 100dvw:
+   its docking.js rewrites every vw/dvw unit in the page's stylesheets into
+   calc(1 * var(--qdvw)), and --qdvw is 100dvw minus N. With 100dvw here,
+   html ended up N short of the window, body's scrollbar appeared N inboard
+   of where the root scrollbar had been, and the centered layout shifted
+   ~8px on every page load. --qdvw plus the widget's viewport offset is
+   exactly 100dvw, and contains nothing the rewriter touches. */
 html[q-docked-target]:not([q-docked]) {
-  width: 100dvw !important;
-  min-width: 100dvw !important;
-  max-width: 100dvw !important;
+  width: calc(var(--qdvw) + var(--q-docked-viewport-offset)) !important;
+  min-width: calc(var(--qdvw) + var(--q-docked-viewport-offset)) !important;
+  max-width: calc(var(--qdvw) + var(--q-docked-viewport-offset)) !important;
   margin-right: 0 !important;
 }
 
