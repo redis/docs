@@ -130,6 +130,26 @@ conn.StringSet("foo", "bar");
 Console.WriteLine(conn.StringGet("foo"));   
 ```
 
+### SNI hostname selection for cluster connections
+
+> [!NOTE]
+> The SNI precedence scheme described in this section
+> requires `StackExchange.Redis` v3.3.1 or later.
+
+When you connect with TLS to a cluster that `StackExchange.Redis` discovers through
+`CLUSTER SLOTS`, each discovered node needs its own
+[SNI hostname](https://en.wikipedia.org/wiki/Server_Name_Indication). This allows a shared load
+balancer or proxy to route the TLS handshake to the right backend. `StackExchange.Redis`
+resolves the SNI hostname for a connection in this order:
+
+1. An explicitly configured `ConfigurationOptions.SslHost` always wins.
+2. Otherwise, a `DnsEndPoint` uses its own host.
+3. Otherwise, the client falls back to the default SNI provider.
+4. If none of these is available, the client uses the endpoint address.
+
+Because of this order, `ConfigurationOptions.SslHost` only reports a value if you set one
+explicitly; it doesn't report a host that the client inferred for you.
+
 ## Connect using Smart client handoffs (SCH)
 
 *Smart client handoffs (SCH)* is a feature of Redis Cloud and
