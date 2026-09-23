@@ -10,7 +10,7 @@ hideListLinks: true
 weight: 10
 url: '/operate/rs/7.4/'
 linkTitle: 7.4
-bannerText: This documentation applies to Redis Software versions 7.4.x, which reach end of life on November 30, 2026. See the [product lifecycle](/operate/rs/installing-upgrading/product-lifecycle/#endoflife-schedule) for supported versions.
+bannerText: This documentation applies to Redis Software versions 7.4.x, which reach end of life on November 30, 2026. See the [product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule) for supported versions.
 bannerChildren: true
 ---
 
@@ -24,39 +24,39 @@ With Redis Enterprise, you get many enterprise-grade capabilities, including:
 
 You can run self-managed Redis Enterprise Software in an on-premises data center or on your preferred cloud platform.
 
-If you prefer a fully managed Redis database-as-a-service, available on major public cloud services, consider setting up a [Redis Cloud]({{<relref "/operate/rc">}}) subscription. You can [try Redis Cloud](https://redis.io/try-free/) for free.
+If you prefer a fully managed Redis database-as-a-service, available on major public cloud services, consider setting up a [Redis Cloud](/content/operate/rc/_index.md) subscription. You can [try Redis Cloud](https://redis.io/try-free/) for free.
 
 ## Get started
 Build a small-scale cluster with the Redis Enterprise Software container image.
-- [Linux quickstart]({{< relref "/operate/rs/7.4/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
-- [Docker quickstart]({{< relref "/operate/rs/7.4/installing-upgrading/quickstarts/docker-quickstart" >}})
-- [Get started with Active-Active]({{< relref "/operate/rs/7.4/databases/active-active/get-started" >}})
+- [Linux quickstart](/content/operate/rs/7.4/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md)
+- [Docker quickstart](/content/operate/rs/7.4/installing-upgrading/quickstarts/docker-quickstart.md)
+- [Get started with Active-Active](/content/operate/rs/7.4/databases/active-active/get-started.md)
 
 ## Install & setup
-[Install & set up]({{< relref "/operate/rs/7.4/installing-upgrading" >}}) a Redis Enterprise Software cluster.
-- [Networking]({{< relref "/operate/rs/7.4/networking" >}})
-- [Set up]({{< relref "/operate/rs/7.4/clusters/new-cluster-setup" >}}) & [configure]({{< relref "/operate/rs/7.4/clusters/configure" >}}) a [cluster]({{< relref "/operate/rs/7.4/clusters" >}})
+[Install & set up](/content/operate/rs/7.4/installing-upgrading/_index.md) a Redis Enterprise Software cluster.
+- [Networking](/content/operate/rs/7.4/networking/_index.md)
+- [Set up](/content/operate/rs/7.4/clusters/new-cluster-setup.md) & [configure](/content/operate/rs/7.4/clusters/configure/_index.md) a [cluster](/content/operate/rs/7.4/clusters/_index.md)
 - [Release notes](https://redis.io/docs/latest/operate/rs/release-notes/)
 
 ## Databases
-Create and manage a [Redis database]({{< relref "/operate/rs/7.4/databases" >}}) on a cluster.
-- [Create a Redis Enterprise Software database]({{< relref "/operate/rs/7.4/databases/create" >}})
-- [Configure database]({{< relref "/operate/rs/7.4/databases/configure" >}})
-- [Create Active-Active database]({{< relref "/operate/rs/7.4/databases/active-active/create" >}})
-- [Edit Active-Active database]({{< relref "/operate/rs/7.4/databases/active-active/manage.md" >}})
+Create and manage a [Redis database](/content/operate/rs/7.4/databases/_index.md) on a cluster.
+- [Create a Redis Enterprise Software database](/content/operate/rs/7.4/databases/create.md)
+- [Configure database](/content/operate/rs/7.4/databases/configure/_index.md)
+- [Create Active-Active database](/content/operate/rs/7.4/databases/active-active/create.md)
+- [Edit Active-Active database](/content/operate/rs/7.4/databases/active-active/manage.md)
 
 ## Security
-[Manage secure connections]({{< relref "/operate/rs/7.4/security" >}}) to the cluster and databases.
-- [Access control]({{< relref "/operate/rs/7.4/security/access-control" >}})
-- [Users]({{< relref "/operate/rs/7.4/security/access-control/manage-users" >}}) & [roles]({{< relref "/operate/rs/7.4/security/access-control" >}})
-- [Certificates]({{< relref "/operate/rs/7.4/security/certificates" >}})
-- [TLS]({{< relref "/operate/rs/7.4/security/encryption/tls" >}}) & [Encryption]({{< relref "/operate/rs/7.4/security/encryption" >}})
+[Manage secure connections](/content/operate/rs/7.4/security/_index.md) to the cluster and databases.
+- [Access control](/content/operate/rs/7.4/security/access-control/_index.md)
+- [Users](/content/operate/rs/7.4/security/access-control/manage-users/_index.md) & [roles](/content/operate/rs/7.4/security/access-control/_index.md)
+- [Certificates](/content/operate/rs/7.4/security/certificates/_index.md)
+- [TLS](/content/operate/rs/7.4/security/encryption/tls/_index.md) & [Encryption](/content/operate/rs/7.4/security/encryption/_index.md)
 
 ## Reference
 Use command-line utilities and the REST API to manage the cluster and databases.
-- [rladmin]({{< relref "/operate/rs/7.4/references/cli-utilities/rladmin" >}}), [crdb-cli]({{< relref "/operate/rs/7.4/references/cli-utilities/crdb-cli" >}}), & [other utilities]({{< relref "/operate/rs/7.4/references/cli-utilities" >}})
-- [REST API reference]({{< relref "/operate/rs/7.4/references/rest-api" >}}) & [examples]({{< relref "/operate/rs/7.4/references/rest-api/quick-start" >}})
-- [Redis commands]({{< relref "/commands" >}})
+- [rladmin](/content/operate/rs/7.4/references/cli-utilities/rladmin/_index.md), [crdb-cli](/content/operate/rs/7.4/references/cli-utilities/crdb-cli/_index.md), & [other utilities](/content/operate/rs/7.4/references/cli-utilities/_index.md)
+- [REST API reference](/content/operate/rs/7.4/references/rest-api/_index.md) & [examples](/content/operate/rs/7.4/references/rest-api/quick-start.md)
+- [Redis commands](/commands)
 
 ## Archive
 
@@ -73,8 +73,8 @@ To view documentation earlier than version 7.4, see the archived website:
 - [Redis Enterprise Software v6.0 documentation archive](https://docs.redis.com/6.0/rs/)
 
 ## Related info
-- [Redis Cloud]({{< relref "/operate/rc" >}})
-- [Redis Open Source]({{< relref "/operate/oss_and_stack" >}})
-- [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}})
-- [Glossary]({{< relref "/glossary" >}})
+- [Redis Cloud](/content/operate/rc/_index.md)
+- [Redis Open Source](/content/operate/oss_and_stack/_index.md)
+- [Redis Stack](/content/operate/oss_and_stack/stack-with-enterprise/_index.md)
+- [Glossary](/content/glossary/_index.md)
 
