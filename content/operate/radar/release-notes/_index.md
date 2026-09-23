@@ -23,7 +23,7 @@ Cloud releases roll out automatically on a regular basis, so there's nothing to 
 
 ## Self-managed releases
 
-Self-managed Radar ships as a Helm chart, an RPM, and a Docker Compose bundle, as described in [Install Radar]({{< relref "/operate/radar/install" >}}). Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**, the container images from Docker Hub, and the Helm chart.
+Self-managed Radar ships as a Helm chart, an RPM, and a Docker Compose bundle, as described in [Install Radar]({{< relref "/operate/radar/install" >}}). Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**, the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`. Each release's notes list the exact chart version and container images under **Downloads**.
 
 Radar ships on two support tracks:
 
