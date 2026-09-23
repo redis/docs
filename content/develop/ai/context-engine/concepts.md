@@ -11,7 +11,7 @@ title: Redis Iris concepts
 weight: 5
 ---
 
-Redis Iris reuses Redis primitives you likely already know, but not all of your existing assumptions carry over. This page covers the shifts that apply across the three request-time services: LangCache, Agent Memory, and Context Retriever. Each also has its own concepts page for what's specific to it: [LangCache]({{< relref "/develop/ai/context-engine/langcache/concepts" >}}), [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/concepts" >}}), and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}}). Data Integration is a background data-sync pipeline rather than a request-time service, so the diagram below includes it for a complete picture, but it isn't covered in the shifts on this page.
+Redis Iris reuses Redis primitives you likely already know, but not all of your existing assumptions carry over. This page covers the shifts that apply across the three request-time services: LangCache, Agent Memory, and Context Retriever. Each also has its own concepts page for what's specific to it: [LangCache]({{< relref "/develop/ai/context-engine/langcache/concepts" >}}), [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}}), and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}}). Data Integration is a background data-sync pipeline rather than a request-time service, so the diagram below includes it for a complete picture, but it isn't covered in the shifts on this page.
 
 ## Context is a budget, not a store
 
@@ -181,5 +181,5 @@ In a traditional application, the trust boundary is usually the database: applic
 ## Next steps
 
 - [LangCache concepts]({{< relref "/develop/ai/context-engine/langcache/concepts" >}})
-- [Agent Memory concepts]({{< relref "/develop/ai/context-engine/agent-memory/concepts" >}})
+- [Agent Memory overview]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}})
 - [Context Retriever concepts]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}})

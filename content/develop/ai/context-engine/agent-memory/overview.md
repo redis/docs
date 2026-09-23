@@ -6,8 +6,8 @@ categories:
 - ai
 description: Learn how Redis Agent Memory's memory types and automatic promotion differ from the Redis session storage you already know.
 hideListLinks: true
-linktitle: Concepts
-title: Redis Agent Memory concepts
+linktitle: Overview
+title: Redis Agent Memory overview
 weight: 3
 ---
 
