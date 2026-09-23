@@ -146,3 +146,7 @@ To create a new data pipeline, you need to:
 1. [Define the source connection and data pipeline]({{<relref "/operate/rc/rdi/define">}}) by selecting which tables to sync.
 
 Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/rc/rdi/view-edit">}}) it.
+
+To change the processing capacity of a Flink pipeline, see [Scale a data
+pipeline processor]({{< relref "/operate/rc/rdi/scale-processor" >}}). For
+common Cloud RDI questions, see the [FAQ]({{< relref "/operate/rc/rdi/faq" >}}).

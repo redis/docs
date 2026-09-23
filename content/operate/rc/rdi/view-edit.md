@@ -180,7 +180,11 @@ To edit any of the information in the **Transformations** tab:
 
     {{<image filename="images/rc/rdi/rdi-processor-advanced-properties.png" alt="The Advanced Processor properties." >}}
 
-    See the [RDI configuration file reference]({{< relref "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}}) for all available processor properties.
+    See the [RDI configuration file reference]({{< relref
+    "/integrate/redis-data-integration/reference/config-yaml-reference#processors" >}})
+    for all available processor properties. For Cloud RDI processor capacity
+    guidance, see [Scale a data pipeline processor]({{< relref
+    "/operate/rc/rdi/scale-processor" >}}).
 
 1. Select **Save changes**.
 

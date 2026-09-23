@@ -1,0 +1,88 @@
+---
+Title: Scale a data pipeline processor
+aliases:
+    - /operate/rc/databases/rdi/scale-processor/
+    - /operate/rc/databases/rdi/scale-processor
+alwaysopen: false
+categories:
+- docs
+- operate
+- rc
+description: Change the processing capacity of a Redis Cloud data pipeline.
+hideListLinks: true
+weight: 5
+---
+
+Cloud RDI pipelines that use the Flink processor can run more than one
+TaskManager. Adding TaskManagers increases the processing capacity available to
+the pipeline.
+
+Cloud RDI does not automatically add or remove TaskManagers based on CPU use,
+pending records, throughput, or backpressure. Set the number of TaskManagers
+when you need more processing capacity.
+
+{{< note >}}
+This setting applies only to Flink pipelines. Classic pipelines do not use
+Flink TaskManagers.
+{{< /note >}}
+
+## Set the number of TaskManagers
+
+1. From the Cloud RDI **Pipelines** list, select the pipeline.
+1. Select the **Transformations** tab and select **Edit**.
+1. Select **Edit advanced properties**.
+1. Add or update the `advanced.resources.taskManager.replicas` property with
+   the number of TaskManagers you need. The value must be a whole number of at
+   least `1`.
+1. Select **Save changes**, then select **Apply and restart** to apply the
+   change.
+
+When you set this property, Cloud RDI uses that number of TaskManagers. If you
+do not set it, Cloud RDI calculates the number from the pipeline parallelism
+and the configured TaskManager slots. This is a configuration-time calculation,
+not reactive autoscaling while the pipeline is running.
+
+For API-based configuration, the same property is represented as follows:
+
+```yaml
+processors:
+  advanced:
+    resources:
+      taskManager:
+        replicas: 3
+```
+
+## Decide when to scale
+
+Use the pipeline **Metrics** tab to decide whether the processor needs more
+capacity. For example, sustained backpressure, a growing pending-record count,
+or lower-than-required throughput can show that the pipeline needs
+investigation. Check the source and target systems too: increasing TaskManagers
+does not remove a bottleneck outside the processor.
+
+## Confirm the applied capacity
+
+The console shows the TaskManager value saved in the pipeline configuration.
+It does not currently show the number of ready TaskManagers or a scale event.
+The console metrics show processing behavior, but they do not include a
+TaskManager replica-count metric.
+
+To observe the processor in more detail, open the pipeline **Metrics** tab and,
+when available, select **Connect to Prometheus** > **Show endpoint**. Use the
+processor endpoint to inspect processing and per-TaskManager metrics in your
+Prometheus-compatible monitoring system.
+
+If you use the RDI API, get the [pipeline status]({{< relref
+"/integrate/redis-data-integration/reference/api-reference" >}}) and inspect
+the `flink-processor` entry in `components`. Its `replicas` value is the number
+of ready processor replicas. For example:
+
+```json
+{
+  "name": "flink-processor",
+  "replicas": 3
+}
+```
+
+Billing is not a real-time way to confirm that a scaling change has completed.
+Use the saved configuration, processor metrics, or the status API instead.
