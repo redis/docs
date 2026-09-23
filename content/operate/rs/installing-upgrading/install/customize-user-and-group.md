@@ -30,7 +30,7 @@ During installation, you can specify the user and group that own all Redis Softw
 
 ## Install with custom user or group
 
-To customize the user or group during [installation]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}), include the `--os-user` or `--os-group` [command-line options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) when you run the `install.sh` script.
+To customize the user or group during [installation](/content/operate/rs/installing-upgrading/install/install-on-linux.md), include the `--os-user` or `--os-group` [command-line options](/content/operate/rs/installing-upgrading/install/install-script.md) when you run the `install.sh` script.
 
 ```sh
 sudo ./install.sh --os-user <user> --os-group <group>

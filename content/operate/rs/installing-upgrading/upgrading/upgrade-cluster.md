@@ -24,27 +24,26 @@ To upgrade a cluster's Redis Software version, use one of the following methods:
 
 {{<embed-md "rs-upgrade-paths.md">}}
 
-See the [Redis Software product lifecycle]({{<relref "/operate/rs/installing-upgrading/product-lifecycle">}}) for more information about release numbers and the end-of-life schedule.
+See the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md) for more information about release numbers and the end-of-life schedule.
 
-{{<note>}}
-Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions]({{<relref "/operate/kubernetes/reference/supported_k8s_distributions">}}).
-{{</note>}}
+> [!NOTE]
+> Redis Enterprise for Kubernetes has its own support lifecycle, which accounts for the Kubernetes distribution lifecycle. For details, see [Supported Kubernetes distributions](/content/operate/kubernetes/reference/supported_k8s_distributions.md).
 
 ## Upgrade prerequisites
 
 Before upgrading a cluster:
 
-- Verify access to [rlcheck]({{< relref "/operate/rs/references/cli-utilities/rlcheck/" >}}) and [rladmin]({{< relref "/operate/rs/references/cli-utilities/rladmin/#use-the-rladmin-shell" >}}) commands.
+- Verify access to [rlcheck](/content/operate/rs/references/cli-utilities/rlcheck/_index.md) and [rladmin](/content/operate/rs/references/cli-utilities/rladmin/_index.md#use-the-rladmin-shell) commands.
 
-- Run [rlcheck]({{< relref "/operate/rs/references/cli-utilities/rlcheck/" >}}) on each node and verify there are no issues:
+- Run [rlcheck](/content/operate/rs/references/cli-utilities/rlcheck/_index.md) on each node and verify there are no issues:
 
     ```sh
     rlcheck
     ```
 
-- Verify [maintenance mode]({{< relref "/operate/rs/clusters/maintenance-mode" >}}) is not enabled:
+- Verify [maintenance mode](/content/operate/rs/clusters/maintenance-mode.md) is not enabled:
 
-    1. On a node in the cluster, run [`rladmin status`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}):
+    1. On a node in the cluster, run [`rladmin status`](/content/operate/rs/references/cli-utilities/rladmin/status.md):
     
         ```sh
         rladmin status
@@ -54,13 +53,13 @@ Before upgrading a cluster:
 
         {{< image filename="/images/rs/maintenance_mode.png" >}}
 
-    1. To deactivate maintenance mode on a node, run the following [`rladmin node maintenance_mode off`]({{<relref "/operate/rs/references/cli-utilities/rladmin/node/maintenance-mode#node-maintenance_mode-off">}}) command. See [Deactivate maintenance mode]({{<relref "/operate/rs/clusters/maintenance-mode#deactivate-maintenance-mode">}}) for additional details.
+    1. To deactivate maintenance mode on a node, run the following [`rladmin node maintenance_mode off`](/content/operate/rs/references/cli-utilities/rladmin/node/maintenance-mode.md#node-maintenance_mode-off) command. See [Deactivate maintenance mode](/content/operate/rs/clusters/maintenance-mode.md#deactivate-maintenance-mode) for additional details.
 
         ```sh
         rladmin node <node_id> maintenance_mode off
         ```
 
-- Verify that you meet the upgrade path requirements for the target cluster version and review the relevant [release notes]({{< relref "/operate/rs/release-notes" >}}) for any preparation instructions.
+- Verify that you meet the upgrade path requirements for the target cluster version and review the relevant [release notes](/content/operate/rs/release-notes/_index.md) for any preparation instructions.
 
 - Before you upgrade a cluster from Redis Software version 6.2.x to 7.8.x, you must follow these steps if the cluster has any databases with Redis version 6.0:
 
@@ -70,9 +69,9 @@ Before upgrading a cluster:
         rladmin tune cluster redis_upgrade_policy latest
         ```
 
-    1. [Upgrade Redis 6.0 databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to Redis 6.2.
+    1. [Upgrade Redis 6.0 databases](/content/operate/rs/installing-upgrading/upgrading/upgrade-database.md) to Redis 6.2.
 
-- [Upgrade your databases]({{<relref "/operate/rs/installing-upgrading/upgrading/upgrade-database">}}) to a version that is supported by the target Redis Software version before upgrading the cluster. We recommend you upgrade the databases to the latest supported version if possible. Make sure to test the upgrade in a non-production environment to determine any impact.
+- [Upgrade your databases](/content/operate/rs/installing-upgrading/upgrading/upgrade-database.md) to a version that is supported by the target Redis Software version before upgrading the cluster. We recommend you upgrade the databases to the latest supported version if possible. Make sure to test the upgrade in a non-production environment to determine any impact.
 
 - Avoid changing the database configuration or performing other cluster management operations during the cluster upgrade process, as this might cause unexpected results.
 
@@ -80,9 +79,9 @@ Before upgrading a cluster:
 
     - **Nodes** screen in the new Cluster Manager UI (only available for Redis Software versions 7.2 and later)
 
-    - [`rladmin status nodes`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status#status-nodes" >}}) command
+    - [`rladmin status nodes`](/content/operate/rs/references/cli-utilities/rladmin/status.md#status-nodes) command
     
-    - [`GET /nodes/status`]({{< relref "/operate/rs/references/rest-api/requests/nodes/status#get-all-nodes-status" >}}) REST API request
+    - [`GET /nodes/status`](/content/operate/rs/references/rest-api/requests/nodes/status.md#get-all-nodes-status) REST API request
 
 ## In-place upgrade
 
@@ -97,9 +96,8 @@ Starting with the primary node, follow these steps for every node in the cluster
     $ rladmin status extra all
     ```
 
-    {{<warning>}}
-Do not proceed if any shard, node, or endpoint is not `OK`.
-    {{</warning>}}
+    > [!WARNING]
+    > Do not proceed if any shard, node, or endpoint is not `OK`.
 
 1.  Download the Redis Software installation package to the machine running the node from the Download Center on [https://cloud.redis.io](https://cloud.redis.io).  
 
@@ -109,11 +107,10 @@ Do not proceed if any shard, node, or endpoint is not `OK`.
     tar vxf <tarfile name>
     ```
 
-    {{<note>}}
-You cannot change the installation path or the user during the upgrade.
-    {{</note>}}
+    > [!NOTE]
+    > You cannot change the installation path or the user during the upgrade.
 
-1.  Run the install command. See [installation script options]({{< relref "/operate/rs/installing-upgrading/install/install-script" >}}) for a list of command-line options you can add to the following command. You cannot use options marked as "new installs only" during an in-place upgrade.
+1.  Run the install command. See [installation script options](/content/operate/rs/installing-upgrading/install/install-script.md) for a list of command-line options you can add to the following command. You cannot use options marked as "new installs only" during an in-place upgrade.
 
     ``` shell
     sudo ./install.sh
@@ -146,23 +143,23 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
 
 1. Complete all [prerequisites](#upgrade-prerequisites) before starting the rolling upgrade.
 
-1. [Install a later version of Redis Software]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on a new node.
+1. [Install a later version of Redis Software](/content/operate/rs/installing-upgrading/install/install-on-linux.md) on a new node.
 
-1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}}) to the cluster.
+1. [Add the new node](/content/operate/rs/clusters/add-node.md) to the cluster.
 
-1. If the [cluster uses DNS]({{<relref "/operate/rs/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
+1. If the [cluster uses DNS](/content/operate/rs/networking/cluster-dns.md), add the new node’s IP address to the DNS records.
 
-1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
+1. [Promote the first new node](/content/operate/rs/clusters/change-node-role.md#promote-secondary-node) to become the primary node.
 
-1. [Remove one node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) running the earlier Redis Software version from the cluster.
+1. [Remove one node](/content/operate/rs/clusters/remove-node.md#remove-a-node) running the earlier Redis Software version from the cluster.
 
-1. Repeat the previous steps until all nodes with the earlier Redis Software version are removed. If the final node to remove from the cluster is the primary node, [demote it]({{<relref "/operate/rs/clusters/change-node-role#demote-primary-node">}}) to a secondary node before you remove it.
+1. Repeat the previous steps until all nodes with the earlier Redis Software version are removed. If the final node to remove from the cluster is the primary node, [demote it](/content/operate/rs/clusters/change-node-role.md#demote-primary-node) to a secondary node before you remove it.
 
 ### Replace node upgrade method {#replace-node-upgrade}
 
 1. Complete all [prerequisites](#upgrade-prerequisites) before starting the rolling upgrade.
 
-1. [Remove a node]({{< relref "/operate/rs/clusters/remove-node#remove-a-node" >}}) with the earlier Redis Software version from the cluster.
+1. [Remove a node](/content/operate/rs/clusters/remove-node.md#remove-a-node) with the earlier Redis Software version from the cluster.
 
 1. Uninstall Redis Software from the removed node:
 
@@ -170,19 +167,19 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
     sudo ./rl_uninstall.sh
     ```
 
-1. [Install a later version of Redis Software]({{< relref "/operate/rs/installing-upgrading/install/install-on-linux" >}}) on the removed node or a new node.
+1. [Install a later version of Redis Software](/content/operate/rs/installing-upgrading/install/install-on-linux.md) on the removed node or a new node.
 
-1. [Add the new node]({{< relref "/operate/rs/clusters/add-node" >}}) to the cluster.
+1. [Add the new node](/content/operate/rs/clusters/add-node.md) to the cluster.
 
-    If you want to reuse the removed node's ID when you add the node to the cluster, run [`rladmin cluster join`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/join" >}}) with the `replace_node` flag:
+    If you want to reuse the removed node's ID when you add the node to the cluster, run [`rladmin cluster join`](/content/operate/rs/references/cli-utilities/rladmin/cluster/join.md) with the `replace_node` flag:
 
     ```sh
     rladmin cluster join nodes <cluster_member_ip_address> username <username> password <password> replace_node <node_id>
     ```
 
-1. If the [cluster uses DNS]({{<relref "/operate/rs/networking/cluster-dns">}}), add the new node’s IP address to the DNS records.
+1. If the [cluster uses DNS](/content/operate/rs/networking/cluster-dns.md), add the new node’s IP address to the DNS records.
 
-1. [Promote the first new node]({{<relref "/operate/rs/clusters/change-node-role/#promote-secondary-node">}}) to become the primary node.
+1. [Promote the first new node](/content/operate/rs/clusters/change-node-role.md#promote-secondary-node) to become the primary node.
 
 1. Verify node health:
 
@@ -208,7 +205,7 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
 
         For healthy nodes, the expected output is `ALL TESTS PASSED`.
 
-    1. Run [`rladmin status`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) on the new node:
+    1. Run [`rladmin status`](/content/operate/rs/references/cli-utilities/rladmin/status.md) on the new node:
 
         ```sh
         rladmin status extra all
@@ -224,7 +221,7 @@ To perform a rolling upgrade of the cluster, use one of the following methods:
         ...
         ```
 
-1. Repeat the previous steps until all nodes with the earlier Redis Software version are replaced. If the final node to remove from the cluster is the primary node, [demote it]({{<relref "/operate/rs/clusters/change-node-role#demote-primary-node">}}) to a secondary node before you remove it.
+1. Repeat the previous steps until all nodes with the earlier Redis Software version are replaced. If the final node to remove from the cluster is the primary node, [demote it](/content/operate/rs/clusters/change-node-role.md#demote-primary-node) to a secondary node before you remove it.
 
 ## After cluster upgrade
 
