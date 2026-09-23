@@ -11,9 +11,9 @@ description: Describes how role-based LDAP authentication and authorization work
 weight: 25
 ---
 
-Redis Software uses a role-based mechanism to authorize users authenticated with LDAP authentication or with certificate-based authentication (CBA). You map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}}), and each user receives the access level of the role mapped to their group.
+Redis Software uses a role-based mechanism to authorize users authenticated with LDAP authentication or with certificate-based authentication (CBA). You map LDAP groups to [access control roles](/content/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles.md), and each user receives the access level of the role mapped to their group.
 
-Role-based LDAP authorizes both cluster management users (previously known as _external users_) and database users. To authenticate users with client certificates instead of passwords, see [certificate-based authentication for LDAP]({{< relref "/operate/rs/security/access-control/ldap/certificate-based-authentication" >}}).
+Role-based LDAP authorizes both cluster management users (previously known as _external users_) and database users. To authenticate users with client certificates instead of passwords, see [certificate-based authentication for LDAP](/content/operate/rs/security/access-control/ldap/certificate-based-authentication.md).
 
 ## How role-based LDAP works
 
@@ -23,7 +23,7 @@ When a user signs in with LDAP credentials, Redis Software runs three steps. Eac
 
 1. **Authenticate** — Redis Software finds the user's directory entry and verifies the supplied password by binding to the LDAP server as that user. Configure this under [Authentication query](#authentication-query).
 
-1. **Authorize** — Redis Software finds the group or groups the user belongs to, then matches them against the groups you mapped to roles under [LDAP mappings]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}}). The user receives the access level of the matched group's role. Configure this under [Authorization query](#authorization-query).
+1. **Authorize** — Redis Software finds the group or groups the user belongs to, then matches them against the groups you mapped to roles under [LDAP mappings](/content/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles.md). The user receives the access level of the matched group's role. Configure this under [Authorization query](#authorization-query).
 
 If authentication succeeds but no group matches a mapping, Redis Software denies access. A common symptom is the user being redirected to a change-password screen.
 
@@ -235,6 +235,6 @@ After you save, sign in to the Cluster Manager UI, or connect to a database with
 
 ## More info
 
-- Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})
-- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Map LDAP groups to [access control roles](/content/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles.md)
+- Update database ACLs to [authorize LDAP access](/content/operate/rs/security/access-control/ldap/update-database-acls.md)
+- Learn more about Redis Software [security and practices](/content/operate/rs/security/_index.md)

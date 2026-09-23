@@ -20,9 +20,9 @@ To map LDAP groups to access control roles in the Cluster Manager UI:
 
 1. Select **Access Control > LDAP > Mapping**.
 
-    {{<note>}}
-You can map LDAP roles when LDAP configuration is not enabled, but they won't have any effect until you [configure and enable LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}}).
-    {{</note>}}
+    > [!NOTE]
+    > You can map LDAP roles when LDAP configuration is not enabled, but they won't have any effect until you [configure and enable LDAP](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md).
+    >     
 
     {{<image filename="images/rs/access-control-ldap-mappings-panel.png" alt="Enable LDAP mappings Panel" >}}
 
@@ -52,6 +52,6 @@ The scope of the authorization depends on the access control role:
 
 ## More info
 
-- Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}})
-- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Enable and configure [role-based LDAP](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md)
+- Update database ACLs to [authorize LDAP access](/content/operate/rs/security/access-control/ldap/update-database-acls.md)
+- Learn more about Redis Software [security and practices](/content/operate/rs/security/_index.md)
