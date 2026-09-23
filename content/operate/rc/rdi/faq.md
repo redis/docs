@@ -109,3 +109,36 @@ Yes. RDI usage is based on the running collectors and processor replicas, not th
 Creating a workspace or saving a setup draft does not start RDI usage billing. Billing starts when a pipeline is deployed. Stopping the pipeline reduces usage to the workspace charge. Deleting the deployed pipeline ends new RDI usage when no deployed pipelines remain in the workspace; usage already recorded for the hour can still be billed.
 
 Delete an unused pipeline and then [delete its workspace]({{< relref "/operate/rc/rdi/create-workspace#delete-workspace" >}}) when you no longer need RDI. This does not delete the target Redis database or stop its separate charges.
+
+## Processor scaling
+
+### Does Cloud RDI automatically scale the Flink processor?
+
+No. Cloud RDI does not automatically add or remove TaskManagers based on
+processor load, pending records, throughput, or backpressure. Set the desired
+number of TaskManagers with
+`advanced.resources.taskManager.replicas`. See [Scale a data pipeline
+processor]({{< relref "/operate/rc/rdi/scale-processor" >}}).
+
+### How do I increase processing capacity for a pipeline?
+
+For a Flink pipeline, edit its **Settings** and set
+`advanced.resources.taskManager.replicas` to the needed number. Save the
+change, then apply and restart the pipeline. The setting does not apply to
+Classic pipelines.
+
+### Can I see that the processor has scaled in the console?
+
+The pipeline configuration shows the requested number of TaskManagers. The
+Cloud RDI console does not currently show the ready replica count or a scale
+event. Its Metrics tab shows data-stream record counts and pending records, but
+not the replica count.
+
+For the ready replica count, use the RDI API pipeline-status response and
+inspect the `flink-processor` component's `replicas` value. See [Confirm the
+applied capacity]({{< relref "/operate/rc/rdi/scale-processor" >}}).
+
+### Can I use billing to confirm a scaling change?
+
+No. Billing is not a real-time deployment-status signal. Use the pipeline
+configuration, processor metrics, or the RDI API status instead.
