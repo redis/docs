@@ -11,7 +11,7 @@ title: Redis Iris concepts
 weight: 5
 ---
 
-Redis Iris reuses Redis primitives you likely already know, but not all of your existing assumptions carry over. This page covers the shifts that apply across all three services. Each service also has its own concepts page for what's specific to it: [LangCache](/content/develop/ai/context-engine/langcache/concepts.md), [Agent Memory](/content/develop/ai/context-engine/agent-memory/concepts.md), and [Context Retriever](/content/develop/ai/context-engine/context-retriever/concepts.md).
+Redis Iris reuses Redis primitives you likely already know, but not all of your existing assumptions carry over. This page covers the shifts that apply across the three request-time services: LangCache, Agent Memory, and Context Retriever. Each also has its own concepts page for what's specific to it: [LangCache]({{< relref "/develop/ai/context-engine/langcache/concepts" >}}), [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/concepts" >}}), and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}}). Data Integration is a background data-sync pipeline rather than a request-time service, so the diagram below includes it for a complete picture, but it isn't covered in the shifts on this page.
 
 ## Context is a budget, not a store
 
@@ -124,10 +124,11 @@ edges:
         from: agent
         to: contextRetriever
         kind: normal
+        label: "MCP"
         path: context
     e6:
         from: dataIntegration
-        to: agent
+        to: contextRetriever
         kind: normal
         path: context
     e7:
@@ -145,14 +146,8 @@ edges:
         to: agentMemory
         kind: loopback
         route: top
-        label: "Write back to memory and cache"
+        label: "App writes session event"
         path: "memory,context"
-    e10:
-        from: contextRetriever
-        to: dataIntegration
-        kind: normal
-        label: "MCP"
-        path: context
 paths:
     cacheHit:
         label: "Cache hit: fastest"

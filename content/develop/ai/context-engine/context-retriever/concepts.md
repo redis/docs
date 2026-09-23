@@ -58,6 +58,6 @@ See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-contex
 
 ## Next steps
 
-- [Create a Context Retriever service](/content/operate/iris/context-retriever/create-service.md) on Redis Cloud.
+- [Create a Context Retriever service]({{< relref "/operate/iris/context-retriever/create-service" >}}) on Redis Cloud.
 - Model your entities with the [Python client and `ctxctl` CLI](https://pypi.org/project/redis-context-retriever/).
-- [Manage agent keys and access tags](/content/operate/iris/context-retriever/view-admin-keys.md) to control what each agent can reach.
+- [Manage agent keys and access tags]({{< relref "/operate/iris/context-retriever/view-admin-keys" >}}) to control what each agent can reach.

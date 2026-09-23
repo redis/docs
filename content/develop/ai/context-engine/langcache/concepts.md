@@ -37,9 +37,9 @@ Here's how the two compare:
 | Correctness risk | None from the cache itself | A false-positive match can return a wrong answer |
 | Tuning | TTL, eviction policy | TTL, eviction policy, **and** similarity threshold |
 
-## Choosing a threshold is a tradeoff, not a default
+## Choosing a threshold is a tradeoff, even with a default
 
-There's no globally correct similarity threshold. A tighter threshold reduces wrong-answer risk but also reduces the hit rate you're paying for the cache to get. A looser threshold raises the hit rate but raises the odds of a false-positive match. The right setting depends on the relative cost of a wrong answer versus an unnecessary LLM call. A support FAQ bot can tolerate a looser threshold than a bot answering account-specific financial questions.
+LangCache defaults to a similarity threshold of `0.85`, with a recommended starting range of `0.8`–`0.9`, but no single value is correct for every use case. A tighter threshold reduces wrong-answer risk but also reduces the hit rate you're paying for the cache to get. A looser threshold raises the hit rate but raises the odds of a false-positive match. The right setting depends on the relative cost of a wrong answer versus an unnecessary LLM call. A support FAQ bot can tolerate a looser threshold than a bot answering account-specific financial questions.
 
 ## FAQ
 
@@ -47,7 +47,7 @@ There's no globally correct similarity threshold. A tighter threshold reduces wr
 Yes. Matching on similarity rather than exact content is an inherent property of semantic caching, not a bug: LangCache matches by similarity, so a prompt that's close enough to a cached one can match even when the two aren't equivalent. Tightening the similarity threshold makes mismatches less likely, or you can inspect a matched entry to see how close the embeddings actually were.
 
 **Is there a default similarity threshold I should use?**
-No: the right threshold is a tradeoff specific to your use case (see above). If you're picking one for the first time, start conservative (tighter) and loosen it while monitoring hit rate and spot-checking matches, rather than starting loose and trying to catch bad matches after the fact.
+Yes: LangCache defaults to `0.85`, with a recommended starting range of `0.8`–`0.9`. From there, the right threshold is a tradeoff specific to your use case (see above). Start conservative (tighter) and loosen it while monitoring hit rate and spot-checking matches, rather than starting loose and trying to catch bad matches after the fact.
 
 **Does LangCache replace my existing cache layer?**
 Only the part of it caching LLM responses by similarity — LangCache doesn't replace general-purpose exact-key caching for anything else in your application.
@@ -56,5 +56,5 @@ See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-contex
 
 ## Next steps
 
-- [Use the LangCache API and SDK](/content/develop/ai/context-engine/langcache/api-examples.md) to search and populate a cache.
-- [LangCache REST API reference](/content/develop/ai/context-engine/langcache/api-reference.md) for the full endpoint and parameter details, including threshold configuration.
+- [Use the LangCache API and SDK]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) to search and populate a cache.
+- [LangCache REST API reference]({{< relref "/develop/ai/context-engine/langcache/api-reference" >}}) for the full endpoint and parameter details, including threshold configuration.

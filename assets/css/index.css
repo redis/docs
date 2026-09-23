@@ -126,8 +126,6 @@ section.prose {
 .context-map-diagram {
   font-family: "Space Mono", monospace;
   font-size: 11px;
-  max-width: 100%;
-  height: auto;
 }
 
 .context-map-shape {

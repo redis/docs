@@ -51,7 +51,7 @@ You can think of Redis Agent Memory's tiers as analogous to human memory:
 
 Session memory is the working set: the current conversation's events, read and written every turn. Long-term memory is what survives after the session ends, durable enough to recall in a conversation the agent hasn't seen before.
 
-This table is a simplified starting point, not the full picture. Redis Agent Memory also maintains an automatically updated summary of each session as its own long-term memory type, and you can define custom types for domain-specific information. See [Memory types & extraction](/content/operate/iris/agent-memory/create-service.md#memory-types-and-extraction) for the complete set of built-in and custom types.
+This table is a simplified starting point, not the full picture. Redis Agent Memory also maintains an automatically updated summary of each session as derived session state, returned separately from long-term memories, and you can define custom long-term memory types for domain-specific information. See [Memory types & extraction]({{< relref "/operate/iris/agent-memory/create-service#memory-types-and-extraction" >}}) for the complete set of built-in and custom types.
 
 ## FAQ
 
@@ -75,5 +75,5 @@ See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-contex
 
 ## Next steps
 
-- [Developer guide](/content/develop/ai/context-engine/agent-memory/developer-guide.md) to connect an application and start writing session events.
-- [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md), [TypeScript SDK quickstart](/content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md), or [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md) to see session memory, extraction, and summarization in action.
+- [Developer guide]({{< relref "/develop/ai/context-engine/agent-memory/developer-guide" >}}) to connect an application and start writing session events.
+- [Python SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}), [TypeScript SDK quickstart]({{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}), or [REST API quickstart]({{< relref "/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}) to see session memory, extraction, and summarization in action.
