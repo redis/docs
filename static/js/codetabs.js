@@ -72,6 +72,14 @@ function copyCodeToClipboardForCodetabs(button) {
     }
   }
 
+  // Single-line blocks are almost always one command preceded by a prompt
+  // ("$ ", "> ", "127.0.0.1:6379> "). Strip that prompt so the copied text
+  // runs as-is. Multiline blocks mix commands and output, so leave them untouched.
+  const codeLines = code.split('\n').filter(line => line !== '');
+  if (codeLines.length === 1) {
+    code = codeLines[0].replace(/^(\s*)(?:\$\s+|>\s+|127\.0\.0\.1:6379>\s+)/, '$1');
+  }
+
   navigator.clipboard.writeText(code);
 
   // Toggle tooltip
