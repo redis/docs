@@ -150,4 +150,4 @@ See [Scanning for big keys](/content/develop/tools/cli.md#scanning-for-big-keys)
 ## More info
 
 - [Redis CLI documentation](/content/develop/tools/cli.md)
-- [Redis commands reference]({{< relref "/commands/" >}}
+- [Redis commands reference](/commands/)
