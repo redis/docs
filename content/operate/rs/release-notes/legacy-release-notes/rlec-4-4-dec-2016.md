@@ -11,7 +11,7 @@ weight: 95
 ---
 If you are upgrading from a previous version, make sure to review the
 [upgrade
-instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
+instructions](/content/operate/rs/installing-upgrading/upgrading/_index.md)
 before beginning the upgrade process.
 
 You can upgrade to this version from any 4.3 version. If you have a
@@ -25,19 +25,19 @@ upgrade to this version.
     version and then upgrade existing databases, the databases will be
     updated to use the Single proxy policy and Dense shard placement
     policy. For additional details, refer to [Multiple active
-    proxies]({{< relref "/operate/rs/databases/configure/proxy-policy.md" >}}).
+    proxies](/content/operate/rs/databases/configure/proxy-policy.md).
 - Support for Redis version 3.2 added. When you install or upgrade the
     cluster the new default version for Redis databases will be 3.2 and
     when you upgrade the databases they will be updated to this version.
     If you would like to change the default version to Redis 3.0, refer
     to the instruction in the [Upgrading
-    databases]({{< relref "/operate/rs/installing-upgrading/upgrading" >}})
+    databases](/content/operate/rs/installing-upgrading/upgrading/_index.md)
     If you would like to upgrade existing databases to the latest 3.0
     minor version, refer to the Known Issues section below.
 - The cluster can now be configured to support both private and public
     IPs to connect to database endpoints through both public and private
     networks. For additional details, refer to [Private and Public
-    Endpoints]({{< relref "/operate/rs/networking/private-public-endpoints.md" >}}).
+    Endpoints](/content/operate/rs/networking/private-public-endpoints.md).
 - **rladmin status** command output has been enhanced to include an
     indication on which node rladmin is running by adding the '\*' sign
     next to the node entry, and to show the host name of the machine the
@@ -72,7 +72,7 @@ upgrade to this version.
     done using **supervisorctl** command from the OS CLI.
 - Linux OS vm.swappiness is now advised to be set to zero, for more
     information see [Disabling Swap in
-    Linux]({{< relref "/operate/rs/installing-upgrading/configuring/linux-swap.md" >}}).
+    Linux](/content/operate/rs/installing-upgrading/configuring/linux-swap.md).
 
 ## Important fixed issues since 4.3.0
 

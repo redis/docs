@@ -34,7 +34,7 @@ on. The result is that for all but the initial call to get the cluster
 topology or reacquire the location of the master shard, the client will
 connect to the RS endpoint proxy where the master shard is located.
 [Learn more about the Cluster API
-implementation]({{< relref "/operate/rs/clusters/optimize/oss-cluster-api.md" >}}).
+implementation](/content/operate/rs/clusters/optimize/oss-cluster-api.md).
 
 ### Geo-distributed Active-Active conflict-free replicated databases (CRDB) {#geodistributed-activeactive-conflictfree-replicated-databases-crdb}
 
@@ -50,7 +50,7 @@ provide smart and automatic conflict resolution based on the data type's
 intent.
 
 For more information, go here. For information, go to [Developing with
-CRDBs]({{< relref "/operate/rs/databases/active-active" >}}develop/develop-for-aa/).
+CRDBs](/operate/rs/databases/active-active/develop/develop-for-aa/).
 
 ### Redis modules
 
@@ -65,13 +65,13 @@ Enterprise is known for.
 Redis has developed and certified the following modules for use with 
 Redis Enterprise Pack:
 
-- [RediSearch]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search" >}})
+- [RediSearch](/content/operate/oss_and_stack/stack-with-enterprise/search/_index.md)
     - This module turns RS into a supercharged distributed in-memory
       full-text indexing and search beast.
-- [ReJSON]({{< relref "/operate/oss_and_stack/stack-with-enterprise/json" >}})
+- [ReJSON](/content/operate/oss_and_stack/stack-with-enterprise/json/_index.md)
     - Now you have the convenience JSON as a built-in data type and
       easily able to address nested data via a path.
-- [RedisBloom]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom" >}})
+- [RedisBloom](/content/operate/oss_and_stack/stack-with-enterprise/bloom/_index.md)
     - Enables RS to have a scalable bloom filter as a data type. Bloom
       filters are probabilistic data structures that
       quickly determine if values are in a set.
@@ -91,7 +91,7 @@ easily and quickly test several containers to build the scalable
 and highly available cluster Redis Enterprise Software is famous for.
 
 For more information, go to [quick start with Redis Enterprise on
-Docker]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}).
+Docker](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md).
 
 ## LDAP Integration
 
@@ -102,7 +102,7 @@ accounts can be used for administering resources on the cluster via
 command line, Rest API, or admin console.
 
 For more information see [LDAP
-Integration]({{< relref "/operate/rs/security/access-control/ldap" >}}).
+Integration](/content/operate/rs/security/access-control/ldap/_index.md).
 
 ## Additional capabilities
 
