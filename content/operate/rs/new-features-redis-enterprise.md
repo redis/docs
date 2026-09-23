@@ -26,7 +26,7 @@ provide smart and automatic conflict resolution based on the data type's
 intent.
 
 For more information, go here. For information, go to [Developing with
-Active-Active databases]({{< relref "/operate/rs/developing/crdbs" >}}).
+Active-Active databases](/operate/rs/developing/crdbs).
 
 ## Redis modules
 
@@ -40,17 +40,17 @@ Enterprise is known for.
 
 Redis developed and certified these modules for use with Redis Enterprise Software:
 
-- [RedisBloom]({{< relref "/operate/modules/redisbloom" >}})
+- [RedisBloom](/operate/modules/redisbloom)
     - Enables Redis to have a scalable bloom filter as a data type. Bloom
       filters are probabilistic data structures that quickly determine if something is contained within a set.
 - RedisGraph
     - RedisGraph is the first queryable Property Graph database to use sparse
       matrices to represent the adjacency matrix in graphs and linear algebra to query the graph.
       RedisGraph uses [Cypher](https://www.opencypher.org/) as its query language.
-- [RedisJSON]({{< relref "/operate/modules/redisjson" >}})
+- [RedisJSON](/operate/modules/redisjson)
     - Now you have the convenience JSON as a built-in data type and easily
       able to address nested data via a path.
-- [RediSearch]({{< relref "/operate/modules/redisearch" >}})
+- [RediSearch](/operate/modules/redisearch)
     - This module turns Redis into a distributed in-memory
       full-text indexing and search beast.
 
@@ -69,7 +69,7 @@ easily and quickly test several containers to build the scalable
 and highly available cluster Redis Enterprise Software is famous for.
 
 For more information go to [quick start with Redis Enterprise Software
-on Docker.]({{< relref "/operate/rs/installing-upgrading/get-started-docker.md" >}})
+on Docker.](/operate/rs/installing-upgrading/get-started-docker.md)
 
 ## LDAP integration
 
@@ -80,4 +80,4 @@ accounts can be used for administering resources on the cluster via
 command line, Rest API, or admin console.
 
 For more information see [LDAP
-Integration]({{< relref "/operate/rs/security/passwords-users-roles.md#setting-up-ldap" >}}).
+Integration](/operate/rs/security/passwords-users-roles.md#setting-up-ldap).

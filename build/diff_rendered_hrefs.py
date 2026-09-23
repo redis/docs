@@ -25,7 +25,11 @@ import re
 import hashlib
 
 NOISY_PREFIXES = ("develop/ai/redisvl/", "operate/rc/changelog/")
-HREF_RX = re.compile(r'href="[^"]*"')
+# `hugo --minify` drops attribute quotes wherever the value has no whitespace
+# or quote characters, which is nearly always for an href -- on a sampled page
+# only 5 of 240 hrefs stayed quoted. A quoted-only pattern therefore
+# fingerprints almost nothing and reports "0 diffs" even when links changed.
+HREF_RX = re.compile(r'href="[^"]*"|href=\'[^\']*\'|href=[^\s"\'`=<>]+')
 
 
 def fingerprint(public_dir, prefix_filter=None):
