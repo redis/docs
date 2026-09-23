@@ -11,7 +11,7 @@ weight: $weight
 url: '/operate/rs/8.0/references/rest-api/objects/bdb/replica_sources_status/'
 ---
 
-The `replica_sources` status field relates to the [Replica Of]({{< relref "/operate/rs/8.0/databases/import-export/replica-of/create.md" >}}) feature, which enables the creation of a Redis database (single- or multi-shard) that synchronizes data from another Redis database (single- or multi-shard).
+The `replica_sources` status field relates to the [Replica Of](/content/operate/rs/8.0/databases/import-export/replica-of/create.md) feature, which enables the creation of a Redis database (single- or multi-shard) that synchronizes data from another Redis database (single- or multi-shard).
 
 The status field represents the Replica Of sync status for a specific sync source.
 
