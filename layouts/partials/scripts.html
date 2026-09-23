@@ -54,7 +54,7 @@
                     // copied text runs as-is. Multiline blocks mix commands and output,
                     // so leave them untouched.
                     const text = lines.length === 1
-                        ? lines[0].textContent.replace(/^(\s*)(?:\$\s*|>\s*|127\.0\.0\.1:6379>\s*)/, '$1')
+                        ? lines[0].textContent.replace(/^(\s*)(?:\$\s+|>\s+|127\.0\.0\.1:6379>\s+)/, '$1')
                         : Array.from(lines).map(line => line.textContent).join('');
 
                     navigator.clipboard.writeText(text).then(() => {
