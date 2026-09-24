@@ -20,7 +20,8 @@ Redis Enterprise Auto Tiering supports two storage engines:
 
 - [RocksDB](https://rocksdb.org/): Used up to Redis version 6.2. Deprecated for later Redis versions.
 
-{{<warning>}}Switching between storage engines requires guidance by Redis Support or your Account Manager.{{</warning>}}
+> [!WARNING]
+> Switching between storage engines requires guidance by Redis Support or your Account Manager.
 
 ### Change the storage engine
 
@@ -44,7 +45,8 @@ Redis Enterprise Auto Tiering supports two storage engines:
      rladmin restart db { db:<id> | <name> }
      ```
 
-{{<note>}} We recommend restarting your database at times with low usage and avoiding peak hours. For databases without persistence enabled, we also recommend using export to backup your database first.{{</note>}}
+> [!NOTE]
+>  We recommend restarting your database at times with low usage and avoiding peak hours. For databases without persistence enabled, we also recommend using export to backup your database first.
 
 ## Monitor the storage engine
 
@@ -66,4 +68,4 @@ Versions of Redis Enterprise 7.2 and later provide a metric called `bdb_bigstore
   bdb_bigstore_shard_count{bdb="1",cluster="mycluster.local",driver="speedb"} 2.0
   ```
 
-For more about metrics for Redis Enterprise’s integration with Prometheus, see [Prometheus integration]({{< relref "/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions" >}}).
+For more about metrics for Redis Enterprise’s integration with Prometheus, see [Prometheus integration](/content/integrate/prometheus-with-redis-enterprise/prometheus-metrics-definitions.md).

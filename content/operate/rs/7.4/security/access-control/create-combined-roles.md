@@ -29,17 +29,16 @@ To define a Redis ACL rule that you can assign to a role:
 
 1. Enter a descriptive name for the Redis ACL. This will be used to associate the ACL rule with the role.
 
-1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview]({{<relref "/operate/rs/7.4/security/access-control/redis-acl-overview">}}).
+1. Define the ACL rule. For more information about Redis ACL rules and syntax, see the [Redis ACL overview](/content/operate/rs/7.4/security/access-control/redis-acl-overview.md).
 
-    {{<note>}}
-The **ACL builder** does not support selectors and key permissions. Use **Free text command** to manually define them instead.
-    {{</note>}}
+    > [!NOTE]
+    > The **ACL builder** does not support selectors and key permissions. Use **Free text command** to manually define them instead.
+    >
 
 1. Select **Save**.
 
-{{<note>}}
-For multi-key commands on multi-slot keys, the return value is `failure`, but the command runs on the keys that are allowed.
-{{</note>}}
+> [!NOTE]
+> For multi-key commands on multi-slot keys, the return value is `failure`, but the command runs on the keys that are allowed.
 
 ## Create roles with ACLs and cluster access {#create-role}
 
@@ -55,7 +54,7 @@ To create a role that grants database access privileges and allows access to the
 
 1. Enter a descriptive name for the role. This will be used to reference the role when configuring users.
 
-1. Choose a **Cluster management role** other than **None**. For details about permissions granted by each role, see [Cluster Manager UI permissions]({{<relref "/operate/rs/7.4/security/access-control/create-cluster-roles#cluster-manager-ui-permissions">}}) and [REST API permissions]({{<relref "/operate/rs/7.4/references/rest-api/permissions">}}).
+1. Choose a **Cluster management role** other than **None**. For details about permissions granted by each role, see [Cluster Manager UI permissions](/content/operate/rs/7.4/security/access-control/create-cluster-roles.md#cluster-manager-ui-permissions) and [REST API permissions](/content/operate/rs/7.4/references/rest-api/permissions.md).
 
     {{<image filename="images/rs/screenshots/access-control/rbac-create-combined-role-select-cm-role.png" alt="Add role with name">}}
     
@@ -73,4 +72,4 @@ To create a role that grants database access privileges and allows access to the
 
     {{<image filename="images/rs/screenshots/access-control/rbac-save-combined-role.png" alt="Add databases to access">}}
 
-You can [assign the new role to users]({{<relref "/operate/rs/7.4/security/access-control/create-users#assign-roles-to-users">}}) to grant database access and access to the Cluster Manager UI and REST API.
+You can [assign the new role to users](/content/operate/rs/7.4/security/access-control/create-users.md#assign-roles-to-users) to grant database access and access to the Cluster Manager UI and REST API.

@@ -34,9 +34,8 @@ The rack-zone ID must comply with the following rules:
 - Characters consist of letters, digits, and hyphens ('-'). Underscores ('_') are also accepted as of Redis Enterprise Software 6.4.2-61.
 - ID starts with a letter and ends with a letter or a digit.
 
-{{< note >}}
-Rack-zone IDs are **case-insensitive** (uppercase and lowercase letter are treated as the same).
-{{< /note >}}
+> [!NOTE]
+> Rack-zone IDs are **case-insensitive** (uppercase and lowercase letter are treated as the same).
 
 ## Node layout guidelines
 
@@ -53,15 +52,14 @@ If a Redis Enterprise Software cluster consists of three nodes (the recommended 
 To enable rack-zone awareness, you need to configure it for the
 cluster, nodes, and [databases](#enable-database-rack-zone-awareness).
 
-{{<note>}}
-- After rack-zone awareness is enabled for a cluster, it cannot be turned off.
-
-- After a rack ID is assigned to a node, it cannot be changed.
-{{</note>}}
+> [!NOTE]
+> - After rack-zone awareness is enabled for a cluster, it cannot be turned off.
+>
+> - After a rack ID is assigned to a node, it cannot be changed.
 
 ### New cluster
 
-You can set up rack-zone awareness for the cluster and its nodes during [cluster creation]({{< relref "/operate/rs/7.4/clusters/new-cluster-setup" >}}):
+You can set up rack-zone awareness for the cluster and its nodes during [cluster creation](/content/operate/rs/7.4/clusters/new-cluster-setup.md):
 
 1. In the **Cluster** screen's **Configuration** section, enable **Rack zone awareness**.
 
@@ -69,22 +67,22 @@ You can set up rack-zone awareness for the cluster and its nodes during [cluster
 
 1. Enter a **Rack-zone ID** for the current node.
 
-1. Finish [cluster setup]({{< relref "/operate/rs/7.4/clusters/new-cluster-setup" >}}).
+1. Finish [cluster setup](/content/operate/rs/7.4/clusters/new-cluster-setup.md).
 
-1. For every [node you add to the cluster]({{< relref "/operate/rs/7.4/clusters/add-node" >}}), assign a different **Rack-zone ID**.
+1. For every [node you add to the cluster](/content/operate/rs/7.4/clusters/add-node.md), assign a different **Rack-zone ID**.
 
 ### Existing cluster
 
-If you did not configure rack-zone awareness during cluster creation, you can configure rack-zone awareness for existing clusters using the [REST API]({{< relref "/operate/rs/7.4/references/rest-api" >}}):
+If you did not configure rack-zone awareness during cluster creation, you can configure rack-zone awareness for existing clusters using the [REST API](/content/operate/rs/7.4/references/rest-api/_index.md):
 
-1. For each node in the cluster, assign a different rack-zone ID using the REST API to [update the node]({{< relref "/operate/rs/7.4/references/rest-api/requests/nodes#put-node" >}}):
+1. For each node in the cluster, assign a different rack-zone ID using the REST API to [update the node](/content/operate/rs/7.4/references/rest-api/requests/nodes/_index.md#put-node):
 
     ```sh
     PUT /v1/nodes/<node-ID>
     { "rack_id": "rack-zone-ID" }
     ```
 
-1. [Update the cluster policy]({{< relref "/operate/rs/7.4/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) to enable rack-zone awareness:
+1. [Update the cluster policy](/content/operate/rs/7.4/references/rest-api/requests/cluster/policy.md#put-cluster-policy) to enable rack-zone awareness:
 
     ```sh
     PUT /v1/cluster/policy
@@ -98,11 +96,11 @@ Before you can enable rack-zone awareness for a database, you must configure rac
 <!--
 To enable rack-zone awareness for a database using the Cluster Manager UI:
 
-1. From **databases**, [create a new database]({{< relref "/operate/rs/7.4/databases/create" >}}) or edit an existing database's **configuration**.
+1. From **databases**, [create a new database](/content/operate/rs/7.4/databases/create.md) or edit an existing database's **configuration**.
 
 1. Expand the **High availability & durability** section.
 
-1. Enable [**Replication**]({{< relref "/operate/rs/7.4/databases/durability-ha/replication" >}}).
+1. Enable [**Replication**](/content/operate/rs/7.4/databases/durability-ha/replication.md).
 
 1. Select **Rack-zone awareness**.
 
@@ -112,12 +110,12 @@ To enable rack-zone awareness for a database using the Cluster Manager UI:
 
 1. [Rearrange database shards](#rearrange-database-shards) to optimize an existing database for rack-zone awareness.
 
-    {{<note>}}
-If you enabled rack-zone awareness during database creation, you can ignore this step.
-    {{</note>}}
+    > [!NOTE]
+    > If you enabled rack-zone awareness during database creation, you can ignore this step.
+    >
 -->
 
-To enable rack-zone awareness for a database, use a [REST API request]({{< relref "/operate/rs/7.4/references/rest-api/requests/bdbs#put-bdbs" >}}):
+To enable rack-zone awareness for a database, use a [REST API request](/content/operate/rs/7.4/references/rest-api/requests/bdbs/_index.md#put-bdbs):
 
 ```sh
 PUT /v1/bdbs/<database-ID>
@@ -126,9 +124,9 @@ PUT /v1/bdbs/<database-ID>
 
 ### Rearrange database shards
 
-After you enable rack-zone awareness for an existing database, you should generate an optimized shard placement blueprint using the [REST API]({{< relref "/operate/rs/7.4/references/rest-api" >}}) and use it to rearrange the shards in different racks or zones.
+After you enable rack-zone awareness for an existing database, you should generate an optimized shard placement blueprint using the [REST API](/content/operate/rs/7.4/references/rest-api/_index.md) and use it to rearrange the shards in different racks or zones.
 
-1. [Generate an optimized shard placement blueprint]({{< relref "/operate/rs/7.4/references/rest-api/requests/bdbs/actions/optimize_shards_placement#get-bdbs-actions-optimize-shards-placement" >}}):
+1. [Generate an optimized shard placement blueprint](/content/operate/rs/7.4/references/rest-api/requests/bdbs/actions/optimize_shards_placement.md#get-bdbs-actions-optimize-shards-placement):
 
     1. Send the following `GET` request:
 
@@ -140,7 +138,7 @@ After you enable rack-zone awareness for an existing database, you should genera
 
     1. Copy the JSON response body, which represents the new shard placement blueprint.
 
-1. [Rearrange the database shards]({{< relref "/operate/rs/7.4/references/rest-api/requests/bdbs/actions/optimize_shards_placement#put-bdbs-rearrange-shards" >}}) according to the new shard placement blueprint:
+1. [Rearrange the database shards](/content/operate/rs/7.4/references/rest-api/requests/bdbs/actions/optimize_shards_placement.md#put-bdbs-rearrange-shards) according to the new shard placement blueprint:
 
     1. In the request headers, include the <nobr>`cluster-state-id`</nobr> from the `optimize_shards_placement` response.
 
