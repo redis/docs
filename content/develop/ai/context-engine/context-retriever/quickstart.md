@@ -14,7 +14,7 @@ bannerText: Redis Context Retriever is currently available in preview. Features 
 
 Use this quickstart to model a Redis data source as a context surface, generate the retrieval tools Context Retriever exposes, and call one of those tools as an agent would. You will install the Python client, create an admin key, define entities in a model file, create a surface from that file, create an agent key scoped to it, then list and call the generated tools.
 
-This quickstart uses Redis Cloud. If you're running Context Retriever self-managed, see [Install Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/install" >}}) instead; every step after sign-in and admin-key creation is the same either way.
+This quickstart uses Redis Cloud. If you're running Context Retriever self-managed, see [Install Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}) instead; every step after sign-in and admin-key creation is the same either way.
 
 ## Before you begin
 
@@ -52,7 +52,7 @@ Save the returned key. Export it so later commands can use it:
 export CTX_ADMIN_KEY='<the returned key, starts with cs_admin_>'
 ```
 
-This quickstart uses a Redis Cloud account for sign-in and admin-key creation. If you're running Context Retriever self-managed instead, see [Install Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/install" >}}) to bootstrap your first admin key. Every other step in this quickstart applies to both.
+This quickstart uses a Redis Cloud account for sign-in and admin-key creation. If you're running Context Retriever self-managed instead, see [Install Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}) to bootstrap your first admin key. Every other step in this quickstart applies to both.
 
 ## Define your data model
 

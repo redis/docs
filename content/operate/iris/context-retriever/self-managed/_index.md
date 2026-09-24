@@ -1,16 +1,18 @@
 ---
-Title: Install Context Retriever
+Title: Self-managed Context Retriever
 alwaysopen: false
 categories:
 - docs
-- develop
-- ai
+- operate
+- iris
 description: Install and run Redis Context Retriever on a self-managed Kubernetes cluster using Helm.
-linkTitle: Install Context Retriever
+linkTitle: Self-managed
 weight: 40
 hideListLinks: true
 bannerText: Redis Context Retriever self-managed is currently in private preview and subject to change. A license key is required to deploy — contact your Redis representative or [contact sales](https://redis.io/contact/).
 bannerChildren: true
+aliases:
+- /develop/ai/context-engine/context-retriever/install/
 ---
 
 Context Retriever is distributed as container images on Docker Hub plus a Helm chart shipped in the Redis Enterprise Helm repository. Installation pulls the images from Docker Hub (or your own mirror) and deploys the chart against a Redis database you provide.
