@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - radar
-description: Install Radar on RHEL, Kubernetes, or Docker Compose, then make it reachable from your network.
+description: Install Radar on RHEL or Kubernetes, then make it reachable from your network.
 linkTitle: Install
 weight: 10
 ---
@@ -35,9 +35,8 @@ What you have to do differs by method, so each install method below ends with it
 |---|---|---|---|
 | [RPM on RHEL](#install-on-rhel-with-the-rpm) | You run RHEL 9 and cannot or do not want to run containers. | RHEL 9 on x86_64 | No |
 | [Kubernetes with Helm](#install-on-kubernetes-with-helm) | You already run Kubernetes or OpenShift. | Kubernetes 1.23 or later, and Helm 3.x. Validated on OpenShift 4.x | Yes |
-| [Docker Compose](#install-with-docker-compose) | You want a single host and already run Docker. | A Docker engine with the `docker compose` plugin | Yes |
 
-All three are supported and built from the same release. You can install any of them on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
+Both are supported and built from the same release. You can install either one on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
 Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**. Get the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`.
 
@@ -53,7 +52,7 @@ Before you install:
 
 Radar requires PostgreSQL 16 or later. Redis tests Radar against PostgreSQL 16 and 18. For production, set up your own external, managed [PostgreSQL](https://www.postgresql.org/docs/) database before you install Radar. You need to provision, back up, and tune it yourself, since Radar only connects to it and creates the roles and schema it needs on startup.
 
-For evaluation or testing, you can skip that step: the Helm chart and the Compose bundle can each start a PostgreSQL container for you, though neither is hardened for production use.
+For evaluation or testing, you can skip that step: the Helm chart can start a PostgreSQL container for you, though it isn't hardened for production use.
 
 The connection string needs privileges for both normal runtime work and schema migration, including `CREATEROLE`. On startup, the API server creates the roles it needs before it begins serving traffic.
 
@@ -83,7 +82,7 @@ In that line, both `enabled` and `required` should read `true`. Search your logs
 
 ### Package and service names
 
-Radar's services and paths use an `mcm` prefix. The RPM is named `radar`, its services are `mcm-api` and `mcm-worker`, and its configuration lives in `/etc/mcm/`. The Helm chart pulls one Docker Hub repository, `redislabs/radar`, and selects each component by tag: `app-v<version>`, `worker-v<version>`, and `migrate-v<version>`. The Docker Compose bundle's container images use a `radar-` prefix: `radar-app`, `radar-worker`, and `radar-migrate`.
+Radar's services and paths use an `mcm` prefix. The RPM is named `radar`, its services are `mcm-api` and `mcm-worker`, and its configuration lives in `/etc/mcm/`. The Helm chart pulls one Docker Hub repository, `redislabs/radar`, and selects each component by tag: `app-v<version>`, `worker-v<version>`, and `migrate-v<version>`.
 
 ## Install on RHEL with the RPM
 
@@ -367,42 +366,9 @@ To install from a chart package file instead, such as on a cluster with no inter
 
    <br>
 
-## Install with Docker Compose
-
-The Compose bundle runs Radar on a single host. It ships the container images, the Compose files, and an environment template.
-
-1. Load the images.
-
-   ```bash
-   sha256sum -c radar-v<version>.SHA256SUMS
-   docker load -i images.tar.gz
-   ```
-
-   <br>
-
-2. Configure the environment. 
-   
-   Copy `.env.production.example` to `.env.production` and replace every placeholder, including the PostgreSQL credentials and the credential encryption key.
-
-   {{< warning >}}
-Confirm you've replaced every sample value, especially the credential encryption key, before you start the services. Unlike the RPM, Compose does not detect leftover sample values: if you start them before replacing the credential encryption key, Radar runs with the published example key rather than refusing to start.
-   {{< /warning >}}
-
-   <br>
-
-3. Start the services.
-
-   ```bash
-   docker compose -f compose.yaml -f compose.prod.yaml --env-file .env.production up -d
-   ```
-
-   The production Compose file pins the image tags and never pulls, so the stack runs fully offline once the images are loaded. A migration service runs once, before the API server and worker start.
-
-   <br>
-
 ## Install on an air-gapped host
 
-Air-gapped installation uses the same three methods.
+Air-gapped installation uses the same two methods.
 
 Transfer the release artifacts to the target host or to an offline repository it can reach. If they include a `radar-v<version>.SHA256SUMS` file, verify them:
 
@@ -414,7 +380,6 @@ sha256sum -c radar-v<version>.SHA256SUMS
 |---|---|---|
 | RPM | The `.rpm` and the dependency closure, including `postgresql-server` if the host has no offline PostgreSQL | `dnf install` from the local file |
 | Helm | The chart package, `radar-<version>.tgz`, and the container images listed in the release notes for your version | Copy the images into a registry the cluster can pull from, then install the chart from the package. See [Helm on an air-gapped cluster](#helm-on-an-air-gapped-cluster). |
-| Docker Compose | `images.tar.gz` and the Compose files | `docker load`, then `docker compose up` |
 
 Your PostgreSQL database and the clusters you plan to monitor still need to be reachable from the Radar host over the network.
 
