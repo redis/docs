@@ -54,7 +54,15 @@ Radar requires PostgreSQL 16 or later. Redis tests Radar against PostgreSQL 16 a
 
 For evaluation or testing, you can skip that step: the Helm chart can start a PostgreSQL container for you, though it isn't hardened for production use.
 
-The connection string needs privileges for both normal runtime work and schema migration, including `CREATEROLE`. On startup, the API server creates the roles it needs before it begins serving traffic.
+The connection string needs privileges for both normal runtime work and schema migration, including `CREATEROLE`. The login doesn't need `SUPERUSER` or `BYPASSRLS`. On startup, the API server creates the roles it needs before it begins serving traffic.
+
+An external database needs one more setting that `CREATEROLE` doesn't cover. A database owner or administrator has to apply the role membership default to the database named by `DATABASE_URL`:
+
+```sql
+ALTER DATABASE <database_name> SET createrole_self_grant = 'set, inherit';
+```
+
+Reconnect the migration login after you change this setting, so its new session inherits the database default. Radar doesn't apply this setting for you on an external database, and schema migration fails without it.
 
 Use `sslmode=require` or stricter to encrypt the connection. Radar passes your connection string through unchanged.
 
