@@ -72,6 +72,11 @@
   const LOOPBACK_GAP = 70;
   const EDGE_GAP = 8;
 
+  // Extra room around the viewBox so hover/selected outlines (stroke-width: 2) on
+  // edge-of-grid nodes aren't clipped. MARGIN_X equals the process/terminal shape's
+  // own halfW, so those nodes sit exactly flush with the viewBox edge without this.
+  const STROKE_PAD = 3;
+
   const SHAPE_HALF = {
     process: { w: 55, h: 44 },
     decision: { w: 65, h: 58 },
@@ -114,6 +119,24 @@
     if (!denom) return { x: cx, y: cy };
     const t = 1 / denom;
     return { x: cx + dx * t, y: cy + dy * t };
+  }
+
+  // Point where a ray from (cx, cy) in direction (dx, dy) exits a rectangle of the given
+  // half-extents. Unlike ellipseBoundaryPoint, this reaches the true corner on diagonals,
+  // which matters for process nodes: they render as rects, so an ellipse-based boundary
+  // point sits inside the shape and hides the edge's arrowhead underneath it.
+  function rectBoundaryPoint(cx, cy, halfW, halfH, dx, dy) {
+    const scaleX = dx ? halfW / Math.abs(dx) : Infinity;
+    const scaleY = dy ? halfH / Math.abs(dy) : Infinity;
+    const t = Math.min(scaleX, scaleY);
+    if (!isFinite(t)) return { x: cx, y: cy };
+    return { x: cx + dx * t, y: cy + dy * t };
+  }
+
+  // Boundary function to use for a node's shape when clipping an edge to its border.
+  function boundaryPointForNode(node, cx, cy, halfW, halfH, dx, dy) {
+    const fn = node.type === 'process' ? rectBoundaryPoint : ellipseBoundaryPoint;
+    return fn(cx, cy, halfW, halfH, dx, dy);
   }
 
   // Joins basePath (e.g. "/" or "/docs/latest/") with a site-relative path authored in the
@@ -228,8 +251,8 @@
     const dirX = dx / len;
     const dirY = dy / len;
 
-    const start = ellipseBoundaryPoint(from.cx, from.cy, from.halfW + EDGE_GAP, from.halfH + EDGE_GAP, dirX, dirY);
-    const end = ellipseBoundaryPoint(to.cx, to.cy, to.halfW + EDGE_GAP, to.halfH + EDGE_GAP, -dirX, -dirY);
+    const start = boundaryPointForNode(from, from.cx, from.cy, from.halfW + EDGE_GAP, from.halfH + EDGE_GAP, dirX, dirY);
+    const end = boundaryPointForNode(to, to.cx, to.cy, to.halfW + EDGE_GAP, to.halfH + EDGE_GAP, -dirX, -dirY);
 
     const line = svgEl('line', {
       x1: start.x, y1: start.y, x2: end.x, y2: end.y,
@@ -312,9 +335,9 @@
     const height = bottomDipY + MARGIN_Y;
 
     const svg = svgEl('svg', {
-      width: width,
-      height: height,
-      viewBox: '0 0 ' + width + ' ' + height,
+      width: width + STROKE_PAD * 2,
+      height: height + STROKE_PAD * 2,
+      viewBox: '-' + STROKE_PAD + ' -' + STROKE_PAD + ' ' + (width + STROKE_PAD * 2) + ' ' + (height + STROKE_PAD * 2),
       class: 'context-map-diagram'
     });
 
