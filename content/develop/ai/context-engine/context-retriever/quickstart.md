@@ -145,5 +145,6 @@ ctxctl surface delete "$CTX_SURFACE_ID" --admin-key "$CTX_ADMIN_KEY" --confirm
 
 ## Next steps
 
+* Read [Context Retriever concepts]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}}) to understand tools, providers, and access tags.
 * [Create a Context Retriever service in Redis Cloud]({{< relref "/operate/iris/context-retriever/create-service" >}}) using the console instead of the CLI.
 * [Manage admin keys]({{< relref "/operate/iris/context-retriever/view-admin-keys" >}}).
