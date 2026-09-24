@@ -14,7 +14,7 @@ weight: $weight
 url: '/operate/rs/7.22/references/cli-utilities/redis-cli/'
 ---
 
-The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands](/commands) directly from the command-line terminal or with [interactive mode](#interactive-mode).
+The `redis-cli` command-line utility lets you interact with a Redis database. With `redis-cli`, you can run [Redis commands](/content/commands) directly from the command-line terminal or with [interactive mode](#interactive-mode).
 
 If you want to run Redis commands without `redis-cli`, you can [connect to a database with Redis Insight](/content/develop/tools/insight/_index.md) and use the built-in [CLI](/content/develop/tools/insight/_index.md) prompt instead.
 
@@ -150,4 +150,4 @@ See [Scanning for big keys](/content/develop/tools/cli.md#scanning-for-big-keys)
 ## More info
 
 - [Redis CLI documentation](/content/develop/tools/cli.md)
-- [Redis commands reference](/commands/)
+- [Redis commands reference](/content/commands)
