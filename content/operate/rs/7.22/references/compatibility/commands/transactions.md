@@ -12,7 +12,7 @@ weight: 10
 url: '/operate/rs/7.22/references/compatibility/commands/transactions/'
 ---
 
-The following table shows which Redis Open Source [transaction commands](/commands?group=transactions) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following table shows which Redis Open Source [transaction commands](/content/commands?group=transactions) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 | Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
