@@ -44,7 +44,7 @@ When planning a Flex deployment, consider the following flash drive requirements
 
 - Flash storage must be greater than the total provisioned database size to account for write buffers, space amplification, and more.
 
-See the general Redis Software [hardware requirements]({{<relref "/operate/rs/8.0/installing-upgrading/install/plan-deployment/hardware-requirements">}}) for additional requirements.
+See the general Redis Software [hardware requirements](/content/operate/rs/8.0/installing-upgrading/install/plan-deployment/hardware-requirements.md) for additional requirements.
 
 ## Sizing guidelines
 
@@ -80,12 +80,12 @@ Actual performance can vary based on your data model, commands, and network late
 
 | Data type/feature | Flex support |
 |------------------|--------------|
-| [Active-Active databases]({{<relref "/operate/rs/8.0/databases/active-active">}}) | <span title="Not supported">&#x274c;</span>Not supported |
-| [JSON]({{<relref "/develop/data-types/json">}}) | <span title="Supported">&#x2705;</span> Supported |
-| [Probabilistic data structures]({{<relref "/develop/data-types/#probabilistic-data-types">}}) | <span title="Supported">&#x2705;</span> Supported |
-| [Redis Search]({{<relref "/develop/ai/search-and-query">}}) | <span title="Not supported">&#x274c;</span>Not supported |
-| Standard [Redis data types]({{<relref "/develop/data-types">}}) | <span title="Supported">&#x2705;</span> Supported |
-| [Time series]({{<relref "/develop/data-types/timeseries">}}) | <span title="Not supported">&#x274c;</span>Not supported |
+| [Active-Active databases](/content/operate/rs/8.0/databases/active-active/_index.md) | <span title="Not supported">&#x274c;</span>Not supported |
+| [JSON](/content/develop/data-types/json/_index.md) | <span title="Supported">&#x2705;</span> Supported |
+| [Probabilistic data structures](/content/develop/data-types/_index.md#probabilistic-data-types) | <span title="Supported">&#x2705;</span> Supported |
+| [Redis Search](/content/develop/ai/search-and-query/_index.md) | <span title="Not supported">&#x274c;</span>Not supported |
+| Standard [Redis data types](/content/develop/data-types/_index.md) | <span title="Supported">&#x2705;</span> Supported |
+| [Time series](/content/develop/data-types/timeseries/_index.md) | <span title="Not supported">&#x274c;</span>Not supported |
 
 ## Best practices
 
@@ -109,5 +109,5 @@ Actual performance can vary based on your data model, commands, and network late
 
 ## Next steps
 
-- [Get started]({{< relref "/operate/rs/8.0/flex/get-started" >}}): Configure Flex on your cluster.
-- [Scale your deployment]({{< relref "/operate/rs/8.0/flex/scale" >}}): Learn scaling strategies.
+- [Get started](/content/operate/rs/8.0/flex/get-started.md): Configure Flex on your cluster.
+- [Scale your deployment](/content/operate/rs/8.0/flex/scale.md): Learn scaling strategies.
