@@ -289,7 +289,11 @@
     return KEYS.filter(function (k) { return k.type === "JSON" && re.test(k.key); }).map(function (k) { return k.doc; });
   }
 
+  /* Protocol-level rejection (bad arguments): a JSON-RPC error. */
   function McpError(msg) { this.message = msg; }
+  /* Tool-level failure (the call ran but failed): a result with isError: true,
+     the way the live server reports a failed lookup. */
+  function ToolError(msg) { this.message = msg; }
 
   function checkEnum(path, val, en) {
     if (!en || en.indexOf(val) === -1)
@@ -361,7 +365,7 @@
     if (tool.kind === "get") {
       var ent = entityOf(model, tool.entity);
       var rec = rowsFor(ent).filter(function (r) { return r.id === args.id; })[0];
-      if (!rec) return { error: "not found: " + ent.template.replace("{id}", args.id) };
+      if (!rec) throw new ToolError("get by ID failed: failed to get document: key " + ent.template.replace("{id}", args.id) + " not found");
       return stamp(rec, surface);
     }
     if (tool.kind === "filter") {
@@ -756,13 +760,23 @@
           var entry = { name: name, args: args, id: rpcId++ };
           calls.push(entry);
           try { entry.result = execute(state.model, state.tools, state.surface, name, args); }
-          catch (e) { if (e instanceof McpError) { entry.error = e.message; throw e; } throw e; }
+          catch (e) {
+            if (e instanceof McpError) entry.error = e.message;
+            else if (e instanceof ToolError) entry.toolError = e.message;
+            throw e;
+          }
           return entry.result;
         });
       } catch (e) {
-        if (!(e instanceof McpError)) throw e;
+        if (!(e instanceof McpError) && !(e instanceof ToolError)) throw e;
         var last = calls[calls.length - 1];
-        answer = "I couldn't answer that. The server rejected my call to `" + last.name + "`: the data model doesn't index the field I needed. Go back to step 2, index it, and ask again.";
+        if (e instanceof ToolError) {
+          var t = state.tools.filter(function (x) { return x.name === last.name; })[0];
+          answer = "I couldn't answer that. My call to `" + last.name + "` failed because the record wasn't found. Check the " +
+            (t && t.entity ? t.entity : "entity") + " key template in step 2: it has to match your keys.";
+        } else {
+          answer = "I couldn't answer that. The server rejected my call to `" + last.name + "`: the data model doesn't index the field I needed. Go back to step 2, index it, and ask again.";
+        }
       }
 
       var chain = wait(700);
@@ -782,17 +796,19 @@
     }
 
     function callCard(c) {
-      var d = el("details", "rcr-call" + (c.error ? " is-err" : ""));
-      var status = c.error ? '<span class="rcr-dot is-bad"></span> error' : '<span class="rcr-dot is-ok"></span> ok';
+      var failed = c.error || c.toolError;
+      var d = el("details", "rcr-call" + (failed ? " is-err" : ""));
+      var status = failed ? '<span class="rcr-dot is-bad"></span> error' : '<span class="rcr-dot is-ok"></span> ok';
       d.appendChild(el("summary", "", '<span class="rcr-lbl">tools/call</span> <span class="rcr-mono rcr-callname">' + esc(c.name) + '</span> <span class="rcr-faint rcr-mono rcr-callargs">' + esc(JSON.stringify(c.args)) + "</span><span class=\"rcr-status\">" + status + "</span>"));
       var body = el("div", "rcr-callbody");
       var req = { jsonrpc: "2.0", id: c.id, method: "tools/call", params: { name: c.name, arguments: c.args } };
       var res = c.error ? { jsonrpc: "2.0", id: c.id, error: { code: -32602, message: c.error } }
+        : c.toolError ? { jsonrpc: "2.0", id: c.id, result: { content: [{ type: "text", text: "Error executing tool: " + c.toolError }], isError: true } }
         : { jsonrpc: "2.0", id: c.id, result: { content: [{ type: "text", text: JSON.stringify(c.result) }] } };
       body.appendChild(el("div", "rcr-lbl", "Request"));
       body.appendChild(el("pre", "rcr-code rcr-code-sm", jsonHtml(req)));
-      body.appendChild(el("div", "rcr-lbl", c.error ? "Response" : "Response (the tool result, parsed from content[0].text)"));
-      body.appendChild(el("pre", "rcr-code rcr-code-sm", jsonHtml(c.error ? res : c.result)));
+      body.appendChild(el("div", "rcr-lbl", failed ? "Response" : "Response (the tool result, parsed from content[0].text)"));
+      body.appendChild(el("pre", "rcr-code rcr-code-sm", jsonHtml(failed ? res : c.result)));
       var cd = el("details", "rcr-curl");
       cd.appendChild(el("summary", "", "Run this call yourself with curl"));
       cd.appendChild(el("pre", "rcr-code rcr-code-sm", esc(curlFor(c.name, c.args, c.id))));
@@ -808,5 +824,5 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 
   /* Exposed for tests. */
-  window.ContextRetrieverDemo = { buildTools: buildTools, execute: execute, defaultModel: defaultModel, QUESTIONS: QUESTIONS, McpError: McpError };
+  window.ContextRetrieverDemo = { buildTools: buildTools, execute: execute, defaultModel: defaultModel, QUESTIONS: QUESTIONS, McpError: McpError, ToolError: ToolError };
 })();
