@@ -99,7 +99,7 @@ Run every agent command as the service identity, as `sudo -u mcm /usr/libexec/mc
 
    Keep every argument the dialog generated. On Redis Cloud, the dialog adds `--tenant-activation-id`, a short-lived handle bound to your tenant, and the agent gRPC service rejects an activation that omits it. A self-managed install doesn't generate one.
 
-   Replace the endpoint and the agent name. The endpoint is your deployment's public agent gRPC host and port. The dialog shows a placeholder, and the public port isn't necessarily `9443`.
+   Replace the endpoint and the agent name. On Redis Cloud, the endpoint is `agent-radar.redis.io:443`. On a self-managed install, it's your deployment's public agent gRPC host and port, and the public port isn't necessarily `9443`.
 
    ```bash
    sudo -u mcm /usr/libexec/mcm/radar-agent activate \
