@@ -12,7 +12,7 @@ weight: 10
 url: '/operate/rs/8.0/references/compatibility/commands/pub-sub/'
 ---
 
-The following table shows which Redis Open Source [pub/sub commands](/commands?group=pubsub) are compatible with standard and Active-Active databases in Redis Software and Redis Cloud.
+The following table shows which Redis Open Source [pub/sub commands](/content/commands?group=pubsub) are compatible with standard and Active-Active databases in Redis Software and Redis Cloud.
 
 | Command | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
