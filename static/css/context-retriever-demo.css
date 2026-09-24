@@ -34,7 +34,8 @@
 .rcr p { margin: 0; }
 .rcr code, .rcr .rcr-mono { font-family: var(--rcr-mono); font-size: 12.5px; }
 .rcr code { background: var(--rcr-code-bg); border-radius: 4px; padding: 1px 5px; }
-.rcr button, .rcr select, .rcr input { font: inherit; color: inherit; }
+/* Zero-specificity reset, so component classes such as .rcr-btn-primary win. */
+:where(.rcr) :where(button, select, input) { font: inherit; color: inherit; }
 .rcr button:focus-visible, .rcr select:focus-visible, .rcr input:focus-visible, .rcr summary:focus-visible {
   outline: none; box-shadow: 0 0 0 3px var(--rcr-focus); border-radius: 6px;
 }
