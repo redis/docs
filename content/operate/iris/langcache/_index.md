@@ -19,6 +19,8 @@ LangCache is a semantic caching service available as a REST API that stores LLM 
 
 For more information about how LangCache works, see the [LangCache overview]({{< relref "/develop/ai/context-engine/langcache" >}}).
 
+To deploy LangCache on your own Kubernetes infrastructure instead of Redis Cloud, see [self-managed LangCache]({{< relref "/operate/iris/langcache/self-managed" >}}).
+
 ## LLM cost reduction with LangCache
 
 {{< embed-md "langcache-cost-reduction.md"  >}}

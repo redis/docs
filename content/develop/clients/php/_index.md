@@ -24,11 +24,11 @@ weight: 8
 client for Redis. 
 The sections below explain how to install `Predis` and connect your application to a Redis database.
 
-{{< note >}}Although we provide basic documentation for `Predis`, it is a third-party
-client library and is not developed or supported directly by Redis.
-{{< /note >}}
+> [!NOTE]
+> Although we provide basic documentation for `Predis`, it is a third-party
+> client library and is not developed or supported directly by Redis.
 
-`Predis` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`Predis` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 ## Install
 
@@ -52,7 +52,7 @@ Store and retrieve a simple string to test the connection:
 {{< clients-example set="landing" step="set_get_string" lang_filter="PHP" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-Store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}})
+Store and retrieve a [hash](/content/develop/data-types/hashes.md)
 object:
 
 {{< clients-example set="landing" step="set_get_hash" lang_filter="PHP" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" >}}

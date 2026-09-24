@@ -35,4 +35,4 @@ hiredis is a minimalistic C client library for Redis that provides a simple, eff
 
 ## Getting Started
 
-Refer to the complete [C guide]({{< relref "/develop/clients/hiredis" >}}) to install, connect, and use hiredis.
+Refer to the complete [C guide](/content/develop/clients/hiredis/_index.md) to install, connect, and use hiredis.

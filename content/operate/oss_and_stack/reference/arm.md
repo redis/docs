@@ -69,4 +69,4 @@ Raspberry Pi 1 model B:
 * Test 3: Like test 1 but with AOF enabled, fsync 1 sec: 1,820 ops/sec
 * Test 4: Like test 3, but with an AOF rewrite in progress: 1,000 ops/sec
 
-The benchmarks above are referring to simple [`SET`](/commands/set)/[`GET`](/commands/get) operations. The performance is similar for all the Redis fast operations (not running in linear time). However sorted sets may show slightly slower numbers.
+The benchmarks above are referring to simple [`SET`](/content/commands/set.md)/[`GET`](/content/commands/get.md) operations. The performance is similar for all the Redis fast operations (not running in linear time). However sorted sets may show slightly slower numbers.

@@ -53,7 +53,7 @@ For larger changes, we ask that you first create an issue describing your propos
 
 ### Client libraries
 
-The Redis [client libraries]({{< relref "/develop/clients" >}}) are nearly always open source and accepting of contributions. Consult the contribution guidelines for the library you're interested in.
+The Redis [client libraries](/content/develop/clients/_index.md) are nearly always open source and accepting of contributions. Consult the contribution guidelines for the library you're interested in.
 
 
 

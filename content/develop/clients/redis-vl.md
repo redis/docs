@@ -18,4 +18,4 @@ title: Redis vector library guide (Python)
 weight: 2
 ---
 
-See the [RedisVL Guide]({{< relref "/develop/ai/redisvl" >}}) for more information.
+See the [RedisVL Guide](/content/develop/ai/redisvl/_index.md) for more information.

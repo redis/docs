@@ -10,27 +10,27 @@ linkTitle: Best practices for scalable Redis Search
 weight: 25
 ---
 
-[Vertical scaling of Redis Search]({{<relref "/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor">}}) requires configuring query performance factors. With careful crafting of search indexes and queries, query performance factors allow throughput scaling up to 16X. The following recommendations can help optimize your indexes and queries to maximize the performance benefits from additional CPUs allocated by query performance factors.
+[Vertical scaling of Redis Search](/content/operate/oss_and_stack/stack-with-enterprise/search/query-performance-factor.md) requires configuring query performance factors. With careful crafting of search indexes and queries, query performance factors allow throughput scaling up to 16X. The following recommendations can help optimize your indexes and queries to maximize the performance benefits from additional CPUs allocated by query performance factors.
 
 ## Best candidates for query performance factor improvements
 
 - Query types:
 
-    - [Full-text]({{<relref "/develop/ai/search-and-query/query/full-text">}})
+    - [Full-text](/content/develop/ai/search-and-query/query/full-text.md)
 
-    - [Tag]({{<relref "/develop/ai/search-and-query/advanced-concepts/tags">}})
+    - [Tag](/content/develop/ai/search-and-query/advanced-concepts/tags.md)
 
-    - [Vector]({{<relref "/develop/ai/search-and-query/query/vector-search">}})
+    - [Vector](/content/develop/ai/search-and-query/query/vector-search.md)
 
-    - [Numeric]({{<relref "/develop/ai/search-and-query/query/range">}})
+    - [Numeric](/content/develop/ai/search-and-query/query/range.md)
 
-    - [Geo]({{<relref "/develop/ai/search-and-query/query/geo-spatial">}})
+    - [Geo](/content/develop/ai/search-and-query/query/geo-spatial.md)
 
 - Result set types:
 
     - Small result sets
 
-    - Document subsets that are indexed in their [non-normalized]({{<relref "/develop/ai/search-and-query/advanced-concepts/sorting#normalization-unf-option">}}) form
+    - Document subsets that are indexed in their [non-normalized](/content/develop/ai/search-and-query/advanced-concepts/sorting.md#normalization-unf-option) form
 
 ## Best practices
 
@@ -38,7 +38,7 @@ If query performance factors have not boosted the performance of your queries as
 
 1. Verify your index includes all queried and returned fields.
 
-1. Identify and avoid query [anti-patterns]({{<relref "/develop/ai/search-and-query/best-practices/scalable-query-best-practices#anti-patterns">}}) that limit scalability.
+1. Identify and avoid query [anti-patterns](/content/develop/ai/search-and-query/best-practices/scalable-query-best-practices.md#anti-patterns) that limit scalability.
 
 1. Follow best practices to [improve indexing](#improve-indexing).
 
@@ -46,7 +46,7 @@ If query performance factors have not boosted the performance of your queries as
 
 ### Improve indexing
 
-Follow these best practices for [indexing]({{<relref "/develop/ai/search-and-query/indexing">}}):
+Follow these best practices for [indexing](/content/develop/ai/search-and-query/indexing/_index.md):
 
 - Include fields in the index definition that are used in the query or the required result sets (projections).
 
@@ -58,13 +58,13 @@ Follow these best practices for [indexing]({{<relref "/develop/ai/search-and-que
 
 ### Improve queries
 
-Follow these best practices to optimize [queries]({{<relref "/develop/ai/search-and-query/query">}}):
+Follow these best practices to optimize [queries](/content/develop/ai/search-and-query/query/_index.md):
 
-- Specify the result set fields in the `RETURN` or `LOAD` clauses and include them in the index definition. Don’t just return the default result set from [`FT.SEARCH`]({{< relref "commands/ft.search/" >}})  or `LOAD *` from [`FT.AGGREGATE`]({{< relref "commands/ft.aggregate/" >}}).
+- Specify the result set fields in the `RETURN` or `LOAD` clauses and include them in the index definition. Don’t just return the default result set from [`FT.SEARCH`](/content/commands/ft.search.md)  or `LOAD *` from [`FT.AGGREGATE`](/content/commands/ft.aggregate.md).
 
 - Use `LIMIT` to reduce the result set size.
 
-- Use [`DIALECT 3`]({{<relref "/develop/ai/search-and-query/advanced-concepts/dialects#dialect-3">}}) or higher for any queries against JSON.
+- Use [`DIALECT 3`](/content/develop/ai/search-and-query/advanced-concepts/dialects.md#dialect-3) or higher for any queries against JSON.
 
 ## Index and query examples
 

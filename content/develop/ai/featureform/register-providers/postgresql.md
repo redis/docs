@@ -17,10 +17,10 @@ A PostgreSQL data provider holds or computes customer feature data. It is separa
 
 Make sure you have:
 
-- A Feature Form [workspace]({{< relref "/develop/ai/featureform/manage-workspace" >}}).
+- A Feature Form [workspace](/content/develop/ai/featureform/manage-workspace.md).
 - A PostgreSQL hostname and database reachable from the Feature Form server.
 - A PostgreSQL username and password.
-- A [secret provider]({{< relref "/develop/ai/featureform/register-providers#configure-secret-providers" >}}) for the password reference.
+- A [secret provider](/content/develop/ai/featureform/register-providers/_index.md#configure-secret-providers) for the password reference.
 - Permission to read the required source tables and create managed outputs.
 
 The Python example uses this workspace-scoped provider client:

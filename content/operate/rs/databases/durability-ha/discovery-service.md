@@ -30,7 +30,7 @@ connecting to databases.
 The Discovery Service is available for querying on each node of the
 cluster, listening on port 8001. To employ it, your application utilizes
 a [Redis Sentinel enabled client
-library]({{< relref "/operate/rs/databases/connect/supported-clients-browsers.md" >}})
+library](/content/operate/rs/databases/connect/supported-clients-browsers.md)
 to connect to the Discovery Service and request the endpoint for the
 given database. The Discovery Service replies with the database's
 endpoint for that database. In case of a node failure, the Discovery
@@ -80,20 +80,19 @@ $ ./redis-cli -p 8001
 
 It is important to note that, the Discovery Service is not a full
 implementation of the [Redis Sentinel
-protocol]({{< relref "/operate/oss_and_stack/management/sentinel" >}}). There are aspects of the
+protocol](/content/operate/oss_and_stack/management/sentinel.md). There are aspects of the
 protocol that are not applicable or would be duplication with existing
 technology in Redis Software. The Discovery Service
 implements only the parts required to provide applications with easy
 High Availability, be compatible with the protocol, and not rely on DNS
 to derive which node in the cluster to communicate with.
 
-{{< note >}}
-To use Redis Sentinel, every database name must be unique across the cluster.
-{{< /note >}}
+> [!NOTE]
+> To use Redis Sentinel, every database name must be unique across the cluster.
 
 ## Supported Sentinel commands
 
-The Discovery Service implements only the subset of the [Redis Sentinel commands]({{< relref "/operate/oss_and_stack/management/sentinel#sentinel-commands" >}}) needed for endpoint discovery and high availability. Commands in the open source Sentinel API that are not listed below are not supported.
+The Discovery Service implements only the subset of the [Redis Sentinel commands](/content/operate/oss_and_stack/management/sentinel.md#sentinel-commands) needed for endpoint discovery and high availability. Commands in the open source Sentinel API that are not listed below are not supported.
 
 | Command | Description |
 |---------|-------------|
@@ -115,13 +114,12 @@ This matters for client compatibility: a client that issues `SENTINEL REPLICAS` 
 
 ## Redis client support
 
-All [recommended Redis client libraries]({{< relref "/develop/clients" >}}) support the Redis Sentinel API, so you can use any of them with the discovery service.
+All [recommended Redis client libraries](/content/develop/clients/_index.md) support the Redis Sentinel API, so you can use any of them with the discovery service.
 
 If you need to use a client that doesn't support Sentinel, you can use [Sentinel Tunnel](https://github.com/RedisLabs/sentinel_tunnel) to discover the current primary Redis endpoint with Sentinel and create a TCP tunnel between a local port on the client and the primary endpoint.
 
-{{< note >}}
-Redis Sentinel API can return endpoints for both primary and replica
-endpoints.
-Discovery Service only supports primary endpoints and does not
-support returning replica endpoints for a database.
-{{< /note >}}
+> [!NOTE]
+> Redis Sentinel API can return endpoints for both primary and replica
+> endpoints.
+> Discovery Service only supports primary endpoints and does not
+> support returning replica endpoints for a database.

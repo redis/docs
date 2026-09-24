@@ -39,7 +39,7 @@ What you have to do differs by method, so each install method below ends with it
 
 All three are supported and built from the same release. You can install any of them on a host with no internet access. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
 
-Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**. Get the container images from Docker Hub, and the Helm chart.
+Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**. Get the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`.
 
 ## Before you start
 
@@ -51,7 +51,7 @@ Before you install:
 
 ### PostgreSQL
 
-For production, set up your own external, managed [PostgreSQL](https://www.postgresql.org/docs/) database before you install Radar. You need to provision, back up, and tune it yourself, since Radar only connects to it and creates the roles and schema it needs on startup.
+Radar requires PostgreSQL 16 or later. Redis tests Radar against PostgreSQL 16 and 18. For production, set up your own external, managed [PostgreSQL](https://www.postgresql.org/docs/) database before you install Radar. You need to provision, back up, and tune it yourself, since Radar only connects to it and creates the roles and schema it needs on startup.
 
 For evaluation or testing, you can skip that step: the Helm chart and the Compose bundle can each start a PostgreSQL container for you, though neither is hardened for production use.
 
@@ -83,11 +83,11 @@ In that line, both `enabled` and `required` should read `true`. Search your logs
 
 ### Package and service names
 
-Radar's packages, services, and paths use an `mcm` prefix. The RPM is named `mcm`, its services are `mcm-api` and `mcm-worker`, and its configuration lives in `/etc/mcm/`. The Docker Compose bundle's container images are `mcm-app`, `mcm-worker`, and `mcm-migrate`; the Helm chart's default image repositories use a `radar-` prefix instead.
+Radar's services and paths use an `mcm` prefix. The RPM is named `radar`, its services are `mcm-api` and `mcm-worker`, and its configuration lives in `/etc/mcm/`. The Helm chart pulls one Docker Hub repository, `redislabs/radar`, and selects each component by tag: `app-v<version>`, `worker-v<version>`, and `migrate-v<version>`. The Docker Compose bundle's container images use a `radar-` prefix: `radar-app`, `radar-worker`, and `radar-migrate`.
 
 ## Install on RHEL with the RPM
 
-The RPM installs native binaries and needs no container runtime. It also installs the `mcmctl` diagnostics command.
+The RPM installs native binaries and needs no container runtime. It also installs the `radar` diagnostics command.
 
 {{< note >}}
 The RPM listens only on loopback by default. A successful RPM install is not yet reachable from any other machine until you put a proxy in front of it.
@@ -96,11 +96,10 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 1. Install the package.
 
    ```bash
-   sha256sum -c SHA256SUMS
-   sudo dnf install -y ./mcm-<version>-<release>.x86_64.rpm
+   sudo dnf install -y ./radar-<version>-<release>.x86_64.rpm
    ```
 
-   The package depends on RHEL's `postgresql-server`, so `dnf` installs PostgreSQL software if it is absent. It does not create or start a database.
+   The package requires `postgresql-server` and `postgresql-contrib` version 16 or later, from the `postgresql:16` module stream. Enable that stream before you install, since `dnf` resolves the dependency only from a stream you have already enabled. Installing the package never creates, starts, or tunes a database.
 
    <br>
 
@@ -143,10 +142,10 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 4. Check the configuration.
 
    ```bash
-   sudo mcmctl doctor
+   sudo radar doctor
    ```
 
-   Before the first start, `mcmctl doctor` reports that schema migration has not run yet. That is expected; the configuration and database connectivity checks should still pass.
+   Before the first start, `radar doctor` reports that schema migration has not run yet. That is expected; the configuration and database connectivity checks should still pass.
 
    <br>
 
@@ -165,7 +164,7 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    ```bash
    curl -fsS http://127.0.0.1:8080/healthz/ready
-   sudo mcmctl doctor
+   sudo radar doctor
    ```
 
    <br>
@@ -195,10 +194,10 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
    ```bash
    sudo systemctl restart mcm-api.service
-   sudo mcmctl doctor
+   sudo radar doctor
    ```
 
-   `mcmctl doctor` checks runtime health through the configured address. If it reports a runtime-health failure after you change the listen address, confirm the service bound to the interface you expected and that the proxy forwards to the same address.
+   `radar doctor` checks runtime health through the configured address. If it reports a runtime-health failure after you change the listen address, confirm the service bound to the interface you expected and that the proxy forwards to the same address.
 
    {{< warning >}}
    Do not expose Radar directly on a public interface. Terminate TLS and apply access controls at the edge.
@@ -210,7 +209,26 @@ The RPM listens only on loopback by default. A successful RPM install is not yet
 
 A production install has four parts you supply: the PostgreSQL connection, the credential encryption key, image pull access, and an external access path.
 
-1. Create the database secret. Store the database connection string in a secret.
+Add the Redis Helm repository first. The commands below install from it.
+
+```bash
+helm repo add radar https://helm.redis.io/radar
+helm repo update radar
+```
+
+The chart version matches the Radar version. Replace `<version>` in the commands with the release you install, such as `2026.9.5`, and use that release's container images. Each release's [release notes]({{< relref "/operate/radar/release-notes" >}}) list its chart version and images under **Downloads**.
+
+To install from a chart package file instead, such as on a cluster with no internet access, substitute the `radar-<version>.tgz` file for `radar/radar` in the `helm install` commands. See [Install on an air-gapped host](#install-on-an-air-gapped-host).
+
+1. Create the namespace.
+
+   ```bash
+   kubectl create namespace radar
+   ```
+
+   <br>
+
+2. Create the database secret. Store the database connection string in a secret.
 
    ```bash
    kubectl create secret generic radar-db \
@@ -218,9 +236,11 @@ A production install has four parts you supply: the PostgreSQL connection, the c
      --from-literal=DATABASE_URL='postgres://radar:secret@postgres.example.com:5432/radar?sslmode=require'
    ```
 
+   The chart also needs the database hostname as `database.host`, separate from the connection string. It uses the hostname to wait for the database before it starts the API server, the worker, and the migration job. If your database listens on a port other than 5432, also set `database.port`.
+
    <br>
 
-2. Create the credentials secret. Generate the credential encryption key as a file and load it with `--from-file`.
+3. Create the credentials secret. Generate the credential encryption key as a file and load it with `--from-file`.
 
    ```bash
    head -c 32 /dev/urandom > kek.bin
@@ -240,39 +260,62 @@ A production install has four parts you supply: the PostgreSQL connection, the c
 
    <br>
 
-3. Install the chart.
+4. Install the chart.
 
    ```bash
-   helm install radar ./helm/radar \
+   helm install radar radar/radar \
+     --version <version> \
      --namespace radar \
-     --create-namespace \
+     --set database.host=postgres.example.com \
      --set database.existingSecret=radar-db \
      --set credentials.existingSecret=radar-credentials \
      --set ingress.enabled=true \
      --set ingress.className=nginx \
-     --set ingress.hosts[0].host=radar.example.com \
-     --set ingress.hosts[0].paths[0].path=/ \
-     --set ingress.hosts[0].paths[0].pathType=Prefix
+     --set 'ingress.hosts[0].host=radar.example.com' \
+     --set 'ingress.hosts[0].paths[0].path=/' \
+     --set 'ingress.hosts[0].paths[0].pathType=Prefix'
    ```
 
    With an external database, as configured here, the chart runs schema migration as a Kubernetes job before the API server and worker start. If you use the chart's bundled PostgreSQL container instead, migration instead runs after the API and worker pods start, so expect them to restart briefly until the migration job completes. Migrations apply forward only; there is no automated rollback.
 
-   **For a private or air-gapped registry**, override the image source.
+   **For a private or air-gapped registry**, mirror the images listed in the release notes for your version, keeping each image's repository path, then point the chart at your registry. Save these values to a file, such as `registry-values.yaml`, and add `-f registry-values.yaml` to the `helm install` command.
 
    ```yaml
+   image:
+     registry: registry.example.com
+   dbWaitInitContainer:
+     image:
+       repository: registry.example.com/library/busybox
    global:
-     imageRegistry: registry.example.com/redislabs
      imagePullSecrets:
        - name: registry-creds
    ```
 
-   **For OpenShift**, use the OpenShift values file instead, which lets OpenShift assign namespace-scoped user IDs and switches the external access path from an ingress to a route.
+   Set `image.registry` rather than `global.imageRegistry`. In chart 2026.9.5 and earlier, `global.imageRegistry` does not apply to the Radar images, and the `busybox` image has no registry setting, so its repository includes the registry. If you use the chart's bundled PostgreSQL container, also set `postgresql.image.registry`.
+
+   In the same chart versions, the `helm test` pod doesn't receive `global.imagePullSecrets` and runs as the namespace's `default` service account. If your registry requires authentication, attach the pull secret to that service account so `helm test` can pull `busybox`. On OpenShift:
 
    ```bash
-   helm install radar ./helm/radar \
+   oc secrets link default registry-creds --for=pull -n radar
+   ```
+
+   On Kubernetes:
+
+   ```bash
+   kubectl patch serviceaccount default -n radar \
+     -p '{"imagePullSecrets": [{"name": "registry-creds"}]}'
+   ```
+
+   **For OpenShift**, use the OpenShift values file instead, which lets OpenShift assign namespace-scoped user IDs and switches the external access path from an ingress to a route. The file ships inside the chart, so extract it first.
+
+   ```bash
+   helm pull radar/radar --version <version> --untar --untardir .
+
+   helm install radar radar/radar \
+     --version <version> \
      --namespace radar \
-     --create-namespace \
-     -f ./helm/radar/values-openshift.yaml \
+     -f ./radar/values-openshift.yaml \
+     --set database.host=postgres.example.com \
      --set database.existingSecret=radar-db \
      --set credentials.existingSecret=radar-credentials \
      --set route.host=radar.apps.example.com
@@ -282,7 +325,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
 
    <br>
 
-4. Verify the install.
+5. Verify the install.
 
    ```bash
    kubectl get pods -n radar
@@ -290,7 +333,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
    helm test radar --namespace radar
    ```
 
-   Expect a running API pod, a running worker pod, and a completed migration job. To check health without an external access path, use the following commands.
+   Expect a running API pod and a running worker pod. With an external database, Helm deletes the migration job once it succeeds, so the job is listed only while it runs or if it fails. With the bundled PostgreSQL container, the completed job stays listed for seven days by default. To check health without an external access path, use the following commands.
 
    ```bash
    kubectl port-forward -n radar svc/radar 8080:80
@@ -299,7 +342,7 @@ A production install has four parts you supply: the PostgreSQL connection, the c
 
    <br>
 
-5. Provide remote access. 
+6. Provide remote access. 
    
    The API server and UI are served on port 80 of an in-cluster service. Expose it with an ingress, an OpenShift route, or a `LoadBalancer` service, and terminate TLS there.
 
@@ -331,7 +374,7 @@ The Compose bundle runs Radar on a single host. It ships the container images, t
 1. Load the images.
 
    ```bash
-   sha256sum -c SHA256SUMS
+   sha256sum -c radar-v<version>.SHA256SUMS
    docker load -i images.tar.gz
    ```
 
@@ -361,19 +404,52 @@ Confirm you've replaced every sample value, especially the credential encryption
 
 Air-gapped installation uses the same three methods.
 
-Transfer the release artifacts to the target host or to an offline repository it can reach, then verify them:
+Transfer the release artifacts to the target host or to an offline repository it can reach. If they include a `radar-v<version>.SHA256SUMS` file, verify them:
 
 ```bash
-sha256sum -c SHA256SUMS
+sha256sum -c radar-v<version>.SHA256SUMS
 ```
 
 | Method | What to transfer | How it installs |
 |---|---|---|
-| RPM | The `.rpm`, `SHA256SUMS`, and the dependency closure, including `postgresql-server` if the host has no offline PostgreSQL | `dnf install` from the local file |
-| Helm | `images.tar.gz`, the packaged chart, and the bundled values file | `docker load` the images onto the nodes, then install the chart |
+| RPM | The `.rpm` and the dependency closure, including `postgresql-server` if the host has no offline PostgreSQL | `dnf install` from the local file |
+| Helm | The chart package, `radar-<version>.tgz`, and the container images listed in the release notes for your version | Copy the images into a registry the cluster can pull from, then install the chart from the package. See [Helm on an air-gapped cluster](#helm-on-an-air-gapped-cluster). |
 | Docker Compose | `images.tar.gz` and the Compose files | `docker load`, then `docker compose up` |
 
 Your PostgreSQL database and the clusters you plan to monitor still need to be reachable from the Radar host over the network.
+
+### Helm on an air-gapped cluster
+
+1. On a machine with internet access, download the chart package.
+
+   ```bash
+   helm repo add radar https://helm.redis.io/radar
+   helm pull radar/radar --version <version>
+   ```
+
+   The command saves `radar-<version>.tgz`, which includes `values-openshift.yaml`.
+
+   <br>
+
+2. Copy each image listed under **Downloads** in the [release notes]({{< relref "/operate/radar/release-notes" >}}) for your version into your registry, keeping its repository path. For example, with `skopeo`:
+
+   ```bash
+   skopeo copy --all \
+     docker://docker.io/redislabs/radar:app-v<version> \
+     docker://registry.example.com/redislabs/radar:app-v<version>
+   ```
+
+   The `--all` option copies every platform of a multi-platform image, such as `busybox`, rather than only the platform of the machine that runs the copy.
+
+   <br>
+
+3. Install from the package. Follow [Install on Kubernetes with Helm](#install-on-kubernetes-with-helm) without adding the Helm repository, substitute `./radar-<version>.tgz` for `radar/radar`, and add the registry values file. For OpenShift, extract the values file from the package instead of running `helm pull`:
+
+   ```bash
+   tar -xzf radar-<version>.tgz radar/values-openshift.yaml
+   ```
+
+   <br>
 
 ## Next steps
 

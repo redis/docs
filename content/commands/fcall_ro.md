@@ -63,11 +63,11 @@ summary: Invokes a read-only function.
 syntax_fmt: FCALL_RO function numkeys [key [key ...]] [arg [arg ...]]
 title: FCALL_RO
 ---
-This is a read-only variant of the [`FCALL`]({{< relref "/commands/fcall" >}}) command that cannot execute commands that modify data.
+This is a read-only variant of the [`FCALL`](/content/commands/fcall.md) command that cannot execute commands that modify data.
 
-For more information about when to use this command vs [`FCALL`]({{< relref "/commands/fcall" >}}), please refer to [Read-only scripts]({{< relref "develop/programmability/#read-only_scripts" >}}).
+For more information about when to use this command vs [`FCALL`](/content/commands/fcall.md), please refer to [Read-only scripts](/content/develop/programmability/_index.md#read-only_scripts).
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Redis Functions](/content/develop/programmability/functions-intro.md).
 
 ## Required arguments
 

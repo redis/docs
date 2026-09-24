@@ -57,7 +57,7 @@ summary: Returns the TTL in milliseconds of a hash field.
 syntax_fmt: "HPTTL key FIELDS\_numfields field [field ...]"
 title: HPTTL
 ---
-Like [`HTTL`]({{< relref "/commands/httl" >}}), this command returns the remaining TTL (time to live) of a field that has an
+Like [`HTTL`](/content/commands/httl.md), this command returns the remaining TTL (time to live) of a field that has an
 expiration set, but in milliseconds instead of seconds.
 
 ## Required arguments

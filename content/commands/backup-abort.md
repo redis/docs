@@ -39,11 +39,11 @@ OK
 
 ## Details
 
-`BACKUP ABORT` cancels an in-progress backup and moves the backup state machine to `failed`. It is valid from the `pending`, `snapshotting`, and `incrementing` states. After the backup has been sealed, use [`BACKUP CLEANUP`]({{< relref "/commands/backup-cleanup" >}}) instead.
+`BACKUP ABORT` cancels an in-progress backup and moves the backup state machine to `failed`. It is valid from the `pending`, `snapshotting`, and `incrementing` states. After the backup has been sealed, use [`BACKUP CLEANUP`](/content/commands/backup-cleanup.md) instead.
 
-After aborting, you can start a new backup with [`BACKUP START`]({{< relref "/commands/backup-start" >}}).
+After aborting, you can start a new backup with [`BACKUP START`](/content/commands/backup-start.md).
 
-For the full workflow, see [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}#online-backups-with-the-backup-command-family).
+For the full workflow, see [Redis persistence](/content/operate/oss_and_stack/management/persistence.md#online-backups-with-the-backup-command-family).
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -67,8 +67,8 @@ For the full workflow, see [Redis persistence]({{< relref "/operate/oss_and_stac
 
 ## See also
 
-[`BACKUP START`]({{< relref "commands/backup-start/" >}}) | [`BACKUP SEAL`]({{< relref "commands/backup-seal/" >}}) | [`BACKUP STATUS`]({{< relref "commands/backup-status/" >}}) | [`BACKUP LIST`]({{< relref "commands/backup-list/" >}}) | [`BACKUP CLEANUP`]({{< relref "commands/backup-cleanup/" >}})
+[`BACKUP START`](/content/commands/backup-start.md) | [`BACKUP SEAL`](/content/commands/backup-seal.md) | [`BACKUP STATUS`](/content/commands/backup-status.md) | [`BACKUP LIST`](/content/commands/backup-list.md) | [`BACKUP CLEANUP`](/content/commands/backup-cleanup.md)
 
 ## Related topics
 
-- [Redis persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}})
+- [Redis persistence](/content/operate/oss_and_stack/management/persistence.md)

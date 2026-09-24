@@ -49,9 +49,8 @@ summary: Returns the intersect of multiple sets.
 syntax_fmt: SINTER key [key ...]
 title: SINTER
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 Returns the members of the set resulting from the intersection of all the given
@@ -119,4 +118,4 @@ redis> SINTER key1 key2
 
 ## See also
 
-[`SINTERCARD`]({{< relref "commands/sintercard" >}}) | [`SINTERSTORE`]({{< relref "commands/sinterstore" >}})
+[`SINTERCARD`](/content/commands/sintercard.md) | [`SINTERSTORE`](/content/commands/sinterstore.md)

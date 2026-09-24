@@ -23,8 +23,8 @@ weight: 30
 ---
 
 This example shows how to work with a
-[JSON]({{< relref "/develop/data-types/json" >}})
-document from Rust using [`redis-rs`]({{< relref "/develop/clients/rust" >}}).
+[JSON](/content/develop/data-types/json/_index.md)
+document from Rust using [`redis-rs`](/content/develop/clients/rust/_index.md).
 It uses one `bike:1` document to demonstrate a simple workflow:
 create the document, read nested fields, update part of the document,
 and append data to an array.
@@ -69,7 +69,7 @@ JSON paths work with more realistic data than a flat object.
 ## Connect to Redis
 
 Connect to your Redis server in the usual way.
-See [Connect to the server]({{< relref "/develop/clients/rust" >}})
+See [Connect to the server](/content/develop/clients/rust/_index.md)
 for more connection options.
 
 {{< clients-example set="rust_home_json" step="connect" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Create a Redis client and open a sync or async connection from Rust" difficulty="beginner" >}}
@@ -77,8 +77,8 @@ for more connection options.
 
 ## Store and retrieve the document
 
-Use [`JSON.SET`]({{< relref "/commands/json.set" >}}) to store the whole document at the root path `$`.
-You can then retrieve the document again with [`JSON.GET`]({{< relref "/commands/json.get" >}}).
+Use [`JSON.SET`](/content/commands/json.set.md) to store the whole document at the root path `$`.
+You can then retrieve the document again with [`JSON.GET`](/content/commands/json.get.md).
 
 {{< clients-example set="rust_home_json" step="set_get_doc" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Store a complete JSON document with JSON.SET and fetch it again with JSON.GET" difficulty="beginner" >}}
 {{< /clients-example >}}
@@ -95,7 +95,7 @@ This is useful when your application only needs a small subset of the data.
 
 You can update individual fields without replacing the whole document.
 The example below changes the stock count and then applies a price change with
-[`JSON.NUMINCRBY`]({{< relref "/commands/json.numincrby" >}}).
+[`JSON.NUMINCRBY`](/content/commands/json.numincrby.md).
 
 {{< clients-example set="rust_home_json" step="update_fields" lang_filter="Rust-Sync,Rust-Async" description="Update nested values: Modify individual fields in place with JSON.SET and JSON.NUMINCRBY" difficulty="intermediate" >}}
 {{< /clients-example >}}
@@ -112,6 +112,6 @@ This example adds another color to the bike and then retrieves the updated array
 
 See the following pages to learn more:
 
-- [JSON data type]({{< relref "/develop/data-types/json" >}})
-- [JSON path syntax]({{< relref "/develop/data-types/json/path" >}})
+- [JSON data type](/content/develop/data-types/json/_index.md)
+- [JSON path syntax](/content/develop/data-types/json/path.md)
 - [`redis-rs` documentation](https://docs.rs/redis/latest/redis/)

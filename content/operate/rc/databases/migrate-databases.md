@@ -54,8 +54,6 @@ To migrate data using Active-Passive syncing, specify the target database as an 
 {{< note >}}
 Before you use Active-Passive, be aware of the following limitations:
 
-- An error will appear when syncing the two databases if the source and target databases are hosted on different Redis Cloud accounts. [Contact support](https://redis.io/support/) if you want to migrate a database between accounts using Active-Passive.
-
 - As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}). **Do not write to the target database while Active-Passive is enabled.** We recommend that you turn off Active-Passive after the databases are synced. 
 
 - Turning on Active-Passive will flush the target database. Make sure that your target database has no important data before you turn on Active-Passive.
@@ -83,13 +81,15 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
     {{<image filename="images/rc/migrate-data-add-active-passive.png" alt="The Add Active-Passive Redis screen." width=70% >}}
 
-    - Select **Current account** if the source database is located in this Redis Cloud account. 
-    
-        Select the source database from the **Source database** list. You can type in the database's name to find it.
+    - **Source database in this Redis Cloud account**: select **Current account**, then select the source database from the **Source database** list. You can type in the database's name to find it.
 
         {{<image filename="images/rc/database-add-account-path-list.png" alt="Select the Source database from the database list." width=70% >}}
 
-    - If the source database is hosted externally, select **External**.
+    - **Source database not hosted on Redis Cloud** (for example, a self-managed Redis deployment): select **External**.
+
+        {{< note >}}
+Don't select **External** to sync from a database hosted in a *different* Redis Cloud account. Redis Cloud rejects Active-Passive connections between accounts and returns an error, even if you enter that database's public endpoint here. [Contact support](https://redis.io/support/) to migrate a database between Redis Cloud accounts using Active-Passive.
+        {{< /note >}}
 
         1.  In the **Enter the source URI** field, type `redis://` and then paste in the public endpoint details. 
 

@@ -11,7 +11,7 @@ linkTitle: crdb-cli (manage Active-Active)
 weight: $weight
 ---
 
-An [Active-Active database]({{< relref "/operate/rs/databases/active-active/_index.md" >}}) (also known as CRDB or conflict-free replicated database)
+An [Active-Active database](/content/operate/rs/databases/active-active/_index.md) (also known as CRDB or conflict-free replicated database)
 replicates your data across Redis Software clusters located in geographically distributed regions.
 Active-Active databases allow read-write access in all locations, making them ideal for distributed applications that require fast response times and disaster recovery.
 
@@ -20,7 +20,7 @@ Each cluster that hosts an instance is called a **participating cluster**.
 
 An Active-Active database requires two or more participating clusters.
 Each instance is responsible for updating the instances that reside on other participating clusters with the transactions it receives.
-Write conflicts are resolved using [conflict-free replicated data types]({{< relref "/operate/rs/databases/active-active" >}}) (CRDTs).
+Write conflicts are resolved using [conflict-free replicated data types](/content/operate/rs/databases/active-active/_index.md) (CRDTs).
 
 To programmatically maintain an Active-Active database and its instances, you can use the `crdb-cli` command-line tool.
 
@@ -44,6 +44,6 @@ By default, the command runs immediately and displays the result in the output.
 
 If you use the <nobr>`--no-wait`</nobr> flag, the command runs in the background so that your application is not delayed by the response.
 
-Use the [`crdb-cli task` commands]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/task/" >}}) to manage Active-Active database tasks.
+Use the [`crdb-cli task` commands](/content/operate/rs/references/cli-utilities/crdb-cli/task/_index.md) to manage Active-Active database tasks.
 
 For each `crdb-cli` command, you can use <nobr>`--help`</nobr> for additional information about the command.

@@ -16,7 +16,7 @@ weight: 10
 
 ## Overview
 
-Filtered search lets you combine vector similarity search with scalar filtering. You can associate JSON attributes with elements in a vector set, and then filter results using those attributes during [`VSIM`]({{< relref "/commands/vsim" >}}) queries.
+Filtered search lets you combine vector similarity search with scalar filtering. You can associate JSON attributes with elements in a vector set, and then filter results using those attributes during [`VSIM`](/content/commands/vsim.md) queries.
 
 This allows queries such as:
 
@@ -32,13 +32,13 @@ You can associate attributes when adding a new vector using the `SETATTR` argume
 VADD vset VALUES 3 1 1 1 a SETATTR '{"year": 1950}'
 ```
 
-Or update them later with the [`VSETATTR`]({{< relref "/commands/vsetattr" >}}) command:
+Or update them later with the [`VSETATTR`](/content/commands/vsetattr.md) command:
 
 ```bash
 VSETATTR vset a '{"year": 1960}'
 ```
 
-You can retrieve attributes with the [`VGETATTR`]({{< relref "/commands/vgetattr" >}}) command:
+You can retrieve attributes with the [`VGETATTR`](/content/commands/vgetattr.md) command:
 
 ```bash
 VGETATTR vset a
@@ -46,7 +46,7 @@ VGETATTR vset a
 
 ## Filtering during similarity search
 
-To filter by attributes, pass the `FILTER` option to the [`VSIM`]({{< relref "/commands/vsim" >}}) command:
+To filter by attributes, pass the `FILTER` option to the [`VSIM`](/content/commands/vsim.md) command:
 
 ```bash
 VSIM vset VALUES 3 0 0 0 FILTER '.year > 1950'
@@ -113,7 +113,7 @@ VSIM movies VALUES 3 0.5 0.8 0.2 FILTER '(.year - 2000) ** 2 < 100 and .rating /
 
 ## See also
 
-- [VSIM]({{< relref "/commands/vsim" >}})
-- [VADD]({{< relref "/commands/vadd" >}})
-- [VSETATTR]({{< relref "/commands/vsetattr" >}})
-- [VGETATTR]({{< relref "/commands/vgetattr" >}})
+- [VSIM](/content/commands/vsim.md)
+- [VADD](/content/commands/vadd.md)
+- [VSETATTR](/content/commands/vsetattr.md)
+- [VGETATTR](/content/commands/vgetattr.md)

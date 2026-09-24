@@ -31,9 +31,8 @@ summary: Delete a compaction rule
 syntax_fmt: TS.DELETERULE sourceKey destKey
 title: TS.DELETERULE
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
 
@@ -66,21 +65,21 @@ is key name for destination (compacted) time series.
     tab2="RESP3" >}}
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is deleted successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, or when such rule does not exist.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when the compaction rule is deleted successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, or when such rule does not exist.
 
 -tab-sep-
 
 One of the following:
-* [Simple string reply]({{< relref "/develop/reference/protocol-spec#simple-strings" >}}): `OK` when the compaction rule is deleted successfully.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, or when such rule does not exist.
+* [Simple string reply](/content/develop/reference/protocol-spec.md#simple-strings): `OK` when the compaction rule is deleted successfully.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, or when such rule does not exist.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.CREATERULE`]({{< relref "commands/ts.createrule/" >}}) 
+[`TS.CREATERULE`](/content/commands/ts.createrule.md) 
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

@@ -11,27 +11,27 @@ linkTitle: Connect
 weight: 20
 ---
 
-After you [set up a cluster]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) and [create a Redis database]({{< relref "/operate/rs/databases/create" >}}), you can connect to your database.
+After you [set up a cluster](/content/operate/rs/clusters/new-cluster-setup.md) and [create a Redis database](/content/operate/rs/databases/create.md), you can connect to your database.
 
 To connect to your database, you need the database endpoint, which includes the cluster name (FQDN) and the database port. To view and copy public and private endpoints for a database in the cluster, see the database’s **Configuration > General** section in the Cluster Manager UI.
 
 {{<image filename="images/rs/screenshots/databases/config-general-endpoints.png" width="75%" alt="View public and private endpoints from the General section of the database's Configuration screen." >}}
 
-If you try to connect with the FQDN, and the database does not respond, try connecting with the IP address. If this succeeds, DNS is not properly configured. To set up DNS, see [Configure cluster DNS]({{< relref "/operate/rs/networking/cluster-dns" >}}).
+If you try to connect with the FQDN, and the database does not respond, try connecting with the IP address. If this succeeds, DNS is not properly configured. To set up DNS, see [Configure cluster DNS](/content/operate/rs/networking/cluster-dns.md).
 
-If you want to secure your connection, set up [TLS]({{< relref "/operate/rs/security/encryption/tls/" >}}).
+If you want to secure your connection, set up [TLS](/content/operate/rs/security/encryption/tls/_index.md).
 
 ## Connect to a database
 
 Use one of the following connection methods to connect to your database:
 
-- [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli/" >}}) utility
+- [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) utility
 
 - [Redis Insight](https://redis.com/redis-enterprise/redis-insight/)
 
-- [Redis client]({{< relref "/develop/clients" >}}) for your preferred programming language
+- [Redis client](/content/develop/clients/_index.md) for your preferred programming language
 
-For examples, see [Test client connection]({{< relref "/operate/rs/databases/connect/test-client-connectivity" >}}).
+For examples, see [Test client connection](/content/operate/rs/databases/connect/test-client-connectivity.md).
 
 ## Continue learning with Redis University
 

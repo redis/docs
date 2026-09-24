@@ -52,7 +52,7 @@ In Redis Cluster, shard channels are assigned to slots with the same algorithm R
 
 All shard channels in a single SSUBSCRIBE call must belong to the same slot. To subscribe to shard channels across different slots, use separate SSUBSCRIBE calls.
 
-For more information about sharded Pub/Sub, see [Sharded Pub/Sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
+For more information about sharded Pub/Sub, see [Sharded Pub/Sub](/content/develop/pubsub/_index.md#sharded-pubsub).
 
 ## Required arguments
 

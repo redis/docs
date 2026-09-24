@@ -29,16 +29,15 @@ summary: Executes all commands in a transaction.
 syntax_fmt: EXEC
 title: EXEC
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-Executes all previously queued commands in a [transaction]({{< relref "/develop/using-commands/transactions" >}}) and restores the
+Executes all previously queued commands in a [transaction](/content/develop/using-commands/transactions.md) and restores the
 connection state to normal.
 
-When using [`WATCH`]({{< relref "/commands/watch" >}}), `EXEC` will execute commands only if the watched keys were
-not modified, allowing for a [check-and-set mechanism]({{< relref "/develop/using-commands/transactions#cas" >}}).
+When using [`WATCH`](/content/commands/watch.md), `EXEC` will execute commands only if the watched keys were
+not modified, allowing for a [check-and-set mechanism](/content/develop/using-commands/transactions.md#cas).
 
 ## Redis Software and Redis Cloud compatibility
 

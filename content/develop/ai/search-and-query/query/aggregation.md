@@ -23,7 +23,7 @@ An aggregation query allows you to perform the following actions:
 - Group data based on field values.
 - Apply aggregation functions on the grouped data.
 
-This article explains the basic usage of the [FT.AGGREGATE]({{< relref "commands/ft.aggregate" >}}) command. For further details, see the [command specification]({{< relref "commands/ft.aggregate" >}}) and the [aggregations reference documentation]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}}).
+This article explains the basic usage of the [FT.AGGREGATE](/content/commands/ft.aggregate.md) command. For further details, see the [command specification](/content/commands/ft.aggregate.md) and the [aggregations reference documentation](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md).
 
 The examples in this article use a schema with the following fields:
 
@@ -42,7 +42,7 @@ FT.AGGREGATE index "query_expr" LOAD n "field_1" .. "field_n" APPLY "function_ex
 
 Here is a more detailed explanation of the query syntax:
 
-1. **Query expression**: you can use the same query expressions as you would use with the [`FT.SEARCH`]({{< relref "commands/ft.search/" >}}) command. You can substitute `query_expr` with any of the expressions explained in the articles of this [query topic]({{< relref "/develop/ai/search-and-query/query/" >}}). Vector search queries are an exception. You can't combine a vector search with an aggregation query.
+1. **Query expression**: you can use the same query expressions as you would use with the [`FT.SEARCH`](/content/commands/ft.search.md) command. You can substitute `query_expr` with any of the expressions explained in the articles of this [query topic](/content/develop/ai/search-and-query/query/_index.md). Vector search queries are an exception. You can't combine a vector search with an aggregation query.
 2. **Loaded fields**: if field values weren't already loaded into the aggregation pipeline, you can force their presence via the `LOAD` clause. This clause takes the number of fields (`n`), followed by the field names (`"field_1" .. "field_n"`).
 3. **Mapping function**: this mapping function operates on the field values. A specific field is referenced as `@field_name` within the function expression. The result is returned as `result_field`.
 
@@ -90,7 +90,7 @@ FT.AGGREGATE index "query_expr" ...  GROUPBY n "field_1" .. "field_n" REDUCE AGG
 Here is an explanation of the additional constructs:
 
 1. **Grouping**: you can group by one or many fields. Each ordered sequence of field values then defines one group. It's also possible to group by values that resulted from a previous `APPLY ... AS`.
-2. **Aggregation**: you must replace `AGG_FUNC` with one of the supported aggregation functions (e.g., `SUM` or `COUNT`). A complete list of functions is available in the [aggregations reference documentation]({{< relref "/develop/ai/search-and-query/advanced-concepts/aggregations" >}}). Replace `aggregated_result_field` with a value of your choice.
+2. **Aggregation**: you must replace `AGG_FUNC` with one of the supported aggregation functions (e.g., `SUM` or `COUNT`). A complete list of functions is available in the [aggregations reference documentation](/content/develop/ai/search-and-query/advanced-concepts/aggregations.md). Replace `aggregated_result_field` with a value of your choice.
 
 The following query shows you how to group by the field `condition` and apply a reduction based on the previously derived `price_category`. The expression `@price<1000` causes a bicycle to have the price category `1` if its price is lower than 1000 USD. Otherwise, it has the price category `0`. The output is the number of affordable bicycles grouped by price category.
 
@@ -114,9 +114,8 @@ FT.AGGREGATE idx:bicycle "*" LOAD 1 price APPLY "@price<1000" AS price_category 
    3) "3"
 ```
 
-{{% alert title="Note" color="warning" %}}
-You can also create more complex aggregation pipelines with [FT.AGGREGATE]({{< relref "commands/ft.aggregate" >}}). Applying multiple reduction functions under one `GROUPBY` clause is possible. In addition, you can also chain groupings and mix in additional mapping steps (e.g., `GROUPBY ... REDUCE ... APPLY ... GROUPBY ... REDUCE`)
-{{% /alert  %}}
+> [!NOTE]
+> You can also create more complex aggregation pipelines with [FT.AGGREGATE](/content/commands/ft.aggregate.md). Applying multiple reduction functions under one `GROUPBY` clause is possible. In addition, you can also chain groupings and mix in additional mapping steps (e.g., `GROUPBY ... REDUCE ... APPLY ... GROUPBY ... REDUCE`)
 
 
 ## Aggregating without grouping

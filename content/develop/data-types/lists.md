@@ -75,7 +75,7 @@ Redis lists are frequently used to:
 1) "bike:2"
 {{< /clients-example >}}
 
-* To limit the length of a list you can call [`LTRIM`]({{< relref "/commands/ltrim" >}}):
+* To limit the length of a list you can call [`LTRIM`](/content/commands/ltrim.md):
 {{< clients-example set="list_tutorial" step="ltrim.1" description="Capped lists: Use LTRIM to keep only a specific range of elements when you need to maintain a fixed-size list" difficulty="intermediate" buildsUpon="lpush_rpush" >}}
 > DEL bikes:repairs
 (integer) 1
@@ -105,7 +105,7 @@ an Array are very different from the properties of a List implemented using a
 Redis lists are implemented via Linked Lists. This means that even if you have
 millions of elements inside a list, the operation of adding a new element in
 the head or in the tail of the list is performed *in constant time*. The speed of adding a
-new element with the [`LPUSH`]({{< relref "/commands/lpush" >}}) command to the head of a list with ten
+new element with the [`LPUSH`](/content/commands/lpush.md) command to the head of a list with ten
 elements is the same as adding an element to the head of list with 10
 million elements.
 
@@ -121,14 +121,14 @@ taken at constant length in constant time.
 
 When fast access to the middle of a large collection of elements is important,
 there is a different data structure that can be used, called sorted sets.
-Sorted sets are covered in the [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}}) tutorial page.
+Sorted sets are covered in the [Sorted sets](/content/develop/data-types/sorted-sets.md) tutorial page.
 
 ### First steps with Redis Lists
 
-The [`LPUSH`]({{< relref "/commands/lpush" >}}) command adds a new element into a list, on the
-left (at the head), while the [`RPUSH`]({{< relref "/commands/rpush" >}}) command adds a new
+The [`LPUSH`](/content/commands/lpush.md) command adds a new element into a list, on the
+left (at the head), while the [`RPUSH`](/content/commands/rpush.md) command adds a new
 element into a list, on the right (at the tail). Finally the
-[`LRANGE`]({{< relref "/commands/lrange" >}}) command extracts ranges of elements from lists:
+[`LRANGE`](/content/commands/lrange.md) command extracts ranges of elements from lists:
 
 {{< clients-example set="list_tutorial" step="lpush_rpush" description="Foundational: Add elements to both ends of a list using LPUSH (left/head) and RPUSH (right/tail) to build ordered sequences" >}}
 > DEL bikes:repairs
@@ -145,13 +145,13 @@ element into a list, on the right (at the tail). Finally the
 3) "bike:2"
 {{< /clients-example >}}
 
-Note that [`LRANGE`]({{< relref "/commands/lrange" >}}) takes two indexes, the first and the last
+Note that [`LRANGE`](/content/commands/lrange.md) takes two indexes, the first and the last
 element of the range to return. Both the indexes can be negative, telling Redis
 to start counting from the end: so -1 is the last element, -2 is the
 penultimate element of the list, and so forth.
 
-As you can see [`RPUSH`]({{< relref "/commands/rpush" >}}) appended the elements on the right of the list, while
-the final [`LPUSH`]({{< relref "/commands/lpush" >}}) appended the element on the left.
+As you can see [`RPUSH`](/content/commands/rpush.md) appended the elements on the right of the list, while
+the final [`LPUSH`](/content/commands/lpush.md) appended the element on the left.
 
 Both commands are *variadic commands*, meaning that you are free to push
 multiple elements into a list in a single call:
@@ -214,7 +214,7 @@ posted by users into Redis lists.
 To describe a common use case step by step, imagine your home page shows the latest
 photos published in a photo sharing social network and you want to speedup access.
 
-* Every time a user posts a new photo, we add its ID into a list with [`LPUSH`]({{< relref "/commands/lpush" >}}).
+* Every time a user posts a new photo, we add its ID into a list with [`LPUSH`](/content/commands/lpush.md).
 * When users visit the home page, we use `LRANGE 0 9` in order to get the latest 10 posted items.
 
 ### Capped lists
@@ -223,9 +223,9 @@ In many use cases we just want to use lists to store the *latest items*,
 whatever they are: social network updates, logs, or anything else.
 
 Redis allows us to use lists as a capped collection, only remembering the latest
-N items and discarding all the oldest items using the [`LTRIM`]({{< relref "/commands/ltrim" >}}) command.
+N items and discarding all the oldest items using the [`LTRIM`](/content/commands/ltrim.md) command.
 
-The [`LTRIM`]({{< relref "/commands/ltrim" >}}) command is similar to [`LRANGE`]({{< relref "/commands/lrange" >}}), but **instead of displaying the
+The [`LTRIM`](/content/commands/ltrim.md) command is similar to [`LRANGE`](/content/commands/lrange.md), but **instead of displaying the
 specified range of elements** it sets this range as the new list value. All
 the elements outside the given range are removed.
 
@@ -245,11 +245,11 @@ OK
 3) "bike:3"
 {{< /clients-example >}}
 
-The above [`LTRIM`]({{< relref "/commands/ltrim" >}}) command tells Redis to keep just list elements from index
+The above [`LTRIM`](/content/commands/ltrim.md) command tells Redis to keep just list elements from index
 0 to 2, everything else will be discarded. This allows for a very simple but
 useful pattern: doing a List push operation + a List trim operation together 
 to add a new element and discard elements exceeding a limit. Using 
-[`LTRIM`]({{< relref "/commands/ltrim" >}}) with negative indexes can then be used to keep only the 3 most recently added:
+[`LTRIM`](/content/commands/ltrim.md) with negative indexes can then be used to keep only the 3 most recently added:
 
 {{< clients-example set="list_tutorial" step="ltrim_end_of_list" description="Capped lists with negative indexes: Use LTRIM with negative indexes to keep the most recent elements when you need to maintain a fixed-size list of latest items" difficulty="intermediate" buildsUpon="lpush_rpush" >}}
 > DEL bikes:repairs
@@ -265,10 +265,10 @@ OK
 {{< /clients-example >}}
 
 The above combination adds new elements and keeps only the 3
-newest elements into the list. With [`LRANGE`]({{< relref "/commands/lrange" >}}) you can access the top items
+newest elements into the list. With [`LRANGE`](/content/commands/lrange.md) you can access the top items
 without any need to remember very old data.
 
-Note: while [`LRANGE`]({{< relref "/commands/lrange" >}}) is technically an O(N) command, accessing small ranges
+Note: while [`LRANGE`](/content/commands/lrange.md) is technically an O(N) command, accessing small ranges
 towards the head or the tail of the list is a constant time operation.
 
 ## Blocking operations on lists
@@ -282,23 +282,23 @@ a different process in order to actually do some kind of work with those
 items. This is the usual producer / consumer setup, and can be implemented
 in the following simple way:
 
-* To push items into the list, producers call [`LPUSH`]({{< relref "/commands/lpush" >}}).
-* To extract / process items from the list, consumers call [`RPOP`]({{< relref "/commands/rpop" >}}).
+* To push items into the list, producers call [`LPUSH`](/content/commands/lpush.md).
+* To extract / process items from the list, consumers call [`RPOP`](/content/commands/rpop.md).
 
 However it is possible that sometimes the list is empty and there is nothing
-to process, so [`RPOP`]({{< relref "/commands/rpop" >}}) just returns NULL. In this case a consumer is forced to wait
-some time and retry again with [`RPOP`]({{< relref "/commands/rpop" >}}). This is called *polling*, and is not
+to process, so [`RPOP`](/content/commands/rpop.md) just returns NULL. In this case a consumer is forced to wait
+some time and retry again with [`RPOP`](/content/commands/rpop.md). This is called *polling*, and is not
 a good idea in this context because it has several drawbacks:
 
 1. Forces Redis and clients to process useless commands (all the requests when the list is empty will get no actual work done, they'll just return NULL).
-2. Adds a delay to the processing of items, since after a worker receives a NULL, it waits some time. To make the delay smaller, we could wait less between calls to [`RPOP`]({{< relref "/commands/rpop" >}}), with the effect of amplifying problem number 1, i.e. more useless calls to Redis.
+2. Adds a delay to the processing of items, since after a worker receives a NULL, it waits some time. To make the delay smaller, we could wait less between calls to [`RPOP`](/content/commands/rpop.md), with the effect of amplifying problem number 1, i.e. more useless calls to Redis.
 
-So Redis implements commands called [`BRPOP`]({{< relref "/commands/brpop" >}}) and [`BLPOP`]({{< relref "/commands/blpop" >}}) which are versions
-of [`RPOP`]({{< relref "/commands/rpop" >}}) and [`LPOP`]({{< relref "/commands/lpop" >}}) able to block if the list is empty: they'll return to
+So Redis implements commands called [`BRPOP`](/content/commands/brpop.md) and [`BLPOP`](/content/commands/blpop.md) which are versions
+of [`RPOP`](/content/commands/rpop.md) and [`LPOP`](/content/commands/lpop.md) able to block if the list is empty: they'll return to
 the caller only when a new element is added to the list, or when a user-specified
 timeout is reached.
 
-This is an example of a [`BRPOP`]({{< relref "/commands/brpop" >}}) call we could use in the worker:
+This is an example of a [`BRPOP`](/content/commands/brpop.md) call we could use in the worker:
 
 {{< clients-example set="list_tutorial" step="brpop" description="Blocking operations: Use BRPOP to wait for elements with a timeout when you need to implement producer-consumer patterns without polling" difficulty="intermediate" buildsUpon="lpush_rpush, lpop_rpop" runnable="false" >}}
 > DEL bikes:repairs
@@ -324,17 +324,17 @@ also specify multiple lists and not just one, in order to wait on multiple
 lists at the same time, and get notified when the first list receives an
 element.
 
-A few things to note about [`BRPOP`]({{< relref "/commands/brpop" >}}):
+A few things to note about [`BRPOP`](/content/commands/brpop.md):
 
 1. Clients are served in an ordered way: the first client that blocked waiting for a list, is served first when an element is pushed by some other client, and so forth.
-2. The return value is different compared to [`RPOP`]({{< relref "/commands/rpop" >}}): it is a two-element array since it also includes the name of the key, because [`BRPOP`]({{< relref "/commands/brpop" >}}) and [`BLPOP`]({{< relref "/commands/blpop" >}}) are able to block waiting for elements from multiple lists.
+2. The return value is different compared to [`RPOP`](/content/commands/rpop.md): it is a two-element array since it also includes the name of the key, because [`BRPOP`](/content/commands/brpop.md) and [`BLPOP`](/content/commands/blpop.md) are able to block waiting for elements from multiple lists.
 3. If the timeout is reached, NULL is returned.
 
 There are more things you should know about lists and blocking ops. We
 suggest that you read more on the following:
 
-* It is possible to build safer queues or rotating queues using [`LMOVE`]({{< relref "/commands/lmove" >}}).
-* There is also a blocking variant of the command, called [`BLMOVE`]({{< relref "/commands/blmove" >}}).
+* It is possible to build safer queues or rotating queues using [`LMOVE`](/content/commands/lmove.md).
+* There is also a blocking variant of the command, called [`BLMOVE`](/content/commands/blmove.md).
 
 ## Automatic creation and removal of keys
 
@@ -342,7 +342,7 @@ So far in our examples we never had to create empty lists before pushing
 elements, or removing empty lists when they no longer have elements inside.
 It is Redis' responsibility to delete keys when lists are left empty, or to create
 an empty list if the key does not exist and we are trying to add elements
-to it, for example, with [`LPUSH`]({{< relref "/commands/lpush" >}}).
+to it, for example, with [`LPUSH`](/content/commands/lpush.md).
 
 This is not specific to lists, it applies to all the Redis data types
 composed of multiple elements -- Streams, Sets, Sorted Sets and Hashes.
@@ -351,7 +351,7 @@ Basically we can summarize the behavior with three rules:
 
 1. When we add an element to an aggregate data type, if the target key does not exist, an empty aggregate data type is created before adding the element.
 2. When we remove elements from an aggregate data type, if the value remains empty, the key is automatically destroyed. The Stream data type is the only exception to this rule.
-3. Calling a read-only command such as [`LLEN`]({{< relref "/commands/llen" >}}) (which returns the length of the list), or a write command removing elements, with an empty key, always produces the same result as if the key is holding an empty aggregate type of the type the command expects to find.
+3. Calling a read-only command such as [`LLEN`](/content/commands/llen.md) (which returns the length of the list), or a write command removing elements, with an empty key, always produces the same result as if the key is holding an empty aggregate type of the type the command expects to find.
 
 Examples of rule 1:
 
@@ -416,12 +416,12 @@ The maximum length of a Redis list is 2^32 - 1 (4,294,967,295) elements.
 
 List operations that access its head or tail are O(1), which means they're highly efficient.
 However, commands that manipulate elements within a list are usually O(n).
-Examples of these include [`LINDEX`]({{< relref "/commands/lindex" >}}), [`LINSERT`]({{< relref "/commands/linsert" >}}), and [`LSET`]({{< relref "/commands/lset" >}}).
+Examples of these include [`LINDEX`](/content/commands/lindex.md), [`LINSERT`](/content/commands/linsert.md), and [`LSET`](/content/commands/lset.md).
 Exercise caution when running these commands, mainly when operating on large lists.
 
 ## Alternatives
 
-Consider [Redis streams]({{< relref "/develop/data-types/streams" >}}) as an alternative to lists when you need to store and process an indeterminate series of events.
+Consider [Redis streams](/content/develop/data-types/streams/_index.md) as an alternative to lists when you need to store and process an indeterminate series of events.
 
 ## Learn more
 

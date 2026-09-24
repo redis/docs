@@ -48,12 +48,12 @@ title: CF.INSERTNX
 ---
 Adds one or more items to a cuckoo filter if they did not exist previously, allowing the filter to be created with a custom capacity if it does not exist yet.
 
-This command is similar to [`CF.ADDNX`]({{< relref "commands/cf.addnx/" >}}), except that more than one item can be added and capacity can be specified.
+This command is similar to [`CF.ADDNX`](/content/commands/cf.addnx.md), except that more than one item can be added and capacity can be specified.
 
 <note><b>Notes:</b>
 
-- This command is slower than [`CF.INSERT`]({{< relref "commands/cf.insert/" >}}) because it first checks whether each item exists.
-- Since [`CF.EXISTS`]({{< relref "commands/cf.exists/" >}}) can result in false positive, `CF.INSERTNX` may not add an item because it is supposedly already exist, which may be wrong.
+- This command is slower than [`CF.INSERT`](/content/commands/cf.insert.md) because it first checks whether each item exists.
+- Since [`CF.EXISTS`](/content/commands/cf.exists.md) can result in false positive, `CF.INSERTNX` may not add an item because it is supposedly already exist, which may be wrong.
     
 </note>
 
@@ -81,7 +81,7 @@ If the filter already exists, then this parameter is ignored.
     
 If the filter does not exist yet and this parameter is *not* specified, then the filter is created with the module-level default capacity which is 1024.
 
-See [`CF.RESERVE`]({{< relref "commands/cf.reserve/" >}}) for more information on cuckoo filter capacities.
+See [`CF.RESERVE`](/content/commands/cf.reserve.md) for more information on cuckoo filter capacities.
 </details>
     
 <details open><summary><code>NOCREATE</code></summary>
@@ -133,12 +133,12 @@ But as the filter fills up, both locations for an item might be full. The filter
 
 One of the following:
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` when the item's fingerprint already exists in the filter, `1` when the item is added successfully, or `-1` when the item cannot be added because the filter is full.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays), where each element is an [integer reply](/content/develop/reference/protocol-spec.md#integers): `0` when the item's fingerprint already exists in the filter, `1` when the item is added successfully, or `-1` when the item cannot be added because the filter is full.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
 
 -tab-sep-
 
-* [Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}), where each element is an [integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): `0` means that the item's fingerprint already exists in the filter, `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors">}}) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
+* [Array reply](/content/develop/reference/protocol-spec.md#arrays), where each element is an [integer reply](/content/develop/reference/protocol-spec.md#integers): `0` means that the item's fingerprint already exists in the filter, `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.
 
 {{< /multitabs >}}

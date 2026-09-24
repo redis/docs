@@ -52,9 +52,8 @@ For each hit (document/word entry), the following items are encoded:
 * Flags, that can be used to filter only specific fields or other user-defined properties.
 * An offset vector of all the document offsets of the word.
 
-{{% alert title="Note" color="info" %}}
-Document IDs as entered by the user are converted to internal incremental document IDs, that allow delta encoding to be efficient and let the inverted indexes be sorted by document ID.
-{{% /alert %}}
+> [!NOTE]
+> Document IDs as entered by the user are converted to internal incremental document IDs, that allow delta encoding to be efficient and let the inverted indexes be sorted by document ID.
 
 This allows for a single index hit entry to be encoded in as little as 6 bytes. Note: this is the best case. Depending on the number of occurrences of the word in the document, this can get much higher.
 
@@ -75,7 +74,7 @@ When searching, priority queue of the top N results requested is maintained, whi
 
 ## Index ppecs and field weights
 
-When creating an "index" using [`FT.CREATE`]({{< relref "commands/ft.create/" >}}), the user specifies the fields to be indexed and their respective weights. This can be used to give some document fields, like a title, more weight in ranking results.
+When creating an "index" using [`FT.CREATE`](/content/commands/ft.create.md), the user specifies the fields to be indexed and their respective weights. This can be used to give some document fields, like a title, more weight in ranking results.
 
 For example:
 

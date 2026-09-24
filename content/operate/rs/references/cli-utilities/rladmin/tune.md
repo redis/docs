@@ -64,16 +64,16 @@ rladmin tune cluster
 | acl_pubsub_default | `resetchannels`<br /> `allchannels` | Default pub/sub ACL rule for all databases in the cluster:<br />•`resetchannels` blocks access to all channels (restrictive)<br />•`allchannels` allows access to all channels (permissive) |
 | automatic_node_offload | `enabled`<br />`disabled` | Define whether automatic node offload migration will take place |
 | auto_recovery | `enabled`<br />`disabled` | Defines whether to use automatic recovery after shard failure |
-| control_plane_basic_authentication     | `enabled`<br />`disabled`       | Activates or deactivates [basic and digest authentication]({{< relref "/operate/rs/security/access-control/disable-basic-authentication" >}}) for the cluster management REST API. Enabled by default. |
-| data_internode_encryption              | `enabled`<br />`disabled`       | Activates or deactivates [internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) for new databases    |
-| db_conns_auditing                      | `enabled`<br /> `disabled`      | Activates or deactivates [connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) by default for new databases of a cluster                                                                  |
+| control_plane_basic_authentication     | `enabled`<br />`disabled`       | Activates or deactivates [basic and digest authentication](/content/operate/rs/security/access-control/disable-basic-authentication.md) for the cluster management REST API. Enabled by default. |
+| data_internode_encryption              | `enabled`<br />`disabled`       | Activates or deactivates [internode encryption](/content/operate/rs/security/encryption/internode-encryption.md) for new databases    |
+| db_conns_auditing                      | `enabled`<br /> `disabled`      | Activates or deactivates [connection auditing](/content/operate/rs/security/audit-events.md) by default for new databases of a cluster                                                                  |
 | default_concurrent_restore_actions     | integer<br />`all`              | Default number of concurrent actions when restoring a node from a snapshot (positive integer or "all")                         |
-| default_non_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created non-sharded databases' endpoints |
+| default_non_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy](/content/operate/rs/databases/configure/proxy-policy.md) for newly created non-sharded databases' endpoints |
 | default_oss_sharding | `enabled`<br />`disabled` | Default hashing policy to use for new databases. Set to `disabled` by default. This field is for future use only and should not be changed. |
 | default_recovery_wait_time | integer | The default time for new databases to wait for the persistence file to be available during automatic recovery. After the wait time expires, auto recovery completes with potential data loss. The default `-1` means to wait forever. |
 | default_redis_version                  | version number                    | The default Redis database compatibility version used to create new databases.<br/><br/>  The value parameter should be a version number in the form of "x.y" where _x_ represents the major version number and _y_ represents the minor version number.  The final value corresponds to the desired version of Redis.<br/><br/>You cannot set _default_redis_version_ to a value higher than that supported by the current _redis_upgrade_policy_ value. |
-| default_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy]({{< relref "/operate/rs/databases/configure/proxy-policy" >}}) for newly created sharded databases' endpoints |
-| default_shards_placement | `dense`<br />`sparse` | New databases place shards according to the default [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) |
+| default_sharded_proxy_policy | `single`<br /><br />`all-master-shards`<br /><br />`all-nodes` | Default [proxy policy](/content/operate/rs/databases/configure/proxy-policy.md) for newly created sharded databases' endpoints |
+| default_shards_placement | `dense`<br />`sparse` | New databases place shards according to the default [shard placement policy](/content/operate/rs/databases/memory-performance/shard-placement-policy.md) |
 | default_tracking_table_max_keys_policy | integer (default: 1000000) | Defines the default value of the client-side caching invalidation table size for new databases. 0 makes the cache unlimited. |
 | expose_hostnames_for_all_suffixes      | `enabled`<br />`disabled`       | Exposes hostnames for all DNS suffixes                                                                                       |
 | failure_detection_sensitivity | `high`<br />`low` | Predefined thresholds and timeouts for failure detection (previously known as `watchdog_profile`)<br />• `high` (previously `local-network`) – high failure detection sensitivity, lower thresholds, faster failure detection and failover<br />• `low` (previously `cloud`) – low failure detection sensitivity, higher tolerance for latency variance (also called network jitter) |
@@ -93,17 +93,17 @@ rladmin tune cluster
 | repl_diskless                          | `enabled`<br />`disabled`       | Activates or deactivates diskless replication (can be overridden per database)                                              |
 | resp3_default | `enabled` <br /> `disabled` | Determines the default value of the `resp3` option upon upgrading a database to version 7.2 (defaults to `enabled`) |
 | show_internals                         | `enabled`<br />`disabled`       | Controls the visibility of internal databases that are only used for the cluster's management                                |
-| slave_ha                               | `enabled` <br /> `disabled`   | Activates or deactivates [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) in the cluster<br />(enabled by default; use [`rladmin tune db`](#tune-db) to change `slave_ha` for a specific database)<br /><br />Deprecated as of Redis Software v7.2.4. |
-| slave_ha_bdb_cooldown_period           | time in seconds (default: 7200) | Time (in seconds) a database must wait after its shards are relocated by [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) before it can go through another shard migration if another node fails (default is 2 hours) |
-| slave_ha_cooldown_period               | time in seconds (default: 3600) | Time (in seconds) [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) must wait after relocating shards due to node failure before performing another shard migration for any database in the cluster (default is 1 hour) |
-| slave_ha_grace_period                  | time in seconds (default: 600) | Time (in seconds) between when a node fails and when [replica high availability]({{< relref "/operate/rs/databases/configure/replica-ha" >}}) starts relocating shards to another node      |
+| slave_ha                               | `enabled` <br /> `disabled`   | Activates or deactivates [replica high availability](/content/operate/rs/databases/configure/replica-ha.md) in the cluster<br />(enabled by default; use [`rladmin tune db`](#tune-db) to change `slave_ha` for a specific database)<br /><br />Deprecated as of Redis Software v7.2.4. |
+| slave_ha_bdb_cooldown_period           | time in seconds (default: 7200) | Time (in seconds) a database must wait after its shards are relocated by [replica high availability](/content/operate/rs/databases/configure/replica-ha.md) before it can go through another shard migration if another node fails (default is 2 hours) |
+| slave_ha_cooldown_period               | time in seconds (default: 3600) | Time (in seconds) [replica high availability](/content/operate/rs/databases/configure/replica-ha.md) must wait after relocating shards due to node failure before performing another shard migration for any database in the cluster (default is 1 hour) |
+| slave_ha_grace_period                  | time in seconds (default: 600) | Time (in seconds) between when a node fails and when [replica high availability](/content/operate/rs/databases/configure/replica-ha.md) starts relocating shards to another node      |
 | watchdog_profile                       | `cloud` <br /> `local-network` | Watchdog profiles with preconfigured thresholds and timeouts (deprecated as of Redis Software v6.4.2-69; use <span class="break-all">`failure_detection_sensitivity`</span> instead)<br />• `cloud` is suitable for common cloud environments and has a higher tolerance for latency variance (also called network jitter).<br />• `local-network` is suitable for dedicated LANs and has better failure detection and failover times. |
 
 ### Returns
 
 Returns `Finished successfully` if the cluster configuration was changed. Otherwise, it returns an error.
 
-Use [`rladmin info cluster`]({{< relref "/operate/rs/references/cli-utilities/rladmin/info#info-cluster" >}}) to verify the cluster configuration was changed.
+Use [`rladmin info cluster`](/content/operate/rs/references/cli-utilities/rladmin/info.md#info-cluster) to verify the cluster configuration was changed.
 
 ### Example
 
@@ -172,13 +172,13 @@ rladmin tune db { db:<id> | <name> }
 | continue_on_error                    |                                  | Flag that skips tuning shards that can't be reached                                                                                   |
 | crdt_repl_backlog                    | value in MB<br /> `auto`         | Size of the Active-Active replication buffer                                                                                          |
 | crdt_xadd_id_uniqueness_mode         | `liberal`<br /> `semi-strict`<br /> `strict` | XADD's behavior in an Active-Active database, defined as liberal, semi-strict, or strict (see descriptions below)         |
-| data_internode_encryption            | `enabled`<br /> `disabled`       | Activates or deactivates [internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) for the database               |
-| db_conns_auditing                    | `enabled`<br /> `disabled`       | Activates or deactivates database [connection auditing]({{< relref "/operate/rs/security/audit-events" >}}) for a database                                                                 |
+| data_internode_encryption            | `enabled`<br /> `disabled`       | Activates or deactivates [internode encryption](/content/operate/rs/security/encryption/internode-encryption.md) for the database               |
+| db_conns_auditing                    | `enabled`<br /> `disabled`       | Activates or deactivates database [connection auditing](/content/operate/rs/security/audit-events.md) for a database                                                                 |
 | gradual_src_mode                     | `enabled`<br /> `disabled`       | Activates or deactivates gradual sync of sources                                                                                      |
 | gradual_sync_max_shards_per_source   | integer                          | Number of shards per sync source that can be replicated in parallel (positive integer)                                                |
 | gradual_sync_mode                    | `enabled`<br /> `disabled`<br /> `auto` | Activates, deactivates, or automatically determines gradual sync of source shards                                              |
 | master_persistence                   | `enabled`<br /> `disabled`       | If enabled, persists the primary shard in addition to replica shards in a replicated and persistent database. |
-| max_aof_file_size                    | size in MB                       | Maximum size (in MB, if not specified) of [AoF]({{< relref "/glossary/_index.md#letter-a" >}}) file (minimum value is 10 GB)              |
+| max_aof_file_size                    | size in MB                       | Maximum size (in MB, if not specified) of [AoF](/content/glossary/_index.md#letter-a) file (minimum value is 10 GB)              |
 | max_aof_load_time | time in seconds | Time limit in seconds to load a shard from an append-only file (AOF). If exceeded, an AOF rewrite is initiated to decrease future load time.<br />Minimum: 2700 seconds (45 minutes) <br />Default: 3600 seconds (1 hour) |
 | max_client_pipeline                  | integer                          | Maximum commands in the proxy's pipeline per client connection (max value is 2047, default value is 200)                              |
 | max_connections                      | integer                          | Maximum client connections to the database's endpoint (default value is 0, which is unlimited)                                            |
@@ -197,7 +197,7 @@ rladmin tune db { db:<id> | <name> }
 | repl_timeout                         | time in seconds                  | Replication timeout (in seconds)                                                                                                      |
 | resp3 | `enabled`<br /> `disabled` | Enables or deactivates RESP3 support (defaults to `enabled`) |
 | schedpolicy                          | `cmp`<br /> `mru`<br /> `spread`<br /> `mnp` | Controls how server-side connections are used when forwarding traffic to shards                                           |
-| shards_placement | `dense`<br /> `sparse` | Configures the [shard placement policy]({{< relref "/operate/rs/databases/memory-performance/shard-placement-policy" >}}) for the database |
+| shards_placement | `dense`<br /> `sparse` | Configures the [shard placement policy](/content/operate/rs/databases/memory-performance/shard-placement-policy.md) for the database |
 | skip_import_analyze                  | `enabled`<br /> `disabled`       | Skips the analyzing step when importing a database                                                                                    |
 | slave_buffer                         | `auto`<br />value in MB<br /> hard:soft:time | Redis replica output buffer limits<br />• `auto`: dynamically adjusts the buffer limit based on the shard’s current used memory<br />• value in MB: sets the buffer limit in MB<br />• hard:soft:time: sets the hard limit (maximum buffer size in MB), soft limit in MB, and the time in seconds that the soft limit can be exceeded |
 | slave_ha                             | `enabled`<br /> `disabled`       | Activates or deactivates replica high availability (defaults to the cluster setting)                                                      |
@@ -216,7 +216,7 @@ rladmin tune db { db:<id> | <name> }
 
 Returns `Finished successfully` if the database configuration was changed. Otherwise, it returns an error.
 
-Use [`rladmin info db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/info#info-db" >}}) to verify the database configuration was changed.
+Use [`rladmin info db`](/content/operate/rs/references/cli-utilities/rladmin/info.md#info-db) to verify the database configuration was changed.
 
 ### Example
 
@@ -251,13 +251,13 @@ tune node  { <id> | all }
 | max_redis_forks      | integer    | Maximum number of background processes forked from shards that may exist on the node at any given time                           |
 | max_redis_servers    | integer    | Maximum number of shards allowed to reside on the node                                                                           |
 | max_slave_full_syncs | integer    | Maximum number of simultaneous replica full-syncs that may be running at any given time (0: Unlimited, -1: Use cluster settings) |
-| quorum_only          | `enabled`<br /> `disabled` | If activated, configures the node as a [quorum-only node]({{< relref "/glossary/_index.md#letter-p" >}})                         |
+| quorum_only          | `enabled`<br /> `disabled` | If activated, configures the node as a [quorum-only node](/content/glossary/_index.md#letter-p)                         |
 
 ### Returns
 
 Returns `Finished successfully` if the node configuration was changed. Otherwise, it returns an error.
 
-Use [`rladmin info node`]({{< relref "/operate/rs/references/cli-utilities/rladmin/info#info-node" >}}) to verify the node configuration was changed.
+Use [`rladmin info node`](/content/operate/rs/references/cli-utilities/rladmin/info.md#info-node) to verify the node configuration was changed.
 
 ### Example
 
@@ -301,7 +301,7 @@ rladmin tune proxy { <id> | all }
 
 Returns `OK` if the proxy configuration was changed. Otherwise, it returns an error.
 
-Use [`rladmin info proxy`]({{< relref "/operate/rs/references/cli-utilities/rladmin/info#info-proxy" >}}) to verify the proxy configuration was changed.
+Use [`rladmin info proxy`](/content/operate/rs/references/cli-utilities/rladmin/info.md#info-proxy) to verify the proxy configuration was changed.
 
 ### Example
 

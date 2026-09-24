@@ -17,11 +17,11 @@ The current approach to monitoring Redis Enterprise Software includes:
 
 - Internal monitoring systems:
 
-    - [Statistics APIs]({{<relref "/operate/rs/7.8/references/rest-api/objects/statistics">}}), which collect various statistics at regular time intervals for clusters, nodes, databases, shards, and endpoints.
+    - [Statistics APIs](/content/operate/rs/7.8/references/rest-api/objects/statistics/_index.md), which collect various statistics at regular time intervals for clusters, nodes, databases, shards, and endpoints.
 
     - Cluster manager metrics and alerts.
 
-- The v1 Prometheus scraping endpoint to integrate with external monitoring tools such as [Prometheus and Grafana]({{<relref "/operate/rs/7.8/monitoring/prometheus_and_grafana">}}).
+- The v1 Prometheus scraping endpoint to integrate with external monitoring tools such as [Prometheus and Grafana](/content/operate/rs/7.8/monitoring/prometheus_and_grafana.md).
 
 ## Cluster manager metrics
 
@@ -41,9 +41,9 @@ To choose which metrics to display in the two large graphs at the top of the pag
 We recommend that you show two similar metrics in the top graphs so you can compare them side-by-side.
 
 See the following topics for metrics definitions:
-- [Database operations]({{< relref "/operate/rs/7.8/references/metrics/database-operations" >}}) for database metrics
-- [Resource usage]({{< relref "/operate/rs/7.8/references/metrics/resource-usage" >}}) for resource and database usage metrics
-- [Auto Tiering]({{< relref "/operate/rs/7.8/references/metrics/auto-tiering" >}}) for additional metrics for [Auto Tiering ]({{< relref "/operate/rs/7.8/databases/auto-tiering" >}}) databases
+- [Database operations](/content/operate/rs/7.8/references/metrics/database-operations.md) for database metrics
+- [Resource usage](/content/operate/rs/7.8/references/metrics/resource-usage.md) for resource and database usage metrics
+- [Auto Tiering](/content/operate/rs/7.8/references/metrics/auto-tiering.md) for additional metrics for [Auto Tiering ](/content/operate/rs/7.8/databases/auto-tiering/_index.md) databases
 
 ## Cluster alerts
 
@@ -55,10 +55,9 @@ Configured alerts are shown:
 - In the **log**
 - In email notifications, if you configure [email alerts](#send-alerts-by-email)
 
-{{< note >}}
-If you enable alerts for "Node joined" or "Node removed" actions,
-you must also enable "Receive email alerts" so that the notifications are sent.
-{{< /note >}}
+> [!NOTE]
+> If you enable alerts for "Node joined" or "Node removed" actions,
+> you must also enable "Receive email alerts" so that the notifications are sent.
 
 To enable alerts for a cluster:
 
@@ -86,8 +85,8 @@ To enable alerts for a database:
 To send cluster and database alerts by email:
 
 1. In **Cluster > Alert Settings**, click **Edit**.
-1. Select **Set an email** to configure the [email server settings]({{< relref "/operate/rs/7.8/clusters/configure/cluster-settings#configuring-email-server-settings" >}}).
+1. Select **Set an email** to configure the [email server settings](/content/operate/rs/7.8/clusters/configure/cluster-settings.md#configuring-email-server-settings).
 1. In **Configuration** for the database, click **Edit**.
 1. Select the **Alerts** section to open it.
 1. Select **Receive email alerts** and click **Save**.
-1. In **Access Control**, select the [database and cluster alerts]({{< relref "/operate/rs/7.8/security/access-control/manage-users" >}}) that you want each user to receive.
+1. In **Access Control**, select the [database and cluster alerts](/content/operate/rs/7.8/security/access-control/manage-users/_index.md) that you want each user to receive.

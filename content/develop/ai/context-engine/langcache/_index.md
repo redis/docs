@@ -81,7 +81,7 @@ POST /v1/caches/{cacheId}/entries
 }
 ```
 
-See the full [LangCache API and SDK examples]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) for more.
+See the full [LangCache API and SDK examples](/content/develop/ai/context-engine/langcache/api-examples.md) for more.
 
 ## LangCache overview
 
@@ -128,13 +128,13 @@ The following diagram displays how you can integrate LangCache into your GenAI a
 1. Your app sends the prompt and the new response to LangCache through the `POST /v1/caches/{cacheId}/entries` endpoint. 
 1. LangCache stores the embedding with the new response in the cache for future use.
 
-See the [LangCache API and SDK examples]({{< relref "/develop/ai/context-engine/langcache/api-examples" >}}) for more information on how to use the LangCache API.
+See the [LangCache API and SDK examples](/content/develop/ai/context-engine/langcache/api-examples.md) for more information on how to use the LangCache API.
 
 ## Get started
 
 LangCache is currently in preview:
 
-- Public preview on [Redis Cloud]({{< relref "/operate/iris/langcache" >}})
+- Public preview on [Redis Cloud](/content/operate/iris/langcache/_index.md)
 - Fully-managed [private preview](https://redis.io/langcache/)
 
 {{< multitabs id="langcache-get-started" 

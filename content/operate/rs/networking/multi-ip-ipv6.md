@@ -37,7 +37,7 @@ IPv6 for internal communication is supported only for new clusters with Redis So
 
 If the server has only IPv6 interfaces, IPv6 is automatically used for internal and external traffic. Otherwise, internal traffic uses IPv4 by default. 
 
-To use IPv6 for internal traffic on a machine with both IPv4 and IPv6 interfaces, set `use_internal_ipv6` to `true` when you create a cluster using the [bootstrap REST API request]({{< relref "/operate/rs/references/rest-api/requests/bootstrap#post-bootstrap" >}}):
+To use IPv6 for internal traffic on a machine with both IPv4 and IPv6 interfaces, set `use_internal_ipv6` to `true` when you create a cluster using the [bootstrap REST API request](/content/operate/rs/references/rest-api/requests/bootstrap/_index.md#post-bootstrap):
 
 ```sh
 POST /v1/bootstrap/create_cluster
@@ -87,7 +87,7 @@ If you need to update the internal IP address in the OS, one option is to remove
 
 Alternatively, you can use the following steps to update a node's internal IP address without removing it from the cluster:
 
-1. Turn the node into a replica using [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/node/enslave" >}}):
+1. Turn the node into a replica using [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/node/enslave.md):
 
     ```sh
     rladmin node <ID> enslave demote_node
@@ -103,7 +103,7 @@ Alternatively, you can use the following steps to update a node's internal IP ad
 
 1. Follow the operating system vendor's instructions to change the node's IP address.
 
-1. From a different cluster node, use [`rladmin node addr set`]({{< relref "/operate/rs/references/cli-utilities/rladmin/node/addr" >}}) to update the first node's IP address:
+1. From a different cluster node, use [`rladmin node addr set`](/content/operate/rs/references/cli-utilities/rladmin/node/addr.md) to update the first node's IP address:
 
     ```sh
     rladmin node <ID> addr set <IP address>
@@ -134,7 +134,7 @@ Repeat this procedure for other cluster nodes to change their internal IP addres
 
 You can configure external addresses that are not bound to an active interface, but are otherwise mapped or configured to route traffic to the node (such as AWS Elastic IPs or a load balancer VIP).
 
-You can use [rladmin node external_addr]({{< relref "/operate/rs/references/cli-utilities/rladmin/node/external-addr" >}}) to change a node's external IP addresses.
+You can use [rladmin node external_addr](/content/operate/rs/references/cli-utilities/rladmin/node/external-addr.md) to change a node's external IP addresses.
 
 Add an external IP address:
 
@@ -155,13 +155,12 @@ Remove an external IP address:
 rladmin node <ID> external_addr remove <IP address>
 ```
 
-{{< note >}}
-While [joining a new node to a
-cluster]({{< relref "/operate/rs/clusters/add-node.md" >}})
-during the node bootstrap process,
-when prompted to provide an IP of an existing node in the cluster,
-if you use the node's IP, provide the node's internal IP address.
-{{< /note >}}
+> [!NOTE]
+> While [joining a new node to a
+> cluster](/content/operate/rs/clusters/add-node.md)
+> during the node bootstrap process,
+> when prompted to provide an IP of an existing node in the cluster,
+> if you use the node's IP, provide the node's internal IP address.
 
 ## Known limitations
 

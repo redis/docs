@@ -125,19 +125,19 @@ redis> JSON.GET key $.[1].max_level
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the popped JSON value as a string, or `null` if the matching value is not an array.
+[Array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the popped JSON value as a string, or `null` if the matching value is not an array.
 
 -tab-sep-
 
-[Array reply]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [bulk string replies]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) or [null replies]({{< relref "/develop/reference/protocol-spec#nulls" >}}), where each element is the popped JSON value as a string, or `null` if the matching value is not an array.
+[Array reply](/content/develop/reference/protocol-spec.md#arrays) of [bulk string replies](/content/develop/reference/protocol-spec.md#bulk-strings) or [null replies](/content/develop/reference/protocol-spec.md#nulls), where each element is the popped JSON value as a string, or `null` if the matching value is not an array.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.ARRAPPEND`]({{< relref "commands/json.arrappend/" >}}) | [`JSON.ARRINDEX`]({{< relref "commands/json.arrindex/" >}}) 
+[`JSON.ARRAPPEND`](/content/commands/json.arrappend.md) | [`JSON.ARRINDEX`](/content/commands/json.arrindex.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)

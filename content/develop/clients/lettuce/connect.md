@@ -175,7 +175,7 @@ clusterClient.shutdown();
 
 ### TLS connection
 
-When you deploy your application, use TLS and follow the [Redis security guidelines]({{< relref "/operate/oss_and_stack/management/security/" >}}).
+When you deploy your application, use TLS and follow the [Redis security guidelines](/content/operate/oss_and_stack/management/security/_index.md).
 
 ```java
 RedisURI redisUri = RedisURI.Builder.redis("localhost")
@@ -196,7 +196,7 @@ For connection pooling, Lettuce leverages `RedisClient` or `RedisClusterClient`,
 A typical approach with Lettuce is to create a single `RedisClient` instance and reuse it to establish connections to your Redis server(s).
 These connections are multiplexed; that is, multiple commands can be run concurrently over a single or a small set of connections, making explicit pooling less practical.
 See
-[Connection pools and multiplexing]({{< relref "/develop/clients/pools-and-muxing" >}})
+[Connection pools and multiplexing](/content/develop/clients/pools-and-muxing.md)
 for more information.
 
 Lettuce provides pool config to be used with Lettuce asynchronous connection methods.
@@ -261,18 +261,18 @@ In this setup, `LettuceConnectionFactory` is a custom class you would need to im
 Redis Software servers that lets them actively notify clients
 about planned server maintenance shortly before it happens. This
 lets a client take action to avoid disruptions in service.
-See [Smart client handoffs]({{< relref "/develop/clients/sch" >}})
+See [Smart client handoffs](/content/develop/clients/sch.md)
 for more information about SCH.
 
-{{< note >}}Support for SCH in Lettuce requires v7.0.0 or later.
-{{< /note >}}
+> [!NOTE]
+> Support for SCH in Lettuce requires v7.0.0 or later.
 
 By default, `Lettuce` always attempts to connect via SCH but falls back to
 a non-SCH connection if the server doesn't support it. However, you can configure SCH
 explicitly by creating a `MaintNotificationsConfig` object and/or a `TimeoutOptions`
 object and passing them to the `ClientOptions` builder as shown in the example below.
 Note that SCH also requires the
-[RESP3]({{< relref "/develop/reference/protocol-spec#resp-versions" >}})
+[RESP3](/content/develop/reference/protocol-spec.md#resp-versions)
 protocol. Lettuce uses this by default, but make sure you don't set
 `protocolVersion(ProtocolVersion.RESP2)` in the `ClientOptions` builder.
 
@@ -348,10 +348,10 @@ that is relevant to SCH:
 | `relaxedTimeoutsDuringMaintenance(Duration duration)` | Set the *command* timeout to use while the server is performing maintenance (this doesn't change the connection timeout). The default is 10 seconds. Note that relaxed timeouts are only available for the asynchronous and reactive APIs. |
 |
 
-{{< note >}} Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
-either [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) or
-[Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}})
-(see [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) for more information).
-To use relaxed timeouts with these services, you should set `endpointType(EndpointType.NONE)`
-when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.
-{{< /note >}}
+> [!NOTE]
+> Redis Cloud supports relaxed timeouts *only* (and not pre-handoffs) for SCH if you are using
+> either [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) or
+> [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md)
+> (see [Smart client handoffs](/content/develop/clients/sch.md#redis-cloud) for more information).
+> To use relaxed timeouts with these services, you should set `endpointType(EndpointType.NONE)`
+> when you connect. All other configurations have full support for both relaxed timeouts and pre-handoffs.

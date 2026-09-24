@@ -10,7 +10,7 @@ description: Describes how to migrate existing cluster-based LDAP deployments to
 weight: 55
 ---
 
-Redis Software supports LDAP through a [role-based mechanism]({{< relref "/operate/rs/security/access-control/ldap/" >}}), first introduced [in v6.0.20]({{< relref "/operate/rs/release-notes/rs-6-0-20-april-2021" >}}).
+Redis Software supports LDAP through a [role-based mechanism](/content/operate/rs/security/access-control/ldap/_index.md), first introduced [in v6.0.20](/content/operate/rs/release-notes/rs-6-0-20-april-2021.md).
 
 Earlier versions of Redis Software supported a cluster-based mechanism; however, that mechanism was removed in v6.2.12.
 
@@ -58,17 +58,17 @@ This checklist covers the basic process:
 
 To test your LDAP integration, you can:
 
-- Connect with `redis-cli` and use the [`AUTH` command]({{< relref "/commands/auth" >}}) to test LDAP username/password credentials.
+- Connect with `redis-cli` and use the [`AUTH` command](/content/commands/auth.md) to test LDAP username/password credentials.
 
 - Sign in to the Cluster Manager UI using LDAP credentials authorized for admin access.
 
-- Use [Redis Insight]({{< relref "/develop/tools/insight" >}}) to access a database using authorized LDAP credentials.
+- Use [Redis Insight](/content/develop/tools/insight/_index.md) to access a database using authorized LDAP credentials.
 
-- Use the [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to connect using authorized LDAP credentials.
+- Use the [REST API](/content/operate/rs/references/rest-api/_index.md) to connect using authorized LDAP credentials.
 
 ## More info
 
-- Enable and configure [role-based LDAP]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap" >}})
-- Map LDAP groups to [access control roles]({{< relref "/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles" >}})
-- Update database ACLs to [authorize LDAP access]({{< relref "/operate/rs/security/access-control/ldap/update-database-acls" >}})
-- Learn more about Redis Software [security and practices]({{< relref "/operate/rs/security/" >}})
+- Enable and configure [role-based LDAP](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md)
+- Map LDAP groups to [access control roles](/content/operate/rs/security/access-control/ldap/map-ldap-groups-to-roles.md)
+- Update database ACLs to [authorize LDAP access](/content/operate/rs/security/access-control/ldap/update-database-acls.md)
+- Learn more about Redis Software [security and practices](/content/operate/rs/security/_index.md)

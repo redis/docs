@@ -27,20 +27,20 @@ manage it and interact with the data:
 
 ## Redis command line interface (CLI)
 
-The [Redis command line interface]({{< relref "/develop/tools/cli" >}}) (also known as `redis-cli`) is a terminal program that sends commands to and reads replies from the Redis server. It has the following two main modes:
+The [Redis command line interface](/content/develop/tools/cli.md) (also known as `redis-cli`) is a terminal program that sends commands to and reads replies from the Redis server. It has the following two main modes:
 
 1. An interactive Read Eval Print Loop (REPL) mode where the user types Redis commands and receives replies.
 2. A command mode where `redis-cli` is executed with additional arguments, and the reply is printed to the standard output.
 
 ## Redis Insight
 
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) combines a graphical user interface with Redis CLI to let you work with any Redis deployment. You can visually browse and interact with data, take advantage of diagnostic tools, learn by example, and much more. Best of all, Redis Insight is free.
+[Redis Insight](/content/develop/tools/insight/_index.md) combines a graphical user interface with Redis CLI to let you work with any Redis deployment. You can visually browse and interact with data, take advantage of diagnostic tools, learn by example, and much more. Best of all, Redis Insight is free.
 
 [Download Redis Insight](https://redis.io/downloads/#insight).
 
 ## Redis VSCode extension
 
-[Redis for VS Code]({{< relref "/develop/tools/redis-for-vscode" >}})
+[Redis for VS Code](/content/develop/tools/redis-for-vscode/_index.md)
 is an extension that allows you to connect to your Redis databases from within Microsoft Visual Studio Code. After connecting to a database, you can view, add, modify, and delete keys, and interact with your Redis databases using a Redis Insight like UI and also a built-in CLI interface.
 
 ## redisctl
@@ -65,7 +65,7 @@ It connects to a single standalone node over an unencrypted connection: Cluster,
 
 ### Beekeeper Studio
 
-[Beekeeper Studio](https://www.beekeeperstudio.io) Beekeeper Studio is a free, open-source database manager that supports a range of databases like Redis, MongoDB, PostgreSQL, MySQL and more.
+[Beekeeper Studio](https://www.beekeeperstudio.io/db/redis-client/) is a free, open-source database manager that supports a range of databases like Redis, MongoDB, PostgreSQL, MySQL and more.
 Beekeeper Studio is a desktop app, and is available for Linux, macOS, and Windows with full feature parity across all operating systems. 
 
 Redis support includes
@@ -76,4 +76,16 @@ Redis support includes
 
 It connects to a Redis server directly or over an SSH tunnel, with TLS/SSL supported, and authenticates with either a password or a username and password against Redis 6+ ACLs.
 
-[Download for free on their website](https://beekeeperstudio.io/get)
+[Download for free on their website](https://www.beekeeperstudio.io/db/redis-client/)
+
+### Tabularis
+
+[Tabularis](https://github.com/TabularisDB/tabularis) is an open-source desktop SQL workspace for Windows, macOS, and Linux, licensed under Apache 2.0. PostgreSQL, MySQL/MariaDB, and SQLite ship built in; Redis is added as a plugin installed from inside the app (Settings > Available Plugins), so Redis keys appear in the same explorer, data grid, and editor as the relational databases a team already opens there. The Redis plugin, written in Rust, provides:
+
+* A key browser that lists every key with its type, a value preview, and TTL, plus virtual tables that group keys by prefix.
+* Type-specific tables for hashes, lists, sets, sorted sets, and streams, with inline insert, update, and delete from the data grid.
+* Server statistics parsed from `INFO` (version, memory, clients, keyspace) and a list of active Pub/Sub channels with subscriber counts.
+
+It connects to a single node over TCP or TLS, authenticating with a password or a username and password against Redis 6+ ACLs, and lets you pick logical databases 0 to 15 from the connection form. Cluster and Sentinel discovery are not implemented. A second, read-only Redis plugin written in Go is also available from the same plugin registry.
+
+[Download Tabularis](https://github.com/TabularisDB/tabularis/releases) · [Redis plugin (Rust)](https://github.com/nicholas-papachriston/tabularis-redis-plugin) · [Redis plugin (Go)](https://github.com/gzamboni/tabularis-redis-plugin-go)

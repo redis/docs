@@ -25,8 +25,8 @@ You can only add modules to a database when you first create it. You cannot add 
 
 ### Prerequisites
 
-- [Installed the module on the cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}})
-- [Upgraded the module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) to the latest version
+- [Installed the module on the cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md)
+- [Upgraded the module](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) to the latest version
 
 ### Create a database and enable capabilities
 
@@ -38,9 +38,9 @@ In the Redis Software Cluster Manager UI, follow these steps to add modules to a
 
     {{<image filename="images/rs/screenshots/databases/quick-db-capabilities-7-8-2.png" alt="Select which capabilities to add to your database.">}}
 
-    {{<note>}}
-You cannot use RediSearch 1.x and RediSearch 2.x in the same database.
-    {{</note>}}
+    > [!NOTE]
+    > You cannot use RediSearch 1.x and RediSearch 2.x in the same database.
+    >     
 
 1. To use custom configuration for capabilities:
 
@@ -52,16 +52,16 @@ You cannot use RediSearch 1.x and RediSearch 2.x in the same database.
 
 1. Configure additional database settings.
 
-    {{<note>}}
-Depending on the [features supported by an enabled module]({{< relref "/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities#module-feature-support" >}}), certain database configuration fields may not be available.
-    {{</note>}}
+    > [!NOTE]
+    > Depending on the [features supported by an enabled module](/content/operate/oss_and_stack/stack-with-enterprise/enterprise-capabilities.md#module-feature-support), certain database configuration fields may not be available.
+    >     
 
 1. Select **Create**.
 
 ## Module configuration options
 
-- [Redis Search configuration options]({{< relref "/operate/oss_and_stack/stack-with-enterprise/search/config" >}})
+- [Redis Search configuration options](/content/operate/oss_and_stack/stack-with-enterprise/search/config.md)
 
-- [RedisTimeSeries configuration options]({{< relref "/operate/oss_and_stack/stack-with-enterprise/timeseries/config" >}})
+- [RedisTimeSeries configuration options](/content/operate/oss_and_stack/stack-with-enterprise/timeseries/config.md)
 
-- [RedisBloom configuration options]({{< relref "/operate/oss_and_stack/stack-with-enterprise/bloom/config" >}})
+- [RedisBloom configuration options](/content/operate/oss_and_stack/stack-with-enterprise/bloom/config.md)

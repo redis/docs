@@ -9,7 +9,7 @@ aliases:
 ---
 
 Gets a single job of a pipeline and prints it in the compact `list-jobs` table format. Use
-[`describe-job`]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di-describe-job" >}})
+[`describe-job`](/content/integrate/redis-data-integration/reference/cli/redis-di-describe-job.md)
 for the full job view with its transformations and outputs.
 
 ## Usage
@@ -26,7 +26,7 @@ redis-di get-job <name> [flags]
 | `-o`, `--output`   | Output format: `table` (default), `json`, or `yaml`. |
 
 This command also accepts the
-[global options]({{< relref "/integrate/redis-data-integration/reference/cli/redis-di#global-options" >}}).
+[global options](/content/integrate/redis-data-integration/reference/cli/redis-di.md#global-options).
 
 ## Example
 

@@ -10,9 +10,9 @@ linkTitle: Get started
 weight: 20
 url: '/operate/rs/8.0/flex/get-started/'
 ---
-This page guides you through a quick setup of [Flex]({{< relref "/operate/rs/8.0/flex" >}}) with a single node for testing and demo purposes.
+This page guides you through a quick setup of [Flex](/content/operate/rs/8.0/flex/_index.md) with a single node for testing and demo purposes.
 
-For production environments, see [Plan a Flex deployment for Redis Software]({{<relref "/operate/rs/8.0/flex/plan">}}) and more detailed installation instructions in the [install and setup]({{< relref "/operate/rs/8.0/installing-upgrading" >}}) section.
+For production environments, see [Plan a Flex deployment for Redis Software](/content/operate/rs/8.0/flex/plan.md) and more detailed installation instructions in the [install and setup](/content/operate/rs/8.0/installing-upgrading/_index.md) section.
 
 To set up a Redis Software cluster using Flex with a single node:
 
@@ -87,10 +87,10 @@ sudo lsblk
 1. Direct your browser to `https://localhost:8443` on the host machine to
 see the Redis Software Cluster Manager UI.
 
-    {{<note>}}
-Depending on your browser, you may see a certificate error.
-Choose "continue to the website" to go to the setup screen.
-    {{</note>}}
+    > [!NOTE]
+    > Depending on your browser, you may see a certificate error.
+    > Choose "continue to the website" to go to the setup screen.
+    >
 
 1. Click **Create new cluster**.
 
@@ -126,7 +126,7 @@ You now have a Flex database.
 
 ## Connect to your database
 
-After you create the database, you can connect to it and store data. See [Test client connection]({{<relref "/operate/rs/8.0/databases/connect/test-client-connectivity">}}) for connection options and examples.
+After you create the database, you can connect to it and store data. See [Test client connection](/content/operate/rs/8.0/databases/connect/test-client-connectivity.md) for connection options and examples.
 
 ## Next steps
 

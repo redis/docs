@@ -57,12 +57,11 @@ summary: Returns the number of members of the difference between the first set a
 syntax_fmt: "SDIFFCARD numkeys key [key ...] [LIMIT\_limit]"
 title: SDIFFCARD
 ---
-{{< note >}}
-This command's behavior varies in clustered Redis environments. See the [multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}}) page for more information.
-{{< /note >}}
+> [!NOTE]
+> This command's behavior varies in clustered Redis environments. See the [multi-key operations](/content/develop/using-commands/multi-key-operations.md) page for more information.
 
 
-Returns the cardinality of the difference between the first set and all the successive sets. This is the count-only counterpart of [`SDIFF`]({{< relref "/commands/sdiff" >}}): it returns just the number of elements in the difference, not the members themselves.
+Returns the cardinality of the difference between the first set and all the successive sets. This is the count-only counterpart of [`SDIFF`](/content/commands/sdiff.md): it returns just the number of elements in the difference, not the members themselves.
 
 ## Required arguments
 
@@ -138,10 +137,10 @@ When provided with the optional `LIMIT` argument (which defaults to `0`, meaning
 
 ## See also
 
-[`SDIFF`]({{< relref "commands/sdiff/" >}}) | [`SDIFFSTORE`]({{< relref "commands/sdiffstore/" >}})
+[`SDIFF`](/content/commands/sdiff.md) | [`SDIFFSTORE`](/content/commands/sdiffstore.md)
 
 ## Related topics
 
-- [Redis sets]({{< relref "/develop/data-types/sets" >}})
-- [Multi-key operations]({{< relref "/develop/using-commands/multi-key-operations" >}})
+- [Redis sets](/content/develop/data-types/sets.md)
+- [Multi-key operations](/content/develop/using-commands/multi-key-operations.md)
 

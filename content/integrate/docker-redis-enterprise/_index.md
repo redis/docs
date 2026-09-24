@@ -33,4 +33,4 @@ Redis Software with Docker provides a containerized version of Redis Software, p
 
 ## Getting Started
 
-Get started with the [Redis Software Docker quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) guide.
+Get started with the [Redis Software Docker quickstart](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md) guide.

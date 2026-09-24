@@ -12,7 +12,7 @@ toc: 'true'
 weight: $weight
 ---
 
-Manages the cluster-wide [metrics configuration]({{<relref "/operate/rs/monitoring/metrics_stream_engine/metrics-configuration">}}) for the v2 metrics stream engine.
+Manages the cluster-wide [metrics configuration](/content/operate/rs/monitoring/metrics_stream_engine/metrics-configuration.md) for the v2 metrics stream engine.
 
 ## `metrics config`
 
@@ -22,11 +22,11 @@ Updates the cluster's metrics configuration. Specify one or more field/value pai
 rladmin metrics config <field> <value> [ <field> <value> ... ]
 ```
 
-To view the current configuration, use [`rladmin info metrics`]({{<relref "/operate/rs/references/cli-utilities/rladmin/info#info-metrics">}}).
+To view the current configuration, use [`rladmin info metrics`](/content/operate/rs/references/cli-utilities/rladmin/info.md#info-metrics).
 
 ### Parameters
 
-For the available fields and their types, defaults, and validation, see the [metrics configuration object]({{<relref "/operate/rs/references/rest-api/objects/metrics_config">}}).
+For the available fields and their types, defaults, and validation, see the [metrics configuration object](/content/operate/rs/references/rest-api/objects/metrics_config.md).
 
 On the command line, boolean fields take `enabled` or `disabled`, list fields take a comma-separated set of values, and an empty value (`""`) clears a list field.
 

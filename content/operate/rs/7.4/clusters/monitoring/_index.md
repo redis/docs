@@ -16,9 +16,9 @@ You can use the metrics that measure the performance of your Redis Enterprise So
 to monitor the performance of your databases.
 In the Redis Enterprise Cluster Manager UI, you can see real-time metrics and configure alerts that send notifications based on alert parameters. You can also access metrics and configure alerts through the REST API.
 
-To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}) or [Uptrace]({{< relref "/integrate/uptrace-with-redis-enterprise/" >}}).
+To integrate Redis Enterprise metrics into your monitoring environment, see the integration guides for [Prometheus and Grafana](/content/integrate/prometheus-with-redis-enterprise/_index.md) or [Uptrace](/content/integrate/uptrace-with-redis-enterprise/_index.md).
 
-Make sure you read the [definition of each metric]({{< relref "/operate/rs/7.4/references/metrics/" >}})
+Make sure you read the [definition of each metric](/content/operate/rs/7.4/references/metrics/_index.md)
 so that you understand exactly what it represents.
 
 ## Real-time metrics
@@ -48,10 +48,9 @@ Configured alerts are shown:
 - In the **log**
 - In email notifications, if you configure [email alerts](#send-alerts-by-email)
 
-{{< note >}}
-If you enable alerts for "Node joined" or "Node removed" actions,
-you must also enable "Receive email alerts" so that the notifications are sent.
-{{< /note >}}
+> [!NOTE]
+> If you enable alerts for "Node joined" or "Node removed" actions,
+> you must also enable "Receive email alerts" so that the notifications are sent.
 
 To enable alerts for a cluster:
 
@@ -79,8 +78,8 @@ To enable alerts for a database:
 To send cluster and database alerts by email:
 
 1. In **Cluster > Alert Settings**, click **Edit**.
-1. Select **Set an email** to configure the [email server settings]({{< relref "/operate/rs/7.4/clusters/configure/cluster-settings#configuring-email-server-settings" >}}).
+1. Select **Set an email** to configure the [email server settings](/content/operate/rs/7.4/clusters/configure/cluster-settings.md#configuring-email-server-settings).
 1. In **Configuration** for the database, click **Edit**.
 1. Select the **Alerts** section to open it.
 1. Select **Receive email alerts** and click **Save**.
-1. In **Access Control**, select the [database and cluster alerts]({{< relref "/operate/rs/7.4/security/access-control/manage-users" >}}) that you want each user to receive.
+1. In **Access Control**, select the [database and cluster alerts](/content/operate/rs/7.4/security/access-control/manage-users/_index.md) that you want each user to receive.

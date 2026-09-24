@@ -19,9 +19,9 @@ hideListLinks: true
 
 [Terraform](https://developer.hashicorp.com/terraform) is an open source automation tool developed by Hashicorp that allows you to easily provision infrastructure as code.
 
-Redis develops and maintains a [Terraform provider for Redis Cloud](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest). The Redis Cloud Terraform provider allows many of the same actions as found in the [Redis Cloud API]({{< relref "/operate/rc/api" >}}).
+Redis develops and maintains a [Terraform provider for Redis Cloud](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest). The Redis Cloud Terraform provider allows many of the same actions as found in the [Redis Cloud API](/content/operate/rc/api/_index.md).
 
-See [Get started with Terraform]({{< relref "/integrate/terraform-provider-for-redis-cloud/get-started" >}}) for an example of how to use the Terraform provider.
+See [Get started with Terraform](/content/integrate/terraform-provider-for-redis-cloud/get-started.md) for an example of how to use the Terraform provider.
 
 ## Data sources and Resources
 
@@ -76,7 +76,7 @@ It also allows you to create and manage the following resources:
 
 ## More info
 
-- [Get started with Terraform]({{< relref "/integrate/terraform-provider-for-redis-cloud/get-started" >}})
+- [Get started with Terraform](/content/integrate/terraform-provider-for-redis-cloud/get-started.md)
 - [Redis Cloud Terraform Registry](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs)
 - [Terraform documentation](https://developer.hashicorp.com/terraform/docs)
 - [Terraform configuration syntax](https://developer.hashicorp.com/terraform/language/syntax/configuration)

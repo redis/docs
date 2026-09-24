@@ -118,52 +118,52 @@ is (double) numeric data value of the sample. The double number should follow [R
 <note><b>Notes:</b>
 - When specified key does not exist, a new time series is created.
 
-  if a [COMPACTION_POLICY]({{< relref "develop/data-types/timeseries/configuration#compaction_policy" >}}) configuration parameter is defined, compacted time series would be created as well.
+  if a [COMPACTION_POLICY](/content/develop/data-types/timeseries/configuration.md#compaction_policy) configuration parameter is defined, compacted time series would be created as well.
 
 - If `timestamp` is older than the retention period compared to the maximum existing timestamp, the sample is discarded and an error is returned.
 - When adding a sample to a time series for which compaction rules are defined:
   - If all the original samples for an affected aggregated time bucket are available, the compacted value is recalculated based on the reported sample and the original samples.
   - If only a part of the original samples for an affected aggregated time bucket is available due to trimming caused in accordance with the time series RETENTION policy, the compacted value is recalculated based on the reported sample and the available original samples.
   - If the original samples for an affected aggregated time bucket are not available due to trimming caused in accordance with the time series RETENTION policy, the compacted value bucket is not updated.
-- Explicitly adding samples to a compacted time series (using `TS.ADD`, [`TS.MADD`]({{< relref "commands/ts.madd/" >}}), [`TS.INCRBY`]({{< relref "commands/ts.incrby/" >}}), or [`TS.DECRBY`]({{< relref "commands/ts.decrby/" >}})) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
+- Explicitly adding samples to a compacted time series (using `TS.ADD`, [`TS.MADD`](/content/commands/ts.madd.md), [`TS.INCRBY`](/content/commands/ts.incrby.md), or [`TS.DECRBY`](/content/commands/ts.decrby.md)) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.
 </note>
 
 ## Optional arguments
 
-The following arguments are optional because they can be set by [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
+The following arguments are optional because they can be set by [`TS.CREATE`](/content/commands/ts.create.md).
 
 <details open><summary><code>RETENTION retentionPeriod</code></summary> 
  
 is maximum retention period, compared to the maximum existing timestamp, in milliseconds.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`](/content/commands/ts.create.md).
 </details>
     
 <details open><summary><code>ENCODING enc</code></summary> 
 
 specifies the series sample encoding format.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`](/content/commands/ts.create.md).
 </details>
 
 <details open><summary><code>CHUNK_SIZE size</code></summary>
   
 is memory size, in bytes, allocated for each data chunk.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`](/content/commands/ts.create.md).
 </details>
 
 <details open><summary><code>DUPLICATE_POLICY policy</code></summary>
 
-is policy for handling insertion ([`TS.ADD`]({{< relref "commands/ts.add/" >}}) and [`TS.MADD`]({{< relref "commands/ts.madd/" >}})) of multiple samples with identical timestamps.
+is policy for handling insertion ([`TS.ADD`](/content/commands/ts.add.md) and [`TS.MADD`](/content/commands/ts.madd.md)) of multiple samples with identical timestamps.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`](/content/commands/ts.create.md).
 </details>
 
 <details open><summary><code>ON_DUPLICATE policy_ovr</code></summary> 
 
-is overwrite key and database configuration for [DUPLICATE_POLICY]({{< relref "develop/data-types/timeseries/configuration#duplicate_policy" >}}), the policy for handling samples with identical timestamps.
-This override is effective only for this single command and does not set the time series duplication policy (which can be set with [`TS.ALTER`]({{< relref "commands/ts.alter/" >}})).
+is overwrite key and database configuration for [DUPLICATE_POLICY](/content/develop/data-types/timeseries/configuration.md#duplicate_policy), the policy for handling samples with identical timestamps.
+This override is effective only for this single command and does not set the time series duplication policy (which can be set with [`TS.ALTER`](/content/commands/ts.alter.md)).
 
 `policy_ovr` can be one of the following values:
   - `BLOCK`: ignore any newly reported value and reply with an error
@@ -190,7 +190,7 @@ is the policy for handling duplicate samples. A new sample is considered a dupli
  
 where `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.
 
-When not specified: set to the global [IGNORE_MAX_TIME_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}) and [IGNORE_MAX_VAL_DIFF]({{< relref "develop/data-types/timeseries/configuration#ignore_max_time_diff-and-ignore_max_val_diff" >}}), which are, by default, both set to 0.
+When not specified: set to the global [IGNORE_MAX_TIME_DIFF](/content/develop/data-types/timeseries/configuration.md#ignore_max_time_diff-and-ignore_max_val_diff) and [IGNORE_MAX_VAL_DIFF](/content/develop/data-types/timeseries/configuration.md#ignore_max_time_diff-and-ignore_max_val_diff), which are, by default, both set to 0.
 
 These parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters is used).
 
@@ -202,7 +202,7 @@ These parameters are used when creating a new time series to set the per-key par
 
 is set of label-value pairs that represent metadata labels of the time series.
 
-Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}}).
+Use it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`](/content/commands/ts.create.md).
 </details>
 
 <note><b>Notes:</b>
@@ -250,21 +250,21 @@ Add a sample to the time series, setting the sample's timestamp to the current U
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`](/content/commands/ts.create.md)), the reply will be the largest timestamp in the time series.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
 
 -tab-sep-
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref "commands/ts.create/" >}})), the reply will be the largest timestamp in the time series.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`](/content/commands/ts.create.md)), the reply will be the largest timestamp in the time series.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`TS.CREATE`]({{< relref "commands/ts.create/" >}}) 
+[`TS.CREATE`](/content/commands/ts.create.md) 
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)

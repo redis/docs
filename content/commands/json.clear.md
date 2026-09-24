@@ -53,11 +53,9 @@ is key to parse.
 is JSONPath to specify. Default is root `$`. Nonexisting paths are ignored.
 </details>
 
-{{% alert title="Note" color="warning" %}}
- 
-Already cleared values are ignored for empty containers and zero numbers.
-
-{{% /alert %}}
+> [!NOTE]
+>  
+> Already cleared values are ignored for empty containers and zero numbers.
 
 ## Examples
 
@@ -98,20 +96,20 @@ redis> JSON.GET doc $
     tab1="RESP2"
     tab2="RESP3" >}}
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.
 
 -tab-sep-
 
-[Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.
+[Integer reply](/content/develop/reference/protocol-spec.md#integers): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.
 
 {{< /multitabs >}}
 
 ## See also
 
-[`JSON.ARRINDEX`]({{< relref "commands/json.arrindex/" >}}) | [`JSON.ARRINSERT`]({{< relref "commands/json.arrinsert/" >}}) 
+[`JSON.ARRINDEX`](/content/commands/json.arrindex.md) | [`JSON.ARRINSERT`](/content/commands/json.arrinsert.md) 
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/ai/search-and-query/indexing/" >}})
+* [RedisJSON](/content/develop/data-types/json/_index.md)
+* [Index and search JSON documents](/content/develop/ai/search-and-query/indexing/_index.md)
 

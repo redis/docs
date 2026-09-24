@@ -17,13 +17,12 @@ linkTitle: Configuration
 title: Configuration Parameters
 weight: 100
 ---
-{{< note >}}
-As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for the probabilistic data structures are now set in the following ways:
-* At load time via your `redis.conf` file.
-* At run time (where applicable) using the [`CONFIG SET`]({{< relref "/commands/config-set" >}}) command.
-
-Also, Redis 8 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`]({{< relref "/commands/config-rewrite/" >}}) command).
-{{< /note >}}
+> [!NOTE]
+> As of Redis 8 in Redis Open Source (Redis 8), configuration parameters for the probabilistic data structures are now set in the following ways:
+> * At load time via your `redis.conf` file.
+> * At run time (where applicable) using the [`CONFIG SET`](/content/commands/config-set.md) command.
+>
+> Also, Redis 8 persists probabilistic configuration parameters just like any other configuration parameters (e.g., using the [`CONFIG REWRITE`](/content/commands/config-rewrite.md) command).
 
 
 ## Redis probabilistic data structure configuration parameters
@@ -46,19 +45,17 @@ The following table summarizes which Cuckoo filter configuration parameters can 
 | CF_MAX_EXPANSIONS  | [cf-max-expansions](#cf-max-expansions)     | :white_check_mark: | <span title="Supported">&#x2705; Supported</span><br /><span><br /></span> | <span title="Supported">&#x2705; Flexible & Annual</span><br /><span title="Not supported"><nobr>&#x274c; Free & Fixed</nobr></span> |
 |                    | [cf-max-iterations](#cf-max-iterations)     | :white_check_mark: |||
 
-{{< note >}}
-Parameter names for Redis Open Source versions < 8.0, while deprecated, will still be supported in Redis 8.
-{{< /note >}}
+> [!NOTE]
+> Parameter names for Redis Open Source versions < 8.0, while deprecated, will still be supported in Redis 8.
 
-See also [Redis configuration]({{< relref "/operate/oss_and_stack/management/config" >}}).
+See also [Redis configuration](/content/operate/oss_and_stack/management/config.md).
 
 ---
 
-{{< warning >}}
-A filter should always be sized for the expected capacity and the desired error rate.
-Using the `INSERT` family commands with the default values should be used in cases where many small filters exist and the expectation is most will remain at around the default sizes.
-Not optimizing a filter for its intended use will result in degradation of performance and memory efficiency.
-{{< /warning >}}
+> [!WARNING]
+> A filter should always be sized for the expected capacity and the desired error rate.
+> Using the `INSERT` family commands with the default values should be used in cases where many small filters exist and the expectation is most will remain at around the default sizes.
+> Not optimizing a filter for its intended use will result in degradation of performance and memory efficiency.
 
 ## Default parameters for Bloom filters
 
@@ -160,13 +157,13 @@ These methods are deprecated beginning with Redis 8.
 
 Setting configuration parameters at load-time is done by appending arguments after the `--loadmodule` argument when starting a server from the command line or after the `loadmodule` directive in a Redis config file. For example:
 
-In [redis.conf]({{< relref "/operate/oss_and_stack/management/config" >}}):
+In [redis.conf](/content/operate/oss_and_stack/management/config.md):
 
 ```sh
 loadmodule ./redisbloom.so [OPT VAL]...
 ```
 
-From the [Redis CLI]({{< relref "/develop/tools/cli" >}}), using the [MODULE LOAD]({{< relref "/commands/module-load" >}}) command:
+From the [Redis CLI](/content/develop/tools/cli.md), using the [MODULE LOAD](/content/commands/module-load.md) command:
 
 ```
 127.0.0.6379> MODULE LOAD redisbloom.so [OPT VAL]...

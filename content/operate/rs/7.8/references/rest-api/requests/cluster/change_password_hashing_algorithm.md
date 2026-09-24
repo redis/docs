@@ -28,7 +28,7 @@ The hashing algorithm options are `SHA-256` or `PBKDF2`. The default hashing alg
 
 | Permission name |
 |-----------------|
-| [update_cluster]({{< relref "/operate/rs/7.8/references/rest-api/permissions#update_cluster" >}}) |
+| [update_cluster](/content/operate/rs/7.8/references/rest-api/permissions.md#update_cluster) |
 
 ### Request {#patch-request} 
 

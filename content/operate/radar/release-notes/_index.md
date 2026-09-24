@@ -23,7 +23,7 @@ Cloud releases roll out automatically on a regular basis, so there's nothing to 
 
 ## Self-managed releases
 
-Self-managed Radar ships as a Helm chart, an RPM, and a Docker Compose bundle, as described in [Install Radar]({{< relref "/operate/radar/install" >}}). Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**, the container images from Docker Hub, and the Helm chart.
+Self-managed Radar ships as a Helm chart, an RPM, and a Docker Compose bundle, as described in [Install Radar]({{< relref "/operate/radar/install" >}}). Get the RPM from the [Redis Download Center](https://cloud.redis.io/#/rlec-downloads), under **Modules, tools and integrations**, the container images from Docker Hub, and the Helm chart from the Redis Helm repository at `https://helm.redis.io/radar`. Each release's notes list the exact chart version and container images under **Downloads**.
 
 Radar ships on two support tracks:
 
@@ -34,6 +34,7 @@ STS releases receive security and bug fixes for 6 months after release. LTS rele
 
 Install a new release when you're ready to upgrade. See [Install Radar]({{< relref "/operate/radar/install" >}}).
 
-| Release                                                            | Support track | What changed     |
-|--------------------------------------------------------------------|---------------|------------------|
-| [2026.9.2]({{< relref "/operate/radar/release-notes/2026-9-2" >}}) | STS           | Initial release. |
+| Release                                                            | Support track | What changed                         |
+|--------------------------------------------------------------------|---------------|--------------------------------------|
+| [2026.9.5]({{< relref "/operate/radar/release-notes/2026-9-5" >}}) | STS           | Connect clusters with an agent.      |
+| [2026.9.2]({{< relref "/operate/radar/release-notes/2026-9-2" >}}) | STS           | Initial release.                     |

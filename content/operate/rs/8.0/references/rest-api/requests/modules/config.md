@@ -13,7 +13,7 @@ url: '/operate/rs/8.0/references/rest-api/requests/modules/config/'
 ---
 
 {{<banner-article>}}
-This REST API path is deprecated as of Redis Software version 7.4. Use [`PUT /v2/bdbs/<uid>`]({{<relref "/operate/rs/8.0/references/rest-api/requests/bdbs#put-bdbs-action">}}) instead.
+This REST API path is deprecated as of Redis Software version 7.4. Use [`PUT /v2/bdbs/<uid>`](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#put-bdbs-action) instead.
 {{</banner-article>}}
 
 | Method | Path | Description |
@@ -30,7 +30,7 @@ Use the module runtime configuration command (if defined) to configure new argum
 
 | Permission name |
 |-----------------|
-| [edit_bdb_module]({{< relref "/operate/rs/8.0/references/rest-api/permissions#edit_bdb_module" >}}) |
+| [edit_bdb_module](/content/operate/rs/8.0/references/rest-api/permissions.md#edit_bdb_module) |
 
 ### Request {#post-request} 
 

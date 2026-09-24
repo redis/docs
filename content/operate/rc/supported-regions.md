@@ -8,7 +8,9 @@ categories:
 description: null
 linktitle: Supported regions
 weight: 90
+bannerText: Note - The AWS `me-central-1` region is temporarily unavailable due to an ongoing AWS regional issue, even though it's listed as a supported region in the Middle East and Africa tab.
 ---
+<!--DOC-7056: remove bannerText once AWS resolves the regional issue-->
 
 Your choice of cloud provider and region may affect latency between your application and your database, and may affect what connectivity options are available for your database.
 

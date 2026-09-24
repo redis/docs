@@ -75,14 +75,14 @@ redis> CMS.INCRBY test foo 10 bar 42
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing updated min-counts of each of the provided items in the sketch.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, missing key, overflow, or wrong key type.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [integer replies](/content/develop/reference/protocol-spec.md#integers) representing updated min-counts of each of the provided items in the sketch.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, missing key, overflow, or wrong key type.
 
 -tab-sep-
 
 One of the following:
 
-* [Array]({{< relref "/develop/reference/protocol-spec#arrays" >}}) of [integer replies]({{< relref "/develop/reference/protocol-spec#integers" >}}) representing updated min-counts of each of the provided items in the sketch.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: invalid arguments, missing key, overflow, or wrong key type.
+* [Array](/content/develop/reference/protocol-spec.md#arrays) of [integer replies](/content/develop/reference/protocol-spec.md#integers) representing updated min-counts of each of the provided items in the sketch.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: invalid arguments, missing key, overflow, or wrong key type.
 
 {{< /multitabs >}}

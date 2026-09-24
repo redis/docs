@@ -13,7 +13,7 @@ weight: 60
 tocEmbedHeaders: true
 ---
 
-The new metrics stream engine is generally available as of [Redis Software version 8.0]({{<relref "/operate/rs/release-notes/rs-8-0-releases">}}).
+The new metrics stream engine is generally available as of [Redis Software version 8.0](/content/operate/rs/release-notes/rs-8-0-releases/_index.md).
 
 The new metrics stream engine:
 
@@ -27,21 +27,21 @@ The new metrics stream engine:
 
 To integrate Redis Software metrics into your monitoring environment, see the following integration guides:
 
-- [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}})
+- [Grafana](/content/integrate/prometheus-with-redis-enterprise/_index.md)
 
-- [Datadog]({{<relref "/integrate/datadog-with-redis-enterprise">}})
+- [Datadog](/content/integrate/datadog-with-redis-enterprise/_index.md)
 
-- [Dynatrace]({{<relref "/integrate/dynatrace-with-redis-enterprise">}})
+- [Dynatrace](/content/integrate/dynatrace-with-redis-enterprise/_index.md)
 
-- [New Relic]({{<relref "/integrate/new-relic-with-redis-enterprise">}})
+- [New Relic](/content/integrate/new-relic-with-redis-enterprise/_index.md)
 
 For a detailed tutorial to deploy a complete monitoring stack with Prometheus and Grafana, see [Redis Software Observability with Prometheus and Grafana](https://redis.io/learn/operate/observability/redis-software-prometheus-and-grafana).
 
-Filter [Libraries and tools]({{<relref "/integrate">}}) by "observability" for additional tools and guides.
+Filter [Libraries and tools](/content/integrate/_index.md) by "observability" for additional tools and guides.
 
 ## Prometheus metrics v2
 
-For a list of all available v2 metrics, see [Prometheus metrics v2]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}).
+For a list of all available v2 metrics, see [Prometheus metrics v2](/content/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2.md).
 
 The v2 scraping endpoint also exposes metrics for `node_exporter`. For more information, see the [Prometheus node_exporter GitHub repository](https://github.com/prometheus/node_exporter).
 
@@ -67,11 +67,10 @@ If you are already using the existing scraping endpoint for integration, do the 
           - targets: ["<cluster_name>:8070"]
     ```
 
-    {{< note >}}
-**Use a single scrape target.** The v2 endpoint is cluster-wide. Every node aggregates metrics from all nodes and returns the same complete result, so one target is enough. If you list one target per node, Prometheus stores every series once per target and multiplies each `sum()`-based dashboard panel by the number of targets. This produces no error. Prometheus reports every target as up and Grafana renders normally. Use your cluster FQDN as the single target so metrics remain available if a node goes down.
-    {{< /note >}}
+    > [!NOTE]
+    > **Use a single scrape target.** The v2 endpoint is cluster-wide. Every node aggregates metrics from all nodes and returns the same complete result, so one target is enough. If you list one target per node, Prometheus stores every series once per target and multiplies each `sum()`-based dashboard panel by the number of targets. This produces no error. Prometheus reports every target as up and Grafana renders normally. Use your cluster FQDN as the single target so metrics remain available if a node goes down.
 
-1. Use the metrics tables in [this guide]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v1-to-v2">}}) to transition from v1 metrics to equivalent v2 PromQL.
+1. Use the metrics tables in [this guide](/content/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v1-to-v2.md) to transition from v1 metrics to equivalent v2 PromQL.
 
 The reason for a single target changed in v2. On v1, only the cluster master served the metrics endpoint and other nodes returned a redirect, so the protocol effectively forced one target. On v2, every node returns the full cluster view and no redirects are involved. If your v1 configuration listed multiple node targets, reduce it to one.
 

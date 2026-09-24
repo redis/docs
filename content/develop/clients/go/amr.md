@@ -26,7 +26,7 @@ letting `go-redis-entraid` fetch and renew the authentication tokens for you aut
 
 ## Install
 
-Install [`go-redis`]({{< relref "/develop/clients/go" >}}) if you
+Install [`go-redis`](/content/develop/clients/go/_index.md) if you
 have not already done so. Note that `go-redis-entraid`
 requires `go-redis` v9.9.0 or above, so you should upgrade if you
 are using an earlier version.

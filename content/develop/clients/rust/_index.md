@@ -22,11 +22,11 @@ weight: 9
 [`redis-rs`](https://github.com/redis-rs/redis-rs) is the [Rust](https://www.rust-lang.org/) client for Redis.
 The sections below explain how to install `redis-rs` and connect your application to a Redis database.
 
-{{< note >}}Although we provide basic documentation for `redis-rs`, it is a third-party
-client library and is not developed or supported directly by Redis.
-{{< /note >}}
+> [!NOTE]
+> Although we provide basic documentation for `redis-rs`, it is a third-party
+> client library and is not developed or supported directly by Redis.
 
-`redis-rs` requires a running Redis server. See [here]({{< relref "/operate/oss_and_stack/install/" >}}) for Redis Open Source installation instructions.
+`redis-rs` requires a running Redis server. See [here](/content/operate/oss_and_stack/install/_index.md) for Redis Open Source installation instructions.
 
 ## Install
 
@@ -66,12 +66,12 @@ The following example shows the simplest way to connect to a Redis server:
 {{< /clients-example >}}
 
 After connecting, you can test the connection by  storing and retrieving
-a simple [string]({{< relref "/develop/data-types/strings" >}}):
+a simple [string](/content/develop/data-types/strings/_index.md):
 
 {{< clients-example set="landing" step="set_get_string" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Set and retrieve string values using SET and GET commands" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-You can also easily store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}}):
+You can also easily store and retrieve a [hash](/content/develop/data-types/hashes.md):
 
 {{< clients-example set="landing" step="set_get_hash" lang_filter="Rust-Sync,Rust-Async" description="Foundational: Store and retrieve hash data structures using HSET and HGETALL" difficulty="beginner" >}}
 {{< /clients-example >}}

@@ -25,7 +25,7 @@ With OpenTelemetry Collector, you can receive, process, and export telemetry dat
 
 You can use Uptrace to:
 
-- Collect and display data metrics not available in the [admin console]({{< relref "/operate/rs/references/metrics" >}}).
+- Collect and display data metrics not available in the [admin console](/content/operate/rs/references/metrics/_index.md).
 - Use prebuilt dashboard templates maintained by the Uptrace community.
 - Set up automatic alerts and receive notifications via email, Slack, Telegram, and others.
 - Monitor your app performance and logs using [OpenTelemetry tracing](https://uptrace.dev/opentelemetry/distributed-tracing.html).

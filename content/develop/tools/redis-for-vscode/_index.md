@@ -22,12 +22,12 @@ Redis for VS Code is an extension that allows you to connect to your Redis datab
 After connecting to a database, you can view, add, modify, and delete keys, and interact with your Redis databases using a Redis Insight like UI and also a built-in CLI interface.
 The following data types are supported:
 
-- [Hash]({{< relref "/develop/data-types/hashes" >}})
-- [List]({{< relref "/develop/data-types/lists" >}})
-- [Set]({{< relref "/develop/data-types/sets" >}})
-- [Sorted Set]({{< relref "/develop/data-types/sorted-sets" >}})
-- [String]({{< relref "/develop/data-types/strings" >}})
-- [JSON]({{< relref "/develop/data-types/json" >}})
+- [Hash](/content/develop/data-types/hashes.md)
+- [List](/content/develop/data-types/lists.md)
+- [Set](/content/develop/data-types/sets.md)
+- [Sorted Set](/content/develop/data-types/sorted-sets.md)
+- [String](/content/develop/data-types/strings/_index.md)
+- [JSON](/content/develop/data-types/json/_index.md)
 
 ## Install the Redis for VS Code extension
 
@@ -49,11 +49,10 @@ Click on the Redis mark (the cursive **R**) in the VS Code menu to begin connect
 
 {{< image filename="images/dev/connect/vscode/vscode-initial.png" >}}
 
-Click on the **+ Connect database** button. A dialog will display in the main pane. In the image shown below, all the options have been checked to show the available details for each connection. These connection details are similar to those accessible from [`redis-cli`]({{< relref "/develop/tools/cli" >}}).
+Click on the **+ Connect database** button. A dialog will display in the main pane. In the image shown below, all the options have been checked to show the available details for each connection. These connection details are similar to those accessible from [`redis-cli`](/content/develop/tools/cli.md).
 
-{{< note >}}
-In the first release of Redis for VS Code, there is no way to change the logical database after you have selected it. If you need to connect to a different logical database, you need to add a separate database connection.
-{{< /note >}}
+> [!NOTE]
+> In the first release of Redis for VS Code, there is no way to change the logical database after you have selected it. If you need to connect to a different logical database, you need to add a separate database connection.
 
 {{< image filename="images/dev/connect/vscode/vscode-add-menu.png" >}}
 
@@ -61,9 +60,8 @@ After filling out the necessary fields, click on the **Add Redis database** butt
 
 {{< image filename="images/dev/connect/vscode/vscode-cnx-view.png" >}}
 
-{{< note >}}
-Local databases, excluding OSS cluster databases, with default usernames and no passwords will automatically be added to your list of database connections.
-{{< /note >}}
+> [!NOTE]
+> Local databases, excluding OSS cluster databases, with default usernames and no passwords will automatically be added to your list of database connections.
 
 ### Connection tools
 
@@ -144,4 +142,4 @@ The connection tool with the boxed `>_` icon opens a Redis CLI window in the **R
 
 {{< image filename="images/dev/connect/vscode/vscode-cli.png" >}}
 
-The CLI interface works just like the [`redis-cli`]({{< relref "/develop/tools/cli" >}}) command.
+The CLI interface works just like the [`redis-cli`](/content/develop/tools/cli.md) command.

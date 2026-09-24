@@ -69,7 +69,7 @@ OK
 
 ### Hash Digest {#hash-digest}
 
-A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]({{< relref "/commands/set" >}}) command's `IFDEQ` and `IFDNE` options, and also the [DELEX]({{< relref "/commands/delex" >}}) command's `IFDEQ` and `IFDNE` options.
+A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET](/content/commands/set.md) command's `IFDEQ` and `IFDNE` options, and also the [DELEX](/content/commands/delex.md) command's `IFDEQ` and `IFDNE` options.
 
 ## Redis Software and Redis Cloud compatibility
 
@@ -85,16 +85,16 @@ A hash digest is a fixed-size numerical representation of a string value, comput
 
 One of the following:
 
-- [Null bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) if the key does not exist.
-- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the key exists but holds a value which is not a string.
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) the hash digest of the value stored in the key as a hexadecimal string.
+- [Null bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) if the key does not exist.
+- [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if the key exists but holds a value which is not a string.
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) the hash digest of the value stored in the key as a hexadecimal string.
 
 -tab-sep-
 
 One of the following:
 
-- [Null bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) if the key does not exist.
-- [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if the key exists but holds a value which is not a string.
-- [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) the hash digest of the value stored in the key as a hexadecimal string.
+- [Null bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) if the key does not exist.
+- [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if the key exists but holds a value which is not a string.
+- [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) the hash digest of the value stored in the key as a hexadecimal string.
 
 {{< /multitabs >}}

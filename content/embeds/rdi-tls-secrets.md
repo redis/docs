@@ -1,4 +1,4 @@
-When creating secrets for TLS or mTLS, ensure that all certificates and keys are in `PEM` format. The only exception to this is that for PostgreSQL, the private key `SOURCE_DB_KEY` secret must be in `DER` format. If you have a key in `PEM` format, you must convert it to `DER` before creating the `SOURCE_DB_KEY` secret using the command:
+When creating secrets for TLS or mTLS, ensure that all certificates and keys are in `PEM` format. The only exception to this is that for PostgreSQL, the source's private key secret must be in `DER` format. If you have a key in `PEM` format, you must convert it to `DER` before creating the secret using the command:
 
 ```bash
 openssl pkcs8 -topk8 -inform PEM -outform DER \

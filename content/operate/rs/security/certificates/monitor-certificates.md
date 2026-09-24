@@ -12,11 +12,11 @@ weight: 10
 
 Redis Software exposes the expiration time in seconds of each certificate on each node. You can use Prometheus to monitor these certificates.
 
-To learn how to monitor Redis Software metrics using Prometheus, see [Monitoring with metrics and alerts]({{<relref "/operate/rs/monitoring">}}) and the [Prometheus integration quick start]({{< relref "/integrate/prometheus-with-redis-enterprise/" >}}).
+To learn how to monitor Redis Software metrics using Prometheus, see [Monitoring with metrics and alerts](/content/operate/rs/monitoring/_index.md) and the [Prometheus integration quick start](/content/integrate/prometheus-with-redis-enterprise/_index.md).
 
 ## V1 metrics
 
-The [v1 metrics]({{<relref "/operate/rs/monitoring/v1_monitoring">}}) endpoint (`https://<cluster_name>:8070/`) uses `node_cert_expiration_seconds`.
+The [v1 metrics](/content/operate/rs/monitoring/v1_monitoring.md) endpoint (`https://<cluster_name>:8070/`) uses `node_cert_expiration_seconds`.
 
 ### Certificate expiration in seconds {#v1-cert-expire-seconds}
 
@@ -28,7 +28,7 @@ node_cert_expiration_seconds{cluster="mycluster.local",logical_name="metrics_exp
 node_cert_expiration_seconds{cluster="mycluster.local",logical_name="syncer",node="1",path="/etc/opt/redislabs/syncer_cert.pem"} 31104000.0
 ```
 
-The following certificates relate to [internode communication TLS encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) and are automatically rotated by Redis Software:
+The following certificates relate to [internode communication TLS encryption](/content/operate/rs/security/encryption/internode-encryption.md) and are automatically rotated by Redis Software:
 
 ```sh
 node_cert_expiration_seconds{cluster="mycluster.local",logical_name="ccs_internode_encryption",node="1",path="/etc/opt/redislabs/ccs_internode_encryption_cert.pem"} 2592000.0
@@ -39,7 +39,7 @@ node_cert_expiration_seconds{cluster="mycluster.local",logical_name="gossip_ca_s
 
 ## V2 metrics
 
-The [v2 metrics]({{<relref "/operate/rs/monitoring/metrics_stream_engine">}}) endpoint (`https://<cluster_name>:8070/v2`) uses `node_cert_expires_in_seconds`.
+The [v2 metrics](/content/operate/rs/monitoring/metrics_stream_engine/_index.md) endpoint (`https://<cluster_name>:8070/v2`) uses `node_cert_expires_in_seconds`.
 
 ### Certificate expiration in seconds {#v2-cert-expire-seconds}
 
@@ -51,7 +51,7 @@ node_cert_expires_in_seconds{cluster="mycluster.local",logical_name="metrics_exp
 node_cert_expires_in_seconds{cluster="mycluster.local",logical_name="syncer",node="1",path="/etc/opt/redislabs/syncer_cert.pem"} 31104000.0
 ```
 
-The following certificates relate to [internode communication TLS encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) and are automatically rotated by Redis Software:
+The following certificates relate to [internode communication TLS encryption](/content/operate/rs/security/encryption/internode-encryption.md) and are automatically rotated by Redis Software:
 
 ```sh
 node_cert_expires_in_seconds{cluster="mycluster.local",logical_name="ccs_internode_encryption",node="1",path="/etc/opt/redislabs/ccs_internode_encryption_cert.pem"} 2592000.0
@@ -68,7 +68,7 @@ max by(filename) (
 ) / 86400
 ```
 
-The following certificates relate to [internode communication TLS encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) and are automatically rotated by Redis Software:
+The following certificates relate to [internode communication TLS encryption](/content/operate/rs/security/encryption/internode-encryption.md) and are automatically rotated by Redis Software:
 
 ```sh
 max by(filename) (

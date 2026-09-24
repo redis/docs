@@ -16,22 +16,22 @@ type: integration
 weight: $weight
 ---
 
-Here, you'll learn how to use the [Redis Cloud Terraform Provider]({{< relref "/integrate/terraform-provider-for-redis-cloud/" >}}) to create a subscription and a database.
+Here, you'll learn how to use the [Redis Cloud Terraform Provider](/content/integrate/terraform-provider-for-redis-cloud/_index.md) to create a subscription and a database.
 
 ## Prerequisites
 
 1. [Install Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli).
 
-1. [Create a Redis Cloud account]({{< relref "/operate/rc/rc-quickstart#create-an-account" >}}) if you do not have one already.
+1. [Create a Redis Cloud account](/content/operate/rc/rc-quickstart.md#create-an-account) if you do not have one already.
 
-1. [Enable the Redis Cloud API]({{< relref "/operate/rc/api/get-started/enable-the-api" >}}).
+1. [Enable the Redis Cloud API](/content/operate/rc/api/get-started/enable-the-api.md).
 
-1. Get your Redis Cloud [API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}}). Set them to the following environment variables:
+1. Get your Redis Cloud [API keys](/content/operate/rc/api/get-started/manage-api-keys.md). Set them to the following environment variables:
 
     - Set `REDISCLOUD_ACCESS_KEY` to your API account key.
     - Set `REDISCLOUD_SECRET_KEY` to your API user key.
 
-1. Set a [payment method]({{< relref "/operate/rc/billing-and-payments#add-payment-method" >}}).
+1. Set a [payment method](/content/operate/rc/billing-and-payments/_index.md#add-payment-method).
 
 ## Install the Redis Cloud provider
 

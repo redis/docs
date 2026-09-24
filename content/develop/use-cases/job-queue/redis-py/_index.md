@@ -14,7 +14,7 @@ title: Redis job queue with redis-py
 weight: 1
 ---
 
-This guide shows you how to implement a Redis-backed job queue in Python with [`redis-py`]({{< relref "/develop/clients/redis-py" >}}). It includes a small local web server built with the Python standard library so you can enqueue jobs, watch a pool of workers drain them, and see the reclaimer recover jobs from a simulated worker crash.
+This guide shows you how to implement a Redis-backed job queue in Python with [`redis-py`](/content/develop/clients/redis-py/_index.md). It includes a small local web server built with the Python standard library so you can enqueue jobs, watch a pool of workers drain them, and see the reclaimer recover jobs from a simulated worker crash.
 
 ## Overview
 
@@ -104,14 +104,14 @@ queue:jobs:job:9a4f...
 
 The implementation uses:
 
-* [`LPUSH`]({{< relref "/commands/lpush" >}}) to add new job IDs to the pending list
-* [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}) to atomically claim a job into the processing list
-* [`LREM`]({{< relref "/commands/lrem" >}}) to remove a claimed job from the processing list on complete or fail
-* [`LTRIM`]({{< relref "/commands/ltrim" >}}) to cap the completed and failed history lists
-* [`HSET`]({{< relref "/commands/hset" >}}) / [`HGETALL`]({{< relref "/commands/hgetall" >}}) for job metadata
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) on completed and failed hashes for automatic cleanup
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) on `queue:jobs:events` for completion signalling
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) ([`EVALSHA`]({{< relref "/commands/evalsha" >}})) for the complete, fail, and reclaim flows so each runs atomically against the processing list and metadata hash
+* [`LPUSH`](/content/commands/lpush.md) to add new job IDs to the pending list
+* [`BRPOPLPUSH`](/content/commands/brpoplpush.md) to atomically claim a job into the processing list
+* [`LREM`](/content/commands/lrem.md) to remove a claimed job from the processing list on complete or fail
+* [`LTRIM`](/content/commands/ltrim.md) to cap the completed and failed history lists
+* [`HSET`](/content/commands/hset.md) / [`HGETALL`](/content/commands/hgetall.md) for job metadata
+* [`EXPIRE`](/content/commands/expire.md) on completed and failed hashes for automatic cleanup
+* [`PUBLISH`](/content/commands/publish.md) on `queue:jobs:events` for completion signalling
+* [Lua scripting](/content/develop/programmability/eval-intro.md) ([`EVALSHA`](/content/commands/evalsha.md)) for the complete, fail, and reclaim flows so each runs atomically against the processing list and metadata hash
 
 ## Enqueueing jobs
 
@@ -364,15 +364,15 @@ redis-cli --scan --pattern 'queue:jobs:*' | xargs redis-cli DEL
 
 This example uses the following Redis commands:
 
-* [`LPUSH`]({{< relref "/commands/lpush" >}}) to enqueue a job ID.
-* [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}) to atomically claim a job into the processing list.
-* [`LREM`]({{< relref "/commands/lrem" >}}) to remove a job from the processing list on complete or fail.
-* [`LRANGE`]({{< relref "/commands/lrange" >}}) and [`LLEN`]({{< relref "/commands/llen" >}}) to read queue depth and list contents.
-* [`LTRIM`]({{< relref "/commands/ltrim" >}}) to cap the completed and failed history.
-* [`HSET`]({{< relref "/commands/hset" >}}) and [`HGETALL`]({{< relref "/commands/hgetall" >}}) for job metadata.
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) for the attempt counter.
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) for automatic cleanup of completed and failed jobs.
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) for job-completion notifications.
-* [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for atomic complete, fail, and reclaim flows.
+* [`LPUSH`](/content/commands/lpush.md) to enqueue a job ID.
+* [`BRPOPLPUSH`](/content/commands/brpoplpush.md) to atomically claim a job into the processing list.
+* [`LREM`](/content/commands/lrem.md) to remove a job from the processing list on complete or fail.
+* [`LRANGE`](/content/commands/lrange.md) and [`LLEN`](/content/commands/llen.md) to read queue depth and list contents.
+* [`LTRIM`](/content/commands/ltrim.md) to cap the completed and failed history.
+* [`HSET`](/content/commands/hset.md) and [`HGETALL`](/content/commands/hgetall.md) for job metadata.
+* [`HINCRBY`](/content/commands/hincrby.md) for the attempt counter.
+* [`EXPIRE`](/content/commands/expire.md) for automatic cleanup of completed and failed jobs.
+* [`PUBLISH`](/content/commands/publish.md) for job-completion notifications.
+* [`EVALSHA`](/content/commands/evalsha.md) for atomic complete, fail, and reclaim flows.
 
-See the [`redis-py` documentation]({{< relref "/develop/clients/redis-py" >}}) for full client reference.
+See the [`redis-py` documentation](/content/develop/clients/redis-py/_index.md) for full client reference.

@@ -38,14 +38,14 @@ along with their release state and available features.
 
 | Client | Basic failover | Pub/sub failover | OSS Cluster failover | Failback |
 | :-- | :-- | :-- | :-- | :-- |
-| [Jedis]({{< relref "/develop/clients/jedis/failover" >}}) | Yes | No | No | Yes |
-| [redis-py]({{< relref "/develop/clients/redis-py/failover" >}}) | Yes  (Preview) | Yes | Yes | Yes |
-| [Lettuce]({{< relref "/develop/clients/lettuce/failover" >}}) | Yes (Preview) | Yes | No | Yes |
-| [StackExchange.Redis]({{< relref "/develop/clients/dotnet/failover" >}}) | Yes | Yes | Yes | Yes |
+| [Jedis](/content/develop/clients/jedis/failover.md) | Yes | No | No | Yes |
+| [redis-py](/content/develop/clients/redis-py/failover.md) | Yes  (Preview) | Yes | Yes | Yes |
+| [Lettuce](/content/develop/clients/lettuce/failover.md) | Yes (Preview) | Yes | No | Yes |
+| [StackExchange.Redis](/content/develop/clients/dotnet/failover.md) | Yes | Yes | Yes | Yes |
 
 ## Concepts
 
-You may have several [Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}})
+You may have several [Active-Active databases](/content/operate/rs/databases/active-active/_index.md)
 or independent Redis servers that are all suitable to serve your app.
 Typically, you would prefer to use some database endpoints over others for a particular
 instance of your app (perhaps the ones that are closest geographically to the app server
@@ -106,10 +106,10 @@ Clients periodically run a "health check" on each server to see if it has recove
 Several health check strategies are implemented in all clients:
 
 -   **Ping**: This is the default strategy, which just sends a
-    [`PING`]({{< relref "/commands/ping" >}}) command and ensures that it gives the
+    [`PING`](/content/commands/ping.md) command and ensures that it gives the
     expected response.
 -   **Lag aware** (Redis Software only): This strategy uses the
-    [REST API]({{< relref "/operate/rs/references/rest-api" >}}) to check the
+    [REST API](/content/operate/rs/references/rest-api/_index.md) to check the
     synchronization lag between a specific database and the others in the Active-Active
     setup. If the lag is within a specified tolerance, the server is considered healthy.
 -   **Custom**: You can implement your own health check strategy to use information

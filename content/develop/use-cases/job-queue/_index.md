@@ -59,24 +59,24 @@ up automatically with a TTL.
 
 Redis provides the following features that make it a good fit for background jobs:
 
--   [`LPUSH`]({{< relref "/commands/lpush" >}}) and [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}})
-    (or [`BLMOVE`]({{< relref "/commands/blmove" >}})) for atomic enqueue and blocking claim,
+-   [`LPUSH`](/content/commands/lpush.md) and [`BRPOPLPUSH`](/content/commands/brpoplpush.md)
+    (or [`BLMOVE`](/content/commands/blmove.md)) for atomic enqueue and blocking claim,
     so a worker dequeues a job and registers it in the processing list in a single round trip.
--   [Lists]({{< relref "/develop/data-types/lists" >}}) for the *processing list* visibility-timeout
+-   [Lists](/content/develop/data-types/lists.md) for the *processing list* visibility-timeout
     pattern — jobs move atomically from pending to processing, and a reclaimer scans for
     timed-out jobs and moves them back.
--   [Sorted sets]({{< relref "/develop/data-types/sorted-sets" >}})
-    ([`ZADD`]({{< relref "/commands/zadd" >}}),
-    [`ZRANGEBYSCORE`]({{< relref "/commands/zrangebyscore" >}})) for delayed execution and
+-   [Sorted sets](/content/develop/data-types/sorted-sets.md)
+    ([`ZADD`](/content/commands/zadd.md),
+    [`ZRANGEBYSCORE`](/content/commands/zrangebyscore.md)) for delayed execution and
     priority queues, scored by run-at timestamp or priority.
--   [Streams]({{< relref "/develop/data-types/streams" >}}) with
-    [consumer groups]({{< relref "/develop/data-types/streams#consumer-groups" >}}) for fan-out
+-   [Streams](/content/develop/data-types/streams/_index.md) with
+    [consumer groups](/content/develop/data-types/streams/_index.md#consumer-groups) for fan-out
     across multiple worker pools with independent progress tracking.
--   [Hashes]({{< relref "/develop/data-types/hashes" >}}) for job metadata with
-    [`EXPIRE`]({{< relref "/commands/expire" >}}) so completed jobs are cleaned up automatically.
--   [Pub/Sub]({{< relref "/develop/pubsub" >}})
-    ([`PUBLISH`]({{< relref "/commands/publish" >}}),
-    [`SUBSCRIBE`]({{< relref "/commands/subscribe" >}})) for job completion signalling so the
+-   [Hashes](/content/develop/data-types/hashes.md) for job metadata with
+    [`EXPIRE`](/content/commands/expire.md) so completed jobs are cleaned up automatically.
+-   [Pub/Sub](/content/develop/pubsub/_index.md)
+    ([`PUBLISH`](/content/commands/publish.md),
+    [`SUBSCRIBE`](/content/commands/subscribe.md)) for job completion signalling so the
     submitter is notified without polling.
 -   Sub-millisecond latency on enqueue and dequeue, which keeps the producer side cheap.
 
@@ -101,12 +101,12 @@ The following libraries implement reliable job-queue patterns on Redis:
 The following guides show how to build a simple Redis-backed job queue.
 Each guide includes a runnable interactive demo for each of the following client libraries:
 
-* [redis-py (Python)]({{< relref "/develop/use-cases/job-queue/redis-py" >}})
-* [node-redis (Node.js)]({{< relref "/develop/use-cases/job-queue/nodejs" >}})
-* [go-redis (Go)]({{< relref "/develop/use-cases/job-queue/go" >}})
-* [Jedis (Java)]({{< relref "/develop/use-cases/job-queue/java-jedis" >}})
-* [Lettuce (Java)]({{< relref "/develop/use-cases/job-queue/java-lettuce" >}})
-* [StackExchange.Redis (C#)]({{< relref "/develop/use-cases/job-queue/dotnet" >}})
-* [Predis (PHP)]({{< relref "/develop/use-cases/job-queue/php" >}})
-* [redis-rb (Ruby)]({{< relref "/develop/use-cases/job-queue/ruby" >}})
-* [redis-rs (Rust)]({{< relref "/develop/use-cases/job-queue/rust" >}})
+* [redis-py (Python)](/content/develop/use-cases/job-queue/redis-py/_index.md)
+* [node-redis (Node.js)](/content/develop/use-cases/job-queue/nodejs/_index.md)
+* [go-redis (Go)](/content/develop/use-cases/job-queue/go/_index.md)
+* [Jedis (Java)](/content/develop/use-cases/job-queue/java-jedis/_index.md)
+* [Lettuce (Java)](/content/develop/use-cases/job-queue/java-lettuce/_index.md)
+* [StackExchange.Redis (C#)](/content/develop/use-cases/job-queue/dotnet/_index.md)
+* [Predis (PHP)](/content/develop/use-cases/job-queue/php/_index.md)
+* [redis-rb (Ruby)](/content/develop/use-cases/job-queue/ruby/_index.md)
+* [redis-rs (Rust)](/content/develop/use-cases/job-queue/rust/_index.md)

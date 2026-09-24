@@ -62,7 +62,7 @@ Get metrics from Redis Cloud:
       - targets: ["REDIS_CLOUD_HOST:8070"]
 ```
 
-Replace `REDIS_CLOUD_HOST` with the [Prometheus endpoint for your database]({{< relref "/operate/rc/databases/monitor-performance#connect-to-prometheus" >}}), which you can get from the [Redis Cloud console](https://cloud.redis.io/). 
+Replace `REDIS_CLOUD_HOST` with the [Prometheus endpoint for your database](/content/operate/rc/databases/monitor-performance.md#connect-to-prometheus), which you can get from the [Redis Cloud console](https://cloud.redis.io/). 
 
 {{< embed-md "rc-get-prometheus-endpoint.md" >}}
 

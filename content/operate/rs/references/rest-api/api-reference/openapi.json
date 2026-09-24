@@ -679,6 +679,18 @@
           "dn_group_query": {
             "$ref": "#/components/schemas/LdapQuery"
           },
+          "retry_attempts": {
+            "default": 0,
+            "description": "Number of retry attempts for retryable LDAP connectivity failures",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "retry_backoff_ms": {
+            "default": 100,
+            "description": "Backoff between LDAP retry attempts, in milliseconds",
+            "minimum": 0,
+            "type": "integer"
+          },
           "starttls": {
             "default": false,
             "description": "Whether to use StartTLS negotiation for the LDAP connection",

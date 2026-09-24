@@ -41,7 +41,7 @@ it doesn't do anything useful at this stage.
 ## Add `hiredis` files
 
 Build `hiredis` if you have not already done so (see
-[Build and install]({{< relref "/develop/clients/hiredis#build-and-install" >}})
+[Build and install](/content/develop/clients/hiredis/_index.md#build-and-install)
 for more information).
 
 You should also make the `libhiredis` library available to the project. For example,
@@ -141,12 +141,12 @@ The code eventually emits a `finished()` signal when it is complete to indicate 
 the app should exit.
 
 Our simple example code just sets and gets a Redis
-[string]({{< relref "/develop/data-types/strings" >}}) key. The class contains
+[string](/content/develop/data-types/strings/_index.md) key. The class contains
 private attributes for the key and value (following the Qt `m_xxx` naming convention
 for class members). These are set by the constructor along with a call to the
 `QObject` constructor. The other attributes represent the connection context for
 Redis (which should generally be
-[asynchronous]({{< relref "/develop/clients/hiredis/connect#asynchronous-connection" >}})
+[asynchronous](/content/develop/clients/hiredis/connect.md#asynchronous-connection)
 for a Qt app) and an adapter object that `hiredis` uses to integrate with Qt.
 
 ### Implementation file
@@ -216,23 +216,23 @@ code connects to Redis and stores the connection context pointer in the
 `m_ctx` attribute of the class instance. The call to `m_adapter.setContext()`
 initializes the Qt support for the context. Note that we need an
 asynchronous connection for Qt. See
-[Asynchronous connection]({{< relref "/develop/clients/hiredis/connect#asynchronous-connection" >}})
+[Asynchronous connection](/content/develop/clients/hiredis/connect.md#asynchronous-connection)
 for more information.
 
-The code then issues two Redis commands to [`SET`]({{< relref "/commands/set" >}})
+The code then issues two Redis commands to [`SET`](/content/commands/set.md)
 the string key and value that were supplied using the class's constructor. We are
 not interested in the response returned by this command, but we are interested in the
-response from the [`GET`]({{< relref "/commands/get" >}}) command that follows it.
+response from the [`GET`](/content/commands/get.md) command that follows it.
 Because the commands are asynchronous, we need to set a callback to handle
 the `GET` response when it arrives. In the `redisAsyncCommand()` call, we pass
 a pointer to our `getCallback()` function and also pass a pointer to the
 `RedisExample` instance. This is a custom data field that will simply
 be passed on to the callback when it executes (see 
-[Construct asynchronous commands]({{< relref "/develop/clients/hiredis/issue-commands#construct-asynchronous-commands" >}})
+[Construct asynchronous commands](/content/develop/clients/hiredis/issue-commands.md#construct-asynchronous-commands)
 for more information).
 
 The code in the `getCallback()` function starts by casting the reply pointer
-parameter to [`redisReply`]({{< relref "/develop/clients/hiredis/handle-replies" >}})
+parameter to [`redisReply`](/content/develop/clients/hiredis/handle-replies.md)
 and the custom data pointer to `RedisExample`. Here, the example just prints
 the reply string to the console, but you can process it in any way you like.
 You can add methods to your class and call them within the callback using the
@@ -301,9 +301,9 @@ When you have added the code, you can run it from the **Build** menu of
 Qt Creator or from the toolbar at the left hand side of the window.
 Assuming the connection to Redis succeeds, it will print the message
 `Value: https://redis.io/` and quit. You can use the
-[`KEYS`]({{< relref "/commands/keys" >}}) command from
-[`redis-cli`]({{< relref "/develop/tools/cli" >}}) or
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) to check
+[`KEYS`](/content/commands/keys.md) command from
+[`redis-cli`](/content/develop/tools/cli.md) or
+[Redis Insight](/content/develop/tools/insight/_index.md) to check
 that the "url" string key was added to the Redis database.
 
 ## Key information

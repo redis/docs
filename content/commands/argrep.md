@@ -144,7 +144,7 @@ One or more textual predicates to evaluate against each non-empty element in the
 
 - **`EXACT string`** — Matches elements whose value is exactly equal to `string`.
 - **`MATCH string`** — Matches elements whose value contains `string` as a substring.
-- **`GLOB pattern`** — Matches elements whose value matches the glob-style `pattern` (with `*`, `?`, and `[...]` wildcards), the same syntax used by [`KEYS`]({{< relref "/commands/keys" >}}) and [`SCAN`]({{< relref "/commands/scan" >}}) `MATCH`.
+- **`GLOB pattern`** — Matches elements whose value matches the glob-style `pattern` (with `*`, `?`, and `[...]` wildcards), the same syntax used by [`KEYS`](/content/commands/keys.md) and [`SCAN`](/content/commands/scan.md) `MATCH`.
 - **`RE pattern`** — Matches elements whose value matches the regular expression `pattern`.
 
 When more than one predicate is supplied, use the `AND` or `OR` option to control how they are combined. The default is `OR`.

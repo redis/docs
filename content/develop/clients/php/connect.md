@@ -46,7 +46,7 @@ echo $r->get('foo'), PHP_EOL;
 // >>> bar
 ```
 
-Store and retrieve a [hash]({{< relref "/develop/data-types/hashes" >}})
+Store and retrieve a [hash](/content/develop/data-types/hashes.md)
 object:
 
 ```php
@@ -102,7 +102,7 @@ echo $rc->get('foo'), PHP_EOL;
 ## Connect to your production Redis with TLS
 
 When you deploy your application, use TLS and follow the
-[Redis security]({{< relref "/operate/oss_and_stack/management/security/" >}})
+[Redis security](/content/operate/oss_and_stack/management/security/_index.md)
 guidelines.
 
 Use the following commands to generate the client certificate and private key:

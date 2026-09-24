@@ -17,16 +17,16 @@ When certificates are rotated, the encrypted private keys are also rotated.
 
 ## Enable PEM encryption
 
-To enable PEM encryption and encrypt private keys on the disk, use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
+To enable PEM encryption and encrypt private keys on the disk, use [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) or the [REST API](/content/operate/rs/references/rest-api/_index.md).
 
 
-- [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}):
+- [`rladmin cluster config`](/content/operate/rs/references/cli-utilities/rladmin/cluster/config.md):
 
     ```sh
     rladmin cluster config encrypt_pkeys enabled
     ```
 
-- [Update cluster settings]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}) REST API request:
+- [Update cluster settings](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster) REST API request:
 
     ```sh
     PUT /v1/cluster
@@ -35,15 +35,15 @@ To enable PEM encryption and encrypt private keys on the disk, use [`rladmin`]({
 
 ## Deactivate PEM encryption
 
-To deactivate PEM encryption and decrypt private keys on the disk, use [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}) or the [REST API]({{< relref "/operate/rs/references/rest-api" >}}).
+To deactivate PEM encryption and decrypt private keys on the disk, use [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md) or the [REST API](/content/operate/rs/references/rest-api/_index.md).
 
-- [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}):
+- [`rladmin cluster config`](/content/operate/rs/references/cli-utilities/rladmin/cluster/config.md):
 
     ```sh
     rladmin cluster config encrypt_pkeys disabled
     ```
 
-- [Update cluster settings]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}) REST API request:
+- [Update cluster settings](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster) REST API request:
 
     ```sh
     PUT /v1/cluster

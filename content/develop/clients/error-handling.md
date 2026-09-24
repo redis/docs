@@ -69,8 +69,8 @@ Command errors occur when Redis receives an invalid or malformed command. These 
 -   Typo in command name
 -   Wrong number of arguments
 -   Invalid argument types (for example, supplying a
-    [string]({{< relref "/develop/data-types/strings" >}}) key to a
-    [list]({{< relref "/develop/data-types/lists" >}}) command))
+    [string](/content/develop/data-types/strings/_index.md) key to a
+    [list](/content/develop/data-types/lists.md) command))
 -   Using a command that doesn't exist in your Redis version
 
 **Examples:**
@@ -282,7 +282,7 @@ occur and monitor the logs for patterns. This can help you identify
 which errors are most common and whether your retry and fallback
 strategies are effective. Note that some Redis client
 libraries have built-in instrumentation that can provide this
-information for you (see [Observability]({{< relref "/develop/clients/observability" >}})
+information for you (see [Observability](/content/develop/clients/observability.md)
 for a full description).
 
 ### What to log
@@ -388,11 +388,11 @@ result = r.get(key)  # Might timeout waiting for connection
 
 For detailed information about exceptions in your client library, see:
 
-- [redis-py error handling]({{< relref "/develop/clients/redis-py/error-handling" >}})
-- [Node.js error handling]({{< relref "/develop/clients/nodejs/error-handling" >}})
-- [Java (Jedis) error handling]({{< relref "/develop/clients/jedis/error-handling" >}})
-- [Java (Lettuce) error handling]({{< relref "/develop/clients/lettuce/error-handling" >}})
-- [Go (go-redis) error handling]({{< relref "/develop/clients/go/error-handling" >}})
-- [.NET (StackExchange.Redis) error handling]({{< relref "/develop/clients/dotnet/error-handling" >}})
-- [PHP (Predis) error handling]({{< relref "/develop/clients/php/error-handling" >}})
-- [Ruby (redis-rb) error handling]({{< relref "/develop/clients/ruby/error-handling" >}})
+- [redis-py error handling](/content/develop/clients/redis-py/error-handling.md)
+- [Node.js error handling](/content/develop/clients/nodejs/error-handling.md)
+- [Java (Jedis) error handling](/content/develop/clients/jedis/error-handling.md)
+- [Java (Lettuce) error handling](/content/develop/clients/lettuce/error-handling.md)
+- [Go (go-redis) error handling](/content/develop/clients/go/error-handling.md)
+- [.NET (StackExchange.Redis) error handling](/content/develop/clients/dotnet/error-handling.md)
+- [PHP (Predis) error handling](/content/develop/clients/php/error-handling.md)
+- [Ruby (redis-rb) error handling](/content/develop/clients/ruby/error-handling.md)

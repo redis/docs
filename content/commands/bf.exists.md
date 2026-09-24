@@ -33,7 +33,7 @@ title: BF.EXISTS
 ---
 Determines whether a given item was added to a Bloom filter.
 
-This command is similar to [`BF.MEXISTS`]({{< relref "commands/bf.mexists/" >}}), except that only one item can be checked.
+This command is similar to [`BF.MEXISTS`](/content/commands/bf.mexists.md), except that only one item can be checked.
 
 ## Required arguments
 
@@ -72,13 +72,13 @@ redis> BF.EXISTS bf item2
     tab2="RESP3" >}}
 
 One of the following:
-* [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}), where a value of `1` means the item was probably already added to the filter. A value of `0` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed.
+* [Integer reply](/content/develop/reference/protocol-spec.md#integers), where a value of `1` means the item was probably already added to the filter. A value of `0` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed.
 
 -tab-sep-
 
 One of the following:
-* [Boolean reply]({{< relref "/develop/reference/protocol-spec#booleans" >}}), where a value of `true` means the item was probably already added to the filter. A value of `false` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) if invalid arguments are passed.
+* [Boolean reply](/content/develop/reference/protocol-spec.md#booleans), where a value of `true` means the item was probably already added to the filter. A value of `false` means the item was definitely not added, `key` does not exist, or `key` contains a value of the wrong type.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) if invalid arguments are passed.
 
 {{< /multitabs >}}

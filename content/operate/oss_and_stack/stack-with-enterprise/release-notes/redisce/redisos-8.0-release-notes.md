@@ -138,15 +138,15 @@ Stand alone RediSearch, RedisJSON, RedisTimeSeries, and RedisBloom modules are n
   - (9) Vector set [preview], a data structure designed for vector similarity search, inspired by sorted set.
   - These nine components are included in all binary distributions.
 
-  - See the [build instructions]({{< relref "/operate/oss_and_stack/install/build-stack" >}}) for information about building from source code.
+  - See the [build instructions](/content/operate/oss_and_stack/install/build-stack/_index.md) for information about building from source code.
   - New configuration file: `redis-full.conf`, loads Redis with all components, 
     and contains new configuration parameters for Redis Search and the new data structures.
-  - New ACL categories: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@cms`, `@topk`, and `@tdigest` commands are also included in the existing ACL categories such as `@read` and `@write`. See [below]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes/#potentially-breaking-changes-to-acls" >}}) for information about potentially breaking changes.
+  - New ACL categories: `@search`, `@json`, `@timeseries`, `@bloom`, `@cuckoo`, `@cms`, `@topk`, and `@tdigest` commands are also included in the existing ACL categories such as `@read` and `@write`. See [below](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisce/redisos-8.0-release-notes.md#potentially-breaking-changes-to-acls) for information about potentially breaking changes.
 - More than 30 performance and resource utilization improvements.
 - A new I/O threading implementation, which enables throughput increase on multi-core environments
   (set with the `io-threads` configuration parameter).
 - An improved replication mechanism that is more performant and robust.
-- New hash commands: [HGETDEL]({{< relref "/commands/hgetdel/" >}}), [HGETEX]({{< relref "/commands/hgetex" >}}), and [HSETEX]({{< relref "/commands/hsetex/" >}})
+- New hash commands: [HGETDEL](/content/commands/hgetdel.md), [HGETEX](/content/commands/hgetex.md), and [HSETEX](/content/commands/hsetex.md)
 
 For more details, see the release notes for the [8.0-M01](https://github.com/redis/redis/releases/tag/8.0-m01), [8.0-M02](https://github.com/redis/redis/releases/tag/8.0-m02), [8.0-M03](https://github.com/redis/redis/releases/tag/8.0-m03), [8.0-M04](https://github.com/redis/redis/releases/tag/8.0-m04), and [8.0-RC1](https://github.com/redis/redis/releases/tag/8.0-rc1) releases of Redis Open Source.
 

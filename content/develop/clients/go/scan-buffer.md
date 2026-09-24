@@ -17,9 +17,9 @@ weight: 37
 
 `go-redis` can convert command results directly into Go values. This is useful
 when you want to keep application code close to your domain types instead of
-working with strings and maps everywhere. You can scan [hash]({{< relref "/develop/data-types/hashes" >}})
+working with strings and maps everywhere. You can scan [hash](/content/develop/data-types/hashes.md)
 results into structs, scan list-style command results into slices, and use
-byte buffers for large [string]({{< relref "/develop/data-types/strings" >}})
+byte buffers for large [string](/content/develop/data-types/strings/_index.md)
 values.
 
 ## Initialize
@@ -40,14 +40,14 @@ Use struct tags of the form `redis:"field"` to map Redis hash fields to Go
 struct fields. The `Scan()` method converts matching fields to the destination
 types and returns an error if a conversion fails.
 
-The following example stores a hash with [`HSET`]({{< relref "/commands/hset" >}})
-and then scans the result of [`HGETALL`]({{< relref "/commands/hgetall" >}})
+The following example stores a hash with [`HSET`](/content/commands/hset.md)
+and then scans the result of [`HGETALL`](/content/commands/hgetall.md)
 into a `Bike` struct:
 
 {{< clients-example set="go_scan_buffer" step="scan_hash" lang_filter="Go" description="Structured results: Scan all hash fields into a Go struct using redis field tags" difficulty="beginner" >}}
 {{< /clients-example >}}
 
-You can also scan a subset of fields with [`HMGET`]({{< relref "/commands/hmget" >}}).
+You can also scan a subset of fields with [`HMGET`](/content/commands/hmget.md).
 Fields that are not returned keep their Go zero values:
 
 {{< clients-example set="go_scan_buffer" step="scan_hash_subset" lang_filter="Go" description="Structured results: Scan selected hash fields and leave missing fields at their zero values" difficulty="intermediate" buildsUpon="scan_hash" >}}
@@ -55,7 +55,7 @@ Fields that are not returned keep their Go zero values:
 
 ## Scan lists into slices
 
-Commands that return a list of strings, such as [`LRANGE`]({{< relref "/commands/lrange" >}}),
+Commands that return a list of strings, such as [`LRANGE`](/content/commands/lrange.md),
 can use `ScanSlice()` to convert the result into a typed Go slice:
 
 {{< clients-example set="go_scan_buffer" step="scan_list" lang_filter="Go" description="Structured results: Convert a list command result into a typed Go slice with ScanSlice" difficulty="beginner" >}}
@@ -67,10 +67,9 @@ For large string payloads, you can avoid creating a new string for every read by
 providing a caller-owned byte buffer. Use `SetFromBuffer()` to write a `[]byte`
 value and `GetToBuffer()` to read the value into an existing buffer.
 
-{{< note >}}
-The buffer APIs require `github.com/redis/go-redis/v9` v9.21.0
-or later.
-{{< /note >}}
+> [!NOTE]
+> The buffer APIs require `github.com/redis/go-redis/v9` v9.21.0
+> or later.
 &nbsp;
 
 {{< clients-example set="go_scan_buffer" step="buffer_round_trip" lang_filter="Go" description="Buffer optimization: Write and read Redis string values using caller-owned byte buffers" difficulty="intermediate" >}}
@@ -81,12 +80,11 @@ to get the number of bytes read, `Bytes()` to access the populated slice
 (`buf[:n]`), and `Err()` to check for errors such as `redis.Nil` when the key
 does not exist.
 
-{{< note >}}
-`GetToBuffer()` requires a buffer large enough to hold the whole value. It also
-opts out of automatic retries because a failed read might already have written
-partial data into your buffer. If a buffer is too small, `Err()` reports a
-`buffer too small` error.
-{{< /note >}}
+> [!NOTE]
+> `GetToBuffer()` requires a buffer large enough to hold the whole value. It also
+> opts out of automatic retries because a failed read might already have written
+> partial data into your buffer. If a buffer is too small, `Err()` reports a
+> `buffer too small` error.
 
 The following example shows how to detect a buffer that is too small:
 
@@ -94,7 +92,7 @@ The following example shows how to detect a buffer that is too small:
 {{< /clients-example >}}
 
 `SetFromBuffer()` does not set an expiration. If you need a TTL, call
-[`EXPIRE`]({{< relref "/commands/expire" >}}) separately with `Expire()`, or use
+[`EXPIRE`](/content/commands/expire.md) separately with `Expire()`, or use
 `Set()` with an expiration when the extra allocation is acceptable.
 
 ## More information

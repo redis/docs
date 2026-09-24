@@ -124,9 +124,9 @@ syntax_fmt: "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI>\n  [WITHC
   \ [WITHDIST] [WITHHASH] [COUNT\_count [ANY]] [ASC | DESC]"
 title: GEORADIUSBYMEMBER_RO
 ---
-Read-only variant of the [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) command.
+Read-only variant of the [`GEORADIUSBYMEMBER`](/content/commands/georadiusbymember.md) command.
 
-This command is identical to the [`GEORADIUSBYMEMBER`]({{< relref "/commands/georadiusbymember" >}}) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.
+This command is identical to the [`GEORADIUSBYMEMBER`](/content/commands/georadiusbymember.md) command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.
 
 ## Required arguments
 

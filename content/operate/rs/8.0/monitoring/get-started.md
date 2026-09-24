@@ -33,13 +33,13 @@ You can use Prometheus integrations to:
 
 You can integrate Redis Software with Prometheus and one of the following tools to collect and visualize your deployment's metrics:
 
-- [Grafana]({{<relref "/integrate/prometheus-with-redis-enterprise">}})
+- [Grafana](/content/integrate/prometheus-with-redis-enterprise/_index.md)
 
-- [Datadog]({{<relref "/integrate/datadog-with-redis-enterprise">}})
+- [Datadog](/content/integrate/datadog-with-redis-enterprise/_index.md)
 
-- [Dynatrace]({{<relref "/integrate/dynatrace-with-redis-enterprise">}})
+- [Dynatrace](/content/integrate/dynatrace-with-redis-enterprise/_index.md)
 
-- [New Relic]({{<relref "/integrate/new-relic-with-redis-enterprise">}})
+- [New Relic](/content/integrate/new-relic-with-redis-enterprise/_index.md)
 
 {{<embed-md "rs-monitoring-best-practices.md">}}
 
@@ -132,9 +132,9 @@ scrape_configs:
 
 1. Set up your Prometheus server.
 
-    {{< note >}}
-We recommend running Prometheus in Docker only for development and testing.
-    {{< /note >}}
+    > [!NOTE]
+    > We recommend running Prometheus in Docker only for development and testing.
+    >
 
     To set up Prometheus on Docker:
 

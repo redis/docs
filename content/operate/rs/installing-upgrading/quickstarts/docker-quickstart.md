@@ -11,9 +11,8 @@ linkTitle: Docker quickstart
 weight: 2
 aliases: /operate/rs/installing-upgrading/get-started-docker/
 ---
-{{< warning >}}
-Docker containers are currently only supported for development and test environments, not for production. Use [Redis Enterprise on Kubernetes]({{< relref "/operate/kubernetes" >}}) for a supported containerized deployment.
-{{< /warning >}}
+> [!WARNING]
+> Docker containers are currently only supported for development and test environments, not for production. Use [Redis Enterprise on Kubernetes](/content/operate/kubernetes/_index.md) for a supported containerized deployment.
 
 For testing purposes, you can run Redis Software on Docker containers on
 Linux, Windows, or MacOS.
@@ -45,9 +44,8 @@ Follow the Docker installation instructions for your operating system:
 To download and start the Redis Software Docker container, run the following
 [`docker run`](https://docs.docker.com/engine/reference/commandline/run/) command in the terminal or command line for your operating system.
 
-{{< note >}}
-On Windows, make sure Docker is configured to run Linux-based containers.
-{{< /note >}}
+> [!NOTE]
+> On Windows, make sure Docker is configured to run Linux-based containers.
 
 ```sh
 docker run -d --cap-add sys_resource --name RE -p 8443:8443 -p 9443:9443 -p 12000:12000 redislabs/redis
@@ -57,11 +55,11 @@ The example command runs the Docker container with Redis Software on `localhost`
 
 - Port 8443 for HTTPS connections
 
-- Port 9443 for [REST API]({{< relref "/operate/rs/references/rest-api" >}}) connections
+- Port 9443 for [REST API](/content/operate/rs/references/rest-api/_index.md) connections
 
 - Port 12000 configured Redis database port allowing client connections
 
-You can publish other [ports]({{< relref "/operate/rs/networking/port-configurations.md" >}})
+You can publish other [ports](/content/operate/rs/networking/port-configurations.md)
 with `-p <host_port>:<container_port>` or use the `--network host` option to open all ports to the host network.
 
 ## Set up a cluster
@@ -72,9 +70,8 @@ with `-p <host_port>:<container_port>` or use the `--network host` option to ope
 
 {{<embed-md "rs-quick-db-setup-7-8.md">}}
 
-{{< note >}}
-{{< embed-md "docker-memory-limitation.md" >}}
-{{< /note >}}
+> [!NOTE]
+> {{< embed-md "docker-memory-limitation.md" >}}
 
 ## Connect to your database
 
@@ -82,7 +79,7 @@ After you create the Redis database, you can connect to it to begin storing data
 
 ### Use redis-cli inside Docker {#connect-inside-docker}
 
-Every installation of Redis Software includes the command-line tool [`redis-cli`]({{< relref "/operate/rs/references/cli-utilities/redis-cli" >}}) to interact with your Redis database. You can use `redis-cli` to connect to your database from within the same Docker network.
+Every installation of Redis Software includes the command-line tool [`redis-cli`](/content/operate/rs/references/cli-utilities/redis-cli/_index.md) to interact with your Redis database. You can use `redis-cli` to connect to your database from within the same Docker network.
 
 Use [`docker exec`](https://docs.docker.com/engine/reference/commandline/exec/) to start an interactive `redis-cli` session in the running Redis Software container:
 
@@ -98,13 +95,12 @@ To find the container name or ID, use [`docker ps`](https://docs.docker.com/refe
 
 ### Connect from the host environment {#connect-outside-docker}
 
-The database you created uses port `12000`, which is also mapped from the Docker container back to the host environment. This lets you use any method you have available locally to [connect to a Redis database]({{< relref "/operate/rs/databases/connect/" >}}). Use `localhost` as the `host` and `12000` as the port.
+The database you created uses port `12000`, which is also mapped from the Docker container back to the host environment. This lets you use any method you have available locally to [connect to a Redis database](/content/operate/rs/databases/connect/_index.md). Use `localhost` as the `host` and `12000` as the port.
 
 ## Test different topologies
 
-{{< warning >}}
-Docker containers are currently only supported for development and test environments, not for production. Use [Redis Enterprise on Kubernetes]({{< relref "/operate/kubernetes" >}}) for a supported containerized deployment.
-{{< /warning >}}
+> [!WARNING]
+> Docker containers are currently only supported for development and test environments, not for production. Use [Redis Enterprise on Kubernetes](/content/operate/kubernetes/_index.md) for a supported containerized deployment.
 
 When deploying Redis Software using Docker for testing, several common topologies are available, according to your requirements:
 

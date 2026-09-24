@@ -15,17 +15,16 @@ toc: 'true'
 weight: 73
 ---
 
-{{< warning >}}
-Redis Software 6.2 reached end of life on February 28, 2025. It no longer
-receives security patches, bug fixes, or maintenance releases.
-Support for 6.2-specific issues is limited per your subscription agreement,
-and you may be asked to upgrade before an issue can be investigated.
-
-Upgrade to a supported version. Reaching the latest version may require an
-intermediate upgrade first — see the
-[supported upgrade paths]({{< relref "/operate/rs/references/upgrade-paths" >}})
-and the [Redis Software product lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Redis Software 6.2 reached end of life on February 28, 2025. It no longer
+> receives security patches, bug fixes, or maintenance releases.
+> Support for 6.2-specific issues is limited per your subscription agreement,
+> and you may be asked to upgrade before an issue can be investigated.
+>
+> Upgrade to a supported version. Reaching the latest version may require an
+> intermediate upgrade first — see the
+> [supported upgrade paths](/content/operate/rs/references/upgrade-paths.md)
+> and the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule).
 
 [Redis Enterprise Software version 6.2.18](https://redislabs.com/redis-enterprise-software/download-center/software/) is now available! 
 
@@ -49,7 +48,7 @@ For more detailed release notes, select a build version from the following table
 
 ### Active-Active database persistence
 
-The snapshot option for [data persistence on Active-Active databases]({{< relref "/operate/rs/databases/active-active" >}}manage/#data-persistence) will be deprecated in a future version of Redis Enterprise Software. If you have an Active-Active database using snapshot persistence, switch to AOF persistence. Use `crdb-cli` to do so:
+The snapshot option for [data persistence on Active-Active databases](/content/operate/rs/databases/active-active/manage.md#data-persistence) will be deprecated in a future version of Redis Enterprise Software. If you have an Active-Active database using snapshot persistence, switch to AOF persistence. Use `crdb-cli` to do so:
 ```text
 crdb-cli crdb update --crdb-guid <CRDB_GUID> --default-db-config '{"data_persistence": "aof", "aof_policy":"appendfsync-every-sec"}'
 ```
@@ -76,15 +75,15 @@ Certain operating systems, such as RHEL 8, have already removed support for 3DES
 
 - RS54131 Running the `QUIT` command on a TLS connected database closes connection and does not return a `+OK` reply
 
-- An intermittent issue can occur where a CRDB process becomes stuck in a restart loop. If this issue occurs while upgrading to Redis Enterprise Software version 6.2.18, please upgrade to the latest version [6.4.2-69]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-69" >}}) or [contact support](https://redis.com/company/support/).
+- An intermittent issue can occur where a CRDB process becomes stuck in a restart loop. If this issue occurs while upgrading to Redis Enterprise Software version 6.2.18, please upgrade to the latest version [6.4.2-69](/content/operate/rs/release-notes/rs-6-4-2-releases/rs-6-4-2-69.md) or [contact support](https://redis.com/company/support/).
 
-- RS40641 - API requests are redirected to an internal IP in case the request arrives from a node which is not the master. To avoid this issue, use [`rladmin cluster config`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}) to configure `handle_redirects` or `handle_metrics_redirects`.
+- RS40641 - API requests are redirected to an internal IP in case the request arrives from a node which is not the master. To avoid this issue, use [`rladmin cluster config`](/content/operate/rs/references/cli-utilities/rladmin/cluster/config.md) to configure `handle_redirects` or `handle_metrics_redirects`.
 
 - RS51144, RS102128 - Active-Active: To start successfully, the syncer (`crdt-syncer`) must connect to all sources. In multi-cluster configurations (more than 2 A-A clusters participating), in some cases, if one or more of the clusters is not available, A-A replication will be down.
 
 ### Installation limitations
 
-Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}).
+Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories](/content/operate/rs/installing-upgrading/install/customize-install-directories.md).
 
 As a workaround to install Redis Enterprise Software without using any root directories, do the following before installing Redis Enterprise Software:
 

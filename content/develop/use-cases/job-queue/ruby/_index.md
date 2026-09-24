@@ -14,7 +14,7 @@ title: Redis job queue with redis-rb
 weight: 8
 ---
 
-This guide shows you how to implement a Redis-backed job queue in Ruby with [`redis-rb`]({{< relref "/develop/clients/ruby" >}}). It includes a small local web server built with `webrick` from the Ruby standard library so you can enqueue jobs, watch a pool of workers drain them, and see the reclaimer recover jobs from a simulated worker crash.
+This guide shows you how to implement a Redis-backed job queue in Ruby with [`redis-rb`](/content/develop/clients/ruby/_index.md). It includes a small local web server built with `webrick` from the Ruby standard library so you can enqueue jobs, watch a pool of workers drain them, and see the reclaimer recover jobs from a simulated worker crash.
 
 ## Overview
 
@@ -107,15 +107,15 @@ queue:jobs:job:9a4f...
 
 The implementation uses:
 
-* [`LPUSH`]({{< relref "/commands/lpush" >}}) to add new job IDs to the pending list.
-* [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}) to atomically claim a job into the processing list.
-* [`LREM`]({{< relref "/commands/lrem" >}}) to remove a claimed job from the processing list on complete or fail.
-* [`LTRIM`]({{< relref "/commands/ltrim" >}}) to cap the completed and failed history lists.
-* [`HSET`]({{< relref "/commands/hset" >}}) / [`HGETALL`]({{< relref "/commands/hgetall" >}}) for job metadata.
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) on completed and failed hashes for automatic cleanup.
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) for the attempt counter and the shared totals hash so the demo's multiple worker threads (each with its own Redis connection) report a single consistent count.
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) on `queue:jobs:events` for completion signalling.
-* [Lua scripting]({{< relref "/develop/programmability/eval-intro" >}}) ([`EVALSHA`]({{< relref "/commands/evalsha" >}})) for the complete, fail, and reclaim flows so each runs atomically against the processing list and metadata hash.
+* [`LPUSH`](/content/commands/lpush.md) to add new job IDs to the pending list.
+* [`BRPOPLPUSH`](/content/commands/brpoplpush.md) to atomically claim a job into the processing list.
+* [`LREM`](/content/commands/lrem.md) to remove a claimed job from the processing list on complete or fail.
+* [`LTRIM`](/content/commands/ltrim.md) to cap the completed and failed history lists.
+* [`HSET`](/content/commands/hset.md) / [`HGETALL`](/content/commands/hgetall.md) for job metadata.
+* [`EXPIRE`](/content/commands/expire.md) on completed and failed hashes for automatic cleanup.
+* [`HINCRBY`](/content/commands/hincrby.md) for the attempt counter and the shared totals hash so the demo's multiple worker threads (each with its own Redis connection) report a single consistent count.
+* [`PUBLISH`](/content/commands/publish.md) on `queue:jobs:events` for completion signalling.
+* [Lua scripting](/content/develop/programmability/eval-intro.md) ([`EVALSHA`](/content/commands/evalsha.md)) for the complete, fail, and reclaim flows so each runs atomically against the processing list and metadata hash.
 
 ## Enqueueing jobs
 
@@ -394,15 +394,15 @@ redis-cli --scan --pattern 'queue:jobs:*' | xargs redis-cli DEL
 
 This example uses the following Redis commands:
 
-* [`LPUSH`]({{< relref "/commands/lpush" >}}) to enqueue a job ID.
-* [`BRPOPLPUSH`]({{< relref "/commands/brpoplpush" >}}) to atomically claim a job into the processing list.
-* [`LREM`]({{< relref "/commands/lrem" >}}) to remove a job from the processing list on complete or fail.
-* [`LRANGE`]({{< relref "/commands/lrange" >}}) and [`LLEN`]({{< relref "/commands/llen" >}}) to read queue depth and list contents.
-* [`LTRIM`]({{< relref "/commands/ltrim" >}}) to cap the completed and failed history.
-* [`HSET`]({{< relref "/commands/hset" >}}) and [`HGETALL`]({{< relref "/commands/hgetall" >}}) for job metadata.
-* [`HINCRBY`]({{< relref "/commands/hincrby" >}}) for the attempt counter and the shared totals hash.
-* [`EXPIRE`]({{< relref "/commands/expire" >}}) for automatic cleanup of completed and failed jobs.
-* [`PUBLISH`]({{< relref "/commands/publish" >}}) for job-completion notifications.
-* [`EVALSHA`]({{< relref "/commands/evalsha" >}}) for atomic complete, fail, and reclaim flows.
+* [`LPUSH`](/content/commands/lpush.md) to enqueue a job ID.
+* [`BRPOPLPUSH`](/content/commands/brpoplpush.md) to atomically claim a job into the processing list.
+* [`LREM`](/content/commands/lrem.md) to remove a job from the processing list on complete or fail.
+* [`LRANGE`](/content/commands/lrange.md) and [`LLEN`](/content/commands/llen.md) to read queue depth and list contents.
+* [`LTRIM`](/content/commands/ltrim.md) to cap the completed and failed history.
+* [`HSET`](/content/commands/hset.md) and [`HGETALL`](/content/commands/hgetall.md) for job metadata.
+* [`HINCRBY`](/content/commands/hincrby.md) for the attempt counter and the shared totals hash.
+* [`EXPIRE`](/content/commands/expire.md) for automatic cleanup of completed and failed jobs.
+* [`PUBLISH`](/content/commands/publish.md) for job-completion notifications.
+* [`EVALSHA`](/content/commands/evalsha.md) for atomic complete, fail, and reclaim flows.
 
-See the [`redis-rb` documentation]({{< relref "/develop/clients/ruby" >}}) for full client reference.
+See the [`redis-rb` documentation](/content/develop/clients/ruby/_index.md) for full client reference.

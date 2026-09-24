@@ -21,11 +21,11 @@ Before you can use RedisGears with the JVM, you need to install the RedisGears m
 
 1. Redis Software v6.0.12 or later
 
-1. [Created a Redis Software cluster]({{< relref "/operate/rs/clusters/new-cluster-setup" >}})
+1. [Created a Redis Software cluster](/content/operate/rs/clusters/new-cluster-setup.md)
 
-1. [Added nodes to the cluster]({{< relref "/operate/rs/clusters/add-node" >}})
+1. [Added nodes to the cluster](/content/operate/rs/clusters/add-node.md)
 
-1. [Installed RedisGears and the JVM plugin]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears#install-redisgears" >}})
+1. [Installed RedisGears and the JVM plugin](/content/operate/oss_and_stack/stack-with-enterprise/deprecated-features/gears-v1/installing-redisgears.md#install-redisgears)
 
 ## Enable RedisGears for a database
 
@@ -43,10 +43,10 @@ Before you can use RedisGears with the JVM, you need to install the RedisGears m
 
     {{<image filename="images/rs/icon_save.png" width="30px" alt="The Save icon">}}
 
-    {{<note>}}
-You can configure additional JVM options in this box. For example:<br></br>
-`Plugin gears_jvm JvmOptions `<nobr>`'-Dproperty1=value1`</nobr> <nobr>`-Dproperty2=value2'`</nobr>
-    {{</note>}}
+    > [!NOTE]
+    > You can configure additional JVM options in this box. For example:<br></br>
+    > `Plugin gears_jvm JvmOptions `<nobr>`'-Dproperty1=value1`</nobr> <nobr>`-Dproperty2=value2'`</nobr>
+    >     
 
 1. Select the **Activate** button.
 

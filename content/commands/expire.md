@@ -79,28 +79,28 @@ A key with an associated timeout is often said to be _volatile_ in Redis
 terminology.
 
 The timeout will only be cleared by commands that delete or overwrite the
-contents of the key, including [`DEL`]({{< relref "/commands/del" >}}), [`SET`]({{< relref "/commands/set" >}}), [`GETSET`]({{< relref "/commands/getset" >}}) and all the `*STORE`
+contents of the key, including [`DEL`](/content/commands/del.md), [`SET`](/content/commands/set.md), [`GETSET`](/content/commands/getset.md) and all the `*STORE`
 commands.
 This means that all the operations that conceptually _alter_ the value stored at
 the key without replacing it with a new one will leave the timeout untouched.
-For instance, incrementing the value of a key with [`INCR`]({{< relref "/commands/incr" >}}), pushing a new value
-into a list with [`LPUSH`]({{< relref "/commands/lpush" >}}), or altering the field value of a hash with [`HSET`]({{< relref "/commands/hset" >}}) are
+For instance, incrementing the value of a key with [`INCR`](/content/commands/incr.md), pushing a new value
+into a list with [`LPUSH`](/content/commands/lpush.md), or altering the field value of a hash with [`HSET`](/content/commands/hset.md) are
 all operations that will leave the timeout untouched.
 
 The timeout can also be cleared, turning the key back into a persistent key,
-using the [`PERSIST`]({{< relref "/commands/persist" >}}) command.
+using the [`PERSIST`](/content/commands/persist.md) command.
 
-If a key is renamed with [`RENAME`]({{< relref "/commands/rename" >}}), the associated time to live is transferred to
+If a key is renamed with [`RENAME`](/content/commands/rename.md), the associated time to live is transferred to
 the new key name.
 
-If a key is overwritten by [`RENAME`]({{< relref "/commands/rename" >}}), like in the case of an existing key `Key_A`
+If a key is overwritten by [`RENAME`](/content/commands/rename.md), like in the case of an existing key `Key_A`
 that is overwritten by a call like `RENAME Key_B Key_A`, it does not matter if
 the original `Key_A` had a timeout associated or not, the new key `Key_A` will
 inherit all the characteristics of `Key_B`.
 
-Note that calling `EXPIRE`/[`PEXPIRE`]({{< relref "/commands/pexpire" >}}) with a non-positive timeout or
-[`EXPIREAT`]({{< relref "/commands/expireat" >}})/[`PEXPIREAT`]({{< relref "/commands/pexpireat" >}}) with a time in the past will result in the key being
-[deleted]({{< relref "/commands/del" >}}) rather than expired (accordingly, the emitted [key event]({{< relref "/develop/pubsub/keyspace-notifications" >}})
+Note that calling `EXPIRE`/[`PEXPIRE`](/content/commands/pexpire.md) with a non-positive timeout or
+[`EXPIREAT`](/content/commands/expireat.md)/[`PEXPIREAT`](/content/commands/pexpireat.md) with a time in the past will result in the key being
+[deleted](/content/commands/del.md) rather than expired (accordingly, the emitted [key event](/content/develop/pubsub/keyspace-notifications.md)
 will be `del`, not `expired`).
 
 ## Required arguments
@@ -211,8 +211,8 @@ If the user will be idle more than 60 seconds, the key will be deleted and only
 subsequent page views that have less than 60 seconds of difference will be
 recorded.
 
-This pattern is easily modified to use counters using [`INCR`]({{< relref "/commands/incr" >}}) instead of lists
-using [`RPUSH`]({{< relref "/commands/rpush" >}}).
+This pattern is easily modified to use counters using [`INCR`](/content/commands/incr.md) instead of lists
+using [`RPUSH`](/content/commands/rpush.md).
 
 ### Appendix: Redis expires
 
@@ -220,7 +220,7 @@ using [`RPUSH`]({{< relref "/commands/rpush" >}}).
 
 Normally Redis keys are created without an associated time to live.
 The key will simply live forever, unless it is removed by the user in an
-explicit way, for instance using the [`DEL`]({{< relref "/commands/del" >}}) command.
+explicit way, for instance using the [`DEL`](/content/commands/del.md) command.
 
 The `EXPIRE` family of commands is able to associate an expire to a given key,
 at the cost of some additional memory used by the key.
@@ -228,7 +228,7 @@ When a key has an expire set, Redis will make sure to remove the key when the
 specified amount of time elapsed.
 
 The key time to live can be updated or entirely removed using the `EXPIRE` and
-[`PERSIST`]({{< relref "/commands/persist" >}}) command (or other strictly related commands).
+[`PERSIST`](/content/commands/persist.md) command (or other strictly related commands).
 
 #### Expire accuracy
 
@@ -269,20 +269,20 @@ All the keys that are already expired are deleted from the keyspace.
 #### How expires are handled in the replication link and AOF file
 
 In order to obtain a correct behavior without sacrificing consistency, when a
-key expires, a [`DEL`]({{< relref "/commands/del" >}}) operation is synthesized in both the AOF file and gains all
+key expires, a [`DEL`](/content/commands/del.md) operation is synthesized in both the AOF file and gains all
 the attached replicas nodes.
 This way the expiration process is centralized in the master instance, and there
 is no chance of consistency errors.
 
 However while the replicas connected to a master will not expire keys
-independently (but will wait for the [`DEL`]({{< relref "/commands/del" >}}) coming from the master), they'll
+independently (but will wait for the [`DEL`](/content/commands/del.md) coming from the master), they'll
 still take the full state of the expires existing in the dataset, so when a
 replica is elected to master it will be able to expire the keys independently,
 fully acting as a master.
 
 ####  Redis Search and expiration
 
-Starting with Redis 8, Redis Search has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]({{< relref "/commands/ft.search" >}}) and [`FT.AGGREGATE`]({{< relref "/commands/ft.aggregate" >}}) commands interact with expiring keys, see [Key and field expiration behavior]({{< relref "/develop/ai/search-and-query/advanced-concepts/expiration" >}}).
+Starting with Redis 8, Redis Search has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`](/content/commands/ft.search.md) and [`FT.AGGREGATE`](/content/commands/ft.aggregate.md) commands interact with expiring keys, see [Key and field expiration behavior](/content/develop/ai/search-and-query/advanced-concepts/expiration.md).
 
 ## Redis Software and Redis Cloud compatibility
 

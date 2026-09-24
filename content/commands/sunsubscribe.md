@@ -53,7 +53,7 @@ If you don’t specify any shard channels, the client unsubscribes from all prev
 
 Note: global channels and shard channels need to be unsubscribed from separately.
 
-For more information about sharded Pub/Sub, see [Sharded Pub/Sub]({{< relref "/develop/pubsub#sharded-pubsub" >}}).
+For more information about sharded Pub/Sub, see [Sharded Pub/Sub](/content/develop/pubsub/_index.md#sharded-pubsub).
 
 ## Optional arguments
 

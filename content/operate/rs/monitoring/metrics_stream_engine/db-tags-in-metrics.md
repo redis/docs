@@ -14,7 +14,7 @@ weight: 50
 tocEmbedHeaders: true
 ---
 
-Redis Software can expose selected [database tags]({{<relref "/operate/rs/databases/configure/db-tags">}}) as labels in the [v2 metrics]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}) scraping endpoint. This lets you group, filter, and alert on database metrics by ownership, environment, service, tier, or any other metadata you store as tags.
+Redis Software can expose selected [database tags](/content/operate/rs/databases/configure/db-tags.md) as labels in the [v2 metrics](/content/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2.md) scraping endpoint. This lets you group, filter, and alert on database metrics by ownership, environment, service, tier, or any other metadata you store as tags.
 
 Redis Software exposes tags through a dedicated `db_tags` metric rather than adding them as labels to every metric. You then join `db_tags` onto your other database metrics in your observability tool.
 
@@ -28,12 +28,12 @@ The workflow has three parts:
 
 ### Before you begin
 
-- The databases whose tags you want to expose must already have [tags]({{<relref "/operate/rs/databases/configure/db-tags">}}) set. Only tags that follow the [tag validation rules]({{<relref "/operate/rs/databases/configure/db-tags#tag-validation-rules">}}) can be exposed.
-- You must be scraping the [v2 metrics endpoint]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}), where the `db_tags` metric appears.
+- The databases whose tags you want to expose must already have [tags](/content/operate/rs/databases/configure/db-tags.md) set. Only tags that follow the [tag validation rules](/content/operate/rs/databases/configure/db-tags.md#tag-validation-rules) can be exposed.
+- You must be scraping the [v2 metrics endpoint](/content/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2.md), where the `db_tags` metric appears.
 
 ### Configuration fields
 
-Two fields in the cluster's [metrics configuration]({{<relref "/operate/rs/monitoring/metrics_stream_engine/metrics-configuration">}}) control database tag exposure:
+Two fields in the cluster's [metrics configuration](/content/operate/rs/monitoring/metrics_stream_engine/metrics-configuration.md) control database tag exposure:
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
@@ -42,15 +42,14 @@ Two fields in the cluster's [metrics configuration]({{<relref "/operate/rs/monit
 
 Set both fields: turn on `expose_db_tags`, and add the tag keys you want to expose to `metrics_tag_keys_exposed`. Redis Software exports only the tags whose keys appear in this list.
 
-{{<warning>}}
-`metrics_tag_keys_exposed` is replaced in full whenever you update it. To add a key while keeping the current ones, send the complete list. For example, to add `tier` to `["env", "team"]`, send `["env", "team", "tier"]`; sending only `["tier"]` removes `env` and `team`.
-{{</warning>}}
+> [!WARNING]
+> `metrics_tag_keys_exposed` is replaced in full whenever you update it. To add a key while keeping the current ones, send the complete list. For example, to add `tier` to `["env", "team"]`, send `["env", "team", "tier"]`; sending only `["tier"]` removes `env` and `team`.
 
 ### Set the configuration
 
-Update the [metrics configuration]({{<relref "/operate/rs/monitoring/metrics_stream_engine/metrics-configuration">}}) with either the REST API or `rladmin`. The following examples enable database tags and expose the `env`, `team`, and `tier` tag keys.
+Update the [metrics configuration](/content/operate/rs/monitoring/metrics_stream_engine/metrics-configuration.md) with either the REST API or `rladmin`. The following examples enable database tags and expose the `env`, `team`, and `tier` tag keys.
 
-**REST API** — send a [`PUT /v1/metrics_config`]({{<relref "/operate/rs/references/rest-api/requests/metrics_config#put-metrics-config">}}) request. This is a partial update, so the fields you omit keep their current values:
+**REST API** — send a [`PUT /v1/metrics_config`](/content/operate/rs/references/rest-api/requests/metrics_config/_index.md#put-metrics-config) request. This is a partial update, so the fields you omit keep their current values:
 
 ```sh
 curl -X PUT -H "accept: application/json" \
@@ -60,7 +59,7 @@ curl -X PUT -H "accept: application/json" \
      -d '{ "expose_db_tags": true, "metrics_tag_keys_exposed": ["env", "team", "tier"] }' -k -i
 ```
 
-**rladmin** — use [`rladmin metrics config`]({{<relref "/operate/rs/references/cli-utilities/rladmin/metrics#metrics-config">}}). On the command line, boolean fields take `enabled` or `disabled`, and list fields take a comma-separated set of values:
+**rladmin** — use [`rladmin metrics config`](/content/operate/rs/references/cli-utilities/rladmin/metrics.md#metrics-config). On the command line, boolean fields take `enabled` or `disabled`, and list fields take a comma-separated set of values:
 
 ```sh
 rladmin metrics config expose_db_tags enabled metrics_tag_keys_exposed env,team,tier
@@ -70,10 +69,10 @@ rladmin metrics config expose_db_tags enabled metrics_tag_keys_exposed env,team,
 
 Confirm that the settings were applied:
 
-- **REST API**: send a [`GET /v1/metrics_config`]({{<relref "/operate/rs/references/rest-api/requests/metrics_config#get-metrics-config">}}) request and check that `expose_db_tags` is `true` and `metrics_tag_keys_exposed` lists your keys.
-- **rladmin**: run [`rladmin info metrics`]({{<relref "/operate/rs/references/cli-utilities/rladmin/info#info-metrics">}}).
+- **REST API**: send a [`GET /v1/metrics_config`](/content/operate/rs/references/rest-api/requests/metrics_config/_index.md#get-metrics-config) request and check that `expose_db_tags` is `true` and `metrics_tag_keys_exposed` lists your keys.
+- **rladmin**: run [`rladmin info metrics`](/content/operate/rs/references/cli-utilities/rladmin/info.md#info-metrics).
 
-Then scrape the [v2 metrics endpoint]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}) and confirm that `db_tags` series appear (see [Exported metric](#exported-metric)). If no `db_tags` series appear for a database, check the [emission rules](#emission-rules).
+Then scrape the [v2 metrics endpoint](/content/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2.md) and confirm that `db_tags` series appear (see [Exported metric](#exported-metric)). If no `db_tags` series appear for a database, check the [emission rules](#emission-rules).
 
 ## Exported metric
 
@@ -94,7 +93,7 @@ Key points:
 Redis Software emits `db_tags` per database according to these rules:
 
 - `db_tags` is emitted only after you [enable database tags in metrics](#enable-database-tags-in-metrics).
-- Only tags that follow the [tag validation rules]({{<relref "/operate/rs/databases/configure/db-tags#tag-validation-rules">}}) can be exported. [System tags]({{<relref "/operate/rs/databases/configure/db-tags#system-tags">}}) and [legacy tags]({{<relref "/operate/rs/databases/configure/db-tags#backward-compatibility-for-existing-tags">}}) that do not meet the rules are not eligible.
+- Only tags that follow the [tag validation rules](/content/operate/rs/databases/configure/db-tags.md#tag-validation-rules) can be exported. [System tags](/content/operate/rs/databases/configure/db-tags.md#system-tags) and [legacy tags](/content/operate/rs/databases/configure/db-tags.md#backward-compatibility-for-existing-tags) that do not meet the rules are not eligible.
 - Matching between a database's tag keys and the keys in `metrics_tag_keys_exposed` is exact and case-sensitive.
 - If a database has no tag whose key is listed in `metrics_tag_keys_exposed`, no `db_tags` sample is emitted for that database.
 
@@ -102,7 +101,7 @@ Redis Software emits `db_tags` per database according to these rules:
 
 Because tags are exported through the separate `db_tags` metric, you combine them with other database metrics by matching on the shared `cluster` and `db` labels. Match on both labels in every platform so each database is uniquely identified: database IDs can repeat across clusters.
 
-The following examples use the sample tags `env`, `team`, and `tier`, and the [`redis_server_used_memory`]({{<relref "/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2">}}) metric.
+The following examples use the sample tags `env`, `team`, and `tier`, and the [`redis_server_used_memory`](/content/operate/rs/monitoring/metrics_stream_engine/prometheus-metrics-v2.md) metric.
 
 ### Prometheus and Grafana
 
@@ -232,7 +231,7 @@ Redis Software sends the tags you expose in metrics to external monitoring tools
 
 ### Tags don't appear in metrics
 
-Confirm that your tags meet the [emission rules](#emission-rules). A tag is exported only when database tags are enabled, the tag follows the [tag validation rules]({{<relref "/operate/rs/databases/configure/db-tags#tag-validation-rules">}}), and its key exactly matches (case-sensitive) a key in `metrics_tag_keys_exposed`.
+Confirm that your tags meet the [emission rules](#emission-rules). A tag is exported only when database tags are enabled, the tag follows the [tag validation rules](/content/operate/rs/databases/configure/db-tags.md#tag-validation-rules), and its key exactly matches (case-sensitive) a key in `metrics_tag_keys_exposed`.
 
 ### You see more time series than expected
 

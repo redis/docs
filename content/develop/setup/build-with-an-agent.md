@@ -18,9 +18,8 @@ Redis publishes two agent-facing tools that work alongside the client libraries 
 
 [`redis.io/mcp`](https://redis.io/mcp) is a public, read-only [Model Context Protocol](https://modelcontextprotocol.io/introduction) server that serves the Redis documentation to any MCP client. It requires no API key or sign-up.
 
-{{< note >}}
-This is a different server from the [Redis MCP server]({{< relref "/integrate/redis-mcp" >}}) (`mcp-redis`). `mcp-redis` is a self-hosted server that connects an agent to *your own* Redis database, so it can run commands against your data. The Redis Docs MCP server has no access to any Redis instance except Redis's own documentation index.
-{{< /note >}}
+> [!NOTE]
+> This is a different server from the [Redis MCP server](/content/integrate/redis-mcp/_index.md) (`mcp-redis`). `mcp-redis` is a self-hosted server that connects an agent to *your own* Redis database, so it can run commands against your data. The Redis Docs MCP server has no access to any Redis instance except Redis's own documentation index.
 
 
 ### Connect a client
@@ -69,6 +68,6 @@ Or install it as a plugin in your agent tool of choice:
 
 ## See also
 
-- [Redis MCP server]({{< relref "/integrate/redis-mcp" >}}) — connect an agent to your own Redis database
-- [Redis client libraries]({{< relref "/develop/clients" >}})
-- [Redis for AI agents]({{< relref "/develop/get-started/redis-in-ai" >}})
+- [Redis MCP server](/content/integrate/redis-mcp/_index.md) — connect an agent to your own Redis database
+- [Redis client libraries](/content/develop/clients/_index.md)
+- [Redis for AI agents](/content/develop/get-started/redis-in-ai.md)

@@ -15,12 +15,12 @@ weight: 78
 [Redis Enterprise Software (RS) 6.0.12](https://redislabs.com/download-center/#downloads) is now available!
 This version includes the following new features and improvements:
 
-- [Synchronization]({{< relref "/operate/rs/databases/active-active" >}}#syncer-process) can now be [distributed across the nodes]({{< relref "/operate/rs/databases/active-active/synchronization-mode.md" >}}) of Active-Active or Active-Passive databases
-- You can [disable several internal RS services]({{< relref "/operate/rs/clusters/optimize/turn-off-services.md" >}}) to free up more memory
-- User accounts can have multiple passwords to allow for [password rotation]({{< relref "/operate/rs/security/access-control/manage-passwords/rotate-passwords" >}})
-- [Dependencies are automatically installed]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster#rest-api-method" >}}) when you add modules to a cluster
-- [Envoy replaces NGINX]({{< relref "/operate/rs/networking/port-configurations.md" >}}) for internal cluster administration
-- Automatic recovery of the [syncer process]({{< relref "/operate/rs/databases/active-active" >}}#syncer-process)s from out-of-memory (preview mode)
+- [Synchronization](/content/operate/rs/databases/active-active/_index.md#syncer-process) can now be [distributed across the nodes](/content/operate/rs/databases/active-active/synchronization-mode.md) of Active-Active or Active-Passive databases
+- You can [disable several internal RS services](/content/operate/rs/clusters/optimize/turn-off-services.md) to free up more memory
+- User accounts can have multiple passwords to allow for [password rotation](/content/operate/rs/security/access-control/manage-passwords/rotate-passwords.md)
+- [Dependencies are automatically installed](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md#rest-api-method) when you add modules to a cluster
+- [Envoy replaces NGINX](/content/operate/rs/networking/port-configurations.md) for internal cluster administration
+- Automatic recovery of the [syncer process](/content/operate/rs/databases/active-active/_index.md#syncer-process)s from out-of-memory (preview mode)
 
 And other functional and stability improvements.
 
@@ -28,13 +28,13 @@ And other functional and stability improvements.
 
 ### Upgrade instructions
 
-- Follow [these instructions]({{< relref "/operate/rs/installing-upgrading/upgrading" >}}) for upgrading to RS 6.0.12 from RS 5.4.0 and above.
-- For Active-Active deployments, this release requires that you [upgrade the CRDB featureset version]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active" >}}).
+- Follow [these instructions](/content/operate/rs/installing-upgrading/upgrading/_index.md) for upgrading to RS 6.0.12 from RS 5.4.0 and above.
+- For Active-Active deployments, this release requires that you [upgrade the CRDB featureset version](/content/operate/rs/installing-upgrading/upgrading/upgrade-active-active.md).
 
 ### Product lifecycle information
 
-- End of Life (EOL) for Redis Enterprise Software 6.0 and previous RS versions, can be found [here]({{< relref "/operate/rs/installing-upgrading/product-lifecycle.md" >}}).
-- EOL for Redis modules can be found [here]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle#modules-endoflife-schedule" >}}).
+- End of Life (EOL) for Redis Enterprise Software 6.0 and previous RS versions, can be found [here](/content/operate/rs/installing-upgrading/product-lifecycle.md).
+- EOL for Redis modules can be found [here](/content/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle.md#modules-endoflife-schedule).
 
 ### Deprecation Notice
 
@@ -47,11 +47,11 @@ And other functional and stability improvements.
 
 #### Distributed Syncer
 
-The syncer process now supports running in a [distributed mode]({{< relref "/operate/rs/databases/active-active/synchronization-mode.md" >}}). This option can improve the latency for Active-Active databases with a very high throughput profile. You can configure a replicated database to use distributed synchronization so that any available proxy endpoint can manage synchronization traffic.
+The syncer process now supports running in a [distributed mode](/content/operate/rs/databases/active-active/synchronization-mode.md). This option can improve the latency for Active-Active databases with a very high throughput profile. You can configure a replicated database to use distributed synchronization so that any available proxy endpoint can manage synchronization traffic.
 
 #### Disabling RS services to free memory
 
-Redis Software users can now use the REST API to [disable the following services]({{< relref "/operate/rs/clusters/optimize/turn-off-services.md" >}}):
+Redis Software users can now use the REST API to [disable the following services](/content/operate/rs/clusters/optimize/turn-off-services.md):
 
 - cm_server
 - mdns_server
@@ -63,10 +63,9 @@ Redis Software users can now use the REST API to [disable the following services
 
 Once disabled, services are not monitored and controlled by the supervisord.
 
-{{< warning >}}
-This feature can cause unintended results if the cluster relies on the disabled services.
-To make sure you understand the impact of disabled services, test the system in a lab environment before you deploy in production.
-{{< /warning >}}
+> [!WARNING]
+> This feature can cause unintended results if the cluster relies on the disabled services.
+> To make sure you understand the impact of disabled services, test the system in a lab environment before you deploy in production.
 
 #### Support for multiple passwords
 
@@ -75,7 +74,7 @@ For users of Redis 6 and RS 6.0 and above, you can now add more security to your
 As of RS 6.0, you can assign specific data access permissions (Redis ACLs) and cluster administration permissions to users.
 Password rotation is especially helpful so that you can do a rolling update of the passwords in the application clients that connect to the Redis databases.
 
-In this version, you can only configure multiple passwords [using the REST API]({{< relref "/operate/rs/security/access-control/manage-passwords/rotate-passwords" >}}).
+In this version, you can only configure multiple passwords [using the REST API](/content/operate/rs/security/access-control/manage-passwords/rotate-passwords.md).
 
 #### Redis Modules dependencies management
 
@@ -98,7 +97,7 @@ This is a configurable option and currently under preview mode. This behavior wi
 
 To enable the syncer automatic recovery, do these steps on each participating cluster:
 
-1. [Upgrade the featureset version]({{< relref "/operate/rs/installing-upgrading/upgrading/upgrade-active-active" >}}) to `3`.
+1. [Upgrade the featureset version](/content/operate/rs/installing-upgrading/upgrading/upgrade-active-active.md) to `3`.
 1. Enable the syncer automatic recovery using the REST API:
 
     ```sh
@@ -111,13 +110,13 @@ The syncer process restarts to with automatic recovery on.
 
 The following GA releases of Redis modules are bundled with RS 6.0.12:
 
-- [RediSearch](https://redislabs.com/redis-enterprise/redis-search/), version [2.0.6]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.0-release-notes.md" >}})
-- [RedisJSON](https://redislabs.com/redis-enterprise/redis-json/), version [1.0.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-1.0-release-notes.md" >}})
-- [RedisGraph](https://redislabs.com/redis-enterprise/redis-graph/), version [2.2.11]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph" >}})
-- [RedisTimeSeries](https://redislabs.com/redis-enterprise/redis-time-series/), version [1.4.7]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries" >}})
-- [RedisBloom](https://redislabs.com/redis-enterprise/redis-bloom/), version [2.2.4]({{< relref "/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.2-release-notes.md" >}})
+- [RediSearch](https://redislabs.com/redis-enterprise/redis-search/), version [2.0.6](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-2.0-release-notes.md)
+- [RedisJSON](https://redislabs.com/redis-enterprise/redis-json/), version [1.0.4](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-1.0-release-notes.md)
+- [RedisGraph](https://redislabs.com/redis-enterprise/redis-graph/), version [2.2.11](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/_index.md)
+- [RedisTimeSeries](https://redislabs.com/redis-enterprise/redis-time-series/), version [1.4.7](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/_index.md)
+- [RedisBloom](https://redislabs.com/redis-enterprise/redis-bloom/), version [2.2.4](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.2-release-notes.md)
 
-To use the updated modules with a database, you must [upgrade the module on the database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}).
+To use the updated modules with a database, you must [upgrade the module on the database](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md).
 
 ## Additional capabilities
 
@@ -147,7 +146,7 @@ with 6.0.12-58:
 
 ### Installation limitations
 
-Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}}).
+Several Redis Enterprise Software installation reference files are installed to the directory `/etc/opt/redislabs/` even if you use [custom installation directories](/content/operate/rs/installing-upgrading/install/customize-install-directories.md).
 
 As a workaround to install Redis Enterprise Software without using any root directories, do the following before installing Redis Enterprise Software:
 
@@ -157,12 +156,12 @@ As a workaround to install Redis Enterprise Software without using any root dire
 
 #### Upgrade
 
-- [RS 5.4.2]({{< relref "/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md" >}}) introduced new Active-Active Redis Database capabilities that improve its compatibility with open source Redis. Now the string data-type in Active-Active Redis Database is implicitly and dynamically typed, just like open source Redis. To use the new capabilities on nodes that are upgraded from version RS 5.4.2 or lower, you must [upgrade the Active-Active Redis Database protocol]({{< relref "/operate/rs/installing-upgrading/upgrading#upgrading-crdbs" >}}).
-- When you upgrade an Active-Active Redis with active AOF from version [RS 5.4.2]({{< relref "/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md" >}}) or earlier to version [RS 5.4.4]({{< relref "/operate/rs/release-notes/legacy-release-notes/rs-5-4-4-june-2019.md" >}}) or later:
+- [RS 5.4.2](/content/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md) introduced new Active-Active Redis Database capabilities that improve its compatibility with open source Redis. Now the string data-type in Active-Active Redis Database is implicitly and dynamically typed, just like open source Redis. To use the new capabilities on nodes that are upgraded from version RS 5.4.2 or lower, you must [upgrade the Active-Active Redis Database protocol](/content/operate/rs/installing-upgrading/upgrading/_index.md#upgrading-crdbs).
+- When you upgrade an Active-Active Redis with active AOF from version [RS 5.4.2](/content/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md) or earlier to version [RS 5.4.4](/content/operate/rs/release-notes/legacy-release-notes/rs-5-4-4-june-2019.md) or later:
     - If replication is enabled, you must run the BGREWRITEAOF command on all replica shards after the upgrade.
     - If replication is not enabled, you must run the BGREWRITEAOF command on all shards after the upgrade.
-- Node upgrade fails if the SSL certificates were configured in version 5.0.2 or above by manually updating the certificates on the disk instead of [updating them through the API]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}). For assistance with this issue, contact Support.
-- Starting from [RS 5.4.2]({{< relref "/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md" >}}), to preserve the current Redis major.minor version during database upgrade you must use the keep_redis_version option instead of keep_current_version.
+- Node upgrade fails if the SSL certificates were configured in version 5.0.2 or above by manually updating the certificates on the disk instead of [updating them through the API](/content/operate/rs/security/certificates/updating-certificates.md). For assistance with this issue, contact Support.
+- Starting from [RS 5.4.2](/content/operate/rs/release-notes/legacy-release-notes/rs-5-4-2-april-2019.md), to preserve the current Redis major.minor version during database upgrade you must use the keep_redis_version option instead of keep_current_version.
 
 #### Redis commands
 

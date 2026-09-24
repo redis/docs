@@ -90,16 +90,16 @@ redis> TDIGEST.TRIMMED_MEAN t 0 1
 
 One of the following:
 
-* [Bulk string reply]({{< relref "/develop/reference/protocol-spec#bulk-strings" >}}) as a floating-point estimation of the mean value.
+* [Bulk string reply](/content/develop/reference/protocol-spec.md#bulk-strings) as a floating-point estimation of the mean value.
 * `nan` if the sketch is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments.
 
 -tab-sep-
 
 One of the following:
 
-* [Double reply]({{< relref "/develop/reference/protocol-spec#doubles" >}}) as an estimation of the mean value.
+* [Double reply](/content/develop/reference/protocol-spec.md#doubles) as an estimation of the mean value.
 * `nan` if the sketch is empty.
-* [Simple error reply]({{< relref "/develop/reference/protocol-spec#simple-errors" >}}) in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments.
+* [Simple error reply](/content/develop/reference/protocol-spec.md#simple-errors) in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments.
 
 {{< /multitabs >}}

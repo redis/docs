@@ -77,7 +77,9 @@ are supported, with the following limitations:
     mapped to the same hash slot.
 1. **Variadic commands**: The use of (MGET, MSET, HMGET, HMSET, etc..)
     and pipelining are supported with Redis Cloud cluster
-    like if it were a non-cluster DB.
+    as if it were a non-cluster DB.
+
+    [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}) have stricter rules: multi-key write commands (DEL, MSET, UNLINK) can only run on keys in the same slot. Only MGET, EXISTS, and TOUCH are allowed across slots. See [Multi-key operations on Active-Active databases]({{< relref "/develop/using-commands/multi-key-operations#active-active-databases" >}}) for details.
 
 ## Hashing policies and hash tags {#manage-the-hashing-policy}
 

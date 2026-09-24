@@ -18,8 +18,8 @@ the exceptions that matter for your workload. This page explains how Lettuce's
 error handling works and how to apply common error handling patterns.
 
 For an overview of error types and handling strategies, see
-[Error handling]({{< relref "/develop/clients/error-handling" >}}).
-See also [Production usage]({{< relref "/develop/clients/lettuce/produsage" >}})
+[Error handling](/content/develop/clients/error-handling.md).
+See also [Production usage](/content/develop/clients/lettuce/produsage.md)
 for more information on connection management, timeouts, and other aspects of
 app reliability.
 
@@ -47,7 +47,7 @@ Lettuce organizes its exceptions under `RedisException`, which extends
 
 The following exceptions are the most commonly encountered in Lettuce
 applications. See
-[Categories of errors]({{< relref "/develop/clients/error-handling#categories-of-errors" >}})
+[Categories of errors](/content/develop/clients/error-handling.md#categories-of-errors)
 for a more detailed discussion of these errors and their causes.
 
 | Exception | When it occurs | Recoverable | Recommended action |
@@ -59,7 +59,7 @@ for a more detailed discussion of these errors and their causes.
 
 ## Applying error handling patterns
 
-The [Error handling]({{< relref "/develop/clients/error-handling" >}}) overview
+The [Error handling](/content/develop/clients/error-handling.md) overview
 describes four main patterns. The sections below show how to implement them in
 Lettuce:
 
@@ -67,7 +67,7 @@ Lettuce:
 
 Catch specific exceptions that represent unrecoverable errors and re-throw them
 (see
-[Pattern 1: Fail fast]({{< relref "/develop/clients/error-handling#pattern-1-fail-fast" >}})
+[Pattern 1: Fail fast](/content/develop/clients/error-handling.md#pattern-1-fail-fast)
 for a full description):
 
 ```java
@@ -82,7 +82,7 @@ try {
 ### Pattern 2: Graceful degradation
 
 Catch temporary connectivity failures and fall back to an alternative (see
-[Pattern 2: Graceful degradation]({{< relref "/develop/clients/error-handling#pattern-2-graceful-degradation" >}})
+[Pattern 2: Graceful degradation](/content/develop/clients/error-handling.md#pattern-2-graceful-degradation)
 for a full description):
 
 ```java
@@ -101,7 +101,7 @@ return database.get(key);
 ### Pattern 3: Retry with backoff
 
 Retry on temporary errors such as timeouts or disconnections (see
-[Pattern 3: Retry with backoff]({{< relref "/develop/clients/error-handling#pattern-3-retry-with-backoff" >}})
+[Pattern 3: Retry with backoff](/content/develop/clients/error-handling.md#pattern-3-retry-with-backoff)
 for a full description):
 
 ```java
@@ -131,7 +131,7 @@ throw new IllegalStateException("unreachable");
 ### Pattern 4: Log and continue
 
 Log non-critical cache failures and continue (see
-[Pattern 4: Log and continue]({{< relref "/develop/clients/error-handling#pattern-4-log-and-continue" >}})
+[Pattern 4: Log and continue](/content/develop/clients/error-handling.md#pattern-4-log-and-continue)
 for a full description):
 
 ```java
@@ -167,5 +167,5 @@ async.get(key).whenComplete((value, error) -> {
 
 ## See also
 
-- [Error handling]({{< relref "/develop/clients/error-handling" >}})
-- [Production usage]({{< relref "/develop/clients/lettuce/produsage" >}})
+- [Error handling](/content/develop/clients/error-handling.md)
+- [Production usage](/content/develop/clients/lettuce/produsage.md)

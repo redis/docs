@@ -12,16 +12,16 @@ weight: 35
 ---
 When a cluster fails or a database is corrupted, you must:
 
-1. [Restore the cluster configuration]({{< relref "/operate/rs/clusters/cluster-recovery.md" >}}) from the CCS files
+1. [Restore the cluster configuration](/content/operate/rs/clusters/cluster-recovery.md) from the CCS files
 1. Recover the databases with their previous configuration and data
 
 To restore data to databases in the new cluster,
 you must restore the database persistence files (backup, AOF, or snapshot files) to the databases.
-These files are stored in the [persistence storage location]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage" >}}).
+These files are stored in the [persistence storage location](/content/operate/rs/installing-upgrading/install/plan-deployment/persistent-ephemeral-storage.md).
 
 The database recovery process includes:
 
-1. If the cluster failed, [recover the cluster]({{< relref "/operate/rs/clusters/cluster-recovery.md" >}}).
+1. If the cluster failed, [recover the cluster](/content/operate/rs/clusters/cluster-recovery.md).
 1. Identify recoverable databases.
 1. Restore the database data.
 1. Verify that the databases are active.
@@ -30,7 +30,7 @@ The database recovery process includes:
 
 - Before you start database recovery, make sure that the cluster that hosts the database is healthy.
     In the case of a cluster failure,
-    you must [recover the cluster]({{< relref "/operate/rs/clusters/cluster-recovery.md" >}}) before you recover the databases.
+    you must [recover the cluster](/content/operate/rs/clusters/cluster-recovery.md) before you recover the databases.
 
 - We recommend that you allocate new persistent storage drives for the new cluster nodes.
     If you use the original storage drives,
@@ -39,7 +39,7 @@ The database recovery process includes:
 ## Recover databases
 
 After you prepare the cluster that hosts the database,
-you can run the recovery process from the [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}})
+you can run the recovery process from the [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/_index.md)
 command-line interface (CLI).
 
 To recover the database:
@@ -47,14 +47,14 @@ To recover the database:
 1. Mount the persistent storage drives with the recovery files to the new nodes.
     These drives must contain the cluster configuration backup files and database persistence files.
 
-    {{< note >}}
-Make sure that the user `redislabs` has permissions to access the storage location
-of the configuration and persistence files on each of the nodes.
-    {{< /note >}}
+    > [!NOTE]
+    > Make sure that the user `redislabs` has permissions to access the storage location
+    > of the configuration and persistence files on each of the nodes.
+    >
 
     If you use local persistent storage, place all of the recovery files on each of the cluster nodes.
 
-1. To see which databases are recoverable, run [`rladmin recover list`]({{<relref "/operate/rs/references/cli-utilities/rladmin/recover#recover-list">}}):
+1. To see which databases are recoverable, run [`rladmin recover list`](/content/operate/rs/references/cli-utilities/rladmin/recover.md#recover-list):
 
     ```sh
     rladmin recover list
@@ -70,7 +70,7 @@ of the configuration and persistence files on each of the nodes.
 
     If you cannot resolve the issues, contact [Redis support](https://redis.com/company/support/).
 
-1. Recover the database using one of the following [`rladmin recover`]({{< relref "/operate/rs/references/cli-utilities/rladmin/recover" >}}) commands:
+1. Recover the database using one of the following [`rladmin recover`](/content/operate/rs/references/cli-utilities/rladmin/recover.md) commands:
 
     - Recover all databases from the persistence files located in the persistent storage drives:
     
@@ -98,16 +98,16 @@ of the configuration and persistence files on each of the nodes.
         rladmin recover db <name> only_configuration
         ```
 
-    {{< note >}}
-- If persistence was not configured for the database, the database is restored empty.
-- For Active-Active databases that still have live instances, we recommend that you recover the configuration for the failed instances and let the  data update from the other instances.
-- For Active-Active databases where all instances need to be recovered, we recommend you recover one instance with the data and only recover the configuration for the other instances.
-   The empty instances then update from the recovered data.
-- If the persistence files of the databases from the old cluster are not stored in the persistent storage location of the new node,
-   you must first map the recovery path of each node to the location of the old persistence files.
-   To do this, run the `node <id> recovery_path set` command in rladmin.
-   The persistence files for each database are located in the persistent storage path of the nodes from the old cluster, usually under `/var/opt/redislabs/persist/redis`.
-    {{< /note >}}  
+    > [!NOTE]
+    > - If persistence was not configured for the database, the database is restored empty.
+    > - For Active-Active databases that still have live instances, we recommend that you recover the configuration for the failed instances and let the  data update from the other instances.
+    > - For Active-Active databases where all instances need to be recovered, we recommend you recover one instance with the data and only recover the configuration for the other instances.
+    >    The empty instances then update from the recovered data.
+    > - If the persistence files of the databases from the old cluster are not stored in the persistent storage location of the new node,
+    >    you must first map the recovery path of each node to the location of the old persistence files.
+    >    To do this, run the `node <id> recovery_path set` command in rladmin.
+    >    The persistence files for each database are located in the persistent storage path of the nodes from the old cluster, usually under `/var/opt/redislabs/persist/redis`.
+    >
 
 1. To verify that the recovered databases are now active, run: 
 
@@ -127,7 +127,7 @@ To enable automatic recovery, use one of the following methods:
 tab1="rladmin"
 tab2="REST API" >}}
 
-To enable automatic recovery using `rladmin`, run the [`rladmin tune cluster`]({{<relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-cluster">}}) command:
+To enable automatic recovery using `rladmin`, run the [`rladmin tune cluster`](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-cluster) command:
 
 ```sh
 rladmin tune cluster auto_recovery enabled
@@ -135,7 +135,7 @@ rladmin tune cluster auto_recovery enabled
 
 -tab-sep-
 
-To enable automatic recovery using the REST API, use an [update cluster policy]({{< relref "/operate/rs/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) request:
+To enable automatic recovery using the REST API, use an [update cluster policy](/content/operate/rs/references/rest-api/requests/cluster/policy.md#put-cluster-policy) request:
 
 ```sh
 PUT /v1/cluster/policy
@@ -159,4 +159,4 @@ PUT /v1/bdbs/<bdb_uid>
 }
 ```
 
-You can also set `recovery_wait_time` when you [create a database]({{< relref "/operate/rs/references/rest-api/requests/bdbs#post-bdbs-v1" >}}) using the REST API.
+You can also set `recovery_wait_time` when you [create a database](/content/operate/rs/references/rest-api/requests/bdbs/_index.md#post-bdbs-v1) using the REST API.

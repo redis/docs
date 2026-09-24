@@ -16,10 +16,10 @@ title: Automatic pipelining
 weight: 42
 ---
 
-[Pipelining]({{< relref "/develop/using-commands/pipelining" >}}) sends a batch
+[Pipelining](/content/develop/using-commands/pipelining.md) sends a batch
 of commands to the server in a single communication, which avoids the network
 and processing overhead of sending each command separately. Normally you build
-a pipeline by hand (see [Pipelines and transactions]({{< relref "/develop/clients/go/transpipe" >}})),
+a pipeline by hand (see [Pipelines and transactions](/content/develop/clients/go/transpipe.md)),
 but this means you must know in advance which commands you want to batch.
 
 *Automatic pipelining* removes that requirement. When many goroutines issue
@@ -183,7 +183,7 @@ span many slots. Ordering is per key: same-key commands stay in order, while
 sub-pipelines on different nodes run concurrently.
 
 Commands that must reach every node or shard, such as
-[`FLUSHALL`]({{< relref "/commands/flushall" >}}), cannot be added to a pipeline, so
+[`FLUSHALL`](/content/commands/flushall.md), cannot be added to a pipeline, so
 the cluster client rejects them with an error rather than let them spoil a
 batch shared with other callers. Run them on the plain client instead.
 
@@ -192,8 +192,8 @@ batch shared with other callers. Run them on the plain client instead.
 -   A command's context is not honored once it is queued, because batches
     execute on the autopipeliner's own context. Use a plain client if you need
     per-command deadlines.
--   Blocking commands such as [`BLPOP`]({{< relref "/commands/blpop" >}}) and
-    [`WAIT`]({{< relref "/commands/wait" >}}) are never batched and run directly
+-   Blocking commands such as [`BLPOP`](/content/commands/blpop.md) and
+    [`WAIT`](/content/commands/wait.md) are never batched and run directly
     on your context.
 -   The generic `Do`, `DoRaw`, and `DoRawWriteTo` methods run outside the
     pipeline, on a normal connection, because an arbitrary command name can

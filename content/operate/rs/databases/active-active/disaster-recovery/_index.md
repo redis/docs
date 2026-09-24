@@ -20,13 +20,13 @@ However, because Active-Active Redis databases do not have a built-in [failover]
 
 Depending on your requirements for Recovery Point Objective, Recovery Time Objective, consistency, scalability, resources, maintainability, and other factors, choose one of the following strategies to fail over to a secondary Active-Active member or fail back to the primary member:
 
-- [Network-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/network-based">}}): Global traffic managers and load balancers handle routing at the network layer, requiring no application changes.
+- [Network-based](/content/operate/rs/databases/active-active/disaster-recovery/network-based.md): Global traffic managers and load balancers handle routing at the network layer, requiring no application changes.
 
-- [Proxy-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/proxy-based">}}): Software proxies handle detection and routing logic.
+- [Proxy-based](/content/operate/rs/databases/active-active/disaster-recovery/proxy-based.md): Software proxies handle detection and routing logic.
 
-- [Client library-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/client-library-based">}}): Redis client libraries with built-in failover logic.
+- [Client library-based](/content/operate/rs/databases/active-active/disaster-recovery/client-library-based.md): Redis client libraries with built-in failover logic.
 
-- [Application-based]({{<relref "/operate/rs/databases/active-active/disaster-recovery/application-based">}}): Custom application-level monitoring and connectivity management.
+- [Application-based](/content/operate/rs/databases/active-active/disaster-recovery/application-based.md): Custom application-level monitoring and connectivity management.
 
 ## Considerations for disaster recovery
 
@@ -52,7 +52,7 @@ When implementing a disaster recovery strategy for an Active-Active database, co
 
 - Does the application connect to the Active-Active database using a Redis client library or through a development framework or ecosystem?
 
-- Does the Active-Active database use DNS, the [OSS Cluster API]({{<relref "/operate/rs/clusters/optimize/oss-cluster-api">}}), or the [discovery service]({{<relref "/operate/rs/databases/durability-ha/discovery-service">}})?
+- Does the Active-Active database use DNS, the [OSS Cluster API](/content/operate/rs/clusters/optimize/oss-cluster-api.md), or the [discovery service](/content/operate/rs/databases/durability-ha/discovery-service.md)?
 
 - Is rate-limiting control needed?
 
@@ -68,11 +68,10 @@ To determine which health checks to use, consider factors such as detection spee
 
 Lag-aware database availability requests are the recommended method to detect database failures in Redis Software deployments. This method guarantees that all the shards of a clustered database are connectable.
 
-See [Lag-aware database availability requests]({{<relref "/operate/rs/monitoring/db-availability#lag-aware">}}) for more information.
+See [Lag-aware database availability requests](/content/operate/rs/monitoring/db-availability.md#lag-aware) for more information.
 
-{{<note>}}
-Lag-aware database availability requests are not supported for Redis Cloud databases.
-{{</note>}}
+> [!NOTE]
+> Lag-aware database availability requests are not supported for Redis Cloud databases.
 
 ### Redis connection health checks
 
@@ -80,7 +79,7 @@ You can use an existing connection to the database to check its availability.
 
 #### PING command
 
-The [`PING`]({{<relref "/commands/ping">}}) command checks that the database endpoint is available and the application can connect to the database.
+The [`PING`](/content/commands/ping.md) command checks that the database endpoint is available and the application can connect to the database.
 
 #### Connection timeouts or Redis errors
 
@@ -90,7 +89,7 @@ By capturing connection errors, you can determine when to fail over to a seconda
 
 You can also implement custom health checks.
 
-For example, you can check the keyspace with write operations such as using the [`SET`]({{<relref "commands/set">}}) command to write arbitrary data. This check verifies that database shards are available and writable.
+For example, you can check the keyspace with write operations such as using the [`SET`](/content/commands/set.md) command to write arbitrary data. This check verifies that database shards are available and writable.
 
 For example:
 

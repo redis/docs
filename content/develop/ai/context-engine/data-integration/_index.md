@@ -60,7 +60,7 @@ Redis Data Integration (RDI) is a fully-managed pipeline service that:
 
 RDI pipelines are defined through configuration — you specify which source database tables to sync, how to map each row to a Redis key, and what transformations to apply. No custom code is required.
 
-See the [RDI quick start]({{< relref "/operate/rc/rdi/quick-start" >}}) for a step-by-step walkthrough syncing a live PostgreSQL source to Redis Cloud.
+See the [RDI quick start](/content/operate/rc/rdi/quick-start.md) for a step-by-step walkthrough syncing a live PostgreSQL source to Redis Cloud.
 
 ## Redis Data Integration overview
 
@@ -109,14 +109,14 @@ RDI on Redis Cloud is available in preview for Redis Cloud Pro databases hosted 
 
 To get started:
 
-1. [Prepare your source database]({{< relref "/operate/rc/rdi/setup" >}}) and configure credentials and connectivity.
-2. [Define your data pipeline]({{< relref "/operate/rc/rdi/define" >}}) by selecting which tables to sync and how to map them.
-3. [View and manage your pipeline]({{< relref "/operate/rc/rdi/view-edit" >}}) once it's running.
+1. [Prepare your source database](/content/operate/rc/rdi/setup.md) and configure credentials and connectivity.
+2. [Define your data pipeline](/content/operate/rc/rdi/define.md) by selecting which tables to sync and how to map them.
+3. [View and manage your pipeline](/content/operate/rc/rdi/view-edit.md) once it's running.
 
-See the [RDI Cloud quick start]({{< relref "/operate/rc/rdi/quick-start" >}}) to get up and running quickly with a PostgreSQL source database.
+See the [RDI Cloud quick start](/content/operate/rc/rdi/quick-start.md) to get up and running quickly with a PostgreSQL source database.
 
 -tab-sep-
 
-RDI is also available for self-managed Redis Enterprise deployments. See the [Redis Data Integration documentation]({{< relref "/integrate/redis-data-integration" >}}) for full installation and configuration instructions.
+RDI is also available for self-managed Redis Enterprise deployments. See the [Redis Data Integration documentation](/content/integrate/redis-data-integration/_index.md) for full installation and configuration instructions.
 
 {{< /multitabs >}}

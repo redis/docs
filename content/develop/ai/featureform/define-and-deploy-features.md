@@ -8,7 +8,7 @@ aliases:
 - /develop/ai/featureform/providers/
 ---
 
-A feature workflow starts with a Python [definitions file]({{< relref "/develop/ai/featureform/concepts#definitions-files-and-ff-apply" >}}). This file declares the [entities, datasets, transformations, features, labels, training sets, and feature views]({{< relref "/develop/ai/featureform/concepts#resource-types" >}}) you want in a [workspace]({{< relref "/develop/ai/featureform/concepts#workspaces" >}}). Run `ff apply` to submit that file as the workspace's [desired state]({{< relref "/develop/ai/featureform/concepts#the-resource-graph" >}}). Feature Form compares the file with the workspace's current resource graph and applies only the differences. If Feature Form accepts the change, it commits a new graph version. The model is declarative — the file describes the end state, not the steps to get there. Re-applying the same file leaves the workspace unchanged.
+A feature workflow starts with a Python [definitions file](/content/develop/ai/featureform/concepts.md#definitions-files-and-ff-apply). This file declares the [entities, datasets, transformations, features, labels, training sets, and feature views](/content/develop/ai/featureform/concepts.md#resource-types) you want in a [workspace](/content/develop/ai/featureform/concepts.md#workspaces). Run `ff apply` to submit that file as the workspace's [desired state](/content/develop/ai/featureform/concepts.md#the-resource-graph). Feature Form compares the file with the workspace's current resource graph and applies only the differences. If Feature Form accepts the change, it commits a new graph version. The model is declarative — the file describes the end state, not the steps to get there. Re-applying the same file leaves the workspace unchanged.
 
 ## Author a definitions file
 
@@ -70,21 +70,20 @@ resources = [
 A definitions file typically declares resources in this order:
 
 1. **Import the module** with `import featureform as ff`, which exposes the resource builders and provider helpers.
-2. **[Entities]({{< relref "/develop/ai/featureform/concepts#resource-types" >}})** — identify the real-world objects features describe, such as `customer` or `order`. Other resources join on the entity's key column.
-3. **[Datasets]({{< relref "/develop/ai/featureform/concepts#resource-types" >}})** — point at an existing table, view, or file on an offline store. The data remains in its original location.
-4. **[Transformations]({{< relref "/develop/ai/featureform/concepts#resource-types" >}})** — produce new datasets from existing ones, expressed as SQL or as a Spark job.
-5. **[Features]({{< relref "/develop/ai/featureform/concepts#resource-types" >}}) and [labels]({{< relref "/develop/ai/featureform/concepts#resource-types" >}})** — entity-keyed values served at inference time (features) and used as the prediction target offline (labels).
-6. **[Training sets]({{< relref "/develop/ai/featureform/concepts#resource-types" >}}) and [feature views]({{< relref "/develop/ai/featureform/concepts#feature-views-and-serving" >}})** — join features with a label on the entity key (training set) and expose features for online serving (feature view).
-7. **Export a `resources = [...]` list** that names every resource above. See [Definitions files and `ff apply`]({{< relref "/develop/ai/featureform/concepts#definitions-files-and-ff-apply" >}}) for how the loader uses it.
+2. **[Entities](/content/develop/ai/featureform/concepts.md#resource-types)** — identify the real-world objects features describe, such as `customer` or `order`. Other resources join on the entity's key column.
+3. **[Datasets](/content/develop/ai/featureform/concepts.md#resource-types)** — point at an existing table, view, or file on an offline store. The data remains in its original location.
+4. **[Transformations](/content/develop/ai/featureform/concepts.md#resource-types)** — produce new datasets from existing ones, expressed as SQL or as a Spark job.
+5. **[Features](/content/develop/ai/featureform/concepts.md#resource-types) and [labels](/content/develop/ai/featureform/concepts.md#resource-types)** — entity-keyed values served at inference time (features) and used as the prediction target offline (labels).
+6. **[Training sets](/content/develop/ai/featureform/concepts.md#resource-types) and [feature views](/content/develop/ai/featureform/concepts.md#feature-views-and-serving)** — join features with a label on the entity key (training set) and expose features for online serving (feature view).
+7. **Export a `resources = [...]` list** that names every resource above. See [Definitions files and `ff apply`](/content/develop/ai/featureform/concepts.md#definitions-files-and-ff-apply) for how the loader uses it.
 
-{{< note >}}
-If your file doesn't export `resources = [...]`, `ff apply` falls back to its auto-registration registry. Prefer the explicit list during onboarding; it's easier to reason about and is what the [Quickstart]({{< relref "/develop/ai/featureform/quickstart" >}}) uses.
-{{< /note >}}
+> [!NOTE]
+> If your file doesn't export `resources = [...]`, `ff apply` falls back to its auto-registration registry. Prefer the explicit list during onboarding; it's easier to reason about and is what the [Quickstart](/content/develop/ai/featureform/quickstart.md) uses.
 
 ### The file should reference
 
-- Registered [provider names]({{< relref "/develop/ai/featureform/register-providers" >}}) such as `demo_postgres` and `demo_redis`. Providers must already exist in the workspace before they're referenced.
-- [Secret references]({{< relref "/develop/ai/featureform/concepts#secrets-and-secret-references" >}}) such as `env:PG_PASSWORD`, resolved at runtime by a [secret provider]({{< relref "/develop/ai/featureform/register-providers#configure-secret-providers" >}}) registered in the workspace.
+- Registered [provider names](/content/develop/ai/featureform/register-providers/_index.md) such as `demo_postgres` and `demo_redis`. Providers must already exist in the workspace before they're referenced.
+- [Secret references](/content/develop/ai/featureform/concepts.md#secrets-and-secret-references) such as `env:PG_PASSWORD`, resolved at runtime by a [secret provider](/content/develop/ai/featureform/register-providers/_index.md#configure-secret-providers) registered in the workspace.
 - Stable resource names that make sense across re-apply cycles, since the graph compares the file to current state by name.
 
 ### The file should not do
@@ -97,7 +96,7 @@ If your file doesn't export `resources = [...]`, `ff apply` falls back to its au
 
 `ff apply` reads the file you pass with `--file` and submits its resources to a workspace. `--file` accepts a Python file, a package `__init__.py`, or a package directory containing one.
 
-Get the workspace ID with `ff workspace list`. See [Manage workspaces]({{< relref "/develop/ai/featureform/manage-workspace" >}}) for the full workspace lifecycle.
+Get the workspace ID with `ff workspace list`. See [Manage workspaces](/content/develop/ai/featureform/manage-workspace.md) for the full workspace lifecycle.
 
 ### Preview with `--plan`
 
@@ -151,13 +150,13 @@ ff graph feature list --workspace <workspace-id>
 ff catalog list --workspace <workspace-id>
 ```
 
-The graph commands show the resources Feature Form recognizes; `ff catalog` shows where each materialized resource physically landed. See [Query data]({{< relref "/develop/ai/featureform/query-data" >}}) for more inspection options.
+The graph commands show the resources Feature Form recognizes; `ff catalog` shows where each materialized resource physically landed. See [Query data](/content/develop/ai/featureform/query-data.md) for more inspection options.
 
 ## If apply fails
 
 Common reasons:
 
-- **Provider not registered.** A resource references a provider name the workspace doesn't know. Confirm with `ff provider list --workspace <workspace-id>` and register the missing provider per [Register providers]({{< relref "/develop/ai/featureform/register-providers" >}}).
+- **Provider not registered.** A resource references a provider name the workspace doesn't know. Confirm with `ff provider list --workspace <workspace-id>` and register the missing provider per [Register providers](/content/develop/ai/featureform/register-providers/_index.md).
 - **Secret can't be resolved.** A provider config uses a reference such as `env:PG_PASSWORD`, but the Feature Form server's environment doesn't expose that variable. Check the secret provider with `ff secret-provider get env --workspace <workspace-id>`.
 - **No resources to apply.** The entrypoint produced no resources. Make sure your file exports a `resources = [...]` list, or that auto-registration finds the resources you declared.
 - **Validation error.** The CLI prints the specific resource and field that failed; fix the file and re-run with `--plan`.

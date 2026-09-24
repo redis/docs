@@ -468,11 +468,11 @@ Features:
 
 - Introduce support for geo polygon shapes and queries:
 
-  - Adding `GEOSHAPE` [field type]({{< relref "commands/ft.create" >}}) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
+  - Adding `GEOSHAPE` [field type](/content/commands/ft.create.md) to map polygons in the `SCHEMA` on `FT.CREATE` (MOD-4798)
 
   - Support for polygons `POLYGON` and `POINT` using [WKT notation](https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry), for example `POLYGON((lon1 lat1, lon2 lat2, ...))`
 
-  - Adjust the [query syntax]({{< relref "commands/ft.search#examples" >}}) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
+  - Adjust the [query syntax](/content/commands/ft.search.md#examples) on `FT.SEARCH` for polygons using the predicate `@geom:[OPERATOR $poly]` and defining polygon in WKT format as `PARAMS 2 poly "POLYGON((10 20, ...))"` using `DIALECT 3`
 
   - Initially `WITHIN` and `CONTAINS` operators with `GEOSHAPES` for now
 
@@ -508,10 +508,9 @@ Changed behavior:
 
 - [#3355](https://github.com/RediSearch/RediSearch/pull/3355), [#3635](https://github.com/RediSearch/RediSearch/pull/3635) Expired keys deleted from replica's index, returning an empty array instead of `nil` (MOD-4739)
 
-{{<note>}}
-- The version inside Redis will be 2.8.4 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
-
-- Minimal Redis version: 7.2
-
-- If indexing and querying RedisJSON data structures, this version is best combined with RedisJSON 2.6 (v2.6.0 onwards).
-{{</note>}}
+> [!NOTE]
+> - The version inside Redis will be 2.8.4 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
+>
+> - Minimal Redis version: 7.2
+>
+> - If indexing and querying RedisJSON data structures, this version is best combined with RedisJSON 2.6 (v2.6.0 onwards).
