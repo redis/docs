@@ -19,7 +19,7 @@ Prerequisites:
 - A cluster configured
 - A database created
 
-For help with the prerequisites, see the [Redis Software quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}}).
+For help with the prerequisites, see the [Redis Software quickstart](/content/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md).
 
 It is recommended to run memtier_benchmark on a separate node that is
 not part of the cluster being tested. If you run it on a node of the

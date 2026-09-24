@@ -21,40 +21,40 @@ With Redis Software, you get many enterprise-grade capabilities, including:
 
 You can run self-managed Redis Software in an on-premises data center or on your preferred cloud platform.
 
-If you prefer a fully managed Redis database-as-a-service, available on major public cloud services, consider setting up a [Redis Cloud]({{<relref "/operate/rc">}}) subscription. You can [try Redis Cloud](https://redis.io/try-free/) for free.
+If you prefer a fully managed Redis database-as-a-service, available on major public cloud services, consider setting up a [Redis Cloud](/content/operate/rc/_index.md) subscription. You can [try Redis Cloud](https://redis.io/try-free/) for free.
 
 ## Get started
 Build a small-scale cluster with the Redis Software container image.
-- [Linux quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart" >}})
-- [Docker quickstart]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}})
-- [Get started with Active-Active]({{< relref "/operate/rs/databases/active-active/get-started" >}})
+- [Linux quickstart](/content/operate/rs/installing-upgrading/quickstarts/redis-enterprise-software-quickstart.md)
+- [Docker quickstart](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md)
+- [Get started with Active-Active](/content/operate/rs/databases/active-active/get-started.md)
 
 ## Install & setup
-[Install & set up]({{< relref "/operate/rs/installing-upgrading" >}}) a Redis Software cluster.
-- [Networking]({{< relref "/operate/rs/networking" >}})
-- [Set up]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) & [configure]({{< relref "/operate/rs/clusters/configure" >}}) a [cluster]({{< relref "/operate/rs/clusters" >}})
-- [Release notes]({{< relref "/operate/rs/release-notes" >}})
+[Install & set up](/content/operate/rs/installing-upgrading/_index.md) a Redis Software cluster.
+- [Networking](/content/operate/rs/networking/_index.md)
+- [Set up](/content/operate/rs/clusters/new-cluster-setup.md) & [configure](/content/operate/rs/clusters/configure/_index.md) a [cluster](/content/operate/rs/clusters/_index.md)
+- [Release notes](/content/operate/rs/release-notes/_index.md)
 
 ## Databases
-Create and manage a [Redis database]({{< relref "/operate/rs/databases" >}}) on a cluster.
-- [Create a Redis Software database]({{< relref "/operate/rs/databases/create" >}})
-- [Configure database]({{< relref "/operate/rs/databases/configure" >}})
-- [Create Active-Active database]({{< relref "/operate/rs/databases/active-active/create" >}})
-- [Edit Active-Active database]({{< relref "/operate/rs/databases/active-active/manage.md" >}})
+Create and manage a [Redis database](/content/operate/rs/databases/_index.md) on a cluster.
+- [Create a Redis Software database](/content/operate/rs/databases/create.md)
+- [Configure database](/content/operate/rs/databases/configure/_index.md)
+- [Create Active-Active database](/content/operate/rs/databases/active-active/create.md)
+- [Edit Active-Active database](/content/operate/rs/databases/active-active/manage.md)
 
 ## Security
-[Manage secure connections]({{< relref "/operate/rs/security" >}}) to the cluster and databases.
-- [Access control]({{< relref "/operate/rs/security/access-control" >}})
-- [Users]({{< relref "/operate/rs/security/access-control/manage-users" >}}) & [roles]({{< relref "/operate/rs/security/access-control" >}})
-- [Certificates]({{< relref "/operate/rs/security/certificates" >}})
-- [TLS]({{< relref "/operate/rs/security/encryption/tls" >}}) & [Encryption]({{< relref "/operate/rs/security/encryption" >}})
+[Manage secure connections](/content/operate/rs/security/_index.md) to the cluster and databases.
+- [Access control](/content/operate/rs/security/access-control/_index.md)
+- [Users](/content/operate/rs/security/access-control/manage-users/_index.md) & [roles](/content/operate/rs/security/access-control/_index.md)
+- [Certificates](/content/operate/rs/security/certificates/_index.md)
+- [TLS](/content/operate/rs/security/encryption/tls/_index.md) & [Encryption](/content/operate/rs/security/encryption/_index.md)
 
 ## Reference
 Use command-line utilities and the REST API to manage the cluster and databases.
-- [rladmin]({{< relref "/operate/rs/references/cli-utilities/rladmin" >}}), [crdb-cli]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}), & [other utilities]({{< relref "/operate/rs/references/cli-utilities" >}})
+- [rladmin](/content/operate/rs/references/cli-utilities/rladmin/_index.md), [crdb-cli](/content/operate/rs/references/cli-utilities/crdb-cli/_index.md), & [other utilities](/content/operate/rs/references/cli-utilities/_index.md)
 - [`redisctl`](https://github.com/redis/redisctl) — a unified CLI for managing Redis Software and Redis Cloud from your terminal
-- [REST API reference]({{< relref "/operate/rs/references/rest-api" >}}) & [examples]({{< relref "/operate/rs/references/rest-api/quick-start" >}})
-- [Redis commands]({{< relref "/commands" >}})
+- [REST API reference](/content/operate/rs/references/rest-api/_index.md) & [examples](/content/operate/rs/references/rest-api/quick-start.md)
+- [Redis commands](/commands)
 
 ## Archive
 
@@ -72,10 +72,10 @@ To view documentation earlier than version 7.4, see the archived website:
 
 
 ## Related info
-- [Redis Cloud]({{< relref "/operate/rc" >}})
-- [Redis Open Source]({{< relref "/operate/oss_and_stack" >}})
-- [Redis Stack]({{< relref "/operate/oss_and_stack/stack-with-enterprise" >}})
-- [Glossary]({{< relref "/glossary" >}})
+- [Redis Cloud](/content/operate/rc/_index.md)
+- [Redis Open Source](/content/operate/oss_and_stack/_index.md)
+- [Redis Stack](/content/operate/oss_and_stack/stack-with-enterprise/_index.md)
+- [Glossary](/content/glossary/_index.md)
 
 ## Continue learning with Redis University
 

@@ -18,15 +18,14 @@ When you activate maintenance mode, Redis Software does the following:
 
 1. Checks whether the cluster has enough active nodes to maintain quorum if one goes down. If taking a node offline would cause quorum loss, maintenance mode will not activate.
 
-    {{<warning>}}
-This check does not consider if other nodes are already in maintenance mode. Do not put the majority of nodes into maintenance mode and restart them simultaneously, as this can cause the cluster to lose quorum and lead to data loss.
-    {{</warning>}}
+    > [!WARNING]
+    > This check does not consider if other nodes are already in maintenance mode. Do not put the majority of nodes into maintenance mode and restart them simultaneously, as this can cause the cluster to lose quorum and lead to data loss.
 
 1. If no maintenance mode snapshots already exist or if you use `overwrite_snapshot` when you activate maintenance mode, Redis Software creates a new node snapshot that records the node's shard and endpoint configuration.
 
 1. Marks the node as a quorum node to prevent shards and endpoints from migrating to it.
 
-    At this point, [`rladmin status`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) displays the node's shards field in yellow, which indicates that shards cannot migrate to the node.
+    At this point, [`rladmin status`](/content/operate/rs/references/cli-utilities/rladmin/status.md) displays the node's shards field in yellow, which indicates that shards cannot migrate to the node.
 
     {{< image filename="/images/rs/maintenance_mode.png" >}}
 
@@ -104,7 +103,7 @@ By default, a snapshot is required to deactivate maintenance mode.  If the snaps
 
 ### Specify a snapshot
 
-When you turn off maintenance mode, you can restore the node configuration from a maintenance mode snapshot or any snapshots previously created by [`rladmin node <node_id> snapshot create`]({{< relref "/operate/rs/references/cli-utilities/rladmin/node/snapshot#node-snapshot-create" >}}). If you do not specify a snapshot, Redis Software uses the latest maintenance mode snapshot by default.
+When you turn off maintenance mode, you can restore the node configuration from a maintenance mode snapshot or any snapshots previously created by [`rladmin node <node_id> snapshot create`](/content/operate/rs/references/cli-utilities/rladmin/node/snapshot.md#node-snapshot-create). If you do not specify a snapshot, Redis Software uses the latest maintenance mode snapshot by default.
 
 To get a list of available snapshots, run:
 
@@ -118,10 +117,9 @@ To specify a snapshot when you turn maintenance mode off, run:
 rladmin node <node_id> maintenance_mode off snapshot_name <snapshot_name>
 ```
 
-{{<note>}}
-If an error occurs when you turn on maintenance mode, the snapshot is not deleted.
-When you rerun the command, use the snapshot from the initial attempt since it contains the original state of the node.
-{{</note>}}
+> [!NOTE]
+> If an error occurs when you turn on maintenance mode, the snapshot is not deleted.
+> When you rerun the command, use the snapshot from the initial attempt since it contains the original state of the node.
 
 ### Skip shard restoration
 
@@ -146,7 +144,7 @@ Use these commands with caution.  For best results, contact Support before runni
 
 ## Cluster status example
 
-This example shows how the output of [`rladmin status`]({{< relref "/operate/rs/references/cli-utilities/rladmin/status" >}}) changes when you turn on maintenance mode for a node.
+This example shows how the output of [`rladmin status`](/content/operate/rs/references/cli-utilities/rladmin/status.md) changes when you turn on maintenance mode for a node.
 
 The cluster status before turning on maintenance mode:
 
@@ -183,7 +181,7 @@ Now node 2 has `0/0` shards because shards cannot migrate to it while it is in m
 
 ## Maintenance mode REST API
 
-You can also turn maintenance mode on or off using [REST API requests]({{< relref "/operate/rs/references/rest-api" >}}) to [<nobr>POST `/nodes/{node_uid}/actions/{action}`</nobr>]({{< relref "/operate/rs/references/rest-api/requests/nodes/actions#post-node-action" >}}).
+You can also turn maintenance mode on or off using [REST API requests](/content/operate/rs/references/rest-api/_index.md) to [<nobr>POST `/nodes/{node_uid}/actions/{action}`</nobr>](/content/operate/rs/references/rest-api/requests/nodes/actions.md#post-node-action).
 
 ### Activate maintenance mode (REST API)
 
@@ -231,7 +229,7 @@ The `maintenance_off` request returns a JSON response body:
 
 ### Track action status
 
-You can send a request to [<nobr>GET `/nodes/{node_uid}/actions/{action}`</nobr>]({{< relref "/operate/rs/references/rest-api/requests/nodes/actions#get-node-action" >}}) to track the [status]({{< relref "/operate/rs/references/rest-api/objects/action" >}}) of the `maintenance_on` and `maintenance_off` actions.
+You can send a request to [<nobr>GET `/nodes/{node_uid}/actions/{action}`</nobr>](/content/operate/rs/references/rest-api/requests/nodes/actions.md#get-node-action) to track the [status](/content/operate/rs/references/rest-api/objects/action.md) of the `maintenance_on` and `maintenance_off` actions.
 
 This request returns the status of the `maintenance_on` action:
 
