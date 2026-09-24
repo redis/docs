@@ -17,16 +17,15 @@ toc: 'true'
 weight: 71
 ---
 
-{{< warning >}}
-Redis Software 7.2 reached end of life on February 28, 2026. It no longer
-receives security patches, bug fixes, or maintenance releases.
-Support for 7.2-specific issues is limited per your subscription agreement,
-and you may be asked to upgrade before an issue can be investigated.
-
-Upgrade to a supported version. See the
-[supported upgrade paths]({{< relref "/operate/rs/references/upgrade-paths" >}})
-and the [Redis Software product lifecycle]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}).
-{{< /warning >}}
+> [!WARNING]
+> Redis Software 7.2 reached end of life on February 28, 2026. It no longer
+> receives security patches, bug fixes, or maintenance releases.
+> Support for 7.2-specific issues is limited per your subscription agreement,
+> and you may be asked to upgrade before an issue can be investigated.
+>
+> Upgrade to a supported version. See the
+> [supported upgrade paths](/content/operate/rs/references/upgrade-paths.md)
+> and the [Redis Software product lifecycle](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule).
 
 ​[​Redis Enterprise Software version 7.2.4](https://redis.io/downloads/#software) is now available!
 
@@ -70,21 +69,21 @@ For more detailed release notes, select a build version from the following table
 
 For a list of potentially breaking changes introduced in version 7.2, see:
 
-- [Breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#breaking-changes" >}})
+- [Breaking changes](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#breaking-changes)
 
-- [Redis 7.2 breaking changes]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#redis-72-breaking-changes" >}})
+- [Redis 7.2 breaking changes](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#redis-72-breaking-changes)
 
-To prevent potential application issues due to RESP3 breaking changes, see [Client prerequisites for Redis 7.2 upgrade]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#client-prerequisites-for-redis-72-upgrade" >}}).
+To prevent potential application issues due to RESP3 breaking changes, see [Client prerequisites for Redis 7.2 upgrade](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#client-prerequisites-for-redis-72-upgrade).
 
 ### Deprecations
 
 #### Command deprecations
 
-- [`CLUSTER SLOTS`]({{< relref "/commands/cluster-slots" >}}) is deprecated as of Redis 7.0
+- [`CLUSTER SLOTS`](/content/commands/cluster-slots.md) is deprecated as of Redis 7.0
 
-- [`JSON.RESP`]({{< relref "commands/json.resp" >}}) is deprecated as of Redis Stack 7.2.
+- [`JSON.RESP`](/content/commands/json.resp.md) is deprecated as of Redis Stack 7.2.
 
-- [`QUIT`]({{< relref "/commands/quit" >}}) is deprecated as of Redis 7.2
+- [`QUIT`](/content/commands/quit.md) is deprecated as of Redis 7.2
 
 #### API deprecations
 
@@ -160,7 +159,7 @@ REST API requests deprecated as of Redis Enterprise v7.2.4:
 
     - Redis ACLs: Not Dangerous and Read Only.
 
-- A deprecation notice for SASL-based LDAP was included in [previous Redis Enterprise Software release notes]({{< relref "/operate/rs/release-notes/rs-6-2-4-august-2021" >}}#deprecation-notices). When you upgrade to Redis Enterprise Software version 7.2.4, all existing "external" users (previously used to support SASL-based LDAP) will be removed.
+- A deprecation notice for SASL-based LDAP was included in [previous Redis Enterprise Software release notes](/content/operate/rs/release-notes/rs-6-2-4-august-2021.md#deprecation-notices). When you upgrade to Redis Enterprise Software version 7.2.4, all existing "external" users (previously used to support SASL-based LDAP) will be removed.
 
 #### Legacy UI
 
@@ -186,11 +185,11 @@ Amazon Linux 1 support is considered deprecated and will be removed in a future 
 
 #### Ubuntu 16.04
 
-The deprecation of Ubuntu 16.04 was announced in the [Redis Enterprise Software 6.4.2 release notes]({{< relref "/operate/rs/release-notes/rs-6-4-2-releases#deprecations" >}}). As of Redis Enterprise Software 7.2.4, Ubuntu 16.04 is no longer supported.
+The deprecation of Ubuntu 16.04 was announced in the [Redis Enterprise Software 6.4.2 release notes](/content/operate/rs/release-notes/rs-6-4-2-releases/_index.md#deprecations). As of Redis Enterprise Software 7.2.4, Ubuntu 16.04 is no longer supported.
 
 #### RC4 encryption cipher
 
-The RC4 encryption cipher is considered deprecated in favor of stronger ciphers. Support for RC4 by the [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service" >}}) will be removed in a future release.
+The RC4 encryption cipher is considered deprecated in favor of stronger ciphers. Support for RC4 by the [discovery service](/content/operate/rs/databases/durability-ha/discovery-service.md) will be removed in a future release.
 
 #### 3DES encryption cipher
 
@@ -206,7 +205,7 @@ Certain operating systems, such as RHEL 8, have already removed support for the 
 
 ### Supported platforms
 
-The following table provides a snapshot of supported platforms as of this Redis Enterprise Software release. See the [supported platforms reference]({{< relref "/operate/rs/references/supported-platforms" >}}) for more details about operating system compatibility.
+The following table provides a snapshot of supported platforms as of this Redis Enterprise Software release. See the [supported platforms reference](/content/operate/rs/references/supported-platforms.md) for more details about operating system compatibility.
 
 <span title="Check mark icon">&#x2705;</span> Supported – The platform is supported for this version of Redis Enterprise Software and Redis Stack modules.
 
@@ -215,7 +214,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 | Redis Software<br />major versions | 8.0 | 7.22 | 7.8 | 7.4 | 7.2 | 6.4 | 6.2 |
 |---------------------------------|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 | **Release date** | Oct 2025 | May 2025 | Nov 2024 | Feb 2024 | Aug 2023 | Feb 2023 | Aug 2021 |
-| [**End-of-life date**]({{< relref "/operate/rs/installing-upgrading/product-lifecycle#endoflife-schedule" >}}) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
+| [**End-of-life date**](/content/operate/rs/installing-upgrading/product-lifecycle.md#endoflife-schedule) | Determined after<br />next major release | Oct 2027 | May 2027 | Nov 2026 | Feb 2026 | Aug 2025 | Feb 2025 |
 | **Platforms** | | | | | | | |
 | RHEL 9 &<br />compatible distros<sup>[1](#table-note-1)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – |
 | RHEL 9<br />FIPS mode<sup>[5](#table-note-5)</sup> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span> | – | – | – | – |
@@ -234,15 +233,15 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 2. <a name="table-note-2"></a>The server version of Ubuntu is recommended for production installations. The desktop version is only recommended for development deployments.
 
-3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) for details about support per version and Kubernetes distribution.
+3. <a name="table-note-3"></a>See the [Redis Enterprise for Kubernetes documentation](/content/operate/kubernetes/reference/supported_k8s_distributions.md) for details about support per version and Kubernetes distribution.
 
-4. <a name="table-note-4"></a>[Docker images]({{< relref "/operate/rs/installing-upgrading/quickstarts/docker-quickstart" >}}) of Redis Enterprise Software are certified for development and testing only.
+4. <a name="table-note-4"></a>[Docker images](/content/operate/rs/installing-upgrading/quickstarts/docker-quickstart.md) of Redis Enterprise Software are certified for development and testing only.
 
 5. <a name="table-note-5"></a>Supported only if [FIPS was enabled during RHEL installation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/security_hardening/switching-rhel-to-fips-mode_security-hardening#proc_installing-the-system-with-fips-mode-enabled_switching-rhel-to-fips-mode) to ensure FIPS compliance.
 
 ## Known issues
 
-- RS114185 - During an upgrade to [Redis Enterprise Software version 7.2.4-86]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-92" >}}), the proxy might not start due to a `Failed to get default_suffix` error, which appears in `dmcproxy.log`.
+- RS114185 - During an upgrade to [Redis Enterprise Software version 7.2.4-86](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-92.md), the proxy might not start due to a `Failed to get default_suffix` error, which appears in `dmcproxy.log`.
 
     As a workaround, start `dmcproxy` manually:
 
@@ -250,7 +249,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
     supervisorctl restart dmcproxy
     ```
 
-    This issue was fixed in [Redis Enterprise Software version 7.2.4-92]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-92" >}}).
+    This issue was fixed in [Redis Enterprise Software version 7.2.4-92](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-92.md).
 
 
 - RS123142 - In an Active-Active setup with at least three participating clusters, removing and re-adding a cluster after removing older clusters without re-adding them can cause missing keys and potentially lead to data loss or data inconsistency.
@@ -261,7 +260,7 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
 #### Command limitations
 
-- [`CLIENT NO-TOUCH`]({{< relref "/commands/client-no-touch" >}}) might not run correctly in the following cases:
+- [`CLIENT NO-TOUCH`](/content/commands/client-no-touch.md) might not run correctly in the following cases:
 
     - The Redis database version is earlier than 7.2.0.
 
@@ -269,9 +268,9 @@ The following table provides a snapshot of supported platforms as of this Redis 
 
     Before sending this command, clients should verify the database version is 7.2.0 or later and that using this command is allowed. 
 
-- You cannot use [`SUNSUBSCRIBE`]({{< relref "/commands/sunsubscribe" >}}) to unsubscribe from a shard channel if the regex changed while subscribed.
+- You cannot use [`SUNSUBSCRIBE`](/content/commands/sunsubscribe.md) to unsubscribe from a shard channel if the regex changed while subscribed.
 
-- Using [`XREADGROUP BLOCK`]({{< relref "/commands/xreadgroup" >}}) with `>` to return all new streams will cause the Redis database to freeze until the shard is restarted. ([#12031](https://github.com/redis/redis/pull/12301))
+- Using [`XREADGROUP BLOCK`](/content/commands/xreadgroup.md) with `>` to return all new streams will cause the Redis database to freeze until the shard is restarted. ([#12031](https://github.com/redis/redis/pull/12301))
 
 - Because a rejected command does not record the duration for command stats, an error will appear after it is reprocessed that will cause the Redis database to freeze until the shard is restarted. ([#12247](https://github.com/redis/redis/pull/12247))
 
@@ -285,15 +284,15 @@ As a temporary workaround, you can change the node's `os_name` in the Cluster Co
 ccs-cli hset node:<ID> os_name rhel
 ```
 
-This limitation was fixed in [Redis Enterprise Software version 7.2.4-64]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-64" >}}).
+This limitation was fixed in [Redis Enterprise Software version 7.2.4-64](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-64.md).
 
 #### Cluster recovery with manually uploaded modules
 
-For clusters containing databases with manually uploaded modules, [cluster recovery]({{< relref "/operate/rs/clusters/cluster-recovery" >}}) requires an extra step.
+For clusters containing databases with manually uploaded modules, [cluster recovery](/content/operate/rs/clusters/cluster-recovery.md) requires an extra step.
 
 After installing Redis Enterprise Software on the cluster nodes, upload compatible modules to `modulesdir` (`/opt/redislabs/lib/modules`) before continuing the recovery process.
 
-This limitation was fixed in [Redis Enterprise Software version 7.2.4-64]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-64" >}}).
+This limitation was fixed in [Redis Enterprise Software version 7.2.4-64](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-64.md).
 
 #### Cannot create Redis v6.x Active-Active databases with modules
 
