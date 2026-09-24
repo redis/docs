@@ -13,7 +13,7 @@ weight: 10
 url: '/operate/rs/7.4/references/compatibility/commands/server/'
 ---
 
-The following tables show which Redis Open Source [server management commands](/commands?group=server) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
+The following tables show which Redis Open Source [server management commands](/content/commands?group=server) are compatible with standard and Active-Active databases in Redis Enterprise Software and Redis Cloud.
 
 ## Access control commands
 

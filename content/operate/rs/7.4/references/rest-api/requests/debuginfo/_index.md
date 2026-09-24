@@ -22,12 +22,12 @@ Downloads a support package, which includes logs and information about the clust
 
 | Method | Path | Description |
 |--------|------|-------------|
-| [GET](./all#get-all-debuginfo) | `/v1/debuginfo/all` | Gets debug info for all nodes |
-| [GET](./all/bdb#get-all-debuginfo-bdb) | `/v1/debuginfo/all/bdb/{bdb_uid}` | Gets debug info for a database from all nodes |
+| [GET](./all/_index.md#get-all-debuginfo) | `/v1/debuginfo/all` | Gets debug info for all nodes |
+| [GET](./all/bdb.md#get-all-debuginfo-bdb) | `/v1/debuginfo/all/bdb/{bdb_uid}` | Gets debug info for a database from all nodes |
 
 ## Get debug info for the current node
 
 | Method | Path | Description |
 |--------|------|-------------|
-| [GET](./node#get-debuginfo-node) | `/v1/debuginfo/node` | Gets debug info for the current node |
-| [GET](./node/bdb#get-debuginfo-node-bdb) | `/v1/debuginfo/node/bdb/{bdb_uid}` | Gets debug info for a database from the current node |
+| [GET](./node/_index.md#get-debuginfo-node) | `/v1/debuginfo/node` | Gets debug info for the current node |
+| [GET](./node/bdb.md#get-debuginfo-node-bdb) | `/v1/debuginfo/node/bdb/{bdb_uid}` | Gets debug info for a database from the current node |
