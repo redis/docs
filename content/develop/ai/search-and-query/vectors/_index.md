@@ -117,6 +117,8 @@ the accuracy of the queries, while trading off performance.
 | `EF_CONSTRUCTION`  | Max number of connected neighbors to consider during graph building. Higher values increase accuracy, but also increase index build time. | 200 |
 | `EF_RUNTIME`       | Max top candidates during KNN search. Higher values increase accuracy, but also increase search latency. | 10 |
 | `EPSILON`          | Relative factor that sets the boundaries in which a range query may search for candidates. That is, vector candidates whose distance from the query vector is `radius * (1 + EPSILON)` are potentially scanned, allowing more extensive search and more accurate results, at the expense of run time. | 0.01 |
+| `COMPRESSION`      | Compression algorithm; the only supported value is `SQ8`. Only supported for `TYPE FLOAT32` or `FLOAT16`, and not supported for disk-based vector indexes. See [HNSW vector compression](#hnsw-vector-compression) below for more information. | none |
+| `TRAINING_THRESHOLD` | Number of vectors needed to learn compression parameters. Applicable only when used with `COMPRESSION`. A value of `0` skips training. If a value is provided, it must be no more than `100 * DEFAULT_BLOCK_SIZE`, where `DEFAULT_BLOCK_SIZE` is 1024. | `10 * DEFAULT_BLOCK_SIZE` |
 
 **Example**
 
@@ -133,6 +135,32 @@ FT.CREATE documents
 ```
 
 In the example above, an index named `documents` is created over hashes with the key prefix `docs:` and an `HNSW` vector field named `doc_embedding` with five index attributes: `TYPE`, `DIM`, `DISTANCE_METRIC`, `M`, and `EF_CONSTRUCTION`.
+
+#### HNSW vector compression
+
+Support for `HNSW` vector compression was added in Redis 8.12.
+
+`HNSW` vector fields support `SQ8`, an 8-bit scalar quantization algorithm that reduces the memory used to store each vector at the cost of some search accuracy. `COMPRESSION` is only supported for `TYPE FLOAT32` or `FLOAT16`, with any `DISTANCE_METRIC`, and only for in-memory vector indexes; disk-based vector indexes ignore both `COMPRESSION` and `TRAINING_THRESHOLD`.
+
+When you set `COMPRESSION SQ8`, indexed vectors are stored at full precision until the field accumulates `TRAINING_THRESHOLD` vectors. At that point, Redis learns quantization parameters from the accumulated vectors and migrates them to compressed storage. Vectors remain searchable throughout, both before and after this migration. Setting `TRAINING_THRESHOLD` to `0` skips this step, so vectors are quantized immediately without learning from a sample, which can reduce accuracy.
+
+[`FT.INFO`](/content/commands/ft.info.md) reports `compression` and `training_threshold` for a compressed field; both fields are omitted for a field without `COMPRESSION` set.
+
+> [!NOTE]
+> Reloading an index (for example, from an RDB file or during replication) rebuilds and retrains compressed `HNSW` fields from the original source vectors. Approximate distances and rankings after a reload aren't guaranteed to match those from before the reload. If deletions drop a trained field's vector count back below `TRAINING_THRESHOLD`, a reload returns that field to the full-precision accumulation state until enough vectors return.
+
+**Example**
+
+```
+FT.CREATE documents
+  ON HASH
+  PREFIX 1 docs:
+  SCHEMA doc_embedding VECTOR HNSW 8
+    TYPE FLOAT32
+    DIM 1536
+    DISTANCE_METRIC COSINE
+    COMPRESSION SQ8
+```
 
 ### SVS-VAMANA index
 
@@ -655,6 +683,8 @@ bfloat_dtype = bfloat16
 half_precision_vec_bfloat16 = double_precision_vec.astype(bfloat_dtype)
 print(f'length of bfloat16 vector: {len(half_precision_vec_bfloat16.tobytes())}') # >>> 200
 ```
+
+Enabling [`COMPRESSION SQ8`](#hnsw-vector-compression) on an `HNSW` field stores each vector dimension as a single byte, regardless of the field's `TYPE`, instead of 4 bytes for `FLOAT32` or 2 bytes for `FLOAT16`.
 
 ## Next steps
 
