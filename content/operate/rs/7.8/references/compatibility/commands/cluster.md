@@ -14,7 +14,7 @@ url: '/operate/rs/7.8/references/compatibility/commands/cluster/'
 
 [Clustering in Redis Enterprise Software](/content/operate/rs/7.8/databases/durability-ha/clustering.md) and [Redis Cloud](/content/operate/rc/databases/configuration/clustering.md) differs from the [Redis Open Source cluster](/content/operate/oss_and_stack/management/scaling.md) and works with all standard Redis clients.
 
-Redis Enterprise blocks most [cluster commands](/commands?group=cluster). If you try to use a blocked cluster command, it returns an error.
+Redis Enterprise blocks most [cluster commands](/content/commands?group=cluster). If you try to use a blocked cluster command, it returns an error.
 
 | Command | Redis<br />Enterprise | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
