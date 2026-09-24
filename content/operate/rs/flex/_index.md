@@ -26,7 +26,7 @@ Flex moves data between RAM and flash based on access patterns:
 - Less active data moves to cost-efficient flash storage.
 - Data accessed from flash promotes back to RAM automatically.
 
-Redis uses an [LRU (least recently used)]({{< relref "/develop/reference/eviction#apx-lru" >}}) eviction policy to manage data placement. When memory pressure increases, Flex identifies cold objects, transfers them to flash, and frees RAM for new or frequently accessed keys.
+Redis uses an [LRU (least recently used)](/content/develop/reference/eviction/index.md#apx-lru) eviction policy to manage data placement. When memory pressure increases, Flex identifies cold objects, transfers them to flash, and frees RAM for new or frequently accessed keys.
 
 This process requires no application changes. Your existing Redis commands work across both storage tiers.
 
@@ -41,12 +41,12 @@ This design delivers predictable latency and throughput as datasets grow beyond 
 
 ## Compatibility
 
-Flex is compatible with the Redis API and supports all [Redis data types]({{<relref "/develop/data-types">}}), including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K), as well as [Redis Search]({{<relref "/develop/ai/search-and-query">}}).
+Flex is compatible with the Redis API and supports all [Redis data types](/content/develop/data-types/_index.md), including JSON and probabilistic data structures (Bloom filters, Count-Min Sketch, Top-K), as well as [Redis Search](/content/develop/ai/search-and-query/_index.md).
 
 The following features are not yet supported with Flex:
 
-- [Time series]({{<relref "/develop/data-types/timeseries">}})
-- [Active-Active]({{<relref "/operate/rs/databases/active-active">}})
+- [Time series](/content/develop/data-types/timeseries/_index.md)
+- [Active-Active](/content/operate/rs/databases/active-active/_index.md)
 
 ## When to use Flex
 
@@ -57,13 +57,12 @@ Use Flex when you need to:
 - Operate large distributed caches with elastic scaling and consistent performance under heavy load
 - Reduce infrastructure costs by combining high-speed RAM with cost-efficient flash storage
 
-{{<note>}}
-Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like [AOF (Append-Only File)]({{< relref "/operate/oss_and_stack/management/persistence#append-only-file" >}}), [RDB snapshots]({{< relref "/operate/oss_and_stack/management/persistence#snapshotting" >}}), or both. For more information, see [Database persistence]({{< relref "/operate/rs/databases/configure/database-persistence" >}}).  
-{{</note>}}
+> [!NOTE]
+> Flex does not replace long-term data persistence. For workloads that require durability and recovery across restarts or failures, use Redis persistence features like [AOF (Append-Only File)](/content/operate/oss_and_stack/management/persistence.md#append-only-file), [RDB snapshots](/content/operate/oss_and_stack/management/persistence.md#snapshotting), or both. For more information, see [Database persistence](/content/operate/rs/databases/configure/database-persistence.md).  
 
 ## Flex and Auto Tiering
 
-Flex replaces [Auto Tiering]({{< relref "/operate/rs/7.22/databases/auto-tiering" >}}) (formerly known as Redis on Flash). Redis Software selects the implementation based on your Redis version:
+Flex replaces [Auto Tiering](/content/operate/rs/7.22/databases/auto-tiering/_index.md) (formerly known as Redis on Flash). Redis Software selects the implementation based on your Redis version:
 
 | Redis database version | Flex | Auto Tiering |
 |------------------------|------|--------------|
@@ -71,7 +70,7 @@ Flex replaces [Auto Tiering]({{< relref "/operate/rs/7.22/databases/auto-tiering
 | 7.4 | <span title="Supported">&#x2705;</span> | <span title="Supported">&#x2705;</span>|
 | 7.2 and earlier | <span title="Not supported">&#x274c;</span> | <span title="Supported">&#x2705;</span> |
 
-For Redis Software version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "/operate/rs/7.22/databases/auto-tiering" >}}).
+For Redis Software version 7.22.2-22 or earlier, see [Auto Tiering](/content/operate/rs/7.22/databases/auto-tiering/_index.md).
 
 ### Differences between Flex and Auto Tiering
 
@@ -87,6 +86,6 @@ For Redis Software version 7.22.2-22 or earlier, see [Auto Tiering]({{< relref "
 
 ## Next steps
 
-- [Plan your deployment]({{< relref "/operate/rs/flex/plan" >}}): Review hardware requirements, sizing guidelines, and limitations.
-- [Get started]({{< relref "/operate/rs/flex/get-started" >}}): Configure Flex on your cluster.
-- [Scale your deployment]({{< relref "/operate/rs/flex/scale" >}}): Learn scaling strategies and best practices.
+- [Plan your deployment](/content/operate/rs/flex/plan.md): Review hardware requirements, sizing guidelines, and limitations.
+- [Get started](/content/operate/rs/flex/get-started.md): Configure Flex on your cluster.
+- [Scale your deployment](/content/operate/rs/flex/scale.md): Learn scaling strategies and best practices.

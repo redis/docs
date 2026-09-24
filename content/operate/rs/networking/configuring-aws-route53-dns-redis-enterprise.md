@@ -52,9 +52,8 @@ When you create a new hosted zone in Route 53 for your domain, a set of NS recor
 
 You will need to create a new NS record which will point to the glue records created in the previous step.
 
-{{<note>}}
-It is important to make sure that the **Record Name** of the NS record equals the FQDN (Fully Qualified Domain Name) of your Redis Software cluster. If not, DNS resolution will not function correctly.
-{{</note>}}
+> [!NOTE]
+> It is important to make sure that the **Record Name** of the NS record equals the FQDN (Fully Qualified Domain Name) of your Redis Software cluster. If not, DNS resolution will not function correctly.
 
 {{< image filename="/images/rs/07-NSRecord-en.png" >}}
 
