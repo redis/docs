@@ -16,13 +16,13 @@ The following options are supported:
 
 | Option | Description |
 |--------|-------------|
-| `-y` | Automatically answers `yes` to all install prompts, accepting all default values<br/>See [Manage install questions]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions" >}})|
-| <nobr>`-c <answer file>`</nobr> | Specify answer file used to respond to install prompts<br/>See [Manage install questions]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions" >}})|
+| `-y` | Automatically answers `yes` to all install prompts, accepting all default values<br/>See [Manage install questions](/content/operate/rs/installing-upgrading/install/manage-installation-questions.md)|
+| <nobr>`-c <answer file>`</nobr> | Specify answer file used to respond to install prompts<br/>See [Manage install questions](/content/operate/rs/installing-upgrading/install/manage-installation-questions.md)|
 | <nobr>`-s <socket dir>`</s> | Specify directory for redislabs unix sockets  _(new installs only)_|
-| <nobr>`--install-dir <dir>`</nobr> | Specifies installation directory _(new installs only)_ <br/> See [Customize install locations]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}})|  
-| <nobr>`--config-dir <dir>` | Configuration file directory *(new installs only)* <br/>See [Customize install locations]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}})|
-| <nobr>`--var-dir <dir>`</nobr> | Var directory used for installation *(new installs only)* <br/>See [Customize install locations]({{< relref "/operate/rs/installing-upgrading/install/customize-install-directories" >}})|
-| <nobr>`--os-user <user>`| Operating system user account associated with install; default: `redislabs`<br/>See [Customize user and group]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group" >}}) *(new installs only)*|
-|<nobr>`--os-group <group>` | Operating system group associated with install; default: `redislabs`<br/>See [Customize user and group]({{< relref "/operate/rs/installing-upgrading/install/customize-user-and-group" >}}) *(new installs only)* |
+| <nobr>`--install-dir <dir>`</nobr> | Specifies installation directory _(new installs only)_ <br/> See [Customize install locations](/content/operate/rs/installing-upgrading/install/customize-install-directories.md)|  
+| <nobr>`--config-dir <dir>` | Configuration file directory *(new installs only)* <br/>See [Customize install locations](/content/operate/rs/installing-upgrading/install/customize-install-directories.md)|
+| <nobr>`--var-dir <dir>`</nobr> | Var directory used for installation *(new installs only)* <br/>See [Customize install locations](/content/operate/rs/installing-upgrading/install/customize-install-directories.md)|
+| <nobr>`--os-user <user>`| Operating system user account associated with install; default: `redislabs`<br/>See [Customize user and group](/content/operate/rs/installing-upgrading/install/customize-user-and-group.md) *(new installs only)*|
+|<nobr>`--os-group <group>` | Operating system group associated with install; default: `redislabs`<br/>See [Customize user and group](/content/operate/rs/installing-upgrading/install/customize-user-and-group.md) *(new installs only)* |
 | `--skip-dns-port-verification` | Skip DNS port verification during installation |
-| <nobr>`--update-env-path`</nobr> | Add paths related to Redis Software to root's PATH environment variable<br/>See [Manage install questions]({{< relref "/operate/rs/installing-upgrading/install/manage-installation-questions" >}}) |
+| <nobr>`--update-env-path`</nobr> | Add paths related to Redis Software to root's PATH environment variable<br/>See [Manage install questions](/content/operate/rs/installing-upgrading/install/manage-installation-questions.md) |
