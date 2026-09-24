@@ -1,0 +1,149 @@
+name: internal_anchor_check
+
+# Report internal links whose target page or heading anchor doesn't exist:
+# absolute redis.io self-links, and relref-with-anchor. Neither is checked by
+# anything else -- Hugo treats a self-link as external and .lychee.toml excludes
+# redis.io as internal, while relref validates the page and never the heading.
+#
+# See build/check_internal_anchors.py and DOC-7003.
+#
+# Report-only, and never a gate. The checker exits 1 when it finds anything, so
+# that a local `make check_internal_anchors` is useful, but this workflow reports
+# the findings and returns success. There were 150 of them at the time of writing:
+# a backlog to work down, not a merge blocker, and a check that blocks on a
+# 150-item backlog just gets switched off.
+#
+# Weekly rather than post-merge, unlike alias_check. That scan needs no build and
+# takes about three seconds, so running it on every push to main is nearly free.
+# This one needs a full Hugo build to read the anchors Hugo itself emitted, so a
+# per-push run would add ten minutes to every merge for a report whose findings
+# are days-old rot rather than something introduced by that specific merge.
+
+on:
+  schedule:
+    - cron: '0 7 * * 1'   # 07:00 UTC every Monday, an hour after link_check
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  HUGO_VERSION: 0.143.1
+
+jobs:
+  check:
+    name: Check internal links and anchors
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      findings: ${{ steps.check.outputs.findings }}
+    steps:
+      - name: Install Hugo
+        run: |
+          wget -O "${{ runner.temp }}/hugo.deb" \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb" \
+          && sudo dpkg -i "${{ runner.temp }}/hugo.deb"
+
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies and build components
+        run: |
+          make deps
+          make components
+
+      - name: Build the site
+        # The anchors are read out of this output rather than derived from a slug
+        # rule, so the build is the oracle and cannot be skipped.
+        run: hugo --gc
+
+      - name: Run the checker
+        id: check
+        run: |
+          # Report-only: the checker's exit 1 must not fail this job. `|| true`
+          # would also swallow the exit 2 it uses for "resolved nothing, so the
+          # scoping or the build is broken", which is a real failure worth seeing.
+          set +e
+          python3 build/check_internal_anchors.py --json > findings.json
+          status=$?
+          set -e
+          if [ "$status" -ge 2 ]; then
+            echo "::error::checker could not run (exit $status)"
+            exit "$status"
+          fi
+          count=$(python3 -c 'import json;print(len(json.load(open("findings.json"))["findings"]))')
+          echo "findings=$count" >> "$GITHUB_OUTPUT"
+          echo "Found $count internal link/anchor problems" >&2
+
+      - name: Render a report
+        if: steps.check.outputs.findings != '0'
+        run: |
+          python3 - <<'PY' > internal-anchor-report.md
+          import json, itertools
+          d = json.load(open("findings.json"))
+          f, t = d["findings"], d["tally"]
+          print("Internal links whose target page or anchor does not exist.")
+          print()
+          print(f"**{len(f)} findings.** Checked {t['self_ok']} absolute self-links and "
+                f"{t['relref_ok']} anchored relrefs successfully; "
+                f"{t['unverifiable']} anchors sit on client-rendered pages and cannot be "
+                f"read here, {t['self_skipped']} self-links point outside the docs tree, "
+                f"{t['relref_unhandled']} relref paths did not resolve to a page.")
+          print()
+          print("A finding is a candidate, not a confirmed defect. Check the built HTML "
+                "for the target anchor before editing a link.")
+          print()
+          for kind, group in itertools.groupby(
+                  sorted(f, key=lambda x: x["kind"]), key=lambda x: x["kind"]):
+              rows = list(group)
+              print(f"### {kind} ({len(rows)})")
+              print()
+              for x in sorted(rows, key=lambda x: (x["file"], x["line"])):
+                  print(f"- `{x['file']}:{x['line']}` — `{x['target']}` — {x['problem']}")
+              print()
+          PY
+
+      - name: Upload report
+        if: steps.check.outputs.findings != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: internal-anchor-report
+          path: internal-anchor-report.md
+          if-no-files-found: error
+
+  report:
+    name: Open or update tracking issue
+    needs: check
+    # Separate job so the checker itself never holds an issues:write token.
+    if: ${{ always() && needs.check.outputs.findings != '0' && needs.check.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Download report
+        uses: actions/download-artifact@v4
+        with:
+          name: internal-anchor-report
+          path: .
+
+      - name: Open or update tracking issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh label create internal-anchor-check --color C5DEF5 \
+            --description "Automated internal link/anchor check (report-only)" 2>/dev/null || true
+
+          title="Internal links with dead pages or anchors (report-only)"
+          existing=$(gh issue list --label internal-anchor-check --state open \
+            --json number --jq '.[0].number // empty')
+
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file internal-anchor-report.md
+            echo "Updated existing issue #$existing"
+          else
+            gh issue create --title "$title" --label internal-anchor-check \
+              --body-file internal-anchor-report.md
+          fi
