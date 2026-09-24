@@ -3970,7 +3970,7 @@
         "module": "bf"
     },
     "CF.COMPACT": {
-        "group": "cf",
+        "group": "module",
         "acl_categories": [
             "@read",
             "@cuckoo"
@@ -8547,7 +8547,7 @@
         ]
     },
     "FT.ADD": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@write",
             "@search"
@@ -9450,7 +9450,7 @@
         "module": "search"
     },
     "FT.CONFIG": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@admin",
             "@search"
@@ -9879,7 +9879,7 @@
         "module": "search"
     },
     "FT.CURSOR": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@read",
             "@search"
@@ -9921,7 +9921,7 @@
         "module": "search"
     },
     "FT.CURSOR GC": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -9969,7 +9969,7 @@
         "module": "search"
     },
     "FT.DEL": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@write",
             "@search"
@@ -10091,7 +10091,7 @@
         "module": "search"
     },
     "FT.DROP": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@write",
             "@slow",
@@ -10230,7 +10230,7 @@
         "module": "search"
     },
     "FT.GET": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@read",
             "@search"
@@ -11245,7 +11245,7 @@
         "module": "search"
     },
     "FT.MGET": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@read",
             "@search"
@@ -11332,7 +11332,7 @@
         "module": "search"
     },
     "FT.SAFEADD": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@write",
             "@search"
@@ -11965,7 +11965,7 @@
     "FT.SUGADD": {
         "summary": "Adds a suggestion string to an auto-complete suggestion dictionary",
         "since": "1.0.0",
-        "group": "search",
+        "group": "suggestion",
         "complexity": "O(1)",
         "history": [
             [
@@ -12049,7 +12049,7 @@
     "FT.SUGDEL": {
         "summary": "Deletes a string from a suggestion index",
         "since": "1.0.0",
-        "group": "search",
+        "group": "suggestion",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
@@ -12101,7 +12101,7 @@
     "FT.SUGGET": {
         "summary": "Gets completion suggestions for a prefix",
         "since": "1.0.0",
-        "group": "search",
+        "group": "suggestion",
         "complexity": "O(1)",
         "history": [
             [
@@ -12186,7 +12186,7 @@
     "FT.SUGLEN": {
         "summary": "Gets the size of an auto-complete suggestion dictionary",
         "since": "1.0.0",
-        "group": "search",
+        "group": "suggestion",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -12228,7 +12228,7 @@
         "module": "search"
     },
     "FT.SYNADD": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@search"
         ],
@@ -12808,7 +12808,7 @@
         "module": "search"
     },
     "FT._DROPIFX": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@write",
             "@search"
@@ -23684,7 +23684,7 @@
         ]
     },
     "SEARCH.CLUSTERINFO": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@search"
         ],
@@ -23701,7 +23701,7 @@
         "module": "search"
     },
     "SEARCH.CLUSTERREFRESH": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@search"
         ],
@@ -23717,7 +23717,7 @@
         "module": "search"
     },
     "SEARCH.CLUSTERSET": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@search"
         ],
@@ -26546,7 +26546,7 @@
         ]
     },
     "TIMESERIES.CLUSTERSET": {
-        "group": "timeseries",
+        "group": "module",
         "arity": -1,
         "command_flags": [
             "readonly",
@@ -26556,7 +26556,7 @@
         "module": "timeseries"
     },
     "TIMESERIES.REFRESHCLUSTER": {
-        "group": "timeseries",
+        "group": "module",
         "arity": -1,
         "command_flags": [
             "readonly",
@@ -36194,7 +36194,7 @@
         ]
     },
     "_FT.CONFIG": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@admin",
             "@search"
@@ -36278,7 +36278,7 @@
         "module": "search"
     },
     "_FT.DEBUG": {
-        "group": "search",
+        "group": "module",
         "acl_categories": [
             "@admin",
             "@slow",
@@ -36293,7 +36293,7 @@
         "module": "search"
     },
     "_FT.DEBUG BG_SCAN_CONTROLLER": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36302,7 +36302,7 @@
         "module": "search"
     },
     "_FT.DEBUG CLEAR_PENDING_TOPOLOGY": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36311,7 +36311,7 @@
         "module": "search"
     },
     "_FT.DEBUG COORD_THREADS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36320,7 +36320,7 @@
         "module": "search"
     },
     "_FT.DEBUG DELETE_LOCAL_COORD_CURSORS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36329,7 +36329,7 @@
         "module": "search"
     },
     "_FT.DEBUG DELETE_LOCAL_CURSORS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36338,7 +36338,7 @@
         "module": "search"
     },
     "_FT.DEBUG DISK_FLUSH": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36347,7 +36347,7 @@
         "module": "search"
     },
     "_FT.DEBUG DISK_FLUSH_NOWAIT": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36356,7 +36356,7 @@
         "module": "search"
     },
     "_FT.DEBUG DISK_IO_CONTROL": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36365,7 +36365,7 @@
         "module": "search"
     },
     "_FT.DEBUG DISK_PAUSE_BG_WORK": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36374,7 +36374,7 @@
         "module": "search"
     },
     "_FT.DEBUG DISK_RESUME_BG_WORK": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36383,7 +36383,7 @@
         "module": "search"
     },
     "_FT.DEBUG DOCIDTOID": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36392,7 +36392,7 @@
         "module": "search"
     },
     "_FT.DEBUG DOCINFO": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36401,7 +36401,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_DELETED_IDS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36410,7 +36410,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_GEOMIDX": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36419,7 +36419,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_HNSW": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36428,7 +36428,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_INVIDX": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36437,7 +36437,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_NUMIDX": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36446,7 +36446,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_NUMIDXTREE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36455,7 +36455,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_PHONETIC_HASH": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36464,7 +36464,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_PREFIX_TRIE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36473,7 +36473,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_SCHEMA": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36482,7 +36482,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_SUFFIX_TRIE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36491,7 +36491,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_TAGIDX": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36500,7 +36500,7 @@
         "module": "search"
     },
     "_FT.DEBUG DUMP_TERMS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36509,7 +36509,7 @@
         "module": "search"
     },
     "_FT.DEBUG FORCE_PLAIN_HASH_NOTIFICATIONS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36518,7 +36518,7 @@
         "module": "search"
     },
     "_FT.DEBUG FT.AGGREGATE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36527,7 +36527,7 @@
         "module": "search"
     },
     "_FT.DEBUG FT.HYBRID": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36536,7 +36536,7 @@
         "module": "search"
     },
     "_FT.DEBUG FT.PROFILE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36545,7 +36545,7 @@
         "module": "search"
     },
     "_FT.DEBUG FT.SEARCH": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36554,7 +36554,7 @@
         "module": "search"
     },
     "_FT.DEBUG GC_CLEAN_NUMERIC": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36563,7 +36563,7 @@
         "module": "search"
     },
     "_FT.DEBUG GC_CONTINUE_SCHEDULE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36572,7 +36572,7 @@
         "module": "search"
     },
     "_FT.DEBUG GC_FORCEBGINVOKE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36581,7 +36581,7 @@
         "module": "search"
     },
     "_FT.DEBUG GC_FORCEINVOKE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36590,7 +36590,7 @@
         "module": "search"
     },
     "_FT.DEBUG GC_STOP_SCHEDULE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36599,7 +36599,7 @@
         "module": "search"
     },
     "_FT.DEBUG GC_TIMER_ARMS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36608,7 +36608,7 @@
         "module": "search"
     },
     "_FT.DEBUG GC_WAIT_FOR_JOBS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36617,7 +36617,7 @@
         "module": "search"
     },
     "_FT.DEBUG GET_HIDE_USER_DATA_FROM_LOGS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36626,7 +36626,7 @@
         "module": "search"
     },
     "_FT.DEBUG GET_MAX_DOC_ID": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36635,7 +36635,7 @@
         "module": "search"
     },
     "_FT.DEBUG GIT_SHA": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36644,7 +36644,7 @@
         "module": "search"
     },
     "_FT.DEBUG HASH_SUBKEY_NOTIFICATIONS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36653,7 +36653,7 @@
         "module": "search"
     },
     "_FT.DEBUG HELP": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36662,7 +36662,7 @@
         "module": "search"
     },
     "_FT.DEBUG IDTODOCID": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36671,7 +36671,7 @@
         "module": "search"
     },
     "_FT.DEBUG INDEXER_SLEEP_BEFORE_YIELD_MICROS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36680,7 +36680,7 @@
         "module": "search"
     },
     "_FT.DEBUG INDEXES": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36689,7 +36689,7 @@
         "module": "search"
     },
     "_FT.DEBUG INFO": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36698,7 +36698,7 @@
         "module": "search"
     },
     "_FT.DEBUG INFO_TAGIDX": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36707,7 +36707,7 @@
         "module": "search"
     },
     "_FT.DEBUG INVIDX_SUMMARY": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36716,7 +36716,7 @@
         "module": "search"
     },
     "_FT.DEBUG MOCK_REVALIDATE_TIMEOUT": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36725,7 +36725,7 @@
         "module": "search"
     },
     "_FT.DEBUG NUMERIC_BUCKET_MAP": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36734,7 +36734,7 @@
         "module": "search"
     },
     "_FT.DEBUG NUMIDX_SUMMARY": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36743,7 +36743,7 @@
         "module": "search"
     },
     "_FT.DEBUG PAUSE_TOPOLOGY_UPDATER": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36752,7 +36752,7 @@
         "module": "search"
     },
     "_FT.DEBUG QUERY_CONTROLLER": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36761,7 +36761,7 @@
         "module": "search"
     },
     "_FT.DEBUG REGISTER_TEST_SCORERS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36770,7 +36770,7 @@
         "module": "search"
     },
     "_FT.DEBUG RESUME_TOPOLOGY_UPDATER": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36779,7 +36779,7 @@
         "module": "search"
     },
     "_FT.DEBUG SET_MAX_INDEXES": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36788,7 +36788,7 @@
         "module": "search"
     },
     "_FT.DEBUG SET_MONITOR_EXPIRATION": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36797,7 +36797,7 @@
         "module": "search"
     },
     "_FT.DEBUG SHARD_CONNECTION_STATES": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36806,7 +36806,7 @@
         "module": "search"
     },
     "_FT.DEBUG SPEC_INVIDXES_INFO": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36815,7 +36815,7 @@
         "module": "search"
     },
     "_FT.DEBUG TTL": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36824,7 +36824,7 @@
         "module": "search"
     },
     "_FT.DEBUG TTL_EXPIRE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36833,7 +36833,7 @@
         "module": "search"
     },
     "_FT.DEBUG TTL_PAUSE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36842,7 +36842,7 @@
         "module": "search"
     },
     "_FT.DEBUG VECSIM_INFO": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36851,7 +36851,7 @@
         "module": "search"
     },
     "_FT.DEBUG VECSIM_MOCK_TIMEOUT": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36860,7 +36860,7 @@
         "module": "search"
     },
     "_FT.DEBUG WORKERS": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36869,7 +36869,7 @@
         "module": "search"
     },
     "_FT.DEBUG YIELDS_COUNTER": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36878,7 +36878,7 @@
         "module": "search"
     },
     "_FT.DEBUG _FT.AGGREGATE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36887,7 +36887,7 @@
         "module": "search"
     },
     "_FT.DEBUG _FT.HYBRID": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36896,7 +36896,7 @@
         "module": "search"
     },
     "_FT.DEBUG _FT.PROFILE": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
@@ -36905,7 +36905,7 @@
         "module": "search"
     },
     "_FT.DEBUG _FT.SEARCH": {
-        "group": "search",
+        "group": "module",
         "arity": -2,
         "command_flags": [
             "readonly",
