@@ -14,7 +14,7 @@ url: '/operate/rs/8.0/references/rest-api/requests/debuginfo/node/'
 ---
 
 {{<banner-article>}}
-This REST API path is deprecated as of Redis Software version 7.4.2. Use the new path [`/v1/nodes/debuginfo`]({{< relref "/operate/rs/8.0/references/rest-api/requests/nodes/debuginfo" >}}) instead.
+This REST API path is deprecated as of Redis Software version 7.4.2. Use the new path [`/v1/nodes/debuginfo`](/content/operate/rs/8.0/references/rest-api/requests/nodes/debuginfo.md) instead.
 {{</banner-article>}}
 
 | Method | Path | Description |
@@ -31,7 +31,7 @@ Downloads a tar file that contains debug info for the current node.
 
 | Permission name |
 |-----------------|
-| [view_debugging_info]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_debugging_info" >}}) |
+| [view_debugging_info](/content/operate/rs/8.0/references/rest-api/permissions.md#view_debugging_info) |
 
 ### Request {#get-request} 
 

@@ -31,7 +31,7 @@ Get the single sign-on configuration as JSON.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_sso]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_sso" >}}) | admin<br />user_manager |
+| [view_sso](/content/operate/rs/8.0/references/rest-api/permissions.md#view_sso) | admin<br />user_manager |
 
 ### Request {#get-request}
 
@@ -48,7 +48,7 @@ Get the single sign-on configuration as JSON.
 
 ### Response {#get-response}
 
-Returns an [SSO object]({{< relref "/operate/rs/8.0/references/rest-api/objects/sso" >}}).
+Returns an [SSO object](/content/operate/rs/8.0/references/rest-api/objects/sso.md).
 
 #### Example JSON body
 
@@ -90,7 +90,7 @@ Set or update the cluster single sign-on configuration.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [config_sso]({{< relref "/operate/rs/8.0/references/rest-api/permissions#config_sso" >}}) | admin<br />user_manager |
+| [config_sso](/content/operate/rs/8.0/references/rest-api/permissions.md#config_sso) | admin<br />user_manager |
 
 ### Request {#put-request}
 
@@ -125,7 +125,7 @@ Set or update the cluster single sign-on configuration.
 
 #### Request body
 
-Include an [SSO object]({{< relref "/operate/rs/8.0/references/rest-api/objects/sso" >}}) with updated fields in the request body.
+Include an [SSO object](/content/operate/rs/8.0/references/rest-api/objects/sso.md) with updated fields in the request body.
 
 ### Response {#put-response}
 
@@ -158,7 +158,7 @@ Clear the single sign-on configuration.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [config_sso]({{< relref "/operate/rs/8.0/references/rest-api/permissions#config_sso" >}}) | admin<br />user_manager |
+| [config_sso](/content/operate/rs/8.0/references/rest-api/permissions.md#config_sso) | admin<br />user_manager |
 
 ### Request {#delete-request}
 
@@ -202,7 +202,7 @@ Generates and returns the SAML2 service provider metadata XML.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_sso]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_sso" >}}) | admin<br />user_manager |
+| [view_sso](/content/operate/rs/8.0/references/rest-api/permissions.md#view_sso) | admin<br />user_manager |
 
 ### Request {#get-metadata-request}
 
@@ -258,7 +258,7 @@ Uploads and validates the SAML2 identity provider metadata XML.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [config_sso]({{< relref "/operate/rs/8.0/references/rest-api/permissions#config_sso" >}}) | admin<br />user_manager |
+| [config_sso](/content/operate/rs/8.0/references/rest-api/permissions.md#config_sso) | admin<br />user_manager |
 
 ### Request {#post-metadata-request}
 
@@ -289,7 +289,7 @@ Uploads and validates the SAML2 identity provider metadata XML.
 
 ### Response {#post-metadata-response}
 
-Returns an [SSO object]({{< relref "/operate/rs/8.0/references/rest-api/objects/sso" >}}) with the updated configuration.
+Returns an [SSO object](/content/operate/rs/8.0/references/rest-api/objects/sso.md) with the updated configuration.
 
 #### Example JSON body
 

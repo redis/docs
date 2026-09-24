@@ -13,7 +13,7 @@ url: '/operate/rs/8.0/references/rest-api/objects/statistics/node-metrics/'
 ---
 
 {{<banner-article>}}
-The v1 statistics REST API endpoints are deprecated as of Redis Software version 7.22. Use the [metrics stream engine for monitoring v2]({{< relref "/operate/rs/8.0/monitoring/metrics_stream_engine" >}}) instead for real-time monitoring and metrics collection.
+The v1 statistics REST API endpoints are deprecated as of Redis Software version 7.22. Use the [metrics stream engine for monitoring v2](/content/operate/rs/8.0/monitoring/metrics_stream_engine/_index.md) instead for real-time monitoring and metrics collection.
 {{</banner-article>}}
 
 | Metric name | Type | Description |

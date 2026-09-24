@@ -18,10 +18,10 @@ An object that represents an Active-Active database.
 |------|------------|-------------|
 | guid | string | The global unique ID of the Active-Active database |
 | causal_consistency | boolean | Enables causal consistency across CRDT instances |
-| default_db_config| [CRDB database_config]({{< relref "/operate/rs/8.0/references/rest-api/objects/crdb/database_config" >}}) object | Default database configuration applied to all instances in the CRDB object. In most cases, instances should use the same configuration. If you need to override `default_db_config` or add configuration values for specific instances, you can use `db_config` in individual [instance objects]({{< relref "/operate/rs/8.0/references/rest-api/objects/crdb/instance_info" >}}). For a list of which settings must be identical across all instances and which to set per instance, see the [CRDB database config object]({{<relref "/operate/rs/8.0/references/rest-api/objects/crdb/database_config">}}) reference. |
+| default_db_config| [CRDB database_config](/content/operate/rs/8.0/references/rest-api/objects/crdb/database_config.md) object | Default database configuration applied to all instances in the CRDB object. In most cases, instances should use the same configuration. If you need to override `default_db_config` or add configuration values for specific instances, you can use `db_config` in individual [instance objects](/content/operate/rs/8.0/references/rest-api/objects/crdb/instance_info.md). For a list of which settings must be identical across all instances and which to set per instance, see the [CRDB database config object](/content/operate/rs/8.0/references/rest-api/objects/crdb/database_config.md) reference. |
 | encryption | boolean | Encrypt communication |
 | featureset_version | integer | Active-Active database active FeatureSet version
-| instances | array of [CRDB instance_info]({{< relref "/operate/rs/8.0/references/rest-api/objects/crdb/instance_info" >}}) objects | |
+| instances | array of [CRDB instance_info](/content/operate/rs/8.0/references/rest-api/objects/crdb/instance_info.md) objects | |
 | local_databases | object | Mapping of instance IDs for local databases to local BDB IDs<br />{{<code>}}[{
   "bdb_uid": string,
   "id": integer

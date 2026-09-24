@@ -12,7 +12,7 @@ weight: 80
 url: '/operate/rs/8.0/references/compatibility/resp/'
 ---
 
-RESP (Redis Serialization Protocol) is the protocol that clients use to communicate with Redis databases. See the [RESP protocol specification]({{< relref "/develop/reference/protocol-spec" >}}) for more information.
+RESP (Redis Serialization Protocol) is the protocol that clients use to communicate with Redis databases. See the [RESP protocol specification](/content/develop/reference/protocol-spec.md) for more information.
 
 ## Supported RESP versions
 
@@ -20,9 +20,8 @@ RESP (Redis Serialization Protocol) is the protocol that clients use to communic
 
 - RESP3 is supported by Redis Software 7.2 and later.
 
-{{<note>}}
-Redis Software versions that support RESP3 continue to support RESP2.
-{{</note>}}
+> [!NOTE]
+> Redis Software versions that support RESP3 continue to support RESP2.
 
 
 ## Enable RESP3 for a database {#enable-resp3}
@@ -39,7 +38,7 @@ To use RESP3 with a Redis Software database:
 
 1. Enable RESP3 support for your database (`enabled` by default):
 
-    - [`rladmin tune db`]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/tune#tune-db" >}}):
+    - [`rladmin tune db`](/content/operate/rs/8.0/references/cli-utilities/rladmin/tune.md#tune-db):
 
         ```sh
         rladmin tune db db:<ID> resp3 enabled
@@ -47,7 +46,7 @@ To use RESP3 with a Redis Software database:
 
         You can use the database name in place of `db:<ID>` in the preceding command.
 
-    - [Update database configuration]({{< relref "/operate/rs/8.0/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
+    - [Update database configuration](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#put-bdbs) REST API request:
 
         ```sh
         PUT /v1/bdbs/<uid> 
@@ -58,7 +57,7 @@ To use RESP3 with a Redis Software database:
 
  To deactivate RESP3 support for a database:
 
-- [`rladmin tune db`]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/tune#tune-db" >}}):
+- [`rladmin tune db`](/content/operate/rs/8.0/references/cli-utilities/rladmin/tune.md#tune-db):
 
      ```sh
     rladmin tune db db:<ID> resp3 disabled
@@ -66,7 +65,7 @@ To use RESP3 with a Redis Software database:
 
     You can use the database name in place of `db:<ID>` in the preceding command.
 
-- [Update database configuration]({{< relref "/operate/rs/8.0/references/rest-api/requests/bdbs#put-bdbs" >}}) REST API request:
+- [Update database configuration](/content/operate/rs/8.0/references/rest-api/requests/bdbs/_index.md#put-bdbs) REST API request:
 
     ```sh
     PUT /v1/bdbs/<uid> 
@@ -75,9 +74,8 @@ To use RESP3 with a Redis Software database:
 
  When RESP3 is deactivated, connected clients that use RESP3 are disconnected from the database.
 
-{{<note>}}
-You cannot use sharded pub/sub if you deactivate RESP3 support. When RESP3 is enabled, you can use sharded pub/sub with either RESP2 or RESP3.
-{{</note>}}
+> [!NOTE]
+> You cannot use sharded pub/sub if you deactivate RESP3 support. When RESP3 is enabled, you can use sharded pub/sub with either RESP2 or RESP3.
 
 ## Change default RESP3 option
 
@@ -95,13 +93,13 @@ To change `resp3_default` to `disabled`, use one of the following methods:
 
     1. Click **Save**.
 
-- [`rladmin tune cluster`]({{< relref "/operate/rs/8.0/references/cli-utilities/rladmin/tune#tune-cluster" >}})
+- [`rladmin tune cluster`](/content/operate/rs/8.0/references/cli-utilities/rladmin/tune.md#tune-cluster)
 
     ```sh
     rladmin tune cluster resp3_default disabled
     ```
 
-- [Update cluster policy]({{< relref "/operate/rs/8.0/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) REST API request:
+- [Update cluster policy](/content/operate/rs/8.0/references/rest-api/requests/cluster/policy.md#put-cluster-policy) REST API request:
 
     ```sh
     PUT /v1/cluster/policy 

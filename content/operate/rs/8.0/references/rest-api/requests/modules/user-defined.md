@@ -32,7 +32,7 @@ Returns a list of all custom module artifacts on the local node.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_cluster_modules]({{< relref "/operate/rs/8.0/references/rest-api/permissions#view_cluster_modules" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
+| [view_cluster_modules](/content/operate/rs/8.0/references/rest-api/permissions.md#view_cluster_modules) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer<br />user_manager |
 
 ### Request {#get-local-artifacts-request}
 
@@ -86,7 +86,7 @@ Creates a module object in the cluster configuration store (CCS). After calling 
 
 | Permission name | Roles |
 |-----------------|-------|
-| [manage_cluster_modules]({{< relref "/operate/rs/8.0/references/rest-api/permissions#manage_cluster_modules" >}}) | admin |
+| [manage_cluster_modules](/content/operate/rs/8.0/references/rest-api/permissions.md#manage_cluster_modules) | admin |
 
 ### Request {#post-user-defined-request}
 
@@ -144,7 +144,7 @@ The request body is a JSON object that must contain the following fields:
 
 ### Response {#post-user-defined-response}
 
-Returns a [module object]({{< relref "/operate/rs/8.0/references/rest-api/objects/module" >}}).
+Returns a [module object](/content/operate/rs/8.0/references/rest-api/objects/module.md).
 
 #### Example JSON body
 
@@ -187,7 +187,7 @@ The module must be packaged as a `.zip` file containing:
 
 | Permission name | Roles |
 |-----------------|-------|
-| [manage_cluster_modules]({{< relref "/operate/rs/8.0/references/rest-api/permissions#manage_cluster_modules" >}}) | admin |
+| [manage_cluster_modules](/content/operate/rs/8.0/references/rest-api/permissions.md#manage_cluster_modules) | admin |
 
 ### Request {#post-local-artifacts-request}
 
@@ -231,7 +231,7 @@ Delete a module object from the cluster configuration store (CCS). This REST API
 
 | Permission name | Roles |
 |-----------------|-------|
-| [manage_cluster_modules]({{< relref "/operate/rs/8.0/references/rest-api/permissions#manage_cluster_modules" >}}) | admin |
+| [manage_cluster_modules](/content/operate/rs/8.0/references/rest-api/permissions.md#manage_cluster_modules) | admin |
 
 ### Request {#delete-user-defined-request}
 
@@ -279,7 +279,7 @@ A local API to delete a custom module's artifact from the current node. You must
 
 | Permission name | Roles |
 |-----------------|-------|
-| [manage_cluster_modules]({{< relref "/operate/rs/8.0/references/rest-api/permissions#manage_cluster_modules" >}}) | admin |
+| [manage_cluster_modules](/content/operate/rs/8.0/references/rest-api/permissions.md#manage_cluster_modules) | admin |
 
 ### Request {#delete-local-artifacts-request}
 

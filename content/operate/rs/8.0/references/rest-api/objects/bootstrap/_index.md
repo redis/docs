@@ -17,10 +17,10 @@ A bootstrap configuration object.
 | Name | Type/Value | Description |
 |------|------------|-------------|
 | action | 'create_cluster'<br />'join_cluster'<br />'recover_cluster' | Action to perform |
-| cluster | [cluster_identity]({{< relref "/operate/rs/8.0/references/rest-api/objects/bootstrap/cluster_identity" >}}) object | Cluster to join or create |
+| cluster | [cluster_identity](/content/operate/rs/8.0/references/rest-api/objects/bootstrap/cluster_identity.md) object | Cluster to join or create |
 | cnm_https_port | integer | Port to join a cluster with non-default cnm_https port |
 | crdb_coordinator_port | integer, (range: 1024-65535) (default: 9081) | CRDB coordinator port |
-| credentials | [credentials]({{< relref "/operate/rs/8.0/references/rest-api/objects/bootstrap/credentials" >}}) object | Cluster admin credentials |
+| credentials | [credentials](/content/operate/rs/8.0/references/rest-api/objects/bootstrap/credentials.md) object | Cluster admin credentials |
 | dns_suffixes | object | Explicit configuration of DNS suffixes<br />{{<code>}}
 [{
   "name": string,
@@ -35,12 +35,12 @@ A bootstrap configuration object.
 | <span class="break-all">gossip_envoy_admin_port</span> | integer, (range: 1024-65535) | Gossip envoy admin port (deprecated; this port is no longer used because gossip functionality is handled by the main envoy process on `envoy_admin_port`) |
 | license | string | License string. If not provided, a trial license is set by default. |
 | max_retries | integer | Max number of retries in case of recoverable errors |
-| node | [node_identity]({{< relref "/operate/rs/8.0/references/rest-api/objects/bootstrap/node_identity" >}}) object | Node description |
-| policy | [policy]({{< relref "/operate/rs/8.0/references/rest-api/objects/bootstrap/policy" >}}) object | Policy object (deprecated; use [`PUT /v1/cluster/policy`]({{< relref "/operate/rs/8.0/references/rest-api/requests/cluster/policy#put-cluster-policy" >}}) after cluster creation instead) |
+| node | [node_identity](/content/operate/rs/8.0/references/rest-api/objects/bootstrap/node_identity.md) object | Node description |
+| policy | [policy](/content/operate/rs/8.0/references/rest-api/objects/bootstrap/policy.md) object | Policy object (deprecated; use [`PUT /v1/cluster/policy`](/content/operate/rs/8.0/references/rest-api/requests/cluster/policy.md#put-cluster-policy) after cluster creation instead) |
 | recovery_filename | string | Name of backup file to recover from |
 | required_version | string | This node can only join the cluster if all nodes in the cluster have a version greater than the required_version (deprecated as of Redis Software v7.8.6) |
 | retry_time | integer | Max waiting time between retries (in seconds) |
-| user_defined_modules | array of [user_defined_module]({{< relref "/operate/rs/8.0/references/rest-api/objects/bootstrap/user_defined_module" >}}) objects | List of custom modules to download and install during bootstrap. Each node downloads and installs the modules independently. |
+| user_defined_modules | array of [user_defined_module](/content/operate/rs/8.0/references/rest-api/objects/bootstrap/user_defined_module.md) objects | List of custom modules to download and install during bootstrap. Each node downloads and installs the modules independently. |
 | witness_disk | object | An API object that represents the Witness Disk bootstrap configuration |
 
 
