@@ -14,9 +14,8 @@ weight: 50
 
 ## Enable password expiration
 
-{{<warning>}}
-Password expiration is calculated from the time the password was last updated, not from when the policy is enabled. Passwords that were set long enough ago to already be expired will immediately be locked out when you enable this policy. Before enabling password expiration, verify all user passwords have been updated recently enough to avoid immediate lockouts.
-{{</warning>}}
+> [!WARNING]
+> Password expiration is calculated from the time the password was last updated, not from when the policy is enabled. Passwords that were set long enough ago to already be expired will immediately be locked out when you enable this policy. Before enabling password expiration, verify all user passwords have been updated recently enough to avoid immediate lockouts.
 
 To enforce an expiration of a user's password after a specified number of days:
 

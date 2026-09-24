@@ -18,23 +18,21 @@ The communications for which you can modify TLS protocols are:
 
 - Control plane - The TLS configuration for cluster administration.
 - Data plane - The TLS configuration for the communication between applications and databases.
-- Discovery service (Sentinel) - The TLS configuration for the [discovery service]({{< relref "/operate/rs/databases/durability-ha/discovery-service.md" >}}).
+- Discovery service (Sentinel) - The TLS configuration for the [discovery service](/content/operate/rs/databases/durability-ha/discovery-service.md).
 
-You can configure TLS protocols with the [Cluster Manager UI](#edit-tls-ui), [`rladmin`]({{< relref "/operate/rs/references/cli-utilities/rladmin/cluster/config" >}}), or the [REST API]({{< relref "/operate/rs/references/rest-api/requests/cluster#put-cluster" >}}).
+You can configure TLS protocols with the [Cluster Manager UI](#edit-tls-ui), [`rladmin`](/content/operate/rs/references/cli-utilities/rladmin/cluster/config.md), or the [REST API](/content/operate/rs/references/rest-api/requests/cluster/_index.md#put-cluster).
 
-{{<warning>}}
-- After you set the minimum TLS version, Redis Software does not accept communications with TLS versions older than the specified version.
-
-- If you set TLS 1.3 as the minimum TLS version, clients must support TLS 1.3 to connect to Redis Software.
-{{</warning>}}
+> [!WARNING]
+> - After you set the minimum TLS version, Redis Software does not accept communications with TLS versions older than the specified version.
+>
+> - If you set TLS 1.3 as the minimum TLS version, clients must support TLS 1.3 to connect to Redis Software.
 
 TLS support depends on the operating system. You cannot enable support for protocols or versions that aren't supported by the operating system running Redis Software.  In addition, updates to the operating system or to Redis Software can impact protocol and version support.  
 
 If you have trouble enabling specific versions of TLS, verify that they're supported by your operating system and that they're configured correctly.
 
-{{<note>}}
-TLSv1.2 is generally recommended as the minimum TLS version for encrypted communications. Check with your security team to confirm which TLS protocols meet your organization's policies.
-{{</note>}}
+> [!NOTE]
+> TLSv1.2 is generally recommended as the minimum TLS version for encrypted communications. Check with your security team to confirm which TLS protocols meet your organization's policies.
 
 ### Edit TLS settings in the UI {#edit-tls-ui}
 
