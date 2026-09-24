@@ -30,7 +30,7 @@ Get the cluster's certificates.
 
 | Permission name |
 |-----------------|
-| [view_cluster_info]({{< relref "/operate/rs/7.22/references/rest-api/permissions#view_cluster_info" >}}) |
+| [view_cluster_info](/content/operate/rs/7.22/references/rest-api/permissions.md#view_cluster_info) |
 
 ### Request {#get-request} 
 
@@ -75,7 +75,7 @@ PUT /v1/cluster/certificates
 
 Replaces multiple cluster certificates with the provided certificates on all nodes within the cluster. This endpoint validates all provided certificates before actually updating the cluster.
 
-See the [certificates table]({{< relref "/operate/rs/7.22/security/certificates" >}}) for the list of cluster certificates and their descriptions.
+See the [certificates table](/content/operate/rs/7.22/security/certificates/_index.md) for the list of cluster certificates and their descriptions.
 
 ### Request {#put-certificates-request}
 
@@ -113,7 +113,7 @@ PUT /v1/cluster/certificates
 
 #### Request body
 
-Include an array of [certificate objects]({{<relref "/operate/rs/7.22/references/rest-api/objects/certificates">}}) in the request body.
+Include an array of [certificate objects](/content/operate/rs/7.22/references/rest-api/objects/certificates.md) in the request body.
 
 ### Response {#put-certificates-response}
 
@@ -137,13 +137,12 @@ If the response returns a failed status code, you should retry updating the cert
 PUT /v1/cluster/update_cert
 ```
 
-{{<note>}}
-This REST API path is deprecated as of Redis Enterprise Software 7.22.2 and will be removed in a future version. Use [`PUT /v1/cluster/certificates`](#put-cluster-certificates) instead.
-{{</note>}}
+> [!NOTE]
+> This REST API path is deprecated as of Redis Enterprise Software 7.22.2 and will be removed in a future version. Use [`PUT /v1/cluster/certificates`](#put-cluster-certificates) instead.
 
 Replaces an existing certificate on all nodes within the cluster with a new certificate. The new certificate must pass validation before it can replace the old certificate.
 
-See the [certificates table]({{< relref "/operate/rs/7.22/security/certificates" >}}) for the list of cluster certificates and their descriptions.
+See the [certificates table](/content/operate/rs/7.22/security/certificates/_index.md) for the list of cluster certificates and their descriptions.
 
 ### Request {#put-request}
 
@@ -189,7 +188,7 @@ Otherwise, retry the certificate update in case the failure was due to a tempora
 
 Removes the specified cluster certificate from both CCS and disk
 across all nodes. Only optional certificates can be deleted through
-this endpoint. See the [certificates table]({{< relref "/operate/rs/7.22/security/certificates" >}}) for the list of cluster certificates and their descriptions.
+this endpoint. See the [certificates table](/content/operate/rs/7.22/security/certificates/_index.md) for the list of cluster certificates and their descriptions.
 
 ### Request {#delete-request} 
 
