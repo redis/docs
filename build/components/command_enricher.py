@@ -1,7 +1,7 @@
 """
 Command Enricher
 
-Enriches extracted CLI command names with metadata from commands_core.json.
+Enriches extracted CLI command names with metadata from commands.json.
 Generates command reference links and handles missing/deprecated commands.
 """
 
@@ -14,12 +14,12 @@ import os
 _commands_cache = None
 
 
-def load_commands_metadata(commands_file='data/commands_core.json'):
+def load_commands_metadata(commands_file='data/commands.json'):
     """
     Load Redis commands metadata from JSON file.
-    
+
     Args:
-        commands_file: Path to commands_core.json
+        commands_file: Path to commands.json
         
     Returns:
         Dictionary mapping command names to metadata
@@ -40,7 +40,7 @@ def load_commands_metadata(commands_file='data/commands_core.json'):
             data = json.load(f)
 
         # Build lookup dictionary
-        # commands_core.json has structure: {"COMMAND_NAME": {...}, ...}
+        # commands.json has structure: {"COMMAND_NAME": {...}, ...}
         if isinstance(data, dict):
             for cmd_name, cmd_data in data.items():
                 if isinstance(cmd_data, dict):
@@ -56,13 +56,13 @@ def load_commands_metadata(commands_file='data/commands_core.json'):
     return _commands_cache
 
 
-def enrich_commands(command_names, commands_file='data/commands_core.json'):
+def enrich_commands(command_names, commands_file='data/commands.json'):
     """
-    Enrich command names with metadata from commands_core.json.
-    
+    Enrich command names with metadata from commands.json.
+
     Args:
         command_names: List of command names (strings)
-        commands_file: Path to commands_core.json
+        commands_file: Path to commands.json
         
     Returns:
         List of enriched command objects with metadata

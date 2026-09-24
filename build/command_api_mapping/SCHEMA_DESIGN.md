@@ -54,7 +54,7 @@ Each client language has an array of signature objects:
 
 ### Top Level
 - **Command Name** (key): Redis command name (e.g., "SET", "HSET", "ACL CAT")
-  - Matches command names from `commands_core.json`, `commands_redisearch.json`, etc.
+  - Matches command names from `commands.json`
   - Includes deprecated commands
   - Includes module commands
 
