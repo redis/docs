@@ -11,13 +11,13 @@ linktitle: Persistence
 weight: 30
 ---
 
-Data is stored in RAM or a combination of RAM and flash memory ([Redis Flex and Auto Tiering]({{< relref "/operate/rs/databases/flash/" >}})), which risks data loss during process or server failures. Redis Software supports multiple methods to persist data to disk on a per-database basis to ensure data durability.
+Data is stored in RAM or a combination of RAM and flash memory ([Redis Flex and Auto Tiering](/content/operate/rs/databases/flash/_index.md)), which risks data loss during process or server failures. Redis Software supports multiple methods to persist data to disk on a per-database basis to ensure data durability.
 
 You can configure [persistence](https://redis.com/redis-enterprise/technology/durable-redis/) during database creation or by editing an existing database. Although the persistence model can be changed dynamically, the switch can take time depending on the database size and the models being switched.
 
 ## Configure database persistence
 
-You can configure persistence when you [create a database]({{< relref "/operate/rs/databases/create" >}}), or you can edit an existing database's configuration:
+You can configure persistence when you [create a database](/content/operate/rs/databases/create.md), or you can edit an existing database's configuration:
 
 1. From the **Databases** list, select the database, then select **Configuration**.
 
@@ -60,9 +60,8 @@ Append-only file (AOF) - fsync every write - Redis Software sets the Redis direc
 
 Append-only file (AOF) - fsync every 1 sec - Redis will fsync any newly written data every second. This policy balances performance and durability and should be used when minimal data loss is acceptable in the event of a failure. This is the default Redis policy. This policy could result in between 1 and 2 seconds worth of data loss but on average this will be closer to one second.
 
-{{< note >}}
-If you use AOF for persistence, enable replication to improve performance. When both features are enabled for a database, the replica handles persistence, which prevents any performance impact on the master.
-{{< /note >}}
+> [!NOTE]
+> If you use AOF for persistence, enable replication to improve performance. When both features are enabled for a database, the replica handles persistence, which prevents any performance impact on the master.
 
 **For use cases where data loss is tolerable or recoverable for extended periods of time:**
 

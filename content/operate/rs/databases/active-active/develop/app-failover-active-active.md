@@ -15,9 +15,8 @@ An application deployed with an Active-Active database connects to a replica of 
 If that replica is not available, the application can failover to a remote replica, and failback again if necessary.
 In this article we explain how this process works.
 
-{{<note>}}
-For other disaster recovery strategies including network-based, proxy-based, and client library approaches, see [Active-Active disaster recovery strategies]({{<relref "/operate/rs/databases/active-active/disaster-recovery">}}).
-{{</note>}}
+> [!NOTE]
+> For other disaster recovery strategies including network-based, proxy-based, and client library approaches, see [Active-Active disaster recovery strategies](/content/operate/rs/databases/active-active/disaster-recovery/_index.md).
 
 Active-Active connection failover can improve data availability, but can negatively impact data consistency.
 Active-Active replication, like Redis replication, is asynchronous.
@@ -32,7 +31,7 @@ Your application can detect two types of failure:
 1. **Local failures** - The local replica is down or otherwise unavailable
 1. **Replication failures** - The local replica is available but fails to replicate to or from remote replicas
 
-You can also use [database availability API requests]({{<relref "/operate/rs/monitoring/db-availability">}}) to determine if a database replica is available to handle read and write operations. The lag-aware database availability requests considers CRDT replication lag as a health check criterion to prevent reading stale data during failback scenarios.
+You can also use [database availability API requests](/content/operate/rs/monitoring/db-availability.md) to determine if a database replica is available to handle read and write operations. The lag-aware database availability requests considers CRDT replication lag as a health check criterion to prevent reading stale data during failback scenarios.
 
 ### Local Failures
 
@@ -44,9 +43,8 @@ Replication failures are more difficult to detect reliably without causing false
 
 The most reliable method for health-checking replication is by using the Redis publish/subscribe (pub/sub) mechanism.
 
-{{< note >}}
-Note that this document does not suggest that Redis pub/sub is reliable in the common sense. Messages can get lost in certain conditions, but that is acceptable in this case because typically the application determines that replication is down only after not being able to deliver a number of messages over a period of time.
-{{< /note >}}
+> [!NOTE]
+> Note that this document does not suggest that Redis pub/sub is reliable in the common sense. Messages can get lost in certain conditions, but that is acceptable in this case because typically the application determines that replication is down only after not being able to deliver a number of messages over a period of time.
 
 When you use the pub/sub data type to detect failures, the application:
 

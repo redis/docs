@@ -23,9 +23,8 @@ As of Redis Software version 8.0.16, the Cluster Manager UI supports both [globa
 
 Global configuration changes are applied to all participating clusters in the Active-Active database. However, if your Active-Active mesh contains local configurations, they will continue to override global settings on the database instances where they are applied.
 
-{{< warning >}}
-Applying global configuration changes will override any local settings created using the API or earlier Cluster Manager UI versions. To keep local changes, manage them in the [**Local** configuration tab](#change-local-configuration).
-{{< /warning >}}
+> [!WARNING]
+> Applying global configuration changes will override any local settings created using the API or earlier Cluster Manager UI versions. To keep local changes, manage them in the [**Local** configuration tab](#change-local-configuration).
 
 <br />
 
@@ -47,7 +46,7 @@ To make global configuration changes in the Cluster Manager UI:
 
 -tab-sep-
 
-To change the global configuration from the command line, use [`crdb-cli crdb update`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/crdb/update" >}}):
+To change the global configuration from the command line, use [`crdb-cli crdb update`](/content/operate/rs/references/cli-utilities/crdb-cli/crdb/update.md):
 
 ```sh
 crdb-cli crdb update --crdb-guid <guid> --<setting-name> <setting-value>
@@ -81,7 +80,7 @@ To change the local configuration in the Cluster Manager UI:
 
 -tab-sep-
 
-To change the local configuration from the command line, use [`rladmin tune db`]({{< relref "/operate/rs/references/cli-utilities/rladmin/tune#tune-db" >}}):
+To change the local configuration from the command line, use [`rladmin tune db`](/content/operate/rs/references/cli-utilities/rladmin/tune.md#tune-db):
 
 ```sh
 rladmin tune db { db:<id> | <name> } <setting-name> <setting-value>
@@ -108,7 +107,7 @@ On the **Local** configuration tab, any locally configured settings that differ 
 ## Participating clusters
 
 You can add and remove participating clusters of an Active-Active database to change the topology.
-To manage the changes to Active-Active topology, use [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli/" >}}) or the participating clusters list in the Cluster Manager UI.
+To manage the changes to Active-Active topology, use [`crdb-cli`](/content/operate/rs/references/cli-utilities/crdb-cli/_index.md) or the participating clusters list in the Cluster Manager UI.
 
 ### Add participating clusters
 
@@ -119,9 +118,8 @@ After you add new participating clusters to an existing Active-Active database,
 the new database instance can accept connections and read operations.
 The new instance does not accept write operations until it is in the syncing state.
 
-{{<note>}}
-If an Active-Active database [runs on flash memory]({{<relref "/operate/rs/databases/flash">}}), you cannot add participating clusters that run on RAM only.
-{{</note>}}
+> [!NOTE]
+> If an Active-Active database [runs on flash memory](/content/operate/rs/databases/flash/_index.md), you cannot add participating clusters that run on RAM only.
 
 To add a new participating cluster to an existing Active-Active configuration using the Cluster Manager UI:
 
@@ -165,13 +163,13 @@ To remove a participating cluster using the Cluster Manager UI:
 
 ## Replication backlog
 
-Redis databases that use [replication for high availability]({{< relref "/operate/rs/databases/durability-ha/replication.md" >}}) maintain a replication backlog (per shard) to synchronize the primary and replica shards of a database. In addition to the database replication backlog, Active-Active databases maintain a backlog (per shard) to synchronize the database instances between clusters.
+Redis databases that use [replication for high availability](/content/operate/rs/databases/durability-ha/replication.md) maintain a replication backlog (per shard) to synchronize the primary and replica shards of a database. In addition to the database replication backlog, Active-Active databases maintain a backlog (per shard) to synchronize the database instances between clusters.
 
 By default, both the database and Active-Active replication backlogs are set to one percent (1%) of the database size divided by the number of shards. This can range between 1MB to 250MB per shard for each backlog.
 
 ### Change the replication backlog size
 
-Use the [`crdb-cli`]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) utility to control the size of the replication backlogs. You can set it to `auto` or set a specific size.  
+Use the [`crdb-cli`](/content/operate/rs/references/cli-utilities/crdb-cli/_index.md) utility to control the size of the replication backlogs. You can set it to `auto` or set a specific size.  
 
 Update the database replication backlog configuration with the `crdb-cli` command shown below.
 

@@ -61,7 +61,7 @@ is 3, you can increase the number of shards to 6, 9, or 12.
 
 ### Standard hashing policy
 
-When using the standard hashing policy, a clustered Redis Software database behaves similarly to a standard [Redis Open Source cluster]({{< relref "/operate/oss_and_stack/reference/cluster-spec" >}}#hash-tags), except when using multiple hash tags in a key's name. We recommend using only a single hash tag in a key name for hashing in Redis Software.
+When using the standard hashing policy, a clustered Redis Software database behaves similarly to a standard [Redis Open Source cluster](/content/operate/oss_and_stack/reference/cluster-spec.md#hash-tags), except when using multiple hash tags in a key's name. We recommend using only a single hash tag in a key name for hashing in Redis Software.
 
 - **Keys with a hash tag**: a key's hash tag is any substring between
     `{` and `}` in the key's name. When a key's name
@@ -134,11 +134,10 @@ Examples of such changes include:
 - Adding new rules in the custom hashing policy.
 - Deleting rules from the custom hashing policy.
 
-{{< note >}}
-The recommended workaround for updates that are not enabled,
-or require flushing the database,
-is to back up the database and import the data to a newly configured database.
-{{< /note >}}
+> [!NOTE]
+> The recommended workaround for updates that are not enabled,
+> or require flushing the database,
+> is to back up the database and import the data to a newly configured database.
 
 ## Multi-key operations {#multikey-operations}
 
@@ -155,14 +154,14 @@ the following limitations:
     Commands that affect all keys or keys that match a specified pattern are allowed
     in a clustered database, for example: FLUSHDB, FLUSHALL, KEYS
 
-    {{< note >}}
-When using these commands in a sharded setup,
-the command is distributed across multiple shards
-and the responses from all shards are combined into a single response.
-    {{< /note >}}
+    > [!NOTE]
+    > When using these commands in a sharded setup,
+    > the command is distributed across multiple shards
+    > and the responses from all shards are combined into a single response.
+    >
 
-- **Geo commands**: For the [GEORADIUS]({{< relref "/commands/georadius" >}}) and
-    [GEORADIUSBYMEMBER]({{< relref "/commands/georadiusbymember" >}}) commands, the
+- **Geo commands**: For the [GEORADIUS](/content/commands/georadius.md) and
+    [GEORADIUSBYMEMBER](/content/commands/georadiusbymember.md) commands, the
     STORE and STOREDIST options can only be used when all affected keys
     reside in the same slot.
 - **Transactions**: All operations within a WATCH / MULTI / EXEC block
