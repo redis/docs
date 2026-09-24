@@ -12,7 +12,7 @@ toc: 'true'
 weight: 10
 ---
 
-The following tables show which Redis Open Source [server management commands](/commands/?group=server) are compatible with standard and Active-Active databases in Redis Software and Redis Cloud.
+The following tables show which Redis Open Source [server management commands](/content/commands?group=server) are compatible with standard and Active-Active databases in Redis Software and Redis Cloud.
 
 ## Access control commands
 
