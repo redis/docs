@@ -25,7 +25,7 @@ Redis ACLs are defined by a [Redis syntax](/content/operate/oss_and_stack/manage
 
 ### Commands and categories
 
-Redis ACL rules can allow or block specific [Redis commands](/commands) or [command categories](/content/operate/oss_and_stack/management/security/acl.md#command-categories).
+Redis ACL rules can allow or block specific [Redis commands](/content/commands) or [command categories](/content/operate/oss_and_stack/management/security/acl.md#command-categories).
 
 - `+` includes commands
 

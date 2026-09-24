@@ -38,7 +38,7 @@ redis-cli -h redis-12345.cluster.local -p 9443 -a xyz flushall
 ```
 
 > [!NOTE]
-> Port 9443 is the default [port configuration](/content/operate/rs/7.4/networking/port-configurations.md#https://docs.redis.com/latest/rs/networking/port-configurations#ports-and-port-ranges-used-by-redis-enterprise-software).
+> Port 9443 is the default [port configuration](/content/operate/rs/7.4/networking/port-configurations.md#ports-and-port-ranges-used-by-redis-enterprise-software).
 
 
 ## Flush data from an Active-Active database
