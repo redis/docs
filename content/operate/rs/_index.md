@@ -54,7 +54,7 @@ Use command-line utilities and the REST API to manage the cluster and databases.
 - [rladmin](/content/operate/rs/references/cli-utilities/rladmin/_index.md), [crdb-cli](/content/operate/rs/references/cli-utilities/crdb-cli/_index.md), & [other utilities](/content/operate/rs/references/cli-utilities/_index.md)
 - [`redisctl`](https://github.com/redis/redisctl) — a unified CLI for managing Redis Software and Redis Cloud from your terminal
 - [REST API reference](/content/operate/rs/references/rest-api/_index.md) & [examples](/content/operate/rs/references/rest-api/quick-start.md)
-- [Redis commands](/commands)
+- [Redis commands](/content/commands)
 
 ## Archive
 

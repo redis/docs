@@ -22,7 +22,7 @@ Redis ACLs are defined by a set of rules where you specify the commands or comma
 
 ### Commands and categories
 
-Redis ACL rules can allow or block specific [Redis commands](/commands) or [command categories](/content/operate/oss_and_stack/management/security/acl.md#command-categories).
+Redis ACL rules can allow or block specific [Redis commands](/content/commands) or [command categories](/content/operate/oss_and_stack/management/security/acl.md#command-categories).
 
 - `+` includes commands
 

@@ -11,7 +11,7 @@ linkTitle: Scripting
 weight: 10
 ---
 
-The following table shows which Redis Open Source [scripting and function commands](/commands/?group=scripting) are compatible with standard and Active-Active databases in Redis Software and Redis Cloud.
+The following table shows which Redis Open Source [scripting and function commands](/content/commands?group=scripting) are compatible with standard and Active-Active databases in Redis Software and Redis Cloud.
 
 ## Function commands
 

@@ -13,7 +13,7 @@ weight: 10
 
 [Clustering in Redis Software](/content/operate/rs/databases/durability-ha/clustering.md) and [Redis Cloud](/content/operate/rc/databases/configuration/clustering.md) differs from the [Redis Open Source cluster](/content/operate/oss_and_stack/management/scaling.md) and works with all standard Redis clients.
 
-Redis Software blocks most [cluster commands](/commands/?group=cluster). If you try to use a blocked cluster command, it returns an error.
+Redis Software blocks most [cluster commands](/content/commands?group=cluster). If you try to use a blocked cluster command, it returns an error.
 
 | Command | Redis<br />Software | Redis<br />Cloud | Notes |
 |:--------|:----------------------|:-----------------|:------|
