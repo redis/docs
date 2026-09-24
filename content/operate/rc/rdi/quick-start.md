@@ -14,7 +14,7 @@ hideListLinks: true
 weight: 1
 ---
 
-The [`rdi-cloud-automation` GitHub repository](https://github.com/redis/rdi-cloud-automation) contains a Terraform script that quickly sets up a PostgreSQL source database on an EC2 instance and all required permissions and network setup to connect it to a Redis Cloud target database.
+The [`rdi-cloud-automation` GitHub repository](https://github.com/redis/rdi-cloud-automation) contains a Terraform script that quickly sets up a PostgreSQL source database on an EC2 instance and all required permissions and network setup to connect it to a Redis Cloud target database. See [Provision source infrastructure with Terraform]({{< relref "/operate/rc/rdi/terraform-automation" >}}) for the repository's full set of modules and examples, including support for MySQL and SQL Server sources.
 
 {{< note >}}
 This guide is for demonstration purposes only. It is not recommended for production use.

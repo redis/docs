@@ -140,7 +140,7 @@ Please be aware of the following limitations:
 
 ## Get started
 
-To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start]({{<relref "operate/rc/rdi/quick-start">}}) to create a data pipeline between a PostgreSQL source database and a Redis Cloud target database.
+To get started fast with RDI on Redis Cloud, see the [RDI Cloud quick start]({{<relref "operate/rc/rdi/quick-start">}}) to create a data pipeline between a PostgreSQL source database and a Redis Cloud target database. For the Terraform repository's full set of modules and examples, see [Provision source infrastructure with Terraform]({{<relref "/operate/rc/rdi/terraform-automation">}}).
 
 To create a new data pipeline, you need to:
 

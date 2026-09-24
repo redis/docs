@@ -1,21 +1,15 @@
 ---
 Title: Provision source infrastructure with Terraform
-aliases: []
+linkTitle: Terraform automation
 alwaysopen: false
 categories:
 - docs
-- integrate
-- rs
-- rdi
+- operate
+- rc
 description: Learn what the rdi-cloud-automation Terraform repository provisions
   and which module or example to start from.
-group: di
-hideListLinks: false
-linkTitle: Terraform automation
-summary: Redis Data Integration keeps Redis in sync with the primary database in near
-  real time.
-type: integration
-weight: 42
+hideListLinks: true
+weight: 5
 ---
 
 The [`rdi-cloud-automation` GitHub repository](https://github.com/redis/rdi-cloud-automation)
