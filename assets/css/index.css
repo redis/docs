@@ -129,13 +129,9 @@ section.prose {
 }
 
 .context-map-shape {
-  @apply fill-redis-pen-200 stroke-redis-pen-600;
+  @apply fill-white stroke-redis-red-500;
   stroke-width: 1;
   transition: fill 0.15s ease, stroke 0.15s ease;
-}
-
-.context-map-node--terminal .context-map-shape {
-  @apply fill-redis-neutral-200;
 }
 
 .context-map-label {

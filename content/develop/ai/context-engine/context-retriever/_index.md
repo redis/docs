@@ -33,7 +33,7 @@ Redis Context Retriever is a schema-first context layer for AI agents that:
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Auto-generates retrieval tools</strong> — Tools are created from your data model, not hand-coded per agent</span></li>
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Keeps agents out of your database</strong> — Agents call generated tools; the system handles data access safely</span></li>
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Governs access by design</strong> — Each agent key has access tags that automatically filter what data it can see</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Exposes tools via MCP</strong> — Agents call tools through a standard MCP interface at runtime</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Exposes tools via MCP</strong> — Agents call tools through a standard Model Context Protocol (MCP) interface at runtime</span></li>
 </ul>
 
 ## Why use Context Retriever?

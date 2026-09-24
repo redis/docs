@@ -4,22 +4,21 @@ categories:
 - docs
 - develop
 - ai
-description: Learn how familiar Redis patterns work differently in Redis Iris, and what's new for building AI agents.
+description: Trace how a single agent request draws on Redis Iris's caching, memory, and retrieval capabilities before a model call.
 hideListLinks: true
-linktitle: Concepts
-title: Redis Iris concepts
-weight: 5
+linktitle: Request flow
+title: How a request flows through Redis Iris
+weight: 6
+bannerText: LangCache, Agent Memory, and Context Retriever are currently available in preview. Features and behavior are subject to change.
 ---
 
-Redis Iris reuses Redis primitives you likely already know, but not all of your existing assumptions carry over. This page covers the shifts that apply across the three request-time services: LangCache, Agent Memory, and Context Retriever. Each also has its own concepts page for what's specific to it: [LangCache]({{< relref "/develop/ai/context-engine/langcache/concepts" >}}), [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory/overview" >}}), and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/concepts" >}}). Data Integration is a background data-sync pipeline rather than a request-time service, so the diagram below includes it for a complete picture, but it isn't covered in the shifts on this page.
+[How Redis Iris works]({{< relref "/develop/ai/context-engine/concepts" >}}) covers the mental model. This page traces the same idea through an actual request, capability by capability.
 
-## Context is a budget, not a store
+Every capability in Iris manages the same limited resource: the model's context window. LangCache skips a model call when a similar one already ran. Agent Memory decides what's worth keeping from a conversation. Context Retriever returns exactly the data a tool call needs, instead of a raw query result. Treat "what goes into the next model call" as a budget. Manage it actively. It doesn't take care of itself once a request reaches Iris.
 
-Every service in Iris exists to manage a resource that's smaller than it looks: the model's context window. Agent Memory decides what's worth keeping and summarizes the rest. LangCache avoids spending a model call at all when a similar one already ran. Context Retriever returns exactly the data a tool call needs, not a raw query result. Treat "what goes into the next model call" as a budget you're actively managing at every layer, not something that takes care of itself once you've wired up the right service.
+These capabilities aren't a fixed sequence. A request can draw on any combination of them before a model call happens: [LangCache]({{< relref "/develop/ai/context-engine/langcache" >}}) for cached responses, [Agent Memory]({{< relref "/develop/ai/context-engine/agent-memory" >}}) for session and long-term recall, and [Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever" >}}) for governed access to business data. [Data Integration]({{< relref "/develop/ai/context-engine/data-integration" >}}) runs in the background, keeping that business data fresh for Context Retriever to query.
 
-LangCache, Agent Memory, Context Retriever, and Data Integration aren't a fixed sequence: they're a layer of services a request can draw on, in whatever combination it needs, before a model call happens.
-
-In the diagram below, you can select a node for a description of what that service does, with a link to its docs. Select a scenario button to trace the path a request takes.
+Select a node in the diagram for a description of what that capability does, with a link to its docs. Select a scenario button to trace the path a request takes.
 
 ```context-map {id="iris-request-flow" scope="context-engine"}
 id: iris-request-flow
@@ -163,20 +162,11 @@ paths:
             For a question that depends on live business data, Context Retriever calls governed tools to fetch it before the model call. Data Integration keeps that data fresh.
 ```
 
-## State isolation is semantic, not just structural
+## Two things Iris changes
 
-If you've built concurrent systems before, you're used to races being structural: two writers touching the same key, resolved with a lock or a transaction. When multiple agents or multiple users share Redis Iris services, the races that matter are often semantic instead: two agents writing similar-but-different memories about the same user, or two near-duplicate cache entries competing to answer the same class of question. Locking a key doesn't prevent this. Scoping by user, namespace, and memory or entry type does. Design your scoping keys (owner ID, namespace, session ID) as carefully as you'd design a lock strategy in a traditional concurrent system.
+**Isolation is about meaning, not just timing.** Multiple agents or users often share Iris. The conflict that matters usually isn't two writes touching the same record at the same instant. It's two agents writing similar-but-different memories about the same user, or two near-duplicate cache entries competing to answer the same class of question. Both writes can be individually valid and still disagree with each other. Scoping every write and lookup by user, session, and data type prevents this. Treat those scoping identifiers as carefully as you'd treat any other access boundary in your application.
 
-## Trust boundaries move to where the agent acts, not where data is stored
-
-In a traditional application, the trust boundary is usually the database: application code is trusted, external input is not, and the database enforces permissions at the boundary between them. An agent complicates this, because the agent's next action can be influenced by content it's processing, such as a retrieved document, a summarized conversation, or a tool's own output, none of which you fully control. Context Retriever's governed tool-calling model exists specifically because "trusted code, untrusted data" breaks down once the code's next step is chosen by a model reading that data. Assume anything an agent reads can shape what it does next, and design the tools and memory it can reach accordingly.
-
-## Further reading
-
-- [Getting Started with Redis Iris](https://redis.io/tutorials/getting-started-with-redis-iris/): a hands-on walkthrough of LangCache, Agent Memory, and Context Retriever.
-- [Long-horizon AI agents: memory & state infrastructure](https://redis.io/blog/long-horizon-ai-agents-memory-state-infrastructure/): failure modes specific to agents that run longer than a single request.
-- [Agent memory as a moat: how context compounds](https://redis.io/blog/compounding-context-memory-as-the-moat/): governance and retention tradeoffs as context accumulates across services.
-- [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-context-engine-agent-memory-and-retrieval/): build-vs-buy, vendor-comparison, and "isn't this overkill" questions this page doesn't cover.
+**Trust follows the agent, not the data source.** Application code is trusted by default, and the database enforces permissions at the boundary between code and data. An agent complicates that. Its next action can be shaped by content it's processing, such as a retrieved document or a tool's own output. You don't fully control that content. Assume anything an agent reads can influence what it does next. Design the tools and memory it can reach with that in mind. Don't trust content just because a trusted code path read it.
 
 ## Next steps
 

@@ -45,7 +45,7 @@ LangCache is a fully-managed semantic caching service that:
     <h3 class="text-redis-ink-900 font-semibold mb-3">For AI applications</h3>
     <ul class="space-y-1 text-redis-pen-600">
       <li>Dramatically lower LLM API spend for apps with repetitive queries</li>
-      <li>Faster responses for AI assistants, chatbots, and RAG pipelines</li>
+      <li>Faster responses for AI assistants, chatbots, and retrieval-augmented generation (RAG) pipelines</li>
       <li>Cache intermediate results in multi-step agent workflows</li>
       <li>Centralize caching across multiple apps via an AI gateway</li>
     </ul>

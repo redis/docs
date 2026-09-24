@@ -49,7 +49,7 @@ Redis Agent Memory provides two memory tiers:
     <h3 class="text-redis-ink-900 font-semibold mb-3">Session memory</h3>
     <p>Stores the ordered events and metadata for a conversation.</p>
     <ul class="space-y-2">
-      <li><strong>Configurable retention:</strong> Set a TTL to control how long session events are retained.</li>
+      <li><strong>Configurable retention:</strong> Set a time-to-live (TTL) to control how long session events are retained.</li>
       <li><strong>Automatic summarization:</strong> Condense older events after a configured threshold while retaining recent events in full, reducing the conversation history sent to the model's context window.</li>
     </ul>
   </div>
