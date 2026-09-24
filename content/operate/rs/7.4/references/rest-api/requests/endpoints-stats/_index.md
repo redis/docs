@@ -23,16 +23,15 @@ url: '/operate/rs/7.4/references/rest-api/requests/endpoints-stats/'
 
 Get statistics for all endpoint-proxy links.
 
-{{<note>}}
-This method will return both endpoints and listeners stats for backwards
-compatability.
-{{</note>}}
+> [!NOTE]
+> This method will return both endpoints and listeners stats for backwards
+> compatability.
 
 #### Required permissions
 
 | Permission name |
 |-----------------|
-| [view_endpoint_stats]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_endpoint_stats" >}}) |
+| [view_endpoint_stats](/content/operate/rs/7.4/references/rest-api/permissions.md#view_endpoint_stats) |
 
 ### Request {#get-request} 
 

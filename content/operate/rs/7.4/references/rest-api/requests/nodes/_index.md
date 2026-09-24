@@ -31,7 +31,7 @@ Get all cluster nodes.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_all_nodes_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_all_nodes_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_all_nodes_info](/content/operate/rs/7.4/references/rest-api/permissions.md#view_all_nodes_info) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-all-request}
 
@@ -50,7 +50,7 @@ GET /v1/nodes
 
 ### Response {#get-all-response}
 
-Returns a JSON array of [node objects]({{< relref "/operate/rs/7.4/references/rest-api/objects/node" >}}).
+Returns a JSON array of [node objects](/content/operate/rs/7.4/references/rest-api/objects/node.md).
 
 #### Example JSON body
 
@@ -115,7 +115,7 @@ Get a single cluster node.
 
 | Permission name | Roles |
 |-----------------|-------|
-| [view_node_info]({{< relref "/operate/rs/7.4/references/rest-api/permissions#view_node_info" >}}) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
+| [view_node_info](/content/operate/rs/7.4/references/rest-api/permissions.md#view_node_info) | admin<br />cluster_member<br />cluster_viewer<br />db_member<br />db_viewer |
 
 ### Request {#get-request}
 
@@ -140,7 +140,7 @@ GET /v1/nodes/1
 
 ### Response {#get-response}
 
-Returns a [node object]({{< relref "/operate/rs/7.4/references/rest-api/objects/node" >}}).
+Returns a [node object](/content/operate/rs/7.4/references/rest-api/objects/node.md).
 
 #### Example JSON body
 
@@ -165,7 +165,7 @@ Returns a [node object]({{< relref "/operate/rs/7.4/references/rest-api/objects/
 PUT /v1/nodes/{int: uid}
 ```
 
-Update a [node object]({{< relref "/operate/rs/7.4/references/rest-api/objects/node" >}}).
+Update a [node object](/content/operate/rs/7.4/references/rest-api/objects/node.md).
 
 Currently, you can edit the following attributes:
 
@@ -177,15 +177,14 @@ Currently, you can edit the following attributes:
 
 - `accept_servers`
 
-{{<note>}}
-You can only update the `addr` attribute for offline nodes. Otherwise, the request returns an error.
-{{</note>}}
+> [!NOTE]
+> You can only update the `addr` attribute for offline nodes. Otherwise, the request returns an error.
 
 ### Permissions
 
 | Permission name | Roles |
 |-----------------|-------|
-| [update_node]({{< relref "/operate/rs/7.4/references/rest-api/permissions#update_node" >}}) | admin |
+| [update_node](/content/operate/rs/7.4/references/rest-api/permissions.md#update_node) | admin |
 
 ### Request {#put-request}
 
