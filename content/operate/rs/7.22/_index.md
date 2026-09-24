@@ -56,7 +56,7 @@ Create and manage a [Redis database](/content/operate/rs/7.22/databases/_index.m
 Use command-line utilities and the REST API to manage the cluster and databases.
 - [rladmin](/content/operate/rs/7.22/references/cli-utilities/rladmin/_index.md), [crdb-cli](/content/operate/rs/7.22/references/cli-utilities/crdb-cli/_index.md), & [other utilities](/content/operate/rs/7.22/references/cli-utilities/_index.md)
 - [REST API reference](/content/operate/rs/7.22/references/rest-api/_index.md) & [examples](/content/operate/rs/7.22/references/rest-api/quick-start.md)
-- [Redis commands](/commands)
+- [Redis commands](/content/commands)
 
 ## Archive
 
