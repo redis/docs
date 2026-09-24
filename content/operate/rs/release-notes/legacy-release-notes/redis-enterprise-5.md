@@ -50,7 +50,7 @@ provide smart and automatic conflict resolution based on the data type's
 intent.
 
 For more information, go here. For information, go to [Developing with
-CRDBs](/operate/rs/databases/active-active/develop/develop-for-aa/).
+CRDBs](/content/operate/rs/databases/active-active/develop/develop-for-aa.md).
 
 ### Redis modules
 

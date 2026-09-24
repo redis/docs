@@ -20,11 +20,11 @@ Follow these [instructions](/content/operate/rs/installing-upgrading/upgrading/_
 
 - Version [5.0.7](https://raw.githubusercontent.com/antirez/redis/5.0/00-RELEASENOTES) of OSS Redis is merged into RS 5.4.14.
 - The following GA releases of Redis Modules are bundled in RS 5.4.14:
-    - [RedisBloom](https://redislabs.com/redis-enterprise/redis-bloom/), version 2.2.1 (updated, [release notes](/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.2-release-notes.md#redisbloom-221-january-2020))
-    - [RedisGraph](https://redislabs.com/redis-enterprise/redis-graph/), version 2.0.1 (updated, [release notes](/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.0-release-notes.md#redisgraph-20-ga-201---january-2020))
-    - [RedisJSON](https://redislabs.com/redis-enterprise/redis-json/), version 1.0.4 (update, [release notes](/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-1.0-release-notes))
-    - [RediSearch](https://redislabs.com/redis-enterprise/redis-search/), version 1.4.25 (updated, [release notes](/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-1.4-release-notes.md#redisearch-1425-march-2020))
-    - [RedisTimeSeries](https://redislabs.com/redis-enterprise/redis-time-series/), version 1.2.3 (updated, [release notes](/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.2-release-notes))
+    - [RedisBloom](https://redislabs.com/redis-enterprise/redis-bloom/), version 2.2.1 (updated, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisbloom/redisbloom-2.2-release-notes.md#redisbloom-221-january-2020))
+    - [RedisGraph](https://redislabs.com/redis-enterprise/redis-graph/), version 2.0.1 (updated, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisgraph/redisgraph-2.0-release-notes.md#redisgraph-20-ga-201---january-2020))
+    - [RedisJSON](https://redislabs.com/redis-enterprise/redis-json/), version 1.0.4 (update, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisjson/redisjson-1.0-release-notes.md))
+    - [RediSearch](https://redislabs.com/redis-enterprise/redis-search/), version 1.4.25 (updated, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redisearch/redisearch-1.4-release-notes.md#redisearch-1425-march-2020))
+    - [RedisTimeSeries](https://redislabs.com/redis-enterprise/redis-time-series/), version 1.2.3 (updated, [release notes](/content/operate/oss_and_stack/stack-with-enterprise/release-notes/redistimeseries/redistimeseries-1.2-release-notes.md))
 
 ## Additional capabilities
 
