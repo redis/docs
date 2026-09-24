@@ -34,10 +34,16 @@ Three outcomes per candidate link, and why each is handled differently:
     author concatenated onto it afterward. Reported only -- guessing the
     intended real target is a content-fact decision, not a mechanical fix.
 
-`/commands` and `/commands/` are a fourth, silent case: the commands index
-is templated with no backing `_index.md` (a known, accepted gap -- see
-project memory reference_commands_group_link_convention), so a bare
-`/commands/?group=x` link is correct AS WRITTEN and not a finding.
+`/commands` is a special case handled separately from `_find_content_file`:
+the commands index has no backing `_index.md` on disk (see project memory
+reference_commands_group_link_convention), so the filesystem-based resolver
+always reports it unresolvable. It isn't: Hugo auto-generates a section page
+for any content directory even without an `_index.md`, and `GetPage`
+finds it -- confirmed by building and comparing rendered hrefs for both
+`/commands?group=x` and `/content/commands?group=x` (byte-identical). Human
+review on DOC-7104 PR #4093 wanted the canonical `/content/` form applied
+here too, so `/commands[...]` is hardcoded as FIXABLE to `/content/commands`
+rather than silently skipped.
 
 Usage:
   build/check_uncanonicalized_links.py <file-or-dir>...
@@ -61,7 +67,13 @@ import migrate_shortcode_links as msl  # noqa: E402
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".claude", "hooks"))
 import check_shortcode_paths as csp  # noqa: E402
 
-MOUNT_PREFIX_RX = re.compile(r'^/(operate|develop|integrate|commands)(/|$)')
+# The lookahead admits `/`, `?`, `#`, or end-of-string right after the mount
+# name -- not just `/` or end-of-string. `/commands?group=x` (no trailing
+# slash before the query) is exactly the shape human review found missing
+# its /content/ prefix on DOC-7104 PR #4093/#4094/#4096/#4098: the original
+# `(/|$)` alternation required a slash or nothing, so a bare `?query` or
+# `#fragment` right after the mount name silently passed through unchecked.
+MOUNT_PREFIX_RX = re.compile(r'^/(operate|develop|integrate|commands)(?=[/?#]|$)')
 
 
 def find_root(start):
@@ -94,10 +106,13 @@ def check_file(path, root):
         base_ref, suffix = (href[: split.start()], href[split.start() :]) if split else (href, "")
 
         bare = base_ref.rstrip("/")
-        if bare in ("/commands",):
-            continue  # templated index, no backing file by design
-
         line_no = text.count("\n", 0, m.start()) + 1
+        if bare == "/commands":
+            # No _index.md on disk, but Hugo auto-generates a section page
+            # for the directory and GetPage finds it -- _find_content_file
+            # can't see that (filesystem-only), so it's hardcoded here.
+            findings.append(("FIXABLE", line_no, href, f"/content/commands{suffix}"))
+            continue
         target = msl._find_content_file(root, base_ref)
         if target is not None:
             findings.append(("FIXABLE", line_no, href, f"/{target}{suffix}"))

@@ -98,16 +98,38 @@ def test_external_and_anchor_only_links_are_not_findings():
     assert findings == []
 
 
-def test_bare_commands_index_with_group_query_is_not_a_finding():
-    # /commands has no backing _index.md by design (templated index) --
-    # this is the one accepted bare-path exception.
+def test_bare_commands_index_is_fixable_to_content_prefix():
+    # /commands has no backing _index.md on disk, so _find_content_file
+    # alone would call it DEAD -- hardcoded as FIXABLE instead, since Hugo's
+    # auto-generated section page resolves it identically either way
+    # (confirmed by building both forms during the DOC-7104 #4093 review).
     findings = run(
         {
-            "operate/rs/release-notes/foo.md": "See [commands](/commands/?group=cluster).",
+            "operate/rs/release-notes/foo.md": "See [commands](/commands?group=cluster).",
         },
         "operate/rs/release-notes/foo.md",
     )
-    assert findings == []
+    assert len(findings) == 1
+    cat, _line, old, new = findings[0]
+    assert cat == "FIXABLE"
+    assert old == "/commands?group=cluster"
+    assert new == "/content/commands?group=cluster"
+
+
+def test_query_with_no_trailing_slash_before_it_is_still_caught():
+    # Regression test: the original MOUNT_PREFIX_RX required `/` or
+    # end-of-string right after the mount name, so `/commands?group=x` (no
+    # slash before the `?`) silently passed through unchecked. This is the
+    # exact shape human review found bare on DOC-7104 PR #4093/#4094/#4096/#4098.
+    findings = run(
+        {
+            "operate/rs/security/access-control.md": "x",
+            "operate/rs/release-notes/foo.md": "[ACL](/operate/rs/security/access-control?x=1).",
+        },
+        "operate/rs/release-notes/foo.md",
+    )
+    assert len(findings) == 1
+    assert findings[0][0] == "FIXABLE"
 
 
 def test_relref_plus_suffix_shape_matches_the_pr_4086_case():
