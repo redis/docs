@@ -11,9 +11,9 @@ linktitle: Disk sizing
 weight: $weight
 url: '/operate/rs/7.22/clusters/optimize/disk-sizing-heavy-write-scenarios/'
 ---
-In extreme write scenarios when append-only files (AOF) are enabled, the AOF rewrite process can require considerably more disk space for [database persistence]({{<relref "/operate/rs/7.22/databases/configure/database-persistence/">}}).
+In extreme write scenarios when append-only files (AOF) are enabled, the AOF rewrite process can require considerably more disk space for [database persistence](/content/operate/rs/7.22/databases/configure/database-persistence.md).
 
-For disk size requirements for standard usage, see [Hardware requirements]({{< relref "/operate/rs/7.22/installing-upgrading/install/plan-deployment/hardware-requirements" >}}).
+For disk size requirements for standard usage, see [Hardware requirements](/content/operate/rs/7.22/installing-upgrading/install/plan-deployment/hardware-requirements.md).
 
 ## Estimate required disk space
 

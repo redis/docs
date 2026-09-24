@@ -17,7 +17,7 @@ You can renew these certificates by replacing them with new self-signed certific
 
 ## Renew self-signed certificates
 
-As of [v6.2.18-70]({{< relref "/operate/rs/release-notes/rs-6-2-18-releases/rs-6-2-18-70" >}}), Redis Enterprise Software includes a script to generate self-signed certificates.  
+As of [v6.2.18-70](/content/operate/rs/release-notes/rs-6-2-18-releases/rs-6-2-18-70.md), Redis Enterprise Software includes a script to generate self-signed certificates.  
 
 By default, the `generate_self_signed_certs.sh` script is located in `/opt/redislabs/utils/`.  
 
@@ -105,7 +105,7 @@ The following values are supported for the _\<CertName>_ parameter:
 | `proxy` | The database endpoint |
 | `syncer` | The synchronization process |
 
-You can also use the REST API.  To learn more, see [Update certificates]({{< relref "/operate/rs/7.22/security/certificates/updating-certificates#how-to-update-certificates" >}}).
+You can also use the REST API.  To learn more, see [Update certificates](/content/operate/rs/7.22/security/certificates/updating-certificates.md#how-to-update-certificates).
 
 ## Create CA-signed certificates
 
@@ -211,7 +211,7 @@ However you choose to create the certificates, be sure to incorporate the guidel
 
 4.  Upload the certificate to your cluster.
 
-    You can use [`rladmin`]({{< relref "/operate/rs/7.22/references/cli-utilities/rladmin/cluster/certificate" >}}) to replace the existing certificates with new certificates:
+    You can use [`rladmin`](/content/operate/rs/7.22/references/cli-utilities/rladmin/cluster/certificate.md) to replace the existing certificates with new certificates:
 
     ``` console
     $ rladmin cluster certificate set <cert-name> certificate_file \
@@ -220,5 +220,5 @@ However you choose to create the certificates, be sure to incorporate the guidel
 
     For a list of values supported by the `<cert-name>` parameter, see the [earlier table](#replace-self-signed).
 
-    You can also use the REST API.  To learn more, see [Update certificates]({{< relref "/operate/rs/7.22/security/certificates/updating-certificates#how-to-update-certificates" >}}).
+    You can also use the REST API.  To learn more, see [Update certificates](/content/operate/rs/7.22/security/certificates/updating-certificates.md#how-to-update-certificates).
 

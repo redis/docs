@@ -31,7 +31,7 @@ connecting to databases.
 The Discovery Service is available for querying on each node of the
 cluster, listening on port 8001. To employ it, your application utilizes
 a [Redis Sentinel enabled client
-library]({{< relref "/operate/rs/7.22/databases/connect/supported-clients-browsers.md" >}})
+library](/content/operate/rs/7.22/databases/connect/supported-clients-browsers.md)
 to connect to the Discovery Service and request the endpoint for the
 given database. The Discovery Service replies with the database's
 endpoint for that database. In case of a node failure, the Discovery
@@ -82,26 +82,24 @@ $ ./redis-cli -p 8001
 
 It is important to note that, the Discovery Service is not a full
 implementation of the [Redis Sentinel
-protocol]({{< relref "/operate/oss_and_stack/management/sentinel" >}}). There are aspects of the
+protocol](/content/operate/oss_and_stack/management/sentinel.md). There are aspects of the
 protocol that are not applicable or would be duplication with existing
 technology in Redis Enterprise Software. The Discovery Service
 implements only the parts required to provide applications with easy
 High Availability, be compatible with the protocol, and not rely on DNS
 to derive which node in the cluster to communicate with.
 
-{{< note >}}
-To use Redis Sentinel, every database name must be unique across the cluster.
-{{< /note >}}
+> [!NOTE]
+> To use Redis Sentinel, every database name must be unique across the cluster.
 
 ## Redis client support
 
-We recommend these clients that are tested for use with the [Discovery Service]({{< relref "/operate/rs/7.22/databases/durability-ha/discovery-service.md" >}}) that uses the Redis Sentinel API:
+We recommend these clients that are tested for use with the [Discovery Service](/content/operate/rs/7.22/databases/durability-ha/discovery-service.md) that uses the Redis Sentinel API:
 
 {{< embed-md "discovery-clients.md" >}}
 
-{{< note >}}
-Redis Sentinel API can return endpoints for both master and replica
-endpoints.
-Discovery Service only supports master endpoints and does not
-support returning replica endpoints for a database.
-{{< /note >}}
+> [!NOTE]
+> Redis Sentinel API can return endpoints for both master and replica
+> endpoints.
+> Discovery Service only supports master endpoints and does not
+> support returning replica endpoints for a database.
