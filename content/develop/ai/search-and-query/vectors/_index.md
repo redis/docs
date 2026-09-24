@@ -140,7 +140,7 @@ In the example above, an index named `documents` is created over hashes with the
 
 Support for `HNSW` vector compression was added in Redis 8.12.
 
-`HNSW` vector fields support `SQ8`, an 8-bit scalar quantization algorithm that reduces the memory used to store each vector at the cost of some search accuracy. `COMPRESSION` is only supported for `TYPE FLOAT32` or `FLOAT16`, with any `DISTANCE_METRIC`, and only for in-memory vector indexes; disk-based vector indexes reject both `COMPRESSION` and `TRAINING_THRESHOLD`.
+`HNSW` vector fields support `SQ8`, an 8-bit scalar quantization algorithm that reduces the memory used to store each vector at the cost of some search accuracy. `COMPRESSION` is only supported for `TYPE FLOAT32` or `FLOAT16`, with any `DISTANCE_METRIC`, and only for in-memory vector indexes; disk-based vector indexes ignore both `COMPRESSION` and `TRAINING_THRESHOLD`.
 
 When you set `COMPRESSION SQ8`, indexed vectors are stored at full precision until the field accumulates `TRAINING_THRESHOLD` vectors. At that point, Redis learns quantization parameters from the accumulated vectors and migrates them to compressed storage. Vectors remain searchable throughout, both before and after this migration. Setting `TRAINING_THRESHOLD` to `0` skips this step, so vectors are quantized immediately without learning from a sample, which can reduce accuracy.
 
