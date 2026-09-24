@@ -15,7 +15,7 @@
   /* ------------------------------------------------------------------ data */
 
   /* A fictional food delivery app: customers, restaurants, and orders. */
-  function ts(y, m, d, h) { return Math.floor(Date.UTC(y, m - 1, d, h || 12) / 1000); }
+  function ts(y, m, d, h) { return Math.floor(Date.UTC(y, m - 1, d, h == null ? 12 : h) / 1000); }
 
   var CUSTOMERS = [
     ["u101", "Maya Chen", "austin", "vegetarian", "thai", 1240, ts(2024, 5, 3)],
@@ -690,8 +690,15 @@
     }
 
     /* ---- step 3: ask ---- */
+    /* Built once, so a replay keeps playing and the conversation survives tab
+       switches. On return, reconnect only if the data model changed the tools. */
     function renderAsk() {
-      var p = panels.ask; p.innerHTML = "";
+      var p = panels.ask;
+      if (p.dataset.built) {
+        if (!state.connected) handshake(p.querySelector(".rcr-connlog"));
+        return;
+      }
+      p.dataset.built = "1";
       p.appendChild(el("p", "rcr-lede", "An agent connects to the service's MCP endpoint with an agent key, lists the tools, and picks the right ones for each question. The agent never connects to Redis. Pick a question to watch the calls."));
       var conn = el("div", "rcr-card rcr-conn");
       conn.appendChild(el("div", "rcr-connrow", '<span class="rcr-lbl">MCP endpoint</span><code class="rcr-mono">' + esc(ENDPOINT) + '</code><span class="rcr-lbl">Header</span><code class="rcr-mono">X-API-Key: &lt;your-agent-key&gt;</code>'));
