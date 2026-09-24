@@ -51,7 +51,7 @@ removed instance).
 
 ### Response {#put-response} 
 
-Returns a [CRDB task object]({{< relref "/operate/rs/7.8/references/rest-api/objects/crdb_task" >}}).
+Returns a [CRDB task object](/content/operate/rs/7.8/references/rest-api/objects/crdb_task.md).
 
 ### Status codes {#put-status-codes} 
 
