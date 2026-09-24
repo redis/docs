@@ -17,7 +17,8 @@ Give your agents structured, governed access to business data — without buildi
 
 Context Retriever lets you define your data model once. It automatically generates the retrieval tools agents call at runtime, so agents always work with accurate, live data through a controlled interface rather than guessing at SQL or calling databases directly.
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
+  {{< image-card image="images/ai-model.svg" alt="Concepts icon" title="Concepts — Governed tool-calling instead of direct database access, and why it matters" url="/develop/ai/context-engine/context-retriever/concepts" >}}
   {{< image-card image="images/ai-cube.svg" alt="Quick start icon" title="Quick Start — Create a Context Retriever service on Redis Cloud" url="/operate/iris/context-retriever/create-service" >}}
   {{< image-card image="images/ai-lib.svg" alt="Python SDK icon" title="Python SDK and CLI — Model entities and deploy tools with the redis-context-retriever package" url="https://pypi.org/project/redis-context-retriever/" >}}
   {{< image-card image="images/ai-brain.svg" alt="Admin keys icon" title="Manage Access — Create and manage agent keys to control what each agent can access" url="/operate/iris/context-retriever/view-admin-keys" >}}
@@ -32,7 +33,7 @@ Redis Context Retriever is a schema-first context layer for AI agents that:
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Auto-generates retrieval tools</strong> — Tools are created from your data model, not hand-coded per agent</span></li>
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Keeps agents out of your database</strong> — Agents call generated tools; the system handles data access safely</span></li>
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Governs access by design</strong> — Each agent key has access tags that automatically filter what data it can see</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Exposes tools via MCP</strong> — Agents call tools through a standard MCP interface at runtime</span></li>
+  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Exposes tools via MCP</strong> — Agents call tools through a standard Model Context Protocol (MCP) interface at runtime</span></li>
 </ul>
 
 ## Why use Context Retriever?

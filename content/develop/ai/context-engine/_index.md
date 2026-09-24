@@ -15,7 +15,8 @@ Give your AI agents the context layer they need to reliably act on business data
 
 Redis Iris eliminates the infrastructure burden of building context-aware AI agents — persistent memory, semantic caching, governed data access, and live data sync, all on Redis Cloud.
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
+  {{< image-card image="images/ai-model.svg" alt="Concepts icon" title="Concepts — What happens when an agent asks Redis Iris for context" url="/develop/ai/context-engine/concepts" >}}
   {{< image-card image="images/ai-brain.svg" alt="Agent Memory icon" title="Agent Memory — Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
   {{< image-card image="images/ai-LLM-memory.svg" alt="LangCache icon" title="LangCache — Semantic caching to reduce LLM costs and improve response times" url="/develop/ai/context-engine/langcache" >}}
   {{< image-card image="images/ai-cube.svg" alt="Context Retriever icon" title="Context Retriever — Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
@@ -32,6 +33,8 @@ Redis Iris is a production-ready context engine for AI agents that:
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Keeps data fresh</strong> — Data Integration streams live changes from relational databases into Redis within seconds</span></li>
   <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Requires no database management</strong> — All four services are fully managed on Redis Cloud via REST API</span></li>
 </ul>
+
+See [how Redis Iris works](/content/develop/ai/context-engine/concepts/_index.md) for the mental model before you start building.
 
 ## Why use Redis Iris?
 
@@ -97,9 +100,9 @@ All four services are available on [Redis Cloud](/content/operate/iris/_index.md
 - **Lower LLM costs**: Reduces redundant API calls for semantically equivalent queries.
 - **Faster responses**: Serves cached answers in milliseconds instead of waiting for an LLM.
 - **Managed embeddings**: LangCache handles embedding generation automatically.
-- **Cache control**: Configure similarity thresholds, TTLs, and eviction policies.
+- **Cache control**: Configure similarity thresholds, time-to-live (TTL) settings, and eviction policies.
 
-LangCache works well for AI assistants, chatbots, RAG applications, AI agents, and centralized AI gateway services.
+LangCache works well for AI assistants, chatbots, retrieval-augmented generation (RAG) applications, AI agents, and centralized AI gateway services.
 
 [Get started with LangCache](/content/develop/ai/context-engine/langcache/_index.md)
 

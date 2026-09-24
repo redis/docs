@@ -23,7 +23,8 @@ When enabled, automatic summarization compacts session memory by summarizing old
 
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
+  {{< image-card image="images/ai-model.svg" alt="Overview icon" title="Overview — What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/overview" >}}
   {{< image-card image="images/python-sdk-mark.svg" alt="Python SDK mark" title="Python SDK quickstart — Explore Redis Agent Memory with Python" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
   {{< image-card image="images/typescript-sdk-mark.svg" alt="TypeScript SDK mark" title="TypeScript SDK quickstart — Explore Redis Agent Memory with TypeScript" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
   {{< image-card image="images/rest-api-mark.svg" alt="REST API mark" title="REST API quickstart — Explore Redis Agent Memory with curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}
@@ -48,7 +49,7 @@ Redis Agent Memory provides two memory tiers:
     <h3 class="text-redis-ink-900 font-semibold mb-3">Session memory</h3>
     <p>Stores the ordered events and metadata for a conversation.</p>
     <ul class="space-y-2">
-      <li><strong>Configurable retention:</strong> Set a TTL to control how long session events are retained.</li>
+      <li><strong>Configurable retention:</strong> Set a time-to-live (TTL) to control how long session events are retained.</li>
       <li><strong>Automatic summarization:</strong> Condense older events after a configured threshold while retaining recent events in full, reducing the conversation history sent to the model's context window.</li>
     </ul>
   </div>
