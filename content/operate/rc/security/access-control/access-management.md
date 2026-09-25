@@ -14,11 +14,11 @@ The **Access management** screen helps you manage:
 
 - The team of users allowed to access your subscription and its databases.
 - The API keys that authenticate application access to your account.
-- [Single sign-on (SSO) with SAML]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
+- [Single sign-on (SSO) with SAML](/content/operate/rc/security/access-control/saml-sso/_index.md).
 
 Here, you learn how to manage your team's users and control their level of access. 
 
-For help managing API keys, see [Manage API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}}).
+For help managing API keys, see [Manage API keys](/content/operate/rc/api/get-started/manage-api-keys.md).
 
 ## Manage team access
 
@@ -54,7 +54,7 @@ Use the dialog to specify these values.
 | **Role** | The role identifies their subscription and account privileges.  For details, see [Team management roles](#team-management-roles). |
 | **Email** | The address used for alerts and other email messages regarding the account | 
 | **Alert emails** | Enable to be notified when subscription databases cross certain thresholds, such as exceeding memory limits or latency requirements |
-| **Operational emails** | Notifications about subscription and database changes, such as creating or deleting a database, and [subscription and database maintenance]({{< relref "/operate/rc/subscriptions/maintenance" >}}) |
+| **Operational emails** | Notifications about subscription and database changes, such as creating or deleting a database, and [subscription and database maintenance](/content/operate/rc/subscriptions/maintenance/_index.md) |
 | **Billing emails** | Notifications about billing, such as when bills are issued and paid |
 | **Multi-factor authentication** | Whether MFA is enabled for the member.  This is deactivated when members have not enabled or confirmed MFA in their user profile settings. |
 
@@ -107,7 +107,7 @@ Roles and responsibilities are:
 
 - **Viewer** can view all databases and their configurations, including database secrets.
 
-- **Logs viewer** can not access the Redis Cloud console. They are only allowed access to the [Redis Cloud API]({{< relref "/operate/rc/api" >}}) [`GET logs/`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}) endpoint. 
+- **Logs viewer** can not access the Redis Cloud console. They are only allowed access to the [Redis Cloud API](/content/operate/rc/api/_index.md) [`GET logs/`](/content/operate/rc/api/api-reference.md#tag/Account/operation/getAccountSystemLogs) endpoint. 
 
 This table shows each role's ability to perform common tasks.
 
@@ -124,7 +124,7 @@ This table shows each role's ability to perform common tasks.
 | Edit database (no cost impact) | <span title="Owners can edit databases in ways that do not impact costs"><nobr>&#x2705; Yes</nobr></span> | <span title="Billing Admins may not change databases in ways that do not affect costs"><nobr>&#x274c; No</nobr></span> | <span title="Managers can change databases in ways that do not affect costs"><nobr>&#x2705; Yes</nobr></span> | <span title="Members can change databases in ways that do not affect costs"><nobr>&#x2705; Yes</nobr></span> | <span title="Viewers may not change databases in ways that do not affect costs"><nobr>&#x274c; No</nobr></span> | <span title="Logs viewers may not change databases in ways that do not affect costs"><nobr>&#x274c; No</nobr></span> |
 | View subscription | <span title="Owners can view subscription details"><nobr>&#x2705; Yes</nobr></span> | <span title="Billing Admins can view subscription details"><nobr>&#x2705; Yes</nobr></span> | <span title="Managers can view subscription details"><nobr>&#x2705; Yes</nobr></span> | <span title="Members can view subscription details"><nobr>&#x2705; Yes</nobr></span> | <span title="Viewers can view subscription details"><nobr>&#x2705; Yes</nobr></span> | <span title="Logs viewers may not view subscriptions"><nobr>&#x274c; No</nobr></span> |
 | View database | <span title="Owners can view database details"><nobr>&#x2705; Yes</nobr></span> | <span title="Billing Admins can view the list of databases but not database details"><nobr>&#x2705; Yes<sup>[4](#table-note-4)</sup></nobr></span> | <span title="Managers can view database details"><nobr>&#x2705; Yes</nobr></span> | <span title="Members can view database details"><nobr>&#x2705; Yes</nobr></span> | <span title="Viewers can view database details"><nobr>&#x2705; Yes</nobr></span> | <span title="Logs viewers may not view databases"><nobr>&#x274c; No</nobr></span> |
-| Use the [REST API]({{< relref "/operate/rc/api" >}}) | <span title="Owners can use the Redis Cloud API"><nobr>&#x2705; Yes</nobr></span> | <span title="Billing Admins can use the Redis Cloud REST API for billing data"><nobr>&#x2705; Yes<sup>[5](#table-note-5)</sup></nobr></span> | <span title="Managers may not use the REST API"><nobr>&#x274c; No</nobr></span> | <span title="Members may not use the REST API"><nobr>&#x274c; No</nobr></span> | <span title="Viewers can use the REST API for GET requests only"><nobr>&#x2705; Yes<sup>[6](#table-note-6)</sup></nobr></span> | <span title="Logs viewers can use the REST API for GET /logs only"><nobr>&#x2705; Yes<sup>[7](#table-note-7)</sup></nobr></span> |
+| Use the [REST API](/content/operate/rc/api/_index.md) | <span title="Owners can use the Redis Cloud API"><nobr>&#x2705; Yes</nobr></span> | <span title="Billing Admins can use the Redis Cloud REST API for billing data"><nobr>&#x2705; Yes<sup>[5](#table-note-5)</sup></nobr></span> | <span title="Managers may not use the REST API"><nobr>&#x274c; No</nobr></span> | <span title="Members may not use the REST API"><nobr>&#x274c; No</nobr></span> | <span title="Viewers can use the REST API for GET requests only"><nobr>&#x2705; Yes<sup>[6](#table-note-6)</sup></nobr></span> | <span title="Logs viewers can use the REST API for GET /logs only"><nobr>&#x2705; Yes<sup>[7](#table-note-7)</sup></nobr></span> |
 
 1. <a name="table-note-1" style="display: block; height: 80px; margin-top: -80px;"></a>Billing Admins can only edit the account billing address in Account Settings.
 
@@ -138,4 +138,4 @@ This table shows each role's ability to perform common tasks.
 
 6. <a name="table-note-6" style="display: block; height: 80px; margin-top: -80px;"></a>Viewers can use the REST API for GET requests, but cannot modify subscription or database details.
 
-7. <a name="table-note-7" style="display: block; height: 80px; margin-top: -80px;"></a>Logs viewers can only use the [`GET logs/`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getAccountSystemLogs" >}}) endpoint of the REST API.
+7. <a name="table-note-7" style="display: block; height: 80px; margin-top: -80px;"></a>Logs viewers can only use the [`GET logs/`](/content/operate/rc/api/api-reference.md#tag/Account/operation/getAccountSystemLogs) endpoint of the REST API.

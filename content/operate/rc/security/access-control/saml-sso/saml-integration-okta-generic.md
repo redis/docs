@@ -14,11 +14,11 @@ bannerText: Specific identity provider details may be different than shown in th
 
 This guide shows how to configure [Okta](https://help.okta.com/en-us/Content/Topics/Security/Identity_Providers.htm) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
 
-Learn how to use the generic application template. You can also refer to the [Org2Org]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-okta-org2org" >}}) application template.
+Learn how to use the generic application template. You can also refer to the [Org2Org](/content/operate/rc/security/access-control/saml-sso/saml-integration-okta-org2org.md) application template.
 
-To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
+To learn more about Redis Cloud support for SAML, see [SAML single sign-on](/content/operate/rc/security/access-control/saml-sso/_index.md).
 
-Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup. To do this, you must add a DNS TXT record provided by Redis Cloud to each domain; SAML SSO can't be enabled until the domain is verified.
+Before completing this guide, you must [verify ownership of any domains](/content/operate/rc/security/access-control/saml-sso/_index.md#verify-domain) you want to associate with your SAML setup. To do this, you must add a DNS TXT record provided by Redis Cloud to each domain; SAML SSO can't be enabled until the domain is verified.
 
 ## Step 1: Set up your demo identity provider (IdP)
 
@@ -44,9 +44,9 @@ To create the Okta SAML integration application:
 
 1. In the **Configure SAML** tab, enter this data in the **General** section:
 
-    {{<note>}}
-Setting up SAML SSO is a two-part handshake. You first create the Okta application with temporary mock URLs so that Redis Cloud can generate its own service provider (SP) metadata. Later, in [Step 3](#step-3-configure-saml-support-in-redis-cloud), you return to this Okta application and replace these mock URLs with the real values from that Redis Cloud SP metadata.
-    {{</note>}}
+    > [!NOTE]
+    > Setting up SAML SSO is a two-part handshake. You first create the Okta application with temporary mock URLs so that Redis Cloud can generate its own service provider (SP) metadata. Later, in [Step 3](#step-3-configure-saml-support-in-redis-cloud), you return to this Okta application and replace these mock URLs with the real values from that Redis Cloud SP metadata.
+    >
 
     * **Single sign-on URL**: `http://www.fake.com`. This is a temporary mock URL that you will modify later.
     * **Audience URI (SP Entity ID)**: `http://www.fake.com`. This is a temporary mock URL that you will modify later.
@@ -81,9 +81,9 @@ Setting up SAML SSO is a two-part handshake. You first create the Okta applicati
 
     {{<image filename="images/rc/saml/okta_saml_app_int_5.png" >}}
 
-    {{<note>}}
-The `redisAccountMapping` attribute is required. If it's missing or malformed, SAML activation and subsequent SAML logins fail.
-    {{</note>}}
+    > [!NOTE]
+    > The `redisAccountMapping` attribute is required. If it's missing or malformed, SAML activation and subsequent SAML logins fail.
+    >
 
     Select **Next**.
 
@@ -170,11 +170,11 @@ Now that your group is populated with its users, you can assign the SAML integra
 
     {{<image filename="images/rc/saml/okta_saml_group_7.png" >}}
 
-1. Define the Redis account mapping string default for this group and select **Save and Go Back**. The key-value pair consists of your **Redis Cloud Account ID** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}) and the lowercase role name (owner, member, manager, billing_admin, or viewer) — for example, `1937217=viewer`. Select **"Done"**.
+1. Define the Redis account mapping string default for this group and select **Save and Go Back**. The key-value pair consists of your **Redis Cloud Account ID** found in the [account settings](/content/operate/rc/accounts/account-settings.md) and the lowercase role name (owner, member, manager, billing_admin, or viewer) — for example, `1937217=viewer`. Select **"Done"**.
 
-    {{<note>}}
-Role values must be lowercase. A value like `1937217=Viewer` or `1937217=VIEWER` is rejected.
-    {{</note>}}
+    > [!NOTE]
+    > Role values must be lowercase. A value like `1937217=Viewer` or `1937217=VIEWER` is rejected.
+    >
 
     {{<image filename="images/rc/saml/okta_saml_group_8.png" >}}
 
@@ -226,9 +226,8 @@ Sign in to your account on the [Redis Cloud console](https://cloud.redis.io/#/lo
 
 To activate SAML, you must have a local user (or social sign-on user) with the **owner** role. If you have the correct permissions, you will see the **Single Sign-On** tab.
 
-{{<note>}}
-The user who activates SAML must have `ACCOUNT_ID=owner` in their `redisAccountMapping` value, where `ACCOUNT_ID` is the Redis Cloud account being configured. Activation fails if this user's mapping doesn't grant the owner role on that account.
-{{</note>}}
+> [!NOTE]
+> The user who activates SAML must have `ACCOUNT_ID=owner` in their `redisAccountMapping` value, where `ACCOUNT_ID` is the Redis Cloud account being configured. Activation fails if this user's mapping doesn't grant the owner role on that account.
 
 1. Fill in the information you saved in step 6 in the **setup** form, including:
 
@@ -236,9 +235,9 @@ The user who activates SAML must have `ACCOUNT_ID=owner` in their `redisAccountM
     * **Issuer**: Identity Provider Issuer
     * **Assertion signing certificate**: X.509 Certificate
 
-    {{<note>}}
-Paste the X.509 certificate exactly as Okta provides it. Don't add `-----BEGIN CERTIFICATE-----`/`-----END CERTIFICATE-----` headers unless the Redis Cloud UI specifically asks for them.
-    {{</note>}}
+    > [!NOTE]
+    > Paste the X.509 certificate exactly as Okta provides it. Don't add `-----BEGIN CERTIFICATE-----`/`-----END CERTIFICATE-----` headers unless the Redis Cloud UI specifically asks for them.
+    >
 
     {{<image filename="images/rc/saml/sm_saml_1.png" >}}
 

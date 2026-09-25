@@ -14,9 +14,9 @@ bannerText: Specific identity provider details may be different than shown in th
 
 This guide shows how to configure [Auth0](https://auth0.com/docs) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
 
-To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
+To learn more about Redis Cloud support for SAML, see [SAML single sign-on](/content/operate/rc/security/access-control/saml-sso/_index.md).
 
-Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+Before completing this guide, you must [verify ownership of any domains](/content/operate/rc/security/access-control/saml-sso/_index.md#verify-domain) you want to associate with your SAML setup.
 
 ## Step 1: Set up your identity provider (IdP)
 
@@ -28,9 +28,9 @@ Before completing this guide, you must [verify ownership of any domains]({{< rel
 
     SAML assertion requires first and last name, which are not available in the default user profile. 
 
-    {{<note>}}
-Depending how they are created, users can have different profiles. 
-    {{</note>}}
+    > [!NOTE]
+    > Depending how they are created, users can have different profiles. 
+    >
 
     {{<image filename="images/rc/saml/auth0_saml_1.png" >}}
 
@@ -38,7 +38,7 @@ Depending how they are created, users can have different profiles.
    
    {{<image filename="images/rc/saml/auth0_saml_2.png" >}}
 
-   The key-value pair of `redisAccountMapping` consists of a lowercase role name (owner, member, manager, billing_admin, or viewer) and your Redis Cloud Account ID found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}).
+   The key-value pair of `redisAccountMapping` consists of a lowercase role name (owner, member, manager, billing_admin, or viewer) and your Redis Cloud Account ID found in the [account settings](/content/operate/rc/accounts/account-settings.md).
 
     ```json
     {
@@ -189,9 +189,8 @@ To use IdP-initiated SSO with certain identity providers, you also need to set t
 
 `https://cloud.redis.io/#/login/?idpId=<ID>`
 
-{{< note >}}
-Replace `ID` so it matches the `AssertionConsumerService` Location URL ID (the content after the last forward slash "/"). To learn more about how to configure service provider apps, see your identity provider’s documentation.
-{{</ note >}}
+> [!NOTE]
+> Replace `ID` so it matches the `AssertionConsumerService` Location URL ID (the content after the last forward slash "/"). To learn more about how to configure service provider apps, see your identity provider’s documentation.
 
 ## Step 4: Return to the Redis Cloud console
 

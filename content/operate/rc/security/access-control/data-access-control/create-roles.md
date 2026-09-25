@@ -12,7 +12,7 @@ toc: 'true'
 weight: 20
 ---
 
-To assign [Redis ACLs]({{< relref "/operate/rc/security/access-control/data-access-control/configure-acls" >}}) to a data access role:
+To assign [Redis ACLs](/content/operate/rc/security/access-control/data-access-control/configure-acls.md) to a data access role:
 
 1. Go to **Data Access Control** from the [Redis Cloud console](https://cloud.redis.io/#/) menu.
 
@@ -42,10 +42,9 @@ To assign [Redis ACLs]({{< relref "/operate/rc/security/access-control/data-acce
 
 When you assign a user-defined ACL rule to a role and associate it with one or more databases, we'll verify that the ACL rule will work with the selected databases. The database may go into an Inactive state for a few seconds while we verify the ACL rule.
 
-After you create a role, you can assign it to a user. Users with this role can access the databases according to the role's associated Redis ACLs. For more information, see [Assign roles to users]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users#assign-roles-to-existing-users" >}}).
+After you create a role, you can assign it to a user. Users with this role can access the databases according to the role's associated Redis ACLs. For more information, see [Assign roles to users](/content/operate/rc/security/access-control/data-access-control/create-assign-users.md#assign-roles-to-existing-users).
 
-To assign Redis ACLs to a role for an [Active-Active database]({{< relref "/operate/rc/databases/active-active" >}}), see [Active-Active access roles]({{< relref "/operate/rc/security/access-control/data-access-control/active-active-roles" >}}).
+To assign Redis ACLs to a role for an [Active-Active database](/content/operate/rc/databases/active-active/_index.md), see [Active-Active access roles](/content/operate/rc/security/access-control/data-access-control/active-active-roles.md).
 
-{{< note >}}
-{{< embed-md "rc-acls-note.md" >}}
-{{< /note >}}
+> [!NOTE]
+> {{< embed-md "rc-acls-note.md" >}}
