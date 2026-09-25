@@ -9,7 +9,7 @@ aliases: [/operate/kubernetes/security/manage-rec-credentials/]
 linkTitle: Manage REC credentials
 weight: 10
 ---
-Redis Enterprise for Kubernetes uses a custom resource called [`RedisEnterpriseCluster`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) to create a Redis Enterprise cluster (REC). During creation, it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the cluster name and is specified by the `clusterCredentialSecretName` field in the REC specification.
+Redis Enterprise for Kubernetes uses a custom resource called [`RedisEnterpriseCluster`](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_api.md) to create a Redis Enterprise cluster (REC). During creation, it generates random credentials for the operator to use. The credentials are saved in a Kubernetes (K8s) [secret](https://kubernetes.io/docs/concepts/configuration/secret/). The secret name defaults to the cluster name and is specified by the `clusterCredentialSecretName` field in the REC specification.
 
 ## Retrieve the current username and password
 
@@ -92,15 +92,14 @@ The credentials can be used to access the Redis Enterprise admin console or the 
       \"old_password\":\"<OLD PASSWORD>\"}"
     ```
 
-{{<note>}}
-The username for the K8s secret is the email displayed on the Redis Enterprise admin console.
-{{</note>}}
+> [!NOTE]
+> The username for the K8s secret is the email displayed on the Redis Enterprise admin console.
 
 ### Change both the REC username and password
 
-1. [Connect to the admin console]({{< relref "/operate/kubernetes/re-clusters/connect-to-admin-console.md" >}}).
+1. [Connect to the admin console](/content/operate/kubernetes/re-clusters/connect-to-admin-console.md).
 
-1. [Add another admin user]({{< relref "/operate/rs/security/access-control/create-users" >}}) and choose a new password.
+1. [Add another admin user](/content/operate/rs/security/access-control/create-users.md) and choose a new password.
 
 1. Specify the new username in the `username` field of your REC custom resource spec.
 
@@ -120,9 +119,8 @@ The username for the K8s secret is the email displayed on the Redis Enterprise a
 
 1. Delete the previous admin user from the cluster.
 
-{{<note>}}
-The operator may log errors in the time between updating the username in the REC spec and the secret update.
-{{</note>}}
+> [!NOTE]
+> The operator may log errors in the time between updating the username in the REC spec and the secret update.
 
 ### Update the credentials secret in Vault
 

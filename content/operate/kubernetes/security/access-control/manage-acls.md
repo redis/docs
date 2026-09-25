@@ -14,13 +14,13 @@ A `RedisEnterpriseACL` resource holds a Redis ACL rule that controls which comma
 
 ACLs are reusable: one `RedisEnterpriseACL` can be attached to any number of `RedisEnterpriseRole` or `RedisEnterpriseClusterRole` resources. The role decides which databases the ACL applies to; the ACL itself just defines the rule.
 
-To grant a user the permissions in an ACL, reference the ACL from a role and bind the role to the user. See [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) and [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}).
+To grant a user the permissions in an ACL, reference the ACL from a role and bind the role to the user. See [Manage roles](/content/operate/kubernetes/security/access-control/manage-roles.md) and [Manage role bindings](/content/operate/kubernetes/security/access-control/manage-bindings.md).
 
 ## Before you start
 
 - Requires Redis Software for Kubernetes operator 8.2.0-12 or later.
 - The `RedisEnterpriseACL` resource must live in the operator namespace.
-- The rule string uses Redis ACL syntax — key patterns, command categories, and explicit commands. See [Redis ACL overview]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) for the full syntax.
+- The rule string uses Redis ACL syntax — key patterns, command categories, and explicit commands. See [Redis ACL overview](/content/operate/rs/security/access-control/redis-acl-overview.md) for the full syntax.
 
 ## Create an ACL
 
@@ -54,7 +54,7 @@ kubectl get redisenterpriseacl read-only -o yaml
 | A specific command set | `+get +set +del ~app:*` |
 | Block dangerous commands | `+@all -@dangerous ~*` |
 
-For category names (`@read`, `@write`, `@admin`, `@dangerous`, etc.) and the full operator precedence rules, see [Redis ACL overview]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}).
+For category names (`@read`, `@write`, `@admin`, `@dangerous`, etc.) and the full operator precedence rules, see [Redis ACL overview](/content/operate/rs/security/access-control/redis-acl-overview.md).
 
 ## Update an ACL
 
@@ -108,13 +108,13 @@ Watch reconciliation events with `kubectl describe redisenterpriseacl <name>`. C
 Other things to check:
 
 - **`status.uid` is empty** — The operator hasn't reconciled the ACL yet, or Redis Software rejected the rule. Check the events for an `RSOperationFailed` with the syntax message.
-- **Rule parses but grants nothing** — A common cause is an explicit `-@all` later in the rule overriding earlier `+` clauses. Redis ACL evaluation is order-sensitive; see the [Redis ACL overview]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}).
+- **Rule parses but grants nothing** — A common cause is an explicit `-@all` later in the rule overriding earlier `+` clauses. Redis ACL evaluation is order-sensitive; see the [Redis ACL overview](/content/operate/rs/security/access-control/redis-acl-overview.md).
 - **Delete is blocked** — A `RedisEnterpriseRole` or `RedisEnterpriseClusterRole` still references the ACL in `spec.acl`. Remove the reference or delete the role first.
 
-For full field details, see the [`RedisEnterpriseACL`]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_acl_api" >}}) API reference.
+For full field details, see the [`RedisEnterpriseACL`](/content/operate/kubernetes/reference/api/redis_enterprise_acl_api.md) API reference.
 
 ## Related topics
 
-- [Redis ACL overview]({{< relref "/operate/rs/security/access-control/redis-acl-overview" >}}) — rule syntax, categories, and evaluation order.
-- [Manage roles]({{< relref "/operate/kubernetes/security/access-control/manage-roles" >}}) — attach ACLs to `RedisEnterpriseRole` and `RedisEnterpriseClusterRole` resources.
-- [Manage role bindings]({{< relref "/operate/kubernetes/security/access-control/manage-bindings" >}}) — grant the role to a user.
+- [Redis ACL overview](/content/operate/rs/security/access-control/redis-acl-overview.md) — rule syntax, categories, and evaluation order.
+- [Manage roles](/content/operate/kubernetes/security/access-control/manage-roles.md) — attach ACLs to `RedisEnterpriseRole` and `RedisEnterpriseClusterRole` resources.
+- [Manage role bindings](/content/operate/kubernetes/security/access-control/manage-bindings.md) — grant the role to a user.
