@@ -22,7 +22,7 @@ Radar uses the same sign-in as the rest of Redis Cloud, so any Redis Cloud accou
 
 ## Next steps
 
-- [Connect clusters]({{< relref "/operate/radar/connect" >}}) to add your first Redis Cloud, Amazon ElastiCache, or Google Memorystore source.
-- [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}) for what Radar shows you once a connection is collecting.
-- [Licenses and certificates]({{< relref "/operate/radar/licenses-and-certificates" >}}) to track certificate expiry across your fleet.
-- [Release notes]({{< relref "/operate/radar/release-notes" >}}) for what changed in each Cloud release.
+- [Connect clusters](/content/operate/radar/connect.md) to add your first Redis Cloud, Amazon ElastiCache, or Google Memorystore source.
+- [Monitor clusters and databases](/content/operate/radar/monitor.md) for what Radar shows you once a connection is collecting.
+- [Licenses and certificates](/content/operate/radar/licenses-and-certificates.md) to track certificate expiry across your fleet.
+- [Release notes](/content/operate/radar/release-notes/_index.md) for what changed in each Cloud release.

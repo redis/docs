@@ -20,7 +20,7 @@ The available tabs depend on your account, and may include:
 
 - The **Account** tab displays basic information associated with your account, including general info, address details, time zone setting, security settings, and provider integration details.
 
-- The **Cloud Account** tab is displayed for accounts with Redis Cloud Bring your own Cloud enabled. To learn more, see [Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/" >}}).
+- The **Cloud Account** tab is displayed for accounts with Redis Cloud Bring your own Cloud enabled. To learn more, see [Bring your own Cloud](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md).
 
 - The **Integrations** tab lets you manage certain integrations.
 
@@ -69,9 +69,9 @@ When you change your business address, you must approve the use of the informati
 
 The **Security** section lets you:
 
-- Manage [multi-factor authentication]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) (MFA) for your Redis Cloud account.
+- Manage [multi-factor authentication](/content/operate/rc/security/access-control/multi-factor-authentication.md) (MFA) for your Redis Cloud account.
 
-- Download the [Redis Cloud certificate authority (CA) bundle]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) as a [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) file, which contains the certificates associated with your Redis Cloud account.
+- Download the [Redis Cloud certificate authority (CA) bundle](/content/operate/rc/security/database-security/tls-ssl.md#download-certificates) as a [PEM](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail) file, which contains the certificates associated with your Redis Cloud account.
 
 ## Time zone settings
 
@@ -86,6 +86,6 @@ Select **Save changes** to save your changes or **Discard changes** to revert th
 The **Integrations** tab includes settings that help you manage integrations of your Redis Cloud account with other services.
 
 For more details, see:
-- [Use the Redis Sink Confluent Connector]({{< relref "/integrate/confluent-with-redis-cloud/" >}})
-- [Prometheus and Grafana with Redis Cloud]({{< relref "/integrate/prometheus-with-redis-cloud/" >}})
+- [Use the Redis Sink Confluent Connector](/content/integrate/confluent-with-redis-cloud/_index.md)
+- [Prometheus and Grafana with Redis Cloud](/content/integrate/prometheus-with-redis-cloud/_index.md)
 
