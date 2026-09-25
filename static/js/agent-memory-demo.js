@@ -453,18 +453,18 @@
   function allergyNote(plan, mems) {
     var allergy = mems.filter(function (m) { return m.key === "peanut" || m.key === "lactose"; })[0];
     if (!allergy) {
-      return "Maya never mentioned an allergy, so the targeted search only turns up the foods she avoids. " +
+      return "Maya never mentioned an allergy, so search 2 only turns up the foods she avoids. " +
         "The assistant runs it anyway, because it can't know in advance what it will find.";
     }
-    var label = allergy.key === "peanut" ? "peanut allergy" : "lactose intolerance", rank = 0;
+    var label = (allergy.key === "peanut" ? "peanut allergy" : "lactose intolerance") + ", memory " + allergy.num + ",", rank = 0;
     plan.primary.ranked.forEach(function (r, i) { if (r.mem.key === allergy.key) rank = i; });
     if (rank >= SCRIPTED_LIMIT) {
-      return "Search ranks memories by how similar they are to the query. For " + (plan.kind === "reorder" ? "the reorder request" : "the lunch question") +
-        " with a limit of " + SCRIPTED_LIMIT + ", the " + label + " ranks " + ORDINALS[rank] + " and isn't returned. " +
-        "That's why this assistant also runs a targeted search for allergies and foods to avoid before it " + (plan.kind === "reorder" ? "reorders." : "suggests food.");
+      return "Search 1 has a limit of " + SCRIPTED_LIMIT + ", so it returns only the " + SCRIPTED_LIMIT + " memories closest to Maya's message. " +
+        "The " + label + " is the " + ORDINALS[rank] + " closest, so search 1 leaves it out. " +
+        "That's why the assistant also runs search 2, for allergies and foods to avoid, before it " + (plan.kind === "reorder" ? "reorders." : "suggests food.");
     }
-    return "The " + label + " made the top " + SCRIPTED_LIMIT + " for this question on its own. Rankings shift with every question, though, " +
-      "so this assistant always runs a targeted search for allergies and foods to avoid too.";
+    return "The " + label + " is among the " + SCRIPTED_LIMIT + " memories closest to Maya's message, so search 1 returns it on its own. " +
+      "Rankings shift with every question, though, so the assistant always runs search 2, for allergies and foods to avoid, too.";
   }
 
   function laterNotes(step, s1Gone, ttl, plan, mems) {
@@ -757,8 +757,9 @@
           (opts.fresh && opts.fresh[m.key] ? " ram-fresh" : ""));
         r.dataset.mem = m.key;
         r.insertAdjacentHTML("beforeend", badge(m.num, false));
+        var found = used ? (used.length > 1 ? "Found by searches 1 and 2" : "Found by search " + used[0]) : "";
         r.appendChild(el("div", "", '<div class="ram-memtext">' + esc(m.text) + '</div><div class="ram-memmeta"><span class="ram-type ram-type-' +
-          m.type + '">' + m.type + "</span>from " + S1 + (used ? ' <span class="ram-used">recalled</span>' : "") + "</div>"));
+          m.type + '">' + m.type + "</span>from " + S1 + (used ? ' <span class="ram-used">' + found + "</span>" : "") + "</div>"));
         card.appendChild(r);
       });
       if (mems.length) {
@@ -938,17 +939,19 @@
 
       var extra = {};
       if (step >= 1) extra[0] = [callCard("Store Maya's message", "POST", "/session-memory/events", addEventRequest(s2.all[0]), "201", { event: s2.all[0] })];
-      if (step >= 2) extra[0].push(callCard("Search for her message", "POST", "/long-term-memory/search", searchRequest(plan.query, SCRIPTED_LIMIT, 0), "200", plan.primary.body));
-      if (step >= 3) extra[0].push(callCard("Search for allergies and foods to avoid", "POST", "/long-term-memory/search", searchRequest(SAFETY_QUERY, SCRIPTED_LIMIT, 0), "200", plan.safety.body));
+      if (step >= 2) extra[0].push(callCard("Search for her message", "POST", "/long-term-memory/search", searchRequest(plan.query, SCRIPTED_LIMIT, 0), "200", plan.primary.body, "Search 1"));
+      if (step >= 3) extra[0].push(callCard("Search for allergies and foods to avoid", "POST", "/long-term-memory/search", searchRequest(SAFETY_QUERY, SCRIPTED_LIMIT, 0), "200", plan.safety.body, "Search 2"));
       if (step >= 5) extra[1] = [callCard("Store the reply", "POST", "/session-memory/events", addEventRequest(s2.all[1]), "201", { event: s2.all[1] })];
       var c = chatCard(plan ? plan.script : [], step >= 4 ? 2 : Math.min(step, 1), extra);
       if (step >= 1 && step < 4) c.chat.appendChild(thinking());
       if (st.lunch == null) c.card.appendChild(composer("Choose Maya's message", LUNCH.map(function (l) { return l.text; }), sendLunch));
       p.appendChild(c.card);
 
+      /* Which of the two searches returned each memory, for the "Found by" labels. */
       var used = {};
-      if (step >= 2) plan.primary.returned.forEach(function (r) { used[r.mem.key] = true; });
-      if (step >= 3) plan.safety.returned.forEach(function (r) { used[r.mem.key] = true; });
+      function found(results, n) { results.forEach(function (r) { (used[r.mem.key] = used[r.mem.key] || []).push(n); }); }
+      if (step >= 2) found(plan.primary.returned, 1);
+      if (step >= 3) found(plan.safety.returned, 2);
       var blocks = [
         s1Gone ? { id: S1, expired: "Past its " + ttl.adj + " short-term TTL, so the session is gone. Fetching it returns 404." } : { id: S1, view: s1v },
         { id: S2, view: s2, fresh: view.fresh && n2 ? s2.all[n2 - 1].eventId : null, emptyText: "No events yet. The session starts with Maya's first message." }
@@ -974,9 +977,10 @@
         [700, function () { renderLater({ step: 5, fresh: true }); }]
       ]);
     }
-    function callCard(label, method, path, request, status, response) {
+    function callCard(label, method, path, request, status, response, tag) {
       var d = el("details", "rcr-call");
-      d.appendChild(el("summary", "", '<span class="rcr-lbl">' + method + '</span> <span class="rcr-mono rcr-callname">' + esc(path) +
+      d.appendChild(el("summary", "", (tag ? '<span class="ram-calltag">' + esc(tag) + "</span>" : "") +
+        '<span class="rcr-lbl">' + method + '</span> <span class="rcr-mono rcr-callname">' + esc(path) +
         '</span> <span class="rcr-faint rcr-callargs">' + esc(label) + '</span><span class="rcr-status"><span class="rcr-dot is-ok"></span> ' + status + "</span>"));
       var body = el("div", "rcr-callbody");
       if (request) { body.appendChild(el("div", "rcr-lbl", "Request body")); body.appendChild(pre(request)); }

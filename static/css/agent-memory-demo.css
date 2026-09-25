@@ -126,6 +126,12 @@
    widths ("1" is 384 units, "0" is 671), so "201" and "200" would end at
    different points. Tabular figures make every digit 600 units wide. */
 .ram .rcr-status { font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; }
+/* "Search 1" and "Search 2" on the search call cards, matched by the
+   "Found by search" labels on the long-term memories. */
+.ram-calltag {
+  flex: none; font-size: 10.5px; font-weight: 700; line-height: 16px; white-space: nowrap; border-radius: 999px; padding: 0 7px;
+  color: var(--rcr-accent-2); background: rgba(89, 97, 255, .08); border: 1px solid rgba(89, 97, 255, .3);
+}
 /* Centre the dot on the digits' line box rather than on the x-height, which sits lower. */
 
 /* API details inside the tier cards and the search card */
