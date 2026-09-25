@@ -13,4 +13,4 @@ weight: 20
 
 LangCache is available as a managed service on Redis Cloud.
 
-Use the Redis Iris operational documentation to [create and manage a LangCache service]({{< relref "/operate/iris/langcache" >}}).
+Use the Redis Iris operational documentation to [create and manage a LangCache service](/content/operate/iris/langcache/_index.md).

@@ -11,7 +11,7 @@ linkTitle: REST API
 weight: 80
 ---
 
-The [Redis Cloud REST API]({{< relref "/operate/rc/api/api-reference" >}}) helps you manage your Redis Cloud databases programmatically.
+The [Redis Cloud REST API](/content/operate/rc/api/api-reference.md) helps you manage your Redis Cloud databases programmatically.
 
 You can use the API to:
  
@@ -22,23 +22,23 @@ You can use the API to:
 
 ## Get started
 
-1. [Enable the API]({{< relref "/operate/rc/api/get-started/enable-the-api.md" >}})
-1. [Authenticate and authorize]({{< relref "/operate/rc/api/get-started" >}})
-1. [Create API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys.md" >}})
-1. [Use the API]({{< relref "/operate/rc/api/get-started/use-rest-api.md" >}})
-1. [Learn the API lifecycle]({{< relref "/operate/rc/api/get-started/process-lifecycle.md" >}})
-1. [Create and manage subscriptions]({{< relref "/operate/rc/api/examples/manage-subscriptions.md" >}})
+1. [Enable the API](/content/operate/rc/api/get-started/enable-the-api.md)
+1. [Authenticate and authorize](/content/operate/rc/api/get-started/_index.md)
+1. [Create API keys](/content/operate/rc/api/get-started/manage-api-keys.md)
+1. [Use the API](/content/operate/rc/api/get-started/use-rest-api.md)
+1. [Learn the API lifecycle](/content/operate/rc/api/get-started/process-lifecycle.md)
+1. [Create and manage subscriptions](/content/operate/rc/api/examples/manage-subscriptions.md)
 
 ## Examples
 
-1. [Manage subscriptions]({{< relref "/operate/rc/api/examples/manage-subscriptions.md" >}})
+1. [Manage subscriptions](/content/operate/rc/api/examples/manage-subscriptions.md)
 1. Database examples
-    - [Create and manage databases]({{< relref "/operate/rc/api/examples/create-database" >}})
-    - [Back up and import data]({{< relref "/operate/rc/api/examples/back-up-and-import-data.md" >}})
-1. [Estimate costs]({{< relref "/operate/rc/api/examples/dryrun-cost-estimates.md" >}})
+    - [Create and manage databases](/content/operate/rc/api/examples/create-database.md)
+    - [Back up and import data](/content/operate/rc/api/examples/back-up-and-import-data.md)
+1. [Estimate costs](/content/operate/rc/api/examples/dryrun-cost-estimates.md)
     
 ## More info
 
-- Use the [Redis Cloud API]({{< relref "/operate/rc/api/get-started/use-rest-api.md" >}})
-- [Full API Reference]({{< relref "/operate/rc/api/api-reference" >}})
-- Secure [authentication and authorization]({{< relref "/operate/rc/api/get-started" >}})
+- Use the [Redis Cloud API](/content/operate/rc/api/get-started/use-rest-api.md)
+- [Full API Reference](/content/operate/rc/api/api-reference.md)
+- Secure [authentication and authorization](/content/operate/rc/api/get-started/_index.md)

@@ -22,7 +22,7 @@ All create, update, and delete API operations (`POST`, `PUT`, and `DELETE`) and 
 
 After you request an asynchronous operation, the operation returns a `taskId` that identities the specific task, and contains contextual and status data on the API operation performed by the task.
 
-Tasks are part of the API [processing and provisioning lifecycle]({{< relref "/operate/rc/api/get-started/process-lifecycle" >}}).
+Tasks are part of the API [processing and provisioning lifecycle](/content/operate/rc/api/get-started/process-lifecycle.md).
 
 ## Task information
 
@@ -49,7 +49,7 @@ Where:
 
 - `taskId` - The unique identifier (UUID) of the specific task
 - `commandType` - The request (command) type
-- `status` - The [status]({{< relref "/operate/rc/api/get-started/process-lifecycle#task-process-states" >}}) of the task
+- `status` - The [status](/content/operate/rc/api/get-started/process-lifecycle.md#task-process-states) of the task
 - `description` - A description of the status
 - `timestamp` - The time of the response in ISO-8601 date format and in the UTC timezone
 - `_links` - URI links to resources related to the task including:
@@ -62,7 +62,7 @@ With the task ID, you can query the task status for updates and progress informa
 The response in the above example shows a URL with the title `getTaskStatusUpdates`.
 The URL in the `href` property returns updates for the specified task.
 
-Use [`GET /v1/tasks/{taskId}`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getTaskById" >}}) to check the task status.
+Use [`GET /v1/tasks/{taskId}`](/content/operate/rc/api/api-reference.md#tag/Tasks/operation/getTaskById) to check the task status.
 
 This endpoint returns information about the queried task.
 
@@ -95,11 +95,11 @@ This response example shows:
 - The `status` value is `"processing-completed"`.
 - The `response` field contains the resource identifier of the subscription resource changed by this task.
 - The `links` array contains another `getSubscriptionInformation` URL that links to the newly created subscription.
-    This link queries the subscription status during [provisioning]({{< relref "/operate/rc/api/get-started/process-lifecycle.md" >}}))
+    This link queries the subscription status during [provisioning](/content/operate/rc/api/get-started/process-lifecycle.md))
 
 ### Tasks list
 
-You can use the API operation [`GET /tasks`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getAllTasks" >}}) to list the recently submitted and completed tasks for the current account.
+You can use the API operation [`GET /tasks`](/content/operate/rc/api/api-reference.md#tag/Tasks/operation/getAllTasks) to list the recently submitted and completed tasks for the current account.
 
 This API operation returns a list of tasks for the current account, sorted by most recent status update.
 

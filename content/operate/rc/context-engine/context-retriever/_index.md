@@ -13,4 +13,4 @@ weight: 30
 
 Redis Context Retriever is available as a managed service on Redis Cloud.
 
-Use the Redis Iris operational documentation to [create and manage a Context Retriever service]({{< relref "/operate/iris/context-retriever" >}}).
+Use the Redis Iris operational documentation to [create and manage a Context Retriever service](/content/operate/iris/context-retriever/_index.md).

@@ -29,12 +29,11 @@ To enable the API:
 
     {{<image filename="images/rc/button-access-management-enable-api.png" alt="Use the **Enable API** button to enable the REST API for your account." >}}
 
-To authenticate REST API calls, you need to use both the API account key and an [API user key]({{< relref "/operate/rc/api/get-started/manage-api-keys#api-user-keys" >}}) to make API calls.
+To authenticate REST API calls, you need to use both the API account key and an [API user key](/content/operate/rc/api/get-started/manage-api-keys.md#api-user-keys) to make API calls.
 
 Only account owners can see the access key in the account settings and give API access to other users.
 
-{{< warning >}}
-Make sure that you keep your access keys secret. Anyone who sends an API request with a valid access key can make changes to your account.
-{{< /warning >}}
+> [!WARNING]
+> Make sure that you keep your access keys secret. Anyone who sends an API request with a valid access key can make changes to your account.
 
-To manage your API keys or to limit IP addresses for user keys, see [Manage API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys.md" >}}).
+To manage your API keys or to limit IP addresses for user keys, see [Manage API keys](/content/operate/rc/api/get-started/manage-api-keys.md).

@@ -12,7 +12,7 @@ weight: 60
 ---
 Redis Cloud owners and viewers can leverage a REST API that permits operations against a variety of resources, including subscriptions, databases, and related infrastructure.
 
-[Once it's enabled]({{< relref "/operate/rc/api/get-started/enable-the-api.md" >}}), you can use the REST API to create, update, and delete subscriptions, databases, and other entities.
+[Once it's enabled](/content/operate/rc/api/get-started/enable-the-api.md), you can use the REST API to create, update, and delete subscriptions, databases, and other entities.
 
 All create, update, and delete API operations (`POST`, `PUT`, and `DELETE`) and some query operations (`GET`) run asynchronously, which means that provisioning or processing occurs in the background.  When you submit a request, a background process, known as a **Task**, starts working on it.  The response object includes an ID that lets you determine the status of the background process as it works.
 
@@ -30,9 +30,9 @@ During this phase, the request is received, evaluated, planned, and executed.
 
 The response objects for all asynchronous operations provide a `taskId` identifier that lets you track the progress of the underlying operation.
 
-You can query the `taskId` to track the state of a specific task using [`GET /v1/tasks/{taskId}`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getTaskById" >}}).
+You can query the `taskId` to track the state of a specific task using [`GET /v1/tasks/{taskId}`](/content/operate/rc/api/api-reference.md#tag/Tasks/operation/getTaskById).
 
-You can also query the state of all active tasks or recently completed tasks in your account using [`GET /tasks`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getAllTasks" >}}).
+You can also query the state of all active tasks or recently completed tasks in your account using [`GET /tasks`](/content/operate/rc/api/api-reference.md#tag/Tasks/operation/getAllTasks).
 
 ### Task process states
 
@@ -46,22 +46,20 @@ During the processing of a request, the task moves through these states:
 - `processing-error` - Request processing failed.
     A detailed cause or reason is included in the task status JSON response.
 
-{{< note >}}
-A task that reaches the `received` state cannot be cancelled and it will await completion (i.e. processing and provisioning). If you wish to undo an operation that was performed by a task, perform a compensating action (for example: delete a subscription that was created unintentionally)
-{{< /note >}}
+> [!NOTE]
+> A task that reaches the `received` state cannot be cancelled and it will await completion (i.e. processing and provisioning). If you wish to undo an operation that was performed by a task, perform a compensating action (for example: delete a subscription that was created unintentionally)
 
 ## Task provisioning phase
 
 When the processing phase succeeds and the task is in the `processing-completed` state, the provisioning phase starts.
 During the provisioning phase, the API orchestrates all of the infrastructure, resources, and dependencies required by the request.
 
-{{< note >}}
-The term "provisioning" refers to all infrastructure changes required in order to apply the request. This includes provisioning new or additional infrastructure.
-{{< /note >}}
+> [!NOTE]
+> The term "provisioning" refers to all infrastructure changes required in order to apply the request. This includes provisioning new or additional infrastructure.
 
 The provisioning phase may require several minutes to complete. You can query the resource identifier to track the progress of the provisioning phase.
 
-For example, when you provision a new subscription, use [`GET /v1/subscriptions/{subscriptionId}`]({{< relref "/operate/rc/api/api-reference#tag/Subscriptions-Pro/operation/getSubscriptionById" >}}), where the `{subscriptionId}` is the resource ID that you receive when the task is in the `processing-completed` state.
+For example, when you provision a new subscription, use [`GET /v1/subscriptions/{subscriptionId}`](/content/operate/rc/api/api-reference.md#tag/Subscriptions-Pro/operation/getSubscriptionById), where the `{subscriptionId}` is the resource ID that you receive when the task is in the `processing-completed` state.
 
 ### Provisioning state values
 
