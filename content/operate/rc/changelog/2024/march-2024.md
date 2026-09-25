@@ -20,8 +20,8 @@ weight: 60
 
 ### Fixed subscriptions through Google Cloud Marketplace
 
-You can now use your [Google Cloud Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) account to pay for your Fixed subscriptions as well as your Flexible subscriptions. 
+You can now use your [Google Cloud Marketplace](/content/operate/rc/cloud-integrations/gcp-marketplace/_index.md) account to pay for your Fixed subscriptions as well as your Flexible subscriptions. 
 
 ### Active-Passive with TLS
 
-[Active-Passive]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}) now supports source databases that require connections over TLS. See [Migrate data]({{< relref "/operate/rc/databases/migrate-databases" >}}) for more information.
+[Active-Passive](/content/operate/rc/databases/migrate-databases.md#sync-using-active-passive) now supports source databases that require connections over TLS. See [Migrate data](/content/operate/rc/databases/migrate-databases.md) for more information.

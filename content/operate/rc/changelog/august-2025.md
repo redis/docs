@@ -18,4 +18,4 @@ tags:
 
 ### Active-Active on Redis Cloud BYOC
 
-You can now deploy [Active-Active databases]({{< relref "/operate/rc/databases/active-active/create-active-active-database" >}}) to [Redis Cloud Bring your own Cloud]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud" >}}).
+You can now deploy [Active-Active databases](/content/operate/rc/databases/active-active/create-active-active-database.md) to [Redis Cloud Bring your own Cloud](/content/operate/rc/subscriptions/bring-your-own-cloud/_index.md).
