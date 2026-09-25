@@ -66,6 +66,8 @@ Redis Agent Memory provides two memory tiers:
   </div>
 </div>
 
+To watch both tiers change during a conversation, try the [interactive demo](/content/develop/ai/context-engine/agent-memory/interactive-demo.md).
+
 ### Example: Travel planning agent
 
 Consider a travel agent helping a user plan a trip:

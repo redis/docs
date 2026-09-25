@@ -1,0 +1,25 @@
+{{- /*
+  agent-memory-demo
+  -----------------
+  Scripted, dependency-free demo of Redis Agent Memory: one customer's
+  conversation fills session memory, a background extraction run turns it
+  into long-term memories, and a later session recalls them by search. Runs
+  entirely in the browser; no service is called.
+
+  Usage (no arguments):
+      {{< agent-memory-demo >}}
+
+  Base styles come from context-retriever-demo.css so both Iris demos share
+  one look; agent-memory-demo.css adds this demo's pieces.
+*/ -}}
+
+{{- if not (.Page.Store.Get "ramAssetsEmitted") -}}
+<link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/agent-memory-demo.css" | relURL }}">
+<script defer src="{{ "js/agent-memory-demo.js" | relURL }}"></script>
+{{- .Page.Store.Set "ramAssetsEmitted" true -}}
+{{- end -}}
+
+<div class="rcr ram" data-ram>
+  <noscript><p>This interactive demo needs JavaScript.</p></noscript>
+</div>

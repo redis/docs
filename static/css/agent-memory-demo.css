@@ -1,0 +1,160 @@
+/* =========================================================================
+   Redis Agent Memory scripted demo
+   Additions to context-retriever-demo.css, which the shortcode loads first
+   so both Iris demos share one look. Scoped under `.ram`; the root element
+   also carries `.rcr` for the shared tokens and base styles.
+   ========================================================================= */
+
+.ram .ram-mt0 { margin-top: 0 !important; }
+.ram .ram-empty { color: var(--rcr-faint); font-size: 13px; }
+.ram .ram-chip {
+  display: inline-block; font-size: 11px; font-weight: 600; color: var(--rcr-muted);
+  background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); border-radius: 999px; padding: 0 8px;
+  white-space: nowrap;
+}
+
+/* ---- service settings ---- */
+.ram .ram-settings { padding: 0; margin-bottom: 12px; }
+.ram-settings > summary {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; cursor: pointer;
+  padding: 9px 12px; list-style: none; font-size: 13.5px;
+}
+.ram-settings > summary::-webkit-details-marker { display: none; }
+.ram-settings > summary::before { content: "\25B8"; color: var(--rcr-faint); font-size: 11px; }
+.ram-settings[open] > summary::before { content: "\25BE"; }
+.ram-settings-title { font-weight: 600; }
+.ram-setgrid { display: grid; gap: 8px; padding: 2px 12px 0; }
+.ram-set { display: grid; grid-template-columns: 1fr; gap: 3px; font-size: 13px; }
+.ram-set .rcr-lbl { align-self: center; }
+@container (min-width: 560px) {
+  .ram .ram-set { grid-template-columns: 170px 1fr; column-gap: 12px; align-items: center; }
+  .ram .ram-set > .rcr-faint { grid-column: 2; }
+}
+.ram-set .rcr-select { justify-self: start; }
+.ram-check { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
+.ram-check input { margin: 0; }
+.ram .ram-settings > .rcr-note { padding: 0 12px 12px; }
+
+/* ---- scene header ---- */
+.ram-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; margin-bottom: 10px; }
+.ram-clock {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--rcr-muted);
+  background: var(--rcr-surface-2); border: 1px solid var(--rcr-line); border-radius: 999px; padding: 2px 11px;
+}
+.ram-clock b { color: var(--rcr-ink); font-weight: 600; }
+
+.ram .ram-chatcard { margin-bottom: 12px; }
+.ram-chatcard .rcr-chat { min-height: 36px; }
+
+/* ---- the two tiers, side by side when there's room ---- */
+.ram-grid { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: start; }
+@container (min-width: 560px) { .rcr .ram-grid { grid-template-columns: 1fr 1fr; } }
+.ram .ram-tier { border-top-width: 3px; }
+.ram .ram-tier-short { border-top-color: var(--rcr-accent-2); }
+.ram .ram-tier-long { border-top-color: var(--rcr-ok); }
+.ram-tierhead { margin-bottom: 8px; }
+.ram-tiertitle { font-weight: 700; font-size: 14px; }
+.ram-tier-short .ram-tiertitle { color: var(--rcr-accent-2); }
+.ram-tier-long .ram-tiertitle { color: var(--rcr-ok); }
+.ram-tiersub { color: var(--rcr-faint); font-size: 12px; }
+.ram-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+
+/* session memory */
+.ram-sess + .ram-sess { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--rcr-line-strong); }
+.ram-sesshead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 6px; margin-bottom: 4px; font-weight: 600; }
+.ram .ram-status-expired { color: var(--rcr-bad); background: rgba(198, 40, 40, .07); border-color: rgba(198, 40, 40, .25); }
+.ram-sess.is-expired .ram-sesshead .rcr-mono { color: var(--rcr-faint); text-decoration: line-through; }
+.ram .ram-expired { font-size: 13px; color: var(--rcr-muted); background: var(--rcr-surface-2); border-radius: 8px; padding: 7px 10px; }
+.ram-ev { display: grid; grid-template-columns: auto 1fr; gap: 1px 8px; padding: 5px 0; border-bottom: 1px solid var(--rcr-line); font-size: 13px; }
+.ram-ev:last-child { border-bottom: 0; }
+.ram-evtime { grid-column: 2; font-size: 11px; color: var(--rcr-faint); }
+.ram .ram-evtime.rcr-mono { font-size: 11px; }
+.ram-role {
+  display: inline-block; font-size: 9.5px; font-weight: 700; letter-spacing: .4px; line-height: 16px;
+  border-radius: 4px; padding: 0 5px; align-self: start; margin-top: 1px;
+}
+.ram-role-user { background: var(--rcr-ink); color: #fff; }
+.ram-role-assistant { background: var(--rcr-surface-2); color: var(--rcr-muted); border: 1px solid var(--rcr-line); }
+.ram-summary {
+  background: rgba(89, 97, 255, .06); border: 1px dashed rgba(89, 97, 255, .5); border-radius: 8px;
+  padding: 7px 10px; margin: 4px 0 6px; font-size: 13px;
+}
+.ram .ram-summary .rcr-lbl { display: block; margin-bottom: 2px; color: var(--rcr-accent-2); }
+.ram-working { font-size: 12.5px; color: var(--rcr-muted); padding: 4px 0 6px; }
+
+/* long-term memory */
+.ram-mem { display: grid; grid-template-columns: auto 1fr; gap: 8px; padding: 6px 4px; border-bottom: 1px solid var(--rcr-line); font-size: 13px; border-radius: 6px; }
+.ram-mem:last-of-type { border-bottom: 0; }
+.ram-num {
+  width: 19px; height: 19px; border-radius: 50%; display: inline-grid; place-items: center; flex: none;
+  font-size: 11px; font-weight: 700; background: var(--rcr-ok); color: #fff; font-style: normal;
+}
+.ram-num-sm { width: 16px; height: 16px; font-size: 10px; vertical-align: -3px; }
+.ram-memmeta { font-size: 11.5px; color: var(--rcr-faint); margin-top: 1px; }
+.ram-type {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .3px; border-radius: 4px; padding: 0 5px; margin-right: 5px;
+  border: 1px solid var(--rcr-line); background: var(--rcr-surface-2);
+}
+.ram-type-semantic { color: var(--rcr-ok); }
+.ram-type-episodic { color: #b35900; }
+.ram-mem.is-used { background: rgba(26, 127, 75, .07); }
+.ram-used { font-size: 10.5px; font-weight: 700; color: var(--rcr-ok); margin-left: 4px; white-space: nowrap; }
+.ram-mem.is-sensitive .ram-memtext { color: var(--rcr-bad); }
+.ram-fresh { animation: ram-in .9s ease-out; }
+@keyframes ram-in { from { background: rgba(89, 97, 255, .16); } to { background: transparent; } }
+
+/* ---- notes and controls ---- */
+.ram .ram-callout {
+  border-left: 3px solid var(--rcr-accent-2); background: var(--rcr-surface-2); border-radius: 0 8px 8px 0;
+  padding: 8px 12px; margin-top: 12px; font-size: 13.5px;
+}
+.ram-callout p + p { margin-top: 6px !important; }
+.ram-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; }
+.ram .rcr-btn:disabled { opacity: .5; cursor: default; }
+
+/* API details inside the tier cards and the search card */
+.ram-api { margin-top: 8px; }
+.ram-api > summary { cursor: pointer; font-size: 12.5px; color: var(--rcr-accent-2); }
+.ram-apibody { display: grid; gap: 6px; margin-top: 6px; }
+.ram-apititle { font-size: 12.5px; margin-top: 4px; }
+
+/* ---- background extraction ---- */
+.ram .ram-extract { margin-bottom: 12px; }
+.ram-xrow { padding: 7px 4px; border-bottom: 1px solid var(--rcr-line); font-size: 13.5px; border-radius: 6px; transition: opacity .3s; }
+.ram-xrow:last-of-type { border-bottom: 0; }
+.ram-xrow.is-pending { opacity: .55; }
+.ram-xrow.is-active { background: rgba(89, 97, 255, .07); }
+.ram-xout { font-size: 12.5px; color: var(--rcr-muted); margin-top: 4px; }
+.ram-hl { background: rgba(26, 127, 75, .1); border-bottom: 2px solid rgba(26, 127, 75, .55); border-radius: 3px; padding: 0 1px; }
+.ram-left { color: var(--rcr-faint); text-decoration: line-through; }
+.ram-sens { background: rgba(198, 40, 40, .1); border-bottom: 2px solid rgba(198, 40, 40, .55); border-radius: 3px; padding: 0 1px; }
+.ram-tag { font-size: 9.5px; font-weight: 700; color: var(--rcr-ok); margin-left: 1px; }
+.ram-tag-bad { color: var(--rcr-bad); }
+.ram-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--rcr-muted); margin-top: 8px; }
+
+/* ---- search playground ---- */
+.ram .ram-search { margin-top: 14px; }
+.ram-search .rcr-chips { margin: 8px 0 4px; }
+.ram .rcr-chip.is-on { border-color: var(--rcr-accent-2); color: var(--rcr-accent-2); background: rgba(89, 97, 255, .07); }
+.ram-searchctl { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; margin: 8px 0 6px; font-size: 13px; }
+.ram-ctl { display: inline-flex; align-items: center; gap: 8px; }
+.ram-range { width: 140px; accent-color: var(--rcr-accent-2); }
+.ram-thrval { min-width: 30px; }
+.ram-res {
+  display: grid; grid-template-columns: 18px 84px 1fr auto; gap: 8px; align-items: center;
+  padding: 5px 0; border-bottom: 1px solid var(--rcr-line); font-size: 13px;
+}
+.ram-res:last-child { border-bottom: 0; }
+.ram-res.is-out { color: var(--rcr-faint); }
+.ram-res.is-out .ram-num { background: var(--rcr-faint); }
+.ram-score { display: inline-flex; align-items: center; gap: 6px; }
+.ram-bar { width: 44px; height: 6px; border-radius: 3px; background: var(--rcr-line); overflow: hidden; flex: none; }
+.ram-bar > span { display: block; height: 100%; background: var(--rcr-ok); }
+.ram-res.is-out .ram-bar > span { background: var(--rcr-faint); }
+.ram-resstat { font-size: 11px; font-weight: 600; white-space: nowrap; }
+.ram-res:not(.is-out) .ram-resstat { color: var(--rcr-ok); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ram-fresh { animation: none; }
+  .ram-xrow { transition: none; }
+}
