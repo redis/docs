@@ -286,31 +286,41 @@
   function ttlOf(key) { return TTLS.filter(function (t) { return t.key === key; })[0]; }
   function textOf(def) { return def.parts.map(function (p) { return p.t; }).join(""); }
 
-  /* Number badges are drawn as SVG, with each digit's ink centred from the
-     font's measured glyph bounds. Text inside a CSS circle can't be centred
-     exactly: Chrome snaps the text baseline to whole pixels, which left
-     digits up to half a pixel off depending on where the badge sat. */
+  /* Number badges are SVG: a circle and the digit's outline from Geist Bold
+     (static/fonts/Geist-Bold.woff2, 1000 units per em, y up), placed so the
+     outline's bounding box sits exactly on the circle's centre. Drawing the
+     outline instead of text keeps the digit centred in every browser: text
+     is snapped to whole pixels, and the site only declares Geist Regular, so
+     bold digits would be synthesized differently by each renderer. */
+  var DIGITS = {
+    "0": { adv: 696, b: [46, -16, 651, 726], d: "M46 354Q46 468 82.5 552Q119 636 187.5 681Q256 726 348 726Q440 726 508.5 681Q577 636 614 552Q651 468 651 354Q651 241 614.5 157.5Q578 74 509.5 29Q441 -16 348 -16Q255 -16 187 28.5Q119 73 82.5 156.5Q46 240 46 354ZM494 354Q494 474 456.5 536Q419 598 348 598Q277 598 239.5 536Q202 474 202 354Q202 235 239.5 173.5Q277 112 348 112Q419 112 456.5 173.5Q494 235 494 354Z" },
+    "1": { adv: 449, b: [38, 0, 344, 710], d: "M192 467H38V578H99Q167 578 195 607Q223 636 223 710H344V0H192Z" },
+    "2": { adv: 653, b: [58, 0, 596, 726], d: "M310 379Q362 406 389 425Q416 444 428 463.5Q440 483 440 510Q440 550 414 574Q388 598 340 598Q286 598 254.5 566.5Q223 535 215 475L59 484Q69 598 141.5 662Q214 726 338 726Q418 726 476.5 699.5Q535 673 565.5 624.5Q596 576 596 512Q596 457 577.5 419Q559 381 520 349.5Q481 318 410 280Q327 236 284.5 197Q242 158 239 128H596V0H58Q58 92 82.5 158Q107 224 161.5 276.5Q216 329 310 379Z" },
+    "3": { adv: 653, b: [46, -16, 607, 726], d: "M46 208 201 214Q211 112 326 112Q382 112 416.5 137Q451 162 451 210Q451 260 416.5 286Q382 312 321 312H257V425H321Q370 425 399 446Q428 467 428 511Q428 553 402.5 575.5Q377 598 324 598Q272 598 243.5 577Q215 556 210 519L57 527Q67 618 137 672Q207 726 324 726Q449 726 516.5 673Q584 620 584 527Q584 472 552 433.5Q520 395 460 376Q531 357 569 311.5Q607 266 607 199Q607 98 531.5 41Q456 -16 326 -16Q196 -16 123.5 43.5Q51 103 46 208Z" },
+    "4": { adv: 680, b: [46, 0, 634, 710], d: "M399 135H46V256L370 710H551V263H634V135H551V0H399ZM399 263V523L207 263Z" },
+    "5": { adv: 671, b: [56, -16, 615, 710], d: "M56 196 210 203Q218 158 250 135Q282 112 334 112Q393 112 426 145Q459 178 459 236Q459 293 425 327.5Q391 362 333 362Q291 362 260 343.5Q229 325 216 295H64L113 710H566V582H242L221 418Q249 445 288 459.5Q327 474 376 474Q448 474 502 443Q556 412 585.5 358Q615 304 615 236Q615 159 580.5 102Q546 45 482 14.5Q418 -16 334 -16Q206 -16 135 40.5Q64 97 56 196Z" },
+    "6": { adv: 661, b: [56, -16, 604, 726], d: "M56 313Q56 500 131.5 613Q207 726 356 726Q457 726 519 677Q581 628 601 540L460 530Q447 565 423 583Q399 601 356 601Q225 601 204 398Q229 429 269.5 447.5Q310 466 364 466Q436 466 490.5 437Q545 408 574.5 355.5Q604 303 604 234Q604 156 570 99.5Q536 43 474.5 13.5Q413 -16 332 -16Q196 -16 126 69.5Q56 155 56 313ZM453 232Q453 288 420.5 323Q388 358 336 358Q279 358 244 323.5Q209 289 209 232Q209 175 242.5 140Q276 105 331 105Q386 105 419.5 139.5Q453 174 453 232Z" },
+    "7": { adv: 596, b: [36, 0, 560, 710], d: "M406 582H36V710H560V591Q444 460 389 321.5Q334 183 334 0H180Q180 160 240 309Q300 458 406 582Z" },
+    "8": { adv: 668, b: [36, -16, 632, 726], d: "M36 193Q36 262 74.5 311Q113 360 181 381Q128 400 99 438.5Q70 477 70 531Q70 620 139.5 673Q209 726 334 726Q459 726 528 673Q597 620 597 531Q597 477 567.5 438.5Q538 400 485 381Q554 360 593 311Q632 262 632 193Q632 92 552.5 38Q473 -16 334 -16Q196 -16 116 38Q36 92 36 193ZM475 216Q475 265 438 294.5Q401 324 334 324Q267 324 229.5 295Q192 266 192 216Q192 167 230.5 139.5Q269 112 334 112Q399 112 437 139.5Q475 167 475 216ZM442 515Q442 554 414 576.5Q386 599 334 599Q282 599 253.5 576.5Q225 554 225 515Q225 473 253.5 452Q282 431 334 431Q386 431 414 452Q442 473 442 515Z" },
+    "9": { adv: 665, b: [56, -16, 609, 726], d: "M68 160 214 169Q236 109 314 109Q383 109 418 155Q453 201 459 304Q403 231 292 231Q222 231 168.5 260.5Q115 290 85.5 344Q56 398 56 469Q56 547 89 605Q122 663 182 694.5Q242 726 322 726Q466 726 537.5 637.5Q609 549 609 380Q609 189 536 86.5Q463 -16 314 -16Q120 -16 68 160ZM448 471Q448 532 415.5 568.5Q383 605 327 605Q272 605 240 569Q208 533 208 472Q208 412 240 376Q272 340 325 340Q382 340 415 375Q448 410 448 471Z" }
+  };
   var BADGE = { size: 19, font: 11 }, BADGE_SM = { size: 16, font: 10 };
-  var badgeFont = "sans-serif", badgeCache = {}, badgeCtx = null;
   function badge(n, small) {
-    var b = small ? BADGE_SM : BADGE, key = (small ? "s" : "n") + n, pos = badgeCache[key], half = b.size / 2;
-    if (!pos) {
-      pos = { x: half, y: half, anchor: "middle", base: "central" };
-      badgeCtx = badgeCtx || document.createElement("canvas").getContext("2d");
-      if (badgeCtx) {
-        badgeCtx.font = "700 " + b.font + "px " + badgeFont;
-        var m = badgeCtx.measureText(String(n));
-        if (m.actualBoundingBoxAscent != null) {
-          pos = { x: half - (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2,
-            y: half + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2, anchor: "start", base: "alphabetic" };
-        }
-      }
-      if (!document.fonts || document.fonts.status === "loaded") badgeCache[key] = pos;
-    }
+    var b = small ? BADGE_SM : BADGE, half = b.size / 2, s = b.font / 1000, chars = String(n).split(""), x = 0, box = null, paths = [];
+    chars.forEach(function (c) {
+      var g = DIGITS[c];
+      if (!g) return;
+      paths.push({ g: g, x: x });
+      var gb = [g.b[0] + x, g.b[1], g.b[2] + x, g.b[3]];
+      box = box ? [Math.min(box[0], gb[0]), Math.min(box[1], gb[1]), Math.max(box[2], gb[2]), Math.max(box[3], gb[3])] : gb;
+      x += g.adv;
+    });
+    var tx = box ? half - s * (box[0] + box[2]) / 2 : half, ty = box ? half + s * (box[1] + box[3]) / 2 : half;
     return '<span class="ram-num' + (small ? " ram-num-sm" : "") + '" data-num="' + n + '"><svg aria-hidden="true" width="' + b.size +
-      '" height="' + b.size + '" viewBox="0 0 ' + b.size + " " + b.size + '"><circle cx="' + half + '" cy="' + half + '" r="' + half +
-      '"/><text x="' + pos.x.toFixed(2) + '" y="' + pos.y.toFixed(2) + '" text-anchor="' + pos.anchor + '" dominant-baseline="' + pos.base +
-      '">' + n + '</text></svg><span class="ram-sr">' + n + "</span></span>";
+      '" height="' + b.size + '" viewBox="0 0 ' + b.size + " " + b.size + '"><circle cx="' + half + '" cy="' + half + '" r="' + half + '"/>' +
+      paths.map(function (q) {
+        return '<path transform="translate(' + (tx + s * q.x).toFixed(4) + " " + ty.toFixed(4) + ") scale(" + s + " " + (-s) + ')" d="' + q.g.d + '"/>';
+      }).join("") + '</svg><span class="ram-sr">' + n + "</span></span>";
   }
 
   /* Pretty JSON with light syntax colouring (same as the Context Retriever demo). */
@@ -484,8 +494,6 @@
       search: { q: "lunch", limit: SCRIPTED_LIMIT, threshold: 0 },
       open: {}, anim: 0, busy: false, focus: null
     };
-    badgeFont = getComputedStyle(root).fontFamily || badgeFont;
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { badgeCache = {}; });
     var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     function wait(ms) { return new Promise(function (r) { setTimeout(r, reduced ? 0 : ms); }); }
 
@@ -1053,6 +1061,6 @@
   /* Exposed for tests. */
   window.AgentMemoryDemo = { TURNS: TURNS, LUNCH: LUNCH, QUERIES: QUERIES, TTLS: TTLS, s1Script: s1Script, summaryText: summaryText,
     memoriesFor: memoriesFor, outcome: outcome, lunchPlan: lunchPlan, runSearch: runSearch, searchRequest: searchRequest,
-    sessionView: sessionView, sessionResponse: sessionResponse, recordJson: recordJson, chatNotes: chatNotes,
+    sessionView: sessionView, sessionResponse: sessionResponse, recordJson: recordJson, chatNotes: chatNotes, badge: badge, DIGITS: DIGITS,
     extractNotes: extractNotes, laterNotes: laterNotes, curl: curl, b64: b64, textOf: textOf };
 })();

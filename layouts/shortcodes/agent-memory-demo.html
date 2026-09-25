@@ -18,9 +18,14 @@
   guards against running twice if the shortcode is used more than once.
 */ -}}
 
-<link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}">
-<link rel="stylesheet" href="{{ "css/agent-memory-demo.css" | relURL }}">
-<script defer src="{{ "js/agent-memory-demo.js" | relURL }}"></script>
+{{- /* ?v= is a hash of the file, so a reload never runs a stale cached copy. */ -}}
+{{- $v := dict -}}
+{{- range slice "css/context-retriever-demo.css" "css/agent-memory-demo.css" "js/agent-memory-demo.js" -}}
+  {{- $v = merge $v (dict . (substr (md5 (os.ReadFile (print "static/" .))) 0 10)) -}}
+{{- end }}
+<link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}?v={{ index $v "css/context-retriever-demo.css" }}">
+<link rel="stylesheet" href="{{ "css/agent-memory-demo.css" | relURL }}?v={{ index $v "css/agent-memory-demo.css" }}">
+<script defer src="{{ "js/agent-memory-demo.js" | relURL }}?v={{ index $v "js/agent-memory-demo.js" }}"></script>
 
 <div class="rcr ram" data-ram>
   <noscript><p>This interactive demo needs JavaScript.</p></noscript>
