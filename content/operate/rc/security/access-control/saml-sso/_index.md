@@ -24,15 +24,15 @@ When SAML SSO is enabled, the [identity provider (IdP)](https://en.wikipedia.org
 
 You can use any identity provider to integrate with Redis Cloud as long as it supports the SAML protocol. You can also refer to these integration guides for several popular identity providers:
 
-  - [Auth0 SAML integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-auth0" >}})
-  - [AWS IAM Identity Center SAML integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-aws-identity-center" >}})
-  - [Azure Active Directory SAML integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-azure-ad" >}})
-  - [Google Workspace integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-google" >}})
-  - [Okta SAML integration (Generic)]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-okta-generic" >}})
-  - [Okta SAML integration (Org2Org)]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-okta-org2org" >}})
-  - [PingIdentity SAML integration]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-ping-identity" >}})
+  - [Auth0 SAML integration](/content/operate/rc/security/access-control/saml-sso/saml-integration-auth0.md)
+  - [AWS IAM Identity Center SAML integration](/content/operate/rc/security/access-control/saml-sso/saml-integration-aws-identity-center.md)
+  - [Azure Active Directory SAML integration](/content/operate/rc/security/access-control/saml-sso/saml-integration-azure-ad.md)
+  - [Google Workspace integration](/content/operate/rc/security/access-control/saml-sso/saml-integration-google.md)
+  - [Okta SAML integration (Generic)](/content/operate/rc/security/access-control/saml-sso/saml-integration-okta-generic.md)
+  - [Okta SAML integration (Org2Org)](/content/operate/rc/security/access-control/saml-sso/saml-integration-okta-org2org.md)
+  - [PingIdentity SAML integration](/content/operate/rc/security/access-control/saml-sso/saml-integration-ping-identity.md)
 
-After you activate SAML SSO for a Redis Cloud account, all existing local users for the account, except for the user that set up SAML SSO, are converted to SAML users and are required to use SAML SSO to sign in. Before they can sign in to Redis Cloud, the identity provider admin needs to set up these users on the IdP side and configure the `redisAccountMapping` attribute to map them to the appropriate Redis Cloud accounts and [roles]({{< relref "/operate/rc/security/access-control/access-management#team-management-roles" >}}).
+After you activate SAML SSO for a Redis Cloud account, all existing local users for the account, except for the user that set up SAML SSO, are converted to SAML users and are required to use SAML SSO to sign in. Before they can sign in to Redis Cloud, the identity provider admin needs to set up these users on the IdP side and configure the `redisAccountMapping` attribute to map them to the appropriate Redis Cloud accounts and [roles](/content/operate/rc/security/access-control/access-management.md#team-management-roles).
 
 ### IdP-initiated SSO
 
@@ -56,7 +56,7 @@ You can also initiate single sign-on from the [Redis Cloud console](https://clou
 
 ### Multi-factor authentication
 
-The account owner remains a local user and should set up [multi-factor authentication (MFA)]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) to help secure their account. After SAML activation, the account owner can set up additional local bypass users with MFA enabled.
+The account owner remains a local user and should set up [multi-factor authentication (MFA)](/content/operate/rc/security/access-control/multi-factor-authentication.md) to help secure their account. After SAML activation, the account owner can set up additional local bypass users with MFA enabled.
 
 If MFA enforcement is enabled, note that Redis Cloud does not enforce MFA for SAML users since the identity provider handles MFA management and enforcement.
 
@@ -137,7 +137,7 @@ Set up a SAML app to integrate Redis Cloud with your identity provider:
     | FirstName | User's first name |
     | LastName | User's last name |
     | Email | User's email address (used as the username in the Redis Cloud console) |
-    | redisAccountMapping | Key-value pair of a lowercase [role name]({{< relref "/operate/rc/security/access-control/access-management#team-management-roles" >}}) (owner, member, manager, billing_admin, or viewer) and the user's Redis Cloud **Account number** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}) |
+    | redisAccountMapping | Key-value pair of a lowercase [role name](/content/operate/rc/security/access-control/access-management.md#team-management-roles) (owner, member, manager, billing_admin, or viewer) and the user's Redis Cloud **Account number** found in the [account settings](/content/operate/rc/accounts/account-settings.md) |
 
     For `redisAccountMapping`, you can add the same user to multiple SAML-enabled accounts using one of these options:
 
@@ -164,9 +164,9 @@ Set up a SAML app to integrate Redis Cloud with your identity provider:
         </saml2:Attribute>
         ```
 
-    {{<note>}}
-To confirm the identity provider's SAML assertions contain the required attributes, you can use a SAML-tracer web developer tool to inspect them.
-    {{</note>}}
+    > [!NOTE]
+    > To confirm the identity provider's SAML assertions contain the required attributes, you can use a SAML-tracer web developer tool to inspect them.
+    >
 
 1. Set up any additional configuration required by your identity provider to ensure you can configure the `redisAccountMapping` attribute for SAML users.
 
@@ -256,11 +256,11 @@ To activate SAML SSO:
 
     - Select **SSO** and enter the email address associated with the SAML user configured in your identity provider. Your user converts to a SAML user in Redis Cloud. Don't use this method if you want your user account to remain a local bypass user.
 
-    {{<note>}}
-If you see a **SAML activation failed** notification when redirected to the Redis Cloud sign-in screen, sign in with your local user credentials and review the SAML configuration for issues.
-    {{</note>}}
+    > [!NOTE]
+    > If you see a **SAML activation failed** notification when redirected to the Redis Cloud sign-in screen, sign in with your local user credentials and review the SAML configuration for issues.
+    >
 
-After you activate SAML SSO, [add a few local bypass users]({{< relref "/operate/rc/security/access-control/access-management#manage-team-access" >}}) from the **Team** tab. Local bypass users should [set up MFA]({{< relref "/operate/rc/security/access-control/multi-factor-authentication" >}}) for additional security.
+After you activate SAML SSO, [add a few local bypass users](/content/operate/rc/security/access-control/access-management.md#manage-team-access) from the **Team** tab. Local bypass users should [set up MFA](/content/operate/rc/security/access-control/multi-factor-authentication.md) for additional security.
 
 ## Update configuration {#update-config}
 
@@ -274,9 +274,8 @@ If you change certain metadata or configuration settings after you set up SAML S
 
 After you set up SAML SSO for one account, you can link other accounts you own to the existing SAML configuration. This lets you use the same SAML configuration for SSO across multiple accounts.
 
-{{<note>}}
-You must have the `Owner` role assigned to your user account for all accounts you want to link. The same user must link each account to the original configuration.
-{{</note>}}
+> [!NOTE]
+> You must have the `Owner` role assigned to your user account for all accounts you want to link. The same user must link each account to the original configuration.
 
 To link other accounts to an existing SAML SSO configuration:
 
@@ -324,6 +323,6 @@ To deactivate SAML SSO for a specific account:
 
 When a user is removed from your identity provider, their access to Redis Cloud should also be removed.  
 
-When you have revoked a user’s access to Redis Cloud, they cannot access the Redis Cloud console, but their API keys remain active. You can [delete an API key]({{< relref "/operate/rc/api/get-started/manage-api-keys#delete-a-user-key" >}}) to remove access.
+When you have revoked a user’s access to Redis Cloud, they cannot access the Redis Cloud console, but their API keys remain active. You can [delete an API key](/content/operate/rc/api/get-started/manage-api-keys.md#delete-a-user-key) to remove access.
 
-To deprovision SAML users upon deletion, the identity provider admin can set up a webhook to automatically make the appropriate Cloud API requests. For more information about managing users with API requests, see [Users]({{< relref "/operate/rc/api/api-reference#tag/Users" >}}) in the Redis Cloud API documentation.
+To deprovision SAML users upon deletion, the identity provider admin can set up a webhook to automatically make the appropriate Cloud API requests. For more information about managing users with API requests, see [Users](/content/operate/rc/api/api-reference.md#tag/Users) in the Redis Cloud API documentation.

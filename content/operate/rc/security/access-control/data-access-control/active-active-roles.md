@@ -12,7 +12,7 @@ toc: 'true'
 weight: $weight
 ---
 
-For [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}), you can define roles with different levels of access for different regions. For example, you can define a user role with full database access in one region and read-only access in another. Or, you can prevent a user from running any commands in a specified region.
+For [Active-Active databases](/content/operate/rc/databases/active-active/_index.md), you can define roles with different levels of access for different regions. For example, you can define a user role with full database access in one region and read-only access in another. Or, you can prevent a user from running any commands in a specified region.
 
 1. Go to **Data Access Control > Roles** and either select `+` to create a new role or point to an existing role and select the pencil icon to edit it.
 
@@ -26,9 +26,9 @@ For [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >
 
 1. To set the role's default level of access to the selected databases, choose a **Redis ACL** from the list and select the check mark to confirm the association.
 
-    {{< note >}}
-The default level of access to the selected database only applies to regions that exist when the role is created. If you add a new region to your Active-Active subscription, the new region will default to **No Access** for the role.
-    {{< /note >}}
+    > [!NOTE]
+    > The default level of access to the selected database only applies to regions that exist when the role is created. If you add a new region to your Active-Active subscription, the new region will default to **No Access** for the role.
+    >
 
 1. Select the ACL name next to a region to change which ACL applies to that region.
 
@@ -38,10 +38,9 @@ The default level of access to the selected database only applies to regions tha
 
 1. Select **Save role**.
 
-When you assign a user-defined ACL rule to a role and associate it with one or more databases, Redis will verify that the ACL rule will work with the selected databases. Verify that the [syntax]({{< relref "/operate/rc/security/access-control/data-access-control/configure-acls#define-permissions-with-acl-syntax" >}}) of the ACL rule is correct if you receive an error.
+When you assign a user-defined ACL rule to a role and associate it with one or more databases, Redis will verify that the ACL rule will work with the selected databases. Verify that the [syntax](/content/operate/rc/security/access-control/data-access-control/configure-acls.md#define-permissions-with-acl-syntax) of the ACL rule is correct if you receive an error.
 
-After you create a role, you can assign it to a user. Users with this role can access the databases according to the role's associated Redis ACLs. For more information, see [Assign roles to users]({{< relref "/operate/rc/security/access-control/data-access-control/create-assign-users#assign-roles-to-existing-users" >}}).
+After you create a role, you can assign it to a user. Users with this role can access the databases according to the role's associated Redis ACLs. For more information, see [Assign roles to users](/content/operate/rc/security/access-control/data-access-control/create-assign-users.md#assign-roles-to-existing-users).
 
-{{< note >}}
-{{< embed-md "rc-acls-note.md" >}}
-{{< /note >}}
+> [!NOTE]
+> {{< embed-md "rc-acls-note.md" >}}

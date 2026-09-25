@@ -18,7 +18,7 @@ This feature is only available for Redis Cloud Pro subscriptions hosted on Googl
 
 ## Considerations
 
-You can use Private Service Connect as an alternative to [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}}), or you can enable both for your subscription.
+You can use Private Service Connect as an alternative to [VPC peering](/content/operate/rc/security/vpc-peering.md), or you can enable both for your subscription.
 
 Compared to VPC peering, Private Service Connect:
 
@@ -28,9 +28,9 @@ Compared to VPC peering, Private Service Connect:
  
 - Has slightly higher network latency than VPC peering due to load balancing requirements.
 
-    {{<note>}}
-Larger clusters are more likely to experience increased latency with Private Service Connect versus VPC peering.
-    {{</note>}}
+    > [!NOTE]
+    > Larger clusters are more likely to experience increased latency with Private Service Connect versus VPC peering.
+    >
 
 Consider using VPC peering and Private Service Connect in parallel for the following situations:
 
@@ -91,9 +91,9 @@ Now that you have a pending Private Service Connect entry, you need to create th
 
 1. If you have not already done so, [enable Cloud DNS](https://cloud.google.com/dns/docs/set-up-dns-records-domain-name) for your Google Cloud project.
 
-    {{<note>}}
-Since it can take some time for the DNS changes to become active, we recommend you wait 10 minutes before running the `gcloud` script in the next steps.
-    {{</note>}}
+    > [!NOTE]
+    > Since it can take some time for the DNS changes to become active, we recommend you wait 10 minutes before running the `gcloud` script in the next steps.
+    >
 
 1. If you already have a copy of the `gcloud` script shown earlier during the **Add connections** step, you can continue to the next step. 
 
@@ -105,9 +105,9 @@ Since it can take some time for the DNS changes to become active, we recommend y
 
 1. Use the [`gcloud` CLI](https://cloud.google.com/sdk/gcloud) to run the script.
 
-    {{<warning>}}
-To ensure the `gcloud` script configures the endpoints correctly, do not make any changes to it.
-    {{</warning>}}
+    > [!WARNING]
+    > To ensure the `gcloud` script configures the endpoints correctly, do not make any changes to it.
+    >
 
 The `gcloud` script creates a PSC endpoint and a DNS response policy in the consumer application VPC.
 
@@ -134,9 +134,8 @@ Once your Private Service Connect endpoint is active, you can connect your appli
 
 1. Copy the endpoint and use it in your application to connect to your database.
 
-{{< note >}}
-Once your Private Service Connect endpoint is active, you must connect to the database from the Private Service Connect endpoint if you want to connect with Private Service connect. If you previously used the public or private endpoint to connect to your database, you must migrate any connections to the Private Service Connect endpoint.
-{{< /note >}}
+> [!NOTE]
+> Once your Private Service Connect endpoint is active, you must connect to the database from the Private Service Connect endpoint if you want to connect with Private Service connect. If you previously used the public or private endpoint to connect to your database, you must migrate any connections to the Private Service Connect endpoint.
 
 
 ## Deactivate Private Service Connect {#deactivate-psc}
@@ -171,8 +170,8 @@ Once you remove all of your Private Service Connect endpoints and deactivate it,
 
 Private Service Connect has the following limitations in Redis Cloud:
 
-- Although Redis Cloud supports using Private Service Connect with Enterprise clustering, you cannot use the [Cluster API]({{< relref "/operate/rc/databases/create-database#oss-cluster-api" >}}) with Private Service Connect enabled.
-- The pre-handoff feature of [Smart client handoffs]({{< relref "/develop/clients/sch#redis-cloud" >}}) is not currently supported with Private Service Connect, but relaxed timeouts are available and enabled by default.
+- Although Redis Cloud supports using Private Service Connect with Enterprise clustering, you cannot use the [Cluster API](/content/operate/rc/databases/create-database/_index.md#oss-cluster-api) with Private Service Connect enabled.
+- The pre-handoff feature of [Smart client handoffs](/content/develop/clients/sch.md#redis-cloud) is not currently supported with Private Service Connect, but relaxed timeouts are available and enabled by default.
 
 ## Continue learning with Redis University
 

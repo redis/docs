@@ -14,11 +14,11 @@ bannerText: Specific identity provider details may be different than shown in th
 
 This guide shows how to configure [Okta](https://help.okta.com/en-us/Content/Topics/Security/Identity_Providers.htm) as a SAML single sign-on identity provider (IdP) for your Redis Cloud account.
 
-This guide shows how to use the Org2Org application template. You can also use the [Generic]({{< relref "/operate/rc/security/access-control/saml-sso/saml-integration-okta-generic" >}}) application template.
+This guide shows how to use the Org2Org application template. You can also use the [Generic](/content/operate/rc/security/access-control/saml-sso/saml-integration-okta-generic.md) application template.
 
-To learn more about Redis Cloud support for SAML, see [SAML single sign-on]({{< relref "/operate/rc/security/access-control/saml-sso" >}}).
+To learn more about Redis Cloud support for SAML, see [SAML single sign-on](/content/operate/rc/security/access-control/saml-sso/_index.md).
 
-Before completing this guide, you must [verify ownership of any domains]({{< relref "/operate/rc/security/access-control/saml-sso#verify-domain" >}}) you want to associate with your SAML setup.
+Before completing this guide, you must [verify ownership of any domains](/content/operate/rc/security/access-control/saml-sso/_index.md#verify-domain) you want to associate with your SAML setup.
 
 ## Step 1: Set up your identity provider 
 
@@ -52,9 +52,10 @@ Create an Okta "Org2Org" SAML integration appliction.
     * **Name Format**: `Basic`
     * **Value**: `appuser.redisAccountMapping`
 
-    {{< warning >}}
-To ensure the role mapping will not take effect, don't skip entering `appuser.redisAccountMapping` in the **Value** field.
-    {{< /warning >}}
+    > [!WARNING]
+    > To ensure the role mapping will not take effect, don't skip entering `appuser.redisAccountMapping` in the **Value** field.
+    >
+
 
     {{<image filename="images/rc/saml/okta_saml_4.png" alt="Use the Okta admin console to locate the Org2Org application template." >}}
 
@@ -141,7 +142,7 @@ Now that your group is populated with its users, assign the SAML integration app
 
     {{<image filename="images/rc/saml/okta_saml_group_7.png" alt="Use the Okta admin console to locate the Org2Org application template." >}}
 
-1. Now, define the Redis account mapping string default for this group and select **Save and go back**. The key-value pair consists of the lowercase role name (owner, member, manager, billing_admin, or viewer) and your **Redis Cloud Account ID** found in the [account settings]({{< relref "/operate/rc/accounts/account-settings" >}}). Select **"Done"**.
+1. Now, define the Redis account mapping string default for this group and select **Save and go back**. The key-value pair consists of the lowercase role name (owner, member, manager, billing_admin, or viewer) and your **Redis Cloud Account ID** found in the [account settings](/content/operate/rc/accounts/account-settings.md). Select **"Done"**.
 
     {{<image filename="images/rc/saml/okta_saml_group_8.png" alt="Use the Okta admin console to locate the Org2Org application template." >}}
 
@@ -232,9 +233,8 @@ Select **Save**.
 
 To use IdP-initiated SSO with identity providers, set the RelayState parameter to URL `https://cloud.redis.io/#/login/?idpId=<ID>`.
 
-{{< note >}}
-Replace `<ID>` so it matches the AssertionConsumerService Location URL ID (the content after the last forward slash "/"). To learn more about configuring service provider applications, see your identity provider's documentation.
-{{< /note >}}
+> [!NOTE]
+> Replace `<ID>` so it matches the AssertionConsumerService Location URL ID (the content after the last forward slash "/"). To learn more about configuring service provider applications, see your identity provider's documentation.
 
 ### Return to Redis Cloud console
 

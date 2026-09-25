@@ -15,9 +15,8 @@ Public endpoints are accessible from the public internet and don't require a pri
 
 Users with Redis Cloud Pro databases can choose to block public endpoints for all databases in their subscription.
 
-{{< note >}}
-After you block your database's public endpoint, any connection from an IP address that is not part of the private address space defined in [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918#section-3) will be rejected. Ensure that all connections to your database are made through a private connectivity method before blocking the public endpoint.
-{{< /note >}}
+> [!NOTE]
+> After you block your database's public endpoint, any connection from an IP address that is not part of the private address space defined in [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918#section-3) will be rejected. Ensure that all connections to your database are made through a private connectivity method before blocking the public endpoint.
 
 ## Block public endpoints
 
@@ -25,12 +24,12 @@ You can block public endpoints for a [new subscription](#new-subscription) or an
 
 ### New subscription
 
-To block the public endpoints when you [create a new Pro subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}):
+To block the public endpoints when you [create a new Pro subscription](/content/operate/rc/databases/create-database/create-pro-database-new.md):
 
-1. Follow the instructions to [create a Pro database with custom settings]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#custom-settings" >}}). 
+1. Follow the instructions to [create a Pro database with custom settings](/content/operate/rc/databases/create-database/create-pro-database-new.md#custom-settings). 
 1. On the **Setup** tab, go to **Advanced options > Security** to select persistent storage encryption options. 
 1. Select **Block public endpoint** to block the public endpoint for all databases on the subscription. 
-1. Select **Continue** to go to the [Sizing tab]({{< relref "/operate/rc/databases/create-database/create-pro-database-new#sizing-tab" >}}). Follow the instructions to provision your database(s).
+1. Select **Continue** to go to the [Sizing tab](/content/operate/rc/databases/create-database/create-pro-database-new.md#sizing-tab). Follow the instructions to provision your database(s).
 
 After you block the public endpoints for a new subscription, you will need to set up a [private connectivity method](#private-connectivity-methods) to connect to your databases. 
 
@@ -51,7 +50,7 @@ After your changes are saved, any incoming connections to the public endpoint of
 
 ## Turn on passwordless authentication for the default user
 
-If you have blocked the public endpoint for your Redis Cloud Pro subscription, you can turn on passwordless authentication for the [default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) for any database in that subscription.
+If you have blocked the public endpoint for your Redis Cloud Pro subscription, you can turn on passwordless authentication for the [default user](/content/operate/rc/security/access-control/data-access-control/default-user.md) for any database in that subscription.
 
 To turn on passwordless authentication:
 
@@ -63,6 +62,6 @@ To turn on passwordless authentication:
 ## Private connectivity methods
 
 Redis Cloud supports the following private connectivity options:
-- [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}})
-- [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) _(Google Cloud only)_
-- [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) or [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) _(AWS only)_
+- [VPC peering](/content/operate/rc/security/vpc-peering.md)
+- [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md) _(Google Cloud only)_
+- [AWS Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md) or [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) _(AWS only)_
