@@ -41,7 +41,7 @@ cross-region writes to the same data.
 Active-Active databases replicate data between multiple Redis Cloud provider regions. Common uses for Active-Active databases include disaster recovery,
 geographically redundant applications, and keeping data closer to your
 users' locations. MMR is always multi-directional amongst the regions
-configured in the Active-Active database. For unidirectional replication, see [Active-Passive replication]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}).
+configured in the Active-Active database. For unidirectional replication, see [Active-Passive replication](/content/operate/rc/databases/migrate-databases.md#sync-using-active-passive).
 
 ## Example of synchronization
 
@@ -49,4 +49,4 @@ configured in the Active-Active database. For unidirectional replication, see [A
 
 [Learn more about
 synchronization for
-each supported data type]({{< relref "/operate/rc/databases/active-active/develop/data-types/" >}}) and [how to develop applications]({{< relref "/operate/rc/databases/active-active/develop/develop-for-aa" >}}) with them on Redis Cloud.
+each supported data type](/operate/rc/databases/active-active/develop/data-types/) and [how to develop applications](/operate/rc/databases/active-active/develop/develop-for-aa) with them on Redis Cloud.

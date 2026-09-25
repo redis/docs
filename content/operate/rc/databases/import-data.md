@@ -11,16 +11,14 @@ weight: 20
 ---
 You can import an existing dataset into your Redis Cloud instance from an existing Redis server or an RDB file.
 
-{{< warning >}}
-Data imported into an existing database overwrites existing data. 
-- If you import a dataset into the target database of an [Active-Passive setup]({{< relref "/operate/rc/databases/migrate-databases#sync-using-active-passive" >}}), the dataset will be overwritten by any changes to the source database.
-- If you import a dataset into one region in an [Active-Active database]({{< relref "/operate/rc/databases/active-active/" >}}), the dataset will also be replicated across regions.
-{{< /warning >}}
+> [!WARNING]
+> Data imported into an existing database overwrites existing data. 
+> - If you import a dataset into the target database of an [Active-Passive setup](/content/operate/rc/databases/migrate-databases.md#sync-using-active-passive), the dataset will be overwritten by any changes to the source database.
+> - If you import a dataset into one region in an [Active-Active database](/content/operate/rc/databases/active-active/_index.md), the dataset will also be replicated across regions.
 <br/>
-{{< note >}}
-Expired keys are not imported.
-As a result, the number of keys in the source and destination databases can be different after the import is complete.
-{{< /note >}}
+> [!NOTE]
+> Expired keys are not imported.
+> As a result, the number of keys in the source and destination databases can be different after the import is complete.
 
 ## Prerequisites
 
@@ -72,14 +70,14 @@ Select the tab for your storage location type.
     - `path` - Path to the file, if necessary
     - `filename` - Filename of the RDB file, including the `.gz` suffix if the file is compressed
 
-    {{< note >}}
-If your FTP username or password contains special characters such as `@`, `\`, or `:`, you must URL encode (also known as Percent encode) these special characters. If you don't, your database may become stuck.
-    {{< /note >}}
+    > [!NOTE]
+    > If your FTP username or password contains special characters such as `@`, `\`, or `:`, you must URL encode (also known as Percent encode) these special characters. If you don't, your database may become stuck.
+    >
 
 4. For sharded databases with multiple RDB files, select **Add source** to add another RDB file.
-    {{< warning >}}
-For sharded databases with multiple RDB files, make sure to add every file before proceeding.
-    {{< /warning >}}
+    > [!WARNING]
+    > For sharded databases with multiple RDB files, make sure to add every file before proceeding.
+    >
 
 5. Select **Import**.
 
