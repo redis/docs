@@ -53,11 +53,20 @@ processors:
 
 ## Decide when to scale
 
-Use the pipeline **Metrics** tab to decide whether the processor needs more
-capacity. For example, a growing pending-record count or lower-than-required
-throughput can show that the pipeline needs investigation. Check the source and
-target systems too: increasing TaskManagers does not remove a bottleneck
-outside the processor.
+Use the **Dashboard** to decide whether the processor needs more capacity:
+
+- Check **Throughput** and **Pending**. A growing pending-record count or
+  lower-than-required throughput can show that the processor needs
+  investigation.
+- Check **Processor load**. A processor that remains **Busy** while pending
+  records grow can need more capacity. An **Idle** processor is waiting for
+  changes from the sources.
+- Check **RDI database load**. If the RDI database remains in an out-of-memory
+  state, the processor cannot process data fast enough. Increasing the number
+  of TaskManagers can help.
+
+Check the source and target systems too. Increasing TaskManagers does not
+remove a bottleneck outside the processor.
 
 ## Confirm the applied capacity
 
