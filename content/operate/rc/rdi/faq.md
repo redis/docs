@@ -112,25 +112,25 @@ Delete an unused pipeline and then [delete its workspace]({{< relref "/operate/r
 
 ## Processor scaling
 
-### Does Cloud RDI automatically scale the Flink processor?
+### Does Cloud RDI automatically scale the processor?
 
 No. Cloud RDI does not automatically add or remove TaskManagers based on
 processor load, pending records, throughput, or backpressure. Set the desired
 number of TaskManagers with
-`advanced.resources.taskManager.replicas`. See [Scale a data pipeline
-processor]({{< relref "/operate/rc/rdi/scale-processor" >}}).
+`advanced.resources.taskManager.replicas`. See [Increase Cloud RDI pipeline
+capacity]({{< relref "/operate/rc/rdi/scale-processor" >}}).
 
 ### How do I increase processing capacity for a pipeline?
 
 First identify whether the collector, RDI database, Flink processor, or target
 database limits the pipeline. You can increase collector ingestion capacity
 with source-specific advanced collector properties. You can increase the RDI
-database throughput in the database **Performance** settings. For a Flink
-processor bottleneck, edit **Settings** and set
+database throughput in the database **Performance** settings. For a processor
+bottleneck, edit **Settings** and set
 `advanced.resources.taskManager.replicas` to the needed number. Save the
-change, then apply and restart the pipeline. The TaskManager setting does not
-apply to Classic pipelines. See [Scale a data pipeline processor]({{< relref
-"/operate/rc/rdi/scale-processor" >}}) for signals and starting values.
+change, then apply and restart the pipeline. See [Increase Cloud RDI pipeline
+capacity]({{< relref "/operate/rc/rdi/scale-processor" >}}) for signals and
+starting values.
 
 ### Can I see that the processor has scaled in the console?
 

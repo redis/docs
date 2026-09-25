@@ -1,5 +1,5 @@
 ---
-Title: Scale a data pipeline processor
+Title: Increase Cloud RDI pipeline capacity
 aliases:
     - /operate/rc/databases/rdi/scale-processor/
     - /operate/rc/databases/rdi/scale-processor
@@ -8,23 +8,18 @@ categories:
 - docs
 - operate
 - rc
-description: Change the processing capacity of a Redis Cloud data pipeline.
+description: Increase collector, RDI database, and processor capacity for a Cloud RDI pipeline.
 hideListLinks: true
 weight: 5
 ---
 
-Cloud RDI pipeline capacity can be limited by the collector, the RDI database,
-the Flink processor, or the target database. Identify the bottleneck before you
-change a setting.
+Every Cloud RDI pipeline uses the Flink processor. Pipeline capacity can be
+limited by the collector, the RDI database, the processor, or the target
+database. Identify the bottleneck before you change a setting.
 
 Cloud RDI does not automatically add or remove TaskManagers based on CPU use,
 pending records, throughput, or backpressure. Set the number of TaskManagers
 when you need more processing capacity.
-
-{{< note >}}
-This setting applies only to Flink pipelines. Classic pipelines do not use
-Flink TaskManagers.
-{{< /note >}}
 
 ## Increase collector ingestion capacity
 
@@ -110,7 +105,7 @@ out-of-memory (OOM) state and the processor is not continuously **Busy**. This
 can mean that the database cannot accept or serve records fast enough for the
 pipeline.
 
-## Set the number of TaskManagers
+## Increase processor capacity
 
 1. From the Cloud RDI **Pipelines** list, select the pipeline.
 1. Select the **Settings** tab and select **Edit**.

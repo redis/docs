@@ -152,8 +152,8 @@ Once your data pipeline is defined, you can [view and edit]({{<relref "/operate/
 
 For complete production setups, including SQL Server failover handling, see [Production use cases]({{<relref "/operate/rc/rdi/use-cases">}}).
 
-To change the processing capacity of a Flink pipeline, see [Scale a data
-pipeline processor]({{< relref "/operate/rc/rdi/scale-processor" >}}).
+To change processing capacity, see [Increase Cloud RDI pipeline capacity]({{<
+relref "/operate/rc/rdi/scale-processor" >}}).
 
 ## Billing and common questions
 
