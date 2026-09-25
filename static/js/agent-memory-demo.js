@@ -3,6 +3,10 @@
    Dependency-free. Everything runs in the browser against a scripted
    conversation; no Agent Memory service is called.
 
+   The reader chooses what the customer says at each turn. The assistant's
+   replies, the session summary, the extracted memories, the next session's
+   recall, and every note follow from those choices.
+
    Request bodies, response envelopes, session summaries, memory records, and
    the 404 for a missing session mirror what a live Agent Memory service and
    its OpenAPI spec returned (Sep 2026). Two parts are modelled rather than
@@ -11,13 +15,15 @@
 
    The customer (u101 Maya Chen), restaurants (r209 Lotus Thai, r201 Bangkok
    Street Kitchen), and order (o3003) come from the food delivery sample data
-   in context-retriever-demo.js. Keep the IDs and names in sync.
+   in context-retriever-demo.js. Every path still places order o3003, a green
+   curry with no fish sauce and jasmine rice. Keep the IDs and names in sync.
 
    Base styles come from context-retriever-demo.css; agent-memory-demo.css
    adds the pieces this demo needs.
    ========================================================================= */
 (function () {
   "use strict";
+  if (window.AgentMemoryDemo) return;   // loaded twice: the first copy already booted every widget
 
   /* ------------------------------------------------------------- constants */
 
@@ -31,6 +37,7 @@
   var EXTRACTION_AT = "2026-09-24T18:03:07.314Z";
   var LATER_AT = "2026-09-26T12:30:00Z";
   var LONG_TTL_DAYS = 365;
+  var SCRIPTED_LIMIT = 3;
 
   var TTLS = [
     { key: "1h", label: "1 hour", adj: "1-hour", seconds: 3600, isDefault: true },
@@ -45,60 +52,152 @@
 
   /* ---------------------------------------------------------------- script */
 
-  /* Thursday dinner: the conversation that places order o3003 at Lotus Thai.
-     `mem` marks text an extracted memory comes from; `out` explains the
-     extraction outcome for the event, per exclusion setting where it varies. */
-  var S1_SCRIPT = [
-    { role: "USER", at: "2026-09-24T17:58:05Z", ms: 412, out: "Kept as {1} and {2}.", parts: [
-      { t: "Hi! Can you find me dinner tonight? " }, { t: "I'm vegetarian", mem: 1 }, { t: " and " },
-      { t: "I love spicy Thai food", mem: 2 }, { t: "." }] },
-    { role: "ASSISTANT", at: "2026-09-24T17:58:09Z", ms: 87, out: "Part of {6}, a record of what happened.", parts: [
-      { t: "Lotus Thai has a green curry you might like, and I can ask for it extra spicy.", mem: 6 },
-      { t: " Is there anything you can't eat?" }] },
-    { role: "USER", at: "2026-09-24T17:58:41Z", ms: 230, out: "Kept as {3} and {4}.", parts: [
-      { t: "I'm allergic to peanuts", mem: 3 }, { t: ". And " }, { t: "no fish sauce", mem: 4 }, { t: ", please." }] },
-    { role: "ASSISTANT", at: "2026-09-24T17:58:45Z", ms: 655, out: "Part of {6}.", parts: [
-      { t: "Got it. " }, { t: "Extra spicy green curry with no peanuts and no fish sauce.", mem: 6 },
-      { t: " Shall I add " }, { t: "jasmine rice", mem: 6 }, { t: " and place the order?" }] },
-    { role: "USER", at: "2026-09-24T17:59:20Z", ms: 518, out: {
-      semantic: "Kept as {5}. The semantic exclusion left out the gate code, and the small talk isn't worth keeping.",
-      detector: "Kept as {5}, and the gate_code detector replaced the code with [REDACTED]. The small talk isn't worth keeping.",
-      off: "Kept as {5}, gate code included. The small talk isn't worth keeping." }, parts: [
-      { t: "Yes please! " }, { t: "Leave it at the door", mem: 5 }, { t: ", " },
-      { t: "the gate code is 4417", sensitive: true }, { t: ". " }, { t: "It's been a long day.", skip: "small talk" }] },
-    { role: "ASSISTANT", at: "2026-09-24T18:00:02Z", ms: 341, out: "Completes {6}.", parts: [
-      { t: "Done. Order o3003 is placed with Lotus Thai", mem: 6 }, { t: " and should arrive in about 25 minutes." }] }
+  /* Timestamps for the six Thursday events: Maya, assistant, Maya, ... */
+  var SLOTS = [
+    { at: "2026-09-24T17:58:05Z", ms: 412 }, { at: "2026-09-24T17:58:09Z", ms: 87 },
+    { at: "2026-09-24T17:58:41Z", ms: 230 }, { at: "2026-09-24T17:58:45Z", ms: 655 },
+    { at: "2026-09-24T17:59:20Z", ms: 518 }, { at: "2026-09-24T18:00:02Z", ms: 341 }
   ];
 
-  var SUMMARY_TEXT = "Maya asked for a vegetarian, spicy Thai dinner. She is allergic to peanuts and doesn't want fish sauce. " +
-    "The assistant suggested Lotus Thai's green curry, extra spicy, with no peanuts or fish sauce, and offered to add jasmine rice and place the order.";
-
-  /* Saturday lunch: a new session. The reply draws only on recalled memories;
-     the restaurant itself comes from the app's own data. */
-  var S2_SCRIPT = [
-    { role: "USER", at: "2026-09-26T12:30:10Z", ms: 208, parts: [{ t: "I'm hungry. What should I get for lunch?" }] },
-    { role: "ASSISTANT", at: "2026-09-26T12:30:16Z", ms: 590, parts: [{ t: "Welcome back, Maya! You had Lotus Thai's green curry on Thursday, " +
-      "so how about something different: a vegetarian pad thai from Bangkok Street Kitchen, extra spicy, with no peanuts and no fish sauce?" }] }
+  /* What Maya can say at each turn. In each message, `mem` marks the text a
+     memory comes from, `skip` marks text extraction leaves out, and
+     `sensitive` marks the gate code that the exclusion settings act on. */
+  var TURNS = [
+    { prompt: "Choose Maya's first message", options: [
+      [{ t: "Hi! Can you find me dinner tonight? " }, { t: "I'm vegetarian", mem: "veg" }, { t: " and " },
+        { t: "I love spicy Thai food", mem: "spicy" }, { t: "." }],
+      [{ t: "Hi! " }, { t: "I'm vegetarian", mem: "veg" }, { t: ". " },
+        { t: "Something mild tonight, please, spicy food doesn't agree with me", mem: "mild" }, { t: "." }],
+      [{ t: "Just get me something quick, " }, { t: "I'm starving", skip: "a passing state" }, { t: "." }]
+    ] },
+    { prompt: "Choose how Maya answers", options: [
+      [{ t: "I'm allergic to peanuts", mem: "peanut" }, { t: ". And " }, { t: "no fish sauce", mem: "fish" }, { t: ", please." }],
+      [{ t: "Only " }, { t: "fish sauce", mem: "fish" }, { t: ". Please leave it out." }],
+      [{ t: "No fish sauce", mem: "fish" }, { t: ", please. And " },
+        { t: "nothing with dairy, I'm lactose intolerant", mem: "lactose" }, { t: "." }]
+    ] },
+    { prompt: "Choose how Maya confirms the order", options: [
+      [{ t: "Yes please! " }, { t: "Leave it at the door", mem: "door" }, { t: ", " },
+        { t: "the gate code is 4417", sensitive: true }, { t: ". " }, { t: "It's been a long day.", skip: "small talk" }],
+      [{ t: "Yes please! " }, { t: "Just leave it at the door", mem: "door" }, { t: "." }],
+      [{ t: "Yes please! " }, { t: "Ring the bell when you get here", mem: "bell" }, { t: "." }]
+    ] }
   ];
+  var GATE_CODE = 0;       // the third-turn option that shares the gate code
+  var NO_FACTS = 2;        // the first-turn option with nothing lasting in it
 
-  /* Memories the extraction run produces. `at` is the index of the event that
-     completes each one. Vector dimensions: taste, diet, avoid, delivery,
-     order history, other. */
-  var MEMORY_DEFS = [
-    { num: 1, at: 0, type: "semantic", text: "User is vegetarian.", vec: [0.25, 1.0, 0.35, 0, 0.1, 0.05] },
-    { num: 2, at: 0, type: "semantic", text: "User loves spicy Thai food.", vec: [1.0, 0.25, 0.05, 0, 0.3, 0.05] },
-    { num: 3, at: 2, type: "semantic", text: "User is allergic to peanuts.", vec: [0.1, 0.35, 1.0, 0, 0, 0.05] },
-    { num: 4, at: 2, type: "semantic", text: "User avoids fish sauce.", vec: [0.35, 0.5, 0.8, 0, 0.05, 0.05] },
-    { num: 5, at: 4, type: "semantic", text: null, vec: [0, 0, 0, 1.0, 0.15, 0.1] },
-    { num: 6, at: 5, type: "episodic", text: "On September 24, 2026, the assistant ordered an extra spicy green curry with jasmine rice " +
-      "from Lotus Thai for the user, with no peanuts or fish sauce.", vec: [0.75, 0.3, 0.35, 0.15, 1.0, 0.05] }
-  ];
+  /* How the order comes out of the first two answers. */
+  function recipe(choices) {
+    return {
+      spice: choices[0] === 0 ? "extra spicy" : choices[0] === 1 ? "mild" : "",
+      avoid: choices[1] === 0 ? ["peanuts", "fish sauce"] : choices[1] === 2 ? ["fish sauce", "dairy"] : ["fish sauce"]
+    };
+  }
+  function noAnd(items) { return items.map(function (x) { return "no " + x; }).join(" and "); }
+  function noOr(items) { return "no " + (items.length > 1 ? items.slice(0, -1).join(", ") + " or " + items[items.length - 1] : items[0]); }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  /* "an extra spicy green curry with jasmine rice from Lotus Thai, with no peanuts or fish sauce" */
+  function orderPhrase(choices, forWhom) {
+    var r = recipe(choices), dish = (r.spice ? r.spice + " " : "") + "green curry";
+    return (/^[aeiou]/.test(dish) ? "an " : "a ") + dish + " with jasmine rice from Lotus Thai" + (forWhom || "") + ", with " + noOr(r.avoid);
+  }
+
+  function assistantParts(turn, choices) {
+    var r = recipe(choices);
+    if (turn === 0) {
+      return [
+        [{ t: "Lotus Thai has a green curry you might like, and I can ask for it extra spicy.", mem: "order" }],
+        [{ t: "Lotus Thai's green curry is vegetarian, and I can ask for it mild.", mem: "order" }],
+        [{ t: "Lotus Thai can have a green curry at your door in about 25 minutes.", mem: "order" }]
+      ][choices[0]].concat([{ t: " Is there anything you can't eat?" }]);
+    }
+    if (turn === 1) {
+      return [{ t: "Got it. " }, { t: (r.spice ? cap(r.spice) + " green curry" : "Green curry") + " with " + noAnd(r.avoid) + ".", mem: "order" },
+        { t: " Shall I add " }, { t: "jasmine rice", mem: "order" }, { t: " and place the order?" }];
+    }
+    return [{ t: "Done. Order o3003 is placed with Lotus Thai", mem: "order" }, { t: " and should arrive in about 25 minutes. " +
+      (choices[2] === 2 ? "I'll ask the driver to ring the bell." : "I'll ask the driver to leave it at the door.") }];
+  }
+
+  /* The Thursday events for the turns played so far. */
+  function s1Script(choices, turns) {
+    var out = [];
+    for (var t = 0; t < turns; t++) {
+      out.push({ role: "USER", turn: t, parts: TURNS[t].options[choices[t]] });
+      out.push({ role: "ASSISTANT", turn: t, parts: assistantParts(t, choices) });
+    }
+    return out.map(function (d, i) { d.at = SLOTS[i].at; d.ms = SLOTS[i].ms; return d; });
+  }
+
+  function summaryText(choices) {
+    var r = recipe(choices);
+    return "Maya asked for " + ["a vegetarian, spicy Thai dinner", "a mild vegetarian dinner", "a quick dinner"][choices[0]] + ". " +
+      ["She is allergic to peanuts and doesn't want fish sauce.", "She doesn't want fish sauce.",
+        "She is lactose intolerant and doesn't want fish sauce."][choices[1]] +
+      " The assistant suggested Lotus Thai's green curry" + (r.spice ? ", " + r.spice + "," : "") + " with " + noOr(r.avoid) +
+      ", and offered to add jasmine rice and place the order.";
+  }
+
+  /* Memories extraction can produce. Vector dimensions: taste, diet, avoid,
+     delivery, order history, other. */
   var DOOR_TEXT = {
     off: "User wants deliveries left at the door. Gate code: 4417.",
     semantic: "User wants deliveries left at the door.",
     detector: "User wants deliveries left at the door. [REDACTED]."
   };
+  var MEMS = {
+    veg: { type: "semantic", text: "User is vegetarian.", vec: [0.25, 1.0, 0.35, 0, 0.1, 0.05] },
+    spicy: { type: "semantic", text: "User loves spicy Thai food.", vec: [1.0, 0.25, 0.05, 0, 0.3, 0.05] },
+    mild: { type: "semantic", text: "User prefers mild food because spicy food doesn't agree with them.", vec: [0.9, 0.3, 0.3, 0, 0.2, 0.05] },
+    peanut: { type: "semantic", text: "User is allergic to peanuts.", vec: [0.1, 0.35, 1.0, 0, 0, 0.05] },
+    fish: { type: "semantic", text: "User avoids fish sauce.", vec: [0.35, 0.5, 0.8, 0, 0.05, 0.05] },
+    lactose: { type: "semantic", text: "User is lactose intolerant and avoids dairy.", vec: [0.15, 0.45, 0.95, 0, 0, 0.05] },
+    door: { type: "semantic", vec: [0, 0, 0, 1.0, 0.15, 0.1], text: function (settings, choices) {
+      return choices[2] === GATE_CODE ? DOOR_TEXT[settings.exclusion] : "User wants deliveries left at the door."; } },
+    bell: { type: "semantic", text: "User wants the driver to ring the bell on arrival.", vec: [0, 0, 0, 0.95, 0.1, 0.2] },
+    order: { type: "episodic", vec: [0.75, 0.3, 0.35, 0.15, 1.0, 0.05], text: function (settings, choices) {
+      return "On September 24, 2026, the assistant ordered " + orderPhrase(choices, " for the user") + "."; } }
+  };
 
+  /* Long-term memories once the extraction run has processed `processed`
+     events. Numbers follow the order the memories are created in. */
+  function memoriesFor(settings, choices, processed) {
+    var script = s1Script(choices, 3), p = processed == null ? script.length : processed, keys = [];
+    script.forEach(function (d, i) {
+      if (d.role !== "USER") return;
+      d.parts.forEach(function (part) {
+        if (part.mem && keys.every(function (k) { return k.key !== part.mem; })) keys.push({ key: part.mem, at: i });
+      });
+    });
+    keys.push({ key: "order", at: script.length - 1 });
+    return keys.map(function (k, i) {
+      var d = MEMS[k.key];
+      return { key: k.key, num: i + 1, at: k.at, type: d.type, vec: d.vec,
+        text: typeof d.text === "function" ? d.text(settings, choices) : d.text,
+        sensitive: k.key === "door" && choices[2] === GATE_CODE && settings.exclusion === "off", id: id32("memory:" + k.key) };
+    }).filter(function (m) { return m.at < p; });
+  }
+
+  /* What the extraction run did with one event, with {n} for memory badges. */
+  function outcome(d, mems, settings, choices) {
+    var num = {};
+    mems.forEach(function (m) { num[m.key] = "{" + m.num + "}"; });
+    if (d.role === "ASSISTANT") {
+      return ["Part of " + num.order + ", a record of what happened.", "Part of " + num.order + ".", "Completes " + num.order + "."][d.turn];
+    }
+    if (d.turn === 2 && choices[2] === GATE_CODE) {
+      return {
+        semantic: "Kept as " + num.door + ". The semantic exclusion left out the gate code, and the small talk isn't worth keeping.",
+        detector: "Kept as " + num.door + ", and the gate_code detector replaced the code with [REDACTED]. The small talk isn't worth keeping.",
+        off: "Kept as " + num.door + ", gate code included. The small talk isn't worth keeping."
+      }[settings.exclusion];
+    }
+    var kept = d.parts.filter(function (p) { return p.mem; }).map(function (p) { return num[p.mem]; });
+    return kept.length ? "Kept as " + kept.join(" and ") + "." : "Nothing kept. Being hungry right now isn't a lasting fact.";
+  }
+
+  /* Saturday lunch: what Maya can say, and how the assistant answers from
+     whatever long-term memory returns. */
   var QUERIES = [
     { key: "lunch", text: "I'm hungry. What should I get for lunch?", vec: [0.9, 0.35, 0.1, 0.1, 0.6, 0.1] },
     { key: "allergy", text: "Food allergies and ingredients to avoid", vec: [0.15, 0.45, 0.9, 0, 0.1, 0.15] },
@@ -106,7 +205,42 @@
     { key: "last", text: "What did I order last time?", vec: [0.35, 0.05, 0.05, 0.15, 1.0, 0.1] },
     { key: "car", text: "What car do I drive?", vec: [0, 0, 0, 0.1, 0.05, 1.0] }
   ];
-  var SCRIPTED_LIMIT = 3;
+  var SAFETY_QUERY = QUERIES[1];
+  var LUNCH = [
+    { kind: "suggest", text: "I'm hungry. What should I get for lunch?", vec: QUERIES[0].vec },
+    { kind: "reorder", text: "Can you order what I had on Thursday again?", vec: [0.4, 0.05, 0.05, 0.15, 1.0, 0.1] }
+  ];
+  var S2_SLOTS = [{ at: "2026-09-26T12:30:10Z", ms: 208 }, { at: "2026-09-26T12:30:16Z", ms: 590 }];
+
+  function lunchReply(choice, got, choices) {
+    if (LUNCH[choice].kind === "reorder") {
+      if (!got.order) return "I couldn't find your last order. What would you like?";
+      var s = "Sure! On Thursday you had " + orderPhrase(choices) + ". Want me to order it again?";
+      if (got.peanut) s += " It has no peanuts, so it's safe with your allergy.";
+      if (got.lactose) s += " It has no dairy, so it's fine for your lactose intolerance.";
+      return s;
+    }
+    var avoid = [];
+    if (got.peanut) avoid.push("peanuts");
+    if (got.fish) avoid.push("fish sauce");
+    if (got.lactose) avoid.push("dairy");
+    return "Welcome back, Maya! " + (got.order ? "You had Lotus Thai's green curry on Thursday, so how about something different: " : "How about ") +
+      (got.veg ? "a vegetarian pad thai" : "a pad thai") + " from Bangkok Street Kitchen" +
+      (got.spicy ? ", extra spicy" : got.mild ? ", made mild" : "") + (avoid.length ? ", with " + noAnd(avoid) : "") + "?";
+  }
+  /* The two searches the assistant runs before it replies, and the reply. */
+  function lunchPlan(choice, mems, choices) {
+    var primary = runSearch(LUNCH[choice], SCRIPTED_LIMIT, 0, mems);
+    var safety = runSearch(SAFETY_QUERY, SCRIPTED_LIMIT, 0, mems);
+    var got = {};
+    primary.returned.concat(safety.returned).forEach(function (r) { got[r.mem.key] = true; });
+    var reply = lunchReply(choice, got, choices);
+    return { kind: LUNCH[choice].kind, query: LUNCH[choice], primary: primary, safety: safety, used: got,
+      script: [
+        { role: "USER", at: S2_SLOTS[0].at, ms: S2_SLOTS[0].ms, parts: [{ t: LUNCH[choice].text }] },
+        { role: "ASSISTANT", at: S2_SLOTS[1].at, ms: S2_SLOTS[1].ms, parts: [{ t: reply }] }
+      ] };
+  }
 
   var NOT_FOUND = { detail: "The requested session was not found", status: 404, title: "Session Not Found", type: "/errors/resource-not-found" };
 
@@ -142,6 +276,7 @@
   var DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   var ORDINALS = ["first", "second", "third", "fourth", "fifth", "sixth"];
+  var WORDS = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight"];
   function dayLabel(iso) { var d = new Date(iso); return DAYS[d.getUTCDay()] + ", " + MONTHS[d.getUTCMonth()] + " " + d.getUTCDate(); }
   function dateLabel(iso) { var d = new Date(iso); return MONTHS[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + d.getUTCFullYear(); }
   function hhmm(iso) { return iso.slice(11, 16); }
@@ -172,17 +307,18 @@
   function addEventRequest(ev) {
     return { sessionId: ev.sessionId, actorId: ev.actorId, role: ev.role, content: ev.content, createdAt: ev.createdAt };
   }
-  function summaryJson(upToEventId, count) {
+  function summaryJson(upToEventId, count, text) {
     return { createdAt: SUMMARY_AT, metadata: {}, summarizedEvents: count, summarizedUpToEventId: upToEventId,
-      text: SUMMARY_TEXT, updatedAt: SUMMARY_AT };
+      text: text, updatedAt: SUMMARY_AT };
   }
 
-  /* What GET /session-memory/{sessionId} returns after the first n events. */
-  function sessionView(script, sessionId, n, summarize) {
+  /* What GET /session-memory/{sessionId} returns after the first n events.
+     `summary` is the summary text, for sessions that get summarized. */
+  function sessionView(script, sessionId, n, summarize, summary) {
     var all = script.slice(0, n).map(function (d, i) { return eventJson(d, i, sessionId); });
-    if (summarize && script === S1_SCRIPT && n >= SUMMARIZE_AFTER) {
+    if (summarize && summary && n >= SUMMARIZE_AFTER) {
       var cut = n - KEEP_RECENT;
-      return { all: all, events: all.slice(cut), summary: summaryJson(all[cut - 1].eventId, cut) };
+      return { all: all, events: all.slice(cut), summary: summaryJson(all[cut - 1].eventId, cut, summary) };
     }
     return { all: all, events: all, summary: null };
   }
@@ -190,16 +326,6 @@
     var r = { events: view.events, ownerId: OWNER, sessionId: sessionId };
     if (view.summary) r.summary = view.summary;
     return r;
-  }
-
-  /* Long-term memories after the extraction run has processed `processed` events. */
-  function memories(settings, processed) {
-    var p = processed == null ? S1_SCRIPT.length : processed;
-    return MEMORY_DEFS.filter(function (d) { return d.at < p; }).map(function (d) {
-      return { key: "m" + d.num, num: d.num, type: d.type, vec: d.vec, at: d.at,
-        text: d.num === 5 ? DOOR_TEXT[settings.exclusion] : d.text,
-        sensitive: d.num === 5 && settings.exclusion === "off", id: id32("memory:m" + d.num) };
-    });
   }
   function recordJson(m) {
     return { createdAt: EXTRACTION_AT, id: m.id, memoryType: m.type, ownerId: OWNER, sessionId: S1,
@@ -243,11 +369,90 @@
     return lines.join("\n");
   }
 
+  /* ----------------------------------------------------------------- notes */
+
+  function chatNotes(n, view, st) {
+    var code = st.choices[2] === GATE_CODE;
+    if (view.summarizing) return ["The session just reached " + SUMMARIZE_AFTER + " messages, so summarization starts in the background."];
+    if (n === 0) return ["Session memory is empty. Choose what Maya says to start the conversation."];
+    if (n === 1) return ["Maya's message is in session memory the moment she sends it, before the assistant replies."];
+    if (n === 2) return ["Each message is stored word for word, in order. Before every reply, your app fetches the session by its ID, so the assistant knows what was just said."];
+    if (n < 5) return ["Long-term memory is still empty. Extraction runs in the background every 5 minutes, so the conversation never waits for it."];
+    if (n === 5) return [code ? "Maya just shared her gate code. Session memory stores it exactly as she sent it." :
+      "Session memory stores Maya's delivery instructions exactly as she sent them."];
+    if (!st.settings.summarize) return ["Automatic summarization is off, so the session returns all 6 messages in full. Turn it on in Service settings to compare."];
+    return ["The session reached " + SUMMARIZE_AFTER + " messages, so the " + (SUMMARIZE_AFTER - KEEP_RECENT) +
+      " oldest were condensed into a summary. The session now returns the summary and the " + KEEP_RECENT +
+      " most recent messages in full, which keeps the model's prompt short.",
+      code ? "The gate code is still in session memory, exactly as Maya sent it." :
+        "Her delivery instructions are in the 2 most recent messages, kept word for word."];
+  }
+
+  function extractNotes(k, running, st, mems) {
+    if (running) return ["The pipeline reads each new event and decides what's worth keeping."];
+    if (k < SLOTS.length) return ["The extraction pipeline hasn't run yet. Run it to see which parts of the conversation become long-term memories."];
+    var facts = mems.filter(function (m) { return m.type === "semantic"; }).length;
+    var first = "Six messages became " + WORDS[mems.length] + " memories: " + WORDS[facts] + " " + (facts === 1 ? "fact" : "facts") +
+      " about Maya and one record of the order.";
+    if (st.choices[0] === NO_FACTS) first += " Her first message had nothing lasting in it, so nothing was kept from it.";
+    if (st.choices[2] === GATE_CODE) first += " The small talk wasn't kept.";
+    var notes = [first];
+    if (st.choices[2] === GATE_CODE) {
+      notes.push({
+        semantic: "The semantic exclusion kept the gate code out of long-term memory. Session memory still has it, because exclusions never change session memory. " +
+          "Semantic exclusions are advisory, so don't rely on them alone for real secrets.",
+        detector: "The gate_code detector replaced the code with [REDACTED] in long-term memory. Detector matches are applied deterministically. " +
+          "Session memory still has the code, because exclusions never change session memory.",
+        off: "With exclusions off, the gate code is now in long-term memory, where it's kept for " + LONG_TTL_DAYS + " days. " +
+          "Pick an exclusion in Service settings to compare."
+      }[st.settings.exclusion]);
+    } else {
+      notes.push("Nothing Maya said this time was sensitive, so the exclusion setting made no difference. Restart and have her share her gate code to see exclusions at work.");
+    }
+    notes.push("Each memory records its owner, u101, and the session it came from, so the app can find it after the session is gone.");
+    return notes;
+  }
+
+  function allergyNote(plan, mems) {
+    var allergy = mems.filter(function (m) { return m.key === "peanut" || m.key === "lactose"; })[0];
+    if (!allergy) {
+      return "Maya never mentioned an allergy, so the targeted search only turns up the foods she avoids. " +
+        "The assistant runs it anyway, because it can't know in advance what it will find.";
+    }
+    var label = allergy.key === "peanut" ? "peanut allergy" : "lactose intolerance", rank = 0;
+    plan.primary.ranked.forEach(function (r, i) { if (r.mem.key === allergy.key) rank = i; });
+    if (rank >= SCRIPTED_LIMIT) {
+      return "Search ranks memories by how similar they are to the query. For " + (plan.kind === "reorder" ? "the reorder request" : "the lunch question") +
+        " with a limit of " + SCRIPTED_LIMIT + ", the " + label + " ranks " + ORDINALS[rank] + " and isn't returned. " +
+        "That's why this assistant also runs a targeted search for allergies and foods to avoid before it " + (plan.kind === "reorder" ? "reorders." : "suggests food.");
+    }
+    return "The " + label + " made the top " + SCRIPTED_LIMIT + " for this question on its own. Rankings shift with every question, though, " +
+      "so this assistant always runs a targeted search for allergies and foods to avoid too.";
+  }
+
+  function laterNotes(step, s1Gone, ttl, plan, mems) {
+    if (step === 0) {
+      return [s1Gone ? "The Thursday session is gone: it's past its " + ttl.adj + " short-term TTL, so fetching it returns 404." :
+        "With a " + ttl.adj + " short-term TTL, the Thursday session is still stored. But a new conversation starts a new session, and sessions are fetched by ID, not searched.",
+        "Long-term memory still has all " + WORDS[mems.length] + " memories. They're kept for " + LONG_TTL_DAYS + " days."];
+    }
+    if (step < 5) return ["Before replying, the assistant searches long-term memory for what it knows about Maya."];
+    if (plan.kind === "reorder") {
+      return [s1Gone ? "The assistant found Thursday's order in long-term memory, even though the session it came from is gone." :
+        "The assistant found Thursday's order in long-term memory, without reading the Thursday session.",
+        allergyNote(plan, mems),
+        "Placing the order again would go through the app's own data, for example through Context Retriever."];
+    }
+    return ["Maya didn't repeat any of her preferences. The assistant knows them because it searched long-term memory before it replied.",
+      allergyNote(plan, mems),
+      "The restaurant suggestion comes from the app's own data, for example through Context Retriever."];
+  }
+
   /* -------------------------------------------------------------------- UI */
 
   function init(root) {
     var st = {
-      tab: "chat", turn: 0, extracted: false, lunch: false,
+      tab: "chat", turn: 0, choices: [], extracted: false, lunch: null,
       settings: { ttl: "1h", summarize: true, exclusion: "semantic" },
       search: { q: "lunch", limit: SCRIPTED_LIMIT, threshold: 0 },
       open: {}, anim: 0, busy: false
@@ -296,11 +501,12 @@
        playing, the later session once extraction has. Unlocked steps stay
        open so readers can go back; Restart locks them again. */
     function lockReason(name) {
-      if (name === "extract" && (st.turn < 3 || (st.busy && st.tab === "chat"))) return "Finish the conversation first.";
+      if (name === "extract" && (st.turn < TURNS.length || (st.busy && st.tab === "chat"))) return "Finish the conversation first.";
       if (name === "later" && (!st.extracted || (st.busy && st.tab === "extract"))) return "Run the background extraction first.";
       return null;
     }
     function syncTabs() {
+      root.setAttribute("data-busy", st.busy ? "true" : "false");
       Array.prototype.forEach.call(tabs.children, function (b) {
         var why = lockReason(b.dataset.tab);
         b.classList.toggle("is-locked", !!why);
@@ -323,7 +529,7 @@
     }
     function restart() {
       cancel();
-      st.turn = 0; st.extracted = false; st.lunch = false;
+      st.turn = 0; st.choices = []; st.extracted = false; st.lunch = null;
       st.search = { q: "lunch", limit: SCRIPTED_LIMIT, threshold: 0 };
       st.open = {};
       show("chat");
@@ -405,7 +611,7 @@
       var row = el("div", "ram-controls");
       var r = el("button", "rcr-btn", "Restart");
       r.type = "button";
-      r.disabled = st.turn === 0 && !st.extracted && !st.lunch && st.tab === "chat";
+      r.disabled = st.turn === 0 && !st.extracted && st.lunch == null && st.tab === "chat";
       r.addEventListener("click", restart);
       row.appendChild(r);
       if (primary) {
@@ -446,6 +652,20 @@
       if (!n) chat.appendChild(el("p", "ram-empty", "Maya hasn't sent anything yet."));
       card.appendChild(chat);
       return { card: card, chat: chat };
+    }
+    /* The reader picks what Maya says next. */
+    function composer(label, messages, pick) {
+      var c = el("div", "ram-composer");
+      c.appendChild(el("span", "rcr-lbl", esc(label)));
+      var list = el("div", "ram-options");
+      messages.forEach(function (m, i) {
+        var b = el("button", "rcr-chip ram-option", esc(m));
+        b.type = "button";
+        b.addEventListener("click", function () { pick(i); });
+        list.appendChild(b);
+      });
+      c.appendChild(list);
+      return c;
     }
     function thinking() { return el("div", "rcr-msg rcr-agent rcr-thinking", "<span></span><span></span><span></span>"); }
 
@@ -500,7 +720,7 @@
           (opts.fresh && opts.fresh[m.key] ? " ram-fresh" : ""));
         r.appendChild(el("span", "ram-num", String(m.num)));
         r.appendChild(el("div", "", '<div class="ram-memtext">' + esc(m.text) + '</div><div class="ram-memmeta"><span class="ram-type ram-type-' +
-          m.type + '">' + m.type + "</span>from " + S1 + (used ? ' <span class="ram-used">used in reply</span>' : "") + "</div>"));
+          m.type + '">' + m.type + "</span>from " + S1 + (used ? ' <span class="ram-used">recalled</span>' : "") + "</div>"));
         card.appendChild(r);
       });
       if (mems.length) {
@@ -519,14 +739,18 @@
     function renderChat(view) {
       view = view || { n: 2 * st.turn };
       var n = view.n, p = panels.chat;
+      var script = s1Script(st.choices, st.turn);
       p.innerHTML = "";
-      p.appendChild(headRow(n ? S1_SCRIPT[n - 1].at : S1_SCRIPT[0].at));
+      p.appendChild(headRow(n ? script[n - 1].at : SLOTS[0].at));
       p.appendChild(el("p", "rcr-lede", "Maya Chen, a customer of the food delivery app, asks its assistant for dinner. " +
-        "Every message goes into session memory the moment it's sent."));
-      var c = chatCard(S1_SCRIPT, n);
+        "Choose what she says at each step. Every message goes into session memory the moment it's sent, and her choices decide what the service remembers."));
+      var c = chatCard(script, n);
       if (view.thinking) c.chat.appendChild(thinking());
+      if (!st.busy && st.turn < TURNS.length) {
+        c.card.appendChild(composer(TURNS[st.turn].prompt, TURNS[st.turn].options.map(function (o) { return textOf({ parts: o }); }), sendNext));
+      }
       p.appendChild(c.card);
-      var sv = sessionView(S1_SCRIPT, S1, n, st.settings.summarize && !view.summarizing);
+      var sv = sessionView(script, S1, n, st.settings.summarize && !view.summarizing, n >= SUMMARIZE_AFTER ? summaryText(st.choices) : null);
       var api = n ? detailsEl("chat-api", "Show the API calls", function (body) {
         var last = sv.all[n - 1];
         apiBlock(body, "Add the latest event", "POST", "/session-memory/events", addEventRequest(last), "201", { event: last });
@@ -536,28 +760,15 @@
         sessionCard([{ id: S1, view: sv, summarizing: view.summarizing, freshSummary: view.freshSummary,
           fresh: view.fresh && n ? sv.all[n - 1].eventId : null, emptyText: "No events yet. The session starts with Maya's first message." }], api),
         ltmCard([], { empty: "Empty for now. The extraction pipeline runs in the background every 5 minutes, so replies never wait for it." })));
-      p.appendChild(callout(chatNotes(n, view)));
-      p.appendChild(controlsRow(st.turn < 3 ?
-        { label: st.turn ? "Send the next message" : "Send Maya's first message", busy: "Sending…", fn: sendNext } :
+      p.appendChild(callout(chatNotes(n, view, st)));
+      p.appendChild(controlsRow(st.turn < TURNS.length ? null :
         { label: "Next: background extraction", fn: function () { show("extract"); } }));
       syncTabs();
     }
-    function chatNotes(n, view) {
-      if (view.summarizing) return ["The session just reached " + SUMMARIZE_AFTER + " messages, so summarization starts in the background."];
-      if (n === 0) return ["Session memory is empty. Send Maya's first message to start the conversation."];
-      if (n === 1) return ["Maya's message is in session memory the moment she sends it, before the assistant replies."];
-      if (n === 2) return ["Each message is stored word for word, in order. Before every reply, your app fetches the session by its ID, so the assistant knows what was just said."];
-      if (n < 5) return ["Long-term memory is still empty. Extraction runs in the background every 5 minutes, so the conversation never waits for it."];
-      if (n === 5) return ["Maya just shared her gate code. Session memory stores it exactly as she sent it."];
-      if (!st.settings.summarize) return ["Automatic summarization is off, so the session returns all 6 messages in full. Turn it on in Service settings to compare."];
-      return ["The session reached " + SUMMARIZE_AFTER + " messages, so the " + (SUMMARIZE_AFTER - KEEP_RECENT) +
-        " oldest were condensed into a summary. The session now returns the summary and the " + KEEP_RECENT +
-        " most recent messages in full, which keeps the model's prompt short.",
-        "The gate code is still in session memory, exactly as Maya sent it."];
-    }
-    function sendNext() {
-      if (st.busy || st.turn >= 3) return;
+    function sendNext(choice) {
+      if (st.busy || st.turn >= TURNS.length) return;
       var t = st.turn;
+      st.choices[t] = choice;
       st.turn = t + 1;
       var nUser = 2 * t + 1, nFull = 2 * t + 2;
       var summarizes = st.settings.summarize && nFull >= SUMMARIZE_AFTER;
@@ -572,50 +783,53 @@
     /* ---- tab 2: background extraction ---- */
 
     function renderExtract(view) {
-      view = view || { processed: st.extracted ? S1_SCRIPT.length : 0 };
-      var k = view.processed, p = panels.extract, done = k >= S1_SCRIPT.length;
+      view = view || { processed: st.extracted ? SLOTS.length : 0 };
+      var k = view.processed, p = panels.extract;
+      var script = s1Script(st.choices, TURNS.length);
+      var all = memoriesFor(st.settings, st.choices), mems = memoriesFor(st.settings, st.choices, k);
       p.innerHTML = "";
-      p.appendChild(headRow(k || view.running ? EXTRACTION_AT : S1_SCRIPT[5].at));
+      p.appendChild(headRow(k || view.running ? EXTRACTION_AT : SLOTS[SLOTS.length - 1].at));
       p.appendChild(el("p", "rcr-lede", "Five minutes after the conversation started, the extraction pipeline reads the new session events " +
         "in the background. It saves what's worth remembering as long-term memories."));
-      p.appendChild(extractionCard(k, view.running));
+      p.appendChild(extractionCard(script, all, k, view.running));
       var fresh = {};
-      memories(st.settings, k).forEach(function (m) { if (view.running && m.at === k - 1) fresh[m.key] = true; });
+      mems.forEach(function (m) { if (view.running && m.at === k - 1) fresh[m.key] = true; });
       p.appendChild(grid(
-        sessionCard([{ id: S1, view: sessionView(S1_SCRIPT, S1, 6, st.settings.summarize) }], null),
-        ltmCard(memories(st.settings, k), { fresh: fresh, empty: "Empty until the extraction pipeline runs." })));
-      p.appendChild(callout(extractNotes(k, view.running)));
+        sessionCard([{ id: S1, view: sessionView(script, S1, SLOTS.length, st.settings.summarize, summaryText(st.choices)) }], null),
+        ltmCard(mems, { fresh: fresh, empty: "Empty until the extraction pipeline runs." })));
+      p.appendChild(callout(extractNotes(k, view.running, st, all)));
       p.appendChild(controlsRow(!st.extracted || view.running ?
         { label: "Run the extraction", busy: "Extracting…", fn: runExtraction } :
         { label: "Next: two days later", fn: function () { show("later"); } }));
       syncTabs();
-      return done;
     }
-    function extractionCard(k, running) {
+    function extractionCard(script, all, k, running) {
       var card = el("div", "rcr-card ram-extract");
       var status = running ? '<span class="rcr-dot is-wait"></span> running' :
-        k >= S1_SCRIPT.length ? '<span class="rcr-dot is-ok"></span> done' : "waiting";
+        k >= script.length ? '<span class="rcr-dot is-ok"></span> done' : "waiting";
       card.appendChild(el("div", "rcr-cardhead", "<span>Extraction run at " + hhmm(EXTRACTION_AT) + " UTC</span>" +
         '<span class="ram-chip">' + status + "</span>"));
-      S1_SCRIPT.forEach(function (def, i) {
+      var num = {};
+      all.forEach(function (m) { num[m.key] = m.num; });
+      script.forEach(function (def, i) {
         var seen = i < k;
         var row = el("div", "ram-xrow" + (seen ? "" : " is-pending") + (running && i === k - 1 ? " is-active" : ""));
         row.appendChild(el("div", "", '<span class="ram-role ram-role-' + def.role.toLowerCase() + '">' + def.role + "</span> " +
-          (seen ? annotate(def) : esc(textOf(def)))));
-        if (seen) row.appendChild(el("div", "ram-xout", badges(typeof def.out === "string" ? def.out : def.out[st.settings.exclusion])));
+          (seen ? annotate(def, num) : esc(textOf(def)))));
+        if (seen) row.appendChild(el("div", "ram-xout", badges(outcome(def, all, st.settings, st.choices))));
         card.appendChild(row);
       });
       var legend = ['<span><span class="ram-hl">highlighted</span> saved as a memory</span>', '<span><span class="ram-left">struck through</span> left out</span>'];
-      if (st.settings.exclusion === "off") legend.push('<span><span class="ram-sens">red</span> sensitive, and kept</span>');
+      if (st.settings.exclusion === "off" && st.choices[2] === GATE_CODE) legend.push('<span><span class="ram-sens">red</span> sensitive, and kept</span>');
       card.appendChild(el("div", "ram-legend", legend.join("")));
       return card;
     }
-    function annotate(def) {
+    function annotate(def, num) {
       return def.parts.map(function (p) {
-        if (p.mem) return '<span class="ram-hl">' + esc(p.t) + '</span><sup class="ram-tag">' + p.mem + "</sup>";
+        if (p.mem) return '<span class="ram-hl">' + esc(p.t) + '</span><sup class="ram-tag">' + num[p.mem] + "</sup>";
         if (p.skip) return '<span class="ram-left" title="Left out: ' + esc(p.skip) + '">' + esc(p.t) + "</span>";
         if (p.sensitive) {
-          if (st.settings.exclusion === "off") return '<span class="ram-sens">' + esc(p.t) + '</span><sup class="ram-tag ram-tag-bad">5</sup>';
+          if (st.settings.exclusion === "off") return '<span class="ram-sens">' + esc(p.t) + '</span><sup class="ram-tag ram-tag-bad">' + num.door + "</sup>";
           return '<span class="ram-left" title="' + (st.settings.exclusion === "detector" ? "Redacted by the gate_code detector" :
             "Left out by the semantic exclusion") + '">' + esc(p.t) + "</span>";
         }
@@ -623,27 +837,12 @@
       }).join("");
     }
     function badges(text) { return esc(text).replace(/\{(\d)\}/g, '<span class="ram-num ram-num-sm">$1</span>'); }
-    function extractNotes(k, running) {
-      if (running) return ["The pipeline reads each new event and decides what's worth keeping."];
-      if (k < S1_SCRIPT.length) return ["The extraction pipeline hasn't run yet. Run it to see which parts of the conversation become long-term memories."];
-      var notes = ["Six messages became six memories: five facts about Maya and one record of the order. The small talk wasn't kept."];
-      notes.push({
-        semantic: "The semantic exclusion kept the gate code out of long-term memory. Session memory still has it, because exclusions never change session memory. " +
-          "Semantic exclusions are advisory, so don't rely on them alone for real secrets.",
-        detector: "The gate_code detector replaced the code with [REDACTED] in long-term memory. Detector matches are applied deterministically. " +
-          "Session memory still has the code, because exclusions never change session memory.",
-        off: "With exclusions off, the gate code is now in long-term memory, where it's kept for " + LONG_TTL_DAYS + " days. " +
-          "Pick an exclusion in Service settings to compare."
-      }[st.settings.exclusion]);
-      notes.push("Each memory records its owner, u101, and the session it came from, so the app can find it after the session is gone.");
-      return notes;
-    }
     function runExtraction() {
       if (st.busy || st.extracted) return;
       st.extracted = true;
       var steps = [[0, function () { renderExtract({ processed: 0, running: true }); }]];
-      S1_SCRIPT.forEach(function (d, i) {
-        steps.push([550, function () { renderExtract({ processed: i + 1, running: i + 1 < S1_SCRIPT.length }); }]);
+      SLOTS.forEach(function (d, i) {
+        steps.push([550, function () { renderExtract({ processed: i + 1, running: i + 1 < SLOTS.length }); }]);
       });
       play(steps);
     }
@@ -651,36 +850,36 @@
     /* ---- tab 3: two days later ---- */
 
     function renderLater(view) {
-      view = view || { step: st.lunch ? 5 : 0 };
+      view = view || { step: st.lunch == null ? 0 : 5 };
       var step = view.step, p = panels.later;
       var ttl = ttlOf(st.settings.ttl);
-      var gap = (Date.parse(LATER_AT) - Date.parse(S1_SCRIPT[S1_SCRIPT.length - 1].at)) / 1000;
+      var gap = (Date.parse(LATER_AT) - Date.parse(SLOTS[SLOTS.length - 1].at)) / 1000;
       var s1Gone = ttl.seconds < gap;
-      var mems = memories(st.settings);
-      var lunch = runSearch(QUERIES[0], SCRIPTED_LIMIT, 0, mems);
-      var safety = runSearch(QUERIES[1], SCRIPTED_LIMIT, 0, mems);
+      var mems = memoriesFor(st.settings, st.choices);
+      var plan = st.lunch == null ? null : lunchPlan(st.lunch, mems, st.choices);
       var n2 = step >= 5 ? 2 : step >= 1 ? 1 : 0;
-      var s2 = sessionView(S2_SCRIPT, S2, n2, false);
-      var s1v = sessionView(S1_SCRIPT, S1, 6, st.settings.summarize);
+      var s2 = sessionView(plan ? plan.script : [], S2, n2, false, null);
+      var s1v = sessionView(s1Script(st.choices, TURNS.length), S1, SLOTS.length, st.settings.summarize, summaryText(st.choices));
 
       p.innerHTML = "";
-      p.appendChild(headRow(n2 ? S2_SCRIPT[n2 - 1].at : LATER_AT));
+      p.appendChild(headRow(n2 ? plan.script[n2 - 1].at : LATER_AT));
       p.appendChild(el("p", "rcr-lede", "Two days later, Maya opens the app and starts a new conversation. " +
         (s1Gone ? "The Thursday session is past its short-term TTL, but long-term memory still has what she shared." :
           "The Thursday session is still within its short-term TTL, but the new conversation gets a new session.")));
 
       var extra = {};
       if (step >= 1) extra[0] = [callCard("Store Maya's message", "POST", "/session-memory/events", addEventRequest(s2.all[0]), "201", { event: s2.all[0] })];
-      if (step >= 2) extra[0].push(callCard("Search for the question", "POST", "/long-term-memory/search", searchRequest(QUERIES[0], SCRIPTED_LIMIT, 0), "200", lunch.body));
-      if (step >= 3) extra[0].push(callCard("Search again for allergies", "POST", "/long-term-memory/search", searchRequest(QUERIES[1], SCRIPTED_LIMIT, 0), "200", safety.body));
+      if (step >= 2) extra[0].push(callCard("Search for her message", "POST", "/long-term-memory/search", searchRequest(plan.query, SCRIPTED_LIMIT, 0), "200", plan.primary.body));
+      if (step >= 3) extra[0].push(callCard("Search for allergies and foods to avoid", "POST", "/long-term-memory/search", searchRequest(SAFETY_QUERY, SCRIPTED_LIMIT, 0), "200", plan.safety.body));
       if (step >= 5) extra[1] = [callCard("Store the reply", "POST", "/session-memory/events", addEventRequest(s2.all[1]), "201", { event: s2.all[1] })];
-      var c = chatCard(S2_SCRIPT, step >= 4 ? 2 : Math.min(step, 1), extra);
+      var c = chatCard(plan ? plan.script : [], step >= 4 ? 2 : Math.min(step, 1), extra);
       if (step >= 1 && step < 4) c.chat.appendChild(thinking());
+      if (st.lunch == null) c.card.appendChild(composer("Choose Maya's message", LUNCH.map(function (l) { return l.text; }), sendLunch));
       p.appendChild(c.card);
 
       var used = {};
-      if (step >= 2) lunch.returned.forEach(function (r) { used[r.mem.key] = true; });
-      if (step >= 3) safety.returned.forEach(function (r) { used[r.mem.key] = true; });
+      if (step >= 2) plan.primary.returned.forEach(function (r) { used[r.mem.key] = true; });
+      if (step >= 3) plan.safety.returned.forEach(function (r) { used[r.mem.key] = true; });
       var blocks = [
         s1Gone ? { id: S1, expired: "Past its " + ttl.adj + " short-term TTL, so the session is gone. Fetching it returns 404." } : { id: S1, view: s1v },
         { id: S2, view: s2, fresh: view.fresh && n2 ? s2.all[n2 - 1].eventId : null, emptyText: "No events yet. The session starts with Maya's first message." }
@@ -690,28 +889,14 @@
         if (n2) apiBlock(body, "Fetch the new session", "GET", "/session-memory/" + S2, null, "200", sessionResponse(S2, s2));
       });
       p.appendChild(grid(sessionCard(blocks, api), ltmCard(mems, { used: used })));
-      p.appendChild(callout(laterNotes(step, s1Gone, ttl, lunch)));
+      p.appendChild(callout(laterNotes(step, s1Gone, ttl, plan, mems)));
       if (step >= 5) p.appendChild(searchCard(mems));
-      p.appendChild(controlsRow(!st.lunch || view.step < 5 ? { label: "Send Maya's message", busy: "Replying…", fn: sendLunch } : null));
+      p.appendChild(controlsRow(null));
       syncTabs();
     }
-    function laterNotes(step, s1Gone, ttl, lunch) {
-      if (step === 0) {
-        return [s1Gone ? "The Thursday session is gone: it's past its " + ttl.adj + " short-term TTL, so fetching it returns 404." :
-          "With a " + ttl.adj + " short-term TTL, the Thursday session is still stored. But a new conversation starts a new session, and sessions are fetched by ID, not searched.",
-          "Long-term memory still has all six memories. They're kept for " + LONG_TTL_DAYS + " days."];
-      }
-      if (step < 5) return ["Before replying, the assistant searches long-term memory for Maya's preferences."];
-      var rank = 0;
-      lunch.ranked.forEach(function (r, i) { if (r.mem.num === 3) rank = i; });
-      return ["Maya didn't repeat any of her preferences. The assistant knows them because it searched long-term memory before it replied.",
-        "Search ranks memories by how similar they are to the query. For the lunch question with a limit of " + SCRIPTED_LIMIT +
-        ", the peanut allergy ranks " + ORDINALS[rank] + " and isn't returned. That's why this assistant also runs a targeted search for allergies before it suggests food.",
-        "The restaurant suggestion comes from the app's own data, for example through Context Retriever."];
-    }
-    function sendLunch() {
-      if (st.busy || st.lunch) return;
-      st.lunch = true;
+    function sendLunch(choice) {
+      if (st.busy || st.lunch != null) return;
+      st.lunch = choice;
       play([
         [0, function () { renderLater({ step: 1, fresh: true }); }],
         [800, function () { renderLater({ step: 2 }); }],
@@ -805,7 +990,8 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 
   /* Exposed for tests. */
-  window.AgentMemoryDemo = { runSearch: runSearch, searchRequest: searchRequest, memories: memories, sessionView: sessionView,
-    sessionResponse: sessionResponse, recordJson: recordJson, curl: curl, b64: b64, QUERIES: QUERIES, S1_SCRIPT: S1_SCRIPT,
-    S2_SCRIPT: S2_SCRIPT, TTLS: TTLS, textOf: textOf };
+  window.AgentMemoryDemo = { TURNS: TURNS, LUNCH: LUNCH, QUERIES: QUERIES, TTLS: TTLS, s1Script: s1Script, summaryText: summaryText,
+    memoriesFor: memoriesFor, outcome: outcome, lunchPlan: lunchPlan, runSearch: runSearch, searchRequest: searchRequest,
+    sessionView: sessionView, sessionResponse: sessionResponse, recordJson: recordJson, chatNotes: chatNotes,
+    extractNotes: extractNotes, laterNotes: laterNotes, curl: curl, b64: b64, textOf: textOf };
 })();

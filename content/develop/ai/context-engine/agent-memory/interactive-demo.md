@@ -11,13 +11,13 @@ title: Redis Agent Memory interactive demo
 weight: 9
 ---
 
-Redis Agent Memory gives an AI agent two tiers of memory. Session memory holds the current conversation, and long-term memory holds what the agent should remember across conversations. This demo follows one customer of a food delivery app through two conversations, so you can see what each tier stores, when it changes, and how long it lasts.
+Redis Agent Memory gives an AI agent two tiers of memory. Session memory holds the current conversation, and long-term memory holds what the agent should remember across conversations. This demo follows one customer of a food delivery app through two conversations. You choose what she says, and the demo shows what each tier stores, when it changes, and how long it lasts.
 
 The demo runs in your browser and doesn't connect to an Agent Memory service. Its requests and responses follow the shapes of the [Agent Memory API](/content/develop/ai/context-engine/agent-memory/api-reference.md). The customer, restaurants, and order come from the same sample data as the [Context Retriever interactive demo](/content/develop/ai/context-engine/context-retriever/interactive-demo.md).
 
 {{< agent-memory-demo >}}
 
-Open **Service settings** to change how the service behaves. For example, turn off automatic summarization, or set sensitive-data exclusions to **Off** and see where the gate code ends up.
+Try different messages to see how they change what the service remembers. Open **Service settings** to change how the service behaves. For example, have the customer share her gate code, then set sensitive-data exclusions to **Off** and see where the code ends up.
 
 ## Session memory and long-term memory compared
 

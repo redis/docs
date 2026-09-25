@@ -47,6 +47,12 @@
 .ram .ram-chatcard { margin-bottom: 12px; }
 .ram-chatcard .rcr-chat { min-height: 36px; }
 
+/* ---- choosing what Maya says ---- */
+.ram-composer { border-top: 1px dashed var(--rcr-line-strong); margin-top: 10px; padding-top: 10px; }
+.ram .ram-composer > .rcr-lbl { display: block; margin-bottom: 6px; }
+.ram-options { display: grid; gap: 6px; }
+.ram .ram-option { text-align: left; border-radius: 10px; padding: 7px 12px; font-size: 13.5px; line-height: 1.4; }
+
 /* ---- the two tiers, side by side when there's room ---- */
 .ram-grid { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: start; }
 @container (min-width: 560px) { .rcr .ram-grid { grid-template-columns: 1fr 1fr; } }
