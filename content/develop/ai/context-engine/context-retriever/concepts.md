@@ -77,6 +77,6 @@ See the [AI agent context engine FAQ](https://redis.io/blog/faq-real-time-contex
 ## Next steps
 
 - [Create a Context Retriever service]({{< relref "/operate/iris/context-retriever/create-service" >}}) on Redis Cloud.
-- [Install Context Retriever]({{< relref "/develop/ai/context-engine/context-retriever/install" >}}) on your own Kubernetes infrastructure.
-- Model your entities with the [Python client and `ctxctl` CLI](https://pypi.org/project/redis-context-retriever/).
+- [Install Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}) on your own Kubernetes infrastructure.
+- Follow the [quickstart]({{< relref "/develop/ai/context-engine/context-retriever/quickstart" >}}) to model entities, generate tools, and call one with the `ctxctl` CLI.
 - [Manage agent keys and access tags]({{< relref "/operate/iris/context-retriever/view-admin-keys" >}}) to control what each agent can reach.
