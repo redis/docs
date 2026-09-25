@@ -45,12 +45,12 @@ the selected source:
 Use only properties shown for the selected source. The available properties can
 vary by source database.
 
-Cloud RDI collectors have two CPUs and 8 GB of RAM. You cannot select a
+Cloud RDI collectors have 2 CPUs and 8 GB of RAM. You cannot select a
 different collector size. Test each change with a representative workload
 before you use it in production.
 
 Larger batches and queues use more collector memory. More snapshot and
-record-processing threads share the same two CPUs. A shorter poll interval can
+record-processing threads share the same 2 CPUs. A shorter poll interval can
 reduce CDC latency but can increase load on the source database. Change one
 property at a time and use the Dashboard to compare throughput, pending
 records, and processor load.
