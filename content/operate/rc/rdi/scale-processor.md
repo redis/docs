@@ -45,46 +45,15 @@ the selected source:
 Use only properties shown for the selected source. The available properties can
 vary by source database.
 
-The following are starting points for a collector with eight CPU cores. Test
-them with a representative workload before you use them in production.
+Cloud RDI collectors have two CPUs and 8 GB of RAM. You cannot select a
+different collector size. Test each change with a representative workload
+before you use it in production.
 
-### Prioritize snapshot throughput
-
-Use this profile when completing the initial snapshot is more important than
-CDC latency.
-
-| Collector section | Property | Value |
-| --- | --- | --- |
-| Source | `snapshot.max.threads` | `2` |
-| Source | `snapshot.fetch.size` | `40000` |
-| Source | `max.batch.size` | `16000` |
-| Source | `max.queue.size` | `92000` |
-| Source | `poll.interval.ms` | `10` |
-| Source | `record.processing.threads` | `6` |
-| Sink | `redis.batch.size` | `10000` |
-| Sink | `redis.flush.interval.ms` | `1` |
-
-This profile assigns two snapshot threads and six record-processing threads.
-The queue needs enough collector memory to buffer 92,000 records.
-
-### Prioritize CDC latency
-
-Use this profile when CDC latency is more important than snapshot throughput.
-
-| Collector section | Property | Value |
-| --- | --- | --- |
-| Source | `snapshot.max.threads` | `1` |
-| Source | `snapshot.fetch.size` | `40000` |
-| Source | `max.batch.size` | `32000` |
-| Source | `max.queue.size` | `140000` |
-| Source | `poll.interval.ms` | `1` |
-| Source | `record.processing.threads` | `8` |
-| Sink | `redis.batch.size` | `12000` |
-| Sink | `redis.flush.interval.ms` | `1` |
-
-This profile uses frequent polling to reduce CDC latency. The 140,000-record
-queue needs more collector memory. Monitor the collector memory use and lower
-the queue size if memory pressure occurs.
+Larger batches and queues use more collector memory. More snapshot and
+record-processing threads share the same two CPUs. A shorter poll interval can
+reduce CDC latency but can increase load on the source database. Change one
+property at a time and use the Dashboard to compare throughput, pending
+records, and processor load.
 
 ## Increase RDI database throughput
 

@@ -130,7 +130,7 @@ bottleneck, edit **Settings** and set
 `advanced.resources.taskManager.replicas` to the needed number. Save the
 change, then apply and restart the pipeline. See [Increase Cloud RDI pipeline
 capacity]({{< relref "/operate/rc/rdi/scale-processor" >}}) for signals and
-starting values.
+tuning guidance.
 
 ### Can I see that the processor has scaled in the console?
 
