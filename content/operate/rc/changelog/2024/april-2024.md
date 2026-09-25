@@ -24,7 +24,7 @@ We added a Nano billing unit for Pro databases with a maximum size of 500 MB and
 
 ### Essentials subscriptions through AWS Marketplace
 
-You can now use your [AWS Marketplace]({{< relref "/operate/rc/cloud-integrations/gcp-marketplace/" >}}) account to pay for your Essentials subscriptions as well as your Pro subscriptions.
+You can now use your [AWS Marketplace](/content/operate/rc/cloud-integrations/gcp-marketplace/_index.md) account to pay for your Essentials subscriptions as well as your Pro subscriptions.
 
 ## Enhancements
 
