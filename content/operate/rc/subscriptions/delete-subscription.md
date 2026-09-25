@@ -10,13 +10,12 @@ linktitle: Delete subscription
 weight: 50
 ---
 
-{{<note>}}
-Once a subscription is deleted, it cannot be recovered. We recommend [backing up your data]({{< relref "/operate/rc/databases/back-up-data.md" >}}) before removing databases or subscriptions.
-{{</note>}}
+> [!NOTE]
+> Once a subscription is deleted, it cannot be recovered. We recommend [backing up your data](/content/operate/rc/databases/back-up-data.md) before removing databases or subscriptions.
 
 To delete a subscription:
 
-1.  [Delete all databases]({{< relref "/operate/rc/databases/delete-database.md" >}}) from the subscription.
+1.  [Delete all databases](/content/operate/rc/databases/delete-database.md) from the subscription.
 
     The number of databases for the subscription is shown in the subscription list. You cannot delete a subscription until there are zero databases in the subscription.
 

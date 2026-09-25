@@ -27,18 +27,17 @@ In the new AWS account, you need to create:
 - A user with an **access key**
 - A role that grants **AWS console access**
 
-Save the access key in a secure location so that you can enter it when you [register the cloud account]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings" >}}) with your Redis Cloud subscription.
+Save the access key in a secure location so that you can enter it when you [register the cloud account](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md) with your Redis Cloud subscription.
 
-{{< warning >}}
-We use the provided credentials to configure your AWS environment and provision required resources.
-
-You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings#avoid-service-disruption" >}}) for more details.
-{{< /warning >}}
+> [!WARNING]
+> We use the provided credentials to configure your AWS environment and provision required resources.
+>
+> You **must not** change the configurations of provisioned resources or stop or terminate provisioned instances. If you do, your databases will be inaccessible and Redis will not be able to ensure database stability. See [Avoid service disruption](/content/operate/rc/subscriptions/bring-your-own-cloud/cloud-account-settings.md#avoid-service-disruption) for more details.
 
 For help creating an AWS user, see the [AWS IAM documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html).
 
 You can use one of the following tools to create IAM resources:
 
-- [CloudFormation]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/cloudformation" >}})
-- [Terraform]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/terraform" >}})
-- The [AWS Console]({{< relref "/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/aws-console" >}})
+- [CloudFormation](/content/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/cloudformation.md)
+- [Terraform](/content/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/terraform.md)
+- The [AWS Console](/content/operate/rc/subscriptions/bring-your-own-cloud/iam-resources/aws-console.md)
