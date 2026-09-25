@@ -11,7 +11,7 @@ linkTitle: Connect
 weight: 12
 ---
 
-After you [create your database]({{< relref "/operate/rc/databases/create-database" >}}), you can connect to it using the public or private endpoint.
+After you [create your database](/content/operate/rc/databases/create-database/_index.md), you can connect to it using the public or private endpoint.
 
 ## Get connection information
 
@@ -28,25 +28,25 @@ The database endpoints are listed in the **Configuration** tab for your database
 {{<image filename="images/rc/database-details-configuration-tab-access-essentials.png" alt="The Access section for an Essentials database." width=50%" >}}
 
 Redis Cloud Pro and Redis Cloud Essentials databases have a public endpoint, which you can access from the public internet. Redis Cloud Pro databases also have a private endpoint. You can connect to the private endpoint from a private network. Before you can connect to the private endpoint, you must set up a private connectivity method, such as:
-- [VPC peering]({{< relref "/operate/rc/security/vpc-peering" >}})
-- [Google Cloud Private Service Connect]({{< relref "/operate/rc/security/private-service-connect" >}}) (Google Cloud only)
-- [AWS Transit Gateway]({{< relref "/operate/rc/security/aws-transit-gateway" >}}) or [AWS PrivateLink]({{< relref "/operate/rc/security/aws-privatelink" >}}) (AWS only)
+- [VPC peering](/content/operate/rc/security/vpc-peering.md)
+- [Google Cloud Private Service Connect](/content/operate/rc/security/private-service-connect.md) (Google Cloud only)
+- [AWS Transit Gateway](/content/operate/rc/security/aws-transit-gateway.md) or [AWS PrivateLink](/content/operate/rc/security/aws-privatelink.md) (AWS only)
 
-Redis Cloud Pro users can block the public endpoint for their databases. For more information, see [Block public endpoints]({{< relref "/operate/rc/security/database-security/block-public-endpoints" >}}).
+Redis Cloud Pro users can block the public endpoint for their databases. For more information, see [Block public endpoints](/content/operate/rc/security/database-security/block-public-endpoints.md).
 
 #### Static and dynamic endpoints
 
 {{< embed-md "rc-endpoint-description.md" >}}
 
-You can redirect the dynamic endpoints to a different database at any time, but you cannot redirect the static endpoints. We recommend using the dynamic endpoints for your application so that you can migrate your database endpoints to a different database in the future without any code changes. See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
+You can redirect the dynamic endpoints to a different database at any time, but you cannot redirect the static endpoints. We recommend using the dynamic endpoints for your application so that you can migrate your database endpoints to a different database in the future without any code changes. See [Redirect dynamic endpoints](/content/operate/rc/databases/redirect-endpoints.md) for more information.
 
 ### Database username and password
 
-By default, your database is protected by a [**Default user**]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}}) with the username `default` and a masked **Default user password**. For Essentials databases, select **Default user > Configure** and then select the eye icon to view your password. 
+By default, your database is protected by a [**Default user**](/content/operate/rc/security/access-control/data-access-control/default-user.md) with the username `default` and a masked **Default user password**. For Essentials databases, select **Default user > Configure** and then select the eye icon to view your password. 
 
 For Pro databases, you can see the default user password in the **Security** section of the **Configuration** details for your database. Select the eye icon to show or hide the password.    
 
-If you've turned on [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) for your database and [turned off the default User]({{< relref "/operate/rc/security/access-control/data-access-control/default-user#turn-off-default-user" >}}), use the username and password for your data access role.
+If you've turned on [Role-based access control](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md) for your database and [turned off the default User](/content/operate/rc/security/access-control/data-access-control/default-user.md#turn-off-default-user), use the username and password for your data access role.
 
 ## Connect to your database with connection wizard
 
@@ -54,9 +54,8 @@ Select **Connect** to open the connection wizard.
 
 {{< image filename="/images/rc/button-connect.png#no-click" alt="Connect button." >}}
 
-{{< note >}}
-For [Active-Active databases]({{< relref "/operate/rc/databases/active-active" >}}), you connect to one of the database instances. Choose the region you want to connect to from the region selection to access the connection information for that instance.
-{{< /note >}}
+> [!NOTE]
+> For [Active-Active databases](/content/operate/rc/databases/active-active/_index.md), you connect to one of the database instances. Choose the region you want to connect to from the region selection to access the connection information for that instance.
 
 The connection wizard provides the following database connection methods:
 
@@ -70,7 +69,7 @@ The connection wizard provides the following database connection methods:
 
 ### Redis Insight {#using-redisinsight}
 
-[Redis Insight]({{< relref "/develop/tools/insight" >}}) is a free Redis GUI that lets you visualize your Redis data and learn more about Redis.
+[Redis Insight](/content/develop/tools/insight/_index.md) is a free Redis GUI that lets you visualize your Redis data and learn more about Redis.
 
 You can connect to your database with Redis Insight in two ways:
 
@@ -80,9 +79,8 @@ You can connect to your database with Redis Insight in two ways:
 
 #### Open in your browser {#ri-browser}
 
-{{< note >}}
-Opening your database with Redis Insight in your browser is only available for Essentials databases. For all other databases, [Download and install Redis Insight](#ri-app) on your computer.
-{{< /note >}}
+> [!NOTE]
+> Opening your database with Redis Insight in your browser is only available for Essentials databases. For all other databases, [Download and install Redis Insight](#ri-app) on your computer.
 
 If Redis Insight on Redis Cloud is available for your database, select **Launch Redis Insight web** from the connection wizard to open it.
 
@@ -94,21 +92,21 @@ You can also select **Launch** from the database page under **View and manage da
 
 Redis Insight will open in a new tab. 
 
-This browser-based version of Redis Insight has a subset of the features of Redis Insight. For more information, see [Open with Redis Insight on Redis Cloud]({{< relref "/operate/rc/databases/connect/insight-cloud" >}}).
+This browser-based version of Redis Insight has a subset of the features of Redis Insight. For more information, see [Open with Redis Insight on Redis Cloud](/content/operate/rc/databases/connect/insight-cloud.md).
 
 #### Install and open on your computer {#ri-app}
 
 1. If you haven't downloaded Redis Insight, select **Download** under **Redis Insight** in the Connection wizard to download it. 
 
-1. [Install Redis Insight]({{< relref "/develop/tools/insight" >}}).
+1. [Install Redis Insight](/content/develop/tools/insight/_index.md).
 
 1. Once installed, select **Open with Redis Insight**.
 
 1. A pop-up asks if you wish to open the link with Redis Insight. Select **Open Redis Insight** to connect to your database with Redis Insight.
 
-If you get an error when connecting with Redis Insight, [manually connect to your database]({{< relref "/develop/tools/insight" >}}) from Redis Insight.
+If you get an error when connecting with Redis Insight, [manually connect to your database](/content/develop/tools/insight/_index.md) from Redis Insight.
 
-You can use Redis Insight to view your data, run Redis commands, and analyze database performance. See the [Redis Insight docs]({{< relref "/develop/tools/insight" >}}) for more info.
+You can use Redis Insight to view your data, run Redis commands, and analyze database performance. See the [Redis Insight docs](/content/develop/tools/insight/_index.md) for more info.
 
 ### Redis client {#using-redis-client}
 
@@ -116,36 +114,35 @@ A Redis client is a software library or tool that enables applications to intera
 
 The connection wizard provides code snippets to connect to your database with the following programming languages:
 
-- .NET using [StackExchange.Redis/NRedisStack]({{< relref "/develop/clients/dotnet" >}})
-- node.js using [node-redis]({{< relref "/develop/clients/nodejs" >}})
-- Python using [redis-py]({{< relref "/develop/clients/redis-py" >}})
-- Java using [Jedis]({{< relref "/develop/clients/jedis" >}}) and [Lettuce]({{< relref "/develop/clients/lettuce" >}})
-- Go using [go-redis]({{< relref "/develop/clients/go" >}})
-- PHP using [Predis]({{< relref "/develop/clients/php" >}})
+- .NET using [StackExchange.Redis/NRedisStack](/content/develop/clients/dotnet/_index.md)
+- node.js using [node-redis](/content/develop/clients/nodejs/_index.md)
+- Python using [redis-py](/content/develop/clients/redis-py/_index.md)
+- Java using [Jedis](/content/develop/clients/jedis/_index.md) and [Lettuce](/content/develop/clients/lettuce/_index.md)
+- Go using [go-redis](/content/develop/clients/go/_index.md)
+- PHP using [Predis](/content/develop/clients/php/_index.md)
 
 {{<image filename="images/rc/connection-wizard-clients.png" alt="The connection wizard clients." width=500px >}}
 
 If the username and password are not already filled in, replace `<username>` and `<password>` with your username and password.
 
-See [Clients]({{< relref "/develop/clients" >}}) to learn how to connect with the official Redis clients.
+See [Clients](/content/develop/clients/_index.md) to learn how to connect with the official Redis clients.
 
-{{< note >}}
-We recommend using the [dynamic endpoints](#static-and-dynamic-endpoints) for your application so that you can migrate your database endpoints to a different database in the future without any code changes.  See [Redirect dynamic endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) for more information.
-{{< /note >}}
+> [!NOTE]
+> We recommend using the [dynamic endpoints](#static-and-dynamic-endpoints) for your application so that you can migrate your database endpoints to a different database in the future without any code changes.  See [Redirect dynamic endpoints](/content/operate/rc/databases/redirect-endpoints.md) for more information.
 
 #### redis-cli {#using-rediscli}
 
-The [`redis-cli`]({{< relref "/develop/tools/cli" >}}) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands]({{< relref "/commands" >}}).
+The [`redis-cli`](/content/develop/tools/cli.md) utility is installed when you install Redis.  It provides a command-line interface that lets you work with your database using core [Redis commands](/content/commands).
 
-To run `redis-cli`, [install Redis]({{< relref "/operate/oss_and_stack/install/install-stack/" >}}) on your machine. After it's installed, copy the `redis-cli` command under **Redis CLI** in the connection wizard and enter it into your terminal. If the username and password are not already filled in, replace `<username>` and `<password>` with your username and password.
+To run `redis-cli`, [install Redis](/content/operate/oss_and_stack/install/install-stack/_index.md) on your machine. After it's installed, copy the `redis-cli` command under **Redis CLI** in the connection wizard and enter it into your terminal. If the username and password are not already filled in, replace `<username>` and `<password>` with your username and password.
 
-If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, you can [install the standalone `redis-cli` binary]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}) on Linux or macOS.
+If you only need the Redis CLI (`redis-cli`) and not the full Redis Open Source distribution, you can [install the standalone `redis-cli` binary](/content/operate/oss_and_stack/install/install-stack/install-redis-cli.md) on Linux or macOS.
 
-See [Redis CLI]({{< relref "/develop/tools/cli" >}}) to learn how to use `redis-cli`.
+See [Redis CLI](/content/develop/tools/cli.md) to learn how to use `redis-cli`.
 
 ## More info
 
-- [Connect your application]({{< relref "/develop/clients" >}})
-- [Connect with TLS]({{< relref "/operate/rc/security/database-security/tls-ssl#connect-over-tls" >}})
-- [Default user]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})
-- [Role-based access control]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}})
+- [Connect your application](/content/develop/clients/_index.md)
+- [Connect with TLS](/content/operate/rc/security/database-security/tls-ssl.md#connect-over-tls)
+- [Default user](/content/operate/rc/security/access-control/data-access-control/default-user.md)
+- [Role-based access control](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md)

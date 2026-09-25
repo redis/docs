@@ -21,11 +21,11 @@ The most common way to transfer data to a new database is to import a copy of th
 
 Here's how it works:
 
-1.  [Select an export storage destination]({{< relref "/operate/rc/databases/back-up-data#set-up-backup-storage-locations" >}}) and verify that it's ready for use and has sufficient space.
+1.  [Select an export storage destination](/content/operate/rc/databases/back-up-data.md#set-up-backup-storage-locations) and verify that it's ready for use and has sufficient space.
 
-1.  [Export]({{< relref "/operate/rc/databases/back-up-data.md" >}}) the data from the original database to the storage location.
+1.  [Export](/content/operate/rc/databases/back-up-data.md) the data from the original database to the storage location.
 
-1.  [Import]({{< relref "/operate/rc/databases/import-data.md" >}}) the exported data into the target database, the one hosted by the new subscription.
+1.  [Import](/content/operate/rc/databases/import-data.md) the exported data into the target database, the one hosted by the new subscription.
 
 The migrated data reflects the state of the data at the time it was originally exported.  
 
@@ -51,13 +51,12 @@ To migrate data using Active-Passive syncing, specify the target database as an 
 4.  Turn off Active-Passive for the target database.
 5.  Switch apps and other connections to the target database.
 
-{{< note >}}
-Before you use Active-Passive, be aware of the following limitations:
-
-- As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md" >}}). **Do not write to the target database while Active-Passive is enabled.** We recommend that you turn off Active-Passive after the databases are synced. 
-
-- Turning on Active-Passive will flush the target database. Make sure that your target database has no important data before you turn on Active-Passive.
-{{< /note >}}
+> [!NOTE]
+> Before you use Active-Passive, be aware of the following limitations:
+>
+> - As long as Active-Passive is enabled, data in the target database will not expire and will not be evicted regardless of the set [data eviction policy](/content/operate/rc/databases/configuration/data-eviction-policies.md). **Do not write to the target database while Active-Passive is enabled.** We recommend that you turn off Active-Passive after the databases are synced. 
+>
+> - Turning on Active-Passive will flush the target database. Make sure that your target database has no important data before you turn on Active-Passive.
 
 ### Detailed Active-Passive syncing process {#sync-using-active-passive}
 
@@ -87,9 +86,9 @@ Follow these detailed steps to migrate data using Active-Passive syncing:
 
     - **Source database not hosted on Redis Cloud** (for example, a self-managed Redis deployment): select **External**.
 
-        {{< note >}}
-Don't select **External** to sync from a database hosted in a *different* Redis Cloud account. Redis Cloud rejects Active-Passive connections between accounts and returns an error, even if you enter that database's public endpoint here. [Contact support](https://redis.io/support/) to migrate a database between Redis Cloud accounts using Active-Passive.
-        {{< /note >}}
+        > [!NOTE]
+        > Don't select **External** to sync from a database hosted in a *different* Redis Cloud account. Redis Cloud rejects Active-Passive connections between accounts and returns an error, even if you enter that database's public endpoint here. [Contact support](https://redis.io/support/) to migrate a database between Redis Cloud accounts using Active-Passive.
+        >
 
         1.  In the **Enter the source URI** field, type `redis://` and then paste in the public endpoint details. 
 
@@ -137,9 +136,8 @@ Don't select **External** to sync from a database hosted in a *different* Redis 
 
 Active-Passive sync lets you migrate data while apps and other connections are using the source database.  Once the data is migrated, you should migrate active connections to the target database.
 
-{{< warning >}}
-Do not write to the target database until turning off Active-Passive. Writing to the target database of an Active-Passive setup can cause data consistency issues and replication failures. See [Active-Passive replication considerations]({{< relref "/operate/rc/databases/configuration/data-eviction-policies.md#active-passive-replication-considerations" >}}) for more information.
-{{< /warning >}}
+> [!WARNING]
+> Do not write to the target database until turning off Active-Passive. Writing to the target database of an Active-Passive setup can cause data consistency issues and replication failures. See [Active-Passive replication considerations](/content/operate/rc/databases/configuration/data-eviction-policies.md#active-passive-replication-considerations) for more information.
 
 ### Active-Passive memory requirements
 
@@ -149,7 +147,7 @@ To illustrate, suppose you want to migrate a 1&nbsp;GB source database without r
 
 ## Next steps
 
-If you want to redirect your application's connections to the target database, you can [redirect your database endpoints]({{< relref "/operate/rc/databases/redirect-endpoints" >}}) to the target database. 
+If you want to redirect your application's connections to the target database, you can [redirect your database endpoints](/content/operate/rc/databases/redirect-endpoints.md) to the target database. 
 
 Before you redirect your endpoints, make sure:
 - The import or replication is finished.

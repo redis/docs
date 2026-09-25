@@ -17,16 +17,16 @@ Redis Cloud Essentials is cost-efficient and designed for low-throughput scenari
 
 {{< embed-md "rc-create-db-first-steps.md" >}} 
 
-3. Select the type of [subscription]({{< relref "/operate/rc/subscriptions" >}}) you need. For this guide, select **Essentials**.
+3. Select the type of [subscription](/content/operate/rc/subscriptions/_index.md) you need. For this guide, select **Essentials**.
 
     {{<image filename="images/rc/create-database-subscription-essentials.png" alt="The Subscription selection panel with Essentials selected.">}}
 
-    {{< note >}}
-This guide shows how to create a paid Essentials database.
-- If you want to create a free Essentials database, see [Create a free database]({{< relref "/operate/rc/rc-quickstart" >}}). You can only have one free database per account.
-- If you'd rather create a Pro database, see [Create a Pro database with a new subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}).
-- If you already have a Pro subscription and want to add a database to it, see [Create a Pro database in an existing subscription]({{< relref "/operate/rc/databases/create-database/create-pro-database-existing" >}}).
-    {{< /note >}}
+    > [!NOTE]
+    > This guide shows how to create a paid Essentials database.
+    > - If you want to create a free Essentials database, see [Create a free database](/content/operate/rc/rc-quickstart.md). You can only have one free database per account.
+    > - If you'd rather create a Pro database, see [Create a Pro database with a new subscription](/content/operate/rc/databases/create-database/create-pro-database-new.md).
+    > - If you already have a Pro subscription and want to add a database to it, see [Create a Pro database in an existing subscription](/content/operate/rc/databases/create-database/create-pro-database-existing.md).
+    >
     
     After you select **Essentials**, the rest of the database details will appear.
 
@@ -38,7 +38,7 @@ This guide shows how to create a paid Essentials database.
 
     {{<image filename="images/rc/create-database-essentials-cloud-vendor-list.png" alt="The list of available cloud vendors.">}}
 
-1. Choose a **Region** from the list. See [Supported regions]({{< relref "/operate/rc/supported-regions" >}}) for a list of supported regions by cloud vendor.
+1. Choose a **Region** from the list. See [Supported regions](/content/operate/rc/supported-regions.md) for a list of supported regions by cloud vendor.
 
 1. Select the **Database version** you want to use.
 
@@ -48,11 +48,11 @@ This guide shows how to create a paid Essentials database.
 
     {{<image filename="images/rc/subscription-new-fixed-tiers.png" alt="Available Essentials plans." >}}
 
-    The plan determines the size of your database and other limits. For a comparison of available plans, see [Redis Cloud Essentials plans]({{< relref "/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details" >}}).
+    The plan determines the size of your database and other limits. For a comparison of available plans, see [Redis Cloud Essentials plans](/content/operate/rc/subscriptions/view-essentials-subscription/essentials-plan-details.md).
 
 1. Select **RAM** or **RAM + SSD (Flex)** to choose between a database that uses only RAM or one that uses both RAM and Flash memory. 
 
-    Choose Flex for larger datasets and cost-efficient scale when you can tolerate single-digit millisecond latency for warm data. Choose RAM when you need the absolute lowest latency for all data. To learn more about Flex, see [Create a Flex database]({{< relref "/operate/rc/databases/create-database/create-flex-database" >}}).
+    Choose Flex for larger datasets and cost-efficient scale when you can tolerate single-digit millisecond latency for warm data. Choose RAM when you need the absolute lowest latency for all data. To learn more about Flex, see [Create a Flex database](/content/operate/rc/databases/create-database/create-flex-database.md).
 
 1. Choose your **High availability (replication)** settings.
 
@@ -62,7 +62,7 @@ This guide shows how to create a paid Essentials database.
     - **Single-Zone**: Your database will have a primary and a replica located in the same cloud zone. If anything happens to the primary, the replica takes over and becomes the new primary.
     - **Multi-Zone**: The primary and its replicas are stored in different zones. This means that your database can remain online even if an entire zone becomes unavailable.
 
-    See [High availability]({{< relref "/operate/rc/databases/configuration/high-availability" >}}) for more information about these settings.
+    See [High availability](/content/operate/rc/databases/configuration/high-availability.md) for more information about these settings.
 
 1. Choose your **Data persistence** settings from the list.
 
@@ -72,7 +72,7 @@ This guide shows how to create a paid Essentials database.
 
     - A **Snapshot** is a copy of the in-memory database, taken at periodic intervals (one, six, or twelve hours). You can restore data to the snapshot's point in time. 
     
-    See [Data persistence]({{< relref "/operate/rc/databases/configuration/data-persistence" >}}) for more information about these settings.
+    See [Data persistence](/content/operate/rc/databases/configuration/data-persistence.md) for more information about these settings.
 
 1.  Enter your payment details.
 
@@ -88,4 +88,4 @@ This guide shows how to create a paid Essentials database.
 
 When you create your database, there's a brief pause while your request is processed and then the **Database details** page appears.
 
-You can now [connect to your database]({{< relref "/operate/rc/databases/connect" >}}) and start working with Redis.
+You can now [connect to your database](/content/operate/rc/databases/connect/_index.md) and start working with Redis.

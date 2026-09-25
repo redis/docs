@@ -12,7 +12,7 @@ weight: 45
 
 Deleting a database requires the Account Owner role.
 
-Deleted databases cannot be recovered.  We recommend [making a backup]({{< relref "/operate/rc/databases/back-up-data.md" >}}), just in case.
+Deleted databases cannot be recovered.  We recommend [making a backup](/content/operate/rc/databases/back-up-data.md), just in case.
 
 Sign in to the [Redis Cloud console](https://cloud.redis.io/), then follow the steps for your plan to open the **Delete database** confirmation dialog.
 
@@ -46,9 +46,8 @@ The **Delete database** confirmation dialog appears. If this database is the onl
 
 - Clear **Delete my subscription and stop my payment** to delete the database but keep the subscription.
 
-{{< note >}}
-You will continue to be charged for your subscription until you delete it, even if there are no databases in your subscription.
-{{< /note >}}
+> [!NOTE]
+> You will continue to be charged for your subscription until you delete it, even if there are no databases in your subscription.
 
 {{<image filename="images/rc/database-delete-last-dialog.png" alt="A delete database confirmation dialog asks you to consider deleting the subscription as well." width="75%" >}}
 

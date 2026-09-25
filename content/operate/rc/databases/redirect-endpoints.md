@@ -13,13 +13,13 @@ bannerText: Dynamic endpoint redirection is currently in public preview. Feature
 
 Dynamic endpoints allow you to redirect application traffic from one database to another in the same Redis Cloud account without updating the endpoints in your application. Redis manages endpoint redirection for you.
 
-You can redirect any database's dynamic endpoints to any Redis Cloud Pro database in the same account. If you need to replicate the data from the source database, you should [migrate your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database before you redirect your endpoints.
+You can redirect any database's dynamic endpoints to any Redis Cloud Pro database in the same account. If you need to replicate the data from the source database, you should [migrate your data](/content/operate/rc/databases/migrate-databases.md) to the target database before you redirect your endpoints.
 
 ## When to redirect dynamic endpoints
 
 Use endpoint redirection to seamlessly migrate your application traffic to a different database within the same Redis Cloud account. There is no need to update the endpoints in your application, since they'll remain the same. For example, you might want to:
 
-- Upgrade your database's subscription from an [Essentials Plan to a Pro Plan]({{< relref "/operate/rc/subscriptions/upgrade-essentials-pro" >}})
+- Upgrade your database's subscription from an [Essentials Plan to a Pro Plan](/content/operate/rc/subscriptions/upgrade-essentials-pro.md)
 - Move between Redis Cloud offerings, such as Redis on RAM to Redis Flex
 - Split a subscription or combine databases from multiple subscriptions into one
 - Migrate your database to a different cloud provider, region, or availability zone
@@ -43,7 +43,7 @@ Read the following sections to prepare for endpoint redirection.
 
 ### Scope and impact
 
-This process redirects a source database's dynamic endpoints to a selected target database, including both public and private (if available) endpoints. **Redirecting endpoints does not migrate the data in your database.** You can choose to redirect the endpoints without migrating your data. If you need your data to be available in the target database, you must [migrate your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database **before** you redirect your endpoints.
+This process redirects a source database's dynamic endpoints to a selected target database, including both public and private (if available) endpoints. **Redirecting endpoints does not migrate the data in your database.** You can choose to redirect the endpoints without migrating your data. If you need your data to be available in the target database, you must [migrate your data](/content/operate/rc/databases/migrate-databases.md) to the target database **before** you redirect your endpoints.
 
 To ensure all connections are redirected to the target database, Redis Cloud will block all traffic to the source database for at least 5 minutes. This block period gives DNS caches time to expire and allow clients to reconnect and re-resolve the endpoint. All existing connections to the source database will be terminated and new connections will be refused. To reduce the risk of traffic being split between the source and target database, traffic will remain blocked until you [unblock it](#unblock-database-traffic).   
 
@@ -53,7 +53,7 @@ We recommend redirecting during a low-traffic window.
 
 #### Redirecting endpoints after data migration
 
-If you [migrated your data]({{< relref "/operate/rc/databases/migrate-databases" >}}) to the target database before redirecting your endpoints, make sure that:
+If you [migrated your data](/content/operate/rc/databases/migrate-databases.md) to the target database before redirecting your endpoints, make sure that:
 - The import or replication is finished.
 - Basic metrics for both the source and target databases are reporting normally.
 - The application authentication and authorization are set up correctly for the target database.
@@ -66,9 +66,9 @@ Different applications have different availability and consistency requirements.
 Make sure you have met the following prerequisites:
 
 - Your application is using the dynamic endpoint. Endpoint redirection does not redirect [static endpoints](#applications-that-use-legacy-static-endpoints).
-- You have [created a target Redis Cloud Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) in the same account that [is compatible with the source database](#redirection-compatibility).
-- If you monitor the source database with Prometheus, add the target database to Prometheus before your redirect the endpoint so that you can monitor the target database after the redirection. See [Connect to Prometheus]({{< relref "operate/rc/databases/monitor-performance#connect-to-prometheus" >}}) for more information.
-- Make sure that your client connections are configured with socket/connection timeouts. If you do not configure them, your client may hang indefinitely and the connection will not refresh until the application is restarted. Refer to the [Client documentation]({{< relref "/develop/clients" >}}) for your client for more information.
+- You have [created a target Redis Cloud Pro database](/content/operate/rc/databases/create-database/create-pro-database-new.md) in the same account that [is compatible with the source database](#redirection-compatibility).
+- If you monitor the source database with Prometheus, add the target database to Prometheus before your redirect the endpoint so that you can monitor the target database after the redirection. See [Connect to Prometheus](/content/operate/rc/databases/monitor-performance.md#connect-to-prometheus) for more information.
+- Make sure that your client connections are configured with socket/connection timeouts. If you do not configure them, your client may hang indefinitely and the connection will not refresh until the application is restarted. Refer to the [Client documentation](/content/develop/clients/_index.md) for your client for more information.
 
 #### Redirection compatibility
 
@@ -77,15 +77,15 @@ Endpoint redirection is only allowed when the source and target databases are co
 If any of the following properties differ, the databases are not compatible and you cannot redirect the endpoints:
 - Port number
 - Connectivity settings, such as:
-    - [TLS settings]({{< relref "/operate/rc/security/database-security/tls-ssl" >}})
-    - [VPC Peering]({{< relref "/operate/rc/security/vpc-peering" >}}) or other connectivity method settings
-    - [Default User settings]({{< relref "/operate/rc/security/access-control/data-access-control/default-user" >}})
-    - [CIDR allow list]({{< relref "/operate/rc/security/cidr-whitelist" >}}) settings
+    - [TLS settings](/content/operate/rc/security/database-security/tls-ssl.md)
+    - [VPC Peering](/content/operate/rc/security/vpc-peering.md) or other connectivity method settings
+    - [Default User settings](/content/operate/rc/security/access-control/data-access-control/default-user.md)
+    - [CIDR allow list](/content/operate/rc/security/cidr-whitelist.md) settings
 
 Some differences may be intentional but can affect application behavior. In those cases, the console will warn you about the difference but allow you to proceed with redirection. The following differences will cause a warning:
 - Redis version
-- [RESP Database protocol version]({{< relref "/develop/reference/protocol-spec" >}}#resp-versions)
-- [OSS Cluster API]({{< relref "/operate/rc/databases/configuration/clustering#oss-cluster-api" >}}) configuration
+- [RESP Database protocol version](/content/develop/reference/protocol-spec.md#resp-versions)
+- [OSS Cluster API](/content/operate/rc/databases/configuration/clustering.md#oss-cluster-api) configuration
 
 ### Limitations
 
@@ -108,7 +108,7 @@ To redirect your database endpoints:
 
     {{<image filename="images/rc/migrate-data-redirect-pro-endpoints.png" alt="Select the target database from the database list." >}}
 
-1. If you want to assign the same [Role-based Access Control (RBAC) roles]({{< relref "/operate/rc/security/access-control/data-access-control/role-based-access-control" >}}) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
+1. If you want to assign the same [Role-based Access Control (RBAC) roles](/content/operate/rc/security/access-control/data-access-control/role-based-access-control.md) to the target database that are assigned to the source database, select **Assign the same ACLs to the target database**.
 
     {{<image filename="images/rc/migrate-data-redirect-assign-acls.png" alt="Select **Assign the same ACLs to the target database** to assign the same roles to the target database." >}}
 
