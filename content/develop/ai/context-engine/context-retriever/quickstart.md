@@ -12,7 +12,19 @@ weight: 10
 bannerText: Redis Context Retriever is currently available in preview. Features and behavior are subject to change.
 ---
 
-Use this quickstart to model a Redis data source as a context surface, generate the retrieval tools that Context Retriever exposes, and call one of those tools as an agent would. You will install the Python client, create an admin key, define entities in a model file, create a surface from that file, create an agent key scoped to it, then list and call the generated tools.
+Use this quickstart to model a Redis data source as a context surface, generate the retrieval tools that Context Retriever exposes, and call one of those tools as an agent would.
+
+This quickstart walks you through:
+
+1. [Install the Python client](#install-the-python-client)
+1. [Sign in and create an admin key](#sign-in-and-create-an-admin-key)
+1. [Define your data model](#define-your-data-model)
+1. [Load sample data](#load-sample-data)
+1. [Create a surface](#create-a-surface)
+1. [Create an agent key](#create-an-agent-key)
+1. [List the generated tools](#list-the-generated-tools)
+1. [Call a tool](#call-a-tool)
+1. [Clean up](#clean-up)
 
 This quickstart uses Redis Cloud. If you're running Context Retriever self-managed, see [Install Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}) instead; every step after sign-in and admin-key creation is the same either way.
 
@@ -21,8 +33,9 @@ This quickstart uses Redis Cloud. If you're running Context Retriever self-manag
 To complete this quickstart, you need:
 
 * A Redis Cloud account.
-* A Redis Cloud database that already contains some data, with a predictable key pattern (for example, `customer:1`, `customer:2`). If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
+* A Redis Cloud database. If you don't have one, see [Create a database]({{< relref "/operate/rc/databases/create-database" >}}).
 * Python 3.11 or later and `pip`.
+* `redis-cli`, to load sample data. See [Install redis-cli]({{< relref "/operate/oss_and_stack/install/install-stack/install-redis-cli" >}}).
 
 ## Install the Python client
 
@@ -34,23 +47,23 @@ pip install redis-context-retriever
 
 ## Sign in and create an admin key
 
-Start a session against your Redis Cloud account:
+1. Start a session against your Redis Cloud account:
 
-```bash
-ctxctl auth login -u <your-redis-cloud-email>
-```
+   ```bash
+   ctxctl auth login -u <your-redis-cloud-email>
+   ```
 
-Create an admin key. An admin key authorizes operations such as creating surfaces and agent keys.
+1. Create an admin key. An admin key authorizes operations such as creating surfaces and agent keys.
 
-```bash
-ctxctl --output json admin create --name "quickstart-admin"
-```
+   ```bash
+   ctxctl --output json admin create --name "quickstart-admin"
+   ```
 
-Save the returned key. Export it so later commands can use it:
+1. Save the returned key. Export it so later commands can use it:
 
-```bash
-export CTX_ADMIN_KEY='<the returned key, starts with cs_admin_>'
-```
+   ```bash
+   export CTX_ADMIN_KEY='<the returned key, starts with cs_admin_>'
+   ```
 
 This quickstart uses a Redis Cloud account for sign-in and admin-key creation. If you're running Context Retriever self-managed instead, see [Install Context Retriever]({{< relref "/operate/iris/context-retriever/self-managed" >}}) to bootstrap your first admin key. Every other step in this quickstart applies to both.
 
@@ -71,48 +84,62 @@ class Customer(ContextModel):
     email: str = ContextField(description="Customer email address", index="tag")
 ```
 
+## Load sample data
+
+Load a few customer hashes that match the model, so the tool call later in this quickstart returns predictable results:
+
+```bash
+redis-cli -h <your-database-host> -p <port> -a '<your-database-password>' HSET customer:1 id 1 name "Jane Doe" email "jane.doe@example.com"
+redis-cli -h <your-database-host> -p <port> -a '<your-database-password>' HSET customer:2 id 2 name "John Smith" email "john.smith@example.com"
+redis-cli -h <your-database-host> -p <port> -a '<your-database-password>' HSET customer:3 id 3 name "Jane Roberts" email "jane.roberts@example.com"
+```
+
+If you already have data that matches this shape, you can skip this step and use your own keys instead.
+
 ## Create a surface
 
-Create a context surface from your model file, pointing it at your Redis Cloud database:
+1. Create a context surface from your model file, pointing it at your Redis Cloud database:
 
-```bash
-ctxctl --output json surface create \
-  --name "quickstart-surface" \
-  --description "Quickstart context surface" \
-  --models ./models.py \
-  --redis-addr <your-database-host>:<port> \
-  --redis-password '<your-database-password>' \
-  --admin-key "$CTX_ADMIN_KEY"
-```
+   ```bash
+   ctxctl --output json surface create \
+     --name "quickstart-surface" \
+     --description "Quickstart context surface" \
+     --models ./models.py \
+     --redis-addr <your-database-host>:<port> \
+     --redis-password '<your-database-password>' \
+     --admin-key "$CTX_ADMIN_KEY"
+   ```
 
-Save the returned surface ID:
+1. Save the returned surface ID:
 
-```bash
-export CTX_SURFACE_ID='<the returned surface id>'
-```
+   ```bash
+   export CTX_SURFACE_ID='<the returned surface id>'
+   ```
 
-Confirm the surface was created:
+1. Confirm the surface was created:
 
-```bash
-ctxctl surface describe "$CTX_SURFACE_ID" --admin-key "$CTX_ADMIN_KEY"
-```
+   ```bash
+   ctxctl surface describe "$CTX_SURFACE_ID" --admin-key "$CTX_ADMIN_KEY"
+   ```
 
 ## Create an agent key
 
-An agent key authorizes an agent to call the tools generated for a surface. Create one scoped to the surface you just created:
+An agent key authorizes an agent to call the tools generated for a surface.
 
-```bash
-ctxctl --output json agent create \
-  --surface-id "$CTX_SURFACE_ID" \
-  --name "quickstart-agent" \
-  --admin-key "$CTX_ADMIN_KEY"
-```
+1. Create one scoped to the surface you just created:
 
-Save the returned key:
+   ```bash
+   ctxctl --output json agent create \
+     --surface-id "$CTX_SURFACE_ID" \
+     --name "quickstart-agent" \
+     --admin-key "$CTX_ADMIN_KEY"
+   ```
 
-```bash
-export CTX_AGENT_KEY='<the returned key, starts with cs_agent_>'
-```
+1. Save the returned key:
+
+   ```bash
+   export CTX_AGENT_KEY='<the returned key, starts with cs_agent_>'
+   ```
 
 ## List the generated tools
 
@@ -133,7 +160,7 @@ ctxctl tools call search_customer_by_text --agent-key "$CTX_AGENT_KEY" --args '{
 ```
 
 > [!NOTE]
-> **What to expect:** A JSON result containing any customers whose indexed text fields match `jane`, up to 5 results. The agent never sends a database query directly. It calls a tool that Context Retriever generated from your model.
+> **What to expect:** A JSON result containing `Jane Doe` and `Jane Roberts`, the two sample customers whose `name` field matches `jane`. The agent never sends a database query directly. It calls a tool that Context Retriever generated from your model.
 
 ## Clean up
 

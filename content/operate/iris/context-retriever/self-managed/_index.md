@@ -1,12 +1,12 @@
 ---
-Title: Self-managed Context Retriever
+Title: Install Context Retriever (self-managed)
 alwaysopen: false
 categories:
 - docs
 - operate
 - iris
 description: Install and run Redis Context Retriever on a self-managed Kubernetes cluster using Helm.
-linkTitle: Self-managed
+linkTitle: Install (self-managed)
 weight: 40
 hideListLinks: true
 bannerText: Redis Context Retriever self-managed is currently in private preview and subject to change. A license key is required to deploy — contact your Redis representative or [contact sales](https://redis.io/contact/).
