@@ -1,6 +1,8 @@
 ---
-Title: Increase Cloud RDI pipeline capacity
+Title: Scale a Cloud RDI pipeline
 aliases:
+    - /operate/rc/rdi/scale-processor/
+    - /operate/rc/rdi/scale-processor
     - /operate/rc/databases/rdi/scale-processor/
     - /operate/rc/databases/rdi/scale-processor
 alwaysopen: false

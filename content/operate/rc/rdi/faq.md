@@ -67,8 +67,8 @@ TaskManager is a processor replica.
 
 The source and TaskManager limits do not guarantee that an existing workspace
 has enough network capacity to run them all. Plan the workspace CIDR before you
-scale near these limits. See [Increase Cloud RDI pipeline capacity]({{< relref
-"/operate/rc/rdi/scale-processor" >}}).
+scale near these limits. See [Scale a Cloud RDI pipeline]({{< relref
+"/operate/rc/rdi/scale-pipeline" >}}).
 
 ### What CIDR range should I use for Cloud RDI?
 
@@ -145,8 +145,8 @@ Delete an unused pipeline and then [delete its workspace]({{< relref "/operate/r
 No. Cloud RDI does not automatically add or remove TaskManagers based on
 processor load, pending records, throughput, or backpressure. Set the desired
 number of TaskManagers with
-`advanced.resources.taskManager.replicas`. See [Increase Cloud RDI pipeline
-capacity]({{< relref "/operate/rc/rdi/scale-processor" >}}).
+`advanced.resources.taskManager.replicas`. See [Scale a Cloud RDI pipeline]({{<
+relref "/operate/rc/rdi/scale-pipeline" >}}).
 
 ### How do I increase processing capacity for a pipeline?
 
@@ -156,9 +156,8 @@ with source-specific advanced collector properties. You can increase the RDI
 database throughput in the database **Performance** settings. For a processor
 bottleneck, edit **Settings** and set
 `advanced.resources.taskManager.replicas` to the needed number. Save the
-change, then apply and restart the pipeline. See [Increase Cloud RDI pipeline
-capacity]({{< relref "/operate/rc/rdi/scale-processor" >}}) for signals and
-tuning guidance.
+change, then apply and restart the pipeline. See [Scale a Cloud RDI pipeline]({{<
+relref "/operate/rc/rdi/scale-pipeline" >}}) for signals and tuning guidance.
 
 ### Can I see that the processor has scaled in the console?
 
@@ -172,7 +171,7 @@ the replica count.
 
 For programmatic confirmation, use the RDI API pipeline-status response and
 inspect the `flink-processor` component's `replicas` value. See [Confirm the
-applied capacity]({{< relref "/operate/rc/rdi/scale-processor" >}}).
+applied capacity]({{< relref "/operate/rc/rdi/scale-pipeline" >}}).
 
 ### Can I use billing to confirm a scaling change?
 
