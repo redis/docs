@@ -292,10 +292,25 @@
       });
     }
 
+    /* Steps unlock in order: extraction once the conversation has finished
+       playing, the later session once extraction has. Unlocked steps stay
+       open so readers can go back; Restart locks them again. */
+    function lockReason(name) {
+      if (name === "extract" && (st.turn < 3 || (st.busy && st.tab === "chat"))) return "Finish the conversation first.";
+      if (name === "later" && (!st.extracted || (st.busy && st.tab === "extract"))) return "Run the background extraction first.";
+      return null;
+    }
+    function syncTabs() {
+      Array.prototype.forEach.call(tabs.children, function (b) {
+        var why = lockReason(b.dataset.tab);
+        b.classList.toggle("is-locked", !!why);
+        if (why) { b.setAttribute("aria-disabled", "true"); b.title = why; }
+        else { b.removeAttribute("aria-disabled"); b.removeAttribute("title"); }
+      });
+    }
     function show(name) {
+      if (lockReason(name)) return;
       cancel();
-      if (name === "extract" && st.turn < 3) st.turn = 3;
-      if (name === "later") { st.turn = 3; st.extracted = true; }
       st.tab = name;
       Array.prototype.forEach.call(tabs.children, function (b) { b.setAttribute("aria-selected", b.dataset.tab === name ? "true" : "false"); });
       Object.keys(panels).forEach(function (k) { panels[k].hidden = k !== name; });
@@ -525,6 +540,7 @@
       p.appendChild(controlsRow(st.turn < 3 ?
         { label: st.turn ? "Send the next message" : "Send Maya's first message", busy: "Sending…", fn: sendNext } :
         { label: "Next: background extraction", fn: function () { show("extract"); } }));
+      syncTabs();
     }
     function chatNotes(n, view) {
       if (view.summarizing) return ["The session just reached " + SUMMARIZE_AFTER + " messages, so summarization starts in the background."];
@@ -572,6 +588,7 @@
       p.appendChild(controlsRow(!st.extracted || view.running ?
         { label: "Run the extraction", busy: "Extracting…", fn: runExtraction } :
         { label: "Next: two days later", fn: function () { show("later"); } }));
+      syncTabs();
       return done;
     }
     function extractionCard(k, running) {
@@ -676,6 +693,7 @@
       p.appendChild(callout(laterNotes(step, s1Gone, ttl, lunch)));
       if (step >= 5) p.appendChild(searchCard(mems));
       p.appendChild(controlsRow(!st.lunch || view.step < 5 ? { label: "Send Maya's message", busy: "Replying…", fn: sendLunch } : null));
+      syncTabs();
     }
     function laterNotes(step, s1Gone, ttl, lunch) {
       if (step === 0) {

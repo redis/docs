@@ -6,6 +6,7 @@
    ========================================================================= */
 
 .ram .ram-mt0 { margin-top: 0 !important; }
+.ram .rcr-tab.is-locked { opacity: .45; cursor: not-allowed; }
 .ram .ram-empty { color: var(--rcr-faint); font-size: 13px; }
 .ram .ram-chip {
   display: inline-block; font-size: 11px; font-weight: 600; color: var(--rcr-muted);
