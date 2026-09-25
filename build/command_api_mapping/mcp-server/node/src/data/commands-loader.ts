@@ -15,57 +15,68 @@ export interface CommandInfo {
 }
 
 /**
- * Load all Redis commands from JSON files
- * Merges commands from multiple sources with core taking precedence
+ * Map a command's group to its owning module.
+ *
+ * All commands now live in a single data/commands.json. The former module
+ * commands carry fine-grained groups, so the module is derived from the group.
+ */
+function moduleFromGroup(group?: string): string {
+  switch (group) {
+    case 'json':
+      return 'json';
+    case 'search':
+    case 'suggestion':
+      return 'redisearch';
+    case 'bf':
+    case 'cf':
+    case 'cms':
+    case 'topk':
+    case 'tdigest':
+      return 'bloom';
+    case 'timeseries':
+      return 'timeseries';
+    default:
+      return 'core';
+  }
+}
+
+/**
+ * Load all Redis commands from the consolidated data/commands.json
  */
 export function loadAllCommands(): Map<string, CommandInfo> {
   const commands = new Map<string, CommandInfo>();
+  const file = 'data/commands.json';
 
-  // Define command files to load (in order of precedence - first wins)
-  const commandFiles = [
-    { file: 'data/commands_core.json', module: 'core' },
-    { file: 'data/commands_redisearch.json', module: 'redisearch' },
-    { file: 'data/commands_redisjson.json', module: 'json' },
-    { file: 'data/commands_redisbloom.json', module: 'bloom' },
-    { file: 'data/commands_redistimeseries.json', module: 'timeseries' },
-  ];
+  try {
+    // Get the repository root by resolving from current file location.
+    // This file is at: <repo>/build/command_api_mapping/mcp-server/node/src/data/commands-loader.ts
+    const currentDir = path.dirname(fileURLToPath(import.meta.url));
+    // Go up: data -> src -> node -> mcp-server -> command_api_mapping -> build -> docs (6 levels)
+    const repoRoot = path.resolve(currentDir, '../../../../../..');
+    const filePath = path.resolve(repoRoot, file);
 
-  for (const { file, module } of commandFiles) {
-    try {
-      // Get the repository root by resolving from current file location
-      // This file is at: /Users/andrew.stark/Documents/Repos/docs/build/command_api_mapping/mcp-server/node/src/data/commands-loader.ts
-      // We need to go to: /Users/andrew.stark/Documents/Repos/docs
-      const currentDir = path.dirname(fileURLToPath(import.meta.url));
-      // Go up: data -> src -> node -> mcp-server -> command_api_mapping -> build -> docs (6 levels)
-      const repoRoot = path.resolve(currentDir, '../../../../../..');
-      const filePath = path.resolve(repoRoot, file);
-
-      if (!fs.existsSync(filePath)) {
-        console.warn(`Commands file not found: ${filePath}`);
-        continue;
-      }
-
-      const content = fs.readFileSync(filePath, 'utf-8');
-      const data = JSON.parse(content) as Record<string, any>;
-
-      // Add each command if not already present (core takes precedence)
-      for (const [cmdName, cmdData] of Object.entries(data)) {
-        if (!commands.has(cmdName)) {
-          commands.set(cmdName, {
-            name: cmdName,
-            module,
-            summary: cmdData.summary,
-            deprecated_since: cmdData.deprecated_since,
-            group: cmdData.group,
-            since: cmdData.since,
-          });
-        }
-      }
-
-      console.log(`Loaded ${Object.keys(data).length} commands from ${module}`);
-    } catch (error) {
-      console.error(`Error loading commands from ${file}:`, error);
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Commands file not found: ${filePath}`);
+      return commands;
     }
+
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const data = JSON.parse(content) as Record<string, any>;
+
+    for (const [cmdName, cmdData] of Object.entries(data)) {
+      commands.set(cmdName, {
+        name: cmdName,
+        module: moduleFromGroup(cmdData.group),
+        summary: cmdData.summary,
+        deprecated_since: cmdData.deprecated_since,
+        group: cmdData.group,
+        since: cmdData.since,
+      });
+    }
+
+    console.log(`Loaded ${Object.keys(data).length} commands from ${file}`);
+  } catch (error) {
+    console.error(`Error loading commands from ${file}:`, error);
   }
 
   return commands;

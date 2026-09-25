@@ -19,7 +19,7 @@ We extract: `["HSET", "HGET", "HGETALL"]`
 
 ## Metadata Generated
 
-For each command, we look it up in `data/commands_core.json` and create:
+For each command, we look it up in `data/commands.json` and create:
 
 ```json
 {

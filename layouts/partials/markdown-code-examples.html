@@ -221,7 +221,7 @@
         {{- range $cmdName := $commands -}}
           {{- $commandNames = $commandNames | append $cmdName -}}
           {{- /* Try to find command in multiple data files */ -}}
-          {{- $cmdData := (index $.Site.Data.commands_core $cmdName) | default (index $.Site.Data.commands_redisearch $cmdName) | default (index $.Site.Data.commands_redisjson $cmdName) | default (index $.Site.Data.commands_redistimeseries $cmdName) | default (index $.Site.Data.commands_redisbloom $cmdName) -}}
+          {{- $cmdData := index $.Site.Data.commands $cmdName -}}
           {{- if $cmdData -}}
             {{- $complexity := "" -}}
             {{- if $cmdData.complexity -}}
@@ -479,7 +479,7 @@
         {{- /* Look up complexity for each command */ -}}
         {{- $complexities := slice -}}
         {{- range $cmdName := $commands -}}
-          {{- $cmdData := (index $.Site.Data.commands_core $cmdName) | default (index $.Site.Data.commands_redisearch $cmdName) | default (index $.Site.Data.commands_redisjson $cmdName) | default (index $.Site.Data.commands_redistimeseries $cmdName) | default (index $.Site.Data.commands_redisbloom $cmdName) -}}
+          {{- $cmdData := index $.Site.Data.commands $cmdName -}}
           {{- if $cmdData -}}
             {{- if $cmdData.complexity -}}
               {{- $complexityMatch := findRE `^O\([^)]*\)(?:\s+amortized)?` $cmdData.complexity -}}

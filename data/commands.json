@@ -1694,7 +1694,7 @@
     "BF.ADD": {
         "summary": "Adds an item to a Bloom Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(k), where k is the number of hash functions used by the last sub-filter",
         "acl_categories": [
             "@write",
@@ -1743,7 +1743,7 @@
     "BF.CARD": {
         "summary": "Returns the cardinality of a Bloom filter",
         "since": "2.4.4",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -1788,7 +1788,7 @@
     "BF.DEBUG": {
         "summary": "Returns internal debug information about a Bloom Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(n), where n is the number of sub-filters",
         "acl_categories": [
             "@read",
@@ -1835,7 +1835,7 @@
     "BF.EXISTS": {
         "summary": "Checks whether an item exists in a Bloom Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(k), where k is the number of hash functions used by the last sub-filter",
         "acl_categories": [
             "@read",
@@ -1884,7 +1884,7 @@
     "BF.INFO": {
         "summary": "Returns information about a Bloom Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -1969,7 +1969,7 @@
     "BF.INSERT": {
         "summary": "Adds one or more items to a Bloom Filter. A filter will be created if it does not exist",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
         "acl_categories": [
             "@write",
@@ -2078,7 +2078,7 @@
     "BF.LOADCHUNK": {
         "summary": "Restores a filter previously saved using SCANDUMP",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(n), where n is the capacity",
         "acl_categories": [
             "@write",
@@ -2132,7 +2132,7 @@
     "BF.MADD": {
         "summary": "Adds one or more items to a Bloom Filter. A filter will be created if it does not exist",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
         "acl_categories": [
             "@write",
@@ -2182,7 +2182,7 @@
     "BF.MEXISTS": {
         "summary": "Checks whether one or more items exist in a Bloom Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
         "acl_categories": [
             "@read",
@@ -2232,7 +2232,7 @@
     "BF.RESERVE": {
         "summary": "Creates a new Bloom Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
@@ -2307,7 +2307,7 @@
     "BF.SCANDUMP": {
         "summary": "Begins an incremental save of the bloom filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "bf",
         "complexity": "O(n), where n is the capacity",
         "acl_categories": [
             "@read",
@@ -2929,6 +2929,192 @@
         ],
         "command_flags": [
             "readonly"
+        ]
+    },
+    "BLESS": {
+        "summary": "A container for key-blessing commands.",
+        "since": "8.12.0",
+        "group": "generic",
+        "complexity": "Depends on subcommand.",
+        "acl_categories": [
+            "@slow"
+        ],
+        "arity": -2
+    },
+    "BLESS CLEAR": {
+        "summary": "Removes protection flags from a key.",
+        "since": "8.12.0",
+        "group": "generic",
+        "complexity": "O(1)",
+        "acl_categories": [
+            "@keyspace",
+            "@write",
+            "@fast"
+        ],
+        "arity": 4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 2
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "no-evict",
+                "type": "pure-token",
+                "display_text": "no-evict",
+                "token": "NO-EVICT"
+            }
+        ],
+        "command_flags": [
+            "write",
+            "fast"
+        ]
+    },
+    "BLESS GET": {
+        "summary": "Returns the active protection flags of a key.",
+        "since": "8.12.0",
+        "group": "generic",
+        "complexity": "O(1).",
+        "acl_categories": [
+            "@keyspace",
+            "@fast"
+        ],
+        "arity": 3,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 2
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RO": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            }
+        ],
+        "command_flags": [
+            "fast"
+        ]
+    },
+    "BLESS SCAN": {
+        "summary": "Incrementally iterates the blessed keys of the current database that carry the given flag.",
+        "since": "8.12.0",
+        "group": "generic",
+        "complexity": "O(1) for every call. O(N) for a complete iteration, where N is the number of blessed keys.",
+        "acl_categories": [
+            "@keyspace",
+            "@slow"
+        ],
+        "arity": -4,
+        "arguments": [
+            {
+                "name": "cursor",
+                "type": "integer",
+                "display_text": "cursor"
+            },
+            {
+                "name": "no-evict",
+                "type": "pure-token",
+                "display_text": "no-evict",
+                "token": "NO-EVICT"
+            },
+            {
+                "name": "count",
+                "type": "integer",
+                "display_text": "count",
+                "token": "COUNT",
+                "optional": true
+            }
+        ],
+        "hints": [
+            "nondeterministic_output",
+            "request_policy:special",
+            "response_policy:special"
+        ]
+    },
+    "BLESS SET": {
+        "summary": "Adds protection flags to a key against memory pressure.",
+        "since": "8.12.0",
+        "group": "generic",
+        "complexity": "O(1)",
+        "acl_categories": [
+            "@keyspace",
+            "@write",
+            "@fast"
+        ],
+        "arity": 4,
+        "key_specs": [
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 2
+                    }
+                },
+                "find_keys": {
+                    "type": "range",
+                    "spec": {
+                        "lastkey": 0,
+                        "keystep": 1,
+                        "limit": 0
+                    }
+                },
+                "RW": true
+            }
+        ],
+        "arguments": [
+            {
+                "name": "key",
+                "type": "key",
+                "display_text": "key",
+                "key_spec_index": 0
+            },
+            {
+                "name": "no-evict",
+                "type": "pure-token",
+                "display_text": "no-evict",
+                "token": "NO-EVICT"
+            }
+        ],
+        "command_flags": [
+            "write",
+            "denyoom",
+            "fast"
         ]
     },
     "BLMOVE": {
@@ -3688,7 +3874,7 @@
     "CF.ADD": {
         "summary": "Adds an item to a Cuckoo Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(k + i), where k is the number of sub-filters and i is maxIterations",
         "acl_categories": [
             "@write",
@@ -3737,7 +3923,7 @@
     "CF.ADDNX": {
         "summary": "Adds an item to a Cuckoo Filter if the item did not exist previously.",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(k + i), where k is the number of sub-filters and i is maxIterations",
         "acl_categories": [
             "@write",
@@ -3821,7 +4007,7 @@
     "CF.COUNT": {
         "summary": "Return the number of times an item might be in a Cuckoo Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(k), where k is the number of sub-filters",
         "acl_categories": [
             "@read",
@@ -3870,7 +4056,7 @@
     "CF.DEBUG": {
         "summary": "Returns internal debug information about a Cuckoo Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -3917,7 +4103,7 @@
     "CF.DEL": {
         "summary": "Deletes an item from a Cuckoo Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(k), where k is the number of sub-filters",
         "acl_categories": [
             "@write",
@@ -3966,7 +4152,7 @@
     "CF.EXISTS": {
         "summary": "Checks whether one or more items exist in a Cuckoo Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(k), where k is the number of sub-filters",
         "acl_categories": [
             "@read",
@@ -4015,7 +4201,7 @@
     "CF.INFO": {
         "summary": "Returns information about a Cuckoo Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -4063,7 +4249,7 @@
     "CF.INSERT": {
         "summary": "Adds one or more items to a Cuckoo Filter. A filter will be created if it does not exist",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(n * (k + i)), where n is the number of items, k is the number of sub-filters and i is maxIterations",
         "acl_categories": [
             "@write",
@@ -4144,7 +4330,7 @@
     "CF.INSERTNX": {
         "summary": "Adds one or more items to a Cuckoo Filter if the items did not exist previously. A filter will be created if it does not exist",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(n * (k + i)), where n is the number of items, k is the number of sub-filters and i is maxIterations",
         "acl_categories": [
             "@write",
@@ -4225,7 +4411,7 @@
     "CF.LOADCHUNK": {
         "summary": "Restores a filter previously saved using SCANDUMP",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(n), where n is the capacity",
         "acl_categories": [
             "@write",
@@ -4279,7 +4465,7 @@
     "CF.MEXISTS": {
         "summary": "Checks whether one or more items exist in a Cuckoo Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(k * n), where k is the number of sub-filters and n is the number of items",
         "acl_categories": [
             "@read",
@@ -4329,7 +4515,7 @@
     "CF.RESERVE": {
         "summary": "Creates a new Cuckoo Filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
@@ -4418,7 +4604,7 @@
     "CF.SCANDUMP": {
         "summary": "Begins an incremental save of the bloom filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "cf",
         "complexity": "O(n), where n is the capacity",
         "acl_categories": [
             "@read",
@@ -6272,9 +6458,9 @@
         ]
     },
     "CMS.INCRBY": {
-        "summary": "Increases the count of one or more items by increment",
+        "summary": "Increases the count of one or more items by increment, which may be negative",
         "since": "2.0.0",
-        "group": "module",
+        "group": "cms",
         "complexity": "O(n) where n is the number of items",
         "acl_categories": [
             "@write",
@@ -6335,7 +6521,7 @@
     "CMS.INFO": {
         "summary": "Returns information about a sketch",
         "since": "2.0.0",
-        "group": "module",
+        "group": "cms",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -6382,14 +6568,14 @@
     "CMS.INITBYDIM": {
         "summary": "Initializes a Count-Min Sketch to dimensions specified by user",
         "since": "2.0.0",
-        "group": "module",
+        "group": "cms",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
             "@fast",
             "@cms"
         ],
-        "arity": 4,
+        "arity": -4,
         "key_specs": [
             {
                 "begin_search": {
@@ -6425,6 +6611,24 @@
                 "name": "depth",
                 "type": "integer",
                 "display_text": "depth"
+            },
+            {
+                "name": "cellsize",
+                "type": "block",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "cell_size",
+                        "type": "pure-token",
+                        "display_text": "cell_size",
+                        "token": "CELL_SIZE"
+                    },
+                    {
+                        "name": "size",
+                        "type": "integer",
+                        "display_text": "size"
+                    }
+                ]
             }
         ],
         "command_flags": [
@@ -6437,14 +6641,14 @@
     "CMS.INITBYPROB": {
         "summary": "Initializes a Count-Min Sketch to accommodate requested tolerances.",
         "since": "2.0.0",
-        "group": "module",
+        "group": "cms",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
             "@fast",
             "@cms"
         ],
-        "arity": 4,
+        "arity": -4,
         "key_specs": [
             {
                 "begin_search": {
@@ -6480,6 +6684,24 @@
                 "name": "probability",
                 "type": "double",
                 "display_text": "probability"
+            },
+            {
+                "name": "cellsize",
+                "type": "block",
+                "optional": true,
+                "arguments": [
+                    {
+                        "name": "cell_size",
+                        "type": "pure-token",
+                        "display_text": "cell_size",
+                        "token": "CELL_SIZE"
+                    },
+                    {
+                        "name": "size",
+                        "type": "integer",
+                        "display_text": "size"
+                    }
+                ]
             }
         ],
         "command_flags": [
@@ -6492,7 +6714,7 @@
     "CMS.MERGE": {
         "summary": "Merges several sketches into one sketch",
         "since": "2.0.0",
-        "group": "module",
+        "group": "cms",
         "complexity": "O(n) where n is the number of sketches",
         "acl_categories": [
             "@write",
@@ -6516,6 +6738,23 @@
                     }
                 },
                 "RW": true
+            },
+            {
+                "begin_search": {
+                    "type": "index",
+                    "spec": {
+                        "index": 2
+                    }
+                },
+                "find_keys": {
+                    "type": "keynum",
+                    "spec": {
+                        "keynumidx": 0,
+                        "firstkey": 1,
+                        "keystep": 1
+                    }
+                },
+                "RO": true
             }
         ],
         "arguments": [
@@ -6534,7 +6773,7 @@
                 "name": "source",
                 "type": "key",
                 "display_text": "source",
-                "key_spec_index": 0,
+                "key_spec_index": 1,
                 "multiple": true
             },
             {
@@ -6560,14 +6799,15 @@
         "command_flags": [
             "write",
             "denyoom",
-            "module"
+            "module",
+            "movablekeys"
         ],
         "module": "bf"
     },
     "CMS.QUERY": {
         "summary": "Returns the count for one or more items in a sketch",
         "since": "2.0.0",
-        "group": "module",
+        "group": "cms",
         "complexity": "O(n) where n is the number of items",
         "acl_categories": [
             "@read",
@@ -8344,7 +8584,7 @@
     "FT.AGGREGATE": {
         "summary": "Run a search query on an index and perform aggregate transformations on the results",
         "since": "1.1.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -9038,7 +9278,7 @@
     "FT.ALIASADD": {
         "summary": "Adds an alias to the index",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -9070,7 +9310,7 @@
     "FT.ALIASDEL": {
         "summary": "Deletes an alias from the index",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -9095,7 +9335,7 @@
     "FT.ALIASLIST": {
         "summary": "Lists all aliases for the index",
         "since": "8.10.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(N) where N is the number of aliases",
         "acl_categories": [
             "@search"
@@ -9121,7 +9361,7 @@
     "FT.ALIASUPDATE": {
         "summary": "Adds or updates an alias to the index",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -9153,7 +9393,7 @@
     "FT.ALTER": {
         "summary": "Adds a new field to the index",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(N) where N is the number of keys in the keyspace",
         "acl_categories": [
             "@search"
@@ -9225,7 +9465,7 @@
     "FT.CONFIG GET": {
         "summary": "Retrieves runtime configuration options",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "arity": -3,
         "arguments": [
@@ -9247,7 +9487,7 @@
     "FT.CONFIG HELP": {
         "summary": "Help description of runtime configuration options",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "arity": -3,
         "arguments": [
@@ -9269,7 +9509,7 @@
     "FT.CONFIG SET": {
         "summary": "Sets runtime configuration options",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "arity": -3,
         "arguments": [
@@ -9296,7 +9536,7 @@
     "FT.CREATE": {
         "summary": "Creates an index with the given spec",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(K) at creation where K is the number of fields, O(N) if scanning the keyspace is triggered, where N is the number of keys in the keyspace",
         "history": [
             [
@@ -9654,7 +9894,7 @@
     "FT.CURSOR DEL": {
         "summary": "Deletes a cursor",
         "since": "1.1.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "arity": -4,
         "arguments": [
@@ -9695,7 +9935,7 @@
     "FT.CURSOR READ": {
         "summary": "Reads from a cursor",
         "since": "1.1.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "arity": -4,
         "arguments": [
@@ -9765,7 +10005,7 @@
     "FT.DICTADD": {
         "summary": "Adds terms to a dictionary",
         "since": "1.4.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -9797,7 +10037,7 @@
     "FT.DICTDEL": {
         "summary": "Deletes terms from a dictionary",
         "since": "1.4.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -9828,7 +10068,7 @@
     "FT.DICTDUMP": {
         "summary": "Dumps all terms in the given dictionary",
         "since": "1.4.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(N), where N is the size of the dictionary",
         "acl_categories": [
             "@search"
@@ -9868,7 +10108,7 @@
     "FT.DROPINDEX": {
         "summary": "Deletes the index",
         "since": "2.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1) or O(N) if documents are deleted, where N is the number of keys in the keyspace",
         "acl_categories": [
             "@write",
@@ -9910,7 +10150,7 @@
     "FT.EXPLAIN": {
         "summary": "Returns the execution plan for a complex query",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -9951,7 +10191,7 @@
     "FT.EXPLAINCLI": {
         "summary": "Returns the execution plan for a complex query",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -10028,9 +10268,15 @@
     },
     "FT.HYBRID": {
         "summary": "Performs hybrid search combining text search and vector similarity search",
-        "since": "8.4.4",
-        "group": "module",
+        "since": "8.4.0",
+        "group": "search",
         "complexity": "O(N+M) where N is the complexity of the text search and M is the complexity of the vector search",
+        "history": [
+            [
+                "8.4.3",
+                "Added `count`, `POLICY` and `BATCH_SIZE` arguments to the `VSIM` `FILTER` clause"
+            ]
+        ],
         "acl_categories": [
             "@read",
             "@search"
@@ -10184,10 +10430,57 @@
                     },
                     {
                         "name": "filter",
-                        "type": "string",
-                        "display_text": "filter",
+                        "type": "block",
                         "token": "FILTER",
-                        "optional": true
+                        "optional": true,
+                        "arguments": [
+                            {
+                                "name": "count",
+                                "type": "integer",
+                                "display_text": "count",
+                                "since": "8.4.3"
+                            },
+                            {
+                                "name": "filter_expression",
+                                "type": "string",
+                                "display_text": "filter_expression"
+                            },
+                            {
+                                "name": "policy",
+                                "type": "oneof",
+                                "token": "POLICY",
+                                "since": "8.4.3",
+                                "optional": true,
+                                "arguments": [
+                                    {
+                                        "name": "adhoc",
+                                        "type": "pure-token",
+                                        "display_text": "adhoc",
+                                        "token": "ADHOC"
+                                    },
+                                    {
+                                        "name": "batches_policy",
+                                        "type": "block",
+                                        "arguments": [
+                                            {
+                                                "name": "batches",
+                                                "type": "pure-token",
+                                                "display_text": "batches",
+                                                "token": "BATCHES"
+                                            },
+                                            {
+                                                "name": "batch_size_value",
+                                                "type": "integer",
+                                                "display_text": "batch_size_value",
+                                                "token": "BATCH_SIZE",
+                                                "since": "8.4.3",
+                                                "optional": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             },
@@ -10234,13 +10527,6 @@
                                         "display_text": "window",
                                         "token": "WINDOW",
                                         "optional": true
-                                    },
-                                    {
-                                        "name": "yield_score_as",
-                                        "type": "string",
-                                        "display_text": "yield_score_as",
-                                        "token": "YIELD_SCORE_AS",
-                                        "optional": true
                                     }
                                 ]
                             },
@@ -10284,17 +10570,17 @@
                                         "display_text": "window",
                                         "token": "WINDOW",
                                         "optional": true
-                                    },
-                                    {
-                                        "name": "yield_score_as",
-                                        "type": "string",
-                                        "display_text": "yield_score_as",
-                                        "token": "YIELD_SCORE_AS",
-                                        "optional": true
                                     }
                                 ]
                             }
                         ]
+                    },
+                    {
+                        "name": "yield_score_as",
+                        "type": "string",
+                        "display_text": "yield_score_as",
+                        "token": "YIELD_SCORE_AS",
+                        "optional": true
                     }
                 ]
             },
@@ -10917,48 +11203,10 @@
             },
             {
                 "name": "filter",
-                "type": "block",
+                "type": "string",
+                "display_text": "filter",
                 "token": "FILTER",
-                "optional": true,
-                "arguments": [
-                    {
-                        "name": "count",
-                        "type": "integer",
-                        "display_text": "count"
-                    },
-                    {
-                        "name": "filter_expression",
-                        "type": "string",
-                        "display_text": "filter_expression"
-                    },
-                    {
-                        "name": "policy",
-                        "type": "oneof",
-                        "token": "POLICY",
-                        "optional": true,
-                        "arguments": [
-                            {
-                                "name": "adhoc",
-                                "type": "pure-token",
-                                "display_text": "adhoc",
-                                "token": "ADHOC"
-                            },
-                            {
-                                "name": "batches",
-                                "type": "pure-token",
-                                "display_text": "batches",
-                                "token": "BATCHES"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "batch_size_value",
-                        "type": "integer",
-                        "display_text": "batch_size_value",
-                        "token": "BATCH_SIZE",
-                        "optional": true
-                    }
-                ]
+                "optional": true
             }
         ],
         "command_flags": [
@@ -10973,7 +11221,7 @@
     "FT.INFO": {
         "summary": "Returns information and statistics on the index",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -11015,7 +11263,7 @@
     "FT.PROFILE": {
         "summary": "Performs a `FT.SEARCH`, `FT.AGGREGATE`, or `FT.HYBRID` command and collects performance information",
         "since": "2.2.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(N)",
         "acl_categories": [
             "@read",
@@ -11121,7 +11369,7 @@
     "FT.SEARCH": {
         "summary": "Searches the index with a textual query, returning either documents or just ids",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(N)",
         "history": [
             [
@@ -11351,7 +11599,7 @@
             {
                 "name": "summarize",
                 "type": "block",
-                "summary": "Splits a field into contextual fragments surrounding the found terms, Note that summarize for JSON documents is not currently supported.",
+                "summary": "Splits a field into contextual fragments surrounding the found terms. Note: SUMMARIZE is not supported for JSON fields with multi-value JSONPath.",
                 "optional": true,
                 "arguments": [
                     {
@@ -11406,7 +11654,7 @@
             {
                 "name": "highlight",
                 "type": "block",
-                "summary": "Highlights terms in the search results, with customizable tags for emphasis. Note that highlight for JSON documents is not currently supported.",
+                "summary": "Highlights terms in the search results, with customizable tags for emphasis. Note: HIGHLIGHT is not supported for JSON fields with multi-value JSONPath.",
                 "optional": true,
                 "arguments": [
                     {
@@ -11631,7 +11879,7 @@
     "FT.SPELLCHECK": {
         "summary": "Performs spelling correction on a query, returning suggestions for misspelled terms",
         "since": "1.4.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -11717,7 +11965,7 @@
     "FT.SUGADD": {
         "summary": "Adds a suggestion string to an auto-complete suggestion dictionary",
         "since": "1.0.0",
-        "group": "module",
+        "group": "suggestion",
         "complexity": "O(1)",
         "history": [
             [
@@ -11801,7 +12049,7 @@
     "FT.SUGDEL": {
         "summary": "Deletes a string from a suggestion index",
         "since": "1.0.0",
-        "group": "module",
+        "group": "suggestion",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
@@ -11853,7 +12101,7 @@
     "FT.SUGGET": {
         "summary": "Gets completion suggestions for a prefix",
         "since": "1.0.0",
-        "group": "module",
+        "group": "suggestion",
         "complexity": "O(1)",
         "history": [
             [
@@ -11938,7 +12186,7 @@
     "FT.SUGLEN": {
         "summary": "Gets the size of an auto-complete suggestion dictionary",
         "since": "1.0.0",
-        "group": "module",
+        "group": "suggestion",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -11995,7 +12243,7 @@
     "FT.SYNDUMP": {
         "summary": "Dumps the contents of a synonym group",
         "since": "1.2.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -12021,7 +12269,7 @@
     "FT.SYNUPDATE": {
         "summary": "Creates or updates a synonym group with additional terms",
         "since": "1.2.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -12067,7 +12315,7 @@
     "FT.TAGVALS": {
         "summary": "Returns the distinct tags indexed in a Tag field",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(N)",
         "acl_categories": [
             "@read",
@@ -12101,7 +12349,7 @@
     "FT._ALIASADDIFNX": {
         "summary": "Adds an alias to the index",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -12133,7 +12381,7 @@
     "FT._ALIASDELIFX": {
         "summary": "Deletes an alias from the index",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "acl_categories": [
             "@search"
@@ -12158,7 +12406,7 @@
     "FT._ALTERIFNX": {
         "summary": "Adds a new field to the index",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(N) where N is the number of keys in the keyspace",
         "acl_categories": [
             "@search"
@@ -12217,7 +12465,7 @@
     "FT._CREATEIFNX": {
         "summary": "Creates an index with the given spec",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(K) at creation where K is the number of fields, O(N) if scanning the keyspace is triggered, where N is the number of keys in the keyspace",
         "history": [
             [
@@ -12575,7 +12823,7 @@
     "FT._DROPINDEXIFX": {
         "summary": "Deletes the index",
         "since": "2.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1) or O(N) if documents are deleted, where N is the number of keys in the keyspace",
         "acl_categories": [
             "@write",
@@ -12617,14 +12865,25 @@
     "FT._LIST": {
         "summary": "Returns a list of all existing indexes",
         "since": "2.0.0",
-        "group": "module",
-        "complexity": "O(1)",
+        "group": "search",
+        "complexity": "Without WITHCLUSTERSTATE: O(N), where N is the number of local indexes. With WITHCLUSTERSTATE: O(B + (I + 1) * S^2) total work, where S is the shard count, I is the number of distinct indexes, and B is the total schema content processed across shards, including index names, fields, stopwords, and synonym memberships. Each shard hashes its local schema content on its Redis thread; the coordinator compares shard reports.",
         "acl_categories": [
             "@admin",
             "@slow",
             "@search"
         ],
         "arity": -1,
+        "arguments": [
+            {
+                "name": "withclusterstate",
+                "type": "pure-token",
+                "display_text": "withclusterstate",
+                "token": "WITHCLUSTERSTATE",
+                "summary": "Reports each index's cross-shard consistency state",
+                "since": "8.12.0",
+                "optional": true
+            }
+        ],
         "command_flags": [
             "readonly",
             "module"
@@ -17324,7 +17583,7 @@
     "JSON.ARRAPPEND": {
         "summary": "Append the JSON values into the array at path after the last element in it",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -17379,7 +17638,7 @@
     "JSON.ARRINDEX": {
         "summary": "Search for the first occurrence of a JSON value in an array",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@read",
@@ -17450,7 +17709,7 @@
     "JSON.ARRINSERT": {
         "summary": "Insert the json values into the array at path before the index (shifts to the right)",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -17510,7 +17769,7 @@
     "JSON.ARRLEN": {
         "summary": "Report the length of the JSON array at path in key",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) where path is evaluated to a single value, O(N) where path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@read",
@@ -17559,7 +17818,7 @@
     "JSON.ARRPOP": {
         "summary": "Remove and return the element at the specified index in the array at path",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(N) when path is evaluated to a single value where N is the size of the array and the specified index is not the last element, O(1) when path is evaluated to a single value and the specified index is the last element, or O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -17652,7 +17911,7 @@
     "JSON.ARRTRIM": {
         "summary": "Trim an array so that it contains only the specified inclusive range of elements",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -17710,7 +17969,7 @@
     "JSON.CLEAR": {
         "summary": "Clear container values (arrays/objects) and set numeric values to 0",
         "since": "2.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(N) when path is evaluated to a single value where N is the size of the values, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -17759,7 +18018,7 @@
     "JSON.DEBUG": {
         "summary": "This is a container command for debugging related tasks",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "N/A",
         "acl_categories": [
             "@read",
@@ -17832,7 +18091,7 @@
     "JSON.DEL": {
         "summary": "Delete a value",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(N) when path is evaluated to a single value where N is the size of the deleted value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -17881,7 +18140,7 @@
     "JSON.FORGET": {
         "summary": "Delete a value",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(N) when path is evaluated to a single value where N is the size of the deleted value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -17930,7 +18189,7 @@
     "JSON.GET": {
         "summary": "Get JSON value at path",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(N) where N is the size of the JSON",
         "acl_categories": [
             "@read",
@@ -18051,7 +18310,7 @@
     "JSON.MERGE": {
         "summary": "Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children",
         "since": "2.6.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(M+N) when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, O(M+N) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
         "acl_categories": [
             "@write",
@@ -18137,7 +18396,7 @@
     "JSON.MGET": {
         "summary": "Return the values at path from multiple key arguments",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(M*N) when path is evaluated to a single value where M is the number of keys and N is the size of the value, O(N1+N2+...+Nm) when path is evaluated to multiple values where m is the number of keys and Ni is the size of the i-th key",
         "acl_categories": [
             "@read",
@@ -18187,7 +18446,7 @@
     "JSON.MSET": {
         "summary": "Set or update one or more JSON values according to the specified key-path-value triplets",
         "since": "2.6.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(K*(M+N)) where k is the number of keys in the command, when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, or O(K*(M+N)) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
         "acl_categories": [
             "@write",
@@ -18248,7 +18507,7 @@
     "JSON.NUMINCRBY": {
         "summary": "Increment the number value stored at path by number",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -18301,7 +18560,7 @@
     "JSON.NUMMULTBY": {
         "summary": "Multiply the number value stored at path by number",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -18354,7 +18613,7 @@
     "JSON.NUMPOWBY": {
         "summary": "Raise the number value stored at path to the power of number",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -18407,7 +18666,7 @@
     "JSON.OBJKEYS": {
         "summary": "Return the keys in the object that's referenced by path",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@read",
@@ -18456,7 +18715,7 @@
     "JSON.OBJLEN": {
         "summary": "Report the number of keys in the JSON object at path in key",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@read",
@@ -18505,7 +18764,7 @@
     "JSON.RESP": {
         "summary": "Return the JSON in key in Redis serialization protocol specification form",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(N) when path is evaluated to a single value, where N is the size of the value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@read",
@@ -18554,7 +18813,7 @@
     "JSON.SET": {
         "summary": "Set the JSON value at path in key",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(M+N) where M is the size of the original value (if it exists) and N is the size of the new value",
         "acl_categories": [
             "@write",
@@ -18697,7 +18956,7 @@
     "JSON.STRAPPEND": {
         "summary": "Append the json-string values to the string at path",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -18752,7 +19011,7 @@
     "JSON.STRLEN": {
         "summary": "Report the length of the JSON String at path in key",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@read",
@@ -18801,7 +19060,7 @@
     "JSON.TOGGLE": {
         "summary": "Toggle the boolean value stored at path",
         "since": "2.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@write",
@@ -18849,7 +19108,7 @@
     "JSON.TYPE": {
         "summary": "Report the type of JSON value at path",
         "since": "1.0.0",
-        "group": "module",
+        "group": "json",
         "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
         "acl_categories": [
             "@read",
@@ -22167,7 +22426,7 @@
         ]
     },
     "READWRITE": {
-        "summary": "Enables read-write queries for a connection to a Reids Cluster replica node.",
+        "summary": "Enables read-write queries for a connection to a Redis Cluster replica node.",
         "since": "3.0.0",
         "group": "cluster",
         "complexity": "O(1)",
@@ -25526,7 +25785,7 @@
     "TDIGEST.ADD": {
         "summary": "Adds one or more observations to a t-digest sketch",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(N), where N is the number of samples to add",
         "acl_categories": [
             "@write",
@@ -25576,7 +25835,7 @@
     "TDIGEST.BYRANK": {
         "summary": "Returns, for each input rank, an estimation of the value (floating-point) with that rank",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(N) where N is the number of ranks specified",
         "acl_categories": [
             "@read",
@@ -25626,7 +25885,7 @@
     "TDIGEST.BYREVRANK": {
         "summary": "Returns, for each input reverse rank, an estimation of the value (floating-point) with that reverse rank",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(N) where N is the number of reverse ranks specified.",
         "acl_categories": [
             "@read",
@@ -25676,7 +25935,7 @@
     "TDIGEST.CDF": {
         "summary": "Returns, for each input value, an estimation of the floating-point fraction of (observations smaller than the given value + half the observations equal to the given value). Multiple fractions can be retrieved in a single call.",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(N) where N is the number of values specified.",
         "acl_categories": [
             "@read",
@@ -25726,7 +25985,7 @@
     "TDIGEST.CREATE": {
         "summary": "Allocates memory and initializes a new t-digest sketch",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
@@ -25789,7 +26048,7 @@
     "TDIGEST.INFO": {
         "summary": "Returns information and statistics about a t-digest sketch",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -25836,7 +26095,7 @@
     "TDIGEST.MAX": {
         "summary": "Returns the maximum observation value from a t-digest sketch",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -25880,7 +26139,7 @@
     "TDIGEST.MERGE": {
         "summary": "Merges multiple t-digest sketches into a single sketch",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(N*K), where N is the number of centroids and K being the number of input sketches",
         "acl_categories": [
             "@write",
@@ -25979,7 +26238,7 @@
     "TDIGEST.MIN": {
         "summary": "Returns the minimum observation value from a t-digest sketch",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -26023,7 +26282,7 @@
     "TDIGEST.QUANTILE": {
         "summary": "Returns, for each input fraction, an estimation of the value (floating point) that is smaller than the given fraction of observations",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(N) where N is the number of quantiles specified.",
         "acl_categories": [
             "@read",
@@ -26073,7 +26332,7 @@
     "TDIGEST.RANK": {
         "summary": "Returns, for each input value (floating-point), the estimated rank of the value (the number of observations in the sketch that are smaller than the value + half the number of observations that are equal to the value)",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(N) where N is the number of values specified.",
         "acl_categories": [
             "@read",
@@ -26123,7 +26382,7 @@
     "TDIGEST.RESET": {
         "summary": "Resets a t-digest sketch: empty the sketch and re-initializes it.",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
@@ -26168,7 +26427,7 @@
     "TDIGEST.REVRANK": {
         "summary": "Returns, for each input value (floating-point), the estimated reverse rank of the value (the number of observations in the sketch that are larger than the value + half the number of observations that are equal to the value)",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(N) where N is the number of values specified.",
         "acl_categories": [
             "@read",
@@ -26218,7 +26477,7 @@
     "TDIGEST.TRIMMED_MEAN": {
         "summary": "Returns an estimation of the mean value from the sketch, excluding observation values outside the low and high cutoff quantiles",
         "since": "2.4.0",
-        "group": "module",
+        "group": "tdigest",
         "complexity": "O(N) where N is the number of centroids",
         "acl_categories": [
             "@read",
@@ -26309,7 +26568,7 @@
     "TOPK.ADD": {
         "summary": "Adds an item to a Top-k sketch. Multiple items can be added at the same time.",
         "since": "2.0.0",
-        "group": "module",
+        "group": "topk",
         "complexity": "O(n * k) where n is the number of items and k is the depth",
         "acl_categories": [
             "@write",
@@ -26359,7 +26618,7 @@
     "TOPK.COUNT": {
         "summary": "Return the count for one or more items are in a sketch",
         "since": "2.0.0",
-        "group": "module",
+        "group": "topk",
         "complexity": "O(n) where n is the number of items",
         "history": [
             [
@@ -26414,7 +26673,7 @@
     "TOPK.INCRBY": {
         "summary": "Increases the count of one or more items by increment",
         "since": "2.0.0",
-        "group": "module",
+        "group": "topk",
         "complexity": "O(n * k * incr) where n is the number of items, k is the depth and incr is the increment",
         "acl_categories": [
             "@write",
@@ -26475,7 +26734,7 @@
     "TOPK.INFO": {
         "summary": "Returns information about a sketch",
         "since": "2.0.0",
-        "group": "module",
+        "group": "topk",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -26519,7 +26778,7 @@
     "TOPK.LIST": {
         "summary": "Return the full list of items in Top-K sketch.",
         "since": "2.0.0",
-        "group": "module",
+        "group": "topk",
         "complexity": "O(k*log(k)) where k is the value of top-k",
         "acl_categories": [
             "@read",
@@ -26569,7 +26828,7 @@
     "TOPK.QUERY": {
         "summary": "Checks whether one or more items are in a sketch",
         "since": "2.0.0",
-        "group": "module",
+        "group": "topk",
         "complexity": "O(n) where n is the number of items",
         "acl_categories": [
             "@read",
@@ -26618,7 +26877,7 @@
     "TOPK.RESERVE": {
         "summary": "Initializes a Top-K sketch with specified parameters",
         "since": "2.0.0",
-        "group": "module",
+        "group": "topk",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
@@ -26785,7 +27044,7 @@
     "TS.ADD": {
         "summary": "Append a sample to a time series",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(M) where M is the number of compaction rules or O(1) with no compaction",
         "acl_categories": [
             "@write",
@@ -27061,7 +27320,7 @@
     "TS.ALTER": {
         "summary": "Update the retention, chunk size, duplicate policy, and labels of an existing time series",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(N) where N is the number of labels requested to update",
         "acl_categories": [
             "@write",
@@ -27241,7 +27500,7 @@
     "TS.CREATE": {
         "summary": "Create a new time series",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
@@ -27454,13 +27713,13 @@
     "TS.CREATERULE": {
         "summary": "Create a compaction rule",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
             "@timeseries"
         ],
-        "arity": -5,
+        "arity": -6,
         "key_specs": [
             {
                 "notes": "Source time series key",
@@ -27642,7 +27901,7 @@
     "TS.DECRBY": {
         "summary": "Decrease the value of the latest sample",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(M) when M is the amount of compaction rules or O(1) with no compaction",
         "acl_categories": [
             "@write",
@@ -27884,7 +28143,7 @@
     "TS.DEL": {
         "summary": "Delete all samples between two timestamps for a given time series",
         "since": "1.6.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(N) where N is the number of data points that will be removed",
         "acl_categories": [
             "@write",
@@ -27937,7 +28196,7 @@
     "TS.DELETERULE": {
         "summary": "Delete a compaction rule",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(1)",
         "acl_categories": [
             "@write",
@@ -28004,7 +28263,7 @@
     "TS.GET": {
         "summary": "Get the sample with the highest timestamp from a given time series",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -28055,7 +28314,7 @@
     "TS.INCRBY": {
         "summary": "Increase the value of the latest sample",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(M) when M is the amount of compaction rules or O(1) with no compaction",
         "acl_categories": [
             "@write",
@@ -28297,7 +28556,7 @@
     "TS.INFO": {
         "summary": "Returns information and statistics for a time series",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(1)",
         "acl_categories": [
             "@read",
@@ -28351,7 +28610,7 @@
     "TS.MADD": {
         "summary": "Append new samples to one or more time series",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(N*M) when N is the amount of series updated and M is the amount of compaction rules or O(N) with no compaction",
         "acl_categories": [
             "@write",
@@ -28413,7 +28672,7 @@
     "TS.MGET": {
         "summary": "Get the sample with the highest timestamp from each time series matching a specific filter",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(n) where n is the number of time-series that match the filters",
         "acl_categories": [
             "@read",
@@ -28484,7 +28743,7 @@
     "TS.MRANGE": {
         "summary": "Query a range across multiple time series by filters in forward direction",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested ranges",
         "acl_categories": [
             "@read",
@@ -28848,7 +29107,7 @@
     "TS.MREVRANGE": {
         "summary": "Query a range across multiple time series by filters in reverse direction",
         "since": "1.4.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested ranges",
         "acl_categories": [
             "@read",
@@ -29212,7 +29471,7 @@
     "TS.NRANGE": {
         "summary": "Query a range across multiple time series in forward direction, returning the results pivoted by timestamp (one value column per key)",
         "since": "8.10.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(numkeys*(n/m+k)) where n = Number of samples, m = Chunk size (samples per chunk), k = Number of samples that are in the requested range",
         "acl_categories": [
             "@read",
@@ -29443,7 +29702,7 @@
     "TS.NREVRANGE": {
         "summary": "Query a range across multiple time series in reverse direction, returning the results pivoted by timestamp (one value column per key)",
         "since": "8.10.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(numkeys*(n/m+k)) where n = Number of samples, m = Chunk size (samples per chunk), k = Number of samples that are in the requested range",
         "acl_categories": [
             "@read",
@@ -29674,7 +29933,7 @@
     "TS.QUERYINDEX": {
         "summary": "Get all time series keys matching a filter list",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(n) where n is the number of time-series that match the filters",
         "acl_categories": [
             "@read",
@@ -29701,7 +29960,7 @@
     "TS.QUERYLABELS": {
         "summary": "Get all label names, or all values of a given label, for time series matching a filter list, or all series",
         "since": "8.10.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(n) where n is the number of time-series that match the filters (all indexed series when FILTER is omitted)",
         "acl_categories": [
             "@read",
@@ -29770,7 +30029,7 @@
     "TS.RANGE": {
         "summary": "Query a range in forward direction",
         "since": "1.0.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested range",
         "acl_categories": [
             "@read",
@@ -29993,7 +30252,7 @@
     "TS.READ": {
         "summary": "Read: return up to max_count samples with timestamp >= timestamp. With BLOCK, waits up to milliseconds ms until at least min_count qualifying samples exist",
         "since": "8.10.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(log(n)+k) where n is the number of samples in the series and k is the number of returned samples",
         "acl_categories": [
             "@read",
@@ -30075,7 +30334,7 @@
     "TS.REVRANGE": {
         "summary": "Query a range in reverse direction",
         "since": "1.4.0",
-        "group": "module",
+        "group": "timeseries",
         "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested range",
         "acl_categories": [
             "@read",
@@ -30487,7 +30746,7 @@
     "VADD": {
         "summary": "Add one or more elements to a vector set, or update its vector if it already exists",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": -5,
         "key_specs": [
             {
@@ -30622,7 +30881,7 @@
     "VCARD": {
         "summary": "Return the number of elements in a vector set",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": 2,
         "key_specs": [
             {
@@ -30663,7 +30922,7 @@
     "VDIM": {
         "summary": "Return the dimension of vectors in the vector set",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": 2,
         "key_specs": [
             {
@@ -30704,7 +30963,7 @@
     "VEMB": {
         "summary": "Return the vector associated with an element",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": -3,
         "key_specs": [
             {
@@ -30757,7 +31016,7 @@
     "VGETATTR": {
         "summary": "Retrieve the JSON attributes of elements",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": 3,
         "key_specs": [
             {
@@ -30803,7 +31062,7 @@
     "VINFO": {
         "summary": "Return information about a vector set",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": 2,
         "key_specs": [
             {
@@ -30844,7 +31103,7 @@
     "VISMEMBER": {
         "summary": "Check if an element exists in a vector set",
         "since": "8.2.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": 3,
         "key_specs": [
             {
@@ -30889,7 +31148,7 @@
     "VLINKS": {
         "summary": "Return the neighbors of an element at each layer in the HNSW graph",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": -3,
         "key_specs": [
             {
@@ -30942,7 +31201,7 @@
     "VRANDMEMBER": {
         "summary": "Return one or multiple random members from a vector set",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": -2,
         "key_specs": [
             {
@@ -30988,7 +31247,7 @@
     "VRANGE": {
         "summary": "Return vector set elements in a lex range",
         "since": "8.4.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": -4,
         "key_specs": [
             {
@@ -31044,7 +31303,7 @@
     "VREM": {
         "summary": "Remove an element from a vector set",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": 3,
         "key_specs": [
             {
@@ -31089,7 +31348,7 @@
     "VSETATTR": {
         "summary": "Associate or remove the JSON attributes of elements",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": 4,
         "key_specs": [
             {
@@ -31140,7 +31399,7 @@
     "VSIM": {
         "summary": "Return elements by vector similarity",
         "since": "8.0.0",
-        "group": "module",
+        "group": "vector_set",
         "arity": -4,
         "key_specs": [
             {
@@ -35950,7 +36209,7 @@
     "_FT.CONFIG GET": {
         "summary": "Retrieves runtime configuration options",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "arity": -3,
         "arguments": [
@@ -35972,7 +36231,7 @@
     "_FT.CONFIG HELP": {
         "summary": "Help description of runtime configuration options",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "arity": -3,
         "arguments": [
@@ -35994,7 +36253,7 @@
     "_FT.CONFIG SET": {
         "summary": "Sets runtime configuration options",
         "since": "1.0.0",
-        "group": "module",
+        "group": "search",
         "complexity": "O(1)",
         "arity": -3,
         "arguments": [
@@ -36087,7 +36346,34 @@
         ],
         "module": "search"
     },
+    "_FT.DEBUG DISK_FLUSH_NOWAIT": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
     "_FT.DEBUG DISK_IO_CONTROL": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
+    "_FT.DEBUG DISK_PAUSE_BG_WORK": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
+    "_FT.DEBUG DISK_RESUME_BG_WORK": {
         "group": "module",
         "arity": -2,
         "command_flags": [
@@ -36222,6 +36508,15 @@
         ],
         "module": "search"
     },
+    "_FT.DEBUG FORCE_PLAIN_HASH_NOTIFICATIONS": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
     "_FT.DEBUG FT.AGGREGATE": {
         "group": "module",
         "arity": -2,
@@ -36303,6 +36598,15 @@
         ],
         "module": "search"
     },
+    "_FT.DEBUG GC_TIMER_ARMS": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
     "_FT.DEBUG GC_WAIT_FOR_JOBS": {
         "group": "module",
         "arity": -2,
@@ -36331,6 +36635,15 @@
         "module": "search"
     },
     "_FT.DEBUG GIT_SHA": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
+    "_FT.DEBUG HASH_SUBKEY_NOTIFICATIONS": {
         "group": "module",
         "arity": -2,
         "command_flags": [
@@ -36394,6 +36707,24 @@
         "module": "search"
     },
     "_FT.DEBUG INVIDX_SUMMARY": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
+    "_FT.DEBUG MOCK_REVALIDATE_TIMEOUT": {
+        "group": "module",
+        "arity": -2,
+        "command_flags": [
+            "readonly",
+            "module"
+        ],
+        "module": "search"
+    },
+    "_FT.DEBUG NUMERIC_BUCKET_MAP": {
         "group": "module",
         "arity": -2,
         "command_flags": [
