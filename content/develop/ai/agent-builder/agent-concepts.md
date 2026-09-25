@@ -113,6 +113,30 @@ Create intelligent recommendation systems that:
 </div>
 
 <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<h3 class="no-toc">Knowledge assistants (RAG)</h3>
+
+Build retrieval-augmented generation agents that:
+- Ingest documents and answer questions with citations
+- Combine vector search with semantic caching for fast, grounded responses
+- Reduce hallucinations by retrieving relevant context before generating answers
+- Scale to large document collections
+
+[Build a knowledge assistant →](../)
+</div>
+
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+<h3 class="no-toc">Redis Iris conversational assistants</h3>
+
+Build conversational agents backed by managed Redis Iris Agent Memory that:
+- Get session and long-term memory without building a vector index
+- Persist user preferences and context across conversations
+- Extract durable memories automatically in the background
+- Run on Redis Cloud as a fully managed service
+
+[Build a Redis Iris agent →](../)
+</div>
+
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
 <h3 class="no-toc">Task automation agents</h3>
 
 Automate complex workflows and business processes:

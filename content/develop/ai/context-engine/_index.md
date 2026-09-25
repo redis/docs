@@ -4,35 +4,34 @@ categories:
 - docs
 - develop
 - ai
-description: Redis Iris is a suite of fully-managed services.
+description: Redis Iris is a suite of managed and self-managed services.
 hideListLinks: true
 linktitle: Redis Iris context engine
 title: Redis Iris context engine
 weight: 30
+bannerText: LangCache, Agent Memory, and Context Retriever are currently available in preview. Features and behavior are subject to change.
 ---
 
 Give your AI agents the context layer they need to reliably act on business data.
 
-Redis Iris eliminates the infrastructure burden of building context-aware AI agents — persistent memory, semantic caching, governed data access, and live data sync, all on Redis Cloud.
+Redis Iris eliminates the infrastructure burden of building context-aware AI agents: persistent memory, semantic caching, governed data access, and live data sync, fully managed on Redis Cloud or self-managed on your own infrastructure.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< image-card image="images/ai-model.svg" alt="Concepts icon" title="Concepts — What happens when an agent asks Redis Iris for context" url="/develop/ai/context-engine/concepts" >}}
-  {{< image-card image="images/ai-brain.svg" alt="Agent Memory icon" title="Agent Memory — Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
-  {{< image-card image="images/ai-LLM-memory.svg" alt="LangCache icon" title="LangCache — Semantic caching to reduce LLM costs and improve response times" url="/develop/ai/context-engine/langcache" >}}
-  {{< image-card image="images/ai-cube.svg" alt="Context Retriever icon" title="Context Retriever — Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
+  {{< tile-card color="bg-blue-300" title="Concepts" description="What happens when an agent asks Redis Iris for context" url="/develop/ai/context-engine/concepts" >}}
+  {{< tile-card color="bg-violet-300" title="Agent Memory" description="Persistent short-term and long-term memory across agent interactions" url="/develop/ai/context-engine/agent-memory" >}}
+  {{< tile-card color="bg-teal-300" title="LangCache" description="Semantic caching to reduce LLM costs and improve response times" url="/develop/ai/context-engine/langcache" >}}
+  {{< tile-card color="bg-rose-300" title="Context Retriever" description="Governed, schema-first data access tools for agents" url="/develop/ai/context-engine/context-retriever" >}}
 </div>
 
 ## What is Redis Iris?
 
 Redis Iris is a production-ready context engine for AI agents that:
 
-<ul class="my-4 space-y-2">
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Reduces LLM costs</strong> — Semantic caching returns cached responses for similar queries in milliseconds</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Adds persistent memory</strong> — Agents remember past interactions and user preferences across sessions</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Structures business data access</strong> — Context Retriever generates governed tools agents can safely call at runtime</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Keeps data fresh</strong> — Data Integration streams live changes from relational databases into Redis within seconds</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Requires no database management</strong> — All four services are fully managed on Redis Cloud via REST API</span></li>
-</ul>
+- **Reduces LLM costs**: Semantic caching returns cached responses for similar queries in milliseconds
+- **Adds persistent memory**: Agents remember past interactions and user preferences across sessions
+- **Structures business data access**: Context Retriever generates governed tools agents can safely call at runtime
+- **Keeps data fresh**: Data Integration streams live changes from relational databases into Redis within seconds
+- **Deploys your way**: All four services are available fully managed on Redis Cloud or self-managed on your own infrastructure, via REST API
 
 See [how Redis Iris works](/content/develop/ai/context-engine/concepts/_index.md) for the mental model before you start building.
 
@@ -45,23 +44,23 @@ See [how Redis Iris works](/content/develop/ai/context-engine/concepts/_index.md
       <li>Agents that remember context across sessions and users</li>
       <li>Faster responses and lower costs through semantic caching</li>
       <li>Reliable, structured access to live business data</li>
-      <li>No stale data — near real-time sync from your source databases</li>
+      <li>No stale data: near real-time sync from your source databases</li>
     </ul>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">For developers</h3>
     <ul class="space-y-1 text-redis-pen-600">
-      <li>Four fully-managed services — no infrastructure to build or maintain</li>
+      <li>Four services, fully managed on Redis Cloud or self-managed on your own infrastructure</li>
       <li>Python and JavaScript SDKs and REST APIs for all services</li>
       <li>Define your data model once, reuse it across all agents</li>
-      <li>Available on Redis Cloud with no database setup required</li>
+      <li>No database setup required on Redis Cloud</li>
     </ul>
   </div>
 </div>
 
 ## Quick example
 
-Search LangCache before calling your LLM — return a cached response in milliseconds if a semantically similar prompt has been seen before:
+Search LangCache before calling your LLM; return a cached response in milliseconds if a semantically similar prompt has been seen before:
 
 ```json
 POST /v1/caches/{cacheId}/entries/search
@@ -89,7 +88,7 @@ Redis Iris context engine includes four services:
 - **[Context Retriever](/content/develop/ai/context-engine/context-retriever/_index.md)**: Turns your business data into structured tools that AI agents can safely and reliably use, defined once and reused across all agents.
 - **[Data integration](/content/develop/ai/context-engine/data-integration/_index.md)**: Syncs live data from your existing relational databases into Redis Cloud so agents always have access to fresh, accurate business data.
 
-All four services are available on [Redis Cloud](/content/operate/iris/_index.md) using the REST API, with no database setup or management required.
+All four services are available fully managed on [Redis Cloud](/content/operate/iris/_index.md) using the REST API, with no database setup or management required, or self-managed on your own infrastructure.
 
 ## LangCache
 

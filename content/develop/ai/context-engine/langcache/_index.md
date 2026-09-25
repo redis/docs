@@ -17,26 +17,24 @@ aliases:
 
 Cut LLM costs and improve response times with semantic caching.
 
-LangCache checks whether a semantically similar prompt has been answered before and returns the cached response instantly — no LLM call required. When there's no match, your app calls the LLM as usual and stores the result for future use.
+LangCache checks whether a semantically similar prompt has been answered before and returns the cached response instantly: no LLM call required. When there's no match, your app calls the LLM as usual and stores the result for future use.
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
-  {{< image-card image="images/ai-model.svg" alt="Concepts icon" title="Concepts — Why a cache hit isn't binary anymore, and how to choose a similarity threshold" url="/develop/ai/context-engine/langcache/concepts" >}}
-  {{< image-card image="images/ai-LLM-memory.svg" alt="Quick start icon" title="Quick Start — Create a LangCache service on Redis Cloud and make your first API call" url="/operate/iris/langcache/create-service" >}}
-  {{< image-card image="images/ai-search.svg" alt="API examples icon" title="API and SDK Examples — Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/context-engine/langcache/api-examples" >}}
-  {{< image-card image="images/ai-brain-2.svg" alt="Monitor icon" title="Monitor Cache — Track hit rates, usage, and performance in Redis Cloud" url="/operate/iris/langcache/monitor-cache" >}}
+  {{< tile-card color="bg-blue-300" title="Concepts" description="Why a cache hit isn't binary anymore, and how to choose a similarity threshold" url="/develop/ai/context-engine/langcache/concepts" >}}
+  {{< tile-card color="bg-redis-red-500" title="Quick Start" description="Create a LangCache service on Redis Cloud and make your first API call" url="/operate/iris/langcache/create-service" >}}
+  {{< tile-card color="bg-redis-yellow-500" title="API & SDK Examples" description="Search, store, and manage cache entries with REST, Python, or JS" url="/develop/ai/context-engine/langcache/api-examples" >}}
+  {{< tile-card color="bg-teal-300" title="Monitor Cache" description="Track hit rates, usage, and performance in Redis Cloud" url="/operate/iris/langcache/monitor-cache" >}}
 </div>
 
 ## What is LangCache?
 
-LangCache is a fully-managed semantic caching service that:
+LangCache is a semantic caching service, available fully managed on Redis Cloud or self-managed on your own infrastructure, that:
 
-<ul class="my-4 space-y-2">
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Reduces LLM costs</strong> — Avoids redundant API calls for semantically equivalent queries</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Improves response times</strong> — Returns cached answers in milliseconds instead of waiting for an LLM</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Handles embeddings automatically</strong> — No embedding model to manage; LangCache generates them for you</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Gives you cache control</strong> — Configure similarity thresholds, TTLs, and eviction policies</span></li>
-  <li class="flex gap-3"><span class="text-redis-red-500 font-bold mt-0.5">&#9679;</span><span><strong>Works with any LLM workflow</strong> — REST API and Python/JS SDKs drop into existing applications</span></li>
-</ul>
+- **Reduces LLM costs**: Avoids redundant API calls for semantically equivalent queries
+- **Improves response times**: Returns cached answers in milliseconds instead of waiting for an LLM
+- **Handles embeddings automatically**: No embedding model to manage; LangCache generates them for you
+- **Gives you cache control**: Configure similarity thresholds, TTLs, and eviction policies
+- **Works with any LLM workflow**: REST API and Python/JS SDKs drop into existing applications
 
 ## Why use LangCache?
 
@@ -53,9 +51,9 @@ LangCache is a fully-managed semantic caching service that:
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">For developers</h3>
     <ul class="space-y-1 text-redis-pen-600">
-      <li>Two API calls to integrate — search before LLM, store after LLM</li>
+      <li>Two API calls to integrate: search before LLM, store after LLM</li>
       <li>Python and JavaScript SDKs available on PyPI and npm</li>
-      <li>No database to provision — fully managed on Redis Cloud</li>
+      <li>Deploy fully managed on Redis Cloud or self-managed on your own infrastructure</li>
       <li>Monitor hit rates and cost savings from the Redis Cloud console</li>
     </ul>
   </div>
@@ -136,13 +134,21 @@ See the [LangCache API and SDK examples](/content/develop/ai/context-engine/lang
 LangCache is currently in preview:
 
 - Public preview on [Redis Cloud](/content/operate/iris/langcache/_index.md)
+- Self-managed deployment on Kubernetes, as a private preview
 - Fully-managed [private preview](https://redis.io/langcache/)
 
 {{< multitabs id="langcache-get-started" 
     tab1="Redis Cloud" 
-    tab2="Private preview" >}}
+    tab2="Self-managed (private preview)"
+    tab3="Fully-managed private preview" >}}
 
 {{< embed-md "rc-langcache-get-started.md"  >}}
+
+-tab-sep-
+
+Self-managed LangCache is available for deployment on Kubernetes as a private preview. See [Self-managed LangCache](/content/operate/iris/langcache/self-managed/_index.md) for deployment, configuration, security, and operations.
+
+You need a license key to deploy: [contact Redis](https://redis.io/contact/) to request access.
 
 -tab-sep-
 

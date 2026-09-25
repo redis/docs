@@ -6,6 +6,8 @@ hideListLinks: true
 weight: 5
 ---
 
+Redis can be used as a database, cache, streaming engine, message broker, context engine, feature platform, and more.
+
 In this guide, you'll learn how to create a Redis deployment in Redis Cloud, Redis Software, or Redis Open Source. Then, you'll learn how to create an application that connects to your deployment.
 
 ## Create a Redis deployment

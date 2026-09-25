@@ -18,6 +18,15 @@ weight: 10
 
 - [Redis 8.10](/content/develop/whats-new/8-10.md) - Compact Hashes for lower memory usage and higher throughput; incremental backup and restore; extensive JSONPath extensions; new commands for Lists, Sets, Search, and Time Series, including `LMOVEM/BLMOVEM`, `SUNIONCARD/SDIFFCARD`, `FT.ALIASLIST`, `TS.NRANGE/TS.NREVRANGE`, and `TS.READ`; a new `FT.AGGREGATE COLLECT` reducer; stricter query timeout enforcement; and performance improvements across Redis core and Streams.
 
+---
+
+### Redis Iris (Context Engine)
+
+- Added self-managed deployment documentation for all four Redis Iris services: [LangCache](/content/operate/iris/langcache/self-managed/_index.md), [Agent Memory](/content/operate/iris/agent-memory/self-managed/_index.md), [Context Retriever](/content/develop/ai/context-engine/context-retriever/install/_index.md), and [Data Integration](/content/integrate/redis-data-integration/_index.md)
+- Updated [LangCache](/content/develop/ai/context-engine/langcache/_index.md), [Agent Memory](/content/develop/ai/context-engine/agent-memory/_index.md), [Context Retriever](/content/develop/ai/context-engine/context-retriever/_index.md), and [Data Integration](/content/develop/ai/context-engine/data-integration/_index.md) quickstarts with fully managed and self-managed deployment paths
+- Added [Redis Iris concepts](/content/develop/ai/context-engine/concepts/_index.md) explaining how agents get context from Redis Iris
+- Added new [AI agent builder](/content/develop/ai/agent-builder/_index.md) templates for knowledge assistants (RAG) and Redis Iris conversational assistants
+
 ## Q2 2026 (April - June) Updates
 
 ### Redis Version Updates
