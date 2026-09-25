@@ -4,7 +4,7 @@ categories:
 - docs
 - develop
 - ai
-description: Redis Iris is a suite of managed and self-managed services.
+description: Redis Iris is a suite of managed and self-managed services for agent memory, semantic caching, and governed data access.
 hideListLinks: true
 linktitle: Redis Iris context engine
 title: Redis Iris context engine
