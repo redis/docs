@@ -92,11 +92,16 @@
 /* long-term memory */
 .ram-mem { display: grid; grid-template-columns: auto 1fr; gap: 8px; padding: 6px 4px; border-bottom: 1px solid var(--rcr-line); font-size: 13px; border-radius: 6px; }
 .ram-mem:last-of-type { border-bottom: 0; }
-.ram-num {
-  width: 19px; height: 19px; border-radius: 50%; display: inline-grid; place-items: center; flex: none;
-  font-size: 11px; font-weight: 700; background: var(--rcr-ok); color: #fff; font-style: normal;
-}
-.ram-num-sm { width: 16px; height: 16px; font-size: 10px; vertical-align: -3px; }
+/* Number badges are SVG (see badge() in the script): the circle and the
+   ink-centred digit share one coordinate system, so the digit sits exactly
+   in the middle wherever the badge lands on the page. */
+.ram-num { display: inline-block; width: 19px; height: 19px; flex: none; line-height: 0; }
+.ram-num svg { display: block; overflow: visible; }
+.ram-num circle { fill: var(--rcr-ok); }
+.ram-num text { fill: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0; }
+.ram-num-sm { width: 16px; height: 16px; vertical-align: middle; }
+.ram-num-sm text { font-size: 10px; }
+.ram-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .ram-memmeta { font-size: 11.5px; color: var(--rcr-faint); margin-top: 1px; }
 .ram-type {
   font-size: 9.5px; font-weight: 700; letter-spacing: .3px; border-radius: 4px; padding: 0 5px; margin-right: 5px;
@@ -137,6 +142,16 @@
 .ram-sens { background: rgba(198, 40, 40, .1); border-bottom: 2px solid rgba(198, 40, 40, .55); border-radius: 3px; padding: 0 1px; }
 .ram-tag { font-size: 9.5px; font-weight: 700; color: var(--rcr-ok); margin-left: 1px; }
 .ram-tag-bad { color: var(--rcr-bad); }
+
+/* Selecting highlighted text finds its memory: both switch to the accent. */
+.ram-link { cursor: pointer; border-radius: 3px; }
+.ram-link:hover .ram-hl { background: rgba(26, 127, 75, .2); }
+.ram-link:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--rcr-focus); }
+.ram-link.is-focus .ram-hl, .ram-link.is-focus .ram-sens { background: rgba(89, 97, 255, .16); border-bottom-color: var(--rcr-accent-2); }
+.ram-link.is-focus .ram-tag { color: var(--rcr-accent-2); }
+.ram-mem { transition: background-color .25s, box-shadow .25s; }
+.ram .ram-mem.is-focus { background: rgba(89, 97, 255, .12); box-shadow: inset 3px 0 0 var(--rcr-accent-2); }
+.ram-mem.is-focus .ram-num circle { fill: var(--rcr-accent-2); }
 .ram-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--rcr-muted); margin-top: 8px; }
 
 /* ---- search playground ---- */
@@ -153,7 +168,7 @@
 }
 .ram-res:last-child { border-bottom: 0; }
 .ram-res.is-out { color: var(--rcr-faint); }
-.ram-res.is-out .ram-num { background: var(--rcr-faint); }
+.ram-res.is-out .ram-num circle { fill: var(--rcr-faint); }
 .ram-score { display: inline-flex; align-items: center; gap: 6px; }
 .ram-bar { width: 44px; height: 6px; border-radius: 3px; background: var(--rcr-line); overflow: hidden; flex: none; }
 .ram-bar > span { display: block; height: 100%; background: var(--rcr-ok); }
@@ -163,5 +178,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ram-fresh { animation: none; }
-  .ram-xrow { transition: none; }
+  .ram-xrow, .ram-mem { transition: none; }
 }

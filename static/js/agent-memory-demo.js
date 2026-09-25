@@ -286,6 +286,33 @@
   function ttlOf(key) { return TTLS.filter(function (t) { return t.key === key; })[0]; }
   function textOf(def) { return def.parts.map(function (p) { return p.t; }).join(""); }
 
+  /* Number badges are drawn as SVG, with each digit's ink centred from the
+     font's measured glyph bounds. Text inside a CSS circle can't be centred
+     exactly: Chrome snaps the text baseline to whole pixels, which left
+     digits up to half a pixel off depending on where the badge sat. */
+  var BADGE = { size: 19, font: 11 }, BADGE_SM = { size: 16, font: 10 };
+  var badgeFont = "sans-serif", badgeCache = {}, badgeCtx = null;
+  function badge(n, small) {
+    var b = small ? BADGE_SM : BADGE, key = (small ? "s" : "n") + n, pos = badgeCache[key], half = b.size / 2;
+    if (!pos) {
+      pos = { x: half, y: half, anchor: "middle", base: "central" };
+      badgeCtx = badgeCtx || document.createElement("canvas").getContext("2d");
+      if (badgeCtx) {
+        badgeCtx.font = "700 " + b.font + "px " + badgeFont;
+        var m = badgeCtx.measureText(String(n));
+        if (m.actualBoundingBoxAscent != null) {
+          pos = { x: half - (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2,
+            y: half + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2, anchor: "start", base: "alphabetic" };
+        }
+      }
+      if (!document.fonts || document.fonts.status === "loaded") badgeCache[key] = pos;
+    }
+    return '<span class="ram-num' + (small ? " ram-num-sm" : "") + '" data-num="' + n + '"><svg aria-hidden="true" width="' + b.size +
+      '" height="' + b.size + '" viewBox="0 0 ' + b.size + " " + b.size + '"><circle cx="' + half + '" cy="' + half + '" r="' + half +
+      '"/><text x="' + pos.x.toFixed(2) + '" y="' + pos.y.toFixed(2) + '" text-anchor="' + pos.anchor + '" dominant-baseline="' + pos.base +
+      '">' + n + '</text></svg><span class="ram-sr">' + n + "</span></span>";
+  }
+
   /* Pretty JSON with light syntax colouring (same as the Context Retriever demo). */
   function jsonHtml(v) {
     var s = JSON.stringify(v, null, 2);
@@ -455,8 +482,10 @@
       tab: "chat", turn: 0, choices: [], extracted: false, lunch: null,
       settings: { ttl: "1h", summarize: true, exclusion: "semantic" },
       search: { q: "lunch", limit: SCRIPTED_LIMIT, threshold: 0 },
-      open: {}, anim: 0, busy: false
+      open: {}, anim: 0, busy: false, focus: null
     };
+    badgeFont = getComputedStyle(root).fontFamily || badgeFont;
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { badgeCache = {}; });
     var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     function wait(ms) { return new Promise(function (r) { setTimeout(r, reduced ? 0 : ms); }); }
 
@@ -529,7 +558,7 @@
     }
     function restart() {
       cancel();
-      st.turn = 0; st.choices = []; st.extracted = false; st.lunch = null;
+      st.turn = 0; st.choices = []; st.extracted = false; st.lunch = null; st.focus = null;
       st.search = { q: "lunch", limit: SCRIPTED_LIMIT, threshold: 0 };
       st.open = {};
       show("chat");
@@ -718,7 +747,8 @@
         var used = opts.used && opts.used[m.key];
         var r = el("div", "ram-mem" + (used ? " is-used" : "") + (m.sensitive ? " is-sensitive" : "") +
           (opts.fresh && opts.fresh[m.key] ? " ram-fresh" : ""));
-        r.appendChild(el("span", "ram-num", String(m.num)));
+        r.dataset.mem = m.key;
+        r.insertAdjacentHTML("beforeend", badge(m.num, false));
         r.appendChild(el("div", "", '<div class="ram-memtext">' + esc(m.text) + '</div><div class="ram-memmeta"><span class="ram-type ram-type-' +
           m.type + '">' + m.type + "</span>from " + S1 + (used ? ' <span class="ram-used">recalled</span>' : "") + "</div>"));
         card.appendChild(r);
@@ -801,6 +831,7 @@
       p.appendChild(controlsRow(!st.extracted || view.running ?
         { label: "Run the extraction", busy: "Extracting…", fn: runExtraction } :
         { label: "Next: two days later", fn: function () { show("later"); } }));
+      applyFocus();
       syncTabs();
     }
     function extractionCard(script, all, k, running) {
@@ -819,24 +850,54 @@
         if (seen) row.appendChild(el("div", "ram-xout", badges(outcome(def, all, st.settings, st.choices))));
         card.appendChild(row);
       });
-      var legend = ['<span><span class="ram-hl">highlighted</span> saved as a memory</span>', '<span><span class="ram-left">struck through</span> left out</span>'];
+      var legend = ['<span><span class="ram-hl">highlighted</span> saved as a memory. Select it to find the memory</span>',
+        '<span><span class="ram-left">struck through</span> left out</span>'];
       if (st.settings.exclusion === "off" && st.choices[2] === GATE_CODE) legend.push('<span><span class="ram-sens">red</span> sensitive, and kept</span>');
       card.appendChild(el("div", "ram-legend", legend.join("")));
       return card;
     }
     function annotate(def, num) {
       return def.parts.map(function (p) {
-        if (p.mem) return '<span class="ram-hl">' + esc(p.t) + '</span><sup class="ram-tag">' + num[p.mem] + "</sup>";
+        if (p.mem) return link(p.mem, num[p.mem], '<span class="ram-hl">' + esc(p.t) + '</span><sup class="ram-tag">' + num[p.mem] + "</sup>");
         if (p.skip) return '<span class="ram-left" title="Left out: ' + esc(p.skip) + '">' + esc(p.t) + "</span>";
         if (p.sensitive) {
-          if (st.settings.exclusion === "off") return '<span class="ram-sens">' + esc(p.t) + '</span><sup class="ram-tag ram-tag-bad">' + num.door + "</sup>";
+          if (st.settings.exclusion === "off") return link("door", num.door, '<span class="ram-sens">' + esc(p.t) + '</span><sup class="ram-tag ram-tag-bad">' + num.door + "</sup>");
           return '<span class="ram-left" title="' + (st.settings.exclusion === "detector" ? "Redacted by the gate_code detector" :
             "Left out by the semantic exclusion") + '">' + esc(p.t) + "</span>";
         }
         return esc(p.t);
       }).join("");
     }
-    function badges(text) { return esc(text).replace(/\{(\d)\}/g, '<span class="ram-num ram-num-sm">$1</span>'); }
+    function link(key, n, html) {
+      return '<span class="ram-link" data-mem="' + key + '" role="button" tabindex="0" aria-pressed="false" title="Show memory ' + n +
+        ' in long-term memory">' + html + "</span>";
+    }
+    /* Selecting highlighted text in the extraction run highlights the memory
+       it became, and every other piece of text that went into that memory. */
+    function applyFocus() {
+      var p = panels.extract;
+      Array.prototype.forEach.call(p.querySelectorAll(".ram-link"), function (x) {
+        var on = x.dataset.mem === st.focus;
+        x.classList.toggle("is-focus", on);
+        x.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      Array.prototype.forEach.call(p.querySelectorAll(".ram-mem"), function (r) { r.classList.toggle("is-focus", r.dataset.mem === st.focus); });
+    }
+    function toggleFocus(key) {
+      st.focus = st.focus === key ? null : key;
+      applyFocus();
+      var row = st.focus && panels.extract.querySelector('.ram-mem[data-mem="' + st.focus + '"]');
+      if (row && row.scrollIntoView) row.scrollIntoView({ block: "nearest", behavior: reduced ? "auto" : "smooth" });
+    }
+    panels.extract.addEventListener("click", function (e) {
+      var l = e.target.closest && e.target.closest(".ram-link");
+      if (l) toggleFocus(l.dataset.mem);
+    });
+    panels.extract.addEventListener("keydown", function (e) {
+      var l = e.target.closest && e.target.closest(".ram-link");
+      if (l && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); toggleFocus(l.dataset.mem); }
+    });
+    function badges(text) { return esc(text).replace(/\{(\d)\}/g, function (m, n) { return badge(+n, true); }); }
     function runExtraction() {
       if (st.busy || st.extracted) return;
       st.extracted = true;
@@ -967,7 +1028,7 @@
         results.innerHTML = "";
         r.ranked.forEach(function (x) {
           var row = el("div", "ram-res" + (x.status === "returned" ? "" : " is-out"));
-          row.innerHTML = '<span class="ram-num ram-num-sm">' + x.mem.num + "</span>" +
+          row.innerHTML = badge(x.mem.num, true) +
             '<span class="ram-score"><span class="ram-bar"><span style="width:' + Math.round(x.score * 100) + '%"></span></span>' +
             '<span class="rcr-mono">' + x.score.toFixed(2) + "</span></span>" +
             '<span class="ram-restext">' + esc(x.mem.text) + "</span>" +
