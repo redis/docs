@@ -129,10 +129,13 @@ Classic pipelines.
 
 ### Can I see that the processor has scaled in the console?
 
-The pipeline configuration shows the requested number of TaskManagers. The
-Cloud RDI console does not currently show the ready replica count or a scale
-event. Its Metrics tab shows data-stream record counts and pending records, but
-not the replica count.
+Yes. The Dashboard shows the processor replica count next to the processor
+status. It shows the running count and configured count in the format
+`running / configured replicas`. For example, `3 / 3 replicas` means three
+TaskManagers are running and the pipeline is configured for three.
+
+The Metrics tab shows data-stream record counts and pending records, but not
+the replica count.
 
 For the ready replica count, use the RDI API pipeline-status response and
 inspect the `flink-processor` component's `replicas` value. See [Confirm the
@@ -140,5 +143,5 @@ applied capacity]({{< relref "/operate/rc/rdi/scale-processor" >}}).
 
 ### Can I use billing to confirm a scaling change?
 
-No. Billing is not a real-time deployment-status signal. Use the pipeline
-configuration, processor metrics, or the RDI API status instead.
+No. Billing is not a real-time deployment-status signal. Use the Dashboard or
+the RDI API status instead.

@@ -61,10 +61,14 @@ outside the processor.
 
 ## Confirm the applied capacity
 
-The console shows the TaskManager value saved in the pipeline configuration.
-It does not currently show the number of ready TaskManagers or a scale event.
-The console metrics show data-stream record counts and pending records, but
-they do not include a TaskManager replica-count metric.
+The **Dashboard** shows the processor replica count next to the processor
+status. It shows the running count and configured count in the format
+`running / configured replicas`. For example, `3 / 3 replicas` means three
+TaskManagers are running and the pipeline is configured for three. If only one
+count is available, the Dashboard identifies it as either running or configured.
+
+The console metrics show data-stream record counts and pending records. They do
+not include a TaskManager replica-count metric.
 
 If your organization collects Prometheus metrics for RDI, use them to
 investigate processor behavior. They are not a replacement for the status API
@@ -83,4 +87,4 @@ of ready processor replicas. For example:
 ```
 
 Billing is not a real-time way to confirm that a scaling change has completed.
-Use the saved configuration, processor metrics, or the status API instead.
+Use the Dashboard or the status API instead.
