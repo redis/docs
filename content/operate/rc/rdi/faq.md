@@ -72,11 +72,10 @@ scale near these limits. See [Increase Cloud RDI pipeline capacity]({{< relref
 
 ### What CIDR range should I use for Cloud RDI?
 
-For a new three-Availability-Zone workspace that you plan to scale to 10
-sources and 10 TaskManagers, use a Classless Inter-Domain Routing (CIDR) range
-of at least `/21`. A `/22` can lack the network capacity to start all
-collectors and TaskManagers at this scale, even when it reports free individual
-IP addresses.
+Cloud RDI suggests a Classless Inter-Domain Routing (CIDR) range of `/22` by
+default. Use it for a pipeline with up to 5 sources and 5 TaskManagers. If you
+plan to use more sources or TaskManagers, choose at least a `/21` CIDR range
+when you create the workspace.
 
 Cloud RDI needs complete IP address blocks in each Availability Zone to start
 new nodes. Node replacements and maintenance can temporarily need additional

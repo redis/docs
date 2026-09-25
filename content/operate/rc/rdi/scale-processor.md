@@ -21,9 +21,10 @@ Cloud RDI does not automatically add or remove TaskManagers based on CPU use,
 pending records, throughput, or backpressure. Set the number of TaskManagers
 when you need more processing capacity.
 
-A pipeline supports up to 10 sources and up to 10 TaskManagers. Before you
-scale near these limits, make sure the workspace has enough network capacity.
-See [Capacity and network planning]({{< relref
+A pipeline supports up to 10 sources and up to 10 TaskManagers. The default
+Classless Inter-Domain Routing (CIDR) range is `/22` for pipelines with up to 5
+sources and 5 TaskManagers. Before you scale beyond that, choose a larger CIDR
+when you create the workspace. See [Capacity and network planning]({{< relref
 "/operate/rc/rdi/faq#capacity-and-network-planning" >}}).
 
 ## Increase collector ingestion capacity
