@@ -122,10 +122,15 @@ processor]({{< relref "/operate/rc/rdi/scale-processor" >}}).
 
 ### How do I increase processing capacity for a pipeline?
 
-For a Flink pipeline, edit its **Settings** and set
+First identify whether the collector, RDI database, Flink processor, or target
+database limits the pipeline. You can increase collector ingestion capacity
+with source-specific advanced collector properties. You can increase the RDI
+database throughput in the database **Performance** settings. For a Flink
+processor bottleneck, edit **Settings** and set
 `advanced.resources.taskManager.replicas` to the needed number. Save the
-change, then apply and restart the pipeline. The setting does not apply to
-Classic pipelines.
+change, then apply and restart the pipeline. The TaskManager setting does not
+apply to Classic pipelines. See [Scale a data pipeline processor]({{< relref
+"/operate/rc/rdi/scale-processor" >}}) for signals and starting values.
 
 ### Can I see that the processor has scaled in the console?
 
