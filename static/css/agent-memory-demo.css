@@ -122,6 +122,11 @@
 .ram-callout p + p { margin-top: 6px !important; }
 .ram-controls { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; }
 .ram .rcr-btn:disabled { opacity: .5; cursor: default; }
+/* Status codes line up in a column: Geist's default digits have different
+   widths ("1" is 384 units, "0" is 671), so "201" and "200" would end at
+   different points. Tabular figures make every digit 600 units wide. */
+.ram .rcr-status { font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; }
+/* Centre the dot on the digits' line box rather than on the x-height, which sits lower. */
 
 /* API details inside the tier cards and the search card */
 .ram-api { margin-top: 8px; }
