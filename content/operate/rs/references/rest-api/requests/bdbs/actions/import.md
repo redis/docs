@@ -165,6 +165,29 @@ Azure Blob Storage example:
 }
 ```
 
+Customer-provided encryption key (SSE-C) example:
+
+```json
+{
+  "dataset_import_sources": [
+    {
+      "type": "s3",
+      "bucket_name": "backups",
+      "subdir": "test-db",
+      "filename": "<filename>.rdb",
+      "access_key_id": "XXXXXXXXXXXXX",
+      "secret_access_key": "XXXXXXXXXXXXXXXX",
+      "encryption": {
+        "type": "sse-c",
+        "sse_customer_key": "<base64-encoded 32-byte key>"
+      }
+    }
+  ]
+}
+```
+
+`encryption` is available only for S3 and S3-compatible sources. See [dataset_import_sources]({{< relref "/operate/rs/references/rest-api/objects/bdb/dataset_import_sources" >}}) for the field details.
+
 ### Response {#post-response}
 
 Returns a status code.
