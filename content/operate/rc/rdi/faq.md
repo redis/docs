@@ -142,7 +142,7 @@ TaskManagers are running and the pipeline is configured for three.
 The Metrics tab shows data-stream record counts and pending records, but not
 the replica count.
 
-For the ready replica count, use the RDI API pipeline-status response and
+For programmatic confirmation, use the RDI API pipeline-status response and
 inspect the `flink-processor` component's `replicas` value. See [Confirm the
 applied capacity]({{< relref "/operate/rc/rdi/scale-processor" >}}).
 

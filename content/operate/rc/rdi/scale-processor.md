@@ -161,10 +161,10 @@ The console metrics show data-stream record counts and pending records. They do
 not include a TaskManager replica-count metric.
 
 If your organization collects Prometheus metrics for RDI, use them to
-investigate processor behavior. They are not a replacement for the status API
-when you need the ready replica count.
+investigate processor behavior. They do not provide a TaskManager replica-count
+metric.
 
-If you use the RDI API, get the [pipeline status]({{< relref
+For programmatic confirmation, get the [pipeline status]({{< relref
 "/integrate/redis-data-integration/reference/api-reference" >}}) and inspect
 the `flink-processor` entry in `components`. Its `replicas` value is the number
 of ready processor replicas. For example:
