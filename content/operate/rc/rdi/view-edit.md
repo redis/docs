@@ -241,6 +241,12 @@ To refill the target, follow [How do I reload data after a flush?]({{< relref "/
 
 ## Delete pipeline
 
+{{< note >}}
+You cannot delete a pipeline while the target database's Redis Cloud cluster is
+in maintenance mode. Wait until maintenance is complete, then delete the
+pipeline.
+{{< /note >}}
+
 1. Return to the workspace list on the **Data Integration** page or your database's **Data Integration** tab.
 1. Open the pipeline's actions menu and select **Delete pipeline**.
 1. Review and confirm the deletion.
