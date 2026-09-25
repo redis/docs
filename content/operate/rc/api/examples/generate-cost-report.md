@@ -18,7 +18,7 @@ The following sections provide examples for each step.
 
 ## Generate a cost report
 
-To generate a cost report, use [`POST /cost-report`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/createCostReport" >}}). Your account must have the **Owner**, **Billing admin**, or **Viewer** role to generate a cost report through this endpoint.
+To generate a cost report, use [`POST /cost-report`](/content/operate/rc/api/api-reference.md#tag/Account/operation/createCostReport). Your account must have the **Owner**, **Billing admin**, or **Viewer** role to generate a cost report through this endpoint.
 
 Include `startDate` and `endDate` in your request body using `YYYY-MM-DD` format. You can specify a date range up to 40 days.
 
@@ -38,7 +38,7 @@ More options and filters can be added to the request body to filter the report d
 | `databaseIds` | Array of integers | Filters the report to only include the specified databases. |
 | `subscriptionType` | Enum: `essentials`, `pro` | Filters the report to only include subscriptions of the specified type. |
 | `regions` | Array of strings | Filters the report to only include subscriptions in the specified regions. |
-| `tags` | Array of key-value pairs | Filters the report to only include databases with the specified [tags]({{< relref "/operate/rc/databases/tag-database" >}}). Both `key` and `value` are required for each tag. |
+| `tags` | Array of key-value pairs | Filters the report to only include databases with the specified [tags](/content/operate/rc/databases/tag-database.md). Both `key` and `value` are required for each tag. |
 
 For example, the following request body generates a CSV report for all databases in the `us-east-1` region that have the `team:marketing` tag in January 2025:
 
@@ -57,7 +57,7 @@ For example, the following request body generates a CSV report for all databases
 }
 ```
 
-The response body is a [task object]({{< relref "/operate/rc/api/get-started/manage-tasks#task-information" >}}) that contains the `taskId` for the task that generates the cost report:
+The response body is a [task object](/content/operate/rc/api/get-started/manage-tasks.md#task-information) that contains the `taskId` for the task that generates the cost report:
 
 ```json
 {
@@ -78,7 +78,7 @@ The response body is a [task object]({{< relref "/operate/rc/api/get-started/man
 
 ## Get cost report status
 
-To get the status of the cost report generation, use [`GET /tasks/{taskId}`]({{< relref "/operate/rc/api/api-reference#tag/Tasks/operation/getTaskById" >}}) with the `taskId` from the previous step.
+To get the status of the cost report generation, use [`GET /tasks/{taskId}`](/content/operate/rc/api/api-reference.md#tag/Tasks/operation/getTaskById) with the `taskId` from the previous step.
 
 When the report is ready, the `status` is `processing-completed` and the `response` field contains a `costReportId`:
 
@@ -106,7 +106,7 @@ When the report is ready, the `status` is `processing-completed` and the `respon
 
 ## Download cost report
 
-To get the cost report, use [`GET /cost-report/{costReportId}`]({{< relref "/operate/rc/api/api-reference#tag/Account/operation/getCostReport" >}}) with the `costReportId` from the previous step.
+To get the cost report, use [`GET /cost-report/{costReportId}`](/content/operate/rc/api/api-reference.md#tag/Account/operation/getCostReport) with the `costReportId` from the previous step.
 
 You can use this cost report with any FOCUS-compatible cost reporting tool to analyze and visualize your costs.
 

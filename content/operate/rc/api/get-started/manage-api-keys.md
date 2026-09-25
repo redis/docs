@@ -23,7 +23,7 @@ Use the **API Keys** tab of the **Access Management** screen to manage your keys
 
     {{<image filename="images/rc/access-management-api-keys-tab.png" width="75%" alt="Use the **API Keys** tab of the **Access Management** screen to manage your REST API keys." >}}
 
-If an **Enable API** button appears, select it to [enable the REST API]({{< relref "/operate/rc/api/get-started/enable-the-api.md" >}}) for your account.
+If an **Enable API** button appears, select it to [enable the REST API](/content/operate/rc/api/get-started/enable-the-api.md) for your account.
 
 {{<image filename="images/rc/button-access-management-enable-api.png" alt="Use the **Enable API** button to enable the REST API for your account." >}}
 
@@ -72,10 +72,9 @@ When you do this, the **API user key** dialog appears.
 
 {{<image filename="images/rc/access-management-create-user-key.png" width="75%" alt="The **API user key** dialog lets you copy the value of the new key to the Clipboard." >}}<br/>
 
-{{<warning>}}
-This is the only time the value of the user key is available.  Save it to a secure location before closing the dialog box.  <br/><br/>
-If you lose the user key value, it cannot be retrieved.  If this happens, create a new key to replace the lost one.
-{{</warning>}}
+> [!WARNING]
+> This is the only time the value of the user key is available.  Save it to a secure location before closing the dialog box.  <br/><br/>
+> If you lose the user key value, it cannot be retrieved.  If this happens, create a new key to replace the lost one.
 
 The **Finish** button is inactive until you copy the key to the clipboard. After you save the user key, you can also select **Copy account key** to save the account key.
 

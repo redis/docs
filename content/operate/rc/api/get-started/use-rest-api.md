@@ -14,9 +14,8 @@ You can access and use the API endpoint URI ([`https://api.redislabs.com/v1`](ht
 - The cURL HTTP client
 - An HTTP client in any programming language
 
-{{< note >}}
-For the Redis Cloud API, there is a request limit of 400 requests per minute per Account API key. If you go past this limit, your API requests will fail.
-{{< /note >}}
+> [!NOTE]
+> For the Redis Cloud API, there is a request limit of 400 requests per minute per Account API key. If you go past this limit, your API requests will fail.
 
 ## Swagger user interface
 
@@ -38,13 +37,12 @@ To authenticate to the Swagger UI:
 
 1. Insert the API Key values:
 
-    1. Enter the [Account Key]({{< relref "/operate/rc/api/get-started/enable-the-api.md" >}}) as the `x-api-key` value and then choose **Authorize**.
-    1. Enter the [Secret Key]({{< relref "/operate/rc/api/get-started/manage-api-keys.md" >}}) as the `x-api-secret-key` value and then choose **Authorize**.
+    1. Enter the [Account Key](/content/operate/rc/api/get-started/enable-the-api.md) as the `x-api-key` value and then choose **Authorize**.
+    1. Enter the [Secret Key](/content/operate/rc/api/get-started/manage-api-keys.md) as the `x-api-secret-key` value and then choose **Authorize**.
     1. Select **Close**.
 
-{{< note >}}
-The key values are not saved when you refresh the page.
-{{< /note >}}
+> [!NOTE]
+> The key values are not saved when you refresh the page.
 
 When authorization is successful, the lock icon displays a closed lock.
 
@@ -85,9 +83,8 @@ Some API operations require input, such as:
 
         {{< image filename="/images/rv/api/swagger-post-edit-body.png" >}}
 
-{{< warning >}}
-The Swagger UI generates default JSON examples for `POST` and `PUT` operations. You should modify these examples to suit your specific needs and account settings. The examples will fail if used as-is. <br/><br/>For more examples showing how to use specific endpoints, see [REST API examples]({{< relref "/operate/rc/api/examples" >}}).
-{{< /warning >}}
+> [!WARNING]
+> The Swagger UI generates default JSON examples for `POST` and `PUT` operations. You should modify these examples to suit your specific needs and account settings. The examples will fail if used as-is. <br/><br/>For more examples showing how to use specific endpoints, see [REST API examples](/content/operate/rc/api/examples/_index.md).
 
 ## Use the `cURL` HTTP client
 
@@ -95,10 +92,9 @@ The Swagger UI generates default JSON examples for `POST` and `PUT` operations. 
 either as individual commands or within shell scripts (such as bash and zsh).
 For an introduction, see [How to start using cURL and why: a hands-on introduction](https://www.freecodecamp.org/news/how-to-start-using-curl-and-why-a-hands-on-introduction-ea1c913caaaa/).
 
-{{% info %}}
-Our examples use `cURL` and Linux shell scripts to demonstrate the API; you can use any standard REST client or library.<br/><br/>
-Our examples also use `jq`, [a JSON parser](https://stedolan.github.io/jq/).  Use your package manager to install it  (Example: `sudo apt install jq`)
-{{% /info %}}
+> [!INFO]
+> Our examples use `cURL` and Linux shell scripts to demonstrate the API; you can use any standard REST client or library.<br/><br/>
+> Our examples also use `jq`, [a JSON parser](https://stedolan.github.io/jq/).  Use your package manager to install it  (Example: `sudo apt install jq`)
 
 For example, a standard API call to get System Log information looks like this in `cURL`:
 
@@ -113,8 +109,8 @@ curl -s -X GET "https://$HOST/logs" \
 - The example expects several variables to be set in the Linux shell:
 
     - **$HOST** - The URI of the REST API host (`api.redislabs.com/v1`)
-    - **$ACCOUNT_KEY** - The [account key value]({{< relref "/operate/rc/api/get-started/enable-the-api.md" >}})
-    - **$SECRET_KEY** - The personal [secret key value]({{< relref "/operate/rc/api/get-started/manage-api-keys.md" >}})
+    - **$ACCOUNT_KEY** - The [account key value](/content/operate/rc/api/get-started/enable-the-api.md)
+    - **$SECRET_KEY** - The personal [secret key value](/content/operate/rc/api/get-started/manage-api-keys.md)
 
 - The line "`| jq -r .`" means that the HTTP response will be piped (forwarded) to the `jq` JSON parser, and it will display only the raw output ("`-r`") of the root element ("`.`")
 - You can set the variables using shell commands like the following:
