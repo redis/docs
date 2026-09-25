@@ -57,6 +57,35 @@ Stop the affected source before deleting its records and allow its pending recor
 
 No. Deleting a source removes its pipeline configuration and internal RDI state. Records it already wrote to the target remain. You must remove or reassign transformation jobs that refer to the source before deleting it. See [Remove a source]({{< relref "/operate/rc/rdi/view-edit#remove-source" >}}).
 
+## Capacity and network planning
+
+### How many sources and processor replicas can a pipeline use?
+
+Cloud RDI runs one Flink processor for each pipeline. A pipeline supports up to
+10 sources and up to 10 TaskManagers. Each source uses a collector, and each
+TaskManager is a processor replica.
+
+The source and TaskManager limits do not guarantee that an existing workspace
+has enough network capacity to run them all. Plan the workspace CIDR before you
+scale near these limits. See [Increase Cloud RDI pipeline capacity]({{< relref
+"/operate/rc/rdi/scale-processor" >}}).
+
+### What CIDR range should I use for Cloud RDI?
+
+For a new three-Availability-Zone workspace that you plan to scale to 10
+sources and 10 TaskManagers, use a Classless Inter-Domain Routing (CIDR) range
+of at least `/21`. A `/22` can lack the network capacity to start all
+collectors and TaskManagers at this scale, even when it reports free individual
+IP addresses.
+
+Cloud RDI needs complete IP address blocks in each Availability Zone to start
+new nodes. Node replacements and maintenance can temporarily need additional
+capacity. A `/21` is planning guidance, not a guarantee for every workload.
+
+You cannot enlarge an existing workspace CIDR. Choose a range that leaves
+capacity for planned growth, replacement nodes, and maintenance, and is
+compatible with your selected connectivity method.
+
 ## Upgrades and maintenance
 
 ### What happens during an RDI Cloud upgrade?

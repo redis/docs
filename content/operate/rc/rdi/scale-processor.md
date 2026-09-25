@@ -21,6 +21,11 @@ Cloud RDI does not automatically add or remove TaskManagers based on CPU use,
 pending records, throughput, or backpressure. Set the number of TaskManagers
 when you need more processing capacity.
 
+A pipeline supports up to 10 sources and up to 10 TaskManagers. Before you
+scale near these limits, make sure the workspace has enough network capacity.
+See [Capacity and network planning]({{< relref
+"/operate/rc/rdi/faq#capacity-and-network-planning" >}}).
+
 ## Increase collector ingestion capacity
 
 Tune collector properties when the collector cannot ingest data from the
@@ -79,8 +84,8 @@ pipeline.
 1. From the Cloud RDI **Pipelines** list, select the pipeline.
 1. Select the **Settings** tab and select **Edit**.
 1. Add or update the `advanced.resources.taskManager.replicas` property with
-   the number of TaskManagers you need. The value must be a whole number of at
-   least `1`.
+   the number of TaskManagers you need. The value must be a whole number from
+   `1` through `10`.
 1. Select **Save changes**, then select **Apply and restart** to apply the
    change.
 
