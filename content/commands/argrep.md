@@ -100,7 +100,7 @@ key_specs:
   - access
 linkTitle: ARGREP
 reply_schema:
-  oneOf:
+  anyOf:
   - description: Array of matching indexes.
     items:
       description: Index of a matching element
