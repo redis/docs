@@ -113,6 +113,26 @@ Before you connect, create an AWS identity with read-only ElastiCache access. Th
 - `tag:GetResources`
 - `ec2:DescribeRegions`
 
+How Radar authenticates depends on where it runs:
+
+{{< multitabs id="elasticache-auth"
+tab1="Radar on Redis Cloud"
+tab2="Self-managed Radar" >}}
+
+On Redis Cloud, Radar assumes a read-only role in your AWS account, so you supply a role ARN rather than keys:
+
+1. Select **Add connection**.
+2. Set the **connection type** to **Amazon ElastiCache**.
+3. Enter a **display name**.
+4. Enter your 12-digit **AWS account ID**. Radar shows its own AWS account ID and generates an external ID for this connection.
+5. In AWS, create a read-only IAM role with those permissions. In its trust policy, trust the Radar AWS account ID and require the external ID Radar generated.
+6. Enter the **role ARN**, and the **AWS regions** to scan, separated by commas, for example `us-east-1, us-west-2`.
+7. Select **Add connection**.
+
+Radar generates the external ID and keeps it. Don't supply one of your own, and don't reuse the external ID from another connection.
+
+-tab-sep-
+
 On a self-managed install, Radar authenticates with a long-lived IAM access key pair:
 
 1. Select **Add connection**.
@@ -123,6 +143,8 @@ On a self-managed install, Radar authenticates with a long-lived IAM access key 
 6. Select **Add connection**.
 
 Radar derives the AWS account ID itself, so you do not enter it.
+
+{{< /multitabs >}}
 
 Both the API server and the worker need outbound HTTPS on port 443 to the AWS control-plane endpoints in every region you configure: `sts`, `elasticache`, `monitoring`, `tagging`, and `ec2`. Radar never opens a connection to a cache endpoint.
 
@@ -149,6 +171,30 @@ Before you connect, create a service account in the target project and grant it 
 
 A single custom role with the same read permissions works too.
 
+How Radar authenticates depends on where it runs:
+
+{{< multitabs id="memorystore-auth"
+tab1="Radar on Redis Cloud"
+tab2="Self-managed Radar" >}}
+
+On Redis Cloud, Radar impersonates the service account rather than holding a key for it, so there is no key to create or paste. Prepare the project first:
+
+- Label the project `redis-radar-tenant=<your-tenant-id>`. Radar checks the label before it creates the connection and before every collection, so a missing label fails the connection test.
+- Add `roles/browser` to the service account's roles, which lets Radar read that label.
+- Grant Radar's own service account the **Service Account Token Creator** role (`roles/iam.serviceAccountTokenCreator`) on the service account you created.
+
+Radar shows the service account to authorize and your tenant ID when you add the connection.
+
+1. Select **Add connection**.
+2. Set the **connection type** to **Google Memorystore**.
+3. Enter a **display name**.
+4. Enter the **GCP project ID**, for example `my-gcp-project`.
+5. Enter the **GCP regions** to scan, separated by commas, for example `us-central1, us-east1`.
+6. Enter the **service account email**, for example `radar-reader@my-gcp-project.iam.gserviceaccount.com`.
+7. Select **Add connection**.
+
+-tab-sep-
+
 On a self-managed install, Radar authenticates with a service account key:
 
 1. Select **Add connection**.
@@ -158,6 +204,8 @@ On a self-managed install, Radar authenticates with a service account key:
 5. Enter the **GCP regions** to scan, separated by commas, for example `us-central1, us-east1`.
 6. Paste the **service account key JSON**. It must be 16 KiB or less.
 7. Select **Add connection**.
+
+{{< /multitabs >}}
 
 Both the API server and the worker need outbound HTTPS on port 443 to `oauth2.googleapis.com`, `redis.googleapis.com`, `memorystore.googleapis.com`, `memcache.googleapis.com`, and `monitoring.googleapis.com`. Allowing `*.googleapis.com` covers the whole path.
 
