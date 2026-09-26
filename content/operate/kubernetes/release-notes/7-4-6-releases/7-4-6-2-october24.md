@@ -12,7 +12,7 @@ weight: 27
 
 ## Highlights
 
-This is a maintenance release to support [Redis Enterprise Software version 7.4.6-102]({{<relref "/operate/rs/release-notes/rs-7-4-2-releases/">}}). For version changes, supported distributions, and known limitations, see the [release notes for 7-4-6-2 (July 2024)]({{<relref "/operate/kubernetes/release-notes/7-4-6-releases/7-4-6-2">}}).
+This is a maintenance release to support [Redis Enterprise Software version 7.4.6-102](/content/operate/rs/release-notes/rs-7-4-2-releases/_index.md). For version changes, supported distributions, and known limitations, see the [release notes for 7-4-6-2 (July 2024)](/content/operate/kubernetes/release-notes/7-4-6-releases/7-4-6-2.md).
 
 ## Downloads
 
