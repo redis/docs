@@ -52,7 +52,7 @@ is the name of the element whose attributes you want to set or remove.
 <details open>
 <summary><code>json</code></summary>
 
-is a valid JSON string. Use an empty string (`""`) to delete the attributes.
+is the JSON string with the attributes of the element. Use an empty string (`""`) to delete the attributes.
 The string is stored as given, without validation. Elements whose attributes are not valid JSON are treated as not matching by the `FILTER` option of `VSIM`.
 </details>
 
