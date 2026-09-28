@@ -614,7 +614,13 @@
         var b = el("button", "rcr-subtab", esc(ent.name) + ' <span class="rcr-faint rcr-mono">' + esc(ent.template) + "</span>");
         b.type = "button"; b.setAttribute("role", "tab");
         b.setAttribute("aria-selected", ent.name === state.entityTab ? "true" : "false");
-        b.addEventListener("click", function () { state.entityTab = ent.name; renderModel(); });
+        b.addEventListener("click", function () {
+          if (ent.name === state.entityTab) return;
+          var leaving = entityOf(state.model, state.entityTab);
+          if (leaving && resetTemplate(leaving)) { state.tools = buildTools(state.model); state.connected = false; }
+          state.entityTab = ent.name;
+          renderModel();
+        });
         sub.appendChild(b);
       });
       p.appendChild(sub);
@@ -630,6 +636,30 @@
         "Tag fields used for access control, which this demo doesn't include, also get <code>INDEXEMPTY</code>. The index names are illustrative."));
       p.appendChild(idx);
       p.appendChild(next("Next: ask questions over MCP", "ask"));
+    }
+
+    /* Point an entity at the documents a template matches. When they're
+       different documents, re-detect the fields, keeping the edits made for
+       the old ones in case the template comes back. True if the fields changed. */
+    function setTemplate(ent, value) {
+      ent.template = value;
+      var d = detectFields(value), was = ent.kind == null ? ent.name : ent.kind;
+      if (d.kind === was) return false;
+      ent.saved = ent.saved || {};
+      ent.saved[was] = ent.fields;
+      ent.fields = ent.saved[d.kind] || d.fields;
+      ent.kind = d.kind;
+      return true;
+    }
+    /* Leaving an entity's sub-tab puts its template back to the default. Index
+       choices made on its own documents stay; anything set while the template
+       pointed elsewhere is dropped. True if something changed. */
+    function resetTemplate(ent) {
+      var def = defaultModel().filter(function (e) { return e.name === ent.name; })[0];
+      if (!def || ent.template === def.template) return false;
+      setTemplate(ent, def.template);
+      ent.saved = {};
+      return true;
     }
 
     function refreshTools() {
@@ -662,17 +692,7 @@
         match.title = !json && other ? "Context Retriever only reads JSON documents." : "";
       }
       inp.addEventListener("input", function () {
-        ent.template = inp.value;
-        var d = detectFields(inp.value), was = ent.kind == null ? ent.name : ent.kind;
-        if (d.kind !== was) {
-          /* Different documents: detect their fields, and keep this entity's
-             edits for the old ones in case the template comes back. */
-          ent.saved = ent.saved || {};
-          ent.saved[was] = ent.fields;
-          ent.fields = ent.saved[d.kind] || d.fields;
-          ent.kind = d.kind;
-          renderFields();
-        }
+        if (setTemplate(ent, inp.value)) renderFields();
         updateMatch(); refreshTools();
         var on = panels.model.querySelector('.rcr-subtab[aria-selected="true"] .rcr-mono');
         if (on) on.textContent = inp.value;
