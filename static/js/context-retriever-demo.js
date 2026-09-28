@@ -287,6 +287,21 @@
 
   function entityOf(model, name) { return model.filter(function (e) { return e.name === name; })[0]; }
 
+  /* Fields detected from the JSON documents a template matches, the way
+     Auto-detect fields works in the console: the field set of each document
+     type found, merged by name. Returns the document types too, so an entity
+     can tell when its template starts pointing at different documents. */
+  function detectFields(template) {
+    var re = templateRegex(template), kinds = [], names = {}, fields = [];
+    if (re) KEYS.forEach(function (k) { if (k.type === "JSON" && re.test(k.key) && kinds.indexOf(k.entity) === -1) kinds.push(k.entity); });
+    kinds.forEach(function (kind) {
+      defaultModel().filter(function (e) { return e.name === kind; })[0].fields.forEach(function (f) {
+        if (!names[f.name]) { names[f.name] = true; fields.push(f); }
+      });
+    });
+    return { kind: kinds.join("+"), fields: fields };
+  }
+
   /* Records an entity can see: JSON documents whose key matches its key template. */
   function rowsFor(ent) {
     var re = templateRegex(ent.template);
@@ -591,7 +606,7 @@
     /* ---- step 2: model -> tools ---- */
     function renderModel() {
       var p = panels.model; p.innerHTML = "";
-      p.appendChild(el("p", "rcr-lede", "You describe each entity once: a key template that finds its keys, and the fields an agent can use. Context Retriever turns that description into MCP tools. Change a key template or an index type and watch the tools change."));
+      p.appendChild(el("p", "rcr-lede", "You describe each entity once: a key template that finds its keys, and the fields an agent can use. Context Retriever turns that description into MCP tools. Change a key template to point the entity at other documents, or change an index type, and watch the tools change."));
       if (!state.entityTab) state.entityTab = state.model[0].name;
       var sub = el("div", "rcr-subtabs");
       sub.setAttribute("role", "tablist");
@@ -647,38 +662,58 @@
         match.title = !json && other ? "Context Retriever only reads JSON documents." : "";
       }
       inp.addEventListener("input", function () {
-        ent.template = inp.value; updateMatch(); refreshTools();
+        ent.template = inp.value;
+        var d = detectFields(inp.value), was = ent.kind == null ? ent.name : ent.kind;
+        if (d.kind !== was) {
+          /* Different documents: detect their fields, and keep this entity's
+             edits for the old ones in case the template comes back. */
+          ent.saved = ent.saved || {};
+          ent.saved[was] = ent.fields;
+          ent.fields = ent.saved[d.kind] || d.fields;
+          ent.kind = d.kind;
+          renderFields();
+        }
+        updateMatch(); refreshTools();
         var on = panels.model.querySelector('.rcr-subtab[aria-selected="true"] .rcr-mono');
         if (on) on.textContent = inp.value;
       });
       updateMatch();
       tplWrap.appendChild(inp); head.appendChild(tplWrap); head.appendChild(match);
       card.appendChild(head);
+      card.appendChild(el("p", "rcr-fieldsnote", "Fields are detected from the JSON documents this template matches, as with Auto-detect fields in the console."));
       var tbl = el("table", "rcr-fields");
       tbl.innerHTML = "<thead><tr><th>Field</th><th>PK</th><th>Type</th><th>Index</th><th>Related</th></tr></thead>";
       var tb = el("tbody");
-      ent.fields.forEach(function (f) {
-        var tr = el("tr");
-        tr.appendChild(el("td", "rcr-mono", esc(f.name)));
-        tr.appendChild(el("td", "", f.pk ? '<span class="rcr-pk" title="Primary key">PK</span>' : ""));
-        tr.appendChild(el("td", "", esc(f.type)));
-        var td = el("td");
-        if (f.pk) td.appendChild(el("span", "rcr-faint", "key lookup"));
-        else {
-          var sel = el("select", "rcr-select");
-          sel.setAttribute("aria-label", ent.name + " " + f.name + " index type");
-          (f.type === "number" ? ["none", "numeric"] : ["none", "tag", "text"]).forEach(function (o) {
-            var op = el("option", "", o); op.value = o; if (o === f.index) op.selected = true; sel.appendChild(op);
-          });
-          sel.addEventListener("change", function () { f.index = sel.value; refreshTools(); });
-          td.appendChild(sel);
-        }
-        tr.appendChild(td);
-        tr.appendChild(el("td", "", f.rel ? '<span class="rcr-rel">' + esc(f.rel) + "</span>" : ""));
-        tb.appendChild(tr);
-      });
       tbl.appendChild(tb); card.appendChild(tbl);
+      renderFields();
       return card;
+
+      function renderFields() {
+        tb.innerHTML = "";
+        if (!ent.fields.length) {
+          tb.appendChild(el("tr", "rcr-nofields", '<td colspan="5">No fields. The template matches no JSON documents, so there is nothing to detect.</td>'));
+        }
+        ent.fields.forEach(function (f) {
+          var tr = el("tr");
+          tr.appendChild(el("td", "rcr-mono", esc(f.name)));
+          tr.appendChild(el("td", "", f.pk ? '<span class="rcr-pk" title="Primary key">PK</span>' : ""));
+          tr.appendChild(el("td", "", esc(f.type)));
+          var td = el("td");
+          if (f.pk) td.appendChild(el("span", "rcr-faint", "key lookup"));
+          else {
+            var sel = el("select", "rcr-select");
+            sel.setAttribute("aria-label", ent.name + " " + f.name + " index type");
+            (f.type === "number" ? ["none", "numeric"] : ["none", "tag", "text"]).forEach(function (o) {
+              var op = el("option", "", o); op.value = o; if (o === f.index) op.selected = true; sel.appendChild(op);
+            });
+            sel.addEventListener("change", function () { f.index = sel.value; refreshTools(); });
+            td.appendChild(sel);
+          }
+          tr.appendChild(td);
+          tr.appendChild(el("td", "", f.rel ? '<span class="rcr-rel">' + esc(f.rel) + "</span>" : ""));
+          tb.appendChild(tr);
+        });
+      }
     }
 
     function renderTools(box) {
@@ -787,6 +822,10 @@
           var t = state.tools.filter(function (x) { return x.name === last.name; })[0];
           answer = "I couldn't answer that. My call to `" + last.name + "` failed because the record wasn't found. Check the " +
             (t && t.entity ? t.entity : "entity") + " key template in step 2: it has to match your keys.";
+        } else if (/^unknown tool/.test(e.message)) {
+          var owner = state.model.filter(function (x) { return last.name.replace(/^(get_|filter_|count_)/, "").replace(/_by_id$/, "") === snake(x.name); })[0];
+          answer = "I couldn't answer that. The service has no `" + last.name + "` tool, because the " + (owner ? owner.name : "entity") +
+            " entity has no fields. Check its key template in step 2: it has to match JSON documents.";
         } else {
           answer = "I couldn't answer that. The server rejected my call to `" + last.name + "`: the data model doesn't index the field I needed. Go back to step 2, index it, and ask again.";
         }
@@ -838,5 +877,5 @@
 
   /* Exposed for tests. */
   window.ContextRetrieverDemo = { buildTools: buildTools, execute: execute, defaultModel: defaultModel, QUESTIONS: QUESTIONS, McpError: McpError, ToolError: ToolError,
-    indexCommands: indexCommands };
+    indexCommands: indexCommands, detectFields: detectFields };
 })();

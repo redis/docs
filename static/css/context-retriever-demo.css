@@ -121,6 +121,8 @@
 .rcr-fields th { text-align: left; color: var(--rcr-faint); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; padding: 4px 6px; border-bottom: 1px solid var(--rcr-line); }
 .rcr-fields td { padding: 3px 6px; border-bottom: 1px solid var(--rcr-line); vertical-align: middle; }
 .rcr-fields tr:last-child td { border-bottom: 0; }
+.rcr .rcr-fieldsnote { font-size: 12px; color: var(--rcr-faint); margin: 0 0 6px; }
+.rcr .rcr-nofields td { color: var(--rcr-muted); font-size: 12.5px; padding: 10px 6px; }
 .rcr-select {
   -webkit-appearance: none; appearance: none; border: 1px solid var(--rcr-line-strong); border-radius: 6px;
   padding: 1px 22px 1px 7px; font-size: 12.5px; cursor: pointer;
