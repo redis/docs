@@ -17,12 +17,13 @@ This article outlines steps to increase the size of the persistent volume claim 
 
 This process involves deleting and recreating the REC StatefulSet with a larger persistent volume size. The pods owned by the StatefulSet are not restarted or affected by the deletion and recreation process, except when they are left without an owner momentarily.
 
-{{<note>}}Shrinking (reducing the size) of your PVC is not allowed. This process only allows you to expand (size up) your PVC.{{</note>}}
+> [!NOTE]
+> Shrinking (reducing the size) of your PVC is not allowed. This process only allows you to expand (size up) your PVC.
 
 ## Prerequisites
 
-{{<warning>}}Do not change any other REC fields related to the StatefulSet while resizing is in progress.
-{{</warning>}}
+> [!WARNING]
+> Do not change any other REC fields related to the StatefulSet while resizing is in progress.
 
 - PVC expansion must be supported and enabled by the StorageClass and underlying storage driver of the REC PVCs.
   - The relevant StorageClass is the one associated with the REC PVCs. The StorageClass for existing PVCs cannot be changed.
