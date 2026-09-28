@@ -12,11 +12,10 @@ weight: 10
 url: '/operate/kubernetes/7.22/re-clusters/connect-to-admin-console/'
 ---
 
-The username and password for the Redis Enterprise Software [admin console]({{< relref "/operate/rs/" >}}) are stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/). After retrieving your credentials, you can use port forwarding to connect to the admin console.
+The username and password for the Redis Enterprise Software [admin console](/content/operate/rs/_index.md) are stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/). After retrieving your credentials, you can use port forwarding to connect to the admin console.
 
-{{<note>}}
-There are several methods for accessing the admin console. Port forwarding is the simplest, but not the most efficient method for long-term use. You could also use a load balancer service or Ingress. 
-{{</note>}}
+> [!NOTE]
+> There are several methods for accessing the admin console. Port forwarding is the simplest, but not the most efficient method for long-term use. You could also use a load balancer service or Ingress. 
 
 1. Switch to the namespace with your Redis Enterprise cluster (REC).
 
@@ -45,9 +44,8 @@ There are several methods for accessing the admin console. Port forwarding is th
     kubectl get service/<cluster-name>-ui -o yaml
     ```
 
-    {{<note>}}
-    The default port is 8443.
-    {{</note>}}
+    > [!NOTE]
+    > The default port is 8443.
 
 1. Use `kubectl port-forward` to forward your local port to the service port.
 

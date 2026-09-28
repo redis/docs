@@ -11,11 +11,12 @@ linkTitle: Create Active-Active with crdb-cli
 weight: 99
 url: '/operate/kubernetes/7.22/active-active/create-aa-crdb-cli/'
 ---
-{{<note>}} Versions 6.4.2 and later support the Active-Active database controller. This controller allows you to create Redis Enterprise Active-Active databases (REAADB) and Redis Enterprise remote clusters (RERC) with custom resources. We recommend using the [REAADB method for creating Active-Active databases]({{< relref "/operate/kubernetes/7.22/active-active/create-reaadb" >}}).{{</note>}}
+> [!NOTE]
+>  Versions 6.4.2 and later support the Active-Active database controller. This controller allows you to create Redis Enterprise Active-Active databases (REAADB) and Redis Enterprise remote clusters (RERC) with custom resources. We recommend using the [REAADB method for creating Active-Active databases](/content/operate/kubernetes/7.22/active-active/create-reaadb.md).
 
-On Kubernetes, Redis Enterprise [Active-Active]({{< relref "/operate/rs/databases/active-active/" >}}) databases provide read-and-write access to the same dataset from different Kubernetes clusters. For more general information about Active-Active, see the [Redis Enterprise Software docs]({{< relref "/operate/rs/databases/active-active/" >}}).
+On Kubernetes, Redis Enterprise [Active-Active](/content/operate/rs/databases/active-active/_index.md) databases provide read-and-write access to the same dataset from different Kubernetes clusters. For more general information about Active-Active, see the [Redis Enterprise Software docs](/content/operate/rs/databases/active-active/_index.md).
 
-Creating an Active-Active database requires routing [network access]({{< relref "/operate/kubernetes/7.22/networking/" >}}) between two Redis Enterprise clusters residing in different Kubernetes clusters. Without the proper access configured for each cluster, syncing between the databases instances will fail.
+Creating an Active-Active database requires routing [network access](/content/operate/kubernetes/7.22/networking/_index.md) between two Redis Enterprise clusters residing in different Kubernetes clusters. Without the proper access configured for each cluster, syncing between the databases instances will fail.
 
 This process consists of:
 
@@ -27,11 +28,12 @@ This process consists of:
 
 Before creating Active-Active databases, you'll need admin access to two or more working Kubernetes clusters that each have:
 
-- Routing for external access with an [ingress resources]({{< relref "/operate/kubernetes/7.22/networking/ingress" >}}) (or [route resources]({{< relref "/operate/kubernetes/7.22/networking/routes" >}}) on OpenShift).
-- A working [Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api" >}}) with a unique name.
-- Enough memory resources available for the database (see [hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}})).
+- Routing for external access with an [ingress resources](/content/operate/kubernetes/7.22/networking/ingress.md) (or [route resources](/content/operate/kubernetes/7.22/networking/routes.md) on OpenShift).
+- A working [Redis Enterprise cluster (REC)](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api.md) with a unique name.
+- Enough memory resources available for the database (see [hardware requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md)).
 
-{{<note>}} The `activeActive` field and the `ingressOrRouteSpec` field cannot coexist in the same REC. If you configured your ingress via the `ingressOrRouteSpec` field in the REC, create your Active-Active database with the RedisEnterpriseActiveActiveDatabase (REAADB) custom resource.{{</note>}}
+> [!NOTE]
+>  The `activeActive` field and the `ingressOrRouteSpec` field cannot coexist in the same REC. If you configured your ingress via the `ingressOrRouteSpec` field in the REC, create your Active-Active database with the RedisEnterpriseActiveActiveDatabase (REAADB) custom resource.
 
 ## Document required parameters
 
@@ -50,9 +52,8 @@ The most common mistake when setting up Active-Active databases is incorrect or 
 
 You'll need the following information for each participating Redis Enterprise cluster (REC):
 
-{{<note>}}
-You'll need to create DNS aliases to resolve your API hostname `<api-hostname>`,`<ingress-suffix>`, `<replication-hostname>` to the IP address for the ingress controller’s LoadBalancer (or routes in Openshift) for each database. To avoid entering multiple DNS records, you can use a wildcard in your alias (such as *.ijk.example.com).
-{{</note>}}
+> [!NOTE]
+> You'll need to create DNS aliases to resolve your API hostname `<api-hostname>`,`<ingress-suffix>`, `<replication-hostname>` to the IP address for the ingress controller’s LoadBalancer (or routes in Openshift) for each database. To avoid entering multiple DNS records, you can use a wildcard in your alias (such as *.ijk.example.com).
 
 - **REC hostname** `<rec-hostname>`:
   - Description: Hostname used to identify your Redis Enterprise cluster in the `crdb-cli` command. This MUST be different from other participating clusters.
@@ -70,7 +71,7 @@ You'll need to create DNS aliases to resolve your API hostname `<api-hostname>`,
   - Description: Combined with database name to create the Active-Active database hostname
   - Format: string
   - Example value: `-cluster.ijk.example.com`
-- [**REC admin credentials**]({{< relref "/operate/kubernetes/7.22/security/manage-rec-credentials" >}}) `<username> <password>`:
+- [**REC admin credentials**](/content/operate/kubernetes/7.22/security/manage-rec-credentials.md) `<username> <password>`:
   - Description: Admin username and password for the REC stored in a secret
   - Format: string
   - Example value: username: `user@example.com`, password: `something`
@@ -100,7 +101,7 @@ From inside your K8s cluster, edit your Redis Enterprise cluster (REC) resource 
 
 ### Using ingress controller
 
-1. If your cluster uses an [ingress controller]({{< relref "/operate/kubernetes/7.22/networking/ingress" >}}), add the following to the `spec` section of your REC resource file.
+1. If your cluster uses an [ingress controller](/content/operate/kubernetes/7.22/networking/ingress.md), add the following to the `spec` section of your REC resource file.
 
   Nginx:
 
@@ -147,11 +148,10 @@ HAproxy:
 
 #### If using Istio Gateway and VirtualService
 
-No changes are required to the REC spec if you are using [Istio]({{< relref "/operate/kubernetes/7.22/networking/istio-ingress" >}}) in place of an ingress controller. The `activeActive` section added above creates ingress resources. The two custom resources used to configure Istio (Gateway and VirtualService) replace the need for ingress resources.
+No changes are required to the REC spec if you are using [Istio](/content/operate/kubernetes/7.22/networking/istio-ingress.md) in place of an ingress controller. The `activeActive` section added above creates ingress resources. The two custom resources used to configure Istio (Gateway and VirtualService) replace the need for ingress resources.
 
-{{<warning>}}
-These custom resources are not controlled by the operator and will need to be configured and maintained manually.
-{{</warning>}}
+> [!WARNING]
+> These custom resources are not controlled by the operator and will need to be configured and maintained manually.
 
 For each cluster, verify the VirtualService resource has two `- match:` blocks in the `tls` section. The hostname under `sniHosts:` should match your `<replication-hostname>`.
 
@@ -174,7 +174,7 @@ For each cluster, verify the VirtualService resource has two `- match:` blocks i
 
 1. Make sure you have DNS aliases for each database that resolve your API hostname `<api-hostname>`,`<ingress-suffix>`, `<replication-hostname>` to the route IP address. To avoid entering multiple DNS records, you can use a wildcard in your alias (such as `*.ijk.example.com`).
 
-1. If your cluster uses [OpenShift routes]({{< relref "/operate/kubernetes/7.22/networking/routes" >}}), add the following to the `spec` section of your Redis Enterprise cluster (REC) resource file.
+1. If your cluster uses [OpenShift routes](/content/operate/kubernetes/7.22/networking/routes.md), add the following to the `spec` section of your Redis Enterprise cluster (REC) resource file.
 
       ```sh
       activeActive:
@@ -195,7 +195,7 @@ For each cluster, verify the VirtualService resource has two `- match:` blocks i
 
 ## Create an Active-Active database with `crdb-cli`
 
-The `crdb-cli` command can be run from any Redis Enterprise pod hosted on any participating K8s cluster. You'll need the values for the [required parameters]({{< relref "/operate/kubernetes/7.22/active-active/create-aa-crdb-cli#document-required-parameters" >}}) for each Redis Enterprise cluster.
+The `crdb-cli` command can be run from any Redis Enterprise pod hosted on any participating K8s cluster. You'll need the values for the [required parameters](/content/operate/kubernetes/7.22/active-active/create-aa-crdb-cli.md#document-required-parameters) for each Redis Enterprise cluster.
 
 ```sh
 crdb-cli crdb create \
@@ -208,10 +208,10 @@ crdb-cli crdb create \
 
 To create a database that syncs between more than two instances, add additional `--instance` arguments.
 
-See the [`crdb-cli` reference]({{< relref "/operate/rs/references/cli-utilities/crdb-cli" >}}) for more options.
+See the [`crdb-cli` reference](/content/operate/rs/references/cli-utilities/crdb-cli/_index.md) for more options.
 
 ## Test your database
 
 The easiest way to test your Active-Active database is to set a key-value pair in one database and retrieve it from the other.
 
-You can connect to your databases with the instructions in [Manage databases]({{< relref "/operate/kubernetes/7.22/re-databases/db-controller#connect-to-a-database" >}}). Set a test key with `SET foo bar` in the first database. If your Active-Active deployment is working properly, when connected to your second database, `GET foo` should output `bar`.
+You can connect to your databases with the instructions in [Manage databases](/content/operate/kubernetes/7.22/re-databases/db-controller.md#connect-to-a-database). Set a test key with `SET foo bar` in the first database. If your Active-Active deployment is working properly, when connected to your second database, `GET foo` should output `bar`.

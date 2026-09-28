@@ -113,7 +113,7 @@ Redis Enterprise for Kubernetes only supports the following ingress controllers 
 - Istio Gateway - Service mesh integration with advanced traffic management.
 - Ingress-NGINX - SSL passthrough is off by default; start the controller with `--enable-ssl-passthrough`. The community `kubernetes/ingress-nginx` project is retired (maintenance ended March 2026); existing deployments only.
 
-See [Ingress routing]({{< relref "/operate/kubernetes/7.22/networking/ingress" >}}) for detailed configuration steps.
+See [Ingress routing](/content/operate/kubernetes/7.22/networking/ingress.md) for detailed configuration steps.
 
 ### OpenShift routes
 
@@ -134,7 +134,7 @@ spec:
     termination: passthrough
 ```
 
-See [OpenShift routes]({{< relref "/operate/kubernetes/7.22/networking/routes" >}}) for complete setup instructions.
+See [OpenShift routes](/content/operate/kubernetes/7.22/networking/routes.md) for complete setup instructions.
 
 ## Service ports and configuration
 
@@ -289,7 +289,7 @@ client.on('connect', () => {
 
 ## Related topics
 
-- [Ingress routing]({{< relref "/operate/kubernetes/7.22/networking/ingress" >}}) - Configure external access with ingress controllers
-- [OpenShift routes]({{< relref "/operate/kubernetes/7.22/networking/routes" >}}) - External access using OpenShift routes  
-- [Database controller]({{< relref "/operate/kubernetes/7.22/re-databases/db-controller" >}}) - Database lifecycle management
-- [Security]({{< relref "/operate/kubernetes/7.22/security" >}}) - TLS configuration and access control
+- [Ingress routing](/content/operate/kubernetes/7.22/networking/ingress.md) - Configure external access with ingress controllers
+- [OpenShift routes](/content/operate/kubernetes/7.22/networking/routes.md) - External access using OpenShift routes  
+- [Database controller](/content/operate/kubernetes/7.22/re-databases/db-controller.md) - Database lifecycle management
+- [Security](/content/operate/kubernetes/7.22/security/_index.md) - TLS configuration and access control
