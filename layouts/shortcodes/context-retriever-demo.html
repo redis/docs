@@ -1,0 +1,20 @@
+{{- /*
+  context-retriever-demo
+  ----------------------
+  Scripted, dependency-free demo of Redis Context Retriever: sample customer
+  keys, a data model that generates MCP tools, and a scripted agent calling
+  those tools. Runs entirely in the browser; no service is called.
+
+  Usage (no arguments):
+      {{< context-retriever-demo >}}
+*/ -}}
+
+{{- if not (.Page.Store.Get "rcrAssetsEmitted") -}}
+<link rel="stylesheet" href="{{ "css/context-retriever-demo.css" | relURL }}">
+<script defer src="{{ "js/context-retriever-demo.js" | relURL }}"></script>
+{{- .Page.Store.Set "rcrAssetsEmitted" true -}}
+{{- end -}}
+
+<div class="rcr" data-rcr>
+  <noscript><p>This interactive demo needs JavaScript.</p></noscript>
+</div>
