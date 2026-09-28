@@ -17,20 +17,21 @@ To deploy Redis Enterprise Software for Kubernetes and start your Redis Enterpri
 - Apply the operator bundle and verify it's running.
 - Create a Redis Enterprise cluster (REC).
 
-This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/7.22/deployment/openshift" >}}). For details on what is currently supported, see [supported distributions]({{< relref "/operate/kubernetes/7.22/reference/supported_k8s_distributions" >}}).
+This guide works with most supported Kubernetes distributions. If you're using OpenShift, see [Redis Enterprise on OpenShift](/content/operate/kubernetes/7.22/deployment/openshift/_index.md). For details on what is currently supported, see [supported distributions](/content/operate/kubernetes/7.22/reference/supported_k8s_distributions.md).
 
 ## Prerequisites
 
 To deploy Redis Enterprise for Kubernetes, you'll need:
 
-- Kubernetes cluster in a [supported distribution]({{< relref "/operate/kubernetes/7.22/reference/supported_k8s_distributions" >}})
+- Kubernetes cluster in a [supported distribution](/content/operate/kubernetes/7.22/reference/supported_k8s_distributions.md)
 - minimum of three worker nodes
 - Kubernetes client (kubectl)
 - access to DockerHub, RedHat Container Catalog, or a private repository that can hold the required images.
 
-If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/7.22/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
+If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment](/content/operate/kubernetes/7.22/security/allow-resource-adjustment.md). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
-{{<note>}}If you are applying version 7.8.2-6 or above, check if the [OS](https://redis.io/docs/latest/operate/kubernetes/release-notes/7-8-2-releases/7-8-2-6-nov24/#breaking-changes) installed on the node is supported.{{</note>}}
+> [!NOTE]
+> If you are applying version 7.8.2-6 or above, check if the [OS](https://redis.io/docs/latest/operate/kubernetes/release-notes/7-8-2-releases/7-8-2-6-nov24/#breaking-changes) installed on the node is supported.
 
 ### Create a new namespace
 
@@ -54,13 +55,12 @@ You can use an existing namespace as long as it does not contain any existing Re
 
 ## Install the operator
 
-Redis Enterprise for Kubernetes bundle is published as a container image. A list of required images is available in the [release notes]({{< relref "/operate/kubernetes/release-notes/_index" >}}) for each version.
+Redis Enterprise for Kubernetes bundle is published as a container image. A list of required images is available in the [release notes](/content/operate/kubernetes/release-notes/_index.md) for each version.
 
 The operator [definition and reference materials](https://github.com/RedisLabs/redis-enterprise-k8s-docs) are available on GitHub. The operator definitions are [packaged as a single generic YAML file](https://github.com/RedisLabs/redis-enterprise-k8s-docs/blob/master/bundle.yaml).
 
-{{<note>}}
-If you do not pull images from DockerHub or another public registry, you need to use a [private container registry]({{< relref "/operate/kubernetes/7.22/deployment/container-images#manage-image-sources" >}}).
-{{</note>}}
+> [!NOTE]
+> If you do not pull images from DockerHub or another public registry, you need to use a [private container registry](/content/operate/kubernetes/7.22/deployment/container-images.md#manage-image-sources).
 
 ### Download the operator bundle
 
@@ -93,7 +93,8 @@ kubectl apply -f https://raw.githubusercontent.com/RedisLabs/redis-enterprise-k8
   deployment.apps/redis-enterprise-operator created
   ```
 
-{{<warning>}}DO NOT modify or delete the StatefulSet created during the deployment process. Doing so could destroy your Redis Enterprise cluster (REC).{{</warning>}}
+> [!WARNING]
+> DO NOT modify or delete the StatefulSet created during the deployment process. Doing so could destroy your Redis Enterprise cluster (REC).
 
 #### Verify the operator is running
 
@@ -115,17 +116,15 @@ redis-enterprise-operator   1/1     1            1           0m36s
 A Redis Enterprise cluster (REC) is created from a `RedisEnterpriseCluster` custom resource
 that contains cluster specifications.
 
-The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference]({{<relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api">}}) for more information on the various options available.
+The following example creates a minimal Redis Enterprise cluster. See the [RedisEnterpriseCluster API reference](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api.md) for more information on the various options available.
 
-{{<note>}}
-If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/7.22/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
-{{</note>}}
+> [!NOTE]
+> If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment](/content/operate/kubernetes/7.22/security/allow-resource-adjustment.md). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
 1. Create a file that defines a Redis Enterprise cluster with three nodes.
 
-    {{<note>}}
-The REC name (`my-rec` in this example) cannot be changed after cluster creation.
-    {{</note>}}
+    > [!NOTE]
+    > The REC name (`my-rec` in this example) cannot be changed after cluster creation.
 
     ```sh
     cat <<EOF > my-rec.yaml
@@ -152,15 +151,13 @@ The REC name (`my-rec` in this example) cannot be changed after cluster creation
         memory: 16Gi
     ```
 
-    {{<note>}}
-Each cluster must have at least 3 nodes. Single-node RECs are not supported.
-    {{</note>}}
+    > [!NOTE]
+    > Each cluster must have at least 3 nodes. Single-node RECs are not supported.
 
-    See the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}) for more information on sizing Redis Enterprise node resource requests.
+    See the [Redis Enterprise hardware requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md) for more information on sizing Redis Enterprise node resource requests.
   
-    {{<note>}}
-If you enabled automatic resource adjustment in your configuration, this step will trigger the operator to apply elevated capabilities. Ensure your security context allows it.
-    {{</note>}}
+    > [!NOTE]
+    > If you enabled automatic resource adjustment in your configuration, this step will trigger the operator to apply elevated capabilities. Ensure your security context allows it.
 
 1. Apply your custom resource file in the same namespace as `my-rec.yaml`.
 
@@ -268,4 +265,4 @@ The operator bundle includes a webhook file. The webhook will intercept requests
 
 You can create multiple databases within the same namespace as your REC or in other namespaces.
 
-See [manage Redis Enterprise databases for Kubernetes]({{< relref "/operate/kubernetes/7.22/re-databases/db-controller" >}}) to create a new REDB.
+See [manage Redis Enterprise databases for Kubernetes](/content/operate/kubernetes/7.22/re-databases/db-controller.md) to create a new REDB.

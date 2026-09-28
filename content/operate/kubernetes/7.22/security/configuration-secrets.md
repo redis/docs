@@ -51,9 +51,8 @@ spec:
     ----- LICENSE END -----
 ```
 
-{{<note>}}
-You must include the pipe symbol (`|`) after `license:` and maintain proper indentation.
-{{</note>}}
+> [!NOTE]
+> You must include the pipe symbol (`|`) after `license:` and maintain proper indentation.
 
 ## TLS certificate configuration
 
@@ -67,7 +66,7 @@ You can store TLS certificates in Kubernetes Secrets to secure communication bet
     kubectl -n <namespace> create secret generic client-cert-secret --from-file=cert=<path-to-cert>
     ```
 
-2. Add the secret to your REDB using the `clientAuthenticationCertificates` property. See [Add client certificates]({{< relref "/operate/kubernetes/7.22/security/add-client-certificates" >}}) for details.
+2. Add the secret to your REDB using the `clientAuthenticationCertificates` property. See [Add client certificates](/content/operate/kubernetes/7.22/security/add-client-certificates.md) for details.
 
 ### Service certificates
 
@@ -98,7 +97,7 @@ kubectl create secret generic dp-internode-cert \
   --from-literal=name=dp_internode_encryption
 ```
 
-Reference these secrets in your REC specification under `spec.certificates`. See [Internode encryption]({{< relref "/operate/kubernetes/7.22/security/internode-encryption" >}}) for complete configuration details.
+Reference these secrets in your REC specification under `spec.certificates`. See [Internode encryption](/content/operate/kubernetes/7.22/security/internode-encryption.md) for complete configuration details.
 
 ## Secrets and PEM files in Redis Enterprise pods
 
@@ -133,7 +132,7 @@ Field names vary by deployment.
 
 ## See also
 
-- [Manage REC credentials]({{< relref "/operate/kubernetes/7.22/security/manage-rec-credentials" >}})
-- [Manage REC certificates]({{< relref "/operate/kubernetes/7.22/security/manage-rec-certificates" >}})
-- [Add client certificates]({{< relref "/operate/kubernetes/7.22/security/add-client-certificates" >}})
-- [Redis Enterprise Cluster API reference]({{< relref "/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api" >}})
+- [Manage REC credentials](/content/operate/kubernetes/7.22/security/manage-rec-credentials.md)
+- [Manage REC certificates](/content/operate/kubernetes/7.22/security/manage-rec-certificates.md)
+- [Add client certificates](/content/operate/kubernetes/7.22/security/add-client-certificates.md)
+- [Redis Enterprise Cluster API reference](/content/operate/kubernetes/7.22/reference/api/redis_enterprise_cluster_api.md)
