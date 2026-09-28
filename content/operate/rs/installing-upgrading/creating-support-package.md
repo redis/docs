@@ -161,6 +161,8 @@ The following table describes the included files:
 | ccs-redis.json | The node's local cluster configuration store (CCS). |
 | /conf/ | Directory that contains configuration files. |
 | /logs/ | Directory that includes logs. |
+| /metrics/standard/ | Directory that contains the node's standard-tier metrics history as Prometheus-compatible time series database (TSDB) blocks. For when this directory is included, see [Local metrics storage](/content/operate/rs/monitoring/metrics_stream_engine/local-metrics-storage.md#support-packages). |
+| /metrics/granular/ | Directory that contains the node's granular metrics as Prometheus-compatible TSDB blocks. For when this directory is included, see [Local metrics storage](/content/operate/rs/monitoring/metrics_stream_engine/local-metrics-storage.md#support-packages). |
 | node_<node_uid>.ccs | Includes cluster configuration, node configuration, and DMC proxy configuration. |
 | node_<node_uid>_envoy_config.json | Envoy configuration. |
 | node_<node_uid>.rladmin | Information about the cluster's nodes, databases, endpoints, and shards. See [`rladmin status`](/content/operate/rs/references/cli-utilities/rladmin/status.md) for example output. |
