@@ -117,6 +117,7 @@
 .rcr-match { font-size: 12px; font-weight: 600; border-radius: 999px; padding: 1px 9px; }
 .rcr-match.is-ok { color: var(--rcr-ok); background: rgba(26, 127, 75, .09); }
 .rcr-match.is-bad { color: var(--rcr-bad); background: rgba(198, 40, 40, .09); }
+.rcr .rcr-reset { padding: 2px 10px; font-size: 12.5px; border-radius: 6px; }
 .rcr-fields { width: 100%; border-collapse: collapse; font-size: 13px; margin: 0; }
 .rcr-fields th { text-align: left; color: var(--rcr-faint); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; padding: 4px 6px; border-bottom: 1px solid var(--rcr-line); }
 .rcr-fields td { padding: 3px 6px; border-bottom: 1px solid var(--rcr-line); vertical-align: middle; }

@@ -606,7 +606,7 @@
     /* ---- step 2: model -> tools ---- */
     function renderModel() {
       var p = panels.model; p.innerHTML = "";
-      p.appendChild(el("p", "rcr-lede", "You describe each entity once: a key template that finds its keys, and the fields an agent can use. Context Retriever turns that description into MCP tools. Change a key template to point the entity at other documents, or change an index type, and watch the tools change."));
+      p.appendChild(el("p", "rcr-lede", "You describe each entity once: a key template that finds its keys, and the fields an agent can use. Context Retriever turns that description into MCP tools. Change a key template to point the entity at other documents, or change an index type, and watch the tools change. Reset puts an edited template back."));
       if (!state.entityTab) state.entityTab = state.model[0].name;
       var sub = el("div", "rcr-subtabs");
       sub.setAttribute("role", "tablist");
@@ -616,8 +616,6 @@
         b.setAttribute("aria-selected", ent.name === state.entityTab ? "true" : "false");
         b.addEventListener("click", function () {
           if (ent.name === state.entityTab) return;
-          var leaving = entityOf(state.model, state.entityTab);
-          if (leaving && resetTemplate(leaving)) { state.tools = buildTools(state.model); state.connected = false; }
           state.entityTab = ent.name;
           renderModel();
         });
@@ -651,7 +649,7 @@
       ent.kind = d.kind;
       return true;
     }
-    /* Leaving an entity's sub-tab puts its template back to the default. Index
+    /* The Reset button puts an entity's template back to the default. Index
        choices made on its own documents stay; anything set while the template
        pointed elsewhere is dropped. True if something changed. */
     function resetTemplate(ent) {
@@ -691,14 +689,29 @@
           other ? "Matches " + keys(other) + ", but not JSON" : "Matches no keys";
         match.title = !json && other ? "Context Retriever only reads JSON documents." : "";
       }
+      var def = defaultModel().filter(function (e) { return e.name === ent.name; })[0].template;
+      var reset = el("button", "rcr-btn rcr-reset", "Reset");
+      reset.type = "button";
+      reset.title = "Put the key template back to " + def;
+      reset.setAttribute("aria-label", "Reset the " + ent.name + " key template to " + def);
+      function templateChanged() {
+        updateMatch(); refreshTools();
+        reset.hidden = ent.template === def;
+        var on = panels.model.querySelector('.rcr-subtab[aria-selected="true"] .rcr-mono');
+        if (on) on.textContent = ent.template;
+      }
       inp.addEventListener("input", function () {
         if (setTemplate(ent, inp.value)) renderFields();
-        updateMatch(); refreshTools();
-        var on = panels.model.querySelector('.rcr-subtab[aria-selected="true"] .rcr-mono');
-        if (on) on.textContent = inp.value;
+        templateChanged();
+      });
+      reset.addEventListener("click", function () {
+        if (resetTemplate(ent)) { inp.value = ent.template; renderFields(); }
+        templateChanged();
+        inp.focus();
       });
       updateMatch();
-      tplWrap.appendChild(inp); head.appendChild(tplWrap); head.appendChild(match);
+      reset.hidden = ent.template === def;
+      tplWrap.appendChild(inp); head.appendChild(tplWrap); head.appendChild(match); head.appendChild(reset);
       card.appendChild(head);
       card.appendChild(el("p", "rcr-fieldsnote", "Fields are detected from the JSON documents this template matches, as with Auto-detect fields in the console."));
       var tbl = el("table", "rcr-fields");
