@@ -23,11 +23,12 @@ The Redis Enterprise for Kubernetes automates these recovery steps:
 1. Recovers the cluster configuration on the first node in the new cluster
 1. Joins the remaining nodes to the new cluster.
 
-{{<warning>}}Redis Enterprise for Kubernetes 7.2.4-2 introduces a new limitation. You cannot recover or upgrade your cluster if there are databases with old module versions or manually uploaded modules. See the [Redis Enterprise Software 7.2.4 known limitations]({{< relref "/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52#cluster-recovery-with-manually-uploaded-modules" >}}) for more details.{{</warning>}}
+> [!WARNING]
+> Redis Enterprise for Kubernetes 7.2.4-2 introduces a new limitation. You cannot recover or upgrade your cluster if there are databases with old module versions or manually uploaded modules. See the [Redis Enterprise Software 7.2.4 known limitations](/content/operate/rs/release-notes/rs-7-2-4-releases/rs-7-2-4-52.md#cluster-recovery-with-manually-uploaded-modules) for more details.
 
 ## Prerequisites
 
-- For cluster recovery, the cluster must be [deployed with persistence]({{< relref "/operate/kubernetes/7.8.4/recommendations/persistent-volumes.md" >}}).
+- For cluster recovery, the cluster must be [deployed with persistence](/content/operate/kubernetes/7.8.4/recommendations/persistent-volumes.md).
 
 ## Recover a cluster
 
@@ -46,4 +47,4 @@ The Redis Enterprise for Kubernetes automates these recovery steps:
     watch "kubectl describe rec | grep State"
     ```
 
-1. To recover the database, see [Recover a failed database]({{< relref "/operate/rs/databases/recover.md" >}}).
+1. To recover the database, see [Recover a failed database](/content/operate/rs/databases/recover.md).

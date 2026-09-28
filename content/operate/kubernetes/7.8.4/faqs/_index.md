@@ -16,7 +16,7 @@ Here are some frequently asked questions about Redis Enterprise on integration p
 
 ## What is an Operator?
 
-An operator is a [Kubernetes custom controller](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources#custom-controllers) which extends the native K8s API. Refer to the article [Redis Enterprise K8s Operator-based deployments – Overview]({{< relref "/operate/kubernetes/7.8.4/architecture/" >}}).
+An operator is a [Kubernetes custom controller](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources#custom-controllers) which extends the native K8s API. Refer to the article [Redis Enterprise K8s Operator-based deployments – Overview](/content/operate/kubernetes/7.8.4/architecture/_index.md).
 
 ## Does Redis Enterprise operator support multiple RECs per namespace?
 
@@ -40,7 +40,7 @@ kubectl describe rec <my-cluster-name>
 
 The cluster admin user password is created by the operator during the deployment of the Redis Enterprise cluster (REC) and is stored in a Kubernetes [secret](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-See [Manage REC credentials]({{< relref "/operate/kubernetes/7.8.4/security/manage-rec-credentials" >}}) for instructions on changing the admin password.
+See [Manage REC credentials](/content/operate/kubernetes/7.8.4/security/manage-rec-credentials.md) for instructions on changing the admin password.
 
 ## How is using Redis Enterprise operator superior to using Helm charts?
 
@@ -64,9 +64,9 @@ Connect to the UI by pointing your browser to `https://localhost:8443`
 
 ## How should I size Redis Enterprise cluster nodes?
 
-For nodes hosting the Redis Enterprise cluster [statefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) [pods](https://kubernetes.io/docs/concepts/workloads/pods/), follow the guidelines provided for Redis Enterprise in the [hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md" >}}).
+For nodes hosting the Redis Enterprise cluster [statefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) [pods](https://kubernetes.io/docs/concepts/workloads/pods/), follow the guidelines provided for Redis Enterprise in the [hardware requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md).
 
-For additional information please also refer to [Kubernetes operator deployment – persistent volumes]({{< relref "/operate/kubernetes/7.8.4/recommendations/persistent-volumes.md" >}}).
+For additional information please also refer to [Kubernetes operator deployment – persistent volumes](/content/operate/kubernetes/7.8.4/recommendations/persistent-volumes.md).
 
 ## How to retrieve the username/password for a Redis Enterprise Cluster?
 
@@ -164,9 +164,8 @@ seLinuxContext:
 The SYS_RESOURCE capability is required by the Redis Enterprise cluster (REC) container so that REC can set correct out of memory (OOM) scores to its processes inside the container.
 Also, some of the REC services must be able to increase default resource limits, especially the number of open file descriptors.
 
-{{< note >}}
-- Removing NET_RAW blocks 'ping' from being used on the solution containers.
-- These changes were made as of release 5.4.6-1183 to better align the deployment with container and Kubernetes security best practices:
-    - The NET_RAW capability requirement in PSP was removed.
-    - The allowPrivilegeEscalation is set to 'false' by default.
-{{< /note >}}
+> [!NOTE]
+> - Removing NET_RAW blocks 'ping' from being used on the solution containers.
+> - These changes were made as of release 5.4.6-1183 to better align the deployment with container and Kubernetes security best practices:
+>     - The NET_RAW capability requirement in PSP was removed.
+>     - The allowPrivilegeEscalation is set to 'false' by default.
