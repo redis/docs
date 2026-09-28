@@ -33,6 +33,12 @@ hints:
 history:
 - - 7.0.0
   - Added support for taking multiple section arguments.
+- - 8.0.0
+  - Added the keysizes section.
+- - 8.6.0
+  - Added per-type memory allocation size histograms, enabled with the `key-memory-histograms` config directive.
+- - 8.12.0
+  - Added streams to the keysizes section's histograms.
 linkTitle: INFO
 railroad_diagram: /images/railroad/info.svg
 since: 1.0.0
@@ -625,22 +631,38 @@ For each database, the following line is added:
 
 *   `dbXXX`: `keys=XXX,expires=XXX,avg_ttl=XXX,subexpiry=XXX`
 
-The **keysizes** section provides detailed statistics on the distribution of key sizes for each data type (strings, lists, sets, hashes, and sorted sets) within the dataset. The distribution is tracked using a base-2 logarithmic histogram.
+The **keysizes** section provides detailed statistics on the distribution of key sizes for each data type (strings, lists, sets, hashes, sorted sets, and streams) within the dataset. The distribution is tracked using a base-2 logarithmic histogram.
 
-Here's sample output from a two-database instance of Redis:
+Starting with Redis 8.12.0, the keysizes section also reports `distrib_streams_items`, the distribution of the number of entries per stream. This field appears by default, alongside the existing item-count fields for lists, sets, hashes, and sorted sets.
+
+The section can also report a memory allocation size histogram per data type, including `distrib_streams_sizes` for streams. These size histograms require the `key-memory-histograms` config directive, which is disabled by default and can only be set at startup — it can't be turned on with `CONFIG SET` while the server is running.
+
+Here's sample output from a two-database instance of Redis with `key-memory-histograms` enabled:
 
 ```
 # Keysizes
 db0_distrib_strings_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db0_distrib_lists_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db0_distrib_lists_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db0_distrib_sets_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db0_distrib_sets_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db0_distrib_zsets_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db0_distrib_zsets_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db0_distrib_hashes_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1
+db0_distrib_hashes_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
+db0_distrib_streams_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db0_distrib_streams_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_strings_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_lists_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db1_distrib_lists_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_sets_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db1_distrib_sets_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_zsets_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db1_distrib_zsets_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 db1_distrib_hashes_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1
+db1_distrib_hashes_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
+db1_distrib_streams_items:1=1,2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1
+db1_distrib_streams_sizes:2=1,4=1,8=1,16=1,32=1,64=1,128=1,256=1,512=1,1K=1,2K=1,4K=1,8K=1,16K=1,32K=1,64K=1,128K=1,256K=1,512K=1,1M=1
 ```
 
 The **debug** section contains experimental metrics, which might change or get removed in future versions.
