@@ -21,7 +21,7 @@ Redis Software for Kubernetes 8.2.0 includes new features, bug fixes, enhancemen
 
 Redis Software for Kubernetes is compatible with [CNCF-conformant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes platforms. The operator follows standard Kubernetes APIs and practices and is designed to run consistently across certified Kubernetes environments.
 
-The following table shows supported Kubernetes versions at the time of this release. For a list of platforms tested with this release, see [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
+The following table shows supported Kubernetes versions at the time of this release. For a list of platforms tested with this release, see [Supported Kubernetes distributions](/content/operate/kubernetes/reference/supported_k8s_distributions.md).
 
 | Kubernetes | **Redis <nobr>8.2.0</nobr>** |
 |---|---|
@@ -33,4 +33,4 @@ The following table shows supported Kubernetes versions at the time of this rele
 
 ## Known limitations
 
-See the [8.2.0-12 (July 2026)]({{<relref "/operate/kubernetes/release-notes/8-2-0-releases/8-2-0-12-july2026">}}) release notes for known limitations.
+See the [8.2.0-12 (July 2026)](/content/operate/kubernetes/release-notes/8-2-0-releases/8-2-0-12-july2026.md) release notes for known limitations.

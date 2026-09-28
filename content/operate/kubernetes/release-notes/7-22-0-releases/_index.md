@@ -19,7 +19,7 @@ Redis Enterprise for Kubernetes 7.22.0 includes bug fixes, enhancements, and sup
 
 ## Supported distributions
 
-The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}).
+The following table shows supported distributions at the time of this release. You can also find this list in [Supported Kubernetes distributions](/content/operate/kubernetes/reference/supported_k8s_distributions.md).
 
 <span title="Check mark icon">&#x2705;</span> Supported – This distribution is supported for this version of Redis Enterprise Kubernetes.
 
@@ -51,9 +51,9 @@ As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise L
 
 For detailed steps, see the relevant upgrade page:
 
-- [OpenShift CLI]({{<relref "/operate/kubernetes/upgrade/openshift-cli">}})
-- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/upgrade/upgrade-olm">}})
-- [Kubernetes]({{<relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
+- [OpenShift CLI](/content/operate/kubernetes/upgrade/openshift-cli.md)
+- [OpenShift OperatorHub](/content/operate/kubernetes/upgrade/upgrade-olm.md)
+- [Kubernetes](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md)
 
 ## Known limitations
 
