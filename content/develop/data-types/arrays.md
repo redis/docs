@@ -80,7 +80,7 @@ For a sparse array, these values can differ substantially:
 4) "d"
 {{< /clients-example >}}
 
-To iterate only the elements that exist and retrieve their indexes alongside their values, use [`ARSCAN`](/content/commands/arscan.md). It skips empty slots and returns a flat list of alternating index-value pairs, with an optional `LIMIT` to cap the result size:
+To iterate only the elements that exist and retrieve their indexes alongside their values, use [`ARSCAN`](/content/commands/arscan.md). It skips empty slots and returns an array of index-value pairs, with an optional `LIMIT` to cap the result size:
 
 {{< clients-example set="arrays_tutorial" step="arscan" description="Iterate only the elements that exist with ARSCAN, retrieving each index alongside its value" buildsUpon="argetrange" >}}
 > ARSCAN seq 0 3
