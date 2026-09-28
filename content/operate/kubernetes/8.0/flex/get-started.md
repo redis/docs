@@ -13,9 +13,8 @@ aliases: /operate/kubernetes/re-clusters/redis-flex/
 url: '/operate/kubernetes/8.0/flex/get-started/'
 ---
 
-{{<note>}}
-This page applies to Redis database version 7.4 and earlier using Auto Tiering. If you use version 8.0 or later, see [Redis Flex](https://redis.io/docs/latest/operate/kubernetes/flex/).
-{{</note>}}
+> [!NOTE]
+> This page applies to Redis database version 7.4 and earlier using Auto Tiering. If you use version 8.0 or later, see [Redis Flex](https://redis.io/docs/latest/operate/kubernetes/flex/).
 
 Flex extends your database capacity by combining RAM and flash (SSD) storage. This tiered architecture keeps frequently accessed (hot) data in RAM for sub-millisecond latency while storing less active (warm) data on flash to reduce costs and increase capacity.
 
@@ -29,11 +28,11 @@ Before you begin, verify that you have:
 - Locally attached NVMe SSDs on your worker nodes
 - A StorageClass configured for flash storage with a unique name
 
-For hardware requirements and sizing guidelines, see [Plan your deployment]({{< relref "/operate/kubernetes/8.0/flex/plan" >}}).
+For hardware requirements and sizing guidelines, see [Plan your deployment](/content/operate/kubernetes/8.0/flex/plan.md).
 
 ## Configure the REC for Flex
 
-To enable Flex, configure your `RedisEnterpriseCluster` (REC) resource with flash storage settings. Add the [`redisOnFlashSpec`]({{<relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#specredisonflashspec">}}) section to your REC specification.
+To enable Flex, configure your `RedisEnterpriseCluster` (REC) resource with flash storage settings. Add the [`redisOnFlashSpec`](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#specredisonflashspec) section to your REC specification.
 
 Key fields in `redisOnFlashSpec`:
 
@@ -44,11 +43,10 @@ Key fields in `redisOnFlashSpec`:
 | `flashDiskSize`         | Size of the flash storage per node.              |
 | `storageEngine`         | Storage engine. Set to `speedb` for Flex.        |
 
-For all available fields, see the [REC API reference]({{<relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api#specredisonflashspec">}}).
+For all available fields, see the [REC API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md#specredisonflashspec).
 
-{{<warning>}}
-PVC expansion is not supported when using Flex. Do not enable `enablePersistentVolumeResize` in the REC `persistentSpec` if you are using `redisOnFlashSpec` as this will result in conflicts.
-{{</warning>}}
+> [!WARNING]
+> PVC expansion is not supported when using Flex. Do not enable `enablePersistentVolumeResize` in the REC `persistentSpec` if you are using `redisOnFlashSpec` as this will result in conflicts.
 
 1. Create a REC specification file with flash storage settings similar to the following example:
 
@@ -90,7 +88,7 @@ Key fields in the REDB:
 | `isRof`      | Set to `true` to enable Flex for this database.        |
 | `rofRamSize` | Amount of RAM allocated to the database.               |
 
-For all available fields, see the [REDB API reference]({{<relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api">}}).
+For all available fields, see the [REDB API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_database_api.md).
 
 1. Create a database specification file with `isRof` set to `true` similar to the following example:
 
@@ -133,5 +131,5 @@ To confirm that Flex is working:
 
 ## Next steps
 
-- [Scale your deployment]({{< relref "/operate/kubernetes/8.0/flex/scale" >}}): Learn how to scale volume, throughput, and infrastructure.
-- [Plan your deployment]({{< relref "/operate/kubernetes/8.0/flex/plan" >}}): Review sizing guidelines and best practices.
+- [Scale your deployment](/content/operate/kubernetes/8.0/flex/scale.md): Learn how to scale volume, throughput, and infrastructure.
+- [Plan your deployment](/content/operate/kubernetes/8.0/flex/plan.md): Review sizing guidelines and best practices.

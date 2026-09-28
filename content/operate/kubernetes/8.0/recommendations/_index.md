@@ -18,16 +18,16 @@ Follow these best practices and configuration recommendations to optimize your R
 
 Configure your Kubernetes infrastructure for optimal Redis Enterprise performance:
 
-- [Node resources]({{< relref "/operate/kubernetes/8.0/recommendations/node-resources" >}}) - CPU, memory, and resource allocation recommendations
-- [Node selection]({{< relref "/operate/kubernetes/8.0/recommendations/node-selection" >}}) - Best practices for selecting and configuring Kubernetes nodes
-- [Persistent volumes]({{< relref "/operate/kubernetes/8.0/recommendations/persistent-volumes" >}}) - Storage configuration and persistent volume recommendations
+- [Node resources](/content/operate/kubernetes/8.0/recommendations/node-resources.md) - CPU, memory, and resource allocation recommendations
+- [Node selection](/content/operate/kubernetes/8.0/recommendations/node-selection.md) - Best practices for selecting and configuring Kubernetes nodes
+- [Persistent volumes](/content/operate/kubernetes/8.0/recommendations/persistent-volumes.md) - Storage configuration and persistent volume recommendations
 
 ## Deployment recommendations
 
 Optimize your Redis Enterprise deployment configuration:
 
-- [Sizing on Kubernetes]({{< relref "/operate/kubernetes/8.0/recommendations/sizing-on-kubernetes" >}}) - Guidelines for sizing clusters and databases
-- [Pod stability]({{< relref "/operate/kubernetes/8.0/recommendations/pod-stability" >}}) - Ensure stable pod operations and prevent disruptions
+- [Sizing on Kubernetes](/content/operate/kubernetes/8.0/recommendations/sizing-on-kubernetes.md) - Guidelines for sizing clusters and databases
+- [Pod stability](/content/operate/kubernetes/8.0/recommendations/pod-stability.md) - Ensure stable pod operations and prevent disruptions
 
 ## Performance optimization
 

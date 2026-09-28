@@ -20,43 +20,43 @@ The Redis Enterprise operator uses custom resource definitions (CRDs) to manage 
 
 Get started quickly with a basic Redis Enterprise deployment:
 
-- [Deploy Redis Enterprise for Kubernetes]({{< relref "/operate/kubernetes/8.0/deployment/quick-start" >}}) - Step-by-step guide for most Kubernetes distributions
-- [Deploy on OpenShift]({{< relref "/operate/kubernetes/8.0/deployment/openshift" >}}) - Specific instructions for OpenShift environments
+- [Deploy Redis Enterprise for Kubernetes](/content/operate/kubernetes/8.0/deployment/quick-start.md) - Step-by-step guide for most Kubernetes distributions
+- [Deploy on OpenShift](/content/operate/kubernetes/8.0/deployment/openshift/_index.md) - Specific instructions for OpenShift environments
 
 ## Deployment methods
 
 Choose the deployment method that best fits your environment:
 
-- [Deploy with Helm]({{< relref "/operate/kubernetes/8.0/deployment/helm" >}}) - Use Helm charts for simplified deployment and management
-- [Deploy with operator bundle]({{< relref "/operate/kubernetes/8.0/deployment/quick-start" >}}) - Direct deployment using kubectl and operator manifests
+- [Deploy with Helm](/content/operate/kubernetes/8.0/deployment/helm.md) - Use Helm charts for simplified deployment and management
+- [Deploy with operator bundle](/content/operate/kubernetes/8.0/deployment/quick-start.md) - Direct deployment using kubectl and operator manifests
 
 ## Container images
 
 Understand the container images used by the Redis Enterprise operator:
 
-- [Container images]({{< relref "/operate/kubernetes/8.0/deployment/container-images" >}}) - Details about Redis Enterprise container images and registries
+- [Container images](/content/operate/kubernetes/8.0/deployment/container-images.md) - Details about Redis Enterprise container images and registries
 
 ## Compatibility
 
 Before installing, verify compatibility with your environment:
 
-- [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/8.0/reference/supported_k8s_distributions" >}}) - Check which Redis Enterprise operator version supports your Kubernetes distribution
+- [Supported Kubernetes distributions](/content/operate/kubernetes/8.0/reference/supported_k8s_distributions.md) - Check which Redis Enterprise operator version supports your Kubernetes distribution
 
 ## Prerequisites
 
 Before deploying Redis Enterprise for Kubernetes, ensure you have:
 
-- A Kubernetes cluster running a [supported distribution]({{< relref "/operate/kubernetes/8.0/reference/supported_k8s_distributions" >}})
+- A Kubernetes cluster running a [supported distribution](/content/operate/kubernetes/8.0/reference/supported_k8s_distributions.md)
 - Minimum of three worker nodes for high availability
 - Kubernetes client (kubectl) configured to access your cluster
 - Access to container registries (DockerHub, Red Hat Container Catalog, or private registry)
-- Sufficient resources as outlined in [sizing recommendations]({{< relref "/operate/kubernetes/8.0/recommendations/sizing-on-kubernetes" >}})
+- Sufficient resources as outlined in [sizing recommendations](/content/operate/kubernetes/8.0/recommendations/sizing-on-kubernetes.md)
 
 ## Next steps
 
 After deployment, you can:
 
-- [Create a Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/8.0/re-clusters" >}})
-- [Create Redis Enterprise databases (REDB)]({{< relref "/operate/kubernetes/8.0/re-databases" >}})
-- [Configure networking]({{< relref "/operate/kubernetes/8.0/networking" >}})
-- [Set up security]({{< relref "/operate/kubernetes/8.0/security" >}})
+- [Create a Redis Enterprise cluster (REC)](/content/operate/kubernetes/8.0/re-clusters/_index.md)
+- [Create Redis Enterprise databases (REDB)](/content/operate/kubernetes/8.0/re-databases/_index.md)
+- [Configure networking](/content/operate/kubernetes/8.0/networking/_index.md)
+- [Set up security](/content/operate/kubernetes/8.0/security/_index.md)
