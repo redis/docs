@@ -16,20 +16,7 @@ Redis Iris sits between your agent and your data. It's one system. Your agent as
 
 Use Redis Iris when you want agents to respond with cached answers instead of repeat model calls, recall what they've learned across turns and sessions, and act on live business data. Iris builds and maintains that infrastructure for you.
 
-```mermaid {width="90%"}
-graph TD
-    subgraph iris["Redis Iris"]
-        A["Store memories"]
-        B["Cache answers"]
-        C["Retrieve context"]
-    end
-    Agent["Agent"] <--> iris
-    A --> D[("Reach Redis or any connected database")]
-    B --> D
-    C --> D
-    style D width:320px
-    style iris fill:#ffffff
-```
+{{< image filename="images/ai/context-engine/iris-mental-model.svg" alt="An agent connects to Redis Iris, which stores memories, caches answers, and retrieves context, all backed by Redis or a connected database." width="650" >}}
 
 ## The mental model
 

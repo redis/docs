@@ -181,13 +181,13 @@ To generate a new service key:
 
 1. Enter a new name for your API key.
 
-    {{<image filename="images/rc/agent-memory-add-api-key.png" alt="The Add API key window." >}}
+    {{<image filename="images/rc/agent-memory-add-api-key.png" alt="The Add API key window." width="37.5%" >}}
 
 1. Select **Generate key** to generate your new API key.
 
 1. The new key will appear in a dialog box. Select **Copy** to copy the key to the clipboard.
 
-    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
+    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=40% >}}
 
     {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box. <br/><br/>

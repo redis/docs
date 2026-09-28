@@ -15,12 +15,7 @@ weight: 3
 
 Context Retriever gives an agent a fixed, predefined set of callable tools to use instead of direct query access. Your database, its schema, and its own access controls stay unchanged. Context Retriever sits between the agent and that database, as an added layer.
 
-```mermaid {width="60%"}
-graph TD
-    Agent["Agent"] <-->|"MCP tools"| CR["Context Retriever"]
-    CR --> D[("Database")]
-    style D width:320px
-```
+{{< image filename="images/ai/context-engine/context-retriever-layer.svg" alt="An agent calls Context Retriever through MCP tools, and Context Retriever queries the database." width="160" >}}
 
 ## Direct data access vs. governed tool-calling
 

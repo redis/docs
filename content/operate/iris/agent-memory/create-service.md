@@ -45,7 +45,7 @@ From here:
 
     After Redis Cloud creates your Agent Memory service, a window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard.
 
-    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
+    {{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=40% >}}
 
     {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
@@ -236,7 +236,7 @@ When you are done setting the details of your Agent Memory service, select **Cre
 
 A window containing your Agent Memory service key will appear. Select **Copy** to copy the key to your clipboard.
 
-{{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=80% >}}
+{{<image filename="images/rc/agent-memory-service-key.png" alt="The Agent Memory service key window. Use the Copy button to save the service key to the clipboard." width=40% >}}
 
 {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>

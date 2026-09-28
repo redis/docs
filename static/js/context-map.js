@@ -368,6 +368,19 @@
     activeMarker.appendChild(activeArrowPath);
     defs.appendChild(activeMarker);
 
+    // Red-to-grey diagonal border, matching the node stroke on the mermaid-derived
+    // diagrams elsewhere on these pages (mermaid's "neo" look gradient).
+    const borderGradient = svgEl('linearGradient', {
+      id: 'context-map-border-gradient',
+      gradientUnits: 'objectBoundingBox',
+      x1: '0%', y1: '0%', x2: '100%', y2: '0%'
+    });
+    const borderGradientStart = svgEl('stop', { offset: '0%', 'stop-color': '#ee0000', 'stop-opacity': '1' });
+    const borderGradientEnd = svgEl('stop', { offset: '100%', 'stop-color': '#e5e5e5', 'stop-opacity': '1' });
+    borderGradient.appendChild(borderGradientStart);
+    borderGradient.appendChild(borderGradientEnd);
+    defs.appendChild(borderGradient);
+
     svg.appendChild(defs);
 
     // Draw edges first so node shapes render on top of their stubs.

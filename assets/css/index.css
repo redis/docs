@@ -129,7 +129,11 @@ section.prose {
 }
 
 .context-map-shape {
-  @apply fill-white stroke-redis-red-500;
+  @apply fill-white;
+  /* Red-to-grey diagonal gradient (defined in context-map.js), matching the
+     node border on the mermaid-derived diagrams elsewhere on these pages
+     (mermaid's "neo" look), not the flat brand redis-red-500. */
+  stroke: url(#context-map-border-gradient);
   stroke-width: 1;
   transition: fill 0.15s ease, stroke 0.15s ease;
 }
@@ -144,12 +148,13 @@ section.prose {
 }
 
 .context-map-node.is-hovered .context-map-shape {
-  @apply stroke-redis-red-500;
+  stroke: url(#context-map-border-gradient);
   stroke-width: 2;
 }
 
 .context-map-node.is-selected .context-map-shape {
-  @apply fill-red-50 stroke-redis-red-500;
+  @apply fill-red-50;
+  stroke: url(#context-map-border-gradient);
   stroke-width: 2;
 }
 
@@ -184,7 +189,7 @@ section.prose {
 }
 
 .context-map-node:focus-visible .context-map-shape {
-  @apply stroke-redis-red-500;
+  stroke: url(#context-map-border-gradient);
   stroke-width: 2;
 }
 
