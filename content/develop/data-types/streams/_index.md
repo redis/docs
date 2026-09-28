@@ -818,7 +818,7 @@ In case you do not remember the syntax of the command, just ask the command itse
 9)     Prints this help.
 ```
 
-For a dataset-wide view instead of a per-stream one, the `keysizes` section of the [`INFO`](/content/commands/info.md) command reports histograms of the number of entries and the memory size across all streams in a database.
+For a dataset-wide view instead of per-stream, the `keysizes` section of the [`INFO`](/content/commands/info.md) command reports histograms of the number of entries and the memory size across all streams in a database.
 
 ## Differences with Kafka (TM) partitions
 
