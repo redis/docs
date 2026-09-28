@@ -123,9 +123,9 @@ On Redis Cloud, Radar assumes a read-only role in your AWS account, so you suppl
 
 1. Select **Add connection**.
 2. Set the **connection type** to **Amazon ElastiCache**.
-3. Enter a **display name**.
-4. Enter your 12-digit **AWS account ID**. Radar shows its own AWS account ID and generates an external ID for this connection.
-5. In AWS, create a read-only IAM role with those permissions. In its trust policy, trust the Radar AWS account ID and require the external ID Radar generated.
+3. Enter your 12-digit **AWS account ID**, then select **Continue**. Radar generates an external ID for this connection and shows a trust policy that uses it.
+4. In AWS, create a read-only IAM role with those permissions, and give it the trust policy Radar shows.
+5. Enter a **display name**.
 6. Enter the **role ARN**, and the **AWS regions** to scan, separated by commas, for example `us-east-1, us-west-2`.
 7. Select **Add connection**.
 
@@ -169,7 +169,7 @@ Before you connect, create a service account in the target project and grant it 
 | `roles/memcache.viewer` | Memorystore for Memcached |
 | `roles/monitoring.viewer` | Cloud Monitoring metrics for every engine |
 
-A single custom role with the same read permissions works too.
+A single custom role with the same read permissions works too, as long as it keeps `resourcemanager.projects.get`.
 
 How Radar authenticates depends on where it runs:
 
@@ -179,11 +179,8 @@ tab2="Self-managed Radar" >}}
 
 On Redis Cloud, Radar impersonates the service account rather than holding a key for it, so there is no key to create or paste. Prepare the project first:
 
-- Label the project `redis-radar-tenant=<your-tenant-id>`. Radar checks the label before it creates the connection and before every collection, so a missing label fails the connection test.
-- Add `roles/browser` to the service account's roles, which lets Radar read that label.
-- Grant Radar's own service account the **Service Account Token Creator** role (`roles/iam.serviceAccountTokenCreator`) on the service account you created.
-
-Radar shows the service account to authorize and your tenant ID when you add the connection.
+- Label the project `redis-radar-tenant=<your-tenant-id>`. Your tenant ID is in the Radar user menu. Radar checks the label before it creates the connection and before every collection, so a missing label fails the connection test.
+- Grant Radar's service account, `radar-memorystore-delegate@rcp-prod.iam.gserviceaccount.com`, the **Service Account Token Creator** role (`roles/iam.serviceAccountTokenCreator`) on the service account you created.
 
 1. Select **Add connection**.
 2. Set the **connection type** to **Google Memorystore**.
