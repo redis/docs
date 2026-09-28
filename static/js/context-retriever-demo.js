@@ -466,8 +466,9 @@
           numeric_conditions: [{ field: "placed_ts", min_value: SEPT_START, max_value: SEPT_END }] });
         if (!o.total_count) return cust.name + " hasn't ordered anything this month.";
         var names = restaurantNames(call, o.results);
-        o.results.sort(function (a, b) { return a.placed_ts - b.placed_ts; });
-        return cust.name + " has placed **" + o.total_count + "** orders this month:\n" + o.results.map(function (x) {
+        /* Sort a copy: o.results is also what the call card shows as the tool's response. */
+        var byDate = o.results.slice().sort(function (a, b) { return a.placed_ts - b.placed_ts; });
+        return cust.name + " has placed **" + o.total_count + "** orders this month:\n" + byDate.map(function (x) {
           return "- " + fmtDate(x.placed_ts) + ": " + x.items + " from " + names[x.restaurant_id] + ", " + usd2(x.total) + " (" + label(x.status) + ")";
         }).join("\n") + "\n\nHer profile says she's " + label(cust.dietary) + " and her favorite cuisine is " + label(cust.favorite_cuisine) + ".";
       } },
