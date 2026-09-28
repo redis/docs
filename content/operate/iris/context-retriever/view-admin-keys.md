@@ -41,13 +41,13 @@ To generate a new admin key:
 
 1. Enter a name for your admin key.
 
-    {{<image filename="images/rc/context-retriever-add-admin-key.png" alt="The Add admin key window." >}}
+    {{<image filename="images/rc/context-retriever-add-admin-key.png" alt="The Add admin key window." width="37.5%" >}}
 
 1. Select **Generate key** to generate your new admin key.
 
 1. The new key will appear in a dialog box. Select **Copy** to copy the key to the clipboard.
 
-    {{<image filename="images/rc/context-retriever-admin-key.png" alt="The Context Retriever admin key window. Use the Copy button to save the admin key to the clipboard." width=80% >}}
+    {{<image filename="images/rc/context-retriever-admin-key.png" alt="The Context Retriever admin key window. Use the Copy button to save the admin key to the clipboard." width=40% >}}
 
     {{<warning>}}
 This is the only time the value of the admin key is available. Save it to a secure location before closing the dialog box.<br/><br/>

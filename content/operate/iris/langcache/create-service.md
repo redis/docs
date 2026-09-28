@@ -47,7 +47,7 @@ From here:
 
     After Redis Cloud creates your LangCache service, a window containing your LangCache service key will appear. Select **Copy** to copy the key to your clipboard. 
 
-    {{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." >}}
+    {{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." width="37.5%" >}}
 
     {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
@@ -132,7 +132,7 @@ When you are done setting the details of your LangCache service, select **Create
 
 A window containing your LangCache service key will appear. Select **Copy** to copy the key to your clipboard. 
 
-{{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." >}}
+{{<image filename="images/rc/langcache-service-key.png" alt="The LangCache service key window. Use the Copy button to save the service key to the clipboard." width="37.5%" >}}
 
 {{<warning>}}
 This is the only time the value of the user key is available. Save it to a secure location before closing the dialog box.<br/><br/>
