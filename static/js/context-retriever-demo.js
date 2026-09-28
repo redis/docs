@@ -267,11 +267,16 @@
     return tools;
   }
 
+  /* Field options as the live service creates them: TAG fields get
+     INDEXMISSING (plus INDEXEMPTY when used for access control, which this
+     demo doesn't model), NUMERIC fields are SORTABLE, TEXT fields are plain. */
+  var INDEX_OPTIONS = { tag: "TAG INDEXMISSING", numeric: "NUMERIC SORTABLE", text: "TEXT" };
+
   function indexCommands(model, surface) {
     return model.filter(function (e) { return e.fields.some(function (f) { return f.index !== "none"; }); }).map(function (e) {
       var prefix = e.template.split("{id}")[0];
       var schema = e.fields.filter(function (f) { return f.index !== "none"; }).map(function (f) {
-        return "'$." + f.name + "' AS " + f.name + " " + f.index.toUpperCase() + " INDEXMISSING";
+        return "'$." + f.name + "' AS " + f.name + " " + INDEX_OPTIONS[f.index];
       });
       return "FT.CREATE idx:" + surface + ":" + hash8(e.name + e.template) + ":" + lower(e.name) +
         " ON JSON PREFIX 1 " + prefix + " SCHEMA \\\n    " + schema.join(" \\\n    ");
@@ -605,7 +610,8 @@
       var idx = el("details", "rcr-card rcr-behind");
       idx.appendChild(el("summary", "", "Behind the scenes: the search indexes the service creates"));
       idx.appendChild(el("pre", "rcr-code", esc(indexCommands(state.model, state.surface).join("\n\n") || "No indexed fields, so no index is created.")));
-      idx.appendChild(el("p", "rcr-note", "Indexes use the <code>INDEXMISSING</code> option, so the database must run Redis 7.4 or later. The index names are illustrative."));
+      idx.appendChild(el("p", "rcr-note", "Tag fields use the <code>INDEXMISSING</code> option, so the database must run Redis 7.4 or later. " +
+        "Tag fields used for access control, which this demo doesn't include, also get <code>INDEXEMPTY</code>. The index names are illustrative."));
       p.appendChild(idx);
       p.appendChild(next("Next: ask questions over MCP", "ask"));
     }
@@ -824,5 +830,6 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
 
   /* Exposed for tests. */
-  window.ContextRetrieverDemo = { buildTools: buildTools, execute: execute, defaultModel: defaultModel, QUESTIONS: QUESTIONS, McpError: McpError, ToolError: ToolError };
+  window.ContextRetrieverDemo = { buildTools: buildTools, execute: execute, defaultModel: defaultModel, QUESTIONS: QUESTIONS, McpError: McpError, ToolError: ToolError,
+    indexCommands: indexCommands };
 })();
