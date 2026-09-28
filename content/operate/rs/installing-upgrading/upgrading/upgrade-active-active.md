@@ -188,6 +188,12 @@ If your Active-Active database uses modules:
     Do you want to continue? (y/n): y
     ```
 
+{{<warning>}}
+`--update-db-config-modules` updates only the default configuration (`default_db_config`). Module versions pinned in each participating cluster's configuration (`instances[].db_config`) stay unchanged, but the command still reports success. These outdated versions can cause a later request to add or remove a participating cluster to fail, or to create the new participating cluster with outdated modules.
+
+Pinned module versions (`module_id` and `semantic_version`) are deprecated as of Redis Software version 7.8.2. Modules listed by `module_name` only don't go out of date when you upgrade the cluster, but `crdb-cli crdb upgrade` and `--update-db-config-modules` pin them again in the default configuration.
+{{</warning>}}
+
 ## Upgrade limitations
 
 - When upgrading an Active-Active database from Redis 7.4 or earlier to version 8.0 or later, if you add a module to the database during the upgrade, you cannot use that module's commands, such as [Redis Search](https://redis.io/docs/latest/commands/?group=search) and [JSON](https://redis.io/docs/latest/commands/?group=json) commands, until all Active-Active database instances in all participating clusters have been upgraded. These commands are not blocked automatically, and running these commands before finishing the upgrade process can cause syncer crashes.
