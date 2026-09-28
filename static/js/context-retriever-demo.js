@@ -634,11 +634,17 @@
       var inp = el("input", "rcr-input rcr-mono");
       inp.value = ent.template; inp.spellcheck = false; inp.setAttribute("aria-label", ent.name + " key template");
       var match = el("span", "rcr-match");
+      /* Count only JSON documents, the keys queries and the ON JSON index use.
+         A template that only hits other key types says so instead of going green. */
       function updateMatch() {
         var re = templateRegex(inp.value);
-        var n = re ? KEYS.filter(function (k) { return re.test(k.key); }).length : 0;
-        match.className = "rcr-match " + (re && n ? "is-ok" : "is-bad");
-        match.textContent = !re ? "Missing {id}" : n ? "Matches " + n + " keys" : "Matches no keys";
+        var hits = re ? KEYS.filter(function (k) { return re.test(k.key); }) : [];
+        var json = hits.filter(function (k) { return k.type === "JSON"; }).length, other = hits.length - json;
+        var keys = function (n) { return n + (n === 1 ? " key" : " keys"); };
+        match.className = "rcr-match " + (json ? "is-ok" : "is-bad");
+        match.textContent = !re ? "Missing {id}" : json ? "Matches " + keys(json) :
+          other ? "Matches " + keys(other) + ", but not JSON" : "Matches no keys";
+        match.title = !json && other ? "Context Retriever only reads JSON documents." : "";
       }
       inp.addEventListener("input", function () {
         ent.template = inp.value; updateMatch(); refreshTools();
