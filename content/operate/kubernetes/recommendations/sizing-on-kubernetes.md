@@ -14,7 +14,7 @@ The following article reviews the mechanism and methods available for sizing
 and scaling a Redis Enterprise cluster deployment.
 
 For minimum and recommended sizing, always follow the sizing guidelines
-detailed in the [Redis Enterprise hardware requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}).
+detailed in the [Redis Enterprise hardware requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md).
 
 ## Sizing and scaling cluster nodes
 
@@ -50,7 +50,8 @@ To apply the new cluster configuration run:
 
     kubectl apply -f redis-enterprise-cluster.yaml
 
-{{<warning>}} Decreasing the number of nodes is not supported.{{</warning>}}
+> [!WARNING]
+>  Decreasing the number of nodes is not supported.
 
 ### Sizing compute resources
 
@@ -112,9 +113,8 @@ Then, apply the file by running:
 
     kubectl apply -f redis-enterprise-cluster.yaml
 
-{{< warning >}}
-When adjusting compute resources, make sure the ratio of persistent volume size and the new memory size are in accordance to the [Hardware
-requirements]({{< relref "/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements" >}}). 
-
-Persistent volume claims can be expanded, but not reduced after creation. See [Expand PersistentVolumeClaim (PVC)]({{<relref "/operate/kubernetes/re-clusters/expand-pvc">}}) for details.
-{{< /warning >}}
+> [!WARNING]
+> When adjusting compute resources, make sure the ratio of persistent volume size and the new memory size are in accordance to the [Hardware
+> requirements](/content/operate/rs/installing-upgrading/install/plan-deployment/hardware-requirements.md). 
+>
+> Persistent volume claims can be expanded, but not reduced after creation. See [Expand PersistentVolumeClaim (PVC)](/content/operate/kubernetes/re-clusters/expand-pvc.md) for details.

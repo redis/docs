@@ -16,8 +16,8 @@ Redis Enterprise modules extend Redis functionality with additional data types, 
 
 Before you begin, verify the following:
 
-- [Redis Enterprise operator deployed]({{< relref "/operate/kubernetes/deployment/quick-start" >}}) in your Kubernetes cluster
-- [Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/re-clusters" >}}) running and in a healthy state
+- [Redis Enterprise operator deployed](/content/operate/kubernetes/deployment/quick-start.md) in your Kubernetes cluster
+- [Redis Enterprise cluster (REC)](/content/operate/kubernetes/re-clusters/_index.md) running and in a healthy state
 
 ## Bundled modules
 
@@ -27,14 +27,13 @@ Redis Enterprise includes several bundled modules that extend Redis functionalit
 
 | Module | Name | Description | Capabilities |
 |--------|------|-------------|--------------|
-| **[RediSearch]({{< relref "/develop/ai/search-and-query/" >}})** | `search` | Full-text search and secondary indexing | Query, aggregation, full-text search, vector similarity search |
-| **[RedisJSON]({{< relref "/develop/data-types/json" >}})** | `ReJSON` | JSON data type support | Store, update, and query JSON documents |
-| **[RedisTimeSeries]({{< relref "/develop/data-types/timeseries" >}})** | `timeseries` | Time series data structures | Ingest and query time series data with downsampling and aggregation |
-| **[RedisBloom]({{< relref "/develop/data-types/probabilistic" >}})** | `bf` | Probabilistic data structures | Bloom filters, Cuckoo filters, Count-Min Sketch, Top-K |
+| **[RediSearch](/content/develop/ai/search-and-query/_index.md)** | `search` | Full-text search and secondary indexing | Query, aggregation, full-text search, vector similarity search |
+| **[RedisJSON](/content/develop/data-types/json/_index.md)** | `ReJSON` | JSON data type support | Store, update, and query JSON documents |
+| **[RedisTimeSeries](/content/develop/data-types/timeseries/_index.md)** | `timeseries` | Time series data structures | Ingest and query time series data with downsampling and aggregation |
+| **[RedisBloom](/content/develop/data-types/probabilistic/_index.md)** | `bf` | Probabilistic data structures | Bloom filters, Cuckoo filters, Count-Min Sketch, Top-K |
 
-{{< note >}}
-When configuring databases with modules, use the `NAME` field (for example, `search` or `ReJSON`) instead of the `DISPLAY_NAME` field.
-{{< /note >}}
+> [!NOTE]
+> When configuring databases with modules, use the `NAME` field (for example, `search` or `ReJSON`) instead of the `DISPLAY_NAME` field.
 
 ### Automatic enablement in Redis 8 and later
 
@@ -80,9 +79,8 @@ User-defined modules are custom Redis modules that extend Redis functionality be
 
 To use user-defined modules with your databases, first add them to the Redis Enterprise cluster (REC) custom resource. This enables the operator to validate the modules and make them available for database creation.
 
-{{< warning >}}
-Add user-defined modules to the REC **before** you create any databases that use them. The admission controller validates that modules exist in the REC before allowing REDB creation.
-{{< /warning >}}
+> [!WARNING]
+> Add user-defined modules to the REC **before** you create any databases that use them. The admission controller validates that modules exist in the REC before allowing REDB creation.
 
 1. Edit your REC custom resource:
 
@@ -110,7 +108,7 @@ Add user-defined modules to the REC **before** you create any databases that use
       --from-literal=password=<your-password>
     ```
 
-If you use [HashiCorp Vault integration]({{< relref "/operate/kubernetes/security/vault" >}}), store the module credentials in Vault instead of creating a Kubernetes secret. The `credentialsSecret` field will reference the secret name in Vault.
+If you use [HashiCorp Vault integration](/content/operate/kubernetes/security/vault.md), store the module credentials in Vault instead of creating a Kubernetes secret. The `credentialsSecret` field will reference the secret name in Vault.
 
 ### Module naming requirements
 
@@ -128,9 +126,8 @@ For example, if your module manifest contains the following:
 
 You can use either `"rg"` or `"RedisGears"` as the `name` value in your REC spec.
 
-{{< note >}}
-If the names don't match, the operator can't validate the module. This can lead to preventable errors during database creation or upgrades.
-{{< /note >}}
+> [!NOTE]
+> If the names don't match, the operator can't validate the module. This can lead to preventable errors during database creation or upgrades.
 
 ### Edit user-defined modules
 
@@ -149,13 +146,11 @@ To modify the user-defined modules list, complete the following steps:
 
 1. Save your changes. The operator validates and applies the updates.
 
-{{< warning >}}
-Don't remove modules that are currently in use by any database. The operator rejects the change and puts the REC into an error state.
-{{< /warning >}}
+> [!WARNING]
+> Don't remove modules that are currently in use by any database. The operator rejects the change and puts the REC into an error state.
 
-{{< note >}}
-Changes to the `userDefinedModules` list trigger a rolling restart of the Redis Enterprise cluster pods. Plan module updates during a maintenance window to minimize potential impact on your databases.
-{{< /note >}}
+> [!NOTE]
+> Changes to the `userDefinedModules` list trigger a rolling restart of the Redis Enterprise cluster pods. Plan module updates during a maintenance window to minimize potential impact on your databases.
 
 ### Verify user-defined modules
 
@@ -203,8 +198,8 @@ For databases using user-defined modules, you must take additional steps during 
 
 For detailed upgrade instructions, see the following:
 
-- [Upgrade a Redis Enterprise cluster (REC)]({{< relref "/operate/kubernetes/upgrade/upgrade-redis-cluster" >}})
-- [Upgrade Redis Enterprise on OpenShift]({{< relref "/operate/kubernetes/upgrade/openshift-cli" >}})
+- [Upgrade a Redis Enterprise cluster (REC)](/content/operate/kubernetes/upgrade/upgrade-redis-cluster.md)
+- [Upgrade Redis Enterprise on OpenShift](/content/operate/kubernetes/upgrade/openshift-cli.md)
 
 ## Troubleshooting
 
@@ -340,13 +335,13 @@ kubectl get rec <cluster-name> -o jsonpath='{.spec.userDefinedModules}' | jq
 
 ## Related information
 
-- [Redis modules documentation]({{< relref "/develop/reference/modules" >}}) - Official Redis modules documentation
-- [REDB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}) - Complete API specification for REDB resources
-- [REAADB API reference]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}}) - API reference for Active-Active databases
+- [Redis modules documentation](/content/develop/reference/modules/_index.md) - Official Redis modules documentation
+- [REDB API reference](/content/operate/kubernetes/reference/api/redis_enterprise_database_api.md) - Complete API specification for REDB resources
+- [REAADB API reference](/content/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api.md) - API reference for Active-Active databases
 
 ### Redis Software documentation
 
-- [Add modules to a cluster]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster" >}}) - Install module packages on Redis Enterprise Software clusters
-- [Enable modules for a database]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database" >}}) - Add modules to databases in Redis Enterprise Software
-- [Upgrade modules]({{< relref "/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module" >}}) - Upgrade module versions in Redis Enterprise Software
-- [Module lifecycle]({{< relref "/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle" >}}) - Module versioning and end-of-life schedule
+- [Add modules to a cluster](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-cluster.md) - Install module packages on Redis Enterprise Software clusters
+- [Enable modules for a database](/content/operate/oss_and_stack/stack-with-enterprise/install/add-module-to-database.md) - Add modules to databases in Redis Enterprise Software
+- [Upgrade modules](/content/operate/oss_and_stack/stack-with-enterprise/install/upgrade-module.md) - Upgrade module versions in Redis Enterprise Software
+- [Module lifecycle](/content/operate/oss_and_stack/stack-with-enterprise/modules-lifecycle.md) - Module versioning and end-of-life schedule

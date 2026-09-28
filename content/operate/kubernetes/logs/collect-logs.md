@@ -18,11 +18,12 @@ The log collector tool has two modes:
 - **restricted** collects only resources and logs created by the operator and Redis Enterprise deployments
 - **all** collects everything from your environment
 
-{{<note>}} This script requires Python 3.11 or later. {{</note>}}
+> [!NOTE]
+>  This script requires Python 3.11 or later. 
 
 ## Prerequisites
 
-Before running the log collector, ensure you have the appropriate RBAC permissions configured. See [Log collector RBAC examples]({{< relref "/operate/kubernetes/reference/yaml/log-collector-rbac" >}}) for detailed RBAC configuration instructions.
+Before running the log collector, ensure you have the appropriate RBAC permissions configured. See [Log collector RBAC examples](/content/operate/kubernetes/reference/yaml/log-collector-rbac.md) for detailed RBAC configuration instructions.
 
 ## Collect logs
 
@@ -54,8 +55,8 @@ You can run `log_collector.py` with the following options:
 | `--collect_rbac_resources` | Temporary development flag. Collect all role based access control related custom resources. |
 | `-h`, `--help` | Show help message and exit. |
 
-{{< note >}} If you get an error because the yaml module is not found, install the pyYAML module with `pip install pyyaml`.
-{{< /note >}}
+> [!NOTE]
+>  If you get an error because the yaml module is not found, install the pyYAML module with `pip install pyyaml`.
 
 1. Upload the resulting `tar.gz` file containing all the logs to [Redis Support](https://support.redislabs.com/).
 
