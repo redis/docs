@@ -14,13 +14,13 @@ Helm charts provide a simple way to install the Redis Enterprise for Kubernetes 
 
 ## Prerequisites
 
-- A [supported distribution]({{< relref "/operate/kubernetes/8.0.18/reference/supported_k8s_distributions" >}}) of Kubernetes.
+- A [supported distribution](/content/operate/kubernetes/8.0.18/reference/supported_k8s_distributions.md) of Kubernetes.
 - At least three worker nodes.
 - [Kubernetes client (kubectl)](https://kubernetes.io/docs/tasks/tools/).
 - [Helm 3.10 or later](https://helm.sh/docs/intro/install/)
     or 3.18 for migrating from a non-Helm installation.
 
-If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment]({{< relref "/operate/kubernetes/8.0.18/security/allow-resource-adjustment" >}}). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
+If you suspect your file descriptor limits are below 100,000, you must either manually increase limits or [Allow automatic resource adjustment](/content/operate/kubernetes/8.0.18/security/allow-resource-adjustment.md). Most major cloud providers and standard container runtime configurations set default file descriptor limits well above the minimum required by Redis Enterprise. In these environments, you can safely run without enabling automatic resource adjustment.
 
 ### Example values
 
@@ -136,11 +136,10 @@ helm install <release-name> redis/redis-enterprise-operator \
 
 ## Create the REC at install time
 
-The chart can create the `RedisEnterpriseCluster` (REC) custom resource at install time, so a single `helm install` deploys both the operator and the cluster. To enable this, set `cluster.create` to `true` and define the cluster under `cluster.spec` in your values file. The `spec` field accepts any field from the `RedisEnterpriseCluster` CRD. For the full list, see the [RedisEnterpriseCluster API reference]({{<relref "/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api">}}).
+The chart can create the `RedisEnterpriseCluster` (REC) custom resource at install time, so a single `helm install` deploys both the operator and the cluster. To enable this, set `cluster.create` to `true` and define the cluster under `cluster.spec` in your values file. The `spec` field accepts any field from the `RedisEnterpriseCluster` CRD. For the full list, see the [RedisEnterpriseCluster API reference](/content/operate/kubernetes/8.0.18/reference/api/redis_enterprise_cluster_api.md).
 
-{{<note>}}
-`cluster.create` defaults to `false`. When `false`, the chart installs only the operator and you create the REC yourself.
-{{</note>}}
+> [!NOTE]
+> `cluster.create` defaults to `false`. When `false`, the chart installs only the operator and you create the REC yourself.
 
 1. Create a values file with a `cluster` section. For example:
 
@@ -209,9 +208,8 @@ The upgrade process automatically updates the operator and its components, inclu
 
 After you upgrade the operator, you might need to upgrade your Redis Enterprise clusters, depending on the Redis software version bundled with the operator. For detailed information about the upgrade process, see [Redis Enterprise for Kubernetes upgrade documentation](https://redis.io/docs/latest/operate/kubernetes/upgrade/).
 
-{{< note >}}
-If your databases use user-defined modules (custom non-bundled modules), you must take additional steps during the upgrade process. See [Upgrade with user-defined modules]({{< relref "/operate/kubernetes/8.0.18/upgrade/upgrade-redis-cluster#user-defined-modules" >}}) for details.
-{{< /note >}}
+> [!NOTE]
+> If your databases use user-defined modules (custom non-bundled modules), you must take additional steps during the upgrade process. See [Upgrade with user-defined modules](/content/operate/kubernetes/8.0.18/upgrade/upgrade-redis-cluster.md#user-defined-modules) for details.
 
 For more information and options when upgrading charts, see [helm upgrade](https://helm.sh/docs/helm/helm_upgrade/).
 
@@ -254,7 +252,7 @@ If you used `cluster.create: true`, change REC settings by editing `cluster.spec
 
 ## Uninstall
 
-1. Delete any custom resources managed by the operator. See [Delete custom resources]({{<relref "operate/kubernetes/re-clusters/delete-custom-resources">}}) for detailed steps. You must delete custom resources in the correct order to avoid errors.
+1. Delete any custom resources managed by the operator. See [Delete custom resources](/content/operate/kubernetes/re-clusters/delete-custom-resources.md) for detailed steps. You must delete custom resources in the correct order to avoid errors.
 
 2. Uninstall the Helm chart.
 
@@ -264,7 +262,8 @@ helm uninstall <release-name>
 
 This removes all Kubernetes resources associated with the chart and deletes the release.
 
-{{<note>}}Custom Resource Definitions (CRDs) installed by the chart are not removed during chart uninstallation. To remove them manually after uninstalling the chart, run `kubectl delete crds -l app=redis-enterprise`.{{</note>}}
+> [!NOTE]
+> Custom Resource Definitions (CRDs) installed by the chart are not removed during chart uninstallation. To remove them manually after uninstalling the chart, run `kubectl delete crds -l app=redis-enterprise`.
 
 ### Uninstall the REC and operator together
 
@@ -280,15 +279,14 @@ Confirm all resources are gone.
 kubectl get all --namespace <namespace-name>
 ```
 
-{{<note>}}
-This applies only to RECs the chart created. If you created the REC outside the chart, follow [Delete custom resources]({{<relref "operate/kubernetes/re-clusters/delete-custom-resources">}}) before you run `helm uninstall`.
-{{</note>}}
+> [!NOTE]
+> This applies only to RECs the chart created. If you created the REC outside the chart, follow [Delete custom resources](/content/operate/kubernetes/re-clusters/delete-custom-resources.md) before you run `helm uninstall`.
 
 ## Migrate from a non-Helm installation
 
 To migrate an existing non-Helm installation of the Redis Enterprise operator to a Helm-based installation:
 
-1. [Upgrade]({{<relref "operate/kubernetes/upgrade">}}) your existing Redis Enterprise operator to match the version of the Helm chart you want to install. Use the same non-Helm method you used for the original installation.
+1. [Upgrade](/content/operate/kubernetes/upgrade/_index.md) your existing Redis Enterprise operator to match the version of the Helm chart you want to install. Use the same non-Helm method you used for the original installation.
 
 2. [Install](#install-the-operator) the Helm chart adding the `--take-ownership` flag:
 
