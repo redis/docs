@@ -65,14 +65,14 @@ kubectl edit redb my-database
 
 Find complete YAML examples for common deployment scenarios:
 
-- [YAML examples]({{< relref "/operate/kubernetes/reference/yaml" >}}) - Ready-to-use YAML configurations for different deployment types
+- [YAML examples](/content/operate/kubernetes/reference/yaml/_index.md) - Ready-to-use YAML configurations for different deployment types
 
 ### Example categories
 
-- [Basic deployment]({{< relref "/operate/kubernetes/reference/yaml/basic-deployment" >}}) - Essential YAML files for simple Redis Enterprise deployment
-- [Rack awareness]({{< relref "/operate/kubernetes/reference/yaml/rack-awareness" >}}) - YAML examples for rack-aware deployments across availability zones
-- [Active-Active]({{< relref "/operate/kubernetes/reference/yaml/active-active" >}}) - YAML examples for Active-Active databases across multiple clusters
-- [Multi-namespace]({{< relref "/operate/kubernetes/reference/yaml/multi-namespace" >}}) - YAML examples for deploying across multiple namespaces
+- [Basic deployment](/content/operate/kubernetes/reference/yaml/basic-deployment.md) - Essential YAML files for simple Redis Enterprise deployment
+- [Rack awareness](/content/operate/kubernetes/reference/yaml/rack-awareness.md) - YAML examples for rack-aware deployments across availability zones
+- [Active-Active](/content/operate/kubernetes/reference/yaml/active-active.md) - YAML examples for Active-Active databases across multiple clusters
+- [Multi-namespace](/content/operate/kubernetes/reference/yaml/multi-namespace.md) - YAML examples for deploying across multiple namespaces
 
 ## API reference
 
@@ -80,28 +80,28 @@ Review complete API specifications for all Redis Enterprise custom resources:
 
 ### Core resources
 
-- [Redis Enterprise cluster API (REC)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_api" >}}) - Manage Redis Enterprise clusters
-- [Redis Enterprise database API (REDB)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_database_api" >}}) - Manage Redis databases
+- [Redis Enterprise cluster API (REC)](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_api.md) - Manage Redis Enterprise clusters
+- [Redis Enterprise database API (REDB)](/content/operate/kubernetes/reference/api/redis_enterprise_database_api.md) - Manage Redis databases
 
 ### Active-Active resources
 
-- [Active-Active database API (REAADB)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api" >}}) - Manage Active-Active databases
-- [Remote cluster API (RERC)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api" >}}) - Configure remote cluster connections
+- [Active-Active database API (REAADB)](/content/operate/kubernetes/reference/api/redis_enterprise_active_active_database_api.md) - Manage Active-Active databases
+- [Remote cluster API (RERC)](/content/operate/kubernetes/reference/api/redis_enterprise_remote_cluster_api.md) - Configure remote cluster connections
 
 ### Access control resources
 
-- [RedisEnterpriseUser API (REUSER)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_user_api" >}}) - Manage users for access control
-- [RedisEnterpriseRole API (REROLE)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_role_api" >}}) - Define roles scoped to selected databases
-- [RedisEnterpriseRoleBinding API (REROLEBINDING)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_role_binding_api" >}}) - Bind users to a scoped role
-- [RedisEnterpriseClusterRole API (RECROLE)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_role_api" >}}) - Define cluster-scoped roles
-- [RedisEnterpriseClusterRoleBinding API (RECROLEBINDING)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_cluster_role_binding_api" >}}) - Bind users to a cluster-scoped role
-- [RedisEnterpriseACL API (REACL)]({{< relref "/operate/kubernetes/reference/api/redis_enterprise_acl_api" >}}) - Define access control lists
+- [RedisEnterpriseUser API (REUSER)](/content/operate/kubernetes/reference/api/redis_enterprise_user_api.md) - Manage users for access control
+- [RedisEnterpriseRole API (REROLE)](/content/operate/kubernetes/reference/api/redis_enterprise_role_api.md) - Define roles scoped to selected databases
+- [RedisEnterpriseRoleBinding API (REROLEBINDING)](/content/operate/kubernetes/reference/api/redis_enterprise_role_binding_api.md) - Bind users to a scoped role
+- [RedisEnterpriseClusterRole API (RECROLE)](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_role_api.md) - Define cluster-scoped roles
+- [RedisEnterpriseClusterRoleBinding API (RECROLEBINDING)](/content/operate/kubernetes/reference/api/redis_enterprise_cluster_role_binding_api.md) - Bind users to a cluster-scoped role
+- [RedisEnterpriseACL API (REACL)](/content/operate/kubernetes/reference/api/redis_enterprise_acl_api.md) - Define access control lists
 
 ## Compatibility
 
 Check supported Kubernetes distributions and versions:
 
-- [Supported Kubernetes distributions]({{< relref "/operate/kubernetes/reference/supported_k8s_distributions" >}}) - Compatible Kubernetes platforms and versions
+- [Supported Kubernetes distributions](/content/operate/kubernetes/reference/supported_k8s_distributions.md) - Compatible Kubernetes platforms and versions
 
 ## Best practices
 

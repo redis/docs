@@ -24,15 +24,15 @@ Certificates and encryption use Kubernetes Secrets and cert-manager integration 
 
 The underlying certificate roles, requirements, and TLS behavior are unchanged. For concepts and reference details, see the existing Redis Software docs:
 
-- [Certificate roles and types]({{< relref "/operate/rs/security/certificates" >}}) — which certificate is used for what.
-- [Create certificates]({{< relref "/operate/rs/security/certificates/create-certificates" >}}) — certificate requirements (SAN, CN, validity).
-- [Update certificates]({{< relref "/operate/rs/security/certificates/updating-certificates" >}}) — rotation considerations on Redis Software.
-- [Monitor certificates]({{< relref "/operate/rs/security/certificates/monitor-certificates" >}}) — certificate expiration alerts.
-- [Client certificate authentication]({{< relref "/operate/rs/security/certificates/certificate-based-authentication" >}}) — how the cluster validates client certificates.
-- [TLS protocols]({{< relref "/operate/rs/security/encryption/tls/tls-protocols" >}}) and [ciphers]({{< relref "/operate/rs/security/encryption/tls/ciphers" >}}) — protocol and cipher selection.
-- [Enable TLS]({{< relref "/operate/rs/security/encryption/tls/enable-tls" >}}) — TLS for management, replication, and client connections.
-- [Internode encryption]({{< relref "/operate/rs/security/encryption/internode-encryption" >}}) — purpose and scope.
-- [PEM encryption]({{< relref "/operate/rs/security/encryption/pem-encryption" >}}) — encrypted private keys.
+- [Certificate roles and types](/content/operate/rs/security/certificates/_index.md) — which certificate is used for what.
+- [Create certificates](/content/operate/rs/security/certificates/create-certificates.md) — certificate requirements (SAN, CN, validity).
+- [Update certificates](/content/operate/rs/security/certificates/updating-certificates.md) — rotation considerations on Redis Software.
+- [Monitor certificates](/content/operate/rs/security/certificates/monitor-certificates.md) — certificate expiration alerts.
+- [Client certificate authentication](/content/operate/rs/security/certificates/certificate-based-authentication.md) — how the cluster validates client certificates.
+- [TLS protocols](/content/operate/rs/security/encryption/tls/tls-protocols.md) and [ciphers](/content/operate/rs/security/encryption/tls/ciphers.md) — protocol and cipher selection.
+- [Enable TLS](/content/operate/rs/security/encryption/tls/enable-tls.md) — TLS for management, replication, and client connections.
+- [Internode encryption](/content/operate/rs/security/encryption/internode-encryption.md) — purpose and scope.
+- [PEM encryption](/content/operate/rs/security/encryption/pem-encryption.md) — encrypted private keys.
 
 ## What's different on Kubernetes
 
@@ -41,7 +41,7 @@ The underlying certificate roles, requirements, and TLS behavior are unchanged. 
 
 ## In this section
 
-- [Manage REC certificates]({{< relref "/operate/kubernetes/security/certificates/manage-rec-certificates" >}}) — configure cluster TLS certificates.
-- [cert-manager integration]({{< relref "/operate/kubernetes/security/certificates/cert-manager" >}}) — automate certificate issuance and rotation with cert-manager.
-- [Add client certificates]({{< relref "/operate/kubernetes/security/certificates/add-client-certificates" >}}) — enable client certificate authentication for databases.
-- [Internode encryption]({{< relref "/operate/kubernetes/security/certificates/internode-encryption" >}}) — enable encryption between cluster nodes.
+- [Manage REC certificates](/content/operate/kubernetes/security/certificates/manage-rec-certificates.md) — configure cluster TLS certificates.
+- [cert-manager integration](/content/operate/kubernetes/security/certificates/cert-manager.md) — automate certificate issuance and rotation with cert-manager.
+- [Add client certificates](/content/operate/kubernetes/security/certificates/add-client-certificates.md) — enable client certificate authentication for databases.
+- [Internode encryption](/content/operate/kubernetes/security/certificates/internode-encryption.md) — enable encryption between cluster nodes.
