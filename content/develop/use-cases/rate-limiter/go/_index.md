@@ -181,7 +181,7 @@ Go's `context.Context` is passed to every call, allowing you to set deadlines an
 * **RefillInterval**: Time in seconds between refills
 
 For example:
-* `Capacity: 10, RefillRate: 1, RefillInterval: 1.0` allows 10 requests per second with bursts up to 10
+* `Capacity: 10, RefillRate: 1, RefillInterval: 1.0` allows 1 request per second with bursts up to 10
 * `Capacity: 100, RefillRate: 10, RefillInterval: 1.0` allows 10 requests per second with bursts up to 100
 * `Capacity: 60, RefillRate: 1, RefillInterval: 60.0` allows 1 request per minute with bursts up to 60
 
