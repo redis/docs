@@ -32,7 +32,7 @@ The easiest way to get started with Redis is to use Redis Cloud:
 
 1. Create a [free account](https://redis.com/try-free?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users).
 
-    {{< image filename="/images/dev/free-cloud-db.png" >}}
+    ![](/images/dev/free-cloud-db.png)
 
 2. Follow the instructions to create a free database.
 

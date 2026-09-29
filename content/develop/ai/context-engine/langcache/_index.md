@@ -116,7 +116,7 @@ LangCache works well for the following use cases:
 
 The following diagram displays how you can integrate LangCache into your GenAI app:
 
-{{< image filename="images/rc/langcache-process.png" alt="The LangCache process diagram." >}}
+![The LangCache process diagram.](/images/rc/langcache-process.png)
 
 1. A user sends a prompt to your AI app.
 1. Your app sends the prompt to LangCache through the `POST /v1/caches/{cacheId}/entries/search` endpoint.

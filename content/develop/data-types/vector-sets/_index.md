@@ -49,7 +49,8 @@ embeddings.
 The points we will use are A: (1.0, 1.0), B: (-1.0, -1.0), C: (-1.0, 1.0), D: (1.0. -1.0), and
 E: (1.0, 0), shown in the diagram below.
 
-{{<image filename="images/vecsets/VecSetExamplePoints.drawio.svg" alt="Example points on the coordinate plane." width="400px">}}
+![Example points on the coordinate plane.](/images/vecsets/VecSetExamplePoints.drawio.svg)
+{width="400px"}
 
 ### Basic operations
 

@@ -18,7 +18,8 @@ Agent Memory has two writers. Your application writes session events as they hap
 - **Summarizes** older events into a compact summary once the session passes a configured threshold, so a long conversation doesn't blow the model's context window.
 - **Extracts** long-term memories, facts and preferences worth keeping, and writes them as separate, searchable records with vector embeddings.
 
-{{< image filename="images/ai/context-engine/agent-memory-writers.svg" alt="An application writes session events synchronously to session memory. Background extraction moves durable information into long-term memory, which the application can search directly." width="700" >}}
+![An application writes session events synchronously to session memory. Background extraction moves durable information into long-term memory, which the application can search directly.](/images/ai/context-engine/agent-memory-writers.svg)
+{width="700"}
 
 Both run asynchronously, to keep session writes fast. Extraction also weighs a new memory against existing memories before writing it. Rather than rejecting anything that looks similar, it uses model judgment to decide whether a near-identical memory is a true duplicate or is meaningfully different and worth keeping too.
 

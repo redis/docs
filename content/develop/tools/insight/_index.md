@@ -43,7 +43,7 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 * Use a form to enter your connection details and add any Redis database running anywhere (including Redis Open Source cluster or sentinel).
 * Connect to a Redis Data Integration (RDI) management plane, create, test, and deploy RDI pipelines, and view RDI statistics.
 
-{{< image filename="images/ri/ri-databases.png" alt="The databases screen" >}}
+![The databases screen](/images/ri/ri-databases.png)
 
 > [!NOTE]
 > When you add a Redis database for a particular user using the `username` and `password` fields, that user must be able to run the `INFO` command. See the [access control list (ACL) documentation](/content/operate/oss_and_stack/management/security/acl.md) for more information.
@@ -72,13 +72,13 @@ Currently, Redis Copilot provides two primary features: a general chatbot and a 
 
 Before you can use Redis Copilot, you must first sign in and accept the terms of use. Click on the Redis Copilot icon in the top right corner of the Redis Insight window to sign in and accept the terms of use.
 
-{{< image filename="images/ri/ri-redis-copilot-icon.png" alt="The Redis Copilot icon" >}}
+![The Redis Copilot icon](/images/ri/ri-redis-copilot-icon.png)
 
-{{< image filename="images/ri/ri-redis-copilot-signin.png" alt="The Redis Copilot sign in screen" >}}
+![The Redis Copilot sign in screen](/images/ri/ri-redis-copilot-signin.png)
 
 Here's an example of using Redis Copilot to search data using a simple, natural language prompt.
 
-{{< image filename="images/ri/ri-redis-copilot-query.png" alt="An example of using Redis Copilot to search data" >}}
+![An example of using Redis Copilot to search data](/images/ri/ri-redis-copilot-query.png)
 
 See the [Redis Insight Copilot FAQ](/content/develop/tools/insight/copilot-faq.md) for more information.
 
@@ -95,13 +95,13 @@ Browse, filter and visualize your key-value Redis data structures.
 
 * View, validate, and manage your key values in a human-readable format using formatters that prettify and highlight data in different formats (for example, Unicode, JSON, MessagePack, HEX, and ASCII) in the Browser tool.
 
-  {{< image filename="images/ri/ri-browser.png" alt="The Browser tool" >}}
+  ![The Browser tool](/images/ri/ri-browser.png)
 
 ### Profiler
 
 Analyze every command sent to Redis in real time. To use the profiler, click  **Profiler** at the bottom left of the screen. It should reveal the profiler window, and there you can start the profiler by clicking on **Start Profiler**.
 
-{{< image filename="images/ri/ri-profiler.png" alt="The Profiler tool" >}}
+![The Profiler tool](/images/ri/ri-profiler.png)
 
 ### CLI
 
@@ -112,7 +112,7 @@ The CLI includes the following features:
 * Employs integrated help to deliver intuitive assistance.
 * Use together with a convenient command helper that lets you search and read on Redis commands.
 
-{{< image filename="images/ri/ri-cli.png" alt="The CLI tool" >}}
+![The CLI tool](/images/ri/ri-cli.png)
 
 ### Workbench
 
@@ -122,14 +122,14 @@ Workbench is an advanced command line interface with intelligent command auto-co
 * Command auto-complete support for all features in Redis and Redis Open Source.
 * Advanced, schema-aware auto-complete for Redis Search, which provides for faster query building with context-sensitive suggestions that recognize indexes, schemas, and fields based on your current query. Start typing any Redis Search command in to try this feature. See below for an example of an in-progress `FT.SEARCH` command.
 
-{{< image filename="images/ri/ri-workbench.png" alt="An example of an in-progress FT.SEARCH command" >}}
+![An example of an in-progress FT.SEARCH command](/images/ri/ri-workbench.png)
 
 Workbench also includes:
 
 * Visualizations of your indexes, queries, and aggregations.
 * Visualizations of your [time series](/content/develop/data-types/timeseries/_index.md) data.
 
-{{< image filename="images/ri/ri-workbench-timeseries.png" alt="Visualizations of time series data" >}}
+![Visualizations of time series data](/images/ri/ri-workbench-timeseries.png)
 
 ## Tools
 
@@ -140,7 +140,7 @@ Use the database analysis tool to optimize the performance and memory usage of y
 > [!NOTE]
 > The database analysis tool will only analyze up to 10,000 keys. If more than 10,000 keys are present, the tool will attempt to use extrapolation in its analysis.
 
-{{< image filename="images/ri/ri-analysis.png" alt="The database analysis tool" >}}
+![The database analysis tool](/images/ri/ri-analysis.png)
 
 ### Redis Streams support
 
@@ -148,7 +148,7 @@ Create and manage streams by adding, removing, and filtering entries per timesta
 
 View and manage the list of consumer groups. See existing consumers in a given consumer name as well as the last messages delivered to them. Inspect the list of pending messages, explicitly acknowledge the processed items, or claim unprocessed messages via Redis Insight.
 
-{{< image filename="images/ri/ri-streams.png" alt="Redis Streams support" >}}
+![Redis Streams support](/images/ri/ri-streams.png)
 
 ### Search workspace
 
@@ -156,7 +156,7 @@ The dedicated **Search** workspace lets you work with [Redis Search](/content/de
 
 Read more about this feature [here](/content/develop/tools/insight/search-workspace.md).
 
-{{< image filename="images/ri/ri-search-indexes-list.png" alt="The Search workspace" >}}
+![The Search workspace](/images/ri/ri-search-indexes-list.png)
 
 ### Bulk actions
 
@@ -165,13 +165,13 @@ Easily and quickly delete multiple keys of the same type and/or with the same ke
 When the bulk deletion is completed, Redis Insight displays the results of this operation with the number of keys processed and the time taken to delete the keys in bulk.
 Use bulk deletion to optimize the usage of your database based on the results from the Redis database analysis.
 
-{{< image filename="images/ri/ri-bulk-actions.png" alt="Bulk actions" >}}
+![Bulk actions](/images/ri/ri-bulk-actions.png)
 
 ### Slow Log
 
 The Slow Log tool displays the list of logs captured by the SLOWLOG command to analyze all commands that exceed a specified runtime, which helps with troubleshooting performance issues. Specify both the runtime and the maximum length of Slowlog (which are server configurations) to configure the list of commands logged and set the auto-refresh interval to automatically update the list of commands displayed.
 
-{{< image filename="images/ri/ri-slow-log.png" alt="Slow Log" >}}
+![Slow Log](/images/ri/ri-slow-log.png)
 
 ## Plugins
 
