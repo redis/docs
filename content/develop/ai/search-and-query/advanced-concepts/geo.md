@@ -164,7 +164,7 @@ POLYGON ((2 2.5, 2 3.5, 3.5 3.5, 3.5 2.5, 2 2.5))
 POLYGON ((3.5 1, 3.75 2, 4 1, 3.5 1))
 ```
 
-{{< image filename="/images/dev/rqe/geoshapes.jpg" >}}
+![](/images/dev/rqe/geoshapes.jpg)
 
 You can run various types of queries against a geospatial index. For
 example, the query below returns one primitive that lies within the boundary

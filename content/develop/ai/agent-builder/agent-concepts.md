@@ -22,13 +22,13 @@ AI agents are autonomous systems that go far beyond simple chatbots. They combin
 
 ### Core agent architecture
 
-{{< image filename="/images/ai_agent/ai-agent-architecture-diagram.svg" alt="AI agent architecture" >}}
+![AI agent architecture](/images/ai_agent/ai-agent-architecture-diagram.svg)
 
 ### The agent processing cycle
 
 Every user interaction follows a 6-step cycle that makes agents intelligent:
 
-{{< image filename="/images/ai_agent/simple-processing-cycle.svg" alt="AI agent processing cycle" >}}
+![AI agent processing cycle](/images/ai_agent/simple-processing-cycle.svg)
 
 Why this cycle matters:
 - Maintains context across multiple conversations
