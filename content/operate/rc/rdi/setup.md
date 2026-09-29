@@ -3,7 +3,6 @@ Title: Prepare source database
 aliases:
     - /operate/rc/databases/rdi/setup/
     - /operate/rc/databases/rdi/setup
-    - /operate/rc/rdi/supabase/
 alwaysopen: false
 categories:
 - docs
