@@ -38,7 +38,7 @@ For workloads that require durability and recovery across restarts or failures, 
 
 [Search and Query](/content/develop/ai/search-and-query/_index.md) on Flex databases is available as a Preview feature on Redis Cloud Pro. It isn't available on Redis Cloud Essentials.
 
-To use it, enable the Preview flag for Search and Query on Flex in the Redis Cloud console for your Redis Cloud Pro subscription, then create a Flex database with a Search and Query index on tiered storage.
+To use it, enable the beta flag for Search and Query on Flex in the Redis Cloud console for your Redis Cloud Pro subscription, then create a Flex database with a Search and Query index on tiered storage.
 
 The Preview supports:
 
@@ -49,7 +49,7 @@ The Preview supports:
 - Loading fields from the keyspace with `SORTBY` and `RETURN`
 - High availability, persistence, backup, and upgrades
 
-JSON documents, `NUMERIC` and `GEO` fields, `FT.AGGREGATE`, `FT.HYBRID`, and background indexing aren't yet available for Search and Query on Flex, even though they're available for Search and Query on Redis Software today. As a Preview feature, the supported feature set will continue to expand ahead of general availability.
+JSON documents, `NUMERIC` and `GEO` fields, `FT.AGGREGATE`, `FT.HYBRID`, and background indexing aren't yet available for Search and Query on Flex, even though they're available for Search and Query on Redis Software today. As a beta feature, the supported feature set will continue to expand ahead of general availability.
 
 Terraform support for Search and Query on Flex is available at Preview level.
 
