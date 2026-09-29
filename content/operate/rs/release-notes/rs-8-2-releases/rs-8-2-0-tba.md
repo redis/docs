@@ -61,7 +61,7 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 ### Resolved issues
 
-- RS201541: Fixed an issue where removing a node could get stuck in a decommissioning state during a rolling upgrade of a cluster with AOF persistence.
+- RS201541: Fixed an issue where removing a node could get stuck in a decommissioning state during a rolling upgrade of a cluster with AOF persistence on RHEL and Amazon Linux.
 
 - RS202231: Fixed an issue where the DMC proxy could crash while resharding a database during a scale-out.
 
@@ -79,8 +79,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 
 - RS212633: Fixed an issue where recovering a cluster after a full cluster restart could use outdated persistence files, which prevented the database from being recovered.
 
-- RS212751: Fixed an issue where scaling out a database with internode encryption enabled created new shards but did not migrate slots to them.
-
 - RS213801: Fixed an issue where a shard could remain in the wrong role after resharding or scaling.
 
 - RS215390: Fixed an issue where a database with the `all-nodes` proxy policy could stay in an `active-change-pending` state after a node was added to the cluster.
@@ -90,8 +88,6 @@ The following table shows which Redis modules are compatible with each Redis dat
 <!-- TODO: Confirm with an SME whether these fixes apply to self-managed deployments and belong here: RS210791 (certificates generated with RSA-3072 instead of RSA-4096), RS213016 (node recovery after a freeze and resume), and RS215676 (new Active-Active participant crash-loop during full sync; fix is in the Redis core repository and could not be verified in the build). -->
 
 ## Version changes
-
-<!-- TODO: Confirm with an SME whether self-managed customers can change `redis_cluster_enabled` on Redis on Flash databases. As of this build, the REST API rejects the change for these databases with "Attempt to set an immutable attribute" (RED-216551). If customers can set it, add a version change. -->
 
 ### JWT token invalidation on upgrade
 
