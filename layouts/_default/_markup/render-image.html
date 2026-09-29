@@ -1,0 +1,38 @@
+{{- /*
+  Image render hook: replaces the `image` shortcode. A standalone image takes an
+  attribute line, `![Alt](/images/x.png)` then `{width="300px" class="inline"}`
+  (needs the markup.goldmark.parser settings in config.toml); an image inside a
+  sentence cannot.
+
+  No <a> wrapper: static/js/index.js already opens any <img> outside a link on
+  click, and it and assets/css/index.css skip `#no-click` sources.
+*/ -}}
+{{- $dest := .Destination -}}
+{{- $src := $dest -}}
+{{- if or (findRE "^[a-zA-Z][a-zA-Z0-9+.\\-]*:" $dest) (strings.HasPrefix $dest "//") -}}
+  {{- /* External: unchanged. */ -}}
+{{- else if strings.HasPrefix $dest "/" -}}
+  {{- /* `/static/images/x` (repo-root, previews in GitHub and VS Code) and
+         `/images/x` (site-root) name the same file. */ -}}
+  {{- $path := strings.TrimPrefix "/" (strings.TrimPrefix "/static" $dest) -}}
+  {{- if not (fileExists (printf "static/%s" (index (split $path "#") 0))) -}}
+    {{- warnf "render-image: %q is not in static/ (page %q)" $dest .PageInner.Path -}}
+  {{- end -}}
+  {{- /* No leading slash: relURL skips the baseURL subpath (/docs/latest/) for one. */ -}}
+  {{- $src = relURL $path -}}
+{{- else -}}
+  {{- /* Relative: a page resource if there is one, otherwise left as written. */ -}}
+  {{- $parts := split $dest "#" -}}
+  {{- with .PageInner.Resources.GetMatch (index $parts 0) -}}
+    {{- $src = .RelPermalink -}}
+    {{- if gt (len $parts) 1 -}}
+      {{- $src = printf "%s#%s" $src (delimit (after 1 $parts) "#") -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<img src="{{ $src | safeURL }}"
+  {{- with .Attributes.width }} width="{{ . }}"{{ end }}
+  {{- with .PlainText }} alt="{{ . }}"{{ end }}
+  {{- with .Attributes.class }} class="{{ . }}"{{ end }}
+  {{- range $k, $v := .Attributes }}{{ if not (in (slice "width" "class") $k) }} {{ $k }}="{{ $v }}"{{ end }}{{ end }}
+  {{- with .Title }} title="{{ . }}"{{ end }}>
