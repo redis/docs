@@ -30,7 +30,7 @@ Redis Insight is a powerful tool for visualizing and optimizing data in Redis, m
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< tile-card color="bg-blue-300" title="Installation guides" description="See installation guides for all platforms" url="/operate/redisinsight/install" >}}
-  {{< tile-card color="bg-violet-300" title="Download Redis Insight" description="Download Redis Insight directly from redis.io" url="https://redis.io/downloads/#insight" >}}
+  {{< tile-card color="bg-violet-300" title="Download" description="Download Redis Insight directly from redis.io" url="https://redis.io/downloads/#insight" >}}
   {{< tile-card color="bg-teal-300" title="Release Notes" description="View Redis Insight release notes and changelog" url="/develop/tools/insight/release-notes/" >}}
 </div>
 

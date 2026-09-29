@@ -51,7 +51,37 @@
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-slate-500 mx-auto">
         {{ $labelColors := (dict "library" "bg-redis-yellow-500" "framework" "bg-violet-300" "observability" "bg-blue-300" "provisioning" "bg-redis-red-500" "mig" "bg-pink-300" "di" "bg-teal-300" "cloud-service" "bg-rose-300" "ai" "bg-indigo-300" "tool" "bg-lime-300" "platform" "bg-amber-300" "service" "bg-cyan-300" "cloud" "bg-orange-300") }}
         {{ $labelText := (dict "mig" "data migration" "di" "data integration" "cloud-service" "cloud service" "ai" "AI integration" "tool" "developer tool" "platform" "deployment platform" "cloud" "cloud provider") }}
+        {{/* Frameworks sort to the top of the grid: AI frameworks (group "ai") first,
+             then other frameworks (group "framework"). Other AI services follow,
+             then everything else in weight order. Weights are left alone because
+             they also set the sidebar order. AI services appear in the order of
+             $aiSlugs; add a section's directory name there to feature it. */}}
+        {{ $aiSlugs := slice "amazon-bedrock" "redis-mcp" "redisvl" "n8n-vector-store" "redis-ai-libraries" }}
+        {{ $aiFrameworks := slice }}
+        {{ $frameworks := slice }}
+        {{ $aiServices := slice }}
+        {{ $otherTiles := slice }}
         {{ range .CurrentSection.Sections }}
+          {{ if eq .Params.group "ai" }}
+            {{ $aiFrameworks = $aiFrameworks | append . }}
+          {{ else if eq .Params.group "framework" }}
+            {{ $frameworks = $frameworks | append . }}
+          {{ else if in $aiSlugs (path.Base .File.Dir) }}
+            {{ $aiServices = $aiServices | append . }}
+          {{ else }}
+            {{ $otherTiles = $otherTiles | append . }}
+          {{ end }}
+        {{ end }}
+        {{ $aiServicesOrdered := slice }}
+        {{ range $aiSlugs }}
+          {{ $slug := . }}
+          {{ range $aiServices }}
+            {{ if eq (path.Base .File.Dir) $slug }}
+              {{ $aiServicesOrdered = $aiServicesOrdered | append . }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+        {{ range $aiFrameworks | append $frameworks | append $aiServicesOrdered | append $otherTiles }}
           <article
             class="flex flex-col gap-2 relative transition h-full text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group"
             data-name="{{ .Title }}"
