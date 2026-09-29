@@ -559,6 +559,17 @@
       Object.keys(panels).forEach(function (k) { panels[k].hidden = k !== name; });
       renderCurrent();
     }
+    /* The Next and Restart buttons sit at the bottom of a long step, and the
+       step they open starts at the top. Scroll the tabs to just under the
+       site's sticky header, and move keyboard focus to the new tab so it isn't
+       lost with the replaced button. */
+    function advance(name) {
+      show(name);
+      var header = document.querySelector("header");
+      var under = header && /sticky|fixed/.test(getComputedStyle(header).position) ? header.getBoundingClientRect().bottom : 0;
+      window.scrollTo({ top: window.pageYOffset + tabs.getBoundingClientRect().top - under - 16, behavior: reduced ? "instant" : "smooth" });
+      tabs.querySelector('[data-tab="' + name + '"]').focus({ preventScroll: true });
+    }
     function renderCurrent() {
       if (st.tab === "chat") renderChat();
       else if (st.tab === "extract") renderExtract();
@@ -569,7 +580,7 @@
       st.turn = 0; st.choices = []; st.extracted = false; st.lunch = null; st.focus = null;
       st.search = { q: "lunch", limit: SCRIPTED_LIMIT, threshold: 0 };
       st.open = {};
-      show("chat");
+      advance("chat");
     }
 
     /* ---- settings ---- */
@@ -801,7 +812,7 @@
         ltmCard([], { empty: "Empty for now. The extraction pipeline runs in the background every 5 minutes, so replies never wait for it." })));
       p.appendChild(callout(chatNotes(n, view, st)));
       p.appendChild(controlsRow(st.turn < TURNS.length ? null :
-        { label: "Next: background extraction", fn: function () { show("extract"); } }));
+        { label: "Next: background extraction", fn: function () { advance("extract"); } }));
       syncTabs();
     }
     function sendNext(choice) {
@@ -828,8 +839,9 @@
       var all = memoriesFor(st.settings, st.choices), mems = memoriesFor(st.settings, st.choices, k);
       p.innerHTML = "";
       p.appendChild(headRow(k || view.running ? EXTRACTION_AT : SLOTS[SLOTS.length - 1].at));
-      p.appendChild(el("p", "rcr-lede", "Five minutes after the conversation started, the extraction pipeline reads the new session events " +
-        "in the background. It saves what's worth remembering as long-term memories."));
+      p.appendChild(el("p", "rcr-lede", "In the service, the extraction pipeline runs by itself in the background. Here it runs five minutes " +
+        "after the conversation started, reads the new session events, and saves what's worth remembering as long-term memories. " +
+        "The demo waits for you: select <strong>Run the extraction</strong> to replay that run."));
       p.appendChild(extractionCard(script, all, k, view.running));
       var fresh = {};
       mems.forEach(function (m) { if (view.running && m.at === k - 1) fresh[m.key] = true; });
@@ -839,7 +851,7 @@
       p.appendChild(callout(extractNotes(k, view.running, st, all)));
       p.appendChild(controlsRow(!st.extracted || view.running ?
         { label: "Run the extraction", busy: "Extracting…", fn: runExtraction } :
-        { label: "Next: two days later", fn: function () { show("later"); } }));
+        { label: "Next: two days later", fn: function () { advance("later"); } }));
       applyFocus();
       syncTabs();
     }
@@ -896,7 +908,7 @@
       st.focus = st.focus === key ? null : key;
       applyFocus();
       var row = st.focus && panels.extract.querySelector('.ram-mem[data-mem="' + st.focus + '"]');
-      if (row && row.scrollIntoView) row.scrollIntoView({ block: "nearest", behavior: reduced ? "auto" : "smooth" });
+      if (row && row.scrollIntoView) row.scrollIntoView({ block: "nearest", behavior: reduced ? "instant" : "smooth" });
     }
     panels.extract.addEventListener("click", function (e) {
       var l = e.target.closest && e.target.closest(".ram-link");
