@@ -244,6 +244,21 @@ curl -sS "$DP_URL/v1/stores/$STORE_ID/session-memory?includeAll=true" \
 
 `filterOwnerId` and `includeAll` are mutually exclusive.
 
+The `/session-memory` list returns session IDs. To get session rows ordered by
+recent activity, use `/sessions`:
+
+```bash
+curl -sS "$DP_URL/v1/stores/$STORE_ID/sessions?filterOwnerId=user-001&sortBy=updatedAt&sortOrder=desc&limit=20" \
+  -H "Authorization: Bearer $RAM_AGENT_KEY"
+```
+
+Each row includes `sessionId` and, when known, `ownerId`, `createdAt`,
+`updatedAt`, and `namespaceRef`. Older sessions can have no owner or timestamps.
+The default order is `updatedAt` descending. You can also sort by `sessionId`
+or `createdAt`, each in ascending or descending order. Send `nextPageToken` as
+`pageToken` with the same filters and sort options to fetch the next page.
+The new route uses the same filter and authorization rules as `/session-memory`.
+
 ### Create long-term memories directly
 
 ```bash
