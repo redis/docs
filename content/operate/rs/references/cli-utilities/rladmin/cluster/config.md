@@ -51,6 +51,7 @@ Updates the cluster configuration.
         [ services { alert_mgr | call_home_agent | cm_server | 
                      crdb_controller | crdb_coordinator | crdb_worker | 
                      entraid_agent_mgr | ldap_agent_mgr | mdns_server | 
+                     metrics_local_storage_service | 
                      pdns_server | sentinel_service | 
                      stats_archiver } { enabled | disabled } ]
         [ upgrade_mode { enabled | disabled } ]
@@ -90,7 +91,7 @@ Updates the cluster configuration.
 | s3_ca_cert | string | The CA certificate filepath for S3 export and import |
 | sentinel_cipher_suites | list of ciphers | Cipher suites used by the discovery service (supported ciphers are implemented by the [cipher_suites.go](<https://golang.org/src/crypto/tls/cipher_suites.go>) package) |
 | sentinel_tls_mode | `allowed`<br />`required`<br />`disabled` | Define the SSL policy for the discovery service<br />(previously named `sentinel_ssl_policy`) |
-| services | `alert_mgr`<br />`call_home_agent`<br />`cm_server`<br />`crdb_controller`<br />`crdb_coordinator`<br />`crdb_worker`<br />`entraid_agent_mgr`<br />`ldap_agent_mgr`<br />`mdns_server`<br />`pdns_server`<br />`sentinel_service`<br />`stats_archiver`<br /><br />`enabled`<br />`disabled` | Enable or turn off selected cluster services |
+| services | `alert_mgr`<br />`call_home_agent`<br />`cm_server`<br />`crdb_controller`<br />`crdb_coordinator`<br />`crdb_worker`<br />`entraid_agent_mgr`<br />`ldap_agent_mgr`<br />`mdns_server`<br />`metrics_local_storage_service`<br />`pdns_server`<br />`sentinel_service`<br />`stats_archiver`<br /><br />`enabled`<br />`disabled` | Enable or turn off selected cluster services |
 | upgrade_mode | `enabled`<br />`disabled` | Enable or turn off upgrade mode on the cluster |
 
 ### Returns
