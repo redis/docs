@@ -250,6 +250,6 @@ See [sensitive-data exclusions](/content/operate/iris/agent-memory/create-servic
 
 ## Next steps
 
-* Follow the [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md) or [TypeScript SDK quickstart](/content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md).
+* Follow the [SDK quickstart](/content/develop/ai/context-engine/agent-memory/sdk-quickstart.md).
 * Learn when to [create long term memories directly](/content/develop/ai/context-engine/agent-memory/developer-guide.md#create-long-term-memories).
 * Use the [Redis Agent Memory API reference](/content/develop/ai/context-engine/agent-memory/api-reference.md) for endpoint and schema details.

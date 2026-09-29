@@ -23,10 +23,9 @@ When enabled, automatic summarization compacts session memory by summarizing old
 
 Access Redis Agent Memory through the Python and TypeScript SDKs or its REST API. It works with any agent framework or LLM provider.
 
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
   {{< tile-card color="bg-blue-300" title="Overview" description="What's the same and what's different if you already know Redis" url="/develop/ai/context-engine/agent-memory/overview" >}}
-  {{< tile-card color="bg-redis-yellow-500" title="Python SDK" description="Explore Redis Agent Memory with Python" url="/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}
-  {{< tile-card color="bg-redis-yellow-500" title="TypeScript SDK" description="Explore Redis Agent Memory with TypeScript" url="/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}
+  {{< tile-card color="bg-redis-yellow-500" title="SDK quickstart" description="Explore Redis Agent Memory with the Python or TypeScript SDK" url="/develop/ai/context-engine/agent-memory/sdk-quickstart" >}}
   {{< tile-card color="bg-teal-300" title="REST API" description="Explore Redis Agent Memory with curl" url="/develop/ai/context-engine/agent-memory/rest-api-quickstart" >}}
 </div>
 
@@ -117,16 +116,11 @@ Get started with Redis Agent Memory on Redis Cloud or join the private preview f
 
 After your Redis Agent Memory service is ready, choose a client. Each quickstart follows the same travel planning scenario through session memory, automatic extraction, summarization, custom memory types, and sensitive-data exclusions.
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
   <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">Python SDK</h3>
-    <p>Explore the Redis Agent Memory workflow with the Python SDK.</p>
-    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/python-sdk-quickstart" >}}">Open the Python quickstart</a></p>
-  </div>
-  <div class="p-5 border border-redis-pen-300 rounded-lg">
-    <h3 class="text-redis-ink-900 font-semibold mb-3">TypeScript SDK</h3>
-    <p>Explore the Redis Agent Memory workflow with the TypeScript SDK.</p>
-    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart" >}}">Open the TypeScript quickstart</a></p>
+    <h3 class="text-redis-ink-900 font-semibold mb-3">Python or TypeScript SDK</h3>
+    <p>Explore the Redis Agent Memory workflow with the Python or TypeScript SDK.</p>
+    <p><a href="{{< relref "/develop/ai/context-engine/agent-memory/sdk-quickstart" >}}">Open the SDK quickstart</a></p>
   </div>
   <div class="p-5 border border-redis-pen-300 rounded-lg">
     <h3 class="text-redis-ink-900 font-semibold mb-3">REST API</h3>

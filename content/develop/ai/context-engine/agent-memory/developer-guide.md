@@ -26,8 +26,8 @@ Redis Agent Memory can automatically summarize older session events and extract 
 
 | Client | Use it when | Package and quickstart |
 |:-------|:------------|:-----------------------|
-| Python SDK | Your application or agent uses Python. | Install [`redis-agent-memory`](https://pypi.org/project/redis-agent-memory/) and follow the [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md). |
-| TypeScript SDK | Your application or agent uses JavaScript or TypeScript. | Install [`@redis-iris/agent-memory`](https://www.npmjs.com/package/@redis-iris/agent-memory) and follow the [TypeScript SDK quickstart](/content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md). |
+| Python SDK | Your application or agent uses Python. | Install [`redis-agent-memory`](https://pypi.org/project/redis-agent-memory/) and follow the [SDK quickstart](/content/develop/ai/context-engine/agent-memory/sdk-quickstart.md). |
+| TypeScript SDK | Your application or agent uses JavaScript or TypeScript. | Install [`@redis-iris/agent-memory`](https://www.npmjs.com/package/@redis-iris/agent-memory) and follow the [SDK quickstart](/content/develop/ai/context-engine/agent-memory/sdk-quickstart.md). |
 | REST API | You need language-independent HTTP access or don't want an SDK dependency. | No package required. Follow the [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md). |
 
 ## Connect to a Redis Agent Memory service
@@ -173,8 +173,7 @@ Follow any of the client quickstarts to create and search long-term memory. For 
 
 ## References
 
-* [Python SDK quickstart](/content/develop/ai/context-engine/agent-memory/python-sdk-quickstart.md)
-* [TypeScript SDK quickstart](/content/develop/ai/context-engine/agent-memory/typescript-sdk-quickstart.md)
+* [SDK quickstart](/content/develop/ai/context-engine/agent-memory/sdk-quickstart.md)
 * [Python SDK reference](https://pypi.org/project/redis-agent-memory/)
 * [TypeScript SDK reference](https://www.npmjs.com/package/@redis-iris/agent-memory)
 * [REST API quickstart](/content/develop/ai/context-engine/agent-memory/rest-api-quickstart.md)
