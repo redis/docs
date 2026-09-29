@@ -5,7 +5,7 @@ categories:
 - docs
 - operate
 - rs
-description: Requests for the standard tier of [local metrics storage]({{< relref "/operate/rs/monitoring/metrics_stream_engine/local-metrics-storage" >}}). For granular tier requests, see [Granular metrics requests]({{< relref "/operate/rs/references/rest-api/requests/metrics/granular" >}}).
+description: Local metrics storage requests
 headerRange: '[1-2]'
 hideListLinks: true
 linkTitle: metrics
