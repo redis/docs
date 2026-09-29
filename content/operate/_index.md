@@ -33,9 +33,10 @@ Choose one based on where you want Redis to run and how much of its deployment a
         <span>Redis Cloud</span>
       </div>
       <ol class="flex flex-wrap items-center gap-x-2 gap-y-2 list-none m-0 px-6 py-4 text-sm text-redis-pen-600 font-geist">
-        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/rc/rc-quickstart" >}}">Create account</a><span aria-hidden="true">→</span></li>
-        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/rc/databases/create-database" >}}">Create a database</a><span aria-hidden="true">→</span></li>
-        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/rc/databases/connect" >}}">Connect to your database</a></li>
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/rc/rc-quickstart" >}}">Create account &amp; connect</a><span aria-hidden="true">→</span></li>
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/iris" >}}">Enable Iris</a><span aria-hidden="true">→</span></li>
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/rc/rdi" >}}">Enable Data Integration</a><span aria-hidden="true">→</span></li>
+        <li class="flex items-center gap-2 my-0 pl-0"><a class="pointer-events-auto no-underline hover:underline" href="{{< relref "/operate/rc/radar" >}}">Monitor with Radar</a></li>
       </ol>
     </div>
   </div>
@@ -70,7 +71,7 @@ Choose one based on where you want Redis to run and how much of its deployment a
 
 ## AI and data services
 
-These services build on Redis to support AI applications. Redis Iris context engine gives AI agents memory, semantic caching, and governed access to business data. Redis Feature Form defines, manages, and serves machine learning features. Redis Data Integration (RDI) keeps Redis in sync with a primary database in near real time, so your applications work with current data.
+Services available on cloud or self-managed infrastructure for AI applications. Redis Iris context engine gives AI agents memory, semantic caching, and governed access to business data. Redis Feature Form defines, manages, and serves machine learning features. Redis Data Integration (RDI) keeps Redis in sync with a primary database in near real time, so your applications work with current data.
 
 <div class="flex flex-col gap-4 my-6">
   <div class="relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
