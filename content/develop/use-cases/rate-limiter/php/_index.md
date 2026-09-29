@@ -171,7 +171,7 @@ The `allow()` method returns an associative array with two keys: `allowed` (bool
 * **refillInterval**: Time in seconds between refills
 
 For example:
-* `capacity: 10, refillRate: 1, refillInterval: 1.0` allows 10 requests per second with bursts up to 10
+* `capacity: 10, refillRate: 1, refillInterval: 1.0` allows 1 request per second with bursts up to 10
 * `capacity: 100, refillRate: 10, refillInterval: 1.0` allows 10 requests per second with bursts up to 100
 * `capacity: 60, refillRate: 1, refillInterval: 60.0` allows 1 request per minute with bursts up to 60
 
