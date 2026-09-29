@@ -11,7 +11,7 @@ hidden: true
 weight: $weight
 url: '/operate/kubernetes/7.8.6/deployment/openshift/old-getting-started-openshift-crdb/'
 ---
-In this guide, we'll set up an [Active-Active database]({{< relref "/operate/rs/databases/active-active/_index.md" >}})
+In this guide, we'll set up an [Active-Active database](/content/operate/rs/databases/active-active/_index.md)
 (formerly known as CRDB) deployment with Active-Active replication
 spanning across two Redis Enterprise clusters over OpenShift, using Redis Enterprise Operator
 and OpenShift Route.
@@ -38,15 +38,14 @@ the Redis Enterprise Cluster API service and the DB service that exposes the Act
 Both services are used during the creation and management of an Active-Active deployment.
 The routes are configured with TLS passthrough.
 
-{{< note >}}
-Routes should have unique hostnames across a Kubernetes cluster.
-{{< /note >}}
+> [!NOTE]
+> Routes should have unique hostnames across a Kubernetes cluster.
 
 ## Steps for creating an Active-Active deployment with Service Broker
 
 Before you create an Active-Active deployment with Service Broker, you must create a cluster
 using the REC custom resource, with a Service Broker deployment as covered in
-[Getting Started with Kubernetes and Openshift]({{< relref "/operate/platforms/openshift/_index.md" >}}), while noting the following:
+[Getting Started with Kubernetes and Openshift](/operate/platforms/openshift/_index.md), while noting the following:
 
 1. Make sure you use the latest versions of the deployment files available on GitHub.
 1. Deploy nodes with at least 6GB of RAM in order to accommodate the Active-Active database plan's 5GB database size.
@@ -54,9 +53,8 @@ using the REC custom resource, with a Service Broker deployment as covered in
 
 The peerClusters section in the spec is used for creating an Active-Active with the Service Broker.
 
-{{< note >}}
-This is only relevant for OpenShift deployments, which support Service Brokers natively.
-{{< /note >}}
+> [!NOTE]
+> This is only relevant for OpenShift deployments, which support Service Brokers natively.
 
 Copy this section of the REC spec and modify it for your environment. To apply it
 to every cluster that will participate in the Active-Active database deployment, edit the cluster yaml file

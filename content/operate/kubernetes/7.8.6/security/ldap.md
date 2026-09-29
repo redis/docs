@@ -13,11 +13,11 @@ url: '/operate/kubernetes/7.8.6/security/ldap/'
 
 ## LDAP support for Redis Enterprise Software
 
-Redis Enterprise Software supports LDAP authentication and authorization through [role-based access controls]({{< relref "/operate/rs/security/access-control/" >}}) (RBAC). You can map LDAP groups to [Redis Enterprise roles]({{< relref "/operate/rs/security/access-control" >}}) to control access to your database and the Cluster Manager UI. For more details on how LDAP works with Redis Enterprise, see [LDAP authentication]({{< relref "/operate/rs/security/access-control/ldap/" >}}).
+Redis Enterprise Software supports LDAP authentication and authorization through [role-based access controls](/content/operate/rs/security/access-control/_index.md) (RBAC). You can map LDAP groups to [Redis Enterprise roles](/content/operate/rs/security/access-control/_index.md) to control access to your database and the Cluster Manager UI. For more details on how LDAP works with Redis Enterprise, see [LDAP authentication](/content/operate/rs/security/access-control/ldap/_index.md).
 
 Redis Enterprise for Kubernetes supports enabling and configuring LDAP authentication using the `RedisEnterpriseCluster` (REC) custom resource. Currently, the Redis Enterprise cluster (REC) only supports configuration related to the LDAP server, such as server addresses, connection details, credentials, and query configuration.
 
-To [map LDAP groups to Redis Enterprise access control roles]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap.md" >}}), you'll need to use the Redis Enterprise [API]({{< relref "/operate/rs/references/rest-api/requests/ldap_mappings/" >}}) or [admin console]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap.md" >}}).
+To [map LDAP groups to Redis Enterprise access control roles](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md), you'll need to use the Redis Enterprise [API](/content/operate/rs/references/rest-api/requests/ldap_mappings/_index.md) or [admin console](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md).
 
 ## Enable LDAP 
 
@@ -163,6 +163,6 @@ Redis Enterprise Software can't resolve DNS names with a `.local` suffix.
 
 ## Next steps
 
-To [map LDAP groups to Redis Enterprise access control roles]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap.md" >}}), you'll need to use the Redis Enterprise [API]({{< relref "/operate/rs/references/rest-api/requests/ldap_mappings/" >}}) or [admin console]({{< relref "/operate/rs/security/access-control/ldap/enable-role-based-ldap.md" >}}).
+To [map LDAP groups to Redis Enterprise access control roles](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md), you'll need to use the Redis Enterprise [API](/content/operate/rs/references/rest-api/requests/ldap_mappings/_index.md) or [admin console](/content/operate/rs/security/access-control/ldap/enable-role-based-ldap.md).
 
-For more details on how LDAP works with Redis Enterprise, see [LDAP authentication]({{< relref "/operate/rs/security/access-control/ldap/" >}}).
+For more details on how LDAP works with Redis Enterprise, see [LDAP authentication](/content/operate/rs/security/access-control/ldap/_index.md).
