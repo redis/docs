@@ -11,7 +11,8 @@ linkTitle: Edit participating clusters
 weight: 40
 url: '/operate/kubernetes/8.0/active-active/edit-clusters/'
 ---
-{{<note>}}This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes. and later.{{</note>}}
+> [!NOTE]
+> This feature is supported for general availability in releases 6.4.2-6 and later. Some of these features were available as a preview in 6.4.2-4 and 6.4.2-5. Please upgrade to 6.4.2-6 for the full set of general availability features and bug fixes. and later.
 
 ## Add a participating cluster
 
@@ -19,7 +20,7 @@ Use the following steps to add a participating cluster to an existing Redis Ente
 
 ### Prerequisites
 
-To prepare the Redis Enterprise cluster (REC) to participate in an Active-Active database, perform the following tasks from [Prepare participating clusters]({{< relref "/operate/kubernetes/8.0/active-active/prepare-clusters" >}}):
+To prepare the Redis Enterprise cluster (REC) to participate in an Active-Active database, perform the following tasks from [Prepare participating clusters](/content/operate/kubernetes/8.0/active-active/prepare-clusters.md):
 
 - Make sure the cluster meets the hardware and naming requirements.
 - Enable the Active-Active controllers.

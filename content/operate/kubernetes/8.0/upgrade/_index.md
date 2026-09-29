@@ -18,10 +18,10 @@ Keep your Redis Enterprise deployment up to date with the latest features, secur
 
 Choose the appropriate upgrade method for your deployment:
 
-- [Upgrade Redis Enterprise for Kubernetes]({{<relref "/operate/kubernetes/8.0/upgrade/upgrade-redis-cluster" >}}) - Standard upgrade process for most Kubernetes distributions
-- [Upgrade with OpenShift CLI]({{<relref "/operate/kubernetes/8.0/upgrade/openshift-cli">}}) - OpenShift-specific upgrade using CLI tools
-- [Upgrade with OpenShift OperatorHub]({{<relref "/operate/kubernetes/8.0/upgrade/upgrade-olm">}}) - Upgrade using OpenShift OperatorHub and OLM
-- [Upgrade with Helm]({{<relref "/operate/kubernetes/8.0/deployment/helm#upgrade-the-chart">}}) - Helm-specific upgrade instructions for chart-based deployments
+- [Upgrade Redis Enterprise for Kubernetes](/content/operate/kubernetes/8.0/upgrade/upgrade-redis-cluster.md) - Standard upgrade process for most Kubernetes distributions
+- [Upgrade with OpenShift CLI](/content/operate/kubernetes/8.0/upgrade/openshift-cli.md) - OpenShift-specific upgrade using CLI tools
+- [Upgrade with OpenShift OperatorHub](/content/operate/kubernetes/8.0/upgrade/upgrade-olm.md) - Upgrade using OpenShift OperatorHub and OLM
+- [Upgrade with Helm](/content/operate/kubernetes/8.0/deployment/helm.md#upgrade-the-chart) - Helm-specific upgrade instructions for chart-based deployments
 
 ## Upgrade process
 
@@ -35,7 +35,8 @@ The upgrade process includes updating three components in order:
 
 When upgrading, both your Kubernetes version and Redis operator version need to be supported at all times.
 
-{{<warning>}}If your current Kubernetes distribution is not [supported]({{<relref "/operate/kubernetes/8.0/reference/supported_k8s_distributions">}}), upgrade to a supported distribution before upgrading. {{</warning>}}
+> [!WARNING]
+> If your current Kubernetes distribution is not [supported](/content/operate/kubernetes/8.0/reference/supported_k8s_distributions.md), upgrade to a supported distribution before upgrading. 
 
 ## RHEL9-based image
 
@@ -47,6 +48,6 @@ As of version 7.8.2-6, Redis Enterprise images are based on Red Hat Enterprise L
 
 For detailed steps, see the relevant upgrade page:
 
-- [OpenShift CLI]({{<relref "/operate/kubernetes/8.0/upgrade/openshift-cli">}})
-- [OpenShift OperatorHub]({{<relref "/operate/kubernetes/8.0/upgrade/upgrade-olm">}})
-- [Kubernetes]({{<relref "/operate/kubernetes/8.0/upgrade/upgrade-redis-cluster" >}})
+- [OpenShift CLI](/content/operate/kubernetes/8.0/upgrade/openshift-cli.md)
+- [OpenShift OperatorHub](/content/operate/kubernetes/8.0/upgrade/upgrade-olm.md)
+- [Kubernetes](/content/operate/kubernetes/8.0/upgrade/upgrade-redis-cluster.md)

@@ -20,22 +20,22 @@ REC resources define the cluster configuration, including node specifications, s
 
 Manage your Redis Enterprise cluster lifecycle and configuration:
 
-- [Connect to admin console]({{< relref "/operate/kubernetes/8.0/re-clusters/connect-to-admin-console" >}}) - Access the Redis Enterprise web UI for cluster management
-- [Multi-namespace deployment]({{< relref "/operate/kubernetes/8.0/re-clusters/multi-namespace" >}}) - Deploy clusters across multiple Kubernetes namespaces
-- [Delete custom resources]({{< relref "/operate/kubernetes/8.0/re-clusters/delete-custom-resources" >}}) - Safely remove REC and related resources
+- [Connect to admin console](/content/operate/kubernetes/8.0/re-clusters/connect-to-admin-console.md) - Access the Redis Enterprise web UI for cluster management
+- [Multi-namespace deployment](/content/operate/kubernetes/8.0/re-clusters/multi-namespace.md) - Deploy clusters across multiple Kubernetes namespaces
+- [Delete custom resources](/content/operate/kubernetes/8.0/re-clusters/delete-custom-resources.md) - Safely remove REC and related resources
 
 ## Storage and performance
 
 Optimize storage and performance for your Redis Enterprise cluster:
 
-- [Redis Flex]({{< relref "/operate/kubernetes/8.0/flex" >}}) - Configure automatic data tiering between RAM and flash storage
-- [Expand PVC]({{< relref "/operate/kubernetes/8.0/re-clusters/expand-pvc" >}}) - Expand persistent volume claims for additional storage
+- [Redis Flex](/content/operate/kubernetes/8.0/flex/_index.md) - Configure automatic data tiering between RAM and flash storage
+- [Expand PVC](/content/operate/kubernetes/8.0/re-clusters/expand-pvc.md) - Expand persistent volume claims for additional storage
 
 ## Monitoring and observability
 
 Monitor cluster health and performance:
 
-- [Connect to Prometheus operator]({{< relref "/operate/kubernetes/8.0/re-clusters/connect-prometheus-operator" >}}) - Integrate with Prometheus for metrics collection and monitoring
+- [Connect to Prometheus operator](/content/operate/kubernetes/8.0/re-clusters/connect-prometheus-operator.md) - Integrate with Prometheus for metrics collection and monitoring
 
 ### Call home client
 
@@ -48,19 +48,18 @@ spec:
       disabled: true
 ```
 
-{{<note>}}
-The REST API approach used for Redis Software deployments will have no effect on Kubernetes deployments. You must use the REC specification method shown above.
-{{</note>}}
+> [!NOTE]
+> The REST API approach used for Redis Software deployments will have no effect on Kubernetes deployments. You must use the REC specification method shown above.
 
 ## Recovery and troubleshooting
 
 Handle cluster recovery and troubleshooting scenarios:
 
-- [Cluster recovery]({{< relref "/operate/kubernetes/8.0/re-clusters/cluster-recovery" >}}) - Recover from cluster failures and restore operations
+- [Cluster recovery](/content/operate/kubernetes/8.0/re-clusters/cluster-recovery.md) - Recover from cluster failures and restore operations
 
 ## Related topics
 
-- [Redis Enterprise databases (REDB)]({{< relref "/operate/kubernetes/8.0/re-databases" >}}) - Create and manage databases on your cluster
-- [Security]({{< relref "/operate/kubernetes/8.0/security" >}}) - Configure security settings for your cluster
-- [Networking]({{< relref "/operate/kubernetes/8.0/networking" >}}) - Set up networking and ingress for cluster access
-- [REC API reference]({{< relref "/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api" >}}) - Complete API specification for REC resources
+- [Redis Enterprise databases (REDB)](/content/operate/kubernetes/8.0/re-databases/_index.md) - Create and manage databases on your cluster
+- [Security](/content/operate/kubernetes/8.0/security/_index.md) - Configure security settings for your cluster
+- [Networking](/content/operate/kubernetes/8.0/networking/_index.md) - Set up networking and ingress for cluster access
+- [REC API reference](/content/operate/kubernetes/8.0/reference/api/redis_enterprise_cluster_api.md) - Complete API specification for REC resources
