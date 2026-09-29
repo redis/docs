@@ -5,17 +5,140 @@ linkTitle: Operate
 hideListLinks: true
 ---
 
-| {{<color-bubble color="bg-blue-bubble">}} Redis Cloud | {{<color-bubble color="bg-yellow-bubble">}} Redis Software |
-|:-----------|:--------------|
-| <ul><li> [Get started with Redis Cloud]({{< relref "/operate/rc/rc-quickstart" >}}) </li><li> [Create a database]({{< relref "/operate/rc/databases/create-database" >}}) </li><li> [Connect to your database]({{< relref "/operate/rc/databases/connect" >}}) </li><li> [Subscriptions]({{< relref "/operate/rc/subscriptions" >}}) </li><li>[REST API]({{< relref "/operate/rc/api/" >}})</li></ul> | <ul><li> [Install Redis Software]({{< relref "/operate/rs/installing-upgrading" >}}) </li><li> [Set up a new cluster]({{< relref "/operate/rs/clusters/new-cluster-setup" >}}) </li><li> [Create a database]({{< relref "/operate/rs/databases/create" >}}) </li><li> [Connect to your database]({{< relref "/operate/rs/databases/connect" >}}) </li><li>[REST API]({{< relref "/operate/rs/references/rest-api/" >}})</li></ul> |
-| {{<color-bubble color="bg-purple-bubble">}} **Redis Open Source** | {{<color-bubble color="bg-gray-bubble">}} **Redis for Kubernetes** |
-| <ul><li> [Install Redis 8 in Redis Open Source]({{< relref "/operate/oss_and_stack/install/install-stack" >}}) </li><li> [Install Redis Stack]({{< relref "/operate/oss_and_stack/install/archive/install-stack/" >}}) (&#8804; 7.4) </li><li> [Manage Redis]({{< relref "/operate/oss_and_stack/management" >}}) </li></ul> | <ul><li> [Deploy Redis for Kubernetes]({{< relref "/operate/kubernetes/deployment" >}}) </li><li> [Architecture]({{< relref "/operate/kubernetes/architecture" >}}) </li><li> [API Reference]({{< relref "/operate/kubernetes/reference" >}}) </li></ul> |
-| {{<color-bubble color="bg-red-bubble">}} **Redis Insight** | {{<color-bubble color="bg-white-bubble">}} **Redis Data Integration (RDI)** |
-| <ul><li> [Install Redis Insight]({{< relref "/operate/redisinsight/install" >}}) </li><li> [Use Redis Insight]({{< relref "/develop/tools/insight" >}}) </li><li> [Download Redis Insight](https://redis.io/downloads/#insight) </li></ul> | <ul><li> [RDI overview]({{< relref "/integrate/redis-data-integration/" >}}) </li><li> [Install RDI]({{< relref "/integrate/redis-data-integration/installation" >}}) </li> <li> [RDI pipelines]({{< relref "/integrate/redis-data-integration/data-pipelines" >}}) </li> </ul> |
-| {{<color-bubble color="bg-indigo-bubble">}} **Redis Iris context engine** | {{<color-bubble color="bg-blue-gray-bubble">}} **Redis Feature Form** |
-| <ul><li> [Redis Iris context engine overview]({{< relref "/operate/iris" >}}) </li><li> [Redis Agent Memory]({{< relref "/operate/iris/agent-memory" >}}) </li><li> [Redis Context Retriever]({{< relref "/operate/iris/context-retriever" >}}) </li><li> [LangCache]({{< relref "/operate/iris/langcache" >}}) </li></ul> | <ul><li> [Feature Form overview]({{< relref "/operate/featureform" >}}) </li><li> [Deploy Feature Form]({{< relref "/operate/featureform/deploy" >}}) </li><li> [Configure authentication]({{< relref "/operate/featureform/configure-auth" >}}) </li></ul> |
-| {{<color-bubble color="bg-green-bubble">}} **Redis Radar** | |
-| <ul><li> [Redis Radar overview]({{< relref "/operate/radar" >}}) </li><li> [Install Radar]({{< relref "/operate/radar/install" >}}) </li><li> [Connect clusters]({{< relref "/operate/radar/connect" >}}) </li><li> [Monitor clusters and databases]({{< relref "/operate/radar/monitor" >}}) </li></ul> | |
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  <div class="flex flex-col gap-2 h-full relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/operate/rs/installing-upgrading" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+    <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+      <span class="h-3 w-3 rounded-full bg-yellow-bubble border border-redis-pen-600 flex-shrink-0"></span>
+      <span>Redis Software</span>
+    </div>
+    <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rs/installing-upgrading" >}}">Install Redis Software</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rs/clusters/new-cluster-setup" >}}">Set up a new cluster</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rs/databases/create" >}}">Create a database</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rs/databases/connect" >}}">Connect to your database</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rs/references/rest-api/" >}}">REST API</a></li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/operate/rc/rc-quickstart" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+    <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+      <span class="h-3 w-3 rounded-full bg-blue-bubble border border-redis-pen-600 flex-shrink-0"></span>
+      <span>Redis Cloud</span>
+    </div>
+    <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rc/rc-quickstart" >}}">Get started with Redis Cloud</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rc/databases/create-database" >}}">Create a database</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rc/databases/connect" >}}">Connect to your database</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rc/subscriptions" >}}">Subscriptions</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/rc/api/" >}}">REST API</a></li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/operate/kubernetes/deployment" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+    <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+      <span class="h-3 w-3 rounded-full bg-gray-bubble border border-redis-pen-600 flex-shrink-0"></span>
+      <span>Redis for Kubernetes</span>
+    </div>
+    <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/kubernetes/deployment" >}}">Deploy Redis for Kubernetes</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/kubernetes/architecture" >}}">Architecture</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/kubernetes/reference" >}}">API Reference</a></li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/operate/oss_and_stack/install/install-stack" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+    <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+      <span class="h-3 w-3 rounded-full bg-purple-bubble border border-redis-pen-600 flex-shrink-0"></span>
+      <span>Redis Open Source</span>
+    </div>
+    <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/oss_and_stack/install/install-stack" >}}">Install Redis 8 in Redis Open Source</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/oss_and_stack/install/archive/install-stack/" >}}">Install Redis Stack</a> (&#8804; 7.4)</li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/oss_and_stack/management" >}}">Manage Redis</a></li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/operate/iris" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+    <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+      <span class="h-3 w-3 rounded-full bg-indigo-bubble border border-redis-pen-600 flex-shrink-0"></span>
+      <span>Redis Iris context engine</span>
+    </div>
+    <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/iris" >}}">Redis Iris context engine overview</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/iris/agent-memory" >}}">Redis Agent Memory</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/iris/context-retriever" >}}">Redis Context Retriever</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/iris/langcache" >}}">LangCache</a></li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/operate/radar" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+    <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+      <span class="h-3 w-3 rounded-full bg-green-bubble border border-redis-pen-600 flex-shrink-0"></span>
+      <span>Redis Radar</span>
+    </div>
+    <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/radar" >}}">Redis Radar overview</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/radar/install" >}}">Install Radar</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/radar/connect" >}}">Connect clusters</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/radar/monitor" >}}">Monitor clusters and databases</a></li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/operate/featureform" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+    <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+      <span class="h-3 w-3 rounded-full bg-blue-gray-bubble border border-redis-pen-600 flex-shrink-0"></span>
+      <span>Redis Feature Form</span>
+    </div>
+    <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/featureform" >}}">Feature Form overview</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/featureform/deploy" >}}">Deploy Feature Form</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/featureform/configure-auth" >}}">Configure authentication</a></li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/operate/redisinsight/install" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+    <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+      <span class="h-3 w-3 rounded-full bg-red-bubble border border-redis-pen-600 flex-shrink-0"></span>
+      <span>Redis Insight</span>
+    </div>
+    <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+      <li><a class="no-underline hover:underline" href="{{< relref "/operate/redisinsight/install" >}}">Install Redis Insight</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/develop/tools/insight" >}}">Use Redis Insight</a></li>
+      <li><a class="no-underline hover:underline" href="https://redis.io/downloads/#insight">Download Redis Insight</a></li>
+    </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/integrate/redis-data-integration/" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+    <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+      <span class="h-3 w-3 rounded-full bg-white-bubble border border-redis-pen-600 flex-shrink-0"></span>
+      <span>Redis Data Integration</span>
+    </div>
+    <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+      <li><a class="no-underline hover:underline" href="{{< relref "/integrate/redis-data-integration/" >}}">RDI overview</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/integrate/redis-data-integration/installation" >}}">Install RDI</a></li>
+      <li><a class="no-underline hover:underline" href="{{< relref "/integrate/redis-data-integration/data-pipelines" >}}">RDI pipelines</a></li>
+    </ul>
+    </div>
+  </div>
+</div>
 
 ## Product features
 

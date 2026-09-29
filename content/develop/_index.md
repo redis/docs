@@ -15,19 +15,166 @@ on your machine. Check out the <a href="https://hub.docker.com/_/redis">Redis Do
 or analyze and manage your database with our
 [UI tools](/content/develop/tools/_index.md):
 
-| | Get started | Document search | Vector search |
-|:----- | :-----: | :-----: | :-----:|
-| [Python](/content/develop/clients/redis-py/_index.md) | [See Python examples](/content/develop/clients/redis-py/connect.md) | [See Python examples](/content/develop/clients/redis-py/queryjson.md) | [See Python examples](/content/develop/clients/redis-py/vecsearch.md) |
-| [C#/.NET](/content/develop/clients/dotnet/_index.md) | [See C# examples](/content/develop/clients/dotnet/connect.md) | [See C# examples](/content/develop/clients/dotnet/nredisstack/queryjson.md) | [See C# examples](/content/develop/clients/dotnet/nredisstack/vecsearch.md) |
-| [Node.js](/content/develop/clients/nodejs/_index.md) | [See JS examples](/content/develop/clients/nodejs/connect.md) | [See JS examples](/content/develop/clients/nodejs/queryjson.md) | [See JS examples](/content/develop/clients/nodejs/vecsearch.md) |
-| [Java (Jedis)](/content/develop/clients/jedis/_index.md) | [See Java examples](/content/develop/clients/jedis/connect.md) | [See Java examples](/content/develop/clients/jedis/queryjson.md) | [See Java examples](/content/develop/clients/jedis/vecsearch.md) |
-| [Java (Lettuce)](/content/develop/clients/lettuce/_index.md) | [See Java examples](/content/develop/clients/lettuce/connect.md) | [See Java examples](/content/develop/clients/lettuce/queryjson.md) | [See Java examples](/content/develop/clients/lettuce/vecsearch.md) |
-| [Go](/content/develop/clients/go/_index.md) | [See Go examples](/content/develop/clients/go/connect.md) | [See Go examples](/content/develop/clients/go/queryjson.md) | [See Go examples](/content/develop/clients/go/vecsearch.md) |
-| [PHP](/content/develop/clients/php/_index.md) | [See PHP examples](/content/develop/clients/php/connect.md) | [See PHP examples](/content/develop/clients/php/queryjson.md) | [See PHP examples](/content/develop/clients/php/vecsearch.md) |
-| [JavaScript (ioredis)](/content/develop/clients/ioredis/_index.md) | [See JS examples](/content/develop/clients/ioredis/connect.md) | - | - |
-| [Rust](/content/develop/clients/rust/_index.md) | - | - | - |
-| [C](/content/develop/clients/hiredis/_index.md) | - | - | - |
-| [Ruby](/content/develop/clients/ruby/_index.md) | - | - | - |
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/redis-py" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-blue-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>Python</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/redis-py" >}}">Get started</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/redis-py/queryjson" >}}">Document search</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/redis-py/vecsearch" >}}">Vector search</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/dotnet" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-violet-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>C#/.NET</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/dotnet" >}}">Get started</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/dotnet/nredisstack/queryjson" >}}">Document search</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/dotnet/nredisstack/vecsearch" >}}">Vector search</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/nodejs" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-teal-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>Node.js</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/nodejs" >}}">Get started</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/nodejs/queryjson" >}}">Document search</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/nodejs/vecsearch" >}}">Vector search</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/jedis" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-rose-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>Java (Jedis)</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/jedis" >}}">Get started</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/jedis/queryjson" >}}">Document search</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/jedis/vecsearch" >}}">Vector search</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/lettuce" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-amber-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>Java (Lettuce)</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/lettuce" >}}">Get started</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/lettuce/queryjson" >}}">Document search</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/lettuce/vecsearch" >}}">Vector search</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/go" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-cyan-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>Go</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/go" >}}">Get started</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/go/queryjson" >}}">Document search</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/go/vecsearch" >}}">Vector search</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/php" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-indigo-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>PHP</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/php" >}}">Get started</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/php/queryjson" >}}">Document search</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/php/vecsearch" >}}">Vector search</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/ioredis" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-lime-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>JavaScript (ioredis)</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/ioredis" >}}">Get started</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/rust" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-orange-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>Rust</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/rust/json" >}}">Document search</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/hiredis" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-fuchsia-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>C</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/hiredis" >}}">Get started</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="flex flex-col gap-2 h-full min-h-40 relative transition text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group">
+    <a class="absolute inset-0 z-0 outline-0" href="{{< relref "/develop/clients/ruby" >}}"><span class="sr-only">Read more</span></a>
+    <div class="relative z-10">
+      <div class="flex flex-row items-center gap-2 uppercase font-mono text-xs border-b border-redis-pen-800 px-6 py-2">
+        <span class="h-3 w-3 rounded-full bg-pink-300 border border-redis-pen-600 flex-shrink-0"></span>
+        <span>Ruby</span>
+      </div>
+      <p class="text-sm px-6 pt-2 text-redis-pen-600 font-geist">Examples:</p>
+      <ul class="text-sm px-6 pb-4 text-redis-pen-600 font-geist space-y-1">
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/ruby/queryjson" >}}">Document search</a></li>
+        <li><a class="no-underline hover:underline" href="{{< relref "/develop/clients/ruby/vecsearch" >}}">Vector search</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 | | |
 | - | - |

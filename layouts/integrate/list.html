@@ -10,6 +10,7 @@
       {{ partial "breadcrumbs" . }}
       <section class="prose w-full py-12 max-w-none">
         <h1>{{ .Title }}</h1>
+        {{ with .Params.description }}<p class="text-lg -mt-5">{{ . | markdownify }}</p>{{ end }}
       </section>
       <form id="integration-filter" class="text-center flex flex-col sm:grid grid-cols-2 gap-4 mt-6 mb-8">
         <label class="relative flex items-center">
@@ -26,10 +27,14 @@
           <optgroup label="Development">
             <option value="library" data-kind="dev">Library</option>
             <option value="framework" data-kind="dev">Framework</option>
+            <option value="ai" data-kind="dev">AI integration</option>
+            <option value="tool" data-kind="dev">Developer tool</option>
           </optgroup>
           <optgroup label="Operations">
             <option value="observability" data-kind="ops">Observability</option>
             <option value="provisioning" data-kind="ops">Provisioning</option>
+            <option value="platform" data-kind="ops">Deployment platform</option>
+            <option value="service" data-kind="ops">Service</option>
          </optgroup>
           <optgroup label="Data">
             <option value="mig" data-kind="data">Data migration</option>
@@ -37,14 +42,15 @@
           </optgroup>
           <optgroup label="Cloud">
              <option value="cloud-service" data-kind="cloud">Cloud service</option>
+             <option value="cloud" data-kind="cloud">Cloud provider</option>
           </optgroup>
 
         </select>
       </form>
             
       <div id="commands-grid" class="flex flex-col md:grid grid-cols-[repeat(auto-fit,minmax(18rem,1fr))] gap-4 text-slate-500 mx-auto">
-        {{ $labelColors := (dict "library" "bg-redis-yellow-500" "framework" "bg-violet-300" "observability" "bg-blue-300" "provisioning" "bg-redis-red-500" "mig" "bg-pink-300" "di" "bg-teal-300" "cloud-service" "bg-rose-300") }}
-        {{ $labelText := (dict "mig" "data migration" "di" "data integration" "cloud-service" "cloud service") }}
+        {{ $labelColors := (dict "library" "bg-redis-yellow-500" "framework" "bg-violet-300" "observability" "bg-blue-300" "provisioning" "bg-redis-red-500" "mig" "bg-pink-300" "di" "bg-teal-300" "cloud-service" "bg-rose-300" "ai" "bg-indigo-300" "tool" "bg-lime-300" "platform" "bg-amber-300" "service" "bg-cyan-300" "cloud" "bg-orange-300") }}
+        {{ $labelText := (dict "mig" "data migration" "di" "data integration" "cloud-service" "cloud service" "ai" "AI integration" "tool" "developer tool" "platform" "deployment platform" "cloud" "cloud provider") }}
         {{ range .CurrentSection.Sections }}
           <article
             class="flex flex-col gap-2 relative transition h-full text-redis-ink-900 hover:text-red-900 focus-within:text-red-900 bg-white hover:bg-red-50/50 focus-within:bg-red-50/50 border border-redis-pen-800 focus-within:ring-red-200 focus-within:ring-[3px] focus-within:outline-none bg-clip-padding rounded-md group"

@@ -46,12 +46,12 @@
         
         <!-- Responsive CLI Display Block as Table -->
         {{ if strings.HasSuffix .RelPermalink "/develop/" }}
-        <div class="overflow-x-auto">
-          <table class="w-full border-collapse md:table bg-neutral-150">
+        <div class="-mt-6 overflow-x-auto rounded-lg border border-redis-pen-300">
+          <table class="w-full border-collapse md:table bg-white">
             <thead>
               <tr>
-                <th class="p-4 text-left">Try these Redis commands</th>
-                <th class="p-4 text-left hidden md:table-cell">Redis CLI</th>
+                <th class="p-4 text-left uppercase font-normal">Try Redis commands</th>
+                <th class="p-4 text-left hidden md:table-cell uppercase font-normal">Redis CLI</th>
               </tr>
             </thead>
             <tbody>
