@@ -189,7 +189,7 @@ If your Active-Active database uses modules:
     ```
 
 {{<warning>}}
-`--update-db-config-modules` updates only the default configuration (`default_db_config`). Module versions pinned in each participating cluster's configuration (`instances[].db_config`) stay unchanged, but the command still reports success. These outdated versions can cause a later request to add or remove a participating cluster to fail, or to create the new participating cluster with outdated modules.
+`--update-db-config-modules` updates only the default configuration (`default_db_config`). Module versions pinned in each participating cluster's configuration (`instances[].db_config`) stay unchanged, but the command still reports success. These outdated versions can cause a later request to add or remove a participating cluster to fail, or to create the new participating cluster with outdated modules. If a participating cluster's configuration still lists outdated module versions after the upgrade, [contact Redis support](https://redis.io/support/) for help updating them.
 
 Pinned module versions (`module_id` and `semantic_version`) are deprecated as of Redis Software version 7.8.2. Modules listed by `module_name` only don't go out of date when you upgrade the cluster, but `crdb-cli crdb upgrade` and `--update-db-config-modules` pin them again in the default configuration.
 {{</warning>}}
