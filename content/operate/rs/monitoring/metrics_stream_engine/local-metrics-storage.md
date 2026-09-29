@@ -33,7 +33,7 @@ Use a tier only if the node has enough spare CPU and memory.
 **Standard** is expected to raise CPU use by about 3–5% and memory use by about 2.5–5.5%. For example:
 
 - If CPU is at about 50%, you can enable standard. CPU is expected to rise to about 52%.
-- If CPU is at about 95%, add headroom first. Otherewise, CPU could reach 98–100%.
+- If CPU is at about 95%, add headroom first. Otherwise, CPU could reach 98–100%.
 - If you have 2.6 GB of memory used and 1 GB available, you can enable standard. Memory use is expected to rise by about 65–143 MB.
 - If you have 2.6 GB of memory used and 100 MB available, add headroom first. Otherwise, the increase could use up the available memory.
 
