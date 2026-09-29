@@ -18,7 +18,7 @@ weight: $weight
 | [POST](#post-granular-stop) | `/v1/metrics/granular/stop` | Stop granular metrics collection |
 | [DELETE](#delete-granular-data) | `/v1/metrics/granular/data` | Delete granular metrics data |
 
-These requests manage the granular tier of [local metrics storage]({{< relref "/operate/rs/monitoring/metrics_stream_engine/local-metrics-storage#standard-and-granular-tiers" >}}). None of them take a request body.
+These requests manage the granular tier of [local metrics storage]({{< relref "/operate/rs/monitoring/metrics_stream_engine/local-metrics-storage#tiers" >}}). None of them take a request body.
 
 ## Get granular metrics status {#get-granular-status}
 
